@@ -1,0 +1,14 @@
+{
+    "name": "@repo/tailwind-config",
+    "license": "MIT",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        ".": "./tailwind.config.ts"
+    },
+    "devDependencies": {
+        "@repo/eslint-config": "workspace:*",
+        "@repo/typescript-config": "workspace:*",
+        "tailwindcss": "3.4.3"
+    }
+}

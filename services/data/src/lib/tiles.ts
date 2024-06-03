@@ -1,0 +1,72 @@
+import { $ } from "bun";
+import { Tiles } from "../types.js";
+import { OUTPUT_DIR } from "./dirs.js";
+import { readDirRecursive, readDirSync, writeJSON } from "./fs.js";
+
+export function initTiles(seed?: Tiles): Tiles {
+  return seed ?? {};
+}
+
+export function writeTiles(tiles: Tiles) {
+  writeJSON(OUTPUT_DIR + "/coordinates/tiles.json", tiles);
+}
+
+export async function generateTiles(
+  mapName: string,
+  imagePath: string,
+  width: number,
+  tileSize = 512,
+  additionalOffset = [0, 0]
+): Promise<Tiles> {
+  const halfWidth = width / 2;
+  const mapBounds = [
+    [-halfWidth, -halfWidth],
+    [halfWidth, halfWidth],
+  ] as [[number, number], [number, number]];
+  const realSize = mapBounds[1][0] - mapBounds[0][0];
+  const multiple = realSize / tileSize;
+  const offset = [-mapBounds[0][0] / multiple, -mapBounds[0][1] / multiple];
+
+  const outDir = `${OUTPUT_DIR}/map-tiles/${mapName}`;
+
+  if (Bun.env.TILES === "true") {
+    await $`mkdir -p ${outDir}`;
+    await $`vips dzsave ${imagePath} ${outDir} --tile-size ${tileSize} --background 0 --overlap 0 --layout google`;
+
+    for (const file of readDirRecursive(outDir)) {
+      if (file.includes("blank")) {
+        await $`rm ${file}`;
+        continue;
+      }
+      if (file.endsWith(".jpg") || file.endsWith(".png")) {
+        await $`cwebp ${file} -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
+        await $`rm ${file}`;
+      }
+    }
+  }
+  let maxNativeZoom = 3;
+  try {
+    maxNativeZoom = Math.max(...(await readDirSync(outDir).map((f) => +f)));
+  } catch (e) {}
+
+  return {
+    [mapName]: {
+      url: `/map-tiles/${mapName}/{z}/{y}/{x}.webp`,
+      options: {
+        minNativeZoom: 0,
+        maxNativeZoom: maxNativeZoom,
+        bounds: mapBounds,
+        tileSize: tileSize,
+      },
+      minZoom: -5,
+      maxZoom: 7,
+      fitBounds: mapBounds,
+      transformation: [
+        1 / multiple,
+        offset[0] + additionalOffset[0],
+        1 / multiple,
+        offset[1] + additionalOffset[1],
+      ],
+    },
+  };
+}

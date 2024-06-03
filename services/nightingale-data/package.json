@@ -1,0 +1,15 @@
+{
+  "name": "nightingale-data",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.51",
+    "uniqolor": "^1.1.1"
+  }
+}

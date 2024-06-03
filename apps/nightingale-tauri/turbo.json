@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "//"
+  ],
+  "pipeline": {
+    "build": {
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "release": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false
+    }
+  }
+}

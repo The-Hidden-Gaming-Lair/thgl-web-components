@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1000",
+    "center": [
+      56340,
+      -127935
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1001",
+    "center": [
+      105644,
+      -31569
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1002",
+    "center": [
+      65258,
+      -53901
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1003",
+    "center": [
+      -14306,
+      -30096
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1004",
+    "center": [
+      177084,
+      -27950
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1005",
+    "center": [
+      275326,
+      46570
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1007",
+    "center": [
+      274116,
+      -42925
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1008",
+    "center": [
+      203114,
+      -134208
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1009",
+    "center": [
+      170699,
+      22619
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1010",
+    "center": [
+      -110144,
+      59542
+    ],
+    "border": [],
+    "mapName": "AkiWorld_WP"
+  }
+]

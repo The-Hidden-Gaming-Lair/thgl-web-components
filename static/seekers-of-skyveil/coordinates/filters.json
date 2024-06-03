@@ -1,0 +1,147 @@
+[
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "airDrop",
+        "icon": "T_Icon_DamageDealt.webp",
+        "size": 2
+      },
+      {
+        "id": "tunnel",
+        "icon": "T_UI_Tunnel_Icon.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "shrines",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "shrineCooldownReduction",
+        "icon": "star-altar_delapouite_turquoise.webp",
+        "size": 2
+      },
+      {
+        "id": "shrineMaxHealth",
+        "icon": "star-altar_delapouite_red.webp",
+        "size": 2
+      },
+      {
+        "id": "shrineMovementSpeed",
+        "icon": "star-altar_delapouite_yellow.webp",
+        "size": 2
+      },
+      {
+        "id": "shrineShield",
+        "icon": "star-altar_delapouite_blue.webp",
+        "size": 2
+      },
+      {
+        "id": "shrineAttackSpeed",
+        "icon": "star-altar_delapouite_green.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "altars",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "altarHeal",
+        "icon": "shinto-shrine-mirror_delapouite_red.webp",
+        "size": 2
+      },
+      {
+        "id": "altarMovementSpeed",
+        "icon": "shinto-shrine-mirror_delapouite_yellow.webp",
+        "size": 2
+      },
+      {
+        "id": "altarItemSink",
+        "icon": "well_delapouite.webp",
+        "size": 2
+      },
+      {
+        "id": "altarSpiritItem",
+        "icon": "sword-altar_delapouite.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "items",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "chestT3",
+        "icon": "T_MinimapIcon_Chest_orange.webp",
+        "size": 2
+      },
+      {
+        "id": "chestBackpack",
+        "icon": "T_MinimapIcon_Chest_purple.webp",
+        "size": 2
+      },
+      {
+        "id": "chestT1",
+        "icon": "T_MinimapIcon_Chest_lightgreen.webp",
+        "size": 2
+      },
+      {
+        "id": "chestT2",
+        "icon": "T_MinimapIcon_Chest_lightblue.webp",
+        "size": 2
+      },
+      {
+        "id": "chestStarter",
+        "icon": "T_MinimapIcon_Chest_lightgrey.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "monsters",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "creatureNormal",
+        "icon": "T_Icon_Monsters_lightblue.webp",
+        "size": 1.5
+      },
+      {
+        "id": "creatureElite",
+        "icon": "T_Icon_Monsters_Special_orange.webp",
+        "size": 1.5
+      },
+      {
+        "id": "creatureUnique",
+        "icon": "T_Icon_Monsters_Special_red.webp",
+        "size": 2
+      },
+      {
+        "id": "creatureCommon",
+        "icon": "T_Icon_Monsters_lightgrey.webp",
+        "size": 1.5
+      },
+      {
+        "id": "creatureEvent",
+        "icon": "T_Icon_Monsters_gold.webp",
+        "size": 1.5
+      },
+      {
+        "id": "creatureBoss",
+        "icon": "T_Icon_Monsters_Special_lightgreen.webp",
+        "size": 1.5
+      }
+    ]
+  }
+]

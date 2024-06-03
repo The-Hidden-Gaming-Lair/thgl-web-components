@@ -1,0 +1,74 @@
+{
+  "surface": {
+    "url": "/map-tiles/surface/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -45000,
+          -45000
+        ],
+        [
+          45000,
+          45000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": 0,
+    "maxZoom": 5,
+    "fitBounds": [
+      [
+        -45000,
+        -45000
+      ],
+      [
+        45000,
+        45000
+      ]
+    ],
+    "transformation": [
+      0.005688888888888889,
+      256,
+      0.005688888888888889,
+      256
+    ]
+  },
+  "tunnel": {
+    "url": "/map-tiles/tunnel/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -17600,
+          -17600
+        ],
+        [
+          17600,
+          17600
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": 0,
+    "maxZoom": 5,
+    "fitBounds": [
+      [
+        -17600,
+        -17600
+      ],
+      [
+        17600,
+        17600
+      ]
+    ],
+    "transformation": [
+      0.014545454545454545,
+      256,
+      0.014545454545454545,
+      256
+    ]
+  }
+}

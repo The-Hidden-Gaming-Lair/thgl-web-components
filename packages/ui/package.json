@@ -1,0 +1,125 @@
+{
+  "name": "@repo/ui",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist/**"
+  ],
+  "type": "module",
+  "exports": {
+    "./ads": {
+      "types": "./dist/ads.d.ts",
+      "import": "./dist/ads.js"
+    },
+    "./controls": {
+      "types": "./dist/controls.d.ts",
+      "import": "./dist/controls.js"
+    },
+    "./data": {
+      "types": "./dist/data.d.ts",
+      "import": "./dist/data.js"
+    },
+    "./header": {
+      "types": "./dist/header.d.ts",
+      "import": "./dist/header.js"
+    },
+    "./interactive-map": {
+      "types": "./dist/interactive-map.d.ts",
+      "import": "./dist/interactive-map.js"
+    },
+    "./providers": {
+      "types": "./dist/providers.d.ts",
+      "import": "./dist/providers.js"
+    },
+    "./overwolf": {
+      "types": "./dist/overwolf.d.ts",
+      "import": "./dist/overwolf.js"
+    },
+    "./styles/globals.css": "./dist/index.css"
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./src/styles/globals.css -o ./dist/index.css && tsup --format esm --dts --external react",
+    "clean": "rm -rf dist",
+    "dev": "run-p dev:tailwindcss dev:tsup",
+    "dev:tailwindcss": "tailwindcss -i ./src/styles/globals.css -o ./dist/index.css --watch",
+    "dev:tsup": "tsup --format esm --watch --dts --external react",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@repo/jest-presets/jest/browser"
+  },
+  "devDependencies": {
+    "@overwolf/types": "3.24.7",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/jest-presets": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/jest": "29.5.12",
+    "@types/js-cookie": "3.0.6",
+    "@types/leaflet": "1.9.12",
+    "@types/node": "20.12.7",
+    "@types/qrcode": "1.5.5",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
+    "autoprefixer": "10.4.19",
+    "npm-run-all": "4.1.5",
+    "postcss": "8.4.38",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.4.3",
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "^2.16.0",
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-avatar": "1.0.4",
+    "@radix-ui/react-collapsible": "1.0.3",
+    "@radix-ui/react-dialog": "1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-hover-card": "1.0.7",
+    "@radix-ui/react-icons": "1.3.0",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-navigation-menu": "^1.1.4",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-progress": "^1.0.3",
+    "@radix-ui/react-scroll-area": "1.0.5",
+    "@radix-ui/react-select": "2.0.0",
+    "@radix-ui/react-separator": "1.0.3",
+    "@radix-ui/react-slider": "1.1.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-switch": "1.0.3",
+    "@radix-ui/react-tooltip": "1.0.7",
+    "@repo/lib": "workspace:*",
+    "@tanstack/react-table": "^8.16.0",
+    "@uidotdev/usehooks": "2.4.1",
+    "class-variance-authority": "0.7.0",
+    "cmdk": "^1.0.0",
+    "embla-carousel-react": "^8.0.2",
+    "fuse.js": "7.0.0",
+    "js-cookie": "3.0.5",
+    "leaflet": "1.9.4",
+    "lucide-react": "0.372.0",
+    "next": "14.2.2",
+    "next-themes": "0.3.0",
+    "peerjs": "1.5.2",
+    "plausible-tracker": "0.3.8",
+    "qrcode": "1.5.3",
+    "react-hook-form": "^7.51.3",
+    "react-moveable": "0.56.0",
+    "sonner": "1.4.41",
+    "swr": "2.2.5",
+    "tailwindcss-animate": "1.0.7",
+    "yod": "^1.0.0-alpha.4",
+    "zod": "^3.23.3",
+    "zustand": "4.5.2"
+  }
+}

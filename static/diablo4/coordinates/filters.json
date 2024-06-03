@@ -1,0 +1,254 @@
+[
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "altarsOfLilith",
+        "icon": "altarsOfLilith.webp",
+        "size": 1.5
+      },
+      {
+        "id": "cellars",
+        "icon": "cellars.webp",
+        "size": 1.5
+      },
+      {
+        "id": "dungeons",
+        "icon": "dungeons.webp",
+        "size": 1.5
+      },
+      {
+        "id": "sideQuestDungeons",
+        "icon": "sideQuestDungeons.webp",
+        "size": 1.5
+      },
+      {
+        "id": "campaignDungeons",
+        "icon": "campaignDungeons.webp",
+        "size": 1.5
+      },
+      {
+        "id": "stash",
+        "icon": "stash.webp",
+        "size": 2
+      },
+      {
+        "id": "strongholds",
+        "icon": "strongholds.webp",
+        "size": 2
+      },
+      {
+        "id": "waypoints",
+        "icon": "waypoints.webp",
+        "size": 2
+      },
+      {
+        "id": "wardrobes",
+        "icon": "wardrobes.webp",
+        "size": 2
+      },
+      {
+        "id": "worldTierStatue",
+        "icon": "worldTierStatue.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "services",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "alchemists",
+        "icon": "alchemists.webp",
+        "size": 1.5
+      },
+      {
+        "id": "blacksmiths",
+        "icon": "blacksmiths.webp",
+        "size": 1.5
+      },
+      {
+        "id": "healers",
+        "icon": "healers.webp",
+        "size": 1.5
+      },
+      {
+        "id": "gamblers",
+        "icon": "gamblers.webp",
+        "size": 1.5
+      },
+      {
+        "id": "jewelers",
+        "icon": "jewelers.webp",
+        "size": 1.5
+      },
+      {
+        "id": "occultists",
+        "icon": "occultists.webp",
+        "size": 1.5
+      },
+      {
+        "id": "silversmiths",
+        "icon": "silversmiths.webp",
+        "size": 1.5
+      },
+      {
+        "id": "stableMasters",
+        "icon": "stableMasters.webp",
+        "size": 1.5
+      },
+      {
+        "id": "weapons",
+        "icon": "weapons.webp",
+        "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "quests",
+    "defaultOpen": true,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "sideQuests",
+        "icon": "sideQuests.webp",
+        "size": 1.5
+      },
+      {
+        "id": "campaignQuests",
+        "icon": "campaignQuests.webp",
+        "size": 1.5
+      },
+      {
+        "id": "events",
+        "icon": "events.webp",
+        "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "Chests",
+    "defaultOpen": true,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "chestGuardian",
+        "icon": "chestGuardian.webp",
+        "size": 2
+      },
+      {
+        "id": "chestT3",
+        "icon": "chestT3.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "enemies",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "boss",
+        "icon": "boss.webp",
+        "size": 2
+      },
+      {
+        "id": "unique",
+        "icon": "unique.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "monsters",
+    "defaultOpen": true,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "bandit",
+        "icon": "bandit.webp",
+        "size": 1
+      },
+      {
+        "id": "cannibal",
+        "icon": "cannibal.webp",
+        "size": 1
+      },
+      {
+        "id": "cultist",
+        "icon": "cultist.webp",
+        "size": 1
+      },
+      {
+        "id": "demon",
+        "icon": "demon.webp",
+        "size": 1
+      },
+      {
+        "id": "drown",
+        "icon": "drown.webp",
+        "size": 1
+      },
+      {
+        "id": "fallen",
+        "icon": "fallen.webp",
+        "size": 1
+      },
+      {
+        "id": "ghost",
+        "icon": "ghost.webp",
+        "size": 1
+      },
+      {
+        "id": "goatman",
+        "icon": "goatman.webp",
+        "size": 1
+      },
+      {
+        "id": "knight",
+        "icon": "knight.webp",
+        "size": 1
+      },
+      {
+        "id": "skeleton",
+        "icon": "skeleton.webp",
+        "size": 1
+      },
+      {
+        "id": "snake",
+        "icon": "snake.webp",
+        "size": 1
+      },
+      {
+        "id": "spider",
+        "icon": "spider.webp",
+        "size": 1
+      },
+      {
+        "id": "vampire",
+        "icon": "vampire.webp",
+        "size": 1
+      },
+      {
+        "id": "werewolf",
+        "icon": "werewolf.webp",
+        "size": 1
+      },
+      {
+        "id": "wildlife",
+        "icon": "wildlife.webp",
+        "size": 1
+      },
+      {
+        "id": "zombie",
+        "icon": "zombie.webp",
+        "size": 1
+      }
+    ]
+  }
+]

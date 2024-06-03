@@ -1,0 +1,145 @@
+[
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "ESubzoneType::Town",
+        "icon": "ui_texture_icon_woldmaptag_01.webp",
+        "size": 2.5
+      },
+      {
+        "id": "ESubzoneType::HuntingGround",
+        "icon": "ui_texture_icon_woldmaptag_03.webp",
+        "size": 2.5
+      },
+      {
+        "id": "ESubzoneType::Airship",
+        "icon": "ui_texture_icon_woldmaptag_04.webp",
+        "size": 2.5
+      },
+      {
+        "id": "ESubzoneType::DungeonEntry",
+        "icon": "ui_texture_icon_woldmaptag_02.webp",
+        "size": 2.5
+      },
+      {
+        "id": "ESubzoneType::Invisible",
+        "icon": "ui_texture_icon_woldmaptag_04.webp",
+        "size": 2.5
+      }
+    ]
+  },
+  {
+    "group": "missions",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "EPrivateMissionType::Move",
+        "icon": "ui_texture_icon_bookmark.webp",
+        "size": 2.5
+      }
+    ]
+  },
+  {
+    "group": "monsters",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "NormalMonster",
+        "icon": "ui_texture_icon_minimap_narmal.webp",
+        "size": 0.8
+      },
+      {
+        "id": "BossMonster",
+        "icon": "ui_texture_icon_minimap_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Anggolt",
+        "icon": "RGF_01_R1_SzA_ThornSpider_SpElite.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Kiaron",
+        "icon": "RGF_01_R1_SzB_CentaurusKnight_SpElite.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Grish",
+        "icon": "RGF_01_R1_SzC_OrkCalvary_SpElite.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Inferno",
+        "icon": "RGF_01_R1_S1_H_GolemFlame_SpElite.webp",
+        "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "npcs",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "NpcEtcStore",
+        "icon": "ui_texture_icon_npc_store.webp",
+        "size": 1.5
+      },
+      {
+        "id": "NpcArtifactStore",
+        "icon": "ui_texture_icon_npc_artifact.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Warehouse",
+        "icon": "ui_texture_icon_npc_warehouse.webp",
+        "size": 1.5
+      },
+      {
+        "id": "NpcGuildStore",
+        "icon": "ui_texture_icon_npc_guild.webp",
+        "size": 1.5
+      },
+      {
+        "id": "NpcEquipmentStore",
+        "icon": "ui_texture_icon_npc_equipment.webp",
+        "size": 1.5
+      },
+      {
+        "id": "DailyQuestCoinStore",
+        "icon": "ui_texture_icon_npc_dailyquestcoin.webp",
+        "size": 1.5
+      },
+      {
+        "id": "SkillStore",
+        "icon": "ui_texture_icon_npc_skillbook.webp",
+        "size": 1.5
+      },
+      {
+        "id": "BattlefieldEntrance",
+        "icon": "ui_texture_icon_npc_battlefieldentrance.webp",
+        "size": 1.5
+      },
+      {
+        "id": "DailyQuestNpc",
+        "icon": "ui_texture_icon_npc_questagency.webp",
+        "size": 1.5
+      },
+      {
+        "id": "NpcBattleCoinStore",
+        "icon": "ui_texture_icon_npc_battlefield_etc.webp",
+        "size": 1.5
+      },
+      {
+        "id": "BeginnerSkillStore",
+        "icon": "ui_texture_icon_npc_skillbook.webp",
+        "size": 1.5
+      }
+    ]
+  }
+]

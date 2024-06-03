@@ -1,0 +1,151 @@
+[
+  {
+    "type": "heroes",
+    "items": [
+      {
+        "id": "ExecuteUbergraph_MarranHero",
+        "groupId": "Faction_Protectorate_C",
+        "icon": "TGUI_icon_unit_prefect_nova_portrait.webp",
+        "props": {
+          "MaxHealth": 150,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": "?",
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": "?",
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_TechHero",
+        "groupId": "Faction_Protectorate_C",
+        "icon": "TGUI_icon_protectorate_unit_worker_portrait.webp",
+        "props": {
+          "MaxHealth": 150,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": "?",
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": "?",
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_Troop_MPHero_Mera",
+        "groupId": "Faction_Protectorate_C",
+        "icon": "Mera.webp",
+        "props": {
+          "MaxHealth": 200,
+          "MaxShields": 200,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": "?",
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": "?",
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "GrellHero_C",
+        "groupId": "Faction_Grell_C",
+        "icon": "TGUI_icon_unit_koru_hero_portrait.webp",
+        "props": {
+          "MaxHealth": 300,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": "?",
+          "RegenRateHealth": 5,
+          "RegenRateEnergy": "?",
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_MarranHero",
+        "groupId": "Faction_Grell_C",
+        "icon": "TGUI_icon_unit_prefect_nova_portrait.webp",
+        "props": {
+          "MaxHealth": 150,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": "?",
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": "?",
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_TechHero",
+        "groupId": "Faction_Grell_C",
+        "icon": "TGUI_icon_protectorate_unit_worker_portrait.webp",
+        "props": {
+          "MaxHealth": 150,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": "?",
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": "?",
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_Troop_Empire_Inquisitress",
+        "groupId": "Faction_Legion_C",
+        "icon": "T_Empire_Hero1.webp",
+        "props": {
+          "MaxHealth": 400,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": 100,
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": 2.5,
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_Troop_Empire_Kraegar",
+        "groupId": "Faction_Legion_C",
+        "icon": "TGUI_icons_empire_hero2.webp",
+        "props": {
+          "MaxHealth": 300,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": 100,
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": 2.5,
+          "StunResist": 50
+        }
+      },
+      {
+        "id": "ExecuteUbergraph_Troop_Empire_Galavax",
+        "groupId": "Faction_Legion_C",
+        "icon": "TGUI_icons_empire_hero3.webp",
+        "props": {
+          "MaxHealth": 300,
+          "MaxShields": 150,
+          "ArmorRating": 7,
+          "MoveSpeed": 500,
+          "SightRange": 1800,
+          "MaxEnergy": 100,
+          "RegenRateHealth": 12,
+          "RegenRateEnergy": 2.5,
+          "StunResist": 50
+        }
+      }
+    ]
+  }
+]

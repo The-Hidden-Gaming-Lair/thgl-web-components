@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Faction_Protectorate_C",
+    "icon": "TGUI_icon_logo_protectorate.webp"
+  },
+  {
+    "id": "Faction_Grell_C",
+    "icon": "TGUI_icon_logo_grell.webp"
+  },
+  {
+    "id": "Faction_Legion_C",
+    "icon": "TGUI_icon_logo_peacekeepers.webp"
+  }
+]

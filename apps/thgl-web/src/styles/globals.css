@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-rgb: 28 205 209;
+    --dark-rgb: 11 10 14;
+    --bg-from-rgb: 22 21 22;
+    --bg-to-rgb: 9 8 12;
+  }
+}
+
+@layer components {
+  .hero-title {
+    @apply text-center uppercase text-primary w-[15%];
+    font-size: clamp(12px, 3vw, 38px);
+    line-height: 125%;
+    text-shadow:
+      0px 0px 2.5rem rgb(var(--brand-rgb)),
+      0px 0px 2.5rem rgb(var(--brand-rgb));
+  }
+
+  .text-shadow {
+    text-shadow: 0px 0px 1rem rgb(var(--brand-rgb));
+  }
+}

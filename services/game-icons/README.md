@@ -1,0 +1,1 @@
+Downloads all icons from https://game-icons.net/, converts them to webp and saves them to the static/global/icons/game-icons folder. An icons.json is create in packages/ui/src/components/(controls)/icons.json.

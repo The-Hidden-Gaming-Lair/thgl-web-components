@@ -1,0 +1,140 @@
+[
+    {
+        "group": "locations",
+        "defaultOpen": true,
+        "defaultOn": true,
+        "values": [
+            {
+                "id": "refinery",
+                "icon": "refinery.webp"
+            },
+            {
+                "id": "factory",
+                "icon": "factory.webp"
+            },
+            {
+                "id": "hamlet",
+                "icon": "hamlet.webp"
+            },
+            {
+                "id": "hospital",
+                "icon": "hospital.webp"
+            },
+            {
+                "id": "railway",
+                "icon": "railway.webp"
+            },
+            {
+                "id": "real_estate",
+                "icon": "real_estate.webp"
+            },
+            {
+                "id": "lea_research_lab",
+                "icon": "lea_research_lab.webp"
+            },
+            {
+                "id": "military_base",
+                "icon": "military_base.webp"
+            },
+            {
+                "id": "monolith",
+                "icon": "monolith.webp"
+            },
+            {
+                "id": "research_institute",
+                "icon": "research_institute.webp"
+            },
+            {
+                "id": "school",
+                "icon": "school.webp"
+            },
+            {
+                "id": "securement_silo",
+                "icon": "securement_silo.webp"
+            },
+            {
+                "id": "teleportation_tower",
+                "icon": "teleportation_tower.webp"
+            },
+            {
+                "id": "town",
+                "icon": "town.webp"
+            },
+            {
+                "id": "union_stronghold",
+                "icon": "union_stronghold.webp"
+            },
+            {
+                "id": "prime_wars",
+                "icon": "prime_wars.webp",
+                "size": 1.5
+            },
+            {
+                "id": "silvershore_resort",
+                "icon": "silvershore_resort.webp"
+            },
+            {
+                "id": "green_lake_hill",
+                "icon": "green_lake_hill.webp"
+            }
+        ]
+    },
+    {
+        "group": "items",
+        "defaultOpen": true,
+        "defaultOn": true,
+        "values": [
+            {
+                "id": "weapon_crate",
+                "icon": "weapon_crate.webp"
+            },
+            {
+                "id": "gear_crate",
+                "icon": "gear_crate.webp"
+            },
+            {
+                "id": "storage_crate",
+                "icon": "storage_crate.webp"
+            },
+            {
+                "id": "morphic_crate",
+                "icon": "morphic_crate.webp"
+            },
+            {
+                "id": "mystical_chest",
+                "icon": "mystical_chest.webp"
+            },
+            {
+                "id": "treasure_chest",
+                "icon": "treasure_chest.webp"
+            },
+            {
+                "id": "recipe",
+                "icon": "recipe.webp"
+            },
+            {
+                "id": "accessory",
+                "icon": "accessory.webp"
+            },
+            {
+                "id": "deviant",
+                "icon": "deviant.webp"
+            }
+        ]
+    },
+    {
+        "group": "hazards",
+        "defaultOpen": true,
+        "defaultOn": true,
+        "values": [
+            {
+                "id": "boss",
+                "icon": "boss.webp"
+            },
+            {
+                "id": "elite",
+                "icon": "elite.webp"
+            }
+        ]
+    }
+]

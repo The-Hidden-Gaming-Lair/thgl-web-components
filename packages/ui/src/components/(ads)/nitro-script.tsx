@@ -1,0 +1,65 @@
+"use client";
+import { useAccountStore } from "@repo/lib";
+import Script from "next/script";
+import type { ReactNode } from "react";
+import { useEffect } from "react";
+import { create } from "zustand";
+
+const useNitroState = create<{
+  state: "loading" | "error" | "ready";
+  setState: (state: "loading" | "error" | "ready") => void;
+}>((set) => ({
+  state: "loading",
+  setState: (state) => {
+    set({ state });
+  },
+}));
+
+export function NitroScript({
+  children,
+  fallback,
+  loading,
+}: {
+  children: ReactNode;
+  fallback?: ReactNode;
+  loading?: ReactNode;
+}): JSX.Element {
+  const adRemoval = useAccountStore((state) => state.adRemoval);
+  const { state, setState } = useNitroState();
+
+  useEffect(() => {
+    if (state !== "loading" || adRemoval) {
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      setState("error");
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [state]);
+
+  if (adRemoval) {
+    return <></>;
+  }
+
+  return (
+    <>
+      <Script
+        onError={() => {
+          setState("error");
+        }}
+        onReady={() => {
+          if ("nitroAds" in window) {
+            setState("ready");
+          }
+        }}
+        src="https://s.nitropay.com/ads-1487.js"
+      />
+      {state === "loading" && loading}
+      {state === "ready" && children}
+      {state === "error" && fallback}
+    </>
+  );
+}

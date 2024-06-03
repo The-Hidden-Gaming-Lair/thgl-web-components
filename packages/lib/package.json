@@ -1,0 +1,45 @@
+{
+  "name": "@repo/lib",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "dist/**"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./overwolf": {
+      "types": "./dist/overwolf/index.d.ts",
+      "import": "./dist/overwolf/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup --format esm ",
+    "clean": "rm -rf dist",
+    "dev": "tsup --format esm --watch --dts",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --passWithNoTests"
+  },
+  "jest": {
+    "preset": "@repo/jest-presets/jest/node"
+  },
+  "devDependencies": {
+    "@overwolf/types": "3.24.7",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/jest-presets": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/jest": "29.5.12",
+    "@types/node": "20.12.7",
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "clsx": "2.1.1",
+    "tailwind-merge": "2.3.0",
+    "zustand": "4.5.2"
+  }
+}

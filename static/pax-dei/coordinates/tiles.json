@@ -1,0 +1,182 @@
+{
+  "gallia_province_02": {
+    "url": "/map-tiles/gallia_province_02/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -819200,
+          -819200
+        ],
+        [
+          819200,
+          819200
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -819200,
+        -819200
+      ],
+      [
+        819200,
+        819200
+      ]
+    ],
+    "transformation": [
+      0.0003125,
+      256,
+      0.0003125,
+      256
+    ]
+  },
+  "gallia_province_03": {
+    "url": "/map-tiles/gallia_province_03/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -819200,
+          -819200
+        ],
+        [
+          819200,
+          819200
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -819200,
+        -819200
+      ],
+      [
+        819200,
+        819200
+      ]
+    ],
+    "transformation": [
+      0.0003125,
+      256,
+      0.0003125,
+      256
+    ]
+  },
+  "gallia_province_04": {
+    "url": "/map-tiles/gallia_province_04/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -819200,
+          -819200
+        ],
+        [
+          819200,
+          819200
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -819200,
+        -819200
+      ],
+      [
+        819200,
+        819200
+      ]
+    ],
+    "transformation": [
+      0.0003125,
+      256,
+      0.0003125,
+      256
+    ]
+  },
+  "gallia_pve_01": {
+    "url": "/map-tiles/gallia_pve_01/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -204800,
+          -204800
+        ],
+        [
+          204800,
+          204800
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -204800,
+        -204800
+      ],
+      [
+        204800,
+        204800
+      ]
+    ],
+    "transformation": [
+      0.00125,
+      256,
+      0.00125,
+      256
+    ]
+  },
+  "small": {
+    "url": "/map-tiles/small/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -819200,
+          -819200
+        ],
+        [
+          819200,
+          819200
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -819200,
+        -819200
+      ],
+      [
+        819200,
+        819200
+      ]
+    ],
+    "transformation": [
+      0.0003125,
+      256,
+      0.0003125,
+      256
+    ]
+  }
+}

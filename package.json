@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:palworld-overwolf": "turbo run build --filter=palworld-overwolf...",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev",
+    "dev:once-human": "turbo run dev --filter=once-human-*...",
+    "dev:palworld": "turbo run dev --filter=palworld-*...",
+    "dev:zero-space": "turbo run dev --filter=zero-space-*...",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "update-deps": "bunx npm-check-updates -u -ws --root",
+    "release:palworld-overwolf": "turbo run release --filter=palworld-overwolf"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "bun@1.0.21",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "clsx": "2.1.1",
+    "markdown-to-jsx": "7.4.7",
+    "tailwind-merge": "2.3.0"
+  }
+}

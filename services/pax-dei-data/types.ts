@@ -1,0 +1,542 @@
+export type DomainConfig = {
+  name: string;
+  path: string;
+  root_level: string;
+  version: string;
+  label: string;
+  level_size: number;
+  divs: Array<number>;
+  type: string;
+  playable_area: number;
+  zones: Array<{
+    name: string;
+    label: string;
+    type: string;
+    priority: number;
+    stc_spawn_locations: Array<any>;
+    poly_verts: Array<{
+      x: number;
+      y: number;
+    }>;
+    biome_areas: Array<{
+      biome: string;
+      area_min: number;
+      area_max: number;
+      area_avg: number;
+      area_median: number;
+      area_sum: number;
+    }>;
+    interior_rect: {
+      min: {
+        x: number;
+        y: number;
+      };
+      max: {
+        x: number;
+        y: number;
+      };
+    };
+  }>;
+  biome_areas: Array<any>;
+  portals: Array<{
+    name: string;
+    location: {
+      x: number;
+      y: number;
+      z: number;
+    };
+  }>;
+  biome_index: {
+    Barren: number;
+    Meadows: number;
+    Grasslands: number;
+    BroadleafForest: number;
+    PineForest: number;
+    Wetlands: number;
+    Windswept: number;
+    Rocky: number;
+    Scrublands: number;
+    PineForest_Haunted: number;
+    BroadleafForest_Haunted: number;
+    LegendaryForest: number;
+    Wastelands: number;
+    Pitted_Rocklands: number;
+  };
+  levels: Array<{
+    map_file: string;
+    name: string;
+    min: Array<number>;
+    max: Array<number>;
+  }>;
+};
+
+export type MapCell = {
+  tile_size: number;
+  map_cell: Array<number>;
+  biome_map: string;
+  icons: Array<{
+    name: string;
+    entity: string;
+    uuid: string;
+    icon: string;
+    pos: Array<number>;
+  }>;
+  big_tile: string;
+  map_tiles: Array<{
+    filename: string;
+    min: Array<number>;
+    max: Array<number>;
+  }>;
+};
+
+export type MapMarkerTypes = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: {
+    [key: string]: {
+      marker_type_12_F0686EB649632F268F67878775844E53: string;
+      icon_14_79B580D74A39832FAFDC3AA545CFCB48: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      default_label_15_8B7267124AB44D87F87F7490EABAD1E5: {
+        CultureInvariantString: any;
+      };
+    };
+  };
+}>;
+
+export type Sockets = {
+  cell_coords: string;
+  sockets: Array<{
+    x: number;
+    y: number;
+    quarrydistance_i: string;
+    snow: string;
+    zone: string;
+    wetness: string;
+    compass_i: string;
+    smalllakes: string;
+    lakeside: string;
+    is_quarry: string;
+    rock_debris: string;
+    base: string;
+    version_string: string;
+    biome_name: string;
+    waternear: string;
+    GUID: string;
+    dist_in_biome: string;
+    curvature: string;
+    treenear: string;
+    biome: string;
+    playable_area_mask: string;
+    campdistance_i: string;
+    urban: string;
+    slope: string;
+    lakebottom: string;
+    occluded: string;
+    urbandistance_i: string;
+    shrinedistance_i: string;
+    height: string;
+    ao: string;
+    zone_type: string;
+    gravel: string;
+    name: string;
+    playerstartdistance_i: string;
+    highflow: string;
+  }>;
+};
+
+export type GatherablesDataAsset = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    loot_table_id_obsolete: string;
+    VisualDataAsset: string;
+    ResourceName: string;
+    CollectType: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    LootTableId: string;
+    InteractionRadius: number;
+    SpawnRadius: number;
+    Instances: number;
+    MinScale: number;
+    MaxScale: number;
+    RotConeHalfAngle: number;
+    RespawnTimer: number;
+    IntID: number;
+    LocalizationNameKey: string;
+    LocalizationDescriptionKey: string;
+    IsDev?: boolean;
+  };
+}>;
+
+export type PDAResourcesGatherables = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    ResourceMesh: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+  };
+}>;
+
+export type PDAResourcesMineables = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    ResourceMesh: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    DynamicResourceMesh: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+}>;
+
+export type Resource = Array<{
+  Type: string;
+  Name: string;
+  Outer?: string;
+  Class: string;
+  Properties: {
+    AggGeom?: {
+      SphereElems: Array<{
+        Center: {
+          X: number;
+          Y: number;
+          Z: number;
+        };
+        Radius: number;
+        RestOffset: number;
+        Name: string;
+        bContributeToMass: boolean;
+        CollisionEnabled: string;
+      }>;
+    };
+    PhysMaterial?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    DefaultInstance?: {
+      ObjectType: string;
+      CollisionEnabled: string;
+      CollisionProfileName: string;
+      CollisionResponses: {
+        ResponseArray: Array<{
+          Channel: string;
+          Response: string;
+        }>;
+      };
+    };
+    StaticMaterials?: Array<{
+      MaterialInterface: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      MaterialSlotName: string;
+      ImportedMaterialSlotName: string;
+      UVChannelData: {
+        bInitialized: boolean;
+        bOverrideDensities: boolean;
+        LocalUVDensities: number;
+      };
+    }>;
+    LightmapUVDensity?: number;
+    LightMapResolution?: number;
+    LightMapCoordinateIndex?: number;
+    bHasNavigationData?: boolean;
+    ExtendedBounds?: {
+      Origin: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      BoxExtent: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      SphereRadius: number;
+    };
+  };
+  BodySetupGuid?: string;
+  CookedFormatData?: {
+    PhysXPC: {
+      BulkDataFlags: string;
+      ElementCount: number;
+      SizeOnDisk: number;
+      OffsetInFile: string;
+    };
+  };
+  BodySetup?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  NavCollision: any;
+  LightingGuid?: string;
+  RenderData?: {
+    LODs: Array<{
+      Sections: Array<{
+        MaterialIndex: number;
+        FirstIndex: number;
+        NumTriangles: number;
+        MinVertexIndex: number;
+        MaxVertexIndex: number;
+        bEnableCollision: boolean;
+        bCastShadow: boolean;
+        bForceOpaque: boolean;
+        bVisibleInRayTracing: boolean;
+      }>;
+      MaxDeviation: number;
+      PositionVertexBuffer: {
+        Stride: number;
+        NumVertices: number;
+      };
+      VertexBuffer: {
+        NumTexCoords: number;
+        NumVertices: number;
+        Strides: number;
+        UseHighPrecisionTangentBasis: boolean;
+        UseFullPrecisionUVs: boolean;
+      };
+      ColorVertexBuffer: {
+        Stride: number;
+        NumVertices: number;
+      };
+      CardRepresentationData: {
+        Bounds: {
+          Min: {
+            X: number;
+            Y: number;
+            Z: number;
+          };
+          Max: {
+            X: number;
+            Y: number;
+            Z: number;
+          };
+          IsValid: number;
+        };
+        MaxLodLevel: number;
+        bMostlyTwoSided: boolean;
+        CardBuildData: Array<{
+          OBB: {
+            AxisX: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            AxisY: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            AxisZ: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            Origin: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            Extent: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+          };
+          LODLevel: number;
+          AxisAlignedDirectionIndex: number;
+        }>;
+      };
+    }>;
+    NaniteResources: {
+      RootData: {
+        HierarchyFixups: Array<{
+          PageIndex: number;
+          NodeIndex: number;
+          ChildIndex: number;
+          ClusterGroupPartStartIndex: number;
+          PageDependencyStart: number;
+          PageDependencyNum: number;
+        }>;
+        ClusterFixups: Array<{
+          PageIndex: number;
+          ClusterIndex: number;
+          PageDependencyStart: number;
+          PageDependencyNum: number;
+        }>;
+        RootPageInfos: Array<{
+          RuntimeResourceID: number;
+          NumClusters: number;
+        }>;
+        Clusters: Array<any>;
+      };
+      StreamablePages: {
+        BulkDataFlags: string;
+        ElementCount: number;
+        SizeOnDisk: number;
+        OffsetInFile: string;
+      };
+      ImposterAtlas: Array<any>;
+      HierarchyNodes: Array<{
+        LODBounds: Array<{
+          X: any;
+          Y: number;
+          Z: number;
+          W: any;
+        }>;
+        Misc0: Array<{
+          BoxBoundsCenter: {
+            X: any;
+            Y: any;
+            Z: number;
+          };
+          MinLODError: number;
+          MaxParentLODError: number;
+        }>;
+        Misc1: Array<{
+          BoxBoundsExtent: {
+            X: number;
+            Y: any;
+            Z: any;
+          };
+          ChildStartReference: number;
+          bLoaded: boolean;
+        }>;
+        Misc2: Array<{
+          NumChildren: number;
+          NumPages: number;
+          StartPageIndex: number;
+          bEnabled: boolean;
+          bLeaf: boolean;
+        }>;
+      }>;
+      HierarchyRootOffsets: Array<number>;
+      PageStreamingStates: Array<{
+        BulkOffset: number;
+        BulkSize: number;
+        PageSize: number;
+        DependenciesStart: number;
+        DependenciesNum: number;
+        MaxHierarchyDepth: number;
+        Flags: number;
+      }>;
+      PageDependencies: Array<number>;
+      NumRootPages: number;
+      PositionPrecision: number;
+      NormalPrecision: number;
+      TangentPrecision: number;
+      NumInputTriangles: number;
+      NumInputVertices: number;
+      NumInputMeshes: number;
+      NumInputTexCoords: number;
+      NumClusters: number;
+      ResourceFlags: number;
+    };
+    Bounds: {
+      Origin: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      BoxExtent: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      SphereRadius: number;
+    };
+    bLODsShareStaticLighting: boolean;
+    ScreenSize: Array<number>;
+  };
+}>;
+
+export type NPCDataAssets = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    Family: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    Blueprint: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    Behaviour: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    VisualData: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    LootTable: string;
+    BeginGameplayTagNotifySounds: Array<{
+      Key: {
+        TagName: string;
+      };
+      Value: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+    }>;
+    PowerLevel?: number;
+    MeleeDamage: number;
+    RangedDamage: number;
+    MaxHealth: number;
+    BluntPhysicalResistance: number;
+    SlashingPhysicalResistance: number;
+    PiercingPhysicalResistance: number;
+    ResistanceMental: number;
+    NPCSlashing: number;
+    NPCPiercing: number;
+    NPCBlunt: number;
+    NPCFire: number;
+    NPCCold: number;
+    NPCPoison: number;
+    NPCMental: number;
+    RunningSpeed: number;
+    RoamIntervalMin: number;
+    Weapon: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    Abilities: Array<{
+      AssetPathName: string;
+      SubPathString: string;
+    }>;
+    display_name: {
+      Namespace: string;
+      Key: string;
+      SourceString: string;
+      LocalizedString: string;
+    };
+    Description: {
+      Namespace: string;
+      Key: string;
+      SourceString: string;
+      LocalizedString: string;
+    };
+  };
+}>;

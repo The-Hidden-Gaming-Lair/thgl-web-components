@@ -1,0 +1,23 @@
+name: Diablo 4 Preview
+
+on:
+  push:
+    paths:
+      - "apps/diablo4-overwolf/manifest.json"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - name: Build Overwolf app
+        run: bunx turbo run build --filter=diablo4-overwolf...
+      - name: Release Overwolf app
+        env:
+          OW_CLI_EMAIL: ${{ secrets.OW_CLI_EMAIL }}
+          OW_CLI_API_KEY: ${{ secrets.OW_CLI_API_KEY }}
+          PREVIEW_ACCESS_CHANNEL_ID: 670
+        run: bunx turbo run release --filter=diablo4-overwolf...

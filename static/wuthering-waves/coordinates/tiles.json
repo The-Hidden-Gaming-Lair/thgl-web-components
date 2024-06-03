@@ -1,0 +1,38 @@
+{
+  "AkiWorld_WP": {
+    "url": "/map-tiles/AkiWorld_WP/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -680000,
+          -680000
+        ],
+        [
+          680000,
+          680000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -680000,
+        -680000
+      ],
+      [
+        680000,
+        680000
+      ]
+    ],
+    "transformation": [
+      0.00037647058823529414,
+      160,
+      0.00037647058823529414,
+      160
+    ]
+  }
+}

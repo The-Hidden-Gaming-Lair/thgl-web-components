@@ -1,0 +1,19 @@
+{
+  "name": "palworld-api",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot run index.ts",
+    "start": "bun run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "semver": "^7.5.4"
+  }
+}

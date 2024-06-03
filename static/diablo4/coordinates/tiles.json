@@ -1,0 +1,39 @@
+{
+    "Sanctuary": {
+        "url": "/map-tiles/Sanctuary/{z}/{y}/{x}.webp",
+        "options": {
+            "minNativeZoom": 0,
+            "maxNativeZoom": 6,
+            "bounds": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    -190,
+                    190
+                ]
+            ],
+            "tileSize": 512,
+            "threshold": 127
+        },
+        "minZoom": 0,
+        "maxZoom": 6,
+        "fitBounds": [
+            [
+                0,
+                0
+            ],
+            [
+                -190,
+                190
+            ]
+        ],
+        "transformation": [
+            1.65,
+            0,
+            -1.65,
+            0
+        ]
+    }
+}

@@ -1,0 +1,742 @@
+[
+  {
+    "group": "npcs",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "puck",
+        "icon": "puck.webp",
+        "size": 1.5,
+        "live_only": true
+      },
+      {
+        "id": "NPC",
+        "icon": "TUI_ico_nameplate_Hired.webp",
+        "size": 1
+      },
+      {
+        "id": "Villager",
+        "icon": "TUI_ico_nameplate_Hired.webp",
+        "size": 1
+      },
+      {
+        "id": "PetCat",
+        "icon": "TargetIcon01_npc.webp",
+        "size": 1
+      },
+      {
+        "id": "PetDaschund",
+        "icon": "TargetIcon01_npc.webp",
+        "size": 1
+      },
+      {
+        "id": "PetRabbit",
+        "icon": "TargetIcon01_npc.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "items",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "portal_card_machine",
+        "icon": "TUI_ico_MapEncounter_Portal.webp",
+        "size": 1.5
+      },
+      {
+        "id": "chest",
+        "icon": "TUI_ico_MapPin_Chest.webp",
+        "size": 1.5
+      },
+      {
+        "id": "death_chest",
+        "icon": "death_chest.webp",
+        "size": 1.5,
+        "live_only": true
+      },
+      {
+        "id": "codex",
+        "icon": "codex.webp",
+        "size": 1.5
+      },
+      {
+        "id": "PuzzleMemoryCentre",
+        "icon": "TUI_ico_MapEncounter_PuzzleGlyph.webp",
+        "size": 1
+      },
+      {
+        "id": "PuzzleMemory",
+        "icon": "TUI_ico_MapEncounter_PuzzleMemory.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "bosses",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Hero_AutomatonPawn",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_AutomatonRook",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_AutomatonRook_SunGiant",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "AutomatonRook_Hubs",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Barat",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Rabbtor",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Bear",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_BirdWolf",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_BoarAdult",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Hellpig",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_DeerStag",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Elephant",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_VineElk",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_DesertEoten",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Frog",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Brippo",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Hippo",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Locust",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_GiantRat",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Pihrat",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Scarab",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Scorpion",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Shroat",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Spider",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_SpiderYellow",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_WaterBuffalo",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Hero_Wolf",
+        "icon": "TargetIcon01_boss.webp",
+        "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "creatures",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Automaton_Bishop",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Hero_Automaton_Bishop",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Automaton_Knight",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Hero_Automaton_Knight",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Automaton_Pawn_Gatherer",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Automaton_Pawn_Perfumer",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Automaton_Queen",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Automaton_Rook",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Automaton_Rook_SunGiant",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Barat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Rabbtor",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Bear",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "DPSDummy",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BighornFemale",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BighornMale",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BighornYoung",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Bird_Wolf",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoarAdult",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoarYoung",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Hellpig",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundBruiser",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundBruiserUnarmed",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundBruiserWheelhead",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundAegis",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundCaster",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundCaster_Support",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundEliteGuard",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundFlameSpitter",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundMinionGrenade",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundMinion",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundMinionHorns",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundPuppeteer",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundQuad",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundQuadLantern",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundQuadLantern",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BoundSwordsman",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Default",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Dog",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Scarab",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Cat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Rabbit",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_MushroomRabbit",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Rat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Swamp",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetDaschund",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetDaschund",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetDaschund",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetScarab",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetCat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetRabbit",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetMushroomRabbit",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PetRat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Critter_Swamp",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "DeerDoe",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "DeerFawn",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "DeerStag",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BeeSummon",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "DemonDeer",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Elephant",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "ElkDoe",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "ElkFawn",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "ElkStag",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "VineElk",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Eoten",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "ElderEoten",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "ElderEoten_Vault",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Desert_Eoten",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "FaeAssassin",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "FaeCommander",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "FaeCommanderIllusion",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Frog",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Frog_Summon",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "HillGiant",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "HillGiant_Trailer",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "SunGiant",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "SunGiant_Vault",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Harpy",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Hippo",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "HippoYoung",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Brippo",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Horse",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Ishmael",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Ishmael_Vault",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Locust",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Raccoon",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "GiantRat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Pihrat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Scarab",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Scorpion",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Shroat",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Spider",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Spider_DruidSummon",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "SpiderYellow",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "SwampGiant",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "SwampGiant_Druid",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "WaterBuffalo",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Rhino",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "PlayerWisp_Light",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "BeeSummon",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Wisp_Treasure",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      },
+      {
+        "id": "Wolf",
+        "icon": "TargetIcon01.webp",
+        "size": 1
+      }
+    ]
+  }
+]
