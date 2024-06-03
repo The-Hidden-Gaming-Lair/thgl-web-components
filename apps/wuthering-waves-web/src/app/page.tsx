@@ -29,8 +29,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   title: "Wuthering Waves Interactive Map – The Hidden Gaming Lair",
-  description:
-    "Explore Sanctuary with this Wuthering Waves Interactive Map! Discover Helltide Chests, Altars of Lilith, Bosses, and more with real-time position tracking.",
+  description: "Wuthering Waves Interactive Map!",
 };
 
 export default function Home({
