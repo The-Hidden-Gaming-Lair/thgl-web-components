@@ -42,7 +42,7 @@ export default function Home({
     <CoordinatesProvider
       filters={filters as FiltersCoordinates}
       mapName={Object.keys(tiles)[0]}
-      regions={regions as RegionsCoordinates}
+      regions={regions as unknown as RegionsCoordinates}
       staticNodes={nodes}
       view={view}
     >
