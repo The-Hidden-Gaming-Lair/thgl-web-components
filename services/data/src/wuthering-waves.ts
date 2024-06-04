@@ -182,10 +182,10 @@ for (const monster of monsterInfo.monsterinfo) {
   const name =
     MultiText.find((m) => m.Id === monster.data.Name)?.Content ??
     monster.data.Name;
-  const isExile = name.includes("Exile");
+  const isExile = name.includes("Exile") || name.includes("Fractsidus");
   const group = isExile ? "exile" : rarityDesc;
   const filterName = isExile
-    ? MultiText.find((m) => m.Id === "AccessPath_603001_Description")?.Content
+    ? "Exiles & Fractsidus"
     : MultiText.find((m) => m.Id === rarityDesc)?.Content;
   if (!filters.find((f) => f.group === group)) {
     filters.push({
@@ -272,6 +272,9 @@ for (const levelEntity of sortedEntities) {
     if (eventIDs.includes(id)) {
       group = "events";
     }
+    if (id === "Gameplay333") {
+      group = "locations";
+    }
     const iconIndex = worldMapIconSprite[0].Properties.Sprites.indexOf(
       mapMark.data.UnlockMarkPic
     );
@@ -284,13 +287,15 @@ for (const levelEntity of sortedEntities) {
       mapMark.data.MarkTitle;
     const isForgeryChallenge = iconIndex === 29;
     const isBossChallenge = id.startsWith("Monster");
+    const isTacticalHologram = title.startsWith("Tactical Hologram");
     if (isBossChallenge) {
       id = "BossChallenge_" + id;
       group = "gameplay";
     } else if (isForgeryChallenge) {
       id = "forgery_challenge";
-    } else if (title.startsWith("Tactical Hologram")) {
+    } else if (isTacticalHologram) {
       id = "tactical_hologram";
+      group = "locations";
     } else {
       id =
         Object.keys(enDict).find((key) => enDict[key] === title) ??
@@ -348,6 +353,17 @@ for (const levelEntity of sortedEntities) {
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
           mapMark.data.MarkDesc;
       }
+    } else if (isTacticalHologram) {
+      enDict[id] = "Tactical Hologram";
+      spawnId = levelEntity.data.EntityId.toString();
+      enDict[spawnId] =
+        MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
+        mapMark.data.MarkTitle;
+      if (mapMark.data.MarkDesc) {
+        enDict[spawnId + "_desc"] =
+          MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
+          mapMark.data.MarkDesc;
+      }
     } else {
       enDict[id] =
         MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
@@ -362,7 +378,9 @@ for (const levelEntity of sortedEntities) {
       }
     }
   } else if (isMonster) {
-    //
+    if (enDict[id].startsWith("Phantom")) {
+      continue;
+    }
   } else {
     if (id === "Gameplay102") {
       continue;
@@ -557,21 +575,28 @@ const sortPriority = [
   "exile",
   "others",
 ];
-const sortedFilters = filters.sort((a, b) => {
-  if (a.group === b.group) {
-    return 0;
-  }
-  const priorityA = sortPriority.findIndex((p) =>
-    a.group.toLowerCase().startsWith(p.toLowerCase())
-  );
-  const priorityB = sortPriority.findIndex((p) =>
-    b.group.toLowerCase().startsWith(p.toLowerCase())
-  );
-  if (priorityA === priorityB) {
-    return a.group.localeCompare(b.group);
-  }
-  return priorityA - priorityB;
-});
+const sortedFilters = filters
+  .map((f) => {
+    return {
+      ...f,
+      values: f.values.filter((v) => nodes.some((n) => n.type === v.id)),
+    };
+  })
+  .sort((a, b) => {
+    if (a.group === b.group) {
+      return 0;
+    }
+    const priorityA = sortPriority.findIndex((p) =>
+      a.group.toLowerCase().startsWith(p.toLowerCase())
+    );
+    const priorityB = sortPriority.findIndex((p) =>
+      b.group.toLowerCase().startsWith(p.toLowerCase())
+    );
+    if (priorityA === priorityB) {
+      return a.group.localeCompare(b.group);
+    }
+    return priorityA - priorityB;
+  });
 writeFilters(sortedFilters);
 writeDict(enDict, "en");
 

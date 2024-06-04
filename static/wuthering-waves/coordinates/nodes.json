@@ -3,6 +3,7 @@
     "type": "tactical_hologram",
     "spawns": [
       {
+        "id": "32000087",
         "p": [
           200544.7,
           -10042.53
@@ -10,6 +11,7 @@
         "mapName": "AkiWorld_WP"
       },
       {
+        "id": "32000191",
         "p": [
           312605,
           2776
@@ -17,6 +19,7 @@
         "mapName": "AkiWorld_WP"
       },
       {
+        "id": "32000276",
         "p": [
           243658.66,
           -76856.82
@@ -24,6 +27,7 @@
         "mapName": "AkiWorld_WP"
       },
       {
+        "id": "130000173",
         "p": [
           320948,
           95185
@@ -1161,7 +1165,7 @@
     ]
   },
   {
-    "type": "Monster069",
+    "type": "Fractsidus Executioner",
     "spawns": [
       {
         "p": [
@@ -24743,7 +24747,7 @@
     ]
   },
   {
-    "type": "Monster072",
+    "type": "Fractsidus Thruster",
     "spawns": [
       {
         "p": [
@@ -25105,7 +25109,7 @@
     ]
   },
   {
-    "type": "Monster086",
+    "type": "Fractsidus Cannoneer",
     "spawns": [
       {
         "p": [
@@ -25425,7 +25429,7 @@
     ]
   },
   {
-    "type": "Monster087",
+    "type": "Fractsidus Gunmaster",
     "spawns": [
       {
         "p": [
@@ -32466,62 +32470,12 @@
     ]
   },
   {
-    "type": "Monster1058",
-    "spawns": [
-      {
-        "p": [
-          84473.58,
-          -140964.39
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          264360.03,
-          -48680.26
-        ],
-        "mapName": "AkiWorld_WP"
-      }
-    ]
-  },
-  {
-    "type": "Monster1040",
-    "spawns": [
-      {
-        "p": [
-          -28720,
-          -29890
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          61969.81,
-          34616.64
-        ],
-        "mapName": "AkiWorld_WP"
-      }
-    ]
-  },
-  {
     "type": "Monster070",
     "spawns": [
       {
         "p": [
           320880.25,
           95184.36
-        ],
-        "mapName": "AkiWorld_WP"
-      }
-    ]
-  },
-  {
-    "type": "Monster061",
-    "spawns": [
-      {
-        "p": [
-          200543.7,
-          -10041.53
         ],
         "mapName": "AkiWorld_WP"
       }
