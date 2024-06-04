@@ -330,24 +330,26 @@ for (const levelEntity of sortedEntities) {
     }
     let iconPath: string | null = null;
     let iconName: string | null = null;
-    const drop = dbDrop.dropgroup.find(
-      (d) => d.data.UnitId === levelEntity.data.Id
-    );
-    if (drop) {
-      const item = dbItems.iteminfo.find(
-        (i) => i.data.Id === drop.data.GroupId
-      );
-      if (item) {
-        iconPath =
-          item.data.IconSmall.replace("/Game", "/Client/Content").split(
-            "."
-          )[0] + ".png";
-        iconName = item.data.IconSmall.split(".")[1];
-        enDict[id] =
-          MultiText.find((m) => m.Id === item.data.Name)?.Content ??
-          item.data.Name;
-      }
-    } else if (template.data.BlueprintType.startsWith("NPC")) {
+    // const drop = dbDrop.dropgroup.find(
+    //   (d) => d.data.UnitId === levelEntity.data.Id
+    // );
+    // if (drop) {
+    //   const item = dbItems.iteminfo.find(
+    //     (i) => i.data.Id === drop.data.GroupId
+    //   );
+    //   if (item) {
+    //     iconPath =
+    //       item.data.IconSmall.replace("/Game", "/Client/Content").split(
+    //         "."
+    //       )[0] + ".png";
+    //     iconName = item.data.IconSmall.split(".")[1];
+
+    //     enDict[id] =
+    //       MultiText.find((m) => m.Id === item.data.Name)?.Content ??
+    //       item.data.Name;
+    //   }
+    // } else
+    if (template.data.BlueprintType.startsWith("NPC")) {
       iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/character_delapouite.webp`;
       iconName = "npc";
     }
@@ -359,17 +361,17 @@ for (const levelEntity of sortedEntities) {
       continue; // for now
     }
 
-    const group = "others";
-    if (!filters.find((f) => f.group === group)) {
-      filters.push({
-        group,
-        defaultOpen: false,
-        defaultOn: false,
-        values: [],
-      });
-    }
-    const category = filters.find((f) => f.group === group)!;
     if (!addedFilterIDs.includes(id)) {
+      const group = "others";
+      if (!filters.find((f) => f.group === group)) {
+        filters.push({
+          group,
+          defaultOpen: false,
+          defaultOn: false,
+          values: [],
+        });
+      }
+      const category = filters.find((f) => f.group === group)!;
       category.values.push({
         id,
         icon: await saveIcon(iconPath, iconName),
