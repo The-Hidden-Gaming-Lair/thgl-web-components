@@ -18,7 +18,7 @@ export function MarkersSearchResults({
   const groupedSpawns = useMemo(() => {
     const reduced = spawns.reduce(
       (acc, spawn) => {
-        const key = spawn.id ?? spawn.type;
+        const key = t(spawn.id) || t(spawn.type);
         const mapName = spawn.mapName ?? "default";
         acc[key] = acc[key] || {};
         acc[key][mapName] = acc[key][mapName] || [];
@@ -59,7 +59,7 @@ export function MarkersSearchResults({
                   });
                 }
               }}
-              title={t(key) ?? key}
+              title={key}
               type="button"
             >
               {icon ? (
@@ -75,7 +75,7 @@ export function MarkersSearchResults({
               )}
               <div className="text-left">
                 <div className="truncate">
-                  {spawns[0].isPrivate ? spawns[0].name : t(key)}
+                  {spawns[0].isPrivate ? spawns[0].name : key}
                   {spawns.length > 1 && (
                     <span className="ml-1 text-gray-400 text-xs">
                       {spawns.length} times

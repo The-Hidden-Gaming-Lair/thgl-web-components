@@ -287,7 +287,11 @@ export function CoordinatesProvider({
           {
             name: "name",
             getFn: (spawn) =>
-              spawn.isPrivate ? spawn.name ?? "" : t(spawn.id) ?? "",
+              spawn.isPrivate
+                ? spawn.name ?? ""
+                : spawn.id
+                  ? t(spawn.id) ?? ""
+                  : "",
             weight: 2,
           },
           {
