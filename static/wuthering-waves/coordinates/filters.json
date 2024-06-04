@@ -5,12 +5,12 @@
     "defaultOn": true,
     "values": [
       {
-        "id": "Gameplay200",
+        "id": "10000_Gameplay200",
         "icon": "SP_IconMap_Activity_01_UI.webp",
         "size": 1
       },
       {
-        "id": "Gameplay124",
+        "id": "380018_Gameplay124",
         "icon": "SP_IconMap_Activity_04_UI.webp",
         "size": 1
       }
@@ -22,62 +22,67 @@
     "defaultOn": true,
     "values": [
       {
-        "id": "Teleport001",
+        "id": "301102_Teleport001",
         "icon": "SP_IconMap_CS_02_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0004",
+        "id": "3005_NPC0004",
         "icon": "SP_IconMap_Shop_10_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0002",
+        "id": "3010_NPC0002",
         "icon": "SP_IconMap_Shop_06_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0001",
+        "id": "3012_NPC0001",
         "icon": "SP_IconMap_Shop_08_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0005",
+        "id": "3000_NPC0005",
         "icon": "SP_IconMap_Play_06_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0006",
+        "id": "3_NPC0006",
         "icon": "SP_IconMap_Play_07_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0008",
+        "id": "3011_NPC0008",
         "icon": "SP_IconMap_Shop_03_UI.webp",
         "size": 1
       },
       {
-        "id": "Teleport003",
+        "id": "301201_Teleport003",
         "icon": "SP_IconMap_CS_01_UI.webp",
         "size": 1
       },
       {
-        "id": "Quest099",
+        "id": "3002_Quest099",
         "icon": "SP_IconMap_Shop_07_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0278",
+        "id": "3003_Quest099",
+        "icon": "SP_IconMap_Shop_02_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "3015_NPC0278",
         "icon": "SP_IconMap_Shop_11_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0279",
+        "id": "3017_NPC0279",
         "icon": "SP_IconMap_Shop_03_UI.webp",
         "size": 1
       },
       {
-        "id": "NPC0280",
+        "id": "3016_NPC0280",
         "icon": "SP_IconMap_Shop_06_UI.webp",
         "size": 1
       }
@@ -89,28 +94,38 @@
     "defaultOn": true,
     "values": [
       {
-        "id": "Gameplay102",
+        "id": "tactical_hologram",
         "icon": "SP_IconMap_Play_10_UI.webp",
         "size": 1
       },
       {
-        "id": "Gameplay_Dungeon_1",
+        "id": "380015_Gameplay_Dungeon_1",
         "icon": "SP_IconMonsterHead_990_1_UI.webp",
         "size": 1
       },
       {
-        "id": "Gameplay422",
+        "id": "380016_Gameplay422",
         "icon": "SP_IconMonsterHead_998_UI.webp",
         "size": 1
       },
       {
-        "id": "Gameplay379",
+        "id": "forgery_challenge",
         "icon": "SP_IconMap_Play_01_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "380014_Gameplay379",
+        "icon": "SP_IconMap_Play_04_UI.webp",
         "size": 1
       },
       {
         "id": "BossChallenge_Monster063",
         "icon": "SP_IconMonsterHead_996_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "5003_Gameplay102",
+        "icon": "SP_IconMap_WYQ_05_UI.webp",
         "size": 1
       },
       {
@@ -154,12 +169,27 @@
         "size": 1
       },
       {
+        "id": "301204_Gameplay422",
+        "icon": "SP_IconMap_Activity_02_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "301203_Gameplay422",
+        "icon": "SP_IconMap_Play_06_1_UI.webp",
+        "size": 1
+      },
+      {
         "id": "BossChallenge_Monster044",
         "icon": "SP_IconMonsterHead_225_UI.webp",
         "size": 1
       },
       {
-        "id": "Gameplay333",
+        "id": "380013_Gameplay379",
+        "icon": "SP_IconMap_Play_04_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "300310_Gameplay333",
         "icon": "SP_IconMap_Play_03_UI.webp",
         "size": 1
       }

@@ -167,6 +167,7 @@ for (const mapMark of dbMapMark.mapmark) {
 writeRegions(regions);
 
 const addedFilterIDs: string[] = [];
+const addedIcons: string[] = [];
 const skipIDs: string[] = ["AudioBoxTrigger"];
 const eventIDs: string[] = ["Gameplay200", "Gameplay124"];
 const overrides: Record<string, string> = {
@@ -214,6 +215,10 @@ for (const monster of monsterInfo.monsterinfo) {
       size: 1,
     });
     addedFilterIDs.push(id);
+    if (addedIcons.includes(monster.data.Icon)) {
+      console.warn(`Duplicate icon: ${monster.data.Icon}`);
+    }
+    addedIcons.push(monster.data.Icon);
   }
   enDict[id] = name;
   const desc = MultiText.find(
@@ -258,6 +263,7 @@ for (const levelEntity of sortedEntities) {
     continue;
   }
 
+  let spawnId: string | null = null;
   const mapMark = dbMapMark.mapmark.find(
     (m) => m.data.EntityConfigId === levelEntity.data.EntityId
   );
@@ -266,11 +272,34 @@ for (const levelEntity of sortedEntities) {
     if (eventIDs.includes(id)) {
       group = "events";
     }
+    const iconIndex = worldMapIconSprite[0].Properties.Sprites.indexOf(
+      mapMark.data.UnlockMarkPic
+    );
+    if (iconIndex === -1) {
+      console.log(`Icon not found: ${mapMark.data.LockMarkPic}`);
+      continue;
+    }
+    const title =
+      MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
+      mapMark.data.MarkTitle;
+    const isForgeryChallenge = iconIndex === 29;
     const isBossChallenge = id.startsWith("Monster");
     if (isBossChallenge) {
       id = "BossChallenge_" + id;
       group = "gameplay";
+    } else if (isForgeryChallenge) {
+      id = "forgery_challenge";
+    } else if (title.startsWith("Tactical Hologram")) {
+      id = "tactical_hologram";
+    } else {
+      id =
+        Object.keys(enDict).find((key) => enDict[key] === title) ??
+        `${mapMark.data.MarkId}_${id}`;
+      if (enDict[id] && enDict[id] !== title) {
+        console.log(`New: ${enDict[id]} -> ${title} (${id})`);
+      }
     }
+
     if (!filters.find((f) => f.group === group)) {
       filters.push({
         group,
@@ -285,19 +314,13 @@ for (const levelEntity of sortedEntities) {
         "/Game/Aki/UI/UIResources/Common/Atlas/WorldMapIcon/"
       )
     ) {
+      console.warn(`Invalid icon: ${mapMark.data.UnlockMarkPic}`);
       continue;
     }
 
-    const iconIndex = worldMapIconSprite[0].Properties.Sprites.indexOf(
-      mapMark.data.UnlockMarkPic
-    );
-    if (iconIndex === -1) {
-      console.log(`Icon not found: ${mapMark.data.LockMarkPic}`);
-      continue;
-    }
-    const spriteInfo =
-      worldMapIconSprite[0].Properties.SpriteInfoMap[iconIndex];
     if (!addedFilterIDs.includes(id)) {
+      const spriteInfo =
+        worldMapIconSprite[0].Properties.SpriteInfoMap[iconIndex];
       category.values.push({
         id,
         icon: await extractCanvasFromSprite(
@@ -308,22 +331,45 @@ for (const levelEntity of sortedEntities) {
         size: 1,
       });
       addedFilterIDs.push(id);
+      if (addedIcons.includes(mapMark.data.UnlockMarkPic)) {
+        console.warn(`Duplicate icon: ${mapMark.data.UnlockMarkPic}`);
+      }
+      addedIcons.push(mapMark.data.UnlockMarkPic);
     }
 
-    enDict[id] =
-      MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
-      mapMark.data.MarkTitle;
-    if (isBossChallenge) {
-      enDict[id] += " Boss Challenge";
-    }
-    if (mapMark.data.MarkDesc) {
-      enDict[id + "_desc"] =
-        MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-        mapMark.data.MarkDesc;
+    if (isForgeryChallenge) {
+      enDict[id] = "Forgery Challenge";
+      spawnId = levelEntity.data.EntityId.toString();
+      enDict[spawnId] =
+        MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
+        mapMark.data.MarkTitle;
+      if (mapMark.data.MarkDesc) {
+        enDict[spawnId + "_desc"] =
+          MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
+          mapMark.data.MarkDesc;
+      }
+    } else {
+      enDict[id] =
+        MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
+        mapMark.data.MarkTitle;
+      if (isBossChallenge) {
+        enDict[id] += " Boss Challenge";
+      }
+      if (mapMark.data.MarkDesc) {
+        enDict[id + "_desc"] =
+          MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
+          mapMark.data.MarkDesc;
+      }
     }
   } else if (isMonster) {
     //
   } else {
+    if (id === "Gameplay102") {
+      continue;
+    }
+    if (id === "Gameplay422") {
+      continue;
+    }
     const template = dbTemplate.templateconfig.find(
       (c) => c.data.BlueprintType === levelEntity.data.BlueprintType
     );
@@ -387,6 +433,10 @@ for (const levelEntity of sortedEntities) {
         size: 1,
       });
       addedFilterIDs.push(id);
+      if (addedIcons.includes(iconPath)) {
+        console.warn(`Duplicate icon: ${iconPath}`);
+      }
+      addedIcons.push(iconPath);
     }
   }
   let oldNodes = nodes.find((n) => n.type === id);
@@ -409,6 +459,7 @@ for (const levelEntity of sortedEntities) {
   ) {
     continue;
   }
+
   const baseName =
     levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent;
   const interactName =
@@ -419,13 +470,15 @@ for (const levelEntity of sortedEntities) {
       baseName && MultiText.find((m) => m.Id === baseName)?.Content;
     const interactTerm =
       interactName && MultiText.find((m) => m.Id === interactName)?.Content;
-    const spawnId = levelEntity.data.EntityId.toString();
+    spawnId = levelEntity.data.EntityId.toString();
     if (baseTerm) {
       enDict[spawnId] = baseTerm;
     }
     if (interactTerm) {
       enDict[`${spawnId}_desc`] = interactTerm;
     }
+  }
+  if (spawnId) {
     oldNodes!.spawns.push({
       id: spawnId,
       p: [+location.y, +location.x],
