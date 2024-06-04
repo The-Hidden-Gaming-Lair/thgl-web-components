@@ -16,7 +16,8 @@ export async function generateTiles(
   imagePath: string,
   width: number,
   tileSize = 512,
-  additionalOffset = [0, 0]
+  additionalOffset = [0, 0],
+  fitBounds?: [[number, number], [number, number]]
 ): Promise<Tiles> {
   const halfWidth = width / 2;
   const mapBounds = [
@@ -60,7 +61,7 @@ export async function generateTiles(
       },
       minZoom: -5,
       maxZoom: 7,
-      fitBounds: mapBounds,
+      fitBounds: fitBounds ?? mapBounds,
       transformation: [
         1 / multiple,
         offset[0] + additionalOffset[0],

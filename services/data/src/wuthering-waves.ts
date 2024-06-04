@@ -65,9 +65,14 @@ const tiles = initTiles(
     TEMP_DIR + "/bigmap.png",
     WORLD.ORTHOGRAPHIC_WIDTH,
     512,
-    [WORLD.OFFSET_X, WORLD.OFFSET_Y]
+    [WORLD.OFFSET_X, WORLD.OFFSET_Y],
+    [
+      [0, -150000],
+      [200000, 50000],
+    ]
   )
 );
+
 writeTiles(tiles);
 
 const monsterInfo = readJSON<MonsterInfo>(

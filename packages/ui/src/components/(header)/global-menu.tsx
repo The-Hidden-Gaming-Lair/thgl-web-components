@@ -18,6 +18,12 @@ import ConsentLink from "../(ads)/consent-link";
 
 const APPS = [
   {
+    title: "Wuthering Waves",
+    url: "https://wuthering.th.gl",
+    icon: "/global_icons/wuthering-waves.webp",
+    tags: ["interactive_map"],
+  },
+  {
     title: "Pax Dei",
     url: "https://paxdei.th.gl",
     icon: "/global_icons/pax-dei.webp",
