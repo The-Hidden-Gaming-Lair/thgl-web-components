@@ -16,6 +16,7 @@ import {
   SeekersOfSkyveil,
   SongsOfConquest,
   SonsOfTheForest,
+  WutheringWaves,
 } from "./games";
 
 export interface App {
@@ -37,6 +38,16 @@ export interface App {
 }
 
 export const apps: App[] = [
+  {
+    id: "wuthering-waves",
+    title: "Wuthering Waves",
+    description: "Interactive map",
+    author: DevLeon,
+    game: WutheringWaves,
+    url: "https://wuthering.th.gl",
+    tileSrc: "/wuthering.jpg",
+    patreonTierIDs: ["21470797", "21470809", "special"],
+  },
   {
     id: "pax-dei",
     title: "Pax Dei",

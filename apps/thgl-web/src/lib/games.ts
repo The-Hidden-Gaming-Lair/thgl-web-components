@@ -57,3 +57,7 @@ export const OnceHuman: Game = {
 export const PaxDei: Game = {
   title: "Pax Dei",
 };
+
+export const WutheringWaves: Game = {
+  title: "Wuthering Waves",
+};
