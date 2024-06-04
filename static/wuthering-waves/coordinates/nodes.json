@@ -5890,19 +5890,12 @@
     ]
   },
   {
-    "type": "Monster063",
+    "type": "BossChallenge_Monster063",
     "spawns": [
       {
         "p": [
           299323,
           -43230
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          312605,
-          2776
         ],
         "mapName": "AkiWorld_WP"
       }
@@ -6124,7 +6117,7 @@
     ]
   },
   {
-    "type": "Monster066",
+    "type": "BossChallenge_Monster066",
     "spawns": [
       {
         "p": [
@@ -6132,25 +6125,11 @@
           -31622.11
         ],
         "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          -36770.06,
-          -31683.2
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          -36860,
-          -31630
-        ],
-        "mapName": "AkiWorld_WP"
       }
     ]
   },
   {
-    "type": "Monster045",
+    "type": "BossChallenge_Monster045",
     "spawns": [
       {
         "p": [
@@ -6162,7 +6141,31 @@
     ]
   },
   {
-    "type": "Monster080",
+    "type": "BossChallenge_Monster071",
+    "spawns": [
+      {
+        "p": [
+          73263.24,
+          -110278.76
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "BossChallenge_Monster068",
+    "spawns": [
+      {
+        "p": [
+          194808.42,
+          -20935.49
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "BossChallenge_Monster080",
     "spawns": [
       {
         "p": [
@@ -6170,18 +6173,11 @@
           79424.2
         ],
         "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          294885.63,
-          79420.78
-        ],
-        "mapName": "AkiWorld_WP"
       }
     ]
   },
   {
-    "type": "Monster070",
+    "type": "BossChallenge_Monster070",
     "spawns": [
       {
         "p": [
@@ -6189,18 +6185,11 @@
           66965.77
         ],
         "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          320880.25,
-          95184.36
-        ],
-        "mapName": "AkiWorld_WP"
       }
     ]
   },
   {
-    "type": "Monster047",
+    "type": "BossChallenge_Monster047",
     "spawns": [
       {
         "p": [
@@ -6212,19 +6201,12 @@
     ]
   },
   {
-    "type": "Monster061",
+    "type": "BossChallenge_Monster061",
     "spawns": [
       {
         "p": [
           -58898.86,
           -41014.87
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          200543.7,
-          -10041.53
         ],
         "mapName": "AkiWorld_WP"
       }
@@ -6502,26 +6484,12 @@
     ]
   },
   {
-    "type": "Monster044",
+    "type": "BossChallenge_Monster044",
     "spawns": [
       {
         "p": [
           30905.13,
           -68251.98
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          243392,
-          -77165
-        ],
-        "mapName": "AkiWorld_WP"
-      },
-      {
-        "p": [
-          -36840,
-          -31550
         ],
         "mapName": "AkiWorld_WP"
       }
@@ -37963,6 +37931,30 @@
     ]
   },
   {
+    "type": "Monster080",
+    "spawns": [
+      {
+        "p": [
+          294885.63,
+          79420.78
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "Monster047",
+    "spawns": [
+      {
+        "p": [
+          76145.88,
+          -151935.28
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
     "type": "Monster1058",
     "spawns": [
       {
@@ -38001,12 +37993,86 @@
     ]
   },
   {
+    "type": "Monster070",
+    "spawns": [
+      {
+        "p": [
+          320880.25,
+          95184.36
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "Monster061",
+    "spawns": [
+      {
+        "p": [
+          200543.7,
+          -10041.53
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "Monster063",
+    "spawns": [
+      {
+        "p": [
+          312605,
+          2776
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "Monster044",
+    "spawns": [
+      {
+        "p": [
+          243392,
+          -77165
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -36840,
+          -31550
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
     "type": "Monster062",
     "spawns": [
       {
         "p": [
           194808.42,
           -20935.49
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "Monster066",
+    "spawns": [
+      {
+        "p": [
+          -36770.06,
+          -31683.2
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -36860,
+          -31630
         ],
         "mapName": "AkiWorld_WP"
       }

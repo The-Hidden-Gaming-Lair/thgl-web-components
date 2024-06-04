@@ -167,7 +167,7 @@ for (const mapMark of dbMapMark.mapmark) {
 writeRegions(regions);
 
 const addedFilterIDs: string[] = [];
-const skipIDs: string[] = ["AudioBoxTrigger", "Monster071", "Monster068"];
+const skipIDs: string[] = ["AudioBoxTrigger"];
 const eventIDs: string[] = ["Gameplay200", "Gameplay124"];
 const overrides: Record<string, string> = {
   Teleport003: "Teleport003",
@@ -261,12 +261,15 @@ for (const levelEntity of sortedEntities) {
   const mapMark = dbMapMark.mapmark.find(
     (m) => m.data.EntityConfigId === levelEntity.data.EntityId
   );
-  if (isMonster) {
-    //
-  } else if (mapMark) {
+  if (mapMark) {
     let group = id.startsWith("Gameplay") ? "gameplay" : "locations";
     if (eventIDs.includes(id)) {
       group = "events";
+    }
+    const isBossChallenge = id.startsWith("Monster");
+    if (isBossChallenge) {
+      id = "BossChallenge_" + id;
+      group = "gameplay";
     }
     if (!filters.find((f) => f.group === group)) {
       filters.push({
@@ -306,14 +309,20 @@ for (const levelEntity of sortedEntities) {
       });
       addedFilterIDs.push(id);
     }
+
     enDict[id] =
       MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
       mapMark.data.MarkTitle;
+    if (isBossChallenge) {
+      enDict[id] += " Boss Challenge";
+    }
     if (mapMark.data.MarkDesc) {
       enDict[id + "_desc"] =
         MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
         mapMark.data.MarkDesc;
     }
+  } else if (isMonster) {
+    //
   } else {
     const template = dbTemplate.templateconfig.find(
       (c) => c.data.BlueprintType === levelEntity.data.BlueprintType

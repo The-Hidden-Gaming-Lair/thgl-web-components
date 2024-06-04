@@ -109,6 +109,56 @@
         "size": 1
       },
       {
+        "id": "BossChallenge_Monster063",
+        "icon": "SP_IconMonsterHead_996_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster066",
+        "icon": "SP_IconMonsterHead_226_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster045",
+        "icon": "SP_IconMonsterHead_325_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster071",
+        "icon": "SP_IconMonsterHead_999_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster068",
+        "icon": "SP_IconMonsterHead_994_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster080",
+        "icon": "SP_IconMonsterHead_993_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster070",
+        "icon": "SP_IconMonsterHead_997_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster047",
+        "icon": "SP_IconMonsterHead_992_1_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster061",
+        "icon": "SP_IconMonsterHead_995_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "BossChallenge_Monster044",
+        "icon": "SP_IconMonsterHead_225_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Gameplay333",
         "icon": "SP_IconMap_Play_03_UI.webp",
         "size": 1
