@@ -1,5 +1,370 @@
 [
   {
+    "group": "locations",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Teleport001",
+        "icon": "SP_IconMap_CS_02_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0004",
+        "icon": "SP_IconMap_Shop_10_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0002",
+        "icon": "SP_IconMap_Shop_06_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0001",
+        "icon": "SP_IconMap_Shop_08_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0005",
+        "icon": "SP_IconMap_Play_06_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0006",
+        "icon": "SP_IconMap_Play_07_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0008",
+        "icon": "SP_IconMap_Shop_03_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Teleport003",
+        "icon": "SP_IconMap_CS_01_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Quest099",
+        "icon": "SP_IconMap_Shop_07_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0278",
+        "icon": "SP_IconMap_Shop_11_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0279",
+        "icon": "SP_IconMap_Shop_03_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC0280",
+        "icon": "SP_IconMap_Shop_06_UI.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "gameplay",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Gameplay102",
+        "icon": "SP_IconMap_Play_10_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay_Dungeon_1",
+        "icon": "SP_IconMonsterHead_990_1_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay422",
+        "icon": "SP_IconMonsterHead_998_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay003",
+        "icon": "T_IconRup80_Part_1402_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay021",
+        "icon": "T_IconRup80_Part_1203_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay092",
+        "icon": "T_IconRup80_Part_1602_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay094",
+        "icon": "T_IconRup80_Part_1403_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay112",
+        "icon": "T_IconRup80_Part_1204_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay004",
+        "icon": "T_IconRup80_Part_1303_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay101",
+        "icon": "T_IconWup80_Setpup_004_3_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay111",
+        "icon": "T_IconCook80_YJ_039_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay379",
+        "icon": "SP_IconMap_Play_01_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay119",
+        "icon": "T_IconGiftPack_014_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay020",
+        "icon": "T_IconTask80_Task_010_1_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay293",
+        "icon": "T_IconTask80_Task_053_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay109",
+        "icon": "T_IconTask_Task_035_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay594",
+        "icon": "T_IconCook80_015_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay098",
+        "icon": "T_IconTask80_Level_005_3_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay131",
+        "icon": "T_IconTask80_Level_003_1_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay200",
+        "icon": "SP_IconMap_Activity_01_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay124",
+        "icon": "SP_IconMap_Activity_04_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay333",
+        "icon": "SP_IconMap_Play_03_UI.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "MonsterRarity_4_RarityDesc",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Monster047",
+        "icon": "Monster047.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster060",
+        "icon": "Monster060.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster078",
+        "icon": "Monster078.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "MonsterRarity_3_RarityDesc",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Monster044",
+        "icon": "Monster044.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster046",
+        "icon": "Monster046.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster045",
+        "icon": "Monster045.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster061",
+        "icon": "Monster061.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster062",
+        "icon": "Monster062.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster063",
+        "icon": "Monster063.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster070",
+        "icon": "Monster070.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster080",
+        "icon": "Monster080.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster066",
+        "icon": "Monster066.webp",
+        "size": 1
+      },
+      {
+        "id": "MonsterInfo_350000010_Name",
+        "icon": "MonsterInfo_350000010_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "MonsterInfo_350000040_Name",
+        "icon": "MonsterInfo_350000040_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "MonsterInfo_350000050_Name",
+        "icon": "MonsterInfo_350000050_Name.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "MonsterRarity_2_RarityDesc",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "Monster037",
+        "icon": "Monster037.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster031",
+        "icon": "Monster031.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster032",
+        "icon": "Monster032.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster038",
+        "icon": "Monster038.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster039",
+        "icon": "Monster039.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster040",
+        "icon": "Monster040.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster041",
+        "icon": "Monster041.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster042",
+        "icon": "Monster042.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster043",
+        "icon": "Monster043.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster049",
+        "icon": "Monster049.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster050",
+        "icon": "Monster050.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster051",
+        "icon": "Monster051.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster054",
+        "icon": "Monster054.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster069",
+        "icon": "Monster069.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster128",
+        "icon": "Monster128.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster150",
+        "icon": "Monster150.webp",
+        "size": 1
+      },
+      {
+        "id": "Monster1058",
+        "icon": "Monster1058.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "MonsterRarity_1_RarityDesc",
     "defaultOpen": false,
     "defaultOn": false,
@@ -115,66 +480,6 @@
         "size": 1
       },
       {
-        "id": "Monster012",
-        "icon": "Monster012.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster020",
-        "icon": "Monster020.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster021",
-        "icon": "Monster021.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster022",
-        "icon": "Monster022.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster023",
-        "icon": "Monster023.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster024",
-        "icon": "Monster024.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster013",
-        "icon": "Monster013.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster025",
-        "icon": "Monster025.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster026",
-        "icon": "Monster026.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster027",
-        "icon": "Monster027.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster028",
-        "icon": "Monster028.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster029",
-        "icon": "Monster029.webp",
-        "size": 1
-      },
-      {
         "id": "Monster052",
         "icon": "Monster052.webp",
         "size": 1
@@ -228,371 +533,33 @@
         "id": "Monster1040",
         "icon": "Monster1040.webp",
         "size": 1
-      },
-      {
-        "id": "Monster052",
-        "icon": "Monster052.webp",
-        "size": 1
       }
     ]
   },
   {
-    "group": "MonsterRarity_2_RarityDesc",
+    "group": "exile",
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
       {
-        "id": "Monster037",
-        "icon": "Monster037.webp",
+        "id": "Exile",
+        "icon": "Exile.webp",
         "size": 1
       },
       {
-        "id": "Monster031",
-        "icon": "Monster031.webp",
+        "id": "Exile Leader",
+        "icon": "Exile Leader.webp",
         "size": 1
       },
       {
-        "id": "Monster032",
-        "icon": "Monster032.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster038",
-        "icon": "Monster038.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster039",
-        "icon": "Monster039.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster040",
-        "icon": "Monster040.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster041",
-        "icon": "Monster041.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster042",
-        "icon": "Monster042.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster043",
-        "icon": "Monster043.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster049",
-        "icon": "Monster049.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster050",
-        "icon": "Monster050.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster051",
-        "icon": "Monster051.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster054",
-        "icon": "Monster054.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster055",
-        "icon": "Monster055.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster056",
-        "icon": "Monster056.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster069",
-        "icon": "Monster069.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster128",
-        "icon": "Monster128.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster150",
-        "icon": "Monster150.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster1058",
-        "icon": "Monster1058.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster050",
-        "icon": "Monster050.webp",
+        "id": "Exile Technician",
+        "icon": "Exile Technician.webp",
         "size": 1
       }
     ]
   },
   {
-    "group": "MonsterRarity_3_RarityDesc",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Monster044",
-        "icon": "Monster044.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster046",
-        "icon": "Monster046.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster045",
-        "icon": "Monster045.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster061",
-        "icon": "Monster061.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster062",
-        "icon": "Monster062.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster063",
-        "icon": "Monster063.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster070",
-        "icon": "Monster070.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster080",
-        "icon": "Monster080.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster066",
-        "icon": "Monster066.webp",
-        "size": 1
-      },
-      {
-        "id": "MonsterInfo_350000010_Name",
-        "icon": "MonsterInfo_350000010_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "MonsterInfo_350000040_Name",
-        "icon": "MonsterInfo_350000040_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "MonsterInfo_350000050_Name",
-        "icon": "MonsterInfo_350000050_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster061",
-        "icon": "Monster061.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "MonsterRarity_4_RarityDesc",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Monster047",
-        "icon": "Monster047.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster060",
-        "icon": "Monster060.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster078",
-        "icon": "Monster078.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "gameplay",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Gameplay102",
-        "icon": "SP_IconMap_Play_10_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay_Dungeon_1",
-        "icon": "SP_IconMonsterHead_990_1_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay422",
-        "icon": "SP_IconMonsterHead_998_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay379",
-        "icon": "SP_IconMap_Play_01_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay200",
-        "icon": "SP_IconMap_Activity_01_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay124",
-        "icon": "SP_IconMap_Activity_04_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay333",
-        "icon": "SP_IconMap_Play_03_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "locations",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Teleport001",
-        "icon": "SP_IconMap_CS_02_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay119",
-        "icon": "T_IconGiftPack_014_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay293",
-        "icon": "T_IconTask80_Task_053_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Quest030",
-        "icon": "T_IconTask80_Task_053_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Quest097",
-        "icon": "T_IconTask_Task_026_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal031",
-        "icon": "T_IconCook80_036_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay594",
-        "icon": "T_IconCook80_015_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0004",
-        "icon": "SP_IconMap_Shop_10_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0002",
-        "icon": "SP_IconMap_Shop_06_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0001",
-        "icon": "SP_IconMap_Shop_08_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0005",
-        "icon": "SP_IconMap_Play_06_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0006",
-        "icon": "SP_IconMap_Play_07_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0008",
-        "icon": "SP_IconMap_Shop_03_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Teleport003",
-        "icon": "SP_IconMap_CS_01_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Quest099",
-        "icon": "SP_IconMap_Shop_07_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster071",
-        "icon": "SP_IconMonsterHead_999_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Monster068",
-        "icon": "SP_IconMonsterHead_994_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Teleport008",
-        "icon": "SP_IconMap_CS_01_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0278",
-        "icon": "SP_IconMap_Shop_11_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0279",
-        "icon": "SP_IconMap_Shop_03_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "NPC0280",
-        "icon": "SP_IconMap_Shop_06_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "animal",
+    "group": "others",
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
@@ -612,8 +579,53 @@
         "size": 1
       },
       {
+        "id": "SceneObj003",
+        "icon": "T_IconA80_yml_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "SceneObj002",
+        "icon": "T_IconA80_mlf_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "SceneObj001",
+        "icon": "T_IconA80_03_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Treasure008",
+        "icon": "T_IconA80_06_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Animal016",
         "icon": "T_IconCook80_YJ_039_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Treasure001",
+        "icon": "T_IconCook80_YJ_039_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect116",
+        "icon": "T_IconRup80_Part_1202_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect101",
+        "icon": "T_IconRup80_Part_1102_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect504",
+        "icon": "T_IconRup80_Part_1700_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect503",
+        "icon": "T_IconRup80_Part_1301_UI.webp",
         "size": 1
       },
       {
@@ -657,6 +669,16 @@
         "size": 1
       },
       {
+        "id": "Collect113",
+        "icon": "T_IconCook80_YJ_003_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect102",
+        "icon": "T_IconCook80_YJ_011_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Animal006",
         "icon": "T_IconCook80_YJ_010_UI.webp",
         "size": 1
@@ -674,169 +696,6 @@
       {
         "id": "Animal020",
         "icon": "T_IconRup80_exp_2_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal002",
-        "icon": "T_IconTask80_Task_051_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal003",
-        "icon": "T_IconTask80_Task_051_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal015",
-        "icon": "T_IconCook80_A06_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal001",
-        "icon": "T_IconCook80_010_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "sceneobj",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "SceneObj003",
-        "icon": "T_IconA80_yml_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "SceneObj002",
-        "icon": "T_IconA80_mlf_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "SceneObj001",
-        "icon": "T_IconA80_03_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay092",
-        "icon": "T_IconRup80_Part_1602_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay094",
-        "icon": "T_IconRup80_Part_1403_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "chest",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Treasure008",
-        "icon": "T_IconA80_06_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Treasure001",
-        "icon": "T_IconCook80_YJ_039_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Treasure012",
-        "icon": "T_IconRup80_SM_Gat_33A_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Treasure020",
-        "icon": "T_IconTask80_Task_053_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Treasure009",
-        "icon": "T_IconTask80_Level_005_3_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Treasure006",
-        "icon": "T_IconTask80_Level_005_3_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "play",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Gameplay003",
-        "icon": "T_IconRup80_Part_1402_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay021",
-        "icon": "T_IconRup80_Part_1203_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay004",
-        "icon": "T_IconRup80_Part_1303_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay101",
-        "icon": "T_IconWup80_Setpup_004_3_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay102",
-        "icon": "T_IconCook80_036_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay098",
-        "icon": "T_IconTask80_Level_005_3_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "collect",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Collect116",
-        "icon": "T_IconRup80_Part_1202_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect101",
-        "icon": "T_IconRup80_Part_1102_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect504",
-        "icon": "T_IconRup80_Part_1700_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect503",
-        "icon": "T_IconRup80_Part_1301_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect113",
-        "icon": "T_IconCook80_YJ_003_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect102",
-        "icon": "T_IconCook80_YJ_011_UI.webp",
         "size": 1
       },
       {
@@ -870,6 +729,11 @@
         "size": 1
       },
       {
+        "id": "Treasure012",
+        "icon": "T_IconRup80_SM_Gat_33A_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect115",
         "icon": "T_IconC80_SM_Gat_08A_UI.webp",
         "size": 1
@@ -900,8 +764,38 @@
         "size": 1
       },
       {
+        "id": "Treasure020",
+        "icon": "T_IconTask80_Task_053_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Quest030",
+        "icon": "T_IconTask80_Task_053_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Quest097",
+        "icon": "T_IconTask_Task_026_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Quest131",
+        "icon": "T_IconTask_Task_026_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect603",
         "icon": "T_IconTask_Task_030_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal002",
+        "icon": "T_IconTask80_Task_051_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal003",
+        "icon": "T_IconTask80_Task_051_UI.webp",
         "size": 1
       },
       {
@@ -910,8 +804,18 @@
         "size": 1
       },
       {
+        "id": "Animal015",
+        "icon": "T_IconCook80_A06_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect602",
         "icon": "T_IconCook80_013_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal031",
+        "icon": "T_IconCook80_036_UI.webp",
         "size": 1
       },
       {
@@ -920,59 +824,23 @@
         "size": 1
       },
       {
+        "id": "Animal001",
+        "icon": "T_IconCook80_010_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Treasure009",
+        "icon": "T_IconTask80_Level_005_3_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Treasure006",
+        "icon": "T_IconTask80_Level_005_3_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect103",
         "icon": "T_IconTask80_Level_003_1_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "matchgear",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Gameplay112",
-        "icon": "T_IconRup80_Part_1204_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay020",
-        "icon": "T_IconTask80_Task_010_1_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay131",
-        "icon": "T_IconTask80_Level_003_1_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "taskitem",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Gameplay111",
-        "icon": "T_IconCook80_YJ_039_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Quest131",
-        "icon": "T_IconTask_Task_026_UI.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
-    "group": "matchgroup",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "Gameplay109",
-        "icon": "T_IconTask_Task_035_UI.webp",
         "size": 1
       }
     ]

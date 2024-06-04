@@ -360,7 +360,11 @@ export function MarkersFilters({
             {REGION_FILTERS.map((filter) => (
               <div
                 key={filter.id}
-                className="flex md:basis-1/2 overflow-hidden"
+                className={cn("flex md:basis-1/2 overflow-hidden", {
+                  hidden:
+                    filter.id === "region_borders" &&
+                    !regions.some((r) => r.border.length > 0),
+                })}
               >
                 <button
                   className={cn(

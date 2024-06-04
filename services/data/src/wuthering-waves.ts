@@ -8,6 +8,7 @@ import { extractCanvasFromSprite, mergeImages, saveIcon } from "./lib/image.js";
 import { initNodes, normalizeLocation, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
+import { capitalizeWords, toCamelCase } from "./lib/utils.js";
 
 initDirs(
   "/mnt/c/dev/Wuthering Waves/Extracted/Data",
@@ -20,9 +21,9 @@ const filters = initFilters();
 const regions = initRegions();
 
 const enDict = initDict({
-  gameplay: "Gameplay",
-  collect: "Collectibles",
+  gameplay: "Waveplate Activities",
   locations: "Locations",
+  others: "Others",
 });
 
 const ORTHOGRAPHIC_WIDTH = 1360000;
@@ -164,45 +165,72 @@ for (const mapMark of dbMapMark.mapmark) {
 }
 writeRegions(regions);
 
+const skipIDs: string[] = ["Monster071", "Monster068"];
+const overrides: Record<string, string> = {
+  Teleport003: "Teleport003",
+  Teleport008: "Teleport003",
+};
 const monsterFilterIds: string[] = [];
 for (const monster of monsterInfo.monsterinfo) {
-  const id = monster.data.MonsterEntityID || monster.data.Name;
   const rarityDesc = monsterInfo.monsterrarity.find(
     (mr) => mr.Id === monster.data.RarityId
   )?.data.RarityDesc!;
-  if (!filters.find((f) => f.group === rarityDesc)) {
-    filters.push({
-      group: rarityDesc,
-      defaultOpen: false,
-      defaultOn: false,
-      values: [],
-    });
-    enDict[rarityDesc] =
-      MultiText.find((m) => m.Id === rarityDesc)?.Content ?? rarityDesc;
-  }
-  const category = filters.find((f) => f.group === rarityDesc)!;
-  category.values.push({
-    id,
-    icon: await saveIcon(
-      monster.data.Icon.replace("/Game", "/Client/Content").split(".")[0] +
-        ".png",
-      id
-    ),
-    size: 1,
-  });
-
   const name =
     MultiText.find((m) => m.Id === monster.data.Name)?.Content ??
     monster.data.Name;
+  const isExile = name.includes("Exile");
+  const group = isExile ? "exile" : rarityDesc;
+  const filterName = isExile
+    ? MultiText.find((m) => m.Id === "AccessPath_603001_Description")?.Content
+    : MultiText.find((m) => m.Id === rarityDesc)?.Content;
+  if (!filters.find((f) => f.group === group)) {
+    filters.push({
+      group: group,
+      defaultOpen: false,
+      defaultOn: group.includes("_4_") || group.includes("_3_"),
+      values: [],
+    });
+    enDict[group] = filterName ?? group;
+    enDict[group] = capitalizeWords(enDict[group]).replace("s(", "s (");
+  }
+  const category = filters.find((f) => f.group === group)!;
+  let id = monster.data.MonsterEntityID || monster.data.Name;
+  if (isExile) {
+    overrides[id] = toCamelCase(name);
+    id = overrides[id];
+  }
+  if (!category.values.some((val) => val.id === id)) {
+    category.values.push({
+      id,
+      icon: await saveIcon(
+        monster.data.Icon.replace("/Game", "/Client/Content").split(".")[0] +
+          ".png",
+        id
+      ),
+      size: 1,
+    });
+  }
   enDict[id] = name;
+  const desc = MultiText.find(
+    (m) => m.Id === monster.data.DiscoveredDes
+  )?.Content;
+  if (desc) {
+    enDict[id + "_desc"] = desc;
+  }
 
   monsterFilterIds.push(id);
 }
 
 // const filterIds = filters.flatMap((f) => f.values.map((v) => v.id));
 for (const levelEntity of levelentityconfig) {
-  const id =
+  let id =
     levelEntity.data.BlueprintType ?? levelEntity.data.EntityId.toString();
+  if (skipIDs.includes(id)) {
+    continue;
+  }
+  if (overrides[id]) {
+    id = overrides[id];
+  }
   const isMonster = monsterFilterIds.includes(id);
 
   if (levelEntity.data.MapId !== BIG_WORLD_MAP_ID) {
@@ -220,7 +248,7 @@ for (const levelEntity of levelentityconfig) {
       filters.push({
         group,
         defaultOpen: false,
-        defaultOn: false,
+        defaultOn: true,
         values: [],
       });
     }
@@ -282,9 +310,7 @@ for (const levelEntity of levelentityconfig) {
       continue;
     }
 
-    const group =
-      template.data.ComponentsData.BaseInfoComponent.Category.MainType?.toLowerCase() ||
-      "locations";
+    const group = id.startsWith("Gameplay") ? "gameplay" : "others";
     if (!filters.find((f) => f.group === group)) {
       filters.push({
         group,
@@ -332,7 +358,7 @@ for (const levelEntity of levelentityconfig) {
     continue;
   }
   oldNodes!.spawns.push({
-    p: [+location.y.toFixed(0), +location.x.toFixed(0)],
+    p: [+location.y, +location.x],
     mapName,
   });
 }
@@ -390,7 +416,33 @@ if (Bun.env.ACTORS === "true") {
 }
 
 writeNodes(nodes);
-writeFilters(filters);
+
+const sortPriority = [
+  "locations",
+  "gameplay",
+  "MonsterRarity_4",
+  "MonsterRarity_3",
+  "MonsterRarity_2",
+  "MonsterRarity_1",
+  "exile",
+  "others",
+];
+const sortedFilters = filters.sort((a, b) => {
+  if (a.group === b.group) {
+    return 0;
+  }
+  const priorityA = sortPriority.findIndex((p) =>
+    a.group.toLowerCase().startsWith(p.toLowerCase())
+  );
+  const priorityB = sortPriority.findIndex((p) =>
+    b.group.toLowerCase().startsWith(p.toLowerCase())
+  );
+  if (priorityA === priorityB) {
+    return a.group.localeCompare(b.group);
+  }
+  return priorityA - priorityB;
+});
+writeFilters(sortedFilters);
 writeDict(enDict, "en");
 
 type MonsterInfo = {
