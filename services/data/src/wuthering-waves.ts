@@ -507,6 +507,20 @@ for (const levelEntity of sortedEntities) {
       p: [+location.y, +location.x],
       mapName,
     });
+    if (mapMark && isMonster) {
+      id = id.replace("BossChallenge_", "");
+      let oldNodes = nodes.find((n) => n.type === id);
+      if (!oldNodes) {
+        oldNodes = { type: id, spawns: [] };
+        nodes.push(oldNodes);
+        oldNodes = nodes.find((n) => n.type === id);
+      }
+
+      oldNodes!.spawns.push({
+        p: [+location.y, +location.x],
+        mapName,
+      });
+    }
   }
 }
 

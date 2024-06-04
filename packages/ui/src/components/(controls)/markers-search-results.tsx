@@ -18,6 +18,13 @@ export function MarkersSearchResults({
   const groupedSpawns = useMemo(() => {
     const reduced = spawns.reduce(
       (acc, spawn) => {
+        spawn.cluster?.forEach((cluster) => {
+          const key = t(cluster.id) || t(cluster.type);
+          const mapName = cluster.mapName ?? "default";
+          acc[key] = acc[key] || {};
+          acc[key][mapName] = acc[key][mapName] || [];
+          acc[key][mapName].push(cluster);
+        });
         const key = t(spawn.id) || t(spawn.type);
         const mapName = spawn.mapName ?? "default";
         acc[key] = acc[key] || {};
