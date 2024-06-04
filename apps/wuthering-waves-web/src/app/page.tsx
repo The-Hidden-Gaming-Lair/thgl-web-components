@@ -29,7 +29,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   title: "Wuthering Waves Interactive Map – The Hidden Gaming Lair",
-  description: "Wuthering Waves Interactive Map!",
+  description:
+    "Explore Wuthering Waves with this Interactive Map! Showcasing all echoes spawn locations, waveplate activities, and more!",
 };
 
 export default function Home({

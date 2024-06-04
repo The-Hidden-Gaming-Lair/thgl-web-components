@@ -165,7 +165,7 @@ for (const mapMark of dbMapMark.mapmark) {
 }
 writeRegions(regions);
 
-const skipIDs: string[] = ["Monster071", "Monster068"];
+const skipIDs: string[] = ["AudioBoxTrigger", "Monster071", "Monster068"];
 const overrides: Record<string, string> = {
   Teleport003: "Teleport003",
   Teleport008: "Teleport003",
@@ -187,7 +187,8 @@ for (const monster of monsterInfo.monsterinfo) {
     filters.push({
       group: group,
       defaultOpen: false,
-      defaultOn: group.includes("_4_") || group.includes("_3_"),
+      defaultOn:
+        group.includes("_4_") || group.includes("_3_") || group.includes("_2_"),
       values: [],
     });
     enDict[group] = filterName ?? group;
