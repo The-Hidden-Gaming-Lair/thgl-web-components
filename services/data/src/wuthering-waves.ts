@@ -21,6 +21,7 @@ const filters = initFilters();
 const regions = initRegions();
 
 const enDict = initDict({
+  events: "Temporary Events",
   gameplay: "Waveplate Activities",
   locations: "Locations",
   others: "Others",
@@ -98,7 +99,7 @@ const { levelentityconfig } = readJSON<{
         Y: number;
         Z: number;
       }>;
-      ComponentsData: string;
+      ComponentsData: any;
     };
   }>;
 }>(CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_level_entity.json");
@@ -137,13 +138,6 @@ for (const mapMark of dbMapMark.mapmark) {
 
   const id = mapMark.data.MarkId.toString();
 
-  enDict[id] =
-    MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ?? id;
-  if (mapMark.data.MarkDesc) {
-    enDict[id + "_desc"] =
-      MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ?? id;
-  }
-
   if (mapMark.data.ObjectType === 1) {
     if (mapMark.data.ShowRange[0] !== -9999) {
       continue;
@@ -155,6 +149,13 @@ for (const mapMark of dbMapMark.mapmark) {
       number,
     ];
 
+    enDict[id] =
+      MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ?? id;
+    if (mapMark.data.MarkDesc) {
+      enDict[id + "_desc"] =
+        MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ?? id;
+    }
+
     regions.push({
       id,
       center,
@@ -165,7 +166,9 @@ for (const mapMark of dbMapMark.mapmark) {
 }
 writeRegions(regions);
 
+const addedFilterIDs: string[] = [];
 const skipIDs: string[] = ["AudioBoxTrigger", "Monster071", "Monster068"];
+const eventIDs: string[] = ["Gameplay200", "Gameplay124"];
 const overrides: Record<string, string> = {
   Teleport003: "Teleport003",
   Teleport008: "Teleport003",
@@ -200,7 +203,7 @@ for (const monster of monsterInfo.monsterinfo) {
     overrides[id] = toCamelCase(name);
     id = overrides[id];
   }
-  if (!category.values.some((val) => val.id === id)) {
+  if (!addedFilterIDs.includes(id)) {
     category.values.push({
       id,
       icon: await saveIcon(
@@ -210,6 +213,7 @@ for (const monster of monsterInfo.monsterinfo) {
       ),
       size: 1,
     });
+    addedFilterIDs.push(id);
   }
   enDict[id] = name;
   const desc = MultiText.find(
@@ -222,13 +226,29 @@ for (const monster of monsterInfo.monsterinfo) {
   monsterFilterIds.push(id);
 }
 
+const sortedEntities = levelentityconfig.sort((a, b) => {
+  const aHasMapMark = dbMapMark.mapmark.some(
+    (m) => m.data.EntityConfigId === a.data.EntityId
+  );
+  const bHasMapMark = dbMapMark.mapmark.some(
+    (m) => m.data.EntityConfigId === b.data.EntityId
+  );
+  if (aHasMapMark && !bHasMapMark) {
+    return -1;
+  }
+  if (!aHasMapMark && bHasMapMark) {
+    return 1;
+  }
+  return 0;
+});
 // const filterIds = filters.flatMap((f) => f.values.map((v) => v.id));
-for (const levelEntity of levelentityconfig) {
+for (const levelEntity of sortedEntities) {
   let id =
     levelEntity.data.BlueprintType ?? levelEntity.data.EntityId.toString();
   if (skipIDs.includes(id)) {
     continue;
   }
+
   if (overrides[id]) {
     id = overrides[id];
   }
@@ -244,11 +264,14 @@ for (const levelEntity of levelentityconfig) {
   if (isMonster) {
     //
   } else if (mapMark) {
-    const group = id.startsWith("Gameplay") ? "gameplay" : "locations";
+    let group = id.startsWith("Gameplay") ? "gameplay" : "locations";
+    if (eventIDs.includes(id)) {
+      group = "events";
+    }
     if (!filters.find((f) => f.group === group)) {
       filters.push({
         group,
-        defaultOpen: false,
+        defaultOpen: group === "events",
         defaultOn: true,
         values: [],
       });
@@ -271,7 +294,7 @@ for (const levelEntity of levelentityconfig) {
     }
     const spriteInfo =
       worldMapIconSprite[0].Properties.SpriteInfoMap[iconIndex];
-    if (!category.values.some((val) => val.id === id)) {
+    if (!addedFilterIDs.includes(id)) {
       category.values.push({
         id,
         icon: await extractCanvasFromSprite(
@@ -281,6 +304,7 @@ for (const levelEntity of levelentityconfig) {
         ),
         size: 1,
       });
+      addedFilterIDs.push(id);
     }
     enDict[id] =
       MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
@@ -298,20 +322,44 @@ for (const levelEntity of levelentityconfig) {
       console.warn(`Missing template: ${levelEntity.data.BlueprintType}`);
       continue;
     }
+    if (
+      template.data.ComponentsData?.BaseInfoComponent.Category.MainType ===
+      "SceneObj"
+    ) {
+      continue;
+    }
+    let iconPath: string | null = null;
+    let iconName: string | null = null;
     const drop = dbDrop.dropgroup.find(
       (d) => d.data.UnitId === levelEntity.data.Id
     );
-    if (!drop) {
-      console.warn(`Missing drop: ${levelEntity.data.Id}`);
-      continue;
+    if (drop) {
+      const item = dbItems.iteminfo.find(
+        (i) => i.data.Id === drop.data.GroupId
+      );
+      if (item) {
+        iconPath =
+          item.data.IconSmall.replace("/Game", "/Client/Content").split(
+            "."
+          )[0] + ".png";
+        iconName = item.data.IconSmall.split(".")[1];
+        enDict[id] =
+          MultiText.find((m) => m.Id === item.data.Name)?.Content ??
+          item.data.Name;
+      }
+    } else if (template.data.BlueprintType.startsWith("NPC")) {
+      iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/character_delapouite.webp`;
+      iconName = "npc";
     }
-    const item = dbItems.iteminfo.find((i) => i.data.Id === drop.data.GroupId);
-    if (!item) {
-      console.warn(`Missing item: ${drop.data.GroupId}`);
-      continue;
+    if (!iconPath || !iconName) {
+      iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/uncertainty_lorc.webp`;
+      iconName = "unknown";
+    }
+    if (!enDict[id]) {
+      continue; // for now
     }
 
-    const group = id.startsWith("Gameplay") ? "gameplay" : "others";
+    const group = "others";
     if (!filters.find((f) => f.group === group)) {
       filters.push({
         group,
@@ -321,23 +369,15 @@ for (const levelEntity of levelentityconfig) {
       });
     }
     const category = filters.find((f) => f.group === group)!;
-    if (!category.values.some((val) => val.id === id)) {
+    if (!addedFilterIDs.includes(id)) {
       category.values.push({
         id,
-        icon: await saveIcon(
-          item.data.IconSmall.replace("/Game", "/Client/Content").split(
-            "."
-          )[0] + ".png",
-          item.data.IconSmall.split(".")[1]
-        ),
+        icon: await saveIcon(iconPath, iconName),
         size: 1,
       });
+      addedFilterIDs.push(id);
     }
-
-    enDict[id] =
-      MultiText.find((m) => m.Id === item.data.Name)?.Content ?? item.data.Name;
   }
-
   let oldNodes = nodes.find((n) => n.type === id);
   if (!oldNodes) {
     oldNodes = { type: id, spawns: [] };
@@ -358,10 +398,34 @@ for (const levelEntity of levelentityconfig) {
   ) {
     continue;
   }
-  oldNodes!.spawns.push({
-    p: [+location.y, +location.x],
-    mapName,
-  });
+  const baseName =
+    levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent;
+  const interactName =
+    levelEntity.data.ComponentsData?.InteractComponent?.Options?.[0]
+      ?.TidContent;
+  if (baseName || interactName) {
+    const baseTerm =
+      baseName && MultiText.find((m) => m.Id === baseName)?.Content;
+    const interactTerm =
+      interactName && MultiText.find((m) => m.Id === interactName)?.Content;
+    const spawnId = levelEntity.data.EntityId.toString();
+    if (baseTerm) {
+      enDict[spawnId] = baseTerm;
+    }
+    if (interactTerm) {
+      enDict[`${spawnId}_desc`] = interactTerm;
+    }
+    oldNodes!.spawns.push({
+      id: spawnId,
+      p: [+location.y, +location.x],
+      mapName,
+    });
+  } else {
+    oldNodes!.spawns.push({
+      p: [+location.y, +location.x],
+      mapName,
+    });
+  }
 }
 
 if (Bun.env.ACTORS === "true") {
@@ -419,6 +483,7 @@ if (Bun.env.ACTORS === "true") {
 writeNodes(nodes);
 
 const sortPriority = [
+  "events",
   "locations",
   "gameplay",
   "MonsterRarity_4",

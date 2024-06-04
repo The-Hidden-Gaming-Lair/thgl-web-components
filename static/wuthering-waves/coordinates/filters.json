@@ -1,5 +1,22 @@
 [
   {
+    "group": "events",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Gameplay200",
+        "icon": "SP_IconMap_Activity_01_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay124",
+        "icon": "SP_IconMap_Activity_04_UI.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "locations",
     "defaultOpen": false,
     "defaultOn": true,
@@ -87,93 +104,8 @@
         "size": 1
       },
       {
-        "id": "Gameplay003",
-        "icon": "T_IconRup80_Part_1402_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay021",
-        "icon": "T_IconRup80_Part_1203_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay092",
-        "icon": "T_IconRup80_Part_1602_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay094",
-        "icon": "T_IconRup80_Part_1403_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay112",
-        "icon": "T_IconRup80_Part_1204_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay004",
-        "icon": "T_IconRup80_Part_1303_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay101",
-        "icon": "T_IconWup80_Setpup_004_3_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay111",
-        "icon": "T_IconCook80_YJ_039_UI.webp",
-        "size": 1
-      },
-      {
         "id": "Gameplay379",
         "icon": "SP_IconMap_Play_01_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay119",
-        "icon": "T_IconGiftPack_014_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay020",
-        "icon": "T_IconTask80_Task_010_1_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay293",
-        "icon": "T_IconTask80_Task_053_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay109",
-        "icon": "T_IconTask_Task_035_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay594",
-        "icon": "T_IconCook80_015_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay098",
-        "icon": "T_IconTask80_Level_005_3_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay131",
-        "icon": "T_IconTask80_Level_003_1_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay200",
-        "icon": "SP_IconMap_Activity_01_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "Gameplay124",
-        "icon": "SP_IconMap_Activity_04_UI.webp",
         "size": 1
       },
       {
@@ -275,7 +207,7 @@
   {
     "group": "MonsterRarity_2_RarityDesc",
     "defaultOpen": false,
-    "defaultOn": false,
+    "defaultOn": true,
     "values": [
       {
         "id": "Monster037",
@@ -579,21 +511,6 @@
         "size": 1
       },
       {
-        "id": "SceneObj003",
-        "icon": "T_IconA80_yml_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "SceneObj002",
-        "icon": "T_IconA80_mlf_UI.webp",
-        "size": 1
-      },
-      {
-        "id": "SceneObj001",
-        "icon": "T_IconA80_03_UI.webp",
-        "size": 1
-      },
-      {
         "id": "Treasure008",
         "icon": "T_IconA80_06_UI.webp",
         "size": 1
@@ -609,6 +526,11 @@
         "size": 1
       },
       {
+        "id": "Gameplay003",
+        "icon": "T_IconRup80_Part_1402_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect116",
         "icon": "T_IconRup80_Part_1202_UI.webp",
         "size": 1
@@ -619,6 +541,16 @@
         "size": 1
       },
       {
+        "id": "Gameplay021",
+        "icon": "T_IconRup80_Part_1203_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay112",
+        "icon": "T_IconRup80_Part_1204_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect504",
         "icon": "T_IconRup80_Part_1700_UI.webp",
         "size": 1
@@ -626,6 +558,11 @@
       {
         "id": "Collect503",
         "icon": "T_IconRup80_Part_1301_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay004",
+        "icon": "T_IconRup80_Part_1303_UI.webp",
         "size": 1
       },
       {
@@ -704,6 +641,11 @@
         "size": 1
       },
       {
+        "id": "Gameplay101",
+        "icon": "T_IconWup80_Setpup_004_3_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Collect117_1",
         "icon": "T_IconWup80_005_UI.webp",
         "size": 1
@@ -721,6 +663,11 @@
       {
         "id": "Collect104",
         "icon": "T_IconMst80_006_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay111",
+        "icon": "T_IconCook80_YJ_039_UI.webp",
         "size": 1
       },
       {
@@ -764,6 +711,21 @@
         "size": 1
       },
       {
+        "id": "Gameplay119",
+        "icon": "T_IconGiftPack_014_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay020",
+        "icon": "T_IconTask80_Task_010_1_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay293",
+        "icon": "T_IconTask80_Task_053_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Treasure020",
         "icon": "T_IconTask80_Task_053_UI.webp",
         "size": 1
@@ -781,6 +743,11 @@
       {
         "id": "Quest131",
         "icon": "T_IconTask_Task_026_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay109",
+        "icon": "T_IconTask_Task_035_UI.webp",
         "size": 1
       },
       {
@@ -829,8 +796,23 @@
         "size": 1
       },
       {
+        "id": "Gameplay594",
+        "icon": "T_IconCook80_015_UI.webp",
+        "size": 1
+      },
+      {
         "id": "Treasure009",
         "icon": "T_IconTask80_Level_005_3_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay098",
+        "icon": "T_IconTask80_Level_005_3_UI.webp",
+        "size": 1
+      },
+      {
+        "id": "Gameplay131",
+        "icon": "T_IconTask80_Level_003_1_UI.webp",
         "size": 1
       },
       {
