@@ -35,6 +35,7 @@ export function Presets(): JSX.Element {
         onClick={() => {
           setFilters(allFilters);
         }}
+        type="button"
       >
         <span>
           <span className="hidden md:inline">Show </span>All
@@ -47,6 +48,7 @@ export function Presets(): JSX.Element {
         onClick={() => {
           setFilters([]);
         }}
+        type="button"
       >
         <span>
           <span className="hidden md:inline">Show </span>None
@@ -54,7 +56,7 @@ export function Presets(): JSX.Element {
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" type="button">
             <span>
               More<span className="hidden md:inline"> Presets</span>
             </span>
@@ -75,6 +77,7 @@ export function Presets(): JSX.Element {
                 variant="ghost"
                 size="icon"
                 onClick={() => removePreset(name)}
+                type="button"
               >
                 <Delete className="h-4 w-4" />
               </Button>
@@ -89,7 +92,12 @@ export function Presets(): JSX.Element {
               type="text"
               placeholder="Preset name"
               value={presetName}
-              onChange={(event) => setPresetName(event.target.value)}
+              onChange={(event) => {
+                setPresetName(event.target.value);
+              }}
+              onKeyDown={(event) => {
+                event.stopPropagation();
+              }}
               required
             />
             <Button className="w-full" size="sm" type="submit">
