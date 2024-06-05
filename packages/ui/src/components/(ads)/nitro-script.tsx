@@ -4,6 +4,7 @@ import Script from "next/script";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { create } from "zustand";
+import { NitroAds } from "./nitro-pay";
 
 const useNitroState = create<{
   state: "loading" | "error" | "ready";
@@ -51,7 +52,10 @@ export function NitroScript({
           setState("error");
         }}
         onReady={() => {
-          if ("nitroAds" in window) {
+          if (
+            "nitroAds" in window &&
+            (window.nitroAds as NitroAds).siteId === 1487
+          ) {
             setState("ready");
           }
         }}

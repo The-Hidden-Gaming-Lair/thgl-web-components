@@ -18,6 +18,8 @@ export interface NitroAds {
   addUserToken: (email: string, encoding?: UserDataEncoding) => Promise<void>;
   clearUserTokens: () => void;
   queue: ([string, any, (value: unknown) => void] | [string, any])[];
+  loaded: boolean;
+  siteId: number;
 }
 
 interface MyWindow extends Window {
