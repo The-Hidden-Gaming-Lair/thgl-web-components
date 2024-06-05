@@ -238,6 +238,9 @@ for (const monster of monsterInfo.monsterinfo) {
   if (desc) {
     enDict[id + "_desc"] = desc;
   }
+  if (enDict[id].startsWith("Phantom")) {
+    enDict[id] = enDict[id].replace("Phantom: ", "");
+  }
 
   monsterFilterIds.push(id);
 }

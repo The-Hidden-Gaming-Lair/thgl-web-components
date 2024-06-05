@@ -420,6 +420,11 @@
         "id": "Monster150",
         "icon": "Monster150.webp",
         "size": 1.3
+      },
+      {
+        "id": "Monster1058",
+        "icon": "Monster1058.webp",
+        "size": 1.3
       }
     ]
   },
@@ -566,6 +571,11 @@
       {
         "id": "Monster151",
         "icon": "Monster151.webp",
+        "size": 1.3
+      },
+      {
+        "id": "Monster1040",
+        "icon": "Monster1040.webp",
         "size": 1.3
       }
     ]

@@ -29789,6 +29789,44 @@
     ]
   },
   {
+    "type": "Monster1058",
+    "spawns": [
+      {
+        "p": [
+          84473.58,
+          -140964.39
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          264360.03,
+          -48680.26
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
+    "type": "Monster1040",
+    "spawns": [
+      {
+        "p": [
+          -28720,
+          -29890
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          61969.81,
+          34616.64
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
     "type": "Monster062",
     "spawns": [
       {
