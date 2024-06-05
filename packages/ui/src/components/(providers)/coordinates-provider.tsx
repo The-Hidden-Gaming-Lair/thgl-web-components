@@ -296,7 +296,7 @@ export function CoordinatesProvider({
           },
           {
             name: "tags",
-            getFn: (spawn) => t(`${spawn.id}_tags`) ?? "",
+            getFn: (spawn) => t(`${spawn.id ?? spawn.type}_tags`) ?? "",
             weight: 2,
           },
         ],
