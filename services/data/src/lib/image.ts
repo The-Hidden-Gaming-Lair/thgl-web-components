@@ -8,9 +8,13 @@ const savedIcons: string[] = [];
 export async function saveIcon(
   assetPath: string,
   name: string,
-  color?: string,
-  circle?: boolean,
-  threshold?: number
+  props: {
+    border?: boolean;
+    color?: string;
+    circle?: boolean;
+    threshold?: number;
+    glowing?: boolean;
+  } = {}
 ) {
   let filePath = assetPath.startsWith("/home")
     ? assetPath
@@ -18,12 +22,20 @@ export async function saveIcon(
   if (savedIcons.includes(name)) {
     return `${name}.webp`;
   }
-  if (circle && color) {
-    const canvas = await addCircleToImage(filePath, color);
+  if (props.border && props.color) {
+    const canvas = await drawInCircleWithBorderColor(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
     await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
-  } else if (color) {
-    const canvas = await colorizeImage(filePath, color, threshold);
+  } else if (props.circle && props.color) {
+    const canvas = await addCircleToImage(filePath, props.color);
+    saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
+    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  } else if (props.glowing && props.color) {
+    const canvas = await addOutlineToImage(filePath, props.color);
+    saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
+    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  } else if (props.color) {
+    const canvas = await colorizeImage(filePath, props.color, props.threshold);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
     await $`cwebp ${TEMP_DIR + `/${name}.png`} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else {
@@ -31,6 +43,45 @@ export async function saveIcon(
   }
   savedIcons.push(name);
   return `${name}.webp`;
+}
+
+export async function drawInCircleWithBorderColor(
+  imagePath: string,
+  color: string
+) {
+  const image = await loadImage(imagePath);
+  const canvas = createCanvas(image.width, image.height);
+  const ctx = canvas.getContext("2d");
+  const radius = Math.min(image.width, image.height) / 2;
+  const lineWidth = Math.min(image.width, image.height) / 20;
+  ctx.beginPath();
+  ctx.lineWidth = lineWidth;
+  ctx.arc(
+    image.width / 2,
+    image.height / 2,
+    radius - lineWidth / 2,
+    0,
+    2 * Math.PI
+  );
+  ctx.fillStyle = "black";
+  ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.stroke();
+  ctx.save();
+  ctx.clip();
+  ctx.drawImage(
+    image,
+    0,
+    0,
+    image.width,
+    image.height,
+    (image.width - radius * 2) / 2,
+    (image.height - radius * 2) / 2,
+    radius * 2,
+    radius * 2
+  );
+  ctx.restore();
+  return canvas;
 }
 
 export async function addCircleToImage(imagePath: string, color: string) {
@@ -91,6 +142,26 @@ export async function colorizeImage(
 
   // Put the modified image data back to the canvas
   ctx.putImageData(imageData, 0, 0);
+
+  return canvas;
+}
+
+export async function addOutlineToImage(imagePath: string, color: string) {
+  const image = await loadImage(imagePath);
+  const canvas = createCanvas(image.width, image.height);
+  const ctx = canvas.getContext("2d");
+  const grow = 8;
+  ctx.shadowOffsetX = 2;
+  ctx.shadowOffsetY = 2;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = image.width / 26;
+  for (var i = 0; i < grow; i++) {
+    ctx.drawImage(image, 0, 0, image.width, image.height);
+  }
+  ctx.shadowColor = "#000";
+  ctx.shadowBlur = 4;
+  ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
+  ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
 
   return canvas;
 }

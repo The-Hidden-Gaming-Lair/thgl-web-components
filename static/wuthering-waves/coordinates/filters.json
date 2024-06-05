@@ -7,12 +7,94 @@
       {
         "id": "10000_Gameplay200",
         "icon": "SP_IconMap_Activity_01_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "380018_Gameplay124",
         "icon": "SP_IconMap_Activity_04_UI.webp",
-        "size": 1
+        "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "Monster_Glowing",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Monster_Glowing_111000031",
+        "icon": "Glowing Monster043.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000032",
+        "icon": "Glowing Monster015.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_Monster042",
+        "icon": "Glowing Monster042.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000034",
+        "icon": "Glowing Monster053.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_Monster037",
+        "icon": "Glowing Monster037.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000037",
+        "icon": "Glowing Monster032.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000038",
+        "icon": "Glowing Monster009.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000040",
+        "icon": "Glowing Monster035.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000045",
+        "icon": "Glowing Monster057.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000056",
+        "icon": "Glowing Monster151.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_Monster041",
+        "icon": "Glowing Monster041.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111800001",
+        "icon": "Glowing Monster050.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_Monster054",
+        "icon": "Glowing Monster054.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_Monster051",
+        "icon": "Glowing Monster051.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_111000044",
+        "icon": "Glowing Monster087.webp",
+        "size": 2
       }
     ]
   },
@@ -24,77 +106,77 @@
       {
         "id": "tactical_hologram",
         "icon": "SP_IconMap_Play_10_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "301102_Teleport001",
         "icon": "SP_IconMap_CS_02_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3005_NPC0004",
         "icon": "SP_IconMap_Shop_10_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3010_NPC0002",
         "icon": "SP_IconMap_Shop_06_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3012_NPC0001",
         "icon": "SP_IconMap_Shop_08_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3000_NPC0005",
         "icon": "SP_IconMap_Play_06_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3_NPC0006",
         "icon": "SP_IconMap_Play_07_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3011_NPC0008",
         "icon": "SP_IconMap_Shop_03_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "301201_Teleport003",
         "icon": "SP_IconMap_CS_01_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3002_Quest099",
         "icon": "SP_IconMap_Shop_07_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3003_Quest099",
         "icon": "SP_IconMap_Shop_02_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "300310_Gameplay333",
         "icon": "SP_IconMap_Play_03_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3015_NPC0278",
         "icon": "SP_IconMap_Shop_11_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3017_NPC0279",
         "icon": "SP_IconMap_Shop_03_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "3016_NPC0280",
         "icon": "SP_IconMap_Shop_06_UI.webp",
-        "size": 1
+        "size": 1.5
       }
     ]
   },
@@ -106,92 +188,92 @@
       {
         "id": "380015_Gameplay_Dungeon_1",
         "icon": "SP_IconMonsterHead_990_1_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "380016_Gameplay422",
         "icon": "SP_IconMonsterHead_998_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "forgery_challenge",
         "icon": "SP_IconMap_Play_01_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "380014_Gameplay379",
         "icon": "SP_IconMap_Play_04_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster063",
         "icon": "SP_IconMonsterHead_996_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "5003_Gameplay102",
         "icon": "SP_IconMap_WYQ_05_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster066",
         "icon": "SP_IconMonsterHead_226_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster045",
         "icon": "SP_IconMonsterHead_325_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster071",
         "icon": "SP_IconMonsterHead_999_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster068",
         "icon": "SP_IconMonsterHead_994_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster080",
         "icon": "SP_IconMonsterHead_993_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster070",
         "icon": "SP_IconMonsterHead_997_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster047",
         "icon": "SP_IconMonsterHead_992_1_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster061",
         "icon": "SP_IconMonsterHead_995_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "301204_Gameplay422",
         "icon": "SP_IconMap_Activity_02_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "301203_Gameplay422",
         "icon": "SP_IconMap_Play_06_1_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "BossChallenge_Monster044",
         "icon": "SP_IconMonsterHead_225_UI.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "380013_Gameplay379",
         "icon": "SP_IconMap_Play_04_UI.webp",
-        "size": 1
+        "size": 1.5
       }
     ]
   },
@@ -203,7 +285,7 @@
       {
         "id": "Monster047",
         "icon": "Monster047.webp",
-        "size": 1
+        "size": 1.3
       }
     ]
   },
@@ -215,47 +297,47 @@
       {
         "id": "Monster044",
         "icon": "Monster044.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster046",
         "icon": "Monster046.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster045",
         "icon": "Monster045.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster061",
         "icon": "Monster061.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster062",
         "icon": "Monster062.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster063",
         "icon": "Monster063.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster070",
         "icon": "Monster070.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster080",
         "icon": "Monster080.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster066",
         "icon": "Monster066.webp",
-        "size": 1
+        "size": 1.3
       }
     ]
   },
@@ -267,77 +349,77 @@
       {
         "id": "Monster037",
         "icon": "Monster037.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster031",
         "icon": "Monster031.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster032",
         "icon": "Monster032.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster038",
         "icon": "Monster038.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster039",
         "icon": "Monster039.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster040",
         "icon": "Monster040.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster041",
         "icon": "Monster041.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster042",
         "icon": "Monster042.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster043",
         "icon": "Monster043.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster049",
         "icon": "Monster049.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster050",
         "icon": "Monster050.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster051",
         "icon": "Monster051.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster054",
         "icon": "Monster054.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster128",
         "icon": "Monster128.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster150",
         "icon": "Monster150.webp",
-        "size": 1
+        "size": 1.3
       }
     ]
   },
@@ -349,142 +431,142 @@
       {
         "id": "Monster001",
         "icon": "Monster001.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster002",
         "icon": "Monster002.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster003",
         "icon": "Monster003.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster010",
         "icon": "Monster010.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster011",
         "icon": "Monster011.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster004",
         "icon": "Monster004.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster005",
         "icon": "Monster005.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster006",
         "icon": "Monster006.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster007",
         "icon": "Monster007.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster008",
         "icon": "Monster008.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster009",
         "icon": "Monster009.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster016",
         "icon": "Monster016.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster030",
         "icon": "Monster030.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster034",
         "icon": "Monster034.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster033",
         "icon": "Monster033.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster035",
         "icon": "Monster035.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster036",
         "icon": "Monster036.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster014",
         "icon": "Monster014.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster015",
         "icon": "Monster015.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster017",
         "icon": "Monster017.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster018",
         "icon": "Monster018.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster019",
         "icon": "Monster019.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster052",
         "icon": "Monster052.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster057",
         "icon": "Monster057.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster058",
         "icon": "Monster058.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster053",
         "icon": "Monster053.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster146",
         "icon": "Monster146.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Monster151",
         "icon": "Monster151.webp",
-        "size": 1
+        "size": 1.3
       }
     ]
   },
@@ -496,37 +578,37 @@
       {
         "id": "Exile",
         "icon": "Exile.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Exile Leader",
         "icon": "Exile Leader.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Exile Technician",
         "icon": "Exile Technician.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Fractsidus Executioner",
         "icon": "Fractsidus Executioner.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Fractsidus Thruster",
         "icon": "Fractsidus Thruster.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Fractsidus Cannoneer",
         "icon": "Fractsidus Cannoneer.webp",
-        "size": 1
+        "size": 1.3
       },
       {
         "id": "Fractsidus Gunmaster",
         "icon": "Fractsidus Gunmaster.webp",
-        "size": 1
+        "size": 1.3
       }
     ]
   }
