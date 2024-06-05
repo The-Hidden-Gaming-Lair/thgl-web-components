@@ -387,7 +387,7 @@ export function MarkersFilters({
           </CollapsibleContent>
         </Collapsible>
       )}
-      <div className="flex flex-col">
+      <div className="flex flex-col w-[175px] md:w-full">
         {filterDetails.map(({ group, values, defaultOpen }) => {
           const hasActiveFilters = values.some((filter) =>
             filters.includes(filter.id)
