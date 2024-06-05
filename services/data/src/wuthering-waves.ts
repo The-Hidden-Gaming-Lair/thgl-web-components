@@ -258,13 +258,13 @@ for (const monster of monsterInfo.monsterinfo) {
         (g) => MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content
       )
       .join(" ");
-  }
-  if (desc) {
-    if (!enDict[id + "_desc"]) {
-      enDict[id + "_desc"] = "";
+    if (desc) {
+      enDict[id + "_desc"] += "\n" + desc;
     }
-    enDict[id + "_desc"] += "\n" + desc;
+  } else if (desc) {
+    enDict[id + "_desc"] = desc;
   }
+
   if (enDict[id].startsWith("Phantom")) {
     enDict[id] = enDict[id].replace("Phantom: ", "");
   }
