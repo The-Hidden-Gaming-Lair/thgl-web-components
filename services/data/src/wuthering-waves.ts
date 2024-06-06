@@ -120,6 +120,9 @@ const dbDrop = readJSON<DBDrop>(
 const dbItems = readJSON<DBItems>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_item.json"
 );
+const dbLevelPlayData = readJSON<DBLevelPlayData>(
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayData.json"
+);
 const dbLevelPlayNodeData = readJSON<DBLevelPlayNodeData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayNodeData.json"
 );
@@ -129,6 +132,15 @@ const worldMapIconSprite = readJSON<WorldMapIconSprite>(
 );
 const dbPhantom = readJSON<DBPhantom>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_phantom.json"
+);
+const dbQuestNodeData = readJSON<DBQuestNodeData>(
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestNodeData.json"
+);
+const dbEntityOwnerData = readJSON<DBEntityOwnerData>(
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_EntityOwnerData.json"
+);
+const dbQuestData = readJSON<DBQuestData>(
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestData.json"
 );
 
 const workMapIconPath =
@@ -235,9 +247,10 @@ for (const monster of monsterInfo.monsterinfo) {
     addedIcons.push(monster.data.Icon);
   }
   enDict[id] = name;
-  const desc = MultiText.find(
-    (m) => m.Id === monster.data.DiscoveredDes
-  )?.Content;
+  const discoveredDesc =
+    MultiText.find((m) => m.Id === monster.data.DiscoveredDes)?.Content ?? "";
+
+  const desc = extractResFromDesc(discoveredDesc);
   const phantomItem = dbPhantom.phantomitem.find(
     (p) => p.data.MonsterName === monster.data.Name
   );
@@ -259,7 +272,7 @@ for (const monster of monsterInfo.monsterinfo) {
       )
       .join(" ");
     if (desc) {
-      enDict[id + "_desc"] += "\n" + desc;
+      enDict[id + "_desc"] += desc;
     }
   } else if (desc) {
     enDict[id + "_desc"] = desc;
@@ -270,6 +283,20 @@ for (const monster of monsterInfo.monsterinfo) {
   }
 
   monsterFilterIds.push(id);
+}
+
+function extractResFromDesc(desc: string) {
+  const lastColor = desc.lastIndexOf("</color>");
+  if (lastColor !== -1) {
+    const to = Math.min(
+      desc.slice(lastColor + 1).indexOf("."),
+      desc.slice(lastColor + 1).indexOf("\n")
+    );
+    if (to !== -1) {
+      return desc.slice(0, lastColor + to + 1);
+    }
+  }
+  return "";
 }
 
 const sortedEntities = levelentityconfig.sort((a, b) => {
@@ -394,9 +421,10 @@ for (const levelEntity of sortedEntities) {
         MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
         mapMark.data.MarkTitle;
       if (mapMark.data.MarkDesc) {
-        enDict[spawnId + "_desc"] =
+        enDict[spawnId + "_desc"] = extractResFromDesc(
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-          mapMark.data.MarkDesc;
+            mapMark.data.MarkDesc
+        );
       }
     } else if (isTacticalHologram) {
       enDict[id] = "Tactical Hologram";
@@ -405,9 +433,10 @@ for (const levelEntity of sortedEntities) {
         MultiText.find((m) => m.Id === mapMark.data.MarkTitle)?.Content ??
         mapMark.data.MarkTitle;
       if (mapMark.data.MarkDesc) {
-        enDict[spawnId + "_desc"] =
+        enDict[spawnId + "_desc"] = extractResFromDesc(
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-          mapMark.data.MarkDesc;
+            mapMark.data.MarkDesc
+        );
       }
     } else {
       enDict[id] =
@@ -417,9 +446,10 @@ for (const levelEntity of sortedEntities) {
         enDict[id] += " Boss Challenge";
       }
       if (mapMark.data.MarkDesc) {
-        enDict[id + "_desc"] =
+        enDict[id + "_desc"] = extractResFromDesc(
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-          mapMark.data.MarkDesc;
+            mapMark.data.MarkDesc
+        );
       }
     }
   } else if (isMonster) {
@@ -513,6 +543,98 @@ for (const levelEntity of sortedEntities) {
     }
     if (enDict[id].startsWith("Phantom")) {
       continue;
+    }
+
+    if (levelEntity.data.InSleep) {
+      let owner = dbEntityOwnerData.entityownerdata.find(
+        (d) =>
+          d.data.Guid.split("_")[1] === levelEntity.data.EntityId.toString()
+      );
+      if (owner) {
+        let ownerEntityId = owner.data.Owner.find(
+          (o) => o.Type === "Entity"
+        )?.EntityId;
+        if (ownerEntityId) {
+          const ownerEntity = sortedEntities.find(
+            (e) => e.data.EntityId === ownerEntityId
+          );
+          if (!ownerEntity) {
+            throw new Error(
+              `Missing owner entity for ${levelEntity.data.EntityId}`
+            );
+          }
+          if (ownerEntity.data.InSleep) {
+            owner = dbEntityOwnerData.entityownerdata.find(
+              (d) =>
+                d.data.Guid.split("_")[1] ===
+                ownerEntity.data.EntityId.toString()
+            );
+            if (!owner) {
+              throw new Error(`Missing owner for ${ownerEntity.data.EntityId}`);
+            }
+          }
+          // spawnId = `${id}_${levelEntity.data.EntityId}`;
+          // enDict[`${spawnId}_desc`] =
+          //   `<p style="color:#f68c46">Quest Related</p>` + enDict[`${id}_desc`];
+        }
+
+        const ownerQuestId = owner.data.Owner.find(
+          (o) => o.Type === "Quest"
+        )?.QuestId;
+        const ownerLevelPlayId = owner.data.Owner.find(
+          (o) => o.Type === "LevelPlay"
+        )?.LevelPlayId;
+
+        if (ownerQuestId) {
+          const ownerQuest = dbQuestData.questdata.find(
+            (d) => d.data.QuestId === ownerQuestId
+          );
+          if (!ownerQuest) {
+            throw new Error(
+              `Missing owner quest for ${levelEntity.data.EntityId}`
+            );
+          }
+          const questName = MultiText.find(
+            (m) => m.Id === ownerQuest.data.Data.TidName
+          )?.Content;
+          spawnId = `${id}_${levelEntity.data.EntityId}`;
+          enDict[`${spawnId}_desc`] =
+            `<p style="color:#17a0a4">Quest: ${questName}</p>`;
+          if (enDict[`${id}_desc`]) {
+            enDict[`${spawnId}_desc`] += enDict[`${id}_desc`];
+          }
+          enDict[`${spawnId}_tags`] = `Quest ${questName}`;
+          if (enDict[`${id}_tags`]) {
+            enDict[`${spawnId}_tags`] += " " + enDict[`${id}_tags`];
+          }
+        }
+        if (ownerLevelPlayId) {
+          const ownerLevelPlay = dbLevelPlayData.levelplaydata.find(
+            (d) => d.data.LevelPlayId === ownerLevelPlayId
+          );
+          if (!ownerLevelPlay) {
+            throw new Error(
+              `Missing owner level play for ${levelEntity.data.EntityId}`
+            );
+          }
+          const dataType = ownerLevelPlay.data.Data.Type.replace(
+            "MonsterTreasure",
+            "Monster Treasure"
+          );
+          spawnId = `${id}_${levelEntity.data.EntityId}`;
+          enDict[`${spawnId}_desc`] =
+            `<p style="color:#17a0a4">${dataType}</p>`;
+          if (enDict[`${id}_desc`]) {
+            enDict[`${spawnId}_desc`] += enDict[`${id}_desc`];
+          }
+          enDict[`${spawnId}_tags`] = dataType;
+          if (enDict[`${id}_tags`]) {
+            enDict[`${spawnId}_tags`] += " " + enDict[`${id}_tags`];
+          }
+        }
+      } else {
+        throw new Error(`Missing owner for ${levelEntity.data.EntityId}`);
+      }
     }
   } else {
     if (id === "Gameplay102") {
@@ -6581,6 +6703,2143 @@ export type DBPhantom = {
     data: {
       ItemId: number;
       PhantomId: number;
+    };
+  }>;
+};
+
+export type DBQuestNodeData = {
+  questnodedata: Array<{
+    Key: string;
+    data: {
+      Key: string;
+      Data: {
+        Type: string;
+        Id: number;
+        Desc: string;
+        Condition?: {
+          Type: any;
+          AddOptions?: Array<{
+            EntityId: number;
+            Option: {
+              Guid: string;
+              Type: {
+                Type: string;
+                Flow?: {
+                  FlowListName: string;
+                  FlowId: number;
+                  StateId: number;
+                };
+                Actions?: Array<{
+                  Name: string;
+                  Params: {
+                    TipOption?: {
+                      TidMainText: string;
+                      Type: number;
+                    };
+                    FlowListName?: string;
+                    FlowId?: number;
+                    StateId?: number;
+                    DungeonId?: number;
+                    IsRegroup?: boolean;
+                    Items?: Array<{
+                      ItemId: number;
+                      Count: number;
+                    }>;
+                    EntityIds?: Array<number>;
+                    Level?: string;
+                    Content?: string;
+                    TelePortConfig?: {
+                      Type: number;
+                      TargetPos: {
+                        X: number;
+                        Y: number;
+                        Z: number;
+                        A: number;
+                      };
+                    };
+                    DelayShow?: boolean;
+                    RangeEntities?: Array<number>;
+                    RangeEntity?: number;
+                    HideConfig?: {
+                      Type: string;
+                    };
+                    Configs?: Array<{
+                      LevelPlayId: number;
+                      Enable: boolean;
+                    }>;
+                    Visible?: boolean;
+                    SystemType?: string;
+                    BoardId?: number;
+                    Ease?: {
+                      Type: number;
+                      Duration: number;
+                    };
+                    ScreenType?: string;
+                    EventConfig?: {
+                      Type: string;
+                      AkEvent: string;
+                    };
+                    Type?: string;
+                    EntityId?: number;
+                    State?: string;
+                    DisplayMode?: string;
+                    Pos?: {
+                      X: number;
+                      Y: number;
+                      Z: number;
+                    };
+                    CameraMove?: boolean;
+                    IsSelf?: boolean;
+                    Location?: number;
+                    Time?: number;
+                  };
+                  ActionGuid: string;
+                  ActionId: number;
+                }>;
+              };
+              DoIntactType?: string;
+              TidContent?: string;
+              Range?: number;
+              Condition?: {
+                Type: number;
+                Conditions: Array<{
+                  Type: string;
+                  EntityId: number;
+                  Compare: string;
+                  State?: string;
+                  IsSelf?: boolean;
+                  Location?: number;
+                }>;
+              };
+            };
+            IsManualFinish?: boolean;
+            IsManualDelete?: boolean;
+          }>;
+          Time?: number;
+          TimerType?: string;
+          Pos?: {
+            X: number;
+            Y: number;
+            Z?: number;
+          };
+          Range?: number;
+          RangeEntityId?: number;
+          Count?: number;
+          Option?: Array<{
+            Type: string;
+            Option?: {
+              Type: string;
+              Min: number;
+              Max: number;
+            };
+            EntityIds?: Array<number>;
+            EntityId?: number;
+            TagConfigId?: number;
+          }>;
+          LevelPlayIds?: Array<number>;
+          CompleteNumber?: number;
+          Flow?: {
+            FlowListName: string;
+            FlowId: number;
+            StateId: number;
+          };
+          EntityId?: number;
+          State?: string;
+          Conditions?: Array<{
+            Type?: string;
+            Gender?: string;
+            EntityId?: number;
+            State: any;
+            Var1?: {
+              Type: string;
+              Source: string;
+              Value: any;
+              Name?: string;
+              Keyword?: string;
+            };
+            Compare?: string;
+            Var2?: {
+              Type: string;
+              Source: string;
+              Value: any;
+            };
+            QuestId?: number;
+            ChildQuestId?: number;
+            Items?: Array<{
+              ItemId: number;
+              Count: number;
+            }>;
+            SkillOption?: {
+              Type: string;
+            };
+            MotionState?: string;
+            LevelId?: number;
+            Number?: number;
+          }>;
+          EnterType?: {
+            Type: string;
+            DungeonId?: number;
+            DungeonSubType?: number;
+          };
+          ExistTargets?: Array<number>;
+          TargetsToAwake?: Array<number>;
+          PhotoTargets?: Array<{
+            EntityId: number;
+            TidDescription: string;
+          }>;
+          HandInItems?: {
+            Items?: Array<{
+              HandInType: string;
+              ItemIds: Array<number>;
+              Count: number;
+            }>;
+            RepeatItems: boolean;
+            TidDescText: string;
+            GroupConfig?: {
+              HandInType: string;
+              ItemIds: Array<number>;
+              Count: number;
+              Slot: number;
+              ChoiceRange: {
+                HandInType: string;
+                ItemIds: Array<number>;
+              };
+            };
+          };
+          AddOption?: {
+            EntityId: number;
+            Option: {
+              TidContent?: string;
+              Guid: string;
+              Type: {
+                Type: string;
+                Actions: Array<any>;
+              };
+              DoIntactType: string;
+            };
+          };
+          SkillType?: string;
+          SkillId?: number;
+          TelecomId?: number;
+          Check?: {
+            Type: string;
+            SkillGenre?: number;
+            SkillId?: number;
+            VisionId?: number;
+          };
+          UiType?: {
+            Type: string;
+            InformationViewId?: number;
+          };
+          Condition?: {
+            Type: string;
+            DungeonId?: number;
+            Count: number;
+            IsExitDungeon?: boolean;
+            DungeonSubType?: number;
+          };
+          PreConditions?: {
+            Type: number;
+            Conditions: Array<{
+              Type: string;
+              Center?: {
+                X: number;
+                Y: number;
+                Z: number;
+                A?: number;
+              };
+              Radius?: number;
+              Compare?: string;
+              Start?: {
+                Hour: number;
+                Min: number;
+              };
+              End?: {
+                Hour: number;
+                Min: number;
+              };
+            }>;
+          };
+          GuideGroupId?: number;
+          Items?: Array<{
+            ItemId: number;
+            Count: number;
+          }>;
+          PosCondition?: {
+            RangeEntity: number;
+            TidDescription: string;
+          };
+          GameplayConfigs?: Array<{
+            Type: string;
+            MorseCodeId?: string;
+            CipherId?: string;
+          }>;
+          Quest?: {
+            Type: string;
+            TargetLevel?: number;
+            SetType?: number;
+          };
+          StartTime?: {
+            Hour: number;
+            Minute: number;
+          };
+          Day?: number;
+          EndTime?: {
+            Hour: number;
+            Minute: number;
+          };
+          Days?: number;
+          Hours?: number;
+          Minutes?: number;
+          Seconds?: number;
+          MonsterCreatorEntityIds?: Array<number>;
+          MailId?: number;
+          ItemId?: number;
+          ItemVars?: Array<{
+            Type: string;
+            ItemId: number;
+            Var: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+          }>;
+          TimeCondition?: {
+            TimeRange: {
+              Start: {
+                Hour: number;
+                Min: number;
+              };
+              End: {
+                Hour: number;
+                Min: number;
+              };
+            };
+            TidDescription: string;
+            Compare: string;
+          };
+        };
+        TidTip?: string;
+        TrackTarget?: {
+          TrackType: {
+            Type: string;
+            EntityIds?: Array<number>;
+            Locations?: Array<{
+              X: number;
+              Y: number;
+              Z?: number;
+              A?: number;
+            }>;
+            VisionDropEntities?: Array<number>;
+          };
+          EffectOption?: {
+            Type: string;
+            EnterRange: number;
+            LeaveRange: number;
+          };
+          Range?: number;
+          ViewRange?: number;
+          TrackViewMode?: string;
+          Effect?: string;
+        };
+        EnterActions?: Array<{
+          Name: string;
+          Params: {
+            EntityIds?: Array<number>;
+            Type?: string;
+            EntityId?: number;
+            State: any;
+            SystemType: any;
+            BoardId?: number;
+            Visible?: boolean;
+            RangeEntity?: number;
+            HideConfig?: {
+              Type: string;
+              ExcludeEntities?: Array<number>;
+            };
+            Ease?: {
+              Type: number;
+              Duration: number;
+            };
+            ScreenType?: string;
+            Conditions?: Array<{
+              Type: string;
+              InCombat?: boolean;
+              Compare?: string;
+              MotionState?: string;
+            }>;
+            GuideId?: number;
+            Pos?: {
+              X: number;
+              Y: number;
+              Z?: number;
+            };
+            FadeInTime?: number;
+            StayTime?: number;
+            FadeOutTime?: number;
+            LockCamera?: boolean;
+            IsEnable?: boolean;
+            VarLeft?: {
+              Type: string;
+              Source: string;
+              Name?: string;
+              Keyword?: string;
+            };
+            VarRight?: {
+              Type: string;
+              Source: string;
+              Value: any;
+            };
+            CharacterId?: number;
+            CharacterGroup?: Array<number>;
+            EventConfig?: {
+              Type: string;
+              AkEvent: string;
+            };
+            Flow?: {
+              FlowListName: string;
+              FlowId: number;
+              StateId?: number;
+            };
+            EnterRadius?: number;
+            LeaveRadius?: number;
+            TipOption?: {
+              Type: number;
+              TidMainText: string;
+              TidSubText: string;
+            };
+            GameplayConfig?: {
+              Type: string;
+              MorseCodeId?: string;
+            };
+            FlowListName?: string;
+            FlowId?: number;
+            StateId?: number;
+            SplineEntityId?: number;
+            Duration?: number;
+            Configs?: Array<{
+              LevelPlayId: number;
+              Enable: boolean;
+            }>;
+            Time?: number;
+            LockState?: string;
+            Hour?: number;
+            Min?: number;
+            ShowUi?: boolean;
+            LoadDataLayers?: Array<number>;
+            UnloadDataLayers?: Array<number>;
+            DelayShow?: boolean;
+            RangeEntities?: Array<number>;
+            MoveOption?: {
+              Type: string;
+              Forward?: boolean;
+              Back?: boolean;
+              Left?: boolean;
+              Right?: boolean;
+              ForbidSprint?: boolean;
+              ForceJog?: boolean;
+              ForceWalk?: boolean;
+            };
+            SkillOption?: {
+              Type: string;
+              DisplayMode: string;
+            };
+            CameraOption?: {
+              Type: string;
+            };
+            UiOption?: {
+              Type: string;
+              ShowMiniMap?: boolean;
+              ShowQuestTrack?: boolean;
+              ShowEsc?: boolean;
+              ShowSystem?: boolean;
+              ShowScreenEffect?: boolean;
+            };
+            SceneInteractionOption?: {
+              Type: string;
+            };
+            Level?: string;
+            Content?: string;
+            Items?: Array<{
+              ItemId: number;
+              Count: number;
+            }>;
+            RedDot?: boolean;
+            BuffIds?: Array<number>;
+            Option?: {
+              TidContent?: string;
+              Guid?: string;
+              Type: any;
+              DoIntactType?: string;
+              Priority?: number;
+              FadeInTime?: number;
+              FadeOutTime?: number;
+              ArmLength?: number;
+              MinumArmLength?: number;
+              MaxiumArmLength?: number;
+              Offset?: {
+                X: number;
+                Y: number;
+                Z: number;
+              };
+              Fov?: number;
+              CenterPos?: {
+                X: number;
+                Y: number;
+                Z: number;
+              };
+              CenterRot?: {
+                Y: number;
+                Z: number;
+              };
+              Condition?: {
+                Type: number;
+                Conditions: Array<{
+                  Type: string;
+                  QuestId?: number;
+                  Compare: string;
+                  State: any;
+                  EntityId?: number;
+                }>;
+              };
+            };
+            FunctionId?: number;
+            WeatherId?: number;
+            TelePortConfig?: {
+              Type: number;
+              TargetPos: {
+                X: number;
+                Y: number;
+                Z: number;
+                A: number;
+              };
+            };
+            ActionMontage?: {
+              Path: string;
+              MontageType: string;
+            };
+            MontageId?: number;
+            IsAbpMontage?: boolean;
+            LoopDuration?: number;
+            OccupationType?: string;
+            Occupations?: Array<string>;
+            DisplayMode?: string;
+            ActionList?: Array<{
+              Name: string;
+              Params: {
+                EntityId?: number;
+                ActionMontage?: {
+                  Path: string;
+                  MontageType: string;
+                };
+                Time?: number;
+                Pos?: {
+                  X: number;
+                  Y: number;
+                };
+                Flow?: {
+                  FlowListName: string;
+                  FlowId: number;
+                };
+              };
+              ActionId: number;
+              ActionGuid: string;
+            }>;
+            AreaId?: number;
+            ActiveRange?: {
+              CheckPoint: {
+                X: number;
+                Y: number;
+                Z: number;
+              };
+              CheckEnterRange: number;
+              CheckLeaveRange: number;
+            };
+            IsHideSimpleNpc?: boolean;
+            CameraMove?: boolean;
+            AutoChange?: boolean;
+            CreateTempTeam?: boolean;
+            IsHidePasserByNpc?: boolean;
+            Fov?: number;
+            HideUi?: boolean;
+            WaitTime?: number;
+            SkillType?: number;
+            SetReviveType?: string;
+            ReviveId?: number;
+            MailId?: number;
+            TeleportId?: number;
+            IsSelf?: boolean;
+            Location?: number;
+            CameraPos?: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            Enable?: boolean;
+            DungeonId?: number;
+            IsRegroup?: boolean;
+            ItemId?: number;
+            Count?: number;
+            IsAll?: boolean;
+          };
+          ActionGuid?: string;
+          ActionId: number;
+          Async?: boolean;
+          Disabled?: boolean;
+        }>;
+        FinishActions?: Array<{
+          Name: string;
+          Params: {
+            EntityIds?: Array<number>;
+            Type?: string;
+            Conditions?: Array<{
+              Type: string;
+              InCombat?: boolean;
+              Compare?: string;
+              MotionState?: string;
+              Option?: {
+                Type: string;
+                Option: any;
+              };
+            }>;
+            GuideId?: number;
+            Ease?: {
+              Type: number;
+              Duration: number;
+            };
+            ScreenType?: string;
+            EntityId?: number;
+            State: any;
+            DelayChange?: boolean;
+            SystemType: any;
+            BoardId?: number;
+            DelayShow?: boolean;
+            RangeEntities?: Array<number>;
+            FlowListName?: string;
+            FlowId?: number;
+            StateId?: number;
+            VarLeft?: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            VarRight?: {
+              Type: string;
+              Source: string;
+              Value: any;
+            };
+            BuffIds?: Array<number>;
+            DelayDestroy?: boolean;
+            RangeEntity?: number;
+            HideConfig?: {
+              Type: string;
+              ExcludeEntities?: Array<number>;
+            };
+            TipOption?: {
+              TidMainText: string;
+              Type: number;
+              TidSubText?: string;
+            };
+            DisplayMode?: string;
+            Time?: number;
+            SplineEntityId?: number;
+            Items?: Array<{
+              ItemId: number;
+              Count: number;
+            }>;
+            MontageId?: number;
+            IsAbpMontage?: boolean;
+            LoopDuration?: number;
+            IsEnable?: boolean;
+            LockState?: string;
+            Visible?: boolean;
+            DungeonId?: number;
+            IsRegroup?: boolean;
+            LocationEntityId?: number;
+            SkillOption?: {
+              Type: string;
+              DisplayMode?: string;
+            };
+            Pos?: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            FadeInTime?: number;
+            StayTime?: number;
+            FadeOutTime?: number;
+            LockCamera?: boolean;
+            Var1?: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            Var2?: {
+              Type: string;
+              Source: string;
+              Value: number;
+            };
+            Op?: string;
+            Result?: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            IsHideSimpleNpc?: boolean;
+            GeneralTextId?: number;
+            ChapterState?: number;
+            Option?: {
+              TidContent?: string;
+              Guid?: string;
+              Type: any;
+              DoIntactType?: string;
+              Priority?: number;
+              FadeInTime?: number;
+              FadeOutTime?: number;
+              ArmLength?: number;
+              MinumArmLength?: number;
+              MaxiumArmLength?: number;
+              Offset?: {
+                X: number;
+                Y: number;
+                Z: number;
+              };
+              Fov?: number;
+              CenterPos?: {
+                X: number;
+                Y: number;
+                Z: number;
+              };
+              CenterRot?: {
+                Y: number;
+                Z: number;
+                X?: number;
+              };
+              OverlayArmLength?: number;
+            };
+            EnterRadius?: number;
+            LeaveRadius?: number;
+            Flow?: {
+              FlowListName: string;
+              FlowId: number;
+              StateId?: number;
+            };
+            SystemOption?: {
+              Type: string;
+              UnlockOption: {
+                Type: string;
+                Id: number;
+              };
+            };
+            Fov?: number;
+            OnlyClearRedDot?: boolean;
+            QuestId?: number;
+            UiType?: number;
+            Configs?: Array<{
+              LevelPlayId: number;
+              Enable: boolean;
+            }>;
+            TeleportId?: number;
+            TelePortConfig?: {
+              Type: number;
+              TargetPos?: {
+                X: number;
+                Y: number;
+                Z: number;
+                A?: number;
+              };
+              EntityIds?: Array<number>;
+            };
+            EventConfig?: {
+              Type: string;
+              AkEvent: string;
+            };
+            MarkId?: number;
+            TransitionOption?: {
+              Type: string;
+              Mp4Path?: string;
+              CenterTextFlow?: {
+                FlowListName: string;
+                FlowId: number;
+                StateId: number;
+              };
+            };
+            ItemId?: number;
+            Count?: number;
+            IsAll?: boolean;
+            RedDot?: boolean;
+            Hour?: number;
+            Min?: number;
+            ShowUi?: boolean;
+            Level?: string;
+            Content?: string;
+            OccupationType?: string;
+            Occupations?: Array<string>;
+            WaitTime?: number;
+            WuYinQuName?: string;
+            AreaId?: number;
+            CharacterId?: number;
+            CharacterGroup?: Array<number>;
+            Duration?: number;
+            LoadDataLayers?: Array<number>;
+            UnloadDataLayers?: Array<number>;
+            CameraMove?: boolean;
+            RegionMpcId?: number;
+            SetReviveType?: string;
+            ReviveId?: number;
+            ActionMontage?: {
+              Path: string;
+              MontageType: string;
+            };
+            IsHidePasserByNpc?: boolean;
+            CameraShakeBp?: string;
+            CameraShakeConfig?: {
+              Type: string;
+            };
+            SkillType?: number;
+            MoveOption?: {
+              Type: string;
+              Forward?: boolean;
+              Back?: boolean;
+              Left?: boolean;
+              Right?: boolean;
+              ForceWalk?: boolean;
+              ForbidSprint?: boolean;
+            };
+            UiConfig?: {
+              Type: number;
+              ShowDetail?: boolean;
+              Title: string;
+            };
+            Enable?: boolean;
+            BattleOption?: {
+              Type: string;
+              TargetEntityId: number;
+              MonsterEntityIds: Array<number>;
+              MoveEvent: string;
+            };
+            IsSelf?: boolean;
+            Location?: number;
+            WeatherId?: number;
+            CameraOption?: {
+              Type: string;
+            };
+            UiOption?: {
+              Type: string;
+            };
+            SceneInteractionOption?: {
+              Type: string;
+            };
+            FunctionId?: number;
+          };
+          ActionGuid?: string;
+          ActionId: number;
+          Async?: boolean;
+          Disabled?: boolean;
+        }>;
+        RewardId?: number;
+        HideUi?: boolean;
+        HideTip?: boolean;
+        SaveConfig?: {
+          DisableRollbackWhileReconnect?: boolean;
+          PosRollbackCfg?: {
+            RangeEntityId: number;
+            PositionEntityId: number;
+          };
+          EnterActions?: Array<{
+            Name: string;
+            Params: {
+              Type?: string;
+              EntityId?: number;
+              State?: string;
+              Ease?: {
+                Type: number;
+                Duration: number;
+              };
+              ScreenType?: string;
+              TelePortConfig?: {
+                Type: number;
+                TargetPos: {
+                  X: number;
+                  Y: number;
+                  Z: number;
+                  A: number;
+                };
+              };
+              SetReviveType?: string;
+              ReviveId?: number;
+              RangeEntity?: number;
+              HideConfig?: {
+                Type: string;
+                ExcludeEntities?: Array<number>;
+              };
+              IsHideSimpleNpc?: boolean;
+              IsHidePasserByNpc?: boolean;
+              EntityIds?: Array<number>;
+              FlowListName?: string;
+              FlowId?: number;
+              StateId?: number;
+              Level?: string;
+              Content?: string;
+              TransitionOption?: {
+                Type: string;
+                CenterTextFlow: {
+                  FlowListName: string;
+                  FlowId: number;
+                  StateId: number;
+                };
+              };
+              Visible?: boolean;
+              Hour?: number;
+              Min?: number;
+              ShowUi?: boolean;
+              LockState?: string;
+              CharacterId?: number;
+              AutoChange?: boolean;
+              ActiveRange?: {
+                CheckPoint: {
+                  X: number;
+                  Y: number;
+                  Z: number;
+                };
+                CheckEnterRange: number;
+                CheckLeaveRange: number;
+              };
+              CharacterGroup?: Array<number>;
+              CreateTempTeam?: boolean;
+              BuffIds?: Array<number>;
+              Configs?: Array<{
+                LevelPlayId: number;
+                Enable: boolean;
+              }>;
+              SystemType?: number;
+              IsEnable?: boolean;
+              ResetEntityConfig?: {
+                Type: string;
+                EntityIds: Array<number>;
+              };
+              Time?: number;
+              IsSelf?: boolean;
+              Location?: number;
+            };
+            ActionGuid: string;
+            ActionId: number;
+            Async?: boolean;
+          }>;
+        };
+        Slots?: Array<{
+          Condition: {
+            Type: number;
+            Conditions: Array<{
+              Type: string;
+              Var1?: {
+                Type: string;
+                Source: string;
+                Name: string;
+              };
+              Compare?: string;
+              Var2?: {
+                Type: string;
+                Source: string;
+                Value: any;
+              };
+              Gender?: string;
+              EntityId?: number;
+              State: any;
+              IsSelf?: boolean;
+              Location?: number;
+              Items?: Array<{
+                ItemId: number;
+                Count: number;
+              }>;
+              QuestId?: number;
+            }>;
+          };
+          Node: {
+            Type: string;
+            Id: number;
+            Desc: string;
+            Children?: Array<{
+              Type: string;
+              Id: number;
+              Desc: string;
+              Actions?: Array<{
+                Name: string;
+                Params: {
+                  FlowListName?: string;
+                  FlowId?: number;
+                  StateId?: number;
+                  Type?: string;
+                  EntityId?: number;
+                  State?: string;
+                  CharacterId?: number;
+                  CharacterGroup?: Array<number>;
+                  AutoChange?: boolean;
+                  ActiveRange?: {
+                    CheckPoint: {
+                      X: number;
+                      Y: number;
+                      Z: number;
+                    };
+                    CheckEnterRange: number;
+                    CheckLeaveRange: number;
+                  };
+                  CreateTempTeam?: boolean;
+                  Ease?: {
+                    Type: number;
+                    Duration: number;
+                  };
+                  ScreenType?: string;
+                  EntityIds?: Array<number>;
+                  Visible?: boolean;
+                };
+                ActionGuid: string;
+                ActionId: number;
+              }>;
+              Condition?: {
+                Type: any;
+                GuideGroupId?: number;
+                Flow?: {
+                  FlowListName: string;
+                  FlowId: number;
+                  StateId: number;
+                };
+                AddOptions?: Array<{
+                  EntityId: number;
+                  Option: {
+                    TidContent?: string;
+                    Guid: string;
+                    Type: {
+                      Type: string;
+                      Actions?: Array<{
+                        Name: string;
+                        Params: {
+                          Type?: string;
+                          EntityId?: number;
+                          State?: string;
+                          DisplayMode?: string;
+                          Pos?: {
+                            X: number;
+                            Y: number;
+                            Z: number;
+                          };
+                          CameraMove?: boolean;
+                          IsSelf?: boolean;
+                          Location?: number;
+                          Time?: number;
+                        };
+                        ActionGuid: string;
+                        ActionId: number;
+                      }>;
+                      Flow?: {
+                        FlowListName: string;
+                        FlowId: number;
+                        StateId: number;
+                      };
+                    };
+                    DoIntactType: string;
+                    Condition?: {
+                      Type: number;
+                      Conditions: Array<{
+                        Type: string;
+                        EntityId: number;
+                        Compare: string;
+                        State?: string;
+                        IsSelf?: boolean;
+                        Location?: number;
+                      }>;
+                    };
+                  };
+                  IsManualFinish?: boolean;
+                }>;
+                Count?: number;
+                Conditions?: Array<{
+                  EntityId?: number;
+                  State: any;
+                  Type?: string;
+                  QuestId?: number;
+                  Compare?: string;
+                  Var1?: {
+                    Type: string;
+                    Source: string;
+                    Name: string;
+                  };
+                  Var2?: {
+                    Type: string;
+                    Source: string;
+                    Value: boolean;
+                  };
+                }>;
+                Check?: {
+                  Type: string;
+                  SkillId: number;
+                };
+                PreConditions?: {
+                  Type: number;
+                  Conditions: Array<{
+                    Type: string;
+                    Center?: {
+                      X: number;
+                      Y: number;
+                      Z: number;
+                    };
+                    Radius?: number;
+                    Compare?: string;
+                    Start?: {
+                      Hour: number;
+                      Min: number;
+                    };
+                    End?: {
+                      Hour: number;
+                      Min: number;
+                    };
+                  }>;
+                };
+                Pos?: {
+                  X: number;
+                  Y: number;
+                  Z: number;
+                };
+                Range?: number;
+                EntityId?: number;
+                Items?: Array<{
+                  ItemId: number;
+                  Count: number;
+                }>;
+                Time?: number;
+                TimerType?: string;
+                ExistTargets?: Array<any>;
+                TargetsToAwake?: Array<number>;
+                UiType?: {
+                  Type: string;
+                };
+              };
+              TidTip?: string;
+              TrackTarget?: {
+                TrackType: {
+                  Type: string;
+                  Locations?: Array<{
+                    X: number;
+                    Y: number;
+                    Z: number;
+                    A?: number;
+                  }>;
+                  EntityIds?: Array<number>;
+                };
+                Range?: number;
+              };
+              EnterActions?: Array<{
+                Name: string;
+                Params: {
+                  VarLeft?: {
+                    Type: string;
+                    Source: string;
+                    Name: string;
+                  };
+                  VarRight?: {
+                    Type: string;
+                    Source: string;
+                    Value: boolean;
+                  };
+                  Flow?: {
+                    FlowListName: string;
+                    FlowId: number;
+                  };
+                  EntityId?: number;
+                  EntityIds?: Array<number>;
+                  Type?: string;
+                  State?: string;
+                  TelePortConfig?: {
+                    Type: number;
+                    TargetPos: {
+                      X: number;
+                      Y: number;
+                      Z: number;
+                      A: number;
+                    };
+                  };
+                  Level?: string;
+                  Content?: string;
+                  Visible?: boolean;
+                  GuideId?: number;
+                };
+                ActionGuid: string;
+                ActionId: number;
+              }>;
+              FinishActions?: Array<{
+                Name: string;
+                Params: {
+                  VarLeft?: {
+                    Type: string;
+                    Source: string;
+                    Name: string;
+                  };
+                  VarRight?: {
+                    Type: string;
+                    Source: string;
+                    Value: boolean;
+                  };
+                  Visible?: boolean;
+                  EntityIds?: Array<number>;
+                  ChapterState?: number;
+                  Ease?: {
+                    Type: number;
+                    Duration: number;
+                  };
+                  Level?: string;
+                  Content?: string;
+                  Time?: number;
+                  FlowListName?: string;
+                  FlowId?: number;
+                  StateId?: number;
+                  ScreenType?: string;
+                  Type?: string;
+                  EntityId?: number;
+                  State?: string;
+                };
+                ActionGuid: string;
+                ActionId: number;
+                Async?: boolean;
+              }>;
+              Count?: number;
+              Children?: Array<{
+                Type: string;
+                Id: number;
+                Desc: string;
+                Condition?: {
+                  Type: string;
+                  Pos?: {
+                    X: number;
+                    Y: number;
+                    Z: number;
+                  };
+                  Range?: number;
+                  ExistTargets?: Array<number>;
+                  TargetsToAwake?: Array<number>;
+                  Conditions?: Array<{
+                    EntityId: number;
+                    State: string;
+                  }>;
+                  UiType?: {
+                    Type: string;
+                  };
+                };
+                TidTip?: string;
+                TrackTarget?: {
+                  TrackType: {
+                    Type: string;
+                    Locations?: Array<{
+                      X: number;
+                      Y: number;
+                      Z: number;
+                      A?: number;
+                    }>;
+                    EntityIds?: Array<number>;
+                  };
+                  Range?: number;
+                };
+                EnterActions?: Array<{
+                  Name: string;
+                  Params: {
+                    EntityIds?: Array<number>;
+                    Type?: string;
+                    EntityId?: number;
+                    State?: string;
+                    Level?: string;
+                    Content?: string;
+                  };
+                  ActionGuid: string;
+                  ActionId: number;
+                }>;
+                FinishActions?: Array<{
+                  Name: string;
+                  Params: {
+                    VarLeft?: {
+                      Type: string;
+                      Source: string;
+                      Name: string;
+                    };
+                    VarRight?: {
+                      Type: string;
+                      Source: string;
+                      Value: boolean;
+                    };
+                    Pos?: {
+                      X: number;
+                      Y: number;
+                      Z: number;
+                    };
+                    FadeInTime?: number;
+                    StayTime?: number;
+                    FadeOutTime?: number;
+                    LockCamera?: boolean;
+                    FlowListName?: string;
+                    FlowId?: number;
+                    StateId?: number;
+                    Type?: string;
+                    EntityId?: number;
+                    State?: string;
+                    EntityIds?: Array<number>;
+                    Visible?: boolean;
+                  };
+                  ActionGuid: string;
+                  ActionId: number;
+                  Async?: boolean;
+                }>;
+                FixProcessor?: {
+                  FixActions: Array<{
+                    Timing: string;
+                    Condition: {
+                      Type: number;
+                      Conditions: Array<{
+                        Type: string;
+                        EntityIds: Array<number>;
+                        IsExist: boolean;
+                      }>;
+                    };
+                    ThenActions: Array<{
+                      Name: string;
+                      Params: {
+                        EntityIds: Array<number>;
+                      };
+                      ActionGuid: string;
+                      ActionId: number;
+                    }>;
+                  }>;
+                };
+                FailedCondition?: {
+                  IsTransferFailure: boolean;
+                  IsTeamDeathFailure: boolean;
+                  Timer?: {
+                    Time: number;
+                    TimerType: string;
+                  };
+                  CanGiveUp?: boolean;
+                };
+                Child?: {
+                  Type: string;
+                  Id: number;
+                  Desc: string;
+                  Condition: {
+                    Type: string;
+                    Time: number;
+                    TimerType: string;
+                  };
+                  TidTip: string;
+                  TrackTarget: {
+                    TrackType: {
+                      Type: string;
+                      Locations: Array<any>;
+                    };
+                  };
+                  EnterActions: Array<{
+                    Name: string;
+                    Params: {
+                      Type: string;
+                      Conditions: Array<any>;
+                      GuideId: number;
+                    };
+                    ActionGuid: string;
+                    ActionId: number;
+                  }>;
+                  FinishActions: Array<any>;
+                  HideUi: boolean;
+                  HideTip: boolean;
+                };
+                HideTip?: boolean;
+              }>;
+              HideUi?: boolean;
+              ShowNavigation?: boolean;
+              WaitUntilTrue?: boolean;
+              HideTip?: boolean;
+              RewardId?: number;
+              FailedCondition?: {
+                Timer: {
+                  Time: number;
+                  TimerType: string;
+                };
+                IsTransferFailure: boolean;
+                IsTeamDeathFailure: boolean;
+                CanGiveUp: boolean;
+              };
+            }>;
+            Count?: number;
+            Slots?: Array<{
+              Condition: {
+                Type: number;
+                Conditions: Array<{
+                  Type: string;
+                  Compare: string;
+                  Items?: Array<{
+                    ItemId: number;
+                    Count: number;
+                  }>;
+                  QuestId?: number;
+                  State?: number;
+                }>;
+              };
+              Node: {
+                Type: string;
+                Id: number;
+                Desc: string;
+                Children?: Array<{
+                  Type: string;
+                  Id: number;
+                  Desc: string;
+                  Condition: {
+                    Type: string;
+                    Check: {
+                      Type: string;
+                      SkillId: number;
+                    };
+                    PreConditions: {
+                      Type: number;
+                      Conditions: Array<{
+                        Type: string;
+                        Center: {
+                          X: number;
+                          Y: number;
+                          Z: number;
+                        };
+                        Radius: number;
+                      }>;
+                    };
+                  };
+                  TidTip: string;
+                  TrackTarget: {
+                    TrackType: {
+                      Type: string;
+                      Locations: Array<{
+                        X: number;
+                        Y: number;
+                        Z: number;
+                        A: number;
+                      }>;
+                    };
+                    Range: number;
+                  };
+                  EnterActions: Array<any>;
+                  FinishActions: Array<{
+                    Name: string;
+                    Params: {
+                      EntityIds?: Array<number>;
+                      FlowListName?: string;
+                      FlowId?: number;
+                      StateId?: number;
+                    };
+                    ActionGuid: string;
+                    ActionId: number;
+                  }>;
+                }>;
+                Slots?: Array<{
+                  Condition: {
+                    Type: number;
+                    Conditions: Array<{
+                      Type: string;
+                      QuestId: number;
+                      Compare: string;
+                      State: number;
+                    }>;
+                  };
+                  Node: {
+                    Type: string;
+                    Id: number;
+                    Desc: string;
+                    Children: Array<{
+                      Type: string;
+                      Id: number;
+                      Desc: string;
+                      Condition: {
+                        Type: string;
+                        Check: {
+                          Type: string;
+                          SkillId: number;
+                        };
+                        PreConditions: {
+                          Type: number;
+                          Conditions: Array<{
+                            Type: string;
+                            Center: {
+                              X: number;
+                              Y: number;
+                              Z: number;
+                            };
+                            Radius: number;
+                          }>;
+                        };
+                      };
+                      TidTip: string;
+                      TrackTarget: {
+                        TrackType: {
+                          Type: string;
+                          Locations: Array<{
+                            X: number;
+                            Y: number;
+                            Z: number;
+                            A: number;
+                          }>;
+                        };
+                        Range: number;
+                      };
+                      EnterActions: Array<any>;
+                      FinishActions: Array<{
+                        Name: string;
+                        Params: {
+                          EntityIds?: Array<number>;
+                          FlowListName?: string;
+                          FlowId?: number;
+                          StateId?: number;
+                        };
+                        ActionGuid: string;
+                        ActionId: number;
+                      }>;
+                    }>;
+                  };
+                }>;
+              };
+            }>;
+            Actions?: Array<{
+              Name: string;
+              Params: {
+                Time?: number;
+                FlowListName?: string;
+                FlowId?: number;
+                StateId?: number;
+              };
+              ActionGuid: string;
+              ActionId: number;
+            }>;
+          };
+        }>;
+        Count?: number;
+        DungeonId?: number;
+        OccupationConfig?: {
+          TidDesc: string;
+          Occupations: Array<string>;
+        };
+        FailedCondition?: {
+          IsTransferFailure?: boolean;
+          IsTeamDeathFailure?: boolean;
+          RangeLimiting?: {
+            Point: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            Range: number;
+            OverRangeCountdown?: number;
+          };
+          FailedTeleport?: {
+            Position: {
+              X: number;
+              Y: number;
+              Z: number;
+              A: number;
+            };
+            IsConfirm: boolean;
+            ConfirmId: number;
+          };
+          CanGiveUp?: boolean;
+          EntityStateCondition?: {
+            Conditions: Array<{
+              EntityId: number;
+              State: string;
+            }>;
+          };
+          Timer?: {
+            Time: number;
+            TimerType: string;
+          };
+          EntityAlert?: {
+            EntityIds: Array<number>;
+          };
+          EntityDeathCondition?: {
+            EntityIds: Array<number>;
+          };
+          CheckDungeonFailure?: Array<number>;
+          EntityDistanceLimiting?: {
+            EntityId: number;
+            MaxDistance: number;
+            OverMaxCountdown: number;
+          };
+          TimeRange?: {
+            StartTime: {
+              Hours: number;
+              Minutes: number;
+            };
+            EndTime: {
+              Hours: number;
+              Minutes: number;
+            };
+          };
+          SneakPlayCondition?: {
+            Time: number;
+          };
+          IsLeaveDungeonFailure?: boolean;
+        };
+        UIConfig?: {
+          UiType: string;
+          MainTitle: {
+            TidTitle: string;
+            QuestScheduleType: {
+              Type: string;
+              AssociatedChildQuestIds?: Array<number>;
+              ChildQuestId?: number;
+              ShowComplete?: boolean;
+              ShowTracking?: boolean;
+              Var?: {
+                Type: string;
+                Source: string;
+                Name: string;
+              };
+            };
+          };
+          SubTitles: Array<{
+            TidTitle: string;
+            QuestScheduleType: {
+              Type: string;
+              ChildQuestId?: number;
+              ShowComplete?: boolean;
+              ShowTracking?: boolean;
+              EntityId?: number;
+              Condition?: {
+                Type: number;
+                Conditions: Array<{
+                  Type: string;
+                  EntityId?: number;
+                  Compare: string;
+                  State?: string;
+                  MotionState?: string;
+                }>;
+              };
+              IconType?: number;
+            };
+          }>;
+          TrackTarget?: {
+            TrackType: {
+              Type: string;
+              Locations?: Array<{
+                X: number;
+                Y: number;
+                Z: number;
+                A: number;
+              }>;
+              EntityIds?: Array<number>;
+            };
+            Range?: number;
+          };
+        };
+        TidQuestAliasName?: string;
+        ShowNavigation?: boolean;
+        DisableOnline?: boolean;
+        RewardGetUiType?: number;
+        WaitUntilTrue?: boolean;
+        Actions?: Array<{
+          Name: string;
+          Params: {
+            EntityIds?: Array<number>;
+            CharacterId?: number;
+            CharacterGroup?: Array<number>;
+            AutoChange?: boolean;
+            CreateTempTeam?: boolean;
+            ActiveRange?: {
+              CheckPoint: {
+                X: number;
+                Y: number;
+                Z: number;
+              };
+              CheckEnterRange: number;
+              CheckLeaveRange: number;
+            };
+            LoadDataLayers?: Array<number>;
+            UnloadDataLayers?: Array<number>;
+            Type?: string;
+            GuideId?: number;
+            FlowListName?: string;
+            FlowId?: number;
+            StateId?: number;
+            EntityId?: number;
+            State: any;
+            Pos?: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            MoveTarget?: {
+              Type: string;
+              EntityId: number;
+            };
+            SplineEntityId?: number;
+            VarLeft?: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            VarRight?: {
+              Type: string;
+              Source: string;
+              Value: boolean;
+            };
+            EnterRadius?: number;
+            LeaveRadius?: number;
+            Flow?: {
+              FlowListName: string;
+              FlowId: number;
+              StateId: number;
+            };
+            WaitTime?: number;
+            TipOption?: {
+              Type: number;
+              TidMainText: string;
+            };
+            Var1?: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            Var2?: {
+              Type: string;
+              Source: string;
+              Value: number;
+            };
+            Op?: string;
+            Result?: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            SystemType: any;
+            BoardId?: number;
+            Configs?: Array<{
+              LevelPlayId: number;
+              Enable: boolean;
+            }>;
+            Visible?: boolean;
+            MarkId?: number;
+            Enable?: boolean;
+            RangeEntity?: number;
+            Level?: string;
+            Content?: string;
+            Time?: number;
+            Ease?: {
+              Type: number;
+              Duration: number;
+            };
+            ScreenType?: string;
+            TelePortConfig?: {
+              Type: number;
+              TargetPos: {
+                X: number;
+                Y: number;
+                Z: number;
+                A?: number;
+              };
+            };
+            Hour?: number;
+            Min?: number;
+            ShowUi?: boolean;
+            ChapterState?: number;
+            FadeInTime?: number;
+            StayTime?: number;
+            FadeOutTime?: number;
+            LockCamera?: boolean;
+            IsEnable?: boolean;
+            GeneralTextId?: number;
+            SetReviveType?: string;
+            ReviveId?: number;
+            BuffIds?: Array<number>;
+            RegionMpcId?: number;
+            Conditions?: Array<any>;
+            TransitionOption?: {
+              Type: string;
+              Mp4Path: string;
+            };
+          };
+          ActionGuid: string;
+          ActionId: number;
+          Async?: boolean;
+        }>;
+        TidQuestAliasDesc?: string;
+        FixProcessor?: {
+          FixActions: Array<{
+            Timing: string;
+            Condition: {
+              Type: number;
+              Conditions: Array<{
+                Type: string;
+                EntityIds?: Array<number>;
+                IsExist?: boolean;
+                Range?: {
+                  Type: string;
+                  Pos: {
+                    X: number;
+                    Y: number;
+                    Z: number;
+                  };
+                  Radius: number;
+                };
+                IsOnRange?: boolean;
+                DungeonId?: number;
+              }>;
+            };
+            ThenActions: Array<{
+              Name: string;
+              Params: {
+                Pos?: {
+                  X: number;
+                  Y: number;
+                  Z: number;
+                };
+                EntityIds?: Array<number>;
+              };
+              ActionGuid: string;
+              ActionId: number;
+            }>;
+          }>;
+        };
+        RewardGetUiConfig?: {
+          Type: number;
+          Title?: string;
+          ShowDetail?: boolean;
+        };
+        CompositeTrackViewMode?: string;
+        PerformanceSetting?: {
+          Author: string;
+          Note: string;
+          EnableOptimize: boolean;
+          RangeEntities: Array<number>;
+          Mode: {
+            Type: number;
+          };
+        };
+        AutoFailed?: boolean;
+      };
+    };
+  }>;
+};
+
+export type DBEntityOwnerData = {
+  entityownerdata: Array<{
+    Guid: string;
+    data: {
+      Guid: string;
+      Owner: Array<{
+        Type: string;
+        EntityId?: number;
+        LevelPlayId?: number;
+        QuestId?: number;
+      }>;
+    };
+  }>;
+};
+
+export type DBQuestData = {
+  questdata: Array<{
+    QuestId: number;
+    data: {
+      QuestId: number;
+      Data: {
+        Id: number;
+        Type: number;
+        RegionId: number;
+        Key: string;
+        TidName: string;
+        TidDesc: string;
+        RewardId?: number;
+        DistributeType: string;
+        ProvideType: {
+          Conditions?: Array<{
+            Type: string;
+            ExploreLevel?: number;
+            PreQuest?: number;
+            Items?: Array<{
+              ItemId: number;
+              Count: number;
+            }>;
+            DateId?: number;
+            PreLevelPlay?: number;
+            PreChildQuest?: {
+              QuestId: number;
+              ChildQuestId: number;
+            };
+            Gender?: string;
+          }>;
+          Type?: number;
+        };
+        ActiveActions?: Array<{
+          Name: string;
+          Params: {
+            EntityIds?: Array<number>;
+            EnterRadius?: number;
+            LeaveRadius?: number;
+            Flow?: {
+              FlowListName: string;
+              FlowId: number;
+              StateId: number;
+            };
+            MailId?: number;
+            Visible?: boolean;
+            FlowListName?: string;
+            FlowId?: number;
+            StateId?: number;
+            Level?: string;
+            Content?: string;
+            RedDot?: boolean;
+            WaitTime?: number;
+            EntityId?: number;
+          };
+          ActionGuid: string;
+          ActionId: number;
+        }>;
+        DungeonId: number;
+        OnlineType: string;
+        ObjType: string;
+        Children?: Array<string>;
+        Reference?: Array<string>;
+        IsAutoTrack?: boolean;
+        AcceptActions?: Array<{
+          Name: string;
+          Params: {
+            EntityIds?: Array<number>;
+            MailId?: number;
+            Level?: string;
+            Content?: string;
+            Flow?: {
+              FlowListName: string;
+              FlowId: number;
+            };
+            EntityId?: number;
+            Pos?: {
+              X: number;
+              Y: number;
+              Z: number;
+            };
+            FadeInTime?: number;
+            StayTime?: number;
+            FadeOutTime?: number;
+            LockCamera?: boolean;
+            Ease?: {
+              Type: number;
+              Duration: number;
+            };
+            Type?: string;
+            State?: string;
+            Items?: Array<{
+              ItemId: number;
+              Count: number;
+            }>;
+          };
+          ActionGuid: string;
+          ActionId: number;
+          Async?: boolean;
+        }>;
+        UnlockDelayTime?: {
+          Day: number;
+          Hour: number;
+          Minute: number;
+        };
+        AddInteractOption?: {
+          EntityId: number;
+          Option: {
+            TidContent?: string;
+            Guid: string;
+            Type: {
+              Type: string;
+              Flow: {
+                FlowListName: string;
+                FlowId: number;
+                StateId: number;
+              };
+            };
+            DoIntactType?: string;
+            Range?: number;
+            Icon?: string;
+          };
+          IsManualFinish?: boolean;
+          IsManualDelete?: boolean;
+        };
+        FinishActions?: Array<{
+          Name: string;
+          Params: {
+            GeneralTextId?: number;
+            Level?: string;
+            Content?: string;
+            Type?: string;
+            EntityId?: number;
+            State?: string;
+            Configs?: Array<{
+              LevelPlayId: number;
+              Enable: boolean;
+            }>;
+          };
+          ActionId: number;
+          ActionGuid: string;
+        }>;
+        DistributeParams?: {
+          UseItem: {
+            ItemId: number;
+            Count: number;
+          };
+        };
+        IsHideAcceptMarkOnNpc?: boolean;
+        ChapterId?: number;
+        RoleId?: string;
+        PreShowInfo?: {
+          PreShowCondition: {
+            Conditions: Array<{
+              Type: string;
+              ExploreLevel?: number;
+              PreQuest?: number;
+              DateId?: number;
+            }>;
+            Type?: number;
+          };
+          TidPreShowDesc: string;
+        };
+        TerminateActions?: Array<{
+          Name: string;
+          Params: {
+            Type: string;
+            EntityId: number;
+            State: string;
+          };
+          ActionGuid: string;
+          ActionId: number;
+        }>;
+        FunctionId?: number;
+      };
+    };
+  }>;
+};
+
+export type DBLevelPlayData = {
+  levelplaydata: Array<{
+    LevelPlayId: number;
+    data: {
+      LevelPlayId: number;
+      Data: {
+        Id: number;
+        Key: string;
+        InternalDest: string;
+        LevelId: number;
+        TidName: string;
+        Type: string;
+        InstanceId?: number;
+        LevelPlayEntityId: number;
+        LevelAdditiveId: number;
+        EnterRadius: number;
+        LeaveRadius: number;
+        DelayRefresh: boolean;
+        DelayDestroy: boolean;
+        LevelPlayOpenCondition: {
+          Conditions?: Array<{
+            Type: string;
+            PreChildQuest?: {
+              QuestId: number;
+              ChildQuestId: number;
+            };
+            PreQuest?: number;
+            PreLevelPlay?: number;
+            RangeEntityId?: number;
+            ExploreLevel?: number;
+          }>;
+          Type?: number;
+          DelayRefresh?: boolean;
+        };
+        LevelPlayActive: {
+          ActiveType: number;
+        };
+        LevelPlayRewardConfig: {
+          Type: string;
+          RewardId?: number;
+          RewardEntityId?: number;
+          RewardCompleteActions?: Array<any>;
+          FirstCompleteActions?: Array<{
+            Name: string;
+            Params: {
+              TipOption?: {
+                Type: number;
+                TidText: string;
+              };
+              DynamicSettlementConfig?: {
+                Type: string;
+              };
+            };
+            ActionId: number;
+            ActionGuid: string;
+          }>;
+          Reset?: {
+            Type: string;
+            Count: number;
+          };
+          FirstRewardId?: number;
+          RewardConfig?: Array<{
+            Var1: {
+              Type: string;
+              Source: string;
+              Name: string;
+            };
+            Compare: string;
+            Var2: {
+              Type: string;
+              Source: string;
+              Value: number;
+            };
+            RewardId: number;
+          }>;
+        };
+        LevelPlayRefreshConfig: {
+          Type: string;
+          UpdateType?: string;
+          MinRefreshCd?: number;
+          MaxRefreshCd?: number;
+          ChildDestroyRefreshCd?: {
+            MinRefreshCd: number;
+            MaxRefreshCd: number;
+          };
+          AwardedRefreshCd?: {
+            MinRefreshCd: number;
+            MaxRefreshCd: number;
+          };
+          CompletedRefreshTime?: number;
+          AwardedRefreshTime?: number;
+        };
+        LevelPlayTrack: {
+          TrackRadius: number;
+          TrackPriority: number;
+        };
+        LevelPlayMark?: {
+          MarkId: number;
+          MapBgPath: string;
+        };
+        EnterInRangeActions?: Array<{
+          Name: string;
+          Params: {
+            TipOption: {
+              Type: number;
+              TidText: string;
+            };
+          };
+          ActionId: number;
+          ActionGuid: string;
+        }>;
+        PackId: number;
+        OnlineType: string;
+        ObjType: string;
+        Children?: Array<string>;
+        Reference?: Array<string>;
+        ExploratoryDegree?: number;
+        LevelPlayOpenActions?: Array<{
+          Name: string;
+          Params: {
+            Type: string;
+            EntityId: number;
+            State: string;
+          };
+          ActionGuid: string;
+          ActionId: number;
+        }>;
+      };
     };
   }>;
 };
