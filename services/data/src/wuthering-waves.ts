@@ -598,12 +598,16 @@ for (const levelEntity of sortedEntities) {
             (m) => m.Id === ownerQuest.data.Data.TidName
           )?.Content;
           spawnId = `${id}_${levelEntity.data.EntityId}`;
+          let fullQuestName = "Quest";
+          if (questName) {
+            fullQuestName += ` ${questName}`;
+          }
           enDict[`${spawnId}_desc`] =
-            `<p style="color:#17a0a4">Quest: ${questName}</p>`;
+            `<p style="color:#17a0a4">${fullQuestName}</p>`;
           if (enDict[`${id}_desc`]) {
             enDict[`${spawnId}_desc`] += enDict[`${id}_desc`];
           }
-          enDict[`${spawnId}_tags`] = `Quest ${questName}`;
+          enDict[`${spawnId}_tags`] = `${fullQuestName}`;
           if (enDict[`${id}_tags`]) {
             enDict[`${spawnId}_tags`] += " " + enDict[`${id}_tags`];
           }
