@@ -34,7 +34,8 @@
         "mapName": "AkiWorld_WP",
         "id": "130000173"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "380015_Gameplay_Dungeon_1",
@@ -47,7 +48,8 @@
         "mapName": "AkiWorld_WP",
         "id": "102001787"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "380016_Gameplay422",
@@ -60,7 +62,8 @@
         "mapName": "AkiWorld_WP",
         "id": "102001788"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "301102_Teleport001",
@@ -575,7 +578,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "forgery_challenge",
@@ -628,7 +632,8 @@
         "mapName": "AkiWorld_WP",
         "id": "610000001"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "380014_Gameplay379",
@@ -641,7 +646,8 @@
         "mapName": "AkiWorld_WP",
         "id": "106002637"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "BossChallenge_Monster063",
@@ -653,7 +659,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster063",
@@ -678,7 +685,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109002500"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3010_NPC0002",
@@ -691,7 +699,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109002505"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3012_NPC0001",
@@ -704,7 +713,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109002511"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3000_NPC0005",
@@ -717,7 +727,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109002512"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3_NPC0006",
@@ -730,7 +741,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109002516"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3011_NPC0008",
@@ -743,7 +755,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109002834"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "301201_Teleport003",
@@ -836,7 +849,8 @@
         "mapName": "AkiWorld_WP",
         "id": "143000045"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3002_Quest099",
@@ -849,7 +863,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109700015"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3003_Quest099",
@@ -862,7 +877,8 @@
         "mapName": "AkiWorld_WP",
         "id": "109700016"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "5003_Gameplay102",
@@ -916,7 +932,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "BossChallenge_Monster066",
@@ -928,7 +945,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster066",
@@ -960,7 +978,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster045",
@@ -984,7 +1003,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "BossChallenge_Monster068",
@@ -996,7 +1016,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "BossChallenge_Monster080",
@@ -1008,7 +1029,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster080",
@@ -1032,7 +1054,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster070",
@@ -1056,7 +1079,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster047",
@@ -1080,7 +1104,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster061",
@@ -1139,7 +1164,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "301204_Gameplay422",
@@ -1152,7 +1178,8 @@
         "mapName": "AkiWorld_WP",
         "id": "129000000"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "301203_Gameplay422",
@@ -1165,7 +1192,8 @@
         "mapName": "AkiWorld_WP",
         "id": "131700001"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "BossChallenge_Monster044",
@@ -1177,7 +1205,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster044",
@@ -1210,7 +1239,8 @@
         "mapName": "AkiWorld_WP",
         "id": "142000071"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "380018_Gameplay124",
@@ -1223,7 +1253,8 @@
         "mapName": "AkiWorld_WP",
         "id": "200800011"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "300310_Gameplay333",
@@ -1235,7 +1266,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3015_NPC0278",
@@ -1248,7 +1280,8 @@
         "mapName": "AkiWorld_WP",
         "id": "311000193"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3017_NPC0279",
@@ -1261,7 +1294,8 @@
         "mapName": "AkiWorld_WP",
         "id": "311000194"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "3016_NPC0280",
@@ -1274,7 +1308,8 @@
         "mapName": "AkiWorld_WP",
         "id": "311000195"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Fractsidus Executioner",
@@ -1461,7 +1496,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Fractsidus Executioner_146000393"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster010",
@@ -2000,7 +2036,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster040_143800036"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster014",
@@ -17173,7 +17210,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Exile_310000686"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Exile Technician",
@@ -17468,7 +17506,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Exile Technician_146000585"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster008",
@@ -19184,7 +19223,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Exile Leader_146000581"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster015",
@@ -21615,7 +21655,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Fractsidus Thruster_146000396"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Fractsidus Cannoneer",
@@ -21955,7 +21996,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Fractsidus Cannoneer_146000394"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Fractsidus Gunmaster",
@@ -22291,7 +22333,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster017",
@@ -29259,7 +29302,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster058_146000684"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster050",
@@ -29640,7 +29684,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster146",
@@ -29896,7 +29941,8 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster039",
@@ -31252,7 +31298,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000031_111003784"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000032",
@@ -31281,7 +31328,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000032_111003787"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_Monster042",
@@ -31294,7 +31342,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_Monster042_111003788"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000034",
@@ -31339,7 +31388,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000034_111003825"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_Monster037",
@@ -31352,7 +31402,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_Monster037_111003794"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000037",
@@ -31373,7 +31424,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000037_111003796"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000038",
@@ -31402,7 +31454,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000038_111003799"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000040",
@@ -31439,7 +31492,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000040_111003829"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000045",
@@ -31492,7 +31546,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000045_111800226"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000056",
@@ -31521,7 +31576,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000056_111004422"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_Monster041",
@@ -31534,7 +31590,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_Monster041_111800014"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111800001",
@@ -31563,7 +31620,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111800001_111800020"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_Monster054",
@@ -31576,7 +31634,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_Monster054_111800190"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_Monster051",
@@ -31589,7 +31648,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_Monster051_111800205"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster_Glowing_111000044",
@@ -31618,7 +31678,8 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster_Glowing_111000044_111800221"
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "Monster1058",

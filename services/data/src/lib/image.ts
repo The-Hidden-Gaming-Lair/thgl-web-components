@@ -275,11 +275,16 @@ export async function extractCanvasFromSprite(
       buv3X: number;
       buv3Y: number;
     };
-  }
+  },
+  props: {
+    rotate?: number;
+  } = {}
 ) {
   const image = await loadImage(spritePath);
   const canvas = createCanvas(data.Value.width, data.Value.height);
+  const canvasTmp = createCanvas(data.Value.width, data.Value.height);
   const ctx = canvas.getContext("2d");
+  const ctxTmp = canvasTmp.getContext("2d");
 
   const spriteWidth = image.naturalWidth;
   const spriteHeight = image.naturalHeight;
@@ -288,7 +293,7 @@ export async function extractCanvasFromSprite(
   const sy = data.Value.uv3Y * spriteHeight;
   const sWidth = (data.Value.uv3X - data.Value.uv0X) * spriteWidth;
   const sHeight = (data.Value.uv0Y - data.Value.uv3Y) * spriteHeight;
-  ctx.drawImage(
+  ctxTmp.drawImage(
     image,
     sx,
     sy,
@@ -300,7 +305,24 @@ export async function extractCanvasFromSprite(
     data.Value.height
   );
 
-  saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
+  if (props.rotate) {
+    const centerX = data.Value.width / 2;
+    const centerY = data.Value.height / 2;
+    ctx.translate(centerX, centerY);
+    ctx.rotate((props.rotate * Math.PI) / 180);
+    ctx.drawImage(
+      canvasTmp,
+      -centerX,
+      -centerY,
+      data.Value.width,
+      data.Value.height
+    );
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
+  } else {
+    saveImage(TEMP_DIR + `/${name}.png`, canvasTmp.toBuffer("image/png"));
+  }
+
   await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
 
   return `${name}.webp`;

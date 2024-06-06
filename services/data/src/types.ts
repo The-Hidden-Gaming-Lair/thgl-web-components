@@ -1,5 +1,6 @@
 export type Node = {
   type: string;
+  static?: boolean;
   spawns: {
     id?: string;
     p: [number, number];
@@ -50,3 +51,5 @@ export type Region = {
   border: [number, number][];
   mapName: string;
 };
+
+export type TypesIds = Record<string, string>;

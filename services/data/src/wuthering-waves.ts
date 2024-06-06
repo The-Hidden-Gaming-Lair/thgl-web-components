@@ -7,6 +7,7 @@ import { extractCanvasFromSprite, mergeImages, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
+import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import { capitalizeWords, toCamelCase } from "./lib/utils.js";
 import { Node } from "./types.js";
 
@@ -19,6 +20,7 @@ initDirs(
 const nodes = initNodes();
 const filters = initFilters();
 const regions = initRegions();
+const typesIDs = initTypesIDs();
 
 const enDict = initDict({
   events: "Temporary Events",
@@ -188,6 +190,25 @@ for (const mapMark of dbMapMark.mapmark) {
 }
 writeRegions(regions);
 
+// Player Marker
+{
+  const uiWorldMap = readJSON<WorldMapIconSprite>(
+    CONTENT_DIR +
+      "/Client/Content/Aki/UI/UIResources/UiWorldMap/Atlas/TPI_UiWorldMap.json"
+  );
+
+  const iconIndex = uiWorldMap[0].Properties.Sprites.indexOf(
+    "/Game/Aki/UI/UIResources/UiWorldMap/Atlas/SP_WorldMapPlayer1.SP_WorldMapPlayer1"
+  );
+  const spriteInfo = uiWorldMap[0].Properties.SpriteInfoMap[iconIndex];
+  const iconPath =
+    TEXTURE_DIR +
+    "/" +
+    uiWorldMap[0].Properties.AtlasTextures[0].ObjectPath.split(".")[0] +
+    ".png";
+  await extractCanvasFromSprite(iconPath, "player", spriteInfo, { rotate: 90 });
+}
+
 const addedFilterIDs: string[] = [];
 const addedIcons: string[] = [];
 const skipIDs: string[] = ["AudioBoxTrigger"];
@@ -254,6 +275,14 @@ for (const monster of monsterInfo.monsterinfo) {
   const phantomItem = dbPhantom.phantomitem.find(
     (p) => p.data.MonsterName === monster.data.Name
   );
+  if (phantomItem) {
+    const bpName = phantomItem.data.StandAnim.split("/")[6];
+    if (!bpName) {
+      console.warn(`Missing bpName for ${monster.data.Name}`);
+    } else {
+      typesIDs[`BP_${bpName}_C`] = id;
+    }
+  }
   const fetterGroups = phantomItem?.data.FetterGroup.map(
     (f) => dbPhantom.phantomfettergroup.find((g) => g.data.Id === f)!
   );
@@ -719,6 +748,9 @@ for (const levelEntity of sortedEntities) {
   let oldNodes = nodes.find((n) => n.type === id);
   if (!oldNodes) {
     oldNodes = { type: id, spawns: [] };
+    if (!Object.values(typesIDs).includes(id)) {
+      oldNodes.static = true;
+    }
     nodes.push(oldNodes);
     oldNodes = nodes.find((n) => n.type === id);
     // console.log("New type", id);
@@ -825,6 +857,8 @@ const sortedFilters = filters
   });
 writeFilters(sortedFilters);
 writeDict(enDict, "en");
+
+writeTypesIDs(typesIDs);
 
 type MonsterInfo = {
   monsterinfo: Array<{
