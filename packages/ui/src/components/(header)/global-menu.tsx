@@ -40,6 +40,11 @@ const APPS = [
         icon: "/global_icons/paxdei-trade.webp",
       },
       {
+        title: "Pax Dei Tools",
+        url: "https://pax-dei-tools.com//?ref=thgl",
+        icon: "/global_icons/paxdei-tools.webp",
+      },
+      {
         title: "Pax Clans",
         url: "https://paxclans.com/?ref=thgl",
         icon: "/global_icons/paxclans.webp",
