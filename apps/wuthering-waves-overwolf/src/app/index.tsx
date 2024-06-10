@@ -83,7 +83,7 @@ function App(): JSX.Element {
             typesIdMap={typesIdMap}
             view={{}}
           >
-            <AppHeader title="Wuthering" app={APP} gameClassId={24020} />
+            <AppHeader title="Wuthering" app={APP} gameClassId={24300} />
             <HeaderOffset bypass={Boolean(isOverlay)} full>
               <MapContainer>
                 <InteractiveMap

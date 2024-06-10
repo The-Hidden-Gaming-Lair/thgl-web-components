@@ -5,9 +5,9 @@ import {
 } from "@repo/lib/overwolf";
 
 initBackground(
-  24020,
+  24300,
   "jmdeljpdelieondpjbdoegkbhfokaemhgnmhidef",
-  "1209779455803924510",
+  "1249803392822546512",
 );
 
 const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");

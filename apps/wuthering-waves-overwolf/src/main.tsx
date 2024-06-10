@@ -59,10 +59,10 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
 }
 
-await initDiscordRPC("1209779455803924510", (updatePresence) => {
+await initDiscordRPC("1249803392822546512", (updatePresence) => {
   updatePresence([
     "",
-    "Exploring the Realm",
+    "Playing",
     "wuthering-waves",
     "Wuthering Waves",
     "thgl",
