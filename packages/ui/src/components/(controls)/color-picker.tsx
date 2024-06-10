@@ -76,7 +76,7 @@ export function ColorPicker({
           className={cn(
             "justify-start text-left font-normal",
             !value && "text-muted-foreground",
-            className
+            className,
           )}
           disabled={disabled}
           type="button"

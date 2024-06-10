@@ -526,7 +526,7 @@ for (const tags of TAGS) {
     }[] = [];
     for (const icon of readDirRecursive(`icons/${tag.tag}`)) {
       const matched = icon.match(
-        /icons\/(.+?)\/icons\/ffffff\/transparent\/1x1\/(.+?)\/(.+?)\.png/
+        /icons\/(.+?)\/icons\/ffffff\/transparent\/1x1\/(.+?)\/(.+?)\.png/,
       );
       if (!matched) {
         console.warn("No match for", icon);
@@ -550,7 +550,7 @@ for (const tags of TAGS) {
 
 await Bun.write(
   "../../packages/ui/src/components/(controls)/icons.json",
-  JSON.stringify(icons, null, 2)
+  JSON.stringify(icons, null, 2),
 );
 
 function capitalizeString(str: string) {
@@ -574,7 +574,7 @@ function readDirRecursive(filePath: string, extension?: string) {
   const files = paths
     .filter(
       (dirent) =>
-        dirent.isFile() && (!extension || dirent.name.endsWith(extension))
+        dirent.isFile() && (!extension || dirent.name.endsWith(extension)),
     )
     .map((dirent) => path.join(filePath, dirent.name));
   const dirs = paths.filter((dirent) => dirent.isDirectory());

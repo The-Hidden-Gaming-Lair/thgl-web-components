@@ -77,7 +77,7 @@ export function StreamingSender({
     useShallow((state) => ({
       appId: state.appId,
       setAppId: state.setAppId,
-    }))
+    })),
   );
   const [errorMessage, setErrorMessage] = useState("");
   const peerRef = useRef<Peer | null>(null);
@@ -86,7 +86,7 @@ export function StreamingSender({
     useShallow((state) => ({
       player: state.player,
       actors: state.actors,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -196,7 +196,7 @@ export function StreamingSender({
               ? "text-green-400"
               : isConnected
                 ? "text-yellow-500"
-                : "text-orange-500"
+                : "text-orange-500",
           )}
         >
           <Antenna className="md:mr-2 h-4 w-4" />

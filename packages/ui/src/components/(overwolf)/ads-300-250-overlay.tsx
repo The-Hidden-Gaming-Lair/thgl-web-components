@@ -20,7 +20,7 @@ export function Ads300x250Overlay({ title }: { title: string }): JSX.Element {
     const owAd = initAd(
       adRef.current,
       { width: 300, height: 250 },
-      "Ads300x250Overlay"
+      "Ads300x250Overlay",
     );
     return () => {
       owAd?.shutdown();

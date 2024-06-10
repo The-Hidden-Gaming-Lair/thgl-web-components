@@ -23,7 +23,7 @@ export function readDirRecursive(filePath: string, extension?: string) {
   const files = paths
     .filter(
       (dirent) =>
-        dirent.isFile() && (!extension || dirent.name.endsWith(extension))
+        dirent.isFile() && (!extension || dirent.name.endsWith(extension)),
     )
     .map((dirent) => path.join(filePath, dirent.name));
   const dirs = paths.filter((dirent) => dirent.isDirectory());
@@ -61,7 +61,7 @@ export function writeJSON(filePath: string, body: any) {
     JSON.stringify(
       body,
       (_, v) => (typeof v === "bigint" ? v.toString() : v),
-      2
-    )
+      2,
+    ),
   );
 }

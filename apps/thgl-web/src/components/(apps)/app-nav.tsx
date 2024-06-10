@@ -13,7 +13,7 @@ export default function AppNav() {
         href={baseUrl}
         className={cn(
           "border-b-2 p-2 flex items-center gap-2 transition-all",
-          pathname === baseUrl ? "border-brand" : "border-transparent"
+          pathname === baseUrl ? "border-brand" : "border-transparent",
         )}
       >
         <FileText className="text-zinc-500 h-5 w-5" /> Description
@@ -24,7 +24,7 @@ export default function AppNav() {
           "border-b-2 p-2 flex items-center gap-2 transition-all",
           pathname === baseUrl + "/release-notes"
             ? "border-brand"
-            : "border-transparent"
+            : "border-transparent",
         )}
       >
         <Rocket className="text-zinc-500 h-5 w-5" /> Release Notes

@@ -33,11 +33,11 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
   const privateNodes = useSettingsStore((state) => state.privateNodes);
   const addPrivateNode = useSettingsStore((state) => state.addPrivateNode);
   const removePrivateNode = useSettingsStore(
-    (state) => state.removePrivateNode
+    (state) => state.removePrivateNode,
   );
   const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
   const setTempPrivateNode = useSettingsStore(
-    (state) => state.setTempPrivateNode
+    (state) => state.setTempPrivateNode,
   );
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
 
@@ -131,7 +131,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     }
 
     canvasMarker.current.setIcon(
-      tempPrivateNode.icon ? tempPrivateNode.icon.url : null
+      tempPrivateNode.icon ? tempPrivateNode.icon.url : null,
     );
     canvasMarker.current.setStyle({ fillColor: color });
     canvasMarker.current.setRadius(radius * baseIconSize);

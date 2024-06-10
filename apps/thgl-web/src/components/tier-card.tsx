@@ -8,7 +8,7 @@ export function TierCard({ tier }: { tier: Tier }) {
     <article
       className={cn(
         "rounded-lg border border-[#569287] bg-[#0b0a0e] overflow-hidden flex flex-col p-4 gap-4",
-        tier.highlight && "scale-110"
+        tier.highlight && "scale-110",
       )}
     >
       <h3 className="text-xl font-semibold text-center">{tier.title}</h3>

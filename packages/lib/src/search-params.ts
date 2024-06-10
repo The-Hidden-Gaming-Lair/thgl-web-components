@@ -1,5 +1,5 @@
 export function searchParamsToView(
-  searchParams: Record<string, string | string[] | undefined>
+  searchParams: Record<string, string | string[] | undefined>,
 ): { center?: [number, number]; zoom?: number; map?: string } {
   const view: { center?: [number, number]; zoom?: number; map?: string } = {};
   try {

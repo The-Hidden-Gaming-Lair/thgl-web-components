@@ -23,7 +23,7 @@ HF = Heart of the Forest
 */
 const textures = await readDirSync(
   TEXTURE_DIR +
-    "/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket/Textures"
+    "/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket/Textures",
 );
 
 const surfaces = textures
@@ -33,7 +33,7 @@ const surfaces = textures
     (t) =>
       TEXTURE_DIR +
       "/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket/Textures/" +
-      t
+      t,
   )
   .sort((a) => (a.includes("Key") ? -1 : 1));
 const tunnels = textures
@@ -43,7 +43,7 @@ const tunnels = textures
     (t) =>
       TEXTURE_DIR +
       "/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket/Textures/" +
-      t
+      t,
   );
 const surface = await mergeImages(surfaces);
 const tunnel = await mergeImages(tunnels);
@@ -213,101 +213,101 @@ const monstersGroup: (typeof filters)[number] = {
 };
 
 const mapData = await readDirSync(
-  CONTENT_DIR + "/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket"
+  CONTENT_DIR + "/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket",
 );
 
 const savedIcons: string[] = [];
 const icons: Record<string, string> = {
   airDrop: await saveIcon(
-    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_DamageDealt.png`
+    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_DamageDealt.png`,
   ),
   boss: await saveIcon(
-    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters.png`
+    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters.png`,
   ),
   specialLoot: await saveIcon(
-    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest_Special.png`
+    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest_Special.png`,
   ),
   chestStarter: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest.png`,
-    "lightgrey"
+    "lightgrey",
   ),
   chestBackpack: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest.png`,
-    "purple"
+    "purple",
   ),
   chestT1: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest.png`,
-    "lightgreen"
+    "lightgreen",
   ),
   chestT2: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest.png`,
-    "lightblue"
+    "lightblue",
   ),
   chestT3: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_MinimapIcon_Chest.png`,
-    "orange"
+    "orange",
   ),
   tunnel: await saveIcon(
-    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/MapIcons/T_UI_Tunnel_Icon.png`
+    `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/MapIcons/T_UI_Tunnel_Icon.png`,
   ),
   creatureCommon: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters.png`,
-    "lightgrey"
+    "lightgrey",
   ),
   creatureNormal: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters.png`,
-    "lightblue"
+    "lightblue",
   ),
   creatureEvent: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters.png`,
-    "gold"
+    "gold",
   ),
   creatureElite: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters_Special.png`,
-    "orange"
+    "orange",
   ),
   creatureUnique: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters_Special.png`,
-    "red"
+    "red",
   ),
   creatureBoss: await saveIcon(
     `${TEXTURE_DIR}/blueberry/Content/BB/UI/Textures/Icons/T_Icon_Monsters_Special.png`,
-    "lightgreen"
+    "lightgreen",
   ),
   shrineAttackSpeed: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/star-altar_delapouite.webp`,
-    "green"
+    "green",
   ),
   shrineCooldownReduction: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/star-altar_delapouite.webp`,
-    "turquoise"
+    "turquoise",
   ),
   shrineMaxHealth: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/star-altar_delapouite.webp`,
-    "red"
+    "red",
   ),
   shrineMovementSpeed: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/star-altar_delapouite.webp`,
-    "yellow"
+    "yellow",
   ),
   shrineShield: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/star-altar_delapouite.webp`,
-    "blue"
+    "blue",
   ),
   altarMovementSpeed: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/shinto-shrine-mirror_delapouite.webp`,
-    "yellow"
+    "yellow",
   ),
   altarHeal: await saveIcon(
     `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/shinto-shrine-mirror_delapouite.webp`,
-    "red"
+    "red",
   ),
   altarSpiritItem: await saveIcon(
-    `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/sword-altar_delapouite.webp`
+    `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/sword-altar_delapouite.webp`,
     // "purple"
   ),
   altarItemSink: await saveIcon(
-    `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/well_delapouite.webp`
+    `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/well_delapouite.webp`,
     // "gold"
   ),
 };
@@ -321,7 +321,7 @@ for (const map of mapData) {
   // }
   const items = readJSON<any[]>(
     CONTENT_DIR +
-      `/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket/${map}`
+      `/blueberry/Content/BB/Maps/Forest/Dungeons/AncientThicket/${map}`,
   );
   let mapName = map.includes("_TN") ? "tunnel" : "surface";
   for (const item of items) {
@@ -365,13 +365,13 @@ for (const map of mapData) {
           (i) =>
             i.Name ===
             main.Properties.LinkedSpawnPoint.ObjectName.split(".")[1].split(
-              "'"
-            )[0]
+              "'",
+            )[0],
         )!;
 
         const creaturesToSpawnData = readJSON<any[]>(
           CONTENT_DIR +
-            `/${extractionSpawnPoint.Properties.CreaturesToSpawnData.ObjectPath.replace(/\.\d+/, ".json")}`
+            `/${extractionSpawnPoint.Properties.CreaturesToSpawnData.ObjectPath.replace(/\.\d+/, ".json")}`,
         );
         const targetCreatures =
           creaturesToSpawnData[0].Properties.CreaturesToSpawn.map(
@@ -379,17 +379,17 @@ for (const map of mapData) {
               // creatureToSpawn.SpawnLevel
               const creature = readJSON<any[]>(
                 CONTENT_DIR +
-                  `/${creatureToSpawn.CreatureToSpawn.ObjectPath.replace(/\.\d+/, ".json")}`
+                  `/${creatureToSpawn.CreatureToSpawn.ObjectPath.replace(/\.\d+/, ".json")}`,
               );
               const subData = creature.find(
-                (c) => c.Properties?.CreatureCharacterData
+                (c) => c.Properties?.CreatureCharacterData,
               );
               const creatureCharacterData = readJSON<any[]>(
                 CONTENT_DIR +
-                  `/${subData.Properties.CreatureCharacterData.ObjectPath.replace(/\.\d+/, ".json")}`
+                  `/${subData.Properties.CreatureCharacterData.ObjectPath.replace(/\.\d+/, ".json")}`,
               );
               return `${creatureCharacterData[0].Properties.Name.LocalizedString}`;
-            }
+            },
           );
         enDict[`${id}_desc`] =
           `<b>Defeat to unlock this chest:</b><br>${targetCreatures.join("<br>")}`;
@@ -419,7 +419,7 @@ for (const map of mapData) {
       const base = items.find((i) => i.Name === item.Outer);
       const objectPath = base.Properties.CreaturesToSpawnData.ObjectPath;
       const creatureSpawnData = readJSON<any[]>(
-        CONTENT_DIR + `/${objectPath.replace(/\.\d+/, ".json")}`
+        CONTENT_DIR + `/${objectPath.replace(/\.\d+/, ".json")}`,
       );
 
       for (const creatureToSpawn of creatureSpawnData[0].Properties
@@ -429,14 +429,14 @@ for (const map of mapData) {
         if (!enDict[id]) {
           const creature = readJSON<any[]>(
             CONTENT_DIR +
-              `/${creatureToSpawn.CreatureToSpawn.ObjectPath.replace(/\.\d+/, ".json")}`
+              `/${creatureToSpawn.CreatureToSpawn.ObjectPath.replace(/\.\d+/, ".json")}`,
           );
           const subData = creature.find(
-            (c) => c.Properties?.CreatureCharacterData
+            (c) => c.Properties?.CreatureCharacterData,
           );
           const creatureCharacterData = readJSON<any[]>(
             CONTENT_DIR +
-              `/${subData.Properties.CreatureCharacterData.ObjectPath.replace(/\.\d+/, ".json")}`
+              `/${subData.Properties.CreatureCharacterData.ObjectPath.replace(/\.\d+/, ".json")}`,
           );
 
           enDict[id] = creatureCharacterData[0].Properties.Name.LocalizedString;
@@ -497,7 +497,7 @@ function pushSpawnPoint(
   item: any,
   id: string,
   target: any,
-  size: number
+  size: number,
 ) {
   if (!nodes.some((n) => n.type === type)) {
     nodes.push({
@@ -520,7 +520,7 @@ function pushSpawnPoint(
         s.id === id &&
         s.mapName === mapName &&
         s.p[0] === spawn.p[0] &&
-        s.p[1] === spawn.p[1]
+        s.p[1] === spawn.p[1],
     )
   ) {
     category.spawns.push(spawn);
@@ -547,7 +547,7 @@ function normalizeLocation(
     OFFSET_X,
     OFFSET_Y,
     CAMERA_ANGLE,
-  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number }
+  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number },
 ): { X: number; Y: number; Z: number } {
   const x = location.X - OFFSET_X;
   const y = location.Y - OFFSET_Y;

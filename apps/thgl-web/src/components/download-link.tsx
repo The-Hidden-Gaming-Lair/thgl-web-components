@@ -18,7 +18,7 @@ export default function DownloadLink({
     <Link
       className={cn(
         "inline-flex items-center gap-1 font-bold text-sm",
-        className
+        className,
       )}
       href={href}
       onClick={() => {

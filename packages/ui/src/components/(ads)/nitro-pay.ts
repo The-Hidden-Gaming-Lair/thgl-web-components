@@ -12,7 +12,7 @@ export interface NitroAd {
 export interface NitroAds {
   createAd: (
     id: string,
-    options: NitroAdOptions
+    options: NitroAdOptions,
   ) => NitroAd | Promise<NitroAd> | Promise<NitroAd[]>;
   stop: () => void;
   addUserToken: (email: string, encoding?: UserDataEncoding) => Promise<void>;

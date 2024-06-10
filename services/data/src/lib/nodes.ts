@@ -12,7 +12,7 @@ export function writeNodes(nodes: Node[]) {
 
 export async function readActors(
   dir: string,
-  onActor: (item: any, data: any) => void
+  onActor: (item: any, data: any) => void,
 ) {
   const files = await readDirRecursive(CONTENT_DIR + dir);
   for (const file of files) {
@@ -42,7 +42,7 @@ export function normalizeLocation(
     OFFSET_X,
     OFFSET_Y,
     CAMERA_ANGLE,
-  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number }
+  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number },
 ): { x: number; y: number } {
   const x = location.x - OFFSET_X;
   const y = location.y - OFFSET_Y;

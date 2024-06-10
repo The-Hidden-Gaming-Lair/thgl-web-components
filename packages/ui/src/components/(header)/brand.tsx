@@ -4,7 +4,7 @@ export function Brand({ title }: { title: string }): JSX.Element {
   return (
     <h1
       className={cn(
-        "text-lg md:text-2xl md:leading-6 font-extrabold tracking-tight whitespace-nowrap"
+        "text-lg md:text-2xl md:leading-6 font-extrabold tracking-tight whitespace-nowrap",
       )}
     >
       {title.replaceAll(" ", "").toUpperCase()}

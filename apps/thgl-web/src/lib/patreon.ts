@@ -97,7 +97,7 @@ export function getCurrentUser(token: PatreonToken) {
       headers: {
         Authorization: `Bearer ${token.access_token}`,
       },
-    }
+    },
   );
 }
 
@@ -116,8 +116,8 @@ export function getCurrentEntitledTiers(currentUser: PatreonUser) {
   return currentUser.included
     .flatMap((incl) =>
       incl.relationships?.currently_entitled_tiers?.data?.flatMap((tier) =>
-        tiers.some((t) => t.id === tier.id) ? tier.id : undefined
-      )
+        tiers.some((t) => t.id === tier.id) ? tier.id : undefined,
+      ),
     )
     .filter((tierId) => tierId !== undefined) as string[];
 }

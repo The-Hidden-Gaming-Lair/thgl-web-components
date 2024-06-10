@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     if (!userIdCookie?.value) {
       return Response.json(
         { error: "No userId provided" },
-        { status: 400, headers: headers }
+        { status: 400, headers: headers },
       );
     }
     const { searchParams } = new URL(request.url);
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     if (!appId) {
       return Response.json(
         { error: "No appId provided" },
-        { status: 400, headers: headers }
+        { status: 400, headers: headers },
       );
     }
     const app = apps.find((app) => app.overwolf?.id === appId);
@@ -48,13 +48,13 @@ export async function GET(request: NextRequest) {
         {
           status: 404,
           headers: headers,
-        }
+        },
       );
     }
 
     const userId = jwt.verify(
       userIdCookie.value,
-      process.env.JWT_SECRET!
+      process.env.JWT_SECRET!,
     ) as string;
 
     const patreonToken = await kv.get<PatreonToken>(`token:${userId}`);
@@ -64,12 +64,12 @@ export async function GET(request: NextRequest) {
         {
           status: 404,
           headers: headers,
-        }
+        },
       );
     }
 
     const refreshTokenResponse = await postRefreshToken(
-      patreonToken.refresh_token
+      patreonToken.refresh_token,
     );
 
     const refreshTokenResult = await refreshTokenResponse.json();
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
         {
           status: currentUserResponse.status,
           headers: headers,
-        }
+        },
       );
     }
     const currentUser = currentUserResult as PatreonUser;
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
         {
           status: 403,
           headers: headers,
-        }
+        },
       );
     }
     const previewAccess = hasPreviewAccess(currentUser, app);
@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
       {
         status: 500,
         headers: headers,
-      }
+      },
     );
   }
 }

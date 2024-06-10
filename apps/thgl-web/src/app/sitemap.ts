@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
       {
         url: `https://www.th.gl/apps/${encodeURIComponent(
-          app.title
+          app.title,
         )}/release-notes`,
         lastModified: new Date(),
         changeFrequency: "daily",

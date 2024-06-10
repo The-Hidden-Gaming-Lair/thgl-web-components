@@ -42,7 +42,7 @@ export function InteractiveMap({
     p: [number, number];
   } | null>(null);
   const setTempPrivateNode = useSettingsStore(
-    (state) => state.setTempPrivateNode
+    (state) => state.setTempPrivateNode,
   );
 
   useLayoutEffect(() => {
@@ -55,7 +55,7 @@ export function InteractiveMap({
     const world = createWorld(
       containerRef.current,
       { center, zoom },
-      mapTileOptions
+      mapTileOptions,
     );
     setMap(world);
 
@@ -65,7 +65,7 @@ export function InteractiveMap({
         ?.classList.remove(
           "transition-transform",
           "ease-linear",
-          "duration-1000"
+          "duration-1000",
         );
     });
 
@@ -155,7 +155,7 @@ export function InteractiveMap({
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `https://${domain}.th.gl/?map=${mapName}&center=${contextMenuData.p.join(",")}&zoom=${map?.getZoom()}`
+                  `https://${domain}.th.gl/?map=${mapName}&center=${contextMenuData.p.join(",")}&zoom=${map?.getZoom()}`,
                 );
               }}
             >

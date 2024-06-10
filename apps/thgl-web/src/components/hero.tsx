@@ -42,7 +42,7 @@ export function Hero(): JSX.Element {
       <div
         className={cn(
           "relative transition-all !duration-1000",
-          title ? (pathname === "/" ? "" : "mt-[-15%] mb-[-15%]") : "mt-[-53%]"
+          title ? (pathname === "/" ? "" : "mt-[-15%] mb-[-15%]") : "mt-[-53%]",
         )}
       >
         <Image
@@ -58,7 +58,7 @@ export function Hero(): JSX.Element {
         <h1
           className={cn(
             orbitron.className,
-            "hero-title absolute right-[6%] top-[50%]"
+            "hero-title absolute right-[6%] top-[50%]",
           )}
         >
           <span
@@ -68,7 +68,7 @@ export function Hero(): JSX.Element {
               isNewPathname &&
                 (pathname === "/"
                   ? "animate-fade-out-from-top"
-                  : "animate-fade-out-from-bottom")
+                  : "animate-fade-out-from-bottom"),
             )}
           >
             {prevTitle}
@@ -79,7 +79,7 @@ export function Hero(): JSX.Element {
                 "flex items-center absolute left-0 -translate-y-1/2",
                 pathname === "/"
                   ? "animate-fade-in-to-top"
-                  : "animate-fade-in-to-bottom"
+                  : "animate-fade-in-to-bottom",
               )}
             >
               {title}

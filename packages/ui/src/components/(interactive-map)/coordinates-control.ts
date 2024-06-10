@@ -8,7 +8,7 @@ export function createCoordinatesControl(): {
   const divElement = DomUtil.create("div", "leaflet-position");
   const handleMouseMove = (event: LeafletMouseEvent): void => {
     divElement.innerHTML = `<span>[${event.latlng.lng.toFixed(
-      0
+      0,
     )}, ${event.latlng.lat.toFixed(0)}]</span>`;
   };
   const handleMouseOut = (): void => {

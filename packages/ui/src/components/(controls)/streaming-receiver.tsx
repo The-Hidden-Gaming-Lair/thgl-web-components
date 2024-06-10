@@ -34,7 +34,7 @@ export function StreamingReceiver({
       setLiveMode: state.setLiveMode,
       appId: state.appId,
       setAppId: state.setAppId,
-    }))
+    })),
   );
   const [isConnected, setIsConnected] = useState(false);
   const [connection, setConnection] = useState<DataConnection | null>(null);
@@ -45,7 +45,7 @@ export function StreamingReceiver({
     useShallow((state) => ({
       setPlayer: state.setPlayer,
       setActors: state.setActors,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -185,7 +185,7 @@ export function StreamingReceiver({
               ? "text-green-400"
               : isConnected
                 ? "text-yellow-500"
-                : "text-orange-500"
+                : "text-orange-500",
           )}
         >
           <Antenna className="md:mr-2 h-4 w-4" />
@@ -216,7 +216,7 @@ export function StreamingReceiver({
                   ? "bg-green-400"
                   : isConnected
                     ? "bg-yellow-500"
-                    : "bg-orange-500"
+                    : "bg-orange-500",
               )}
             ></span>
             <span>

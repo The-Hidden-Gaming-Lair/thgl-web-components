@@ -12,7 +12,7 @@ export function Button({
       className={cn(
         orbitron.className,
         "border rounded border-brand/50 hover:border-brand w-fit py-1 px-2 bg-brand/10 hover:bg-brand/20  transition-all uppercase text-sm",
-        className
+        className,
       )}
     />
   );

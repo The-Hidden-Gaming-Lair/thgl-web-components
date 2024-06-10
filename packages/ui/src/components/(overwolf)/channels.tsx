@@ -9,20 +9,20 @@ import { Button } from "../ui/button";
 
 export function Channels() {
   const previewReleaseAccess = useAccountStore(
-    (state) => state.previewReleaseAccess
+    (state) => state.previewReleaseAccess,
   );
   const [isUpdating, setIsUpdating] = useState(false);
 
   const { data: extensionSettings, mutate: refreshExtensionSettings } = useSWR(
     "extensionSettings",
-    () => promisifyOverwolf(overwolf.settings.getExtensionSettings)()
+    () => promisifyOverwolf(overwolf.settings.getExtensionSettings)(),
   );
   const { data: manifest } = useSWR("manifest", () =>
-    promisifyOverwolf(overwolf.extensions.current.getManifest)()
+    promisifyOverwolf(overwolf.extensions.current.getManifest)(),
   );
   const { data: extensionUpdate, mutate: refreshCheckForExtensionUpdate } =
     useSWR("extensionUpdate", () =>
-      promisifyOverwolf(overwolf.extensions.checkForExtensionUpdate)()
+      promisifyOverwolf(overwolf.extensions.checkForExtensionUpdate)(),
     );
 
   const version = manifest?.meta.version;
@@ -47,8 +47,8 @@ export function Channels() {
               .then(() => refreshCheckForExtensionUpdate())
               .then(() =>
                 console.log(
-                  `Changed channel to ${checked ? "preview-access" : "production"}`
-                )
+                  `Changed channel to ${checked ? "preview-access" : "production"}`,
+                ),
               )
               .catch(console.error);
           }}

@@ -52,7 +52,7 @@ export function getMinDistance() {
 
 export function calculateDistance(
   node1: Node,
-  coords: [number, number, number]
+  coords: [number, number, number],
 ) {
   const dx = node1.x - coords[0];
   const dy = node1.y - coords[1];

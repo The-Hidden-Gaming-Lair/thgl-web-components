@@ -28,7 +28,7 @@ export function MarkersSearch({
     <div
       className={cn(
         `fixed w-[175px] md:w-[300px] top-[64px] left-2 bottom-2 z-[500] md:ml-[77px] pointer-events-none flex flex-col`,
-        { "top-2 md:ml-0 ": embed }
+        { "top-2 md:ml-0 ": embed },
       )}
     >
       <div className="relative flex w-full pointer-events-auto bg-card border rounded-md">
@@ -88,7 +88,7 @@ export function MarkersSearch({
           aria-haspopup="menu"
           aria-label="Open filters"
           className={cn(
-            `flex absolute inset-y-0 right-1 items-center pr-2 text-gray-400 hover:text-gray-200 md:text-white`
+            `flex absolute inset-y-0 right-1 items-center pr-2 text-gray-400 hover:text-gray-200 md:text-white`,
           )}
           onClick={() => {
             setShowFilters(!showFilters);
@@ -101,7 +101,7 @@ export function MarkersSearch({
       <div
         className={cn(
           `w-full text-sm mt-1 h-[calc(100vh-116px)] flex flex-col md:gap-2 justify-between`,
-          { "h-[100vh]": embed }
+          { "h-[100vh]": embed },
         )}
       >
         <ScrollArea
@@ -109,7 +109,7 @@ export function MarkersSearch({
             "pointer-events-auto border rounded-md bg-card text-card-foreground shadow max-h-[300px] md:max-h-[500px]",
             {
               collapse: !showFilters,
-            }
+            },
           )}
           type="auto"
         >

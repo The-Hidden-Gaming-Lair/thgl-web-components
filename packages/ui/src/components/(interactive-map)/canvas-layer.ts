@@ -7,7 +7,7 @@ const CanvasLayer = leaflet.TileLayer.extend({
   createCanvas(
     tile: Tile,
     coords: Coords,
-    done: (err: unknown, tile: Tile) => void
+    done: (err: unknown, tile: Tile) => void,
   ) {
     let err: unknown;
     const ctx = tile.getContext("2d");
@@ -32,7 +32,7 @@ const CanvasLayer = leaflet.TileLayer.extend({
             0,
             0,
             canvas.width,
-            canvas.height
+            canvas.height,
           );
           const pixels = imageData.data;
           for (let i = 0; i < pixels.length; i += 4) {
@@ -83,7 +83,7 @@ const CanvasLayer = leaflet.TileLayer.extend({
       this._delays[zoom].push(
         setTimeout(() => {
           this.createCanvas(tile, coords, done);
-        }, timeout)
+        }, timeout),
       );
     } else {
       this.createCanvas(tile, coords, done);
@@ -107,7 +107,7 @@ const CanvasLayer = leaflet.TileLayer.extend({
 
 export const createCanvasLayer = function (
   url: string,
-  options: TileLayerOptions & { filter: string }
+  options: TileLayerOptions & { filter: string },
 ) {
   return new CanvasLayer(url, options);
 };

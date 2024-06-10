@@ -14,7 +14,7 @@ export function Activities() {
 
   const customCategories = [
     ...new Set(
-      activitiesStore.customActivities.map((activity) => activity.category)
+      activitiesStore.customActivities.map((activity) => activity.category),
     ),
   ];
   return (

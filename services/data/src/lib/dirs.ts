@@ -7,7 +7,7 @@ export let OUTPUT_DIR = TEMP_DIR;
 export function initDirs(
   contentDir: string,
   textureDir: string,
-  outputDir: string
+  outputDir: string,
 ) {
   CONTENT_DIR = contentDir;
   TEXTURE_DIR = textureDir;

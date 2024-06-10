@@ -232,14 +232,14 @@ export function CoordinatesProvider({
       : [];
     targetNodes.push(
       ...privateGroups,
-      ...staticNodes.filter((node) => "static" in node && !!node.static)!
+      ...staticNodes.filter((node) => "static" in node && !!node.static)!,
     );
     return targetNodes;
   }, [liveMode, appId, actors, privateNodes]);
 
   const icons = useMemo(
     () => filters.flatMap((filter) => filter.values).map((value) => value),
-    [filters]
+    [filters],
   );
 
   const allFilters = useMemo(
@@ -249,17 +249,17 @@ export function CoordinatesProvider({
       ...privateDrawings.map((drawing) => drawing.id),
       ...REGION_FILTERS.map((filter) => filter.id),
     ],
-    [filters, privateNodes, privateDrawings]
+    [filters, privateNodes, privateDrawings],
   );
 
   const defaultFilters = useMemo(
     () => [
       ...filters.flatMap((filter) =>
-        filter.defaultOn ? filter.values.map((value) => value.id) : []
+        filter.defaultOn ? filter.values.map((value) => value.id) : [],
       ),
       ...REGION_FILTERS.map((filter) => filter.id),
     ],
-    [filters]
+    [filters],
   );
 
   const t = useT();
@@ -270,9 +270,9 @@ export function CoordinatesProvider({
         node.spawns.map((spawn) => ({
           type: node.type,
           ...spawn,
-        }))
+        })),
       ),
-    [nodes]
+    [nodes],
   );
 
   const fuse = useMemo(
@@ -304,7 +304,7 @@ export function CoordinatesProvider({
         includeScore: true,
         threshold: 0.3,
       }),
-    [spreadedSpawns, t]
+    [spreadedSpawns, t],
   );
 
   const userStore = useMemo(
@@ -361,11 +361,11 @@ export function CoordinatesProvider({
                 }
                 return result;
               },
-            }
-          )
-        )
+            },
+          ),
+        ),
       ),
-    []
+    [],
   );
   const refreshSpawns = useCallback(
     (state: Pick<UserStoreState, "filters" | "search">) => {
@@ -374,7 +374,7 @@ export function CoordinatesProvider({
         newSpawns = fuse.search(state.search).map((result) => result.item);
       } else if (state.filters.length !== allFilters.length) {
         newSpawns = spreadedSpawns.filter((spawn) =>
-          state.filters.includes(spawn.type)
+          state.filters.includes(spawn.type),
         );
       } else {
         newSpawns = spreadedSpawns;
@@ -391,7 +391,7 @@ export function CoordinatesProvider({
       newSpawns = Array.from(newSpawnsMap.values());
       setSpawns(newSpawns);
     },
-    [fuse]
+    [fuse],
   );
   const [isHydrated, setIsHydrated] = useState(false);
 
@@ -412,13 +412,13 @@ export function CoordinatesProvider({
       (state) => state.filters,
       () => {
         refreshSpawns(userStore.getState());
-      }
+      },
     );
     const unsubscribeSearch = userStore.subscribe(
       (state) => state.search,
       () => {
         refreshSpawns(userStore.getState());
-      }
+      },
     );
 
     return () => {

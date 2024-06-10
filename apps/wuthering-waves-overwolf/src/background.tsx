@@ -7,7 +7,7 @@ import {
 initBackground(
   24020,
   "jmdeljpdelieondpjbdoegkbhfokaemhgnmhidef",
-  "1209779455803924510"
+  "1209779455803924510",
 );
 
 const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
@@ -16,7 +16,7 @@ const refreshProcess = () => {
   gameEventsPlugin.UpdateProcess(
     handleCallback,
     handleError,
-    "Client-Win64-Shipping"
+    "Client-Win64-Shipping",
   );
 };
 

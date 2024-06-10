@@ -18,7 +18,7 @@ export function Account({ appId }: { appId: string }) {
 
       const response = await fetch(
         `https://www.th.gl/api/patreon?appId=${appId}`,
-        { credentials: "include" }
+        { credentials: "include" },
       );
       try {
         const body = (await response.json()) as { previewAccess: boolean };

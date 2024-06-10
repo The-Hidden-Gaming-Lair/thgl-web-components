@@ -22,7 +22,7 @@ export function HeaderOffset({
         {
           "h-dscreen": full,
         },
-        className
+        className,
       )}
     >
       {children}

@@ -10,7 +10,7 @@ export const useAccountStore = create(
     setAccount: (
       userId: string | null,
       adRemoval: boolean,
-      previewReleaseAccess: boolean
+      previewReleaseAccess: boolean,
     ) => void;
   }>(
     (set) => ({
@@ -27,8 +27,8 @@ export const useAccountStore = create(
     }),
     {
       name: "account-storage",
-    }
-  )
+    },
+  ),
 );
 
 withStorageDOMEvents(useAccountStore);

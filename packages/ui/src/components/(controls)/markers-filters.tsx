@@ -47,28 +47,28 @@ export function MarkersFilters({
   const privateNodes = useSettingsStore((state) => state.privateNodes);
   const privateDrawings = useSettingsStore((state) => state.privateDrawings);
   const removePrivateDrawing = useSettingsStore(
-    (state) => state.removePrivateDrawing
+    (state) => state.removePrivateDrawing,
   );
   const setPrivateNodes = useSettingsStore((state) => state.setPrivateNodes);
   const isDrawingEditing = useSettingsStore(
-    (state) => state.tempPrivateDrawing !== null
+    (state) => state.tempPrivateDrawing !== null,
   );
   const setTempPrivateDrawing = useSettingsStore(
-    (state) => state.setTempPrivateDrawing
+    (state) => state.setTempPrivateDrawing,
   );
 
   const privateNodesFilters = [
     ...new Set(
       privateNodes.map(
-        (privateNode) => privateNode.filter ?? "private_Unsorted"
-      )
+        (privateNode) => privateNode.filter ?? "private_Unsorted",
+      ),
     ),
   ];
   const hasActivePrivateNodesFilters = privateNodes.some((privateNode) =>
-    filters.includes(privateNode.filter ?? "private_Unsorted")
+    filters.includes(privateNode.filter ?? "private_Unsorted"),
   );
   const hasActiveDrawingFilters = privateDrawings.some((privateDrawing) =>
-    filters.includes(privateDrawing.id)
+    filters.includes(privateDrawing.id),
   );
   return (
     <>
@@ -98,12 +98,12 @@ export function MarkersFilters({
                 "text-left transition-colors hover:text-primary p-1 truncate grow",
                 {
                   "text-muted-foreground": !hasActivePrivateNodesFilters,
-                }
+                },
               )}
               onClick={() => {
                 const newFilters = hasActivePrivateNodesFilters
                   ? filters.filter(
-                      (filter) => !privateNodesFilters.includes(filter)
+                      (filter) => !privateNodesFilters.includes(filter),
                     )
                   : [...new Set([...filters, ...privateNodesFilters])];
                 setFilters(newFilters);
@@ -132,7 +132,7 @@ export function MarkersFilters({
                       "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
                       {
                         "text-muted-foreground": !filters.includes(nodeFilter),
-                      }
+                      },
                     )}
                     onClick={() => {
                       toggleFilter(nodeFilter);
@@ -156,7 +156,7 @@ export function MarkersFilters({
                             const fileName = `${nodeFilter}.json`;
                             const nodes = privateNodes.filter(
                               (n) =>
-                                (n.filter ?? "private_Unsorted") === nodeFilter
+                                (n.filter ?? "private_Unsorted") === nodeFilter,
                             );
                             if (typeof overwolf === "undefined") {
                               const blob = new Blob([JSON.stringify(nodes)], {
@@ -168,7 +168,7 @@ export function MarkersFilters({
                                 JSON.stringify(nodes),
                                 overwolf.io.paths.documents +
                                   "\\the-hidden-gaming-lair",
-                                fileName
+                                fileName,
                               );
                             }
                           }}
@@ -182,8 +182,8 @@ export function MarkersFilters({
                               privateNodes.filter(
                                 (n) =>
                                   (n.filter ?? "private_Unsorted") !==
-                                  nodeFilter
-                              )
+                                  nodeFilter,
+                              ),
                             );
                           }}
                         >
@@ -207,13 +207,13 @@ export function MarkersFilters({
           >
             <button
               className={cn(
-                "text-left transition-colors hover:text-primary p-1 truncate grow"
+                "text-left transition-colors hover:text-primary p-1 truncate grow",
               )}
               onClick={() => {
                 const newFilters = hasActiveDrawingFilters
                   ? filters.filter(
                       (filter) =>
-                        !privateDrawings.some((value) => value.id === filter)
+                        !privateDrawings.some((value) => value.id === filter),
                     )
                   : [
                       ...new Set([
@@ -247,9 +247,9 @@ export function MarkersFilters({
                       "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
                       {
                         "text-muted-foreground": !filters.includes(
-                          privateDrawing.id
+                          privateDrawing.id,
                         ),
-                      }
+                      },
                     )}
                     onClick={() => {
                       toggleFilter(privateDrawing.id);
@@ -274,7 +274,7 @@ export function MarkersFilters({
                                 [JSON.stringify(privateDrawing)],
                                 {
                                   type: "text/json",
-                                }
+                                },
                               );
                               saveFile(blob, fileName);
                             } else {
@@ -282,7 +282,7 @@ export function MarkersFilters({
                                 JSON.stringify(privateDrawing),
                                 overwolf.io.paths.documents +
                                   "\\the-hidden-gaming-lair",
-                                fileName
+                                fileName,
                               );
                             }
                           }}
@@ -321,21 +321,21 @@ export function MarkersFilters({
           <div
             className={cn("flex items-center transition-colors w-full px-1.5", {
               "text-muted-foreground": !REGION_FILTERS.some((f) =>
-                filters.includes(f.id)
+                filters.includes(f.id),
               ),
             })}
           >
             <button
               className={cn(
-                "text-left transition-colors hover:text-primary p-1 truncate grow"
+                "text-left transition-colors hover:text-primary p-1 truncate grow",
               )}
               onClick={() => {
                 const newFilters = REGION_FILTERS.some((f) =>
-                  filters.includes(f.id)
+                  filters.includes(f.id),
                 )
                   ? filters.filter(
                       (filter) =>
-                        !REGION_FILTERS.some((value) => value.id === filter)
+                        !REGION_FILTERS.some((value) => value.id === filter),
                     )
                   : [
                       ...new Set([
@@ -371,7 +371,7 @@ export function MarkersFilters({
                     "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
                     {
                       "text-muted-foreground": !filters.includes(filter.id),
-                    }
+                    },
                   )}
                   onClick={() => {
                     toggleFilter(filter.id);
@@ -390,7 +390,7 @@ export function MarkersFilters({
       <div className="flex flex-col w-[175px] md:w-full">
         {filterDetails.map(({ group, values, defaultOpen }) => {
           const hasActiveFilters = values.some((filter) =>
-            filters.includes(filter.id)
+            filters.includes(filter.id),
           );
           return (
             <Collapsible key={group} defaultOpen={defaultOpen}>
@@ -399,7 +399,7 @@ export function MarkersFilters({
                   "flex items-center transition-colors w-full px-1.5",
                   {
                     "text-muted-foreground": !hasActiveFilters,
-                  }
+                  },
                 )}
               >
                 <button
@@ -407,13 +407,13 @@ export function MarkersFilters({
                     "text-left transition-colors hover:text-primary p-1 truncate grow",
                     {
                       "text-muted-foreground": !hasActiveFilters,
-                    }
+                    },
                   )}
                   onClick={() => {
                     const newFilters = hasActiveFilters
                       ? filters.filter(
                           (filter) =>
-                            !values.some((value) => value.id === filter)
+                            !values.some((value) => value.id === filter),
                         )
                       : [
                           ...new Set([
@@ -447,9 +447,9 @@ export function MarkersFilters({
                           "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
                           {
                             "text-muted-foreground": !filters.includes(
-                              filter.id
+                              filter.id,
                             ),
-                          }
+                          },
                         )}
                         onClick={() => {
                           toggleFilter(filter.id);

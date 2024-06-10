@@ -10,7 +10,7 @@ export async function getInfoMessages(app: App) {
   try {
     const response = await fetch(
       `https://discord-bot.th.gl/api/info/${app.id}`,
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 60 } },
     );
     const data = await response.json();
     return data.reverse() as DiscordMessage[];
@@ -23,7 +23,7 @@ export async function getUpdateMessages(app: App) {
   try {
     const response = await fetch(
       `https://discord-bot.th.gl/api/updates/${app.id}`,
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 60 } },
     );
     const data = await response.json();
     return data as DiscordMessage[];

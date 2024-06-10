@@ -36,13 +36,13 @@ export function MarkerHoverCard({
   const t = useT();
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
   const toggleDiscoveredNode = useSettingsStore(
-    (state) => state.toggleDiscoveredNode
+    (state) => state.toggleDiscoveredNode,
   );
   const removePrivateNode = useSettingsStore(
-    (state) => state.removePrivateNode
+    (state) => state.removePrivateNode,
   );
   const setTempPrivateNode = useSettingsStore(
-    (state) => state.setTempPrivateNode
+    (state) => state.setTempPrivateNode,
   );
   const privateNodes = useSettingsStore((state) => state.privateNodes);
 
@@ -78,7 +78,7 @@ export function MarkerHoverCard({
                     size="sm"
                     onClick={() => {
                       const privateNode = privateNodes.find(
-                        (node) => node.id === item.id
+                        (node) => node.id === item.id,
                       );
                       setTempPrivateNode(privateNode ?? null);
                       onClose();

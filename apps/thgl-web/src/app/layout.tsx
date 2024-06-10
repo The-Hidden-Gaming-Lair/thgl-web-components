@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={cn(
           exo2.className,
-          "dark select-none text-slate-50 min-h-screen"
+          "dark select-none text-slate-50 min-h-screen",
         )}
       >
         <I18NProvider dict={enDictGlobal}>

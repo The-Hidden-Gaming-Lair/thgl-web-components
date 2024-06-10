@@ -26,12 +26,12 @@ export function Ads400x900Desktop({ title }: { title: string }): JSX.Element {
     const owAd1 = initAd(
       adRef1.current,
       { width: 400, height: 600 },
-      "Ads400x900Desktop-1"
+      "Ads400x900Desktop-1",
     );
     const owAd2 = initAd(
       adRef2.current,
       { width: 400, height: 300 },
-      "Ads400x900Desktop-2"
+      "Ads400x900Desktop-2",
     );
     return () => {
       owAd1?.shutdown();

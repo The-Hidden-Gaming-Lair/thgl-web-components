@@ -42,7 +42,7 @@ function App(): JSX.Element {
         !isOverlay || !overlayMode ? "bg-black" : "bg-transparent",
         {
           locked: isOverlay && lockedWindow,
-        }
+        },
       )}
     >
       {/* <AppHeader app={APP} gameClassId={24020} /> */}

@@ -32,7 +32,7 @@ export function Sidebar({
     <aside
       className={cn(
         "fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block",
-        className
+        className,
       )}
     >
       <ScrollArea className="h-full py-6 pr-6">
@@ -46,7 +46,7 @@ export function Sidebar({
               <Button
                 variant="link"
                 className={cn(
-                  "text-lg font-semibold tracking-tight text-secondary-foreground"
+                  "text-lg font-semibold tracking-tight text-secondary-foreground",
                 )}
               >
                 {entry.category.value}

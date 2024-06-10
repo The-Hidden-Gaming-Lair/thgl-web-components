@@ -123,7 +123,7 @@ export default async function SupportMeAccount() {
               app={app}
               userId={userId?.value}
               hasTier={app.patreonTierIDs?.some((tierId) =>
-                entitledTierIDs.includes(tierId)
+                entitledTierIDs.includes(tierId),
               )}
             />
           ))}

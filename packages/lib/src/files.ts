@@ -1,14 +1,14 @@
 export const writeFileOverwolf = async (
   content: string,
   folder: string,
-  fileName: string
+  fileName: string,
 ) => {
   overwolf.io.writeFileContents(
     `${folder}\\${fileName}`,
     content,
     "UTF8" as overwolf.io.enums.eEncoding.UTF8,
     true,
-    () => console.log
+    () => console.log,
   );
   overwolf.utils.openWindowsExplorer(folder, console.log);
 };
@@ -96,7 +96,7 @@ export const openFileOrFiles = async (multiple = false) => {
             // Add the `FileSystemFileHandle` as `.handle`.
             file.handle = handle;
             return file;
-          })
+          }),
         );
       }
     } catch (err) {

@@ -18,7 +18,7 @@ export async function mergeImages(paths: string[]) {
       image.width * x,
       image.height * y,
       image.width,
-      image.height
+      image.height,
     );
   }
 
@@ -37,7 +37,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
     (canvas.height * 1) / 4,
     canvas.width / 6,
     0,
-    2 * Math.PI
+    2 * Math.PI,
   );
   ctx.fillStyle = color;
   ctx.strokeStyle = "black";
@@ -77,7 +77,7 @@ export async function loadCanvas(imagePath: string) {
 export function adjustBrightnessAndContrast(
   canvas: Canvas,
   brightness: number,
-  contrast: number
+  contrast: number,
 ) {
   const ctx = canvas.getContext("2d");
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -87,11 +87,11 @@ export function adjustBrightnessAndContrast(
     data[i] = Math.max(Math.min(data[i] * contrast + brightness, 255), 0);
     data[i + 1] = Math.max(
       Math.min(data[i + 1] * contrast + brightness, 255),
-      0
+      0,
     );
     data[i + 2] = Math.max(
       Math.min(data[i + 2] * contrast + brightness, 255),
-      0
+      0,
     );
   }
 
@@ -136,7 +136,7 @@ const regionsData = [
 ];
 export async function getRegionsFromImage(
   imagePath: string,
-  transformation: [number, number, number, number]
+  transformation: [number, number, number, number],
 ) {
   const image = await loadImage(imagePath);
   const canvas = createCanvas(image.width, image.height);
@@ -152,7 +152,7 @@ export async function getRegionsFromImage(
     if (
       region === 0 ||
       regionsData.some(
-        (r) => r.rgb.length && r.rgb.every((c, j) => c === data[i + j])
+        (r) => r.rgb.length && r.rgb.every((c, j) => c === data[i + j]),
       )
     ) {
       continue;
@@ -189,7 +189,7 @@ export async function getRegionsFromImage(
     const border = value.map(({ x, y }) => [y, x]);
     const center = border.reduce(
       (acc, [x, y]) => [acc[0] + x, acc[1] + y],
-      [0, 0]
+      [0, 0],
     );
     return {
       id: key,

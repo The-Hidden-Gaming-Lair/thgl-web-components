@@ -18,15 +18,15 @@ manifest.data.windows.overlay.block_top_window_navigation = true;
 
 await fs.writeFile(
   path.resolve(__dirname, "../dist/manifest.json"),
-  JSON.stringify(manifest)
+  JSON.stringify(manifest),
 );
 await fs.cp(
   path.resolve(__dirname, "../icons/"),
   path.resolve(__dirname, "../dist/icons/"),
-  { recursive: true }
+  { recursive: true },
 );
 await fs.cp(
   path.resolve(__dirname, "../plugins/"),
   path.resolve(__dirname, "../dist/plugins/"),
-  { recursive: true }
+  { recursive: true },
 );

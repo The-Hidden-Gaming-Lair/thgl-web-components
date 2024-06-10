@@ -45,7 +45,7 @@ export function ActivityReset() {
           onClick={() => {
             if (
               confirm(
-                "Are you sure that you want to restore the default activities?"
+                "Are you sure that you want to restore the default activities?",
               )
             ) {
               activitiesStore.restoreDefaultActivities();

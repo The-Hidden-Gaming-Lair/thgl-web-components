@@ -19,7 +19,7 @@ export function readDirRecursive(filePath: string, extension?: string) {
   const files = paths
     .filter(
       (dirent) =>
-        dirent.isFile() && (!extension || dirent.name.endsWith(extension))
+        dirent.isFile() && (!extension || dirent.name.endsWith(extension)),
     )
     .map((dirent) => path.join(filePath, dirent.name));
   const dirs = paths.filter((dirent) => dirent.isDirectory());

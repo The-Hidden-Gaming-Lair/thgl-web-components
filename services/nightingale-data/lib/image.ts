@@ -10,7 +10,7 @@ export function createCanvasBySize(size: number) {
 export async function extractImageDataByIndex(
   filePath: string,
   index: number,
-  rgbFactor: [number, number, number] = [1, 1, 1]
+  rgbFactor: [number, number, number] = [1, 1, 1],
 ) {
   const image = await loadImage(filePath);
 
@@ -36,7 +36,7 @@ export function putImageData(
   canvas: Canvas,
   imageData: ImageData,
   dx: number,
-  dy: number
+  dy: number,
 ) {
   const ctx = canvas.getContext("2d");
   ctx.putImageData(imageData, dx, dy);
@@ -46,12 +46,12 @@ const AREA_WORLD_SIZE = 204800;
 
 export async function createMap(textureFilePath: string, dataFilePath: string) {
   const hillshade = await loadImage(
-    textureFilePath + "/MapMasks/map_rock_tree_hillshade.png"
+    textureFilePath + "/MapMasks/map_rock_tree_hillshade.png",
   );
 
   const dir = textureFilePath.split("/").at(-1);
   const roadPOIWater = await loadImage(
-    textureFilePath + "/MapMasks/map_road_poi_water.png"
+    textureFilePath + "/MapMasks/map_road_poi_water.png",
   );
   const heatmap = await loadImage(textureFilePath + "/MapMasks/map_height.png");
 
@@ -66,11 +66,11 @@ export async function createMap(textureFilePath: string, dataFilePath: string) {
   let offset = 0;
   try {
     const coastInfo = await readJSON<DA_Coast>(
-      dataFilePath + `/DA_Coast_${dir}.json`
+      dataFilePath + `/DA_Coast_${dir}.json`,
     );
     const areaSize = coastInfo[0].Properties.AreaSize.X;
     const coast = await loadImage(
-      textureFilePath + `/DA_Coast_${dir}_Ground.png`
+      textureFilePath + `/DA_Coast_${dir}_Ground.png`,
     );
     const coastCanvas = createCanvas(width, height);
     const coastCtx = coastCanvas.getContext("2d");
@@ -87,7 +87,7 @@ export async function createMap(textureFilePath: string, dataFilePath: string) {
         0,
         0,
         width,
-        height
+        height,
       );
     } else {
       padding = 80;
@@ -117,7 +117,7 @@ export async function createMap(textureFilePath: string, dataFilePath: string) {
     offset,
     offset,
     width - offset * 2,
-    height - offset * 2
+    height - offset * 2,
   );
 
   const roadPOIWaterCanvas = createCanvas(width, height);
@@ -127,7 +127,7 @@ export async function createMap(textureFilePath: string, dataFilePath: string) {
     offset,
     offset,
     width - offset * 2,
-    height - offset * 2
+    height - offset * 2,
   );
 
   const heatmapCanvas = createCanvas(width, height);
@@ -137,7 +137,7 @@ export async function createMap(textureFilePath: string, dataFilePath: string) {
     offset,
     offset,
     width - offset * 2,
-    height - offset * 2
+    height - offset * 2,
   );
 
   const hillshadeImageData = hillshadeCtx.getImageData(0, 0, width, height);
@@ -145,7 +145,7 @@ export async function createMap(textureFilePath: string, dataFilePath: string) {
     0,
     0,
     width,
-    height
+    height,
   );
   const heatmapImageData = heatmapCtx.getImageData(0, 0, width, height);
 

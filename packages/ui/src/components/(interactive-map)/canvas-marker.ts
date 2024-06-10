@@ -58,7 +58,7 @@ leaflet.Canvas.include({
         (canvas.width - imageSize) / 2,
         (canvas.height - imageSize) / 2,
         imageSize,
-        imageSize
+        imageSize,
       );
       if (isCluster) {
         context.beginPath();
@@ -120,7 +120,7 @@ class CanvasMarker extends CircleMarker {
 
   constructor(
     latLng: leaflet.LatLngExpression,
-    options: leaflet.CircleMarkerOptions & CanvasMarkerOptions
+    options: leaflet.CircleMarkerOptions & CanvasMarkerOptions,
   ) {
     super(latLng, options);
     if ("icon" in options && options.icon) {

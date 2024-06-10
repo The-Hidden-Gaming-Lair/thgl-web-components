@@ -42,7 +42,7 @@ export default function RootLayout({
       <body
         className={cn(
           "font-sans dark min-h-dscreen bg-black text-white antialiased select-none",
-          fontSans.variable
+          fontSans.variable,
         )}
       >
         <I18NProvider dict={enDictMerged}>

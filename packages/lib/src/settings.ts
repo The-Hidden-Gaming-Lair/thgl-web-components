@@ -92,7 +92,7 @@ export const useSettingsStore = create(
     setTraceLineColor: (traceLineColor: string) => void;
     displayDiscordActivityStatus: boolean;
     setDisplayDiscordActivityStatus: (
-      displayDiscordActivityStatus: boolean
+      displayDiscordActivityStatus: boolean,
     ) => void;
     presets: Record<string, string[]>;
     addPreset: (presetName: string, filters: string[]) => void;
@@ -109,7 +109,7 @@ export const useSettingsStore = create(
     setPrivateDrawings: (drawings: PrivateDrawing[]) => void;
     tempPrivateDrawing: Partial<PrivateDrawing> | null;
     setTempPrivateDrawing: (
-      tempPrivateDrawing: Partial<PrivateDrawing> | null
+      tempPrivateDrawing: Partial<PrivateDrawing> | null,
     ) => void;
     drawingColor: string;
     setDrawingColor: (drawingColor: string) => void;
@@ -256,8 +256,8 @@ export const useSettingsStore = create(
     },
     {
       name: "settings-storage",
-    }
-  )
+    },
+  ),
 );
 
 withStorageDOMEvents(useSettingsStore);

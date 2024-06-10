@@ -4,7 +4,7 @@ console.log("Hello via Bun!");
 // Create a single supabase client for interacting with your database
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!
+  process.env.SUPABASE_SECRET_KEY!,
 );
 
 const { data } = await supabase.storage.listBuckets();

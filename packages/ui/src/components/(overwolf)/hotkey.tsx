@@ -14,7 +14,7 @@ export function Hotkey({
     overwolf.settings.hotkeys.get((result) => {
       if (result.games) {
         const hotkey = result.games[gameClassId].find(
-          (hotkey) => hotkey.name === name
+          (hotkey) => hotkey.name === name,
         );
         if (hotkey) {
           setHotkeyBinding(hotkey.binding);

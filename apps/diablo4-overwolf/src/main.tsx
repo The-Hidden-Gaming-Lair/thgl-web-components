@@ -17,7 +17,7 @@ if (el) {
   root.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 } else {
   throw new Error("Could not find root element!!");
@@ -72,7 +72,7 @@ listenToGEP(22700, ["match_info", "location", "me"], (gameInfo) => {
       y: number;
       x: number;
       z: number;
-    }
+    },
   );
   player.x = position.y;
   player.y = position.x;
@@ -98,7 +98,7 @@ listenToGEP(22700, ["match_info", "location", "me"], (gameInfo) => {
     const rotation =
       (Math.atan2(
         player.y - (prevPlayer.y || player.y),
-        player.x - (prevPlayer.x || player.x)
+        player.x - (prevPlayer.x || player.x),
       ) *
         180) /
       Math.PI;

@@ -203,7 +203,7 @@ export function GlobalMenu({
         }
         return a.title.localeCompare(b.title);
       }),
-    [activeApp]
+    [activeApp],
   );
 
   useEffect(() => {
@@ -230,7 +230,7 @@ export function GlobalMenu({
           "fixed h-dvh z-[10010] bg-background px-4 py-2 shadow-lg inset-y-0 left-0 border-r sm:max-w-sm flex-col gap-3 hidden md:flex",
           {
             "w-fit flex": isExpanded,
-          }
+          },
         )}
       >
         <Button
@@ -279,7 +279,7 @@ export function GlobalMenu({
                     "group outline-none flex items-center gap-2 text-md font-medium text-secondary-foreground/50 transition-colors",
                     app.title === activeApp
                       ? "text-primary"
-                      : "hover:text-secondary-foreground"
+                      : "hover:text-secondary-foreground",
                   )}
                   href={app.url}
                 >
@@ -289,7 +289,7 @@ export function GlobalMenu({
                       "bg-background h-9 w-9 border-2 border-secondary rounded-full overflow-hidden transition-colors group-focus-visible:outline-none group-focus-visible:ring-1 group-focus-visible:ring-ring",
                       app.title === activeApp
                         ? "border-primary"
-                        : "group-hover:border-white/50"
+                        : "group-hover:border-white/50",
                     )}
                     src={app.icon}
                     title={app.title}
@@ -310,14 +310,14 @@ export function GlobalMenu({
                     <ExternalAnchor
                       key={partner.title}
                       className={cn(
-                        "group outline-none flex items-center gap-2 text-md font-medium text-secondary-foreground/50 transition-colors hover:text-secondary-foreground"
+                        "group outline-none flex items-center gap-2 text-md font-medium text-secondary-foreground/50 transition-colors hover:text-secondary-foreground",
                       )}
                       href={partner.url}
                     >
                       <img
                         alt=""
                         className={cn(
-                          "bg-background mx-1 h-7 w-7 border-2 border-secondary rounded-full overflow-hidden transition-colors group-focus-visible:outline-none group-focus-visible:ring-1 group-focus-visible:ring-ring group-hover:border-white/50"
+                          "bg-background mx-1 h-7 w-7 border-2 border-secondary rounded-full overflow-hidden transition-colors group-focus-visible:outline-none group-focus-visible:ring-1 group-focus-visible:ring-ring group-hover:border-white/50",
                         )}
                         src={partner.icon}
                         title={partner.title}

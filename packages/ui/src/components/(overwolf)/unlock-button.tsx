@@ -30,7 +30,7 @@ export function UnlockButton({
     <div
       className={cn(
         "lock fixed p-2 z-10 flex gap-2 items-center",
-        hintVisible ? "border-neutral-800 bg-zinc-800/30" : ""
+        hintVisible ? "border-neutral-800 bg-zinc-800/30" : "",
       )}
     >
       <Button
@@ -38,7 +38,7 @@ export function UnlockButton({
         onClick={onClick}
         className={cn(
           "transition-all",
-          hintVisible ? "bg-white" : "bg-white/10 text-white hover:bg-white/40"
+          hintVisible ? "bg-white" : "bg-white/10 text-white hover:bg-white/40",
         )}
       >
         <EyeOpenIcon />

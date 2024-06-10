@@ -25,7 +25,7 @@ for (const icon of icons) {
     await saveIcon(
       `${TEXTURE_DIR}/Game/UI/Icons/${icon}.png`,
       sapling,
-      "sapling"
+      "sapling",
     );
   }
   await saveIcon(`${TEXTURE_DIR}/Game/UI/Icons/${icon}.png`, small, "small");
@@ -33,7 +33,7 @@ for (const icon of icons) {
   await saveIcon(`${TEXTURE_DIR}/Game/UI/Icons/${icon}.png`, large, "large");
 }
 await saveIcon(
-  `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/three-leaves_lorc.webp`
+  `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/three-leaves_lorc.webp`,
 );
 await saveIcon(`${TEXTURE_DIR}/Game/UI/Icons/Icon_Deco_Chapaa_Nest.png`);
 async function saveIcon(assetPath: string, color?: string, size?: string) {

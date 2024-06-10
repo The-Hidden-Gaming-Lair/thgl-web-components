@@ -46,7 +46,7 @@ export function MapContainer({
     moveableRef.current?.moveable.request(
       "draggable",
       { deltaX: 0, deltaY: 0 },
-      true
+      true,
     );
 
     const onResize = () => {
@@ -54,7 +54,7 @@ export function MapContainer({
       moveableRef.current?.moveable.request(
         "draggable",
         { deltaX: 0, deltaY: 0 },
-        true
+        true,
       );
     };
     window.addEventListener("resize", onResize, true);
@@ -72,7 +72,7 @@ export function MapContainer({
       return;
     }
     console.log(
-      `Setting map transform with ${window.innerWidth} and ${window.innerHeight}`
+      `Setting map transform with ${window.innerWidth} and ${window.innerHeight}`,
     );
     setMapTransform({
       transform: `translate(${
@@ -113,7 +113,7 @@ export function MapContainer({
         {!lockedWindow && (
           <div
             className={cn(
-              "absolute -top-6 right-0 flex w-fit rounded-t-lg bg-opacity-50 bg-neutral-800 ml-auto text-neutral-300"
+              "absolute -top-6 right-0 flex w-fit rounded-t-lg bg-opacity-50 bg-neutral-800 ml-auto text-neutral-300",
             )}
           >
             <Select value={mapFilter} onValueChange={setMapFilter}>

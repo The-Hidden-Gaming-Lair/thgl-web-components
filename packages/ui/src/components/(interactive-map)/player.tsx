@@ -78,7 +78,7 @@ export function Player({
           ?.classList.add(
             "transition-transform",
             "ease-linear",
-            "duration-1000"
+            "duration-1000",
           );
         map.panTo([player.x, player.y], {
           animate: false,

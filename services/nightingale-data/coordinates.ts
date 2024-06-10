@@ -8,7 +8,7 @@ const OUT_DIR = __dirname + "../out";
 const PROD_OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/nightingale";
 
 const response = await fetch(
-  "https://nightingale-api.th.gl/nodes?type=spawnNodes"
+  "https://nightingale-api.th.gl/nodes?type=spawnNodes",
 );
 const data = (await response.json()) as Record<
   string,
@@ -67,7 +67,7 @@ function getMinDistance(type: string) {
 
 function calculateDistance(
   node1: { p: [number, number]; mapName: string },
-  coords: [number, number, number, string]
+  coords: [number, number, number, string],
 ) {
   const dx = node1.p[0] - coords[0];
   const dy = node1.p[1] - coords[1];

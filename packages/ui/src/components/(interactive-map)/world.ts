@@ -8,7 +8,7 @@ PM.setOptIn(true);
 export function createWorld(
   element: string | HTMLElement,
   view: { center?: [number, number]; zoom?: number },
-  options?: TileLayer
+  options?: TileLayer,
 ): Map {
   const worldCRS = options?.transformation
     ? extend({}, CRS.Simple, {
@@ -16,7 +16,7 @@ export function createWorld(
           options.transformation[0],
           options.transformation[1],
           options.transformation[2],
-          options.transformation[3]
+          options.transformation[3],
         ),
       })
     : CRS.Simple;

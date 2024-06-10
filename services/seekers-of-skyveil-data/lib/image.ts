@@ -22,7 +22,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
     (canvas.height * 1) / 4,
     canvas.width / 6,
     0,
-    2 * Math.PI
+    2 * Math.PI,
   );
   ctx.fillStyle = color;
   ctx.strokeStyle = "black";

@@ -42,11 +42,11 @@ const groups: {
 }[] = [];
 
 const aFactionChoices = await readJSON<A_FactionChoices_C>(
-  `${CONTENT_DIR}/Zerospace/Content/Nova/Archetypes_Factions/A_FactionChoices.json`
+  `${CONTENT_DIR}/Zerospace/Content/Nova/Archetypes_Factions/A_FactionChoices.json`,
 );
 
 const factionChoices = aFactionChoices.find(
-  (f) => f.Type === "A_FactionChoices_C"
+  (f) => f.Type === "A_FactionChoices_C",
 );
 if (!factionChoices?.Properties) {
   throw new Error("No faction choices found");
@@ -54,7 +54,7 @@ if (!factionChoices?.Properties) {
 
 for (const factionObject of factionChoices.Properties.FactionPool) {
   const faction = await readJSON<Faction_Protectorate_C>(
-    `${CONTENT_DIR}/${factionObject.ObjectPath.replace(".0", ".json")}`
+    `${CONTENT_DIR}/${factionObject.ObjectPath.replace(".0", ".json")}`,
   );
   const groupId = faction[0].Name;
   const deckInfo = faction.find((f) => f.Properties?.DeckInfo)?.Properties
@@ -62,7 +62,7 @@ for (const factionObject of factionChoices.Properties.FactionPool) {
 
   const factionName = deckInfo.FactionName;
   const factionPortrait = await saveIcon(
-    `${TEXTURE_DIR}/${deckInfo.Portrait.ObjectPath.replace(".0", ".png")}`
+    `${TEXTURE_DIR}/${deckInfo.Portrait.ObjectPath.replace(".0", ".png")}`,
   );
   const factionDesc = deckInfo.FactionDescription.LocalizedString;
   enDict[groupId] = factionName;
@@ -74,12 +74,12 @@ for (const factionObject of factionChoices.Properties.FactionPool) {
 
   for (const heroObject of deckInfo.Heroes) {
     const hero = await readJSON<RI_Hero_FluffyHero_C>(
-      `${CONTENT_DIR}/${heroObject.ObjectPath.replace(".0", ".json")}`
+      `${CONTENT_DIR}/${heroObject.ObjectPath.replace(".0", ".json")}`,
     );
     const customHeroPathName = hero.find((h) => h.Properties?.GrantProducts)
       ?.Properties?.GrantProducts![0].AssetPathName!;
     const customHero = await readJSON<Troop_MPHero_Mera_C>(
-      `${CONTENT_DIR}/${customHeroPathName.replace("/Game", "/Zerospace/Content").split(".")[0]}.json`
+      `${CONTENT_DIR}/${customHeroPathName.replace("/Game", "/Zerospace/Content").split(".")[0]}.json`,
     );
     const customHeroVitals = customHero.find((h) => h.Properties?.Vitals)
       ?.Properties?.Vitals;
@@ -99,7 +99,7 @@ for (const factionObject of factionChoices.Properties.FactionPool) {
     const [heroTemplatePath, heroTemplateIndex] =
       attributes.Template?.ObjectPath.split(".") as [string, string];
     const heroTemplate = await readJSON<BlueprintBase_Hero_C>(
-      `${CONTENT_DIR}/${heroTemplatePath}.json`
+      `${CONTENT_DIR}/${heroTemplatePath}.json`,
     );
     const heroTemplateVitals = heroTemplate.find((h) => h.Properties?.Vitals)
       ?.Properties?.Vitals!;
@@ -108,16 +108,16 @@ for (const factionObject of factionChoices.Properties.FactionPool) {
       +heroTemplateIndex
     ].Template?.ObjectPath.split(".") as [string, string];
     const unitTemplate = await readJSON<BlueprintBase_Hero_C>(
-      `${CONTENT_DIR}/${unitTemplatePath}.json`
+      `${CONTENT_DIR}/${unitTemplatePath}.json`,
     );
     const unitTemplateVitals = unitTemplate.find((h) => h.Properties?.Vitals)
       ?.Properties?.Vitals!;
 
     const heroTemplateCharMove = heroTemplate.find(
-      (h) => h.Properties?.MaxWalkSpeed
+      (h) => h.Properties?.MaxWalkSpeed,
     )?.Properties!;
     const unitTemplateCharMove = unitTemplate.find(
-      (h) => h.Properties?.MaxWalkSpeed
+      (h) => h.Properties?.MaxWalkSpeed,
     )?.Properties!;
 
     const props: Record<string, any> = {};
@@ -133,13 +133,13 @@ for (const factionObject of factionChoices.Properties.FactionPool) {
         continue;
       }
       const customHeroVital = customHeroVitals?.find(
-        (v) => v.AttributeName.AttributeName === prop
+        (v) => v.AttributeName.AttributeName === prop,
       );
       const heroVital = heroTemplateVitals.find(
-        (v) => v.AttributeName.AttributeName === prop
+        (v) => v.AttributeName.AttributeName === prop,
       );
       const unitVital = unitTemplateVitals.find(
-        (v) => v.AttributeName.AttributeName === prop
+        (v) => v.AttributeName.AttributeName === prop,
       );
       const value =
         customHeroVital?.AttributeValue ??
@@ -153,7 +153,7 @@ for (const factionObject of factionChoices.Properties.FactionPool) {
       id: heroId,
       groupId: groupId,
       icon: await saveIcon(
-        `${TEXTURE_DIR}/${heroPortrait.ObjectPath.replace(".0", ".png")}`
+        `${TEXTURE_DIR}/${heroPortrait.ObjectPath.replace(".0", ".png")}`,
       ),
       props: props,
     });
@@ -295,7 +295,7 @@ async function saveIcon(assetPath: string) {
 
 function addItemToDatabase(
   type: string,
-  item: (typeof database)[number]["items"][number]
+  item: (typeof database)[number]["items"][number],
 ) {
   if (!database.find((d) => d.type === type)) {
     database.push({

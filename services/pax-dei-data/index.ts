@@ -76,7 +76,7 @@ const icons: Record<string, string> = {
 };
 
 const mapMarkerTypes = readJSON<MapMarkerTypes>(
-  CONTENT_DIR + "/PaxDei/Content/_PD/Game/UX/Map/D_MapMarkerTypes.json"
+  CONTENT_DIR + "/PaxDei/Content/_PD/Game/UX/Map/D_MapMarkerTypes.json",
 );
 
 const enDict: Record<string, string> = {
@@ -132,7 +132,7 @@ const mineables: (typeof filters)[number] = {
 
 const localisationEN = readJSON<Record<string, string>>(
   CONTENT_DIR +
-    "/PaxDei/Content/_PD/StaticData/Localisation/localisation_en.json"
+    "/PaxDei/Content/_PD/StaticData/Localisation/localisation_en.json",
 );
 
 const TILE_SIZE = 512;
@@ -151,7 +151,7 @@ const SMALL = {
   CAMERA_ANGLE: 0,
 };
 for (const mapName of readDirSync(
-  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/Domain"
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/Domain",
 )) {
   if (
     mapName.includes("test") ||
@@ -164,7 +164,7 @@ for (const mapName of readDirSync(
   console.log("Processing", mapName);
   const domainConfig = readJSON<DomainConfig>(
     CONTENT_DIR +
-      `/PaxDei/Content/_PD/StaticData/Domain/${mapName}/domain_config.json`
+      `/PaxDei/Content/_PD/StaticData/Domain/${mapName}/domain_config.json`,
   );
   enDict[mapName] = `Province of ${domainConfig.label}`;
 
@@ -185,12 +185,12 @@ for (const mapName of readDirSync(
   if (Bun.env.TILES === "true") {
     try {
       const tilesFilepaths = await readDirSync(
-        TEXTURE_DIR + `/PaxDei/Content/_PD/World/${mapName}/Map`
+        TEXTURE_DIR + `/PaxDei/Content/_PD/World/${mapName}/Map`,
       );
       const bigTiles = tilesFilepaths
         .filter((f) => f.includes("bigtile"))
         .map(
-          (f) => TEXTURE_DIR + `/PaxDei/Content/_PD/World/${mapName}/Map/${f}`
+          (f) => TEXTURE_DIR + `/PaxDei/Content/_PD/World/${mapName}/Map/${f}`,
         );
       const canvas = await mergeImages(bigTiles);
       const imagePath = TEMP_DIR + "/" + mapName + ".png";
@@ -243,7 +243,7 @@ for (const mapName of readDirSync(
 
     const center = border.reduce(
       (acc, [x, y]) => [acc[0] + x, acc[1] + y],
-      [0, 0]
+      [0, 0],
     );
     center[0] /= border.length;
     center[1] /= border.length;
@@ -275,12 +275,12 @@ for (const mapName of readDirSync(
   // }
 
   const mapCellFilenames = await readDirSync(
-    CONTENT_DIR + `/PaxDei/Content/_PD/StaticData/Domain/${mapName}`
+    CONTENT_DIR + `/PaxDei/Content/_PD/StaticData/Domain/${mapName}`,
   ).filter((f) => f.includes("map_cell"));
   for (const mapCellFilename of mapCellFilenames) {
     const mapCell = readJSON<MapCell>(
       CONTENT_DIR +
-        `/PaxDei/Content/_PD/StaticData/Domain/${mapName}/${mapCellFilename}`
+        `/PaxDei/Content/_PD/StaticData/Domain/${mapName}/${mapCellFilename}`,
     );
     for (const mapCellIcon of mapCell.icons) {
       if (!mapCellIcon.icon) {
@@ -292,9 +292,9 @@ for (const mapName of readDirSync(
           TEXTURE_DIR +
             value.icon_14_79B580D74A39832FAFDC3AA545CFCB48.AssetPathName.replace(
               "/Game",
-              "/PaxDei/Content"
+              "/PaxDei/Content",
             ).split(".")[0] +
-            ".png"
+            ".png",
         );
         const id = mapCellIcon.icon;
         const size = id === "minicamp" ? 2.5 : 1.5;
@@ -306,7 +306,7 @@ for (const mapName of readDirSync(
       }
       const location = normalizeLocation(
         { x: mapCellIcon.pos[0], y: mapCellIcon.pos[1] },
-        offset
+        offset,
       );
 
       enDict[mapCellIcon.entity] = mapCellIcon.name;
@@ -322,7 +322,7 @@ for (const mapName of readDirSync(
           (s) =>
             s.p[0] === location.y &&
             s.p[1] === location.x &&
-            s.mapName === mapName
+            s.mapName === mapName,
         )
       ) {
         typeNodes.spawns.push({
@@ -338,7 +338,7 @@ for (const mapName of readDirSync(
 filters.push(locations);
 const typesIdMap: Record<string, string> = {};
 const gatherablesPaths = readDirRecursive(
-  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Gatherables"
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Gatherables",
 );
 for (const gatherablesPath of gatherablesPaths) {
   const file = readJSON<GatherablesDataAsset>(gatherablesPath);
@@ -360,7 +360,7 @@ for (const gatherablesPath of gatherablesPaths) {
 
   const pdaResource = readJSON<PDAResourcesGatherables>(
     CONTENT_DIR +
-      `/PaxDei/Content/_PD/Environment/Nature/Resources/DA_Resources/Gatherables/${file[0].Properties.VisualDataAsset}.json`
+      `/PaxDei/Content/_PD/Environment/Nature/Resources/DA_Resources/Gatherables/${file[0].Properties.VisualDataAsset}.json`,
   );
   const category =
     pdaResource[0].Properties.ResourceMesh.AssetPathName.split("/")[6] ??
@@ -370,7 +370,7 @@ for (const gatherablesPath of gatherablesPaths) {
     CONTENT_DIR +
     pdaResource[0].Properties.ResourceMesh.AssetPathName.replace(
       "/Game",
-      "/PaxDei/Content"
+      "/PaxDei/Content",
     ).split(".")[0] +
     ".json";
   if (resourcePath.includes("Experimental")) {
@@ -391,7 +391,7 @@ for (const gatherablesPath of gatherablesPaths) {
     .at(-1)!;
   const resourceFolder = resourcePath.split("/").slice(0, -1).join("/");
   const iconFilenames = readDirSync(resourceFolder).filter((f) =>
-    f.includes("Icon")
+    f.includes("Icon"),
   );
 
   let iconFilename;
@@ -399,7 +399,7 @@ for (const gatherablesPath of gatherablesPaths) {
     iconFilename = iconFilenames[0];
   } else {
     iconFilename = iconFilenames.find((f) =>
-      f.toLowerCase().includes(resourcePartName)
+      f.toLowerCase().includes(resourcePartName),
     );
     if (!iconFilename) {
       iconFilename = iconFilenames[0];
@@ -448,7 +448,7 @@ for (const gatherablesPath of gatherablesPaths) {
   });
 }
 const mineablesPaths = readDirRecursive(
-  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Mineables"
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Mineables",
 );
 for (const mineablesPath of mineablesPaths) {
   const file = readJSON<GatherablesDataAsset>(mineablesPath);
@@ -467,13 +467,13 @@ for (const mineablesPath of mineablesPaths) {
 
   const pdaResource = readJSON<PDAResourcesMineables>(
     CONTENT_DIR +
-      `/PaxDei/Content/_PD/Environment/Nature/Resources/DA_Resources/Mineables/${file[0].Properties.VisualDataAsset}.json`
+      `/PaxDei/Content/_PD/Environment/Nature/Resources/DA_Resources/Mineables/${file[0].Properties.VisualDataAsset}.json`,
   );
   const resourcePath =
     CONTENT_DIR +
     pdaResource[0].Properties.ResourceMesh.AssetPathName.replace(
       "/Game",
-      "/PaxDei/Content"
+      "/PaxDei/Content",
     ).split(".")[0] +
     ".json";
   const resource = readJSON<Resource>(resourcePath);
@@ -481,7 +481,7 @@ for (const mineablesPath of mineablesPaths) {
 
   const resourceFolder = resourcePath.split("/").slice(0, -1).join("/");
   const iconFilename = readDirSync(resourceFolder).filter((f) =>
-    f.includes("Icon")
+    f.includes("Icon"),
   )[0];
   let iconPath;
   if (!iconFilename) {
@@ -517,7 +517,7 @@ for (const mineablesPath of mineablesPaths) {
 }
 
 const npcsPaths = readDirRecursive(
-  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/NPCs"
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/NPCs",
 );
 for (const npcsPath of npcsPaths) {
   const file = readJSON<NPCDataAssets>(npcsPath);
@@ -634,7 +634,7 @@ for (const npcsPath of npcsPaths) {
 filters.push(mineables);
 
 const response = await fetch(
-  "http://116.203.249.187:3000/nodes?type=spawnNodes"
+  "http://116.203.249.187:3000/nodes?type=spawnNodes",
 );
 const data = (await response.json()) as Record<
   string,
@@ -664,7 +664,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
         (s) =>
           s.p[0] === location.y &&
           s.p[1] === location.x &&
-          s.mapName === mapName
+          s.mapName === mapName,
       )
     ) {
       return;
@@ -677,7 +677,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
 });
 
 nodes = nodes.filter(
-  (n) => !["tree_branch", "flint_stones", "gneiss_stones"].includes(n.type)
+  (n) => !["tree_branch", "flint_stones", "gneiss_stones"].includes(n.type),
 );
 filters = filters
   .filter((n) => n.group !== "GatherableDebris")
@@ -698,7 +698,7 @@ nodes.forEach((n) => {
     for (let j = i + 1; j < arr.length; j++) {
       const s2 = arr[j];
       const distance = Math.sqrt(
-        Math.pow(s1.p[0] - s2.p[0], 2) + Math.pow(s1.p[1] - s2.p[1], 2)
+        Math.pow(s1.p[0] - s2.p[0], 2) + Math.pow(s1.p[1] - s2.p[1], 2),
       );
       if (distance < minDistance) {
         return false;
@@ -733,7 +733,7 @@ console.log("Done");
 async function saveIcon(
   assetPath: string,
   props: { color?: string; outline?: boolean } = {},
-  name: string = ""
+  name: string = "",
 ) {
   const fileName = assetPath.split("/").at(-1)?.split(".")[0]!;
   const originalID = fileName + (props.color ? `_${props.color}` : "");
@@ -786,7 +786,7 @@ function normalizeLocation(
     OFFSET_X,
     OFFSET_Y,
     CAMERA_ANGLE,
-  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number }
+  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number },
 ): { x: number; y: number } {
   const x = location.x - OFFSET_X;
   const y = location.y - OFFSET_Y;

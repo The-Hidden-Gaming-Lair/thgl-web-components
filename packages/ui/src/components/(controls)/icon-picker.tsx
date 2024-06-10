@@ -31,7 +31,7 @@ export function IconPicker({
       name: string;
       url: string;
       author?: string;
-    } | null
+    } | null,
   ) => void;
   className?: string;
 }) {
@@ -80,7 +80,7 @@ export function IconPicker({
           className={cn(
             "justify-start text-left font-normal",
             !value && "text-muted-foreground",
-            className
+            className,
           )}
         >
           <div className="w-full flex items-center gap-2">

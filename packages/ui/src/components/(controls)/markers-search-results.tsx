@@ -32,7 +32,7 @@ export function MarkersSearchResults({
         acc[key][mapName].push(spawn);
         return acc;
       },
-      {} as Record<string, Record<string, typeof spawns>>
+      {} as Record<string, Record<string, typeof spawns>>,
     );
     return Object.entries(reduced);
   }, [spawns]);
@@ -51,7 +51,7 @@ export function MarkersSearchResults({
           return (
             <button
               className={cn(
-                "flex gap-2 items-center hover:text-primary p-2 truncate w-full"
+                "flex gap-2 items-center hover:text-primary p-2 truncate w-full",
               )}
               key={`${key}-${groupedMapName}`}
               onClick={() => {
@@ -97,7 +97,7 @@ export function MarkersSearchResults({
               </div>
             </button>
           );
-        })
+        }),
       )}
     </>
   );

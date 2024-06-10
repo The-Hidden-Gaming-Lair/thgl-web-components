@@ -16,10 +16,10 @@ import { dispose, loadDiscordRPCPlugin } from "./discord";
 export async function initBackground(
   gameClassId: number,
   appId: string,
-  discordApplicationId: string
+  discordApplicationId: string,
 ) {
   const openApp = async (
-    event?: overwolf.extensions.AppLaunchTriggeredEvent
+    event?: overwolf.extensions.AppLaunchTriggeredEvent,
   ) => {
     const search = new URLSearchParams(location.search);
     const origin = event?.origin ?? search.get("source");

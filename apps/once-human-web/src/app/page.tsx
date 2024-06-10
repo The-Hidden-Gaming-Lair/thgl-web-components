@@ -18,7 +18,7 @@ const InteractiveMapDynamic = dynamic(
   () => import("@/components/interactive-map-dynamic"),
   {
     ssr: false,
-  }
+  },
 );
 
 export const metadata: Metadata = {

@@ -13,7 +13,7 @@ export function ResizeBorders(): JSX.Element {
       event.stopPropagation();
       overwolf.windows.dragResize(
         windowInfo!.id,
-        edge as overwolf.windows.enums.WindowDragEdge
+        edge as overwolf.windows.enums.WindowDragEdge,
       );
     };
   }

@@ -9,23 +9,23 @@ const TEMP_DIR =
 const PROD_OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/nightingale";
 
 const creatureData = readJSON(
-  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_BPCreatureData.json"
+  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_BPCreatureData.json",
 );
 const creatures = creatureData[0].Rows;
 
 const creatureUIData = readJSON(
-  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_CreatureUIData.json"
+  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_CreatureUIData.json",
 );
 const creatureUIRows = creatureUIData[0].Rows;
 
 const creatureStrings = readJSON(
-  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/StringTables/Y1S1/ST_Y1S1_Creatures.json"
+  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/StringTables/Y1S1/ST_Y1S1_Creatures.json",
 );
 const strings = creatureStrings[0].StringTable.KeysToMetaData;
 
 const files = readDirRecursive(
   "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Creatures",
-  ".json"
+  ".json",
 );
 
 const dict: Record<string, string> = {};
@@ -57,11 +57,11 @@ for (const file of files) {
   const creature = creatures[creatureName];
   if (creature) {
     const uiDataKey = Object.keys(creature).find((key) =>
-      key.startsWith("UIData")
+      key.startsWith("UIData"),
     );
     uiRowName = creature[uiDataKey].RowName;
     const tagsKey = Object.keys(creature).find((key) =>
-      key.startsWith("AddedTags")
+      key.startsWith("AddedTags"),
     );
     if (creature[tagsKey].includes("Creature.Hero")) {
       isBoss = true;
@@ -70,7 +70,7 @@ for (const file of files) {
 
   const uiRow = creatureUIRows[uiRowName];
   const nameDataKey = Object.keys(uiRow).find((key) =>
-    key.startsWith("CreatureName")
+    key.startsWith("CreatureName"),
   );
   const uiItem = uiRow[nameDataKey];
   let name;
@@ -81,7 +81,7 @@ for (const file of files) {
     name = strings[nameKey];
   }
   const iconKey = Object.keys(uiRow).find((key) =>
-    key.startsWith("CreatureIcon")
+    key.startsWith("CreatureIcon"),
   );
   let icon = uiRow[iconKey].AssetPathName.split(".").at(-1);
   const isNPC = bpName.includes("NPC");

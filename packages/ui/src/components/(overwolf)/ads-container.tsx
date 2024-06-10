@@ -32,14 +32,14 @@ export function AdsContainer({
     moveableRef.current.moveable.request(
       "draggable",
       { deltaX: 0, deltaY: 0 },
-      true
+      true,
     );
 
     const onResize = () => {
       moveableRef.current?.moveable.request(
         "draggable",
         { deltaX: 0, deltaY: 0 },
-        true
+        true,
       );
     };
     window.addEventListener("resize", onResize, true);
@@ -67,7 +67,7 @@ export function AdsContainer({
             "flex w-fit rounded-t-lg bg-background/50 ml-auto text-neutral-300",
             {
               hidden: settingsStore.lockedWindow && isOverlay,
-            }
+            },
           )}
         >
           {isOverlay && <p className="px-1.5 py-0.5 text-xs">{title}</p>}

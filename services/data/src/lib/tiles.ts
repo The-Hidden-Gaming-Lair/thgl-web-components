@@ -17,7 +17,7 @@ export async function generateTiles(
   width: number,
   tileSize = 512,
   additionalOffset = [0, 0],
-  fitBounds?: [[number, number], [number, number]]
+  fitBounds?: [[number, number], [number, number]],
 ): Promise<Tiles> {
   const halfWidth = width / 2;
   const mapBounds = [

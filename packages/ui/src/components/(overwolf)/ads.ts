@@ -4,7 +4,7 @@ import { trackEvent } from "../(header)/plausible-tracker";
 export function initAd(
   container: HTMLElement,
   size: OwAdOptionsSize,
-  variant: string
+  variant: string,
 ) {
   if (typeof window.OwAd === "undefined") {
     return;

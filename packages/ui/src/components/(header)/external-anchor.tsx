@@ -4,7 +4,7 @@ export function ExternalAnchor(
   props: Omit<
     React.AnchorHTMLAttributes<HTMLAnchorElement>,
     "onClick" | "target"
-  >
+  >,
 ): JSX.Element {
   return (
     <a

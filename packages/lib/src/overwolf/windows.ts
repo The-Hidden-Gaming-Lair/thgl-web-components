@@ -9,7 +9,7 @@ export const WINDOWS = {
 };
 
 export async function obtainDeclaredWindow(
-  windowName: string
+  windowName: string,
 ): Promise<overwolf.windows.WindowInfo> {
   const overwolfWindow = await promisifyOverwolf<
     string,
@@ -45,14 +45,14 @@ export async function restoreWindow(windowName: string): Promise<string> {
     await promisifyOverwolf(overwolf.windows.restore)(windowName);
   }
   await promisifyOverwolf<string, overwolf.windows.WindowIdResult>(
-    overwolf.windows.bringToFront
+    overwolf.windows.bringToFront,
   )(windowName);
   return declaredWindow.id;
 }
 
 export async function moveToOtherScreen(
   windowId: string,
-  monitorHandleValue: number
+  monitorHandleValue: number,
 ) {
   const monitors = await getMonitors();
   if (monitors.displays.length <= 1) {
@@ -60,11 +60,11 @@ export async function moveToOtherScreen(
   }
   const desktopWindow = await obtainDeclaredWindow(WINDOWS.DESKTOP);
   const otherScreens = monitors.displays.filter(
-    (monitor) => monitor.handle.value !== monitorHandleValue
+    (monitor) => monitor.handle.value !== monitorHandleValue,
   );
   const secondScreen =
     otherScreens.find(
-      (secondScreen) => desktopWindow.monitorId === secondScreen.id
+      (secondScreen) => desktopWindow.monitorId === secondScreen.id,
     ) || otherScreens[0];
 
   if (desktopWindow.monitorId === secondScreen.id) {
@@ -119,7 +119,7 @@ export async function togglePreferedWindow(gameClassId: number) {
 
 export async function getCurrentWindow() {
   const currentWindow = await promisifyOverwolf(
-    overwolf.windows.getCurrentWindow
+    overwolf.windows.getCurrentWindow,
   )();
   return currentWindow.window;
 }
@@ -131,12 +131,12 @@ export async function setInputPassThrough(inputPassThrough: boolean) {
   if (inputPassThrough) {
     return promisifyOverwolf(overwolf.windows.setWindowStyle)(
       currentWindow.id,
-      "InputPassThrough" as overwolf.windows.enums.WindowStyle.InputPassThrough
+      "InputPassThrough" as overwolf.windows.enums.WindowStyle.InputPassThrough,
     );
   }
 
   return promisifyOverwolf(overwolf.windows.removeWindowStyle)(
     currentWindow.id,
-    "InputPassThrough" as overwolf.windows.enums.WindowStyle.InputPassThrough
+    "InputPassThrough" as overwolf.windows.enums.WindowStyle.InputPassThrough,
   );
 }

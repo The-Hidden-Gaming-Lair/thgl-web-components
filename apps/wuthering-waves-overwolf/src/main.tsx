@@ -14,7 +14,7 @@ if (el) {
   root.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 } else {
   throw new Error("Could not find root element!!");
@@ -28,7 +28,7 @@ useGameState.subscribe(
   (state) => state.actors,
   (actors) => {
     sendActorsToAPI(actors);
-  }
+  },
 );
 
 let lastSend = 0;
@@ -39,7 +39,7 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
   lastSend = Date.now();
   const newActors = actors.filter(
-    (actor) => !lastActorAddresses.includes(actor.address)
+    (actor) => !lastActorAddresses.includes(actor.address),
   );
   lastActorAddresses = actors.map((actor) => actor.address);
   if (newActors.length === 0) {

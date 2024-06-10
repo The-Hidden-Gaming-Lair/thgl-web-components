@@ -19,7 +19,7 @@ if (el) {
   root.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 } else {
   throw new Error("Could not find root element!!");
@@ -30,14 +30,14 @@ await listenToPlugin(
   (path) => {
     return path.split("/")[6];
   },
-  "NWXClient-Win64-Shipping"
+  "NWXClient-Win64-Shipping",
 );
 
 useGameState.subscribe(
   (state) => state.actors,
   (actors) => {
     sendActorsToAPI(actors);
-  }
+  },
 );
 
 let lastSend = 0;
@@ -48,7 +48,7 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
   lastSend = Date.now();
   const newActors = actors.filter(
-    (actor) => !lastActorAddresses.includes(actor.address)
+    (actor) => !lastActorAddresses.includes(actor.address),
   );
   lastActorAddresses = actors.map((actor) => actor.address);
   if (newActors.length === 0) {
@@ -56,7 +56,7 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
   try {
     const manifest = await promisifyOverwolf(
-      overwolf.extensions.current.getManifest
+      overwolf.extensions.current.getManifest,
     )();
     const version = manifest.meta.version;
 

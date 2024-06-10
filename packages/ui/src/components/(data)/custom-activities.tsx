@@ -54,7 +54,7 @@ export function CustomActivities() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (
       activitiesStore.customActivities.some(
-        (activity) => activity.title === values.title
+        (activity) => activity.title === values.title,
       )
     ) {
       alert("Activity with this name already exists!");

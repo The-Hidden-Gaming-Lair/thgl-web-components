@@ -56,7 +56,7 @@ export const initPlausible = (domain: string, apiHost: string) => {
 export const trackEvent = (
   eventName: string,
   options?: EventOptions | undefined,
-  eventData?: PlausibleOptions | undefined
+  eventData?: PlausibleOptions | undefined,
 ) => {
   if (plausible) {
     lastActionTimestamp = Date.now();

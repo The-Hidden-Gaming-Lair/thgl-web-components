@@ -31,7 +31,7 @@ export function I18NProvider({
       }
       return "";
     },
-    [dict]
+    [dict],
   );
 
   return <Context.Provider value={{ dict, t }}>{children}</Context.Provider>;
@@ -50,7 +50,7 @@ export const useI18n = (): ContextValue => {
 export const useT = (): ((
   term?: string,
   isDesc?: boolean,
-  fallback?: string
+  fallback?: string,
 ) => string) => {
   const { t } = useI18n();
   return t;

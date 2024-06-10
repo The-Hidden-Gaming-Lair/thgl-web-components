@@ -23,7 +23,7 @@ const savedIcons: string[] = [];
 
 await saveIcon(
   TEXTURE_DIR + "/slices/2DUIMinimapIcons/4248556590.webp",
-  "player"
+  "player",
 );
 
 const nodes: {
@@ -58,7 +58,7 @@ const filters: {
         id: "altarsOfLilith",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/4194820567.webp",
-          "altarsOfLilith"
+          "altarsOfLilith",
         ),
         size: 1.5,
       },
@@ -66,7 +66,7 @@ const filters: {
         id: "cellars",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1573024828.webp",
-          "cellars"
+          "cellars",
         ),
         size: 1.5,
       },
@@ -74,7 +74,7 @@ const filters: {
         id: "dungeons",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1741287201.webp",
-          "dungeons"
+          "dungeons",
         ),
         size: 1.5,
       },
@@ -82,7 +82,7 @@ const filters: {
         id: "sideQuestDungeons",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1287872359.webp",
-          "sideQuestDungeons"
+          "sideQuestDungeons",
         ),
         size: 1.5,
       },
@@ -90,7 +90,7 @@ const filters: {
         id: "campaignDungeons",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3566347010.webp",
-          "campaignDungeons"
+          "campaignDungeons",
         ),
         size: 1.5,
       },
@@ -98,7 +98,7 @@ const filters: {
         id: "stash",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/523040772.webp",
-          "stash"
+          "stash",
         ),
         size: 2,
       },
@@ -106,7 +106,7 @@ const filters: {
         id: "strongholds",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3122276994.webp",
-          "strongholds"
+          "strongholds",
         ),
         size: 2,
       },
@@ -114,7 +114,7 @@ const filters: {
         id: "waypoints",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/889034296.webp",
-          "waypoints"
+          "waypoints",
         ),
         size: 2,
       },
@@ -122,7 +122,7 @@ const filters: {
         id: "wardrobes",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/2294324951.webp",
-          "wardrobes"
+          "wardrobes",
         ),
         size: 2,
       },
@@ -130,7 +130,7 @@ const filters: {
         id: "worldTierStatue",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1601625104.webp",
-          "worldTierStatue"
+          "worldTierStatue",
         ),
         size: 2,
       },
@@ -145,7 +145,7 @@ const filters: {
         id: "alchemists",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/828137185.webp",
-          "alchemists"
+          "alchemists",
         ),
         size: 1.5,
       },
@@ -153,7 +153,7 @@ const filters: {
         id: "blacksmiths",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1518318179.webp",
-          "blacksmiths"
+          "blacksmiths",
         ),
         size: 1.5,
       },
@@ -161,7 +161,7 @@ const filters: {
         id: "healers",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3927157842.webp",
-          "healers"
+          "healers",
         ),
         size: 1.5,
       },
@@ -169,7 +169,7 @@ const filters: {
         id: "gamblers",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3905225007.webp",
-          "gamblers"
+          "gamblers",
         ),
         size: 1.5,
       },
@@ -177,7 +177,7 @@ const filters: {
         id: "jewelers",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1557137717.webp",
-          "jewelers"
+          "jewelers",
         ),
         size: 1.5,
       },
@@ -185,7 +185,7 @@ const filters: {
         id: "occultists",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1736753223.webp",
-          "occultists"
+          "occultists",
         ),
         size: 1.5,
       },
@@ -193,7 +193,7 @@ const filters: {
         id: "silversmiths",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3510500336.webp",
-          "silversmiths"
+          "silversmiths",
         ),
         size: 1.5,
       },
@@ -201,7 +201,7 @@ const filters: {
         id: "stableMasters",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1126344873.webp",
-          "stableMasters"
+          "stableMasters",
         ),
         size: 1.5,
       },
@@ -209,7 +209,7 @@ const filters: {
         id: "weapons",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1265112984.webp",
-          "weapons"
+          "weapons",
         ),
         size: 1.5,
       },
@@ -224,7 +224,7 @@ const filters: {
         id: "sideQuests",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/360808697.webp",
-          "sideQuests"
+          "sideQuests",
         ),
         size: 1.5,
       },
@@ -232,7 +232,7 @@ const filters: {
         id: "campaignQuests",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3837410649.webp",
-          "campaignQuests"
+          "campaignQuests",
         ),
         size: 1.5,
       },
@@ -240,7 +240,7 @@ const filters: {
         id: "events",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/503808014.webp",
-          "events"
+          "events",
         ),
         size: 1.5,
       },
@@ -258,7 +258,7 @@ const filters: {
           "chestGuardian",
           "#c4a4f6",
           false,
-          100
+          100,
         ),
         size: 2,
       },
@@ -266,7 +266,7 @@ const filters: {
         id: "chestT3",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/43109186.webp",
-          "chestT3"
+          "chestT3",
         ),
         size: 2,
       },
@@ -281,7 +281,7 @@ const filters: {
         id: "boss",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/3438342714.webp",
-          "boss"
+          "boss",
         ),
         size: 2,
       },
@@ -289,7 +289,7 @@ const filters: {
         id: "unique",
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/83908665.webp",
-          "unique"
+          "unique",
         ),
         size: 2,
       },
@@ -305,7 +305,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "bandit",
-          uniqolor("bandit").color
+          uniqolor("bandit").color,
         ),
         size: 1,
       },
@@ -314,7 +314,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "cannibal",
-          uniqolor("cannibal").color
+          uniqolor("cannibal").color,
         ),
         size: 1,
       },
@@ -323,7 +323,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "cultist",
-          uniqolor("cultist").color
+          uniqolor("cultist").color,
         ),
         size: 1,
       },
@@ -332,7 +332,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "demon",
-          uniqolor("demon").color
+          uniqolor("demon").color,
         ),
         size: 1,
       },
@@ -341,7 +341,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "drown",
-          uniqolor("drown").color
+          uniqolor("drown").color,
         ),
         size: 1,
       },
@@ -350,7 +350,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "fallen",
-          uniqolor("fallen").color
+          uniqolor("fallen").color,
         ),
         size: 1,
       },
@@ -359,7 +359,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "ghost",
-          uniqolor("ghost").color
+          uniqolor("ghost").color,
         ),
         size: 1,
       },
@@ -368,7 +368,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "goatman",
-          uniqolor("goatman").color
+          uniqolor("goatman").color,
         ),
         size: 1,
       },
@@ -377,7 +377,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "knight",
-          uniqolor("knight").color
+          uniqolor("knight").color,
         ),
         size: 1,
       },
@@ -386,7 +386,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "skeleton",
-          uniqolor("skeleton").color
+          uniqolor("skeleton").color,
         ),
         size: 1,
       },
@@ -395,7 +395,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "snake",
-          uniqolor("snake").color
+          uniqolor("snake").color,
         ),
         size: 1,
       },
@@ -404,7 +404,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "spider",
-          uniqolor("spider").color
+          uniqolor("spider").color,
         ),
         size: 1,
       },
@@ -413,7 +413,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "vampire",
-          uniqolor("vampire").color
+          uniqolor("vampire").color,
         ),
         size: 1,
       },
@@ -422,7 +422,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "werewolf",
-          uniqolor("werewolf").color
+          uniqolor("werewolf").color,
         ),
         size: 1,
       },
@@ -431,7 +431,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "wildlife",
-          uniqolor("wildlife").color
+          uniqolor("wildlife").color,
         ),
         size: 1,
       },
@@ -440,7 +440,7 @@ const filters: {
         icon: await saveIcon(
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/1393108954.webp",
           "zombie",
-          uniqolor("zombie").color
+          uniqolor("zombie").color,
         ),
         size: 1,
       },
@@ -511,16 +511,16 @@ const regions: {
 }[] = [];
 
 const continent = readJSON<Sanctuary_Eastern_Continent>(
-  CONTENT_DIR + "/json/base/meta/World/Sanctuary_Eastern_Continent.wrl.json"
+  CONTENT_DIR + "/json/base/meta/World/Sanctuary_Eastern_Continent.wrl.json",
 );
 const globalMarkers = readJSON<GlobalMarkers>(
-  CONTENT_DIR + "/json/base/meta/Global/global_markers.glo.json"
+  CONTENT_DIR + "/json/base/meta/Global/global_markers.glo.json",
 );
 const hiddenCaches = readJSON<HiddenCaches>(
-  CONTENT_DIR + "/json/base/meta/GameBalance/HiddenCaches.gam.json"
+  CONTENT_DIR + "/json/base/meta/GameBalance/HiddenCaches.gam.json",
 );
 const bounties = readJSON<Bounties>(
-  CONTENT_DIR + "/json/base/meta/Global/bounties.glo.json"
+  CONTENT_DIR + "/json/base/meta/Global/bounties.glo.json",
 );
 
 // const SCALE = continent.unk_d9c79d2.unk_ae5bfbd;
@@ -555,7 +555,7 @@ function normalizeTerm(str: string) {
 
 function readTerms(name: string) {
   return readJSON<StringList>(
-    CONTENT_DIR + `/json/enUS_Text/meta/StringList/${name}.stl.json`
+    CONTENT_DIR + `/json/enUS_Text/meta/StringList/${name}.stl.json`,
   ).arStrings;
 }
 
@@ -564,11 +564,11 @@ for (const regionBoundary of continent.arRegionBoundaries) {
   const id = `territories:${stringId}`;
   enDict[id] = readTerms(`Territory_${stringId}`)[0].szText;
   const border = regionBoundary.arPoints.map((vector) =>
-    normalizePoint(vector)
+    normalizePoint(vector),
   );
   const center = border.reduce(
     (acc, [x, y]) => [acc[0] + x, acc[1] + y],
-    [0, 0]
+    [0, 0],
   );
   center[0] /= border.length;
   center[1] /= border.length;
@@ -600,7 +600,7 @@ for (const regionBoundary of continent.arRegionBoundaries) {
 
 const isPointInsidePolygon = (
   point: readonly [number, number],
-  polygon: readonly (readonly [number, number])[]
+  polygon: readonly (readonly [number, number])[],
 ) => {
   const x = point[0];
   const y = point[1];
@@ -673,7 +673,7 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
       .find((term) => term.szLabel === "Name")!
       .szText.trim();
     const description = worldTerms.find(
-      (term) => term.szLabel === "Desc"
+      (term) => term.szLabel === "Desc",
     )?.szText;
 
     enDict[spawn.id] = name;
@@ -686,13 +686,13 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
       actor.ptData[0].snoPortalDestObjectiveTrackedReward?.name;
     if (rewardName) {
       const trackedReward = readJSON<TrackedReward>(
-        CONTENT_DIR + `/json/base/meta/TrackedReward/${rewardName}.trd.json`
+        CONTENT_DIR + `/json/base/meta/TrackedReward/${rewardName}.trd.json`,
       );
       const aspect = trackedReward.snoAspect!;
       const aspectId = aspect.name.replace("Asp_", "");
       const aspectTerms = readTerms(`Affix_${aspectId.toLowerCase()}`);
       const aspectName = aspectTerms.find(
-        (term) => term.szLabel === "Name"
+        (term) => term.szLabel === "Name",
       )!.szText;
       enDict[`${spawn.id}_desc`] += `<b>Aspect ${aspectName}</b>`;
       enDict[`${spawn.id}_tags`] = `Aspect ${aspectName}`;
@@ -739,7 +739,7 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
             TEXTURE_DIR + "/slices/2DUIMinimapIcons/1741287201.webp",
             iconName,
             color,
-            true
+            true,
           ),
         };
       }
@@ -752,7 +752,7 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
     type = "altarsOfLilith";
     const pData = actor.ptData.find((data) => data.gbidHiddenCache)!;
     const hiddenCache = hiddenCaches.ptData[0].tEntries.find(
-      (entry) => entry.tHeader?.szName === pData.gbidHiddenCache!.name
+      (entry) => entry.tHeader?.szName === pData.gbidHiddenCache!.name,
     )!;
     const attribute = hiddenCache.snoTrackedReward.name.match(/TR_(.*)_/)![1];
     let color;
@@ -773,21 +773,21 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
     if (attribute === "Obol_Cap") {
       const attributeDescriptions = readTerms(`Map`);
       const term = attributeDescriptions.find(
-        (term) => term.szLabel === "RegionProgress_Reward_GamblingCurrency"
+        (term) => term.szLabel === "RegionProgress_Reward_GamblingCurrency",
       )!;
       enDict[`${spawn.id}_desc`] += normalizeTerm(term.szText);
       enDict[`${spawn.id}_tags`] = normalizeTerm(term.szText);
     } else if (attribute === "Cache_Paragon") {
       const attributeDescriptions = readTerms(`SkillsUI`);
       const term = attributeDescriptions.find(
-        (term) => term.szLabel === "ParagonPointsAvailable"
+        (term) => term.szLabel === "ParagonPointsAvailable",
       )!;
       enDict[`${spawn.id}_desc`] += normalizeTerm(term.szText);
       enDict[`${spawn.id}_tags`] = normalizeTerm(term.szText);
     } else {
       const attributeDescriptions = readTerms(`AttributeDescriptions`);
       const term = attributeDescriptions.find(
-        (term) => term.szLabel === attribute
+        (term) => term.szLabel === attribute,
       )!;
       enDict[`${spawn.id}_desc`] += normalizeTerm(term.szText);
       enDict[`${spawn.id}_tags`] = normalizeTerm(term.szText);
@@ -795,7 +795,7 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
 
     const trackedReward = readJSON<TrackedReward>(
       CONTENT_DIR +
-        `/json/base/meta/TrackedReward/${hiddenCache.snoTrackedReward.name}.trd.json`
+        `/json/base/meta/TrackedReward/${hiddenCache.snoTrackedReward.name}.trd.json`,
     );
     enDict[`${spawn.id}_desc`] += ` +${trackedReward.flAmount}</p>`;
 
@@ -807,7 +807,7 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
           TEXTURE_DIR + "/slices/2DUIMinimapIcons/4194820567.webp",
           iconName,
           color,
-          true
+          true,
         ),
       };
     }
@@ -863,7 +863,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/MarkerSet")) {
     continue;
   }
   const markerSet = readJSON<MarkerSet>(
-    CONTENT_DIR + "/json/base/meta/MarkerSet/" + fileName
+    CONTENT_DIR + "/json/base/meta/MarkerSet/" + fileName,
   );
 
   for (const marker of markerSet.tMarkerSet) {
@@ -880,7 +880,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/MarkerSet")) {
     } else if (snoName?.name.startsWith("TWN")) {
       // TWN_Frac_Nevesk_Service_Healer
       const matched = snoName.name.match(
-        /TWN_(?<name>.*)_(?<type>.*)_(?<role>.*)/
+        /TWN_(?<name>.*)_(?<type>.*)_(?<role>.*)/,
       );
       const role = matched?.groups?.role;
       if (!role) {
@@ -925,7 +925,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/MarkerSet")) {
         continue;
       }
       const family = families.find((family) =>
-        `${snoName.name}_`.startsWith(family)
+        `${snoName.name}_`.startsWith(family),
       )!;
       id = `${family}:${snoName.name}`;
       if (snoName.name.toLowerCase().includes("_unique")) {
@@ -988,7 +988,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/Quest")) {
     continue;
   }
   const quest = readJSON<Quest>(
-    CONTENT_DIR + "/json/base/meta/Quest/" + fileName
+    CONTENT_DIR + "/json/base/meta/Quest/" + fileName,
   );
 
   let point;
@@ -1014,7 +1014,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/Quest")) {
   const isBounty =
     stringId.startsWith("Bounty_") &&
     quest.arQuestPhases.some(
-      (questPhase) => questPhase.snoReward?.groupName === "TreasureClass"
+      (questPhase) => questPhase.snoReward?.groupName === "TreasureClass",
     );
   const isSideQuest = !stringId.startsWith("Bounty_") && quest.eQuestType === 0;
   const isCampaignQuest =
@@ -1084,7 +1084,7 @@ for (const bountyZone of [
     const [, , , zone, subzone] = bounty.snoWorldState.name.split("_");
     const stringId = bounty.snoQuest.name;
     const quest = readJSON<Quest>(
-      CONTENT_DIR + "/json/base/meta/Quest/" + stringId + ".qst.json"
+      CONTENT_DIR + "/json/base/meta/Quest/" + stringId + ".qst.json",
     );
     const point = normalizePoint(quest.vecStartLocation);
     const id = bounty.snoQuest.name;
@@ -1133,7 +1133,7 @@ async function saveIcon(
   name: string,
   color?: string,
   circle?: boolean,
-  threshold?: number
+  threshold?: number,
 ) {
   if (savedIcons.includes(name)) {
     return `${name}.webp`;

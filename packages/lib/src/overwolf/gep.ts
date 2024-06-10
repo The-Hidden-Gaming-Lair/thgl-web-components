@@ -5,7 +5,7 @@ import { ActorPlayer } from "./plugin";
 export function listenToGEP(
   gameClassId: number,
   interestedInFeatures: string[],
-  gameInfoToPlayer: (gameInfo: any) => ActorPlayer | null
+  gameInfoToPlayer: (gameInfo: any) => ActorPlayer | null,
 ) {
   const state = useGameState.getState();
   const { setPlayer, setError } = state;

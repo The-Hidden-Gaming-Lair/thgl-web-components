@@ -52,7 +52,7 @@ export function MapSelect({ mapNames }: { mapNames: string[] }): JSX.Element {
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        mapName === name ? "opacity-100" : "opacity-0"
+                        mapName === name ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {t(name) || name}

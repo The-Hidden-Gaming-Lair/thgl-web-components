@@ -65,7 +65,7 @@ function App(): JSX.Element {
         !isOverlay || !overlayMode ? "bg-black" : "bg-transparent",
         {
           locked: isOverlay && lockedWindow,
-        }
+        },
       )}
     >
       <I18NProvider dict={enDictMerged}>

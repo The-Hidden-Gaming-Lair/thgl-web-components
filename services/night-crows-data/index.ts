@@ -35,67 +35,67 @@ const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/night-crows";
 const savedIcons: string[] = [];
 
 const mSubZoneData = readJSON<MSubZoneData>(
-  `${CONTENT_DIR}/mad/content/gamedata/msubzonedata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/msubzonedata.json`,
 );
 const subZoneData = mSubZoneData[0].Rows;
 const mZoneResourceExportData = readJSON<MZoneResourceExportData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mzoneresourceexportdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mzoneresourceexportdata.json`,
 );
 const zoneResources = mZoneResourceExportData[0].Rows;
 const mStringData = readJSON<MStringData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mstringdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mstringdata.json`,
 );
 const stringData = mStringData[0].Rows;
 const uiDataAsset = readJSON<UIDataAsset>(
-  `${CONTENT_DIR}/mad/content/uniquedataasset/uidataasset.json`
+  `${CONTENT_DIR}/mad/content/uniquedataasset/uidataasset.json`,
 );
 const uiData = uiDataAsset[0];
 const zoneMapIconWidget = readJSON<ZoneMapIconWidget>(
-  `${CONTENT_DIR}/mad/content/ui/bp/zonemap/icon/zonemapiconwidget.json`
+  `${CONTENT_DIR}/mad/content/ui/bp/zonemap/icon/zonemapiconwidget.json`,
 );
 const mZoneResourceData = readJSON<MZoneResourceData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mzoneresourcedata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mzoneresourcedata.json`,
 );
 const zoneResourceData = mZoneResourceData[0].Rows;
 const mZonePersistentData = readJSON<MZonePersistentData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mzonepersistentdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mzonepersistentdata.json`,
 );
 const zonePersistentData = mZonePersistentData[0].Rows;
 const mZoneExportData = readJSON<MZoneExportData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mzoneexportdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mzoneexportdata.json`,
 );
 const zoneExportData = mZoneExportData[0].Rows;
 const mNpcData = readJSON<MNpcData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mnpcdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mnpcdata.json`,
 );
 const npcData = mNpcData[0].Rows;
 const npcEntries = Object.entries(npcData);
 const mNpcRoleData = readJSON<MNpcRoleData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mnpcroledata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mnpcroledata.json`,
 );
 const npcRoleData = mNpcRoleData[0].Rows;
 const mNpcSpawnData = readJSON<MNpcSpawnData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mnpcspawndata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mnpcspawndata.json`,
 );
 const npcSpawnData = mNpcSpawnData[0].Rows;
 const mPrivateMissionData = readJSON<MPrivateMissionData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mprivatemissiondata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mprivatemissiondata.json`,
 );
 const privateMissionData = mPrivateMissionData[0].Rows;
 const mAchievementData = readJSON<MAchievementData>(
-  `${CONTENT_DIR}/mad/content/gamedata/machievementdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/machievementdata.json`,
 );
 const achievementData = mAchievementData[0].Rows;
 const mMaterialItemData = readJSON<MMaterialItemData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mmaterialitemdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mmaterialitemdata.json`,
 );
 const materialItemData = mMaterialItemData[0].Rows;
 const mEquipmentItemData = readJSON<MEquipmentItemData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mequipmentitemdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mequipmentitemdata.json`,
 );
 const equipmentItemData = mEquipmentItemData[0].Rows;
 const mBoxItemData = readJSON<MBoxItemData>(
-  `${CONTENT_DIR}/mad/content/gamedata/mboxitemdata.json`
+  `${CONTENT_DIR}/mad/content/gamedata/mboxitemdata.json`,
 );
 const boxItemData = mBoxItemData[0].Rows;
 
@@ -111,13 +111,13 @@ for (const zoneMapIcon of zoneMapIconWidget) {
   const path = await saveIcon(
     `${TEXTURE_DIR}/${zoneMapIcon.Properties.Brush!.ResourceObject.ObjectPath.replace(
       ".0",
-      ".png"
-    )}`
+      ".png",
+    )}`,
   );
   icons[zoneMapIcon.Name] = path;
 }
 const bookmarkIconPath = await saveIcon(
-  `${TEXTURE_DIR}/mad/content/ui/tex/icon/ui_texture_icon_bookmark.png`
+  `${TEXTURE_DIR}/mad/content/ui/tex/icon/ui_texture_icon_bookmark.png`,
 );
 icons["EPrivateMissionType::Move"] = bookmarkIconPath;
 
@@ -166,11 +166,11 @@ for (const zone of Object.values(zoneResources)) {
     const subZone = Object.values(subZoneData).find(
       (subZone) =>
         subZone.Zone.StringId === zone.ZoneResourceId.StringId &&
-        subZone.IconArea === area.Key
+        subZone.IconArea === area.Key,
       // subZone.Areas.includes(area.Key)
     );
     const [missionKey, privateMission] = Object.entries(
-      privateMissionData
+      privateMissionData,
     ).find(([, m]) => m.DestinationArea === area.Key) || [null, null];
     const achievement = missionKey ? achievementData[missionKey] : null;
     if (!subZone && !privateMission) {
@@ -192,7 +192,7 @@ for (const zone of Object.values(zoneResources)) {
           subZone.Icon.AssetPathName!.toLowerCase()
             .replace("/game", "/mad/content")
             .split(".")[0]
-        }.png`
+        }.png`,
       );
     } else {
       switch (type) {
@@ -277,7 +277,7 @@ for (const exportData of Object.values(zoneExportData)) {
     npc: MNpcData["0"]["Rows"]["0"],
     zoneName: string,
     spawnId: number,
-    spawnNum: number
+    spawnNum: number,
   ) => {
     let role: string = npc.NpcRole.StringId;
 
@@ -317,13 +317,13 @@ for (const exportData of Object.values(zoneExportData)) {
       if (color) {
         const canvas = await addCircleToImage(
           `${TEXTURE_DIR}/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`,
-          color
+          color,
         );
         saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
         icon = await saveIcon(`${TEMP_DIR}/${id}.png`);
       } else {
         icon = await saveIcon(
-          `${TEXTURE_DIR}/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`
+          `${TEXTURE_DIR}/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`,
         );
       }
     } else {
@@ -332,7 +332,7 @@ for (const exportData of Object.values(zoneExportData)) {
           roleData.Icon.AssetPathName!.toLowerCase()
             .replace("/game", "/mad/content")
             .split(".")[0]
-        }.png`
+        }.png`,
       );
     }
     let mapName = "";
@@ -374,7 +374,7 @@ for (const exportData of Object.values(zoneExportData)) {
     }
 
     const spawnData = Object.values(npcSpawnData).find(
-      (spawn) => spawn.ID === spawnId
+      (spawn) => spawn.ID === spawnId,
     );
     if (spawnData && spawnData.Spawn.Type !== "ESpawnType::Once") {
       if (!enDict[`${id}_desc`]) {
@@ -431,7 +431,7 @@ for (const exportData of Object.values(zoneExportData)) {
     }
 
     const npcEntry = npcEntries.find(
-      ([, npc]) => npc.ID === npcSpawnSpot.NpcSpawnCommon.NpcId
+      ([, npc]) => npc.ID === npcSpawnSpot.NpcSpawnCommon.NpcId,
     );
     if (!npcEntry) {
       console.warn("Missing npc data for", npcSpawnSpot.NpcSpawnCommon.NpcId);
@@ -444,7 +444,7 @@ for (const exportData of Object.values(zoneExportData)) {
       npc,
       npcSpawnSpot.Name,
       npcSpawnSpot.NpcSpawnCommon.NpcSpawnId,
-      npcSpawnSpot.NpcSpawnCommon.NpcSpawnNum
+      npcSpawnSpot.NpcSpawnCommon.NpcSpawnNum,
     );
     if (!result) {
       continue;
@@ -465,7 +465,7 @@ for (const exportData of Object.values(zoneExportData)) {
           s.id === spawn.id &&
           s.mapName === spawn.mapName &&
           s.p[0] === spawn.p[0] &&
-          s.p[1] === spawn.p[1]
+          s.p[1] === spawn.p[1],
       )
     ) {
       continue;
@@ -480,7 +480,7 @@ for (const exportData of Object.values(zoneExportData)) {
     let spawnIndex = 0;
     for (const npcSpawnSpot of npcRandomSpawnSpot.NpcSpawn) {
       const npcEntry = npcEntries.find(
-        ([, npc]) => npc.ID === npcSpawnSpot.NpcSpawnCommon.NpcId
+        ([, npc]) => npc.ID === npcSpawnSpot.NpcSpawnCommon.NpcId,
       );
       if (!npcEntry) {
         console.warn("Missing npc data for", npcSpawnSpot.NpcSpawnCommon.NpcId);
@@ -493,7 +493,7 @@ for (const exportData of Object.values(zoneExportData)) {
         npc,
         npcRandomSpawnSpot.Name,
         npcSpawnSpot.NpcSpawnCommon.NpcSpawnId,
-        npcSpawnSpot.NpcSpawnCommon.NpcSpawnNum
+        npcSpawnSpot.NpcSpawnCommon.NpcSpawnNum,
       );
       if (!result) {
         continue;
@@ -525,7 +525,7 @@ for (const exportData of Object.values(zoneExportData)) {
             s.id === spawn.id &&
             s.mapName === spawn.mapName &&
             s.p[0] === spawn.p[0] &&
-            s.p[1] === spawn.p[1]
+            s.p[1] === spawn.p[1],
         )
       ) {
         continue;
@@ -541,7 +541,7 @@ for (const exportData of Object.values(zoneExportData)) {
     }
     for (const npcSpawn of npcRandomSpawnSpotGroup.NpcSpawnList) {
       const [id, npc] = npcEntries.find(
-        ([, npc]) => npc.ID === npcSpawn.NpcId
+        ([, npc]) => npc.ID === npcSpawn.NpcId,
       )!;
 
       const result = await processNPC(
@@ -549,7 +549,7 @@ for (const exportData of Object.values(zoneExportData)) {
         npc,
         npcRandomSpawnSpotGroup.Name,
         npcSpawn.NpcSpawnId,
-        npcSpawn.NpcSpawnNum
+        npcSpawn.NpcSpawnNum,
       );
       if (!result) {
         continue;
@@ -569,7 +569,7 @@ for (const exportData of Object.values(zoneExportData)) {
               s.id === spawn.id &&
               s.mapName === spawn.mapName &&
               s.p[0] === spawn.p[0] &&
-              s.p[1] === spawn.p[1]
+              s.p[1] === spawn.p[1],
           )
         ) {
           continue;
@@ -607,7 +607,7 @@ for (const [key, data] of Object.entries(subZoneData)) {
           s.id === spawn.id &&
           s.mapName === spawn.mapName &&
           s.p[0] === spawn.p[0] &&
-          s.p[1] === spawn.p[1]
+          s.p[1] === spawn.p[1],
       )
     ) {
       continue;
@@ -669,7 +669,7 @@ for (const [mapName, zoneData] of sortedZoneData) {
     ".png";
 
   const pixelPerCentimeter = zoneData.MinimapData.ObjectPath.includes(
-    "miniature"
+    "miniature",
   )
     ? DEFAULT_PIXEL_PER_CENTIMETER
     : DUNGEON_PIXEL_PER_CENTIMETER;
@@ -718,10 +718,10 @@ for (const [mapName, zoneData] of sortedZoneData) {
     transformation: [1 / MULTIPLE, OFFSET[1], 1 / MULTIPLE, OFFSET[0]],
   };
   const zoneResource = Object.values(zoneResourceData).find(
-    (z) => z.Persistent.StringId === mapName
+    (z) => z.Persistent.StringId === mapName,
   )!;
   const subZone = Object.values(subZoneData).find(
-    (z) => z.Zone.StringId === zoneResource.Persistent.StringId
+    (z) => z.Zone.StringId === zoneResource.Persistent.StringId,
   )!;
 
   const subZoneString = subZone
@@ -772,7 +772,7 @@ async function processItem(
   item:
     | MMaterialItemData["0"]["Rows"]["0"]
     | MEquipmentItemData["0"]["Rows"]["0"]
-    | MBoxItemData["0"]["Rows"]["0"]
+    | MBoxItemData["0"]["Rows"]["0"],
 ) {
   if (!stringData[item.Title.StringId]) {
     console.warn("Missing title data for", key);
@@ -810,7 +810,7 @@ async function processItem(
           .replace("/game", "/mad/content")
           .split(".")[0]
       }.png`,
-      color
+      color,
     );
     await saveImage(TEMP_DIR + `/${key}.png`, canvas.toBuffer("image/png"));
     const path = await saveIcon(`${TEMP_DIR}/${key}.png`);

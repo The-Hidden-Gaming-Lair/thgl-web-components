@@ -4,7 +4,7 @@ import { useSettingsStore } from "@repo/lib";
 
 export function LockWindowButton() {
   const toggleLockedWindow = useSettingsStore(
-    (state) => state.toggleLockedWindow
+    (state) => state.toggleLockedWindow,
   );
 
   return (

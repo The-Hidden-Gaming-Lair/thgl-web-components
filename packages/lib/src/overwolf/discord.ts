@@ -18,8 +18,8 @@ export type PresenceData = [
 export async function initDiscordRPC(
   applicationID: string,
   updatePresence: (
-    callback: (data: PresenceData) => void
-  ) => void | Promise<void>
+    callback: (data: PresenceData) => void,
+  ) => void | Promise<void>,
 ) {
   let discordRPCPlugin = await loadDiscordRPCPlugin(applicationID);
   let refreshPresenceTimeout: NodeJS.Timeout | null = null;
@@ -45,12 +45,12 @@ export async function initDiscordRPC(
                   if (response.status === "error") {
                     console.error("Discord RPC error: " + response.error);
                   }
-                }
-              )
+                },
+              ),
             );
           }
-        }
-      )
+        },
+      ),
     );
 
     refreshPresenceTimeout = setTimeout(refreshPresence, 30000);
@@ -80,10 +80,10 @@ export async function initDiscordRPC(
 
 export async function loadDiscordRPCPlugin(
   applicationID: string,
-  logLevel: LogLevel = 4
+  logLevel: LogLevel = 4,
 ) {
   const result = await promisifyOverwolf(
-    overwolf.extensions.current.getExtraObject
+    overwolf.extensions.current.getExtraObject,
   )("discord");
   const discordRPCPlugin = result.object as DiscordRPCPlugin;
   await promisifyOverwolf(discordRPCPlugin.initialize)(applicationID, logLevel);
@@ -94,7 +94,7 @@ export type DiscordRPCPlugin = {
   initialize: (
     applicationID: string,
     logLevel: LogLevel,
-    callback: CallbackResponse
+    callback: CallbackResponse,
   ) => void;
   onClientReady: Listener<OnClientReadyCallbackResponse>;
   onPresenceUpdate: Listener<SuccessCallbackResponse>;
@@ -113,7 +113,7 @@ export type DiscordRPCPlugin = {
     button1Url: string,
     button2Text: string,
     button2Url: string,
-    callback: CallbackResponse
+    callback: CallbackResponse,
   ) => void;
   updatePresenceWithButtonsArray: (
     details: string,
@@ -125,7 +125,7 @@ export type DiscordRPCPlugin = {
     showTimestamps: boolean,
     endTime: number,
     buttonsJson: string,
-    callback: CallbackResponse
+    callback: CallbackResponse,
   ) => void;
   dispose: (callback: CallbackResponse) => void;
 };

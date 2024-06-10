@@ -70,7 +70,7 @@ export function Regions(): JSX.Element {
         if (
           isPointInsidePolygon(
             [event.latlng.lat, event.latlng.lng],
-            region.border
+            region.border,
           )
         ) {
           return;

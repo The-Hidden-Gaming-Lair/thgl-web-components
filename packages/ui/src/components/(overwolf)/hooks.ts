@@ -11,7 +11,7 @@ export function useCurrentWindow() {
     }
     let currentWindowName = "";
     const getCurrentWindow = promisifyOverwolf(
-      overwolf.windows.getCurrentWindow
+      overwolf.windows.getCurrentWindow,
     );
     overwolf.windows.onStateChanged.addListener((event) => {
       if (event.window_name === currentWindowName) {

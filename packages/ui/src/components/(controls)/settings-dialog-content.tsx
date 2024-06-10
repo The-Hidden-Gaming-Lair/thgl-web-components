@@ -48,14 +48,14 @@ export function SettingsDialogContent({
                     [JSON.stringify(settingsStore.discoveredNodes)],
                     {
                       type: "text/json",
-                    }
+                    },
                   );
                   saveFile(blob, fileName);
                 } else {
                   writeFileOverwolf(
                     JSON.stringify(settingsStore.discoveredNodes),
                     overwolf.io.paths.documents + "\\the-hidden-gaming-lair",
-                    fileName
+                    fileName,
                   );
                 }
               }}
@@ -131,14 +131,14 @@ export function SettingsDialogContent({
                     [JSON.stringify(settingsStore.privateNodes)],
                     {
                       type: "text/json",
-                    }
+                    },
                   );
                   saveFile(blob, fileName);
                 } else {
                   writeFileOverwolf(
                     JSON.stringify(settingsStore.privateNodes),
                     overwolf.io.paths.documents + "\\the-hidden-gaming-lair",
-                    fileName
+                    fileName,
                   );
                 }
               }}

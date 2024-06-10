@@ -21,7 +21,7 @@ export function ActivityProgress({ title, max, frequently }: Activity) {
             ({progress}/{max}{" "}
             <span
               className={cn(
-                frequently === "daily" ? "text-green-500" : "text-yellow-500"
+                frequently === "daily" ? "text-green-500" : "text-yellow-500",
               )}
             >
               {frequently === "daily" ? "daily" : "weekly"}

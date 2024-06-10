@@ -26,14 +26,14 @@ export const useGameState = create(
     addHighlightSpawnIDs: (id) =>
       set((state) => ({
         highlightSpawnIDs: Array.from(
-          new Set([...state.highlightSpawnIDs, ...id])
+          new Set([...state.highlightSpawnIDs, ...id]),
         ),
       })),
     removeHighlightSpawnIDs: (id) =>
       set((state) => ({
         highlightSpawnIDs: state.highlightSpawnIDs.filter(
-          (i) => !id.includes(i)
+          (i) => !id.includes(i),
         ),
       })),
-  }))
+  })),
 );

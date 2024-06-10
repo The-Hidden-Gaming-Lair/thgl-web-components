@@ -73,7 +73,7 @@ export function ActivitiesProvider({
               removeCustomActivity: (title) =>
                 set({
                   customActivities: get().customActivities.filter(
-                    (a) => a.title !== title
+                    (a) => a.title !== title,
                   ),
                 }),
               restoreDefaultActivities: () =>
@@ -91,12 +91,12 @@ export function ActivitiesProvider({
                       ([activity, progress]) => [
                         activity,
                         [...activities, ...get().customActivities].find(
-                          (a) => a.title === activity
+                          (a) => a.title === activity,
                         )?.frequently === frequently
                           ? 0
                           : progress,
-                      ]
-                    )
+                      ],
+                    ),
                   ),
                 }),
               setProgress: (activity, progress) =>
@@ -124,11 +124,11 @@ export function ActivitiesProvider({
             {
               name: "activities",
               skipHydration: true,
-            }
-          )
-        )
+            },
+          ),
+        ),
       ),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -158,10 +158,10 @@ export const useActivities = (): ContextValue => {
 
 export function useActivitiesStore(): ActivitiesStoreState;
 export function useActivitiesStore<T>(
-  selector: (state: ActivitiesStoreState) => T
+  selector: (state: ActivitiesStoreState) => T,
 ): T;
 export function useActivitiesStore<T>(
-  selector?: (state: ActivitiesStoreState) => T
+  selector?: (state: ActivitiesStoreState) => T,
 ) {
   const { activitiesStore } = useActivities();
   return useStore(activitiesStore, selector!);

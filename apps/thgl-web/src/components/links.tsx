@@ -19,7 +19,7 @@ export function Links() {
       <Link
         className={cn(
           "text-gray-400 hover:text-brand transition-colors  duration-500 flex items-center gap-1",
-          pathname === "/" && "text-brand"
+          pathname === "/" && "text-brand",
         )}
         href="/"
       >
@@ -34,7 +34,7 @@ export function Links() {
       <Link
         className={cn(
           "text-gray-400 hover:text-brand transition-colors  duration-500 flex items-center gap-1",
-          pathname.startsWith("/support-me") && "text-brand"
+          pathname.startsWith("/support-me") && "text-brand",
         )}
         href="/support-me"
       >
@@ -50,7 +50,7 @@ export function Links() {
       <Link
         className={cn(
           "text-gray-400 hover:text-brand transition-colors duration-500 flex items-center gap-1",
-          pathname.startsWith("/partner-program") && "text-brand"
+          pathname.startsWith("/partner-program") && "text-brand",
         )}
         href="/partner-program"
       >

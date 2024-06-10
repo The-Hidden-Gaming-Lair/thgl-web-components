@@ -17,7 +17,7 @@ export function Markers({
   const map = useMap();
   const { spawns, icons, filters } = useCoordinates();
   const hideDiscoveredNodes = useSettingsStore(
-    (state) => state.hideDiscoveredNodes
+    (state) => state.hideDiscoveredNodes,
   );
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
   const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
@@ -26,7 +26,7 @@ export function Markers({
   const liveMode = useSettingsStore((state) => state.liveMode);
 
   const handleMapMouseMoveRef = useRef<((e: LeafletMouseEvent) => void) | null>(
-    null
+    null,
   );
   const [tooltipIsOpen, setTooltipIsOpen] = useState(false);
   const [tooltipData, setTooltipData] = useState<{
@@ -81,8 +81,8 @@ export function Markers({
           !spawn.cluster!.some(
             (a) =>
               !discoveredNodes.includes(
-                `${a.id ?? t(a.type)}@${a.p[0]}:${a.p[1]}`
-              )
+                `${a.id ?? t(a.type)}@${a.p[0]}:${a.p[1]}`,
+              ),
           )
         : discoveredNodes.includes(nodeId);
 
@@ -151,7 +151,7 @@ export function Markers({
           clearTimeout(tooltipDelayTimeout);
           tooltipDelayTimeout = setTimeout(() => {
             const filter = filters.find((filter) =>
-              filter.values.some((filter) => filter.id === spawn.type)
+              filter.values.some((filter) => filter.id === spawn.type),
             );
             const items = [
               {
@@ -174,7 +174,7 @@ export function Markers({
                   type: spawn.type,
                   group: filter?.group,
                   isPrivate: spawn.isPrivate,
-                }))
+                })),
               );
             }
 
@@ -193,7 +193,7 @@ export function Markers({
           handleMapMouseMoveRef.current = (e: LeafletMouseEvent) => {
             const distanceFromMarker = Math.sqrt(
               Math.pow(e.layerPoint.x - marker._point.x, 2) +
-                Math.pow(e.layerPoint.y - marker._point.y, 2)
+                Math.pow(e.layerPoint.y - marker._point.y, 2),
             );
             const maxDistance = marker.getRadius() + 15;
 
@@ -217,7 +217,7 @@ export function Markers({
             spawn.cluster!.forEach((spawn) => {
               setDiscoverNode(
                 `${spawn.id ?? t(spawn.type)}@${spawn.p[0]}:${spawn.p[1]}`,
-                isDiscovered
+                isDiscovered,
               );
             });
           }

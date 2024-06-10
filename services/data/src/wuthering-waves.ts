@@ -14,7 +14,7 @@ import { Node } from "./types.js";
 initDirs(
   "/mnt/c/dev/Wuthering Waves/Extracted/Data",
   "/mnt/c/dev/Wuthering Waves/Extracted/Texture",
-  "/home/devleon/the-hidden-gaming-lair/static/wuthering-waves"
+  "/home/devleon/the-hidden-gaming-lair/static/wuthering-waves",
 );
 
 const nodes = initNodes();
@@ -42,20 +42,21 @@ const BIG_WORLD_MAP_ID = 8;
 if (Bun.env.DB === "true") {
   sqliteToJSON(
     "/Client/Content/Aki/ConfigDB",
-    "/Client/Content/Aki/JavaScript"
+    "/Client/Content/Aki/JavaScript",
   );
 }
 
 if (Bun.env.TILES === "true") {
   const mapTiles = await readDirSync(
-    TEXTURE_DIR + "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles"
+    TEXTURE_DIR +
+      "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles",
   )
     .filter((f) => f.endsWith(".png"))
     .map(
       (f) =>
         TEXTURE_DIR +
         "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles/" +
-        f
+        f,
     );
   const bigMap = await mergeImages(mapTiles, "#000");
   saveImage(TEMP_DIR + "/bigmap.png", bigMap.toBuffer("image/png"));
@@ -71,14 +72,14 @@ const tiles = initTiles(
     [
       [0, -150000],
       [200000, 50000],
-    ]
-  )
+    ],
+  ),
 );
 
 writeTiles(tiles);
 
 const monsterInfo = readJSON<MonsterInfo>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_monster_Info.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_monster_Info.json",
 );
 const { MultiText } = readJSON<{
   MultiText: Array<{
@@ -111,38 +112,38 @@ const { levelentityconfig } = readJSON<{
   }>;
 }>(CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_level_entity.json");
 const dbMapMark = readJSON<DBMapMark>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_map_mark.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_map_mark.json",
 );
 const dbTemplate = readJSON<DBTemplate>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_template.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_template.json",
 );
 const dbDrop = readJSON<DBDrop>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_drop.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_drop.json",
 );
 const dbItems = readJSON<DBItems>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_item.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_item.json",
 );
 const dbLevelPlayData = readJSON<DBLevelPlayData>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayData.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayData.json",
 );
 const dbLevelPlayNodeData = readJSON<DBLevelPlayNodeData>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayNodeData.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayNodeData.json",
 );
 const worldMapIconSprite = readJSON<WorldMapIconSprite>(
   CONTENT_DIR +
-    "/Client/Content/Aki/UI/UIResources/Common/Atlas/WorldMapIcon/TPI_Common_WorldMapIcon.json"
+    "/Client/Content/Aki/UI/UIResources/Common/Atlas/WorldMapIcon/TPI_Common_WorldMapIcon.json",
 );
 const dbPhantom = readJSON<DBPhantom>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_phantom.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_phantom.json",
 );
 const dbQuestNodeData = readJSON<DBQuestNodeData>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestNodeData.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestNodeData.json",
 );
 const dbEntityOwnerData = readJSON<DBEntityOwnerData>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_EntityOwnerData.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_EntityOwnerData.json",
 );
 const dbQuestData = readJSON<DBQuestData>(
-  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestData.json"
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestData.json",
 );
 
 const workMapIconPath =
@@ -194,11 +195,11 @@ writeRegions(regions);
 {
   const uiWorldMap = readJSON<WorldMapIconSprite>(
     CONTENT_DIR +
-      "/Client/Content/Aki/UI/UIResources/UiWorldMap/Atlas/TPI_UiWorldMap.json"
+      "/Client/Content/Aki/UI/UIResources/UiWorldMap/Atlas/TPI_UiWorldMap.json",
   );
 
   const iconIndex = uiWorldMap[0].Properties.Sprites.indexOf(
-    "/Game/Aki/UI/UIResources/UiWorldMap/Atlas/SP_WorldMapPlayer1.SP_WorldMapPlayer1"
+    "/Game/Aki/UI/UIResources/UiWorldMap/Atlas/SP_WorldMapPlayer1.SP_WorldMapPlayer1",
   );
   const spriteInfo = uiWorldMap[0].Properties.SpriteInfoMap[iconIndex];
   const iconPath =
@@ -220,7 +221,7 @@ const overrides: Record<string, string> = {
 const monsterFilterIds: string[] = [];
 for (const monster of monsterInfo.monsterinfo) {
   const rarityDesc = monsterInfo.monsterrarity.find(
-    (mr) => mr.Id === monster.data.RarityId
+    (mr) => mr.Id === monster.data.RarityId,
   )?.data.RarityDesc!;
   const name =
     MultiText.find((m) => m.Id === monster.data.Name)?.Content ??
@@ -257,7 +258,7 @@ for (const monster of monsterInfo.monsterinfo) {
         {
           border: true,
           color: "#aaa",
-        }
+        },
       ),
       size: 1.3,
     });
@@ -273,7 +274,7 @@ for (const monster of monsterInfo.monsterinfo) {
 
   const desc = extractResFromDesc(discoveredDesc);
   const phantomItem = dbPhantom.phantomitem.find(
-    (p) => p.data.MonsterName === monster.data.Name
+    (p) => p.data.MonsterName === monster.data.Name,
   );
   if (phantomItem) {
     const bpName = phantomItem.data.StandAnim.split("/")[6];
@@ -284,20 +285,20 @@ for (const monster of monsterInfo.monsterinfo) {
     }
   }
   const fetterGroups = phantomItem?.data.FetterGroup.map(
-    (f) => dbPhantom.phantomfettergroup.find((g) => g.data.Id === f)!
+    (f) => dbPhantom.phantomfettergroup.find((g) => g.data.Id === f)!,
   );
   if (fetterGroups) {
     enDict[id + "_desc"] =
       fetterGroups
         .map(
           (g) =>
-            `<p style="color:#${g.data.FetterElementColor}">${MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content}</p>`
+            `<p style="color:#${g.data.FetterElementColor}">${MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content}</p>`,
         )
         .join("") ?? "";
 
     enDict[id + "_tags"] = fetterGroups
       .map(
-        (g) => MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content
+        (g) => MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content,
       )
       .join(" ");
     if (desc) {
@@ -319,7 +320,7 @@ function extractResFromDesc(desc: string) {
   if (lastColor !== -1) {
     const to = Math.min(
       desc.slice(lastColor + 1).indexOf("."),
-      desc.slice(lastColor + 1).indexOf("\n")
+      desc.slice(lastColor + 1).indexOf("\n"),
     );
     if (to !== -1) {
       return desc.slice(0, lastColor + to + 1);
@@ -330,10 +331,10 @@ function extractResFromDesc(desc: string) {
 
 const sortedEntities = levelentityconfig.sort((a, b) => {
   const aHasMapMark = dbMapMark.mapmark.some(
-    (m) => m.data.EntityConfigId === a.data.EntityId
+    (m) => m.data.EntityConfigId === a.data.EntityId,
   );
   const bHasMapMark = dbMapMark.mapmark.some(
-    (m) => m.data.EntityConfigId === b.data.EntityId
+    (m) => m.data.EntityConfigId === b.data.EntityId,
   );
   if (aHasMapMark && !bHasMapMark) {
     return -1;
@@ -366,7 +367,7 @@ for (const levelEntity of sortedEntities) {
     url: string;
   } | null = null;
   const mapMark = dbMapMark.mapmark.find(
-    (m) => m.data.EntityConfigId === levelEntity.data.EntityId
+    (m) => m.data.EntityConfigId === levelEntity.data.EntityId,
   );
   if (mapMark) {
     let group = id.startsWith("Gameplay") ? "gameplay" : "locations";
@@ -377,7 +378,7 @@ for (const levelEntity of sortedEntities) {
       group = "locations";
     }
     const iconIndex = worldMapIconSprite[0].Properties.Sprites.indexOf(
-      mapMark.data.UnlockMarkPic
+      mapMark.data.UnlockMarkPic,
     );
     if (iconIndex === -1) {
       console.log(`Icon not found: ${mapMark.data.LockMarkPic}`);
@@ -417,7 +418,7 @@ for (const levelEntity of sortedEntities) {
     const category = filters.find((f) => f.group === group)!;
     if (
       !mapMark.data.UnlockMarkPic.startsWith(
-        "/Game/Aki/UI/UIResources/Common/Atlas/WorldMapIcon/"
+        "/Game/Aki/UI/UIResources/Common/Atlas/WorldMapIcon/",
       )
     ) {
       console.warn(`Invalid icon: ${mapMark.data.UnlockMarkPic}`);
@@ -432,7 +433,7 @@ for (const levelEntity of sortedEntities) {
         icon: await extractCanvasFromSprite(
           workMapIconPath,
           mapMark.data.UnlockMarkPic.split(".")[1],
-          spriteInfo
+          spriteInfo,
         ),
         size: 1.5,
       });
@@ -452,7 +453,7 @@ for (const levelEntity of sortedEntities) {
       if (mapMark.data.MarkDesc) {
         enDict[spawnId + "_desc"] = extractResFromDesc(
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-            mapMark.data.MarkDesc
+            mapMark.data.MarkDesc,
         );
       }
     } else if (isTacticalHologram) {
@@ -464,7 +465,7 @@ for (const levelEntity of sortedEntities) {
       if (mapMark.data.MarkDesc) {
         enDict[spawnId + "_desc"] = extractResFromDesc(
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-            mapMark.data.MarkDesc
+            mapMark.data.MarkDesc,
         );
       }
     } else {
@@ -477,7 +478,7 @@ for (const levelEntity of sortedEntities) {
       if (mapMark.data.MarkDesc) {
         enDict[id + "_desc"] = extractResFromDesc(
           MultiText.find((m) => m.Id === mapMark.data.MarkDesc)?.Content ??
-            mapMark.data.MarkDesc
+            mapMark.data.MarkDesc,
         );
       }
     }
@@ -498,8 +499,8 @@ for (const levelEntity of sortedEntities) {
       } else {
         const spawner = sortedEntities.find((e) =>
           e.data.ComponentsData?.SpawnMonsterComponent?.SpawnMonsterConfigs?.find(
-            (c: any) => c.TargetsToAwake?.includes(levelEntity.data.EntityId)
-          )
+            (c: any) => c.TargetsToAwake?.includes(levelEntity.data.EntityId),
+          ),
         );
         if (!spawner) {
           // console.warn(`Missing spawner for ${id}`);
@@ -508,8 +509,8 @@ for (const levelEntity of sortedEntities) {
 
         const nodeData = dbLevelPlayNodeData.levelplaynodedata.find((d) =>
           d.data.Data.Condition?.MonsterCreatorEntityIds?.includes(
-            spawner.EntityId
-          )
+            spawner.EntityId,
+          ),
         );
         if (!nodeData) {
           console.warn(`Missing node data for ${id}`);
@@ -543,7 +544,7 @@ for (const levelEntity of sortedEntities) {
         const iconPath =
           monsterInfo.monsterinfo
             .find(
-              (m) => m.data.MonsterEntityID === levelEntity.data.BlueprintType
+              (m) => m.data.MonsterEntityID === levelEntity.data.BlueprintType,
             )
             ?.data.Icon.replace("/Game", "/Client/Content")
             .split(".")[0] + ".png";
@@ -577,26 +578,26 @@ for (const levelEntity of sortedEntities) {
     if (levelEntity.data.InSleep) {
       let owner = dbEntityOwnerData.entityownerdata.find(
         (d) =>
-          d.data.Guid.split("_")[1] === levelEntity.data.EntityId.toString()
+          d.data.Guid.split("_")[1] === levelEntity.data.EntityId.toString(),
       );
       if (owner) {
         let ownerEntityId = owner.data.Owner.find(
-          (o) => o.Type === "Entity"
+          (o) => o.Type === "Entity",
         )?.EntityId;
         if (ownerEntityId) {
           const ownerEntity = sortedEntities.find(
-            (e) => e.data.EntityId === ownerEntityId
+            (e) => e.data.EntityId === ownerEntityId,
           );
           if (!ownerEntity) {
             throw new Error(
-              `Missing owner entity for ${levelEntity.data.EntityId}`
+              `Missing owner entity for ${levelEntity.data.EntityId}`,
             );
           }
           if (ownerEntity.data.InSleep) {
             owner = dbEntityOwnerData.entityownerdata.find(
               (d) =>
                 d.data.Guid.split("_")[1] ===
-                ownerEntity.data.EntityId.toString()
+                ownerEntity.data.EntityId.toString(),
             );
             if (!owner) {
               throw new Error(`Missing owner for ${ownerEntity.data.EntityId}`);
@@ -608,23 +609,23 @@ for (const levelEntity of sortedEntities) {
         }
 
         const ownerQuestId = owner.data.Owner.find(
-          (o) => o.Type === "Quest"
+          (o) => o.Type === "Quest",
         )?.QuestId;
         const ownerLevelPlayId = owner.data.Owner.find(
-          (o) => o.Type === "LevelPlay"
+          (o) => o.Type === "LevelPlay",
         )?.LevelPlayId;
 
         if (ownerQuestId) {
           const ownerQuest = dbQuestData.questdata.find(
-            (d) => d.data.QuestId === ownerQuestId
+            (d) => d.data.QuestId === ownerQuestId,
           );
           if (!ownerQuest) {
             throw new Error(
-              `Missing owner quest for ${levelEntity.data.EntityId}`
+              `Missing owner quest for ${levelEntity.data.EntityId}`,
             );
           }
           const questName = MultiText.find(
-            (m) => m.Id === ownerQuest.data.Data.TidName
+            (m) => m.Id === ownerQuest.data.Data.TidName,
           )?.Content;
           spawnId = `${id}_${levelEntity.data.EntityId}`;
           let fullQuestName = "Quest";
@@ -643,16 +644,16 @@ for (const levelEntity of sortedEntities) {
         }
         if (ownerLevelPlayId) {
           const ownerLevelPlay = dbLevelPlayData.levelplaydata.find(
-            (d) => d.data.LevelPlayId === ownerLevelPlayId
+            (d) => d.data.LevelPlayId === ownerLevelPlayId,
           );
           if (!ownerLevelPlay) {
             throw new Error(
-              `Missing owner level play for ${levelEntity.data.EntityId}`
+              `Missing owner level play for ${levelEntity.data.EntityId}`,
             );
           }
           const dataType = ownerLevelPlay.data.Data.Type.replace(
             "MonsterTreasure",
-            "Monster Treasure"
+            "Monster Treasure",
           );
           spawnId = `${id}_${levelEntity.data.EntityId}`;
           enDict[`${spawnId}_desc`] =
@@ -677,7 +678,7 @@ for (const levelEntity of sortedEntities) {
       continue;
     }
     const template = dbTemplate.templateconfig.find(
-      (c) => c.data.BlueprintType === levelEntity.data.BlueprintType
+      (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
     );
     if (!template) {
       console.warn(`Missing template: ${levelEntity.data.BlueprintType}`);
@@ -763,7 +764,7 @@ for (const levelEntity of sortedEntities) {
   if (
     oldNodes!.spawns.some(
       (s) =>
-        s.p[0] === location.y && s.p[1] === location.x && s.mapName === mapName
+        s.p[0] === location.y && s.p[1] === location.x && s.mapName === mapName,
     )
   ) {
     continue;
@@ -845,10 +846,10 @@ const sortedFilters = filters
       return 0;
     }
     const priorityA = sortPriority.findIndex((p) =>
-      a.group.toLowerCase().startsWith(p.toLowerCase())
+      a.group.toLowerCase().startsWith(p.toLowerCase()),
     );
     const priorityB = sortPriority.findIndex((p) =>
-      b.group.toLowerCase().startsWith(p.toLowerCase())
+      b.group.toLowerCase().startsWith(p.toLowerCase()),
     );
     if (priorityA === priorityB) {
       return a.group.localeCompare(b.group);

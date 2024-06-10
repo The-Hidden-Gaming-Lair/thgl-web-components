@@ -2,7 +2,7 @@ import { promisifyOverwolf } from "./promisify";
 
 export async function getRunningGameInfo(gameClassId: number) {
   const runningGameInfo = await promisifyOverwolf(
-    overwolf.games.getRunningGameInfo2
+    overwolf.games.getRunningGameInfo2,
   )();
   if (
     !runningGameInfo.gameInfo ||
@@ -15,7 +15,7 @@ export async function getRunningGameInfo(gameClassId: number) {
 
 export function listenToGameLaunched(
   callback: () => void,
-  gameClassId: number
+  gameClassId: number,
 ) {
   overwolf.games.onGameInfoUpdated.addListener((res) => {
     if (gameLaunched(res, gameClassId)) {
@@ -32,7 +32,7 @@ export function listenToGameLaunched(
 
 export function gameLaunched(
   gameInfoResult: overwolf.games.GameInfoUpdatedEvent,
-  gameClassId: number
+  gameClassId: number,
 ) {
   if (!gameInfoResult) {
     return false;
@@ -60,7 +60,7 @@ export function gameLaunched(
 
 export function gameRunning(
   gameInfo: overwolf.games.RunningGameInfo,
-  gameClassId: number
+  gameClassId: number,
 ) {
   if (!gameInfo) {
     return false;

@@ -12,7 +12,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
     (canvas.height * 1) / 4,
     canvas.width / 8,
     0,
-    2 * Math.PI
+    2 * Math.PI,
   );
   ctx.fillStyle = color;
   ctx.strokeStyle = "black";
@@ -24,7 +24,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
 export async function colorizeImage(
   imagePath: string,
   color: string,
-  brightnessThreshold = -1
+  brightnessThreshold = -1,
 ) {
   const image = await loadImage(imagePath);
   const canvas = createCanvas(image.width, image.height);

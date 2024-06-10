@@ -1,6 +1,6 @@
 export const isPointInsidePolygon = (
   point: [number, number],
-  polygon: [number, number][]
+  polygon: [number, number][],
 ) => {
   const x = point[0];
   const y = point[1];

@@ -28,7 +28,7 @@ export function sqliteToJSON(dbDir: string, jsDir: string) {
     const result: any = {};
 
     const { ByteBuffer } = require(
-      CONTENT_DIR + jsDir + "/RunTimeLibs/FlatBuffers/byte-buffer.js"
+      CONTENT_DIR + jsDir + "/RunTimeLibs/FlatBuffers/byte-buffer.js",
     );
 
     const models = readDirSync(CONTENT_DIR + jsDir + "/Core/Define/Config");
@@ -39,7 +39,7 @@ export function sqliteToJSON(dbDir: string, jsDir: string) {
       const rows = db.prepare(`SELECT * FROM ${tableName}`).all();
 
       const modelName = models.find(
-        (m: string) => m.toLowerCase() === tableName.toLowerCase() + ".js"
+        (m: string) => m.toLowerCase() === tableName.toLowerCase() + ".js",
       );
       if (!modelName) {
         console.warn(`Missing model: ${tableName}`);
@@ -49,7 +49,7 @@ export function sqliteToJSON(dbDir: string, jsDir: string) {
       console.log(`Found model: ${modelName}`);
 
       const model = require(
-        CONTENT_DIR + jsDir + `/Core/Define/Config/${modelName}`
+        CONTENT_DIR + jsDir + `/Core/Define/Config/${modelName}`,
       );
       const exported = Object.values(model)[0] as any;
 
@@ -61,7 +61,7 @@ export function sqliteToJSON(dbDir: string, jsDir: string) {
         const arr = BinData as Uint8Array;
         const byteBuffer = new ByteBuffer(arr);
         const getRootKey = Object.getOwnPropertyNames(exported).find((key) =>
-          key.startsWith("getRoot")
+          key.startsWith("getRoot"),
         )!;
         // console.log(`Calling ${getRootKey} on ${tableName}`);
         const root = exported[getRootKey](byteBuffer);
@@ -121,7 +121,7 @@ function getGetters(obj: any) {
     Object.entries(Object.getOwnPropertyDescriptors(proto))
       .filter(
         ([key, descriptor]) =>
-          typeof descriptor.get === "function" && key !== "__proto__"
+          typeof descriptor.get === "function" && key !== "__proto__",
       )
       .forEach(([key]) => getters.push(key));
 

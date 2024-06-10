@@ -22,12 +22,12 @@ const allMaps: string[] = [];
 const emptyMaps: string[] = [];
 
 const temporals = readDirSync(
-  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Maps/Temporal"
+  "/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Maps/Temporal",
 );
 for (const temporal of temporals) {
   console.log("Temporal", temporal);
   const maps = readDirSync(
-    `/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Maps/Temporal/${temporal}`
+    `/mnt/c/dev/Nightingale/Extracted/Data/NWX/Content/NWX/Maps/Temporal/${temporal}`,
   );
   for (const map of maps) {
     console.log("Map", map);
@@ -38,7 +38,7 @@ for (const temporal of temporals) {
       if (Bun.env.TILES === "true") {
         const canvas = await createMap(
           TEXTURE_DIR + `/NWX/Content/NWX/Maps/Temporal/${temporal}/${map}`,
-          CONTENT_DIR + `/NWX/Content/NWX/Maps/Temporal/${temporal}/${map}`
+          CONTENT_DIR + `/NWX/Content/NWX/Maps/Temporal/${temporal}/${map}`,
         );
         saveImage(tempPath, canvas.toBuffer("image/png"));
         const outDir = `${OUT_DIR}/map-tiles/${map}`;
@@ -64,24 +64,24 @@ for (const temporal of temporals) {
 
 const creatureData = readJSON<CDT_BPCreatureData>(
   CONTENT_DIR +
-    "/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_BPCreatureData.json"
+    "/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_BPCreatureData.json",
 );
 const creatures = creatureData[0].Rows;
 
 const creatureUIData = readJSON<CDT_CreatureUIData>(
   CONTENT_DIR +
-    "/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_CreatureUIData.json"
+    "/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_CreatureUIData.json",
 );
 const creatureUIRows = creatureUIData[0].Rows;
 
 const creatureStrings = readJSON<ST_Y1S1_Creatures>(
-  CONTENT_DIR + "/NWX/Content/NWX/StringTables/Y1S1/ST_Y1S1_Creatures.json"
+  CONTENT_DIR + "/NWX/Content/NWX/StringTables/Y1S1/ST_Y1S1_Creatures.json",
 );
 const strings = creatureStrings[0].StringTable.KeysToMetaData;
 
 const files = readDirRecursive(
   CONTENT_DIR + "/NWX/Content/NWX/Creatures",
-  ".json"
+  ".json",
 );
 
 const dict: Record<string, string> = {};
@@ -194,7 +194,7 @@ for (const file of files) {
   const creature = creatures[creatureName];
   if (creature) {
     const uiDataKey = Object.keys(creature).find((key) =>
-      key.startsWith("UIData")
+      key.startsWith("UIData"),
     );
     if (!uiDataKey) {
       console.warn(`No UIData for ${creatureName}`);
@@ -202,7 +202,7 @@ for (const file of files) {
     }
     uiRowName = creature[uiDataKey].RowName;
     const tagsKey = Object.keys(creature).find((key) =>
-      key.startsWith("AddedTags")
+      key.startsWith("AddedTags"),
     );
     if (!tagsKey) {
       console.warn(`No AddedTags for ${creatureName}`);
@@ -219,7 +219,7 @@ for (const file of files) {
     continue;
   }
   const nameDataKey = Object.keys(uiRow).find((key) =>
-    key.startsWith("CreatureName")
+    key.startsWith("CreatureName"),
   );
   if (!nameDataKey) {
     console.warn(`No CreatureName for ${uiRowName}`);
@@ -234,7 +234,7 @@ for (const file of files) {
     name = strings[nameKey];
   }
   const iconKey = Object.keys(uiRow).find((key) =>
-    key.startsWith("CreatureIcon")
+    key.startsWith("CreatureIcon"),
   );
   let icon = uiRow[iconKey].AssetPathName.split(".").at(-1);
   const isNPC = bpName.includes("NPC");

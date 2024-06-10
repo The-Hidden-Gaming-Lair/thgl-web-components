@@ -46,16 +46,16 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const mapName = useUserStore((state) => state.mapName);
   const privateDrawings = useSettingsStore((state) => state.privateDrawings);
   const setPrivateDrawings = useSettingsStore(
-    (state) => state.setPrivateDrawings
+    (state) => state.setPrivateDrawings,
   );
   const tempPrivateDrawing = useSettingsStore(
-    (state) => state.tempPrivateDrawing
+    (state) => state.tempPrivateDrawing,
   );
   const addPrivateDrawing = useSettingsStore(
-    (state) => state.addPrivateDrawing
+    (state) => state.addPrivateDrawing,
   );
   const setTempPrivateDrawing = useSettingsStore(
-    (state) => state.setTempPrivateDrawing
+    (state) => state.setTempPrivateDrawing,
   );
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
@@ -85,13 +85,13 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
       const existingPolylines =
         tempPrivateDrawing.polylines?.filter(
-          (drawing) => drawing.mapName !== mapName
+          (drawing) => drawing.mapName !== mapName,
         ) ?? [];
       setTempPrivateDrawing({
         polylines: [...existingPolylines, ...polylines],
       });
     },
-    []
+    [],
   );
 
   const setRectangles = useCallback(
@@ -119,13 +119,13 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
       const existingRectangles =
         tempPrivateDrawing.rectangles?.filter(
-          (drawing) => drawing.mapName !== mapName
+          (drawing) => drawing.mapName !== mapName,
         ) ?? [];
       setTempPrivateDrawing({
         rectangles: [...existingRectangles, ...rectangles],
       });
     },
-    []
+    [],
   );
 
   const setPolygons = useCallback(
@@ -153,13 +153,13 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
       const existingPolygons =
         tempPrivateDrawing.polygons?.filter(
-          (drawing) => drawing.mapName !== mapName
+          (drawing) => drawing.mapName !== mapName,
         ) ?? [];
       setTempPrivateDrawing({
         polygons: [...existingPolygons, ...polygons],
       });
     },
-    []
+    [],
   );
 
   const setCircles = useCallback((circleLayers: Circle[], mapName: string) => {
@@ -183,7 +183,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     });
     const existingCircles =
       tempPrivateDrawing.circles?.filter(
-        (drawing) => drawing.mapName !== mapName
+        (drawing) => drawing.mapName !== mapName,
       ) ?? [];
     setTempPrivateDrawing({
       circles: [...existingCircles, ...circles],
@@ -209,7 +209,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     });
     const existingTexts =
       tempPrivateDrawing.texts?.filter(
-        (drawing) => drawing.mapName !== mapName
+        (drawing) => drawing.mapName !== mapName,
       ) ?? [];
     setTempPrivateDrawing({
       texts: [...existingTexts, ...texts],
@@ -685,7 +685,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     const id = tempPrivateDrawing.id ?? newId;
 
     const existingDrawing = privateDrawings.find(
-      (drawing) => drawing.id === id
+      (drawing) => drawing.id === id,
     );
     if (!existingDrawing) {
       const drawing: PrivateDrawningDTO = {
@@ -721,7 +721,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
   const isText = globalMode === "Text";
   const isShape = ["Line", "Rectangle", "Polygon", "Circle"].includes(
-    globalMode
+    globalMode,
   );
   return (
     <Popover

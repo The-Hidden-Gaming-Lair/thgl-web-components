@@ -76,7 +76,7 @@ export function AdFreeContainer({
     <div
       className={cn(
         "relative pointer-events-auto shrink-0 border overflow-hidden bg-card text-card-foreground shadow rounded-none md:rounded-md",
-        className
+        className,
       )}
     >
       <ExternalAnchor
@@ -91,7 +91,7 @@ export function AdFreeContainer({
             "absolute top-0.5 right-0.5 font-mono text-xs font-bold",
             {
               "hover:text-primary": timeLeft < 1,
-            }
+            },
           )}
           disabled={timeLeft >= 1}
           onClick={() => setIsClosed(true)}

@@ -22,7 +22,7 @@ export default function PreviewImage({ src }: { src: string }) {
           "fixed inset-0 flex items-center justify-center cursor-zoom-out transition-all",
           isHighlighted
             ? "bg-black/50 opacity-100 "
-            : "opacity-0 pointer-events-none"
+            : "opacity-0 pointer-events-none",
         )}
         onClick={() => setIsHighlighted(false)}
       >

@@ -5,7 +5,7 @@ import { promisifyOverwolf } from "./promisify";
 
 export async function loadPlugin<T>(name: string): Promise<T> {
   const plugin = await promisifyOverwolf(
-    overwolf.extensions.current.getExtraObject
+    overwolf.extensions.current.getExtraObject,
   )(name);
   return plugin.object as T;
 }
@@ -35,24 +35,24 @@ export type GameEventsPlugin = {
   UpdateProcess: (
     callback: (success: boolean) => void,
     onError: (err: string) => void,
-    processName?: string | null
+    processName?: string | null,
   ) => void;
   GetPlayer: (
     callback: (data: ActorPlayer) => void,
     onError: (err: string) => void,
-    processName?: string | null
+    processName?: string | null,
   ) => void;
   GetActors: (
     types: string[],
     callback: (data: Actor[]) => void,
-    onError: (err: string) => void
+    onError: (err: string) => void,
   ) => void;
 };
 
 export async function listenToPlugin(
   types: string[],
   pathToMapName?: (path: string) => string | undefined,
-  processName?: string
+  processName?: string,
 ) {
   const state = useGameState.getState();
   const { setPlayer, setActors, setError } = state;
@@ -131,7 +131,7 @@ export async function listenToPlugin(
       targetTypes,
       (allActors) => {
         const actors = allActors.filter(
-          (a) => !BLACKLISTED_TYPES.includes(a.type)
+          (a) => !BLACKLISTED_TYPES.includes(a.type),
         );
 
         if (!firsActorstData && actors.length > 0) {
@@ -159,7 +159,7 @@ export async function listenToPlugin(
         if (liveMode) {
           setTimeout(refreshActorsState, 200);
         }
-      }
+      },
     );
   }
   if (liveMode) {
@@ -188,7 +188,7 @@ export async function listenToPlugin(
         },
         () => {
           reject();
-        }
+        },
       );
     });
   }

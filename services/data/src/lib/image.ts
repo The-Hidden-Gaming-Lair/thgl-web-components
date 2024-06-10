@@ -14,7 +14,7 @@ export async function saveIcon(
     circle?: boolean;
     threshold?: number;
     glowing?: boolean;
-  } = {}
+  } = {},
 ) {
   let filePath = assetPath.startsWith("/home")
     ? assetPath
@@ -47,7 +47,7 @@ export async function saveIcon(
 
 export async function drawInCircleWithBorderColor(
   imagePath: string,
-  color: string
+  color: string,
 ) {
   const image = await loadImage(imagePath);
   const canvas = createCanvas(image.width, image.height);
@@ -61,7 +61,7 @@ export async function drawInCircleWithBorderColor(
     image.height / 2,
     radius - lineWidth / 2,
     0,
-    2 * Math.PI
+    2 * Math.PI,
   );
   ctx.fillStyle = "black";
   ctx.fill();
@@ -78,7 +78,7 @@ export async function drawInCircleWithBorderColor(
     (image.width - radius * 2) / 2,
     (image.height - radius * 2) / 2,
     radius * 2,
-    radius * 2
+    radius * 2,
   );
   ctx.restore();
   return canvas;
@@ -96,7 +96,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
     (canvas.height * 1) / 4,
     canvas.width / 8,
     0,
-    2 * Math.PI
+    2 * Math.PI,
   );
   ctx.fillStyle = color;
   ctx.strokeStyle = "black";
@@ -108,7 +108,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
 export async function colorizeImage(
   imagePath: string,
   color: string,
-  brightnessThreshold = -1
+  brightnessThreshold = -1,
 ) {
   const image = await loadImage(imagePath);
   const canvas = createCanvas(image.width, image.height);
@@ -188,7 +188,7 @@ export async function mergeImages(paths: string[], bgColor?: string) {
   const cellsMax = Math.max(...coordinates.map((c) => c.coords[0]));
   const rowsMax = Math.max(...coordinates.map((c) => c.coords[1]));
   console.log(
-    `Cells: ${cellsMin} to ${cellsMax}, Rows: ${rowsMin} to ${rowsMax}`
+    `Cells: ${cellsMin} to ${cellsMax}, Rows: ${rowsMin} to ${rowsMax}`,
   );
 
   for (const pathCoordinates of coordinates) {
@@ -196,7 +196,7 @@ export async function mergeImages(paths: string[], bgColor?: string) {
     if (!canvas) {
       canvas = createCanvas(
         image.width * (cellsMax - cellsMin),
-        image.height * (rowsMax - rowsMin + 1)
+        image.height * (rowsMax - rowsMin + 1),
       );
       if (bgColor) {
         const ctx = canvas.getContext("2d");
@@ -207,7 +207,7 @@ export async function mergeImages(paths: string[], bgColor?: string) {
     const ctx = canvas.getContext("2d");
 
     console.log(
-      `Rendering ${pathCoordinates.path.split("/").at(-1)} at ${pathCoordinates.coords} with offset ${pathCoordinates.coords[0] - cellsMin}, ${rowsMax - rowsMin - (pathCoordinates.coords[1] - rowsMin)} with size ${image.width}x${image.height}`
+      `Rendering ${pathCoordinates.path.split("/").at(-1)} at ${pathCoordinates.coords} with offset ${pathCoordinates.coords[0] - cellsMin}, ${rowsMax - rowsMin - (pathCoordinates.coords[1] - rowsMin)} with size ${image.width}x${image.height}`,
     );
 
     const isImageOnlyBlack = isBlackImage(image);
@@ -220,7 +220,7 @@ export async function mergeImages(paths: string[], bgColor?: string) {
         image.width * (pathCoordinates.coords[0] - cellsMin),
         image.height * (rowsMax - pathCoordinates.coords[1]),
         image.width,
-        image.height
+        image.height,
       );
     } else {
       ctx.drawImage(
@@ -228,7 +228,7 @@ export async function mergeImages(paths: string[], bgColor?: string) {
         image.width * (pathCoordinates.coords[0] - cellsMin),
         image.height * (rowsMax - pathCoordinates.coords[1]),
         image.width,
-        image.height
+        image.height,
       );
     }
   }
@@ -278,7 +278,7 @@ export async function extractCanvasFromSprite(
   },
   props: {
     rotate?: number;
-  } = {}
+  } = {},
 ) {
   const image = await loadImage(spritePath);
   const canvas = createCanvas(data.Value.width, data.Value.height);
@@ -302,7 +302,7 @@ export async function extractCanvasFromSprite(
     0,
     0,
     data.Value.width,
-    data.Value.height
+    data.Value.height,
   );
 
   if (props.rotate) {
@@ -315,7 +315,7 @@ export async function extractCanvasFromSprite(
       -centerX,
       -centerY,
       data.Value.width,
-      data.Value.height
+      data.Value.height,
     );
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));

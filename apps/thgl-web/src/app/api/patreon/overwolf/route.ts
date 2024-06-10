@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     if (!requestBody.userId || !requestBody.appId) {
       return Response.json(
         { error: "userId and appId are required" },
-        { status: 400, headers: CORS_HEADERS }
+        { status: 400, headers: CORS_HEADERS },
       );
     }
     const app = apps.find((app) => app.overwolf?.id === requestBody.appId);
@@ -30,12 +30,12 @@ export async function POST(request: NextRequest) {
         {
           status: 404,
           headers: CORS_HEADERS,
-        }
+        },
       );
     }
     const userId = jwt.verify(
       requestBody.userId,
-      process.env.JWT_SECRET!
+      process.env.JWT_SECRET!,
     ) as string;
 
     const patreonToken = await kv.get<PatreonToken>(`token:${userId}`);
@@ -45,12 +45,12 @@ export async function POST(request: NextRequest) {
         {
           status: 404,
           headers: CORS_HEADERS,
-        }
+        },
       );
     }
 
     const refreshTokenResponse = await postRefreshToken(
-      patreonToken.refresh_token
+      patreonToken.refresh_token,
     );
 
     const refreshTokenResult = await refreshTokenResponse.json();
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         {
           status: currentUserResponse.status,
           headers: CORS_HEADERS,
-        }
+        },
       );
     }
     const currentUser = currentUserResult as PatreonUser;
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         {
           status: 403,
           headers: CORS_HEADERS,
-        }
+        },
       );
     }
 
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
       {
         status: 500,
         headers: CORS_HEADERS,
-      }
+      },
     );
   }
 }

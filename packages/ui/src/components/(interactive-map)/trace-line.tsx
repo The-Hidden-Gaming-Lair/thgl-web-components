@@ -66,7 +66,7 @@ export function TraceLine() {
         radius: 0,
         interactive: false,
         color: traceLineColor,
-      }
+      },
     );
     traceDotsGroup.push(circle);
     circle.addTo(targetLayerGroup);

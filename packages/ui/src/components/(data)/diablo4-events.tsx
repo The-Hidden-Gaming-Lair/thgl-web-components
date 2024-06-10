@@ -76,7 +76,7 @@ async function getRecentEvents() {
   const response = await fetch(
     location.origin.startsWith("overwolf")
       ? `https://d4armory.io/api/events/recent?v=${Date.now()}`
-      : `/api/events?v=${Date.now()}`
+      : `/api/events?v=${Date.now()}`,
   );
   const data = (await response.json()) as RECENT_EVENTS;
   return data;
@@ -92,10 +92,10 @@ export function Diablo4Events() {
   const t = useT();
   const { nodes } = useCoordinates();
   const addHighlightSpawnIDs = useGameState(
-    (state) => state.addHighlightSpawnIDs
+    (state) => state.addHighlightSpawnIDs,
   );
   const removeHighlightSpawnIDs = useGameState(
-    (state) => state.removeHighlightSpawnIDs
+    (state) => state.removeHighlightSpawnIDs,
   );
 
   useEffect(() => {
@@ -208,7 +208,7 @@ export function Diablo4Events() {
       <div className="hidden md:block">
         <button
           className={cn(
-            "w-full py-2 px-4 text-left transition-colors flex gap-2"
+            "w-full py-2 px-4 text-left transition-colors flex gap-2",
           )}
           onClick={() => {
             //
@@ -227,7 +227,7 @@ export function Diablo4Events() {
         </button>
         <button
           className={cn(
-            "w-full py-2 px-4 text-left transition-colors flex gap-2"
+            "w-full py-2 px-4 text-left transition-colors flex gap-2",
           )}
           onClick={() => {
             //
@@ -246,7 +246,7 @@ export function Diablo4Events() {
         </button>
         <button
           className={cn(
-            "w-full py-2 px-4 text-left transition-colors flex gap-2"
+            "w-full py-2 px-4 text-left transition-colors flex gap-2",
           )}
           onClick={() => {
             //

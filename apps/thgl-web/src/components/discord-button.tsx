@@ -19,7 +19,7 @@ export default function DiscordButton({
       rel="noopener noreferrer"
       className={cn(
         "ml-auto flex w-fit items-center gap-1 bg-discord/70 border border-white/10 rounded-md px-2 py-1 hover:bg-discord hover:border-white/15 transition-colors duration-500",
-        className
+        className,
       )}
     >
       <DiscordIcon className="w-5 h-5" />

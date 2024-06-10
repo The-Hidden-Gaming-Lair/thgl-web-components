@@ -52,151 +52,151 @@ const icons: Record<string, string> = {
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     "weapon_crate",
-    { color: "yellow" }
+    { color: "yellow" },
   ),
   gear_crate: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     "gear_crate",
-    { color: "green" }
+    { color: "green" },
   ),
   storage_crate: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     "storage_crate",
-    { color: "blue" }
+    { color: "blue" },
   ),
   morphic_crate: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     "morphic_crate",
-    { color: "purple" }
+    { color: "purple" },
   ),
   mystical_chest: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     "mystical_chest",
-    { color: "red" }
+    { color: "red" },
   ),
   treasure_chest: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     "treasure_chest",
-    { color: "orange" }
+    { color: "orange" },
   ),
   recipe: await saveIcon(
     "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/notebook_delapouite.webp",
-    "recipe"
+    "recipe",
   ),
   accessory: await saveIcon(
     "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/ink-swirl_lorc.webp",
-    "accessory"
+    "accessory",
   ),
   deviant: await saveIcon(
     "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/lightning-dissipation_lorc.webp",
-    "deviant"
+    "deviant",
   ),
   railway: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_jiaotongshuniu.png",
-    "railway"
+    "railway",
   ),
   hospital: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_hospital.png",
-    "hospital"
+    "hospital",
   ),
   prime_wars: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/hud_icon_cluster_excitation.png",
-    "prime_wars"
+    "prime_wars",
   ),
   silvershore_resort: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_gouwuzhongxin.png",
-    "silvershore_resort"
+    "silvershore_resort",
   ),
   green_lake_hill: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_guanniaoyingdi.png",
-    "green_lake_hill"
+    "green_lake_hill",
   ),
   school: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_school.png",
-    "school"
+    "school",
   ),
   factory: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_gongchang.png",
-    "factory"
+    "factory",
   ),
   hamlet: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_juluo.png",
-    "hamlet"
+    "hamlet",
   ),
   lea_research_lab: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_raidlea.png",
-    "lea_research_lab"
+    "lea_research_lab",
   ),
   military_base: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_junshijidi.png",
-    "military_base"
+    "military_base",
   ),
   monolith: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_juxie.png",
-    "monolith"
+    "monolith",
   ),
   real_estate: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_zhongzhiyuan.png",
-    "real_estate"
+    "real_estate",
   ),
   refinery: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_cistern.png",
-    "refinery"
+    "refinery",
   ),
   research_institute: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_yanjiusuo.png",
-    "research_institute"
+    "research_institute",
   ),
   securement_silo: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_securementsilos.png",
-    "securement_silo"
+    "securement_silo",
   ),
   teleportation_tower: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_transport.png",
     "teleportation_tower",
-    { brightness: -100, contrast: 1.3 }
+    { brightness: -100, contrast: 1.3 },
   ),
   town: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_chengzhen.png",
-    "town"
+    "town",
   ),
   union_stronghold: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_zhongliyingdi_kechuansong.png",
     "union_stronghold",
-    { brightness: -100, contrast: 1.3 }
+    { brightness: -100, contrast: 1.3 },
   ),
   boss: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png",
-    "boss"
+    "boss",
   ),
   elite: await saveIcon(
     TEXTURE_DIR +
       "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_elite.png",
-    "elite"
+    "elite",
   ),
 };
 
@@ -220,7 +220,7 @@ const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
 if (Bun.env.TILES === "true") {
   try {
     const tilesParts = await readDirSync(
-      TEXTURE_DIR + "/ui/texpack/bigmap_res/map/2048/"
+      TEXTURE_DIR + "/ui/texpack/bigmap_res/map/2048/",
     ).map((f) => TEXTURE_DIR + `/ui/texpack/bigmap_res/map/2048/${f}`);
     let canvas = await mergeImages(tilesParts);
     canvas = adjustBrightnessAndContrast(canvas, -40, 1.1);
@@ -289,7 +289,7 @@ async function saveIcon(
     outline?: boolean;
     contrast?: number;
     brightness?: number;
-  } = {}
+  } = {},
 ) {
   const id = outputName;
   if (savedIcons.includes(id)) {
@@ -312,7 +312,7 @@ async function saveIcon(
     const canvas = await adjustBrightnessAndContrast(
       await loadCanvas(assetPath),
       props.brightness,
-      props.contrast
+      props.contrast,
     );
     saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
     await $`cwebp ${TEMP_DIR}/${id}.png -o ${OUT_DIR}/icons/${id}.webp -quiet`;
@@ -335,7 +335,7 @@ function normalizeLocation(
     OFFSET_X,
     OFFSET_Y,
     CAMERA_ANGLE,
-  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number }
+  }: { OFFSET_X: number; OFFSET_Y: number; CAMERA_ANGLE: number },
 ): { x: number; y: number } {
   const x = location.x - OFFSET_X;
   const y = location.y - OFFSET_Y;
