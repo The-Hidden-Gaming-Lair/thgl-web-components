@@ -45,5 +45,6 @@ module.exports = {
         devDependencies: true,
       },
     ],
+    "import/no-relative-packages": "off",
   },
 };
