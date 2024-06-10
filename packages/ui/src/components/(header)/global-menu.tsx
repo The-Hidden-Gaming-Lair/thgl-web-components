@@ -34,6 +34,21 @@ const APPS = [
         url: "https://paxdei.gaming.tools?ref=thgl",
         icon: "/global_icons/gaming-tools.webp",
       },
+      {
+        title: "Pax Dei Market",
+        url: "https://paxdei.trade/?ref=thgl",
+        icon: "/global_icons/paxdei-trade.webp",
+      },
+      {
+        title: "Pax Clans",
+        url: "https://paxclans.com/?ref=thgl",
+        icon: "/global_icons/paxclans.webp",
+      },
+      {
+        title: "Crafting Resources",
+        url: "https://www.gameactive.org/pd/?ref=thgl",
+        icon: "/global_icons/gameactive.webp",
+      },
     ],
   },
   {
