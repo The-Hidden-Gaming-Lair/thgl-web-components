@@ -31550,6 +31550,20 @@
     "static": true
   },
   {
+    "type": "Monster_Glowing_Monster150",
+    "spawns": [
+      {
+        "p": [
+          63165.34,
+          17606.22
+        ],
+        "mapName": "AkiWorld_WP",
+        "id": "Monster_Glowing_Monster150_111004133"
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "Monster_Glowing_111000056",
     "spawns": [
       {

@@ -281,6 +281,9 @@ for (const monster of monsterInfo.monsterinfo) {
     if (!bpName) {
       console.warn(`Missing bpName for ${monster.data.Name}`);
     } else {
+      if (typesIDs[`BP_${bpName}_C`]) {
+        console.warn(`Duplicate BP: ${bpName} with ${monster.data.Name}`);
+      }
       typesIDs[`BP_${bpName}_C`] = id;
     }
   }
@@ -492,8 +495,9 @@ for (const levelEntity of sortedEntities) {
       if (monsterMatchType) {
         name = levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName;
         if (!name) {
-          console.warn(`Missing Monster Glowing name: ${id}`);
-          continue;
+          name = monsterInfo.monsterinfo.find(
+            (m) => m.data.MonsterEntityID === levelEntity.data.BlueprintType,
+          )!.data.Name;
         }
         id = `Monster_Glowing_${levelEntity.data.BlueprintType}`;
       } else {
