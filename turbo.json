@@ -6,7 +6,7 @@
   "globalEnv": [
     "PORT"
   ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": [
         "^build"
