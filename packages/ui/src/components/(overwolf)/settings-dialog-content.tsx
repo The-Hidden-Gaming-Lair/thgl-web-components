@@ -7,18 +7,21 @@ import { Separator } from "../ui/separator";
 import { Channels } from "./channels";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
+import { ReactNode } from "react";
 
 export function OverwolfSettingsDialogContent({
   activeApp,
   gameClassId,
+  more,
 }: {
   activeApp: string;
   gameClassId: number;
+  more?: ReactNode;
 }) {
   const settingsStore = useSettingsStore();
 
   return (
-    <SettingsDialogContent activeApp={activeApp}>
+    <SettingsDialogContent activeApp={activeApp} more={more}>
       <Separator />
       <Channels />
       <Separator />

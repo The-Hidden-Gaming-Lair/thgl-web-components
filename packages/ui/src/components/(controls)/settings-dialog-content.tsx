@@ -18,10 +18,12 @@ import { ColorPicker } from "./color-picker";
 
 export function SettingsDialogContent({
   activeApp,
+  more,
   children,
   hideAppSettings,
 }: {
   activeApp: string;
+  more?: ReactNode;
   children?: ReactNode;
   hideAppSettings?: boolean;
 }) {
@@ -34,6 +36,12 @@ export function SettingsDialogContent({
       </DialogHeader>
       <ScrollArea>
         <div className="space-y-2 pr-3">
+          {more ? (
+            <>
+              {more}
+              <Separator />
+            </>
+          ) : null}
           <h4 className="text-md font-semibold">Discovered Nodes</h4>
           <p className="text-muted-foreground text-xs">
             You discovered {settingsStore.discoveredNodes.length} nodes.

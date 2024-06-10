@@ -11,7 +11,7 @@ import {
   togglePreferedWindow,
   useOverwolfState,
 } from "@repo/lib/overwolf";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { UnlockButton } from "./unlock-button";
 import { OverwolfSettingsDialogContent } from "./settings-dialog-content";
 import { useCoordinates } from "../(providers)";
@@ -20,10 +20,12 @@ export function AppHeader({
   app,
   title,
   gameClassId,
+  moreSettings,
 }: {
   app: string;
   title?: string;
   gameClassId: number;
+  moreSettings?: ReactNode;
 }): JSX.Element {
   const windowInfo = useOverwolfState((state) => state.windowInfo);
   const isOverlay = useOverwolfState((state) => state.isOverlay);
@@ -129,6 +131,7 @@ export function AppHeader({
             <OverwolfSettingsDialogContent
               activeApp={app}
               gameClassId={gameClassId}
+              more={moreSettings}
             />
           }
         >

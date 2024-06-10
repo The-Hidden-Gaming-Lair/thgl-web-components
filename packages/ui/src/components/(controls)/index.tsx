@@ -8,3 +8,5 @@ export * from "./streaming-receiver";
 export * from "./toaster";
 export * from "../ui/button";
 export { ArrowUpDown, MoreHorizontal } from "lucide-react";
+export * from "../ui/switch";
+export * from "../ui/label";

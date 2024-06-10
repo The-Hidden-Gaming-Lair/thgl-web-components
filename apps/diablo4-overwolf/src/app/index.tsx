@@ -45,6 +45,7 @@ import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
+import { D4Settings, useD4SettingsStore } from "@/components/d4-settings";
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
 const nodes = _nodes as NodesCoordinates;
@@ -61,7 +62,7 @@ function App(): JSX.Element {
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
   const hidden = Boolean(lockedWindow && isOverlay);
-
+  const showTimers = useD4SettingsStore((state) => state.showTimers);
   return (
     <div
       className={cn(
@@ -81,7 +82,12 @@ function App(): JSX.Element {
             staticNodes={nodes}
             view={{}}
           >
-            <AppHeader app={APP} title="Diablo4" gameClassId={22700} />
+            <AppHeader
+              app={APP}
+              title="Diablo4"
+              gameClassId={22700}
+              moreSettings={<D4Settings />}
+            />
             <HeaderOffset bypass={Boolean(isOverlay)} full>
               <MapContainer noLockHover>
                 <InteractiveMap
@@ -98,6 +104,7 @@ function App(): JSX.Element {
                   additionalFilters={<Diablo4Events />}
                 />
               )}
+              {hidden && showTimers ? <Diablo4Events portal /> : null}
               <Actions>
                 <StreamingSender domain="diablo4" hidden={hidden} />
                 <PrivateNode hidden={hidden} />

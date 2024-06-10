@@ -11,10 +11,11 @@
     "release": "node scripts/release-overwolf.mjs"
   },
   "dependencies": {
+    "@repo/lib": "workspace:*",
+    "@repo/ui": "workspace:*",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "@repo/lib": "workspace:*",
-    "@repo/ui": "workspace:*"
+    "zustand": "4.5.2"
   },
   "devDependencies": {
     "@overwolf/ow-cli": "^0.0.5-1",

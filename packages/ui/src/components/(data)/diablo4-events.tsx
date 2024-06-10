@@ -82,14 +82,13 @@ async function getRecentEvents() {
   return data;
 }
 
-export function Diablo4Events() {
+export function Diablo4Events({ portal }: { portal?: boolean }) {
   const [time, setTime] = useState<null | number>(null);
   const { data } = useSWR("/api/events", getRecentEvents, {
     refreshInterval: 60000,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
-  const t = useT();
   const { nodes } = useCoordinates();
   const addHighlightSpawnIDs = useGameState(
     (state) => state.addHighlightSpawnIDs,
@@ -126,17 +125,13 @@ export function Diablo4Events() {
     };
   }, [data?.helltide.timestamp]);
 
-  const legionTimeLeft =
-    data && time
-      ? Math.max(0, data.legion.timestamp * 1000 - time) ||
-        Math.max(0, data.legion.expected * 1000 - time)
-      : 0;
-  const bossTimeLeft =
-    data && time
-      ? Math.max(0, data.boss.timestamp * 1000 - time) ||
-        Math.max(0, data.boss.expected * 1000 - time)
-      : 0;
-
+  if (portal) {
+    return (
+      <div className="fixed top-2 left-12 flex gap-3">
+        <Timers data={data} time={time} buttonClassName="w-auto" />
+      </div>
+    );
+  }
   return (
     <>
       <Popover>
@@ -154,114 +149,96 @@ export function Diablo4Events() {
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <button
-            className={cn("w-full text-left transition-colors flex gap-2")}
-            onClick={() => {
-              //
-            }}
-            title="Helltide"
-            type="button"
-            disabled
-          >
-            <span>Helltide</span>
-            <span className="grow mx-2 text-muted-foreground truncate">
-              {data?.helltide.zone && data.helltide.zone !== "unkn"
-                ? t(data.helltide.zone) ?? data.helltide.zone
-                : ""}
-            </span>
-            <span className="font-mono">{calculateHelltideTimeLeft(time)}</span>
-          </button>
-          <button
-            className={cn("w-full text-left transition-colors flex gap-2")}
-            onClick={() => {
-              //
-            }}
-            title="Legion"
-            type="button"
-            disabled
-          >
-            <span>{legionTimeLeft > 0 ? "Next " : ""}Legion</span>
-            <span className="grow mx-2 text-muted-foreground truncate">
-              {data?.legion.territory}
-            </span>
-            <span className="tracking-tighter font-mono">
-              {formatTimeLeft(legionTimeLeft)}
-            </span>
-          </button>
-          <button
-            className={cn("w-full text-left transition-colors flex gap-2")}
-            onClick={() => {
-              //
-            }}
-            title="World Boss"
-            type="button"
-            disabled
-          >
-            <span>{bossTimeLeft > 0 ? "Next " : ""}World Boss</span>
-            <span className="grow mx-2 text-muted-foreground truncate">
-              {data?.boss.expectedName}
-            </span>
-            <span className="font-mono">{formatTimeLeft(bossTimeLeft)}</span>
-          </button>
+          <Timers data={data} time={time} />
         </PopoverContent>
       </Popover>
       <div className="hidden md:block">
-        <button
-          className={cn(
-            "w-full py-2 px-4 text-left transition-colors flex gap-2",
-          )}
-          onClick={() => {
-            //
-          }}
-          title="Helltide"
-          type="button"
-          disabled
-        >
-          <span>Helltide</span>
-          <span className="grow mx-2 text-muted-foreground truncate">
-            {data?.helltide.zone && data.helltide.zone !== "unkn"
-              ? t(data.helltide.zone) ?? data.helltide.zone
-              : ""}
-          </span>
-          <span className="font-mono">{calculateHelltideTimeLeft(time)}</span>
-        </button>
-        <button
-          className={cn(
-            "w-full py-2 px-4 text-left transition-colors flex gap-2",
-          )}
-          onClick={() => {
-            //
-          }}
-          title="Legion"
-          type="button"
-          disabled
-        >
-          <span>{legionTimeLeft > 0 ? "Next " : ""}Legion</span>
-          <span className="grow mx-2 text-muted-foreground truncate">
-            {data?.legion.territory}
-          </span>
-          <span className="tracking-tighter font-mono">
-            {formatTimeLeft(legionTimeLeft)}
-          </span>
-        </button>
-        <button
-          className={cn(
-            "w-full py-2 px-4 text-left transition-colors flex gap-2",
-          )}
-          onClick={() => {
-            //
-          }}
-          title="World Boss"
-          type="button"
-          disabled
-        >
-          <span>{bossTimeLeft > 0 ? "Next " : ""}World Boss</span>
-          <span className="grow mx-2 text-muted-foreground truncate">
-            {data?.boss.expectedName}
-          </span>
-          <span className="font-mono">{formatTimeLeft(bossTimeLeft)}</span>
-        </button>
+        <Timers data={data} time={time} buttonClassName="py-2 px-4" />
       </div>
+    </>
+  );
+}
+
+function Timers({
+  data,
+  time,
+  buttonClassName,
+}: {
+  data?: RECENT_EVENTS;
+  time: number | null;
+  buttonClassName?: string;
+}) {
+  const t = useT();
+
+  const legionTimeLeft =
+    data && time
+      ? Math.max(0, data.legion.timestamp * 1000 - time) ||
+        Math.max(0, data.legion.expected * 1000 - time)
+      : 0;
+  const bossTimeLeft =
+    data && time
+      ? Math.max(0, data.boss.timestamp * 1000 - time) ||
+        Math.max(0, data.boss.expected * 1000 - time)
+      : 0;
+
+  return (
+    <>
+      <button
+        className={cn(
+          "w-full text-left transition-colors flex gap-2",
+          buttonClassName,
+        )}
+        onClick={() => {
+          //
+        }}
+        title="Helltide"
+        type="button"
+        disabled
+      >
+        <span>Helltide</span>
+        <span className="grow text-muted-foreground truncate">
+          {data?.helltide.zone && data.helltide.zone !== "unkn"
+            ? t(data.helltide.zone) ?? data.helltide.zone
+            : ""}
+        </span>
+        <span>{calculateHelltideTimeLeft(time)}</span>
+      </button>
+      <button
+        className={cn(
+          "w-full text-left transition-colors flex gap-2",
+          buttonClassName,
+        )}
+        onClick={() => {
+          //
+        }}
+        title="Legion"
+        type="button"
+        disabled
+      >
+        <span>{legionTimeLeft > 0 ? "Next " : ""}Legion</span>
+        <span className="grow text-muted-foreground truncate">
+          {data?.legion.territory}
+        </span>
+        <span>{formatTimeLeft(legionTimeLeft)}</span>
+      </button>
+      <button
+        className={cn(
+          "w-full text-left transition-colors flex gap-2",
+          buttonClassName,
+        )}
+        onClick={() => {
+          //
+        }}
+        title="World Boss"
+        type="button"
+        disabled
+      >
+        <span>{bossTimeLeft > 0 ? "Next " : ""}World Boss</span>
+        <span className="grow text-muted-foreground truncate">
+          {data?.boss.expectedName}
+        </span>
+        <span>{formatTimeLeft(bossTimeLeft)}</span>
+      </button>
     </>
   );
 }
