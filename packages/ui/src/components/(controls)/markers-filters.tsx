@@ -119,7 +119,7 @@ export function MarkersFilters({
               </button>
             </CollapsibleTrigger>
           </div>
-          <CollapsibleContent className="flex flex-wrap">
+          <CollapsibleContent className="flex flex-wrap w-[175px] md:w-full">
             {privateNodesFilters
               .sort((a, b) => a.localeCompare(b))
               .map((nodeFilter) => (
@@ -234,7 +234,7 @@ export function MarkersFilters({
               </button>
             </CollapsibleTrigger>
           </div>
-          <CollapsibleContent className="flex flex-wrap">
+          <CollapsibleContent className="flex flex-wrap  w-[175px] md:w-full">
             {privateDrawings
               .sort((a, b) => t(a.id).localeCompare(t(b.id)))
               .map((privateDrawing) => (
