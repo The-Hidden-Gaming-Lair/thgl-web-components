@@ -145,6 +145,13 @@ const dbEntityOwnerData = readJSON<DBEntityOwnerData>(
 const dbQuestData = readJSON<DBQuestData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestData.json",
 );
+const dbHandbook = readJSON<DBHandbook>(
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_handbook.json",
+);
+const dtModelConfigMonster = readJSON<DTModelConfigMonster>(
+  CONTENT_DIR +
+    "/Client/Content/Aki/Data/Entity/Sub_DT_ModelConfig/DT_ModelConfig_Monster.json",
+);
 
 const workMapIconPath =
   TEXTURE_DIR +
@@ -223,11 +230,51 @@ for (const monster of monsterInfo.monsterinfo) {
   const rarityDesc = monsterInfo.monsterrarity.find(
     (mr) => mr.Id === monster.data.RarityId,
   )?.data.RarityDesc!;
-  const name =
+  let name =
     MultiText.find((m) => m.Id === monster.data.Name)?.Content ??
     monster.data.Name;
+  let id = monster.data.MonsterEntityID;
+  if (!id) {
+    console.warn(`Missing MonsterEntityID for ${name}`);
+    continue;
+  }
+  if (name === "Exile") {
+    overrides[id] = "exile";
+    id = "exile";
+  }
+
+  const monsterHandbook = dbHandbook.monsterhandbook.find(
+    (p) => p.Id === monster.Id,
+  );
+  if (!monsterHandbook) {
+    console.warn(`Missing handbook for ${monster.data.Name}`);
+  }
+  if (monsterHandbook) {
+    const mesh = Object.values(dtModelConfigMonster[0].Rows).find(
+      (m) =>
+        m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === monsterHandbook.data.MeshId,
+    );
+
+    let bpName = "";
+    if (!mesh) {
+      console.warn(`Missing mesh for ${monster.data.Name}`);
+    } else {
+      bpName =
+        mesh.蓝图_164_769F290B4EFC164B65A1599B535666B6.AssetPathName.split(
+          "/",
+        )[6];
+    }
+    if (!bpName) {
+      console.warn(`Missing bpName for ${monster.data.Name}`);
+    } else {
+      if (typesIDs[`BP_${bpName}_C`]) {
+        console.warn(`Duplicate BP: ${bpName} with ${monster.data.Name}`);
+      }
+      typesIDs[`BP_${bpName}_C`] = id;
+    }
+  }
   const isExile = name.includes("Exile") || name.includes("Fractsidus");
-  const group = isExile ? "exile" : rarityDesc;
+  const group = isExile ? "exileAndFractsidus" : rarityDesc;
   const filterName = isExile
     ? "Exiles & Fractsidus"
     : MultiText.find((m) => m.Id === rarityDesc)?.Content;
@@ -243,11 +290,7 @@ for (const monster of monsterInfo.monsterinfo) {
     enDict[group] = capitalizeWords(enDict[group]).replace("s(", "s (");
   }
   const category = filters.find((f) => f.group === group)!;
-  let id = monster.data.MonsterEntityID || monster.data.Name;
-  if (isExile) {
-    overrides[id] = toCamelCase(name);
-    id = overrides[id];
-  }
+
   if (!addedFilterIDs.includes(id)) {
     category.values.push({
       id,
@@ -268,25 +311,16 @@ for (const monster of monsterInfo.monsterinfo) {
     }
     addedIcons.push(monster.data.Icon);
   }
+
   enDict[id] = name;
   const discoveredDesc =
     MultiText.find((m) => m.Id === monster.data.DiscoveredDes)?.Content ?? "";
 
   const desc = extractResFromDesc(discoveredDesc);
+
   const phantomItem = dbPhantom.phantomitem.find(
     (p) => p.data.MonsterName === monster.data.Name,
   );
-  if (phantomItem) {
-    const bpName = phantomItem.data.StandAnim.split("/")[6];
-    if (!bpName) {
-      console.warn(`Missing bpName for ${monster.data.Name}`);
-    } else {
-      if (typesIDs[`BP_${bpName}_C`]) {
-        console.warn(`Duplicate BP: ${bpName} with ${monster.data.Name}`);
-      }
-      typesIDs[`BP_${bpName}_C`] = id;
-    }
-  }
   const fetterGroups = phantomItem?.data.FetterGroup.map(
     (f) => dbPhantom.phantomfettergroup.find((g) => g.data.Id === f)!,
   );
@@ -309,10 +343,6 @@ for (const monster of monsterInfo.monsterinfo) {
     }
   } else if (desc) {
     enDict[id + "_desc"] = desc;
-  }
-
-  if (enDict[id].startsWith("Phantom")) {
-    enDict[id] = enDict[id].replace("Phantom: ", "");
   }
 
   monsterFilterIds.push(id);
@@ -575,9 +605,6 @@ for (const levelEntity of sortedEntities) {
       // const category = filters.find((f) => f.group === group)!;
       console.log("Glowing", enDict[id], id);
     }
-    if (enDict[id].startsWith("Phantom")) {
-      continue;
-    }
 
     if (levelEntity.data.InSleep) {
       let owner = dbEntityOwnerData.entityownerdata.find(
@@ -754,7 +781,9 @@ for (const levelEntity of sortedEntities) {
   if (!oldNodes) {
     oldNodes = { type: id, spawns: [] };
     if (!Object.values(typesIDs).includes(id)) {
-      oldNodes.static = true;
+      if (!id.startsWith("Monster") || id.startsWith("Monster_Glowing")) {
+        oldNodes.static = true;
+      }
     }
     nodes.push(oldNodes);
     oldNodes = nodes.find((n) => n.type === id);
@@ -8886,3 +8915,7560 @@ export type DBLevelPlayData = {
     };
   }>;
 };
+
+export type DBHandbook = {
+  monsterhandbook: Array<{
+    Id: number;
+    Type: number;
+    data: {
+      Id: number;
+      Type: number;
+      Name: string;
+      MeshId: number;
+      Scale: Array<number>;
+      Position: Array<number>;
+      Rotator: Array<number>;
+      StandAnim: string;
+      TypeDescrtption: string;
+      Descrtption: string;
+      FightSkillDescrtption: string;
+      PhantomItem: Array<number>;
+    };
+  }>;
+  monsterhandbooktype: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      Descrtption: string;
+    };
+  }>;
+  animalhandbook: Array<{
+    Id: number;
+    MeshId: number;
+    data: {
+      Id: number;
+      MeshId: number;
+      Name: string;
+      Scale: Array<number>;
+      Position: Array<number>;
+      Rotator: Array<number>;
+      StandAnim: string;
+      Icon: string;
+      TypeDescrtption: string;
+      Place: string;
+      Descrtption: string;
+      DropItemId: Array<number>;
+    };
+  }>;
+  photographhandbook: Array<{
+    Id: number;
+    Type: number;
+    data: {
+      Id: number;
+      Type: number;
+      Name: string;
+      MaleTexture: string;
+      FemaleTexture: string;
+      Descrtption: string;
+    };
+  }>;
+  plottype: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      TypeDescription: string;
+    };
+  }>;
+  chiphandbook: Array<{
+    Id: number;
+    Type: number;
+    data: {
+      Id: number;
+      Type: number;
+      VoiceDescrtption: string;
+    };
+  }>;
+  chiptype: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      TypeDescription: string;
+      Icon: string;
+    };
+  }>;
+  geographyhandbook: Array<{
+    Id: number;
+    Type: number;
+    data: {
+      Id: number;
+      Type: number;
+      Name: string;
+      Texture: string;
+      TypeDescrtption: string;
+      Descrtption: string;
+    };
+  }>;
+  geographytype: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      TypeDescription: string;
+      Icon: string;
+    };
+  }>;
+  phantomhandbook: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      Name: string;
+      TypeDescrtption: string;
+      Intensity: string;
+      Place: string;
+      Title1: string;
+      Descrtption1: string;
+      Title2: string;
+      Descrtption2: string;
+      Scale: Array<number>;
+      Position: Array<number>;
+      Rotator: Array<number>;
+    };
+  }>;
+  phantomhandbookpage: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      Icon: string;
+    };
+  }>;
+  itemhandbook: Array<{
+    Id: number;
+    Type: number;
+    data: {
+      Id: number;
+      Type: number;
+      Title: string;
+    };
+  }>;
+  itemhandbooktype: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      Descrtption: string;
+      Icon: string;
+    };
+  }>;
+  weaponhandbook: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      Level: number;
+      Breach: number;
+      Resonance: number;
+    };
+  }>;
+  phantomfetterhandbook: Array<{
+    Id: number;
+    data: {
+      Id: number;
+    };
+  }>;
+};
+
+export type DTModelConfigMonster = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    bIgnoreExtraFields: boolean;
+    bIgnoreMissingFields: boolean;
+  };
+  Rows: {
+    "100701": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "100702": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "100703": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "10070301": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "100704": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "100705": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "300012": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "300013": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "301003": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "30100301": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "301004": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "302001": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "310000": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "310001": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390000": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39000001": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390003": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390004": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390005": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390006": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390007": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390008": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39000801": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390009": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390012": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390013": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39001301": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390014": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390015": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390016": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390017": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390019": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390020": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390021": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39002101": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390022": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39002201": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390023": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390024": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390025": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390026": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390027": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390028": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390029": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390030": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390032": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390033": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390035": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390036": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390037": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390038": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390039": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390040": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39004001": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390041": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390042": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390043": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390044": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390045": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390046": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390047": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390048": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390049": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39004901": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39004902": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390050": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390051": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390052": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390053": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390054": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390055": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390056": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390057": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390058": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390059": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390060": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390061": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390062": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390063": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390064": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390065": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390066": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390067": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390068": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390069": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390070": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390071": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390072": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: any;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390073": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39007301": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390074": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390075": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390077": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390079": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390080": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<{
+        AssetPathName: string;
+        SubPathString: string;
+      }>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390081": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390082": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390083": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39008301": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390084": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390085": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390086": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390088": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390089": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390090": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390091": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390092": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390093": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390094": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390095": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39009501": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39009502": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390096": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390097": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39009701": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "39009702": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390098": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390099": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390100": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390105": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390111": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390113": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390114": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390115": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390116": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390117": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390118": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390119": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390120": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390121": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390122": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<string>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<string>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390123": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<string>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<string>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390124": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390125": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390126": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390200": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390201": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390202": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390203": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390204": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390205": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390206": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390207": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390208": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390209": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390210": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390211": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390212": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390213": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390214": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390215": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390216": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390217": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390218": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390219": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390220": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390221": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390222": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390223": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390224": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390225": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390226": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390227": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390228": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390229": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390230": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390231": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390232": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390233": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390234": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390235": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390236": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390237": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390238": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390243": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390244": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390241": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390242": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390239": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+    "390240": {
+      ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF: number;
+      蓝图_164_769F290B4EFC164B65A1599B535666B6: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      网格体_168_BEB7464046E518BA05D4C799C3CC4633: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      子网格体_196_D82578F34F1E4A691036E99B5FB78226: Array<any>;
+      DA_177_AB8FDE124B35121D6F1FCF9EB0CD09AD: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      动画蓝图_171_0392CD7E4090222C990267BFB07ACCFA: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      描述_17_8069323C48DE6851BB6B6788D1B95952: string;
+      动画列表_133_D11B6EF248DEB4226B6CF2A98A882A05: Array<any>;
+      BattleSockets_63_FB5D6DAC483A857CFEEDEFACB2756F1D: Array<any>;
+      NormalSockets_64_AE83EB754176514E8D8DAE8521A609ED: Array<any>;
+      静态网格体列表_132_071970D4433C2225A287F4BF6673DE4F: Array<any>;
+      常驻特效列表_130_465C46E24D4666BB95A752AF0B533A8B: Array<any>;
+      变化特效列表_131_0C1F295C46E6663CA7B5A6B7B1D7D4F9: Array<any>;
+      通用特效常驻参数_113_79874DD14ED056D882E1019173BE819F: Array<any>;
+      通用特效变化参数_114_35E165954D765F21271E5F8EFB23007D: Array<any>;
+      场景交互物_142_56A2D5ED420A09047B55538B0A789828: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      场景交互物状态列表_144_70E5A0E44592B5CC8C81789E5CBAF975: Array<any>;
+      场景交互物特效列表_160_269D1C9D465A43640E572894290F2EA9: Array<any>;
+      IsHiddenWithCamera_180_E4B768F74ED8490D4EF4F7AC52E7AF3E: boolean;
+      ModelAlpha_184_38E22542455C4F4C5E1EDE82183BF375: number;
+      名字Z偏移_188_E8CB9C9A43F04B2BF247FD9E233CBE80: number;
+      注释时的抬升角度_192_4AFA30A74F0864E1CEE43B930EDB3B36: number;
+      体型类型_199_997203F4416F68DB877D96A595F2AC51: string;
+      主角蓝透_201_B2B40294482FF0B8641BE98CCAA2E7BC: boolean;
+    };
+  };
+}>;

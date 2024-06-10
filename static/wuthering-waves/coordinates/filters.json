@@ -586,43 +586,43 @@
     ]
   },
   {
-    "group": "exile",
+    "group": "exileAndFractsidus",
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
       {
-        "id": "Exile",
-        "icon": "Exile.webp",
+        "id": "exile",
+        "icon": "exile.webp",
         "size": 1.3
       },
       {
-        "id": "Exile Leader",
-        "icon": "Exile Leader.webp",
+        "id": "Monster055",
+        "icon": "Monster055.webp",
         "size": 1.3
       },
       {
-        "id": "Exile Technician",
-        "icon": "Exile Technician.webp",
+        "id": "Monster056",
+        "icon": "Monster056.webp",
         "size": 1.3
       },
       {
-        "id": "Fractsidus Executioner",
-        "icon": "Fractsidus Executioner.webp",
+        "id": "Monster069",
+        "icon": "Monster069.webp",
         "size": 1.3
       },
       {
-        "id": "Fractsidus Thruster",
-        "icon": "Fractsidus Thruster.webp",
+        "id": "Monster072",
+        "icon": "Monster072.webp",
         "size": 1.3
       },
       {
-        "id": "Fractsidus Cannoneer",
-        "icon": "Fractsidus Cannoneer.webp",
+        "id": "Monster086",
+        "icon": "Monster086.webp",
         "size": 1.3
       },
       {
-        "id": "Fractsidus Gunmaster",
-        "icon": "Fractsidus Gunmaster.webp",
+        "id": "Monster087",
+        "icon": "Monster087.webp",
         "size": 1.3
       }
     ]

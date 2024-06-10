@@ -1312,7 +1312,7 @@
     "static": true
   },
   {
-    "type": "Fractsidus Executioner",
+    "type": "Monster069",
     "spawns": [
       {
         "p": [
@@ -1320,7 +1320,7 @@
           -41300
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_11000229"
+        "id": "Monster069_11000229"
       },
       {
         "p": [
@@ -1328,7 +1328,7 @@
           -40940
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_11000230"
+        "id": "Monster069_11000230"
       },
       {
         "p": [
@@ -1364,7 +1364,7 @@
           -118976.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_111003809"
+        "id": "Monster069_111003809"
       },
       {
         "p": [
@@ -1379,7 +1379,7 @@
           86575.2
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_111004556"
+        "id": "Monster069_111004556"
       },
       {
         "p": [
@@ -1387,7 +1387,7 @@
           57664.22
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_111004893"
+        "id": "Monster069_111004893"
       },
       {
         "p": [
@@ -1395,7 +1395,7 @@
           42296.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_111004896"
+        "id": "Monster069_111004896"
       },
       {
         "p": [
@@ -1410,7 +1410,7 @@
           -154029.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_111800097"
+        "id": "Monster069_111800097"
       },
       {
         "p": [
@@ -1418,7 +1418,7 @@
           -154477.89
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_111800117"
+        "id": "Monster069_111800117"
       },
       {
         "p": [
@@ -1426,7 +1426,7 @@
           -133432
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_122007392"
+        "id": "Monster069_122007392"
       },
       {
         "p": [
@@ -1434,7 +1434,7 @@
           -85183.61
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_124002404"
+        "id": "Monster069_124002404"
       },
       {
         "p": [
@@ -1442,7 +1442,7 @@
           -14299.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_133000900"
+        "id": "Monster069_133000900"
       },
       {
         "p": [
@@ -1450,7 +1450,7 @@
           -125158
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_136002357"
+        "id": "Monster069_136002357"
       },
       {
         "p": [
@@ -1458,7 +1458,7 @@
           50763
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_136800294"
+        "id": "Monster069_136800294"
       },
       {
         "p": [
@@ -1494,10 +1494,9 @@
           96825
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Executioner_146000393"
+        "id": "Monster069_146000393"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster010",
@@ -2036,8 +2035,7 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster040_143800036"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster014",
@@ -11604,7 +11602,7 @@
     ]
   },
   {
-    "type": "Exile",
+    "type": "exile",
     "spawns": [
       {
         "p": [
@@ -11612,7 +11610,7 @@
           -3343.49
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001871"
+        "id": "exile_102001871"
       },
       {
         "p": [
@@ -11620,7 +11618,7 @@
           -4161.47
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001874"
+        "id": "exile_102001874"
       },
       {
         "p": [
@@ -11628,7 +11626,7 @@
           -5133.39
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001875"
+        "id": "exile_102001875"
       },
       {
         "p": [
@@ -11636,7 +11634,7 @@
           -4991.28
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001876"
+        "id": "exile_102001876"
       },
       {
         "p": [
@@ -11644,7 +11642,7 @@
           -3280.28
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001877"
+        "id": "exile_102001877"
       },
       {
         "p": [
@@ -11680,7 +11678,7 @@
           2646.7
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001886"
+        "id": "exile_102001886"
       },
       {
         "p": [
@@ -11688,7 +11686,7 @@
           3317.67
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001887"
+        "id": "exile_102001887"
       },
       {
         "p": [
@@ -11696,7 +11694,7 @@
           3495.9
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001888"
+        "id": "exile_102001888"
       },
       {
         "p": [
@@ -11704,7 +11702,7 @@
           3810.18
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001889"
+        "id": "exile_102001889"
       },
       {
         "p": [
@@ -11712,7 +11710,7 @@
           16359.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001892"
+        "id": "exile_102001892"
       },
       {
         "p": [
@@ -11720,7 +11718,7 @@
           17155.86
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001893"
+        "id": "exile_102001893"
       },
       {
         "p": [
@@ -11728,7 +11726,7 @@
           16384.31
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102001894"
+        "id": "exile_102001894"
       },
       {
         "p": [
@@ -11750,7 +11748,7 @@
           16192.09
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102002100"
+        "id": "exile_102002100"
       },
       {
         "p": [
@@ -11758,7 +11756,7 @@
           16945.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102002101"
+        "id": "exile_102002101"
       },
       {
         "p": [
@@ -11766,7 +11764,7 @@
           -92730
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102700001"
+        "id": "exile_102700001"
       },
       {
         "p": [
@@ -11774,7 +11772,7 @@
           -93010
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102700002"
+        "id": "exile_102700002"
       },
       {
         "p": [
@@ -11782,7 +11780,7 @@
           -91760
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102700003"
+        "id": "exile_102700003"
       },
       {
         "p": [
@@ -11790,7 +11788,7 @@
           -95050
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_102700005"
+        "id": "exile_102700005"
       },
       {
         "p": [
@@ -11840,7 +11838,7 @@
           -93264.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000167"
+        "id": "exile_106000167"
       },
       {
         "p": [
@@ -11848,7 +11846,7 @@
           -94177.36
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000168"
+        "id": "exile_106000168"
       },
       {
         "p": [
@@ -11856,7 +11854,7 @@
           -93477.21
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000169"
+        "id": "exile_106000169"
       },
       {
         "p": [
@@ -11864,7 +11862,7 @@
           -93329.73
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000170"
+        "id": "exile_106000170"
       },
       {
         "p": [
@@ -11879,7 +11877,7 @@
           -97695
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000172"
+        "id": "exile_106000172"
       },
       {
         "p": [
@@ -11894,7 +11892,7 @@
           -96866.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000176"
+        "id": "exile_106000176"
       },
       {
         "p": [
@@ -11902,7 +11900,7 @@
           -96969.76
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000177"
+        "id": "exile_106000177"
       },
       {
         "p": [
@@ -11910,7 +11908,7 @@
           -101064.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000180"
+        "id": "exile_106000180"
       },
       {
         "p": [
@@ -11918,7 +11916,7 @@
           -101162.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000181"
+        "id": "exile_106000181"
       },
       {
         "p": [
@@ -11947,7 +11945,7 @@
           -69156.49
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000269"
+        "id": "exile_106000269"
       },
       {
         "p": [
@@ -11955,7 +11953,7 @@
           -69359.09
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000270"
+        "id": "exile_106000270"
       },
       {
         "p": [
@@ -11963,7 +11961,7 @@
           -68909.36
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000271"
+        "id": "exile_106000271"
       },
       {
         "p": [
@@ -11985,7 +11983,7 @@
           -25928.71
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000303"
+        "id": "exile_106000303"
       },
       {
         "p": [
@@ -11993,7 +11991,7 @@
           -25817.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000306"
+        "id": "exile_106000306"
       },
       {
         "p": [
@@ -12015,7 +12013,7 @@
           -52686.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000392"
+        "id": "exile_106000392"
       },
       {
         "p": [
@@ -12023,7 +12021,7 @@
           -52578.57
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000395"
+        "id": "exile_106000395"
       },
       {
         "p": [
@@ -12031,7 +12029,7 @@
           -52842.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_106000396"
+        "id": "exile_106000396"
       },
       {
         "p": [
@@ -12067,7 +12065,7 @@
           -21736.62
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109005531"
+        "id": "exile_109005531"
       },
       {
         "p": [
@@ -12096,7 +12094,7 @@
           -15019
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109006467"
+        "id": "exile_109006467"
       },
       {
         "p": [
@@ -12125,7 +12123,7 @@
           14645.07
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007022"
+        "id": "exile_109007022"
       },
       {
         "p": [
@@ -12133,7 +12131,7 @@
           13319.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007023"
+        "id": "exile_109007023"
       },
       {
         "p": [
@@ -12141,7 +12139,7 @@
           10896.89
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007024"
+        "id": "exile_109007024"
       },
       {
         "p": [
@@ -12149,7 +12147,7 @@
           11763.82
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007029"
+        "id": "exile_109007029"
       },
       {
         "p": [
@@ -12157,7 +12155,7 @@
           11888.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007030"
+        "id": "exile_109007030"
       },
       {
         "p": [
@@ -12165,7 +12163,7 @@
           15376.69
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007051"
+        "id": "exile_109007051"
       },
       {
         "p": [
@@ -12173,7 +12171,7 @@
           13238
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007052"
+        "id": "exile_109007052"
       },
       {
         "p": [
@@ -12181,7 +12179,7 @@
           15042
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007054"
+        "id": "exile_109007054"
       },
       {
         "p": [
@@ -12189,7 +12187,7 @@
           14936
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007056"
+        "id": "exile_109007056"
       },
       {
         "p": [
@@ -12197,7 +12195,7 @@
           15011
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007057"
+        "id": "exile_109007057"
       },
       {
         "p": [
@@ -12219,7 +12217,7 @@
           35105
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007141"
+        "id": "exile_109007141"
       },
       {
         "p": [
@@ -12227,7 +12225,7 @@
           34828.51
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007142"
+        "id": "exile_109007142"
       },
       {
         "p": [
@@ -12235,7 +12233,7 @@
           261
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007261"
+        "id": "exile_109007261"
       },
       {
         "p": [
@@ -12250,7 +12248,7 @@
           -17197.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007397"
+        "id": "exile_109007397"
       },
       {
         "p": [
@@ -12258,7 +12256,7 @@
           -23136.96
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007432"
+        "id": "exile_109007432"
       },
       {
         "p": [
@@ -12266,7 +12264,7 @@
           -23141.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007462"
+        "id": "exile_109007462"
       },
       {
         "p": [
@@ -12274,7 +12272,7 @@
           -15150
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007532"
+        "id": "exile_109007532"
       },
       {
         "p": [
@@ -12282,7 +12280,7 @@
           -15131.92
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007533"
+        "id": "exile_109007533"
       },
       {
         "p": [
@@ -12290,7 +12288,7 @@
           -21892
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007534"
+        "id": "exile_109007534"
       },
       {
         "p": [
@@ -12298,7 +12296,7 @@
           -22728.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007535"
+        "id": "exile_109007535"
       },
       {
         "p": [
@@ -12306,7 +12304,7 @@
           -23495
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007536"
+        "id": "exile_109007536"
       },
       {
         "p": [
@@ -12314,7 +12312,7 @@
           -23640.27
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007537"
+        "id": "exile_109007537"
       },
       {
         "p": [
@@ -12322,7 +12320,7 @@
           -21375
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007538"
+        "id": "exile_109007538"
       },
       {
         "p": [
@@ -12330,7 +12328,7 @@
           -20992
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007539"
+        "id": "exile_109007539"
       },
       {
         "p": [
@@ -12338,7 +12336,7 @@
           -15858.79
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007541"
+        "id": "exile_109007541"
       },
       {
         "p": [
@@ -12346,7 +12344,7 @@
           -21129
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007542"
+        "id": "exile_109007542"
       },
       {
         "p": [
@@ -12354,7 +12352,7 @@
           -19552
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007543"
+        "id": "exile_109007543"
       },
       {
         "p": [
@@ -12362,7 +12360,7 @@
           -19998
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007544"
+        "id": "exile_109007544"
       },
       {
         "p": [
@@ -12370,7 +12368,7 @@
           -14166
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007545"
+        "id": "exile_109007545"
       },
       {
         "p": [
@@ -12378,7 +12376,7 @@
           -14415
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007546"
+        "id": "exile_109007546"
       },
       {
         "p": [
@@ -12386,7 +12384,7 @@
           -12401
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007547"
+        "id": "exile_109007547"
       },
       {
         "p": [
@@ -12394,7 +12392,7 @@
           -14480
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007548"
+        "id": "exile_109007548"
       },
       {
         "p": [
@@ -12402,7 +12400,7 @@
           -14582
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007549"
+        "id": "exile_109007549"
       },
       {
         "p": [
@@ -12410,7 +12408,7 @@
           -15795.57
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_109007550"
+        "id": "exile_109007550"
       },
       {
         "p": [
@@ -12495,7 +12493,7 @@
           -11296
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_110002708"
+        "id": "exile_110002708"
       },
       {
         "p": [
@@ -12503,7 +12501,7 @@
           -11879.67
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_110002710"
+        "id": "exile_110002710"
       },
       {
         "p": [
@@ -12511,7 +12509,7 @@
           -11385.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_110002712"
+        "id": "exile_110002712"
       },
       {
         "p": [
@@ -12519,7 +12517,7 @@
           -109786.04
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001789"
+        "id": "exile_111001789"
       },
       {
         "p": [
@@ -12527,7 +12525,7 @@
           -109640.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001790"
+        "id": "exile_111001790"
       },
       {
         "p": [
@@ -12535,7 +12533,7 @@
           -111132.2
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001791"
+        "id": "exile_111001791"
       },
       {
         "p": [
@@ -12543,7 +12541,7 @@
           -110083.55
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001792"
+        "id": "exile_111001792"
       },
       {
         "p": [
@@ -12551,7 +12549,7 @@
           -111225.27
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001793"
+        "id": "exile_111001793"
       },
       {
         "p": [
@@ -12559,7 +12557,7 @@
           -111328.92
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001794"
+        "id": "exile_111001794"
       },
       {
         "p": [
@@ -12567,7 +12565,7 @@
           -110930.95
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001795"
+        "id": "exile_111001795"
       },
       {
         "p": [
@@ -12575,7 +12573,7 @@
           -109935.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001797"
+        "id": "exile_111001797"
       },
       {
         "p": [
@@ -12583,7 +12581,7 @@
           -109712.25
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111001798"
+        "id": "exile_111001798"
       },
       {
         "p": [
@@ -12640,7 +12638,7 @@
           -103961.15
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111003444"
+        "id": "exile_111003444"
       },
       {
         "p": [
@@ -12648,7 +12646,7 @@
           -103777.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111003445"
+        "id": "exile_111003445"
       },
       {
         "p": [
@@ -12705,7 +12703,7 @@
           -6598.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111003997"
+        "id": "exile_111003997"
       },
       {
         "p": [
@@ -12713,7 +12711,7 @@
           -6449.36
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111003998"
+        "id": "exile_111003998"
       },
       {
         "p": [
@@ -12917,7 +12915,7 @@
           16984.88
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111004788"
+        "id": "exile_111004788"
       },
       {
         "p": [
@@ -12925,7 +12923,7 @@
           17935.25
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111004789"
+        "id": "exile_111004789"
       },
       {
         "p": [
@@ -12933,7 +12931,7 @@
           18440.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111004790"
+        "id": "exile_111004790"
       },
       {
         "p": [
@@ -12941,7 +12939,7 @@
           18518.61
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111004792"
+        "id": "exile_111004792"
       },
       {
         "p": [
@@ -12949,7 +12947,7 @@
           -7954.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111004919"
+        "id": "exile_111004919"
       },
       {
         "p": [
@@ -12957,7 +12955,7 @@
           -7239.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_111004920"
+        "id": "exile_111004920"
       },
       {
         "p": [
@@ -13105,7 +13103,7 @@
           -31213.16
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_113003311"
+        "id": "exile_113003311"
       },
       {
         "p": [
@@ -13113,7 +13111,7 @@
           68571.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000118"
+        "id": "exile_118000118"
       },
       {
         "p": [
@@ -13121,7 +13119,7 @@
           70005.62
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000119"
+        "id": "exile_118000119"
       },
       {
         "p": [
@@ -13129,7 +13127,7 @@
           70544.6
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000120"
+        "id": "exile_118000120"
       },
       {
         "p": [
@@ -13137,7 +13135,7 @@
           72913.02
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000121"
+        "id": "exile_118000121"
       },
       {
         "p": [
@@ -13145,7 +13143,7 @@
           71581.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000122"
+        "id": "exile_118000122"
       },
       {
         "p": [
@@ -13153,7 +13151,7 @@
           72320.48
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000123"
+        "id": "exile_118000123"
       },
       {
         "p": [
@@ -13161,7 +13159,7 @@
           39015.46
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000216"
+        "id": "exile_118000216"
       },
       {
         "p": [
@@ -13169,7 +13167,7 @@
           39617.25
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118000217"
+        "id": "exile_118000217"
       },
       {
         "p": [
@@ -13268,7 +13266,7 @@
           89345.82
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001491"
+        "id": "exile_118001491"
       },
       {
         "p": [
@@ -13276,7 +13274,7 @@
           89276.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001492"
+        "id": "exile_118001492"
       },
       {
         "p": [
@@ -13284,7 +13282,7 @@
           89704.82
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001493"
+        "id": "exile_118001493"
       },
       {
         "p": [
@@ -13292,7 +13290,7 @@
           70661.73
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001664"
+        "id": "exile_118001664"
       },
       {
         "p": [
@@ -13300,7 +13298,7 @@
           70121.14
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001665"
+        "id": "exile_118001665"
       },
       {
         "p": [
@@ -13308,7 +13306,7 @@
           70681.48
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001666"
+        "id": "exile_118001666"
       },
       {
         "p": [
@@ -13316,7 +13314,7 @@
           38973.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118001854"
+        "id": "exile_118001854"
       },
       {
         "p": [
@@ -13324,7 +13322,7 @@
           58028.39
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118003305"
+        "id": "exile_118003305"
       },
       {
         "p": [
@@ -13332,7 +13330,7 @@
           58223.21
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118003306"
+        "id": "exile_118003306"
       },
       {
         "p": [
@@ -13410,7 +13408,7 @@
           51545.73
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118004216"
+        "id": "exile_118004216"
       },
       {
         "p": [
@@ -13418,7 +13416,7 @@
           50712.56
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118004218"
+        "id": "exile_118004218"
       },
       {
         "p": [
@@ -13426,7 +13424,7 @@
           50610.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118004219"
+        "id": "exile_118004219"
       },
       {
         "p": [
@@ -13455,7 +13453,7 @@
           21299.29
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118004477"
+        "id": "exile_118004477"
       },
       {
         "p": [
@@ -13463,7 +13461,7 @@
           20852.29
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118004478"
+        "id": "exile_118004478"
       },
       {
         "p": [
@@ -13471,7 +13469,7 @@
           21023.46
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118004479"
+        "id": "exile_118004479"
       },
       {
         "p": [
@@ -13493,7 +13491,7 @@
           45852.87
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118700659"
+        "id": "exile_118700659"
       },
       {
         "p": [
@@ -13501,7 +13499,7 @@
           44890.98
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118700660"
+        "id": "exile_118700660"
       },
       {
         "p": [
@@ -13509,7 +13507,7 @@
           45273.77
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_118700661"
+        "id": "exile_118700661"
       },
       {
         "p": [
@@ -13531,7 +13529,7 @@
           -57734
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_121001086"
+        "id": "exile_121001086"
       },
       {
         "p": [
@@ -13539,7 +13537,7 @@
           -58111.8
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_121001087"
+        "id": "exile_121001087"
       },
       {
         "p": [
@@ -13547,7 +13545,7 @@
           -58052.22
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_121001088"
+        "id": "exile_121001088"
       },
       {
         "p": [
@@ -13555,7 +13553,7 @@
           -55891
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_121001089"
+        "id": "exile_121001089"
       },
       {
         "p": [
@@ -13563,7 +13561,7 @@
           -5292
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122000917"
+        "id": "exile_122000917"
       },
       {
         "p": [
@@ -13571,7 +13569,7 @@
           -131656.44
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122001194"
+        "id": "exile_122001194"
       },
       {
         "p": [
@@ -13579,7 +13577,7 @@
           -131391.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122001195"
+        "id": "exile_122001195"
       },
       {
         "p": [
@@ -13587,7 +13585,7 @@
           -133310.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122002456"
+        "id": "exile_122002456"
       },
       {
         "p": [
@@ -13616,7 +13614,7 @@
           -5231.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003686"
+        "id": "exile_122003686"
       },
       {
         "p": [
@@ -13659,7 +13657,7 @@
           -928.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003697"
+        "id": "exile_122003697"
       },
       {
         "p": [
@@ -13667,7 +13665,7 @@
           -1937.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003698"
+        "id": "exile_122003698"
       },
       {
         "p": [
@@ -13703,7 +13701,7 @@
           -2602.67
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003706"
+        "id": "exile_122003706"
       },
       {
         "p": [
@@ -13753,7 +13751,7 @@
           14779.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003719"
+        "id": "exile_122003719"
       },
       {
         "p": [
@@ -13761,7 +13759,7 @@
           13099.44
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003721"
+        "id": "exile_122003721"
       },
       {
         "p": [
@@ -13769,7 +13767,7 @@
           13567.81
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003722"
+        "id": "exile_122003722"
       },
       {
         "p": [
@@ -13784,7 +13782,7 @@
           7935.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003724"
+        "id": "exile_122003724"
       },
       {
         "p": [
@@ -13792,7 +13790,7 @@
           7836.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003725"
+        "id": "exile_122003725"
       },
       {
         "p": [
@@ -13800,7 +13798,7 @@
           10222.5
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003727"
+        "id": "exile_122003727"
       },
       {
         "p": [
@@ -13808,7 +13806,7 @@
           9803.17
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122003728"
+        "id": "exile_122003728"
       },
       {
         "p": [
@@ -13816,7 +13814,7 @@
           -16224.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122004370"
+        "id": "exile_122004370"
       },
       {
         "p": [
@@ -13824,7 +13822,7 @@
           -16560.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122004371"
+        "id": "exile_122004371"
       },
       {
         "p": [
@@ -13832,7 +13830,7 @@
           -16328.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122004372"
+        "id": "exile_122004372"
       },
       {
         "p": [
@@ -13840,7 +13838,7 @@
           -110045.87
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122004823"
+        "id": "exile_122004823"
       },
       {
         "p": [
@@ -13848,7 +13846,7 @@
           -110092.76
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122004824"
+        "id": "exile_122004824"
       },
       {
         "p": [
@@ -13877,7 +13875,7 @@
           27071.55
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005738"
+        "id": "exile_122005738"
       },
       {
         "p": [
@@ -13885,7 +13883,7 @@
           26275.43
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005739"
+        "id": "exile_122005739"
       },
       {
         "p": [
@@ -13893,7 +13891,7 @@
           26883.5
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005740"
+        "id": "exile_122005740"
       },
       {
         "p": [
@@ -13901,7 +13899,7 @@
           27095.36
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005742"
+        "id": "exile_122005742"
       },
       {
         "p": [
@@ -13937,7 +13935,7 @@
           -14793.8
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005874"
+        "id": "exile_122005874"
       },
       {
         "p": [
@@ -13945,7 +13943,7 @@
           -15088.51
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005875"
+        "id": "exile_122005875"
       },
       {
         "p": [
@@ -13953,7 +13951,7 @@
           -15277.39
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122005876"
+        "id": "exile_122005876"
       },
       {
         "p": [
@@ -13961,7 +13959,7 @@
           -88168.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006261"
+        "id": "exile_122006261"
       },
       {
         "p": [
@@ -13969,7 +13967,7 @@
           -88903.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006262"
+        "id": "exile_122006262"
       },
       {
         "p": [
@@ -13977,7 +13975,7 @@
           -88042.02
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006264"
+        "id": "exile_122006264"
       },
       {
         "p": [
@@ -13985,7 +13983,7 @@
           -88877.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006265"
+        "id": "exile_122006265"
       },
       {
         "p": [
@@ -13993,7 +13991,7 @@
           -110585
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006682"
+        "id": "exile_122006682"
       },
       {
         "p": [
@@ -14001,7 +13999,7 @@
           -110215
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006683"
+        "id": "exile_122006683"
       },
       {
         "p": [
@@ -14009,7 +14007,7 @@
           -110555
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122006684"
+        "id": "exile_122006684"
       },
       {
         "p": [
@@ -14031,7 +14029,7 @@
           -15012
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122007140"
+        "id": "exile_122007140"
       },
       {
         "p": [
@@ -14053,7 +14051,7 @@
           -70333
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122007333"
+        "id": "exile_122007333"
       },
       {
         "p": [
@@ -14075,7 +14073,7 @@
           -155214.85
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122007844"
+        "id": "exile_122007844"
       },
       {
         "p": [
@@ -14083,7 +14081,7 @@
           -154129.56
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122007845"
+        "id": "exile_122007845"
       },
       {
         "p": [
@@ -14112,7 +14110,7 @@
           17866.54
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122700111"
+        "id": "exile_122700111"
       },
       {
         "p": [
@@ -14120,7 +14118,7 @@
           17755.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122700112"
+        "id": "exile_122700112"
       },
       {
         "p": [
@@ -14128,7 +14126,7 @@
           18420.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122700113"
+        "id": "exile_122700113"
       },
       {
         "p": [
@@ -14164,7 +14162,7 @@
           36319.42
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122700480"
+        "id": "exile_122700480"
       },
       {
         "p": [
@@ -14172,7 +14170,7 @@
           36512.42
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122700481"
+        "id": "exile_122700481"
       },
       {
         "p": [
@@ -14180,7 +14178,7 @@
           36472.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_122700483"
+        "id": "exile_122700483"
       },
       {
         "p": [
@@ -14202,7 +14200,7 @@
           -68520.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000066"
+        "id": "exile_123000066"
       },
       {
         "p": [
@@ -14210,7 +14208,7 @@
           -67497.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000067"
+        "id": "exile_123000067"
       },
       {
         "p": [
@@ -14218,7 +14216,7 @@
           -68111
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000068"
+        "id": "exile_123000068"
       },
       {
         "p": [
@@ -14226,7 +14224,7 @@
           -110814.4
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000071"
+        "id": "exile_123000071"
       },
       {
         "p": [
@@ -14234,7 +14232,7 @@
           -108974.2
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000072"
+        "id": "exile_123000072"
       },
       {
         "p": [
@@ -14242,7 +14240,7 @@
           -108209.44
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000074"
+        "id": "exile_123000074"
       },
       {
         "p": [
@@ -14250,7 +14248,7 @@
           -110609.17
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000075"
+        "id": "exile_123000075"
       },
       {
         "p": [
@@ -14265,7 +14263,7 @@
           -70143.25
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000080"
+        "id": "exile_123000080"
       },
       {
         "p": [
@@ -14273,7 +14271,7 @@
           -71477.84
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000083"
+        "id": "exile_123000083"
       },
       {
         "p": [
@@ -14281,7 +14279,7 @@
           -77376.53
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000088"
+        "id": "exile_123000088"
       },
       {
         "p": [
@@ -14289,7 +14287,7 @@
           -76764.87
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000092"
+        "id": "exile_123000092"
       },
       {
         "p": [
@@ -14297,7 +14295,7 @@
           -76186.87
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000094"
+        "id": "exile_123000094"
       },
       {
         "p": [
@@ -14305,7 +14303,7 @@
           -75219.97
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000095"
+        "id": "exile_123000095"
       },
       {
         "p": [
@@ -14313,7 +14311,7 @@
           -75167.31
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000096"
+        "id": "exile_123000096"
       },
       {
         "p": [
@@ -14321,7 +14319,7 @@
           -74568.06
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000097"
+        "id": "exile_123000097"
       },
       {
         "p": [
@@ -14329,7 +14327,7 @@
           -74497.97
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000098"
+        "id": "exile_123000098"
       },
       {
         "p": [
@@ -14337,7 +14335,7 @@
           -77326.45
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000099"
+        "id": "exile_123000099"
       },
       {
         "p": [
@@ -14345,7 +14343,7 @@
           -72308.1
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000101"
+        "id": "exile_123000101"
       },
       {
         "p": [
@@ -14353,7 +14351,7 @@
           -73395.62
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000102"
+        "id": "exile_123000102"
       },
       {
         "p": [
@@ -14361,7 +14359,7 @@
           -72402.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000103"
+        "id": "exile_123000103"
       },
       {
         "p": [
@@ -14369,7 +14367,7 @@
           -120324.88
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000104"
+        "id": "exile_123000104"
       },
       {
         "p": [
@@ -14377,7 +14375,7 @@
           -120815.3
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000105"
+        "id": "exile_123000105"
       },
       {
         "p": [
@@ -14385,7 +14383,7 @@
           -120445.98
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000106"
+        "id": "exile_123000106"
       },
       {
         "p": [
@@ -14393,7 +14391,7 @@
           -120924.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000107"
+        "id": "exile_123000107"
       },
       {
         "p": [
@@ -14401,7 +14399,7 @@
           -120338.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000108"
+        "id": "exile_123000108"
       },
       {
         "p": [
@@ -14409,7 +14407,7 @@
           -128906.44
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000113"
+        "id": "exile_123000113"
       },
       {
         "p": [
@@ -14417,7 +14415,7 @@
           -127312.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000116"
+        "id": "exile_123000116"
       },
       {
         "p": [
@@ -14425,7 +14423,7 @@
           -128950.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000117"
+        "id": "exile_123000117"
       },
       {
         "p": [
@@ -14433,7 +14431,7 @@
           -129400.98
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000118"
+        "id": "exile_123000118"
       },
       {
         "p": [
@@ -14441,7 +14439,7 @@
           -129891.39
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000119"
+        "id": "exile_123000119"
       },
       {
         "p": [
@@ -14449,7 +14447,7 @@
           -128288.17
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000120"
+        "id": "exile_123000120"
       },
       {
         "p": [
@@ -14457,7 +14455,7 @@
           -129672.7
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000121"
+        "id": "exile_123000121"
       },
       {
         "p": [
@@ -14465,7 +14463,7 @@
           -128677.94
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000122"
+        "id": "exile_123000122"
       },
       {
         "p": [
@@ -14473,7 +14471,7 @@
           -108712.14
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000124"
+        "id": "exile_123000124"
       },
       {
         "p": [
@@ -14481,7 +14479,7 @@
           -108905.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000125"
+        "id": "exile_123000125"
       },
       {
         "p": [
@@ -14489,7 +14487,7 @@
           -109701.84
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000126"
+        "id": "exile_123000126"
       },
       {
         "p": [
@@ -14504,7 +14502,7 @@
           -102050.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000128"
+        "id": "exile_123000128"
       },
       {
         "p": [
@@ -14512,7 +14510,7 @@
           -100878.86
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000129"
+        "id": "exile_123000129"
       },
       {
         "p": [
@@ -14520,7 +14518,7 @@
           -100090.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000130"
+        "id": "exile_123000130"
       },
       {
         "p": [
@@ -14528,7 +14526,7 @@
           -88826.14
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000141"
+        "id": "exile_123000141"
       },
       {
         "p": [
@@ -14536,7 +14534,7 @@
           -125829.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000161"
+        "id": "exile_123000161"
       },
       {
         "p": [
@@ -14544,7 +14542,7 @@
           -126025.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000162"
+        "id": "exile_123000162"
       },
       {
         "p": [
@@ -14552,7 +14550,7 @@
           -125973.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000163"
+        "id": "exile_123000163"
       },
       {
         "p": [
@@ -14560,7 +14558,7 @@
           -127103.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000164"
+        "id": "exile_123000164"
       },
       {
         "p": [
@@ -14568,7 +14566,7 @@
           -126406.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000165"
+        "id": "exile_123000165"
       },
       {
         "p": [
@@ -14576,7 +14574,7 @@
           -125935.09
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000167"
+        "id": "exile_123000167"
       },
       {
         "p": [
@@ -14584,7 +14582,7 @@
           -126963.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000168"
+        "id": "exile_123000168"
       },
       {
         "p": [
@@ -14592,7 +14590,7 @@
           -125379.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000169"
+        "id": "exile_123000169"
       },
       {
         "p": [
@@ -14600,7 +14598,7 @@
           -125893.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000170"
+        "id": "exile_123000170"
       },
       {
         "p": [
@@ -14615,7 +14613,7 @@
           -109459.54
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000172"
+        "id": "exile_123000172"
       },
       {
         "p": [
@@ -14623,7 +14621,7 @@
           -109582.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000173"
+        "id": "exile_123000173"
       },
       {
         "p": [
@@ -14631,7 +14629,7 @@
           -109105.92
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000174"
+        "id": "exile_123000174"
       },
       {
         "p": [
@@ -14639,7 +14637,7 @@
           -121404.55
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000175"
+        "id": "exile_123000175"
       },
       {
         "p": [
@@ -14647,7 +14645,7 @@
           -121874.43
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000176"
+        "id": "exile_123000176"
       },
       {
         "p": [
@@ -14655,7 +14653,7 @@
           -121145.07
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000177"
+        "id": "exile_123000177"
       },
       {
         "p": [
@@ -14663,7 +14661,7 @@
           -76165.59
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000181"
+        "id": "exile_123000181"
       },
       {
         "p": [
@@ -14671,7 +14669,7 @@
           -108044.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000184"
+        "id": "exile_123000184"
       },
       {
         "p": [
@@ -14679,7 +14677,7 @@
           -89225.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123000187"
+        "id": "exile_123000187"
       },
       {
         "p": [
@@ -14757,7 +14755,7 @@
           -31973.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123001294"
+        "id": "exile_123001294"
       },
       {
         "p": [
@@ -14765,7 +14763,7 @@
           -31552.86
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123001295"
+        "id": "exile_123001295"
       },
       {
         "p": [
@@ -14815,7 +14813,7 @@
           -69385.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123001446"
+        "id": "exile_123001446"
       },
       {
         "p": [
@@ -14823,7 +14821,7 @@
           -67707.72
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123001447"
+        "id": "exile_123001447"
       },
       {
         "p": [
@@ -14831,7 +14829,7 @@
           -68409.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_123001449"
+        "id": "exile_123001449"
       },
       {
         "p": [
@@ -14874,7 +14872,7 @@
           -121531.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_124002313"
+        "id": "exile_124002313"
       },
       {
         "p": [
@@ -14882,7 +14880,7 @@
           -90044.92
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_124002343"
+        "id": "exile_124002343"
       },
       {
         "p": [
@@ -14890,7 +14888,7 @@
           -67645.38
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_124002612"
+        "id": "exile_124002612"
       },
       {
         "p": [
@@ -14898,7 +14896,7 @@
           -33018
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000927"
+        "id": "exile_125000927"
       },
       {
         "p": [
@@ -14906,7 +14904,7 @@
           -33002.07
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000928"
+        "id": "exile_125000928"
       },
       {
         "p": [
@@ -14914,7 +14912,7 @@
           -33223
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000929"
+        "id": "exile_125000929"
       },
       {
         "p": [
@@ -14922,7 +14920,7 @@
           -22635.65
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000995"
+        "id": "exile_125000995"
       },
       {
         "p": [
@@ -14930,7 +14928,7 @@
           -22619.9
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000996"
+        "id": "exile_125000996"
       },
       {
         "p": [
@@ -14938,7 +14936,7 @@
           -22097.97
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000997"
+        "id": "exile_125000997"
       },
       {
         "p": [
@@ -14946,7 +14944,7 @@
           -22712.58
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000998"
+        "id": "exile_125000998"
       },
       {
         "p": [
@@ -14954,7 +14952,7 @@
           -22056.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125000999"
+        "id": "exile_125000999"
       },
       {
         "p": [
@@ -14962,7 +14960,7 @@
           -88236.35
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001002"
+        "id": "exile_125001002"
       },
       {
         "p": [
@@ -14970,7 +14968,7 @@
           -88829.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001003"
+        "id": "exile_125001003"
       },
       {
         "p": [
@@ -14978,7 +14976,7 @@
           -89118.85
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001004"
+        "id": "exile_125001004"
       },
       {
         "p": [
@@ -14986,7 +14984,7 @@
           -88817.1
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001005"
+        "id": "exile_125001005"
       },
       {
         "p": [
@@ -14994,7 +14992,7 @@
           -88992.36
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001006"
+        "id": "exile_125001006"
       },
       {
         "p": [
@@ -15002,7 +15000,7 @@
           -66163.27
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001012"
+        "id": "exile_125001012"
       },
       {
         "p": [
@@ -15010,7 +15008,7 @@
           -66395.55
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_125001013"
+        "id": "exile_125001013"
       },
       {
         "p": [
@@ -15018,7 +15016,7 @@
           -71153.89
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_130000038"
+        "id": "exile_130000038"
       },
       {
         "p": [
@@ -15033,7 +15031,7 @@
           -83739.19
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000261"
+        "id": "exile_133000261"
       },
       {
         "p": [
@@ -15041,7 +15039,7 @@
           -83957.63
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000262"
+        "id": "exile_133000262"
       },
       {
         "p": [
@@ -15070,7 +15068,7 @@
           -21013.69
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000687"
+        "id": "exile_133000687"
       },
       {
         "p": [
@@ -15078,7 +15076,7 @@
           -21089.73
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000688"
+        "id": "exile_133000688"
       },
       {
         "p": [
@@ -15086,7 +15084,7 @@
           -98927.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000902"
+        "id": "exile_133000902"
       },
       {
         "p": [
@@ -15094,7 +15092,7 @@
           -98792.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000904"
+        "id": "exile_133000904"
       },
       {
         "p": [
@@ -15102,7 +15100,7 @@
           -98798.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000905"
+        "id": "exile_133000905"
       },
       {
         "p": [
@@ -15110,7 +15108,7 @@
           -100468.58
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000906"
+        "id": "exile_133000906"
       },
       {
         "p": [
@@ -15118,7 +15116,7 @@
           -98707.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000908"
+        "id": "exile_133000908"
       },
       {
         "p": [
@@ -15126,7 +15124,7 @@
           -96125
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000918"
+        "id": "exile_133000918"
       },
       {
         "p": [
@@ -15134,7 +15132,7 @@
           -98176.7
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000919"
+        "id": "exile_133000919"
       },
       {
         "p": [
@@ -15149,7 +15147,7 @@
           -102124.16
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000939"
+        "id": "exile_133000939"
       },
       {
         "p": [
@@ -15157,7 +15155,7 @@
           -100748.51
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000941"
+        "id": "exile_133000941"
       },
       {
         "p": [
@@ -15165,7 +15163,7 @@
           -102593
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000942"
+        "id": "exile_133000942"
       },
       {
         "p": [
@@ -15173,7 +15171,7 @@
           -94468.61
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133000958"
+        "id": "exile_133000958"
       },
       {
         "p": [
@@ -15223,7 +15221,7 @@
           -95106.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001112"
+        "id": "exile_133001112"
       },
       {
         "p": [
@@ -15231,7 +15229,7 @@
           -95100.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001113"
+        "id": "exile_133001113"
       },
       {
         "p": [
@@ -15239,7 +15237,7 @@
           -95331
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001114"
+        "id": "exile_133001114"
       },
       {
         "p": [
@@ -15247,7 +15245,7 @@
           -105929.19
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001115"
+        "id": "exile_133001115"
       },
       {
         "p": [
@@ -15255,7 +15253,7 @@
           -106107
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001116"
+        "id": "exile_133001116"
       },
       {
         "p": [
@@ -15263,7 +15261,7 @@
           -105867
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001117"
+        "id": "exile_133001117"
       },
       {
         "p": [
@@ -15271,7 +15269,7 @@
           -80037.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001124"
+        "id": "exile_133001124"
       },
       {
         "p": [
@@ -15279,7 +15277,7 @@
           -78973
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001126"
+        "id": "exile_133001126"
       },
       {
         "p": [
@@ -15287,7 +15285,7 @@
           -79553.58
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001127"
+        "id": "exile_133001127"
       },
       {
         "p": [
@@ -15295,7 +15293,7 @@
           -79743.98
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001128"
+        "id": "exile_133001128"
       },
       {
         "p": [
@@ -15303,7 +15301,7 @@
           -105125
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001306"
+        "id": "exile_133001306"
       },
       {
         "p": [
@@ -15311,7 +15309,7 @@
           -105286
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001307"
+        "id": "exile_133001307"
       },
       {
         "p": [
@@ -15319,7 +15317,7 @@
           -106361
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001308"
+        "id": "exile_133001308"
       },
       {
         "p": [
@@ -15327,7 +15325,7 @@
           -105697
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001309"
+        "id": "exile_133001309"
       },
       {
         "p": [
@@ -15335,7 +15333,7 @@
           -103327.4
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001311"
+        "id": "exile_133001311"
       },
       {
         "p": [
@@ -15343,7 +15341,7 @@
           -103889.92
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001312"
+        "id": "exile_133001312"
       },
       {
         "p": [
@@ -15351,7 +15349,7 @@
           -103718.4
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001313"
+        "id": "exile_133001313"
       },
       {
         "p": [
@@ -15401,7 +15399,7 @@
           -103528
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001340"
+        "id": "exile_133001340"
       },
       {
         "p": [
@@ -15409,7 +15407,7 @@
           -103931.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001343"
+        "id": "exile_133001343"
       },
       {
         "p": [
@@ -15417,7 +15415,7 @@
           -103761
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001344"
+        "id": "exile_133001344"
       },
       {
         "p": [
@@ -15425,7 +15423,7 @@
           -103978.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001345"
+        "id": "exile_133001345"
       },
       {
         "p": [
@@ -15433,7 +15431,7 @@
           -107123
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001348"
+        "id": "exile_133001348"
       },
       {
         "p": [
@@ -15441,7 +15439,7 @@
           -107524
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001349"
+        "id": "exile_133001349"
       },
       {
         "p": [
@@ -15449,7 +15447,7 @@
           -106313
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001350"
+        "id": "exile_133001350"
       },
       {
         "p": [
@@ -15457,7 +15455,7 @@
           -106232
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001352"
+        "id": "exile_133001352"
       },
       {
         "p": [
@@ -15465,7 +15463,7 @@
           -76993.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001443"
+        "id": "exile_133001443"
       },
       {
         "p": [
@@ -15473,7 +15471,7 @@
           -77192
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001444"
+        "id": "exile_133001444"
       },
       {
         "p": [
@@ -15481,7 +15479,7 @@
           -77480.27
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001445"
+        "id": "exile_133001445"
       },
       {
         "p": [
@@ -15489,7 +15487,7 @@
           -76966.17
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001446"
+        "id": "exile_133001446"
       },
       {
         "p": [
@@ -15497,7 +15495,7 @@
           -102861.77
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001454"
+        "id": "exile_133001454"
       },
       {
         "p": [
@@ -15505,7 +15503,7 @@
           -103008.77
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001455"
+        "id": "exile_133001455"
       },
       {
         "p": [
@@ -15513,7 +15511,7 @@
           -75157.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001466"
+        "id": "exile_133001466"
       },
       {
         "p": [
@@ -15521,7 +15519,7 @@
           -75328.11
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001467"
+        "id": "exile_133001467"
       },
       {
         "p": [
@@ -15543,7 +15541,7 @@
           -22347.45
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001677"
+        "id": "exile_133001677"
       },
       {
         "p": [
@@ -15551,7 +15549,7 @@
           -22065
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001678"
+        "id": "exile_133001678"
       },
       {
         "p": [
@@ -15559,7 +15557,7 @@
           -21275
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001679"
+        "id": "exile_133001679"
       },
       {
         "p": [
@@ -15567,7 +15565,7 @@
           -21143
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001680"
+        "id": "exile_133001680"
       },
       {
         "p": [
@@ -15575,7 +15573,7 @@
           -22372.83
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001681"
+        "id": "exile_133001681"
       },
       {
         "p": [
@@ -15583,7 +15581,7 @@
           -100642.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001753"
+        "id": "exile_133001753"
       },
       {
         "p": [
@@ -15591,7 +15589,7 @@
           -100867
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001754"
+        "id": "exile_133001754"
       },
       {
         "p": [
@@ -15599,7 +15597,7 @@
           -74922.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001762"
+        "id": "exile_133001762"
       },
       {
         "p": [
@@ -15614,7 +15612,7 @@
           -25121
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001843"
+        "id": "exile_133001843"
       },
       {
         "p": [
@@ -15622,7 +15620,7 @@
           -26571.51
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133001845"
+        "id": "exile_133001845"
       },
       {
         "p": [
@@ -15630,7 +15628,7 @@
           -104217.61
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002089"
+        "id": "exile_133002089"
       },
       {
         "p": [
@@ -15638,7 +15636,7 @@
           -105240
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002091"
+        "id": "exile_133002091"
       },
       {
         "p": [
@@ -15646,7 +15644,7 @@
           -110718
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002093"
+        "id": "exile_133002093"
       },
       {
         "p": [
@@ -15661,7 +15659,7 @@
           -105672
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002335"
+        "id": "exile_133002335"
       },
       {
         "p": [
@@ -15669,7 +15667,7 @@
           -106646
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002336"
+        "id": "exile_133002336"
       },
       {
         "p": [
@@ -15677,7 +15675,7 @@
           -104820.69
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002505"
+        "id": "exile_133002505"
       },
       {
         "p": [
@@ -15685,7 +15683,7 @@
           -111590.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_133002509"
+        "id": "exile_133002509"
       },
       {
         "p": [
@@ -15728,7 +15726,7 @@
           24710.43
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135001790"
+        "id": "exile_135001790"
       },
       {
         "p": [
@@ -15750,7 +15748,7 @@
           24534.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135002011"
+        "id": "exile_135002011"
       },
       {
         "p": [
@@ -15800,7 +15798,7 @@
           -4247.77
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135002493"
+        "id": "exile_135002493"
       },
       {
         "p": [
@@ -15808,7 +15806,7 @@
           -4895.07
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135002494"
+        "id": "exile_135002494"
       },
       {
         "p": [
@@ -15816,7 +15814,7 @@
           -4776.5
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135002496"
+        "id": "exile_135002496"
       },
       {
         "p": [
@@ -15824,7 +15822,7 @@
           -20087.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135700049"
+        "id": "exile_135700049"
       },
       {
         "p": [
@@ -15832,7 +15830,7 @@
           -19979.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135700050"
+        "id": "exile_135700050"
       },
       {
         "p": [
@@ -15840,7 +15838,7 @@
           -19077.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_135700051"
+        "id": "exile_135700051"
       },
       {
         "p": [
@@ -15946,7 +15944,7 @@
           18551.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136000117"
+        "id": "exile_136000117"
       },
       {
         "p": [
@@ -15954,7 +15952,7 @@
           20524.54
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136000118"
+        "id": "exile_136000118"
       },
       {
         "p": [
@@ -15962,7 +15960,7 @@
           21424.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136000119"
+        "id": "exile_136000119"
       },
       {
         "p": [
@@ -15970,7 +15968,7 @@
           25378.16
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136000387"
+        "id": "exile_136000387"
       },
       {
         "p": [
@@ -15978,7 +15976,7 @@
           24581.32
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136000388"
+        "id": "exile_136000388"
       },
       {
         "p": [
@@ -15986,7 +15984,7 @@
           25750.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136000389"
+        "id": "exile_136000389"
       },
       {
         "p": [
@@ -15994,7 +15992,7 @@
           -136474.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001643"
+        "id": "exile_136001643"
       },
       {
         "p": [
@@ -16002,7 +16000,7 @@
           -136644
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001644"
+        "id": "exile_136001644"
       },
       {
         "p": [
@@ -16010,7 +16008,7 @@
           -136102.19
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001645"
+        "id": "exile_136001645"
       },
       {
         "p": [
@@ -16018,7 +16016,7 @@
           -136970
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001743"
+        "id": "exile_136001743"
       },
       {
         "p": [
@@ -16026,7 +16024,7 @@
           -137010
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001744"
+        "id": "exile_136001744"
       },
       {
         "p": [
@@ -16034,7 +16032,7 @@
           -130239.92
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001745"
+        "id": "exile_136001745"
       },
       {
         "p": [
@@ -16042,7 +16040,7 @@
           -130032.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001746"
+        "id": "exile_136001746"
       },
       {
         "p": [
@@ -16050,7 +16048,7 @@
           -133651
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001808"
+        "id": "exile_136001808"
       },
       {
         "p": [
@@ -16058,7 +16056,7 @@
           -136098.1
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001901"
+        "id": "exile_136001901"
       },
       {
         "p": [
@@ -16066,7 +16064,7 @@
           -136680.72
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001902"
+        "id": "exile_136001902"
       },
       {
         "p": [
@@ -16074,7 +16072,7 @@
           -136345.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001903"
+        "id": "exile_136001903"
       },
       {
         "p": [
@@ -16082,7 +16080,7 @@
           -135909
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001904"
+        "id": "exile_136001904"
       },
       {
         "p": [
@@ -16090,7 +16088,7 @@
           -136671
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001905"
+        "id": "exile_136001905"
       },
       {
         "p": [
@@ -16098,7 +16096,7 @@
           -132483
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001906"
+        "id": "exile_136001906"
       },
       {
         "p": [
@@ -16106,7 +16104,7 @@
           -131190
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001907"
+        "id": "exile_136001907"
       },
       {
         "p": [
@@ -16114,7 +16112,7 @@
           -132998
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001908"
+        "id": "exile_136001908"
       },
       {
         "p": [
@@ -16122,7 +16120,7 @@
           -131697
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001909"
+        "id": "exile_136001909"
       },
       {
         "p": [
@@ -16130,7 +16128,7 @@
           -132029.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001910"
+        "id": "exile_136001910"
       },
       {
         "p": [
@@ -16138,7 +16136,7 @@
           -132270
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001911"
+        "id": "exile_136001911"
       },
       {
         "p": [
@@ -16146,7 +16144,7 @@
           -131726
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136001912"
+        "id": "exile_136001912"
       },
       {
         "p": [
@@ -16217,7 +16215,7 @@
           -136812.47
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136002579"
+        "id": "exile_136002579"
       },
       {
         "p": [
@@ -16225,7 +16223,7 @@
           -118285.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136002664"
+        "id": "exile_136002664"
       },
       {
         "p": [
@@ -16233,7 +16231,7 @@
           -117836
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136002665"
+        "id": "exile_136002665"
       },
       {
         "p": [
@@ -16241,7 +16239,7 @@
           -117723.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_136002667"
+        "id": "exile_136002667"
       },
       {
         "p": [
@@ -16270,7 +16268,7 @@
           -102118.55
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000007"
+        "id": "exile_142000007"
       },
       {
         "p": [
@@ -16278,7 +16276,7 @@
           -102408.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000009"
+        "id": "exile_142000009"
       },
       {
         "p": [
@@ -16286,7 +16284,7 @@
           -102985.32
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000010"
+        "id": "exile_142000010"
       },
       {
         "p": [
@@ -16294,7 +16292,7 @@
           -102549.82
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000011"
+        "id": "exile_142000011"
       },
       {
         "p": [
@@ -16302,7 +16300,7 @@
           -102922.65
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000405"
+        "id": "exile_142000405"
       },
       {
         "p": [
@@ -16310,7 +16308,7 @@
           -103379.48
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000406"
+        "id": "exile_142000406"
       },
       {
         "p": [
@@ -16318,7 +16316,7 @@
           -103073.76
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000407"
+        "id": "exile_142000407"
       },
       {
         "p": [
@@ -16326,7 +16324,7 @@
           -102857.55
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000408"
+        "id": "exile_142000408"
       },
       {
         "p": [
@@ -16334,7 +16332,7 @@
           -103253.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000409"
+        "id": "exile_142000409"
       },
       {
         "p": [
@@ -16356,7 +16354,7 @@
           -93831.35
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000494"
+        "id": "exile_142000494"
       },
       {
         "p": [
@@ -16364,7 +16362,7 @@
           -93582.59
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000495"
+        "id": "exile_142000495"
       },
       {
         "p": [
@@ -16372,7 +16370,7 @@
           -91634.85
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000497"
+        "id": "exile_142000497"
       },
       {
         "p": [
@@ -16380,7 +16378,7 @@
           -91372.54
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000500"
+        "id": "exile_142000500"
       },
       {
         "p": [
@@ -16388,7 +16386,7 @@
           -91386.28
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000501"
+        "id": "exile_142000501"
       },
       {
         "p": [
@@ -16396,7 +16394,7 @@
           -94792.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000505"
+        "id": "exile_142000505"
       },
       {
         "p": [
@@ -16404,7 +16402,7 @@
           -94570.04
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142000508"
+        "id": "exile_142000508"
       },
       {
         "p": [
@@ -16412,7 +16410,7 @@
           -65637.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142001281"
+        "id": "exile_142001281"
       },
       {
         "p": [
@@ -16420,7 +16418,7 @@
           -65830.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142001282"
+        "id": "exile_142001282"
       },
       {
         "p": [
@@ -16428,7 +16426,7 @@
           -65663.47
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142001283"
+        "id": "exile_142001283"
       },
       {
         "p": [
@@ -16436,7 +16434,7 @@
           -88808.76
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142001287"
+        "id": "exile_142001287"
       },
       {
         "p": [
@@ -16444,7 +16442,7 @@
           -89803.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142001288"
+        "id": "exile_142001288"
       },
       {
         "p": [
@@ -16452,7 +16450,7 @@
           -88818.2
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142001289"
+        "id": "exile_142001289"
       },
       {
         "p": [
@@ -16488,7 +16486,7 @@
           -40988.82
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142002602"
+        "id": "exile_142002602"
       },
       {
         "p": [
@@ -16496,7 +16494,7 @@
           -41012.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142002603"
+        "id": "exile_142002603"
       },
       {
         "p": [
@@ -16504,7 +16502,7 @@
           -39888.96
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142002604"
+        "id": "exile_142002604"
       },
       {
         "p": [
@@ -16512,7 +16510,7 @@
           -39950.87
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142002605"
+        "id": "exile_142002605"
       },
       {
         "p": [
@@ -16520,7 +16518,7 @@
           -41168.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142002606"
+        "id": "exile_142002606"
       },
       {
         "p": [
@@ -16528,7 +16526,7 @@
           -103844.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142003131"
+        "id": "exile_142003131"
       },
       {
         "p": [
@@ -16536,7 +16534,7 @@
           -102793.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_142003132"
+        "id": "exile_142003132"
       },
       {
         "p": [
@@ -16810,7 +16808,7 @@
           88673.88
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000222"
+        "id": "exile_146000222"
       },
       {
         "p": [
@@ -16818,7 +16816,7 @@
           88632.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000223"
+        "id": "exile_146000223"
       },
       {
         "p": [
@@ -16826,7 +16824,7 @@
           88170
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000224"
+        "id": "exile_146000224"
       },
       {
         "p": [
@@ -16834,7 +16832,7 @@
           89045
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000225"
+        "id": "exile_146000225"
       },
       {
         "p": [
@@ -16842,7 +16840,7 @@
           90376.09
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000227"
+        "id": "exile_146000227"
       },
       {
         "p": [
@@ -16850,7 +16848,7 @@
           97629.38
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000351"
+        "id": "exile_146000351"
       },
       {
         "p": [
@@ -16858,7 +16856,7 @@
           97500.43
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000352"
+        "id": "exile_146000352"
       },
       {
         "p": [
@@ -16866,7 +16864,7 @@
           97400.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000353"
+        "id": "exile_146000353"
       },
       {
         "p": [
@@ -16874,7 +16872,7 @@
           91209.38
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000359"
+        "id": "exile_146000359"
       },
       {
         "p": [
@@ -16882,7 +16880,7 @@
           91181.11
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000360"
+        "id": "exile_146000360"
       },
       {
         "p": [
@@ -16890,7 +16888,7 @@
           91205.48
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000361"
+        "id": "exile_146000361"
       },
       {
         "p": [
@@ -16898,7 +16896,7 @@
           88306.3
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000363"
+        "id": "exile_146000363"
       },
       {
         "p": [
@@ -16906,7 +16904,7 @@
           88321.09
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000364"
+        "id": "exile_146000364"
       },
       {
         "p": [
@@ -16914,7 +16912,7 @@
           87575.15
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000365"
+        "id": "exile_146000365"
       },
       {
         "p": [
@@ -16922,7 +16920,7 @@
           108603.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000408"
+        "id": "exile_146000408"
       },
       {
         "p": [
@@ -16930,7 +16928,7 @@
           108360
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000410"
+        "id": "exile_146000410"
       },
       {
         "p": [
@@ -16938,7 +16936,7 @@
           107740.89
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000411"
+        "id": "exile_146000411"
       },
       {
         "p": [
@@ -16946,7 +16944,7 @@
           99725
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000415"
+        "id": "exile_146000415"
       },
       {
         "p": [
@@ -16954,7 +16952,7 @@
           98667.18
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000416"
+        "id": "exile_146000416"
       },
       {
         "p": [
@@ -16962,7 +16960,7 @@
           99390.19
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000417"
+        "id": "exile_146000417"
       },
       {
         "p": [
@@ -17012,7 +17010,7 @@
           77992.38
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000561"
+        "id": "exile_146000561"
       },
       {
         "p": [
@@ -17020,7 +17018,7 @@
           77490
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000562"
+        "id": "exile_146000562"
       },
       {
         "p": [
@@ -17028,7 +17026,7 @@
           77339.28
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000564"
+        "id": "exile_146000564"
       },
       {
         "p": [
@@ -17043,7 +17041,7 @@
           12695
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000582"
+        "id": "exile_146000582"
       },
       {
         "p": [
@@ -17051,7 +17049,7 @@
           13300
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000583"
+        "id": "exile_146000583"
       },
       {
         "p": [
@@ -17059,7 +17057,7 @@
           13740.02
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000584"
+        "id": "exile_146000584"
       },
       {
         "p": [
@@ -17067,7 +17065,7 @@
           14360
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000586"
+        "id": "exile_146000586"
       },
       {
         "p": [
@@ -17075,7 +17073,7 @@
           15106.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000587"
+        "id": "exile_146000587"
       },
       {
         "p": [
@@ -17083,7 +17081,7 @@
           14710
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000588"
+        "id": "exile_146000588"
       },
       {
         "p": [
@@ -17091,7 +17089,7 @@
           11815
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000589"
+        "id": "exile_146000589"
       },
       {
         "p": [
@@ -17099,7 +17097,7 @@
           11770.64
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000590"
+        "id": "exile_146000590"
       },
       {
         "p": [
@@ -17107,7 +17105,7 @@
           12138.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000591"
+        "id": "exile_146000591"
       },
       {
         "p": [
@@ -17115,7 +17113,7 @@
           11965
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_146000593"
+        "id": "exile_146000593"
       },
       {
         "p": [
@@ -17144,7 +17142,7 @@
           -33921.08
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000522"
+        "id": "exile_310000522"
       },
       {
         "p": [
@@ -17152,7 +17150,7 @@
           -33765.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000523"
+        "id": "exile_310000523"
       },
       {
         "p": [
@@ -17160,7 +17158,7 @@
           -33650.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000524"
+        "id": "exile_310000524"
       },
       {
         "p": [
@@ -17168,7 +17166,7 @@
           18990
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000680"
+        "id": "exile_310000680"
       },
       {
         "p": [
@@ -17176,7 +17174,7 @@
           19342.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000681"
+        "id": "exile_310000681"
       },
       {
         "p": [
@@ -17184,7 +17182,7 @@
           19175.33
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000682"
+        "id": "exile_310000682"
       },
       {
         "p": [
@@ -17192,7 +17190,7 @@
           19173.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000684"
+        "id": "exile_310000684"
       },
       {
         "p": [
@@ -17200,7 +17198,7 @@
           19350
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000685"
+        "id": "exile_310000685"
       },
       {
         "p": [
@@ -17208,13 +17206,12 @@
           19000
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile_310000686"
+        "id": "exile_310000686"
       }
-    ],
-    "static": true
+    ]
   },
   {
-    "type": "Exile Technician",
+    "type": "Monster056",
     "spawns": [
       {
         "p": [
@@ -17222,7 +17219,7 @@
           -3498.98
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_102001873"
+        "id": "Monster056_102001873"
       },
       {
         "p": [
@@ -17230,7 +17227,7 @@
           -93266.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_106000178"
+        "id": "Monster056_106000178"
       },
       {
         "p": [
@@ -17245,7 +17242,7 @@
           -17081.53
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_109007396"
+        "id": "Monster056_109007396"
       },
       {
         "p": [
@@ -17253,7 +17250,7 @@
           -21003
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_109007540"
+        "id": "Monster056_109007540"
       },
       {
         "p": [
@@ -17261,7 +17258,7 @@
           -110048.5
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_111001796"
+        "id": "Monster056_111001796"
       },
       {
         "p": [
@@ -17269,7 +17266,7 @@
           -7347.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_111004022"
+        "id": "Monster056_111004022"
       },
       {
         "p": [
@@ -17291,7 +17288,7 @@
           72532.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_118001587"
+        "id": "Monster056_118001587"
       },
       {
         "p": [
@@ -17299,7 +17296,7 @@
           -5197.42
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_122000914"
+        "id": "Monster056_122000914"
       },
       {
         "p": [
@@ -17307,7 +17304,7 @@
           -2108.17
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_122003696"
+        "id": "Monster056_122003696"
       },
       {
         "p": [
@@ -17315,7 +17312,7 @@
           14735.2
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_122003716"
+        "id": "Monster056_122003716"
       },
       {
         "p": [
@@ -17323,7 +17320,7 @@
           -109038.69
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000073"
+        "id": "Monster056_123000073"
       },
       {
         "p": [
@@ -17331,7 +17328,7 @@
           -74407.39
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000090"
+        "id": "Monster056_123000090"
       },
       {
         "p": [
@@ -17339,7 +17336,7 @@
           -75386.27
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000091"
+        "id": "Monster056_123000091"
       },
       {
         "p": [
@@ -17347,7 +17344,7 @@
           -72544.22
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000100"
+        "id": "Monster056_123000100"
       },
       {
         "p": [
@@ -17355,7 +17352,7 @@
           -129219.16
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000115"
+        "id": "Monster056_123000115"
       },
       {
         "p": [
@@ -17363,7 +17360,7 @@
           -109527.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000123"
+        "id": "Monster056_123000123"
       },
       {
         "p": [
@@ -17371,7 +17368,7 @@
           -126166.58
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000159"
+        "id": "Monster056_123000159"
       },
       {
         "p": [
@@ -17379,7 +17376,7 @@
           -125969.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_123000160"
+        "id": "Monster056_123000160"
       },
       {
         "p": [
@@ -17394,7 +17391,7 @@
           -105504.26
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_133001305"
+        "id": "Monster056_133001305"
       },
       {
         "p": [
@@ -17402,7 +17399,7 @@
           -105870
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_133001347"
+        "id": "Monster056_133001347"
       },
       {
         "p": [
@@ -17410,7 +17407,7 @@
           -102696.77
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_133001453"
+        "id": "Monster056_133001453"
       },
       {
         "p": [
@@ -17418,7 +17415,7 @@
           -83456.21
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_133001885"
+        "id": "Monster056_133001885"
       },
       {
         "p": [
@@ -17426,7 +17423,7 @@
           24441.96
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_135002012"
+        "id": "Monster056_135002012"
       },
       {
         "p": [
@@ -17441,7 +17438,7 @@
           -3842.6
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_135002495"
+        "id": "Monster056_135002495"
       },
       {
         "p": [
@@ -17449,7 +17446,7 @@
           -136302
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_136001642"
+        "id": "Monster056_136001642"
       },
       {
         "p": [
@@ -17457,7 +17454,7 @@
           -93487.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_142000909"
+        "id": "Monster056_142000909"
       },
       {
         "p": [
@@ -17465,7 +17462,7 @@
           -103287.09
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_142003130"
+        "id": "Monster056_142003130"
       },
       {
         "p": [
@@ -17480,7 +17477,7 @@
           90972.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_146000358"
+        "id": "Monster056_146000358"
       },
       {
         "p": [
@@ -17488,7 +17485,7 @@
           98970
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_146000414"
+        "id": "Monster056_146000414"
       },
       {
         "p": [
@@ -17496,7 +17493,7 @@
           77560.02
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_146000560"
+        "id": "Monster056_146000560"
       },
       {
         "p": [
@@ -17504,10 +17501,9 @@
           14605
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Technician_146000585"
+        "id": "Monster056_146000585"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster008",
@@ -18811,7 +18807,7 @@
     ]
   },
   {
-    "type": "Exile Leader",
+    "type": "Monster055",
     "spawns": [
       {
         "p": [
@@ -18819,7 +18815,7 @@
           -4268.27
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_102002128"
+        "id": "Monster055_102002128"
       },
       {
         "p": [
@@ -18827,7 +18823,7 @@
           -94380
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_102700004"
+        "id": "Monster055_102700004"
       },
       {
         "p": [
@@ -18835,7 +18831,7 @@
           -100429.04
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_106000162"
+        "id": "Monster055_106000162"
       },
       {
         "p": [
@@ -18843,7 +18839,7 @@
           -26282.71
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_106000305"
+        "id": "Monster055_106000305"
       },
       {
         "p": [
@@ -18851,7 +18847,7 @@
           -52682.25
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_106000558"
+        "id": "Monster055_106000558"
       },
       {
         "p": [
@@ -18859,7 +18855,7 @@
           12516.81
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_109007035"
+        "id": "Monster055_109007035"
       },
       {
         "p": [
@@ -18867,7 +18863,7 @@
           14436
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_109007058"
+        "id": "Monster055_109007058"
       },
       {
         "p": [
@@ -18875,7 +18871,7 @@
           -17241.84
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_109007395"
+        "id": "Monster055_109007395"
       },
       {
         "p": [
@@ -18883,7 +18879,7 @@
           -10869.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_110002709"
+        "id": "Monster055_110002709"
       },
       {
         "p": [
@@ -18891,7 +18887,7 @@
           -7614.95
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_111003996"
+        "id": "Monster055_111003996"
       },
       {
         "p": [
@@ -18906,7 +18902,7 @@
           89514.41
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_118001490"
+        "id": "Monster055_118001490"
       },
       {
         "p": [
@@ -18914,7 +18910,7 @@
           49771.21
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_118004217"
+        "id": "Monster055_118004217"
       },
       {
         "p": [
@@ -18922,7 +18918,7 @@
           21169.94
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_118004476"
+        "id": "Monster055_118004476"
       },
       {
         "p": [
@@ -18930,7 +18926,7 @@
           -131507.94
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_122001196"
+        "id": "Monster055_122001196"
       },
       {
         "p": [
@@ -18938,7 +18934,7 @@
           -764.62
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_122003695"
+        "id": "Monster055_122003695"
       },
       {
         "p": [
@@ -18946,7 +18942,7 @@
           -109924.56
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_122004778"
+        "id": "Monster055_122004778"
       },
       {
         "p": [
@@ -18954,7 +18950,7 @@
           -88564.78
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_122006260"
+        "id": "Monster055_122006260"
       },
       {
         "p": [
@@ -18962,7 +18958,7 @@
           -70436.45
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_122007622"
+        "id": "Monster055_122007622"
       },
       {
         "p": [
@@ -18970,7 +18966,7 @@
           36807.19
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_122700479"
+        "id": "Monster055_122700479"
       },
       {
         "p": [
@@ -18978,7 +18974,7 @@
           -73346.67
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_123000089"
+        "id": "Monster055_123000089"
       },
       {
         "p": [
@@ -18986,7 +18982,7 @@
           -127947.13
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_123000114"
+        "id": "Monster055_123000114"
       },
       {
         "p": [
@@ -18994,7 +18990,7 @@
           -126873.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_123000158"
+        "id": "Monster055_123000158"
       },
       {
         "p": [
@@ -19009,7 +19005,7 @@
           -69030.73
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_123001445"
+        "id": "Monster055_123001445"
       },
       {
         "p": [
@@ -19017,7 +19013,7 @@
           -66281.23
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_125001011"
+        "id": "Monster055_125001011"
       },
       {
         "p": [
@@ -19025,7 +19021,7 @@
           -20846
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_133000684"
+        "id": "Monster055_133000684"
       },
       {
         "p": [
@@ -19033,7 +19029,7 @@
           -101169.77
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_133000938"
+        "id": "Monster055_133000938"
       },
       {
         "p": [
@@ -19041,7 +19037,7 @@
           -103626.4
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_133001310"
+        "id": "Monster055_133001310"
       },
       {
         "p": [
@@ -19049,7 +19045,7 @@
           -96018.97
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_133001856"
+        "id": "Monster055_133001856"
       },
       {
         "p": [
@@ -19057,7 +19053,7 @@
           -108071.6
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_133002331"
+        "id": "Monster055_133002331"
       },
       {
         "p": [
@@ -19065,7 +19061,7 @@
           -96024.07
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_133002747"
+        "id": "Monster055_133002747"
       },
       {
         "p": [
@@ -19073,7 +19069,7 @@
           24509.18
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_135001817"
+        "id": "Monster055_135001817"
       },
       {
         "p": [
@@ -19081,7 +19077,7 @@
           25683.52
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_135002014"
+        "id": "Monster055_135002014"
       },
       {
         "p": [
@@ -19089,7 +19085,7 @@
           -4825.35
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_135002492"
+        "id": "Monster055_135002492"
       },
       {
         "p": [
@@ -19097,7 +19093,7 @@
           -19362.23
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_135700057"
+        "id": "Monster055_135700057"
       },
       {
         "p": [
@@ -19112,7 +19108,7 @@
           -118284
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_136002666"
+        "id": "Monster055_136002666"
       },
       {
         "p": [
@@ -19120,7 +19116,7 @@
           -89069.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142000015"
+        "id": "Monster055_142000015"
       },
       {
         "p": [
@@ -19128,7 +19124,7 @@
           -103613.9
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142000410"
+        "id": "Monster055_142000410"
       },
       {
         "p": [
@@ -19136,7 +19132,7 @@
           -93104.95
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142000493"
+        "id": "Monster055_142000493"
       },
       {
         "p": [
@@ -19144,7 +19140,7 @@
           -89132.34
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142001286"
+        "id": "Monster055_142001286"
       },
       {
         "p": [
@@ -19152,7 +19148,7 @@
           -65828.83
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142003074"
+        "id": "Monster055_142003074"
       },
       {
         "p": [
@@ -19160,7 +19156,7 @@
           -31476.02
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142800140"
+        "id": "Monster055_142800140"
       },
       {
         "p": [
@@ -19182,7 +19178,7 @@
           -69137.42
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_142800286"
+        "id": "Monster055_142800286"
       },
       {
         "p": [
@@ -19197,7 +19193,7 @@
           88245
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_146000362"
+        "id": "Monster055_146000362"
       },
       {
         "p": [
@@ -19205,7 +19201,7 @@
           108150.14
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_146000409"
+        "id": "Monster055_146000409"
       },
       {
         "p": [
@@ -19213,7 +19209,7 @@
           69764.59
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_146000489"
+        "id": "Monster055_146000489"
       },
       {
         "p": [
@@ -19221,10 +19217,9 @@
           13175
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Exile Leader_146000581"
+        "id": "Monster055_146000581"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster015",
@@ -21282,7 +21277,7 @@
     ]
   },
   {
-    "type": "Fractsidus Thruster",
+    "type": "Monster072",
     "spawns": [
       {
         "p": [
@@ -21290,7 +21285,7 @@
           19766.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_102002205"
+        "id": "Monster072_102002205"
       },
       {
         "p": [
@@ -21333,7 +21328,7 @@
           -18891
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_109005570"
+        "id": "Monster072_109005570"
       },
       {
         "p": [
@@ -21341,7 +21336,7 @@
           -65015
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_109006512"
+        "id": "Monster072_109006512"
       },
       {
         "p": [
@@ -21349,7 +21344,7 @@
           -21820
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_109800362"
+        "id": "Monster072_109800362"
       },
       {
         "p": [
@@ -21371,7 +21366,7 @@
           87113.23
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111004558"
+        "id": "Monster072_111004558"
       },
       {
         "p": [
@@ -21379,7 +21374,7 @@
           67316.23
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111004578"
+        "id": "Monster072_111004578"
       },
       {
         "p": [
@@ -21387,7 +21382,7 @@
           12359.04
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111004806"
+        "id": "Monster072_111004806"
       },
       {
         "p": [
@@ -21402,7 +21397,7 @@
           56744.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111004891"
+        "id": "Monster072_111004891"
       },
       {
         "p": [
@@ -21417,7 +21412,7 @@
           43564.75
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111004897"
+        "id": "Monster072_111004897"
       },
       {
         "p": [
@@ -21446,7 +21441,7 @@
           -139650.32
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111800098"
+        "id": "Monster072_111800098"
       },
       {
         "p": [
@@ -21454,7 +21449,7 @@
           -159374.6
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111800103"
+        "id": "Monster072_111800103"
       },
       {
         "p": [
@@ -21462,7 +21457,7 @@
           -145323.56
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111800111"
+        "id": "Monster072_111800111"
       },
       {
         "p": [
@@ -21470,7 +21465,7 @@
           -153882.01
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_111800118"
+        "id": "Monster072_111800118"
       },
       {
         "p": [
@@ -21478,7 +21473,7 @@
           -4690
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_114000929"
+        "id": "Monster072_114000929"
       },
       {
         "p": [
@@ -21493,7 +21488,7 @@
           -83476
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_122007539"
+        "id": "Monster072_122007539"
       },
       {
         "p": [
@@ -21508,7 +21503,7 @@
           -129098.66
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_124002547"
+        "id": "Monster072_124002547"
       },
       {
         "p": [
@@ -21516,7 +21511,7 @@
           -130033.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_124002548"
+        "id": "Monster072_124002548"
       },
       {
         "p": [
@@ -21524,7 +21519,7 @@
           -20868.68
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_133000899"
+        "id": "Monster072_133000899"
       },
       {
         "p": [
@@ -21532,7 +21527,7 @@
           -15486.72
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_133001004"
+        "id": "Monster072_133001004"
       },
       {
         "p": [
@@ -21547,7 +21542,7 @@
           -108076
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_133002333"
+        "id": "Monster072_133002333"
       },
       {
         "p": [
@@ -21555,7 +21550,7 @@
           -145122
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_133003308"
+        "id": "Monster072_133003308"
       },
       {
         "p": [
@@ -21563,7 +21558,7 @@
           -124617
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_136002354"
+        "id": "Monster072_136002354"
       },
       {
         "p": [
@@ -21578,7 +21573,7 @@
           49262
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_136800291"
+        "id": "Monster072_136800291"
       },
       {
         "p": [
@@ -21600,7 +21595,7 @@
           -102305.05
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_142003138"
+        "id": "Monster072_142003138"
       },
       {
         "p": [
@@ -21629,7 +21624,7 @@
           32855.1
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_146000022"
+        "id": "Monster072_146000022"
       },
       {
         "p": [
@@ -21637,7 +21632,7 @@
           56504.59
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_146000343"
+        "id": "Monster072_146000343"
       },
       {
         "p": [
@@ -21645,7 +21640,7 @@
           97530
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_146000395"
+        "id": "Monster072_146000395"
       },
       {
         "p": [
@@ -21653,13 +21648,12 @@
           97321.1
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Thruster_146000396"
+        "id": "Monster072_146000396"
       }
-    ],
-    "static": true
+    ]
   },
   {
-    "type": "Fractsidus Cannoneer",
+    "type": "Monster086",
     "spawns": [
       {
         "p": [
@@ -21667,7 +21661,7 @@
           19714.07
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_102002208"
+        "id": "Monster086_102002208"
       },
       {
         "p": [
@@ -21689,7 +21683,7 @@
           -66653.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_109006511"
+        "id": "Monster086_109006511"
       },
       {
         "p": [
@@ -21697,7 +21691,7 @@
           -65664
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_109006513"
+        "id": "Monster086_109006513"
       },
       {
         "p": [
@@ -21712,7 +21706,7 @@
           -21269.17
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_109800361"
+        "id": "Monster086_109800361"
       },
       {
         "p": [
@@ -21727,7 +21721,7 @@
           86230.57
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111004557"
+        "id": "Monster086_111004557"
       },
       {
         "p": [
@@ -21735,7 +21729,7 @@
           68417.71
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111004581"
+        "id": "Monster086_111004581"
       },
       {
         "p": [
@@ -21743,7 +21737,7 @@
           12494.24
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111004807"
+        "id": "Monster086_111004807"
       },
       {
         "p": [
@@ -21751,7 +21745,7 @@
           58376.18
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111004890"
+        "id": "Monster086_111004890"
       },
       {
         "p": [
@@ -21759,7 +21753,7 @@
           41720.99
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111004898"
+        "id": "Monster086_111004898"
       },
       {
         "p": [
@@ -21788,7 +21782,7 @@
           -140253.48
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111800095"
+        "id": "Monster086_111800095"
       },
       {
         "p": [
@@ -21796,7 +21790,7 @@
           -158769.89
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111800101"
+        "id": "Monster086_111800101"
       },
       {
         "p": [
@@ -21804,7 +21798,7 @@
           -146081.91
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111800112"
+        "id": "Monster086_111800112"
       },
       {
         "p": [
@@ -21812,7 +21806,7 @@
           -155351.73
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111800120"
+        "id": "Monster086_111800120"
       },
       {
         "p": [
@@ -21820,7 +21814,7 @@
           -158130.84
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_111800131"
+        "id": "Monster086_111800131"
       },
       {
         "p": [
@@ -21828,7 +21822,7 @@
           -4840
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_114000928"
+        "id": "Monster086_114000928"
       },
       {
         "p": [
@@ -21843,7 +21837,7 @@
           -85039
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_122007545"
+        "id": "Monster086_122007545"
       },
       {
         "p": [
@@ -21851,7 +21845,7 @@
           -20552.57
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_133000894"
+        "id": "Monster086_133000894"
       },
       {
         "p": [
@@ -21859,7 +21853,7 @@
           -21382.02
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_133001001"
+        "id": "Monster086_133001001"
       },
       {
         "p": [
@@ -21867,7 +21861,7 @@
           -21036.11
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_133001076"
+        "id": "Monster086_133001076"
       },
       {
         "p": [
@@ -21889,7 +21883,7 @@
           -144238
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_133003310"
+        "id": "Monster086_133003310"
       },
       {
         "p": [
@@ -21897,7 +21891,7 @@
           -124936
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_136002355"
+        "id": "Monster086_136002355"
       },
       {
         "p": [
@@ -21905,7 +21899,7 @@
           51295
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_136800293"
+        "id": "Monster086_136800293"
       },
       {
         "p": [
@@ -21927,7 +21921,7 @@
           -101367.23
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_142003135"
+        "id": "Monster086_142003135"
       },
       {
         "p": [
@@ -21970,7 +21964,7 @@
           32985.83
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_146000021"
+        "id": "Monster086_146000021"
       },
       {
         "p": [
@@ -21978,7 +21972,7 @@
           56265
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_146000344"
+        "id": "Monster086_146000344"
       },
       {
         "p": [
@@ -21986,7 +21980,7 @@
           55037.12
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_146000345"
+        "id": "Monster086_146000345"
       },
       {
         "p": [
@@ -21994,13 +21988,12 @@
           96979.11
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Cannoneer_146000394"
+        "id": "Monster086_146000394"
       }
-    ],
-    "static": true
+    ]
   },
   {
-    "type": "Fractsidus Gunmaster",
+    "type": "Monster087",
     "spawns": [
       {
         "p": [
@@ -22008,7 +22001,7 @@
           20755.96
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_102002209"
+        "id": "Monster087_102002209"
       },
       {
         "p": [
@@ -22037,7 +22030,7 @@
           -17710.38
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_109006451"
+        "id": "Monster087_109006451"
       },
       {
         "p": [
@@ -22045,7 +22038,7 @@
           -20413.93
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_109007446"
+        "id": "Monster087_109007446"
       },
       {
         "p": [
@@ -22067,7 +22060,7 @@
           67250.16
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111004579"
+        "id": "Monster087_111004579"
       },
       {
         "p": [
@@ -22075,7 +22068,7 @@
           10832.35
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111004808"
+        "id": "Monster087_111004808"
       },
       {
         "p": [
@@ -22083,7 +22076,7 @@
           58230.6
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111004892"
+        "id": "Monster087_111004892"
       },
       {
         "p": [
@@ -22098,7 +22091,7 @@
           43977.69
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111004899"
+        "id": "Monster087_111004899"
       },
       {
         "p": [
@@ -22141,7 +22134,7 @@
           -140283.32
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111800096"
+        "id": "Monster087_111800096"
       },
       {
         "p": [
@@ -22149,7 +22142,7 @@
           -159149.23
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111800102"
+        "id": "Monster087_111800102"
       },
       {
         "p": [
@@ -22157,7 +22150,7 @@
           -144540.56
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111800113"
+        "id": "Monster087_111800113"
       },
       {
         "p": [
@@ -22165,7 +22158,7 @@
           -153856.89
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_111800119"
+        "id": "Monster087_111800119"
       },
       {
         "p": [
@@ -22180,7 +22173,7 @@
           -82931
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_122007544"
+        "id": "Monster087_122007544"
       },
       {
         "p": [
@@ -22188,7 +22181,7 @@
           -20405.39
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_133000896"
+        "id": "Monster087_133000896"
       },
       {
         "p": [
@@ -22196,7 +22189,7 @@
           -20877.28
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_133000992"
+        "id": "Monster087_133000992"
       },
       {
         "p": [
@@ -22204,7 +22197,7 @@
           -15346.74
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_133001020"
+        "id": "Monster087_133001020"
       },
       {
         "p": [
@@ -22212,7 +22205,7 @@
           -21390.11
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_133001075"
+        "id": "Monster087_133001075"
       },
       {
         "p": [
@@ -22227,7 +22220,7 @@
           -105926
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_133002334"
+        "id": "Monster087_133002334"
       },
       {
         "p": [
@@ -22235,7 +22228,7 @@
           -144912
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_133003309"
+        "id": "Monster087_133003309"
       },
       {
         "p": [
@@ -22243,7 +22236,7 @@
           -124950
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_136002356"
+        "id": "Monster087_136002356"
       },
       {
         "p": [
@@ -22251,7 +22244,7 @@
           48647.95
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_136800292"
+        "id": "Monster087_136800292"
       },
       {
         "p": [
@@ -22287,7 +22280,7 @@
           -102362.37
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_142003136"
+        "id": "Monster087_142003136"
       },
       {
         "p": [
@@ -22316,7 +22309,7 @@
           31678.03
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_146000020"
+        "id": "Monster087_146000020"
       },
       {
         "p": [
@@ -22324,7 +22317,7 @@
           55270
         ],
         "mapName": "AkiWorld_WP",
-        "id": "Fractsidus Gunmaster_146000346"
+        "id": "Monster087_146000346"
       },
       {
         "p": [
@@ -22333,8 +22326,7 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster017",
@@ -29302,8 +29294,7 @@
         "mapName": "AkiWorld_WP",
         "id": "Monster058_146000684"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster050",
@@ -29684,8 +29675,7 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster146",
@@ -29941,8 +29931,7 @@
         ],
         "mapName": "AkiWorld_WP"
       }
-    ],
-    "static": true
+    ]
   },
   {
     "type": "Monster039",
