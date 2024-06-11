@@ -53,6 +53,11 @@ export async function listenToPlugin(
   types: string[],
   pathToMapName?: (path: string) => string | undefined,
   processName?: string,
+  normalizeLocation?: (location: {
+    x: number;
+    y: number;
+    mapName?: string;
+  }) => void,
 ) {
   const state = useGameState.getState();
   const { setPlayer, setActors, setError } = state;
@@ -87,6 +92,9 @@ export async function listenToPlugin(
     ) {
       if (pathToMapName && player.path) {
         player.mapName = pathToMapName(player.path);
+      }
+      if (normalizeLocation) {
+        normalizeLocation(player);
       }
       prevPlayer = player;
       setPlayer(player);
@@ -144,6 +152,9 @@ export async function listenToPlugin(
         actors.forEach((actor) => {
           if (pathToMapName && actor.path) {
             actor.mapName = pathToMapName(actor.path);
+          }
+          if (normalizeLocation) {
+            normalizeLocation(actor);
           }
         });
         setActors(actors);

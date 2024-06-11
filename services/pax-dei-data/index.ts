@@ -13,6 +13,7 @@ import {
   addOutlineToImage,
   colorizeImage,
   mergeImages,
+  rotateImage,
 } from "./lib/image.js";
 import {
   DomainConfig,
@@ -143,6 +144,13 @@ const LARGE = {
   OFFSET_Y: -(1024000 * 0.4) / 2,
   CAMERA_ANGLE: 0,
 };
+
+await saveIcon(
+  TEXTURE_DIR + "/PaxDei/Content/_PD/Game/UX/Map/T_MapPointer.png",
+  { rotate: 90 },
+  "player",
+  "player",
+);
 
 const SMALL = {
   ORTHOGRAPHIC_WIDTH: 409600,
@@ -725,24 +733,30 @@ writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
 writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 // writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
-writeJSON(OUT_DIR + "/coordinates/types-id-map.json", typesIdMap);
+writeJSON(OUT_DIR + "/coordinates/types_id_map.json", typesIdMap);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 
 console.log("Done");
 
 async function saveIcon(
   assetPath: string,
-  props: { color?: string; outline?: boolean } = {},
+  props: { color?: string; outline?: boolean; rotate?: number } = {},
   name: string = "",
+  fileName?: string,
 ) {
-  const fileName = assetPath.split("/").at(-1)?.split(".")[0]!;
-  const originalID = fileName + (props.color ? `_${props.color}` : "");
+  const targetFileName =
+    fileName || assetPath.split("/").at(-1)?.split(".")[0]!;
+  const originalID = targetFileName + (props.color ? `_${props.color}` : "");
   let id = originalID;
   let i = 1;
   while (savedIcons.includes(id)) {
     id = originalID + "_" + i++;
   }
-  if (props.outline) {
+  if (props.rotate) {
+    const canvas = await rotateImage(assetPath, props.rotate);
+    saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
+    await $`cwebp ${TEMP_DIR}/${id}.png -o ${OUT_DIR}/icons/${id}.webp -quiet`;
+  } else if (props.outline) {
     // console.log("Saving icon", id, assetPath, color);
     const canvas = await addOutlineToImage(assetPath);
     saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));

@@ -45,6 +45,16 @@ export async function addCircleToImage(imagePath: string, color: string) {
   return canvas;
 }
 
+export async function rotateImage(imagePath: string, angle: number) {
+  const image = await loadImage(imagePath);
+  const canvas = createCanvas(image.width, image.height);
+  const ctx = canvas.getContext("2d");
+  ctx.translate(image.width / 2, image.height / 2);
+  ctx.rotate((angle * Math.PI) / 180);
+  ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  return canvas;
+}
+
 export async function addOutlineToImage(imagePath: string) {
   const image = await loadImage(imagePath);
   const canvas = createCanvas(image.width, image.height);
