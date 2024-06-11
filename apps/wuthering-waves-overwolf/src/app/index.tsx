@@ -23,6 +23,7 @@ import {
 import { Actions, MarkersSearch, Toaster } from "@repo/ui/controls";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import {
+  AdminRights,
   Ads160x600Desktop,
   Ads300x250Overlay,
   Ads400x300Overlay,
@@ -33,7 +34,6 @@ import {
   MapHotkeys,
   MapContainer,
   ResizeBorders,
-  Status,
   StreamingSender,
   AdsScript,
   AdsFallback,
@@ -119,7 +119,7 @@ function App(): JSX.Element {
       </AdsScript>
       <MapHotkeys />
       <Toaster />
-      <Status />
+      <AdminRights />
       <PlausibleTracker
         apiHost="https://metrics.th.gl"
         domain="wuthering.th.gl-app"

@@ -19,7 +19,7 @@ export function Status() {
           description: (
             <>
               Please do not run the game as administrator! If this is not
-              possible, run the app with admin privileges. Join the{" "}
+              possible, run Overwolf with admin privileges. Join the{" "}
               <ExternalAnchor
                 className="text-primary"
                 href="https://th.gl/discord"

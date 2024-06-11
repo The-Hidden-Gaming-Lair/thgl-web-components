@@ -6,7 +6,7 @@ import {
 
 initBackground(
   24300,
-  "jmdeljpdelieondpjbdoegkbhfokaemhgnmhidef",
+  "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
   "1249803392822546512",
 );
 

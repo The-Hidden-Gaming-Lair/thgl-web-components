@@ -46,6 +46,11 @@ export const apps: App[] = [
     game: WutheringWaves,
     url: "https://wuthering.th.gl",
     tileSrc: "/wuthering.jpg",
+    overwolf: {
+      id: "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
+      protocol: "thgl-wuthering-waves",
+      url: "#",
+    },
     patreonTierIDs: ["21470797", "21470809", "special"],
   },
   {
