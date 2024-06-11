@@ -3,9 +3,9 @@ import { HeaderOffset } from "@repo/ui/header";
 import { DataTable } from "@repo/ui/data";
 import { type Metadata } from "next";
 import { ContentLayout } from "@repo/ui/ads";
-import zones from "../../coordinates/zones.json" assert { type: "json" };
-import items from "../../coordinates/items.json" assert { type: "json" };
-import _enDict from "../../dicts/en.json" assert { type: "json" };
+import zones from "the-hidden-gaming-lair/static/night-crows/coordinates/zones.json" assert { type: "json" };
+import items from "the-hidden-gaming-lair/static/night-crows/coordinates/items.json" assert { type: "json" };
+import _enDict from "the-hidden-gaming-lair/static/night-crows/dicts/en.json" assert { type: "json" };
 import { columns } from "./columns";
 
 const enDict = _enDict as Dict;
@@ -33,12 +33,16 @@ type DropItems = {
 }[];
 
 async function fetchZoneDropItems(): Promise<DropItems> {
-  const response = await fetch("http://168.119.74.85:8899/drop_items_jsx", {
-    next: {
-      revalidate: 60 * 60,
-    },
-  });
-  return (await response.json()) as DropItems;
+  try {
+    const response = await fetch("http://168.119.74.85:8899/drop_items_jsx", {
+      next: {
+        revalidate: 60 * 60,
+      },
+    });
+    return (await response.json()) as DropItems;
+  } catch (error) {
+    return [];
+  }
 }
 export default async function Items(): Promise<JSX.Element> {
   const zoneDropItems = await fetchZoneDropItems();
