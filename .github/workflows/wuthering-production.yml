@@ -1,4 +1,4 @@
-name: Wuthering Preview
+name: Wuthering Production
 
 on:
   workflow_dispatch:
