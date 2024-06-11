@@ -851,17 +851,17 @@ async function saveIcon(assetPath: string) {
 }
 
 function formatTimer(seconds: number) {
-  const hours = +(seconds / 3600).toFixed(0);
-  const minutes = +((seconds % 3600) / 60).toFixed(0);
-  const secondsLeft = +(seconds % 60).toFixed(0);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secondsLeft = seconds % 60;
   let result = "";
-  if (hours) {
-    result = `${hours}h `;
+  if (hours > 0) {
+    result += `${hours}h `;
   }
-  if (minutes) {
+  if (minutes > 0) {
     result += `${minutes}m `;
   }
-  if (secondsLeft) {
+  if (secondsLeft > 0) {
     result += `${secondsLeft}s`;
   }
   return result.trim();

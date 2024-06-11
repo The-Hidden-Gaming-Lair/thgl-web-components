@@ -615,6 +615,26 @@
     "icon": "Material_Enhance_Artifact_Blessed_Event_03.webp"
   },
   {
+    "id": "Material_Enhance_Artifact_Event_04",
+    "itemId": 12020061,
+    "icon": "Material_Enhance_Artifact_Event_04.webp"
+  },
+  {
+    "id": "Material_Enhance_Artifact_Blessed_Event_04",
+    "itemId": 12020062,
+    "icon": "Material_Enhance_Artifact_Blessed_Event_04.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Normal_Artifact_Event_03",
+    "itemId": 12020063,
+    "icon": "Material_EquipmentOptionalStat_Normal_Artifact_Event_03.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Artifact_Event_03",
+    "itemId": 12020064,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Artifact_Event_03.webp"
+  },
+  {
     "id": "Material_ImprintStone_01_Trade",
     "itemId": 12030001,
     "icon": "Material_ImprintStone_01_Trade.webp"
@@ -4923,6 +4943,56 @@
     "id": "Material_TemporaryCollection_GL_07",
     "itemId": 12080858,
     "icon": "Material_TemporaryCollection_GL_07.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_08",
+    "itemId": 12080859,
+    "icon": "Material_TemporaryCollection_GL_08.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_09",
+    "itemId": 12080860,
+    "icon": "Material_TemporaryCollection_GL_09.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_10",
+    "itemId": 12080861,
+    "icon": "Material_TemporaryCollection_GL_10.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_11",
+    "itemId": 12080862,
+    "icon": "Material_TemporaryCollection_GL_11.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_12",
+    "itemId": 12080863,
+    "icon": "Material_TemporaryCollection_GL_12.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_13",
+    "itemId": 12080864,
+    "icon": "Material_TemporaryCollection_GL_13.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_14",
+    "itemId": 12080865,
+    "icon": "Material_TemporaryCollection_GL_14.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_15",
+    "itemId": 12080866,
+    "icon": "Material_TemporaryCollection_GL_15.webp"
+  },
+  {
+    "id": "Material_CraftEvent_240611_GL_100day_01",
+    "itemId": 12080867,
+    "icon": "Material_CraftEvent_240611_GL_100day_01.webp"
+  },
+  {
+    "id": "Material_CraftEvent_GL_240611_01_Trade",
+    "itemId": 12080868,
+    "icon": "Material_CraftEvent_GL_240611_01_Trade.webp"
   },
   {
     "id": "Material_SkillBook_PcPassiveSkill_AllClass_PermanentSkill01_104001_Lv1_Trade",
@@ -15675,6 +15745,26 @@
     "icon": "Equip_Event_Shoes_Grade2_1_Untrade.webp"
   },
   {
+    "id": "Equip_Event_230803_Helmet_Grade2_1_Untrade",
+    "itemId": 11900014,
+    "icon": "Equip_Event_230803_Helmet_Grade2_1_Untrade.webp"
+  },
+  {
+    "id": "Equip_Event_230803_Suit_Grade2_1_Untrade",
+    "itemId": 11900015,
+    "icon": "Equip_Event_230803_Suit_Grade2_1_Untrade.webp"
+  },
+  {
+    "id": "Equip_Event_230803_Pants_Grade2_1_Untrade",
+    "itemId": 11900016,
+    "icon": "Equip_Event_230803_Pants_Grade2_1_Untrade.webp"
+  },
+  {
+    "id": "Equip_Event_230803_Shoes_Grade2_1_Untrade",
+    "itemId": 11900017,
+    "icon": "Equip_Event_230803_Shoes_Grade2_1_Untrade.webp"
+  },
+  {
     "id": "Equip_Bracelet_Grade1_1_Trade",
     "itemId": 11801010,
     "icon": "Equip_Bracelet_Grade1_1_Trade.webp"
@@ -21278,5 +21368,250 @@
     "id": "ItemBox_CashStore_Package_General_240528_004",
     "itemId": 14010508,
     "icon": "ItemBox_CashStore_Package_General_240528_004.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_001",
+    "itemId": 14010509,
+    "icon": "ItemBox_CashStore_Package_Event_240604_001.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_002",
+    "itemId": 14010510,
+    "icon": "ItemBox_CashStore_Package_Event_240604_002.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_003",
+    "itemId": 14010511,
+    "icon": "ItemBox_CashStore_Package_Event_240604_003.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_004",
+    "itemId": 14010512,
+    "icon": "ItemBox_CashStore_Package_Event_240604_004.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_005",
+    "itemId": 14010513,
+    "icon": "ItemBox_CashStore_Package_Event_240604_005.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_006",
+    "itemId": 14010514,
+    "icon": "ItemBox_CashStore_Package_Event_240604_006.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_007",
+    "itemId": 14010515,
+    "icon": "ItemBox_CashStore_Package_Event_240604_007.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_008",
+    "itemId": 14010516,
+    "icon": "ItemBox_CashStore_Package_Event_240604_008.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_009",
+    "itemId": 14010517,
+    "icon": "ItemBox_CashStore_Package_Event_240604_009.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_010",
+    "itemId": 14010518,
+    "icon": "ItemBox_CashStore_Package_Event_240604_010.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_011",
+    "itemId": 14010519,
+    "icon": "ItemBox_CashStore_Package_Event_240604_011.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_012",
+    "itemId": 14010520,
+    "icon": "ItemBox_CashStore_Package_Event_240604_012.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_013",
+    "itemId": 14010521,
+    "icon": "ItemBox_CashStore_Package_Event_240604_013.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_014",
+    "itemId": 14010522,
+    "icon": "ItemBox_CashStore_Package_Event_240604_014.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_015",
+    "itemId": 14010523,
+    "icon": "ItemBox_CashStore_Package_Event_240604_015.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_016",
+    "itemId": 14010524,
+    "icon": "ItemBox_CashStore_Package_Event_240604_016.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_017",
+    "itemId": 14010525,
+    "icon": "ItemBox_CashStore_Package_Event_240604_017.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_018",
+    "itemId": 14010526,
+    "icon": "ItemBox_CashStore_Package_Event_240604_018.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_019",
+    "itemId": 14010527,
+    "icon": "ItemBox_CashStore_Package_Event_240604_019.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_020",
+    "itemId": 14010528,
+    "icon": "ItemBox_CashStore_Package_Event_240604_020.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_021",
+    "itemId": 14010529,
+    "icon": "ItemBox_CashStore_Package_Event_240604_021.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_022",
+    "itemId": 14010530,
+    "icon": "ItemBox_CashStore_Package_Event_240604_022.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_023",
+    "itemId": 14010531,
+    "icon": "ItemBox_CashStore_Package_Event_240604_023.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240604_024",
+    "itemId": 14010532,
+    "icon": "ItemBox_CashStore_Package_Event_240604_024.webp"
+  },
+  {
+    "id": "ItemBox_Random_Enhance_Artifact_Blessed_Event_03",
+    "itemId": 14010533,
+    "icon": "ItemBox_Random_Enhance_Artifact_Blessed_Event_03.webp"
+  },
+  {
+    "id": "ItemBox_Event_GL_100day",
+    "itemId": 14010534,
+    "icon": "ItemBox_Event_GL_100day.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_001",
+    "itemId": 14010535,
+    "icon": "ItemBox_CashStore_Package_Event_240611_001.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_002",
+    "itemId": 14010536,
+    "icon": "ItemBox_CashStore_Package_Event_240611_002.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_003",
+    "itemId": 14010537,
+    "icon": "ItemBox_CashStore_Package_Event_240611_003.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_004",
+    "itemId": 14010538,
+    "icon": "ItemBox_CashStore_Package_Event_240611_004.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_005",
+    "itemId": 14010539,
+    "icon": "ItemBox_CashStore_Package_Event_240611_005.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_006",
+    "itemId": 14010540,
+    "icon": "ItemBox_CashStore_Package_Event_240611_006.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_007",
+    "itemId": 14010541,
+    "icon": "ItemBox_CashStore_Package_Event_240611_007.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_008",
+    "itemId": 14010542,
+    "icon": "ItemBox_CashStore_Package_Event_240611_008.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_009",
+    "itemId": 14010543,
+    "icon": "ItemBox_CashStore_Package_Event_240611_009.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_010",
+    "itemId": 14010544,
+    "icon": "ItemBox_CashStore_Package_Event_240611_010.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_011",
+    "itemId": 14010545,
+    "icon": "ItemBox_CashStore_Package_Event_240611_011.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_012",
+    "itemId": 14010546,
+    "icon": "ItemBox_CashStore_Package_Event_240611_012.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_013",
+    "itemId": 14010547,
+    "icon": "ItemBox_CashStore_Package_Event_240611_013.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_014",
+    "itemId": 14010548,
+    "icon": "ItemBox_CashStore_Package_Event_240611_014.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_015",
+    "itemId": 14010549,
+    "icon": "ItemBox_CashStore_Package_Event_240611_015.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_016",
+    "itemId": 14010550,
+    "icon": "ItemBox_CashStore_Package_Event_240611_016.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_017",
+    "itemId": 14010551,
+    "icon": "ItemBox_CashStore_Package_Event_240611_017.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_018",
+    "itemId": 14010552,
+    "icon": "ItemBox_CashStore_Package_Event_240611_018.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_019",
+    "itemId": 14010553,
+    "icon": "ItemBox_CashStore_Package_Event_240611_019.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240611_020",
+    "itemId": 14010554,
+    "icon": "ItemBox_CashStore_Package_Event_240611_020.webp"
+  },
+  {
+    "id": "ItemBox_MyCard_Package_WeeklyGacha_100th",
+    "itemId": 14010555,
+    "icon": "ItemBox_MyCard_Package_WeeklyGacha_100th.webp"
+  },
+  {
+    "id": "ItemBox_MyCard_Package_MonthlyGacha_100th",
+    "itemId": 14010556,
+    "icon": "ItemBox_MyCard_Package_MonthlyGacha_100th.webp"
+  },
+  {
+    "id": "ItemBox_Event_GL_100birthday_Reward",
+    "itemId": 14010557,
+    "icon": "ItemBox_Event_GL_100birthday_Reward.webp"
   }
 ]

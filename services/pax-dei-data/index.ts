@@ -799,17 +799,18 @@ function normalizeLocation(
 }
 
 function formatTimer(seconds: number) {
-  const hours = seconds / 3600;
-  const minutes = (seconds % 3600) / 60;
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
   const secondsLeft = seconds % 60;
-  let result;
-  if (hours < 1) {
-    result = `${minutes.toFixed(0)}m`;
-  } else {
-    result = `${hours.toFixed(0)}h ${minutes.toFixed(0)}m`;
+  let result = "";
+  if (hours > 0) {
+    result += `${hours}h `;
+  }
+  if (minutes > 0) {
+    result += `${minutes}m `;
   }
   if (secondsLeft > 0) {
-    result += ` ${secondsLeft.toFixed(0)}s`;
+    result += `${secondsLeft}s`;
   }
-  return result;
+  return result.trim();
 }
