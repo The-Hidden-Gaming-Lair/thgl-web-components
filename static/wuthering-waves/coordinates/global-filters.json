@@ -44,15 +44,11 @@
     "group": "spawnType",
     "values": [
       {
-        "id": "bossChallenge",
+        "id": "normal",
         "defaultOn": true
       },
       {
         "id": "quest"
-      },
-      {
-        "id": "normal",
-        "defaultOn": true
       },
       {
         "id": "monsterTreasure",

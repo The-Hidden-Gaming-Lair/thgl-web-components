@@ -786,7 +786,7 @@ for (const levelEntity of sortedEntities) {
           )
             .replace("SilentArea", "Tacet Field")
             .replace("Riddle", "Breakable Rock")
-            .replace("RebornBoss", "Boss Challenge");
+            .replace("RebornBoss", "Normal");
           spawnId = `${id}_${levelEntity.data.EntityId}`;
           enDict[`${spawnId}_desc`] =
             `<p style="color:#17a0a4">${dataType}</p>`;

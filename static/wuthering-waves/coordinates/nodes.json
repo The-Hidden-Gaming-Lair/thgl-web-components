@@ -660,7 +660,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "sierraGale"
@@ -681,7 +681,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "sierraGale"
@@ -962,7 +962,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "voidThunder"
@@ -983,7 +983,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "voidThunder"
@@ -1019,7 +1019,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "moltenRift"
@@ -1040,7 +1040,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "moltenRift"
@@ -1086,7 +1086,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "lingeringTunes"
@@ -1107,7 +1107,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "lingeringTunes"
@@ -1127,7 +1127,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "celestialLight"
@@ -1148,7 +1148,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "celestialLight"
@@ -1168,7 +1168,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -1190,7 +1190,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -1211,7 +1211,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "moonlitClouds"
@@ -1232,7 +1232,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "moonlitClouds"
@@ -1328,7 +1328,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "voidThunder"
@@ -1349,7 +1349,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "bossChallenge"
+            "normal"
           ],
           "echoSet": [
             "voidThunder"
