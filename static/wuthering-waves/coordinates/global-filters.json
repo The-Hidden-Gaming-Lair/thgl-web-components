@@ -44,6 +44,9 @@
     "group": "spawnType",
     "values": [
       {
+        "id": "bossChallenge"
+      },
+      {
         "id": "quest"
       },
       {

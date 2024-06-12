@@ -657,7 +657,15 @@
           299323,
           -43230
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "sierraGale"
+          ]
+        }
       }
     ],
     "static": true
@@ -670,7 +678,15 @@
           299323,
           -43230
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "sierraGale"
+          ]
+        }
       }
     ]
   },
@@ -943,7 +959,15 @@
           -36781.04,
           -31622.11
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "voidThunder"
+          ]
+        }
       }
     ],
     "static": true
@@ -956,7 +980,15 @@
           -36781.04,
           -31622.11
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "voidThunder"
+          ]
+        }
       },
       {
         "p": [
@@ -984,7 +1016,15 @@
           208205,
           -146450
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "moltenRift"
+          ]
+        }
       }
     ],
     "static": true
@@ -997,7 +1037,15 @@
           208205,
           -146450
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "moltenRift"
+          ]
+        }
       }
     ]
   },
@@ -1035,7 +1083,15 @@
           294853,
           79424.2
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "lingeringTunes"
+          ]
+        }
       }
     ],
     "static": true
@@ -1048,7 +1104,15 @@
           294853,
           79424.2
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "lingeringTunes"
+          ]
+        }
       }
     ]
   },
@@ -1060,7 +1124,15 @@
           330028.09,
           66965.77
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "celestialLight"
+          ]
+        }
       }
     ],
     "static": true
@@ -1073,7 +1145,15 @@
           330028.09,
           66965.77
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "celestialLight"
+          ]
+        }
       }
     ]
   },
@@ -1085,7 +1165,16 @@
           76145.88,
           -151935.28
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "rejuvenatingGlow"
+          ]
+        }
       }
     ],
     "static": true
@@ -1098,7 +1187,16 @@
           76145.88,
           -151935.28
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "rejuvenatingGlow"
+          ]
+        }
       }
     ]
   },
@@ -1110,7 +1208,15 @@
           -58898.86,
           -41014.87
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "moonlitClouds"
+          ]
+        }
       }
     ],
     "static": true
@@ -1123,7 +1229,15 @@
           -58898.86,
           -41014.87
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "moonlitClouds"
+          ]
+        }
       }
     ]
   },
@@ -1211,7 +1325,15 @@
           30905.13,
           -68251.98
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "voidThunder"
+          ]
+        }
       }
     ],
     "static": true
@@ -1224,7 +1346,15 @@
           30905.13,
           -68251.98
         ],
-        "mapName": "AkiWorld_WP"
+        "mapName": "AkiWorld_WP",
+        "data": {
+          "spawnType": [
+            "bossChallenge"
+          ],
+          "echoSet": [
+            "voidThunder"
+          ]
+        }
       },
       {
         "p": [

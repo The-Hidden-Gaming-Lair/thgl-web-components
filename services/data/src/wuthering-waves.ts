@@ -546,7 +546,71 @@ for (const levelEntity of sortedEntities) {
         );
       }
     }
-  } else if (isMonster) {
+    let oldNodes = nodes.find((n) => n.type === id);
+    if (!oldNodes) {
+      oldNodes = { type: id, spawns: [] };
+      if (!Object.values(typesIDs).includes(id)) {
+        if (!id.startsWith("Monster") || id.startsWith("Monster_Glowing")) {
+          oldNodes.static = true;
+        }
+      }
+      nodes.push(oldNodes);
+      oldNodes = nodes.find((n) => n.type === id);
+      // console.log("New type", id);
+    }
+
+    if (
+      oldNodes!.spawns.some(
+        (s) =>
+          s.p[0] === location.y &&
+          s.p[1] === location.x &&
+          s.mapName === mapName,
+      )
+    ) {
+      continue;
+    }
+
+    const baseName =
+      levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent;
+    const interactName =
+      levelEntity.data.ComponentsData?.InteractComponent?.Options?.[0]
+        ?.TidContent;
+    if (baseName || interactName) {
+      const baseTerm =
+        baseName && MultiText.find((m) => m.Id === baseName)?.Content;
+      const interactTerm =
+        interactName && MultiText.find((m) => m.Id === interactName)?.Content;
+      spawnId = levelEntity.data.EntityId.toString();
+      if (baseTerm) {
+        enDict[spawnId] = baseTerm;
+      }
+      if (interactTerm) {
+        enDict[`${spawnId}_desc`] = interactTerm;
+      }
+    }
+
+    if (spawnId) {
+      spawn.id = spawnId;
+      if (spawnIcon) {
+        spawn.icon = spawnIcon;
+      }
+      oldNodes!.spawns.push(spawn);
+    } else {
+      oldNodes!.spawns.push(spawn);
+      if (mapMark && isMonster) {
+        id = id.replace("BossChallenge_", "");
+        let oldNodes = nodes.find((n) => n.type === id);
+        if (!oldNodes) {
+          oldNodes = { type: id, spawns: [] };
+          nodes.push(oldNodes);
+          oldNodes = nodes.find((n) => n.type === id);
+        }
+
+        oldNodes!.spawns.push(spawn);
+      }
+    }
+  }
+  if (isMonster) {
     const level = levelEntity.data.ComponentsData?.AttributeComponent?.Level;
     if (level) {
       let name: string | null;
@@ -721,7 +785,8 @@ for (const levelEntity of sortedEntities) {
             "Monster Treasure",
           )
             .replace("SilentArea", "Tacet Field")
-            .replace("Riddle", "Breakable Rock");
+            .replace("Riddle", "Breakable Rock")
+            .replace("RebornBoss", "Boss Challenge");
           spawnId = `${id}_${levelEntity.data.EntityId}`;
           enDict[`${spawnId}_desc`] =
             `<p style="color:#17a0a4">${dataType}</p>`;
