@@ -814,7 +814,11 @@ for (const levelEntity of sortedEntities) {
     }
     const globalFilter = globalFilters.find((f) => f.group === "spawnType")!;
     if (!globalFilter.values.some((v) => v.id === spawnType)) {
-      if (spawnType === "normal" || spawnType === "monsterTreasure") {
+      if (
+        spawnType === "normal" ||
+        spawnType === "monsterTreasure" ||
+        spawnType === "bossChallenge"
+      ) {
         globalFilter.values.push({ id: spawnType, defaultOn: true });
       } else {
         globalFilter.values.push({ id: spawnType });
