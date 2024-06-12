@@ -1,0 +1,68 @@
+[
+  {
+    "group": "echoSet",
+    "values": [
+      {
+        "id": "rejuvenatingGlow",
+        "defaultOn": true
+      },
+      {
+        "id": "voidThunder",
+        "defaultOn": true
+      },
+      {
+        "id": "lingeringTunes",
+        "defaultOn": true
+      },
+      {
+        "id": "moonlitClouds",
+        "defaultOn": true
+      },
+      {
+        "id": "sun-sinkingEclipse",
+        "defaultOn": true
+      },
+      {
+        "id": "moltenRift",
+        "defaultOn": true
+      },
+      {
+        "id": "celestialLight",
+        "defaultOn": true
+      },
+      {
+        "id": "freezingFrost",
+        "defaultOn": true
+      },
+      {
+        "id": "sierraGale",
+        "defaultOn": true
+      }
+    ]
+  },
+  {
+    "group": "spawnType",
+    "values": [
+      {
+        "id": "quest"
+      },
+      {
+        "id": "normal",
+        "defaultOn": true
+      },
+      {
+        "id": "monsterTreasure",
+        "defaultOn": true
+      },
+      {
+        "id": "breakableRock"
+      },
+      {
+        "id": "challenge"
+      },
+      {
+        "id": "tacetField"
+      }
+    ]
+  }
+]

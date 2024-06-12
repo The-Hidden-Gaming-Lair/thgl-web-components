@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import type {
   FiltersCoordinates,
+  GlobalFiltersCoordinates,
   NodesCoordinates,
   RegionsCoordinates,
 } from "@repo/ui/providers";
@@ -12,6 +13,7 @@ import type { Metadata } from "next";
 import { searchParamsToView, type TileOptions } from "@repo/lib";
 import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
+import globalFilters from "../coordinates/global-filters.json" assert { type: "json" };
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 
@@ -44,6 +46,7 @@ export default function Home({
       filters={filters as FiltersCoordinates}
       mapName={Object.keys(tiles)[0]}
       regions={regions as unknown as RegionsCoordinates}
+      globalFilters={globalFilters as GlobalFiltersCoordinates}
       staticNodes={nodes}
       view={view}
     >

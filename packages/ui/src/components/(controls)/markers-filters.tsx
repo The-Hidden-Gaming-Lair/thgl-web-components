@@ -33,6 +33,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { GlobalFilters } from "./global-filters";
 
 export function MarkersFilters({
   mapNames,
@@ -86,6 +87,7 @@ export function MarkersFilters({
       )}
       <Presets />
       <Separator />
+      <GlobalFilters />
       {privateNodesFilters.length > 0 && (
         <Collapsible defaultOpen>
           <div

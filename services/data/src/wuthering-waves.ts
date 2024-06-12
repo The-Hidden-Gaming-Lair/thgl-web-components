@@ -1,7 +1,12 @@
 import { sqliteToJSON } from "./lib/db.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { CONTENT_DIR, TEMP_DIR, TEXTURE_DIR, initDirs } from "./lib/dirs.js";
-import { initFilters, writeFilters } from "./lib/filters.js";
+import {
+  initFilters,
+  initGlobalFilters,
+  writeFilters,
+  writeGlobalFilters,
+} from "./lib/filters.js";
 import { readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import { extractCanvasFromSprite, mergeImages, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
@@ -19,6 +24,7 @@ initDirs(
 
 const nodes = initNodes();
 const filters = initFilters();
+const globalFilters = initGlobalFilters();
 const regions = initRegions();
 const typesIDs = initTypesIDs();
 
@@ -226,6 +232,7 @@ const overrides: Record<string, string> = {
   Teleport008: "Teleport003",
 };
 const monsterFilterIds: string[] = [];
+const fetterGroupIds: Record<string, string[]> = {};
 for (const monster of monsterInfo.monsterinfo) {
   const rarityDesc = monsterInfo.monsterrarity.find(
     (mr) => mr.Id === monster.data.RarityId,
@@ -332,12 +339,27 @@ for (const monster of monsterInfo.monsterinfo) {
             `<p style="color:#${g.data.FetterElementColor}">${MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content}</p>`,
         )
         .join("") ?? "";
+    const names = fetterGroups.map(
+      (g) => MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content!,
+    );
+    enDict[id + "_tags"] = names.join(" ");
+    fetterGroupIds[id] = names.map(toCamelCase);
+    if (!globalFilters.some((f) => f.group === "echoSet")) {
+      globalFilters.push({
+        group: "echoSet",
+        values: [],
+      });
+      enDict.echoSet = "Echo Set";
+    }
+    const globalFilter = globalFilters.find((f) => f.group === "echoSet")!;
+    names.forEach((name) => {
+      const type = toCamelCase(name);
+      if (!globalFilter.values.some((v) => v.id === type)) {
+        globalFilter.values.push({ id: type, defaultOn: true });
+        enDict[type] = name;
+      }
+    });
 
-    enDict[id + "_tags"] = fetterGroups
-      .map(
-        (g) => MultiText.find((m) => m.Id === g.data.FetterGroupName)?.Content,
-      )
-      .join(" ");
     if (desc) {
       enDict[id + "_desc"] += desc;
     }
@@ -393,6 +415,15 @@ for (const levelEntity of sortedEntities) {
   if (levelEntity.data.MapId !== BIG_WORLD_MAP_ID) {
     continue;
   }
+
+  const x = levelEntity.data.Transform[0].X / levelEntity.data.Transform[2].X;
+  const y = levelEntity.data.Transform[0].Y / levelEntity.data.Transform[2].Y;
+  const mapName = WORLD.id;
+  const location = { x, y };
+  const spawn: Node["spawns"][number] = {
+    p: [+location.y, +location.x],
+    mapName,
+  };
 
   let spawnId: string | null = null;
   let spawnIcon: {
@@ -606,6 +637,8 @@ for (const levelEntity of sortedEntities) {
       console.log("Glowing", enDict[id], id);
     }
 
+    let spawnType = "normal";
+    let spawnTypeLabel = "Normal";
     if (levelEntity.data.InSleep) {
       let owner = dbEntityOwnerData.entityownerdata.find(
         (d) =>
@@ -672,8 +705,9 @@ for (const levelEntity of sortedEntities) {
           if (enDict[`${id}_tags`]) {
             enDict[`${spawnId}_tags`] += " " + enDict[`${id}_tags`];
           }
-        }
-        if (ownerLevelPlayId) {
+          spawnType = "quest";
+          spawnTypeLabel = "Quest";
+        } else if (ownerLevelPlayId) {
           const ownerLevelPlay = dbLevelPlayData.levelplaydata.find(
             (d) => d.data.LevelPlayId === ownerLevelPlayId,
           );
@@ -685,7 +719,9 @@ for (const levelEntity of sortedEntities) {
           const dataType = ownerLevelPlay.data.Data.Type.replace(
             "MonsterTreasure",
             "Monster Treasure",
-          );
+          )
+            .replace("SilentArea", "Tacet Field")
+            .replace("Riddle", "Breakable Rock");
           spawnId = `${id}_${levelEntity.data.EntityId}`;
           enDict[`${spawnId}_desc`] =
             `<p style="color:#17a0a4">${dataType}</p>`;
@@ -696,10 +732,35 @@ for (const levelEntity of sortedEntities) {
           if (enDict[`${id}_tags`]) {
             enDict[`${spawnId}_tags`] += " " + enDict[`${id}_tags`];
           }
+
+          spawnType = toCamelCase(dataType);
+          spawnTypeLabel = dataType;
         }
       } else {
         throw new Error(`Missing owner for ${levelEntity.data.EntityId}`);
       }
+    }
+    if (!globalFilters.some((f) => f.group === "spawnType")) {
+      globalFilters.push({
+        group: "spawnType",
+        values: [],
+      });
+      enDict.spawnType = "Spawn Type";
+    }
+    const globalFilter = globalFilters.find((f) => f.group === "spawnType")!;
+    if (!globalFilter.values.some((v) => v.id === spawnType)) {
+      if (spawnType === "normal" || spawnType === "monsterTreasure") {
+        globalFilter.values.push({ id: spawnType, defaultOn: true });
+      } else {
+        globalFilter.values.push({ id: spawnType });
+      }
+      enDict[spawnType] = spawnTypeLabel;
+    }
+    const fetterGroup = fetterGroupIds[id];
+    if (fetterGroup) {
+      spawn.data = { spawnType: [spawnType], echoSet: fetterGroup };
+    } else {
+      spawn.data = { spawnType: [spawnType] };
     }
   } else {
     if (id === "Gameplay102") {
@@ -790,10 +851,6 @@ for (const levelEntity of sortedEntities) {
     // console.log("New type", id);
   }
 
-  const x = levelEntity.data.Transform[0].X / levelEntity.data.Transform[2].X;
-  const y = levelEntity.data.Transform[0].Y / levelEntity.data.Transform[2].Y;
-  const mapName = WORLD.id;
-  const location = { x, y };
   if (
     oldNodes!.spawns.some(
       (s) =>
@@ -821,10 +878,7 @@ for (const levelEntity of sortedEntities) {
       enDict[`${spawnId}_desc`] = interactTerm;
     }
   }
-  const spawn: Node["spawns"][number] = {
-    p: [+location.y, +location.x],
-    mapName,
-  };
+
   if (spawnId) {
     spawn.id = spawnId;
     if (spawnIcon) {
@@ -832,10 +886,7 @@ for (const levelEntity of sortedEntities) {
     }
     oldNodes!.spawns.push(spawn);
   } else {
-    oldNodes!.spawns.push({
-      p: [+location.y, +location.x],
-      mapName,
-    });
+    oldNodes!.spawns.push(spawn);
     if (mapMark && isMonster) {
       id = id.replace("BossChallenge_", "");
       let oldNodes = nodes.find((n) => n.type === id);
@@ -845,10 +896,7 @@ for (const levelEntity of sortedEntities) {
         oldNodes = nodes.find((n) => n.type === id);
       }
 
-      oldNodes!.spawns.push({
-        p: [+location.y, +location.x],
-        mapName,
-      });
+      oldNodes!.spawns.push(spawn);
     }
   }
 }
@@ -890,6 +938,7 @@ const sortedFilters = filters
     return priorityA - priorityB;
   });
 writeFilters(sortedFilters);
+writeGlobalFilters(globalFilters);
 writeDict(enDict, "en");
 
 writeTypesIDs(typesIDs);

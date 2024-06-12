@@ -51,6 +51,7 @@ export type Spawns = {
   } | null;
   radius?: number;
   isPrivate?: boolean;
+  data?: Record<string, string[]>;
 }[];
 
 export type RegionsCoordinates = {
@@ -72,6 +73,14 @@ export type FiltersCoordinates = {
   }[];
 }[];
 
+export type GlobalFiltersCoordinates = {
+  group: string;
+  values: {
+    id: string;
+    defaultOn?: boolean;
+  }[];
+}[];
+
 export type Icons = {
   id: string;
   icon: string;
@@ -90,6 +99,9 @@ interface UserStoreState {
   setCenter: (center: [number, number]) => void;
   zoom: number | undefined;
   setZoom: (zoom: number) => void;
+  globalFilters: string[];
+  setGlobalFilters: (filters: string[]) => void;
+  toggleGlobalFilter: (filter: string) => void;
 }
 
 type Write<T, U> = Omit<T, keyof U> & U;
@@ -115,6 +127,7 @@ interface ContextValue {
   nodes: NodesCoordinates;
   regions: RegionsCoordinates;
   filters: FiltersCoordinates;
+  globalFilters: GlobalFiltersCoordinates;
   allFilters: string[];
   userStore: UserStore;
   spawns: Spawns;
@@ -139,6 +152,7 @@ export function CoordinatesProvider({
   staticNodes,
   regions,
   filters,
+  globalFilters = [],
   typesIdMap,
   mapName = "default",
   view,
@@ -147,6 +161,7 @@ export function CoordinatesProvider({
   staticNodes: NodesCoordinates;
   regions: RegionsCoordinates;
   filters: FiltersCoordinates;
+  globalFilters?: GlobalFiltersCoordinates;
   typesIdMap?: Record<string, string>;
   mapName?: string;
   view: { center?: [number, number]; zoom?: number; map?: string };
@@ -252,16 +267,6 @@ export function CoordinatesProvider({
     [filters, privateNodes, privateDrawings],
   );
 
-  const defaultFilters = useMemo(
-    () => [
-      ...filters.flatMap((filter) =>
-        filter.defaultOn ? filter.values.map((value) => value.id) : [],
-      ),
-      ...REGION_FILTERS.map((filter) => filter.id),
-    ],
-    [filters],
-  );
-
   const t = useT();
   const [spawns, setSpawns] = useState<Spawns>([]);
   const spreadedSpawns = useMemo(
@@ -329,7 +334,14 @@ export function CoordinatesProvider({
               setSearch: (search) => {
                 set({ search });
               },
-              filters: defaultFilters,
+              filters: [
+                ...filters.flatMap((filter) =>
+                  filter.defaultOn
+                    ? filter.values.map((value) => value.id)
+                    : [],
+                ),
+                ...REGION_FILTERS.map((filter) => filter.id),
+              ],
               setFilters: (filters) => {
                 set({ filters });
               },
@@ -339,6 +351,22 @@ export function CoordinatesProvider({
                     ? state.filters.filter((f) => f !== filter)
                     : [...state.filters, filter];
                   return { filters };
+                });
+              },
+              globalFilters: globalFilters.flatMap((filter) =>
+                filter.values.flatMap((value) =>
+                  value.defaultOn ? value.id : [],
+                ),
+              ),
+              setGlobalFilters: (globalFilters) => {
+                set({ globalFilters });
+              },
+              toggleGlobalFilter: (filter) => {
+                set((state) => {
+                  const globalFilters = state.globalFilters.includes(filter)
+                    ? state.globalFilters.filter((f) => f !== filter)
+                    : [...state.globalFilters, filter];
+                  return { globalFilters };
                 });
               },
             }),
@@ -368,16 +396,41 @@ export function CoordinatesProvider({
     [],
   );
   const refreshSpawns = useCallback(
-    (state: Pick<UserStoreState, "filters" | "search">) => {
+    (state: UserStoreState) => {
       let newSpawns: Spawns;
       if (state.search) {
         newSpawns = fuse.search(state.search).map((result) => result.item);
-      } else if (state.filters.length !== allFilters.length) {
-        newSpawns = spreadedSpawns.filter((spawn) =>
-          state.filters.includes(spawn.type),
-        );
       } else {
-        newSpawns = spreadedSpawns;
+        const hasFilter = state.filters.length !== allFilters.length;
+        const hasGlobalFilter = globalFilters.length > 0;
+
+        const filterSpawn = (spawn: Spawns[number]) => {
+          let show = true;
+          if (hasFilter) {
+            show = state.filters.includes(spawn.type);
+          }
+
+          if (show && hasGlobalFilter) {
+            for (const filter of globalFilters) {
+              if (!show) {
+                continue;
+              }
+              if (spawn.data && spawn.data[filter.group]) {
+                const values = spawn.data[filter.group];
+                if (!values.some((v) => state.globalFilters.includes(v))) {
+                  show = false;
+                }
+              }
+            }
+          }
+          return show;
+        };
+
+        if (hasFilter || hasGlobalFilter) {
+          newSpawns = spreadedSpawns.filter(filterSpawn);
+        } else {
+          newSpawns = spreadedSpawns;
+        }
       }
       const newSpawnsMap = new Map<string, Spawns[0]>();
       newSpawns.forEach((spawn) => {
@@ -420,10 +473,17 @@ export function CoordinatesProvider({
         refreshSpawns(userStore.getState());
       },
     );
+    const unsubscribeGlobalFilters = userStore.subscribe(
+      (state) => state.globalFilters,
+      () => {
+        refreshSpawns(userStore.getState());
+      },
+    );
 
     return () => {
       unsubscribeFilters();
       unsubscribeSearch();
+      unsubscribeGlobalFilters();
     };
   }, [refreshSpawns]);
 
@@ -439,6 +499,7 @@ export function CoordinatesProvider({
         spawns,
         icons,
         typesIdMap,
+        globalFilters,
       }}
     >
       {children}

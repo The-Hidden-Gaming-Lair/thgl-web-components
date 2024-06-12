@@ -9,6 +9,7 @@ export type Node = {
       name: string;
       url: string;
     };
+    data?: Record<string, string[]>;
   }[];
 };
 
@@ -21,6 +22,14 @@ export type Filter = {
     icon: string;
     size?: number;
     live_only?: boolean;
+  }[];
+};
+
+export type GlobalFilter = {
+  group: string;
+  values: {
+    id: string;
+    defaultOn?: boolean;
   }[];
 };
 
