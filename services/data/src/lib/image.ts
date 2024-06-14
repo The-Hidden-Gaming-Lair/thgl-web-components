@@ -14,6 +14,7 @@ export async function saveIcon(
     circle?: boolean;
     threshold?: number;
     glowing?: boolean;
+    rotate?: number;
   } = {},
 ) {
   let filePath = assetPath.startsWith("/home")
@@ -38,6 +39,10 @@ export async function saveIcon(
     const canvas = await colorizeImage(filePath, props.color, props.threshold);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
     await $`cwebp ${TEMP_DIR + `/${name}.png`} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  } else if (props.rotate) {
+    const canvas = await rotateImage(assetPath, props.rotate);
+    saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
+    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else {
     await $`cwebp ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   }
@@ -326,4 +331,14 @@ export async function extractCanvasFromSprite(
   await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
 
   return `${name}.webp`;
+}
+
+export async function rotateImage(imagePath: string, angle: number) {
+  const image = await loadImage(imagePath);
+  const canvas = createCanvas(image.width, image.height);
+  const ctx = canvas.getContext("2d");
+  ctx.translate(image.width / 2, image.height / 2);
+  ctx.rotate((angle * Math.PI) / 180);
+  ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  return canvas;
 }

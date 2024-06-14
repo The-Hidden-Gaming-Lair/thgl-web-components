@@ -6,92 +6,92 @@
     "values": [
       {
         "id": "gateway",
-        "icon": "T_Icon_Gateway.webp",
+        "icon": "gateway.webp",
         "size": 1.5
       },
       {
         "id": "respawnsite",
-        "icon": "T_Icon_RespawnSite.webp",
+        "icon": "respawnsite.webp",
         "size": 1.5
       },
       {
         "id": "ringfort_small",
-        "icon": "T_Icon_Ringfort_Small.webp",
+        "icon": "ringfort_small.webp",
         "size": 1.5
       },
       {
         "id": "minicamp",
-        "icon": "T_Icon_MiniCamp.webp",
+        "icon": "minicamp.webp",
         "size": 2.5
       },
       {
         "id": "quarry_small",
-        "icon": "T_Icon_Quarry_Small.webp",
+        "icon": "quarry_small.webp",
         "size": 1.5
       },
       {
         "id": "holysite",
-        "icon": "T_Icon_HolySite.webp",
+        "icon": "holysite.webp",
         "size": 1.5
       },
       {
         "id": "cave",
-        "icon": "T_Icon_Cave_Small.webp",
+        "icon": "cave.webp",
         "size": 1.5
       },
       {
         "id": "ringfort",
-        "icon": "T_Icon_Ringfort_Medium.webp",
+        "icon": "ringfort.webp",
         "size": 1.5
       },
       {
         "id": "ringfort_large",
-        "icon": "T_Icon_Ringfort_Large.webp",
+        "icon": "ringfort_large.webp",
         "size": 1.5
       },
       {
         "id": "empire",
-        "icon": "T_Icon_EmpireRuins_Medium.webp",
+        "icon": "empire.webp",
         "size": 1.5
       },
       {
         "id": "empire_small",
-        "icon": "T_Icon_EmpireRuins_Small.webp",
+        "icon": "empire_small.webp",
         "size": 1.5
       },
       {
         "id": "quarry",
-        "icon": "T_Icon_Quarry.webp",
+        "icon": "quarry.webp",
         "size": 1.5
       },
       {
         "id": "empire_dungeon",
-        "icon": "T_Icon_EmpireRuins_Medium_Dungeon.webp",
+        "icon": "empire_dungeon.webp",
         "size": 1.5
       },
       {
         "id": "stonecircle",
-        "icon": "T_Icon_StoneCircle.webp",
+        "icon": "stonecircle.webp",
         "size": 1.5
       },
       {
         "id": "gatewayclosed",
-        "icon": "T_Icon_GatewayClosed.webp",
+        "icon": "gatewayclosed.webp",
         "size": 1.5
       },
       {
         "id": "windmill",
-        "icon": "T_Icon_Windmill.webp",
+        "icon": "windmill.webp",
         "size": 1.5
       },
       {
         "id": "empire_large",
-        "icon": "T_Icon_EmpireRuins_Large.webp",
+        "icon": "empire_large.webp",
         "size": 1.5
       },
       {
         "id": "site",
-        "icon": "T_Icon_Place_of_Interest.webp",
+        "icon": "site.webp",
         "size": 1.5
       }
     ]
@@ -103,437 +103,437 @@
     "values": [
       {
         "id": "clay",
-        "icon": "T_Clay_INV_state_Icon.webp",
+        "icon": "clay.webp",
         "size": 1.15
       },
       {
         "id": "berry_alpine_juniper",
-        "icon": "T_Juniper_Berry_01_INV_state_Berries_Icon.webp",
+        "icon": "berry_alpine_juniper.webp",
         "size": 1.15
       },
       {
         "id": "berry_blackberries",
-        "icon": "T_Blackberry_05_INV_state_Icon.webp",
+        "icon": "berry_blackberries.webp",
         "size": 1.15
       },
       {
         "id": "berry_blueberries",
-        "icon": "T_Blueberry_05_INV_state_Icon.webp",
+        "icon": "berry_blueberries.webp",
         "size": 1.15
       },
       {
         "id": "berry_cloudberry",
-        "icon": "T_Cloudberry_01_Plant_INV_state_Icon.webp",
+        "icon": "berry_cloudberry.webp",
         "size": 1.15
       },
       {
         "id": "berry_elderberries",
-        "icon": "T_Elderberry_Var10_INV_state_Icon.webp",
+        "icon": "berry_elderberries.webp",
         "size": 1.15
       },
       {
         "id": "berry_gooseberry",
-        "icon": "T_Gooseberry_01_INV_state_Icon.webp",
+        "icon": "berry_gooseberry.webp",
         "size": 1.15
       },
       {
         "id": "berry_grapevines",
-        "icon": "T_Grapes_01_INV_state_Icon.webp",
+        "icon": "berry_grapevines.webp",
         "size": 1.15
       },
       {
         "id": "berry_hawthorne",
-        "icon": "T_Hawthorne_Berry_01_INV_state_Icon.webp",
+        "icon": "berry_hawthorne.webp",
         "size": 1.15
       },
       {
         "id": "berry_pineberry",
-        "icon": "T_Pineberry_INV_state_Icon.webp",
+        "icon": "berry_pineberry.webp",
         "size": 1.15
       },
       {
         "id": "berry_raspberries",
-        "icon": "T_Raspberry_08_INV_state_Icon.webp",
+        "icon": "berry_raspberries.webp",
         "size": 1.15
       },
       {
         "id": "berry_red_currant",
-        "icon": "T_Redcurrant_01_Icon.webp",
+        "icon": "berry_red_currant.webp",
         "size": 1.15
       },
       {
         "id": "berry_rosehips",
-        "icon": "T_Rose_Hip_Var07_INV_state_Icon.webp",
+        "icon": "berry_rosehips.webp",
         "size": 1.15
       },
       {
         "id": "berry_strawberry",
-        "icon": "T_Strawberry_INV_state_Icon.webp",
+        "icon": "berry_strawberry.webp",
         "size": 1.15
       },
       {
         "id": "bushy_starworth",
-        "icon": "T_Starworth_Var4_Icon.webp",
+        "icon": "bushy_starworth.webp",
         "size": 1.15
       },
       {
         "id": "castor_plant",
-        "icon": "T_Castor_V2_Icon.webp",
+        "icon": "castor_plant.webp",
         "size": 1.15
       },
       {
         "id": "flower_alfalfa",
-        "icon": "T_Alfalfa_var02_Icon.webp",
+        "icon": "flower_alfalfa.webp",
         "size": 1.15
       },
       {
         "id": "flower_batflower",
-        "icon": "T_Bat_Flower_01_INV_state_Flower_Icon.webp",
+        "icon": "flower_batflower.webp",
         "size": 1.15
       },
       {
         "id": "flower_californianpoppy",
-        "icon": "T_Californian_Poppy_Var3_Icon.webp",
+        "icon": "flower_californianpoppy.webp",
         "size": 1.15
       },
       {
         "id": "flower_campion",
-        "icon": "T_Bladder_Campion_Var05_Icon.webp",
+        "icon": "flower_campion.webp",
         "size": 1.15
       },
       {
         "id": "flower_crane",
-        "icon": "T_Crane_Flower_Var08_Icon.webp",
+        "icon": "flower_crane.webp",
         "size": 1.15
       },
       {
         "id": "flower_daisy",
-        "icon": "T_Daisy_V1_Icon.webp",
+        "icon": "flower_daisy.webp",
         "size": 1.15
       },
       {
         "id": "flower_dandelion",
-        "icon": "T_Dandelion_02_Icon.webp",
+        "icon": "flower_dandelion.webp",
         "size": 1.15
       },
       {
         "id": "flower_datura",
-        "icon": "T_Datura_INV_state_Fruit_Icon.webp",
+        "icon": "flower_datura.webp",
         "size": 1.15
       },
       {
         "id": "flower_deadly_nightshade",
-        "icon": "T_Nightshade_Small_01_INV_state_Fruit_Icon.webp",
+        "icon": "flower_deadly_nightshade.webp",
         "size": 1.15
       },
       {
         "id": "flower_highmallow",
-        "icon": "T_High_Mallow_var2_Icon.webp",
+        "icon": "flower_highmallow.webp",
         "size": 1.15
       },
       {
         "id": "flower_lavender",
-        "icon": "T_Lavender_01_Icon.webp",
+        "icon": "flower_lavender.webp",
         "size": 1.15
       },
       {
         "id": "flower_loios_tears",
-        "icon": "T_Purpletop_Vervain_01_Icon.webp",
+        "icon": "flower_loios_tears.webp",
         "size": 1.15
       },
       {
         "id": "flower_pasque",
-        "icon": "T_Pasque_Flower_Var06_Icon.webp",
+        "icon": "flower_pasque.webp",
         "size": 1.15
       },
       {
         "id": "flower_periwinkle",
-        "icon": "T_Periwinkle_V1_Icon.webp",
+        "icon": "flower_periwinkle.webp",
         "size": 1.15
       },
       {
         "id": "flower_plantago",
-        "icon": "T_Plantago_var1_Icon.webp",
+        "icon": "flower_plantago.webp",
         "size": 1.15
       },
       {
         "id": "flower_rain_lily",
-        "icon": "T_Rain_Lily_Var2_Icon.webp",
+        "icon": "flower_rain_lily.webp",
         "size": 1.15
       },
       {
         "id": "flower_redpoppy",
-        "icon": "T_Red_Poppy_Icon.webp",
+        "icon": "flower_redpoppy.webp",
         "size": 1.15
       },
       {
         "id": "flower_soapwort",
-        "icon": "T_Soapwort_v1_Icon.webp",
+        "icon": "flower_soapwort.webp",
         "size": 1.15
       },
       {
         "id": "flower_tansy",
-        "icon": "T_Tansy_var2_Icon.webp",
+        "icon": "flower_tansy.webp",
         "size": 1.15
       },
       {
         "id": "flower_wolfsbane",
-        "icon": "T_Wolfsbane_M_02_INV_state_Leaves_Icon.webp",
+        "icon": "flower_wolfsbane.webp",
         "size": 1.15
       },
       {
         "id": "fruit_apple_red",
-        "icon": "T_Red_Apple_INV_state_Icon.webp",
+        "icon": "fruit_apple_red.webp",
         "size": 1.15
       },
       {
         "id": "grass_barley",
-        "icon": "T_Barley_01_Grain_INV_state_Icon.webp",
+        "icon": "grass_barley.webp",
         "size": 1.15
       },
       {
         "id": "grass_catgrass",
-        "icon": "T_Catgrass_Var01_Icon_Grain.webp",
+        "icon": "grass_catgrass.webp",
         "size": 1.15
       },
       {
         "id": "grass_cotton",
-        "icon": "T_Cotton_Var09_Icon.webp",
+        "icon": "grass_cotton.webp",
         "size": 1.15
       },
       {
         "id": "grass_flax",
-        "icon": "T_Flax_01_Icon.webp",
+        "icon": "grass_flax.webp",
         "size": 1.15
       },
       {
         "id": "grass_hemp",
-        "icon": "T_Hemp_01_Icon.webp",
+        "icon": "grass_hemp.webp",
         "size": 1.15
       },
       {
         "id": "grass_oat",
-        "icon": "T_Oat_01_Icon.webp",
+        "icon": "grass_oat.webp",
         "size": 1.15
       },
       {
         "id": "grass_reeds",
-        "icon": "T_Reeds_02_Icon.webp",
+        "icon": "grass_reeds.webp",
         "size": 1.15
       },
       {
         "id": "grass_rye",
-        "icon": "T_Rye_03_Icon.webp",
+        "icon": "grass_rye.webp",
         "size": 1.15
       },
       {
         "id": "grass_sugarcane",
-        "icon": "T_Sugarcane_03_INV_state_Icon.webp",
+        "icon": "grass_sugarcane.webp",
         "size": 1.15
       },
       {
         "id": "grass_wheat",
-        "icon": "T_Wheat_V2_Icon.webp",
+        "icon": "grass_wheat.webp",
         "size": 1.15
       },
       {
         "id": "herb_angelica",
-        "icon": "T_Angelica_01_Icon.webp",
+        "icon": "herb_angelica.webp",
         "size": 1.15
       },
       {
         "id": "herb_chives",
-        "icon": "T_Chives_Var07_Icon.webp",
+        "icon": "herb_chives.webp",
         "size": 1.15
       },
       {
         "id": "herb_crown_beard",
-        "icon": "T_Crownbeard_03_Icon.webp",
+        "icon": "herb_crown_beard.webp",
         "size": 1.15
       },
       {
         "id": "herb_fennel",
-        "icon": "T_Fennel_01_Icon.webp",
+        "icon": "herb_fennel.webp",
         "size": 1.15
       },
       {
         "id": "herb_garlic",
-        "icon": "T_Garlic_01_Icon.webp",
+        "icon": "herb_garlic.webp",
         "size": 1.15
       },
       {
         "id": "herb_lemongrass",
-        "icon": "T_Lemongrass_Var05_Icon.webp",
+        "icon": "herb_lemongrass.webp",
         "size": 1.15
       },
       {
         "id": "herb_lily",
-        "icon": "T_Lily_Of_The_Valley_Var02_Icon.webp",
+        "icon": "herb_lily.webp",
         "size": 1.15
       },
       {
         "id": "herb_meadowsweet",
-        "icon": "T_Meadowsweet_01_Icon.webp",
+        "icon": "herb_meadowsweet.webp",
         "size": 1.15
       },
       {
         "id": "herb_mustard",
-        "icon": "T_Mustard_Var3_Icon.webp",
+        "icon": "herb_mustard.webp",
         "size": 1.15
       },
       {
         "id": "herb_parsley",
-        "icon": "T_Parsley_01_Icon.webp",
+        "icon": "herb_parsley.webp",
         "size": 1.15
       },
       {
         "id": "herb_rosemary",
-        "icon": "T_Rosemary_Var01_Icon.webp",
+        "icon": "herb_rosemary.webp",
         "size": 1.15
       },
       {
         "id": "herb_sage",
-        "icon": "T_Sage_V1_Icon.webp",
+        "icon": "herb_sage.webp",
         "size": 1.15
       },
       {
         "id": "herb_sowthistle",
-        "icon": "T_Sow_Thistle_V4_Icon.webp",
+        "icon": "herb_sowthistle.webp",
         "size": 1.15
       },
       {
         "id": "herb_thyme",
-        "icon": "T_Thyme_Var07_Icon.webp",
+        "icon": "herb_thyme.webp",
         "size": 1.15
       },
       {
         "id": "herb_watercress",
-        "icon": "T_WaterCress_Var02_Icon.webp",
+        "icon": "herb_watercress.webp",
         "size": 1.15
       },
       {
         "id": "hops",
-        "icon": "T_Icon_Hops.webp",
+        "icon": "hops.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_amanitaregalis",
-        "icon": "T_Amanita_Regalis_06_Icon.webp",
+        "icon": "mushroom_amanitaregalis.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_berserker",
-        "icon": "T_Berserker_02_Icon.webp",
+        "icon": "mushroom_berserker.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_chanterelle",
-        "icon": "T_Chanterelli_11_Icon.webp",
+        "icon": "mushroom_chanterelle.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_chlorine",
-        "icon": "T_Chlorine_Lepidella_04_Icon.webp",
+        "icon": "mushroom_chlorine.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_dapperling",
-        "icon": "T_Dapperling_01_Icon.webp",
+        "icon": "mushroom_dapperling.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_death_cap",
-        "icon": "T_Death_Cap_01_Icon.webp",
+        "icon": "mushroom_death_cap.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_divine",
-        "icon": "T_Cremini_01_Icon.webp",
+        "icon": "mushroom_divine.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_enoki",
-        "icon": "T_Enoki_01_Icon.webp",
+        "icon": "mushroom_enoki.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_fools_webcap",
-        "icon": "T_Fools_Webcap_01_Icon.webp",
+        "icon": "mushroom_fools_webcap.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_morels",
-        "icon": "T_Morel_01_Icon.webp",
+        "icon": "mushroom_morels.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_oyster_mushrooms",
-        "icon": "T_Oyster_Mushroom_01_Icon.webp",
+        "icon": "mushroom_oyster_mushrooms.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_pennybun",
-        "icon": "T_Penny_Bun_01_Icon.webp",
+        "icon": "mushroom_pennybun.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_porcini",
-        "icon": "T_Porcini_01_Icon.webp",
+        "icon": "mushroom_porcini.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_skullcap",
-        "icon": "T_Galerina_Marginata_01_Icon.webp",
+        "icon": "mushroom_skullcap.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_stinkhorn",
-        "icon": "T_Elegant_Stinkhorn_01_Icon.webp",
+        "icon": "mushroom_stinkhorn.webp",
         "size": 1.15
       },
       {
         "id": "mushroom_trumpets",
-        "icon": "T_Black_Trumpet_01_Icon.webp",
+        "icon": "mushroom_trumpets.webp",
         "size": 1.15
       },
       {
         "id": "onion_red",
-        "icon": "T_Onion_Red_Icon.webp",
+        "icon": "onion_red.webp",
         "size": 0.9
       },
       {
         "id": "onion_yellow",
-        "icon": "T_Onion_Yellow_Icon.webp",
+        "icon": "onion_yellow.webp",
         "size": 0.9
       },
       {
         "id": "tree_branch",
-        "icon": "T_Branch_01_INV_state_Pile_Icon.webp",
+        "icon": "tree_branch.webp",
         "size": 1.15
       },
       {
         "id": "flint_stones",
-        "icon": "T_Flint_04_Icon.webp",
+        "icon": "flint_stones.webp",
         "size": 1.15
       },
       {
         "id": "gneiss_stones",
-        "icon": "T_Gneiss_02_Icon.webp",
+        "icon": "gneiss_stones.webp",
         "size": 1.15
       },
       {
         "id": "granite_stones",
-        "icon": "T_Granite_01_Icon.webp",
+        "icon": "granite_stones.webp",
         "size": 1.15
       },
       {
         "id": "lime_stone_stones",
-        "icon": "T_Limestone_01_Icon.webp",
+        "icon": "lime_stone_stones.webp",
         "size": 1.15
       },
       {
         "id": "volcanic_rock_stones",
-        "icon": "T_Pumice_Icon.webp",
+        "icon": "volcanic_rock_stones.webp",
         "size": 1.15
       }
     ]
@@ -545,35 +545,35 @@
     "values": [
       {
         "id": "copper_deposit",
-        "icon": "ore_faithtoken.webp"
+        "icon": "copper_deposit.webp"
       },
       {
         "id": "gneiss_deposit",
-        "icon": "T_Gneiss_02_Icon_1.webp"
+        "icon": "gneiss_deposit.webp"
       },
       {
         "id": "granite_deposit",
-        "icon": "T_Granite_01_Icon_1.webp"
+        "icon": "granite_deposit.webp"
       },
       {
         "id": "iron_deposit",
-        "icon": "ore_faithtoken_1.webp"
+        "icon": "iron_deposit.webp"
       },
       {
         "id": "iron_deposit_impure",
-        "icon": "T_UI_item_material_iron_bar.webp"
+        "icon": "iron_deposit_impure.webp"
       },
       {
         "id": "iron_deposit_pure",
-        "icon": "ore_faithtoken_2.webp"
+        "icon": "iron_deposit_pure.webp"
       },
       {
         "id": "limestone_deposit",
-        "icon": "ore_faithtoken_3.webp"
+        "icon": "limestone_deposit.webp"
       },
       {
         "id": "tin_deposit",
-        "icon": "ore_faithtoken_4.webp"
+        "icon": "tin_deposit.webp"
       }
     ]
   },
@@ -584,147 +584,147 @@
     "values": [
       {
         "id": "animal_badger_t2",
-        "icon": "badger_caro-asercion.webp"
+        "icon": "animal_badger_t2.webp"
       },
       {
         "id": "animal_bear_t18",
-        "icon": "bear-face_sparker.webp"
+        "icon": "animal_bear_t18.webp"
       },
       {
         "id": "animal_bear_t24",
-        "icon": "animal-hide_delapouite.webp"
+        "icon": "animal_bear_t24.webp"
       },
       {
         "id": "animal_bear_t32",
-        "icon": "bear-head_delapouite.webp"
+        "icon": "animal_bear_t32.webp"
       },
       {
         "id": "animal_boar_t12",
-        "icon": "animal-hide_delapouite_1.webp"
+        "icon": "animal_boar_t12.webp"
       },
       {
         "id": "animal_boar_t3",
-        "icon": "boar_caro-asercion.webp"
+        "icon": "animal_boar_t3.webp"
       },
       {
         "id": "animal_boar_t3",
-        "icon": "boar_caro-asercion_1.webp"
+        "icon": "animal_boar_t3.webp"
       },
       {
         "id": "animal_boar_t5",
-        "icon": "boar_caro-asercion_2.webp"
+        "icon": "animal_boar_t5.webp"
       },
       {
         "id": "animal_boar_t5",
-        "icon": "boar_caro-asercion_3.webp"
+        "icon": "animal_boar_t5.webp"
       },
       {
         "id": "animal_deer_stag_t3",
-        "icon": "animal-hide_delapouite_2.webp"
+        "icon": "animal_deer_stag_t3.webp"
       },
       {
         "id": "animal_deer_t2",
-        "icon": "deer_caro-asercion.webp"
+        "icon": "animal_deer_t2.webp"
       },
       {
         "id": "animal_deer_t2",
-        "icon": "deer_caro-asercion_1.webp"
+        "icon": "animal_deer_t2.webp"
       },
       {
         "id": "animal_fox_t1",
-        "icon": "fox-head_lorc.webp"
+        "icon": "animal_fox_t1.webp"
       },
       {
         "id": "animal_frog_t1",
-        "icon": "animal-hide_delapouite_3.webp"
+        "icon": "animal_frog_t1.webp"
       },
       {
         "id": "animal_lizard_t1",
-        "icon": "animal-hide_delapouite_4.webp"
+        "icon": "animal_lizard_t1.webp"
       },
       {
         "id": "animal_rabbit_t1",
-        "icon": "rabbit-head_delapouite.webp"
+        "icon": "animal_rabbit_t1.webp"
       },
       {
         "id": "animal_wolf_t10",
-        "icon": "hound_lorc.webp"
+        "icon": "animal_wolf_t10.webp"
       },
       {
         "id": "animal_wolf_t16",
-        "icon": "animal-hide_delapouite_5.webp"
+        "icon": "animal_wolf_t16.webp"
       },
       {
         "id": "animal_wolf_t6",
-        "icon": "wolf-head_lorc.webp"
+        "icon": "animal_wolf_t6.webp"
       },
       {
         "id": "animal_wolf_t6",
-        "icon": "wolf-head_lorc_1.webp"
+        "icon": "animal_wolf_t6.webp"
       },
       {
         "id": "cor_boar_t16",
-        "icon": "animal-hide_delapouite_6.webp"
+        "icon": "cor_boar_t16.webp"
       },
       {
         "id": "cor_boar_t30",
-        "icon": "animal-hide_delapouite_7.webp"
+        "icon": "cor_boar_t30.webp"
       },
       {
         "id": "cor_boar_t42",
-        "icon": "animal-hide_delapouite_8.webp"
+        "icon": "cor_boar_t42.webp"
       },
       {
         "id": "cor_wolf_t42",
-        "icon": "wolf-head_lorc_2.webp"
+        "icon": "cor_wolf_t42.webp"
       },
       {
         "id": "demon_duke",
-        "icon": "daemon-skull_lorc.webp"
+        "icon": "demon_duke.webp"
       },
       {
         "id": "griffon",
-        "icon": "monster-grasp_lorc.webp"
+        "icon": "griffon.webp"
       },
       {
         "id": "inq_captain_t15_manic_torturer",
-        "icon": "animal-hide_delapouite_9.webp"
+        "icon": "inq_captain_t15_manic_torturer.webp"
       },
       {
         "id": "inq_caster_t16_entranced_exorcist",
-        "icon": "animal-hide_delapouite_10.webp"
+        "icon": "inq_caster_t16_entranced_exorcist.webp"
       },
       {
         "id": "inq_scout_t15_inquisitor_veritatis",
-        "icon": "animal-hide_delapouite_11.webp"
+        "icon": "inq_scout_t15_inquisitor_veritatis.webp"
       },
       {
         "id": "inq_tank_t15_inquisitor_pura",
-        "icon": "animal-hide_delapouite_12.webp"
+        "icon": "inq_tank_t15_inquisitor_pura.webp"
       },
       {
         "id": "inq_tank_t15_wary_ostiary",
-        "icon": "animal-hide_delapouite_13.webp"
+        "icon": "inq_tank_t15_wary_ostiary.webp"
       },
       {
         "id": "lostsoul_t16",
-        "icon": "animal-hide_delapouite_14.webp"
+        "icon": "lostsoul_t16.webp"
       },
       {
         "id": "lostsoul_t22",
-        "icon": "animal-hide_delapouite_15.webp"
+        "icon": "lostsoul_t22.webp"
       },
       {
         "id": "lostsoul_t32",
-        "icon": "animal-hide_delapouite_16.webp"
+        "icon": "lostsoul_t32.webp"
       },
       {
         "id": "willowisp_t90",
-        "icon": "fairy_delapouite.webp"
+        "icon": "willowisp_t90.webp"
       },
       {
         "id": "wyvern_adult_woods",
-        "icon": "monster-grasp_lorc_1.webp"
+        "icon": "wyvern_adult_woods.webp"
       }
     ]
   }

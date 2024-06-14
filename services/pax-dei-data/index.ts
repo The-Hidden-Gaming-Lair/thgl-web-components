@@ -12,8 +12,10 @@ import {
   addCircleToImage,
   addOutlineToImage,
   colorizeImage,
+  drawInCircleWithBorderColor,
   mergeImages,
   rotateImage,
+  saveIcon,
 } from "./lib/image.js";
 import {
   DA_ItemDataAsset,
@@ -31,12 +33,14 @@ import {
   PC_Activatable,
   NPCResources,
 } from "./types.js";
+import { initDirs } from "./lib/dirs.js";
 
 const CONTENT_DIR = "/mnt/c/dev/Pax Dei/Extracted/Data";
 const TEXTURE_DIR = "/mnt/c/dev/Pax Dei/Extracted/Texture";
 const TEMP_DIR =
   "/home/devleon/the-hidden-gaming-lair/services/pax-dei-data/out";
 const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/pax-dei";
+initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
 let nodes: {
   type: string;
@@ -160,12 +164,9 @@ const LARGE = {
   CAMERA_ANGLE: 0,
 };
 
-await saveIcon(
-  TEXTURE_DIR + "/PaxDei/Content/_PD/Game/UX/Map/T_MapPointer.png",
-  { rotate: 90 },
-  "player",
-  "player",
-);
+await saveIcon("/PaxDei/Content/_PD/Game/UX/Map/T_MapPointer.png", "player", {
+  rotate: 90,
+});
 
 const SMALL = {
   ORTHOGRAPHIC_WIDTH: 409600,
@@ -312,12 +313,11 @@ for (const mapName of readDirSync(
       if (!icons[mapCellIcon.icon]) {
         const value = mapMarkerTypes[0].Rows[mapCellIcon.icon];
         icons[mapCellIcon.icon] = await saveIcon(
-          TEXTURE_DIR +
-            value.icon_14_79B580D74A39832FAFDC3AA545CFCB48.AssetPathName.replace(
-              "/Game",
-              "/PaxDei/Content",
-            ).split(".")[0] +
-            ".png",
+          value.icon_14_79B580D74A39832FAFDC3AA545CFCB48.AssetPathName.replace(
+            "/Game",
+            "/PaxDei/Content",
+          ).split(".")[0] + ".png",
+          mapCellIcon.icon,
         );
         const id = mapCellIcon.icon;
         const size = id === "minicamp" ? 2.5 : 1.5;
@@ -553,11 +553,9 @@ for (const gatherablesPath of gatherablesPaths) {
   if (!iconFilename) {
     if (id === "fruit_apple_red") {
       iconPath =
-        TEXTURE_DIR +
         "/PaxDei/Content/_PD/Environment/Nature/Resources/Fruit/Red_Apple/T_Red_Apple_INV_state_Icon.png";
     } else if (id === "hops") {
       iconPath =
-        TEXTURE_DIR +
         "/PaxDei/Content/_PD/Environment/Props/Economy/CraftingProducts/BreadandDrinkProducts/T_Icon_Hops.png";
     } else {
       console.log("No icon for", id, iconFilenames, resourcePartName);
@@ -565,7 +563,7 @@ for (const gatherablesPath of gatherablesPaths) {
     }
   } else {
     iconPath = (resourceFolder + "/" + iconFilename)
-      .replace(CONTENT_DIR, TEXTURE_DIR)
+      .replace(CONTENT_DIR, "")
       .replace(".json", ".png");
   }
   let size = 1.15;
@@ -589,7 +587,12 @@ for (const gatherablesPath of gatherablesPaths) {
   filter = filters.find((f) => f.group === category)!;
   filter.values.push({
     id,
-    icon: await saveIcon(iconPath, { outline: true }, id),
+    icon: await saveIcon(iconPath, id, {
+      glowing: true,
+      color: "#fff",
+      width: 64,
+      height: 64,
+    }),
     size: size,
   });
 }
@@ -686,15 +689,12 @@ for (const mineablesPath of mineablesPaths) {
   if (!iconFilename) {
     if (id === "gneiss_deposit") {
       iconPath =
-        TEXTURE_DIR +
         "/PaxDei/Content/_PD/Environment/Nature/Resources/GatherableDebris/Gneiss/T_Gneiss_02_Icon.png";
     } else if (id === "granite_deposit") {
       iconPath =
-        TEXTURE_DIR +
         "/PaxDei/Content/_PD/Environment/Nature/Resources/GatherableDebris/Granite/T_Granite_01_Icon.png";
     } else if (id === "iron_deposit_impure") {
       iconPath =
-        TEXTURE_DIR +
         "/PaxDei/Content/_PD/UX/Inventory/Icons/NewIcons/T_UI_item_material_iron_bar.png";
     } else {
       console.log("No icon for", id, mineablesPath);
@@ -702,7 +702,7 @@ for (const mineablesPath of mineablesPaths) {
     }
   } else {
     iconPath = (resourceFolder + "/" + iconFilename)
-      .replace(CONTENT_DIR, TEXTURE_DIR)
+      .replace(CONTENT_DIR, "")
       .replace(".json", ".png");
   }
 
@@ -711,7 +711,7 @@ for (const mineablesPath of mineablesPaths) {
   }
   mineables.values.push({
     id,
-    icon: await saveIcon(iconPath, {}, id),
+    icon: await saveIcon(iconPath, id),
   });
 }
 
@@ -896,7 +896,10 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
   filter = filters.find((f) => f.group === category)!;
   filter.values.push({
     id,
-    icon: await saveIcon(iconPath, {}, id),
+    icon: await saveIcon(iconPath, id, {
+      border: true,
+      color: "#aaa",
+    }),
   });
 }
 
@@ -999,58 +1002,6 @@ writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 
 console.log("Done");
-
-async function saveIcon(
-  assetPath: string,
-  props: { color?: string; outline?: boolean; rotate?: number } = {},
-  name: string = "",
-  fileName?: string,
-) {
-  const targetFileName =
-    fileName || assetPath.split("/").at(-1)?.split(".")[0]!;
-  const originalID = targetFileName + (props.color ? `_${props.color}` : "");
-  let id = originalID;
-  let i = 1;
-  while (savedIcons.includes(id)) {
-    id = originalID + "_" + i++;
-  }
-  if (props.rotate) {
-    const canvas = await rotateImage(assetPath, props.rotate);
-    saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${id}.png -o ${OUT_DIR}/icons/${id}.webp -quiet`;
-  } else if (props.outline) {
-    // console.log("Saving icon", id, assetPath, color);
-    const canvas = await addOutlineToImage(assetPath);
-    saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    if (originalID !== id) {
-      const randomColor = uniqolor(name).color;
-      const canvas = await colorizeImage(TEMP_DIR + `/${id}.png`, randomColor);
-      saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    }
-    await $`cwebp ${TEMP_DIR}/${id}.png -o ${OUT_DIR}/icons/${id}.webp -quiet`;
-  } else if (props.color) {
-    // console.log("Saving icon", id, assetPath, color);
-    const canvas = await addCircleToImage(assetPath, props.color);
-    saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    if (originalID !== id) {
-      const randomColor = uniqolor(name).color;
-      const canvas = await colorizeImage(TEMP_DIR + `/${id}.png`, randomColor);
-      saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    }
-    await $`cwebp ${TEMP_DIR}/${id}.png -o ${OUT_DIR}/icons/${id}.webp -quiet`;
-  } else if (originalID !== id) {
-    const randomColor = uniqolor(name).color;
-    const canvas = await colorizeImage(assetPath, randomColor);
-    saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR + `/${id}.png`} -o ${OUT_DIR}/icons/${id}.webp -quiet`;
-  } else {
-    // console.log("Saving icon", id, assetPath);
-    await $`cwebp ${assetPath} -o ${OUT_DIR}/icons/${id}.webp -quiet`;
-  }
-
-  savedIcons.push(id);
-  return `${id}.webp`;
-}
 
 function toRadians(degrees: number): number {
   return (degrees * Math.PI) / 180;
