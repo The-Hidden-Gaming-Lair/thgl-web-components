@@ -42,7 +42,7 @@ export async function saveIcon(
     const canvas = await rotateImage(filePath, props.rotate);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
   } else {
-    if (resize) {
+    if (props.resize) {
       await $`cwebp -resize 64 64 ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
     } else {
       await $`cwebp ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
@@ -51,7 +51,7 @@ export async function saveIcon(
     return `${name}.webp`;
   }
 
-  if (resize) {
+  if (props.resize) {
     await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else {
     await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
