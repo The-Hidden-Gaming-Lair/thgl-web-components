@@ -266,7 +266,7 @@
   "hops": "Hops",
   "hops_desc": "<p><span style=\"color:#bdca58\">Winemaking And Brewing</span> (Hops)</p><p>Respawn Timer: 30m</p><p>Spawn Range: 3.5m</p><p>Spawn Count: 4</p>",
   "mushroom_amanitaregalis": "Amanita Regalis",
-  "mushroom_amanitaregalis_desc": "<p>Respawn Timer: 30m</p><p>Spawn Range: 3.5m</p><p>Spawn Count: 4</p>",
+  "mushroom_amanitaregalis_desc": "<p><span style=\"color:#4e48c7\">Consumable</span> (Amanita Regalis)</p><p>Respawn Timer: 30m</p><p>Spawn Range: 3.5m</p><p>Spawn Count: 4</p>",
   "mushroom_berserker": "Berserker Mushroom",
   "mushroom_berserker_desc": "<p><span style=\"color:#4e48c7\">Consumable</span> (Berserker)</p><p>Respawn Timer: 30m</p><p>Spawn Range: 2m</p><p>Spawn Count: 6</p>",
   "mushroom_chanterelle": "Chanterelle",

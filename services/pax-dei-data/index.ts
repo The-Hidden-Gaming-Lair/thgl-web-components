@@ -402,7 +402,8 @@ for (const gatherablesPath of gatherablesPaths) {
     .replace("grass_", "");
   if (
     (type.includes("mushroom") || type.includes("berry")) &&
-    type.endsWith("s")
+    type.endsWith("s") &&
+    !type.endsWith("is")
   ) {
     if (type.endsWith("ies")) type = type.slice(0, -3) + "y";
     else {

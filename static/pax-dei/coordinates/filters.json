@@ -1245,6 +1245,11 @@
         "size": 1.15
       },
       {
+        "id": "mushroom_amanitaregalis",
+        "icon": "mushroom_amanitaregalis.webp",
+        "size": 1.15
+      },
+      {
         "id": "mushroom_berserker",
         "icon": "mushroom_berserker.webp",
         "size": 1.15
@@ -1575,11 +1580,6 @@
       {
         "id": "herb_watercress",
         "icon": "herb_watercress.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_amanitaregalis",
-        "icon": "mushroom_amanitaregalis.webp",
         "size": 1.15
       },
       {
