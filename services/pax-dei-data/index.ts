@@ -590,8 +590,7 @@ for (const gatherablesPath of gatherablesPaths) {
     icon: await saveIcon(iconPath, id, {
       glowing: true,
       color: "#fff",
-      width: 64,
-      height: 64,
+      resize: true,
     }),
     size: size,
   });
@@ -711,7 +710,10 @@ for (const mineablesPath of mineablesPaths) {
   }
   mineables.values.push({
     id,
-    icon: await saveIcon(iconPath, id),
+    icon: await saveIcon(iconPath, id, {
+      color: uniqolor(id).color,
+      resize: true,
+    }),
   });
 }
 

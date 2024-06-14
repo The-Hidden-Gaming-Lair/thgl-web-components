@@ -15,8 +15,7 @@ export async function saveIcon(
     threshold?: number;
     glowing?: boolean;
     rotate?: number;
-    width?: number;
-    height?: number;
+    resize?: boolean;
   } = {},
 ) {
   let filePath = assetPath.startsWith("/home")
@@ -25,34 +24,39 @@ export async function saveIcon(
   if (savedIcons.includes(name)) {
     return `${name}.webp`;
   }
-  const resize =
-    props.width && props.height
-      ? ` -resize ${props.width} ${props.height}`
-      : "";
+  savedIcons.push(name);
+
   if (props.border && props.color) {
     const canvas = await drawInCircleWithBorderColor(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${resize} ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.circle && props.color) {
     const canvas = await addCircleToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${resize} ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.glowing && props.color) {
     const canvas = await addOutlineToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${resize} ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.color) {
     const canvas = await colorizeImage(filePath, props.color, props.threshold);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${resize} ${TEMP_DIR + `/${name}.png`} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.rotate) {
     const canvas = await rotateImage(filePath, props.rotate);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${resize} ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else {
-    await $`cwebp ${resize} ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    if (resize) {
+      await $`cwebp -resize 64 64 ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    } else {
+      await $`cwebp ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    }
+
+    return `${name}.webp`;
   }
-  savedIcons.push(name);
+
+  if (resize) {
+    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  } else {
+    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  }
+
   return `${name}.webp`;
 }
 
