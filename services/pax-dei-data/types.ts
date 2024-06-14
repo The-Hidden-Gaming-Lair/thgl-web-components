@@ -679,3 +679,22 @@ export type PC_Activatable = Array<{
     LocalizationDescriptionKey: string;
   };
 }>;
+
+export type NPCResources = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    NpcId: string;
+    interaction_radius: number;
+    ResourceName: string;
+    LootTableId: string;
+    SpawnRadius: number;
+    Instances: number;
+    MinNodeVolume: number;
+    MaxNodeVolume: number;
+    RespawnTimer: number;
+    IntID: number;
+    IsDev?: boolean;
+  };
+}>;

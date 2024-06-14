@@ -29,6 +29,7 @@ import {
   GlobalFilter,
   PD_Skills,
   PC_Activatable,
+  NPCResources,
 } from "./types.js";
 
 const CONTENT_DIR = "/mnt/c/dev/Pax Dei/Extracted/Data";
@@ -114,6 +115,7 @@ const enDict: Record<string, string> = {
   gateway: "Gateway",
   mineables: "Mineables",
   gatherables: "Gatherables",
+  npcs: "NPCs",
   // Berries: "Berries",
   // Flowers: "Flowers",
   // HerbsFlowersPotions: "Potions, Flowers & Herbs",
@@ -123,12 +125,12 @@ const enDict: Record<string, string> = {
   // Mushrooms_Cooking: "Cooking Mushrooms",
   // Mushrooms_Magic: "Magic Mushrooms",
   // GatherableDebris: "Debris",
-  CorruptAnimals: "Corrupt Animals",
-  Cult_of_Zeb: "Cult of Zeb",
-  LostSouls: "Lost Souls",
-  "Named CorruptAnimals": "Named Corrupt Animals",
-  "Named Cult_of_Zeb": "Named Cult of Zeb",
-  "Named LostSouls": "Named Lost Souls",
+  // CorruptAnimals: "Corrupt Animals",
+  // Cult_of_Zeb: "Cult of Zeb",
+  // LostSouls: "Lost Souls",
+  // "Named CorruptAnimals": "Named Corrupt Animals",
+  // "Named Cult_of_Zeb": "Named Cult of Zeb",
+  // "Named LostSouls": "Named Lost Souls",
 };
 const locations: (typeof filters)[number] = {
   group: "locations",
@@ -429,9 +431,6 @@ for (const gatherablesPath of gatherablesPaths) {
   for (const pdItem of pdItems.filter(
     (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
   )) {
-    // enDict[`${id}_desc`] +=
-    //   `<p>Loot: ${localisationEN[pdItem[0].Properties.LocalizationNameKey]}</p>`;
-
     for (const pdRecipe of pdRecipes.filter((r) =>
       r[0].Properties.ItemIngredients?.some((i) =>
         i.Key.includes(pdItem[0].Name),
@@ -494,6 +493,15 @@ for (const gatherablesPath of gatherablesPaths) {
     CONTENT_DIR +
       `/PaxDei/Content/_PD/Environment/Nature/Resources/DA_Resources/Gatherables/${file[0].Properties.VisualDataAsset}.json`,
   );
+
+  // if (
+  //   pdaResource[0].Properties.ResourceMesh.AssetPathName.includes(
+  //     "GatherableDebris",
+  //   )
+  // ) {
+  //   continue;
+  // }
+
   const category = "gatherables";
   // if (
   //   skills.includes("PD_skill_alchemy") &&
@@ -561,9 +569,7 @@ for (const gatherablesPath of gatherablesPaths) {
       .replace(".json", ".png");
   }
   let size = 1.15;
-  if (category === "locations") {
-    size = 2;
-  } else if (id.startsWith("onion_")) {
+  if (id.startsWith("onion_")) {
     size = 0.9;
   }
   let filter: (typeof filters)[number];
@@ -600,10 +606,63 @@ for (const mineablesPath of mineablesPaths) {
   }
 
   enDict[id] = localisationEN[file[0].Properties.LocalizationNameKey];
-  enDict[`${id}_desc`] =
-    localisationEN[file[0].Properties.LocalizationDescriptionKey];
+  enDict[`${id}_desc`] = "";
+
+  let type = id.replace("_deposit", "");
+
+  const skills: string[] = [];
+  for (const pdItem of pdItems.filter(
+    (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
+  )) {
+    for (const pdRecipe of pdRecipes.filter((r) =>
+      r[0].Properties.ItemIngredients?.some((i) =>
+        i.Key.includes(pdItem[0].Name),
+      ),
+    )) {
+      if (pdRecipe[0].Properties.IsDev) {
+        continue;
+      }
+      const skill =
+        pdRecipe[0].Properties.SkillRequired.ObjectName.split("'")[1];
+      if (skills.includes(skill)) {
+        continue;
+      }
+      skills.push(skill);
+      const globalFilter = globalFilters.find((f) => f.group === "skills")!;
+      if (!globalFilter.values.some((v) => v.id === skill)) {
+        globalFilter.values.push({ id: skill, defaultOn: true });
+
+        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+        enDict[skill] =
+          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
+      }
+      enDict[`${id}_desc`] +=
+        `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
+      // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
+    }
+  }
+
   enDict[`${id}_desc`] +=
-    `<br><br><b>Respawn Timer:</b> ${formatTimer(file[0].Properties.RespawnTimer)}`;
+    `<p>Respawn Timer: ${formatTimer(file[0].Properties.RespawnTimer)}</p>`;
+  enDict[`${id}_desc`] +=
+    `<p>Spawn Range: ${file[0].Properties.SpawnRadius / 100}m</p>`;
+  enDict[`${id}_desc`] += `<p>Spawn Count: ${file[0].Properties.Instances}</p>`;
+  // enDict[`${id}_desc`] +=
+  //   localisationEN[file[0].Properties.LocalizationDescriptionKey];
+  if (skills.length === 0) {
+    skills.push("_none");
+  }
+
+  if (!nodes.some((n) => n.type === id)) {
+    nodes.push({
+      type: id,
+      spawns: [],
+      data: { skills: [...new Set(skills)] },
+    });
+  } else {
+    const typeNodes = nodes.find((n) => n.type === id)!;
+    typeNodes.data = { skills: [...new Set(skills)] };
+  }
 
   const pdaResource = readJSON<PDAResourcesMineables>(
     CONTENT_DIR +
@@ -656,66 +715,135 @@ for (const mineablesPath of mineablesPaths) {
   });
 }
 
-const npcsPaths = readDirRecursive(
+const npcs = readDirRecursive(
   CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/NPCs",
+).map((p) => readJSON<NPCDataAssets>(p));
+const npcsResourcesPaths = readDirRecursive(
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/NPCResources",
 );
-for (const npcsPath of npcsPaths) {
-  const file = readJSON<NPCDataAssets>(npcsPath);
-  if (file[0].Type !== "NPCDataAsset") {
+for (const npcsResourcesPath of npcsResourcesPaths) {
+  const file = readJSON<NPCResources>(npcsResourcesPath);
+  const id = file[0].Properties.ResourceName;
+  if (file[0].Properties.IsDev) {
+    // console.log("Skipping IsDev", id);
     continue;
   }
-  let category = npcsPath.split("/").at(-2)!;
-  if (category === "CNameds" || category === "Nameds") {
-    category = "Named " + npcsPath.split("/").at(-3)!;
-  }
-
-  const id = file[0].Name;
-
-  if (file[0].Properties.display_name.LocalizedString.includes("DEV")) {
+  const npc = npcs.find((n) => n[0].Name.toLowerCase().endsWith(id));
+  if (!npc) {
+    console.log("No NPC for", id);
     continue;
   }
-  enDict[id] = file[0].Properties.display_name.LocalizedString.replace("a ", "")
+
+  if (npc[0].Properties.display_name.LocalizedString.includes("DEV")) {
+    continue;
+  }
+  // if (npc[0].Type !== "NPCDataAsset") {
+  //   continue;
+  // }
+
+  // const id = file[0].Name;
+
+  enDict[id] = npc[0].Properties.display_name.LocalizedString.replace("a ", "")
     .replace("an ", "")
     .replace(/\b\w/g, (c) => c.toUpperCase());
+  enDict[`${id}_desc`] = "";
 
-  if (file[0].Properties.Description) {
-    enDict[`${id}_desc`] =
-      file[0].Properties.Description.LocalizedString + "<br><br>";
-  } else {
-    enDict[`${id}_desc`] = "";
+  let type = id.replace("animal_", "").replace(/_t\d+/, "");
+  const skills: string[] = [];
+  for (const pdItem of pdItems.filter(
+    (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
+  )) {
+    for (const pdRecipe of pdRecipes.filter((r) =>
+      r[0].Properties.ItemIngredients?.some((i) =>
+        i.Key.includes(pdItem[0].Name),
+      ),
+    )) {
+      if (pdRecipe[0].Properties.IsDev) {
+        continue;
+      }
+      const skill =
+        pdRecipe[0].Properties.SkillRequired.ObjectName.split("'")[1];
+      if (skills.includes(skill)) {
+        continue;
+      }
+      skills.push(skill);
+      const globalFilter = globalFilters.find((f) => f.group === "skills")!;
+      if (!globalFilter.values.some((v) => v.id === skill)) {
+        globalFilter.values.push({ id: skill, defaultOn: true });
+
+        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+        enDict[skill] =
+          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
+      }
+      enDict[`${id}_desc`] +=
+        `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
+      // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
+    }
   }
-  enDict[`${id}_desc`] += `<b>Health:</b> ${file[0].Properties.MaxHealth}`;
 
-  const bpName = file[0].Properties.Blueprint.AssetPathName.split(".").at(-1)!;
+  enDict[`${id}_desc`] += `<p>Health: ${npc[0].Properties.MaxHealth}</p>`;
+
+  if (skills.length === 0) {
+    skills.push("_none");
+  }
+
+  // Temporary fix nodes
+  nodes = nodes.map((n) => {
+    if (n.type === npc[0].Name) {
+      return {
+        ...n,
+        type: id,
+      };
+    }
+    return n;
+  });
+
+  if (!nodes.some((n) => n.type === id)) {
+    nodes.push({
+      type: id,
+      spawns: [],
+      data: { skills: [...new Set(skills)] },
+    });
+  } else {
+    const typeNodes = nodes.find((n) => n.type === id)!;
+    typeNodes.data = { skills: [...new Set(skills)] };
+  }
+
+  const bpName = npc[0].Properties.Blueprint.AssetPathName.split(".").at(-1)!;
   typesIdMap[bpName] = id;
+
+  let category = npc[0].Properties.Blueprint.AssetPathName.split("/").at(-2)!;
+  if (category === "CNameds" || category === "Nameds") {
+    category = "Named " + npcsResourcesPath.split("/").at(-3)!;
+  }
 
   let iconPath;
   const iconSettings: {
     color?: string;
     outline?: boolean;
   } = {};
-  if (id === "PD_NPC_Animal_Badger_T2") {
+  if (npc[0].Name === "PD_NPC_Animal_Badger_T2") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/badger_caro-asercion.webp`;
-  } else if (id === "PD_NPC_Animal_Bear_T18") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Bear_T18") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/bear-face_sparker.webp`;
-  } else if (id === "PD_NPC_Animal_Bear_T32") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Bear_T32") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/bear-head_delapouite.webp`;
-  } else if (id === "PD_NPC_Animal_Boar_T3") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Boar_T3") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/boar_caro-asercion.webp`;
-  } else if (id === "PD_NPC_Animal_Boar_T5") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Boar_T5") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/boar_caro-asercion.webp`;
-  } else if (id === "PD_NPC_Animal_Fox_T1") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Fox_T1") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/fox-head_lorc.webp`;
-  } else if (id === "PD_NPC_Animal_Wolf_T10") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Wolf_T10") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/hound_lorc.webp`;
-  } else if (id === "PD_NPC_Animal_Rabbit_T1") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Rabbit_T1") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/rabbit-head_delapouite.webp`;
-  } else if (id === "PD_NPC_Animal_Wolf_T6") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Wolf_T6") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp`;
-  } else if (id === "PD_NPC_Cor_Wolf_T42") {
+  } else if (npc[0].Name === "PD_NPC_Cor_Wolf_T42") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp`;
     iconSettings.color = "lightgreen";
-  } else if (id === "PD_NPC_Animal_Deer_T2") {
+  } else if (npc[0].Name === "PD_NPC_Animal_Deer_T2") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/deer_caro-asercion.webp`;
   } else if (category === "Animals") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/animal-hide_delapouite.webp`;
@@ -754,6 +882,7 @@ for (const npcsPath of npcsPaths) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/animal-hide_delapouite.webp`;
   }
 
+  category = "npcs";
   let filter: (typeof filters)[number];
   if (!filters.find((f) => f.group === category)) {
     filter = {
@@ -820,30 +949,16 @@ if (Bun.env.NODES === "true") {
 nodes = nodes.filter(
   (n) => !["tree_branch", "flint_stones", "gneiss_stones"].includes(n.type),
 );
-filters = filters
-  .filter((n) => n.group !== "GatherableDebris")
-  .sort((a, b) => {
-    if (a.group === "locations") {
-      return -1;
-    }
-    if (b.group === "locations") {
-      return 1;
-    }
-    if (
-      gatherablesFilters.includes(a.group) &&
-      gatherablesFilters.includes(b.group)
-    ) {
-      return enDict[a.group]?.localeCompare(enDict[b.group]);
-    }
 
-    if (gatherablesFilters.includes(a.group)) {
-      return -1;
-    }
-    if (gatherablesFilters.includes(b.group)) {
-      return 1;
-    }
+const filtersOrder = ["locations", "gatherables", "mineables", "npcs"];
+filters = filters.sort((a, b) => {
+  const aIndex = filtersOrder.indexOf(a.group);
+  const bIndex = filtersOrder.indexOf(b.group);
+  if (aIndex === -1 && bIndex === -1) {
     return enDict[a.group]?.localeCompare(enDict[b.group]);
-  });
+  }
+  return aIndex - bIndex;
+});
 
 nodes.forEach((n) => {
   const minDistance = n.type.includes("_NPC_") ? 2000 : 100;

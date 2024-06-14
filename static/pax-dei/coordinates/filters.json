@@ -539,143 +539,6 @@
     ]
   },
   {
-    "group": "CorruptAnimals",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Cor_Bear_T54",
-        "icon": "animal-hide_delapouite_13.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T16",
-        "icon": "animal-hide_delapouite_14.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T30",
-        "icon": "animal-hide_delapouite_15.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T42",
-        "icon": "animal-hide_delapouite_16.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Wolf_T42",
-        "icon": "wolf-head_lorc_1.webp"
-      }
-    ]
-  },
-  {
-    "group": "Cult_of_Zeb",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Zeb_Doctor_T12",
-        "icon": "cultist_lorc.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T16",
-        "icon": "cultist_lorc_1.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T21",
-        "icon": "cultist_lorc_2.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T28",
-        "icon": "cultist_lorc_3.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T33",
-        "icon": "cultist_lorc_4.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T40",
-        "icon": "cultist_lorc_5.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T11",
-        "icon": "cultist_lorc_6.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T14",
-        "icon": "cultist_lorc_7.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T19",
-        "icon": "cultist_lorc_8.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T24",
-        "icon": "cultist_lorc_9.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T30",
-        "icon": "cultist_lorc_10.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42",
-        "icon": "cultist_lorc_11.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T24",
-        "icon": "cultist_lorc_12.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T38",
-        "icon": "cultist_lorc_13.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T10",
-        "icon": "cultist_lorc_14.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T16",
-        "icon": "cultist_lorc_15.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T18",
-        "icon": "cultist_lorc_16.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T22",
-        "icon": "cultist_lorc_17.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T27",
-        "icon": "cultist_lorc_18.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T31",
-        "icon": "cultist_lorc_19.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T39",
-        "icon": "cultist_lorc_20.webp"
-      }
-    ]
-  },
-  {
-    "group": "LostSouls",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_LostSoul_T16",
-        "icon": "soul-vessel_delapouite.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T22",
-        "icon": "soul-vessel_delapouite_1.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T32",
-        "icon": "soul-vessel_delapouite_2.webp"
-      }
-    ]
-  },
-  {
     "group": "mineables",
     "defaultOpen": false,
     "defaultOn": false,
@@ -715,990 +578,152 @@
     ]
   },
   {
-    "group": "Named CorruptAnimals",
+    "group": "npcs",
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
       {
-        "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
-        "icon": "animal-hide_delapouite_17.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
-        "icon": "animal-hide_delapouite_18.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
-        "icon": "animal-hide_delapouite_19.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T34_Bott_Carrier",
-        "icon": "animal-hide_delapouite_20.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T36_Aper_Alpha",
-        "icon": "animal-hide_delapouite_21.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T36_Blighted_Pet",
-        "icon": "animal-hide_delapouite_22.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T40_Bedlam",
-        "icon": "animal-hide_delapouite_23.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
-        "icon": "animal-hide_delapouite_24.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T40_Squalor",
-        "icon": "animal-hide_delapouite_25.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T50_Aper_Magnus",
-        "icon": "animal-hide_delapouite_26.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T50_Precious_Carrier",
-        "icon": "animal-hide_delapouite_27.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago",
-        "icon": "animal-hide_delapouite_28.webp"
-      },
-      {
-        "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
-        "icon": "animal-hide_delapouite_29.webp"
-      }
-    ]
-  },
-  {
-    "group": "Named Cult_of_Zeb",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
-        "icon": "cultist_lorc_21.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
-        "icon": "cultist_lorc_22.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
-        "icon": "cultist_lorc_23.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller",
-        "icon": "cultist_lorc_24.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T34_Servant_of_the_Pound",
-        "icon": "cultist_lorc_25.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T35_Priest_of_Zeb",
-        "icon": "cultist_lorc_26.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
-        "icon": "cultist_lorc_27.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T20_Hivetender",
-        "icon": "cultist_lorc_28.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
-        "icon": "cultist_lorc_29.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator",
-        "icon": "cultist_lorc_30.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer",
-        "icon": "cultist_lorc_31.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb",
-        "icon": "cultist_lorc_32.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber",
-        "icon": "cultist_lorc_33.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall",
-        "icon": "cultist_lorc_34.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist",
-        "icon": "cultist_lorc_35.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
-        "icon": "cultist_lorc_36.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host",
-        "icon": "cultist_lorc_37.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
-        "icon": "cultist_lorc_38.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
-        "icon": "cultist_lorc_39.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger",
-        "icon": "cultist_lorc_40.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
-        "icon": "cultist_lorc_41.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder",
-        "icon": "cultist_lorc_42.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T32_Hallboy",
-        "icon": "cultist_lorc_43.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
-        "icon": "cultist_lorc_44.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T34_Enthralled_Host",
-        "icon": "cultist_lorc_45.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
-        "icon": "cultist_lorc_46.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
-        "icon": "cultist_lorc_47.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T37_Swinish_Cultist",
-        "icon": "cultist_lorc_48.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T40_Spider",
-        "icon": "cultist_lorc_49.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette",
-        "icon": "cultist_lorc_50.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T42_The_Poisoner",
-        "icon": "cultist_lorc_51.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T42_Tick",
-        "icon": "cultist_lorc_52.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath",
-        "icon": "cultist_lorc_53.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants",
-        "icon": "cultist_lorc_54.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Dispencer",
-        "icon": "cultist_lorc_55.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
-        "icon": "cultist_lorc_56.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler",
-        "icon": "cultist_lorc_57.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T52_Ambolons_Serf",
-        "icon": "cultist_lorc_58.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet",
-        "icon": "cultist_lorc_59.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast",
-        "icon": "cultist_lorc_60.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan",
-        "icon": "cultist_lorc_61.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel",
-        "icon": "cultist_lorc_62.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Master_Gryllus",
-        "icon": "cultist_lorc_63.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Master_Phyrrhocoris",
-        "icon": "cultist_lorc_64.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Mistress_Elytra",
-        "icon": "cultist_lorc_65.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Mite",
-        "icon": "cultist_lorc_66.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Roach",
-        "icon": "cultist_lorc_67.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_Scudder_Apolline",
-        "icon": "cultist_lorc_68.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_The_Fete_Mistress",
-        "icon": "cultist_lorc_69.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T42_The_Temple_Butler",
-        "icon": "cultist_lorc_70.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
-        "icon": "cultist_lorc_71.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T46_Kabadas_Craving",
-        "icon": "cultist_lorc_72.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T47_Diralisens_Cutler",
-        "icon": "cultist_lorc_73.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy",
-        "icon": "cultist_lorc_74.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
-        "icon": "cultist_lorc_75.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T50_Force_Feeder_Oran",
-        "icon": "cultist_lorc_76.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
-        "icon": "cultist_lorc_77.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T50_Supplicant_Andrena",
-        "icon": "cultist_lorc_78.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T50_The_Roach_Tender",
-        "icon": "cultist_lorc_79.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T52_Licanens_Waft",
-        "icon": "cultist_lorc_80.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T52_Wicked_Liturgist",
-        "icon": "cultist_lorc_81.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy",
-        "icon": "cultist_lorc_82.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare",
-        "icon": "cultist_lorc_83.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T54_Supplicant_Danuria",
-        "icon": "cultist_lorc_84.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona",
-        "icon": "cultist_lorc_85.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T42_Master_Arcturus",
-        "icon": "cultist_lorc_86.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T42_Master_of_Fetes",
-        "icon": "cultist_lorc_87.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T42_Wolfmaster_Bon",
-        "icon": "cultist_lorc_88.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T48_Hivetender_Cordulia",
-        "icon": "cultist_lorc_89.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T48_Hivetender_Ladonia",
-        "icon": "cultist_lorc_90.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa",
-        "icon": "cultist_lorc_91.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master",
-        "icon": "cultist_lorc_92.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
-        "icon": "cultist_lorc_93.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T50_The_Imp_Feeder",
-        "icon": "cultist_lorc_94.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila",
-        "icon": "cultist_lorc_95.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
-        "icon": "cultist_lorc_96.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T40_Flea",
-        "icon": "cultist_lorc_97.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T40_Moth",
-        "icon": "cultist_lorc_98.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T40_Soaker_Sharice",
-        "icon": "cultist_lorc_99.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T40_Tanner_Margarida",
-        "icon": "cultist_lorc_100.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan",
-        "icon": "cultist_lorc_101.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T42_Skinner_Amabelle",
-        "icon": "cultist_lorc_102.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
-        "icon": "cultist_lorc_103.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T46_Orgosils_Favorite_Victim",
-        "icon": "cultist_lorc_104.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
-        "icon": "cultist_lorc_105.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist",
-        "icon": "cultist_lorc_106.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
-        "icon": "cultist_lorc_107.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T48_Webtender_Rhene",
-        "icon": "cultist_lorc_108.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker",
-        "icon": "cultist_lorc_109.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
-        "icon": "cultist_lorc_110.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T50_The_Will_of_Holastri",
-        "icon": "cultist_lorc_111.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow",
-        "icon": "cultist_lorc_112.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T52_Magalasts_Craving",
-        "icon": "cultist_lorc_113.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag",
-        "icon": "cultist_lorc_114.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire",
-        "icon": "cultist_lorc_115.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T54_Master_of_Flies",
-        "icon": "cultist_lorc_116.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T54_Master_of_Wax",
-        "icon": "cultist_lorc_117.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
-        "icon": "cultist_lorc_118.webp"
-      }
-    ]
-  },
-  {
-    "group": "Named LostSouls",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
-        "icon": "soul-vessel_delapouite_3.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Cruel_Visitant",
-        "icon": "soul-vessel_delapouite_4.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
-        "icon": "soul-vessel_delapouite_5.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Gloomy_Visitant",
-        "icon": "soul-vessel_delapouite_6.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
-        "icon": "soul-vessel_delapouite_7.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
-        "icon": "soul-vessel_delapouite_8.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
-        "icon": "soul-vessel_delapouite_9.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T34_Erratic_Visitation",
-        "icon": "soul-vessel_delapouite_10.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T34_Silent_Visitant",
-        "icon": "soul-vessel_delapouite_11.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T35_Fetid_Visitation",
-        "icon": "soul-vessel_delapouite_12.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T35_Vile_Visitant",
-        "icon": "soul-vessel_delapouite_13.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T36_Cold_Visitant",
-        "icon": "soul-vessel_delapouite_14.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T36_Intrusive_Visitant",
-        "icon": "soul-vessel_delapouite_15.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
-        "icon": "soul-vessel_delapouite_16.webp"
-      }
-    ]
-  },
-  {
-    "group": "Animals",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Animal_Badger_T2",
+        "id": "animal_badger_t2",
         "icon": "badger_caro-asercion.webp"
       },
       {
-        "id": "PD_NPC_Animal_Bear_T18",
+        "id": "animal_bear_t18",
         "icon": "bear-face_sparker.webp"
       },
       {
-        "id": "PD_NPC_Animal_Bear_T24",
+        "id": "animal_bear_t24",
         "icon": "animal-hide_delapouite.webp"
       },
       {
-        "id": "PD_NPC_Animal_Bear_T32",
+        "id": "animal_bear_t32",
         "icon": "bear-head_delapouite.webp"
       },
       {
-        "id": "PD_NPC_Animal_Boar_T12",
+        "id": "animal_boar_t12",
         "icon": "animal-hide_delapouite_1.webp"
       },
       {
-        "id": "PD_NPC_Animal_Boar_T3",
+        "id": "animal_boar_t3",
         "icon": "boar_caro-asercion.webp"
       },
       {
-        "id": "PD_NPC_Animal_Boar_T5",
+        "id": "animal_boar_t3",
         "icon": "boar_caro-asercion_1.webp"
       },
       {
-        "id": "PD_NPC_Animal_Deer_Stag_T3",
+        "id": "animal_boar_t5",
+        "icon": "boar_caro-asercion_2.webp"
+      },
+      {
+        "id": "animal_boar_t5",
+        "icon": "boar_caro-asercion_3.webp"
+      },
+      {
+        "id": "animal_deer_stag_t3",
         "icon": "animal-hide_delapouite_2.webp"
       },
       {
-        "id": "PD_NPC_Animal_Deer_T2",
+        "id": "animal_deer_t2",
         "icon": "deer_caro-asercion.webp"
       },
       {
-        "id": "PD_NPC_Animal_Fox_T1",
+        "id": "animal_deer_t2",
+        "icon": "deer_caro-asercion_1.webp"
+      },
+      {
+        "id": "animal_fox_t1",
         "icon": "fox-head_lorc.webp"
       },
       {
-        "id": "PD_NPC_Animal_Frog_T1",
+        "id": "animal_frog_t1",
         "icon": "animal-hide_delapouite_3.webp"
       },
       {
-        "id": "PD_NPC_Animal_Lizard_T1",
+        "id": "animal_lizard_t1",
         "icon": "animal-hide_delapouite_4.webp"
       },
       {
-        "id": "PD_NPC_Animal_Rabbit_T1",
+        "id": "animal_rabbit_t1",
         "icon": "rabbit-head_delapouite.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T10",
+        "id": "animal_wolf_t10",
         "icon": "hound_lorc.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T16",
+        "id": "animal_wolf_t16",
         "icon": "animal-hide_delapouite_5.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T6",
+        "id": "animal_wolf_t6",
         "icon": "wolf-head_lorc.webp"
-      }
-    ]
-  },
-  {
-    "group": "Named Animals",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
+      },
       {
-        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
+        "id": "animal_wolf_t6",
+        "icon": "wolf-head_lorc_1.webp"
+      },
+      {
+        "id": "cor_boar_t16",
         "icon": "animal-hide_delapouite_6.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
+        "id": "cor_boar_t30",
         "icon": "animal-hide_delapouite_7.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
+        "id": "cor_boar_t42",
         "icon": "animal-hide_delapouite_8.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
-        "icon": "animal-hide_delapouite_9.webp"
+        "id": "cor_wolf_t42",
+        "icon": "wolf-head_lorc_2.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
-        "icon": "animal-hide_delapouite_10.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
-        "icon": "animal-hide_delapouite_11.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T23_Night_Terror",
-        "icon": "animal-hide_delapouite_12.webp"
-      }
-    ]
-  },
-  {
-    "group": "Demons",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Demon_Duke",
+        "id": "demon_duke",
         "icon": "daemon-skull_lorc.webp"
       },
       {
-        "id": "PD_NPC_Demon_Hellion_T24",
-        "icon": "daemon-skull_lorc_1.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T30",
-        "icon": "daemon-skull_lorc_2.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42",
-        "icon": "daemon-skull_lorc_3.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T14",
-        "icon": "daemon-skull_lorc_4.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T21",
-        "icon": "daemon-skull_lorc_5.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T21_summon",
-        "icon": "daemon-skull_lorc_6.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T31",
-        "icon": "daemon-skull_lorc_7.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T35_summon",
-        "icon": "daemon-skull_lorc_8.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T41",
-        "icon": "daemon-skull_lorc_9.webp"
-      }
-    ]
-  },
-  {
-    "group": "Named Demons",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
-        "icon": "daemon-skull_lorc_10.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T40_Inspector_of_Excrements",
-        "icon": "daemon-skull_lorc_11.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T40_Servant_of_Dorak",
-        "icon": "daemon-skull_lorc_12.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42_Roaming_Glutton",
-        "icon": "daemon-skull_lorc_13.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42_Servant_of_Orgosil",
-        "icon": "daemon-skull_lorc_14.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
-        "icon": "daemon-skull_lorc_15.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
-        "icon": "daemon-skull_lorc_16.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T38_Eye_of_Zeb",
-        "icon": "daemon-skull_lorc_17.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T38_Shadow_of_Gluttony",
-        "icon": "daemon-skull_lorc_18.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
-        "icon": "daemon-skull_lorc_19.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Mound",
-        "icon": "daemon-skull_lorc_20.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia",
-        "icon": "daemon-skull_lorc_21.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42_Tainted_Glutton",
-        "icon": "daemon-skull_lorc_22.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42_The_Eye_of_Diralisen",
-        "icon": "daemon-skull_lorc_23.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
-        "icon": "daemon-skull_lorc_24.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
-        "icon": "daemon-skull_lorc_25.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T52_Bulimix",
-        "icon": "daemon-skull_lorc_26.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T52_Hyperphagix",
-        "icon": "daemon-skull_lorc_27.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
-        "icon": "daemon-skull_lorc_28.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
-        "icon": "daemon-skull_lorc_29.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T54_The_Lords_Emmissary",
-        "icon": "daemon-skull_lorc_30.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T42_Doraks_Valet",
-        "icon": "daemon-skull_lorc_31.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T42_The_Eye_of_Pellipis",
-        "icon": "daemon-skull_lorc_32.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Lycanen",
-        "icon": "daemon-skull_lorc_33.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
-        "icon": "daemon-skull_lorc_34.webp"
-      }
-    ]
-  },
-  {
-    "group": "Fey",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Willowisp_T90",
-        "icon": "fairy_delapouite.webp"
-      }
-    ]
-  },
-  {
-    "group": "Inquisitors",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Inq_Captain_T10",
-        "icon": "templar-shield_delapouite.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T16",
-        "icon": "templar-shield_delapouite_1.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T22",
-        "icon": "templar-shield_delapouite_2.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T15",
-        "icon": "templar-shield_delapouite_3.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T21",
-        "icon": "templar-shield_delapouite_4.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T8",
-        "icon": "templar-shield_delapouite_5.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T12",
-        "icon": "templar-shield_delapouite_6.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T18",
-        "icon": "templar-shield_delapouite_7.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T7",
-        "icon": "templar-shield_delapouite_8.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T10",
-        "icon": "templar-shield_delapouite_9.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T16",
-        "icon": "templar-shield_delapouite_10.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T6",
-        "icon": "templar-shield_delapouite_11.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T13",
-        "icon": "templar-shield_delapouite_12.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T19",
-        "icon": "templar-shield_delapouite_13.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T9",
-        "icon": "templar-shield_delapouite_14.webp"
-      }
-    ]
-  },
-  {
-    "group": "Named Inquisitors",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Inq_Captain_T15_Manic_Torturer",
-        "icon": "templar-shield_delapouite_15.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator",
-        "icon": "templar-shield_delapouite_16.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "templar-shield_delapouite_17.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
-        "icon": "templar-shield_delapouite_18.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T27_Attentive_Torturer",
-        "icon": "templar-shield_delapouite_19.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "templar-shield_delapouite_20.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
-        "icon": "templar-shield_delapouite_21.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
-        "icon": "templar-shield_delapouite_22.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T18_Candle_Holder",
-        "icon": "templar-shield_delapouite_23.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T18_Canon_Regular",
-        "icon": "templar-shield_delapouite_24.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T18_Discalced_Cantor",
-        "icon": "templar-shield_delapouite_25.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T27_Lector_illuminare",
-        "icon": "templar-shield_delapouite_26.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",
-        "icon": "templar-shield_delapouite_27.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox",
-        "icon": "templar-shield_delapouite_28.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo",
-        "icon": "templar-shield_delapouite_29.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T17_Lector_secretorum",
-        "icon": "templar-shield_delapouite_30.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
-        "icon": "templar-shield_delapouite_31.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
-        "icon": "templar-shield_delapouite_32.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "templar-shield_delapouite_33.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
-        "icon": "templar-shield_delapouite_34.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
-        "icon": "templar-shield_delapouite_35.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
-        "icon": "templar-shield_delapouite_36.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
-        "icon": "templar-shield_delapouite_37.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests",
-        "icon": "templar-shield_delapouite_38.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias",
-        "icon": "templar-shield_delapouite_39.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin",
-        "icon": "templar-shield_delapouite_40.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
-        "icon": "templar-shield_delapouite_41.webp"
-      }
-    ]
-  },
-  {
-    "group": "Monsters",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Griffon",
+        "id": "griffon",
         "icon": "monster-grasp_lorc.webp"
       },
       {
-        "id": "PD_NPC_Wyvern_Adult_Woods",
+        "id": "inq_captain_t15_manic_torturer",
+        "icon": "animal-hide_delapouite_9.webp"
+      },
+      {
+        "id": "inq_caster_t16_entranced_exorcist",
+        "icon": "animal-hide_delapouite_10.webp"
+      },
+      {
+        "id": "inq_scout_t15_inquisitor_veritatis",
+        "icon": "animal-hide_delapouite_11.webp"
+      },
+      {
+        "id": "inq_tank_t15_inquisitor_pura",
+        "icon": "animal-hide_delapouite_12.webp"
+      },
+      {
+        "id": "inq_tank_t15_wary_ostiary",
+        "icon": "animal-hide_delapouite_13.webp"
+      },
+      {
+        "id": "lostsoul_t16",
+        "icon": "animal-hide_delapouite_14.webp"
+      },
+      {
+        "id": "lostsoul_t22",
+        "icon": "animal-hide_delapouite_15.webp"
+      },
+      {
+        "id": "lostsoul_t32",
+        "icon": "animal-hide_delapouite_16.webp"
+      },
+      {
+        "id": "willowisp_t90",
+        "icon": "fairy_delapouite.webp"
+      },
+      {
+        "id": "wyvern_adult_woods",
         "icon": "monster-grasp_lorc_1.webp"
       }
     ]
