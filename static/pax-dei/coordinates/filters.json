@@ -122,11 +122,6 @@
         "size": 1.15
       },
       {
-        "id": "berry_cloudberry",
-        "icon": "berry_cloudberry.webp",
-        "size": 1.15
-      },
-      {
         "id": "berry_elderberries",
         "icon": "berry_elderberries.webp",
         "size": 1.15
@@ -307,11 +302,6 @@
         "size": 1.15
       },
       {
-        "id": "grass_hemp",
-        "icon": "grass_hemp.webp",
-        "size": 1.15
-      },
-      {
         "id": "grass_oat",
         "icon": "grass_oat.webp",
         "size": 1.15
@@ -324,11 +314,6 @@
       {
         "id": "grass_rye",
         "icon": "grass_rye.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_sugarcane",
-        "icon": "grass_sugarcane.webp",
         "size": 1.15
       },
       {
@@ -359,11 +344,6 @@
       {
         "id": "herb_garlic",
         "icon": "herb_garlic.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_lemongrass",
-        "icon": "herb_lemongrass.webp",
         "size": 1.15
       },
       {
@@ -424,11 +404,6 @@
       {
         "id": "mushroom_berserker",
         "icon": "mushroom_berserker.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_chanterelle",
-        "icon": "mushroom_chanterelle.webp",
         "size": 1.15
       },
       {
@@ -507,21 +482,6 @@
         "size": 0.9
       },
       {
-        "id": "tree_branch",
-        "icon": "tree_branch.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flint_stones",
-        "icon": "flint_stones.webp",
-        "size": 1.15
-      },
-      {
-        "id": "gneiss_stones",
-        "icon": "gneiss_stones.webp",
-        "size": 1.15
-      },
-      {
         "id": "granite_stones",
         "icon": "granite_stones.webp",
         "size": 1.15
@@ -583,132 +543,104 @@
     "defaultOn": false,
     "values": [
       {
-        "id": "animal_badger_t2",
-        "icon": "animal_badger_t2.webp"
+        "id": "PD_NPC_Animal_Badger_T2",
+        "icon": "PD_NPC_Animal_Badger_T2.webp"
       },
       {
-        "id": "animal_bear_t18",
-        "icon": "animal_bear_t18.webp"
+        "id": "PD_NPC_Animal_Bear_T18",
+        "icon": "PD_NPC_Animal_Bear_T18.webp"
       },
       {
-        "id": "animal_bear_t24",
-        "icon": "animal_bear_t24.webp"
+        "id": "PD_NPC_Animal_Bear_T24",
+        "icon": "PD_NPC_Animal_Bear_T24.webp"
       },
       {
-        "id": "animal_bear_t32",
-        "icon": "animal_bear_t32.webp"
+        "id": "PD_NPC_Animal_Bear_T32",
+        "icon": "PD_NPC_Animal_Bear_T32.webp"
       },
       {
-        "id": "animal_boar_t12",
-        "icon": "animal_boar_t12.webp"
+        "id": "PD_NPC_Animal_Boar_T12",
+        "icon": "PD_NPC_Animal_Boar_T12.webp"
       },
       {
-        "id": "animal_boar_t3",
-        "icon": "animal_boar_t3.webp"
+        "id": "PD_NPC_Animal_Boar_T3",
+        "icon": "PD_NPC_Animal_Boar_T3.webp"
       },
       {
-        "id": "animal_boar_t5",
-        "icon": "animal_boar_t5.webp"
+        "id": "PD_NPC_Animal_Boar_T5",
+        "icon": "PD_NPC_Animal_Boar_T5.webp"
       },
       {
-        "id": "animal_deer_stag_t3",
-        "icon": "animal_deer_stag_t3.webp"
+        "id": "PD_NPC_Animal_Deer_Stag_T3",
+        "icon": "PD_NPC_Animal_Deer_Stag_T3.webp"
       },
       {
-        "id": "animal_deer_t2",
-        "icon": "animal_deer_t2.webp"
+        "id": "PD_NPC_Animal_Deer_T2",
+        "icon": "PD_NPC_Animal_Deer_T2.webp"
       },
       {
-        "id": "animal_fox_t1",
-        "icon": "animal_fox_t1.webp"
+        "id": "PD_NPC_Animal_Fox_T1",
+        "icon": "PD_NPC_Animal_Fox_T1.webp"
       },
       {
-        "id": "animal_frog_t1",
-        "icon": "animal_frog_t1.webp"
+        "id": "PD_NPC_Animal_Rabbit_T1",
+        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
       },
       {
-        "id": "animal_lizard_t1",
-        "icon": "animal_lizard_t1.webp"
+        "id": "PD_NPC_Animal_Wolf_T10",
+        "icon": "PD_NPC_Animal_Wolf_T10.webp"
       },
       {
-        "id": "animal_rabbit_t1",
-        "icon": "animal_rabbit_t1.webp"
+        "id": "PD_NPC_Animal_Wolf_T16",
+        "icon": "PD_NPC_Animal_Wolf_T16.webp"
       },
       {
-        "id": "animal_wolf_t10",
-        "icon": "animal_wolf_t10.webp"
+        "id": "PD_NPC_Animal_Wolf_T6",
+        "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
-        "id": "animal_wolf_t16",
-        "icon": "animal_wolf_t16.webp"
+        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
+        "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
-        "id": "animal_wolf_t6",
-        "icon": "animal_wolf_t6.webp"
+        "id": "PD_NPC_Cor_Wolf_T42",
+        "icon": "PD_NPC_Cor_Wolf_T42.webp"
       },
       {
-        "id": "cor_boar_t16",
-        "icon": "cor_boar_t16.webp"
+        "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
+        "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
       {
-        "id": "cor_boar_t30",
-        "icon": "cor_boar_t30.webp"
+        "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
+        "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
       {
-        "id": "cor_boar_t42",
-        "icon": "cor_boar_t42.webp"
+        "id": "PD_NPC_Zeb_Doctor_T42_Tick",
+        "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
-        "id": "cor_wolf_t42",
-        "icon": "cor_wolf_t42.webp"
+        "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
+        "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
       },
       {
-        "id": "demon_duke",
-        "icon": "demon_duke.webp"
+        "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
+        "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
       },
       {
-        "id": "griffon",
-        "icon": "griffon.webp"
+        "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
+        "icon": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast.webp"
       },
       {
-        "id": "inq_captain_t15_manic_torturer",
-        "icon": "inq_captain_t15_manic_torturer.webp"
+        "id": "PD_NPC_Willowisp_T90",
+        "icon": "PD_NPC_Willowisp_T90.webp"
       },
       {
-        "id": "inq_caster_t16_entranced_exorcist",
-        "icon": "inq_caster_t16_entranced_exorcist.webp"
+        "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
+        "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
       },
       {
-        "id": "inq_scout_t15_inquisitor_veritatis",
-        "icon": "inq_scout_t15_inquisitor_veritatis.webp"
-      },
-      {
-        "id": "inq_tank_t15_inquisitor_pura",
-        "icon": "inq_tank_t15_inquisitor_pura.webp"
-      },
-      {
-        "id": "inq_tank_t15_wary_ostiary",
-        "icon": "inq_tank_t15_wary_ostiary.webp"
-      },
-      {
-        "id": "lostsoul_t16",
-        "icon": "lostsoul_t16.webp"
-      },
-      {
-        "id": "lostsoul_t22",
-        "icon": "lostsoul_t22.webp"
-      },
-      {
-        "id": "lostsoul_t32",
-        "icon": "lostsoul_t32.webp"
-      },
-      {
-        "id": "willowisp_t90",
-        "icon": "willowisp_t90.webp"
-      },
-      {
-        "id": "wyvern_adult_woods",
-        "icon": "wyvern_adult_woods.webp"
+        "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
+        "icon": "PD_NPC_LostSoul_T37_Bleak_Visitant.webp"
       }
     ]
   },
@@ -979,18 +911,6 @@
       {
         "id": "limestone_deposit",
         "icon": "limestone_deposit.webp"
-      },
-      {
-        "id": "animal_bear_t18",
-        "icon": "animal_bear_t18.webp"
-      },
-      {
-        "id": "animal_bear_t24",
-        "icon": "animal_bear_t24.webp"
-      },
-      {
-        "id": "animal_bear_t32",
-        "icon": "animal_bear_t32.webp"
       }
     ]
   },
@@ -1017,50 +937,6 @@
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
-      },
-      {
-        "id": "animal_bear_t18",
-        "icon": "animal_bear_t18.webp"
-      },
-      {
-        "id": "animal_bear_t24",
-        "icon": "animal_bear_t24.webp"
-      },
-      {
-        "id": "animal_bear_t32",
-        "icon": "animal_bear_t32.webp"
-      },
-      {
-        "id": "animal_boar_t12",
-        "icon": "animal_boar_t12.webp"
-      },
-      {
-        "id": "animal_boar_t3",
-        "icon": "animal_boar_t3.webp"
-      },
-      {
-        "id": "animal_boar_t5",
-        "icon": "animal_boar_t5.webp"
-      },
-      {
-        "id": "animal_deer_t2",
-        "icon": "animal_deer_t2.webp"
-      },
-      {
-        "id": "animal_rabbit_t1",
-        "icon": "animal_rabbit_t1.webp"
-      },
-      {
-        "id": "animal_wolf_t10",
-        "icon": "animal_wolf_t10.webp"
-      },
-      {
-        "id": "animal_wolf_t16",
-        "icon": "animal_wolf_t16.webp"
-      },
-      {
-        "id": "animal_wolf_t6",
-        "icon": "animal_wolf_t6.webp"
       }
     ]
   },
@@ -1082,11 +958,6 @@
       {
         "id": "berry_blueberries",
         "icon": "berry_blueberries.webp",
-        "size": 1.15
-      },
-      {
-        "id": "berry_cloudberry",
-        "icon": "berry_cloudberry.webp",
         "size": 1.15
       },
       {
@@ -1152,11 +1023,6 @@
       {
         "id": "mushroom_berserker",
         "icon": "mushroom_berserker.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_chanterelle",
-        "icon": "mushroom_chanterelle.webp",
         "size": 1.15
       },
       {
@@ -1247,11 +1113,6 @@
         "size": 1.15
       },
       {
-        "id": "herb_lemongrass",
-        "icon": "herb_lemongrass.webp",
-        "size": 1.15
-      },
-      {
         "id": "herb_mustard",
         "icon": "herb_mustard.webp",
         "size": 1.15
@@ -1269,38 +1130,6 @@
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
-      },
-      {
-        "id": "animal_bear_t18",
-        "icon": "animal_bear_t18.webp"
-      },
-      {
-        "id": "animal_bear_t24",
-        "icon": "animal_bear_t24.webp"
-      },
-      {
-        "id": "animal_bear_t32",
-        "icon": "animal_bear_t32.webp"
-      },
-      {
-        "id": "animal_boar_t12",
-        "icon": "animal_boar_t12.webp"
-      },
-      {
-        "id": "animal_boar_t3",
-        "icon": "animal_boar_t3.webp"
-      },
-      {
-        "id": "animal_boar_t5",
-        "icon": "animal_boar_t5.webp"
-      },
-      {
-        "id": "animal_deer_t2",
-        "icon": "animal_deer_t2.webp"
-      },
-      {
-        "id": "animal_rabbit_t1",
-        "icon": "animal_rabbit_t1.webp"
       }
     ]
   },
@@ -1421,16 +1250,6 @@
         "size": 1.15
       },
       {
-        "id": "grass_hemp",
-        "icon": "grass_hemp.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_sugarcane",
-        "icon": "grass_sugarcane.webp",
-        "size": 1.15
-      },
-      {
         "id": "herb_angelica",
         "icon": "herb_angelica.webp",
         "size": 1.15
@@ -1466,21 +1285,6 @@
         "size": 0.9
       },
       {
-        "id": "tree_branch",
-        "icon": "tree_branch.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flint_stones",
-        "icon": "flint_stones.webp",
-        "size": 1.15
-      },
-      {
-        "id": "gneiss_stones",
-        "icon": "gneiss_stones.webp",
-        "size": 1.15
-      },
-      {
         "id": "granite_stones",
         "icon": "granite_stones.webp",
         "size": 1.15
@@ -1496,88 +1300,104 @@
         "size": 1.15
       },
       {
-        "id": "animal_badger_t2",
-        "icon": "animal_badger_t2.webp"
+        "id": "PD_NPC_Animal_Badger_T2",
+        "icon": "PD_NPC_Animal_Badger_T2.webp"
       },
       {
-        "id": "animal_deer_stag_t3",
-        "icon": "animal_deer_stag_t3.webp"
+        "id": "PD_NPC_Animal_Bear_T18",
+        "icon": "PD_NPC_Animal_Bear_T18.webp"
       },
       {
-        "id": "animal_fox_t1",
-        "icon": "animal_fox_t1.webp"
+        "id": "PD_NPC_Animal_Bear_T24",
+        "icon": "PD_NPC_Animal_Bear_T24.webp"
       },
       {
-        "id": "animal_frog_t1",
-        "icon": "animal_frog_t1.webp"
+        "id": "PD_NPC_Animal_Bear_T32",
+        "icon": "PD_NPC_Animal_Bear_T32.webp"
       },
       {
-        "id": "animal_lizard_t1",
-        "icon": "animal_lizard_t1.webp"
+        "id": "PD_NPC_Animal_Boar_T12",
+        "icon": "PD_NPC_Animal_Boar_T12.webp"
       },
       {
-        "id": "cor_boar_t16",
-        "icon": "cor_boar_t16.webp"
+        "id": "PD_NPC_Animal_Boar_T3",
+        "icon": "PD_NPC_Animal_Boar_T3.webp"
       },
       {
-        "id": "cor_boar_t30",
-        "icon": "cor_boar_t30.webp"
+        "id": "PD_NPC_Animal_Boar_T5",
+        "icon": "PD_NPC_Animal_Boar_T5.webp"
       },
       {
-        "id": "cor_boar_t42",
-        "icon": "cor_boar_t42.webp"
+        "id": "PD_NPC_Animal_Deer_Stag_T3",
+        "icon": "PD_NPC_Animal_Deer_Stag_T3.webp"
       },
       {
-        "id": "cor_wolf_t42",
-        "icon": "cor_wolf_t42.webp"
+        "id": "PD_NPC_Animal_Deer_T2",
+        "icon": "PD_NPC_Animal_Deer_T2.webp"
       },
       {
-        "id": "demon_duke",
-        "icon": "demon_duke.webp"
+        "id": "PD_NPC_Animal_Fox_T1",
+        "icon": "PD_NPC_Animal_Fox_T1.webp"
       },
       {
-        "id": "griffon",
-        "icon": "griffon.webp"
+        "id": "PD_NPC_Animal_Rabbit_T1",
+        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
       },
       {
-        "id": "inq_captain_t15_manic_torturer",
-        "icon": "inq_captain_t15_manic_torturer.webp"
+        "id": "PD_NPC_Animal_Wolf_T10",
+        "icon": "PD_NPC_Animal_Wolf_T10.webp"
       },
       {
-        "id": "inq_caster_t16_entranced_exorcist",
-        "icon": "inq_caster_t16_entranced_exorcist.webp"
+        "id": "PD_NPC_Animal_Wolf_T16",
+        "icon": "PD_NPC_Animal_Wolf_T16.webp"
       },
       {
-        "id": "inq_scout_t15_inquisitor_veritatis",
-        "icon": "inq_scout_t15_inquisitor_veritatis.webp"
+        "id": "PD_NPC_Animal_Wolf_T6",
+        "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
-        "id": "inq_tank_t15_inquisitor_pura",
-        "icon": "inq_tank_t15_inquisitor_pura.webp"
+        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
+        "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
-        "id": "inq_tank_t15_wary_ostiary",
-        "icon": "inq_tank_t15_wary_ostiary.webp"
+        "id": "PD_NPC_Cor_Wolf_T42",
+        "icon": "PD_NPC_Cor_Wolf_T42.webp"
       },
       {
-        "id": "lostsoul_t16",
-        "icon": "lostsoul_t16.webp"
+        "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
+        "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
       {
-        "id": "lostsoul_t22",
-        "icon": "lostsoul_t22.webp"
+        "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
+        "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
       {
-        "id": "lostsoul_t32",
-        "icon": "lostsoul_t32.webp"
+        "id": "PD_NPC_Zeb_Doctor_T42_Tick",
+        "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
-        "id": "willowisp_t90",
-        "icon": "willowisp_t90.webp"
+        "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
+        "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
       },
       {
-        "id": "wyvern_adult_woods",
-        "icon": "wyvern_adult_woods.webp"
+        "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
+        "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
+        "icon": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast.webp"
+      },
+      {
+        "id": "PD_NPC_Willowisp_T90",
+        "icon": "PD_NPC_Willowisp_T90.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
+        "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
+        "icon": "PD_NPC_LostSoul_T37_Bleak_Visitant.webp"
       }
     ]
   }

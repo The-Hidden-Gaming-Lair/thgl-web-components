@@ -717,20 +717,14 @@ for (const mineablesPath of mineablesPaths) {
   }
 }
 
-const npcs = readDirRecursive(
+for (const npcsResourcesPath of readDirRecursive(
   CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/NPCs",
-).map((p) => readJSON<NPCDataAssets>(p));
-const npcsResourcesPaths = readDirRecursive(
-  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/NPCResources",
-);
-for (const npcsResourcesPath of npcsResourcesPaths) {
-  const file = readJSON<NPCResources>(npcsResourcesPath);
-  const id = file[0].Properties.ResourceName;
-  if (file[0].Properties.IsDev) {
-    // console.log("Skipping IsDev", id);
+)) {
+  const npc = readJSON<NPCDataAssets>(npcsResourcesPath);
+  if (npc[0].Type !== "NPCDataAsset") {
     continue;
   }
-  const npc = npcs.find((n) => n[0].Name.toLowerCase().endsWith(id));
+  const id = npc[0].Name;
   if (!npc) {
     console.log("No NPC for", id);
     continue;
@@ -790,15 +784,15 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
   }
 
   // Temporary fix nodes
-  nodes = nodes.map((n) => {
-    if (n.type === npc[0].Name) {
-      return {
-        ...n,
-        type: id,
-      };
-    }
-    return n;
-  });
+  // nodes = nodes.map((n) => {
+  //   if (n.type === id) {
+  //     return {
+  //       ...n,
+  //       type: npc[0].Name,
+  //     };
+  //   }
+  //   return n;
+  // });
 
   if (!nodes.some((n) => n.type === id)) {
     nodes.push({
@@ -900,8 +894,7 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
       filter.values.push({
         id,
         icon: await saveIcon(iconPath, id, {
-          border: true,
-          color: "#aaa",
+          color: uniqolor(id).color,
         }),
       });
     }
@@ -1004,12 +997,13 @@ nodes.forEach((n) => {
     return true;
   });
 });
+nodes = nodes.filter((n) => n.spawns.length > 0);
 
 const filtersWithNodes: (typeof filters)[number][] = [];
 for (const filter of filters) {
-  // filter.values = filter.values.filter((v) =>
-  //   nodes.some((n) => n.type === v.id)
-  // );
+  filter.values = filter.values.filter((v) =>
+    nodes.some((n) => n.type === v.id),
+  );
   console.log(filter.values.length, filter.group);
   if (filter.values.length > 0) {
     filtersWithNodes.push(filter);
@@ -1019,8 +1013,8 @@ for (const filter of filters) {
 writeJSON(TEMP_DIR + "/actors.json", Object.keys(typesIdMap));
 writeJSON(OUT_DIR + "/coordinates/tiles.json", tiles);
 writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
-writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
-// writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
+// writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
+writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
 writeJSON(OUT_DIR + "/coordinates/types_id_map.json", typesIdMap);
 // writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
