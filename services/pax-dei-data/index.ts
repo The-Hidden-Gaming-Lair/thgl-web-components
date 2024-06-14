@@ -565,15 +565,17 @@ for (const gatherablesPath of gatherablesPaths) {
       gatherablesFilters.push(category);
     }
     filter = filters.find((f) => f.group === category)!;
-    filter.values.push({
-      id,
-      icon: await saveIcon(iconPath, id, {
-        glowing: true,
-        color: "#fff",
-        resize: true,
-      }),
-      size: size,
-    });
+    if (!filter.values.some((v) => v.id === id)) {
+      filter.values.push({
+        id,
+        icon: await saveIcon(iconPath, id, {
+          glowing: true,
+          color: "#fff",
+          resize: true,
+        }),
+        size: size,
+      });
+    }
   }
 }
 const mineablesPaths = readDirRecursive(
@@ -703,13 +705,15 @@ for (const mineablesPath of mineablesPaths) {
       gatherablesFilters.push(category);
     }
     filter = filters.find((f) => f.group === category)!;
-    filter.values.push({
-      id,
-      icon: await saveIcon(iconPath, id, {
-        color: uniqolor(id).color,
-        resize: true,
-      }),
-    });
+    if (!filter.values.some((v) => v.id === id)) {
+      filter.values.push({
+        id,
+        icon: await saveIcon(iconPath, id, {
+          color: uniqolor(id).color,
+          resize: true,
+        }),
+      });
+    }
   }
 }
 
@@ -892,13 +896,15 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
       filters.push(filter);
     }
     filter = filters.find((f) => f.group === category)!;
-    filter.values.push({
-      id,
-      icon: await saveIcon(iconPath, id, {
-        border: true,
-        color: "#aaa",
-      }),
-    });
+    if (!filter.values.some((v) => v.id === id)) {
+      filter.values.push({
+        id,
+        icon: await saveIcon(iconPath, id, {
+          border: true,
+          color: "#aaa",
+        }),
+      });
+    }
   }
 }
 

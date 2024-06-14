@@ -548,10 +548,6 @@
         "icon": "copper_deposit.webp"
       },
       {
-        "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
-      },
-      {
         "id": "gneiss_deposit",
         "icon": "gneiss_deposit.webp"
       },
@@ -568,28 +564,12 @@
         "icon": "iron_deposit_impure.webp"
       },
       {
-        "id": "iron_deposit_impure",
-        "icon": "iron_deposit_impure.webp"
-      },
-      {
         "id": "iron_deposit_pure",
         "icon": "iron_deposit_pure.webp"
-      },
-      {
-        "id": "iron_deposit_pure",
-        "icon": "iron_deposit_pure.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       },
       {
         "id": "limestone_deposit",
         "icon": "limestone_deposit.webp"
-      },
-      {
-        "id": "tin_deposit",
-        "icon": "tin_deposit.webp"
       },
       {
         "id": "tin_deposit",
@@ -627,24 +607,12 @@
         "icon": "animal_boar_t3.webp"
       },
       {
-        "id": "animal_boar_t3",
-        "icon": "animal_boar_t3.webp"
-      },
-      {
-        "id": "animal_boar_t5",
-        "icon": "animal_boar_t5.webp"
-      },
-      {
         "id": "animal_boar_t5",
         "icon": "animal_boar_t5.webp"
       },
       {
         "id": "animal_deer_stag_t3",
         "icon": "animal_deer_stag_t3.webp"
-      },
-      {
-        "id": "animal_deer_t2",
-        "icon": "animal_deer_t2.webp"
       },
       {
         "id": "animal_deer_t2",
@@ -673,10 +641,6 @@
       {
         "id": "animal_wolf_t16",
         "icon": "animal_wolf_t16.webp"
-      },
-      {
-        "id": "animal_wolf_t6",
-        "icon": "animal_wolf_t6.webp"
       },
       {
         "id": "animal_wolf_t6",
@@ -838,14 +802,6 @@
         "icon": "copper_deposit.webp"
       },
       {
-        "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
-      {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
       }
@@ -856,10 +812,6 @@
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
@@ -899,10 +851,6 @@
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       }
     ]
   },
@@ -926,10 +874,6 @@
         "icon": "copper_deposit.webp"
       },
       {
-        "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
-      },
-      {
         "id": "gneiss_deposit",
         "icon": "gneiss_deposit.webp"
       },
@@ -942,24 +886,8 @@
         "icon": "iron_deposit_impure.webp"
       },
       {
-        "id": "iron_deposit_impure",
-        "icon": "iron_deposit_impure.webp"
-      },
-      {
         "id": "iron_deposit_pure",
         "icon": "iron_deposit_pure.webp"
-      },
-      {
-        "id": "iron_deposit_pure",
-        "icon": "iron_deposit_pure.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
-      {
-        "id": "tin_deposit",
-        "icon": "tin_deposit.webp"
       },
       {
         "id": "tin_deposit",
@@ -1037,20 +965,12 @@
         "icon": "copper_deposit.webp"
       },
       {
-        "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
-      },
-      {
         "id": "gneiss_deposit",
         "icon": "gneiss_deposit.webp"
       },
       {
         "id": "granite_deposit",
         "icon": "granite_deposit.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       },
       {
         "id": "iron_deposit",
@@ -1099,10 +1019,6 @@
         "icon": "iron_deposit.webp"
       },
       {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
-      {
         "id": "animal_bear_t18",
         "icon": "animal_bear_t18.webp"
       },
@@ -1123,20 +1039,8 @@
         "icon": "animal_boar_t3.webp"
       },
       {
-        "id": "animal_boar_t3",
-        "icon": "animal_boar_t3.webp"
-      },
-      {
         "id": "animal_boar_t5",
         "icon": "animal_boar_t5.webp"
-      },
-      {
-        "id": "animal_boar_t5",
-        "icon": "animal_boar_t5.webp"
-      },
-      {
-        "id": "animal_deer_t2",
-        "icon": "animal_deer_t2.webp"
       },
       {
         "id": "animal_deer_t2",
@@ -1153,10 +1057,6 @@
       {
         "id": "animal_wolf_t16",
         "icon": "animal_wolf_t16.webp"
-      },
-      {
-        "id": "animal_wolf_t6",
-        "icon": "animal_wolf_t6.webp"
       },
       {
         "id": "animal_wolf_t6",
@@ -1371,10 +1271,6 @@
         "icon": "iron_deposit.webp"
       },
       {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
-      {
         "id": "animal_bear_t18",
         "icon": "animal_bear_t18.webp"
       },
@@ -1395,20 +1291,8 @@
         "icon": "animal_boar_t3.webp"
       },
       {
-        "id": "animal_boar_t3",
-        "icon": "animal_boar_t3.webp"
-      },
-      {
         "id": "animal_boar_t5",
         "icon": "animal_boar_t5.webp"
-      },
-      {
-        "id": "animal_boar_t5",
-        "icon": "animal_boar_t5.webp"
-      },
-      {
-        "id": "animal_deer_t2",
-        "icon": "animal_deer_t2.webp"
       },
       {
         "id": "animal_deer_t2",
@@ -1433,10 +1317,6 @@
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       }
     ]
   },
@@ -1445,10 +1325,6 @@
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
@@ -1473,10 +1349,6 @@
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       }
     ]
   },
@@ -1485,10 +1357,6 @@
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
-      },
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
