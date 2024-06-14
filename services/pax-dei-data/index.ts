@@ -16,6 +16,8 @@ import {
   rotateImage,
 } from "./lib/image.js";
 import {
+  DA_ItemDataAsset,
+  PD_Recipes,
   DomainConfig,
   GatherablesDataAsset,
   MapCell,
@@ -24,6 +26,9 @@ import {
   PDAResourcesGatherables,
   PDAResourcesMineables,
   Resource,
+  GlobalFilter,
+  PD_Skills,
+  PC_Activatable,
 } from "./types.js";
 
 const CONTENT_DIR = "/mnt/c/dev/Pax Dei/Extracted/Data";
@@ -34,7 +39,13 @@ const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/pax-dei";
 
 let nodes: {
   type: string;
-  spawns: { id?: string; p: [number, number]; mapName: string }[];
+  spawns: {
+    id?: string;
+    p: [number, number];
+    mapName: string;
+    data?: Record<string, string[]>;
+  }[];
+  data?: Record<string, string[]>;
 }[] = readJSON(OUT_DIR + "/coordinates/nodes.json");
 let filters: {
   group: string;
@@ -75,6 +86,7 @@ const icons: Record<string, string> = {
   //   `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/portal_lorc.webp`
   // ),
 };
+const globalFilters: GlobalFilter[] = [];
 
 const mapMarkerTypes = readJSON<MapMarkerTypes>(
   CONTENT_DIR + "/PaxDei/Content/_PD/Game/UX/Map/D_MapMarkerTypes.json",
@@ -101,14 +113,15 @@ const enDict: Record<string, string> = {
   site: "Site",
   gateway: "Gateway",
   mineables: "Mineables",
-  Berries: "Berries",
-  Flowers: "Flowers",
-  HerbsFlowersPotions: "Potions Flowers & Herbs",
-  GrassCloth: "Clothes Grass",
-  HerbsCooking: "Cooking Herbs",
-  Mushrooms_Poisonous: "Poisonous Mushrooms",
-  Mushrooms_Cooking: "Cooking Mushrooms",
-  Mushrooms_Magic: "Magic Mushrooms",
+  gatherables: "Gatherables",
+  // Berries: "Berries",
+  // Flowers: "Flowers",
+  // HerbsFlowersPotions: "Potions, Flowers & Herbs",
+  // GrassCloth: "Grass",
+  // HerbsCooking: "Cooking Herbs",
+  // Mushrooms_Poisonous: "Poisonous Mushrooms",
+  // Mushrooms_Cooking: "Cooking Mushrooms",
+  // Mushrooms_Magic: "Magic Mushrooms",
   // GatherableDebris: "Debris",
   CorruptAnimals: "Corrupt Animals",
   Cult_of_Zeb: "Cult of Zeb",
@@ -344,35 +357,150 @@ for (const mapName of readDirSync(
 }
 
 filters.push(locations);
+
+if (!globalFilters.some((f) => f.group === "skills")) {
+  globalFilters.push({
+    group: "skills",
+    values: [
+      {
+        id: "_none",
+        defaultOn: true,
+      },
+      {
+        id: "consumable",
+        defaultOn: true,
+      },
+    ],
+  });
+  enDict.skills = "Skills";
+  enDict._none = "None";
+  enDict.consumable = "Consumable";
+}
+
 const typesIdMap: Record<string, string> = {};
+// const daItems = readDirRecursive(
+//   CONTENT_DIR + "/PaxDei/Content/_PD/Game/DA_Items",
+// ).map((p) => readJSON<DA_Item>(p));
+const pdItems = readDirRecursive(
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Items",
+).map((p) => readJSON<DA_ItemDataAsset>(p));
+const pdRecipes = readDirRecursive(
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Recipes",
+).map((p) => readJSON<PD_Recipes>(p));
+const pdSkills = readDirRecursive(
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Skills",
+).map((p) => readJSON<PD_Skills>(p));
+const pdActivatables = readDirRecursive(
+  CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Activatables",
+).map((p) => readJSON<PC_Activatable>(p));
+
 const gatherablesPaths = readDirRecursive(
   CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Gatherables",
 );
+const gatherablesFilters: string[] = [];
 for (const gatherablesPath of gatherablesPaths) {
   const file = readJSON<GatherablesDataAsset>(gatherablesPath);
   const id = file[0].Properties.ResourceName;
-
   if (file[0].Properties.IsDev) {
-    console.log("Skipping IsDev", id);
+    // console.log("Skipping IsDev", id);
     continue;
   }
-  // if (resources.values.find((r) => r.id === id)) {
-  //   console.warn("Duplicate!", id, gatherablesPath);
-  //   continue;
-  // }
+
   enDict[id] = localisationEN[file[0].Properties.LocalizationNameKey];
-  enDict[`${id}_desc`] =
-    localisationEN[file[0].Properties.LocalizationDescriptionKey];
+  enDict[`${id}_desc`] = "";
+
+  let type = id
+    .replace("herb_", "")
+    .replace("flower_", "")
+    .replace("fruit_", "")
+    .replace("grass_", "");
+  if (
+    (type.includes("mushroom") || type.includes("berry")) &&
+    type.endsWith("s")
+  ) {
+    if (type.endsWith("ies")) type = type.slice(0, -3) + "y";
+    else {
+      type = type.slice(0, -1);
+    }
+  }
+
+  const skills: string[] = [];
+
+  for (const pdItem of pdItems.filter(
+    (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
+  )) {
+    // enDict[`${id}_desc`] +=
+    //   `<p>Loot: ${localisationEN[pdItem[0].Properties.LocalizationNameKey]}</p>`;
+
+    for (const pdRecipe of pdRecipes.filter((r) =>
+      r[0].Properties.ItemIngredients?.some((i) =>
+        i.Key.includes(pdItem[0].Name),
+      ),
+    )) {
+      if (pdRecipe[0].Properties.IsDev) {
+        continue;
+      }
+      const skill =
+        pdRecipe[0].Properties.SkillRequired.ObjectName.split("'")[1];
+      if (skills.includes(skill)) {
+        continue;
+      }
+      skills.push(skill);
+      const globalFilter = globalFilters.find((f) => f.group === "skills")!;
+      if (!globalFilter.values.some((v) => v.id === skill)) {
+        globalFilter.values.push({ id: skill, defaultOn: true });
+
+        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+        enDict[skill] =
+          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
+      }
+      enDict[`${id}_desc`] +=
+        `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
+      // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
+    }
+  }
+  const activables = pdActivatables.filter(
+    (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
+  );
+  if (activables.length > 0) {
+    skills.push("consumable");
+    enDict[`${id}_desc`] +=
+      `<p><span style="color:${uniqolor(enDict.consumable).color}">${enDict.consumable}</span> (${localisationEN[activables[0][0].Properties.LocalizationNameKey]})</p>`;
+  }
+
   enDict[`${id}_desc`] +=
-    `<br><br><b>Respawn Timer:</b> ${formatTimer(file[0].Properties.RespawnTimer)}`;
+    `<p>Respawn Timer: ${formatTimer(file[0].Properties.RespawnTimer)}</p>`;
+  enDict[`${id}_desc`] +=
+    `<p>Spawn Range: ${file[0].Properties.SpawnRadius / 100}m</p>`;
+  enDict[`${id}_desc`] += `<p>Spawn Count: ${file[0].Properties.Instances}</p>`;
+  // enDict[`${id}_desc`] +=
+  //   `<p>${localisationEN[file[0].Properties.LocalizationDescriptionKey]}</p>`;
+  if (skills.length === 0) {
+    skills.push("_none");
+  }
+
+  if (!nodes.some((n) => n.type === id)) {
+    nodes.push({
+      type: id,
+      spawns: [],
+      data: { skills: [...new Set(skills)] },
+    });
+  } else {
+    const typeNodes = nodes.find((n) => n.type === id)!;
+    typeNodes.data = { skills: [...new Set(skills)] };
+  }
 
   const pdaResource = readJSON<PDAResourcesGatherables>(
     CONTENT_DIR +
       `/PaxDei/Content/_PD/Environment/Nature/Resources/DA_Resources/Gatherables/${file[0].Properties.VisualDataAsset}.json`,
   );
-  const category =
-    pdaResource[0].Properties.ResourceMesh.AssetPathName.split("/")[6] ??
-    "Other";
+  const category = "gatherables";
+  // if (
+  //   skills.includes("PD_skill_alchemy") &&
+  //   category !== "HerbsFlowersPotions"
+  // ) {
+  //   category = "HerbsFlowersPotions";
+  // }
 
   const resourcePath =
     CONTENT_DIR +
@@ -447,6 +575,10 @@ for (const gatherablesPath of gatherablesPaths) {
       values: [],
     };
     filters.push(filter);
+    if (!enDict[category]) {
+      enDict[category] = category;
+    }
+    gatherablesFilters.push(category);
   }
   filter = filters.find((f) => f.group === category)!;
   filter.values.push({
@@ -641,49 +773,50 @@ for (const npcsPath of npcsPaths) {
 
 filters.push(mineables);
 
-const response = await fetch(
-  "http://116.203.249.187:3000/nodes?type=spawnNodes",
-);
-const data = (await response.json()) as Record<
-  string,
-  [number, number, number, string][]
->;
-Object.entries(data).forEach(([type, spawnNodes]) => {
-  let id = typesIdMap[type] || type;
+if (Bun.env.NODES === "true") {
+  const response = await fetch(
+    "http://116.203.249.187:3000/nodes?type=spawnNodes",
+  );
+  const data = (await response.json()) as Record<
+    string,
+    [number, number, number, string][]
+  >;
+  Object.entries(data).forEach(([type, spawnNodes]) => {
+    let id = typesIdMap[type] || type;
 
-  spawnNodes.forEach(([x, y, z, path]) => {
-    const mapName = path.split("/")[4];
-    const offset = mapName === "gallia_pve_01" ? SMALL : LARGE;
+    spawnNodes.forEach(([x, y, z, path]) => {
+      const mapName = path.split("/")[4];
+      const offset = mapName === "gallia_pve_01" ? SMALL : LARGE;
 
-    if (id === "iron_deposit" && mapName === "gallia_pve_01") {
-      id = "iron_deposit_pure";
-    }
-    let oldNodes = nodes.find((n) => n.type === id);
-    if (!oldNodes) {
-      oldNodes = { type: id, spawns: [] };
-      nodes.push(oldNodes);
-      oldNodes = nodes.find((n) => n.type === id);
-      console.log("New type", id);
-    }
+      if (id === "iron_deposit" && mapName === "gallia_pve_01") {
+        id = "iron_deposit_pure";
+      }
+      let oldNodes = nodes.find((n) => n.type === id);
+      if (!oldNodes) {
+        oldNodes = { type: id, spawns: [] };
+        nodes.push(oldNodes);
+        oldNodes = nodes.find((n) => n.type === id);
+        console.log("New type", id);
+      }
 
-    const location = normalizeLocation({ x, y }, offset);
-    if (
-      oldNodes!.spawns.some(
-        (s) =>
-          s.p[0] === location.y &&
-          s.p[1] === location.x &&
-          s.mapName === mapName,
-      )
-    ) {
-      return;
-    }
-    oldNodes!.spawns.push({
-      p: [+location.y.toFixed(0), +location.x.toFixed(0)],
-      mapName,
+      const location = normalizeLocation({ x, y }, offset);
+      if (
+        oldNodes!.spawns.some(
+          (s) =>
+            s.p[0] === location.y &&
+            s.p[1] === location.x &&
+            s.mapName === mapName,
+        )
+      ) {
+        return;
+      }
+      oldNodes!.spawns.push({
+        p: [+location.y.toFixed(0), +location.x.toFixed(0)],
+        mapName,
+      });
     });
   });
-});
-
+}
 nodes = nodes.filter(
   (n) => !["tree_branch", "flint_stones", "gneiss_stones"].includes(n.type),
 );
@@ -696,7 +829,20 @@ filters = filters
     if (b.group === "locations") {
       return 1;
     }
-    return a.group.localeCompare(b.group);
+    if (
+      gatherablesFilters.includes(a.group) &&
+      gatherablesFilters.includes(b.group)
+    ) {
+      return enDict[a.group]?.localeCompare(enDict[b.group]);
+    }
+
+    if (gatherablesFilters.includes(a.group)) {
+      return -1;
+    }
+    if (gatherablesFilters.includes(b.group)) {
+      return 1;
+    }
+    return enDict[a.group]?.localeCompare(enDict[b.group]);
   });
 
 nodes.forEach((n) => {
@@ -734,6 +880,7 @@ writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 // writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
 writeJSON(OUT_DIR + "/coordinates/types_id_map.json", typesIdMap);
+writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 
 console.log("Done");

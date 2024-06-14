@@ -97,81 +97,15 @@
     ]
   },
   {
-    "group": "Animals",
+    "group": "gatherables",
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
       {
-        "id": "PD_NPC_Animal_Badger_T2",
-        "icon": "badger_caro-asercion.webp"
+        "id": "clay",
+        "icon": "T_Clay_INV_state_Icon.webp",
+        "size": 1.15
       },
-      {
-        "id": "PD_NPC_Animal_Bear_T18",
-        "icon": "bear-face_sparker.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Bear_T24",
-        "icon": "animal-hide_delapouite.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Bear_T32",
-        "icon": "bear-head_delapouite.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Boar_T12",
-        "icon": "animal-hide_delapouite_1.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Boar_T3",
-        "icon": "boar_caro-asercion.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Boar_T5",
-        "icon": "boar_caro-asercion_1.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Deer_Stag_T3",
-        "icon": "animal-hide_delapouite_2.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Deer_T2",
-        "icon": "deer_caro-asercion.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Fox_T1",
-        "icon": "fox-head_lorc.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Frog_T1",
-        "icon": "animal-hide_delapouite_3.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Lizard_T1",
-        "icon": "animal-hide_delapouite_4.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Rabbit_T1",
-        "icon": "rabbit-head_delapouite.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T10",
-        "icon": "hound_lorc.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T16",
-        "icon": "animal-hide_delapouite_5.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T6",
-        "icon": "wolf-head_lorc.webp"
-      }
-    ]
-  },
-  {
-    "group": "Berries",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
       {
         "id": "berry_alpine_juniper",
         "icon": "T_Juniper_Berry_01_INV_state_Berries_Icon.webp",
@@ -238,8 +172,368 @@
         "size": 1.15
       },
       {
+        "id": "bushy_starworth",
+        "icon": "T_Starworth_Var4_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "castor_plant",
+        "icon": "T_Castor_V2_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_alfalfa",
+        "icon": "T_Alfalfa_var02_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_batflower",
+        "icon": "T_Bat_Flower_01_INV_state_Flower_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_californianpoppy",
+        "icon": "T_Californian_Poppy_Var3_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_campion",
+        "icon": "T_Bladder_Campion_Var05_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_crane",
+        "icon": "T_Crane_Flower_Var08_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_daisy",
+        "icon": "T_Daisy_V1_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_dandelion",
+        "icon": "T_Dandelion_02_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_datura",
+        "icon": "T_Datura_INV_state_Fruit_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_deadly_nightshade",
+        "icon": "T_Nightshade_Small_01_INV_state_Fruit_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_highmallow",
+        "icon": "T_High_Mallow_var2_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_lavender",
+        "icon": "T_Lavender_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_loios_tears",
+        "icon": "T_Purpletop_Vervain_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_pasque",
+        "icon": "T_Pasque_Flower_Var06_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_periwinkle",
+        "icon": "T_Periwinkle_V1_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_plantago",
+        "icon": "T_Plantago_var1_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_rain_lily",
+        "icon": "T_Rain_Lily_Var2_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_redpoppy",
+        "icon": "T_Red_Poppy_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_soapwort",
+        "icon": "T_Soapwort_v1_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_tansy",
+        "icon": "T_Tansy_var2_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_wolfsbane",
+        "icon": "T_Wolfsbane_M_02_INV_state_Leaves_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "fruit_apple_red",
+        "icon": "T_Red_Apple_INV_state_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_barley",
+        "icon": "T_Barley_01_Grain_INV_state_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_catgrass",
+        "icon": "T_Catgrass_Var01_Icon_Grain.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_cotton",
+        "icon": "T_Cotton_Var09_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_flax",
+        "icon": "T_Flax_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_hemp",
+        "icon": "T_Hemp_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_oat",
+        "icon": "T_Oat_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_reeds",
+        "icon": "T_Reeds_02_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_rye",
+        "icon": "T_Rye_03_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_sugarcane",
+        "icon": "T_Sugarcane_03_INV_state_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_wheat",
+        "icon": "T_Wheat_V2_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_angelica",
+        "icon": "T_Angelica_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_chives",
+        "icon": "T_Chives_Var07_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_crown_beard",
+        "icon": "T_Crownbeard_03_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_fennel",
+        "icon": "T_Fennel_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_garlic",
+        "icon": "T_Garlic_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_lemongrass",
+        "icon": "T_Lemongrass_Var05_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_lily",
+        "icon": "T_Lily_Of_The_Valley_Var02_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_meadowsweet",
+        "icon": "T_Meadowsweet_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_mustard",
+        "icon": "T_Mustard_Var3_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_parsley",
+        "icon": "T_Parsley_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_rosemary",
+        "icon": "T_Rosemary_Var01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_sage",
+        "icon": "T_Sage_V1_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_sowthistle",
+        "icon": "T_Sow_Thistle_V4_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_thyme",
+        "icon": "T_Thyme_Var07_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_watercress",
+        "icon": "T_WaterCress_Var02_Icon.webp",
+        "size": 1.15
+      },
+      {
         "id": "hops",
         "icon": "T_Icon_Hops.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_amanitaregalis",
+        "icon": "T_Amanita_Regalis_06_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_berserker",
+        "icon": "T_Berserker_02_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_chanterelle",
+        "icon": "T_Chanterelli_11_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_chlorine",
+        "icon": "T_Chlorine_Lepidella_04_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_dapperling",
+        "icon": "T_Dapperling_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_death_cap",
+        "icon": "T_Death_Cap_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_divine",
+        "icon": "T_Cremini_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_enoki",
+        "icon": "T_Enoki_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_fools_webcap",
+        "icon": "T_Fools_Webcap_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_morels",
+        "icon": "T_Morel_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_oyster_mushrooms",
+        "icon": "T_Oyster_Mushroom_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_pennybun",
+        "icon": "T_Penny_Bun_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_porcini",
+        "icon": "T_Porcini_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_skullcap",
+        "icon": "T_Galerina_Marginata_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_stinkhorn",
+        "icon": "T_Elegant_Stinkhorn_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_trumpets",
+        "icon": "T_Black_Trumpet_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "onion_red",
+        "icon": "T_Onion_Red_Icon.webp",
+        "size": 0.9
+      },
+      {
+        "id": "onion_yellow",
+        "icon": "T_Onion_Yellow_Icon.webp",
+        "size": 0.9
+      },
+      {
+        "id": "tree_branch",
+        "icon": "T_Branch_01_INV_state_Pile_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flint_stones",
+        "icon": "T_Flint_04_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "gneiss_stones",
+        "icon": "T_Gneiss_02_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "granite_stones",
+        "icon": "T_Granite_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "lime_stone_stones",
+        "icon": "T_Limestone_01_Icon.webp",
+        "size": 1.15
+      },
+      {
+        "id": "volcanic_rock_stones",
+        "icon": "T_Pumice_Icon.webp",
         "size": 1.15
       }
     ]
@@ -363,428 +657,6 @@
     ]
   },
   {
-    "group": "Demons",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Demon_Duke",
-        "icon": "daemon-skull_lorc.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T24",
-        "icon": "daemon-skull_lorc_1.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T30",
-        "icon": "daemon-skull_lorc_2.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Hellion_T42",
-        "icon": "daemon-skull_lorc_3.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T14",
-        "icon": "daemon-skull_lorc_4.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T21",
-        "icon": "daemon-skull_lorc_5.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T21_summon",
-        "icon": "daemon-skull_lorc_6.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T31",
-        "icon": "daemon-skull_lorc_7.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T35_summon",
-        "icon": "daemon-skull_lorc_8.webp"
-      },
-      {
-        "id": "PD_NPC_Demon_Imp_T41",
-        "icon": "daemon-skull_lorc_9.webp"
-      }
-    ]
-  },
-  {
-    "group": "Diggables",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "clay",
-        "icon": "T_Clay_INV_state_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "Fey",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Willowisp_T90",
-        "icon": "fairy_delapouite.webp"
-      }
-    ]
-  },
-  {
-    "group": "Flowers",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "bushy_starworth",
-        "icon": "T_Starworth_Var4_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "castor_plant",
-        "icon": "T_Castor_V2_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_alfalfa",
-        "icon": "T_Alfalfa_var02_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_batflower",
-        "icon": "T_Bat_Flower_01_INV_state_Flower_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_californianpoppy",
-        "icon": "T_Californian_Poppy_Var3_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_campion",
-        "icon": "T_Bladder_Campion_Var05_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_crane",
-        "icon": "T_Crane_Flower_Var08_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_daisy",
-        "icon": "T_Daisy_V1_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_dandelion",
-        "icon": "T_Dandelion_02_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_highmallow",
-        "icon": "T_High_Mallow_var2_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_lavender",
-        "icon": "T_Lavender_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_pasque",
-        "icon": "T_Pasque_Flower_Var06_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_periwinkle",
-        "icon": "T_Periwinkle_V1_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_plantago",
-        "icon": "T_Plantago_var1_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_rain_lily",
-        "icon": "T_Rain_Lily_Var2_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_redpoppy",
-        "icon": "T_Red_Poppy_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_soapwort",
-        "icon": "T_Soapwort_v1_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_tansy",
-        "icon": "T_Tansy_var2_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "Fruit",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "fruit_apple_red",
-        "icon": "T_Red_Apple_INV_state_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "GrassCloth",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "grass_barley",
-        "icon": "T_Barley_01_Grain_INV_state_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_catgrass",
-        "icon": "T_Catgrass_Var01_Icon_Grain.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_cotton",
-        "icon": "T_Cotton_Var09_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_flax",
-        "icon": "T_Flax_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_hemp",
-        "icon": "T_Hemp_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_oat",
-        "icon": "T_Oat_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_reeds",
-        "icon": "T_Reeds_02_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_rye",
-        "icon": "T_Rye_03_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_sugarcane",
-        "icon": "T_Sugarcane_03_INV_state_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_wheat",
-        "icon": "T_Wheat_V2_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "HerbsCooking",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "herb_chives",
-        "icon": "T_Chives_Var07_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_crown_beard",
-        "icon": "T_Crownbeard_03_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_fennel",
-        "icon": "T_Fennel_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_garlic",
-        "icon": "T_Garlic_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_lemongrass",
-        "icon": "T_Lemongrass_Var05_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_meadowsweet",
-        "icon": "T_Meadowsweet_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_mustard",
-        "icon": "T_Mustard_Var3_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_parsley",
-        "icon": "T_Parsley_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_rosemary",
-        "icon": "T_Rosemary_Var01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_sage",
-        "icon": "T_Sage_V1_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_sowthistle",
-        "icon": "T_Sow_Thistle_V4_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_thyme",
-        "icon": "T_Thyme_Var07_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_watercress",
-        "icon": "T_WaterCress_Var02_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "onion_red",
-        "icon": "T_Onion_Red_Icon.webp",
-        "size": 0.9
-      },
-      {
-        "id": "onion_yellow",
-        "icon": "T_Onion_Yellow_Icon.webp",
-        "size": 0.9
-      }
-    ]
-  },
-  {
-    "group": "HerbsFlowersPotions",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "flower_datura",
-        "icon": "T_Datura_INV_state_Fruit_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_deadly_nightshade",
-        "icon": "T_Nightshade_Small_01_INV_state_Fruit_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_loios_tears",
-        "icon": "T_Purpletop_Vervain_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "flower_wolfsbane",
-        "icon": "T_Wolfsbane_M_02_INV_state_Leaves_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_angelica",
-        "icon": "T_Angelica_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "herb_lily",
-        "icon": "T_Lily_Of_The_Valley_Var02_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "Inquisitors",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Inq_Captain_T10",
-        "icon": "templar-shield_delapouite.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T16",
-        "icon": "templar-shield_delapouite_1.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Captain_T22",
-        "icon": "templar-shield_delapouite_2.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T15",
-        "icon": "templar-shield_delapouite_3.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T21",
-        "icon": "templar-shield_delapouite_4.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T8",
-        "icon": "templar-shield_delapouite_5.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T12",
-        "icon": "templar-shield_delapouite_6.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T18",
-        "icon": "templar-shield_delapouite_7.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Cleric_T7",
-        "icon": "templar-shield_delapouite_8.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T10",
-        "icon": "templar-shield_delapouite_9.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T16",
-        "icon": "templar-shield_delapouite_10.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T6",
-        "icon": "templar-shield_delapouite_11.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T13",
-        "icon": "templar-shield_delapouite_12.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T19",
-        "icon": "templar-shield_delapouite_13.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T9",
-        "icon": "templar-shield_delapouite_14.webp"
-      }
-    ]
-  },
-  {
     "group": "LostSouls",
     "defaultOpen": false,
     "defaultOn": false,
@@ -839,150 +711,6 @@
       {
         "id": "tin_deposit",
         "icon": "ore_faithtoken_4.webp"
-      }
-    ]
-  },
-  {
-    "group": "Monsters",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Griffon",
-        "icon": "monster-grasp_lorc.webp"
-      },
-      {
-        "id": "PD_NPC_Wyvern_Adult_Woods",
-        "icon": "monster-grasp_lorc_1.webp"
-      }
-    ]
-  },
-  {
-    "group": "Mushrooms_Cooking",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "mushroom_chanterelle",
-        "icon": "T_Chanterelli_11_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_dapperling",
-        "icon": "T_Dapperling_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_divine",
-        "icon": "T_Cremini_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_enoki",
-        "icon": "T_Enoki_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_morels",
-        "icon": "T_Morel_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_oyster_mushrooms",
-        "icon": "T_Oyster_Mushroom_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_pennybun",
-        "icon": "T_Penny_Bun_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_porcini",
-        "icon": "T_Porcini_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_trumpets",
-        "icon": "T_Black_Trumpet_01_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "Mushrooms_Poisonous",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "mushroom_amanitaregalis",
-        "icon": "T_Amanita_Regalis_06_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_berserker",
-        "icon": "T_Berserker_02_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_chlorine",
-        "icon": "T_Chlorine_Lepidella_04_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_death_cap",
-        "icon": "T_Death_Cap_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_fools_webcap",
-        "icon": "T_Fools_Webcap_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_skullcap",
-        "icon": "T_Galerina_Marginata_01_Icon.webp",
-        "size": 1.15
-      },
-      {
-        "id": "mushroom_stinkhorn",
-        "icon": "T_Elegant_Stinkhorn_01_Icon.webp",
-        "size": 1.15
-      }
-    ]
-  },
-  {
-    "group": "Named Animals",
-    "defaultOpen": false,
-    "defaultOn": false,
-    "values": [
-      {
-        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
-        "icon": "animal-hide_delapouite_6.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
-        "icon": "animal-hide_delapouite_7.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
-        "icon": "animal-hide_delapouite_8.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
-        "icon": "animal-hide_delapouite_9.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
-        "icon": "animal-hide_delapouite_10.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
-        "icon": "animal-hide_delapouite_11.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T23_Night_Terror",
-        "icon": "animal-hide_delapouite_12.webp"
       }
     ]
   },
@@ -1445,6 +1173,222 @@
     ]
   },
   {
+    "group": "Named LostSouls",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
+        "icon": "soul-vessel_delapouite_3.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Cruel_Visitant",
+        "icon": "soul-vessel_delapouite_4.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
+        "icon": "soul-vessel_delapouite_5.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Gloomy_Visitant",
+        "icon": "soul-vessel_delapouite_6.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
+        "icon": "soul-vessel_delapouite_7.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
+        "icon": "soul-vessel_delapouite_8.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
+        "icon": "soul-vessel_delapouite_9.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T34_Erratic_Visitation",
+        "icon": "soul-vessel_delapouite_10.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T34_Silent_Visitant",
+        "icon": "soul-vessel_delapouite_11.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T35_Fetid_Visitation",
+        "icon": "soul-vessel_delapouite_12.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T35_Vile_Visitant",
+        "icon": "soul-vessel_delapouite_13.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T36_Cold_Visitant",
+        "icon": "soul-vessel_delapouite_14.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T36_Intrusive_Visitant",
+        "icon": "soul-vessel_delapouite_15.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
+        "icon": "soul-vessel_delapouite_16.webp"
+      }
+    ]
+  },
+  {
+    "group": "Animals",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "PD_NPC_Animal_Badger_T2",
+        "icon": "badger_caro-asercion.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T18",
+        "icon": "bear-face_sparker.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T24",
+        "icon": "animal-hide_delapouite.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T32",
+        "icon": "bear-head_delapouite.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T12",
+        "icon": "animal-hide_delapouite_1.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T3",
+        "icon": "boar_caro-asercion.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T5",
+        "icon": "boar_caro-asercion_1.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Deer_Stag_T3",
+        "icon": "animal-hide_delapouite_2.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Deer_T2",
+        "icon": "deer_caro-asercion.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Fox_T1",
+        "icon": "fox-head_lorc.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Frog_T1",
+        "icon": "animal-hide_delapouite_3.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Lizard_T1",
+        "icon": "animal-hide_delapouite_4.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Rabbit_T1",
+        "icon": "rabbit-head_delapouite.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T10",
+        "icon": "hound_lorc.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T16",
+        "icon": "animal-hide_delapouite_5.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T6",
+        "icon": "wolf-head_lorc.webp"
+      }
+    ]
+  },
+  {
+    "group": "Named Animals",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
+        "icon": "animal-hide_delapouite_6.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
+        "icon": "animal-hide_delapouite_7.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
+        "icon": "animal-hide_delapouite_8.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
+        "icon": "animal-hide_delapouite_9.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
+        "icon": "animal-hide_delapouite_10.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
+        "icon": "animal-hide_delapouite_11.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T23_Night_Terror",
+        "icon": "animal-hide_delapouite_12.webp"
+      }
+    ]
+  },
+  {
+    "group": "Demons",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "PD_NPC_Demon_Duke",
+        "icon": "daemon-skull_lorc.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T24",
+        "icon": "daemon-skull_lorc_1.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T30",
+        "icon": "daemon-skull_lorc_2.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42",
+        "icon": "daemon-skull_lorc_3.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T14",
+        "icon": "daemon-skull_lorc_4.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T21",
+        "icon": "daemon-skull_lorc_5.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T21_summon",
+        "icon": "daemon-skull_lorc_6.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T31",
+        "icon": "daemon-skull_lorc_7.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T35_summon",
+        "icon": "daemon-skull_lorc_8.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T41",
+        "icon": "daemon-skull_lorc_9.webp"
+      }
+    ]
+  },
+  {
     "group": "Named Demons",
     "defaultOpen": false,
     "defaultOn": false,
@@ -1548,6 +1492,84 @@
       {
         "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
         "icon": "daemon-skull_lorc_34.webp"
+      }
+    ]
+  },
+  {
+    "group": "Fey",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "PD_NPC_Willowisp_T90",
+        "icon": "fairy_delapouite.webp"
+      }
+    ]
+  },
+  {
+    "group": "Inquisitors",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "PD_NPC_Inq_Captain_T10",
+        "icon": "templar-shield_delapouite.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T16",
+        "icon": "templar-shield_delapouite_1.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T22",
+        "icon": "templar-shield_delapouite_2.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T15",
+        "icon": "templar-shield_delapouite_3.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T21",
+        "icon": "templar-shield_delapouite_4.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T8",
+        "icon": "templar-shield_delapouite_5.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T12",
+        "icon": "templar-shield_delapouite_6.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T18",
+        "icon": "templar-shield_delapouite_7.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T7",
+        "icon": "templar-shield_delapouite_8.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T10",
+        "icon": "templar-shield_delapouite_9.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T16",
+        "icon": "templar-shield_delapouite_10.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T6",
+        "icon": "templar-shield_delapouite_11.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T13",
+        "icon": "templar-shield_delapouite_12.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T19",
+        "icon": "templar-shield_delapouite_13.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T9",
+        "icon": "templar-shield_delapouite_14.webp"
       }
     ]
   },
@@ -1667,65 +1689,17 @@
     ]
   },
   {
-    "group": "Named LostSouls",
+    "group": "Monsters",
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
       {
-        "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
-        "icon": "soul-vessel_delapouite_3.webp"
+        "id": "PD_NPC_Griffon",
+        "icon": "monster-grasp_lorc.webp"
       },
       {
-        "id": "PD_NPC_LostSoul_T26_Cruel_Visitant",
-        "icon": "soul-vessel_delapouite_4.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
-        "icon": "soul-vessel_delapouite_5.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Gloomy_Visitant",
-        "icon": "soul-vessel_delapouite_6.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
-        "icon": "soul-vessel_delapouite_7.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
-        "icon": "soul-vessel_delapouite_8.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
-        "icon": "soul-vessel_delapouite_9.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T34_Erratic_Visitation",
-        "icon": "soul-vessel_delapouite_10.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T34_Silent_Visitant",
-        "icon": "soul-vessel_delapouite_11.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T35_Fetid_Visitation",
-        "icon": "soul-vessel_delapouite_12.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T35_Vile_Visitant",
-        "icon": "soul-vessel_delapouite_13.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T36_Cold_Visitant",
-        "icon": "soul-vessel_delapouite_14.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T36_Intrusive_Visitant",
-        "icon": "soul-vessel_delapouite_15.webp"
-      },
-      {
-        "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
-        "icon": "soul-vessel_delapouite_16.webp"
+        "id": "PD_NPC_Wyvern_Adult_Woods",
+        "icon": "monster-grasp_lorc_1.webp"
       }
     ]
   }

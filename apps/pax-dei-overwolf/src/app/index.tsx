@@ -12,6 +12,7 @@ import {
 import type {
   Dict,
   FiltersCoordinates,
+  GlobalFiltersCoordinates,
   NodesCoordinates,
   RegionsCoordinates,
 } from "@repo/ui/providers";
@@ -44,6 +45,7 @@ import regions from "../coordinates/regions.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
 import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
+import globalFilters from "../coordinates/global-filters.json" assert { type: "json" };
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
 const nodes = _nodes as NodesCoordinates;
@@ -80,6 +82,7 @@ function App(): JSX.Element {
             regions={regions as unknown as RegionsCoordinates}
             staticNodes={nodes}
             typesIdMap={typesIdMap}
+            globalFilters={globalFilters as GlobalFiltersCoordinates}
             view={{}}
           >
             <AppHeader title="PaxDei" app={APP} gameClassId={24300} />

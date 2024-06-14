@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import type {
   FiltersCoordinates,
+  GlobalFiltersCoordinates,
   NodesCoordinates,
   RegionsCoordinates,
 } from "@repo/ui/providers";
@@ -14,6 +15,7 @@ import _nodes from "../../coordinates/nodes.json" assert { type: "json" };
 import filters from "../../coordinates/filters.json" assert { type: "json" };
 import tiles from "../../coordinates/tiles.json" assert { type: "json" };
 import regions from "../../coordinates/regions.json" assert { type: "json" };
+import globalFilters from "../../coordinates/global-filters.json" assert { type: "json" };
 
 const nodes = _nodes as NodesCoordinates;
 
@@ -45,6 +47,7 @@ export default function Home({
       mapName={Object.keys(tiles)[0]}
       regions={regions as RegionsCoordinates}
       staticNodes={nodes}
+      globalFilters={globalFilters as GlobalFiltersCoordinates}
       view={view}
     >
       <HeaderOffset full>

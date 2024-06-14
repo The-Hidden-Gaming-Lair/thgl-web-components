@@ -33,7 +33,9 @@ export type NodesCoordinates = {
     } | null;
     radius?: number;
     isPrivate?: boolean;
+    data?: Record<string, string[]>;
   }[];
+  data?: Record<string, string[]>;
 }[];
 export type Spawns = {
   id?: string | undefined;
@@ -274,6 +276,7 @@ export function CoordinatesProvider({
       nodes.flatMap((node) =>
         node.spawns.map((spawn) => ({
           type: node.type,
+          data: spawn.data ?? node.data,
           ...spawn,
         })),
       ),

@@ -540,3 +540,142 @@ export type NPCDataAssets = Array<{
     };
   };
 }>;
+
+export type DA_Item = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    Icon: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    StaticMesh: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    IconCameraData: Array<{
+      Key: string;
+      Value: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+    }>;
+  };
+}>;
+
+export type DA_ItemDataAsset = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    VisualDataAsset: string;
+    Tier: number;
+    ItemLevel: number;
+    Quality: string;
+    MaxStackSize: number;
+    IntID: number;
+    LocalizationNameKey: string;
+    LocalizationDescriptionKey: string;
+  };
+}>;
+
+export type PD_Recipes = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    BaseDuration: number;
+    SkillRequired: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SkillDifficulty: number;
+    SkillMinRolls: number;
+    SkillMaxRolls: number;
+    SkillSuccessPercentage: number;
+    SkillCriticalPercentage: number;
+    ItemDeliverables: Array<{
+      Key: string;
+      Value: number;
+    }>;
+    DeliverableLifetime: number;
+    RecipeUnlockItemName: string;
+    ItemIngredients: Array<{
+      Key: string;
+      Value: number;
+    }>;
+    IngredientCategories: Array<{
+      Key: {
+        TagName: string;
+      };
+      Value: number;
+    }>;
+    IntID: number;
+    LocalizationNameKey: string;
+    LocalizationDescriptionKey: string;
+    IsDev?: boolean;
+  };
+}>;
+export type GlobalFilter = {
+  group: string;
+  values: {
+    id: string;
+    defaultOn?: boolean;
+  }[];
+};
+
+export type PD_Skills = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    UiGroup: string;
+    GasAttributeName: string;
+    GasAttributeXpName: string;
+    SkillCounterLevel: string;
+    SkillCounterExperience: string;
+    SkillLevelingTableId: string;
+    SkillLevelCap: number;
+    SkillBaseXp: number;
+    TickIntervalSeconds: number;
+    IntID: number;
+    LocalizationNameKey: string;
+    LocalizationDescriptionKey: string;
+  };
+}>;
+
+export type PC_Activatable = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    CooldownTag: {
+      TagName: string;
+    };
+    CooldownDuration: number;
+    IsConsumedOnActivation: boolean;
+    CostType: Array<string>;
+    CostAmount: Array<number>;
+    AbilityToActivate: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    GivesAttributes: Array<{
+      Key: string;
+      Value: number;
+    }>;
+    GivesTags: Array<{
+      TagName: string;
+    }>;
+    VisualDataAsset: string;
+    Tier: number;
+    ItemLevel: number;
+    Quality: string;
+    MaxStackSize: number;
+    IntID: number;
+    LocalizationNameKey: string;
+    LocalizationDescriptionKey: string;
+  };
+}>;
