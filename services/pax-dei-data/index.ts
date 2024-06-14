@@ -8,15 +8,7 @@ import {
   saveImage,
   writeJSON,
 } from "./lib/fs.js";
-import {
-  addCircleToImage,
-  addOutlineToImage,
-  colorizeImage,
-  drawInCircleWithBorderColor,
-  mergeImages,
-  rotateImage,
-  saveIcon,
-} from "./lib/image.js";
+import { mergeImages, saveIcon } from "./lib/image.js";
 import {
   DA_ItemDataAsset,
   PD_Recipes,
@@ -85,7 +77,6 @@ const regions: {
   border: [number, number][];
   mapName: string;
 }[] = [];
-const savedIcons: string[] = [];
 const icons: Record<string, string> = {
   // portal: await saveIcon(
   //   `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/portal_lorc.webp`
@@ -117,9 +108,9 @@ const enDict: Record<string, string> = {
   empire_large: "Empire Large",
   site: "Site",
   gateway: "Gateway",
-  mineables: "Mineables",
-  gatherables: "Gatherables",
-  npcs: "NPCs",
+  mineables: "All Mineables",
+  gatherables: "All Gatherables",
+  npcs: "All NPCs",
   // Berries: "Berries",
   // Flowers: "Flowers",
   // HerbsFlowersPotions: "Potions, Flowers & Herbs",
@@ -140,13 +131,6 @@ const locations: (typeof filters)[number] = {
   group: "locations",
   defaultOpen: false,
   defaultOn: true,
-  values: [],
-};
-
-const mineables: (typeof filters)[number] = {
-  group: "mineables",
-  defaultOpen: false,
-  defaultOn: false,
   values: [],
 };
 
@@ -365,7 +349,7 @@ if (!globalFilters.some((f) => f.group === "skills")) {
     group: "skills",
     values: [
       {
-        id: "_none",
+        id: "others",
         defaultOn: true,
       },
       {
@@ -375,7 +359,7 @@ if (!globalFilters.some((f) => f.group === "skills")) {
     ],
   });
   enDict.skills = "Skills";
-  enDict._none = "None";
+  enDict.others = "Others";
   enDict.consumable = "Consumable";
 }
 
@@ -475,7 +459,7 @@ for (const gatherablesPath of gatherablesPaths) {
   // enDict[`${id}_desc`] +=
   //   `<p>${localisationEN[file[0].Properties.LocalizationDescriptionKey]}</p>`;
   if (skills.length === 0) {
-    skills.push("_none");
+    skills.push("others");
   }
 
   if (!nodes.some((n) => n.type === id)) {
@@ -500,14 +484,6 @@ for (const gatherablesPath of gatherablesPaths) {
   //   )
   // ) {
   //   continue;
-  // }
-
-  const category = "gatherables";
-  // if (
-  //   skills.includes("PD_skill_alchemy") &&
-  //   category !== "HerbsFlowersPotions"
-  // ) {
-  //   category = "HerbsFlowersPotions";
   // }
 
   const resourcePath =
@@ -570,30 +546,34 @@ for (const gatherablesPath of gatherablesPaths) {
   if (id.startsWith("onion_")) {
     size = 0.9;
   }
-  let filter: (typeof filters)[number];
-  if (!filters.find((f) => f.group === category)) {
-    filter = {
-      group: category,
-      defaultOpen: false,
-      defaultOn: false,
-      values: [],
-    };
-    filters.push(filter);
-    if (!enDict[category]) {
-      enDict[category] = category;
+
+  const categories = ["gatherables", ...skills];
+  for (const category of categories) {
+    let filter: (typeof filters)[number];
+    if (!filters.find((f) => f.group === category)) {
+      filter = {
+        group: category,
+        defaultOpen: false,
+        defaultOn: false,
+        values: [],
+      };
+      filters.push(filter);
+      if (!enDict[category]) {
+        enDict[category] = category;
+      }
+      gatherablesFilters.push(category);
     }
-    gatherablesFilters.push(category);
+    filter = filters.find((f) => f.group === category)!;
+    filter.values.push({
+      id,
+      icon: await saveIcon(iconPath, id, {
+        glowing: true,
+        color: "#fff",
+        resize: true,
+      }),
+      size: size,
+    });
   }
-  filter = filters.find((f) => f.group === category)!;
-  filter.values.push({
-    id,
-    icon: await saveIcon(iconPath, id, {
-      glowing: true,
-      color: "#fff",
-      resize: true,
-    }),
-    size: size,
-  });
 }
 const mineablesPaths = readDirRecursive(
   CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/DataAssets/Mineables",
@@ -652,7 +632,7 @@ for (const mineablesPath of mineablesPaths) {
   // enDict[`${id}_desc`] +=
   //   localisationEN[file[0].Properties.LocalizationDescriptionKey];
   if (skills.length === 0) {
-    skills.push("_none");
+    skills.push("others");
   }
 
   if (!nodes.some((n) => n.type === id)) {
@@ -705,16 +685,31 @@ for (const mineablesPath of mineablesPaths) {
       .replace(".json", ".png");
   }
 
-  if (mineables.values.some((m) => m.id === id)) {
-    continue;
+  const categories = ["mineables", ...skills];
+  for (const category of categories) {
+    let filter: (typeof filters)[number];
+    if (!filters.find((f) => f.group === category)) {
+      filter = {
+        group: category,
+        defaultOpen: false,
+        defaultOn: false,
+        values: [],
+      };
+      filters.push(filter);
+      if (!enDict[category]) {
+        enDict[category] = category;
+      }
+      gatherablesFilters.push(category);
+    }
+    filter = filters.find((f) => f.group === category)!;
+    filter.values.push({
+      id,
+      icon: await saveIcon(iconPath, id, {
+        color: uniqolor(id).color,
+        resize: true,
+      }),
+    });
   }
-  mineables.values.push({
-    id,
-    icon: await saveIcon(iconPath, id, {
-      color: uniqolor(id).color,
-      resize: true,
-    }),
-  });
 }
 
 const npcs = readDirRecursive(
@@ -786,7 +781,7 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
   enDict[`${id}_desc`] += `<p>Health: ${npc[0].Properties.MaxHealth}</p>`;
 
   if (skills.length === 0) {
-    skills.push("_none");
+    skills.push("others");
   }
 
   // Temporary fix nodes
@@ -818,7 +813,6 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
   if (category === "CNameds" || category === "Nameds") {
     category = "Named " + npcsResourcesPath.split("/").at(-3)!;
   }
-
   let iconPath;
   const iconSettings: {
     color?: string;
@@ -884,28 +878,28 @@ for (const npcsResourcesPath of npcsResourcesPaths) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/animal-hide_delapouite.webp`;
   }
 
-  category = "npcs";
-  let filter: (typeof filters)[number];
-  if (!filters.find((f) => f.group === category)) {
-    filter = {
-      group: category,
-      defaultOpen: false,
-      defaultOn: false,
-      values: [],
-    };
-    filters.push(filter);
+  const categories = ["npcs", ...skills];
+  for (const category of categories) {
+    let filter: (typeof filters)[number];
+    if (!filters.find((f) => f.group === category)) {
+      filter = {
+        group: category,
+        defaultOpen: false,
+        defaultOn: false,
+        values: [],
+      };
+      filters.push(filter);
+    }
+    filter = filters.find((f) => f.group === category)!;
+    filter.values.push({
+      id,
+      icon: await saveIcon(iconPath, id, {
+        border: true,
+        color: "#aaa",
+      }),
+    });
   }
-  filter = filters.find((f) => f.group === category)!;
-  filter.values.push({
-    id,
-    icon: await saveIcon(iconPath, id, {
-      border: true,
-      color: "#aaa",
-    }),
-  });
 }
-
-filters.push(mineables);
 
 if (Bun.env.NODES === "true") {
   const response = await fetch(
@@ -956,12 +950,34 @@ nodes = nodes.filter(
 );
 
 const filtersOrder = ["locations", "gatherables", "mineables", "npcs"];
+const lastFiltersOrder = ["others"];
 filters = filters.sort((a, b) => {
   const aIndex = filtersOrder.indexOf(a.group);
   const bIndex = filtersOrder.indexOf(b.group);
+
   if (aIndex === -1 && bIndex === -1) {
+    const lastAIndex = lastFiltersOrder.indexOf(a.group);
+    const lastBIndex = lastFiltersOrder.indexOf(b.group);
+    if (lastAIndex !== -1 && lastBIndex !== -1) {
+      return lastAIndex - lastBIndex;
+    }
+    if (lastAIndex !== -1) {
+      return 1;
+    }
+    if (lastBIndex !== -1) {
+      return -1;
+    }
+
     return enDict[a.group]?.localeCompare(enDict[b.group]);
   }
+
+  if (aIndex === -1) {
+    return 1;
+  }
+  if (bIndex === -1) {
+    return -1;
+  }
+
   return aIndex - bIndex;
 });
 
@@ -1000,7 +1016,8 @@ writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 // writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
 writeJSON(OUT_DIR + "/coordinates/types_id_map.json", typesIdMap);
-writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
+// writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
+writeJSON(OUT_DIR + "/coordinates/global-filters.json", []);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 
 console.log("Done");

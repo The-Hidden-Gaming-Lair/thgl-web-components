@@ -548,6 +548,10 @@
         "icon": "copper_deposit.webp"
       },
       {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
         "id": "gneiss_deposit",
         "icon": "gneiss_deposit.webp"
       },
@@ -564,12 +568,28 @@
         "icon": "iron_deposit_impure.webp"
       },
       {
+        "id": "iron_deposit_impure",
+        "icon": "iron_deposit_impure.webp"
+      },
+      {
         "id": "iron_deposit_pure",
         "icon": "iron_deposit_pure.webp"
       },
       {
+        "id": "iron_deposit_pure",
+        "icon": "iron_deposit_pure.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
         "id": "limestone_deposit",
         "icon": "limestone_deposit.webp"
+      },
+      {
+        "id": "tin_deposit",
+        "icon": "tin_deposit.webp"
       },
       {
         "id": "tin_deposit",
@@ -661,6 +681,971 @@
       {
         "id": "animal_wolf_t6",
         "icon": "animal_wolf_t6.webp"
+      },
+      {
+        "id": "cor_boar_t16",
+        "icon": "cor_boar_t16.webp"
+      },
+      {
+        "id": "cor_boar_t30",
+        "icon": "cor_boar_t30.webp"
+      },
+      {
+        "id": "cor_boar_t42",
+        "icon": "cor_boar_t42.webp"
+      },
+      {
+        "id": "cor_wolf_t42",
+        "icon": "cor_wolf_t42.webp"
+      },
+      {
+        "id": "demon_duke",
+        "icon": "demon_duke.webp"
+      },
+      {
+        "id": "griffon",
+        "icon": "griffon.webp"
+      },
+      {
+        "id": "inq_captain_t15_manic_torturer",
+        "icon": "inq_captain_t15_manic_torturer.webp"
+      },
+      {
+        "id": "inq_caster_t16_entranced_exorcist",
+        "icon": "inq_caster_t16_entranced_exorcist.webp"
+      },
+      {
+        "id": "inq_scout_t15_inquisitor_veritatis",
+        "icon": "inq_scout_t15_inquisitor_veritatis.webp"
+      },
+      {
+        "id": "inq_tank_t15_inquisitor_pura",
+        "icon": "inq_tank_t15_inquisitor_pura.webp"
+      },
+      {
+        "id": "inq_tank_t15_wary_ostiary",
+        "icon": "inq_tank_t15_wary_ostiary.webp"
+      },
+      {
+        "id": "lostsoul_t16",
+        "icon": "lostsoul_t16.webp"
+      },
+      {
+        "id": "lostsoul_t22",
+        "icon": "lostsoul_t22.webp"
+      },
+      {
+        "id": "lostsoul_t32",
+        "icon": "lostsoul_t32.webp"
+      },
+      {
+        "id": "willowisp_t90",
+        "icon": "willowisp_t90.webp"
+      },
+      {
+        "id": "wyvern_adult_woods",
+        "icon": "wyvern_adult_woods.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_alchemy",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "bushy_starworth",
+        "icon": "bushy_starworth.webp",
+        "size": 1.15
+      },
+      {
+        "id": "castor_plant",
+        "icon": "castor_plant.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_alfalfa",
+        "icon": "flower_alfalfa.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_batflower",
+        "icon": "flower_batflower.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_californianpoppy",
+        "icon": "flower_californianpoppy.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_campion",
+        "icon": "flower_campion.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_crane",
+        "icon": "flower_crane.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_datura",
+        "icon": "flower_datura.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_lavender",
+        "icon": "flower_lavender.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_loios_tears",
+        "icon": "flower_loios_tears.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_pasque",
+        "icon": "flower_pasque.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_redpoppy",
+        "icon": "flower_redpoppy.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_soapwort",
+        "icon": "flower_soapwort.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_tansy",
+        "icon": "flower_tansy.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_crown_beard",
+        "icon": "herb_crown_beard.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_sowthistle",
+        "icon": "herb_sowthistle.webp",
+        "size": 1.15
+      },
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_armor_smithing",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_baking",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "clay",
+        "icon": "clay.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_barley",
+        "icon": "grass_barley.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_oat",
+        "icon": "grass_oat.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_rye",
+        "icon": "grass_rye.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_wheat",
+        "icon": "grass_wheat.webp",
+        "size": 1.15
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_blacksmithing",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "clay",
+        "icon": "clay.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_cotton",
+        "icon": "grass_cotton.webp",
+        "size": 1.15
+      },
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "gneiss_deposit",
+        "icon": "gneiss_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit_impure",
+        "icon": "iron_deposit_impure.webp"
+      },
+      {
+        "id": "iron_deposit_impure",
+        "icon": "iron_deposit_impure.webp"
+      },
+      {
+        "id": "iron_deposit_pure",
+        "icon": "iron_deposit_pure.webp"
+      },
+      {
+        "id": "iron_deposit_pure",
+        "icon": "iron_deposit_pure.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "tin_deposit",
+        "icon": "tin_deposit.webp"
+      },
+      {
+        "id": "tin_deposit",
+        "icon": "tin_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_building",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "clay",
+        "icon": "clay.webp",
+        "size": 1.15
+      },
+      {
+        "id": "bushy_starworth",
+        "icon": "bushy_starworth.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_batflower",
+        "icon": "flower_batflower.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_datura",
+        "icon": "flower_datura.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_periwinkle",
+        "icon": "flower_periwinkle.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_rain_lily",
+        "icon": "flower_rain_lily.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_cotton",
+        "icon": "grass_cotton.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_flax",
+        "icon": "grass_flax.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_reeds",
+        "icon": "grass_reeds.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_garlic",
+        "icon": "herb_garlic.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_lily",
+        "icon": "herb_lily.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_sage",
+        "icon": "herb_sage.webp",
+        "size": 1.15
+      },
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "gneiss_deposit",
+        "icon": "gneiss_deposit.webp"
+      },
+      {
+        "id": "granite_deposit",
+        "icon": "granite_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "limestone_deposit",
+        "icon": "limestone_deposit.webp"
+      },
+      {
+        "id": "animal_bear_t18",
+        "icon": "animal_bear_t18.webp"
+      },
+      {
+        "id": "animal_bear_t24",
+        "icon": "animal_bear_t24.webp"
+      },
+      {
+        "id": "animal_bear_t32",
+        "icon": "animal_bear_t32.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_charcuterie",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "herb_parsley",
+        "icon": "herb_parsley.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_rosemary",
+        "icon": "herb_rosemary.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_thyme",
+        "icon": "herb_thyme.webp",
+        "size": 1.15
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "animal_bear_t18",
+        "icon": "animal_bear_t18.webp"
+      },
+      {
+        "id": "animal_bear_t24",
+        "icon": "animal_bear_t24.webp"
+      },
+      {
+        "id": "animal_bear_t32",
+        "icon": "animal_bear_t32.webp"
+      },
+      {
+        "id": "animal_boar_t12",
+        "icon": "animal_boar_t12.webp"
+      },
+      {
+        "id": "animal_boar_t3",
+        "icon": "animal_boar_t3.webp"
+      },
+      {
+        "id": "animal_boar_t3",
+        "icon": "animal_boar_t3.webp"
+      },
+      {
+        "id": "animal_boar_t5",
+        "icon": "animal_boar_t5.webp"
+      },
+      {
+        "id": "animal_boar_t5",
+        "icon": "animal_boar_t5.webp"
+      },
+      {
+        "id": "animal_deer_t2",
+        "icon": "animal_deer_t2.webp"
+      },
+      {
+        "id": "animal_deer_t2",
+        "icon": "animal_deer_t2.webp"
+      },
+      {
+        "id": "animal_rabbit_t1",
+        "icon": "animal_rabbit_t1.webp"
+      },
+      {
+        "id": "animal_wolf_t10",
+        "icon": "animal_wolf_t10.webp"
+      },
+      {
+        "id": "animal_wolf_t16",
+        "icon": "animal_wolf_t16.webp"
+      },
+      {
+        "id": "animal_wolf_t6",
+        "icon": "animal_wolf_t6.webp"
+      },
+      {
+        "id": "animal_wolf_t6",
+        "icon": "animal_wolf_t6.webp"
+      }
+    ]
+  },
+  {
+    "group": "consumable",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "berry_alpine_juniper",
+        "icon": "berry_alpine_juniper.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_blackberries",
+        "icon": "berry_blackberries.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_blueberries",
+        "icon": "berry_blueberries.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_cloudberry",
+        "icon": "berry_cloudberry.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_elderberries",
+        "icon": "berry_elderberries.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_gooseberry",
+        "icon": "berry_gooseberry.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_hawthorne",
+        "icon": "berry_hawthorne.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_pineberry",
+        "icon": "berry_pineberry.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_raspberries",
+        "icon": "berry_raspberries.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_red_currant",
+        "icon": "berry_red_currant.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_rosehips",
+        "icon": "berry_rosehips.webp",
+        "size": 1.15
+      },
+      {
+        "id": "berry_strawberry",
+        "icon": "berry_strawberry.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_datura",
+        "icon": "flower_datura.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_deadly_nightshade",
+        "icon": "flower_deadly_nightshade.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_barley",
+        "icon": "grass_barley.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_berserker",
+        "icon": "mushroom_berserker.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_chanterelle",
+        "icon": "mushroom_chanterelle.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_chlorine",
+        "icon": "mushroom_chlorine.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_dapperling",
+        "icon": "mushroom_dapperling.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_divine",
+        "icon": "mushroom_divine.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_enoki",
+        "icon": "mushroom_enoki.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_fools_webcap",
+        "icon": "mushroom_fools_webcap.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_morels",
+        "icon": "mushroom_morels.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_pennybun",
+        "icon": "mushroom_pennybun.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_porcini",
+        "icon": "mushroom_porcini.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_skullcap",
+        "icon": "mushroom_skullcap.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_stinkhorn",
+        "icon": "mushroom_stinkhorn.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_trumpets",
+        "icon": "mushroom_trumpets.webp",
+        "size": 1.15
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_cooking",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "flower_dandelion",
+        "icon": "flower_dandelion.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_barley",
+        "icon": "grass_barley.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_wheat",
+        "icon": "grass_wheat.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_fennel",
+        "icon": "herb_fennel.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_garlic",
+        "icon": "herb_garlic.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_lemongrass",
+        "icon": "herb_lemongrass.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_mustard",
+        "icon": "herb_mustard.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_rosemary",
+        "icon": "herb_rosemary.webp",
+        "size": 1.15
+      },
+      {
+        "id": "onion_yellow",
+        "icon": "onion_yellow.webp",
+        "size": 0.9
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "animal_bear_t18",
+        "icon": "animal_bear_t18.webp"
+      },
+      {
+        "id": "animal_bear_t24",
+        "icon": "animal_bear_t24.webp"
+      },
+      {
+        "id": "animal_bear_t32",
+        "icon": "animal_bear_t32.webp"
+      },
+      {
+        "id": "animal_boar_t12",
+        "icon": "animal_boar_t12.webp"
+      },
+      {
+        "id": "animal_boar_t3",
+        "icon": "animal_boar_t3.webp"
+      },
+      {
+        "id": "animal_boar_t3",
+        "icon": "animal_boar_t3.webp"
+      },
+      {
+        "id": "animal_boar_t5",
+        "icon": "animal_boar_t5.webp"
+      },
+      {
+        "id": "animal_boar_t5",
+        "icon": "animal_boar_t5.webp"
+      },
+      {
+        "id": "animal_deer_t2",
+        "icon": "animal_deer_t2.webp"
+      },
+      {
+        "id": "animal_deer_t2",
+        "icon": "animal_deer_t2.webp"
+      },
+      {
+        "id": "animal_rabbit_t1",
+        "icon": "animal_rabbit_t1.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_fletching",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "grass_reeds",
+        "icon": "grass_reeds.webp",
+        "size": 1.15
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_leatherworking",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_tailoring",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "grass_cotton",
+        "icon": "grass_cotton.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_flax",
+        "icon": "grass_flax.webp",
+        "size": 1.15
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_weapon_smithing",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      },
+      {
+        "id": "iron_deposit",
+        "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_winery_and_brewing",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "fruit_apple_red",
+        "icon": "fruit_apple_red.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_barley",
+        "icon": "grass_barley.webp",
+        "size": 1.15
+      },
+      {
+        "id": "hops",
+        "icon": "hops.webp",
+        "size": 1.15
+      }
+    ]
+  },
+  {
+    "group": "others",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "berry_grapevines",
+        "icon": "berry_grapevines.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_daisy",
+        "icon": "flower_daisy.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_highmallow",
+        "icon": "flower_highmallow.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_plantago",
+        "icon": "flower_plantago.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flower_wolfsbane",
+        "icon": "flower_wolfsbane.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_catgrass",
+        "icon": "grass_catgrass.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_hemp",
+        "icon": "grass_hemp.webp",
+        "size": 1.15
+      },
+      {
+        "id": "grass_sugarcane",
+        "icon": "grass_sugarcane.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_angelica",
+        "icon": "herb_angelica.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_chives",
+        "icon": "herb_chives.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_meadowsweet",
+        "icon": "herb_meadowsweet.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_watercress",
+        "icon": "herb_watercress.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_amanitaregalis",
+        "icon": "mushroom_amanitaregalis.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_death_cap",
+        "icon": "mushroom_death_cap.webp",
+        "size": 1.15
+      },
+      {
+        "id": "mushroom_oyster_mushrooms",
+        "icon": "mushroom_oyster_mushrooms.webp",
+        "size": 1.15
+      },
+      {
+        "id": "onion_red",
+        "icon": "onion_red.webp",
+        "size": 0.9
+      },
+      {
+        "id": "tree_branch",
+        "icon": "tree_branch.webp",
+        "size": 1.15
+      },
+      {
+        "id": "flint_stones",
+        "icon": "flint_stones.webp",
+        "size": 1.15
+      },
+      {
+        "id": "gneiss_stones",
+        "icon": "gneiss_stones.webp",
+        "size": 1.15
+      },
+      {
+        "id": "granite_stones",
+        "icon": "granite_stones.webp",
+        "size": 1.15
+      },
+      {
+        "id": "lime_stone_stones",
+        "icon": "lime_stone_stones.webp",
+        "size": 1.15
+      },
+      {
+        "id": "volcanic_rock_stones",
+        "icon": "volcanic_rock_stones.webp",
+        "size": 1.15
+      },
+      {
+        "id": "animal_badger_t2",
+        "icon": "animal_badger_t2.webp"
+      },
+      {
+        "id": "animal_deer_stag_t3",
+        "icon": "animal_deer_stag_t3.webp"
+      },
+      {
+        "id": "animal_fox_t1",
+        "icon": "animal_fox_t1.webp"
+      },
+      {
+        "id": "animal_frog_t1",
+        "icon": "animal_frog_t1.webp"
+      },
+      {
+        "id": "animal_lizard_t1",
+        "icon": "animal_lizard_t1.webp"
       },
       {
         "id": "cor_boar_t16",
