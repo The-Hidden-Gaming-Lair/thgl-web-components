@@ -1,4 +1,4 @@
-import { useCoordinates, useUserStore } from "../(providers)";
+import { REGION_FILTERS, useCoordinates, useUserStore } from "../(providers)";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -13,16 +13,21 @@ import { useSettingsStore } from "@repo/lib";
 import { useState } from "react";
 
 export function Presets(): JSX.Element {
-  const { allFilters } = useCoordinates();
-  const { setFilters, filters } = useUserStore();
+  const coordinates = useCoordinates();
+  const { setFilters, filters, globalFilters, setGlobalFilters } =
+    useUserStore();
   const presets = useSettingsStore((state) => state.presets);
   const addPreset = useSettingsStore((state) => state.addPreset);
   const removePreset = useSettingsStore((state) => state.removePreset);
   const [presetName, setPresetName] = useState("");
 
+  const allGlobalFilters = coordinates.globalFilters.flatMap((filter) =>
+    filter.values.flatMap((value) => value.id),
+  );
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addPreset(presetName, filters);
+    const allFilters = [...filters, ...globalFilters];
+    addPreset(presetName, allFilters);
     setPresetName("");
   };
 
@@ -33,7 +38,8 @@ export function Presets(): JSX.Element {
         className="grow"
         size="sm"
         onClick={() => {
-          setFilters(allFilters);
+          setFilters(coordinates.allFilters);
+          setGlobalFilters(allGlobalFilters);
         }}
         type="button"
       >
@@ -47,6 +53,7 @@ export function Presets(): JSX.Element {
         size="sm"
         onClick={() => {
           setFilters([]);
+          setGlobalFilters([]);
         }}
         type="button"
       >
@@ -64,10 +71,62 @@ export function Presets(): JSX.Element {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64">
+          <DropdownMenuItem
+            onClick={() => {
+              const defaultGlobalFilters = coordinates.globalFilters.flatMap(
+                (filter) =>
+                  filter.values.flatMap((value) =>
+                    value.defaultOn ? value.id : [],
+                  ),
+              );
+              setGlobalFilters(defaultGlobalFilters);
+
+              const defaultFilters = [
+                ...coordinates.filters.flatMap((filter) =>
+                  filter.defaultOn
+                    ? filter.values.map((value) => value.id)
+                    : [],
+                ),
+                ...REGION_FILTERS.map((filter) => filter.id),
+              ];
+              setFilters(defaultFilters);
+            }}
+            className="grow"
+          >
+            Default
+          </DropdownMenuItem>
           {Object.entries(presets).map(([name, filters]) => (
             <div key={name} className="flex items-center w-full">
               <DropdownMenuItem
-                onClick={() => setFilters(filters)}
+                onClick={() => {
+                  const { globalFilters, filters: localFilters } =
+                    filters.reduce(
+                      (acc, filter) => {
+                        if (allGlobalFilters.includes(filter)) {
+                          acc.globalFilters.push(filter);
+                        } else {
+                          acc.filters.push(filter);
+                        }
+                        return acc;
+                      },
+                      {
+                        globalFilters: [] as string[],
+                        filters: [] as string[],
+                      },
+                    );
+                  setFilters(localFilters);
+                  if (globalFilters.length === 0) {
+                    const defaultGlobalFilters =
+                      coordinates.globalFilters.flatMap((filter) =>
+                        filter.values.flatMap((value) =>
+                          value.defaultOn ? value.id : [],
+                        ),
+                      );
+                    setGlobalFilters(defaultGlobalFilters);
+                  } else {
+                    setGlobalFilters(globalFilters);
+                  }
+                }}
                 className="grow"
               >
                 {name}

@@ -3,16 +3,28 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@repo/lib";
 import { useCoordinates, useT, useUserStore } from "../(providers)";
+import { useEffect } from "react";
 
 export function GlobalFilters() {
   const t = useT();
-  const { globalFilters } = useCoordinates();
+  const { globalFilters, isHydrated } = useCoordinates();
   const myGlobalFilters = useUserStore((state) => state.globalFilters);
+  const setGlobalFilters = useUserStore((state) => state.setGlobalFilters);
   const toggleGlobalFilter = useUserStore((state) => state.toggleGlobalFilter);
 
   if (globalFilters.length === 0) {
     return null;
   }
+
+  useEffect(() => {
+    if (isHydrated && myGlobalFilters.length === 0) {
+      const defaultGlobalFilters = globalFilters.flatMap((filter) =>
+        filter.values.flatMap((value) => (value.defaultOn ? value.id : [])),
+      );
+      setGlobalFilters(defaultGlobalFilters);
+    }
+  }, [isHydrated]);
+
   return (
     <div className="flex justify-center p-1">
       {globalFilters.map((globalFilter) => (
