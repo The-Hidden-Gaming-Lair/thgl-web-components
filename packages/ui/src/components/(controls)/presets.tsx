@@ -53,7 +53,13 @@ export function Presets(): JSX.Element {
         size="sm"
         onClick={() => {
           setFilters([]);
-          setGlobalFilters([]);
+          const defaultGlobalFilters = coordinates.globalFilters.flatMap(
+            (filter) =>
+              filter.values.flatMap((value) =>
+                value.defaultOn ? value.id : [],
+              ),
+          );
+          setGlobalFilters(defaultGlobalFilters);
         }}
         type="button"
       >
