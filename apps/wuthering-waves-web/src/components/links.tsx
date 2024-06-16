@@ -23,13 +23,13 @@ export function Links(): JSX.Element {
       active={active.content}
       external={
         <>
-          {/* <ExternalAnchor
+          <ExternalAnchor
             className="flex gap-1 hover:text-primary transition-colors"
             href="https://www.overwolf.com/app/Leon_Machens-Wuthering_Waves_Map"
           >
             <span>In-Game App</span>
             <ExternalLink className="w-3 h-3" />
-          </ExternalAnchor> */}
+          </ExternalAnchor>
           <ReleaseNotesLink href="https://www.th.gl/apps/Wuthering%20Waves/release-notes" />
         </>
       }
