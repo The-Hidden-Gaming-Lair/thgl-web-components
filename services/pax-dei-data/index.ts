@@ -218,6 +218,7 @@ for (const mapName of readDirSync(
       }
       console.log("Tiles generated for", mapName);
     } catch (e) {
+      console.error(e);
       console.warn("No tiles for", mapName);
     }
   }

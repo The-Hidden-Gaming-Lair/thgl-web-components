@@ -730,10 +730,6 @@
         "size": 1.15
       },
       {
-        "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
-      },
-      {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
       }
@@ -755,11 +751,6 @@
     "defaultOpen": false,
     "defaultOn": false,
     "values": [
-      {
-        "id": "clay",
-        "icon": "clay.webp",
-        "size": 1.15
-      },
       {
         "id": "grass_barley",
         "icon": "grass_barley.webp",
@@ -933,10 +924,6 @@
         "id": "herb_thyme",
         "icon": "herb_thyme.webp",
         "size": 1.15
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       }
     ]
   },
@@ -1126,10 +1113,6 @@
         "id": "onion_yellow",
         "icon": "onion_yellow.webp",
         "size": 0.9
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       }
     ]
   },
@@ -1146,6 +1129,21 @@
       {
         "id": "iron_deposit",
         "icon": "iron_deposit.webp"
+      }
+    ]
+  },
+  {
+    "group": "PD_skill_jewelerycrafting",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "copper_deposit",
+        "icon": "copper_deposit.webp"
+      },
+      {
+        "id": "tin_deposit",
+        "icon": "tin_deposit.webp"
       }
     ]
   },
@@ -1174,10 +1172,6 @@
         "id": "grass_flax",
         "icon": "grass_flax.webp",
         "size": 1.15
-      },
-      {
-        "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
       }
     ]
   },

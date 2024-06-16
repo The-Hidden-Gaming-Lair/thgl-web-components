@@ -189,67 +189,30 @@ function parseColor(color: string) {
   return [r, g, b];
 }
 
-export async function mergeImages(paths: string[], bgColor?: string) {
+export async function mergeImages(paths: string[]) {
+  const rows = Math.sqrt(paths.length);
   let canvas: Canvas | null = null;
-  let coordinates = paths.map((path) => {
-    const matched = path.match(/_(-?\d+)_(-?\d+)/);
-    if (!matched) {
-      throw new Error("Invalid path: " + path);
-    }
-    return { coords: [+matched[1], +matched[2]], path };
-  });
-  const cellsMin = Math.min(...coordinates.map((c) => c.coords[0]));
-  const rowsMin = Math.min(...coordinates.map((c) => c.coords[1]));
-  const cellsMax = Math.max(...coordinates.map((c) => c.coords[0]));
-  const rowsMax = Math.max(...coordinates.map((c) => c.coords[1]));
-  console.log(
-    `Cells: ${cellsMin} to ${cellsMax}, Rows: ${rowsMin} to ${rowsMax}`,
-  );
+  for (const path of paths) {
+    const image = await loadImage(path);
 
-  for (const pathCoordinates of coordinates) {
-    const image = await loadImage(pathCoordinates.path);
     if (!canvas) {
-      canvas = createCanvas(
-        image.width * (cellsMax - cellsMin),
-        image.height * (rowsMax - rowsMin + 1),
-      );
-      if (bgColor) {
-        const ctx = canvas.getContext("2d");
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
+      canvas = createCanvas(image.width * rows, image.height * rows);
     }
+    const x = +path.match(/x(\d+)/)![1];
+    const y = rows - +path.match(/y(\d+)/)![1] - 1;
     const ctx = canvas.getContext("2d");
-
-    console.log(
-      `Rendering ${pathCoordinates.path.split("/").at(-1)} at ${pathCoordinates.coords} with offset ${pathCoordinates.coords[0] - cellsMin}, ${rowsMax - rowsMin - (pathCoordinates.coords[1] - rowsMin)} with size ${image.width}x${image.height}`,
+    ctx.drawImage(
+      image,
+      image.width * x,
+      image.height * y,
+      image.width,
+      image.height,
     );
-
-    const isImageOnlyBlack = isBlackImage(image);
-
-    if (bgColor && isImageOnlyBlack) {
-      // Set the bgColor as the fill style of the canvas
-      ctx.fillStyle = bgColor;
-      // Fill the entire canvas with the bgColor
-      ctx.fillRect(
-        image.width * (pathCoordinates.coords[0] - cellsMin),
-        image.height * (rowsMax - pathCoordinates.coords[1]),
-        image.width,
-        image.height,
-      );
-    } else {
-      ctx.drawImage(
-        image,
-        image.width * (pathCoordinates.coords[0] - cellsMin),
-        image.height * (rowsMax - pathCoordinates.coords[1]),
-        image.width,
-        image.height,
-      );
-    }
   }
 
   return canvas!;
 }
+
 function isBlackImage(image: Image) {
   const canvas = createCanvas(image.width, image.height);
   const ctx = canvas.getContext("2d");
