@@ -49,7 +49,7 @@ export const apps: App[] = [
     overwolf: {
       id: "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
       protocol: "thgl-wuthering-waves",
-      url: "#",
+      url: "https://www.overwolf.com/app/Leon_Machens-Wuthering_Waves_Map",
     },
     patreonTierIDs: ["21470797", "21470809", "special"],
   },
