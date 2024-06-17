@@ -190,6 +190,13 @@ for (const mapName of readDirSync(
   const MULTIPLE = REAL_SIZE / TILE_SIZE;
   const OFFSET = [-MAP_BOUNDS[0][0] / MULTIPLE, -MAP_BOUNDS[0][1] / MULTIPLE];
   const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
+  const FIT_BOUNDS =
+    mapName === "gallia_pve_01"
+      ? MAP_BOUNDS
+      : [
+          [MAP_BOUNDS[0][0], MAP_BOUNDS[0][1]],
+          [MAP_BOUNDS[1][0] * 0.25, MAP_BOUNDS[1][1] * 0.25],
+        ];
 
   if (Bun.env.TILES === "true") {
     try {
@@ -237,7 +244,7 @@ for (const mapName of readDirSync(
     },
     minZoom: -5,
     maxZoom: 7,
-    fitBounds: MAP_BOUNDS,
+    fitBounds: FIT_BOUNDS,
     transformation: [1 / MULTIPLE, OFFSET[0], 1 / MULTIPLE, OFFSET[1]],
   };
 
