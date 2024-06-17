@@ -101,7 +101,7 @@ function App(): JSX.Element {
                 <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
               )}
               <Actions>
-                <StreamingSender domain="wuthering-waves" hidden={hidden} />
+                <StreamingSender domain="wuthering" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />
               </Actions>
