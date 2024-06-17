@@ -13,7 +13,7 @@ import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
-import { capitalizeWords, toCamelCase } from "./lib/utils.js";
+import { capitalizeWords, formatTimer, toCamelCase } from "./lib/utils.js";
 import { Node } from "./types.js";
 
 initDirs(
@@ -790,6 +790,49 @@ for (const levelEntity of sortedEntities) {
           spawnId = `${id}_${levelEntity.data.EntityId}`;
           enDict[`${spawnId}_desc`] =
             `<p style="color:#17a0a4">${dataType}</p>`;
+          const levelPlayRefreshConfig =
+            ownerLevelPlay.data.Data.LevelPlayRefreshConfig;
+          if (levelPlayRefreshConfig.Type !== "None") {
+            let text = "";
+            if (levelPlayRefreshConfig.Type === "Completed") {
+              if (
+                levelPlayRefreshConfig.MinRefreshCd !==
+                levelPlayRefreshConfig.MaxRefreshCd
+              ) {
+                text = `Spawns in ${formatTimer(levelPlayRefreshConfig.MinRefreshCd!)} to ${formatTimer(levelPlayRefreshConfig.MaxRefreshCd!)} after completed`;
+              } else {
+                text = `Spawns in ${formatTimer(levelPlayRefreshConfig.MinRefreshCd!)} after completed`;
+              }
+            } else if (levelPlayRefreshConfig.Type === "FixedDateTime") {
+              text = `Spawns ${levelPlayRefreshConfig.UpdateType}`;
+            } else if (levelPlayRefreshConfig.Type === "CustomRefresh") {
+              text = `Spawns ${formatTimer(levelPlayRefreshConfig.CompletedRefreshTime!)}after completed or ${formatTimer(levelPlayRefreshConfig.AwardedRefreshTime!)} after awarded`;
+            } else if (
+              levelPlayRefreshConfig.Type === "ChildDestroyOrAwarded"
+            ) {
+              if (
+                levelPlayRefreshConfig.ChildDestroyRefreshCd!.MinRefreshCd !==
+                levelPlayRefreshConfig.ChildDestroyRefreshCd!.MaxRefreshCd
+              ) {
+                text = `Spawns ${formatTimer(levelPlayRefreshConfig.ChildDestroyRefreshCd!.MinRefreshCd!)} to ${formatTimer(levelPlayRefreshConfig.ChildDestroyRefreshCd!.MaxRefreshCd!)} after completed`;
+              } else {
+                text = `Spawns ${formatTimer(levelPlayRefreshConfig.ChildDestroyRefreshCd!.MinRefreshCd!)} after completed`;
+              }
+              if (
+                levelPlayRefreshConfig.AwardedRefreshCd!.MinRefreshCd !==
+                levelPlayRefreshConfig.AwardedRefreshCd!.MaxRefreshCd
+              ) {
+                text += ` or ${formatTimer(levelPlayRefreshConfig.AwardedRefreshCd!.MinRefreshCd!)} to ${formatTimer(levelPlayRefreshConfig.AwardedRefreshCd!.MaxRefreshCd!)} after awarded`;
+              } else {
+                text += ` or ${formatTimer(levelPlayRefreshConfig.AwardedRefreshCd!.MinRefreshCd!)} after awarded`;
+              }
+            } else {
+              throw new Error(
+                `Unknown refresh type: ${levelPlayRefreshConfig.Type}`,
+              );
+            }
+            enDict[`${spawnId}_desc`] += `<p class="italic">${text}</p>`;
+          }
           if (enDict[`${id}_desc`]) {
             enDict[`${spawnId}_desc`] += enDict[`${id}_desc`];
           }
