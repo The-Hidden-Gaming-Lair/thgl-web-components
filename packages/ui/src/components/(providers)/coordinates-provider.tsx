@@ -452,16 +452,17 @@ export function CoordinatesProvider({
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const appId = searchParams.get("app_id");
+    if (appId) {
+      useSettingsStore.getState().setAppId(appId);
+    }
+
     const rehydrate = userStore.persist.rehydrate();
     if (rehydrate) {
       rehydrate.then(() => setIsHydrated(true));
     } else {
       setIsHydrated(true);
-    }
-    const searchParams = new URLSearchParams(location.search);
-    const appId = searchParams.get("app_id");
-    if (appId) {
-      useSettingsStore.getState().setAppId(appId);
     }
     window.history.replaceState(null, "", window.location.pathname);
   }, []);
