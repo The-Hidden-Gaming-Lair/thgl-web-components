@@ -675,6 +675,43 @@
     ]
   },
   {
+    "group": "treasures",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "Gameplay50000165",
+        "icon": "ItemInfo_50000165_Name.webp",
+        "size": 1.1
+      },
+      {
+        "id": "Gameplay40040001",
+        "icon": "ItemInfo_40040001_Name.webp",
+        "size": 1.1
+      },
+      {
+        "id": "Gameplay50000167",
+        "icon": "ItemInfo_50000167_Name.webp",
+        "size": 1.1
+      },
+      {
+        "id": "Gameplay50000164",
+        "icon": "ItemInfo_50000164_Name.webp",
+        "size": 1.1
+      },
+      {
+        "id": "Gameplay50000201",
+        "icon": "ItemInfo_50000201_Name.webp",
+        "size": 1.1
+      },
+      {
+        "id": "Gameplay50000168",
+        "icon": "ItemInfo_50000168_Name.webp",
+        "size": 1.1
+      }
+    ]
+  },
+  {
     "group": "collectibles",
     "defaultOpen": false,
     "defaultOn": false,

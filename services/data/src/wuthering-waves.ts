@@ -501,6 +501,80 @@ for (const levelEntity of sortedEntities) {
       addedIcons.push(iconPath);
     }
   }
+
+  const GAMEPLAY_TREASURES: { [key: string]: number } = {
+    Mingzi: 40040001, // Sonance Casket
+    "Advanced Supply Chest": 50000167,
+    "Basic Supply Chest": 50000164,
+    "Premium Supply Chest": 50000168,
+    Treasure017: 50000201, // Scattered Supply Chest
+    "Standard Supply Chest": 50000165,
+  };
+  const template =
+    !GAMEPLAY_TREASURES[levelEntity.data.BlueprintType] &&
+    dbTemplate.templateconfig.find(
+      (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
+    );
+  const nameTerm =
+    template &&
+    MultiText.find(
+      (m) => m.Id === template.data.ComponentsData.BaseInfoComponent.TidName,
+    )?.Content;
+  const gamePlayItemId =
+    GAMEPLAY_TREASURES[levelEntity.data.BlueprintType] ||
+    (nameTerm && GAMEPLAY_TREASURES[nameTerm]);
+  if (gamePlayItemId) {
+    id = `Gameplay${gamePlayItemId}`;
+    if (!addedFilterIDs.includes(id)) {
+      const itemInfo = dbItems.iteminfo.find(
+        (i) => i.data.Id === gamePlayItemId,
+      );
+      if (!itemInfo) {
+        console.warn(`Missing item info for ${gamePlayItemId}`);
+        continue;
+      }
+      enDict[id] = (
+        nameTerm || MultiText.find((m) => m.Id === itemInfo.data.Name)?.Content!
+      )
+        .replace("Mingzi", "Sonance Casket")
+        .replace("Originite Weapon Supply Chest", "Scattered Supply Chest");
+      const desc = MultiText.find(
+        (m) => m.Id === itemInfo.data.ObtainedShowDescription,
+      )?.Content;
+      if (desc) {
+        enDict[`${id}_desc`] = desc;
+      }
+      const iconPath =
+        itemInfo.data.IconSmall.replace("/Game", "/Client/Content").split(
+          ".",
+        )[0] + ".png";
+
+      const iconName = itemInfo.data.Name;
+      const group = "treasures";
+      if (!filters.find((f) => f.group === group)) {
+        filters.push({
+          group,
+          defaultOpen: false,
+          defaultOn: false,
+          values: [],
+        });
+        enDict[group] = "Treasures";
+      }
+
+      const category = filters.find((f) => f.group === group)!;
+      category.values.push({
+        id,
+        icon: await saveIcon(iconPath, iconName),
+        size: 1.1,
+      });
+      addedFilterIDs.push(id);
+      if (addedIcons.includes(iconPath)) {
+        console.warn(`Duplicate icon: ${iconPath}`);
+      }
+      addedIcons.push(iconPath);
+    }
+  }
+
   if (mapMark) {
     let group = id.startsWith("Gameplay") ? "gameplay" : "locations";
     if (eventIDs.includes(id)) {
@@ -1124,6 +1198,7 @@ const sortPriority = [
   "MonsterRarity_2",
   "MonsterRarity_1",
   "exile",
+  "treasures",
   "collectibles",
   "others",
 ];
