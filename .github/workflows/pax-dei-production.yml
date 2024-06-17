@@ -1,4 +1,4 @@
-name: Pax Dei Preview
+name: Pax Dei Production
 
 on:
   push:
@@ -19,5 +19,4 @@ jobs:
         env:
           OW_CLI_EMAIL: ${{ secrets.OW_CLI_EMAIL }}
           OW_CLI_API_KEY: ${{ secrets.OW_CLI_API_KEY }}
-          PREVIEW_ACCESS_CHANNEL_ID: 879
         run: bunx turbo run release --filter=pax-dei-overwolf...
