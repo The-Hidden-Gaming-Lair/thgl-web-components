@@ -7,6 +7,8 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { useGameState } from "@repo/lib";
+import { Button } from "../(controls)";
+import { closeMainWindow } from "@repo/lib/overwolf";
 
 export function AdminRights() {
   const error = useGameState((state) => state.error) ?? "";
@@ -65,6 +67,7 @@ export function AdminRights() {
         <p className="text-secondary-foreground">
           Thank you for your understanding and support! 🙏
         </p>
+        <Button onClick={() => closeMainWindow()}>Close App</Button>
       </AlertDialogContent>
     </AlertDialog>
   );
