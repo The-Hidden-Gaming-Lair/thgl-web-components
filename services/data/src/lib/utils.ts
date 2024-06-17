@@ -28,5 +28,8 @@ export function formatTimer(seconds: number) {
   if (secondsLeft > 0) {
     result += `${secondsLeft}s`;
   }
+  if (result === "") {
+    result = "0s";
+  }
   return result.trim();
 }

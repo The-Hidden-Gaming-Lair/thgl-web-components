@@ -51,17 +51,24 @@
         "id": "quest"
       },
       {
-        "id": "monsterTreasure",
+        "id": "monsterTreasure_respawns",
         "defaultOn": true
       },
       {
-        "id": "breakableRock"
+        "id": "breakableRock_once"
       },
       {
         "id": "challenge"
       },
       {
         "id": "tacetField"
+      },
+      {
+        "id": "monsterTreasure_once"
+      },
+      {
+        "id": "breakableRock_respawns",
+        "defaultOn": true
       }
     ]
   }

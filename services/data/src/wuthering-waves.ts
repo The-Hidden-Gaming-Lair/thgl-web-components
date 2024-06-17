@@ -571,7 +571,8 @@ for (const levelEntity of sortedEntities) {
     }
 
     const baseName =
-      levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent;
+      levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent ||
+      levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName;
     const interactName =
       levelEntity.data.ComponentsData?.InteractComponent?.Options?.[0]
         ?.TidContent;
@@ -788,11 +789,28 @@ for (const levelEntity of sortedEntities) {
             .replace("Riddle", "Breakable Rock")
             .replace("RebornBoss", "Normal");
           spawnId = `${id}_${levelEntity.data.EntityId}`;
-          enDict[`${spawnId}_desc`] =
-            `<p style="color:#17a0a4">${dataType}</p>`;
+
           const levelPlayRefreshConfig =
             ownerLevelPlay.data.Data.LevelPlayRefreshConfig;
+          if (!levelPlayRefreshConfig) {
+            throw new Error(
+              `Missing refresh config for ${levelEntity.data.EntityId}`,
+            );
+          }
+          spawnType = toCamelCase(dataType);
+          spawnTypeLabel = dataType;
           if (levelPlayRefreshConfig.Type !== "None") {
+            if (
+              spawnType !== "quest" &&
+              spawnType !== "tacetField" &&
+              spawnType !== "normal" &&
+              spawnType !== "challenge"
+            ) {
+              spawnType += "_respawns";
+              spawnTypeLabel += " (Respawns)";
+            }
+            enDict[`${spawnId}_desc`] =
+              `<p style="color:#17a0a4">${spawnTypeLabel}</p>`;
             let text = "";
             if (levelPlayRefreshConfig.Type === "Completed") {
               if (
@@ -832,6 +850,18 @@ for (const levelEntity of sortedEntities) {
               );
             }
             enDict[`${spawnId}_desc`] += `<p class="italic">${text}</p>`;
+          } else {
+            if (
+              spawnType !== "quest" &&
+              spawnType !== "tacetField" &&
+              spawnType !== "normal" &&
+              spawnType !== "challenge"
+            ) {
+              spawnType += "_once";
+              spawnTypeLabel += " (Once)";
+            }
+            enDict[`${spawnId}_desc`] =
+              `<p style="color:#17a0a4">${spawnTypeLabel}</p>`;
           }
           if (enDict[`${id}_desc`]) {
             enDict[`${spawnId}_desc`] += enDict[`${id}_desc`];
@@ -840,9 +870,6 @@ for (const levelEntity of sortedEntities) {
           if (enDict[`${id}_tags`]) {
             enDict[`${spawnId}_tags`] += " " + enDict[`${id}_tags`];
           }
-
-          spawnType = toCamelCase(dataType);
-          spawnTypeLabel = dataType;
         }
       } else {
         throw new Error(`Missing owner for ${levelEntity.data.EntityId}`);
@@ -859,8 +886,8 @@ for (const levelEntity of sortedEntities) {
     if (!globalFilter.values.some((v) => v.id === spawnType)) {
       if (
         spawnType === "normal" ||
-        spawnType === "monsterTreasure" ||
-        spawnType === "bossChallenge"
+        spawnType === "monsterTreasure_respawns" ||
+        spawnType === "breakableRock_respawns"
       ) {
         globalFilter.values.push({ id: spawnType, defaultOn: true });
       } else {
@@ -973,7 +1000,8 @@ for (const levelEntity of sortedEntities) {
   }
 
   const baseName =
-    levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent;
+    levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName?.TidContent ||
+    levelEntity.data.ComponentsData?.BaseInfoComponent?.TidName;
   const interactName =
     levelEntity.data.ComponentsData?.InteractComponent?.Options?.[0]
       ?.TidContent;
@@ -982,7 +1010,9 @@ for (const levelEntity of sortedEntities) {
       baseName && MultiText.find((m) => m.Id === baseName)?.Content;
     const interactTerm =
       interactName && MultiText.find((m) => m.Id === interactName)?.Content;
-    spawnId = levelEntity.data.EntityId.toString();
+    if (!spawnId) {
+      spawnId = levelEntity.data.EntityId.toString();
+    }
     if (baseTerm) {
       enDict[spawnId] = baseTerm;
     }

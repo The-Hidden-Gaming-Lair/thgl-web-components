@@ -906,7 +906,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 <Button
                   size="icon"
                   variant={globalMode === "Removal" ? "default" : "outline"}
-                  title="Remove Text"
+                  title="Remove Layer"
                   type="button"
                   onClick={() => {
                     map?.pm.toggleGlobalRemovalMode();
