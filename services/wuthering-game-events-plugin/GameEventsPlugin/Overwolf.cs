@@ -34,6 +34,12 @@ namespace GameEventsPlugin
         {
           throw new Exception("Please run as administrator");
         }
+        if (_process != null && _process.HasExited)
+        {
+          _process = null;
+          _memory = null;
+        }
+
         if (_memory == null || _process == null)
         {
           _owningWorld = null;
@@ -71,6 +77,7 @@ namespace GameEventsPlugin
           unrealEngine.UpdateAddresses();
           Console.WriteLine("Updated Addresses");
         }
+
 
         var address = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(UnrealEngine.GWorldPtr);
         var owningWorld = new UEObject(address);
