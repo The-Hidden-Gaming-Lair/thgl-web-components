@@ -20,7 +20,7 @@ leaflet.Canvas.include({
     if (icon !== undefined) {
       if (fillColor || icon === null) {
         layerContext.beginPath();
-        layerContext.arc(p.x, p.y, radius, 0, Math.PI * 2);
+        layerContext.arc(p.x, p.y, radius * 0.75, 0, Math.PI * 2);
         layerContext.fillStyle = fillColor ?? "rgba(255, 255, 255, 0.6)";
         layerContext.fill();
       }

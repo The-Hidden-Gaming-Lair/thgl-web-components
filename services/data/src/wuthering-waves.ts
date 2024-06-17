@@ -254,7 +254,7 @@ for (const monster of monsterInfo.monsterinfo) {
     (p) => p.Id === monster.Id,
   );
   if (!monsterHandbook) {
-    console.warn(`Missing handbook for ${monster.data.Name}`);
+    // console.warn(`Missing handbook for ${monster.data.Name}`);
   }
   if (monsterHandbook) {
     const mesh = Object.values(dtModelConfigMonster[0].Rows).find(
@@ -433,6 +433,74 @@ for (const levelEntity of sortedEntities) {
   const mapMark = dbMapMark.mapmark.find(
     (m) => m.data.EntityConfigId === levelEntity.data.EntityId,
   );
+  const collectTemplate =
+    levelEntity.data.BlueprintType.startsWith("Collect") &&
+    dbTemplate.templateconfig.find(
+      (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
+    );
+
+  if (collectTemplate) {
+    collectTemplate.data.ComponentsData.BaseInfoComponent.TidName;
+    if (!addedFilterIDs.includes(id)) {
+      const nameTerm = MultiText.find(
+        (m) =>
+          m.Id ===
+          collectTemplate.data.ComponentsData.BaseInfoComponent.TidName,
+      )?.Content.replace("Laternberry", "Lanternberry");
+      if (!nameTerm) {
+        // console.warn(`Missing name term for ${id}`);
+        continue;
+      }
+      const itemInfoId = MultiText.find(
+        (m) => m.Id.startsWith("ItemInfo") && m.Content === nameTerm,
+      )?.Id;
+      if (!itemInfoId) {
+        console.warn(`Missing item info for ${nameTerm}`);
+        continue;
+      }
+      const itemInfo = dbItems.iteminfo.find((i) => i.data.Name === itemInfoId);
+      if (!itemInfo) {
+        console.warn(`Missing item info for ${nameTerm}`);
+        continue;
+      }
+      enDict[id] = nameTerm;
+      const desc = MultiText.find(
+        (m) => m.Id === itemInfo.data.ObtainedShowDescription,
+      )?.Content;
+      if (desc) {
+        enDict[`${id}_desc`] = desc;
+      }
+      const iconPath =
+        itemInfo.data.IconSmall.replace("/Game", "/Client/Content").split(
+          ".",
+        )[0] + ".png";
+
+      const iconName = itemInfo.data.Name;
+      const isAscension = itemInfo.data.ShowTypes.includes(45);
+      const group = isAscension ? "ascensionMaterials" : "collectibles";
+      if (!filters.find((f) => f.group === group)) {
+        filters.push({
+          group,
+          defaultOpen: false,
+          defaultOn: isAscension,
+          values: [],
+        });
+        enDict[group] = isAscension ? "Ascension Materials" : "Collectibles";
+      }
+
+      const category = filters.find((f) => f.group === group)!;
+      category.values.push({
+        id,
+        icon: await saveIcon(iconPath, iconName),
+        size: 1,
+      });
+      addedFilterIDs.push(id);
+      if (addedIcons.includes(iconPath)) {
+        console.warn(`Duplicate icon: ${iconPath}`);
+      }
+      addedIcons.push(iconPath);
+    }
+  }
   if (mapMark) {
     let group = id.startsWith("Gameplay") ? "gameplay" : "locations";
     if (eventIDs.includes(id)) {
@@ -643,13 +711,13 @@ for (const levelEntity of sortedEntities) {
           ),
         );
         if (!nodeData) {
-          console.warn(`Missing node data for ${id}`);
+          //console.warn(`Missing node data for ${id}`);
           continue;
         }
 
         name = nodeData.data.Data.Condition?.TidMonsterGroupName ?? null;
         if (!name) {
-          console.warn(`Missing Monster Group name: ${id}`);
+          // console.warn(`Missing Monster Group name: ${id}`);
           continue;
         }
 
@@ -699,7 +767,7 @@ for (const levelEntity of sortedEntities) {
 
       // const group = "Monster_Glowing";
       // const category = filters.find((f) => f.group === group)!;
-      console.log("Glowing", enDict[id], id);
+      // console.log("Glowing", enDict[id], id);
     }
 
     let spawnType = "normal";
@@ -1049,12 +1117,14 @@ const sortPriority = [
   "events",
   "Monster_Glowing",
   "locations",
+  "ascensionMaterials",
   "gameplay",
   "MonsterRarity_4",
   "MonsterRarity_3",
   "MonsterRarity_2",
   "MonsterRarity_1",
   "exile",
+  "collectibles",
   "others",
 ];
 const sortedFilters = filters

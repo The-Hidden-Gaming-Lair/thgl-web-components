@@ -186,6 +186,53 @@
     ]
   },
   {
+    "group": "ascensionMaterials",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Collect010",
+        "icon": "ItemInfo_42300100_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect004",
+        "icon": "ItemInfo_42300040_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect007",
+        "icon": "ItemInfo_42300070_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect003",
+        "icon": "ItemInfo_42300030_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect009",
+        "icon": "ItemInfo_42300090_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect006",
+        "icon": "ItemInfo_42300060_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect005",
+        "icon": "ItemInfo_42300050_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect008",
+        "icon": "ItemInfo_42300080_Name.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "gameplay",
     "defaultOpen": false,
     "defaultOn": true,
@@ -624,6 +671,143 @@
         "id": "Monster087",
         "icon": "Monster087.webp",
         "size": 1.3
+      }
+    ]
+  },
+  {
+    "group": "collectibles",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "Collect102",
+        "icon": "ItemInfo_42310020_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect601",
+        "icon": "ItemInfo_42600010_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect105",
+        "icon": "ItemInfo_42310050_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect107",
+        "icon": "ItemInfo_42310070_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect106",
+        "icon": "ItemInfo_42310060_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect112",
+        "icon": "ItemInfo_42310120_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect111",
+        "icon": "ItemInfo_42310110_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect117",
+        "icon": "ItemInfo_42310170_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect118",
+        "icon": "ItemInfo_42310180_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect114",
+        "icon": "ItemInfo_42310140_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect119",
+        "icon": "ItemInfo_42310190_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect115",
+        "icon": "ItemInfo_42310150_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect109",
+        "icon": "ItemInfo_42310090_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect116",
+        "icon": "ItemInfo_42310160_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect101",
+        "icon": "ItemInfo_42310010_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect103",
+        "icon": "ItemInfo_42310030_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect113",
+        "icon": "ItemInfo_42310130_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect501",
+        "icon": "ItemInfo_42500010_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect504",
+        "icon": "ItemInfo_42500040_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect503",
+        "icon": "ItemInfo_42500030_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect104",
+        "icon": "ItemInfo_42310040_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect108",
+        "icon": "ItemInfo_42310080_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect110",
+        "icon": "ItemInfo_42310100_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect011",
+        "icon": "ItemInfo_42300110_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect602",
+        "icon": "ItemInfo_42400030_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect502",
+        "icon": "ItemInfo_42500020_Name.webp",
+        "size": 1
       }
     ]
   }
