@@ -19,6 +19,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Antenna } from "lucide-react";
+import { useCoordinates } from "../(providers)";
 
 export function StreamingReceiver({
   className,
@@ -47,6 +48,7 @@ export function StreamingReceiver({
       setActors: state.setActors,
     })),
   );
+  const { isHydrated } = useCoordinates();
 
   useEffect(() => {
     setLiveMode(!!connection);
@@ -148,17 +150,14 @@ export function StreamingReceiver({
   }
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const appId = searchParams.get("app_id");
-    if (appId) {
-      setAppId(appId);
+    if (isHydrated && appId) {
       connectToPeer(() => {
         if (peerRef.current) {
           handleId(appId);
         }
       });
     }
-  }, []);
+  }, [isHydrated]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

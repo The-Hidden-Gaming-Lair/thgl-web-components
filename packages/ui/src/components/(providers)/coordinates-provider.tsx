@@ -458,6 +458,11 @@ export function CoordinatesProvider({
     } else {
       setIsHydrated(true);
     }
+    const searchParams = new URLSearchParams(location.search);
+    const appId = searchParams.get("app_id");
+    if (appId) {
+      useSettingsStore.getState().setAppId(appId);
+    }
     window.history.replaceState(null, "", window.location.pathname);
   }, []);
 
