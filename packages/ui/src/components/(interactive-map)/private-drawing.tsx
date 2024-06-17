@@ -389,7 +389,6 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     });
     map.on("pm:drawstart", ({ workingLayer, shape }) => {
       if (shape === "Line") {
-        polylines.push(workingLayer as Polyline);
         workingLayer.on("pm:vertexadded", () => {
           setPolylines(polylines, mapName);
         });
@@ -403,7 +402,6 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
           setPolylines(polylines, mapName);
         });
       } else if (shape === "Rectangle") {
-        rectangles.push(workingLayer as Rectangle);
         workingLayer.on("pm:vertexadded", () => {
           setRectangles(rectangles, mapName);
         });
@@ -417,7 +415,6 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
           setRectangles(rectangles, mapName);
         });
       } else if (shape === "Polygon") {
-        polygons.push(workingLayer as Rectangle);
         workingLayer.on("pm:vertexadded", () => {
           setPolygons(polygons, mapName);
         });
@@ -431,7 +428,6 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
           setPolygons(polygons, mapName);
         });
       } else if (shape === "Circle") {
-        circles.push(workingLayer as Circle);
         workingLayer.on("pm:centerplaced", () => {
           setCircles(circles, mapName);
         });
@@ -457,7 +453,8 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
       if (shape === "Line") {
         const polylineLayer = layer as Polyline;
-        polylineLayer.on("pm:edit", () => {
+        polylines.push(polylineLayer);
+        polylineLayer.on("pm:edit", (e) => {
           setPolylines(polylines, mapName);
         });
         polylineLayer.on("pm:remove", () => {
@@ -467,6 +464,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         });
       } else if (shape === "Rectangle") {
         const rectangle = layer as Rectangle;
+        rectangles.push(rectangle);
         rectangle.on("pm:edit", () => {
           setRectangles(rectangles, mapName);
         });
@@ -477,6 +475,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         });
       } else if (shape === "Polygon") {
         const polygon = layer as Polygon;
+        polygons.push(polygon);
         polygon.on("pm:edit", () => {
           setPolygons(polygons, mapName);
         });
@@ -487,6 +486,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         });
       } else if (shape === "Circle") {
         const circle = layer as Circle;
+        circles.push(circle);
         circle.on("pm:edit", () => {
           setCircles(circles, mapName);
         });
