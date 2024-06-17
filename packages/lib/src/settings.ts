@@ -121,6 +121,8 @@ export const useSettingsStore = create(
     setTextSize: (textSize: number) => void;
     baseIconSize: number;
     setBaseIconSize: (baseIconSize: number) => void;
+    fitBoundsOnChange: boolean;
+    toggleFitBoundsOnChange: () => void;
   }>(
     (set) => {
       return {
@@ -252,6 +254,9 @@ export const useSettingsStore = create(
         setTextSize: (textSize) => set({ textSize }),
         baseIconSize: 1,
         setBaseIconSize: (baseIconSize) => set({ baseIconSize }),
+        fitBoundsOnChange: false,
+        toggleFitBoundsOnChange: () =>
+          set((state) => ({ fitBoundsOnChange: !state.fitBoundsOnChange })),
       };
     },
     {

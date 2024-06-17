@@ -42,6 +42,9 @@ export function Markers({
   const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
   const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
+  const fitBoundsOnChange = useSettingsStore(
+    (state) => state.fitBoundsOnChange,
+  );
 
   useEffect(() => {
     if (!map) {
@@ -279,7 +282,7 @@ export function Markers({
 
   const firstRender = useRef(true);
   useEffect(() => {
-    if (liveMode || spawns.length === 0 || !map) {
+    if (!fitBoundsOnChange || liveMode || spawns.length === 0 || !map) {
       return;
     }
     if (firstRender.current) {

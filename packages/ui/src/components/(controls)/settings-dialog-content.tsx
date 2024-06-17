@@ -243,6 +243,16 @@ export function SettingsDialogContent({
               </div>
               <Separator />
               <h4 className="text-md font-semibold">User Interface</h4>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="show-trace-line">
+                  Zoom map on filters change
+                </Label>
+                <Switch
+                  id="show-trace-line"
+                  checked={settingsStore.fitBoundsOnChange}
+                  onCheckedChange={settingsStore.toggleFitBoundsOnChange}
+                />
+              </div>
               <div className="flex items-center gap-2 justify-between">
                 Reset UI positions
                 <Button onClick={settingsStore.resetTransform} size="sm">
