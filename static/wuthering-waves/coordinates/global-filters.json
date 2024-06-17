@@ -55,7 +55,7 @@
         "defaultOn": true
       },
       {
-        "id": "breakableRock_once"
+        "id": "breakableRock/riddle_once"
       },
       {
         "id": "challenge"
@@ -67,7 +67,7 @@
         "id": "monsterTreasure_once"
       },
       {
-        "id": "breakableRock_respawns",
+        "id": "breakableRock/riddle_respawns",
         "defaultOn": true
       }
     ]

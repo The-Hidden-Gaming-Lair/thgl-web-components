@@ -786,7 +786,7 @@ for (const levelEntity of sortedEntities) {
             "Monster Treasure",
           )
             .replace("SilentArea", "Tacet Field")
-            .replace("Riddle", "Breakable Rock")
+            .replace("Riddle", "Breakable Rock/Riddle")
             .replace("RebornBoss", "Normal");
           spawnId = `${id}_${levelEntity.data.EntityId}`;
 
@@ -887,7 +887,7 @@ for (const levelEntity of sortedEntities) {
       if (
         spawnType === "normal" ||
         spawnType === "monsterTreasure_respawns" ||
-        spawnType === "breakableRock_respawns"
+        spawnType === "breakableRock/riddle_respawns"
       ) {
         globalFilter.values.push({ id: spawnType, defaultOn: true });
       } else {

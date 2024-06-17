@@ -1645,7 +1645,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster069_122007392"
@@ -1684,7 +1684,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster069_136002357"
@@ -2325,7 +2325,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -3259,7 +3259,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -3277,7 +3277,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -3295,7 +3295,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -4271,7 +4271,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -4289,7 +4289,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -4307,7 +4307,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -7632,7 +7632,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -7649,7 +7649,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -7666,7 +7666,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -7683,7 +7683,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -7789,7 +7789,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -7906,7 +7906,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -8136,7 +8136,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -8185,7 +8185,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -8270,7 +8270,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -8319,7 +8319,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -8660,7 +8660,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -8973,7 +8973,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -13891,7 +13891,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -13909,7 +13909,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -14612,7 +14612,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -14630,7 +14630,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -14648,7 +14648,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -15769,7 +15769,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sun-sinkingEclipse",
@@ -15786,7 +15786,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sun-sinkingEclipse",
@@ -15803,7 +15803,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sun-sinkingEclipse",
@@ -16785,7 +16785,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -16802,7 +16802,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -22913,7 +22913,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -22930,7 +22930,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -23688,7 +23688,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -23705,7 +23705,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -23722,7 +23722,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -23739,7 +23739,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -23756,7 +23756,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "sierraGale",
@@ -24189,7 +24189,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -24556,7 +24556,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -24573,7 +24573,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -26332,7 +26332,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_111003444"
@@ -26345,7 +26345,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_111003445"
@@ -28737,7 +28737,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_122007844"
@@ -28750,7 +28750,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_122007845"
@@ -30315,7 +30315,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133000261"
@@ -30328,7 +30328,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133000262"
@@ -31155,7 +31155,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133001677"
@@ -31168,7 +31168,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133001678"
@@ -31181,7 +31181,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133001679"
@@ -31194,7 +31194,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133001680"
@@ -31207,7 +31207,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_133001681"
@@ -32287,7 +32287,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_136002664"
@@ -32300,7 +32300,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_136002665"
@@ -32313,7 +32313,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_136002667"
@@ -32720,7 +32720,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_142002602"
@@ -32733,7 +32733,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_142002603"
@@ -32746,7 +32746,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_142002604"
@@ -32759,7 +32759,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_142002605"
@@ -32772,7 +32772,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_142002606"
@@ -33267,7 +33267,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000222"
@@ -33280,7 +33280,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000223"
@@ -33293,7 +33293,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000224"
@@ -33306,7 +33306,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000225"
@@ -33319,7 +33319,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000227"
@@ -33488,7 +33488,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000415"
@@ -33501,7 +33501,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000416"
@@ -33514,7 +33514,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "exile_146000417"
@@ -34259,7 +34259,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster056_133001885"
@@ -34374,7 +34374,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster056_146000414"
@@ -34714,7 +34714,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -34924,7 +34924,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -35572,7 +35572,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -35590,7 +35590,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "rejuvenatingGlow",
@@ -36029,7 +36029,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "lingeringTunes",
@@ -37411,7 +37411,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -37824,7 +37824,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster055_133001856"
@@ -37927,7 +37927,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster055_136002666"
@@ -39379,7 +39379,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -39397,7 +39397,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -39415,7 +39415,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -39522,7 +39522,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -39540,7 +39540,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -43422,7 +43422,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster072_136002354"
@@ -43970,7 +43970,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster086_136002355"
@@ -44540,7 +44540,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster087_136002356"
@@ -45301,7 +45301,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -45638,7 +45638,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -45915,7 +45915,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -45932,7 +45932,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -45949,7 +45949,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46515,7 +46515,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46532,7 +46532,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46549,7 +46549,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46566,7 +46566,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46583,7 +46583,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46600,7 +46600,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46617,7 +46617,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46634,7 +46634,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46651,7 +46651,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46668,7 +46668,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46685,7 +46685,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -46702,7 +46702,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_respawns"
+            "breakableRock/riddle_respawns"
           ],
           "echoSet": [
             "freezingFrost",
@@ -47190,7 +47190,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "lingeringTunes",
@@ -51111,7 +51111,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -51431,7 +51431,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -51448,7 +51448,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -52647,7 +52647,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moltenRift",
@@ -53170,7 +53170,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "lingeringTunes",
@@ -53599,7 +53599,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -53617,7 +53617,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -53653,7 +53653,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moonlitClouds",
@@ -54601,7 +54601,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moltenRift",
@@ -56675,7 +56675,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "lingeringTunes",
@@ -56692,7 +56692,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "lingeringTunes",
@@ -56709,7 +56709,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "lingeringTunes",
@@ -60107,7 +60107,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -60124,7 +60124,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -60141,7 +60141,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -60158,7 +60158,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -60175,7 +60175,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -60192,7 +60192,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "celestialLight",
@@ -61035,7 +61035,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster146_142002286"
@@ -61048,7 +61048,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster146_142002287"
@@ -61061,7 +61061,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster146_142002288"
@@ -61074,7 +61074,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ]
         },
         "id": "Monster146_142002289"
@@ -61609,7 +61609,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "freezingFrost",
@@ -62640,7 +62640,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moltenRift",
@@ -62843,7 +62843,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moltenRift",
@@ -62860,7 +62860,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "moltenRift",
@@ -64178,7 +64178,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "voidThunder",
@@ -64276,7 +64276,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "voidThunder",
@@ -64293,7 +64293,7 @@
         "mapName": "AkiWorld_WP",
         "data": {
           "spawnType": [
-            "breakableRock_once"
+            "breakableRock/riddle_once"
           ],
           "echoSet": [
             "voidThunder",
