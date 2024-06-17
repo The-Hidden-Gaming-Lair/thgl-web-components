@@ -1,7 +1,5 @@
 import Markdown from "markdown-to-jsx";
 import { useT } from "../(providers)";
-import { ExternalAnchor } from "../(header)";
-import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
 import { useSettingsStore } from "@repo/lib";
@@ -24,7 +22,7 @@ export type TooltipItems = {
   isPrivate?: boolean;
 }[];
 
-export function MarkerHoverCard({
+export function MarkerTooltip({
   latLng,
   items,
   onClose,

@@ -7,7 +7,7 @@ import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./store";
 import { MarkerOptions, useGameState, useSettingsStore } from "@repo/lib";
-import { MarkerHoverCard, TooltipItems } from "./marker-tooltip";
+import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
 
 export function Markers({
   markerOptions,
@@ -41,6 +41,7 @@ export function Markers({
   const mapName = useUserStore((state) => state.mapName);
   const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
+  const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
 
   useEffect(() => {
     if (!map) {
@@ -308,7 +309,7 @@ export function Markers({
               setTooltipIsOpen(false);
             }
           }}
-          open={tooltipIsOpen}
+          open={tooltipIsOpen && !isDrawing}
         >
           <HoverCardPortal container={mapContainer}>
             <HoverCardContent
@@ -329,7 +330,7 @@ export function Markers({
                 transform: `translate3d(calc(${tooltipData.x}px - 50%), calc(${tooltipData.y}px + 100% - ${tooltipData.radius}px - 2px), 0px)`,
               }}
             >
-              <MarkerHoverCard
+              <MarkerTooltip
                 latLng={tooltipData.latLng}
                 items={tooltipData.items}
                 onClose={() => {
