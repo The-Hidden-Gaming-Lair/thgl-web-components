@@ -64,7 +64,7 @@ function normalizeLocation(actor: { x: number; y: number; mapName?: string }) {
 useGameState.subscribe(
   (state) => state.actors,
   (actors) => {
-    // sendActorsToAPI(actors);
+    sendActorsToAPI(actors);
   },
 );
 

@@ -698,3 +698,257 @@ export type NPCResources = Array<{
     IsDev?: boolean;
   };
 }>;
+
+export type RootLevel = Array<{
+  Type: string;
+  Name: string;
+  Outer?: string;
+  Class: string;
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    StaticMesh?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RelativeLocation?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    RelativeRotation?: {
+      Pitch: number;
+      Yaw: number;
+      Roll: number;
+    };
+    RelativeScale3D?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    BodyInstance?: {
+      CollisionEnabled: string;
+      bInterpolateWhenSubStepping: boolean;
+      CollisionResponses: {
+        ResponseArray: Array<{
+          Channel: string;
+          Response: string;
+        }>;
+      };
+      ObjectType?: string;
+      bAutoWeld?: boolean;
+    };
+    OverrideMaterials?: Array<any>;
+    AttachParent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    UCSSerializationIndex?: number;
+    bNetAddressable?: boolean;
+    CreationMethod?: string;
+    bHasNoStreamableTextures?: boolean;
+    bUseDefaultCollision?: boolean;
+    Mobility?: string;
+    ComponentTags?: Array<string>;
+    StaticMeshComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RootComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Tags?: Array<string>;
+    LightGuid?: string;
+    NavigationSystemConfig?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    BookmarkArray?: Array<any>;
+    TextRender: any;
+    WaitTime?: number;
+    BlueprintCreatedComponents?: Array<
+      | {
+          ObjectName: string;
+          ObjectPath: string;
+        }
+      | undefined
+    >;
+    DefaultSceneRoot?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InstanceComponents?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    Cycle?: string;
+    Waypoints?: Array<
+      | {
+          ObjectName: string;
+          ObjectPath: string;
+        }
+      | undefined
+    >;
+    PointLightComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    LightComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SM_CandleFlame_01?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SM_CaveOilLamp_01?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SharedRoot?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    PointLight?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    BaseDisc: any;
+    Nameplate: any;
+    SM_Editor_PreviewRadius: any;
+    SM_ScaleSoldier: any;
+    Orderplate: any;
+    DebugComponents: any;
+    BP_AIWaypointComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SphereMaterial: any;
+    PawnMaterial: any;
+    NPC_DA?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Catalogue?: Array<{
+      NPCData: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      Tier: number;
+      Amount: number;
+      Probability: number;
+    }>;
+    RespawnTimeMin?: number;
+    RespawnTimeMax?: number;
+    NavInvoker?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ArrowComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Orders?: string;
+    RoamMaxDistance?: number;
+    Model?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    LevelBuildDataId?: string;
+    WorldSettings?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    WorldPartitionRuntimeCell?: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+  };
+  Actors?: Array<
+    | {
+        ObjectName: string;
+        ObjectPath: string;
+      }
+    | undefined
+  >;
+  URL?: {
+    Protocol: string;
+    Host: string;
+    Port: number;
+    Valid: boolean;
+    Map: string;
+    Op: Array<any>;
+    Portal: string;
+  };
+  Model?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ModelComponents?: Array<any>;
+  LevelScriptActor: any;
+  NavListStart: any;
+  NavListEnd: any;
+  PrecomputedVisibilityHandler?: {
+    PrecomputedVisibilityCellBucketOriginXY: {
+      X: number;
+      Y: number;
+    };
+    PrecomputedVisibilityCellSizeXY: number;
+    PrecomputedVisibilityCellSizeZ: number;
+    PrecomputedVisibilityCellBucketSizeXY: number;
+    PrecomputedVisibilityNumCellBuckets: number;
+    PrecomputedVisibilityCellBuckets: Array<any>;
+  };
+  PrecomputedVolumeDistanceField?: {
+    VolumeMaxDistance: number;
+    VolumeBox: {
+      Min: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      Max: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      IsValid: number;
+    };
+    VolumeSizeX: number;
+    VolumeSizeY: number;
+    VolumeSizeZ: number;
+    Data: Array<any>;
+  };
+  Bounds?: {
+    Origin: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    BoxExtent: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    SphereRadius: number;
+  };
+  Vectors?: Array<any>;
+  Points?: Array<any>;
+  Nodes?: Array<any>;
+  Surfs?: Array<any>;
+  NumSharedSides?: number;
+  VertexBuffer?: {
+    Vertices: Array<any>;
+  };
+  LightingGuid?: string;
+  LightmassSettings?: Array<any>;
+  PersistentLevel?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ExtraReferencedObjects?: Array<any>;
+  StreamingLevels?: Array<any>;
+}>;

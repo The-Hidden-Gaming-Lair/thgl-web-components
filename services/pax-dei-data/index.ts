@@ -24,6 +24,7 @@ import {
   PD_Skills,
   PC_Activatable,
   NPCResources,
+  RootLevel,
 } from "./types.js";
 import { initDirs } from "./lib/dirs.js";
 
@@ -902,6 +903,90 @@ for (const npcsResourcesPath of readDirRecursive(
   }
 }
 
+// for (const mapName of readDirSync(CONTENT_DIR + "/PaxDei/Content/_PD/World")) {
+//   if (mapName !== "gallia_province_02") {
+//     continue;
+//   }
+//   if (!mapName.startsWith("gallia") && !mapName.startsWith("small")) {
+//     continue;
+//   }
+//   console.log("Processing", mapName);
+//   for (const folderName of readDirSync(
+//     CONTENT_DIR + "/PaxDei/Content/_PD/World/" + mapName,
+//   )) {
+//     if (
+//       !folderName.startsWith("AA_RootLevel_") ||
+//       folderName.endsWith("json")
+//     ) {
+//       continue;
+//     }
+//     for (const levelName of readDirSync(
+//       CONTENT_DIR +
+//         "/PaxDei/Content/_PD/World/" +
+//         mapName +
+//         "/" +
+//         folderName +
+//         "/_Generated_",
+//     )) {
+
+//       const level = readJSON<RootLevel>(
+//         CONTENT_DIR +
+//           "/PaxDei/Content/_PD/World/" +
+//           mapName +
+//           "/" +
+//           folderName +
+//           "/_Generated_/" +
+//           levelName,
+//       );
+//       for (const actor of level) {
+//         if (!actor.Properties?.RelativeLocation) {
+//           continue;
+//         }
+//         // if (actor.Type === "BP_NPCSpawnPoint_C") {
+//         const offset = mapName === "gallia_pve_01" ? SMALL : LARGE;
+//         // const id = actor.Properties!.NPC_DA!.ObjectName.split("'")[1];
+//         const id = "flower_loios_tears";
+//         // const spawn = level.find(
+//         //   (a) => a.Outer === actor.Name && a.Properties?.RelativeLocation,
+//         // );
+//         // if (!spawn) {
+//         //   console.warn(`No spawn for ${id} (${actor.Name})`);
+//         //   continue;
+//         // }
+
+//         let oldNodes = nodes.find((n) => n.type === id);
+//         if (!oldNodes) {
+//           oldNodes = { type: id, spawns: [] };
+//           nodes.push(oldNodes);
+//           oldNodes = nodes.find((n) => n.type === id);
+//           console.log("New type", id);
+//         }
+//         const location = normalizeLocation(
+//           {
+//             x: actor.Properties!.RelativeLocation!.X,
+//             y: actor.Properties!.RelativeLocation!.Y,
+//           },
+//           offset,
+//         );
+//         // if (
+//         //   oldNodes!.spawns.some(
+//         //     (s) =>
+//         //       s.p[0] === location.y &&
+//         //       s.p[1] === location.x &&
+//         //       s.mapName === mapName,
+//         //   )
+//         // ) {
+//         //   continue;
+//         // }
+//         oldNodes!.spawns.push({
+//           p: [+location.y.toFixed(0), +location.x.toFixed(0)],
+//           mapName,
+//         });
+//         // }
+//       }
+//     }
+//   }
+// }
 if (Bun.env.NODES === "true") {
   const response = await fetch(
     "http://116.203.249.187:3000/nodes?type=spawnNodes",
