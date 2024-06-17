@@ -19,6 +19,7 @@ export default function MarketMapDynamic({
       <SimpleMap
         mapName={mapName}
         tileOptions={tiles as unknown as TileOptions}
+        className="!h-[300px] md:!h-[450px]"
       />
       <SimpleMarkers
         spawns={spawns}

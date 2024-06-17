@@ -7,9 +7,11 @@ import { useMapStore } from "./store";
 export function SimpleMap({
   mapName,
   tileOptions,
+  className,
 }: {
   mapName: string;
   tileOptions?: TileOptions;
+  className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapTileOptions = tileOptions?.[mapName];
@@ -67,6 +69,9 @@ export function SimpleMap({
   }, [map, mapTileOptions]);
 
   return (
-    <div className={cn(`h-full !bg-inherit outline-none`)} ref={containerRef} />
+    <div
+      className={cn(`h-full !bg-inherit outline-none`, className)}
+      ref={containerRef}
+    />
   );
 }

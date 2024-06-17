@@ -20,10 +20,12 @@ export function ContentLayout({
   id,
   header,
   content,
+  more,
 }: {
   id: string;
   header: React.ReactNode;
   content: React.ReactNode;
+  more?: React.ReactNode;
 }) {
   return (
     <div className="flex grow p-2">
@@ -58,6 +60,7 @@ export function ContentLayout({
         >
           <MobileBanner id={`${id}-mobile-banner`} />
         </NitroScript>
+        {more}
       </div>
       <div>
         <NitroScript

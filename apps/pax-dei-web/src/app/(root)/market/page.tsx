@@ -1,27 +1,21 @@
 import { ContentLayout } from "@repo/ui/ads";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@repo/ui/controls";
 import { HeaderOffset } from "@repo/ui/header";
 import dynamic from "next/dynamic";
 import { type SimpleSpawn } from "@repo/ui/interactive-map";
+import { DataTable } from "@repo/ui/data";
 import tiles from "../../../coordinates/tiles.json" assert { type: "json" };
+import { columns } from "./columns";
 import MarketSelect from "@/components/market-select";
 
 const MarketMapDynamic = dynamic(
   () => import("@/components/market-map-dynamic"),
   {
     ssr: false,
+    loading: () => <p className="!h-[300px] md:!h-[450px]">Loading...</p>,
   },
 );
 
-type MarketData = {
+export type MarketData = {
   id: string;
   filter: string;
   name: string;
@@ -78,6 +72,13 @@ export default async function Market({
             <MarketSelect mapName={mapName} shard={shard} />
             <MarketMapDynamic mapName={mapName} spawns={spawns} />
           </>
+        }
+        more={
+          <DataTable
+            columns={columns}
+            data={mapMarketData}
+            filterColumn="name"
+          />
         }
       />
     </HeaderOffset>

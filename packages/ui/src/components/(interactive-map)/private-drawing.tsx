@@ -568,7 +568,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       return;
     }
     const featureGroup = new FeatureGroup();
-    featureGroup.addTo(map);
+    try {
+      featureGroup.addTo(map);
+    } catch (e) {}
 
     privateDrawings.forEach((privateDrawing) => {
       if (

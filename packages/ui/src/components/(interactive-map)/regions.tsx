@@ -99,9 +99,13 @@ export function Regions(): JSX.Element {
         }
       } catch (e) {}
     });
-    featureGroup.addTo(map);
+    try {
+      featureGroup.addTo(map);
+    } catch (e) {}
     return () => {
-      featureGroup.remove();
+      try {
+        featureGroup.remove();
+      } catch (e) {}
     };
   }, [map, baseIconSize, showRegionBorders, showRegionNames]);
 
