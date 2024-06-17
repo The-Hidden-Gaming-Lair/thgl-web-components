@@ -5,7 +5,7 @@ import {
 } from "@repo/lib/overwolf";
 
 initBackground(
-  24300,
+  23626,
   "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
   "1249803392822546512",
 );

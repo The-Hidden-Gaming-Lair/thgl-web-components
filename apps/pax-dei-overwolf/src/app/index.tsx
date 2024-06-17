@@ -85,7 +85,7 @@ function App(): JSX.Element {
             globalFilters={globalFilters as GlobalFiltersCoordinates}
             view={{}}
           >
-            <AppHeader title="PaxDei" app={APP} gameClassId={24300} />
+            <AppHeader title="PaxDei" app={APP} gameClassId={23626} />
             <HeaderOffset bypass={Boolean(isOverlay)} full>
               <MapContainer>
                 <InteractiveMap
