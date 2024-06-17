@@ -26,10 +26,12 @@ export function MarkerTooltip({
   latLng,
   items,
   onClose,
+  hideDiscovered,
 }: {
   latLng: [number, number];
   items: TooltipItems;
   onClose: () => void;
+  hideDiscovered?: boolean;
 }) {
   const t = useT();
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
@@ -68,45 +70,49 @@ export function MarkerTooltip({
                 </Markdown>
               </div>
             </article>
-            <Separator className="my-4" />
-            {item.isPrivate ? (
+            {!hideDiscovered && (
               <>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      const privateNode = privateNodes.find(
-                        (node) => node.id === item.id,
-                      );
-                      setTempPrivateNode(privateNode ?? null);
-                      onClose();
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => {
-                      removePrivateNode(item.id);
-                      onClose();
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </div>
+                <Separator className="my-4" />
+                {item.isPrivate ? (
+                  <>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Button
+                        size="sm"
+                        onClick={() => {
+                          const privateNode = privateNodes.find(
+                            (node) => node.id === item.id,
+                          );
+                          setTempPrivateNode(privateNode ?? null);
+                          onClose();
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          removePrivateNode(item.id);
+                          onClose();
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center space-x-2 text-sm">
+                    <Switch
+                      id="discovered-node"
+                      checked={discoveredNodes.includes(item.id)}
+                      onCheckedChange={() => {
+                        toggleDiscoveredNode(item.id);
+                      }}
+                    />
+                    <Label htmlFor="discovered-node">Discovered</Label>
+                  </div>
+                )}
               </>
-            ) : (
-              <div className="flex items-center space-x-2 text-sm">
-                <Switch
-                  id="discovered-node"
-                  checked={discoveredNodes.includes(item.id)}
-                  onCheckedChange={() => {
-                    toggleDiscoveredNode(item.id);
-                  }}
-                />
-                <Label htmlFor="discovered-node">Discovered</Label>
-              </div>
             )}
           </CarouselItem>
         ))}

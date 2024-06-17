@@ -8,5 +8,7 @@ export * from "./player";
 export * from "./private-node";
 export * from "./private-drawing";
 export * from "./regions";
+export * from "./simple-map";
+export * from "./simple-markers";
 export * from "./trace-line";
 export * from "./world";
