@@ -166,7 +166,13 @@ export function CoordinatesProvider({
   globalFilters?: GlobalFiltersCoordinates;
   typesIdMap?: Record<string, string>;
   mapName?: string;
-  view: { center?: [number, number]; zoom?: number; map?: string };
+  view: {
+    center?: [number, number];
+    zoom?: number;
+    map?: string;
+    filters?: string[];
+    globalFilters?: string[];
+  };
 }): JSX.Element {
   const liveMode = useSettingsStore((state) => state.liveMode);
   const appId = useSettingsStore((state) => state.appId);
@@ -337,7 +343,7 @@ export function CoordinatesProvider({
               setSearch: (search) => {
                 set({ search });
               },
-              filters: [
+              filters: view.filters ?? [
                 ...filters.flatMap((filter) =>
                   filter.defaultOn
                     ? filter.values.map((value) => value.id)
@@ -356,11 +362,13 @@ export function CoordinatesProvider({
                   return { filters };
                 });
               },
-              globalFilters: globalFilters.flatMap((filter) =>
-                filter.values.flatMap((value) =>
-                  value.defaultOn ? value.id : [],
+              globalFilters:
+                view.globalFilters ??
+                globalFilters.flatMap((filter) =>
+                  filter.values.flatMap((value) =>
+                    value.defaultOn ? value.id : [],
+                  ),
                 ),
-              ),
               setGlobalFilters: (globalFilters) => {
                 set({ globalFilters });
               },
@@ -389,6 +397,12 @@ export function CoordinatesProvider({
                 }
                 if (view.map) {
                   result.mapName = view.map;
+                }
+                if (view.filters) {
+                  result.filters = view.filters;
+                }
+                if (view.globalFilters) {
+                  result.globalFilters = view.globalFilters;
                 }
                 return result;
               },

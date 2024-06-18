@@ -12,8 +12,11 @@ import type { Metadata } from "next";
 import { NIGHTINGALE, searchParamsToView } from "@repo/lib";
 import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
-import filters from "../coordinates/filters.json" assert { type: "json" };
 import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
+import _filters from "../coordinates/filters.json" assert { type: "json" };
+
+const filters = _filters as FiltersCoordinates;
+const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
 
 const nodes = _nodes as NodesCoordinates;
 const typesIdMap = _typesIdMap as Record<string, string>;
@@ -39,10 +42,10 @@ export default function Home({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }): JSX.Element {
-  const view = searchParamsToView(searchParams);
+  const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider
-      filters={filters as FiltersCoordinates}
+      filters={filters}
       mapName="MTR_FRT_9812"
       regions={regions as RegionsCoordinates}
       staticNodes={nodes}

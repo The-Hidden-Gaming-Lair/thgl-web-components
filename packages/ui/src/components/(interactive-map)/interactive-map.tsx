@@ -9,11 +9,7 @@ import { createCanvasLayer } from "./canvas-layer";
 import { createWorld } from "./world";
 import { useMapStore } from "./store";
 import { useIsHydrated, useUserStore } from "../(providers)";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "../ui/dropdown-menu";
+import { ContextMenu } from "./context-menu";
 // import { createCoordinatesControl } from "./coordinates-control";
 
 export function InteractiveMap({
@@ -41,9 +37,6 @@ export function InteractiveMap({
     y: number;
     p: [number, number];
   } | null>(null);
-  const setTempPrivateNode = useSettingsStore(
-    (state) => state.setTempPrivateNode,
-  );
 
   useLayoutEffect(() => {
     if (!isHydrated) {
@@ -119,51 +112,17 @@ export function InteractiveMap({
     }
   }, [mapFilter, map, isOverlay, mapTileOptions]);
 
-  const mapContainer = map?.getPane("mapPane");
-
   return (
     <>
       <div
         className={cn(`h-full !bg-inherit outline-none`)}
         ref={containerRef}
       />
-      {contextMenuData && (
-        <DropdownMenu
-          onOpenChange={(open) => {
-            if (!open) {
-              setContextMenuData(null);
-            }
-          }}
-          open
-        >
-          <DropdownMenuContent
-            container={mapContainer}
-            style={{
-              transform: `translate3d(calc(${contextMenuData.x}px), calc(${contextMenuData.y}px + 200%), 0px)`,
-            }}
-          >
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                setTempPrivateNode({
-                  p: contextMenuData.p,
-                });
-              }}
-            >
-              Add Node
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `https://${domain}.th.gl/?map=${mapName}&center=${contextMenuData.p.join(",")}&zoom=${map?.getZoom()}`,
-                );
-              }}
-            >
-              Copy Map View URL
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      <ContextMenu
+        domain={domain}
+        contextMenuData={contextMenuData}
+        onClose={() => setContextMenuData(null)}
+      />
     </>
   );
 }

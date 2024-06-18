@@ -12,7 +12,10 @@ import { type Metadata } from "next";
 import { searchParamsToView } from "@repo/lib";
 import nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
-import filters from "../coordinates/filters.json" assert { type: "json" };
+import _filters from "../coordinates/filters.json" assert { type: "json" };
+
+const filters = _filters as FiltersCoordinates;
+const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
 
 const InteractiveMapDynamic = dynamic(
   () => import("@/components/interactive-map-dynamic"),
@@ -35,10 +38,10 @@ export default function Home({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }): JSX.Element {
-  const view = searchParamsToView(searchParams);
+  const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider
-      filters={filters as FiltersCoordinates}
+      filters={filters}
       regions={regions as RegionsCoordinates}
       staticNodes={nodes as NodesCoordinates}
       view={view}

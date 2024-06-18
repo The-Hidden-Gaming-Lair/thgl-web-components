@@ -11,10 +11,17 @@ import { CoordinatesProvider } from "@repo/ui/providers";
 import type { Metadata } from "next";
 import { searchParamsToView, type TileOptions } from "@repo/lib";
 import _nodes from "../../../coordinates/nodes.json" assert { type: "json" };
-import filters from "../../../coordinates/filters.json" assert { type: "json" };
 import tiles from "../../../coordinates/tiles.json" assert { type: "json" };
 import regions from "../../../coordinates/regions.json" assert { type: "json" };
-import globalFilters from "../../../coordinates/global-filters.json" assert { type: "json" };
+import _filters from "../../../coordinates/filters.json" assert { type: "json" };
+import _globalFilters from "../../../coordinates/global-filters.json" assert { type: "json" };
+
+const globalFilters = _globalFilters as GlobalFiltersCoordinates;
+const filters = _filters as FiltersCoordinates;
+const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
+const gIds = Object.values(globalFilters).flatMap((g) =>
+  g.values.map((v) => v.id),
+);
 
 const nodes = _nodes as NodesCoordinates;
 
@@ -39,14 +46,14 @@ export default function Home({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }): JSX.Element {
-  const view = searchParamsToView(searchParams);
+  const view = searchParamsToView(searchParams, fIds, gIds);
   return (
     <CoordinatesProvider
-      filters={filters as FiltersCoordinates}
+      filters={filters}
       mapName={Object.keys(tiles)[0]}
       regions={regions as RegionsCoordinates}
       staticNodes={nodes}
-      globalFilters={globalFilters as GlobalFiltersCoordinates}
+      globalFilters={globalFilters}
       view={view}
     >
       <div className="relative h-dscreen">
