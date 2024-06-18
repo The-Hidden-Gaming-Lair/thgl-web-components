@@ -3,7 +3,39 @@ import { readDirRecursive, readDirSync, writeJSON } from "./fs.js";
 import { Database } from "bun:sqlite";
 import { mock } from "bun:test";
 
-export function sqliteToJSON(dbDir: string, jsDir: string) {
+export function sqliteToJSON(dbDir: string) {
+  for (const path of readDirRecursive(CONTENT_DIR + dbDir)) {
+    if (!path.endsWith(".db") && !path.endsWith(".sqlite")) {
+      continue;
+    }
+    console.log("Converting", path);
+    const db = new Database(path);
+    // Get all table names
+    const tables = db
+      .prepare("SELECT name FROM sqlite_master WHERE type='table'")
+      .all();
+
+    const result: any = {};
+
+    for (const table of tables) {
+      const tableName = (table as any).name;
+      console.log(`Processing table ${tableName}`);
+      const rows = db.prepare(`SELECT * FROM ${tableName}`).all();
+      writeJSON(
+        path.replace(".db", "").replace(".sqlite", "") +
+          "_" +
+          tableName +
+          ".json",
+        rows,
+      );
+
+      result[tableName] = rows;
+    }
+    // writeJSON(path.replace(".db", ".json").replace(".sqlite", ".json"), result);
+  }
+}
+
+export function sqliteToJSONWithModels(dbDir: string, jsDir: string) {
   mock.module(CONTENT_DIR + jsDir + "/Core/Common/Log", () => {
     return {};
   });

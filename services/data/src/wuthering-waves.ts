@@ -1,4 +1,4 @@
-import { sqliteToJSON } from "./lib/db.js";
+import { sqliteToJSONWithModels } from "./lib/db.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { CONTENT_DIR, TEMP_DIR, TEXTURE_DIR, initDirs } from "./lib/dirs.js";
 import {
@@ -46,7 +46,7 @@ const WORLD = {
 const BIG_WORLD_MAP_ID = 8;
 
 if (Bun.env.DB === "true") {
-  sqliteToJSON(
+  sqliteToJSONWithModels(
     "/Client/Content/Aki/ConfigDB",
     "/Client/Content/Aki/JavaScript",
   );
@@ -1230,7 +1230,7 @@ writeDict(enDict, "en");
 
 writeTypesIDs(typesIDs);
 
-type MonsterInfo = {
+export type MonsterInfo = {
   monsterinfo: Array<{
     Id: number;
     data: {
