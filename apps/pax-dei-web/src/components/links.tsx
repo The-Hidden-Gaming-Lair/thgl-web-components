@@ -7,14 +7,26 @@ import {
   InteractiveMapLink,
   ExternalAnchor,
   NavMenu,
+  HeaderLink,
 } from "@repo/ui/header";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Handshake } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
 
   const links = [
     { href: "/", content: <InteractiveMapLink active={pathname === "/"} /> },
+    {
+      href: "/market",
+      content: (
+        <HeaderLink active={pathname === "/market"}>
+          <div>
+            <Handshake className="w-4 h-4" />
+            <span>Market</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
   ];
   const active = links.find((link) => link.href === pathname) ?? links[0];
 

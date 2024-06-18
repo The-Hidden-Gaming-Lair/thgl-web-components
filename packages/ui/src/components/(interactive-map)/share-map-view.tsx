@@ -42,28 +42,30 @@ export function ShareMapView({
     if (!map) {
       return url;
     }
-    if (withCenter) {
-      if (withClickCenter && center) {
-        url += `&center=${center.join(",")}`;
-      } else {
-        url += `&center=${map.getCenter().lat},${map.getCenter().lng}`;
+    try {
+      if (withCenter) {
+        if (withClickCenter && center) {
+          url += `&center=${center.join(",")}`;
+        } else {
+          url += `&center=${map.getCenter().lat},${map.getCenter().lng}`;
+        }
       }
-    }
-    if (withZoom) {
-      url += `&zoom=${map.getZoom()}`;
-    }
-    if (withFilters) {
-      const gIds = Object.values(allGlobalFilters).flatMap((g) =>
-        g.values.map((v) => v.id),
-      );
-      const fIds = Object.values(allFilters).flatMap((f) =>
-        f.values.map((v) => v.id),
-      );
-      const gStr = mapArrayValues(gIds, globalFilters);
-      const fStr = mapArrayValues(fIds, filters);
+      if (withZoom) {
+        url += `&zoom=${map.getZoom()}`;
+      }
+      if (withFilters) {
+        const gIds = Object.values(allGlobalFilters).flatMap((g) =>
+          g.values.map((v) => v.id),
+        );
+        const fIds = Object.values(allFilters).flatMap((f) =>
+          f.values.map((v) => v.id),
+        );
+        const gStr = mapArrayValues(gIds, globalFilters);
+        const fStr = mapArrayValues(fIds, filters);
 
-      url += `&filters=${JSON.stringify({ f: fStr, g: gStr })}`;
-    }
+        url += `&filters=${JSON.stringify({ f: fStr, g: gStr })}`;
+      }
+    } catch (e) {}
     return url;
   }, [
     map,

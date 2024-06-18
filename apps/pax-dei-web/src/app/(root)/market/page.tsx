@@ -1,11 +1,22 @@
 import { ContentLayout } from "@repo/ui/ads";
-import { HeaderOffset } from "@repo/ui/header";
+import { ExternalAnchor, HeaderOffset } from "@repo/ui/header";
 import dynamic from "next/dynamic";
 import { type SimpleSpawn } from "@repo/ui/interactive-map";
 import { DataTable } from "@repo/ui/data";
+import { ExternalLink } from "lucide-react";
+import { type Metadata } from "next";
 import tiles from "../../../coordinates/tiles.json" assert { type: "json" };
 import { columns } from "./columns";
 import MarketSelect from "@/components/market-select";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+  title: "Pax Dei Market Map – The Hidden Gaming Lair",
+  description:
+    "Explore Pax Dei' Market Places for Trading. Each market place on this map links directly to the Pax Dei Market Discord server.",
+};
 
 const MarketMapDynamic = dynamic(
   () => import("@/components/market-map-dynamic"),
@@ -28,10 +39,16 @@ export type MarketData = {
   radius: number;
   p: number[];
   mapName: string;
+  channel: string;
+  timestamp: string;
 }[];
 
 async function fetchMarketData(shard: string): Promise<MarketData> {
-  const response = await fetch(`https://paxdei.trade/api/location/${shard}`);
+  const response = await fetch(`https://paxdei.trade/api/location/${shard}`, {
+    next: {
+      revalidate: 3600,
+    },
+  });
   const data = (await response.json()) as MarketData;
   return data;
 }
@@ -42,7 +59,7 @@ export default async function Market({
   searchParams: Record<string, string | string[] | undefined>;
 }) {
   const mapName = (searchParams.mapName as string) || Object.keys(tiles)[0];
-  const shard = searchParams.shard as string;
+  const shard = (searchParams.shard as string) || "Cernunnos";
 
   const marketData = shard ? await fetchMarketData(shard) : [];
   const mapMarketData = marketData.filter(
@@ -51,7 +68,7 @@ export default async function Market({
   const spawns = mapMarketData.map<SimpleSpawn>((market) => ({
     id: market.id,
     name: market.name,
-    description: market.description,
+    description: `<p>${market.description}</p><a href="${market.channel}" target="_blank">[Market Channel]</a><p class="italic">Last Trade: ${new Date(market.timestamp).toLocaleDateString()}</p>`,
     color: market.color,
     icon: market.icon.url,
     radius: market.radius,
@@ -64,7 +81,17 @@ export default async function Market({
         header={
           <>
             <h2 className="text-2xl">Pax Dei Market Place</h2>
-            <p className="text-sm">TBA</p>
+            <p className="text-sm">
+              Each market place on this map links directly to the Pax Dei Market
+              Discord server. Join the community at{" "}
+              <ExternalAnchor
+                href="https://paxdei.trade/discord"
+                className="underline inline-flex gap-1 hover:text-primary transition-colors"
+              >
+                paxdei.trade/discord <ExternalLink className="w-3 h-3" />
+              </ExternalAnchor>{" "}
+              to connect with fellow traders.
+            </p>
           </>
         }
         content={

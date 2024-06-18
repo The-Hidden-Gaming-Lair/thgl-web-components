@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   ReleaseNotesLink,
-  Brand,
   InteractiveMapLink,
   ExternalAnchor,
   NavMenu,

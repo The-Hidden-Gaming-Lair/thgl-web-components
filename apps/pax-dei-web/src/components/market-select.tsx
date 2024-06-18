@@ -10,10 +10,10 @@ import {
 } from "@repo/ui/controls";
 import { useT } from "@repo/ui/providers";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
-const shards: string[] = [
+export const shards: string[] = [
   "Prometheus",
   "Freyja",
   "Selene",
@@ -48,6 +48,18 @@ export default function MarketSelect({
     },
     [searchParams],
   );
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (!params.has("shard")) {
+      params.set("shard", shard);
+    }
+    if (!params.has("mapName")) {
+      params.set("mapName", mapName);
+    }
+
+    router.replace(`${pathname}?${params.toString()}`);
+  }, []);
 
   return (
     <div className="flex gap-2 justify-center">
