@@ -736,6 +736,46 @@
     "zoneId": 3003001
   },
   {
+    "id": "Map_DD01_GL_01_Sz_None",
+    "zoneId": 7990100
+  },
+  {
+    "id": "Map_DD01_GL_01_SzA",
+    "zoneId": 7990101
+  },
+  {
+    "id": "Map_DD01_GL_02_Sz_None",
+    "zoneId": 7990200
+  },
+  {
+    "id": "Map_DD01_GL_02_SzA",
+    "zoneId": 7990201
+  },
+  {
+    "id": "Map_DD01_GL_03_Sz_None",
+    "zoneId": 7990300
+  },
+  {
+    "id": "Map_DD01_GL_03_SzA",
+    "zoneId": 7990301
+  },
+  {
+    "id": "Map_DD01_GL_04_Sz_None",
+    "zoneId": 7990400
+  },
+  {
+    "id": "Map_DD01_GL_04_SzA",
+    "zoneId": 7990401
+  },
+  {
+    "id": "Map_DD01_GL_05_Sz_None",
+    "zoneId": 7990500
+  },
+  {
+    "id": "Map_DD01_GL_05_SzA",
+    "zoneId": 7990501
+  },
+  {
     "id": "Map_GD01_Sz_None",
     "zoneId": 8100001
   },

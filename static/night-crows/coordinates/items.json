@@ -315,6 +315,66 @@
     "icon": "Material_Enhance_Accessory_Event_06.webp"
   },
   {
+    "id": "Material_Enhance_Weapon_Cursed_Untrade_Event_01",
+    "itemId": 12010064,
+    "icon": "Material_Enhance_Weapon_Cursed_Untrade_Event_01.webp"
+  },
+  {
+    "id": "Material_Enhance_Armor_Cursed_Untrade_Event_01",
+    "itemId": 12010065,
+    "icon": "Material_Enhance_Armor_Cursed_Untrade_Event_01.webp"
+  },
+  {
+    "id": "Material_Enhance_Accessory_Cursed_Untrade_Event_01",
+    "itemId": 12010066,
+    "icon": "Material_Enhance_Accessory_Cursed_Untrade_Event_01.webp"
+  },
+  {
+    "id": "Material_Enhance_Weapon_Blessed_Event_06",
+    "itemId": 12010067,
+    "icon": "Material_Enhance_Weapon_Blessed_Event_06.webp"
+  },
+  {
+    "id": "Material_Enhance_Armor_Blessed_Event_06",
+    "itemId": 12010068,
+    "icon": "Material_Enhance_Armor_Blessed_Event_06.webp"
+  },
+  {
+    "id": "Material_Enhance_Accessory_Blessed_Event_06",
+    "itemId": 12010069,
+    "icon": "Material_Enhance_Accessory_Blessed_Event_06.webp"
+  },
+  {
+    "id": "Material_Enhance_Weapon_Event_07",
+    "itemId": 12010071,
+    "icon": "Material_Enhance_Weapon_Event_07.webp"
+  },
+  {
+    "id": "Material_Enhance_Weapon_Blessed_Event_07",
+    "itemId": 12010072,
+    "icon": "Material_Enhance_Weapon_Blessed_Event_07.webp"
+  },
+  {
+    "id": "Material_Enhance_Armor_Event_07",
+    "itemId": 12010073,
+    "icon": "Material_Enhance_Armor_Event_07.webp"
+  },
+  {
+    "id": "Material_Enhance_Armor_Blessed_Event_07",
+    "itemId": 12010074,
+    "icon": "Material_Enhance_Armor_Blessed_Event_07.webp"
+  },
+  {
+    "id": "Material_Enhance_Accessory_Event_07",
+    "itemId": 12010075,
+    "icon": "Material_Enhance_Accessory_Event_07.webp"
+  },
+  {
+    "id": "Material_Enhance_Accessory_Blessed_Event_07",
+    "itemId": 12010076,
+    "icon": "Material_Enhance_Accessory_Blessed_Event_07.webp"
+  },
+  {
     "id": "Material_EquipmentOptionalStat_Normal_Weapon_Trade",
     "itemId": 12020001,
     "icon": "Material_EquipmentOptionalStat_Normal_Weapon_Trade.webp"
@@ -635,6 +695,66 @@
     "icon": "Material_EquipmentOptionalStat_Blessed_Artifact_Event_03.webp"
   },
   {
+    "id": "Material_EquipmentOptionalStat_Blessed_Weapon_Event_08",
+    "itemId": 12020065,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Weapon_Event_08.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Armor_Event_08",
+    "itemId": 12020066,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Armor_Event_08.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Accessory_Event_07",
+    "itemId": 12020067,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Accessory_Event_07.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Artifact_Event_04",
+    "itemId": 12020068,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Artifact_Event_04.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Normal_Artifact_Event_04",
+    "itemId": 12020069,
+    "icon": "Material_EquipmentOptionalStat_Normal_Artifact_Event_04.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Normal_Weapon_Event_07",
+    "itemId": 12020070,
+    "icon": "Material_EquipmentOptionalStat_Normal_Weapon_Event_07.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Weapon_Event_09",
+    "itemId": 12020071,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Weapon_Event_09.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Normal_Armor_Event_07",
+    "itemId": 12020072,
+    "icon": "Material_EquipmentOptionalStat_Normal_Armor_Event_07.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Armor_Event_09",
+    "itemId": 12020073,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Armor_Event_09.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Normal_Accessory_Event_07",
+    "itemId": 12020074,
+    "icon": "Material_EquipmentOptionalStat_Normal_Accessory_Event_07.webp"
+  },
+  {
+    "id": "Material_EquipmentOptionalStat_Blessed_Accessory_Event_08",
+    "itemId": 12020075,
+    "icon": "Material_EquipmentOptionalStat_Blessed_Accessory_Event_08.webp"
+  },
+  {
+    "id": "Material_Enhance_Artifact_Event_05",
+    "itemId": 12020076,
+    "icon": "Material_Enhance_Artifact_Event_05.webp"
+  },
+  {
     "id": "Material_ImprintStone_01_Trade",
     "itemId": 12030001,
     "icon": "Material_ImprintStone_01_Trade.webp"
@@ -693,6 +813,26 @@
     "id": "Material_ImprintStone_06_Untrade",
     "itemId": 12030012,
     "icon": "Material_ImprintStone_06_Untrade.webp"
+  },
+  {
+    "id": "Material_ImprintStone_04_Untrade_Event_01",
+    "itemId": 12030013,
+    "icon": "Material_ImprintStone_04_Untrade_Event_01.webp"
+  },
+  {
+    "id": "Material_ImprintStone_01_Untrade_Event_01",
+    "itemId": 12030014,
+    "icon": "Material_ImprintStone_01_Untrade_Event_01.webp"
+  },
+  {
+    "id": "Material_ImprintStone_02_Untrade_Event_01",
+    "itemId": 12030015,
+    "icon": "Material_ImprintStone_02_Untrade_Event_01.webp"
+  },
+  {
+    "id": "Material_ImprintStone_03_Untrade_Event_01",
+    "itemId": 12030016,
+    "icon": "Material_ImprintStone_03_Untrade_Event_01.webp"
   },
   {
     "id": "Material_EntranceItem_RGD01_05_Trade",
@@ -1033,6 +1173,31 @@
     "id": "Material_Map_FD03_TimeCharge_Event_06",
     "itemId": 12050041,
     "icon": "Material_Map_FD03_TimeCharge_Event_06.webp"
+  },
+  {
+    "id": "Material_Map_ED01_GL_TimeCharge_Trade",
+    "itemId": 12050042,
+    "icon": "Material_Map_ED01_GL_TimeCharge_Trade.webp"
+  },
+  {
+    "id": "Material_Map_ED01_GL_TimeCharge_Untrade",
+    "itemId": 12050043,
+    "icon": "Material_Map_ED01_GL_TimeCharge_Untrade.webp"
+  },
+  {
+    "id": "Material_Map_DD01_TimeCharge_Event_06",
+    "itemId": 12050044,
+    "icon": "Material_Map_DD01_TimeCharge_Event_06.webp"
+  },
+  {
+    "id": "Material_Map_FD03_TimeCharge_Event_07",
+    "itemId": 12050045,
+    "icon": "Material_Map_FD03_TimeCharge_Event_07.webp"
+  },
+  {
+    "id": "Material_Map_RGD01_TimeCharge_Event_06",
+    "itemId": 12050046,
+    "icon": "Material_Map_RGD01_TimeCharge_Event_06.webp"
   },
   {
     "id": "Material_GliderTicket_Glide_Grade_1_0_BirdWing_B_Trade",
@@ -1413,6 +1578,11 @@
     "id": "Material_LockTransform_CorePart_Untrade",
     "itemId": 12060084,
     "icon": "Material_LockTransform_CorePart_Untrade.webp"
+  },
+  {
+    "id": "Material_GliderTicket_Glide_Grade_3_12_Bubble_Event",
+    "itemId": 12060085,
+    "icon": "Material_GliderTicket_Glide_Grade_3_12_Bubble_Event.webp"
   },
   {
     "id": "Material_GliderTicket_Glide_Grade_1_0_BirdWing_Global_Trade",
@@ -4455,6 +4625,11 @@
     "icon": "Material_Map_PD01_Ticket_Event.webp"
   },
   {
+    "id": "Material_Map_PD01_Ticket_Event_01",
+    "itemId": 12080629,
+    "icon": "Material_Map_PD01_Ticket_Event_01.webp"
+  },
+  {
     "id": "Material_Craft_KeyMaterial_EpicMiddle_04_Trade",
     "itemId": 12080690,
     "icon": "Material_Craft_KeyMaterial_EpicMiddle_04_Trade.webp"
@@ -4993,6 +5168,46 @@
     "id": "Material_CraftEvent_GL_240611_01_Trade",
     "itemId": 12080868,
     "icon": "Material_CraftEvent_GL_240611_01_Trade.webp"
+  },
+  {
+    "id": "Material_ShowItem_Increase_Gold_Map_DD01_GL",
+    "itemId": 12080878,
+    "icon": "Material_ShowItem_Increase_Gold_Map_DD01_GL.webp"
+  },
+  {
+    "id": "Material_ShowItem_Increase_Exp_Map_DD01_GL",
+    "itemId": 12080879,
+    "icon": "Material_ShowItem_Increase_Exp_Map_DD01_GL.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_16",
+    "itemId": 12080880,
+    "icon": "Material_TemporaryCollection_GL_16.webp"
+  },
+  {
+    "id": "Material_GL_Event_Drop_240618",
+    "itemId": 12080881,
+    "icon": "Material_GL_Event_Drop_240618.webp"
+  },
+  {
+    "id": "Material_GL_Event_CraftRequest_240528_Trade",
+    "itemId": 12080882,
+    "icon": "Material_GL_Event_CraftRequest_240528_Trade.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_17",
+    "itemId": 12080883,
+    "icon": "Material_TemporaryCollection_GL_17.webp"
+  },
+  {
+    "id": "Material_TemporaryCollection_GL_18",
+    "itemId": 12080884,
+    "icon": "Material_TemporaryCollection_GL_18.webp"
+  },
+  {
+    "id": "Material_ImprintCard_LoadingAsset_Untrade_Event_03",
+    "itemId": 12080885,
+    "icon": "Material_ImprintCard_LoadingAsset_Untrade_Event_03.webp"
   },
   {
     "id": "Material_SkillBook_PcPassiveSkill_AllClass_PermanentSkill01_104001_Lv1_Trade",
@@ -21613,5 +21828,240 @@
     "id": "ItemBox_Event_GL_100birthday_Reward",
     "itemId": 14010557,
     "icon": "ItemBox_Event_GL_100birthday_Reward.webp"
+  },
+  {
+    "id": "Itembox_Random_Gacha_Low_Count_Box_0011",
+    "itemId": 14010558,
+    "icon": "Itembox_Random_Gacha_Low_Count_Box_0011.webp"
+  },
+  {
+    "id": "ItemBox_Selection_Gacha_Mount_WeaponCostume_Grade4",
+    "itemId": 14010559,
+    "icon": "ItemBox_Selection_Gacha_Mount_WeaponCostume_Grade4.webp"
+  },
+  {
+    "id": "ItemBox_Selection_Usable_Buff_ExpGain_01",
+    "itemId": 14010560,
+    "icon": "ItemBox_Selection_Usable_Buff_ExpGain_01.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_001",
+    "itemId": 14010561,
+    "icon": "ItemBox_CashStore_Package_Event_240618_001.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_002",
+    "itemId": 14010562,
+    "icon": "ItemBox_CashStore_Package_Event_240618_002.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_003",
+    "itemId": 14010563,
+    "icon": "ItemBox_CashStore_Package_Event_240618_003.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_004",
+    "itemId": 14010564,
+    "icon": "ItemBox_CashStore_Package_Event_240618_004.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_005",
+    "itemId": 14010565,
+    "icon": "ItemBox_CashStore_Package_Event_240618_005.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_006",
+    "itemId": 14010566,
+    "icon": "ItemBox_CashStore_Package_Event_240618_006.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_007",
+    "itemId": 14010567,
+    "icon": "ItemBox_CashStore_Package_Event_240618_007.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_008",
+    "itemId": 14010568,
+    "icon": "ItemBox_CashStore_Package_Event_240618_008.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_009",
+    "itemId": 14010569,
+    "icon": "ItemBox_CashStore_Package_Event_240618_009.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_010",
+    "itemId": 14010570,
+    "icon": "ItemBox_CashStore_Package_Event_240618_010.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_011",
+    "itemId": 14010571,
+    "icon": "ItemBox_CashStore_Package_Event_240618_011.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_012",
+    "itemId": 14010572,
+    "icon": "ItemBox_CashStore_Package_Event_240618_012.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_013",
+    "itemId": 14010573,
+    "icon": "ItemBox_CashStore_Package_Event_240618_013.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_014",
+    "itemId": 14010574,
+    "icon": "ItemBox_CashStore_Package_Event_240618_014.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_015",
+    "itemId": 14010575,
+    "icon": "ItemBox_CashStore_Package_Event_240618_015.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_016",
+    "itemId": 14010576,
+    "icon": "ItemBox_CashStore_Package_Event_240618_016.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_017",
+    "itemId": 14010577,
+    "icon": "ItemBox_CashStore_Package_Event_240618_017.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_018",
+    "itemId": 14010578,
+    "icon": "ItemBox_CashStore_Package_Event_240618_018.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_019",
+    "itemId": 14010579,
+    "icon": "ItemBox_CashStore_Package_Event_240618_019.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_020",
+    "itemId": 14010580,
+    "icon": "ItemBox_CashStore_Package_Event_240618_020.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_021",
+    "itemId": 14010581,
+    "icon": "ItemBox_CashStore_Package_Event_240618_021.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_022",
+    "itemId": 14010582,
+    "icon": "ItemBox_CashStore_Package_Event_240618_022.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_023",
+    "itemId": 14010583,
+    "icon": "ItemBox_CashStore_Package_Event_240618_023.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_024",
+    "itemId": 14010584,
+    "icon": "ItemBox_CashStore_Package_Event_240618_024.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_025",
+    "itemId": 14010585,
+    "icon": "ItemBox_CashStore_Package_Event_240618_025.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_026",
+    "itemId": 14010586,
+    "icon": "ItemBox_CashStore_Package_Event_240618_026.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_027",
+    "itemId": 14010587,
+    "icon": "ItemBox_CashStore_Package_Event_240618_027.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_028",
+    "itemId": 14010588,
+    "icon": "ItemBox_CashStore_Package_Event_240618_028.webp"
+  },
+  {
+    "id": "ItemBox_CashStore_Package_Event_240618_029",
+    "itemId": 14010589,
+    "icon": "ItemBox_CashStore_Package_Event_240618_029.webp"
+  },
+  {
+    "id": "ItemBox_MyCard_Package_WeeklyGacha_Remake_01",
+    "itemId": 14010590,
+    "icon": "ItemBox_MyCard_Package_WeeklyGacha_Remake_01.webp"
+  },
+  {
+    "id": "ItemBox_MyCard_Package_MonthlyGacha_Remake_01",
+    "itemId": 14010591,
+    "icon": "ItemBox_MyCard_Package_MonthlyGacha_Remake_01.webp"
+  },
+  {
+    "id": "ItemBox_MyCard_Package_MonthlyGacha_Remake_02",
+    "itemId": 14010592,
+    "icon": "ItemBox_MyCard_Package_MonthlyGacha_Remake_02.webp"
+  },
+  {
+    "id": "ItemBox_Select_EnhanceMaterial_Blessed_Event_01",
+    "itemId": 14010593,
+    "icon": "ItemBox_Select_EnhanceMaterial_Blessed_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Select_EnhanceMaterial_Cursed_Event_01",
+    "itemId": 14010594,
+    "icon": "ItemBox_Select_EnhanceMaterial_Cursed_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_SSSgift_Reward_006",
+    "itemId": 14010595,
+    "icon": "ItemBox_SSSgift_Reward_006.webp"
+  },
+  {
+    "id": "ItemBox_Select_Box_Random_Enhance_Weapon_Blessed_Event_1",
+    "itemId": 14010596,
+    "icon": "ItemBox_Select_Box_Random_Enhance_Weapon_Blessed_Event_1.webp"
+  },
+  {
+    "id": "ItemBox_Material_ImprintStone_01_03_Event_01",
+    "itemId": 14010597,
+    "icon": "ItemBox_Material_ImprintStone_01_03_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Random_Enhance_Armor_Blessed_Untrade_Advanced_Event_01",
+    "itemId": 14010598,
+    "icon": "ItemBox_Random_Enhance_Armor_Blessed_Untrade_Advanced_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Random_Enhance_Weapon_Blessed_Untrade_Advanced_Event_01",
+    "itemId": 14010599,
+    "icon": "ItemBox_Random_Enhance_Weapon_Blessed_Untrade_Advanced_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Random_Enhance_Accessory_Blessed_Untrade_Advanced_Event_01",
+    "itemId": 14010600,
+    "icon": "ItemBox_Random_Enhance_Accessory_Blessed_Untrade_Advanced_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Select_Box_Random_EquipmentOptionalStat_Blessed_Event_01",
+    "itemId": 14010601,
+    "icon": "ItemBox_Select_Box_Random_EquipmentOptionalStat_Blessed_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Random_EquipmentOptionalStat_Weapon_Blessed_Advanced_Event_01",
+    "itemId": 14010602,
+    "icon": "ItemBox_Random_EquipmentOptionalStat_Weapon_Blessed_Advanced_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Random_EquipmentOptionalStat_Armor_Blessed_Advanced_Event_01",
+    "itemId": 14010603,
+    "icon": "ItemBox_Random_EquipmentOptionalStat_Armor_Blessed_Advanced_Event_01.webp"
+  },
+  {
+    "id": "ItemBox_Random_EquipmentOptionalStat_Accessory_Blessed_Advanced_Event_01",
+    "itemId": 14010604,
+    "icon": "ItemBox_Random_EquipmentOptionalStat_Accessory_Blessed_Advanced_Event_01.webp"
   }
 ]

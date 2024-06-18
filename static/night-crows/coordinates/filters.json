@@ -139,6 +139,11 @@
         "id": "BeginnerSkillStore",
         "icon": "ui_texture_icon_npc_skillbook.webp",
         "size": 1.5
+      },
+      {
+        "id": "100thDayEventStore",
+        "icon": "ui_gl_texture_icon_npc_event.webp",
+        "size": 1.5
       }
     ]
   }
