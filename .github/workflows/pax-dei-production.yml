@@ -1,9 +1,6 @@
 name: Pax Dei Production
 
 on:
-  push:
-    paths:
-      - "apps/pax-dei-overwolf/manifest.json"
   workflow_dispatch:
 
 jobs:
