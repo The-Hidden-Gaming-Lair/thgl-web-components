@@ -111,14 +111,14 @@ function App(): JSX.Element {
         </TooltipProvider>
       </I18NProvider>
       <ResizeBorders />
-      <AdsScript fallback={<AdsFallback title={TITLE} />}>
+      {/* <AdsScript fallback={<AdsFallback title={TITLE} />}>
         <Ads160x600Desktop title={TITLE} />
         <Ads728x90Desktop title={TITLE} />
         <Ads300x250Overlay title={TITLE} />
         <Ads400x300Overlay title={TITLE} />
         <Ads400x600Desktop title={TITLE} />
         <Ads400x900Desktop title={TITLE} />
-      </AdsScript>
+      </AdsScript> */}
       <MapHotkeys />
       <Toaster />
       <PlausibleTracker
