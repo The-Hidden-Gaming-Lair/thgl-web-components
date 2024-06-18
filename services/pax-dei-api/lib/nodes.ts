@@ -1,4 +1,4 @@
-import Ajv, { JSONSchemaType } from "ajv";
+import Ajv, { type JSONSchemaType } from "ajv";
 
 const ajv = new Ajv();
 
@@ -57,7 +57,7 @@ export function getMinDistance() {
 
 export function calculateDistance(
   node1: Node,
-  coords: [number, number, number],
+  coords: [number, number, number, string],
 ) {
   const dx = node1.x - coords[0];
   const dy = node1.y - coords[1];

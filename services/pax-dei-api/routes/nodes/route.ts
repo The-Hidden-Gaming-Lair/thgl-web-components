@@ -5,7 +5,6 @@ import {
   toNode,
   validateActors,
 } from "../../lib/nodes";
-import { isValidVersion } from "../../lib/version";
 
 export async function fetchNodes(req: Request) {
   if (req.method === "POST") {
@@ -37,10 +36,7 @@ export async function fetchNodes(req: Request) {
 }
 
 async function handlePOST(req: Request) {
-  if (
-    !isValidVersion(req.headers.get("app-version")) ||
-    req.headers.get("content-type") !== "application/json"
-  ) {
+  if (req.headers.get("content-type") !== "application/json") {
     return new Response("Bad request", {
       status: 400,
       headers: {
