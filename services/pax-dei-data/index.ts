@@ -193,10 +193,10 @@ for (const mapName of readDirSync(
   const FIT_BOUNDS =
     mapName === "gallia_pve_01"
       ? MAP_BOUNDS
-      : [
+      : ([
           [MAP_BOUNDS[0][0], MAP_BOUNDS[0][1]],
           [MAP_BOUNDS[1][0] * 0.25, MAP_BOUNDS[1][1] * 0.25],
-        ];
+        ] as [[number, number], [number, number]]);
 
   if (Bun.env.TILES === "true") {
     try {
@@ -1020,13 +1020,10 @@ if (Bun.env.NODES === "true") {
         console.log("New type", id);
       }
 
-      const location = normalizeLocation({ x, y }, offset);
+      const location = { x: y, y: x };
       if (
         oldNodes!.spawns.some(
-          (s) =>
-            s.p[0] === location.y &&
-            s.p[1] === location.x &&
-            s.mapName === mapName,
+          (s) => s.p[0] === y && s.p[1] === x && s.mapName === mapName,
         )
       ) {
         return;
