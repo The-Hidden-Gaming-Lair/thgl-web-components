@@ -180,8 +180,8 @@ export function CoordinatesProvider({
   const actors = useGameState((state) => state.actors);
   const privateDrawings = useSettingsStore((state) => state.privateDrawings);
 
-  const nodes = useMemo<NodesCoordinates>(() => {
-    const privateGroups = privateNodes.reduce<NodesCoordinates>((acc, node) => {
+  const privateGroups = useMemo<NodesCoordinates>(() => {
+    return privateNodes.reduce<NodesCoordinates>((acc, node) => {
       const type = node.filter ?? "private_Unsorted";
       const category = acc.find((node) => node.type === type);
       if (category) {
@@ -216,7 +216,9 @@ export function CoordinatesProvider({
       }
       return acc;
     }, []);
+  }, [privateNodes]);
 
+  const nodes = useMemo<NodesCoordinates>(() => {
     if (!liveMode || !typesIdMap || !appId) {
       return [...privateGroups, ...staticNodes];
     }
@@ -258,7 +260,7 @@ export function CoordinatesProvider({
       ...staticNodes.filter((node) => "static" in node && !!node.static)!,
     );
     return targetNodes;
-  }, [liveMode, appId, actors, privateNodes]);
+  }, [liveMode, appId, actors, privateGroups]);
 
   const icons = useMemo(
     () => filters.flatMap((filter) => filter.values).map((value) => value),

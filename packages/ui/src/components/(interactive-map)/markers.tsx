@@ -39,7 +39,9 @@ export function Markers({
 
   const featureGroups = useRef<Record<string, FeatureGroup<CanvasMarker>>>({});
   const mapName = useUserStore((state) => state.mapName);
-  const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
+  const tempPrivateNodeId = useSettingsStore(
+    (state) => state.tempPrivateNode?.id,
+  );
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
   const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
   const fitBoundsOnChange = useSettingsStore(
@@ -66,13 +68,13 @@ export function Markers({
     }
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
 
-    const unusedFeatureGroups = Object.keys(featureGroups.current);
     const activeIDs: string[] = [];
+    console.log("RENDERING MARKERS");
     spawns.forEach((spawn) => {
       if (spawn.mapName && spawn.mapName !== mapName) {
         return;
       }
-      if (tempPrivateNode?.id && tempPrivateNode.id === spawn.id) {
+      if (tempPrivateNodeId && tempPrivateNodeId === spawn.id) {
         return;
       }
       const nodeId = spawn.isPrivate
@@ -80,15 +82,6 @@ export function Markers({
         : `${spawn.id ?? spawn.type}@${spawn.p[0]}:${spawn.p[1]}`;
 
       const isCluster = Boolean(spawn.cluster && spawn.cluster.length > 0);
-      let isDiscovered = isCluster
-        ? discoveredNodes.includes(nodeId) &&
-          !spawn.cluster!.some(
-            (a) =>
-              !discoveredNodes.includes(
-                `${a.id ?? t(a.type)}@${a.p[0]}:${a.p[1]}`,
-              ),
-          )
-        : discoveredNodes.includes(nodeId);
 
       const id = isCluster ? `${nodeId}:${isCluster}` : nodeId;
       activeIDs.push(id);
@@ -102,9 +95,7 @@ export function Markers({
         }
       }
       const featureGroup = featureGroups.current[spawn.type];
-      if (unusedFeatureGroups.includes(spawn.type)) {
-        unusedFeatureGroups.splice(unusedFeatureGroups.indexOf(spawn.type), 1);
-      }
+
       const existingMarker = featureGroup.getLayers().find((_layer) => {
         const layer = _layer as CanvasMarker;
         if (layer.options.id === id) {
@@ -115,6 +106,16 @@ export function Markers({
         }
         return false;
       }) as CanvasMarker | undefined;
+
+      let isDiscovered = isCluster
+        ? discoveredNodes.includes(nodeId) &&
+          !spawn.cluster!.some(
+            (a) =>
+              !discoveredNodes.includes(
+                `${a.id ?? t(a.type)}@${a.p[0]}:${a.p[1]}`,
+              ),
+          )
+        : discoveredNodes.includes(nodeId);
       if (existingMarker) {
         if (isDiscovered && hideDiscoveredNodes) {
           existingMarker.remove();
@@ -122,7 +123,7 @@ export function Markers({
         } else if (existingMarker.options.isDiscovered !== isDiscovered) {
           existingMarker.toggleDiscovered();
         }
-        if (!existingMarker.getLatLng().equals(spawn.p)) {
+        if (spawn.address && !existingMarker.getLatLng().equals(spawn.p)) {
           existingMarker.setLatLng(spawn.p);
         }
         return;
@@ -238,13 +239,6 @@ export function Markers({
       }
     });
 
-    unusedFeatureGroups.forEach((type) => {
-      try {
-        featureGroups.current[type].clearLayers();
-      } catch (e) {
-        //
-      }
-    });
     Object.values(featureGroups.current).forEach((featureGroup) => {
       featureGroup.getLayers().forEach((layer) => {
         if (!activeIDs.includes((layer as CanvasMarker).options.id)) {
@@ -257,7 +251,7 @@ export function Markers({
         }
       });
     });
-  }, [map, spawns, hideDiscoveredNodes, discoveredNodes, tempPrivateNode]);
+  }, [map, spawns, hideDiscoveredNodes, discoveredNodes, tempPrivateNodeId]);
 
   useEffect(() => {
     Object.values(featureGroups.current).forEach((featureGroup) => {
