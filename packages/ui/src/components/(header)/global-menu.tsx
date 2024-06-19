@@ -35,6 +35,11 @@ const APPS = [
         icon: "/global_icons/gaming-tools.webp",
       },
       {
+        title: "Pax Dei Database",
+        url: "https://www.reddit.com/r/PaxDei",
+        icon: "/global_icons/reddit.webp",
+      },
+      {
         title: "Pax Dei Market",
         url: "https://paxdei.trade/?ref=thgl",
         icon: "/global_icons/paxdei-trade.webp",
@@ -53,6 +58,11 @@ const APPS = [
         title: "Crafting Resources",
         url: "https://www.gameactive.org/pd/?ref=thgl",
         icon: "/global_icons/gameactive.webp",
+      },
+      {
+        title: "Guides",
+        url: "https://mmo-wiki.com/pax-dei/?ref=thgl",
+        icon: "/global_icons/mmo-wiki.webp",
       },
     ],
   },
