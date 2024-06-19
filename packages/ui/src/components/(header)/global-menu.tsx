@@ -35,7 +35,7 @@ const APPS = [
         icon: "/global_icons/gaming-tools.webp",
       },
       {
-        title: "Pax Dei Database",
+        title: "r/PaxDei",
         url: "https://www.reddit.com/r/PaxDei",
         icon: "/global_icons/reddit.webp",
       },
@@ -177,7 +177,7 @@ const APPS = [
     tags: ["interactive_map"],
     partners: [
       {
-        title: "/r/Palworld",
+        title: "r/Palworld",
         url: "https://www.reddit.com/r/palworld",
         icon: "/global_icons/reddit.webp",
       },
