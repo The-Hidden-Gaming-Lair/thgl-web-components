@@ -122,6 +122,11 @@
         "size": 1.15
       },
       {
+        "id": "berry_cloudberry",
+        "icon": "berry_cloudberry.webp",
+        "size": 1.15
+      },
+      {
         "id": "berry_elderberries",
         "icon": "berry_elderberries.webp",
         "size": 1.15
@@ -344,6 +349,11 @@
       {
         "id": "herb_garlic",
         "icon": "herb_garlic.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_lemongrass",
+        "icon": "herb_lemongrass.webp",
         "size": 1.15
       },
       {
@@ -948,6 +958,11 @@
         "size": 1.15
       },
       {
+        "id": "berry_cloudberry",
+        "icon": "berry_cloudberry.webp",
+        "size": 1.15
+      },
+      {
         "id": "berry_elderberries",
         "icon": "berry_elderberries.webp",
         "size": 1.15
@@ -1097,6 +1112,11 @@
       {
         "id": "herb_garlic",
         "icon": "herb_garlic.webp",
+        "size": 1.15
+      },
+      {
+        "id": "herb_lemongrass",
+        "icon": "herb_lemongrass.webp",
         "size": 1.15
       },
       {

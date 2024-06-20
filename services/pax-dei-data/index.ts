@@ -1007,7 +1007,7 @@ if (Bun.env.NODES === "true") {
 
     spawnNodes.forEach(([x, y, z, path]) => {
       const mapName = path.split("/")[4];
-      const offset = mapName === "gallia_pve_01" ? SMALL : LARGE;
+      // const offset = mapName === "gallia_pve_01" ? SMALL : LARGE;
 
       if (id === "iron_deposit" && mapName === "gallia_pve_01") {
         id = "iron_deposit_pure";

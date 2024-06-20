@@ -69,7 +69,6 @@ export function Markers({
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
 
     const activeIDs: string[] = [];
-    console.log("RENDERING MARKERS");
     spawns.forEach((spawn) => {
       if (spawn.mapName && spawn.mapName !== mapName) {
         return;
