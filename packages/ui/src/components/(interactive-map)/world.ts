@@ -1,7 +1,7 @@
 import type { TileLayer } from "@repo/lib";
-import type { Map } from "leaflet";
 import { CRS, Transformation, canvas, extend, map, PM } from "leaflet";
 import "@geoman-io/leaflet-geoman-free";
+import { LeafletMap } from "./store";
 
 PM.setOptIn(true);
 
@@ -9,7 +9,7 @@ export function createWorld(
   element: string | HTMLElement,
   view: { center?: [number, number]; zoom?: number },
   options?: TileLayer,
-): Map {
+): LeafletMap {
   const worldCRS = options?.transformation
     ? extend({}, CRS.Simple, {
         transformation: new Transformation(
@@ -51,5 +51,5 @@ export function createWorld(
 
   world.pm.setLang("thgl" as PM.SupportLocales, customTranslation, "en");
 
-  return world;
+  return world as LeafletMap;
 }

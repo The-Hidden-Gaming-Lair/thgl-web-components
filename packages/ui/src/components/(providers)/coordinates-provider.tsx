@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import type { StoreApi } from "zustand";
@@ -90,6 +91,8 @@ export type Icons = {
 }[];
 
 interface UserStoreState {
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   mapName: string;
   setMapName: (mapName: string) => void;
   search: string;
@@ -174,161 +177,18 @@ export function CoordinatesProvider({
     globalFilters?: string[];
   };
 }): JSX.Element {
-  const liveMode = useSettingsStore((state) => state.liveMode);
-  const appId = useSettingsStore((state) => state.appId);
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const actors = useGameState((state) => state.actors);
-  const privateDrawings = useSettingsStore((state) => state.privateDrawings);
-
-  const privateGroups = useMemo<NodesCoordinates>(() => {
-    return privateNodes.reduce<NodesCoordinates>((acc, node) => {
-      const type = node.filter ?? "private_Unsorted";
-      const category = acc.find((node) => node.type === type);
-      if (category) {
-        category.spawns.push({
-          id: node.id,
-          name: node.name,
-          description: node.description,
-          p: node.p,
-          mapName: node.mapName,
-          color: node.color,
-          icon: node.icon,
-          radius: node.radius,
-          isPrivate: true,
-        });
-      } else {
-        acc.push({
-          type,
-          spawns: [
-            {
-              id: node.id,
-              name: node.name,
-              description: node.description,
-              p: node.p,
-              mapName: node.mapName,
-              color: node.color,
-              icon: node.icon,
-              radius: node.radius,
-              isPrivate: true,
-            },
-          ],
-        });
-      }
-      return acc;
-    }, []);
-  }, [privateNodes]);
-
-  const nodes = useMemo<NodesCoordinates>(() => {
-    if (!liveMode || !typesIdMap || !appId) {
-      return [...privateGroups, ...staticNodes];
-    }
-    const debug = isDebug();
-    const targetNodes = typesIdMap
-      ? actors.reduce<NodesCoordinates>((acc, actor) => {
-          let id = typesIdMap[actor.type];
-          if (!id || actor.hidden) {
-            if (!debug) {
-              return acc;
-            }
-            id = actor.type;
-          }
-
-          const category = acc.find((node) => node.type === id);
-          if (category) {
-            category.spawns.push({
-              address: actor.address,
-              p: [actor.x, actor.y] as [number, number],
-              mapName: actor.mapName,
-            });
-          } else {
-            acc.push({
-              type: id,
-              spawns: [
-                {
-                  address: actor.address,
-                  p: [actor.x, actor.y] as [number, number],
-                  mapName: actor.mapName,
-                },
-              ],
-            });
-          }
-          return acc;
-        }, [])
-      : [];
-    targetNodes.push(
-      ...privateGroups,
-      ...staticNodes.filter((node) => "static" in node && !!node.static)!,
-    );
-    return targetNodes;
-  }, [liveMode, appId, actors, privateGroups]);
-
-  const icons = useMemo(
-    () => filters.flatMap((filter) => filter.values).map((value) => value),
-    [filters],
-  );
-
-  const allFilters = useMemo(
-    () => [
-      ...filters.flatMap((filter) => filter.values.map((value) => value.id)),
-      ...privateNodes.map((node) => node.filter ?? "private_Unsorted"),
-      ...privateDrawings.map((drawing) => drawing.id),
-      ...REGION_FILTERS.map((filter) => filter.id),
-    ],
-    [filters, privateNodes, privateDrawings],
-  );
-
-  const t = useT();
-  const [spawns, setSpawns] = useState<Spawns>([]);
-  const spreadedSpawns = useMemo(
-    () =>
-      nodes.flatMap((node) =>
-        node.spawns.map((spawn) => ({
-          type: node.type,
-          data: spawn.data ?? node.data,
-          ...spawn,
-        })),
-      ),
-    [nodes],
-  );
-
-  const fuse = useMemo(
-    () =>
-      new Fuse(spreadedSpawns, {
-        keys: [
-          {
-            name: "type",
-            getFn: (spawn) => (spawn.isPrivate ? spawn.type : t(spawn.type)),
-            weight: 1,
-          },
-          {
-            name: "name",
-            getFn: (spawn) =>
-              spawn.isPrivate
-                ? spawn.name ?? ""
-                : spawn.id
-                  ? t(spawn.id) ?? ""
-                  : "",
-            weight: 2,
-          },
-          {
-            name: "tags",
-            getFn: (spawn) => t(`${spawn.id ?? spawn.type}_tags`) ?? "",
-            weight: 2,
-          },
-        ],
-        shouldSort: true,
-        includeScore: true,
-        threshold: 0.3,
-      }),
-    [spreadedSpawns, t],
-  );
-
   const userStore = useMemo(
     () =>
       createStore(
         subscribeWithSelector(
           persist<UserStoreState>(
             (set) => ({
+              _hasHydrated: false,
+              setHasHydrated: (state) => {
+                set({
+                  _hasHydrated: state,
+                });
+              },
               mapName: view.map ?? mapName,
               setMapName: (mapName) => {
                 set({ mapName, center: undefined, zoom: undefined });
@@ -385,7 +245,9 @@ export function CoordinatesProvider({
             }),
             {
               name: "coordinates",
-              skipHydration: true,
+              onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true);
+              },
               merge: (persisted, current) => {
                 if (!persisted) {
                   return current;
@@ -414,58 +276,196 @@ export function CoordinatesProvider({
       ),
     [],
   );
-  const refreshSpawns = useCallback(
-    (state: UserStoreState) => {
-      let newSpawns: Spawns;
-      if (state.search) {
-        newSpawns = fuse.search(state.search).map((result) => result.item);
-      } else {
-        const hasFilter = state.filters.length !== allFilters.length;
-        const hasGlobalFilter = globalFilters.length > 0;
 
-        const filterSpawn = (spawn: Spawns[number]) => {
-          let show = true;
-          if (hasFilter) {
-            show = state.filters.includes(spawn.type);
+  const userStoreHasHydrated = userStore.getState()._hasHydrated;
+  const settingsHasHydrated = useSettingsStore((state) => state._hasHydrated);
+
+  const isHydrated = userStoreHasHydrated && settingsHasHydrated;
+
+  const liveMode = useSettingsStore((state) => state.liveMode);
+  const appId = useSettingsStore((state) => state.appId);
+  const privateNodes = useSettingsStore((state) => state.privateNodes);
+  const actors = useGameState((state) => state.actors);
+  const privateDrawings = useSettingsStore((state) => state.privateDrawings);
+
+  const privateGroups = useMemo<NodesCoordinates>(() => {
+    if (!isHydrated) {
+      return [];
+    }
+    return privateNodes.reduce<NodesCoordinates>((acc, node) => {
+      const type = node.filter ?? "private_Unsorted";
+      const category = acc.find((node) => node.type === type);
+      if (category) {
+        category.spawns.push({
+          id: node.id,
+          name: node.name,
+          description: node.description,
+          p: node.p,
+          mapName: node.mapName,
+          color: node.color,
+          icon: node.icon,
+          radius: node.radius,
+          isPrivate: true,
+        });
+      } else {
+        acc.push({
+          type,
+          spawns: [
+            {
+              id: node.id,
+              name: node.name,
+              description: node.description,
+              p: node.p,
+              mapName: node.mapName,
+              color: node.color,
+              icon: node.icon,
+              radius: node.radius,
+              isPrivate: true,
+            },
+          ],
+        });
+      }
+      return acc;
+    }, []);
+  }, [isHydrated, privateNodes]);
+
+  const nodes = useMemo<NodesCoordinates>(() => {
+    if (!isHydrated) {
+      return [];
+    }
+    if (!liveMode || !typesIdMap || !appId) {
+      return [...privateGroups, ...staticNodes];
+    }
+    const debug = isDebug();
+    const targetNodes = typesIdMap
+      ? actors.reduce<NodesCoordinates>((acc, actor) => {
+          let id = typesIdMap[actor.type];
+          if (!id || actor.hidden) {
+            if (!debug) {
+              return acc;
+            }
+            id = actor.type;
           }
 
-          if (show && hasGlobalFilter) {
+          const category = acc.find((node) => node.type === id);
+          if (category) {
+            category.spawns.push({
+              address: actor.address,
+              p: [actor.x, actor.y] as [number, number],
+              mapName: actor.mapName,
+            });
+          } else {
+            acc.push({
+              type: id,
+              spawns: [
+                {
+                  address: actor.address,
+                  p: [actor.x, actor.y] as [number, number],
+                  mapName: actor.mapName,
+                },
+              ],
+            });
+          }
+          return acc;
+        }, [])
+      : [];
+    targetNodes.push(
+      ...privateGroups,
+      ...staticNodes.filter((node) => "static" in node && !!node.static)!,
+    );
+    return targetNodes;
+  }, [isHydrated, liveMode, appId, actors, privateGroups]);
+
+  const icons = useMemo(
+    () => filters.flatMap((filter) => filter.values).map((value) => value),
+    [filters],
+  );
+
+  const allFilters = useMemo(() => {
+    if (!isHydrated) {
+      return [];
+    }
+
+    return [
+      ...filters.flatMap((filter) => filter.values.map((value) => value.id)),
+      ...privateNodes.map((node) => node.filter ?? "private_Unsorted"),
+      ...privateDrawings.map((drawing) => drawing.id),
+      ...REGION_FILTERS.map((filter) => filter.id),
+    ];
+  }, [isHydrated, filters, privateNodes, privateDrawings]);
+
+  const spreadedSpawns = useMemo(
+    () =>
+      nodes.flatMap((node) =>
+        node.spawns.map((spawn) => ({
+          type: node.type,
+          data: spawn.data ?? node.data,
+          ...spawn,
+        })),
+      ),
+    [nodes],
+  );
+
+  const t = useT();
+  const [spawns, setSpawns] = useState<Spawns>([]);
+
+  const fuse = useRef<Fuse<any> | null>(null);
+
+  const refreshSpawns = useCallback(
+    (state: UserStoreState) => {
+      let newSpawns: Spawns = [];
+
+      const newSpawnsMap = new Map<string, Spawns[0]>();
+      if (state.search) {
+        if (fuse.current === null) {
+          console.warn("fuse is null");
+          newSpawns = [];
+        } else {
+          newSpawns = fuse.current
+            .search(state.search)
+            .map((result) => result.item);
+        }
+        newSpawns.forEach((spawn) => {
+          const key = `${spawn.p[0]}:${spawn.p[1]}`;
+          if (!newSpawnsMap.has(key)) {
+            newSpawnsMap.set(key, { ...spawn, cluster: [] });
+          } else {
+            newSpawnsMap.get(key)!.cluster!.push(spawn);
+          }
+        });
+      } else {
+        spreadedSpawns.forEach((spawn) => {
+          if (spawn.mapName !== state.mapName) {
+            return;
+          }
+          if (!state.filters.includes(spawn.type)) {
+            return;
+          }
+          if (spawn.data) {
             for (const filter of globalFilters) {
-              if (!show) {
-                continue;
-              }
-              if (spawn.data && spawn.data[filter.group]) {
+              if (spawn.data[filter.group]) {
                 const values = spawn.data[filter.group];
                 if (!values.some((v) => state.globalFilters.includes(v))) {
-                  show = false;
+                  return;
                 }
               }
             }
           }
-          return show;
-        };
-
-        if (hasFilter || hasGlobalFilter) {
-          newSpawns = spreadedSpawns.filter(filterSpawn);
-        } else {
-          newSpawns = spreadedSpawns;
-        }
+          const key = `${spawn.p[0]}:${spawn.p[1]}`;
+          if (!newSpawnsMap.has(key)) {
+            newSpawnsMap.set(key, { ...spawn, cluster: [] });
+          } else {
+            newSpawnsMap.get(key)!.cluster!.push(spawn);
+          }
+          newSpawns.push(spawn);
+        });
       }
-      const newSpawnsMap = new Map<string, Spawns[0]>();
-      newSpawns.forEach((spawn) => {
-        const key = `${spawn.p[0]}:${spawn.p[1]}`;
-        if (!newSpawnsMap.has(key)) {
-          newSpawnsMap.set(key, { ...spawn, cluster: [] });
-        } else {
-          newSpawnsMap.get(key)!.cluster!.push(spawn);
-        }
-      });
+
       newSpawns = Array.from(newSpawnsMap.values());
       setSpawns(newSpawns);
     },
-    [fuse],
+    [spreadedSpawns],
   );
-  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -474,17 +474,52 @@ export function CoordinatesProvider({
       useSettingsStore.getState().setAppId(appId);
     }
 
-    const rehydrate = userStore.persist.rehydrate();
-    if (rehydrate) {
-      rehydrate.then(() => setIsHydrated(true));
-    } else {
-      setIsHydrated(true);
-    }
     window.history.replaceState(null, "", window.location.pathname);
   }, []);
 
   useEffect(() => {
-    refreshSpawns(userStore.getState());
+    if (!isHydrated) {
+      return;
+    }
+
+    const initFuse = () => {
+      if (fuse.current) {
+        return;
+      }
+      fuse.current = new Fuse(spreadedSpawns, {
+        keys: [
+          {
+            name: "type",
+            getFn: (spawn) => (spawn.isPrivate ? spawn.type : t(spawn.type)),
+            weight: 1,
+          },
+          {
+            name: "name",
+            getFn: (spawn) =>
+              spawn.isPrivate
+                ? spawn.name ?? ""
+                : spawn.id
+                  ? t(spawn.id) ?? ""
+                  : "",
+            weight: 2,
+          },
+          {
+            name: "tags",
+            getFn: (spawn) => t(`${spawn.id ?? spawn.type}_tags`) ?? "",
+            weight: 2,
+          },
+        ],
+        shouldSort: true,
+        includeScore: true,
+        threshold: 0.3,
+      });
+    };
+
+    const state = userStore.getState();
+    if (state.search) {
+      initFuse();
+    }
+    refreshSpawns(state);
 
     const unsubscribeFilters = userStore.subscribe(
       (state) => state.filters,
@@ -495,6 +530,7 @@ export function CoordinatesProvider({
     const unsubscribeSearch = userStore.subscribe(
       (state) => state.search,
       () => {
+        initFuse();
         refreshSpawns(userStore.getState());
       },
     );
@@ -504,13 +540,21 @@ export function CoordinatesProvider({
         refreshSpawns(userStore.getState());
       },
     );
+    const unsubscribeMapName = userStore.subscribe(
+      (state) => state.mapName,
+      () => {
+        refreshSpawns(userStore.getState());
+      },
+    );
 
     return () => {
       unsubscribeFilters();
       unsubscribeSearch();
       unsubscribeGlobalFilters();
+      unsubscribeMapName();
+      fuse.current = null;
     };
-  }, [refreshSpawns]);
+  }, [isHydrated, refreshSpawns]);
 
   return (
     <Context.Provider

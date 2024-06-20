@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { withStorageDOMEvents } from "./dom";
 
 export type PrivateNode = {
@@ -56,6 +56,8 @@ export type PrivateDrawing = {
 
 export const useSettingsStore = create(
   persist<{
+    _hasHydrated: boolean;
+    setHasHydrated: (state: boolean) => void;
     appId: string;
     setAppId: (lastAppId: string) => void;
     liveMode: boolean;
@@ -126,6 +128,12 @@ export const useSettingsStore = create(
   }>(
     (set) => {
       return {
+        _hasHydrated: false,
+        setHasHydrated: (state) => {
+          set({
+            _hasHydrated: state,
+          });
+        },
         appId: "",
         setAppId: (appId) => set({ appId }),
         liveMode: true,
@@ -261,6 +269,9 @@ export const useSettingsStore = create(
     },
     {
       name: "settings-storage",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

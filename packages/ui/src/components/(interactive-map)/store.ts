@@ -1,9 +1,10 @@
 import type { Map } from "leaflet";
 import { create } from "zustand";
 
+export type LeafletMap = Map & { _mapPane: HTMLElement };
 export const useMapStore = create<{
-  map: Map | null;
-  setMap: (map: Map | null) => void;
+  map: LeafletMap | null;
+  setMap: (map: LeafletMap | null) => void;
 }>((set) => ({
   map: null,
   setMap: (map) => {
@@ -11,6 +12,6 @@ export const useMapStore = create<{
   },
 }));
 
-export function useMap(): Map | null {
+export function useMap(): LeafletMap | null {
   return useMapStore((store) => store.map);
 }
