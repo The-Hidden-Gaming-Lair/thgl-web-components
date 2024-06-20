@@ -414,7 +414,6 @@ export function CoordinatesProvider({
   const refreshSpawns = useCallback(
     (state: UserStoreState) => {
       let newSpawns: Spawns = [];
-
       const newSpawnsMap = new Map<string, Spawns[0]>();
       if (state.search) {
         if (fuse.current === null) {
@@ -435,7 +434,7 @@ export function CoordinatesProvider({
         });
       } else {
         spreadedSpawns.forEach((spawn) => {
-          if (spawn.mapName !== state.mapName) {
+          if (spawn.mapName && spawn.mapName !== state.mapName) {
             return;
           }
           if (!state.filters.includes(spawn.type)) {
