@@ -510,6 +510,9 @@ for (const gatherablesPath of gatherablesPaths) {
   const typeId = resource
     .find((r) => r.Outer)!
     .Outer!.replace("SM_Clay_3", "SM_Clay");
+  if (typesIdMap[typeId]) {
+    console.warn("Duplicate Gatherable", typeId, id, typesIdMap[typeId]);
+  }
   typesIdMap[typeId] = id;
   const resourcePartName = resourcePath
     .split("/")
@@ -544,7 +547,7 @@ for (const gatherablesPath of gatherablesPaths) {
       iconPath =
         "/PaxDei/Content/_PD/Environment/Props/Economy/CraftingProducts/BreadandDrinkProducts/T_Icon_Hops.png";
     } else {
-      console.log("No icon for", id, iconFilenames, resourcePartName);
+      // console.log("No icon for", id, iconFilenames, resourcePartName);
       iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/berry-bush_delapouite.webp`;
     }
   } else {
@@ -670,7 +673,12 @@ for (const mineablesPath of mineablesPaths) {
     ).split(".")[0] +
     ".json";
   const resource = readJSON<Resource>(resourcePath);
-  typesIdMap[resource.find((r) => r.Outer)!.Outer!] = id;
+  const typeId = resource.find((r) => r.Outer)!.Outer!;
+  if (typesIdMap[typeId]) {
+    console.warn("Duplicate Mineable", typeId, id, typesIdMap[typeId]);
+  }
+
+  typesIdMap[typeId] = id;
 
   const resourceFolder = resourcePath.split("/").slice(0, -1).join("/");
   const iconFilename = readDirSync(resourceFolder).filter((f) =>
@@ -688,7 +696,7 @@ for (const mineablesPath of mineablesPaths) {
       iconPath =
         "/PaxDei/Content/_PD/UX/Inventory/Icons/NewIcons/T_UI_item_material_iron_bar.png";
     } else {
-      console.log("No icon for", id, mineablesPath);
+      // console.log("No icon for", id, mineablesPath);
       iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/ore_faithtoken.webp`;
     }
   } else {
@@ -815,6 +823,9 @@ for (const npcsResourcesPath of readDirRecursive(
   }
 
   const bpName = npc[0].Properties.Blueprint.AssetPathName.split(".").at(-1)!;
+  if (typesIdMap[bpName]) {
+    console.warn("Duplicate NPC", bpName, id, typesIdMap[bpName]);
+  }
   typesIdMap[bpName] = id;
 
   let category = npc[0].Properties.Blueprint.AssetPathName.split("/").at(-2)!;
@@ -882,7 +893,7 @@ for (const npcsResourcesPath of readDirRecursive(
   } else if (category === "Monsters") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/monster-grasp_lorc.webp`;
   } else {
-    console.warn("No icon for", id);
+    // console.warn("No icon for", id);
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/animal-hide_delapouite.webp`;
   }
 
@@ -1003,7 +1014,11 @@ if (Bun.env.NODES === "true") {
     [number, number, number, string][]
   >;
   Object.entries(data).forEach(([type, spawnNodes]) => {
-    let id = typesIdMap[type] || type;
+    let id = typesIdMap[type];
+    if (!typesIdMap[type]) {
+      console.warn("No type for", type);
+      id = type;
+    }
 
     spawnNodes.forEach(([x, y, z, path]) => {
       const mapName = path.split("/")[4];
@@ -1094,7 +1109,7 @@ for (const filter of filters) {
   filter.values = filter.values.filter((v) =>
     nodes.some((n) => n.type === v.id),
   );
-  console.log(filter.values.length, filter.group);
+  // console.log(filter.values.length, filter.group);
   if (filter.values.length > 0) {
     filtersWithNodes.push(filter);
   }

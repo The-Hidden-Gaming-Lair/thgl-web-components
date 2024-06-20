@@ -613,6 +613,10 @@
         "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T23_Night_Terror",
+        "icon": "PD_NPC_Animal_Wolf_T23_Night_Terror.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Wolf_T42",
         "icon": "PD_NPC_Cor_Wolf_T42.webp"
       },
@@ -631,6 +635,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
         "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
+        "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
       },
       {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
@@ -1374,6 +1382,10 @@
         "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T23_Night_Terror",
+        "icon": "PD_NPC_Animal_Wolf_T23_Night_Terror.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Wolf_T42",
         "icon": "PD_NPC_Cor_Wolf_T42.webp"
       },
@@ -1392,6 +1404,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
         "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
+        "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
       },
       {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
