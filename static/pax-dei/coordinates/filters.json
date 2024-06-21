@@ -617,8 +617,24 @@
         "icon": "PD_NPC_Animal_Wolf_T23_Night_Terror.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T16",
+        "icon": "PD_NPC_Cor_Boar_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Cor_Boar_T30",
+        "icon": "PD_NPC_Cor_Boar_T30.webp"
+      },
+      {
+        "id": "PD_NPC_Cor_Boar_T42",
+        "icon": "PD_NPC_Cor_Boar_T42.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Wolf_T42",
         "icon": "PD_NPC_Cor_Wolf_T42.webp"
+      },
+      {
+        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
+        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
       },
       {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
@@ -629,12 +645,80 @@
         "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T12",
+        "icon": "PD_NPC_Zeb_Doctor_T12.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T16",
+        "icon": "PD_NPC_Zeb_Doctor_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T11",
+        "icon": "PD_NPC_Zeb_Guardian_T11.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T14",
+        "icon": "PD_NPC_Zeb_Guardian_T14.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T19",
+        "icon": "PD_NPC_Zeb_Guardian_T19.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T10",
+        "icon": "PD_NPC_Zeb_Warrior_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T16",
+        "icon": "PD_NPC_Zeb_Warrior_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T18",
+        "icon": "PD_NPC_Zeb_Warrior_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller",
+        "icon": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
+        "icon": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T20_Hivetender",
+        "icon": "PD_NPC_Zeb_Guardian_T20_Hivetender.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
+        "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
+        "icon": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger",
+        "icon": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
         "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T14",
+        "icon": "PD_NPC_Demon_Imp_T14.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T21",
+        "icon": "PD_NPC_Demon_Imp_T21.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
@@ -653,8 +737,160 @@
         "icon": "PD_NPC_Willowisp_T90.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T10",
+        "icon": "PD_NPC_Inq_Captain_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T16",
+        "icon": "PD_NPC_Inq_Captain_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T22",
+        "icon": "PD_NPC_Inq_Captain_T22.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T15",
+        "icon": "PD_NPC_Inq_Caster_T15.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T21",
+        "icon": "PD_NPC_Inq_Caster_T21.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T8",
+        "icon": "PD_NPC_Inq_Caster_T8.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T12",
+        "icon": "PD_NPC_Inq_Cleric_T12.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T18",
+        "icon": "PD_NPC_Inq_Cleric_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T7",
+        "icon": "PD_NPC_Inq_Cleric_T7.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T10",
+        "icon": "PD_NPC_Inq_Scout_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T16",
+        "icon": "PD_NPC_Inq_Scout_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T6",
+        "icon": "PD_NPC_Inq_Scout_T6.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T13",
+        "icon": "PD_NPC_Inq_Tank_T13.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T19",
+        "icon": "PD_NPC_Inq_Tank_T19.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T9",
+        "icon": "PD_NPC_Inq_Tank_T9.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T15_Manic_Torturer",
+        "icon": "PD_NPC_Inq_Captain_T15_Manic_Torturer.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator",
+        "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
+        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
+        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
+        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
+        "icon": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T18_Candle_Holder",
+        "icon": "PD_NPC_Inq_Caster_T18_Candle_Holder.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T18_Canon_Regular",
+        "icon": "PD_NPC_Inq_Caster_T18_Canon_Regular.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T18_Discalced_Cantor",
+        "icon": "PD_NPC_Inq_Caster_T18_Discalced_Cantor.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",
+        "icon": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox",
+        "icon": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo",
+        "icon": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Lector_secretorum",
+        "icon": "PD_NPC_Inq_Cleric_T17_Lector_secretorum.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
+        "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
+        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
+        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
+        "icon": "PD_NPC_Inq_Tank_T15_Inquisitor_pura.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
+        "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
+        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Death.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests",
+        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
         "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T16",
+        "icon": "PD_NPC_LostSoul_T16.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T22",
+        "icon": "PD_NPC_LostSoul_T22.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T32",
+        "icon": "PD_NPC_LostSoul_T32.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
@@ -1386,8 +1622,24 @@
         "icon": "PD_NPC_Animal_Wolf_T23_Night_Terror.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T16",
+        "icon": "PD_NPC_Cor_Boar_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Cor_Boar_T30",
+        "icon": "PD_NPC_Cor_Boar_T30.webp"
+      },
+      {
+        "id": "PD_NPC_Cor_Boar_T42",
+        "icon": "PD_NPC_Cor_Boar_T42.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Wolf_T42",
         "icon": "PD_NPC_Cor_Wolf_T42.webp"
+      },
+      {
+        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
+        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
       },
       {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
@@ -1398,12 +1650,80 @@
         "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T12",
+        "icon": "PD_NPC_Zeb_Doctor_T12.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T16",
+        "icon": "PD_NPC_Zeb_Doctor_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T11",
+        "icon": "PD_NPC_Zeb_Guardian_T11.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T14",
+        "icon": "PD_NPC_Zeb_Guardian_T14.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T19",
+        "icon": "PD_NPC_Zeb_Guardian_T19.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T10",
+        "icon": "PD_NPC_Zeb_Warrior_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T16",
+        "icon": "PD_NPC_Zeb_Warrior_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T18",
+        "icon": "PD_NPC_Zeb_Warrior_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller",
+        "icon": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
+        "icon": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T20_Hivetender",
+        "icon": "PD_NPC_Zeb_Guardian_T20_Hivetender.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
+        "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
+        "icon": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger",
+        "icon": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
         "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T14",
+        "icon": "PD_NPC_Demon_Imp_T14.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T21",
+        "icon": "PD_NPC_Demon_Imp_T21.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
@@ -1422,8 +1742,160 @@
         "icon": "PD_NPC_Willowisp_T90.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T10",
+        "icon": "PD_NPC_Inq_Captain_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T16",
+        "icon": "PD_NPC_Inq_Captain_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T22",
+        "icon": "PD_NPC_Inq_Captain_T22.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T15",
+        "icon": "PD_NPC_Inq_Caster_T15.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T21",
+        "icon": "PD_NPC_Inq_Caster_T21.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T8",
+        "icon": "PD_NPC_Inq_Caster_T8.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T12",
+        "icon": "PD_NPC_Inq_Cleric_T12.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T18",
+        "icon": "PD_NPC_Inq_Cleric_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T7",
+        "icon": "PD_NPC_Inq_Cleric_T7.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T10",
+        "icon": "PD_NPC_Inq_Scout_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T16",
+        "icon": "PD_NPC_Inq_Scout_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T6",
+        "icon": "PD_NPC_Inq_Scout_T6.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T13",
+        "icon": "PD_NPC_Inq_Tank_T13.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T19",
+        "icon": "PD_NPC_Inq_Tank_T19.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T9",
+        "icon": "PD_NPC_Inq_Tank_T9.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T15_Manic_Torturer",
+        "icon": "PD_NPC_Inq_Captain_T15_Manic_Torturer.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator",
+        "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
+        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
+        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
+        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
+        "icon": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T18_Candle_Holder",
+        "icon": "PD_NPC_Inq_Caster_T18_Candle_Holder.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T18_Canon_Regular",
+        "icon": "PD_NPC_Inq_Caster_T18_Canon_Regular.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T18_Discalced_Cantor",
+        "icon": "PD_NPC_Inq_Caster_T18_Discalced_Cantor.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",
+        "icon": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox",
+        "icon": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo",
+        "icon": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Cleric_T17_Lector_secretorum",
+        "icon": "PD_NPC_Inq_Cleric_T17_Lector_secretorum.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
+        "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
+        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
+        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
+        "icon": "PD_NPC_Inq_Tank_T15_Inquisitor_pura.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
+        "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
+        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Death.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests",
+        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
         "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T16",
+        "icon": "PD_NPC_LostSoul_T16.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T22",
+        "icon": "PD_NPC_LostSoul_T22.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T32",
+        "icon": "PD_NPC_LostSoul_T32.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",

@@ -833,29 +833,26 @@ for (const npcsResourcesPath of readDirRecursive(
     color?: string;
     outline?: boolean;
   } = {};
-  if (npc[0].Name === "PD_NPC_Animal_Badger_T2") {
+  if (npc[0].Name.includes("_Badger_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/badger_caro-asercion.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Bear_T18") {
+  } else if (npc[0].Name.includes("_Bear_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/bear-face_sparker.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Bear_T32") {
-    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/bear-head_delapouite.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Boar_T3") {
+  } else if (npc[0].Name.includes("_Boar_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/boar_caro-asercion.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Boar_T5") {
-    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/boar_caro-asercion.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Fox_T1") {
+  } else if (npc[0].Name.includes("_Fox_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/fox-head_lorc.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Wolf_T10") {
+  } else if (npc[0].Name.includes("_Animal_Wolf_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/hound_lorc.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Rabbit_T1") {
+  } else if (npc[0].Name.includes("_Wolf_")) {
+    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp`;
+  } else if (npc[0].Name.includes("_Rabbit_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/rabbit-head_delapouite.webp`;
-  } else if (npc[0].Name === "PD_NPC_Animal_Wolf_T6") {
-    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp`;
-  } else if (npc[0].Name === "PD_NPC_Cor_Wolf_T42") {
-    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp`;
-    iconSettings.color = "lightgreen";
-  } else if (npc[0].Name === "PD_NPC_Animal_Deer_T2") {
+  } else if (npc[0].Name.includes("_Deer_")) {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/deer_caro-asercion.webp`;
+  } else if (npc[0].Name.includes("_Zeb_")) {
+    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/cultist_lorc.webp`;
+  } else if (npc[0].Name.includes("_Inq_")) {
+    iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/light-helm_delapouite.webp`;
   } else if (category === "Animals") {
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/animal-hide_delapouite.webp`;
   } else if (category === "CorruptAnimals") {
@@ -891,6 +888,9 @@ for (const npcsResourcesPath of readDirRecursive(
   } else {
     // console.warn("No icon for", id);
     iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/animal-hide_delapouite.webp`;
+  }
+  if (npc[0].Name.includes("_Cor_")) {
+    iconSettings.color = "lightgreen";
   }
 
   const categories = ["npcs", ...skills];
