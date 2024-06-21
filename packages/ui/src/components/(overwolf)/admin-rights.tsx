@@ -25,8 +25,8 @@ export function AdminRights() {
         </AlertDialogHeader>
         <p>
           This app requires administrator rights and needs to be running on game
-          start to function properly. Please run Overwolf as an administrator
-          and restart the app, before running the game.
+          start to function properly. Close Overwolf and the app, then run them
+          as an administrator before starting the game.
         </p>
         <ul className="mb-4 list-disc list-inside">
           <li>
