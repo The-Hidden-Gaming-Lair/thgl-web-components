@@ -822,11 +822,7 @@ for (const npcsResourcesPath of readDirRecursive(
     typeNodes.data = { skills: [...new Set(skills)] };
   }
 
-  const bpName = npc[0].Properties.Blueprint.AssetPathName.split(".").at(-1)!;
-  if (typesIdMap[bpName]) {
-    console.warn("Duplicate NPC", bpName, id, typesIdMap[bpName]);
-  }
-  typesIdMap[bpName] = id;
+  typesIdMap[id] = id;
 
   let category = npc[0].Properties.Blueprint.AssetPathName.split("/").at(-2)!;
   if (category === "CNameds" || category === "Nameds") {
