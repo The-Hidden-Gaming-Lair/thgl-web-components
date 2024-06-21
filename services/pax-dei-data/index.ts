@@ -1007,12 +1007,13 @@ for (const npcsResourcesPath of readDirRecursive(
 // }
 if (Bun.env.NODES === "true") {
   const response = await fetch(
-    "http://116.203.249.187:3000/nodes?type=spawnNodes",
+    "https://pax-dei-api.th.gl/nodes?type=spawnNodes",
   );
   const data = (await response.json()) as Record<
     string,
     [number, number, number, string][]
   >;
+
   Object.entries(data).forEach(([type, spawnNodes]) => {
     let id = typesIdMap[type];
     if (!typesIdMap[type]) {
