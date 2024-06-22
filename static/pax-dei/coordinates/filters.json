@@ -677,6 +677,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T18.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
       },
@@ -811,6 +815,10 @@
       {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
+        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
@@ -1682,6 +1690,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T18.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
       },
@@ -1816,6 +1828,10 @@
       {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
+        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
