@@ -1010,11 +1010,101 @@ if (Bun.env.NODES === "true") {
     [number, number, number, string][]
   >;
 
+  const newMapSpawns = Object.values(data).flatMap((spawnNodes) =>
+    spawnNodes.map(([x, y, z, path]) => {
+      const mapName = path.split("/")[4];
+      return [x, y, mapName] as [number, number, string];
+    }),
+  );
+  console.log(`New spawns: ${newMapSpawns.length}`);
+
+  // Remove old nodes in tracked areas'
+  let totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
+  console.log(
+    `Removing old spawns in tracked areas. Previously ${totalSpawnCount} spawns.`,
+  );
+  const isNear = (a: [number, number], b: [number, number]) => {
+    const distance = Math.sqrt(
+      // Euclidean distance
+      Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2),
+    );
+    return distance < 10000;
+  };
+
+  nodes = nodes.map((n) => {
+    return {
+      ...n,
+      spawns: n.spawns.filter((s) => {
+        if (locations.values.some((v) => v.id === n.type)) {
+          return true;
+        }
+        const hasSpawnTop = newMapSpawns.find(([y, x, mapName]) => {
+          if (s.mapName !== mapName) {
+            return false;
+          }
+          if (s.p[0] > y) {
+            return false;
+          }
+          return isNear(s.p, [y, x]);
+        });
+        if (!hasSpawnTop) {
+          return true;
+        }
+        const hasSpawnBottom = newMapSpawns.find(([y, x, mapName]) => {
+          if (s.mapName !== mapName) {
+            return false;
+          }
+          if (s.p[0] <= y) {
+            return false;
+          }
+          return isNear(s.p, [y, x]);
+        });
+        if (!hasSpawnBottom) {
+          return true;
+        }
+
+        const hasSpawnRight = newMapSpawns.find(([y, x, mapName]) => {
+          if (s.mapName !== mapName) {
+            return false;
+          }
+          if (s.p[1] > x) {
+            return false;
+          }
+          return isNear(s.p, [y, x]);
+        });
+        if (!hasSpawnRight) {
+          return true;
+        }
+
+        const hasSpawnLeft = newMapSpawns.find(([y, x, mapName]) => {
+          if (s.mapName !== mapName) {
+            return false;
+          }
+          if (s.p[1] <= x) {
+            return false;
+          }
+          return isNear(s.p, [y, x]);
+        });
+        if (!hasSpawnLeft) {
+          return true;
+        }
+
+        return false;
+      }),
+    };
+  });
+  totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
+  console.log(
+    `Removed old spawns in tracked areas. Now ${totalSpawnCount} spawns.`,
+  );
+
+  // Add new nodes
   Object.entries(data).forEach(([type, spawnNodes]) => {
     let id = typesIdMap[type];
     if (!typesIdMap[type]) {
       console.warn("No type for", type);
-      id = type;
+      return;
+      // id = type;
     }
 
     spawnNodes.forEach(([x, y, z, path]) => {
@@ -1032,24 +1122,33 @@ if (Bun.env.NODES === "true") {
         console.log("New type", id);
       }
 
-      const location = { x: y, y: x };
       if (
         oldNodes!.spawns.some(
           (s) => s.p[0] === y && s.p[1] === x && s.mapName === mapName,
         )
       ) {
+        console.log("Already exists", id, x, y, mapName);
         return;
       }
+      const location = { x: y, y: x };
       oldNodes!.spawns.push({
         p: [+location.y.toFixed(0), +location.x.toFixed(0)],
         mapName,
       });
     });
   });
+  await fetch("https://pax-dei-api.th.gl/nodes?type=spawnNodes", {
+    method: "DELETE",
+    headers: {
+      Authorization: "thgl",
+    },
+  });
 }
 nodes = nodes.filter(
   (n) => !["tree_branch", "flint_stones", "gneiss_stones"].includes(n.type),
 );
+const totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
+console.log(`Added new spawns. Now ${totalSpawnCount} spawns.`);
 
 const filtersOrder = ["locations", "gatherables", "mineables", "npcs"];
 const lastFiltersOrder = ["others"];

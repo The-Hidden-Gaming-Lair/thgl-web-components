@@ -633,6 +633,10 @@
         "icon": "PD_NPC_Cor_Wolf_T42.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
+        "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
         "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
       },
@@ -677,6 +681,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T18.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
       },
@@ -699,6 +707,10 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
         "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
+        "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
@@ -809,16 +821,8 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
-      },
-      {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
@@ -861,20 +865,16 @@
         "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
       },
       {
-        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
-        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
-      },
-      {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
         "icon": "PD_NPC_Inq_Tank_T15_Inquisitor_pura.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
         "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
+        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
@@ -1646,6 +1646,10 @@
         "icon": "PD_NPC_Cor_Wolf_T42.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
+        "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
         "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
       },
@@ -1690,6 +1694,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T18.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
       },
@@ -1712,6 +1720,10 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
         "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
+        "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
@@ -1822,16 +1834,8 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
-      },
-      {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
@@ -1874,20 +1878,16 @@
         "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
       },
       {
-        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
-        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
-      },
-      {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
         "icon": "PD_NPC_Inq_Tank_T15_Inquisitor_pura.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
         "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
+        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
