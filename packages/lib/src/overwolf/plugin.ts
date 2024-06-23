@@ -83,21 +83,22 @@ export async function listenToPlugin(
       lastPlayerError = "";
       setError(null);
     }
-    if (
-      player &&
-      (player.x !== prevPlayer.x ||
-        player.y !== prevPlayer.y ||
-        player.z !== prevPlayer.z ||
-        player.r !== prevPlayer.r)
-    ) {
-      if (pathToMapName && player.path) {
-        player.mapName = pathToMapName(player.path);
-      }
+    if (player) {
       if (normalizeLocation) {
         normalizeLocation(player);
       }
-      prevPlayer = player;
-      setPlayer(player);
+      if (
+        player.x !== prevPlayer.x ||
+        player.y !== prevPlayer.y ||
+        player.z !== prevPlayer.z ||
+        player.r !== prevPlayer.r
+      ) {
+        if (pathToMapName && player.path) {
+          player.mapName = pathToMapName(player.path);
+        }
+        prevPlayer = player;
+        setPlayer(player);
+      }
     }
 
     setTimeout(refreshPlayerState, 50);
