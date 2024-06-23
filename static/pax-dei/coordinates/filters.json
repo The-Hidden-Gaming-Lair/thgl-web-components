@@ -609,6 +609,10 @@
         "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
+        "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
+      },
+      {
         "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
         "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
@@ -741,6 +745,10 @@
         "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
+        "icon": "PD_NPC_Demon_Imp_T23_Infested_Apparition.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
         "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
       },
@@ -863,6 +871,14 @@
       {
         "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
         "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
+        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
+        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
@@ -1622,6 +1638,10 @@
         "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
+        "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
+      },
+      {
         "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
         "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
@@ -1754,6 +1774,10 @@
         "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
+        "icon": "PD_NPC_Demon_Imp_T23_Infested_Apparition.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
         "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
       },
@@ -1876,6 +1900,14 @@
       {
         "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
         "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
+        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
+        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",

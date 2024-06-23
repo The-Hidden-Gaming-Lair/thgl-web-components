@@ -3,7 +3,7 @@ import type { Node } from "./nodes";
 type SpawnNodes = {
   [type: string]: [number, number, number, string][];
 };
-const db: SpawnNodes = {};
+let db: SpawnNodes = {};
 
 export function getSpawnNodes() {
   return db;
@@ -17,7 +17,5 @@ export function insertNode(node: Node) {
 }
 
 export function resetNodes() {
-  Object.keys(db).forEach((type) => {
-    db[type] = [];
-  });
+  db = {};
 }
