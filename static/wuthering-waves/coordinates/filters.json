@@ -680,6 +680,11 @@
     "defaultOn": false,
     "values": [
       {
+        "id": "Treasure005",
+        "icon": "Treasure005.webp",
+        "size": 1.5
+      },
+      {
         "id": "Gameplay50000165",
         "icon": "ItemInfo_50000165_Name.webp",
         "size": 1.1
@@ -700,6 +705,16 @@
         "size": 1.1
       },
       {
+        "id": "Treasure011",
+        "icon": "Treasure011.webp",
+        "size": 1.5
+      },
+      {
+        "id": "Treasure008",
+        "icon": "Treasure008.webp",
+        "size": 1.5
+      },
+      {
         "id": "Gameplay50000201",
         "icon": "ItemInfo_50000201_Name.webp",
         "size": 1.1
@@ -711,7 +726,7 @@
       },
       {
         "id": "Animal032",
-        "icon": "ItemInfo_3_Name.webp",
+        "icon": "Animal032.webp",
         "size": 1.5
       }
     ]
