@@ -609,6 +609,10 @@
         "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
+        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
+      },
+      {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
         "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
       },
@@ -831,6 +835,10 @@
       {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
+        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
@@ -1638,6 +1646,10 @@
         "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
+        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
+      },
+      {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
         "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
       },
@@ -1860,6 +1872,10 @@
       {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
+        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
