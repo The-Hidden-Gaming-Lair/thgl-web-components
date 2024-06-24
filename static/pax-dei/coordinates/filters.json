@@ -717,6 +717,14 @@
         "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator",
+        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer",
+        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
         "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
@@ -833,12 +841,12 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
-        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
+        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
       },
       {
-        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
+        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
+        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
@@ -996,6 +1004,14 @@
         "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator",
+        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer",
+        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
         "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
@@ -1040,12 +1056,12 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
-        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
+        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
       },
       {
-        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
+        "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
+        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
