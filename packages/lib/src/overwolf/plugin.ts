@@ -84,6 +84,9 @@ export async function listenToPlugin(
       setError(null);
     }
     if (player) {
+      if (pathToMapName && player.path) {
+        player.mapName = pathToMapName(player.path);
+      }
       if (normalizeLocation) {
         normalizeLocation(player);
       }
@@ -93,9 +96,6 @@ export async function listenToPlugin(
         player.z !== prevPlayer.z ||
         player.r !== prevPlayer.r
       ) {
-        if (pathToMapName && player.path) {
-          player.mapName = pathToMapName(player.path);
-        }
         prevPlayer = player;
         setPlayer(player);
       }
