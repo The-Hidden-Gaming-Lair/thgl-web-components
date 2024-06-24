@@ -112,6 +112,7 @@ const enDict: Record<string, string> = {
   mineables: "All Mineables",
   gatherables: "All Gatherables",
   npcs: "All NPCs",
+  named: "Named Enemies",
   // Berries: "Berries",
   // Flowers: "Flowers",
   // HerbsFlowersPotions: "Potions, Flowers & Herbs",
@@ -763,6 +764,9 @@ for (const npcsResourcesPath of readDirRecursive(
 
   const type = id.toLowerCase().split("animal_")[1]?.replace(/_t\d+/, "");
   const skills: string[] = [];
+  if (npcsResourcesPath.includes("Nameds")) {
+    skills.push("named");
+  }
   if (type) {
     for (const pdItem of pdItems.filter(
       (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
@@ -827,9 +831,6 @@ for (const npcsResourcesPath of readDirRecursive(
   typesIdMap[id] = id;
 
   let category = npc[0].Properties.Blueprint.AssetPathName.split("/").at(-2)!;
-  if (category === "CNameds" || category === "Nameds") {
-    category = "Named " + npcsResourcesPath.split("/").at(-3)!;
-  }
   let iconPath;
   const iconSettings: {
     color?: string;
@@ -1152,7 +1153,7 @@ nodes = nodes.filter(
 const totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
 console.log(`Added new spawns. Now ${totalSpawnCount} spawns.`);
 
-const filtersOrder = ["locations", "gatherables", "mineables", "npcs"];
+const filtersOrder = ["locations", "gatherables", "mineables", "npcs", "named"];
 const lastFiltersOrder = ["others"];
 filters = filters.sort((a, b) => {
   const aIndex = filtersOrder.indexOf(a.group);
