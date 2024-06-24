@@ -1188,6 +1188,18 @@
       {
         "id": "limestone_deposit",
         "icon": "limestone_deposit.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T18",
+        "icon": "PD_NPC_Animal_Bear_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T24",
+        "icon": "PD_NPC_Animal_Bear_T24.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T32",
+        "icon": "PD_NPC_Animal_Bear_T32.webp"
       }
     ]
   },
@@ -1210,6 +1222,50 @@
         "id": "herb_thyme",
         "icon": "herb_thyme.webp",
         "size": 1.15
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T18",
+        "icon": "PD_NPC_Animal_Bear_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T24",
+        "icon": "PD_NPC_Animal_Bear_T24.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T32",
+        "icon": "PD_NPC_Animal_Bear_T32.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T12",
+        "icon": "PD_NPC_Animal_Boar_T12.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T3",
+        "icon": "PD_NPC_Animal_Boar_T3.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T5",
+        "icon": "PD_NPC_Animal_Boar_T5.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Deer_T2",
+        "icon": "PD_NPC_Animal_Deer_T2.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Rabbit_T1",
+        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T10",
+        "icon": "PD_NPC_Animal_Wolf_T10.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T16",
+        "icon": "PD_NPC_Animal_Wolf_T16.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T6",
+        "icon": "PD_NPC_Animal_Wolf_T6.webp"
       }
     ]
   },
@@ -1409,6 +1465,38 @@
         "id": "onion_yellow",
         "icon": "onion_yellow.webp",
         "size": 0.9
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T18",
+        "icon": "PD_NPC_Animal_Bear_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T24",
+        "icon": "PD_NPC_Animal_Bear_T24.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Bear_T32",
+        "icon": "PD_NPC_Animal_Bear_T32.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T12",
+        "icon": "PD_NPC_Animal_Boar_T12.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T3",
+        "icon": "PD_NPC_Animal_Boar_T3.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Boar_T5",
+        "icon": "PD_NPC_Animal_Boar_T5.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Deer_T2",
+        "icon": "PD_NPC_Animal_Deer_T2.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Rabbit_T1",
+        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
       }
     ]
   },
@@ -1594,56 +1682,12 @@
         "icon": "PD_NPC_Animal_Badger_T2.webp"
       },
       {
-        "id": "PD_NPC_Animal_Bear_T18",
-        "icon": "PD_NPC_Animal_Bear_T18.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Bear_T24",
-        "icon": "PD_NPC_Animal_Bear_T24.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Bear_T32",
-        "icon": "PD_NPC_Animal_Bear_T32.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Boar_T12",
-        "icon": "PD_NPC_Animal_Boar_T12.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Boar_T3",
-        "icon": "PD_NPC_Animal_Boar_T3.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Boar_T5",
-        "icon": "PD_NPC_Animal_Boar_T5.webp"
-      },
-      {
         "id": "PD_NPC_Animal_Deer_Stag_T3",
         "icon": "PD_NPC_Animal_Deer_Stag_T3.webp"
       },
       {
-        "id": "PD_NPC_Animal_Deer_T2",
-        "icon": "PD_NPC_Animal_Deer_T2.webp"
-      },
-      {
         "id": "PD_NPC_Animal_Fox_T1",
         "icon": "PD_NPC_Animal_Fox_T1.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Rabbit_T1",
-        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T10",
-        "icon": "PD_NPC_Animal_Wolf_T10.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T16",
-        "icon": "PD_NPC_Animal_Wolf_T16.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T6",
-        "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",

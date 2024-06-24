@@ -761,36 +761,38 @@ for (const npcsResourcesPath of readDirRecursive(
     .replace(/\b\w/g, (c) => c.toUpperCase());
   enDict[`${id}_desc`] = "";
 
-  let type = id.replace("animal_", "").replace(/_t\d+/, "");
+  const type = id.toLowerCase().split("animal_")[1]?.replace(/_t\d+/, "");
   const skills: string[] = [];
-  for (const pdItem of pdItems.filter(
-    (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
-  )) {
-    for (const pdRecipe of pdRecipes.filter((r) =>
-      r[0].Properties.ItemIngredients?.some((i) =>
-        i.Key.includes(pdItem[0].Name),
-      ),
+  if (type) {
+    for (const pdItem of pdItems.filter(
+      (i) => i[0].Name.endsWith(`_${type}`) || i[0].Name.includes(`_${type}_`),
     )) {
-      if (pdRecipe[0].Properties.IsDev) {
-        continue;
-      }
-      const skill =
-        pdRecipe[0].Properties.SkillRequired.ObjectName.split("'")[1];
-      if (skills.includes(skill)) {
-        continue;
-      }
-      skills.push(skill);
-      const globalFilter = globalFilters.find((f) => f.group === "skills")!;
-      if (!globalFilter.values.some((v) => v.id === skill)) {
-        globalFilter.values.push({ id: skill, defaultOn: true });
+      for (const pdRecipe of pdRecipes.filter((r) =>
+        r[0].Properties.ItemIngredients?.some((i) =>
+          i.Key.includes(pdItem[0].Name),
+        ),
+      )) {
+        if (pdRecipe[0].Properties.IsDev) {
+          continue;
+        }
+        const skill =
+          pdRecipe[0].Properties.SkillRequired.ObjectName.split("'")[1];
+        if (skills.includes(skill)) {
+          continue;
+        }
+        skills.push(skill);
+        const globalFilter = globalFilters.find((f) => f.group === "skills")!;
+        if (!globalFilter.values.some((v) => v.id === skill)) {
+          globalFilter.values.push({ id: skill, defaultOn: true });
 
-        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
-        enDict[skill] =
-          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
+          const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+          enDict[skill] =
+            localisationEN[pdSkill[0].Properties.LocalizationNameKey];
+        }
+        enDict[`${id}_desc`] +=
+          `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
+        // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
       }
-      enDict[`${id}_desc`] +=
-        `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
-      // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
     }
   }
 
