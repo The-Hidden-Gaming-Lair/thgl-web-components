@@ -708,6 +708,11 @@
         "id": "Gameplay50000168",
         "icon": "ItemInfo_50000168_Name.webp",
         "size": 1.1
+      },
+      {
+        "id": "Animal032",
+        "icon": "ItemInfo_3_Name.webp",
+        "size": 1.5
       }
     ]
   },

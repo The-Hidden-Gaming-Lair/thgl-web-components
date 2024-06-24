@@ -118604,6 +118604,312 @@
     ]
   },
   {
+    "type": "Animal032",
+    "spawns": [
+      {
+        "p": [
+          140726,
+          -48300
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          120165,
+          11648
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          2306,
+          -76148
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -22409,
+          7234
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          6472.54,
+          -36508.4
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -43446,
+          -3803
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          61847.44,
+          -8330.6
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          28672.57,
+          -12344.15
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          324780.25,
+          40393.65
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          316411.03,
+          90981.88
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          228023.02,
+          35250.81
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          179383,
+          -78378
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          237958,
+          -84099
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          228506.03,
+          -107307
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          216182,
+          -53951
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          242279,
+          -65707
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          199504.59,
+          -80137.62
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          68941.25,
+          -59241.57
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          16349.69,
+          -61560.32
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          124910,
+          -72756
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          101909,
+          -99343
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          158794,
+          -110530
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          53470,
+          -84140
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          36480,
+          -128664
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          78493,
+          -133875
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          173819,
+          -55863
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -110513,
+          52983
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -111456,
+          70252
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -81061.67,
+          83860.3
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -101690,
+          56643
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          -122984,
+          74188
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          289016.56,
+          38360.07
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          295829.38,
+          41306.23
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          307287.63,
+          -21167.63
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          249835.53,
+          -101905.18
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          261831.91,
+          -69467.73
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          304284.56,
+          -1057.86
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          290508.09,
+          535.51
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          327271.78,
+          -40309.19
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          256888,
+          103352
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          267508,
+          82200
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          279010,
+          59623
+        ],
+        "mapName": "AkiWorld_WP"
+      },
+      {
+        "p": [
+          272115,
+          12534
+        ],
+        "mapName": "AkiWorld_WP"
+      }
+    ]
+  },
+  {
     "type": "Monster011",
     "spawns": [
       {

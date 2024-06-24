@@ -785,6 +785,7 @@
   "Monster007_109006163_tags": "Monster Treasure Moonlit Clouds Lingering Tunes Celestial Light",
   "Monster008_109006164_desc": "<p style=\"color:#17a0a4\">Monster Treasure (Respawns)</p><p class=\"italic\">Spawns Daily</p><p style=\"color:#9BDB2DFF\">Rejuvenating Glow</p><p style=\"color:#FFFFFFFF\">Moonlit Clouds</p><p style=\"color:#55FFB5FF\">Sierra Gale</p>This enemy has <color=HighlightB>higher RES</color> to <color=Wind>Aero damage</color>",
   "Monster008_109006164_tags": "Monster Treasure Rejuvenating Glow Moonlit Clouds Sierra Gale",
+  "Animal032": "Blobfly",
   "Monster014_109006371_desc": "<p style=\"color:#17a0a4\">Monster Treasure (Respawns)</p><p class=\"italic\">Spawns Daily</p><p style=\"color:#9BDB2DFF\">Rejuvenating Glow</p><p style=\"color:#FFFFFFFF\">Moonlit Clouds</p><p style=\"color:#F8E56CFF\">Celestial Light</p>This enemy has <color=HighlightB>higher RES</color> to <color=Light>Spectro DMG</color>",
   "Monster014_109006371_tags": "Monster Treasure Rejuvenating Glow Moonlit Clouds Celestial Light",
   "Monster014_109006372_desc": "<p style=\"color:#17a0a4\">Monster Treasure (Respawns)</p><p class=\"italic\">Spawns Daily</p><p style=\"color:#9BDB2DFF\">Rejuvenating Glow</p><p style=\"color:#FFFFFFFF\">Moonlit Clouds</p><p style=\"color:#F8E56CFF\">Celestial Light</p>This enemy has <color=HighlightB>higher RES</color> to <color=Light>Spectro DMG</color>",
