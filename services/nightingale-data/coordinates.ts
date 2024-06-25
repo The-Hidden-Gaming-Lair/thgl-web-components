@@ -4,7 +4,7 @@ import { writeJSON } from "./lib/fs.js";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-const OUT_DIR = __dirname + "../out";
+const OUT_DIR = __dirname + "out";
 const PROD_OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/nightingale";
 
 const response = await fetch(

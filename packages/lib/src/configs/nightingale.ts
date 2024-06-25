@@ -79,6 +79,17 @@ export const NIGHTINGALE: {
       ...TILE_A,
     },
     // Abeyance Forest Realm
+    MTR_FRT_9790: {
+      url: "/map-tiles/MTR_FRT_9790/{z}/{y}/{x}.webp",
+      options: {
+        minNativeZoom: 0,
+        maxNativeZoom: 3,
+        bounds: MAP_BOUNDS_A,
+        tileSize: TILE_SIZE,
+      },
+      ...TILE_A,
+    },
+    // Abeyance Forest Realm
     MTR_FRT_9794: {
       url: "/map-tiles/MTR_FRT_9794/{z}/{y}/{x}.webp",
       options: {
@@ -444,16 +455,6 @@ export const NIGHTINGALE: {
     },
     MTR_FRT_7284: {
       url: "/map-tiles/MTR_FRT_7284/{z}/{y}/{x}.webp",
-      options: {
-        minNativeZoom: 0,
-        maxNativeZoom: 3,
-        bounds: MAP_BOUNDS_B,
-        tileSize: TILE_SIZE,
-      },
-      ...TILE_B,
-    },
-    MTR_FRT_9790: {
-      url: "/map-tiles/MTR_FRT_9790/{z}/{y}/{x}.webp",
       options: {
         minNativeZoom: 0,
         maxNativeZoom: 3,
