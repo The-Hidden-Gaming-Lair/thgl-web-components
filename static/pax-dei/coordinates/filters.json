@@ -645,6 +645,10 @@
         "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
+        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
@@ -687,10 +691,6 @@
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
@@ -841,12 +841,20 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
+        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
         "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
+        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
@@ -895,10 +903,6 @@
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
         "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
-        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
@@ -956,6 +960,10 @@
         "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
+        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
@@ -966,10 +974,6 @@
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
-      },
-      {
-        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
@@ -1048,12 +1052,20 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
+        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
         "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
+        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
@@ -1102,10 +1114,6 @@
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
         "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
-        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
