@@ -645,10 +645,6 @@
         "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
       },
       {
-        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
-        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
-      },
-      {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
@@ -735,6 +731,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger",
         "icon": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
+        "icon": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -841,16 +841,12 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
-      },
-      {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
-        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
+        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
+        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
@@ -891,10 +887,6 @@
       {
         "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
         "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
@@ -964,10 +956,6 @@
         "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
       },
       {
-        "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
-        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
-      },
-      {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
@@ -1024,6 +1012,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
+        "icon": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
@@ -1056,16 +1048,12 @@
         "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
-      },
-      {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
-        "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
-        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
+        "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
+        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
       {
         "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
@@ -1106,10 +1094,6 @@
       {
         "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
         "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
-      },
-      {
-        "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
