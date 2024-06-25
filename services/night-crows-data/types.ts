@@ -29475,3 +29475,1850 @@ export type MNpcSpawnData = Array<{
     };
   };
 }>;
+
+export type MDungeonStageData = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: {
+    Map_FD02_01: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD02_02: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD02_03: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD02_04: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD03_01: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD03_02: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD03_03: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD03_04: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_FD03_05: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_GL_01: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_GL_02: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_GL_03: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_GL_04: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_GL_05: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_01: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_02: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_03: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD01_04: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD02_01: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD02_02: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD02_03: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_DD02_04: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_01: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_02: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_03: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_04: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_05: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_06: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+    Map_RGD01_07: {
+      Title: {
+        StringId: string;
+      };
+      Zone: {
+        Disable: boolean;
+        Resource: {
+          StringId: string;
+        };
+        DesignLevel: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        LoadingInfo: {
+          Image: {
+            StringId: string;
+          };
+          Text: {
+            StringId: string;
+          };
+        };
+        FeatureActivation: {
+          StringId: string;
+        };
+        Channel: {
+          Min: number;
+          Max: number;
+        };
+        UseWaitingQueue: boolean;
+        PcRelationship: {
+          StringId: string;
+        };
+        StatEffect: {
+          StringId: string;
+        };
+      };
+      Dungeon: {
+        StringId: string;
+      };
+      EntranceCost: {
+        Asset: {
+          StringId: string;
+        };
+        Count: number;
+      };
+      EntranceAreaList: Array<string>;
+      FieldType: string;
+      PcLevel: number;
+      CombatPower: number;
+      Order: number;
+      MainSubzone: {
+        StringId: string;
+      };
+      MainRewardItems: Array<{
+        StringId: string;
+      }>;
+      CanScheduling: boolean;
+      ID: number;
+    };
+  };
+}>;
+
+export type MWorldFieldData = Array<{
+  Type: string
+  Name: string
+  Class: string
+  Properties: {
+    RowStruct: {
+      ObjectName: string
+      ObjectPath: string
+    }
+  }
+  Rows: {
+    Map_WD01: {
+      Zone: {
+        Disable: boolean
+        Resource: {
+          StringId: string
+        }
+        DesignLevel: {
+          AssetPathName: string
+          SubPathString: string
+        }
+        LoadingInfo: {
+          Image: {
+            StringId: string
+          }
+          Text: {
+            StringId: string
+          }
+        }
+        FeatureActivation: {
+          StringId: string
+        }
+        Channel: {
+          Min: number
+          Max: number
+        }
+        UseWaitingQueue: boolean
+        PcRelationship: {
+          StringId: string
+        }
+        StatEffect: {
+          StringId: string
+        }
+      }
+      EntranceCost: {
+        Asset: {
+          StringId: string
+        }
+        Count: number
+      }
+      Image: {
+        DetailInfo: {
+          AssetPathName: string
+          SubPathString: string
+        }
+        Tab: {
+          AssetPathName: string
+          SubPathString: string
+        }
+      }
+      MainRewardItems: Array<{
+        StringId: string
+      }>
+      ID: number
+    }
+    Map_WD01_Low: {
+      Zone: {
+        Disable: boolean
+        Resource: {
+          StringId: string
+        }
+        DesignLevel: {
+          AssetPathName: string
+          SubPathString: string
+        }
+        LoadingInfo: {
+          Image: {
+            StringId: string
+          }
+          Text: {
+            StringId: string
+          }
+        }
+        FeatureActivation: {
+          StringId: string
+        }
+        Channel: {
+          Min: number
+          Max: number
+        }
+        UseWaitingQueue: boolean
+        PcRelationship: {
+          StringId: string
+        }
+        StatEffect: {
+          StringId: string
+        }
+      }
+      EntranceCost: {
+        Asset: {
+          StringId: string
+        }
+        Count: number
+      }
+      Image: {
+        DetailInfo: {
+          AssetPathName: string
+          SubPathString: string
+        }
+        Tab: {
+          AssetPathName: string
+          SubPathString: string
+        }
+      }
+      MainRewardItems: Array<{
+        StringId: string
+      }>
+      ID: number
+    }
+  }
+}>

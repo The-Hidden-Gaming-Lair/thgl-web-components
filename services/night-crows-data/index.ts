@@ -9,6 +9,7 @@ import {
 import {
   MAchievementData,
   MBoxItemData,
+  MDungeonStageData,
   MEquipmentItemData,
   MMaterialItemData,
   MNpcData,
@@ -17,6 +18,7 @@ import {
   MPrivateMissionData,
   MStringData,
   MSubZoneData,
+  MWorldFieldData,
   MZoneExportData,
   MZonePersistentData,
   MZoneResourceData,
@@ -98,9 +100,17 @@ const mBoxItemData = readJSON<MBoxItemData>(
   `${CONTENT_DIR}/mad/content/gamedata/mboxitemdata.json`,
 );
 const boxItemData = mBoxItemData[0].Rows;
+const mDungeonStageData = readJSON<MDungeonStageData>(
+  `${CONTENT_DIR}/mad/content/gamedata/mdungeonstagedata.json`,
+);
+const dungeonStageData = mDungeonStageData[0].Rows;
+const mWorldFieldData = readJSON<MWorldFieldData>(
+  `${CONTENT_DIR}/mad/content/gamedata/mworldfielddata.json`,
+);
+const worldFieldData = mWorldFieldData[0].Rows;
 
-const zonesIDs = Object.values(zoneResourceData)
-  .map((z) => z.Persistent.StringId)
+const zonesIDs = Object.keys(zoneResourceData)
+  .map((z) => z.replace("_Special", ""))
   .sort((a, b) => b.length - a.length);
 
 const icons: Record<string, string> = {};
@@ -233,6 +243,8 @@ for (const zone of Object.values(zoneResources)) {
     const category = nodes.find((n) => n.type === type)!;
     const mapName =
       zoneResourceData[zone.ZoneResourceId.StringId].Persistent.StringId;
+    const zoneMapName = zone.ZoneResourceId.StringId.replace("_Special", "");
+
     const zoneData = zonePersistentData[mapName];
 
     if (mapName.startsWith("ContentTest") || zoneData.Disable) {
@@ -241,7 +253,7 @@ for (const zone of Object.values(zoneResources)) {
     const spawn = {
       id: area.Key,
       p: [area.Position.Y, area.Position.X] as [number, number],
-      mapName,
+      mapName: zoneMapName,
     };
     category.spawns.push(spawn);
     enDict[area.Key] = zoneTitle;
@@ -280,7 +292,6 @@ for (const exportData of Object.values(zoneExportData)) {
     spawnNum: number,
   ) => {
     let role: string = npc.NpcRole.StringId;
-
     if (role === "None") {
       role = npc.Type.split("::")[1];
     }
@@ -301,7 +312,7 @@ for (const exportData of Object.values(zoneExportData)) {
         if (id.includes("CentaurusKnight")) {
           role = "Kiaron";
           color = "#0066ff";
-        } else if (id.includes("OrkCalvary")) {
+        } else if (id.includes("Ork")) {
           role = "Grish";
           color = "#cbcb41";
         } else if (id.includes("ThornSpider")) {
@@ -345,8 +356,9 @@ for (const exportData of Object.values(zoneExportData)) {
       mapName = zoneId;
     } else {
       const subZone = subZoneData[npc.Subzone.StringId];
-      mapName = zoneResourceData[subZone.Zone.StringId].Persistent.StringId;
+      mapName = subZone.Zone.StringId;
     }
+    mapName = mapName.replace("_Special", "");
 
     let target;
     enDict[id] = stringData[npc.Title.StringId].English.LocalizedString;
@@ -392,6 +404,9 @@ for (const exportData of Object.values(zoneExportData)) {
     let size = 1.5;
     if (role === "NormalMonster") {
       size = 0.8;
+    }
+    if (role.startsWith("WorldCoinStore")) {
+      role = "WorldCoinStore";
     }
 
     if (!target.values.some((v) => v.id === role)) {
@@ -704,35 +719,55 @@ for (const [mapName, zoneData] of sortedZoneData) {
     maxNativeZoom = Math.max(...(await readDirSync(outDir).map((f) => +f)));
   } catch (e) {}
 
-  tiles[mapName] = {
-    url: `/map-tiles/${mapName}/{z}/{y}/{x}.webp`,
-    options: {
-      minNativeZoom: 0,
-      maxNativeZoom: maxNativeZoom,
-      bounds: MAP_BOUNDS,
-      tileSize: TILE_SIZE,
-    },
-    minZoom: 0,
-    maxZoom: 5,
-    fitBounds: MAP_BOUNDS,
-    transformation: [1 / MULTIPLE, OFFSET[1], 1 / MULTIPLE, OFFSET[0]],
-  };
-  const zoneResource = Object.values(zoneResourceData).find(
-    (z) => z.Persistent.StringId === mapName,
-  )!;
-  const subZone = Object.values(subZoneData).find(
-    (z) => z.Zone.StringId === zoneResource.Persistent.StringId,
-  )!;
+  const zoneResources = Object.entries(zoneResourceData).filter(
+    (z) => z[1].Persistent.StringId === mapName,
+  );
+  for (const [zoneMapName, zoneResource] of zoneResources) {
+    const newZoneMapName = zoneMapName.replace("_Special", "");
+    if (newZoneMapName.includes("Test")) {
+      continue;
+    }
+    if (zoneResource.AreaLevel.AssetPathName.includes("/Dungeon/")) {
+      if (
+        !(zoneMapName in dungeonStageData) &&
+        !(zoneMapName in worldFieldData)
+      ) {
+        continue;
+      }
+    }
 
-  const subZoneString = subZone
-    ? stringData[subZone.Title.StringId].English.LocalizedString
-    : null;
-  const mapString =
-    stringData[zoneResource.Title.StringId].English.LocalizedString;
-  if (subZoneString && subZoneString !== mapString) {
-    enDict[mapName] = `${subZoneString} ${mapString}`;
-  } else {
-    enDict[mapName] = mapString;
+    tiles[newZoneMapName] = {
+      url: `/map-tiles/${mapName}/{z}/{y}/{x}.webp`,
+      options: {
+        minNativeZoom: 0,
+        maxNativeZoom: maxNativeZoom,
+        bounds: MAP_BOUNDS,
+        tileSize: TILE_SIZE,
+      },
+      minZoom: 0,
+      maxZoom: 5,
+      fitBounds: MAP_BOUNDS,
+      transformation: [1 / MULTIPLE, OFFSET[1], 1 / MULTIPLE, OFFSET[0]],
+    };
+
+    const subZone = Object.values(subZoneData).find(
+      (z) => z.Zone.StringId === zoneResource.Persistent.StringId,
+    )!;
+
+    const subZoneString = subZone
+      ? stringData[subZone.Title.StringId].English.LocalizedString
+      : null;
+    const mapString =
+      stringData[zoneResource.Title.StringId].English.LocalizedString;
+    if (
+      subZoneString &&
+      subZoneString !== mapString &&
+      !mapString.includes("Floor")
+    ) {
+      enDict[newZoneMapName] = `${subZoneString} ${mapString}`;
+    } else {
+      enDict[newZoneMapName] = mapString;
+    }
   }
 }
 
@@ -774,8 +809,14 @@ async function processItem(
     | MEquipmentItemData["0"]["Rows"]["0"]
     | MBoxItemData["0"]["Rows"]["0"],
 ) {
+  if (item.Title.StringId.includes("Test")) {
+    return;
+  }
   if (!stringData[item.Title.StringId]) {
     console.warn("Missing title data for", key);
+    return;
+  }
+  if (key.includes("Test")) {
     return;
   }
   enDict[key] = stringData[item.Title.StringId].English.LocalizedString;
@@ -833,7 +874,37 @@ nodes.sort((a, b) => {
   return aSize - bSize;
 });
 
-writeJSON(OUT_DIR + "/coordinates/tiles.json", tiles);
+const priorityTileNames = [
+  "Kildebat",
+  "Avilius",
+  "Bastium",
+  "Celano",
+  "Tronetel",
+];
+const sortedTiles = Object.entries(tiles)
+  .sort((a, b) => {
+    const aName = enDict[a[0]];
+    const bName = enDict[b[0]];
+
+    const priorityA = priorityTileNames.indexOf(aName);
+    const priorityB = priorityTileNames.indexOf(bName);
+    if (priorityA !== -1 && priorityB !== -1) {
+      return priorityA - priorityB;
+    }
+    if (priorityA !== -1) {
+      return -1;
+    }
+    if (priorityB !== -1) {
+      return 1;
+    }
+    return aName.localeCompare(bName);
+  })
+  .reduce((acc, [k, v]) => {
+    acc[k] = v;
+    return acc;
+  }, {});
+
+writeJSON(OUT_DIR + "/coordinates/tiles.json", sortedTiles);
 writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
 writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 writeJSON(OUT_DIR + "/coordinates/zones.json", zones);

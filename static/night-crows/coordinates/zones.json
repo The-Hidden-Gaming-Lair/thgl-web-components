@@ -1326,5 +1326,141 @@
   {
     "id": "Map_PD01_SzA",
     "zoneId": 60000102
+  },
+  {
+    "id": "Map_WD01_Sz_None",
+    "zoneId": 10000
+  },
+  {
+    "id": "Map_WD01_Sz_Entry1",
+    "zoneId": 10001
+  },
+  {
+    "id": "Map_WD01_Sz_Entry2",
+    "zoneId": 10002
+  },
+  {
+    "id": "Map_WD01_Sz_Tp1",
+    "zoneId": 10003
+  },
+  {
+    "id": "Map_WD01_Sz_Tp2",
+    "zoneId": 10004
+  },
+  {
+    "id": "Map_WD01_SzA_1",
+    "zoneId": 10005
+  },
+  {
+    "id": "Map_WD01_SzA_2",
+    "zoneId": 10006
+  },
+  {
+    "id": "Map_WD01_SzB_1",
+    "zoneId": 10007
+  },
+  {
+    "id": "Map_WD01_SzB_2",
+    "zoneId": 10008
+  },
+  {
+    "id": "Map_WD01_SzC_1",
+    "zoneId": 10009
+  },
+  {
+    "id": "Map_WD01_SzC_2",
+    "zoneId": 10010
+  },
+  {
+    "id": "Map_WD01_SzD_1",
+    "zoneId": 10011
+  },
+  {
+    "id": "Map_WD01_SzD_2",
+    "zoneId": 10012
+  },
+  {
+    "id": "Map_WD01_SzE",
+    "zoneId": 10013
+  },
+  {
+    "id": "Map_WD01_Sz_Shop_1",
+    "zoneId": 10014
+  },
+  {
+    "id": "Map_WD01_Sz_Shop_2",
+    "zoneId": 10015
+  },
+  {
+    "id": "Map_WD01_Sz_Boss_1",
+    "zoneId": 10016
+  },
+  {
+    "id": "Map_WD01_Sz_Boss_2",
+    "zoneId": 10017
+  },
+  {
+    "id": "Map_WD01_Low_Sz_None",
+    "zoneId": 10100
+  },
+  {
+    "id": "Map_WD01_Low_Sz_Entry1",
+    "zoneId": 10101
+  },
+  {
+    "id": "Map_WD01_Low_Sz_Entry2",
+    "zoneId": 10102
+  },
+  {
+    "id": "Map_WD01_Low_Sz_Tp1",
+    "zoneId": 10103
+  },
+  {
+    "id": "Map_WD01_Low_Sz_Tp2",
+    "zoneId": 10104
+  },
+  {
+    "id": "Map_WD01_Low_SzA_1",
+    "zoneId": 10105
+  },
+  {
+    "id": "Map_WD01_Low_SzA_2",
+    "zoneId": 10106
+  },
+  {
+    "id": "Map_WD01_Low_SzB_1",
+    "zoneId": 10107
+  },
+  {
+    "id": "Map_WD01_Low_SzB_2",
+    "zoneId": 10108
+  },
+  {
+    "id": "Map_WD01_Low_SzC_1",
+    "zoneId": 10109
+  },
+  {
+    "id": "Map_WD01_Low_SzC_2",
+    "zoneId": 10110
+  },
+  {
+    "id": "Map_WD01_Low_SzD_1",
+    "zoneId": 10111
+  },
+  {
+    "id": "Map_WD01_Low_SzD_2",
+    "zoneId": 10112
+  },
+  {
+    "id": "Map_WD01_Low_SzE",
+    "zoneId": 10113
+  },
+  {
+    "id": "Map_WD01_Low_Sz_Shop_1",
+    "zoneId": 10114
+  },
+  {
+    "id": "Map_WD01_Low_Sz_Shop_2",
+    "zoneId": 10115
   }
 ]
