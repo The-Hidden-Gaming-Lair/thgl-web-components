@@ -1,0 +1,38 @@
+{
+  "overland": {
+    "url": "/map-tiles/overland/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 4,
+      "bounds": [
+        [
+          -22050,
+          -22050
+        ],
+        [
+          22050,
+          22050
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -22050,
+        -22050
+      ],
+      [
+        22050,
+        22050
+      ]
+    ],
+    "transformation": [
+      0.011609977324263039,
+      256,
+      0.011609977324263039,
+      256
+    ]
+  }
+}
