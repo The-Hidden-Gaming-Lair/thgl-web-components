@@ -11,5 +11,11 @@ export function GET(
     ...node,
     spawns: node.spawns.filter((spawn) => spawn.mapName === params.mapName),
   }));
-  return Response.json(mapNodes);
+  return Response.json(mapNodes, {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=2678400",
+      "CDN-Cache-Control": "public, s-maxage=2678400",
+    },
+  });
 }
