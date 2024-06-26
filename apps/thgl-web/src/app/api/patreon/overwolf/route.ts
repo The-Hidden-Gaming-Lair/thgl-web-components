@@ -25,10 +25,22 @@ export async function POST(request: NextRequest) {
     }
 
     const app = apps.find((app) => app.overwolf?.id === requestBody.appId);
-    const userId = jwt.verify(
-      requestBody.userId,
-      process.env.JWT_SECRET!,
-    ) as string;
+
+    let userId;
+    try {
+      userId = jwt.verify(
+        requestBody.userId,
+        process.env.JWT_SECRET!,
+      ) as string;
+    } catch (err) {
+      return Response.json(
+        { error: "Invalid userId" },
+        {
+          status: 400,
+          headers: CORS_HEADERS,
+        },
+      );
+    }
 
     const patreonToken = await kv.get<PatreonToken>(`token:${userId}`);
     if (!patreonToken) {
