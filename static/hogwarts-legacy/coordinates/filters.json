@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "fastTravelFireplaces",
+        "icon": "fastTravelFireplaces.webp",
+        "size": 1.3
+      },
+      {
+        "id": "fastTravelSanctuaryHogwarts",
+        "icon": "fastTravelSanctuaryHogwarts.webp",
+        "size": 1.3
+      }
+    ]
+  }
+]

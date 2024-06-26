@@ -11,6 +11,8 @@ import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
+import { initDict, writeDict } from "./lib/dicts.js";
+import { saveIcon } from "./lib/image.js";
 
 initDirs(
   "/mnt/c/dev/Hogwarts Legacy/Extracted/Data",
@@ -21,6 +23,9 @@ initDirs(
 const nodes = initNodes();
 const filters = initFilters();
 const typesIDs = initTypesIDs();
+const enDict = initDict();
+const addedFilterIDs: string[] = [];
+const addedIcons: string[] = [];
 
 if (Bun.env.DB === "true") {
   readDirSync(CONTENT_DIR + "/Phoenix/Content/Localization/WIN64").forEach(
@@ -76,7 +81,7 @@ const MiscLocations = readContentJSON(
 const SphinxPuzzleLocations = readContentJSON(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_SphinxPuzzleLocations.json",
 );
-const enDict = readContentJSON(
+const enUS = readContentJSON(
   "/Phoenix/Content/Localization/WIN64/MAIN-enUS.json",
 );
 
@@ -88,6 +93,7 @@ for (const location of hogwartsFastTravelLocations) {
   const mapIcon = HogwartsMapIconTable.find(
     (icon) => icon.Name.toLowerCase() === location.Name.toLowerCase(),
   );
+
   const extension = mapIcon ? mapIcon.IconName.split("_").at(-1) : "Fireplaces";
   let world;
   if (location.Name.startsWith("FT_HW_")) {
@@ -112,19 +118,56 @@ for (const location of hogwartsFastTravelLocations) {
     location.BeaconLocationZ ||
     location.LocationZ;
 
-  handleLocation(location.Name, `fastTravel${extension}`, world, [x, y]);
+  await handleLocation(
+    location.Name,
+    `fastTravel${extension}`,
+    world,
+    [x, y],
+    mapIcon?.IconName || "UI_T_Fireplaces",
+  );
 }
 
 writeNodes(nodes);
 writeFilters(filters);
 writeTypesIDs(typesIDs);
+writeDict(enDict, "en");
 
-function handleLocation(
+async function handleLocation(
   id: string,
   type: string,
   mapName: string,
   pos: [number, number],
+  iconName: string,
 ) {
+  const group = "locations";
+  if (!filters.find((f) => f.group === group)) {
+    filters.push({
+      group: group,
+      defaultOpen: true,
+      defaultOn: true,
+      values: [],
+    });
+    enDict[group] = group;
+  }
+  const category = filters.find((f) => f.group === group)!;
+  if (!addedFilterIDs.includes(type)) {
+    category.values.push({
+      id: type,
+      icon: await saveIcon(
+        `/Phoenix/Content/UI/Icons/Map/${iconName}.png`,
+        type,
+      ),
+      size: 1.3,
+    });
+    addedFilterIDs.push(type);
+    if (addedIcons.includes(type)) {
+      console.warn(`Duplicate icon: ${type}`);
+    } else {
+      addedIcons.push(type);
+    }
+    enDict[type] = type;
+  }
+
   let oldNodes = nodes.find((n) => n.type === type);
   if (!oldNodes) {
     oldNodes = { type: type, spawns: [] };
