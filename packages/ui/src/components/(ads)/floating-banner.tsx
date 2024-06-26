@@ -21,7 +21,6 @@ export function FloatingBanner({ id }: { id: string }): JSX.Element {
           ["300", "250"],
         ]
       : [["160", "600"]];
-    console.log(sizes);
     getNitroAds().createAd(id, {
       refreshTime: 30,
       renderVisibleOnly: false,
