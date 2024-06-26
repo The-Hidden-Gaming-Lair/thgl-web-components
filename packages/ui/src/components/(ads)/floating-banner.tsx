@@ -4,29 +4,35 @@ import { getNitroAds } from "./nitro-pay";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { AdFreeContainer } from "./ad-free-container";
 
-const mediaQuery = "(min-width: 768px)";
+const smallMediaQuery = "(min-width: 768px)";
+const bigMediaQuery = "(min-width: 1250px)";
 export function FloatingBanner({ id }: { id: string }): JSX.Element {
-  const matched = useMediaQuery(mediaQuery);
+  const smallMatched = useMediaQuery(smallMediaQuery);
+  const bigMatched = useMediaQuery(bigMediaQuery);
 
   useEffect(() => {
-    if (!matched) {
+    if (!smallMatched) {
       return;
     }
+    const sizes = bigMatched
+      ? [
+          ["300", "600"],
+          ["160", "600"],
+          ["300", "250"],
+        ]
+      : [["160", "600"]];
+    console.log(sizes);
     getNitroAds().createAd(id, {
       refreshTime: 30,
       renderVisibleOnly: false,
-      sizes: [
-        ["160", "600"],
-        ["300", "600"],
-        ["300", "250"],
-      ],
-      mediaQuery: mediaQuery,
+      sizes: sizes,
+      mediaQuery: smallMediaQuery,
       debug: "silent",
       demo: location.href.includes("localhost"),
     });
-  }, [matched]);
+  }, [smallMatched, bigMatched]);
 
-  if (!matched) {
+  if (!smallMatched) {
     return <></>;
   }
   return (
