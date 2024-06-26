@@ -693,6 +693,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
       },
@@ -735,6 +739,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
         "icon": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder",
+        "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -905,6 +913,10 @@
         "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
       },
       {
+        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
+        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
         "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Death.webp"
       },
@@ -976,6 +988,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
+        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
         "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
       },
@@ -1018,6 +1034,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
         "icon": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder",
+        "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -1114,6 +1134,10 @@
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
         "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
+        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",

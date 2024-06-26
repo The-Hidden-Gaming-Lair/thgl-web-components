@@ -16,6 +16,7 @@ import Fuse from "fuse.js";
 import { useT } from ".";
 import { isDebug, useGameState, useSettingsStore } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
+import useSWRImmutable from "swr/immutable";
 
 export type NodesCoordinates = {
   type: string;
@@ -154,7 +155,7 @@ export const REGION_FILTERS = [
 ];
 export function CoordinatesProvider({
   children,
-  staticNodes,
+  staticNodes: initialStaticNodes,
   regions,
   filters,
   globalFilters = [],
@@ -163,7 +164,7 @@ export function CoordinatesProvider({
   view,
 }: {
   children: React.ReactNode;
-  staticNodes: NodesCoordinates;
+  staticNodes?: NodesCoordinates;
   regions: RegionsCoordinates;
   filters: FiltersCoordinates;
   globalFilters?: GlobalFiltersCoordinates;
@@ -280,7 +281,19 @@ export function CoordinatesProvider({
   const userStoreHasHydrated = userStore.getState()._hasHydrated;
   const settingsHasHydrated = useSettingsStore((state) => state._hasHydrated);
 
-  const isHydrated = userStoreHasHydrated && settingsHasHydrated;
+  const { data } = useSWRImmutable(
+    "/api/nodes",
+    async () => {
+      return fetch("/api/nodes").then(
+        (res) => res.json() as Promise<NodesCoordinates>,
+      );
+    },
+    {
+      revalidateIfStale: !initialStaticNodes,
+    },
+  );
+  const staticNodes = data ?? initialStaticNodes ?? false;
+  const isHydrated = staticNodes && userStoreHasHydrated && settingsHasHydrated;
 
   const liveMode = useSettingsStore((state) => state.liveMode);
   const appId = useSettingsStore((state) => state.appId);
@@ -374,7 +387,7 @@ export function CoordinatesProvider({
       ...staticNodes.filter((node) => "static" in node && !!node.static)!,
     );
     return targetNodes;
-  }, [isHydrated, liveMode, appId, actors, privateGroups]);
+  }, [isHydrated, liveMode, appId, actors, privateGroups, !!staticNodes]);
 
   const icons = useMemo(
     () => filters.flatMap((filter) => filter.values).map((value) => value),
