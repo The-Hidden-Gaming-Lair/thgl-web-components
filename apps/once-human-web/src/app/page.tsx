@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import type {
   FiltersCoordinates,
-  NodesCoordinates,
   RegionsCoordinates,
 } from "@repo/ui/providers";
 import { FloatingAds } from "@repo/ui/ads";
@@ -10,7 +9,6 @@ import { CoordinatesProvider } from "@repo/ui/providers";
 import { HeaderOffset } from "@repo/ui/header";
 import { type Metadata } from "next";
 import { searchParamsToView } from "@repo/lib";
-import nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import _filters from "../coordinates/filters.json" assert { type: "json" };
 
@@ -43,7 +41,6 @@ export default function Home({
     <CoordinatesProvider
       filters={filters}
       regions={regions as RegionsCoordinates}
-      staticNodes={nodes as NodesCoordinates}
       view={view}
     >
       <HeaderOffset full>

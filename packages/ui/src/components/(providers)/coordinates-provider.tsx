@@ -289,9 +289,10 @@ export function CoordinatesProvider({
       );
     },
     {
-      revalidateIfStale: !initialStaticNodes,
+      revalidateOnMount: !initialStaticNodes,
     },
   );
+
   const staticNodes = data ?? initialStaticNodes ?? false;
   const isHydrated = staticNodes && userStoreHasHydrated && settingsHasHydrated;
 
