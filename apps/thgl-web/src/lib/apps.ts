@@ -31,11 +31,14 @@ export interface App {
     id: string;
     protocol: string;
     url?: string;
+    supportsCopySecret?: boolean;
   };
   patreonTierIDs?: string[];
   premiumFeatures?: string[];
   isPartnerApp?: boolean;
 }
+
+export const DEFAULT_PATREON_TIER_IDS = ["21470797", "21470809", "special"];
 
 export const apps: App[] = [
   {
@@ -50,8 +53,9 @@ export const apps: App[] = [
       id: "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
       protocol: "thgl-wuthering-waves",
       url: "https://www.overwolf.com/app/Leon_Machens-Wuthering_Waves_Map",
+      supportsCopySecret: true,
     },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "pax-dei",
@@ -61,7 +65,7 @@ export const apps: App[] = [
     game: PaxDei,
     url: "https://paxdei.th.gl",
     tileSrc: "/pax-dei.jpg",
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "once-human",
@@ -71,7 +75,7 @@ export const apps: App[] = [
     game: OnceHuman,
     url: "https://oncehuman.th.gl",
     tileSrc: "/once-human.jpg",
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "seekers-of-skyveil",
@@ -81,7 +85,7 @@ export const apps: App[] = [
     game: SeekersOfSkyveil,
     url: "https://seekers.th.gl",
     tileSrc: "/seekers-of-skyveil.jpg",
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "night-crows",
@@ -91,22 +95,7 @@ export const apps: App[] = [
     game: NightCrows,
     url: "https://nightcrows.th.gl",
     tileSrc: "/night-crows.jpg",
-    patreonTierIDs: ["21470797", "21470809", "special"],
-  },
-  {
-    id: "nightingale",
-    title: "Nightingale",
-    description: "Interactive map with real-time position tracking",
-    author: DevLeon,
-    game: Nightingale,
-    url: "https://nightingale.th.gl",
-    tileSrc: "/nightingale.jpg",
-    overwolf: {
-      id: "jmdeljpdelieondpjbdoegkbhfokaemhgnmhidef",
-      protocol: "thgl-nightingale",
-      url: "https://www.overwolf.com/app/Leon_Machens-Nightingale_Map",
-    },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "palworld",
@@ -120,8 +109,56 @@ export const apps: App[] = [
       id: "ebafpjfhleenmkcmdhlbdchpdalblhiellgfmmbb",
       protocol: "thgl-palworld",
       url: "https://www.overwolf.com/app/Leon_Machens-Palworld-Interactive-map",
+      supportsCopySecret: true,
     },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
+    id: "diablo4-map",
+    title: "Diablo IV",
+    description: "Discover Sancturay with real-time position tracking",
+    author: DevLeon,
+    game: Diablo4,
+    url: "https://diablo4.th.gl",
+    tileSrc: "/diablo4.jpg",
+    overwolf: {
+      id: "olbbpfjombddiijdbjeeegeclifleaifdeonllfd",
+      protocol: "thgl-diablo4-map",
+      url: "https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map",
+      supportsCopySecret: true,
+    },
+    patreonTierIDs: ["21470797", "21470809", "9878731", "special"],
+  },
+  {
+    id: "nightingale",
+    title: "Nightingale",
+    description: "Interactive map with real-time position tracking",
+    author: DevLeon,
+    game: Nightingale,
+    url: "https://nightingale.th.gl",
+    tileSrc: "/nightingale.jpg",
+    overwolf: {
+      id: "jmdeljpdelieondpjbdoegkbhfokaemhgnmhidef",
+      protocol: "thgl-nightingale",
+      url: "https://www.overwolf.com/app/Leon_Machens-Nightingale_Map",
+      supportsCopySecret: true,
+    },
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
+    id: "palia-map",
+    title: "Palia Map",
+    description: "Interactive map with real-time position tracking",
+    author: DevLeon,
+    game: Palia,
+    url: "https://palia.th.gl",
+    tileSrc: "/palia-map.jpg",
+    overwolf: {
+      id: "fgbodfoepckgplklpccjedophlahnjemfdknhfce",
+      protocol: "thgl-palia-map",
+      url: "https://www.overwolf.com/app/Leon_Machens-Palia_Map",
+    },
+    patreonTierIDs: ["21470797", "21470809", "10151819", "special"],
   },
   {
     id: "aeternum-map",
@@ -152,36 +189,6 @@ export const apps: App[] = [
     tileSrc: "/aeternum-tracker.jpg",
   },
   {
-    id: "diablo4-map",
-    title: "Diablo IV",
-    description: "Discover Sancturay with real-time position tracking",
-    author: DevLeon,
-    game: Diablo4,
-    url: "https://diablo4.th.gl",
-    tileSrc: "/diablo4.jpg",
-    overwolf: {
-      id: "olbbpfjombddiijdbjeeegeclifleaifdeonllfd",
-      protocol: "thgl-diablo4-map",
-      url: "https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map",
-    },
-    patreonTierIDs: ["21470797", "21470809", "9878731", "special"],
-  },
-  {
-    id: "palia-map",
-    title: "Palia Map",
-    description: "Interactive map with real-time position tracking",
-    author: DevLeon,
-    game: Palia,
-    url: "https://palia.th.gl",
-    tileSrc: "/palia-map.jpg",
-    overwolf: {
-      id: "fgbodfoepckgplklpccjedophlahnjemfdknhfce",
-      protocol: "thgl-palia-map",
-      url: "https://www.overwolf.com/app/Leon_Machens-Palia_Map",
-    },
-    patreonTierIDs: ["21470797", "21470809", "10151819", "special"],
-  },
-  {
     id: "sons-of-the-forest-map",
     title: "Sons Of The Forest Map",
     description: "Real-Time position tracking, nodes and more",
@@ -194,7 +201,7 @@ export const apps: App[] = [
       protocol: "thgl-sotf-map",
       url: "https://www.overwolf.com/app/Leon_Machens-Sons_Of_The_Forest_Map",
     },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "arkesia-map",
@@ -224,7 +231,7 @@ export const apps: App[] = [
       protocol: "thgl-hogwarts-map",
       url: "https://www.overwolf.com/app/Leon_Machens-Hogwarts.gg",
     },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "songs-of-conquest",
@@ -240,7 +247,7 @@ export const apps: App[] = [
       protocol: "thgl-soc",
       url: "https://www.overwolf.com/app/Leon_Machens-SoC.gg",
     },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "trophy-hunter",
@@ -256,7 +263,7 @@ export const apps: App[] = [
       protocol: "thgl-lol-th",
       url: "https://www.overwolf.com/app/Leon_Machens-Trophy_Hunter_Reforged",
     },
-    patreonTierIDs: ["21470797", "21470809", "special"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
     id: "new-world-influence-updates",

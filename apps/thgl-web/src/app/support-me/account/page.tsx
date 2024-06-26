@@ -109,10 +109,13 @@ export default async function SupportMeAccount() {
   return (
     <section className="space-y-8 px-4 pt-10 pb-20 text-center">
       {content}
-      <Subtitle order={3}>Link In-Game Apps</Subtitle>
+      <Subtitle order={3}>Unlock In-Game Apps</Subtitle>
       <p>
         Please click the following buttons to sync your subscription status with
-        the in-game apps.
+        the in-game apps. <span className="text-primary">Unlock the app</span>{" "}
+        will open the app in Overwolf and unlocks it.{" "}
+        <span className="text-primary">Copy Secret</span> will copy your secret
+        to the clipboard, which can be pasted inside the app (if supported).
       </p>
       <div className="flex flex-wrap gap-8 justify-center">
         {apps

@@ -1,4 +1,4 @@
-import { cn, useSettingsStore } from "@repo/lib";
+import { cn, useAccountStore, useSettingsStore } from "@repo/lib";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import Moveable from "react-moveable";
@@ -23,6 +23,7 @@ export function AdsContainer({
   const targetRef = useRef<HTMLDivElement>(null);
   const moveableRef = useRef<Moveable>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const setShowUserDialog = useAccountStore((state) => state.setShowUserDialog);
 
   useEffect(() => {
     if (!transformId || !moveableRef.current) {
@@ -74,6 +75,7 @@ export function AdsContainer({
           <ExternalAnchor
             href="https://www.th.gl/support-me"
             className="block text-center text-xs px-1.5 py-0.5 group"
+            onClick={() => setShowUserDialog(true)}
           >
             Get{" "}
             <span className="text-primary group-hover:underline font-semibold">

@@ -12,6 +12,8 @@ export const useAccountStore = create(
       adRemoval: boolean,
       previewReleaseAccess: boolean,
     ) => void;
+    showUserDialog: boolean;
+    setShowUserDialog: (showUserDialog: boolean) => void;
   }>(
     (set) => ({
       userId: null,
@@ -23,6 +25,10 @@ export const useAccountStore = create(
           adRemoval,
           previewReleaseAccess,
         });
+      },
+      showUserDialog: false,
+      setShowUserDialog: (showUserDialog) => {
+        set({ showUserDialog });
       },
     }),
     {

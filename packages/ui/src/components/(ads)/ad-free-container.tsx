@@ -1,33 +1,18 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { cn } from "@repo/lib";
+import { cn, useAccountStore } from "@repo/lib";
 import { ExternalAnchor } from "../(header)/external-anchor";
 import { trackEvent } from "../(header)";
 
 export function AdFreeContainer({
   children,
-  closable,
   className,
 }: {
   children: ReactNode;
-  closable?: boolean;
   className?: string;
 }): JSX.Element {
   const [isClosed, setIsClosed] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(15);
-
-  useEffect(() => {
-    if (timeLeft < 1 || !closable) {
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [timeLeft, closable]);
+  const setShowUserDialog = useAccountStore((state) => state.setShowUserDialog);
 
   useEffect(() => {
     if (!isClosed) {
@@ -82,23 +67,10 @@ export function AdFreeContainer({
       <ExternalAnchor
         href="https://www.th.gl/support-me"
         className="block text-center text-xs p-0.5 group"
+        onClick={() => setShowUserDialog(true)}
       >
         Get <span className="text-primary group-hover:underline">AD-Free</span>
       </ExternalAnchor>
-      {closable && (
-        <button
-          className={cn(
-            "absolute top-0.5 right-0.5 font-mono text-xs font-bold",
-            {
-              "hover:text-primary": timeLeft < 1,
-            },
-          )}
-          disabled={timeLeft >= 1}
-          onClick={() => setIsClosed(true)}
-        >
-          {timeLeft ? <span className="mr-1">{timeLeft}</span> : <Cross2Icon />}
-        </button>
-      )}
       {children}
     </div>
   );

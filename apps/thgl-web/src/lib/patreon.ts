@@ -1,15 +1,15 @@
-import { App } from "./apps";
+import { type App, DEFAULT_PATREON_TIER_IDS } from "./apps";
 import { tiers } from "./tiers";
 
-export type PatreonToken = {
+export interface PatreonToken {
   access_token: string;
   refresh_token: string;
   expires_in: number;
   scope: string;
   token_type: "Bearer";
-};
+}
 
-export type PatreonUser = {
+export interface PatreonUser {
   data: {
     attributes: {
       full_name: string;
@@ -17,31 +17,31 @@ export type PatreonUser = {
     id: string;
     relationships: {
       memberships: {
-        data: Array<{
+        data: {
           id: string;
           type: string;
-        }>;
+        }[];
       };
     };
     type: string;
   };
-  included: Array<{
+  included: {
     attributes: {};
     id: string;
     relationships?: {
       currently_entitled_tiers: {
-        data: Array<{
+        data: {
           id: string;
           type: string;
-        }>;
+        }[];
       };
     };
     type: string;
-  }>;
+  }[];
   links: {
     self: string;
   };
-};
+}
 
 export type PatreonError =
   | {
@@ -115,27 +115,30 @@ export function getCurrentEntitledTiers(currentUser: PatreonUser) {
   }
   return currentUser.included
     .flatMap((incl) =>
-      incl.relationships?.currently_entitled_tiers?.data?.flatMap((tier) =>
+      incl.relationships?.currently_entitled_tiers.data.flatMap((tier) =>
         tiers.some((t) => t.id === tier.id) ? tier.id : undefined,
       ),
     )
     .filter((tierId) => tierId !== undefined) as string[];
 }
 
-export function hasPreviewAccess(currentUser: PatreonUser, app: App) {
+export function hasPreviewAccess(currentUser: PatreonUser, app?: App) {
   const entitledTierIDs = getCurrentEntitledTiers(currentUser);
+
+  const patreonTierIds = app?.patreonTierIDs ?? DEFAULT_PATREON_TIER_IDS;
   const appTiers =
-    app.patreonTierIDs?.map((tierId) => tiers.find((t) => t.id === tierId)!) ??
-    [];
+    patreonTierIds.map((tierId) => tiers.find((t) => t.id === tierId)!) ?? [];
   const validTiersIds = appTiers
     .filter((tier) => tier.perks.includes("preview-access"))
     .map((tier) => tier.id);
   return entitledTierIDs.some((tierId) => validTiersIds.includes(tierId));
 }
 
-export function isSupporter(currentUser: PatreonUser, app: App) {
+export function isSupporter(currentUser: PatreonUser, app?: App) {
+  const patreonTierIds = app?.patreonTierIDs ?? DEFAULT_PATREON_TIER_IDS;
+
   const entitledTierIDs = getCurrentEntitledTiers(currentUser);
-  return app.patreonTierIDs?.some((tierId) => entitledTierIDs.includes(tierId));
+  return patreonTierIds.some((tierId) => entitledTierIDs.includes(tierId));
 }
 
 export const CORS_HEADERS = {

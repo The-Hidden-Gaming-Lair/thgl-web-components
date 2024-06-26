@@ -1019,13 +1019,10 @@ if (Bun.env.NODES === "true") {
       return [x, y, mapName] as [number, number, string];
     }),
   );
-  console.log(`New spawns: ${newMapSpawns.length}`);
+  console.log(`Newly tracked locations: ${newMapSpawns.length}`);
 
   // Remove old nodes in tracked areas'
-  let totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
-  console.log(
-    `Removing old spawns in tracked areas. Previously ${totalSpawnCount} spawns.`,
-  );
+  const totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
   const isNear = (a: [number, number], b: [number, number]) => {
     const distance = Math.sqrt(
       // Euclidean distance
@@ -1096,9 +1093,9 @@ if (Bun.env.NODES === "true") {
       }),
     };
   });
-  totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
+  const newTotalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
   console.log(
-    `Removed old spawns in tracked areas. Now ${totalSpawnCount} spawns.`,
+    `Removed ${totalSpawnCount - newTotalSpawnCount} deprecated locations spawns in tracked areas`,
   );
 
   // Add new nodes
@@ -1151,7 +1148,7 @@ nodes = nodes.filter(
   (n) => !["tree_branch", "flint_stones", "gneiss_stones"].includes(n.type),
 );
 const totalSpawnCount = nodes.reduce((acc, n) => acc + n.spawns.length, 0);
-console.log(`Added new spawns. Now ${totalSpawnCount} spawns.`);
+console.log(`New total locations of ${totalSpawnCount}`);
 
 const filtersOrder = ["locations", "gatherables", "mineables", "npcs", "named"];
 const lastFiltersOrder = ["others"];

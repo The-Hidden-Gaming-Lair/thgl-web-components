@@ -52,8 +52,10 @@ export async function initBackground(
         const body = (await response.json()) as { previewAccess: boolean };
         if (!response.ok) {
           console.warn(body);
-          if (response.status !== 500) {
+          if (response.status === 403) {
             accountStore.setAccount(userId, false, false);
+          } else if (response.status === 404) {
+            accountStore.setAccount(null, false, false);
           }
         } else {
           console.log(`Patreon successfully activated`);

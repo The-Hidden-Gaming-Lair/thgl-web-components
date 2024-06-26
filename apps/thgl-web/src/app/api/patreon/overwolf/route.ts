@@ -1,38 +1,30 @@
-import { apps } from "@/lib/apps";
+import { kv } from "@vercel/kv";
+import jwt from "jsonwebtoken";
+import { type NextRequest } from "next/server";
 import {
   CORS_HEADERS,
-  PatreonToken,
-  PatreonUser,
+  type PatreonToken,
+  type PatreonUser,
   getCurrentUser,
   hasPreviewAccess,
   isSupporter,
   postRefreshToken,
 } from "@/lib/patreon";
-import { kv } from "@vercel/kv";
-import jwt from "jsonwebtoken";
-import { NextRequest } from "next/server";
+import { apps } from "@/lib/apps";
 
 export const maxDuration = 25;
 export async function POST(request: NextRequest) {
   try {
     const requestBody = await request.json();
 
-    if (!requestBody.userId || !requestBody.appId) {
+    if (!requestBody.userId) {
       return Response.json(
         { error: "userId and appId are required" },
         { status: 400, headers: CORS_HEADERS },
       );
     }
+
     const app = apps.find((app) => app.overwolf?.id === requestBody.appId);
-    if (!app) {
-      return Response.json(
-        { error: "App not found" },
-        {
-          status: 404,
-          headers: CORS_HEADERS,
-        },
-      );
-    }
     const userId = jwt.verify(
       requestBody.userId,
       process.env.JWT_SECRET!,

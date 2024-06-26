@@ -24,7 +24,11 @@ export function Account({ appId }: { appId: string }) {
         const body = (await response.json()) as { previewAccess: boolean };
         if (!response.ok) {
           console.warn(body);
-          state.setAccount(userId, false, false);
+          if (response.status === 403) {
+            state.setAccount(userId, false, false);
+          } else if (response.status === 404) {
+            state.setAccount(null, false, false);
+          }
         } else {
           console.log(`Patreon successfully activated`);
           state.setAccount(userId, true, body.previewAccess);

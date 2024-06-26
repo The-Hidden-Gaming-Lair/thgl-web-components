@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import { trackCustomEvent } from "@repo/ui/header";
+import { useState } from "react";
 import type { App } from "@/lib/apps";
+import { orbitron } from "@/styles/fonts";
+import { cn } from "@/lib/utils";
+import { Button } from "./button";
 
 export function AppSubscriptionCard({
   app,
@@ -14,20 +18,44 @@ export function AppSubscriptionCard({
   hasTier?: boolean;
 }) {
   let content;
-  if (app.patreonTierIDs) {
+  const [copied, setCopied] = useState(false);
+
+  if (app.patreonTierIDs && userId) {
     if (hasTier) {
       content = (
-        <a
-          className="block mx-auto p-2 uppercase text-white bg-brand/70 hover:bg-brand/80 text-sm text-center transition-colors"
-          href={`${app.overwolf!.protocol}://${
-            app.overwolf!.id
-          }#userId=${userId}`}
-          onClick={() => {
-            trackCustomEvent("Supporter: Send Code Click", app.title);
-          }}
-        >
-          Link your account
-        </a>
+        <>
+          <a
+            className={cn(
+              orbitron.className,
+              "border rounded border-brand/50 hover:border-brand py-1 px-2 bg-brand/10 hover:bg-brand/20  transition-all uppercase text-sm",
+            )}
+            href={`${app.overwolf!.protocol}://${
+              app.overwolf!.id
+            }#userId=${userId}`}
+            onClick={() => {
+              trackCustomEvent("Supporter: Send Code Click", app.title);
+            }}
+          >
+            Unlock the app
+          </a>
+          {app.overwolf?.supportsCopySecret ? (
+            <>
+              <p className="text-muted-foreground my-1">or</p>
+              <Button
+                onClick={() => {
+                  navigator.clipboard.writeText(userId);
+                  setCopied(true);
+                  setTimeout(() => {
+                    setCopied(false);
+                  }, 3000);
+                }}
+                className=" mx-2"
+              >
+                {copied ? "Copied" : "Copy Secret"}
+              </Button>
+            </>
+          ) : null}
+        </>
       );
     } else {
       content = (
