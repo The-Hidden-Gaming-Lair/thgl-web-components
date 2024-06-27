@@ -293,8 +293,8 @@ export function CoordinatesProvider({
     },
   );
 
-  const staticNodes = data ?? initialStaticNodes ?? false;
-  const isHydrated = staticNodes && userStoreHasHydrated && settingsHasHydrated;
+  const staticNodes = data ?? initialStaticNodes;
+  const isHydrated = userStoreHasHydrated && settingsHasHydrated;
 
   const liveMode = useSettingsStore((state) => state.liveMode);
   const appId = useSettingsStore((state) => state.appId);
@@ -344,7 +344,7 @@ export function CoordinatesProvider({
   }, [isHydrated, privateNodes]);
 
   const nodes = useMemo<NodesCoordinates>(() => {
-    if (!isHydrated) {
+    if (!isHydrated || !staticNodes) {
       return [];
     }
     if (!liveMode || !typesIdMap || !appId) {
@@ -388,7 +388,7 @@ export function CoordinatesProvider({
       ...staticNodes.filter((node) => "static" in node && !!node.static)!,
     );
     return targetNodes;
-  }, [isHydrated, liveMode, appId, actors, privateGroups, !!staticNodes]);
+  }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 
   const icons = useMemo(
     () => filters.flatMap((filter) => filter.values).map((value) => value),

@@ -14,7 +14,7 @@ export function GET(
   return Response.json(mapNodes, {
     status: 200,
     headers: {
-      "Cache-Control": "public, s-maxage=2678400",
+      "Cache-Control": "public, max-age=0, must-revalidate",
       "CDN-Cache-Control": "public, s-maxage=2678400",
     },
   });
