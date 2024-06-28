@@ -9,6 +9,7 @@ import { CoordinatesProvider } from "@repo/ui/providers";
 import { HeaderOffset } from "@repo/ui/header";
 import type { Metadata } from "next";
 import { searchParamsToView } from "@repo/lib";
+import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
 import _filters from "../coordinates/filters.json" assert { type: "json" };
@@ -43,6 +44,7 @@ export default function Home({
   return (
     <CoordinatesProvider
       filters={filters}
+      mapName={Object.keys(tiles)[0]}
       regions={regions as RegionsCoordinates}
       typesIdMap={typesIdMap}
       view={view}

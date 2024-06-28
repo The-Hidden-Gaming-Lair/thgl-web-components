@@ -1,4 +1,4 @@
-import { cn, PALWORLD, useSettingsStore } from "@repo/lib";
+import { type TileOptions, cn, useSettingsStore } from "@repo/lib";
 import { HeaderOffset, PlausibleTracker } from "@repo/ui/header";
 import {
   InteractiveMap,
@@ -44,6 +44,7 @@ import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
 import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
+import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
 
@@ -52,6 +53,10 @@ const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Palworld";
 const TITLE = "Palworld Map";
+const MARKER_OPTIONS = {
+  radius: 6,
+  playerZoom: 4,
+};
 function App(): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
@@ -83,18 +88,20 @@ function App(): JSX.Element {
                 <InteractiveMap
                   domain="palworld"
                   isOverlay={Boolean(isOverlay)}
-                  tileOptions={PALWORLD.tileOptions}
+                  tileOptions={tiles as unknown as TileOptions}
                 />
               </MapContainer>
               <Regions />
-              <Markers markerOptions={PALWORLD.markerOptions} />
-              {!hidden && <MarkersSearch />}
+              <Markers markerOptions={MARKER_OPTIONS} />
+              {!hidden && (
+                <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
+              )}
               <Actions>
                 <StreamingSender domain="palworld" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />
               </Actions>
-              <LivePlayer markerOptions={PALWORLD.markerOptions} />
+              <LivePlayer markerOptions={MARKER_OPTIONS} />
               <TraceLine />
             </HeaderOffset>
           </CoordinatesProvider>

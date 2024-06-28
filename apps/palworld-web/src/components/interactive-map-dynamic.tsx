@@ -7,16 +7,24 @@ import {
   PrivateNode,
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
-import { PALWORLD } from "@repo/lib";
+import { type TileOptions } from "@repo/lib";
 import { Actions, StreamingReceiver } from "@repo/ui/controls";
+import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
+const MARKER_OPTIONS = {
+  radius: 6,
+  playerZoom: 4,
+};
 export default function InteractiveMapDynamic(): JSX.Element {
   return (
     <>
-      <InteractiveMap domain="palworld" tileOptions={PALWORLD.tileOptions} />
+      <InteractiveMap
+        domain="palworld"
+        tileOptions={tiles as unknown as TileOptions}
+      />
       <Regions />
-      <Markers markerOptions={PALWORLD.markerOptions} />
-      <LivePlayer markerOptions={PALWORLD.markerOptions} />
+      <Markers markerOptions={MARKER_OPTIONS} />
+      <LivePlayer markerOptions={MARKER_OPTIONS} />
       <TraceLine />
       <Actions>
         <StreamingReceiver
