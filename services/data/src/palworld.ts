@@ -1,4 +1,6 @@
-import { TEXTURE_DIR, initDirs } from "./lib/dirs.js";
+import { CONTENT_DIR, TEXTURE_DIR, initDirs } from "./lib/dirs.js";
+import { readJSON } from "./lib/fs.js";
+import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 
 initDirs(
@@ -42,3 +44,32 @@ const tiles = initTiles({
 });
 
 writeTiles(tiles);
+
+const mainWorld = readJSON<any>(
+  CONTENT_DIR + "/Pal/Content/Pal/Maps/MainWorld_5/PL_MainWorld5.json",
+);
+
+const nodes = initNodes();
+
+for (const node of mainWorld) {
+  if (node.Type !== "SceneComponent") {
+    continue;
+  }
+
+  let type: string;
+  if (node.Outer.startsWith("BP_DungeonPortalMarker_")) {
+    type = "dungeon_random";
+  } else {
+    continue;
+  }
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+  const category = nodes.find((n) => n.type === type)!;
+}
+
+writeNodes(nodes);
