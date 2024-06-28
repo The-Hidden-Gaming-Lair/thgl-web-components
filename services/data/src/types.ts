@@ -4,7 +4,7 @@ export type Node = {
   spawns: {
     id?: string;
     p: [number, number];
-    mapName: string;
+    mapName?: string;
     icon?: {
       name: string;
       url: string;

@@ -67,6 +67,9 @@
         "id": "monsterTreasure_once"
       },
       {
+        "id": "specialelite_respawns"
+      },
+      {
         "id": "breakableRock/riddle_respawns",
         "defaultOn": true
       }
