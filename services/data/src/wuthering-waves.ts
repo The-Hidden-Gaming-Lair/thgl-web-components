@@ -508,6 +508,8 @@ for (const levelEntity of sortedEntities) {
     "Premium Supply Chest": 50000168,
     Treasure017: 50000201, // Scattered Supply Chest
     "Standard Supply Chest": 50000165,
+    Gameplay_CXS_4: 40040002, // Windchimer
+    Gameplay_CXS_14: 40040002, // Windchimer
   };
   const template = dbTemplate.templateconfig.find(
     (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,

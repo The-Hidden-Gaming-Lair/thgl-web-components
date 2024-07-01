@@ -848,6 +848,11 @@
         "id": "Animal032",
         "icon": "Animal032.webp",
         "size": 1.5
+      },
+      {
+        "id": "Gameplay40040002",
+        "icon": "ItemInfo_40040002_Name.webp",
+        "size": 1.1
       }
     ]
   },
