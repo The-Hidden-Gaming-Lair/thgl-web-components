@@ -26,9 +26,15 @@ export function AdminRights() {
         <p>
           This app requires administrator rights and needs to be running on game
           start to function properly. Exit Overwolf by right-clicking on task
-          bar icon, then run it as an administrator before starting the game.
+          bar icon, then run it as an administrator{" "}
+          <span className="font-bold">before starting the game</span>.
         </p>
         <ul className="mb-4 list-disc list-inside">
+          <li>
+            <span className="font-bold">Exit Overwolf:</span> Right-click on the
+            task bar icon and select{" "}
+            <span className="italic">"Exit Overwolf"</span>.
+          </li>
           <li>
             <span className="font-bold">Right-click Method:</span> Locate the
             Overwolf shortcut or executable file, right-click on it, and select{" "}
@@ -47,14 +53,9 @@ export function AdminRights() {
             <span className="italic">"OK"</span>.
           </li>
           <li>
-            <span className="font-bold">Start Menu Method:</span> Search for
-            Overwolf in the Windows Start Menu, right-click on it, and select
-            <span className="italic">"Run as administrator"</span>.
-          </li>
-          <li>
             <span className="font-bold">Need Help?</span> If you have any
             questions or need assistance, feel free to join my Discord server
-            for support:
+            and check the FAQ and support channels:
             <ExternalAnchor
               href="https://www.th.gl/discord"
               className="flex gap-1 text-primary hover:underline"
