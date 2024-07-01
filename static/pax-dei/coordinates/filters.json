@@ -609,16 +609,20 @@
         "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
-        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
-      },
-      {
         "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
         "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
         "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
+        "icon": "PD_NPC_Animal_Wolf_T18_Luna_Wolf.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
+        "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
@@ -929,6 +933,10 @@
         "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias",
+        "icon": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
         "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
       },
@@ -956,16 +964,20 @@
     "defaultOn": false,
     "values": [
       {
-        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
-        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
-      },
-      {
         "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
         "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
         "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
+        "icon": "PD_NPC_Animal_Wolf_T18_Luna_Wolf.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
+        "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
@@ -1154,6 +1166,10 @@
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests",
         "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias",
+        "icon": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias.webp"
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
