@@ -7,10 +7,7 @@ export function GET(
   _request: Request,
   { params }: { params: { mapName: string } },
 ): Response {
-  const mapNodes = nodes.map((node) => ({
-    ...node,
-    spawns: node.spawns.filter((spawn) => spawn.mapName === params.mapName),
-  }));
+  const mapNodes = nodes.filter((node) => node.mapName === params.mapName);
   return Response.json(mapNodes, {
     status: 200,
     headers: {
