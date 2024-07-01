@@ -119,7 +119,7 @@ export function MarkerTooltip({
                     <Label htmlFor="discovered-node" className="grow">
                       Discovered
                     </Label>
-                    <HoverCard openDelay={20}>
+                    <HoverCard openDelay={20} closeDelay={20}>
                       <HoverCardTrigger>
                         <Info className="h-4 w-4" />
                       </HoverCardTrigger>

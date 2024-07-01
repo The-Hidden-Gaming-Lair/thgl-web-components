@@ -4022,6 +4022,7 @@
   "Monster043_136903131_tags": "Monster Treasure Freezing Frost Sun-sinking Eclipse",
   "Monster019_136903132_desc": "<p style=\"color:#17a0a4\">Monster Treasure (Respawns)</p><p class=\"italic\">Spawns Daily</p><p style=\"color:#55FFB5FF\">Sierra Gale</p><p style=\"color:#C98BB3FF\">Sun-sinking Eclipse</p>This enemy has <color=HighlightB>higher RES</color> to <color=Dark>Havoc DMG</color>",
   "Monster019_136903132_tags": "Monster Treasure Sierra Gale Sun-sinking Eclipse",
+  "Monster139": "Frostbug",
   "Monster032_136903248_desc": "<p style=\"color:#17a0a4\">Monster Treasure (Respawns)</p><p class=\"italic\">Spawns Daily</p><p style=\"color:#55FFB5FF\">Sierra Gale</p><p style=\"color:#F8E56CFF\">Celestial Light</p>This enemy has <color=HighlightB>higher RES</color> to <color=Wind>Aero DMG</color>",
   "Monster032_136903248_tags": "Monster Treasure Sierra Gale Celestial Light",
   "Monster034_136903249_desc": "<p style=\"color:#17a0a4\">Monster Treasure (Respawns)</p><p class=\"italic\">Spawns Daily</p><p style=\"color:#C98BB3FF\">Sun-sinking Eclipse</p><p style=\"color:#FFFFFFFF\">Moonlit Clouds</p><p style=\"color:#41AEFBFF\">Freezing Frost</p>This enemy has <color=HighlightB>higher RES</color> to <color=Ice>Glacio damage</color>",

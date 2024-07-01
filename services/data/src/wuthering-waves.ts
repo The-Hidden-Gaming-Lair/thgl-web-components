@@ -534,6 +534,7 @@ for (const levelEntity of sortedEntities) {
     "Treasure005",
     "Treasure011",
     "Treasure008",
+    "Monster139",
   ];
   if (
     TREASURE_TYPES.includes(id) &&
@@ -599,6 +600,16 @@ for (const levelEntity of sortedEntities) {
             `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/polar-star_delapouite.webp`,
             iconName,
             { color: "#cfafdc" },
+          );
+        }
+        break;
+      case "Monster139":
+        {
+          enDict[id] = "Frostbug";
+          icon = await saveIcon(
+            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/sea-serpent_lorc.webp`,
+            iconName,
+            { color: "#a3cffd" },
           );
         }
         break;

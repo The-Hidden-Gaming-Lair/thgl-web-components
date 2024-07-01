@@ -853,6 +853,11 @@
         "id": "Gameplay40040002",
         "icon": "ItemInfo_40040002_Name.webp",
         "size": 1.1
+      },
+      {
+        "id": "Monster139",
+        "icon": "Monster139.webp",
+        "size": 1.5
       }
     ]
   },
