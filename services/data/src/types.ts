@@ -1,10 +1,10 @@
 export type Node = {
   type: string;
   static?: boolean;
+  mapName?: string;
   spawns: {
     id?: string;
     p: [number, number];
-    mapName?: string;
     icon?: {
       name: string;
       url: string;

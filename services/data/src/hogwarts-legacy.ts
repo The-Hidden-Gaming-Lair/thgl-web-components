@@ -168,24 +168,19 @@ async function handleLocation(
     enDict[type] = type;
   }
 
-  let oldNodes = nodes.find((n) => n.type === type);
+  let oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName);
   if (!oldNodes) {
-    oldNodes = { type: type, spawns: [] };
+    oldNodes = { type: type, mapName, spawns: [] };
     nodes.push(oldNodes);
-    oldNodes = nodes.find((n) => n.type === type)!;
+    oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName)!;
   }
 
-  if (
-    oldNodes.spawns.some(
-      (s) => s.p[0] === pos[0] && s.p[1] === pos[1] && s.mapName === mapName,
-    )
-  ) {
+  if (oldNodes.spawns.some((s) => s.p[0] === pos[0] && s.p[1] === pos[1])) {
     return;
   }
   oldNodes.spawns.push({
     id,
     p: pos,
-    mapName,
   });
 }
 

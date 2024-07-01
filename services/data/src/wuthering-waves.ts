@@ -421,7 +421,6 @@ for (const levelEntity of sortedEntities) {
   const location = { x, y };
   const spawn: Node["spawns"][number] = {
     p: [+location.y, +location.x],
-    mapName,
   };
 
   let spawnId: string | null = null;
@@ -806,25 +805,22 @@ for (const levelEntity of sortedEntities) {
         );
       }
     }
-    let oldNodes = nodes.find((n) => n.type === id);
+    let oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
     if (!oldNodes) {
-      oldNodes = { type: id, spawns: [] };
+      oldNodes = { type: id, mapName, spawns: [] };
       if (!Object.values(typesIDs).includes(id)) {
         if (!id.startsWith("Monster") || id.startsWith("Monster_Glowing")) {
           oldNodes.static = true;
         }
       }
       nodes.push(oldNodes);
-      oldNodes = nodes.find((n) => n.type === id);
+      oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
       // console.log("New type", id);
     }
 
     if (
       oldNodes!.spawns.some(
-        (s) =>
-          s.p[0] === location.y &&
-          s.p[1] === location.x &&
-          s.mapName === mapName,
+        (s) => s.p[0] === location.y && s.p[1] === location.x,
       )
     ) {
       continue;
@@ -860,11 +856,13 @@ for (const levelEntity of sortedEntities) {
       oldNodes!.spawns.push(spawn);
       if (mapMark && isMonster) {
         id = id.replace("BossChallenge_", "");
-        let oldNodes = nodes.find((n) => n.type === id);
+        let oldNodes = nodes.find(
+          (n) => n.type === id && n.mapName === mapName,
+        );
         if (!oldNodes) {
-          oldNodes = { type: id, spawns: [] };
+          oldNodes = { type: id, mapName, spawns: [] };
           nodes.push(oldNodes);
-          oldNodes = nodes.find((n) => n.type === id);
+          oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
         }
 
         oldNodes!.spawns.push(spawn);
@@ -1237,24 +1235,21 @@ for (const levelEntity of sortedEntities) {
       addedIcons.push(iconPath);
     }
   }
-  let oldNodes = nodes.find((n) => n.type === id);
+  let oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
   if (!oldNodes) {
-    oldNodes = { type: id, spawns: [] };
+    oldNodes = { type: id, mapName, spawns: [] };
     if (!Object.values(typesIDs).includes(id)) {
       if (!id.startsWith("Monster") || id.startsWith("Monster_Glowing")) {
         oldNodes.static = true;
       }
     }
     nodes.push(oldNodes);
-    oldNodes = nodes.find((n) => n.type === id);
+    oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
     // console.log("New type", id);
   }
 
   if (
-    oldNodes!.spawns.some(
-      (s) =>
-        s.p[0] === location.y && s.p[1] === location.x && s.mapName === mapName,
-    )
+    oldNodes!.spawns.some((s) => s.p[0] === location.y && s.p[1] === location.x)
   ) {
     continue;
   }
@@ -1291,11 +1286,11 @@ for (const levelEntity of sortedEntities) {
     oldNodes!.spawns.push(spawn);
     if (mapMark && isMonster) {
       id = id.replace("BossChallenge_", "");
-      let oldNodes = nodes.find((n) => n.type === id);
+      let oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
       if (!oldNodes) {
-        oldNodes = { type: id, spawns: [] };
+        oldNodes = { type: id, mapName, spawns: [] };
         nodes.push(oldNodes);
-        oldNodes = nodes.find((n) => n.type === id);
+        oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
       }
 
       oldNodes!.spawns.push(spawn);
