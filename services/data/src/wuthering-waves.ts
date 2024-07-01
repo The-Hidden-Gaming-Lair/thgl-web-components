@@ -233,6 +233,17 @@ const overrides: Record<string, string> = {
 const monsterFilterIds: string[] = [];
 const fetterGroupIds: Record<string, string[]> = {};
 for (const monster of monsterInfo.monsterinfo) {
+  let phantomItem = dbPhantom.phantomitem.find(
+    (p) => p.data.MonsterName === monster.data.Name,
+  );
+  const isUnique =
+    monsterInfo.monsterinfo.filter(
+      (m) => m.data.MonsterEntityID === monster.data.MonsterEntityID,
+    ).length === 1;
+  if (!isUnique && phantomItem?.data.ParentMonsterId) {
+    continue;
+  }
+
   const rarityDesc = monsterInfo.monsterrarity.find(
     (mr) => mr.Id === monster.data.RarityId,
   )?.data.RarityDesc!;
@@ -324,9 +335,6 @@ for (const monster of monsterInfo.monsterinfo) {
 
   const desc = extractResFromDesc(discoveredDesc);
 
-  const phantomItem = dbPhantom.phantomitem.find(
-    (p) => p.data.MonsterName === monster.data.Name,
-  );
   const fetterGroups = phantomItem?.data.FetterGroup.map(
     (f) => dbPhantom.phantomfettergroup.find((g) => g.data.Id === f)!,
   );
