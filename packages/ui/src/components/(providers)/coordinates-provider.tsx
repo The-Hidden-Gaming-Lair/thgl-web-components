@@ -497,6 +497,7 @@ export function CoordinatesProvider({
         node.spawns.map((spawn) => ({
           type: node.type,
           data: spawn.data ?? node.data,
+          mapName: node.mapName,
           ...spawn,
         })),
       );

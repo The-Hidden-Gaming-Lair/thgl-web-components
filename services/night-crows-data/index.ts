@@ -133,7 +133,8 @@ icons["EPrivateMissionType::Move"] = bookmarkIconPath;
 
 const nodes: {
   type: string;
-  spawns: { id?: string; p: [number, number]; mapName: string }[];
+  mapName: string;
+  spawns: { id?: string; p: [number, number] }[];
 }[] = [];
 const filters: {
   group: string;
@@ -234,26 +235,28 @@ for (const zone of Object.values(zoneResources)) {
         size: 2.5,
       });
     }
-    if (!nodes.some((n) => n.type === type)) {
-      nodes.push({
-        type: type,
-        spawns: [],
-      });
-    }
-    const category = nodes.find((n) => n.type === type)!;
     const mapName =
       zoneResourceData[zone.ZoneResourceId.StringId].Persistent.StringId;
     const zoneMapName = zone.ZoneResourceId.StringId.replace("_Special", "");
+    if (!nodes.some((n) => n.type === type && n.mapName === zoneMapName)) {
+      nodes.push({
+        type: type,
+        mapName: zoneMapName,
+        spawns: [],
+      });
+    }
+    const category = nodes.find(
+      (n) => n.type === type && n.mapName === zoneMapName,
+    )!;
 
     const zoneData = zonePersistentData[mapName];
 
     if (mapName.startsWith("ContentTest") || zoneData.Disable) {
       continue;
     }
-    const spawn = {
+    const spawn: (typeof nodes)[number]["spawns"][number] = {
       id: area.Key,
       p: [area.Position.Y, area.Position.X] as [number, number],
-      mapName: zoneMapName,
     };
     category.spawns.push(spawn);
     enDict[area.Key] = zoneTitle;
@@ -417,9 +420,10 @@ for (const exportData of Object.values(zoneExportData)) {
       });
     }
 
-    if (!nodes.some((n) => n.type === role)) {
+    if (!nodes.some((n) => n.type === role && n.mapName === mapName)) {
       nodes.push({
         type: role,
+        mapName,
         spawns: [],
       });
     }
@@ -465,22 +469,20 @@ for (const exportData of Object.values(zoneExportData)) {
       continue;
     }
     const { mapName, role } = result;
-    const category = nodes.find((n) => n.type === role)!;
-    const spawn = {
+    const category = nodes.find(
+      (n) => n.type === role && n.mapName === mapName,
+    )!;
+    const spawn: (typeof nodes)[number]["spawns"][number] = {
       id,
       p: [
         npcSpawnSpot.SpotCommon.Position.Y,
         npcSpawnSpot.SpotCommon.Position.X,
       ] as [number, number],
-      mapName,
     };
     if (
       category.spawns.some(
         (s) =>
-          s.id === spawn.id &&
-          s.mapName === spawn.mapName &&
-          s.p[0] === spawn.p[0] &&
-          s.p[1] === spawn.p[1],
+          s.id === spawn.id && s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
       )
     ) {
       continue;
@@ -524,23 +526,21 @@ for (const exportData of Object.values(zoneExportData)) {
         offsetX = radius * Math.cos(angle);
         offsetY = radius * Math.sin(angle);
       }
-      const category = nodes.find((n) => n.type === role)!;
+      const category = nodes.find(
+        (n) => n.type === role && n.mapName === mapName,
+      )!;
 
-      const spawn = {
+      const spawn: (typeof nodes)[number]["spawns"][number] = {
         id,
         p: [
           npcRandomSpawnSpot.SpotCommon.Position.Y + offsetY,
           npcRandomSpawnSpot.SpotCommon.Position.X + offsetX,
         ] as [number, number],
-        mapName,
       };
       if (
         category.spawns.some(
           (s) =>
-            s.id === spawn.id &&
-            s.mapName === spawn.mapName &&
-            s.p[0] === spawn.p[0] &&
-            s.p[1] === spawn.p[1],
+            s.id === spawn.id && s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
         )
       ) {
         continue;
@@ -570,19 +570,19 @@ for (const exportData of Object.values(zoneExportData)) {
         continue;
       }
       const { mapName, role } = result;
-      const category = nodes.find((n) => n.type === role)!;
+      const category = nodes.find(
+        (n) => n.type === role && n.mapName === mapName,
+      )!;
 
       for (const position of npcRandomSpawnSpotGroup.PositionList) {
-        const spawn = {
+        const spawn: (typeof nodes)[number]["spawns"][number] = {
           id,
           p: [position.Y, position.X] as [number, number],
-          mapName,
         };
         if (
           category.spawns.some(
             (s) =>
               s.id === spawn.id &&
-              s.mapName === spawn.mapName &&
               s.p[0] === spawn.p[0] &&
               s.p[1] === spawn.p[1],
           )
@@ -611,18 +611,14 @@ for (const [key, data] of Object.entries(subZoneData)) {
       .find((z) => z.Areas.find((a) => a.Key === area))!
       .Areas.find((a) => a.Key === area)!;
     const category = nodes.find((n) => n.type === "BossMonster")!;
-    const spawn = {
+    const spawn: (typeof nodes)[number]["spawns"][number] = {
       id,
       p: [zone.Position.Y, zone.Position.X] as [number, number],
-      mapName,
     };
     if (
       category.spawns.some(
         (s) =>
-          s.id === spawn.id &&
-          s.mapName === spawn.mapName &&
-          s.p[0] === spawn.p[0] &&
-          s.p[1] === spawn.p[1],
+          s.id === spawn.id && s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
       )
     ) {
       continue;
