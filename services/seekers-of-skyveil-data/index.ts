@@ -168,7 +168,8 @@ const enDict: Record<string, string> = {
 };
 const nodes: {
   type: string;
-  spawns: { p: [number, number]; mapName: string }[];
+  mapName: string;
+  spawns: { p: [number, number] }[];
 }[] = [];
 const filters: {
   group: string;
@@ -499,26 +500,25 @@ function pushSpawnPoint(
   target: any,
   size: number,
 ) {
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type: type,
+      mapName,
       spawns: [],
     });
   }
-  const category = nodes.find((n) => n.type === type)!;
+  const category = nodes.find((n) => n.type === type && n.mapName === mapName)!;
   const offset = mapName === "surface" ? SURFACE : TUNNEL;
   const location = normalizeLocation(item.Properties.RelativeLocation, offset);
   const spawn = {
     id,
     p: [-location.X, location.Y] as [number, number],
-    mapName,
   };
   if (
     !category.spawns.some(
       (s) =>
         "id" in s &&
         s.id === id &&
-        s.mapName === mapName &&
         s.p[0] === spawn.p[0] &&
         s.p[1] === spawn.p[1],
     )
