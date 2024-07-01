@@ -7,7 +7,7 @@ for png_file in out/*.png; do
         input_dir="./out/vips_$filename"
         output_dir="./out/$filename"
         dist_dir="../../static/nightingale/map-tiles/$filename"
-        vips dzsave "./out/$filename.png" "$input_dir" --tile-size 512 --background 0 --overlap 0 --layout google
+        vips dzsave "./out/$filename.png" "$input_dir" --tile-size 512 --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]
                 
         # # For each png file in the out folder, convert it to webp
 

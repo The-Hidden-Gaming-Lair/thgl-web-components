@@ -107,7 +107,7 @@ for (const [mapName, canvas] of Object.entries(maps)) {
   const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
   if (Bun.env.TILES === "true") {
     await $`mkdir -p ${outDir}`;
-    await $`vips dzsave ${imagePath} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google`;
+    await $`vips dzsave ${imagePath} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
 
     for (const file of readDirRecursive(outDir)) {
       if (file.includes("blank")) {

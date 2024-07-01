@@ -42,7 +42,7 @@ for (const temporal of temporals) {
         );
         saveImage(tempPath, canvas.toBuffer("image/png"));
         const outDir = `${OUT_DIR}/map-tiles/${map}`;
-        await $`vips dzsave ${tempPath} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google`;
+        await $`vips dzsave ${tempPath} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
         for (const file of readDirRecursive(outDir)) {
           if (file.includes("blank")) {
             await $`rm ${file}`;

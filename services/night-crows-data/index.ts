@@ -698,7 +698,7 @@ for (const [mapName, zoneData] of sortedZoneData) {
   const OFFSET = [-MAP_BOUNDS[0][0] / MULTIPLE, -MAP_BOUNDS[0][1] / MULTIPLE];
   const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
   if (Bun.env.TILES === "true") {
-    await $`vips dzsave ${path} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google`;
+    await $`vips dzsave ${path} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
     for (const file of readDirRecursive(outDir)) {
       if (file.includes("blank")) {
         await $`rm ${file}`;

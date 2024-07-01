@@ -228,7 +228,7 @@ if (Bun.env.TILES === "true") {
     saveImage(imagePath, canvas.toBuffer("image/png"));
 
     await $`mkdir -p ${outDir}`;
-    await $`vips dzsave ${imagePath} ${outDir} --tile-size ${TILE_SIZE} --background 0 --overlap 0 --layout google`;
+    await $`vips dzsave ${imagePath} ${outDir} --tile-size ${TILE_SIZE} --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
 
     for (const file of readDirRecursive(outDir)) {
       if (file.includes("blank")) {
