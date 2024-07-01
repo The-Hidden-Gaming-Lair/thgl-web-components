@@ -12,6 +12,13 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Button } from "../ui/button";
+import { Info } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardPortal,
+  HoverCardTrigger,
+} from "../ui/hover-card";
 
 export type TooltipItems = {
   id: string;
@@ -109,7 +116,23 @@ export function MarkerTooltip({
                         toggleDiscoveredNode(item.id);
                       }}
                     />
-                    <Label htmlFor="discovered-node">Discovered</Label>
+                    <Label htmlFor="discovered-node" className="grow">
+                      Discovered
+                    </Label>
+                    <HoverCard openDelay={20}>
+                      <HoverCardTrigger>
+                        <Info className="h-4 w-4" />
+                      </HoverCardTrigger>
+                      <HoverCardPortal>
+                        <HoverCardContent className="text-sm w-auto">
+                          <p>
+                            Backup, restore and hide discovered nodes in the app
+                            settings.
+                          </p>
+                          <p>Right-Click on the icon to toggle the node</p>
+                        </HoverCardContent>
+                      </HoverCardPortal>
+                    </HoverCard>
                   </div>
                 )}
               </>
