@@ -37,14 +37,15 @@ initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
 let nodes: {
   type: string;
+  mapName: string;
   spawns: {
     id?: string;
     p: [number, number];
-    mapName: string;
     data?: Record<string, string[]>;
   }[];
   data?: Record<string, string[]>;
 }[] = readJSON(OUT_DIR + "/coordinates/nodes.json");
+
 let filters: {
   group: string;
   defaultOpen?: boolean;
@@ -327,25 +328,26 @@ for (const mapName of readDirSync(
       );
 
       enDict[mapCellIcon.entity] = mapCellIcon.name;
-      if (!nodes.some((n) => n.type === mapCellIcon.icon)) {
+      if (
+        !nodes.some((n) => n.type === mapCellIcon.icon && n.mapName === mapName)
+      ) {
         nodes.push({
           type: mapCellIcon.icon,
           spawns: [],
+          mapName,
         });
       }
-      const typeNodes = nodes.find((n) => n.type === mapCellIcon.icon)!;
+      const typeNodes = nodes.find(
+        (n) => n.type === mapCellIcon.icon && n.mapName === mapName,
+      )!;
       if (
         !typeNodes.spawns.some(
-          (s) =>
-            s.p[0] === location.y &&
-            s.p[1] === location.x &&
-            s.mapName === mapName,
+          (s) => s.p[0] === location.y && s.p[1] === location.x,
         )
       ) {
         typeNodes.spawns.push({
           id: mapCellIcon.entity,
           p: [location.y, location.x],
-          mapName,
         });
       }
     }
@@ -473,16 +475,11 @@ for (const gatherablesPath of gatherablesPaths) {
     skills.push("others");
   }
 
-  if (!nodes.some((n) => n.type === id)) {
-    nodes.push({
-      type: id,
-      spawns: [],
-      data: { skills: [...new Set(skills)] },
+  nodes
+    .filter((n) => n.type === id)
+    .forEach((n) => {
+      n.data = { skills: [...new Set(skills)] };
     });
-  } else {
-    const typeNodes = nodes.find((n) => n.type === id)!;
-    typeNodes.data = { skills: [...new Set(skills)] };
-  }
 
   const pdaResource = readJSON<PDAResourcesGatherables>(
     CONTENT_DIR +
@@ -651,16 +648,11 @@ for (const mineablesPath of mineablesPaths) {
     skills.push("others");
   }
 
-  if (!nodes.some((n) => n.type === id)) {
-    nodes.push({
-      type: id,
-      spawns: [],
-      data: { skills: [...new Set(skills)] },
+  nodes
+    .filter((n) => n.type === id)
+    .forEach((n) => {
+      n.data = { skills: [...new Set(skills)] };
     });
-  } else {
-    const typeNodes = nodes.find((n) => n.type === id)!;
-    typeNodes.data = { skills: [...new Set(skills)] };
-  }
 
   const pdaResource = readJSON<PDAResourcesMineables>(
     CONTENT_DIR +
@@ -806,27 +798,11 @@ for (const npcsResourcesPath of readDirRecursive(
     skills.push("others");
   }
 
-  // Temporary fix nodes
-  // nodes = nodes.map((n) => {
-  //   if (n.type === id) {
-  //     return {
-  //       ...n,
-  //       type: npc[0].Name,
-  //     };
-  //   }
-  //   return n;
-  // });
-
-  if (!nodes.some((n) => n.type === id)) {
-    nodes.push({
-      type: id,
-      spawns: [],
-      data: { skills: [...new Set(skills)] },
+  nodes
+    .filter((n) => n.type === id)
+    .forEach((n) => {
+      n.data = { skills: [...new Set(skills)] };
     });
-  } else {
-    const typeNodes = nodes.find((n) => n.type === id)!;
-    typeNodes.data = { skills: [...new Set(skills)] };
-  }
 
   typesIdMap[id] = id;
 
@@ -1039,7 +1015,7 @@ if (Bun.env.NODES === "true") {
           return true;
         }
         const hasSpawnTop = newMapSpawns.find(([y, x, mapName]) => {
-          if (s.mapName !== mapName) {
+          if (n.mapName !== mapName) {
             return false;
           }
           if (s.p[0] > y) {
@@ -1051,7 +1027,7 @@ if (Bun.env.NODES === "true") {
           return true;
         }
         const hasSpawnBottom = newMapSpawns.find(([y, x, mapName]) => {
-          if (s.mapName !== mapName) {
+          if (n.mapName !== mapName) {
             return false;
           }
           if (s.p[0] <= y) {
@@ -1064,7 +1040,7 @@ if (Bun.env.NODES === "true") {
         }
 
         const hasSpawnRight = newMapSpawns.find(([y, x, mapName]) => {
-          if (s.mapName !== mapName) {
+          if (n.mapName !== mapName) {
             return false;
           }
           if (s.p[1] > x) {
@@ -1077,7 +1053,7 @@ if (Bun.env.NODES === "true") {
         }
 
         const hasSpawnLeft = newMapSpawns.find(([y, x, mapName]) => {
-          if (s.mapName !== mapName) {
+          if (n.mapName !== mapName) {
             return false;
           }
           if (s.p[1] <= x) {
@@ -1114,26 +1090,21 @@ if (Bun.env.NODES === "true") {
       if (id === "iron_deposit" && mapName === "gallia_pve_01") {
         id = "iron_deposit_pure";
       }
-      let oldNodes = nodes.find((n) => n.type === id);
+      let oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
       if (!oldNodes) {
-        oldNodes = { type: id, spawns: [] };
+        oldNodes = { type: id, spawns: [], mapName };
         nodes.push(oldNodes);
         oldNodes = nodes.find((n) => n.type === id);
         console.log("New type", id);
       }
 
-      if (
-        oldNodes!.spawns.some(
-          (s) => s.p[0] === y && s.p[1] === x && s.mapName === mapName,
-        )
-      ) {
+      if (oldNodes!.spawns.some((s) => s.p[0] === y && s.p[1] === x)) {
         console.log("Already exists", id, x, y, mapName);
         return;
       }
       const location = { x: y, y: x };
       oldNodes!.spawns.push({
         p: [+location.y.toFixed(0), +location.x.toFixed(0)],
-        mapName,
       });
     });
   });

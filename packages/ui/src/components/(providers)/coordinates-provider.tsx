@@ -21,13 +21,13 @@ import useSWRImmutable from "swr/immutable";
 export type NodesCoordinates = {
   type: string;
   static?: boolean;
+  mapName?: string;
   spawns: {
     id?: string;
     name?: string;
     description?: string;
     address?: number;
     p: [number, number];
-    mapName?: string;
     color?: string;
     icon?: {
       name: string;
@@ -160,7 +160,7 @@ export function CoordinatesProvider({
   filters,
   globalFilters = [],
   typesIdMap,
-  mapName = "default",
+  mapName: initialMapName = "default",
   view,
 }: {
   children: React.ReactNode;
@@ -190,7 +190,7 @@ export function CoordinatesProvider({
                   _hasHydrated: state,
                 });
               },
-              mapName: view.map ?? mapName,
+              mapName: view.map ?? initialMapName,
               setMapName: (mapName) => {
                 set({ mapName, center: undefined, zoom: undefined });
               },
@@ -308,14 +308,16 @@ export function CoordinatesProvider({
     }
     return privateNodes.reduce<NodesCoordinates>((acc, node) => {
       const type = node.filter ?? "private_Unsorted";
-      const category = acc.find((node) => node.type === type);
+      const mapName = node.mapName;
+      const category = acc.find(
+        (node) => node.type === type && node.mapName === mapName,
+      );
       if (category) {
         category.spawns.push({
           id: node.id,
           name: node.name,
           description: node.description,
           p: node.p,
-          mapName: node.mapName,
           color: node.color,
           icon: node.icon,
           radius: node.radius,
@@ -324,13 +326,13 @@ export function CoordinatesProvider({
       } else {
         acc.push({
           type,
+          mapName,
           spawns: [
             {
               id: node.id,
               name: node.name,
               description: node.description,
               p: node.p,
-              mapName: node.mapName,
               color: node.color,
               icon: node.icon,
               radius: node.radius,
@@ -361,21 +363,22 @@ export function CoordinatesProvider({
             id = actor.type;
           }
 
-          const category = acc.find((node) => node.type === id);
+          const category = acc.find(
+            (node) => node.type === id && node.mapName === actor.mapName,
+          );
           if (category) {
             category.spawns.push({
               address: actor.address,
               p: [actor.x, actor.y] as [number, number],
-              mapName: actor.mapName,
             });
           } else {
             acc.push({
               type: id,
+              mapName: actor.mapName,
               spawns: [
                 {
                   address: actor.address,
                   p: [actor.x, actor.y] as [number, number],
-                  mapName: actor.mapName,
                 },
               ],
             });
@@ -408,18 +411,6 @@ export function CoordinatesProvider({
     ];
   }, [isHydrated, filters, privateNodes, privateDrawings]);
 
-  const spreadedSpawns = useMemo(
-    () =>
-      nodes.flatMap((node) =>
-        node.spawns.map((spawn) => ({
-          type: node.type,
-          data: spawn.data ?? node.data,
-          ...spawn,
-        })),
-      ),
-    [nodes],
-  );
-
   const t = useT();
   const [spawns, setSpawns] = useState<Spawns>([]);
 
@@ -447,37 +438,40 @@ export function CoordinatesProvider({
           }
         });
       } else {
-        spreadedSpawns.forEach((spawn) => {
-          if (spawn.mapName && spawn.mapName !== state.mapName) {
+        nodes.forEach((node) => {
+          if (node.mapName && node.mapName !== state.mapName) {
             return;
           }
-          if (!state.filters.includes(spawn.type)) {
+          if (!state.filters.includes(node.type)) {
             return;
           }
-          if (spawn.data) {
-            for (const filter of globalFilters) {
-              if (spawn.data[filter.group]) {
-                const values = spawn.data[filter.group];
-                if (!values.some((v) => state.globalFilters.includes(v))) {
-                  return;
+          node.spawns.forEach((s) => {
+            const spawn = { ...s, mapName: node.mapName, type: node.type };
+            if (spawn.data) {
+              for (const filter of globalFilters) {
+                if (spawn.data[filter.group]) {
+                  const values = spawn.data[filter.group];
+                  if (!values.some((v) => state.globalFilters.includes(v))) {
+                    return;
+                  }
                 }
               }
             }
-          }
-          const key = `${spawn.p[0]}:${spawn.p[1]}`;
-          if (!newSpawnsMap.has(key)) {
-            newSpawnsMap.set(key, { ...spawn, cluster: [] });
-          } else {
-            newSpawnsMap.get(key)!.cluster!.push(spawn);
-          }
-          newSpawns.push(spawn);
+            const key = `${spawn.p[0]}:${spawn.p[1]}`;
+            if (!newSpawnsMap.has(key)) {
+              newSpawnsMap.set(key, { ...spawn, cluster: [] });
+            } else {
+              newSpawnsMap.get(key)!.cluster!.push(spawn);
+            }
+            newSpawns.push(spawn);
+          });
         });
       }
 
       newSpawns = Array.from(newSpawnsMap.values());
       setSpawns(newSpawns);
     },
-    [spreadedSpawns],
+    [nodes],
   );
 
   useEffect(() => {
@@ -499,6 +493,14 @@ export function CoordinatesProvider({
       if (fuse.current) {
         return;
       }
+      const spreadedSpawns = nodes.flatMap((node) =>
+        node.spawns.map((spawn) => ({
+          type: node.type,
+          data: spawn.data ?? node.data,
+          ...spawn,
+        })),
+      );
+
       fuse.current = new Fuse(spreadedSpawns, {
         keys: [
           {
