@@ -28,10 +28,10 @@ await saveIcon(
 
 const nodes: {
   type: string;
+  mapName: string;
   spawns: {
     id?: string;
     p: [number, number];
-    mapName: string;
     icon?: {
       name: string;
       url: string;
@@ -633,7 +633,6 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
   }
   const spawn: (typeof category.spawns)[number] = {
     p: normalizePoint(actor.tWorldTransform.wp),
-    mapName: "Sanctuary",
   };
   let type;
   if (actor.snoActor.name === "Waypoint_Temp") {
@@ -815,9 +814,10 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
     continue;
   }
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === "Sanctuary")) {
     nodes.push({
       type: type,
+      mapName: "Sanctuary",
       spawns: [],
     });
   }
@@ -969,16 +969,17 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/MarkerSet")) {
     } else {
       continue;
     }
-    if (!nodes.some((n) => n.type === type)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === "Sanctuary")) {
       nodes.push({
         type: type,
+        mapName: "Sanctuary",
         spawns: [],
       });
     }
     const category = nodes.find((n) => n.type === type)!;
-    const spawn = id
-      ? { id, p: point, mapName: "Sanctuary" }
-      : { p: point, mapName: "Sanctuary" };
+    const spawn: (typeof nodes)[number]["spawns"][number] = id
+      ? { id, p: point }
+      : { p: point };
     category.spawns.push(spawn);
   }
 }
@@ -1051,16 +1052,17 @@ for (const fileName of readDirSync(CONTENT_DIR + "/json/base/meta/Quest")) {
     continue;
   }
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === "Sanctuary")) {
     nodes.push({
       type: type,
+      mapName: "Sanctuary",
       spawns: [],
     });
   }
   const category = nodes.find((n) => n.type === type)!;
-  const spawn = id
-    ? { id, p: point, mapName: "Sanctuary" }
-    : { p: point, mapName: "Sanctuary" };
+  const spawn: (typeof nodes)[number]["spawns"][number] = id
+    ? { id, p: point }
+    : { p: point };
   category.spawns.push(spawn);
 }
 
@@ -1101,16 +1103,17 @@ for (const bountyZone of [
       enDict[`${id}_desc`] = description;
     }
     const type = "events";
-    if (!nodes.some((n) => n.type === type)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === "Sanctuary")) {
       nodes.push({
         type: type,
+        mapName: "Sanctuary",
         spawns: [],
       });
     }
     const category = nodes.find((n) => n.type === type)!;
-    const spawn = id
-      ? { id, p: point, mapName: "Sanctuary" }
-      : { p: point, mapName: "Sanctuary" };
+    const spawn: (typeof nodes)[number]["spawns"][number] = id
+      ? { id, p: point }
+      : { p: point };
     category.spawns.push(spawn);
   }
 }
