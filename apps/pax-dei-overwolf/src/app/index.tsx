@@ -48,7 +48,7 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import globalFilters from "../coordinates/global-filters.json" assert { type: "json" };
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
-const nodes = _nodes as NodesCoordinates;
+const nodes = _nodes as unknown as NodesCoordinates;
 const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Pax Dei";
