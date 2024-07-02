@@ -609,8 +609,8 @@
         "icon": "PD_NPC_Animal_Wolf_T6.webp"
       },
       {
-        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
-        "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
+        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
+        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
@@ -861,6 +861,10 @@
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T27_Attentive_Torturer",
+        "icon": "PD_NPC_Inq_Captain_T27_Attentive_Torturer.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
         "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
@@ -937,6 +941,10 @@
         "icon": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin",
+        "icon": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
         "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
       },
@@ -953,6 +961,22 @@
         "icon": "PD_NPC_LostSoul_T32.webp"
       },
       {
+        "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
+        "icon": "PD_NPC_LostSoul_T25_Somber_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Dismal_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Onerous_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
+        "icon": "PD_NPC_LostSoul_T27_Dark_Visitant.webp"
+      },
+      {
         "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
         "icon": "PD_NPC_LostSoul_T37_Bleak_Visitant.webp"
       }
@@ -964,8 +988,8 @@
     "defaultOn": false,
     "values": [
       {
-        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
-        "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
+        "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
+        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
@@ -1096,6 +1120,10 @@
         "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T27_Attentive_Torturer",
+        "icon": "PD_NPC_Inq_Captain_T27_Attentive_Torturer.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
         "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
       },
@@ -1172,8 +1200,28 @@
         "icon": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias.webp"
       },
       {
+        "id": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin",
+        "icon": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
         "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
+        "icon": "PD_NPC_LostSoul_T25_Somber_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Dismal_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Onerous_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
+        "icon": "PD_NPC_LostSoul_T27_Dark_Visitant.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
