@@ -53,3 +53,9 @@ export function normalizeLocation(
   const newY = x * sinAngle + y * cosAngle;
   return { x: newX, y: newY };
 }
+
+export function calculateDistance(c1: [number, number], c2: [number, number]) {
+  const dx = c1[0] - c2[0];
+  const dy = c1[1] - c2[1];
+  return Math.sqrt(dx * dx + dy * dy);
+}

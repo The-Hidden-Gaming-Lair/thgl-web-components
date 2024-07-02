@@ -143,154 +143,159 @@
     "group": "pal_alpha",
     "values": [
       {
-        "id": "boss_anubis",
-        "icon": "boss_anubis.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_kirin",
-        "icon": "boss_kirin.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_umihebi",
-        "icon": "boss_umihebi.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_suzaku",
-        "icon": "boss_suzaku.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_bluedragon",
-        "icon": "boss_bluedragon.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_flowerdinosaur_electric",
-        "icon": "boss_flowerdinosaur_electric.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_icehorse",
-        "icon": "boss_icehorse.webp",
-        "size": 1.5
+        "id": "boss_kingalpaca",
+        "icon": "boss_kingalpaca.webp",
+        "size": 2
       },
       {
         "id": "boss_grassmammoth",
         "icon": "boss_grassmammoth.webp",
-        "size": 1.5
+        "size": 2
       },
       {
-        "id": "boss_sakurasaurus",
-        "icon": "boss_sakurasaurus.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_sakurasaurus_water",
-        "icon": "boss_sakurasaurus_water.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_yeti_grass",
-        "icon": "boss_yeti_grass.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_hawkbird",
-        "icon": "boss_hawkbird.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_lilyqueen_dark",
-        "icon": "boss_lilyqueen_dark.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_queenbee",
-        "icon": "boss_queenbee.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_grasspanda_electric",
-        "icon": "boss_grasspanda_electric.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_blackmetaldragon",
-        "icon": "boss_blackmetaldragon.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_jetdragon",
-        "icon": "boss_jetdragon.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_plantslime",
-        "icon": "boss_plantslime.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_kingalpaca",
-        "icon": "boss_kingalpaca.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_thunderbird",
-        "icon": "boss_thunderbird.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_saintcentaur",
-        "icon": "boss_saintcentaur.webp",
-        "size": 1.5
+        "id": "boss_anubis",
+        "icon": "boss_anubis.webp",
+        "size": 2
       },
       {
         "id": "boss_weaseldragon",
         "icon": "boss_weaseldragon.webp",
-        "size": 1.5
+        "size": 2
       },
       {
-        "id": "boss_blackcentaur",
-        "icon": "boss_blackcentaur.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_naughtycat",
-        "icon": "boss_naughtycat.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_darkscorpion",
-        "icon": "boss_darkscorpion.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_lazycatfish",
-        "icon": "boss_lazycatfish.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_kingalpaca_ice",
-        "icon": "boss_kingalpaca_ice.webp",
-        "size": 1.5
-      },
-      {
-        "id": "boss_kingbahamut",
-        "icon": "boss_kingbahamut.webp",
-        "size": 1.5
+        "id": "boss_sakurasaurus_water",
+        "icon": "boss_sakurasaurus_water.webp",
+        "size": 2
       },
       {
         "id": "boss_fengyundeeper",
         "icon": "boss_fengyundeeper.webp",
-        "size": 1.5
+        "size": 2
+      },
+      {
+        "id": "boss_umihebi",
+        "icon": "boss_umihebi.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_bluedragon",
+        "icon": "boss_bluedragon.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_thunderbird",
+        "icon": "boss_thunderbird.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_queenbee",
+        "icon": "boss_queenbee.webp",
+        "size": 2
       },
       {
         "id": "boss_fairydragon",
         "icon": "boss_fairydragon.webp",
-        "size": 1.5
+        "size": 2
+      },
+      {
+        "id": "boss_darkscorpion",
+        "icon": "boss_darkscorpion.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_saintcentaur",
+        "icon": "boss_saintcentaur.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_blackcentaur",
+        "icon": "boss_blackcentaur.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_suzaku",
+        "icon": "boss_suzaku.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_flowerdinosaur_electric",
+        "icon": "boss_flowerdinosaur_electric.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_kingbahamut",
+        "icon": "boss_kingbahamut.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_blackmetaldragon",
+        "icon": "boss_blackmetaldragon.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_jetdragon",
+        "icon": "boss_jetdragon.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_kingalpaca_ice",
+        "icon": "boss_kingalpaca_ice.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_icehorse",
+        "icon": "boss_icehorse.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_lilyqueen_dark",
+        "icon": "boss_lilyqueen_dark.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_lazycatfish",
+        "icon": "boss_lazycatfish.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_kirin",
+        "icon": "boss_kirin.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_sakurasaurus",
+        "icon": "boss_sakurasaurus.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_yeti_grass",
+        "icon": "boss_yeti_grass.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_plantslime",
+        "icon": "boss_plantslime.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_hawkbird",
+        "icon": "boss_hawkbird.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_naughtycat",
+        "icon": "boss_naughtycat.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_mopking",
+        "icon": "boss_mopking.webp",
+        "size": 2
+      },
+      {
+        "id": "boss_grasspanda_electric",
+        "icon": "boss_grasspanda_electric.webp",
+        "size": 2
       }
     ]
   },
@@ -298,476 +303,679 @@
     "group": "pal_common",
     "values": [
       {
-        "id": "baphomet",
-        "icon": "baphomet.webp"
-      },
-      {
-        "id": "boar",
-        "icon": "boar.webp"
-      },
-      {
-        "id": "carbunclo",
-        "icon": "carbunclo.webp"
-      },
-      {
-        "id": "colorfulbird",
-        "icon": "colorfulbird.webp"
-      },
-      {
-        "id": "deer",
-        "icon": "deer.webp"
-      },
-      {
-        "id": "drillgame",
-        "icon": "drillgame.webp"
-      },
-      {
-        "id": "eagle",
-        "icon": "eagle.webp"
-      },
-      {
-        "id": "elecpanda",
-        "icon": "elecpanda.webp"
+        "id": "alpaca",
+        "icon": "alpaca.webp",
+        "size": 1.3
       },
       {
         "id": "ganesha",
-        "icon": "ganesha.webp"
-      },
-      {
-        "id": "garm",
-        "icon": "garm.webp"
-      },
-      {
-        "id": "gorilla",
-        "icon": "gorilla.webp"
-      },
-      {
-        "id": "hedgehog",
-        "icon": "hedgehog.webp"
-      },
-      {
-        "id": "kirin",
-        "icon": "kirin.webp"
-      },
-      {
-        "id": "kitsunebi",
-        "icon": "kitsunebi.webp"
-      },
-      {
-        "id": "littlebriarrose",
-        "icon": "littlebriarrose.webp"
+        "icon": "ganesha.webp",
+        "size": 1.3
       },
       {
         "id": "penguin",
-        "icon": "penguin.webp"
-      },
-      {
-        "id": "raijindaughter",
-        "icon": "raijindaughter.webp"
-      },
-      {
-        "id": "sharkkid",
-        "icon": "sharkkid.webp"
-      },
-      {
-        "id": "sheepball",
-        "icon": "sheepball.webp"
-      },
-      {
-        "id": "werewolf",
-        "icon": "werewolf.webp"
-      },
-      {
-        "id": "windchimes",
-        "icon": "windchimes.webp"
-      },
-      {
-        "id": "suzaku",
-        "icon": "suzaku.webp"
-      },
-      {
-        "id": "firekirin",
-        "icon": "firekirin.webp"
-      },
-      {
-        "id": "fairydragon",
-        "icon": "fairydragon.webp"
-      },
-      {
-        "id": "sweetssheep",
-        "icon": "sweetssheep.webp"
-      },
-      {
-        "id": "whitetiger",
-        "icon": "whitetiger.webp"
-      },
-      {
-        "id": "alpaca",
-        "icon": "alpaca.webp"
-      },
-      {
-        "id": "darkcrow",
-        "icon": "darkcrow.webp"
-      },
-      {
-        "id": "bluedragon",
-        "icon": "bluedragon.webp"
-      },
-      {
-        "id": "pinkcat",
-        "icon": "pinkcat.webp"
-      },
-      {
-        "id": "negativekoala",
-        "icon": "negativekoala.webp"
-      },
-      {
-        "id": "fengyundeeper",
-        "icon": "fengyundeeper.webp"
-      },
-      {
-        "id": "volcanicmonster",
-        "icon": "volcanicmonster.webp"
-      },
-      {
-        "id": "ghostbeast",
-        "icon": "ghostbeast.webp"
-      },
-      {
-        "id": "robinhood",
-        "icon": "robinhood.webp"
-      },
-      {
-        "id": "lazydragon",
-        "icon": "lazydragon.webp"
-      },
-      {
-        "id": "amaterasuwolf",
-        "icon": "amaterasuwolf.webp"
-      },
-      {
-        "id": "lizardman",
-        "icon": "lizardman.webp"
-      },
-      {
-        "id": "blueplatypus",
-        "icon": "blueplatypus.webp"
-      },
-      {
-        "id": "birddragon",
-        "icon": "birddragon.webp"
-      },
-      {
-        "id": "chickenpal",
-        "icon": "chickenpal.webp"
-      },
-      {
-        "id": "flowerdinosaur",
-        "icon": "flowerdinosaur.webp"
-      },
-      {
-        "id": "eleccat",
-        "icon": "eleccat.webp"
-      },
-      {
-        "id": "grassmammoth",
-        "icon": "grassmammoth.webp"
-      },
-      {
-        "id": "sakurasaurus",
-        "icon": "sakurasaurus.webp"
-      },
-      {
-        "id": "horus",
-        "icon": "horus.webp"
-      },
-      {
-        "id": "kingbahamut",
-        "icon": "kingbahamut.webp"
-      },
-      {
-        "id": "berrygoat",
-        "icon": "berrygoat.webp"
-      },
-      {
-        "id": "icedeer",
-        "icon": "icedeer.webp"
-      },
-      {
-        "id": "blackgriffon",
-        "icon": "blackgriffon.webp"
-      },
-      {
-        "id": "whitemoth",
-        "icon": "whitemoth.webp"
-      },
-      {
-        "id": "cutefox",
-        "icon": "cutefox.webp"
-      },
-      {
-        "id": "foxmage",
-        "icon": "foxmage.webp"
-      },
-      {
-        "id": "pinklizard",
-        "icon": "pinklizard.webp"
-      },
-      {
-        "id": "wizardowl",
-        "icon": "wizardowl.webp"
-      },
-      {
-        "id": "kelpie",
-        "icon": "kelpie.webp"
-      },
-      {
-        "id": "cowpal",
-        "icon": "cowpal.webp"
-      },
-      {
-        "id": "yeti",
-        "icon": "yeti.webp"
-      },
-      {
-        "id": "grasspanda",
-        "icon": "grasspanda.webp"
-      },
-      {
-        "id": "serpent",
-        "icon": "serpent.webp"
-      },
-      {
-        "id": "dreamdemon",
-        "icon": "dreamdemon.webp"
-      },
-      {
-        "id": "monkey",
-        "icon": "monkey.webp"
-      },
-      {
-        "id": "lilyqueen",
-        "icon": "lilyqueen.webp"
-      },
-      {
-        "id": "thunderdog",
-        "icon": "thunderdog.webp"
-      },
-      {
-        "id": "flowerrabbit",
-        "icon": "flowerrabbit.webp"
-      },
-      {
-        "id": "queenbee",
-        "icon": "queenbee.webp"
-      },
-      {
-        "id": "manticore",
-        "icon": "manticore.webp"
-      },
-      {
-        "id": "bastet_ice",
-        "icon": "bastet_ice.webp"
-      },
-      {
-        "id": "birddragon_ice",
-        "icon": "birddragon_ice.webp"
-      },
-      {
-        "id": "hawkbird",
-        "icon": "hawkbird.webp"
-      },
-      {
-        "id": "soldierbee",
-        "icon": "soldierbee.webp"
-      },
-      {
-        "id": "yeti_grass",
-        "icon": "yeti_grass.webp"
-      },
-      {
-        "id": "serpent_ground",
-        "icon": "serpent_ground.webp"
-      },
-      {
-        "id": "violetfairy",
-        "icon": "violetfairy.webp"
-      },
-      {
-        "id": "flowerdinosaur_electric",
-        "icon": "flowerdinosaur_electric.webp"
-      },
-      {
-        "id": "manticore_dark",
-        "icon": "manticore_dark.webp"
-      },
-      {
-        "id": "cutemole",
-        "icon": "cutemole.webp"
-      },
-      {
-        "id": "baphomet_dark",
-        "icon": "baphomet_dark.webp"
-      },
-      {
-        "id": "catbat",
-        "icon": "catbat.webp"
-      },
-      {
-        "id": "kingalpaca",
-        "icon": "kingalpaca.webp"
-      },
-      {
-        "id": "blackmetaldragon",
-        "icon": "blackmetaldragon.webp"
-      },
-      {
-        "id": "plantslime",
-        "icon": "plantslime.webp"
-      },
-      {
-        "id": "flamebuffalo",
-        "icon": "flamebuffalo.webp"
-      },
-      {
-        "id": "mopbaby",
-        "icon": "mopbaby.webp"
-      },
-      {
-        "id": "mopking",
-        "icon": "mopking.webp"
-      },
-      {
-        "id": "catmage",
-        "icon": "catmage.webp"
-      },
-      {
-        "id": "pinkrabbit",
-        "icon": "pinkrabbit.webp"
-      },
-      {
-        "id": "thunderbird",
-        "icon": "thunderbird.webp"
-      },
-      {
-        "id": "herculesbeetle",
-        "icon": "herculesbeetle.webp"
-      },
-      {
-        "id": "nightfox",
-        "icon": "nightfox.webp"
-      },
-      {
-        "id": "captainpenguin",
-        "icon": "captainpenguin.webp"
-      },
-      {
-        "id": "weaseldragon",
-        "icon": "weaseldragon.webp"
-      },
-      {
-        "id": "skydragon",
-        "icon": "skydragon.webp"
-      },
-      {
-        "id": "hadesbird",
-        "icon": "hadesbird.webp"
-      },
-      {
-        "id": "redarmorbird",
-        "icon": "redarmorbird.webp"
-      },
-      {
-        "id": "ronin",
-        "icon": "ronin.webp"
+        "icon": "penguin.webp",
+        "size": 1.3
       },
       {
         "id": "flyingmanta",
-        "icon": "flyingmanta.webp"
+        "icon": "flyingmanta.webp",
+        "size": 1.3
       },
       {
-        "id": "flowerdoll",
-        "icon": "flowerdoll.webp"
+        "id": "kendofrog",
+        "icon": "kendofrog.webp",
+        "size": 1.3
       },
       {
-        "id": "naughtycat",
-        "icon": "naughtycat.webp"
+        "id": "wizardowl",
+        "icon": "wizardowl.webp",
+        "size": 1.3
       },
       {
-        "id": "cutebutterfly",
-        "icon": "cutebutterfly.webp"
+        "id": "negativekoala",
+        "icon": "negativekoala.webp",
+        "size": 1.3
       },
       {
-        "id": "darkscorpion",
-        "icon": "darkscorpion.webp"
+        "id": "cutefox",
+        "icon": "cutefox.webp",
+        "size": 1.3
       },
       {
-        "id": "thunderdragonman",
-        "icon": "thunderdragonman.webp"
+        "id": "blueplatypus",
+        "icon": "blueplatypus.webp",
+        "size": 1.3
+      },
+      {
+        "id": "eleccat",
+        "icon": "eleccat.webp",
+        "size": 1.3
+      },
+      {
+        "id": "boar",
+        "icon": "boar.webp",
+        "size": 1.3
+      },
+      {
+        "id": "berrygoat",
+        "icon": "berrygoat.webp",
+        "size": 1.3
+      },
+      {
+        "id": "flowerdinosaur",
+        "icon": "flowerdinosaur.webp",
+        "size": 1.3
+      },
+      {
+        "id": "carbunclo",
+        "icon": "carbunclo.webp",
+        "size": 1.3
       },
       {
         "id": "woolfox",
-        "icon": "woolfox.webp"
+        "icon": "woolfox.webp",
+        "size": 1.3
       },
       {
-        "id": "lazycatfish",
-        "icon": "lazycatfish.webp"
+        "id": "dreamdemon",
+        "icon": "dreamdemon.webp",
+        "size": 1.3
       },
       {
-        "id": "deer_ground",
-        "icon": "deer_ground.webp"
+        "id": "catbat",
+        "icon": "catbat.webp",
+        "size": 1.3
       },
       {
-        "id": "firekirin_dark",
-        "icon": "firekirin_dark.webp"
+        "id": "nightfox",
+        "icon": "nightfox.webp",
+        "size": 1.3
       },
       {
-        "id": "robinhood_ground",
-        "icon": "robinhood_ground.webp"
+        "id": "pinkcat",
+        "icon": "pinkcat.webp",
+        "size": 1.3
       },
       {
-        "id": "grassmammoth_ice",
-        "icon": "grassmammoth_ice.webp"
+        "id": "kitsunebi",
+        "icon": "kitsunebi.webp",
+        "size": 1.3
       },
       {
-        "id": "kelpie_fire",
-        "icon": "kelpie_fire.webp"
+        "id": "chickenpal",
+        "icon": "chickenpal.webp",
+        "size": 1.3
       },
       {
-        "id": "sharkkid_fire",
-        "icon": "sharkkid_fire.webp"
-      },
-      {
-        "id": "lizardman_fire",
-        "icon": "lizardman_fire.webp"
-      },
-      {
-        "id": "icefox",
-        "icon": "icefox.webp"
-      },
-      {
-        "id": "grassrabbitman",
-        "icon": "grassrabbitman.webp"
-      },
-      {
-        "id": "lavagirl",
-        "icon": "lavagirl.webp"
-      },
-      {
-        "id": "flamebambi",
-        "icon": "flamebambi.webp"
-      },
-      {
-        "id": "umihebi_fire",
-        "icon": "umihebi_fire.webp"
-      },
-      {
-        "id": "windchimes_ice",
-        "icon": "windchimes_ice.webp"
+        "id": "plantslime",
+        "icon": "plantslime.webp",
+        "size": 1.3
       },
       {
         "id": "plantslime_flower",
-        "icon": "plantslime_flower.webp"
+        "icon": "plantslime_flower.webp",
+        "size": 1.3
+      },
+      {
+        "id": "deer",
+        "icon": "deer.webp",
+        "size": 1.3
+      },
+      {
+        "id": "hawkbird",
+        "icon": "hawkbird.webp",
+        "size": 1.3
+      },
+      {
+        "id": "hedgehog",
+        "icon": "hedgehog.webp",
+        "size": 1.3
+      },
+      {
+        "id": "sheepball",
+        "icon": "sheepball.webp",
+        "size": 1.3
+      },
+      {
+        "id": "monkey",
+        "icon": "monkey.webp",
+        "size": 1.3
+      },
+      {
+        "id": "garm",
+        "icon": "garm.webp",
+        "size": 1.3
+      },
+      {
+        "id": "grassmammoth",
+        "icon": "grassmammoth.webp",
+        "size": 1.3
+      },
+      {
+        "id": "kirin",
+        "icon": "kirin.webp",
+        "size": 1.3
+      },
+      {
+        "id": "flamebuffalo",
+        "icon": "flamebuffalo.webp",
+        "size": 1.3
+      },
+      {
+        "id": "eagle",
+        "icon": "eagle.webp",
+        "size": 1.3
+      },
+      {
+        "id": "sakurasaurus",
+        "icon": "sakurasaurus.webp",
+        "size": 1.3
+      },
+      {
+        "id": "mimicdog",
+        "icon": "mimicdog.webp",
+        "size": 1.3
+      },
+      {
+        "id": "werewolf",
+        "icon": "werewolf.webp",
+        "size": 1.3
+      },
+      {
+        "id": "darkcrow",
+        "icon": "darkcrow.webp",
+        "size": 1.3
+      },
+      {
+        "id": "kelpie",
+        "icon": "kelpie.webp",
+        "size": 1.3
+      },
+      {
+        "id": "mopbaby",
+        "icon": "mopbaby.webp",
+        "size": 1.3
+      },
+      {
+        "id": "mopking",
+        "icon": "mopking.webp",
+        "size": 1.3
+      },
+      {
+        "id": "sweetssheep",
+        "icon": "sweetssheep.webp",
+        "size": 1.3
+      },
+      {
+        "id": "cowpal",
+        "icon": "cowpal.webp",
+        "size": 1.3
+      },
+      {
+        "id": "birddragon",
+        "icon": "birddragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "serpent",
+        "icon": "serpent.webp",
+        "size": 1.3
+      },
+      {
+        "id": "windchimes",
+        "icon": "windchimes.webp",
+        "size": 1.3
+      },
+      {
+        "id": "cutemole",
+        "icon": "cutemole.webp",
+        "size": 1.3
+      },
+      {
+        "id": "colorfulbird",
+        "icon": "colorfulbird.webp",
+        "size": 1.3
+      },
+      {
+        "id": "drillgame",
+        "icon": "drillgame.webp",
+        "size": 1.3
+      },
+      {
+        "id": "lazycatfish",
+        "icon": "lazycatfish.webp",
+        "size": 1.3
+      },
+      {
+        "id": "featherostrich",
+        "icon": "featherostrich.webp",
+        "size": 1.3
+      },
+      {
+        "id": "pinklizard",
+        "icon": "pinklizard.webp",
+        "size": 1.3
+      },
+      {
+        "id": "pinkrabbit",
+        "icon": "pinkrabbit.webp",
+        "size": 1.3
+      },
+      {
+        "id": "lazydragon",
+        "icon": "lazydragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "soldierbee",
+        "icon": "soldierbee.webp",
+        "size": 1.3
+      },
+      {
+        "id": "cutebutterfly",
+        "icon": "cutebutterfly.webp",
+        "size": 1.3
+      },
+      {
+        "id": "flowerrabbit",
+        "icon": "flowerrabbit.webp",
+        "size": 1.3
+      },
+      {
+        "id": "littlebriarrose",
+        "icon": "littlebriarrose.webp",
+        "size": 1.3
+      },
+      {
+        "id": "robinhood",
+        "icon": "robinhood.webp",
+        "size": 1.3
+      },
+      {
+        "id": "catmage",
+        "icon": "catmage.webp",
+        "size": 1.3
+      },
+      {
+        "id": "naughtycat",
+        "icon": "naughtycat.webp",
+        "size": 1.3
+      },
+      {
+        "id": "hadesbird",
+        "icon": "hadesbird.webp",
+        "size": 1.3
+      },
+      {
+        "id": "kelpie_fire",
+        "icon": "kelpie_fire.webp",
+        "size": 1.3
+      },
+      {
+        "id": "lavagirl",
+        "icon": "lavagirl.webp",
+        "size": 1.3
+      },
+      {
+        "id": "foxmage",
+        "icon": "foxmage.webp",
+        "size": 1.3
+      },
+      {
+        "id": "flamebambi",
+        "icon": "flamebambi.webp",
+        "size": 1.3
+      },
+      {
+        "id": "lizardman_fire",
+        "icon": "lizardman_fire.webp",
+        "size": 1.3
+      },
+      {
+        "id": "grasspanda",
+        "icon": "grasspanda.webp",
+        "size": 1.3
+      },
+      {
+        "id": "gorilla",
+        "icon": "gorilla.webp",
+        "size": 1.3
+      },
+      {
+        "id": "queenbee",
+        "icon": "queenbee.webp",
+        "size": 1.3
+      },
+      {
+        "id": "sharkkid",
+        "icon": "sharkkid.webp",
+        "size": 1.3
+      },
+      {
+        "id": "weaseldragon",
+        "icon": "weaseldragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "icedeer",
+        "icon": "icedeer.webp",
+        "size": 1.3
+      },
+      {
+        "id": "icefox",
+        "icon": "icefox.webp",
+        "size": 1.3
+      },
+      {
+        "id": "amaterasuwolf",
+        "icon": "amaterasuwolf.webp",
+        "size": 1.3
+      },
+      {
+        "id": "raijindaughter",
+        "icon": "raijindaughter.webp",
+        "size": 1.3
+      },
+      {
+        "id": "thunderdog",
+        "icon": "thunderdog.webp",
+        "size": 1.3
+      },
+      {
+        "id": "robinhood_ground",
+        "icon": "robinhood_ground.webp",
+        "size": 1.3
+      },
+      {
+        "id": "flowerdinosaur_electric",
+        "icon": "flowerdinosaur_electric.webp",
+        "size": 1.3
+      },
+      {
+        "id": "suzaku",
+        "icon": "suzaku.webp",
+        "size": 1.3
+      },
+      {
+        "id": "lizardman",
+        "icon": "lizardman.webp",
+        "size": 1.3
+      },
+      {
+        "id": "serpent_ground",
+        "icon": "serpent_ground.webp",
+        "size": 1.3
+      },
+      {
+        "id": "thunderbird",
+        "icon": "thunderbird.webp",
+        "size": 1.3
+      },
+      {
+        "id": "baphomet",
+        "icon": "baphomet.webp",
+        "size": 1.3
+      },
+      {
+        "id": "manticore",
+        "icon": "manticore.webp",
+        "size": 1.3
+      },
+      {
+        "id": "sharkkid_fire",
+        "icon": "sharkkid_fire.webp",
+        "size": 1.3
+      },
+      {
+        "id": "redarmorbird",
+        "icon": "redarmorbird.webp",
+        "size": 1.3
+      },
+      {
+        "id": "firekirin_dark",
+        "icon": "firekirin_dark.webp",
+        "size": 1.3
+      },
+      {
+        "id": "manticore_dark",
+        "icon": "manticore_dark.webp",
+        "size": 1.3
+      },
+      {
+        "id": "fengyundeeper",
+        "icon": "fengyundeeper.webp",
+        "size": 1.3
+      },
+      {
+        "id": "ronin",
+        "icon": "ronin.webp",
+        "size": 1.3
+      },
+      {
+        "id": "firekirin",
+        "icon": "firekirin.webp",
+        "size": 1.3
+      },
+      {
+        "id": "volcanicmonster",
+        "icon": "volcanicmonster.webp",
+        "size": 1.3
+      },
+      {
+        "id": "bastet_ice",
+        "icon": "bastet_ice.webp",
+        "size": 1.3
+      },
+      {
+        "id": "birddragon_ice",
+        "icon": "birddragon_ice.webp",
+        "size": 1.3
+      },
+      {
+        "id": "windchimes_ice",
+        "icon": "windchimes_ice.webp",
+        "size": 1.3
+      },
+      {
+        "id": "whitemoth",
+        "icon": "whitemoth.webp",
+        "size": 1.3
+      },
+      {
+        "id": "whitetiger",
+        "icon": "whitetiger.webp",
+        "size": 1.3
+      },
+      {
+        "id": "yeti",
+        "icon": "yeti.webp",
+        "size": 1.3
+      },
+      {
+        "id": "grassmammoth_ice",
+        "icon": "grassmammoth_ice.webp",
+        "size": 1.3
+      },
+      {
+        "id": "ghostbeast",
+        "icon": "ghostbeast.webp",
+        "size": 1.3
+      },
+      {
+        "id": "gorilla_ground",
+        "icon": "gorilla_ground.webp",
+        "size": 1.3
+      },
+      {
+        "id": "smallarmadillo",
+        "icon": "smallarmadillo.webp",
+        "size": 1.3
+      },
+      {
+        "id": "foxmage_dark",
+        "icon": "foxmage_dark.webp",
+        "size": 1.3
+      },
+      {
+        "id": "darkscorpion",
+        "icon": "darkscorpion.webp",
+        "size": 1.3
+      },
+      {
+        "id": "mushroomdragon",
+        "icon": "mushroomdragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "mushroomdragon_dark",
+        "icon": "mushroomdragon_dark.webp",
+        "size": 1.3
+      },
+      {
+        "id": "hadesbird_electric",
+        "icon": "hadesbird_electric.webp",
+        "size": 1.3
+      },
+      {
+        "id": "scorpionman",
+        "icon": "scorpionman.webp",
+        "size": 1.3
+      },
+      {
+        "id": "skydragon_grass",
+        "icon": "skydragon_grass.webp",
+        "size": 1.3
+      },
+      {
+        "id": "leafprincess",
+        "icon": "leafprincess.webp",
+        "size": 1.3
+      },
+      {
+        "id": "skydragon",
+        "icon": "skydragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "grassrabbitman",
+        "icon": "grassrabbitman.webp",
+        "size": 1.3
+      },
+      {
+        "id": "ronin_dark",
+        "icon": "ronin_dark.webp",
+        "size": 1.3
+      },
+      {
+        "id": "weaseldragon_fire",
+        "icon": "weaseldragon_fire.webp",
+        "size": 1.3
+      },
+      {
+        "id": "guardiandog",
+        "icon": "guardiandog.webp",
+        "size": 1.3
+      },
+      {
+        "id": "sifudog",
+        "icon": "sifudog.webp",
+        "size": 1.3
+      },
+      {
+        "id": "candleghost",
+        "icon": "candleghost.webp",
+        "size": 1.3
+      },
+      {
+        "id": "umihebi_fire",
+        "icon": "umihebi_fire.webp",
+        "size": 1.3
+      },
+      {
+        "id": "yeti_grass",
+        "icon": "yeti_grass.webp",
+        "size": 1.3
+      },
+      {
+        "id": "baphomet_dark",
+        "icon": "baphomet_dark.webp",
+        "size": 1.3
+      },
+      {
+        "id": "kingalpaca",
+        "icon": "kingalpaca.webp",
+        "size": 1.3
+      },
+      {
+        "id": "herculesbeetle",
+        "icon": "herculesbeetle.webp",
+        "size": 1.3
+      },
+      {
+        "id": "deer_ground",
+        "icon": "deer_ground.webp",
+        "size": 1.3
+      },
+      {
+        "id": "elecpanda",
+        "icon": "elecpanda.webp",
+        "size": 1.3
+      },
+      {
+        "id": "bluedragon",
+        "icon": "bluedragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "fairydragon",
+        "icon": "fairydragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "flowerdoll",
+        "icon": "flowerdoll.webp",
+        "size": 1.3
+      },
+      {
+        "id": "violetfairy",
+        "icon": "violetfairy.webp",
+        "size": 1.3
+      },
+      {
+        "id": "captainpenguin",
+        "icon": "captainpenguin.webp",
+        "size": 1.3
+      },
+      {
+        "id": "thunderdragonman",
+        "icon": "thunderdragonman.webp",
+        "size": 1.3
+      },
+      {
+        "id": "lilyqueen",
+        "icon": "lilyqueen.webp",
+        "size": 1.3
+      },
+      {
+        "id": "kingbahamut",
+        "icon": "kingbahamut.webp",
+        "size": 1.3
+      },
+      {
+        "id": "blackmetaldragon",
+        "icon": "blackmetaldragon.webp",
+        "size": 1.3
+      },
+      {
+        "id": "horus",
+        "icon": "horus.webp",
+        "size": 1.3
+      },
+      {
+        "id": "blackgriffon",
+        "icon": "blackgriffon.webp",
+        "size": 1.3
       }
     ]
   }
