@@ -889,6 +889,10 @@
         "icon": "PD_NPC_Inq_Caster_T18_Discalced_Cantor.webp"
       },
       {
+        "id": "PD_NPC_Inq_Caster_T27_Lector_illuminare",
+        "icon": "PD_NPC_Inq_Caster_T27_Lector_illuminare.webp"
+      },
+      {
         "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",
         "icon": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth.webp"
       },
@@ -1146,6 +1150,10 @@
       {
         "id": "PD_NPC_Inq_Caster_T18_Discalced_Cantor",
         "icon": "PD_NPC_Inq_Caster_T18_Discalced_Cantor.webp"
+      },
+      {
+        "id": "PD_NPC_Inq_Caster_T27_Lector_illuminare",
+        "icon": "PD_NPC_Inq_Caster_T27_Lector_illuminare.webp"
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",

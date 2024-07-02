@@ -46,18 +46,6 @@ let nodes: {
   data?: Record<string, string[]>;
 }[] = readJSON(OUT_DIR + "/coordinates/nodes.json");
 
-// nodes = nodes.map((n) => {
-//   return {
-//     ...n,
-//     spawns: n.spawns.map((s) => {
-//       return {
-//         ...s,
-//         data: { v: ["6/26"] },
-//       };
-//     }),
-//   };
-// });
-
 let filters: {
   group: string;
   defaultOpen?: boolean;
@@ -984,6 +972,12 @@ if (Bun.env.NODES === "true") {
     string,
     [number, number, number, string][]
   >;
+  await fetch("https://pax-dei-api.th.gl/nodes?type=spawnNodes", {
+    method: "DELETE",
+    headers: {
+      Authorization: "thgl",
+    },
+  });
 
   const newMapSpawns = Object.values(data).flatMap((spawnNodes) =>
     spawnNodes.map(([x, y, z, path]) => {
@@ -1101,14 +1095,9 @@ if (Bun.env.NODES === "true") {
       const location = { x: y, y: x };
       oldNodes!.spawns.push({
         p: [+location.y.toFixed(0), +location.x.toFixed(0)],
+        data: { v: ["7/2"] },
       });
     });
-  });
-  await fetch("https://pax-dei-api.th.gl/nodes?type=spawnNodes", {
-    method: "DELETE",
-    headers: {
-      Authorization: "thgl",
-    },
   });
 }
 nodes = nodes.filter(
