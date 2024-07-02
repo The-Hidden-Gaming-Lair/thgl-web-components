@@ -46,6 +46,18 @@ let nodes: {
   data?: Record<string, string[]>;
 }[] = readJSON(OUT_DIR + "/coordinates/nodes.json");
 
+// nodes = nodes.map((n) => {
+//   return {
+//     ...n,
+//     spawns: n.spawns.map((s) => {
+//       return {
+//         ...s,
+//         data: { v: ["6/26"] },
+//       };
+//     }),
+//   };
+// });
+
 let filters: {
   group: string;
   defaultOpen?: boolean;
@@ -84,13 +96,30 @@ const icons: Record<string, string> = {
   //   `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/portal_lorc.webp`
   // ),
 };
-const globalFilters: GlobalFilter[] = [];
+const globalFilters: GlobalFilter[] = [
+  {
+    group: "v",
+    values: [
+      {
+        id: "7/2",
+        defaultOn: true,
+      },
+      {
+        id: "6/26",
+        defaultOn: true,
+      },
+    ],
+  },
+];
 
 const mapMarkerTypes = readJSON<MapMarkerTypes>(
   CONTENT_DIR + "/PaxDei/Content/_PD/Game/UX/Map/D_MapMarkerTypes.json",
 );
 
 const enDict: Record<string, string> = {
+  v: "Game Version",
+  "7/2": "July 2",
+  "6/26": "June 26",
   locations: "Locations",
   respawnsite: "Respawn Site",
   ringfort_small: "Ringfort Small",
@@ -356,25 +385,6 @@ for (const mapName of readDirSync(
 
 filters.push(locations);
 
-if (!globalFilters.some((f) => f.group === "skills")) {
-  globalFilters.push({
-    group: "skills",
-    values: [
-      {
-        id: "others",
-        defaultOn: true,
-      },
-      {
-        id: "consumable",
-        defaultOn: true,
-      },
-    ],
-  });
-  enDict.skills = "Skills";
-  enDict.others = "Others";
-  enDict.consumable = "Consumable";
-}
-
 const typesIdMap: Record<string, string> = {};
 // const daItems = readDirRecursive(
 //   CONTENT_DIR + "/PaxDei/Content/_PD/Game/DA_Items",
@@ -442,14 +452,9 @@ for (const gatherablesPath of gatherablesPaths) {
         continue;
       }
       skills.push(skill);
-      const globalFilter = globalFilters.find((f) => f.group === "skills")!;
-      if (!globalFilter.values.some((v) => v.id === skill)) {
-        globalFilter.values.push({ id: skill, defaultOn: true });
 
-        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
-        enDict[skill] =
-          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
-      }
+      const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+      enDict[skill] = localisationEN[pdSkill[0].Properties.LocalizationNameKey];
       enDict[`${id}_desc`] +=
         `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
       // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
@@ -623,14 +628,9 @@ for (const mineablesPath of mineablesPaths) {
         continue;
       }
       skills.push(skill);
-      const globalFilter = globalFilters.find((f) => f.group === "skills")!;
-      if (!globalFilter.values.some((v) => v.id === skill)) {
-        globalFilter.values.push({ id: skill, defaultOn: true });
 
-        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
-        enDict[skill] =
-          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
-      }
+      const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+      enDict[skill] = localisationEN[pdSkill[0].Properties.LocalizationNameKey];
       enDict[`${id}_desc`] +=
         `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
       // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
@@ -777,14 +777,10 @@ for (const npcsResourcesPath of readDirRecursive(
           continue;
         }
         skills.push(skill);
-        const globalFilter = globalFilters.find((f) => f.group === "skills")!;
-        if (!globalFilter.values.some((v) => v.id === skill)) {
-          globalFilter.values.push({ id: skill, defaultOn: true });
 
-          const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
-          enDict[skill] =
-            localisationEN[pdSkill[0].Properties.LocalizationNameKey];
-        }
+        const pdSkill = pdSkills.find((s) => s[0].Name === skill)!;
+        enDict[skill] =
+          localisationEN[pdSkill[0].Properties.LocalizationNameKey];
         enDict[`${id}_desc`] +=
           `<p><span style="color:${uniqolor(enDict[skill]).color}">${enDict[skill]}</span> (${localisationEN[pdItem[0].Properties.LocalizationNameKey]})</p>`;
         // enDict[`${id}_desc`] += `<p>Example Recipe: ${pdRecipe[0].Name}</p>`;
@@ -1189,8 +1185,7 @@ writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
 writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
 writeJSON(OUT_DIR + "/coordinates/types_id_map.json", typesIdMap);
-// writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
-writeJSON(OUT_DIR + "/coordinates/global-filters.json", []);
+writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 
 console.log("Done");

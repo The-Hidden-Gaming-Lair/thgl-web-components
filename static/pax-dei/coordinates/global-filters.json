@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "group": "v",
+    "values": [
+      {
+        "id": "7/2",
+        "defaultOn": true
+      },
+      {
+        "id": "6/26",
+        "defaultOn": true
+      }
+    ]
+  }
+]
