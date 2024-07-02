@@ -37,6 +37,7 @@ initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
 let nodes: {
   type: string;
+  static?: boolean;
   mapName: string;
   spawns: {
     id?: string;
@@ -1166,6 +1167,19 @@ for (const filter of filters) {
     filtersWithNodes.push(filter);
   }
 }
+
+// nodes = nodes.map((n) => {
+//   if (locations.values.some((v) => v.id === n.type)) {
+//     return {
+//       ...n,
+//       static: true,
+//       spawns: n.spawns.map(({ data, ...s }) => {
+//         return s;
+//       }),
+//     };
+//   }
+//   return n;
+// });
 
 writeJSON(TEMP_DIR + "/actors.json", Object.keys(typesIdMap));
 writeJSON(OUT_DIR + "/coordinates/tiles.json", tiles);
