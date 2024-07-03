@@ -613,6 +613,10 @@
         "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
+        "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
+      },
+      {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
         "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
       },
@@ -623,10 +627,6 @@
       {
         "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
         "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
-        "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
         "id": "PD_NPC_Cor_Boar_T16",
@@ -669,6 +669,14 @@
         "icon": "PD_NPC_Zeb_Doctor_T16.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T33",
+        "icon": "PD_NPC_Zeb_Doctor_T33.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T40",
+        "icon": "PD_NPC_Zeb_Doctor_T40.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T11",
         "icon": "PD_NPC_Zeb_Guardian_T11.webp"
       },
@@ -681,6 +689,18 @@
         "icon": "PD_NPC_Zeb_Guardian_T19.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T30",
+        "icon": "PD_NPC_Zeb_Guardian_T30.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42",
+        "icon": "PD_NPC_Zeb_Guardian_T42.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T38",
+        "icon": "PD_NPC_Zeb_Overseer_T38.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T10",
         "icon": "PD_NPC_Zeb_Warrior_T10.webp"
       },
@@ -691,6 +711,14 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T18",
         "icon": "PD_NPC_Zeb_Warrior_T18.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T31",
+        "icon": "PD_NPC_Zeb_Warrior_T31.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T39",
+        "icon": "PD_NPC_Zeb_Warrior_T39.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
@@ -753,8 +781,32 @@
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath",
+        "icon": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler",
+        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist",
+        "icon": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire",
+        "icon": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
         "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T30",
+        "icon": "PD_NPC_Demon_Hellion_T30.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42",
+        "icon": "PD_NPC_Demon_Hellion_T42.webp"
       },
       {
         "id": "PD_NPC_Demon_Imp_T14",
@@ -763,6 +815,10 @@
       {
         "id": "PD_NPC_Demon_Imp_T21",
         "icon": "PD_NPC_Demon_Imp_T21.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T31",
+        "icon": "PD_NPC_Demon_Imp_T31.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
@@ -996,6 +1052,10 @@
         "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
+        "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
+      },
+      {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
         "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
       },
@@ -1006,10 +1066,6 @@
       {
         "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
         "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
-      },
-      {
-        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
-        "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
         "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
@@ -1086,6 +1142,22 @@
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath",
+        "icon": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler",
+        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist",
+        "icon": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire",
+        "icon": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
@@ -2021,6 +2093,14 @@
         "icon": "PD_NPC_Zeb_Doctor_T16.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T33",
+        "icon": "PD_NPC_Zeb_Doctor_T33.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T40",
+        "icon": "PD_NPC_Zeb_Doctor_T40.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T11",
         "icon": "PD_NPC_Zeb_Guardian_T11.webp"
       },
@@ -2031,6 +2111,18 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T19",
         "icon": "PD_NPC_Zeb_Guardian_T19.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T30",
+        "icon": "PD_NPC_Zeb_Guardian_T30.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42",
+        "icon": "PD_NPC_Zeb_Guardian_T42.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T38",
+        "icon": "PD_NPC_Zeb_Overseer_T38.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T10",
@@ -2045,12 +2137,32 @@
         "icon": "PD_NPC_Zeb_Warrior_T18.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T31",
+        "icon": "PD_NPC_Zeb_Warrior_T31.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T39",
+        "icon": "PD_NPC_Zeb_Warrior_T39.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T30",
+        "icon": "PD_NPC_Demon_Hellion_T30.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42",
+        "icon": "PD_NPC_Demon_Hellion_T42.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T14",
         "icon": "PD_NPC_Demon_Imp_T14.webp"
       },
       {
         "id": "PD_NPC_Demon_Imp_T21",
         "icon": "PD_NPC_Demon_Imp_T21.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T31",
+        "icon": "PD_NPC_Demon_Imp_T31.webp"
       },
       {
         "id": "PD_NPC_Willowisp_T90",

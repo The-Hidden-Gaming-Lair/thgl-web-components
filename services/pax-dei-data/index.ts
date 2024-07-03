@@ -35,6 +35,7 @@ const TEMP_DIR =
 const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/pax-dei";
 initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
+const GAME_VERSION = "7/2";
 let nodes: {
   type: string;
   static?: boolean;
@@ -999,12 +1000,21 @@ if (Bun.env.NODES === "true") {
   };
 
   nodes = nodes.map((n) => {
+    const isLocation = locations.values.some((v) => v.id === n.type);
+    const isNPC = filters
+      .find((f) => f.group === "npcs")
+      ?.values.some((v) => v.id === n.type)!;
+
     return {
       ...n,
       spawns: n.spawns.filter((s) => {
-        if (locations.values.some((v) => v.id === n.type)) {
+        if (isLocation) {
           return true;
         }
+        if (isNPC && s.data?.v.includes(GAME_VERSION)) {
+          return true;
+        }
+
         const hasSpawnTop = newMapSpawns.find(([y, x, mapName]) => {
           if (n.mapName !== mapName) {
             return false;
@@ -1096,7 +1106,7 @@ if (Bun.env.NODES === "true") {
       const location = { x: y, y: x };
       oldNodes!.spawns.push({
         p: [+location.y.toFixed(0), +location.x.toFixed(0)],
-        data: { v: ["7/2"] },
+        data: { v: [GAME_VERSION] },
       });
     });
   });
