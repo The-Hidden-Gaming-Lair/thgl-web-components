@@ -629,6 +629,10 @@
         "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
       },
       {
+        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
+        "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T16",
         "icon": "PD_NPC_Cor_Boar_T16.webp"
       },
@@ -1025,12 +1029,20 @@
         "icon": "PD_NPC_LostSoul_T25_Somber_Visitant.webp"
       },
       {
+        "id": "PD_NPC_LostSoul_T26_Cruel_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Cruel_Visitant.webp"
+      },
+      {
         "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
         "icon": "PD_NPC_LostSoul_T26_Dismal_Visitant.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
         "icon": "PD_NPC_LostSoul_T26_Onerous_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Spiteful_Visitant.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
@@ -1066,6 +1078,10 @@
       {
         "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
         "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
+      },
+      {
+        "id": "PD_NPC_Animal_Wolf_T23_Mothers_Bane",
+        "icon": "PD_NPC_Animal_Wolf_T23_Mothers_Bane.webp"
       },
       {
         "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
@@ -1292,12 +1308,20 @@
         "icon": "PD_NPC_LostSoul_T25_Somber_Visitant.webp"
       },
       {
+        "id": "PD_NPC_LostSoul_T26_Cruel_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Cruel_Visitant.webp"
+      },
+      {
         "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
         "icon": "PD_NPC_LostSoul_T26_Dismal_Visitant.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
         "icon": "PD_NPC_LostSoul_T26_Onerous_Visitant.webp"
+      },
+      {
+        "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
+        "icon": "PD_NPC_LostSoul_T26_Spiteful_Visitant.webp"
       },
       {
         "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
