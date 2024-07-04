@@ -9,9 +9,9 @@ import type { Dict } from "@repo/ui/providers";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
 import { SettingsDialogContent, Toaster } from "@repo/ui/controls";
 import Link from "next/link";
-import enDictGlobal from "../global_dicts/en.json" assert { type: "json" };
-import enDict from "../dicts/en.json" assert { type: "json" };
-import { Links } from "../components/links";
+import enDictGlobal from "../../global_dicts/en.json" assert { type: "json" };
+import enDict from "../../dicts/en.json" assert { type: "json" };
+import { Links } from "../../components/links";
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
 
@@ -43,23 +43,11 @@ export default function RootLayout({
         )}
       >
         <I18NProvider dict={enDictMerged}>
-          <Header
-            activeApp="Diablo IV"
-            settingsDialogContent={
-              <SettingsDialogContent activeApp="Diablo IV" />
-            }
-          >
-            <Link href="/">
-              <Brand title="Diablo4" />
-            </Link>
-            <Links />
-            <Account appId="ebafpjfhleenmkcmdhlbdchpdalblhiellgfmmbb" />
-          </Header>
           <TooltipProvider>{children}</TooltipProvider>
         </I18NProvider>
         <PlausibleTracker
           apiHost="https://metrics.th.gl"
-          domain="diablo4.th.gl"
+          domain="diablo4.th.gl-mobalytics"
         />
         <Toaster />
       </body>

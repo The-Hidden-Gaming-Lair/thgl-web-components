@@ -16,7 +16,11 @@ const MARKER_OPTIONS = {
   playerZoom: 4,
   playerIcon: "player.webp",
 };
-export default function InteractiveMapDynamic(): JSX.Element {
+export default function InteractiveMapDynamic({
+  mobalytics,
+}: {
+  mobalytics?: boolean;
+}): JSX.Element {
   return (
     <>
       <InteractiveMap
@@ -25,16 +29,20 @@ export default function InteractiveMapDynamic(): JSX.Element {
       />
       <Regions />
       <Markers markerOptions={MARKER_OPTIONS} />
-      <LivePlayer markerOptions={MARKER_OPTIONS} />
-      <TraceLine />
-      <Actions>
-        <StreamingReceiver
-          domain="diablo4"
-          href="https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map"
-        />
-        <PrivateNode />
-        <PrivateDrawing />
-      </Actions>
+      {!mobalytics && (
+        <>
+          <LivePlayer markerOptions={MARKER_OPTIONS} />
+          <TraceLine />
+          <Actions>
+            <StreamingReceiver
+              domain="diablo4"
+              href="https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map"
+            />
+            <PrivateNode />
+            <PrivateDrawing />
+          </Actions>
+        </>
+      )}
     </>
   );
 }
