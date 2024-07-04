@@ -13,6 +13,8 @@ export const useGameState = create(
     highlightSpawnIDs: string[];
     addHighlightSpawnIDs: (id: string[]) => void;
     removeHighlightSpawnIDs: (id: string[]) => void;
+    isUpdatingApp: boolean;
+    setIsUpdatingApp: (isUpdatingApp: boolean) => void;
   }>((set) => ({
     windowInfo: null,
     isOverlay: null,
@@ -35,5 +37,7 @@ export const useGameState = create(
           (i) => !id.includes(i),
         ),
       })),
+    isUpdatingApp: false,
+    setIsUpdatingApp: (isUpdatingApp) => set({ isUpdatingApp }),
   })),
 );

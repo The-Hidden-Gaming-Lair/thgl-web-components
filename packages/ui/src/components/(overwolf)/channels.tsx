@@ -1,6 +1,5 @@
-import { useAccountStore } from "@repo/lib";
+import { useAccountStore, useGameState } from "@repo/lib";
 import { promisifyOverwolf } from "@repo/lib/overwolf";
-import { useState } from "react";
 import useSWR from "swr";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
@@ -11,7 +10,8 @@ export function Channels() {
   const previewReleaseAccess = useAccountStore(
     (state) => state.previewReleaseAccess,
   );
-  const [isUpdating, setIsUpdating] = useState(false);
+  const isUpdatingApp = useGameState((state) => state.isUpdatingApp);
+  const setIsUpdatingApp = useGameState((state) => state.setIsUpdatingApp);
 
   const { data: extensionSettings, mutate: refreshExtensionSettings } = useSWR(
     "extensionSettings",
@@ -73,25 +73,30 @@ export function Channels() {
       </div>
       <p className="text-sm text-muted-foreground">
         {state === "UpToDate" && "You are up-to-date!"}
-        {state === "UpdateAvailable" && !isUpdating && (
+        {state === "UpdateAvailable" && !isUpdatingApp && (
           <>
             A new version is ready for you.{" "}
             <Button
               variant="link"
               className="hover:text-white text-primary"
               onClick={() => {
-                setIsUpdating(true);
+                setIsUpdatingApp(true);
                 promisifyOverwolf(overwolf.extensions.updateExtension)()
                   .then(() => refreshCheckForExtensionUpdate())
-                  .catch(console.error)
-                  .finally(() => setIsUpdating(false));
+                  .then(() => setIsUpdatingApp(false))
+                  .catch((err) => {
+                    console.error(err);
+                  })
+                  .finally(() => refreshCheckForExtensionUpdate());
               }}
             >
               Update Now!
             </Button>
           </>
         )}
-        {state === "UpdateAvailable" && isUpdating && "Updating..."}
+        {state === "UpdateAvailable" &&
+          isUpdatingApp &&
+          "Updating... (takes a few minutes)"}
         {state === "PendingRestart" && (
           <>
             Update installed successfully. Please restart the app to apply the
