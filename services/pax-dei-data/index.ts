@@ -417,8 +417,9 @@ for (const gatherablesPath of gatherablesPaths) {
     type.endsWith("s") &&
     !type.endsWith("is")
   ) {
-    if (type.endsWith("ies")) type = type.slice(0, -3) + "y";
-    else {
+    if (type.endsWith("ies")) {
+      type = type.slice(0, -3) + "y";
+    } else {
       type = type.slice(0, -1);
     }
   }
@@ -503,7 +504,7 @@ for (const gatherablesPath of gatherablesPaths) {
   const typeId = resource
     .find((r) => r.Outer)!
     .Outer!.replace("SM_Clay_3", "SM_Clay");
-  if (typesIdMap[typeId]) {
+  if (typesIdMap[typeId] && typesIdMap[typeId] !== id) {
     console.warn("Duplicate Gatherable", typeId, id, typesIdMap[typeId]);
   }
   typesIdMap[typeId] = id;
@@ -657,7 +658,7 @@ for (const mineablesPath of mineablesPaths) {
     ".json";
   const resource = readJSON<Resource>(resourcePath);
   const typeId = resource.find((r) => r.Outer)!.Outer!;
-  if (typesIdMap[typeId]) {
+  if (typesIdMap[typeId] && typesIdMap[typeId] !== id) {
     console.warn("Duplicate Mineable", typeId, id, typesIdMap[typeId]);
   }
 
@@ -739,8 +740,11 @@ for (const npcsResourcesPath of readDirRecursive(
 
   // const id = file[0].Name;
 
-  enDict[id] = npc[0].Properties.display_name.LocalizedString.replace("a ", "")
-    .replace("an ", "")
+  enDict[id] = npc[0].Properties.display_name.LocalizedString.replace(
+    /^a\s/,
+    "",
+  )
+    .replace(/^an\s/, "")
     .replace(/\b\w/g, (c) => c.toUpperCase());
   enDict[`${id}_desc`] = "";
 
