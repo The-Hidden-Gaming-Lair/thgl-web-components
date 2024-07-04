@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
+using System.Xml.Schema;
 
 
 namespace GameEventsPlugin
@@ -34,7 +37,7 @@ namespace GameEventsPlugin
         GWorldPtrPattern = Memory.FindPattern("48 89 05", stringAddr - 0x500, 0x500);
 
         var offset = UnrealEngine.Memory.ReadProcessMemory<int>(GWorldPtrPattern + 3);
-        GWorldPtr = GWorldPtrPattern + offset + 7; 
+        GWorldPtr = GWorldPtrPattern + offset + 7;
         UpdateUEObject();
       }
 
@@ -116,7 +119,7 @@ namespace GameEventsPlugin
             }
           }
         }
-        if (!foundChildsAndFieldName) throw new Exception("bad childs offset");
+        //if (!foundChildsAndFieldName) throw new Exception("bad childs offset");
       }
       {
         var foundNextField = false;
@@ -161,7 +164,7 @@ namespace GameEventsPlugin
             foundFuncs = true;
           }
         }
-        if (!foundFuncs) throw new Exception("bad childs offset");
+        //if (!foundFuncs) throw new Exception("bad childs offset");
       }
       {
         var foundNextField = false;
@@ -311,7 +314,7 @@ namespace GameEventsPlugin
       }
       // var offset = 0x04 * (key - 1) + ((key - 1) & 0xffff) * 8 - 8;
       var offset = (key & 0xffff) * 4 + 4;
-        
+
       //var offset = (key & 0xffff) * 2;
       var nameEntry = UnrealEngine.Memory.ReadProcessMemory<UInt16>((IntPtr)(namePtr + offset));
       var nameLength = (nameEntry / 2);
@@ -435,6 +438,91 @@ namespace GameEventsPlugin
         return ((val & boolMask) == boolMask);
       }
     }
+
+    public List<string> GetFieldNames()
+    {
+      return GetFieldNames(ClassAddr, new List<IntPtr>(), "");
+    }
+
+    public List<string> GetFieldNames(IntPtr addr, List<IntPtr> visited, string pad)
+    {
+      pad += "  ";
+      var list = new List<string>();
+      var tempEntity = addr;
+
+      while (true)
+      {
+        var classNameIndex = UnrealEngine.Memory.ReadProcessMemory<Int32>(tempEntity + UEObject.nameOffset);
+        var name = UEObject.GetName(classNameIndex);
+
+        list.Add(name);
+        var field = tempEntity + UEObject.childPropertiesOffset - UEObject.fieldNextOffset;
+
+        tempEntity = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(tempEntity + UEObject.structSuperOffset);
+
+        if (visited.Contains(field))
+        {
+          break;
+        }
+        visited.Add(field);
+        while ((Int64)(field = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(field + UEObject.fieldNextOffset)) > 0)
+        {
+          var fName = UEObject.GetName(UnrealEngine.Memory.ReadProcessMemory<Int32>(field + UEObject.fieldNameOffset));
+          var fType = GetFieldType(field);
+          var fValue = "(" + field.ToString() + ")";
+          var obj = this[fName];
+          List<string> more = new List<string>();
+
+          if (fType == "BoolProperty")
+          {
+            fType = "Boolean";
+            if (obj != null)
+            {
+              fValue = obj.Flag.ToString();
+            }
+          }
+          else if (fType == "FloatProperty")
+          {
+            fType = "Single";
+            if (obj != null)
+            {
+              fValue = BitConverter.ToSingle(BitConverter.GetBytes(obj.Value), 0).ToString();
+            }
+          }
+          else if (fType == "IntProperty")
+          {
+            fType = "Int32";
+            if (obj != null)
+            {
+              fValue = obj.Value.ToString();
+            }
+          }
+          else if (fType == "ObjectProperty" || fType == "StructProperty")
+          {
+            var structFieldIndex = UnrealEngine.Memory.ReadProcessMemory<int>(UnrealEngine.Memory.ReadProcessMemory<IntPtr>(field + UEObject.propertySize) + UEObject.nameOffset);
+            fType = UEObject.GetName(structFieldIndex);
+            if (obj != null)
+            {
+              var newClassAddr = obj.ClassAddr;
+              more = obj.GetFieldNames(newClassAddr, visited, pad);
+            }
+          } else
+          {
+            //
+          }
+          list.Add("  " + fType + " " + fName + " = " + fValue);
+          more.ForEach(i =>
+          {
+            list.Add("  " + pad + i);
+          });
+        }
+
+
+        if ((Int64)tempEntity == 0) break;
+      }
+      return list;
+    }
+
 
     public IntPtr Address;
     public UEObject this[String key]

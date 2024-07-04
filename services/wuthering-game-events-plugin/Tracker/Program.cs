@@ -18,17 +18,17 @@ namespace Tracker
     private static Overwolf overwolf = new Overwolf();
 
     static object lastError = null;
-    static private void RunOverwolfPlayer()
+    static private void RunOverwolfProcess()
     {
-      overwolf.UpdateProcess((player) =>
+      overwolf.UpdateProcess((success) =>
       {
         if (lastError != null)
         {
-          Console.WriteLine($"Player: {player}");
+          Console.WriteLine($"Success: {success}");
         }
         lastError = null;
         Thread.Sleep(50);
-        RunOverwolfPlayer();
+        RunOverwolfProcess();
       }, (error) =>
       {
         if (lastError != error)
@@ -37,9 +37,22 @@ namespace Tracker
         }
         lastError = error;
         Thread.Sleep(200);
-        RunOverwolfPlayer();
-      }, "Client-Win64-Shipping");
+        RunOverwolfProcess();
+      });
     }
+    static private void RunOverwolfPlayer()
+    {
+      overwolf.GetPlayer((player) =>
+      {
+        Thread.Sleep(50);
+        RunOverwolfPlayer();
+      }, (error) =>
+      {
+        Thread.Sleep(200);
+        RunOverwolfPlayer();
+      });
+    }
+
     static private void RunOverwolfActors()
     {
       overwolf.GetActors(new String[0], (actors) =>
@@ -81,12 +94,37 @@ namespace Tracker
       UnrealEngine unrealEngine = null;
       Memory memory = null;
 
-      RunOverwolfPlayer();
-      RunOverwolfActors();
-      while (true)
+
+
+
+      Task.Run(() =>
       {
-        Thread.Sleep(20000);
+        RunOverwolfProcess();
+      });
+      Task.Run(() =>
+      {
+        RunOverwolfPlayer();
+      });
+      Task.Run(() =>
+      {
+        RunOverwolfActors();
+      });
+
+
+      while (Console.ReadKey(true).Key == ConsoleKey.D)
+      {
+        Console.WriteLine("Saving Dump");
+        overwolf.Debug(list =>
+        {
+          string[] l = (string[]) list;
+          File.WriteAllLines("dump.txt", l);
+          Console.WriteLine("Saved Dump");
+        }, error =>
+        {
+          Console.WriteLine($"Error: {error}");
+        });
       }
+
       while (false)
       {
         try

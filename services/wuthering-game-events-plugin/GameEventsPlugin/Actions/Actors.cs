@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Numerics;
+using System.Text;
 using static GameEventsPlugin.Extensions;
 
 namespace GameEventsPlugin.Actions
@@ -95,23 +97,22 @@ namespace GameEventsPlugin.Actions
             {
               var actor = Actors[i];
               string type;
-              var staticMesh = actor["InstancedStaticMeshComponent"]?["StaticMesh"];
-              if (staticMesh != null)
+
+              var staticMesh = actor["StaticMesh"]?["StaticMesh"];
+              if (staticMesh != null && staticMesh.ClassName != "None ")
               {
-                type = staticMesh.ClassName.Split('/').Last().Split('.').First();
+                type = staticMesh?.ClassName.Split('/').Last().Split('.').First();
               }
               else
               {
                 type = actor.GetName();
               }
-
               if (types.Length == 0 || types.Contains(type))
               {
                 var foundActor = GetActor(actor, type, path);
                 if (foundActor != null)
                 {
                   actors.Add((Actor)foundActor);
-
                 }
               }
             }

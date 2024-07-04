@@ -6,6 +6,7 @@ using GameEventsPlugin.Actions;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Principal;
+using System.Reflection.Emit;
 
 namespace GameEventsPlugin
 {
@@ -36,10 +37,12 @@ namespace GameEventsPlugin
         }
         if (_process != null && _process.HasExited)
         {
-          _process = null;
           _memory = null;
+          _process = null;
+          _owningWorld = null;
+          _levels = null;
+          throw new Exception("Process has exited");
         }
-
         if (_memory == null || _process == null)
         {
           _owningWorld = null;
@@ -77,7 +80,7 @@ namespace GameEventsPlugin
           unrealEngine.UpdateAddresses();
           Console.WriteLine("Updated Addresses");
         }
-
+        
 
         var address = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(UnrealEngine.GWorldPtr);
         var owningWorld = new UEObject(address);
@@ -101,6 +104,7 @@ namespace GameEventsPlugin
         _owningWorld = owningWorld;
         _levels = levels;
         _lastError = null;
+
         callback(true);
       }
       catch (Exception e)
@@ -128,6 +132,7 @@ namespace GameEventsPlugin
             return;
           }
           var owningGameInstance = _owningWorld["OwningGameInstance"];
+
           var player = Actors.GetActorPlayer(owningGameInstance);
           if (player != null)
           {
@@ -158,6 +163,7 @@ namespace GameEventsPlugin
             callback(noActors.ToArray());
             return;
           }
+          UEObject.Reset();
           var actors = Actors.GetActors(_levels, types);
           callback(actors.ToArray());
         }
@@ -167,5 +173,74 @@ namespace GameEventsPlugin
         }
       });
     }
+
+
+    public void Debug(Action<object> callback, Action<object> error)
+    {
+      Task.Run(() =>
+      {
+        try
+        {
+          UEObject.Reset();
+          var result = new List<string>();
+          if (_owningWorld == null)
+          {
+            callback(result.ToArray());
+            return;
+          }
+          var visited = new List<IntPtr>();
+          var worldFieldNames = _owningWorld.GetFieldNames(_owningWorld.ClassAddr, visited, "");
+          result.Add("OWNING WORLD FIELD NAMES");
+          foreach (var field in worldFieldNames)
+          {
+            result.Add(" " + field);
+          }
+
+          result.Add("");
+          var owningGameInstance = _owningWorld["OwningGameInstance"];
+          var localPlayers = owningGameInstance["LocalPlayers"];
+          var localPlayer = localPlayers[0];
+          var localPlayerFieldNames = localPlayer.GetFieldNames(localPlayer.ClassAddr, visited, ""); ;
+          result.Add("LOCAL PLAYER FIELD NAMES");
+          foreach (var field in localPlayerFieldNames)
+          {
+            result.Add(" " + field);
+          }
+
+          for (var l = 0; l < _levels.Num; l++)
+          {
+            var level = _levels[l];
+            var actorsAddress = level.Address + (l == 0 ? 0xA0 : 0x90);
+            var actors = new UEObject(actorsAddress);
+            var actorsNum = actors.Num;
+            if (actorsNum < 65536)
+            {
+              for (var i = 0; i < actorsNum; i++)
+              {
+                var actor = actors[i];
+                /*if (visited.Contains(actor.ClassAddr))
+                {
+                  continue;
+                }*/
+                var actorFieldNames = actor.GetFieldNames(actor.ClassAddr, visited, ""); ;
+                result.Add("");
+                result.Add("ACTOR " + actor.GetName() + " FIELD NAMES");
+                foreach (var field in actorFieldNames)
+                {
+                  result.Add(" " + field);
+                }
+              }
+
+            }
+          }
+          callback(result.ToArray());
+        }
+        catch (Exception e)
+        {
+          error(e.Message + "\n" + e.StackTrace);
+        }
+      });
+    }
+
   }
 }

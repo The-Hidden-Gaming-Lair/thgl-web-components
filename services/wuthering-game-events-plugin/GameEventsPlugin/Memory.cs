@@ -84,7 +84,6 @@ namespace GameEventsPlugin
       ReadProcessMemory(procHandle, addr, buffer, Marshal.SizeOf(type), out Int32 bytesRead);
       var structPtr = GCHandle.Alloc(buffer, GCHandleType.Pinned);
       var obj = Marshal.PtrToStructure(structPtr.AddrOfPinnedObject(), type);
-      var members = obj.GetType().GetFields();
       structPtr.Free();
       return obj;
     }
