@@ -503,7 +503,8 @@ for (const gatherablesPath of gatherablesPaths) {
   const resource = readJSON<Resource>(resourcePath);
   const typeId = resource
     .find((r) => r.Outer)!
-    .Outer!.replace("SM_Clay_3", "SM_Clay");
+    .Outer!.replace("SM_Clay_3", "SM_Clay")
+    .replace("SM_Chanterelli_11", "SM_Chanterelli");
   if (typesIdMap[typeId] && typesIdMap[typeId] !== id) {
     console.warn("Duplicate Gatherable", typeId, id, typesIdMap[typeId]);
   }

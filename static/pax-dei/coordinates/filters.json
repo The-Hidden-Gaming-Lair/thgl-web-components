@@ -417,6 +417,11 @@
         "size": 1.15
       },
       {
+        "id": "mushroom_chanterelle",
+        "icon": "mushroom_chanterelle.webp",
+        "size": 1.15
+      },
+      {
         "id": "mushroom_chlorine",
         "icon": "mushroom_chlorine.webp",
         "size": 1.15
@@ -789,8 +794,24 @@
         "icon": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
+        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler",
         "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy",
+        "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T48_Hivetender_Cordulia",
+        "icon": "PD_NPC_Zeb_Overseer_T48_Hivetender_Cordulia.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa",
+        "icon": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist",
@@ -821,8 +842,16 @@
         "icon": "PD_NPC_Demon_Imp_T21.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T21_summon",
+        "icon": "PD_NPC_Demon_Imp_T21_summon.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T31",
         "icon": "PD_NPC_Demon_Imp_T31.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T41",
+        "icon": "PD_NPC_Demon_Imp_T41.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
@@ -1164,8 +1193,24 @@
         "icon": "PD_NPC_Zeb_Doctor_T45_Chief_of_the_Oath.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
+        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler",
         "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Pantler.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy",
+        "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T48_Hivetender_Cordulia",
+        "icon": "PD_NPC_Zeb_Overseer_T48_Hivetender_Cordulia.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa",
+        "icon": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T47_Holastris_Strategist",
@@ -1763,6 +1808,11 @@
         "size": 1.15
       },
       {
+        "id": "mushroom_chanterelle",
+        "icon": "mushroom_chanterelle.webp",
+        "size": 1.15
+      },
+      {
         "id": "mushroom_chlorine",
         "icon": "mushroom_chlorine.webp",
         "size": 1.15
@@ -2185,8 +2235,16 @@
         "icon": "PD_NPC_Demon_Imp_T21.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T21_summon",
+        "icon": "PD_NPC_Demon_Imp_T21_summon.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T31",
         "icon": "PD_NPC_Demon_Imp_T31.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T41",
+        "icon": "PD_NPC_Demon_Imp_T41.webp"
       },
       {
         "id": "PD_NPC_Willowisp_T90",
