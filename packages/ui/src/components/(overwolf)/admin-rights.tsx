@@ -32,7 +32,7 @@ export function AdminRights() {
         <ul className="mb-4 list-disc list-inside">
           <li>
             <span className="font-bold">Exit Overwolf:</span> Right-click on the
-            task bar icon and select{" "}
+            system tray icon and select{" "}
             <span className="italic">"Exit Overwolf"</span>.
           </li>
           <li>
