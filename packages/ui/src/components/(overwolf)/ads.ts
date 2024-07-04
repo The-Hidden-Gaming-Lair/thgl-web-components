@@ -18,48 +18,5 @@ export function initAd(
       variant,
     },
   });
-
-  owAd.addEventListener("player_loaded", () => {
-    trackEvent("Ads: Player Loaded", {
-      props: {
-        variant,
-      },
-    });
-  });
-  owAd.addEventListener("display_ad_loaded", () => {
-    trackEvent("Ads: Display Ad Loaded", {
-      props: {
-        variant,
-      },
-    });
-  });
-  owAd.addEventListener("play", () => {
-    trackEvent("Ads: Play", {
-      props: {
-        variant,
-      },
-    });
-  });
-  owAd.addEventListener("impression", () => {
-    trackEvent("Ads: Impression", {
-      props: {
-        variant,
-      },
-    });
-  });
-  owAd.addEventListener("complete", () => {
-    trackEvent("Ads: Complete", {
-      props: {
-        variant,
-      },
-    });
-  });
-  owAd.addEventListener("error", () => {
-    trackEvent("Ads: Error", {
-      props: {
-        variant,
-      },
-    });
-  });
   return owAd;
 }
