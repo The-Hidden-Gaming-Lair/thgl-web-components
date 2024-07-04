@@ -1202,7 +1202,13 @@ writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
 // writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
-writeJSON(OUT_DIR + "/coordinates/types_id_map.json", typesIdMap);
+const sortedTypesIdMap = Object.entries(typesIdMap)
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .reduce((acc, [k, v]) => {
+    acc[k] = v;
+    return acc;
+  }, {});
+writeJSON(OUT_DIR + "/coordinates/types_id_map.json", sortedTypesIdMap);
 writeJSON(OUT_DIR + "/coordinates/global-filters.json", globalFilters);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 

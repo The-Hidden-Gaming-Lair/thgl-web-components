@@ -185,6 +185,13 @@ export async function listenToPlugin(
         (actors) => {
           const closestActors = actors
             .map((actor) => {
+              if (pathToMapName && actor.path) {
+                actor.mapName = pathToMapName(actor.path);
+              }
+              if (normalizeLocation) {
+                normalizeLocation(actor);
+              }
+
               const dx = actor.x - prevPlayer.x;
               const dy = actor.y - prevPlayer.y;
               const dz = actor.z - prevPlayer.z;
@@ -192,7 +199,8 @@ export async function listenToPlugin(
               if (pathToMapName && actor.path) {
                 actor.mapName = pathToMapName(actor.path);
               }
-              return { ...actor, distance };
+              const isKnown = types.includes(actor.type);
+              return { ...actor, distance, isKnown };
             })
             .sort((a, b) => a.distance - b.distance)
             .slice(0, limit);
