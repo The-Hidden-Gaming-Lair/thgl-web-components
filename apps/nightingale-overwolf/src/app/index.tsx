@@ -71,7 +71,7 @@ function App(): JSX.Element {
         <TooltipProvider>
           <CoordinatesProvider
             filters={filters as FiltersCoordinates}
-            mapName="MTR_FRT_9812"
+            mapNames={Object.keys(NIGHTINGALE.tileOptions)}
             regions={regions as RegionsCoordinates}
             staticNodes={nodes}
             typesIdMap={typesIdMap}

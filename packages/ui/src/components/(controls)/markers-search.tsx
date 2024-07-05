@@ -1,13 +1,14 @@
 "use client";
 
 import { TileOptions, cn } from "@repo/lib";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { useUserStore } from "../(providers)";
 import { MarkersSearchResults } from "./markers-search-results";
 import { MarkersFilters } from "./markers-filters";
 import { ScrollArea } from "../ui/scroll-area";
 import { CaretSortIcon } from "@radix-ui/react-icons";
+import { Search, TriangleAlert } from "lucide-react";
 
 export function MarkersSearch({
   children,
@@ -20,9 +21,27 @@ export function MarkersSearch({
   additionalFilters?: ReactNode;
   embed?: boolean;
 }): JSX.Element {
-  const { search, setSearch } = useUserStore();
+  const { _hasHydrated, search, setSearch, searchIsLoading } = useUserStore();
   const [showFilters, setShowFilters] = useState(true);
   const mapNames = Object.keys(tileOptions ?? {});
+  const [internalSearch, setInternalSearch] = useState(search);
+
+  useEffect(() => {
+    if (_hasHydrated) {
+      setInternalSearch(search);
+    }
+  }, [_hasHydrated]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearch(internalSearch);
+    }, 300);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [internalSearch]);
+  const isLoading = searchIsLoading || search !== internalSearch;
 
   return (
     <div
@@ -37,17 +56,17 @@ export function MarkersSearch({
           autoCorrect="off"
           className=" placeholder:text-gray-400"
           onChange={(event) => {
-            setSearch(event.target.value);
+            setInternalSearch(event.target.value);
           }}
           placeholder="Search..."
           type="text"
-          value={search}
+          value={internalSearch}
         />
-        {search ? (
+        {internalSearch ? (
           <button
             className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400 hover:text-gray-200"
             onClick={() => {
-              setSearch("");
+              setInternalSearch("");
             }}
             type="button"
           >
@@ -113,8 +132,24 @@ export function MarkersSearch({
           )}
           type="auto"
         >
-          {search ? (
-            <MarkersSearchResults mapNames={mapNames} />
+          {internalSearch ? (
+            <>
+              {isLoading && internalSearch.length >= 3 && (
+                <div className="p-2 text-center">
+                  <Search className="w-4 h-4 mx-auto" />
+                  Searching...
+                </div>
+              )}
+              {internalSearch.length < 3 && (
+                <div className="p-2 text-center">
+                  <TriangleAlert className="w-4 h-4 mx-auto" />
+                  Please enter at least 3 characters
+                </div>
+              )}
+              {!isLoading && internalSearch.length >= 3 && (
+                <MarkersSearchResults mapNames={mapNames} />
+              )}
+            </>
           ) : (
             <MarkersFilters mapNames={mapNames}>
               {additionalFilters}

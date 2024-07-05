@@ -43,7 +43,7 @@ export default function Home({
   return (
     <CoordinatesProvider
       filters={filters}
-      mapName="MTR_FRT_9812"
+      mapNames={Object.keys(NIGHTINGALE.tileOptions)}
       regions={regions as RegionsCoordinates}
       typesIdMap={typesIdMap}
       view={view}

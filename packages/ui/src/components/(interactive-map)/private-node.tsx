@@ -53,8 +53,12 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     }
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        // @ts-expect-error
-        map?.pm.Draw.Line._finishShape();
+        try {
+          // @ts-expect-error
+          map?.pm.Draw.Line._finishShape();
+        } catch (e) {
+          //
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);

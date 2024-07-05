@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import type { StoreApi } from "zustand";
@@ -98,6 +97,8 @@ interface UserStoreState {
   setMapName: (mapName: string) => void;
   search: string;
   setSearch: (search: string) => void;
+  searchIsLoading: boolean;
+  setSearchIsLoading: (state: boolean) => void;
   filters: string[];
   setFilters: (filters: string[]) => void;
   toggleFilter: (filter: string) => void;
@@ -153,6 +154,8 @@ export const REGION_FILTERS = [
     Icon: CaseSensitive,
   },
 ];
+const emptyArray: any[] = [];
+const emptyObject: any = {};
 export function CoordinatesProvider({
   children,
   staticNodes: initialStaticNodes,
@@ -160,7 +163,7 @@ export function CoordinatesProvider({
   filters,
   globalFilters = [],
   typesIdMap,
-  mapName: initialMapName = "default",
+  mapNames = ["default"],
   view,
 }: {
   children: React.ReactNode;
@@ -169,7 +172,7 @@ export function CoordinatesProvider({
   filters: FiltersCoordinates;
   globalFilters?: GlobalFiltersCoordinates;
   typesIdMap?: Record<string, string>;
-  mapName?: string;
+  mapNames: string[];
   view: {
     center?: [number, number];
     zoom?: number;
@@ -178,6 +181,8 @@ export function CoordinatesProvider({
     globalFilters?: string[];
   };
 }): JSX.Element {
+  const t = useT();
+
   const userStore = useMemo(
     () =>
       createStore(
@@ -190,7 +195,7 @@ export function CoordinatesProvider({
                   _hasHydrated: state,
                 });
               },
-              mapName: view.map ?? initialMapName,
+              mapName: view.map ?? mapNames[0],
               setMapName: (mapName) => {
                 set({ mapName, center: undefined, zoom: undefined });
               },
@@ -205,6 +210,10 @@ export function CoordinatesProvider({
               search: "",
               setSearch: (search) => {
                 set({ search });
+              },
+              searchIsLoading: false,
+              setSearchIsLoading: (state) => {
+                set({ searchIsLoading: state });
               },
               filters: view.filters ?? [
                 ...filters.flatMap((filter) =>
@@ -278,23 +287,69 @@ export function CoordinatesProvider({
     [],
   );
 
-  const userStoreHasHydrated = userStore.getState()._hasHydrated;
+  const userStoreHasHydrated = useStore(
+    userStore,
+    (state) => state._hasHydrated,
+  );
   const settingsHasHydrated = useSettingsStore((state) => state._hasHydrated);
+  const search = useStore(userStore, (state) => state.search);
+  const isHydrated = userStoreHasHydrated && settingsHasHydrated;
+  const stateMapName = useStore(userStore, (state) => state.mapName);
+  const mapName = userStoreHasHydrated ? stateMapName : null;
 
-  const { data } = useSWRImmutable(
-    "/api/nodes",
+  const { data: staticNodesByMap } = useSWRImmutable(
+    ["/api/nodes", mapName],
     async () => {
-      return fetch("/api/nodes").then(
-        (res) => res.json() as Promise<NodesCoordinates>,
-      );
-    },
-    {
-      revalidateOnMount: !initialStaticNodes,
+      if (!userStoreHasHydrated || !mapName) {
+        return emptyObject as Record<string, NodesCoordinates>;
+      }
+      if (initialStaticNodes) {
+        return {
+          [mapName]: initialStaticNodes.filter(
+            (node) => !node.mapName || node.mapName === mapName,
+          ),
+        };
+      }
+      return fetch(`/api/nodes/${mapName}`)
+        .then((res) => res.json() as Promise<NodesCoordinates>)
+        .then((nodes) => ({ [mapName]: nodes }));
     },
   );
+  const staticNodes =
+    (mapName && staticNodesByMap?.[mapName]) ||
+    (emptyArray as NodesCoordinates);
 
-  const staticNodes = data ?? initialStaticNodes;
-  const isHydrated = userStoreHasHydrated && settingsHasHydrated;
+  const {
+    data: publicSearchSpawnsByKeyword,
+    isLoading: publicSearchIsLoading,
+  } = useSWRImmutable(
+    ["/api/search", search],
+    async () => {
+      if (
+        mapNames.length === 1 ||
+        !userStoreHasHydrated ||
+        !search ||
+        initialStaticNodes ||
+        search.length < 3
+      ) {
+        return { [search]: emptyArray as Spawns };
+      }
+      return fetch(`/api/nodes/search?q=${search}`)
+        .then((res) => res.json() as Promise<Spawns>)
+        .then((spawns) => ({ [search]: spawns }));
+    },
+    {
+      revalidateOnMount: !search,
+    },
+  );
+  const publicSearchSpawns = publicSearchSpawnsByKeyword?.[search];
+
+  useEffect(() => {
+    const state = userStore.getState();
+    if (state.searchIsLoading !== publicSearchIsLoading) {
+      state.setSearchIsLoading(publicSearchIsLoading);
+    }
+  }, [publicSearchIsLoading]);
 
   const liveMode = useSettingsStore((state) => state.liveMode);
   const appId = useSettingsStore((state) => state.appId);
@@ -303,14 +358,17 @@ export function CoordinatesProvider({
   const privateDrawings = useSettingsStore((state) => state.privateDrawings);
 
   const privateGroups = useMemo<NodesCoordinates>(() => {
-    if (!isHydrated) {
-      return [];
+    if (!isHydrated || !mapName) {
+      return [] as NodesCoordinates;
     }
     return privateNodes.reduce<NodesCoordinates>((acc, node) => {
       const type = node.filter ?? "private_Unsorted";
-      const mapName = node.mapName;
+      if (node.mapName && node.mapName !== mapName) {
+        return acc;
+      }
+      const nodeMapName = node.mapName;
       const category = acc.find(
-        (node) => node.type === type && node.mapName === mapName,
+        (node) => node.type === type && node.mapName === nodeMapName,
       );
       if (category) {
         category.spawns.push({
@@ -326,7 +384,7 @@ export function CoordinatesProvider({
       } else {
         acc.push({
           type,
-          mapName,
+          mapName: nodeMapName,
           spawns: [
             {
               id: node.id,
@@ -347,7 +405,7 @@ export function CoordinatesProvider({
 
   const nodes = useMemo<NodesCoordinates>(() => {
     if (!isHydrated || !staticNodes) {
-      return [];
+      return emptyArray as NodesCoordinates;
     }
     if (!liveMode || !typesIdMap || !appId) {
       return [...privateGroups, ...staticNodes];
@@ -393,6 +451,59 @@ export function CoordinatesProvider({
     return targetNodes;
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 
+  const privateFuse = useMemo(() => {
+    const spreadedSpawns = nodes.flatMap((node) =>
+      node.spawns.map((spawn) => ({
+        type: node.type,
+        data: spawn.data ?? node.data,
+        mapName: node.mapName,
+        ...spawn,
+      })),
+    );
+    if (initialStaticNodes) {
+      spreadedSpawns.push(
+        ...initialStaticNodes
+          .filter((n) => n.mapName && n.mapName !== mapName)
+          .flatMap((node) =>
+            node.spawns.map((spawn) => ({
+              type: node.type,
+              data: spawn.data ?? node.data,
+              mapName: node.mapName,
+              ...spawn,
+            })),
+          ),
+      );
+    }
+
+    return new Fuse(spreadedSpawns, {
+      keys: [
+        {
+          name: "type",
+          getFn: (spawn) => (spawn.isPrivate ? spawn.type : t(spawn.type)),
+          weight: 1,
+        },
+        {
+          name: "name",
+          getFn: (spawn) =>
+            spawn.isPrivate
+              ? spawn.name ?? ""
+              : spawn.id
+                ? t(spawn.id) ?? ""
+                : "",
+          weight: 2,
+        },
+        {
+          name: "tags",
+          getFn: (spawn) => t(`${spawn.id ?? spawn.type}_tags`) ?? "",
+          weight: 2,
+        },
+      ],
+      shouldSort: true,
+      includeScore: true,
+      threshold: 0.3,
+    });
+  }, [nodes]);
+
   const icons = useMemo(
     () => filters.flatMap((filter) => filter.values).map((value) => value),
     [filters],
@@ -411,23 +522,23 @@ export function CoordinatesProvider({
     ];
   }, [isHydrated, filters, privateNodes, privateDrawings]);
 
-  const t = useT();
   const [spawns, setSpawns] = useState<Spawns>([]);
-
-  const fuse = useRef<Fuse<any> | null>(null);
 
   const refreshSpawns = useCallback(
     (state: UserStoreState) => {
       let newSpawns: Spawns = [];
       const newSpawnsMap = new Map<string, Spawns[0]>();
       if (state.search) {
-        if (fuse.current === null) {
-          console.warn("fuse is null");
-          newSpawns = [];
-        } else {
-          newSpawns = fuse.current
-            .search(state.search)
-            .map((result) => result.item);
+        if (state.search.length < 3) {
+          setSpawns(newSpawns);
+          return;
+        }
+        newSpawns = privateFuse
+          .search(state.search)
+          .map((result) => result.item);
+
+        if (publicSearchSpawns) {
+          newSpawns.push(...publicSearchSpawns);
         }
         newSpawns.forEach((spawn) => {
           const key = `${spawn.p[0]}:${spawn.p[1]}`;
@@ -469,9 +580,10 @@ export function CoordinatesProvider({
       }
 
       newSpawns = Array.from(newSpawnsMap.values());
+
       setSpawns(newSpawns);
     },
-    [nodes],
+    [nodes, privateFuse, publicSearchSpawns],
   );
 
   useEffect(() => {
@@ -489,52 +601,7 @@ export function CoordinatesProvider({
       return;
     }
 
-    const initFuse = () => {
-      if (fuse.current) {
-        return;
-      }
-      const spreadedSpawns = nodes.flatMap((node) =>
-        node.spawns.map((spawn) => ({
-          type: node.type,
-          data: spawn.data ?? node.data,
-          mapName: node.mapName,
-          ...spawn,
-        })),
-      );
-
-      fuse.current = new Fuse(spreadedSpawns, {
-        keys: [
-          {
-            name: "type",
-            getFn: (spawn) => (spawn.isPrivate ? spawn.type : t(spawn.type)),
-            weight: 1,
-          },
-          {
-            name: "name",
-            getFn: (spawn) =>
-              spawn.isPrivate
-                ? spawn.name ?? ""
-                : spawn.id
-                  ? t(spawn.id) ?? ""
-                  : "",
-            weight: 2,
-          },
-          {
-            name: "tags",
-            getFn: (spawn) => t(`${spawn.id ?? spawn.type}_tags`) ?? "",
-            weight: 2,
-          },
-        ],
-        shouldSort: true,
-        includeScore: true,
-        threshold: 0.3,
-      });
-    };
-
     const state = userStore.getState();
-    if (state.search) {
-      initFuse();
-    }
     refreshSpawns(state);
 
     const unsubscribeFilters = userStore.subscribe(
@@ -546,7 +613,6 @@ export function CoordinatesProvider({
     const unsubscribeSearch = userStore.subscribe(
       (state) => state.search,
       () => {
-        initFuse();
         refreshSpawns(userStore.getState());
       },
     );
@@ -568,7 +634,6 @@ export function CoordinatesProvider({
       unsubscribeSearch();
       unsubscribeGlobalFilters();
       unsubscribeMapName();
-      fuse.current = null;
     };
   }, [isHydrated, refreshSpawns]);
 

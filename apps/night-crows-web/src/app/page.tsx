@@ -37,7 +37,7 @@ export default function Home({
   return (
     <CoordinatesProvider
       filters={filters}
-      mapName={Object.keys(tiles)[0]}
+      mapNames={Object.keys(tiles)}
       regions={[]}
       view={view}
     >

@@ -79,7 +79,7 @@ function App(): JSX.Element {
         <TooltipProvider>
           <CoordinatesProvider
             filters={filters as FiltersCoordinates}
-            mapName={Object.keys(tiles)[0]}
+            mapNames={Object.keys(tiles)}
             regions={regions as unknown as RegionsCoordinates}
             staticNodes={nodes}
             typesIdMap={typesIdMap}
