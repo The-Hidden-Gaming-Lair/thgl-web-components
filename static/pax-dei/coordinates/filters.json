@@ -814,6 +814,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
+        "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
@@ -1223,6 +1227,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder",
         "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
+        "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
