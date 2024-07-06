@@ -404,6 +404,7 @@ export function CoordinatesProvider({
   }, [isHydrated, privateNodes]);
 
   const nodes = useMemo<NodesCoordinates>(() => {
+    console.log("nodes");
     if (!isHydrated || !staticNodes) {
       return emptyArray as NodesCoordinates;
     }
@@ -452,7 +453,7 @@ export function CoordinatesProvider({
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 
   const privateFuse = useMemo(() => {
-    const spreadedSpawns = nodes.flatMap((node) =>
+    const nodeSpawns = nodes.flatMap((node) =>
       node.spawns.map((spawn) => ({
         type: node.type,
         data: spawn.data ?? node.data,
@@ -460,19 +461,22 @@ export function CoordinatesProvider({
         ...spawn,
       })),
     );
+    let spreadedSpawns;
+
     if (initialStaticNodes) {
-      spreadedSpawns.push(
-        ...initialStaticNodes
-          .filter((n) => n.mapName && n.mapName !== mapName)
-          .flatMap((node) =>
-            node.spawns.map((spawn) => ({
-              type: node.type,
-              data: spawn.data ?? node.data,
-              mapName: node.mapName,
-              ...spawn,
-            })),
-          ),
-      );
+      const initialSpawns = initialStaticNodes
+        .filter((n) => n.mapName && n.mapName !== mapName)
+        .flatMap((node) =>
+          node.spawns.map((spawn) => ({
+            type: node.type,
+            data: spawn.data ?? node.data,
+            mapName: node.mapName,
+            ...spawn,
+          })),
+        );
+      spreadedSpawns = [...nodeSpawns, ...initialSpawns];
+    } else {
+      spreadedSpawns = nodeSpawns;
     }
 
     return new Fuse(spreadedSpawns, {
