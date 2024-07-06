@@ -55,7 +55,9 @@ export function GET(request: Request): Response {
     });
   }
 
-  const items = fuse.search(query).map((result) => result.item);
+  const items = fuse
+    .search(query)
+    .map((result) => ({ ...result.item, score: result.score }));
   return Response.json(items, {
     status: 200,
     headers: {

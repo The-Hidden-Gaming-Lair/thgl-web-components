@@ -78,6 +78,7 @@ function App(): JSX.Element {
           <CoordinatesProvider
             filters={filters as FiltersCoordinates}
             regions={regions as RegionsCoordinates}
+            mapNames={Object.keys(tiles)}
             staticNodes={nodes}
             typesIdMap={typesIdMap}
             view={{}}

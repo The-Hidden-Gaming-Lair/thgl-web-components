@@ -526,7 +526,7 @@ export function CoordinatesProvider({
 
   const refreshSpawns = useCallback(
     (state: UserStoreState) => {
-      let newSpawns: Spawns = [];
+      let newSpawns: (Spawns[number] & { score?: number })[] = [];
       const newSpawnsMap = new Map<string, Spawns[0]>();
       if (state.search) {
         if (state.search.length < 3) {
@@ -535,10 +535,13 @@ export function CoordinatesProvider({
         }
         newSpawns = privateFuse
           .search(state.search)
-          .map((result) => result.item);
+          .map((result) => ({ ...result.item, score: result.score }));
+        const privateMapName = newSpawns[0]?.mapName;
 
         if (publicSearchSpawns) {
-          newSpawns.push(...publicSearchSpawns);
+          newSpawns.push(
+            ...publicSearchSpawns.filter((n) => n.mapName !== privateMapName),
+          );
         }
         newSpawns.forEach((spawn) => {
           const key = `${spawn.p[0]}:${spawn.p[1]}`;
@@ -580,6 +583,16 @@ export function CoordinatesProvider({
       }
 
       newSpawns = Array.from(newSpawnsMap.values());
+      newSpawns.sort((a, b) => {
+        const res = a.score! - b.score!;
+        if (res !== 0) {
+          return res;
+        }
+        if (a.mapName && b.mapName) {
+          return b.mapName.localeCompare(a.mapName);
+        }
+        return 0;
+      });
 
       setSpawns(newSpawns);
     },
