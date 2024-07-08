@@ -36,7 +36,7 @@ const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/pax-dei";
 initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
 const GAME_VERSION = "7/2";
-let oldNodes: {
+let nodes: {
   type: string;
   static?: boolean;
   mapName: string;
@@ -47,24 +47,6 @@ let oldNodes: {
   }[];
   data?: Record<string, string[]>;
 }[] = readJSON(OUT_DIR + "/coordinates/nodes.json");
-
-let nodes: typeof oldNodes = [];
-
-for (const n of oldNodes) {
-  if (n.type === "iron_deposit_pure" && n.mapName !== "gallia_pve_01") {
-    const existingIronDeposit = oldNodes.find(
-      (n) => n.type === "iron_deposit" && n.mapName === n.mapName,
-    );
-    if (existingIronDeposit) {
-      existingIronDeposit.spawns.push(...n.spawns);
-    } else {
-      n.type = "iron_deposit";
-      nodes.push(n);
-    }
-  } else {
-    nodes.push(n);
-  }
-}
 
 let filters: {
   group: string;
@@ -1218,9 +1200,33 @@ for (const filter of filters) {
 //   return n;
 // });
 
+let newNodes: typeof nodes = [];
+for (const n of nodes) {
+  if (n.type === "iron_deposit_pure" && n.mapName !== "gallia_pve_01") {
+    n.type = "iron_deposit";
+  }
+  const existingIronDeposit = newNodes.find(
+    (e) => e.type === n.type && e.mapName === n.mapName,
+  );
+  if (existingIronDeposit) {
+    for (const s of n.spawns) {
+      if (
+        existingIronDeposit.spawns.some(
+          (s2) => s2.p[0] === s.p[0] && s2.p[1] === s.p[1],
+        )
+      ) {
+        continue;
+      }
+      existingIronDeposit.spawns = [...existingIronDeposit.spawns, s];
+    }
+  } else {
+    newNodes.push(n);
+  }
+}
+
 writeJSON(TEMP_DIR + "/actors.json", Object.keys(typesIdMap));
 writeJSON(OUT_DIR + "/coordinates/tiles.json", tiles);
-writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
+writeJSON(OUT_DIR + "/coordinates/nodes.json", newNodes);
 // writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
