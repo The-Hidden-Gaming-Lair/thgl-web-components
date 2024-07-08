@@ -36,7 +36,7 @@ const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/pax-dei";
 initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
 const GAME_VERSION = "7/2";
-let nodes: {
+let oldNodes: {
   type: string;
   static?: boolean;
   mapName: string;
@@ -47,6 +47,24 @@ let nodes: {
   }[];
   data?: Record<string, string[]>;
 }[] = readJSON(OUT_DIR + "/coordinates/nodes.json");
+
+let nodes: typeof oldNodes = [];
+
+for (const n of oldNodes) {
+  if (n.type === "iron_deposit_pure" && n.mapName !== "gallia_pve_01") {
+    const existingIronDeposit = oldNodes.find(
+      (n) => n.type === "iron_deposit" && n.mapName === n.mapName,
+    );
+    if (existingIronDeposit) {
+      existingIronDeposit.spawns.push(...n.spawns);
+    } else {
+      n.type = "iron_deposit";
+      nodes.push(n);
+    }
+  } else {
+    nodes.push(n);
+  }
+}
 
 let filters: {
   group: string;
@@ -501,10 +519,11 @@ for (const gatherablesPath of gatherablesPaths) {
     continue;
   }
   const resource = readJSON<Resource>(resourcePath);
-  const typeId = resource
+  let typeId = resource
     .find((r) => r.Outer)!
     .Outer!.replace("SM_Clay_3", "SM_Clay")
     .replace("SM_Chanterelli_11", "SM_Chanterelli");
+
   if (typesIdMap[typeId] && typesIdMap[typeId] !== id) {
     console.warn("Duplicate Gatherable", typeId, id, typesIdMap[typeId]);
   }
@@ -658,7 +677,10 @@ for (const mineablesPath of mineablesPaths) {
     ).split(".")[0] +
     ".json";
   const resource = readJSON<Resource>(resourcePath);
-  const typeId = resource.find((r) => r.Outer)!.Outer!;
+  let typeId = resource.find((r) => r.Outer)!.Outer!;
+  if (id === "iron_deposit") {
+    typeId = "SM_Granite_Deposit_01_Iron";
+  }
   if (typesIdMap[typeId] && typesIdMap[typeId] !== id) {
     console.warn("Duplicate Mineable", typeId, id, typesIdMap[typeId]);
   }
@@ -1093,9 +1115,9 @@ if (Bun.env.NODES === "true") {
       const mapName = path.split("/")[4];
       // const offset = mapName === "gallia_pve_01" ? SMALL : LARGE;
 
-      if (id === "iron_deposit" && mapName === "gallia_pve_01") {
-        id = "iron_deposit_pure";
-      }
+      // if (id === "iron_deposit" && mapName === "gallia_pve_01") {
+      //   id = "iron_deposit_pure";
+      // }
       let oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
       if (!oldNodes) {
         oldNodes = { type: id, spawns: [], mapName };
