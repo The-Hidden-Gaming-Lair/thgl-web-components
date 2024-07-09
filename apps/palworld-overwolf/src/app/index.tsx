@@ -105,6 +105,7 @@ function App(): JSX.Element {
               <LivePlayer markerOptions={MARKER_OPTIONS} />
               <TraceLine />
             </HeaderOffset>
+            <MapHotkeys />
           </CoordinatesProvider>
         </TooltipProvider>
       </I18NProvider>
@@ -117,7 +118,6 @@ function App(): JSX.Element {
         <Ads400x600Desktop title={TITLE} />
         <Ads400x900Desktop title={TITLE} />
       </AdsScript>
-      <MapHotkeys />
       <Toaster />
       <Status />
       <PlausibleTracker

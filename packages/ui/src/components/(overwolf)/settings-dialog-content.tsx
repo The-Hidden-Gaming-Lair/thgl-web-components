@@ -42,6 +42,10 @@ export function OverwolfSettingsDialogContent({
         Lock/Unlock app
         <Hotkey name={HOTKEYS.TOGGLE_LOCK_APP} gameClassId={gameClassId} />
       </Label>
+      <Label className="flex items-center gap-2 justify-between">
+        Discover Nearest Node
+        <Hotkey name={HOTKEYS.DISCOVER_NODE} gameClassId={gameClassId} />
+      </Label>
       <Separator />
       <h4 className="text-md font-semibold">Performance</h4>
       <div className="flex items-center gap-2 justify-between">
