@@ -404,7 +404,6 @@ export function CoordinatesProvider({
   }, [isHydrated, privateNodes]);
 
   const nodes = useMemo<NodesCoordinates>(() => {
-    console.log("nodes");
     if (!isHydrated || !staticNodes) {
       return emptyArray as NodesCoordinates;
     }
