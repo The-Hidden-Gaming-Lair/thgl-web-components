@@ -33,13 +33,13 @@
     "@repo/jest-presets": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/jest": "29.5.12",
-    "@types/node": "20.14.2",
+    "@types/node": "20.14.10",
     "tsup": "8.1.0",
-    "typescript": "5.4.5"
+    "typescript": "5.5.3"
   },
   "dependencies": {
     "clsx": "2.1.1",
-    "tailwind-merge": "2.3.0",
-    "zustand": "4.5.2"
+    "tailwind-merge": "2.4.0",
+    "zustand": "4.5.4"
   }
 }

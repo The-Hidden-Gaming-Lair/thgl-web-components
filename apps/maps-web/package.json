@@ -13,27 +13,27 @@
     "start": "next start"
   },
   "dependencies": {
-    "@auth/pg-adapter": "^1.2.0",
+    "@auth/pg-adapter": "^1.4.1",
     "@repo/lib": "workspace:*",
     "@repo/ui": "workspace:*",
-    "@vercel/postgres": "^0.8.0",
-    "next": "14.2.3",
+    "@vercel/postgres": "^0.9.0",
+    "next": "14.2.4",
     "next-auth": "^5.0.0-beta.18",
     "pg": "^8.12.0",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "14.2.3",
+    "@next/eslint-plugin-next": "14.2.4",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "20.14.2",
+    "@types/node": "20.14.10",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.19",
-    "postcss": "8.4.38",
+    "postcss": "8.4.39",
     "tailwindcss": "3.4.4",
-    "typescript": "5.4.5"
+    "typescript": "5.5.3"
   }
 }

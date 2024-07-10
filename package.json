@@ -17,8 +17,8 @@
     "release:palworld-overwolf": "turbo run release --filter=palworld-overwolf"
   },
   "devDependencies": {
-    "prettier": "3.3.1",
-    "turbo": "latest"
+    "prettier": "3.3.2",
+    "turbo": "2.0.6"
   },
   "engines": {
     "node": ">=18"
@@ -31,6 +31,6 @@
   "dependencies": {
     "clsx": "2.1.1",
     "markdown-to-jsx": "7.4.7",
-    "tailwind-merge": "2.3.0"
+    "tailwind-merge": "2.4.0"
   }
 }
