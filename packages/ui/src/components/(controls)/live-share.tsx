@@ -42,6 +42,10 @@ export function LiveShare({ domain }: { domain: string }) {
     setErrorMessage("");
     setIsLoading(false);
     connectionStore.closeExistingConnections();
+    connectionStore.setPrivateDrawings([]);
+    connectionStore.setPrivateNodes([]);
+    connectionStore.setTempPrivateDrawing(null);
+    connectionStore.setTempPrivateNode(null);
     if (peerRef.current) {
       peerRef.current.destroy();
     }
