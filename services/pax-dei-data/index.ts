@@ -1010,9 +1010,9 @@ if (Bun.env.NODES === "true") {
 
   nodes = nodes.map((n) => {
     const isLocation = locations.values.some((v) => v.id === n.type);
-    const isNPC = filters
-      .find((f) => f.group === "npcs")
-      ?.values.some((v) => v.id === n.type)!;
+    // const isNPC = filters
+    //   .find((f) => f.group === "npcs")
+    //   ?.values.some((v) => v.id === n.type)!;
 
     return {
       ...n,
@@ -1020,7 +1020,7 @@ if (Bun.env.NODES === "true") {
         if (isLocation) {
           return true;
         }
-        if (isNPC && s.data?.v.includes(GAME_VERSION)) {
+        if (s.data?.v.includes(GAME_VERSION)) {
           return true;
         }
 
