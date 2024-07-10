@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import { withStorageDOMEvents } from "./dom";
 
 export type PrivateNode = {
@@ -58,6 +58,8 @@ export const useSettingsStore = create(
   persist<{
     _hasHydrated: boolean;
     setHasHydrated: (state: boolean) => void;
+    groupName: string;
+    setGroupName: (groupName: string) => void;
     appId: string;
     setAppId: (lastAppId: string) => void;
     liveMode: boolean;
@@ -134,6 +136,8 @@ export const useSettingsStore = create(
             _hasHydrated: state,
           });
         },
+        groupName: "",
+        setGroupName: (groupName) => set({ groupName }),
         appId: "",
         setAppId: (appId) => set({ appId }),
         liveMode: true,

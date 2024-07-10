@@ -5,6 +5,7 @@ export * from "./dom";
 export * from "./env";
 export * from "./files";
 export * from "./game";
+export * from "./live-share";
 export * from "./search-params";
 export * from "./settings";
 export * from "./tailwind";

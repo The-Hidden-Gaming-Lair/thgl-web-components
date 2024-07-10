@@ -6,6 +6,7 @@ import {
   cn,
   useSettingsStore,
   openFileOrFiles,
+  useConnectionStore,
 } from "@repo/lib";
 import CanvasMarker from "./canvas-marker";
 import type { LeafletMouseEvent } from "leaflet";
@@ -83,11 +84,12 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     } else {
       latLng = tempPrivateNode.p;
     }
+    const radius = tempPrivateNode.radius ?? 10;
     const privateNodeMarker = new CanvasMarker(latLng, {
       id: "private-node",
       icon: tempPrivateNode.icon ? tempPrivateNode.icon.url : null,
       baseRadius: 10,
-      radius: 10 * baseIconSize,
+      radius: radius * baseIconSize,
       fillColor: color,
       noCache: true,
     });
@@ -144,6 +146,46 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     }
   }, [color, radius, baseIconSize, tempPrivateNode?.icon, tempPrivateNode?.p]);
 
+  const sharedTempPrivateNode = useConnectionStore(
+    (state) => state.tempPrivateNode,
+  );
+  useEffect(() => {
+    if (!sharedTempPrivateNode || !map) {
+      return;
+    }
+    if (sharedTempPrivateNode.mapName !== mapName) {
+      return;
+    }
+    const latLng = sharedTempPrivateNode.p;
+    if (!latLng) {
+      return;
+    }
+    const radius = sharedTempPrivateNode.radius ?? 10;
+    const privateNodeMarker = new CanvasMarker(latLng, {
+      id: "shared-private-node",
+      icon: sharedTempPrivateNode.icon ? sharedTempPrivateNode.icon.url : null,
+      baseRadius: 10,
+      radius: radius * baseIconSize,
+      fillColor: sharedTempPrivateNode.color,
+      noCache: true,
+    });
+
+    try {
+      privateNodeMarker.addTo(map);
+    } catch (err) {}
+    return () => {
+      try {
+        privateNodeMarker.remove();
+      } catch (err) {}
+    };
+  }, [sharedTempPrivateNode, baseIconSize, mapName]);
+
+  useEffect(() => {
+    if (tempPrivateNode) {
+      setTempPrivateNode({ mapName });
+    }
+  }, [mapName]);
+
   if (hidden) {
     return <></>;
   }
@@ -195,7 +237,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     <Popover
       open={isEditing}
       onOpenChange={(open) => {
-        setTempPrivateNode(open ? {} : null);
+        setTempPrivateNode(open ? { mapName } : null);
       }}
     >
       <PopoverTrigger asChild>

@@ -7,7 +7,7 @@ import {
   PrivateNode,
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
-import { Actions } from "@repo/ui/controls";
+import { Actions, LiveShare } from "@repo/ui/controls";
 import type { TileOptions } from "@repo/lib";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
@@ -33,6 +33,7 @@ export default function InteractiveMapDynamic({
           <LivePlayer markerOptions={MARKER_OPTIONS} />
           <TraceLine />
           <Actions>
+            <LiveShare domain="paxdei" />
             <PrivateNode />
             <PrivateDrawing />
           </Actions>

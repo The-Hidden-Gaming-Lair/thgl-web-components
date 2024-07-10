@@ -2,11 +2,16 @@
 import type { LeafletMouseEvent } from "leaflet";
 import { DomEvent } from "leaflet";
 import { useEffect, useRef, useState } from "react";
-import { useCoordinates, useT, useUserStore } from "../(providers)";
+import { Spawns, useCoordinates, useT, useUserStore } from "../(providers)";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 import CanvasMarker from "./canvas-marker";
 import { useMap } from "./store";
-import { MarkerOptions, useGameState, useSettingsStore } from "@repo/lib";
+import {
+  MarkerOptions,
+  useConnectionStore,
+  useGameState,
+  useSettingsStore,
+} from "@repo/lib";
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
 
 export function Markers({
@@ -24,6 +29,7 @@ export function Markers({
   const t = useT();
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const liveMode = useSettingsStore((state) => state.liveMode);
+  const sharedPrivateNodes = useConnectionStore((state) => state.privateNodes);
 
   const handleMapMouseMoveRef = useRef<((e: LeafletMouseEvent) => void) | null>(
     null,
@@ -73,9 +79,24 @@ export function Markers({
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
-
+    const sharedPrivateSpawns = sharedPrivateNodes.map<Spawns[number]>(
+      (node) => {
+        return {
+          type: node.filter ?? "private_Unsorted",
+          mapName: node.mapName,
+          id: node.id,
+          name: node.name,
+          description: node.description,
+          p: node.p,
+          color: node.color,
+          icon: node.icon,
+          radius: node.radius,
+          isPrivate: true,
+        };
+      },
+    );
     const spawnIds = new Set<string | number>();
-    spawns.forEach((spawn) => {
+    [...spawns, ...sharedPrivateSpawns].forEach((spawn) => {
       if (spawn.mapName && spawn.mapName !== mapName) {
         return;
       }
@@ -234,7 +255,14 @@ export function Markers({
         marker.remove();
       } catch (e) {}
     }
-  }, [map, spawns, hideDiscoveredNodes, discoveredNodes, tempPrivateNodeId]);
+  }, [
+    map,
+    spawns,
+    sharedPrivateNodes,
+    hideDiscoveredNodes,
+    discoveredNodes,
+    tempPrivateNodeId,
+  ]);
 
   useEffect(() => {
     existingSpawnIds.current?.forEach((marker) => {

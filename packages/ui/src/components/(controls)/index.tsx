@@ -2,6 +2,7 @@ export * from "./actions";
 export * from "./color-picker";
 export * from "./icon-picker";
 export * from "./icon-sizes";
+export * from "./live-share";
 export * from "./markers-search";
 export * from "./settings-dialog-content";
 export * from "./streaming-receiver";

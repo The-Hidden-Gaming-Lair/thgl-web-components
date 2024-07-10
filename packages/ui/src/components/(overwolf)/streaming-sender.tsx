@@ -192,7 +192,7 @@ export function StreamingSender({
           variant="outline"
           className={cn(
             "md:w-auto md:h-9 md:px-4 md:py-2",
-            Object.keys(connectionStore.connections).length > 0
+            hasConnections
               ? "text-green-400"
               : isConnected
                 ? "text-yellow-500"
@@ -240,7 +240,9 @@ export function StreamingSender({
               {!appId && "Can not detect character name"}
             </span>
           </p>
-          <p className="uppercase text-orange-500 h-6">{errorMessage}</p>
+          <p className="uppercase text-orange-500 h-6 truncate">
+            {errorMessage}
+          </p>
           <form className="space-y-2" onSubmit={handleSubmit}>
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label

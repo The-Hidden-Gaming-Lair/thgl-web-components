@@ -6,6 +6,7 @@ import { Button, ColorPicker } from "../(controls)";
 import {
   cn,
   openFileOrFiles,
+  useConnectionStore,
   useSettingsStore,
   type PrivateDrawing as PrivateDrawningDTO,
 } from "@repo/lib";
@@ -19,6 +20,7 @@ import {
   Circle,
   FeatureGroup,
   LatLng,
+  LayerGroup,
   Marker,
   Polygon,
   Polyline,
@@ -239,6 +241,115 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     });
     setGlobalMode(activeShape);
   }, [map, drawingColor, drawingSize]);
+
+  const sharedTempPrivateDrawing = useConnectionStore(
+    (state) => state.tempPrivateDrawing,
+  );
+  const sharedPrivateDrawings = useConnectionStore(
+    (state) => state.privateDrawings,
+  );
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    const layerGroup = new LayerGroup();
+    layerGroup.addTo(map);
+    const drawings = sharedTempPrivateDrawing
+      ? [sharedTempPrivateDrawing, ...sharedPrivateDrawings]
+      : sharedPrivateDrawings;
+    drawings.forEach((drawing) => {
+      const { polylines, rectangles, polygons, circles, texts } = drawing;
+      polylines?.forEach((polylineData) => {
+        if (polylineData.mapName !== mapName) {
+          return;
+        }
+        const polylineLayer = polyline(polylineData.positions, {
+          pmIgnore: false,
+          stroke: true,
+          color: polylineData.color,
+          weight: polylineData.size,
+        });
+
+        try {
+          polylineLayer.addTo(layerGroup);
+        } catch (e) {}
+      });
+      rectangles?.forEach((rectangleData) => {
+        if (rectangleData.mapName !== mapName) {
+          return;
+        }
+        const rectangleLayer = rectangle(rectangleData.positions, {
+          pmIgnore: false,
+          stroke: true,
+          color: rectangleData.color,
+          weight: rectangleData.size,
+        });
+
+        try {
+          rectangleLayer.addTo(layerGroup);
+        } catch (e) {}
+      });
+      polygons?.forEach((polygonData) => {
+        if (polygonData.mapName !== mapName) {
+          return;
+        }
+        const polygonLayer = polygon(polygonData.positions, {
+          pmIgnore: false,
+          stroke: true,
+          color: polygonData.color,
+          weight: polygonData.size,
+        });
+
+        try {
+          polygonLayer.addTo(layerGroup);
+        } catch (e) {}
+      });
+      circles?.forEach((circleData) => {
+        if (circleData.mapName !== mapName) {
+          return;
+        }
+        const circleLayer = circle(circleData.center, {
+          pmIgnore: false,
+          stroke: true,
+          color: circleData.color,
+          weight: circleData.size,
+          radius: circleData.radius,
+        });
+
+        try {
+          circleLayer.addTo(layerGroup);
+        } catch (e) {}
+      });
+      texts?.forEach((textPositions) => {
+        if (textPositions.mapName !== mapName) {
+          return;
+        }
+        const textLayer = marker(textPositions.position, {
+          pmIgnore: false,
+          interactive: false,
+          textMarker: true,
+          text: textPositions.text,
+        });
+        try {
+          textLayer.addTo(layerGroup);
+        } catch (e) {}
+        const element = textLayer.pm.getElement() as HTMLTextAreaElement;
+        element.classList.add("protected-text");
+        element.style.setProperty("color", textPositions.color, "important");
+        element.style.fontSize = `${textPositions.size}px`;
+        element.style.width = `100vw`;
+        element.style.height = `fit-content`;
+        element.autocomplete = "off";
+        element.autocapitalize = "off";
+        element.spellcheck = false;
+      });
+    });
+    return () => {
+      try {
+        layerGroup.remove();
+      } catch (e) {}
+    };
+  }, [map, mapName, sharedTempPrivateDrawing, sharedPrivateDrawings]);
 
   useEffect(() => {
     if (!isEditing || !map) {
@@ -750,7 +861,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 {tempPrivateDrawing?.id ? "Edit" : "Add"} Drawing
               </h4>
               <p className="text-sm text-muted-foreground">
-                You can draw multiple shapes on add texts the map. The drawing
+                You can draw multiple shapes and add texts the map. The drawing
                 can be toggled in the filters section by the following name.
               </p>
             </div>
