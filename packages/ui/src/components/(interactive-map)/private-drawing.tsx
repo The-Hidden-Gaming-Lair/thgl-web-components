@@ -253,7 +253,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       return;
     }
     const layerGroup = new LayerGroup();
-    layerGroup.addTo(map);
+    try {
+      layerGroup.addTo(map);
+    } catch (e) {}
     const drawings = sharedTempPrivateDrawing
       ? [sharedTempPrivateDrawing, ...sharedPrivateDrawings]
       : sharedPrivateDrawings;
@@ -385,7 +387,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
 
       polylines.push(polylineLayer);
-      polylineLayer.addTo(map);
+      try {
+        polylineLayer.addTo(map);
+      } catch (e) {}
       setPolylines(polylines, mapName);
     });
     tempPrivateDrawing.rectangles?.forEach((rectangleData) => {
@@ -412,7 +416,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
 
       rectangles.push(rectangleLayer);
-      rectangleLayer.addTo(map);
+      try {
+        rectangleLayer.addTo(map);
+      } catch (e) {}
       setRectangles(rectangles, mapName);
     });
     tempPrivateDrawing.circles?.forEach((circleData) => {
@@ -437,7 +443,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
 
       circles.push(circleLayer);
-      circleLayer.addTo(map);
+      try {
+        circleLayer.addTo(map);
+      } catch (e) {}
       setCircles(circles, mapName);
     });
     tempPrivateDrawing.polygons?.forEach((polygonData) => {
@@ -464,7 +472,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
 
       polygons.push(polygonLayer);
-      polygonLayer.addTo(map);
+      try {
+        polygonLayer.addTo(map);
+      } catch (e) {}
       setPolygons(polygons, mapName);
     });
     tempPrivateDrawing.texts?.forEach((textPositions) => {
@@ -495,7 +505,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
 
       texts.push(textLayer);
-      textLayer.addTo(map);
+      try {
+        textLayer.addTo(map);
+      } catch (e) {}
       setTexts(texts, mapName);
     });
     map.on("pm:drawstart", ({ workingLayer, shape }) => {

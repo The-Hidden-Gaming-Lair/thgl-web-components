@@ -121,13 +121,17 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       isDragging = false;
     });
 
-    privateNodeMarker.addTo(map);
+    try {
+      privateNodeMarker.addTo(map);
+    } catch (err) {}
     canvasMarker.current = privateNodeMarker;
     return () => {
       map.off("mousemove", handleMouseMove);
       map.off("click", handleClick);
       privateNodeMarker.off();
-      privateNodeMarker.remove();
+      try {
+        privateNodeMarker.remove();
+      } catch (err) {}
     };
   }, [isEditing, map]);
 
