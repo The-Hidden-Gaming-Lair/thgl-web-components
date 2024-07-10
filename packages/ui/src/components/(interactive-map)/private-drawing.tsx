@@ -792,7 +792,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       });
     });
     return () => {
-      featureGroup.remove();
+      try {
+        featureGroup.remove();
+      } catch (e) {}
     };
   }, [map, privateDrawings, filters, tempPrivateDrawing?.id]);
 
