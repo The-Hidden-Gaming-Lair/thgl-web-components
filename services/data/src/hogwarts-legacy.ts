@@ -130,10 +130,27 @@ for (const location of hogwartsFastTravelLocations) {
   );
 }
 
-const accioPages = KnowledgeInvestigatable.filter((location) =>
-  location.Name.includes("AccioPage"),
-);
-for (const location of accioPages) {
+for (const location of KnowledgeInvestigatable) {
+  let type;
+  let title;
+  let iconPath;
+  if (location.Name.includes("AccioPage")) {
+    type = "accioPage";
+    title = "Accio Page";
+    iconPath =
+      "/Phoenix/Content/UI/Icons/Talents/UI_T_Talent_Accio_Mastery.png";
+  } else if (location.Name.includes("GuardianLeviosa")) {
+    type = "guardianLeviosa";
+    title = "Winguardian Leviosa";
+    iconPath = "/Phoenix/Content/UI/Icons/Spells/UI_T_wingardium.png";
+  } else if (location.Name.includes("MothFrame")) {
+    type = "mothFrame";
+    title = "Moth Frame";
+    iconPath =
+      "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/cigale_delapouite.webp";
+  } else {
+    continue;
+  }
   let world = "overland";
   // if (location.Name.includes("_HW_")) {
   //   world = "hogwarts";
@@ -150,16 +167,7 @@ for (const location of accioPages) {
   const x = location.XPos;
   const y = location.YPos;
   const z = location.ZPos;
-  const iconPath =
-    "/Phoenix/Content/UI/Icons/Talents/UI_T_Talent_Accio_Mastery.png";
-  await handleLocation(
-    location.Name,
-    `accioPage`,
-    world,
-    [y, x],
-    "Accio Page",
-    iconPath,
-  );
+  await handleLocation(location.Name, type, world, [y, x], title, iconPath);
 }
 
 writeNodes(nodes);

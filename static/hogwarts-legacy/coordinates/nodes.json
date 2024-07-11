@@ -889,5 +889,262 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Collect_HM_MothFrameSUB_Mill_X=399440 Y=-526104 Z=-80641",
+        "p": [
+          -526104.5,
+          399440.06
+        ]
+      },
+      {
+        "id": "Collect_HM_MothFrame_EastMain_X=391498 Y=-512931 Z=-83346",
+        "p": [
+          -512931.88,
+          391498.03
+        ]
+      },
+      {
+        "id": "Collect_HM_MothFrame_NorthHills_X=385977 Y=-528840 Z=-79542",
+        "p": [
+          -528840,
+          385977.44
+        ]
+      },
+      {
+        "id": "Collect_HM_MothFrame_NorthHills_X=392978 Y=-534107 Z=-80487",
+        "p": [
+          -534107.12,
+          392978.72
+        ]
+      },
+      {
+        "id": "Collect_HM_MothFrame_WestMain_X=383058 Y=-512911 Z=-83548",
+        "p": [
+          -512911,
+          383058.62
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_AstronomyTower_TECH_X=347242 Y=-459922 Z=-76799",
+        "p": [
+          -459922.84,
+          347242.5
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_CentralHall_TECH_X=354925 Y=-466903 Z=-85189",
+        "p": [
+          -466903.53,
+          354925.72
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_ClockTower_TECH_X=354245 Y=-444922 Z=-82892",
+        "p": [
+          -444922.72,
+          354245.47
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_DADA_4_TECH_X=352358 Y=-458431 Z=-83477",
+        "p": [
+          -458431.06,
+          352358.69
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_GrandStaircaseTower_TECH_X=362453 Y=-452922 Z=-73196",
+        "p": [
+          -452922.09,
+          362453.41
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_GreatHallAirlocks_TECH_X=367657 Y=-453413 Z=-81869",
+        "p": [
+          -453413.91,
+          367657.62
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_GroundsQ_TECH_X=340189 Y=-476092 Z=-86095",
+        "p": [
+          -476092.81,
+          340189.19
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_GryffindorLowerHallways_TECH_X=354842 Y=-450393 Z=-82786",
+        "p": [
+          -450393.22,
+          354842
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_Library_TECH_X=351518 Y=-465593 Z=-84903",
+        "p": [
+          -465593,
+          351518.34
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_LongGallery_TECH_X=353021 Y=-466962 Z=-86684",
+        "p": [
+          -466962.88,
+          353021.12
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_NorthHall_TECH_X=347572 Y=-466423 Z=-85212",
+        "p": [
+          -466423.06,
+          347572.53
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_NorthTower_TECH_X=348790 Y=-461320 Z=-84900",
+        "p": [
+          -461320.72,
+          348790.34
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_Ravenclaw_TECH_X=357318 Y=-457915 Z=-81696",
+        "p": [
+          -457915.84,
+          357318.41
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_SlytherinDungeon_TECH_X=364145 Y=-457971 Z=-84401",
+        "p": [
+          -457971.28,
+          364145.69
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_ViaductCourtyard_TECH_X=365513 Y=-462943 Z=-83183",
+        "p": [
+          -462943.44,
+          365513.28
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_CentralHall_TECH_X=356310 Y=-467970 Z=-85649",
+        "p": [
+          -467970.5,
+          356310
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_ClockTower_TECH_X=354106 Y=-446298 Z=-82999",
+        "p": [
+          -446298.41,
+          354106.09
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_DADA_6_TECH_X=347283 Y=-459254 Z=-80797",
+        "p": [
+          -459254.28,
+          347283.16
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_EntranceHall_TECH_X=369025 Y=-457239 Z=-82300",
+        "p": [
+          -457239.38,
+          369025.03
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_GroundsQ_TECH_X=337734 Y=-474437 Z=-85113",
+        "p": [
+          -474437.19,
+          337734.44
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_HospitalWing_TECH_X=356923 Y=-449630 Z=-78299",
+        "p": [
+          -449630.5,
+          356923.25
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_LibraryStorage_TECH_X=354010 Y=-467730 Z=-87212",
+        "p": [
+          -467730.44,
+          354010.72
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_NorthHall_TECH_X=348199 Y=-465312 Z=-85000",
+        "p": [
+          -465312.66,
+          348199.03
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_NorthTower_TECH_X=343431 Y=-460093 Z=-85700",
+        "p": [
+          -460093.69,
+          343431.41
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_Owlery_TECH_X=337225 Y=-442608 Z=-75748",
+        "p": [
+          -442608.38,
+          337225.34
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_QuadCourtyard_TECH_X=359303 Y=-451630 Z=-82596",
+        "p": [
+          -451630.56,
+          359303.91
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_QuadEastHall_TECH_X=361286 Y=-455669 Z=-80796",
+        "p": [
+          -455669.22,
+          361286.22
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_SchoolDungeon_TECH_X=349983 Y=-457669 Z=-87452",
+        "p": [
+          -457669.09,
+          349983.41
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_TransfigurationCourtyard_TECH_X=353101 Y=-463197 Z=-85800",
+        "p": [
+          -463197.28,
+          353101.41
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_ViaductCourtyard_TECH_X=368265 Y=-458849 Z=-82700",
+        "p": [
+          -458849.56,
+          368265.94
+        ]
+      }
+    ]
   }
 ]
