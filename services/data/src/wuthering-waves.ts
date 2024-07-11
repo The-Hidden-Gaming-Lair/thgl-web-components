@@ -461,7 +461,8 @@ for (const levelEntity of sortedEntities) {
     if (!addedFilterIDs.includes(id)) {
       const nameTerm = MultiText.find((m) => m.Id === tidName)
         ?.Content.replace("Laternberry", "Lanternberry")
-        .replace("Tetra", "Fish");
+        .replace("Tetra", "Fish")
+        .replace("Fowl", "Fowl Meat");
       if (!nameTerm) {
         // console.warn(`Missing name term for ${id}`);
         continue;
