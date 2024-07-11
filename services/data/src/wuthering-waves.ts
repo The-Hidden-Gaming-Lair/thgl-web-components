@@ -233,7 +233,7 @@ const overrides: Record<string, string> = {
 const monsterFilterIds: string[] = [];
 const fetterGroupIds: Record<string, string[]> = {};
 for (const monster of monsterInfo.monsterinfo) {
-  let phantomItem = dbPhantom.phantomitem.find(
+  const phantomItem = dbPhantom.phantomitem.find(
     (p) => p.data.MonsterName === monster.data.Name,
   );
   const isUnique =
@@ -263,13 +263,19 @@ for (const monster of monsterInfo.monsterinfo) {
   const monsterHandbook = dbHandbook.monsterhandbook.find(
     (p) => p.Id === monster.Id,
   );
-  if (!monsterHandbook) {
-    // console.warn(`Missing handbook for ${monster.data.Name}`);
+  const meshId = monsterHandbook?.data.MeshId ?? phantomItem?.data.MeshId;
+
+  if (!meshId) {
+    console.warn(
+      `Missing MeshId for ${monster.data.Name} (${id} | ${monster.Id})`,
+    );
   }
-  if (monsterHandbook) {
+  if (meshId) {
+    // console.log(
+    //   `Found handbook for ${monster.data.Name} (${id} | ${monster.Id})`,
+    // );
     const mesh = Object.values(dtModelConfig[0].Rows).find(
-      (m) =>
-        m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === monsterHandbook.data.MeshId,
+      (m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId,
     );
 
     let bpName = "";
@@ -462,7 +468,7 @@ for (const levelEntity of sortedEntities) {
         (m) => m.Id.startsWith("ItemInfo") && m.Content === nameTerm,
       )?.Id;
       if (!itemInfoId) {
-        console.warn(`Missing item info for ${nameTerm}`);
+        // console.warn(`Missing item info for ${nameTerm}`);
         continue;
       }
       const itemInfo = dbItems.iteminfo.find((i) => i.data.Name === itemInfoId);
