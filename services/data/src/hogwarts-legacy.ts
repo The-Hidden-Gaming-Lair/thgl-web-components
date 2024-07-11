@@ -57,6 +57,27 @@ const tiles = initTiles(
     [404000, -302000],
   ),
 );
+enDict["overland"] = "Overland";
+for (const tile of readDirSync(
+  TEXTURE_DIR + "/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/Hogwarts",
+)) {
+  const level = tile.split("_").at(-2);
+  if (level === "Base") {
+    continue;
+  }
+  const mapName = `hogwarts-${level}`;
+  enDict[mapName] = `Hogwarts Level ${level}`;
+  tiles[mapName] = (
+    await generateTiles(
+      mapName,
+      TEXTURE_DIR +
+        `/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/Hogwarts/${tile}`,
+      815000,
+      512,
+      [404000, -302000],
+    )
+  )[mapName];
+}
 
 writeTiles(tiles);
 

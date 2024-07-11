@@ -34,5 +34,1625 @@
       0.0006282208588957055,
       445.7226993865031
     ]
+  },
+  "hogwarts-01": {
+    "url": "/map-tiles/hogwarts-01/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-02": {
+    "url": "/map-tiles/hogwarts-02/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-03": {
+    "url": "/map-tiles/hogwarts-03/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-04": {
+    "url": "/map-tiles/hogwarts-04/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-05": {
+    "url": "/map-tiles/hogwarts-05/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-06": {
+    "url": "/map-tiles/hogwarts-06/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-07": {
+    "url": "/map-tiles/hogwarts-07/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-08": {
+    "url": "/map-tiles/hogwarts-08/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-09": {
+    "url": "/map-tiles/hogwarts-09/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-10": {
+    "url": "/map-tiles/hogwarts-10/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-11": {
+    "url": "/map-tiles/hogwarts-11/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-12": {
+    "url": "/map-tiles/hogwarts-12/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-13": {
+    "url": "/map-tiles/hogwarts-13/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-14": {
+    "url": "/map-tiles/hogwarts-14/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-15": {
+    "url": "/map-tiles/hogwarts-15/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-16": {
+    "url": "/map-tiles/hogwarts-16/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-17": {
+    "url": "/map-tiles/hogwarts-17/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-18": {
+    "url": "/map-tiles/hogwarts-18/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-19": {
+    "url": "/map-tiles/hogwarts-19/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-20": {
+    "url": "/map-tiles/hogwarts-20/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-21": {
+    "url": "/map-tiles/hogwarts-21/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-22": {
+    "url": "/map-tiles/hogwarts-22/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-23": {
+    "url": "/map-tiles/hogwarts-23/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-24": {
+    "url": "/map-tiles/hogwarts-24/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-25": {
+    "url": "/map-tiles/hogwarts-25/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-26": {
+    "url": "/map-tiles/hogwarts-26/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-27": {
+    "url": "/map-tiles/hogwarts-27/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-28": {
+    "url": "/map-tiles/hogwarts-28/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-29": {
+    "url": "/map-tiles/hogwarts-29/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-30": {
+    "url": "/map-tiles/hogwarts-30/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-31": {
+    "url": "/map-tiles/hogwarts-31/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-32": {
+    "url": "/map-tiles/hogwarts-32/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-33": {
+    "url": "/map-tiles/hogwarts-33/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-34": {
+    "url": "/map-tiles/hogwarts-34/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-35": {
+    "url": "/map-tiles/hogwarts-35/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-36": {
+    "url": "/map-tiles/hogwarts-36/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-37": {
+    "url": "/map-tiles/hogwarts-37/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-38": {
+    "url": "/map-tiles/hogwarts-38/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-39": {
+    "url": "/map-tiles/hogwarts-39/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-40": {
+    "url": "/map-tiles/hogwarts-40/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-41": {
+    "url": "/map-tiles/hogwarts-41/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-42": {
+    "url": "/map-tiles/hogwarts-42/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-43": {
+    "url": "/map-tiles/hogwarts-43/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-44": {
+    "url": "/map-tiles/hogwarts-44/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
+  },
+  "hogwarts-99": {
+    "url": "/map-tiles/hogwarts-99/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 1,
+      "bounds": [
+        [
+          -709500,
+          -3500
+        ],
+        [
+          105500,
+          811500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -709500,
+        -3500
+      ],
+      [
+        105500,
+        811500
+      ]
+    ],
+    "transformation": [
+      0.0006282208588957055,
+      2.1987730061349566,
+      0.0006282208588957055,
+      445.7226993865031
+    ]
   }
 }
