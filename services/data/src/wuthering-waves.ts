@@ -446,20 +446,22 @@ for (const levelEntity of sortedEntities) {
   const mapMark = dbMapMark.mapmark.find(
     (m) => m.data.EntityConfigId === levelEntity.data.EntityId,
   );
+  const isCollectible =
+    levelEntity.data.BlueprintType.startsWith("Collect") ||
+    ["Animal024"].includes(levelEntity.data.BlueprintType);
   const collectTemplate =
-    levelEntity.data.BlueprintType.startsWith("Collect") &&
+    isCollectible &&
     dbTemplate.templateconfig.find(
       (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
     );
-
-  if (collectTemplate) {
+  const tidName =
+    collectTemplate &&
     collectTemplate.data.ComponentsData.BaseInfoComponent.TidName;
+  if (tidName) {
     if (!addedFilterIDs.includes(id)) {
-      const nameTerm = MultiText.find(
-        (m) =>
-          m.Id ===
-          collectTemplate.data.ComponentsData.BaseInfoComponent.TidName,
-      )?.Content.replace("Laternberry", "Lanternberry");
+      const nameTerm = MultiText.find((m) => m.Id === tidName)
+        ?.Content.replace("Laternberry", "Lanternberry")
+        .replace("Tetra", "Fish");
       if (!nameTerm) {
         // console.warn(`Missing name term for ${id}`);
         continue;

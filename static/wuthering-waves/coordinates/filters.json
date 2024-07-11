@@ -947,6 +947,11 @@
         "size": 1
       },
       {
+        "id": "Animal024",
+        "icon": "ItemInfo_42400120_Name.webp",
+        "size": 1
+      },
+      {
         "id": "Collect101",
         "icon": "ItemInfo_42310010_Name.webp",
         "size": 1
