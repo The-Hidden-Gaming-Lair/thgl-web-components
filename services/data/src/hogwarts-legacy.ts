@@ -13,6 +13,7 @@ import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { saveIcon } from "./lib/image.js";
+import { Node } from "./types.js";
 
 initDirs(
   "/mnt/c/dev/Hogwarts Legacy/Extracted/Data",
@@ -46,19 +47,18 @@ if (Bun.env.DB === "true") {
   sqliteToJSON("/Phoenix/Content/SQLiteDB");
 }
 
-if (Bun.env.TILES === "true") {
-  const tiles = initTiles(
-    await generateTiles(
-      "overland",
-      TEXTURE_DIR +
-        "/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/Overland/UI_T_MiniMap_Overland_8192_D.png",
-      44100,
-      512,
-    ),
-  );
+const tiles = initTiles(
+  await generateTiles(
+    "overland",
+    TEXTURE_DIR +
+      "/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/Overland/UI_T_MiniMap_Overland_8192_D.png",
+    815000,
+    512,
+    [404000, -302000],
+  ),
+);
 
-  writeTiles(tiles);
-}
+writeTiles(tiles);
 
 const FastTravelLocations = readContentJSON<FastTravelLocations>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_FastTravelLocations.json",
@@ -66,7 +66,7 @@ const FastTravelLocations = readContentJSON<FastTravelLocations>(
 const HogwartsMapIconTable = readContentJSON<HogwartsMapIconTable>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_HogwartsMapIconTable.json",
 );
-const KnowledgeInvestigatable = readContentJSON(
+const KnowledgeInvestigatable = readContentJSON<KnowledgeInvestigatable>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeInvestigatable.json",
 );
 const KnowledgeLocations = readContentJSON(
@@ -81,7 +81,7 @@ const MiscLocations = readContentJSON(
 const SphinxPuzzleLocations = readContentJSON(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_SphinxPuzzleLocations.json",
 );
-const enUS = readContentJSON(
+const enUS = readContentJSON<Record<string, string>>(
   "/Phoenix/Content/Localization/WIN64/MAIN-enUS.json",
 );
 
@@ -95,16 +95,16 @@ for (const location of hogwartsFastTravelLocations) {
   );
 
   const extension = mapIcon ? mapIcon.IconName.split("_").at(-1) : "Fireplaces";
-  let world;
-  if (location.Name.startsWith("FT_HW_")) {
-    world = "hogwarts";
-  } else if (location.Name.startsWith("FT_OL")) {
-    world = "overland";
-  } else if (location.Name.startsWith("FT_Hogsmeade")) {
-    world = "hogsmeade";
-  } else {
-    throw new Error(`Unknown world for ${location.Name}`);
-  }
+  let world = "overland";
+  // if (location.Name.startsWith("FT_HW_")) {
+  //   world = "hogwarts";
+  // } else if (location.Name.startsWith("FT_OL")) {
+  //   world = "overland";
+  // } else if (location.Name.startsWith("FT_Hogsmeade")) {
+  //   world = "hogsmeade";
+  // } else {
+  //   throw new Error(`Unknown world for ${location.Name}`);
+  // }
   const x =
     mapIcon?.OverrideLocationX ||
     location.BeaconLocationX ||
@@ -118,12 +118,47 @@ for (const location of hogwartsFastTravelLocations) {
     location.BeaconLocationZ ||
     location.LocationZ;
 
+  const iconPath = `/Phoenix/Content/UI/Icons/Map/${mapIcon?.IconName || "UI_T_Fireplaces"}.png`;
   await handleLocation(
     location.Name,
-    `fastTravel${extension}`,
+    `fastTravel`,
     world,
-    [x, y],
-    mapIcon?.IconName || "UI_T_Fireplaces",
+    [y, x],
+    "Fast Travel Fireplace",
+    iconPath,
+    extension === "Fireplaces" ? undefined : extension,
+  );
+}
+
+const accioPages = KnowledgeInvestigatable.filter((location) =>
+  location.Name.includes("AccioPage"),
+);
+for (const location of accioPages) {
+  let world = "overland";
+  // if (location.Name.includes("_HW_")) {
+  //   world = "hogwarts";
+  // } else if (location.Name.includes("_Overland_")) {
+  //   world = "overland";
+  // } else if (
+  //   location.Name.includes("_HM_") ||
+  //   location.Name.includes("_Hogsmeade")
+  // ) {
+  //   world = "hogsmeade";
+  // } else {
+  //   world = "overland";
+  // }
+  const x = location.XPos;
+  const y = location.YPos;
+  const z = location.ZPos;
+  const iconPath =
+    "/Phoenix/Content/UI/Icons/Talents/UI_T_Talent_Accio_Mastery.png";
+  await handleLocation(
+    location.Name,
+    `accioPage`,
+    world,
+    [y, x],
+    "Accio Page",
+    iconPath,
   );
 }
 
@@ -137,7 +172,9 @@ async function handleLocation(
   type: string,
   mapName: string,
   pos: [number, number],
-  iconName: string,
+  text: string,
+  iconPath: string,
+  overrideIconName?: string,
 ) {
   const group = "locations";
   if (!filters.find((f) => f.group === group)) {
@@ -147,25 +184,23 @@ async function handleLocation(
       defaultOn: true,
       values: [],
     });
-    enDict[group] = group;
+    enDict[group] = "Locations";
   }
+  const iconName = overrideIconName ?? type;
+  if (!addedIcons.includes(iconPath)) {
+    addedIcons.push(await saveIcon(iconPath, iconName));
+  }
+
   const category = filters.find((f) => f.group === group)!;
   if (!addedFilterIDs.includes(type)) {
     category.values.push({
       id: type,
-      icon: await saveIcon(
-        `/Phoenix/Content/UI/Icons/Map/${iconName}.png`,
-        type,
-      ),
+      icon: `${iconName}.webp`,
       size: 1.3,
     });
     addedFilterIDs.push(type);
-    if (addedIcons.includes(type)) {
-      console.warn(`Duplicate icon: ${type}`);
-    } else {
-      addedIcons.push(type);
-    }
-    enDict[type] = type;
+
+    enDict[type] = text;
   }
 
   let oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName);
@@ -178,10 +213,18 @@ async function handleLocation(
   if (oldNodes.spawns.some((s) => s.p[0] === pos[0] && s.p[1] === pos[1])) {
     return;
   }
-  oldNodes.spawns.push({
+  const spawn: Node["spawns"][number] = {
     id,
     p: pos,
-  });
+  };
+  enDict[id] = enUS[id];
+  if (overrideIconName) {
+    spawn.icon = {
+      name: iconName,
+      url: `${iconName}.webp`,
+    };
+  }
+  oldNodes.spawns.push(spawn);
 }
 
 export type HogwartsMapIconTable = Array<{
@@ -210,4 +253,12 @@ type FastTravelLocations = Array<{
   BeaconLocationX: number;
   BeaconLocationY: number;
   BeaconLocationZ: number;
+}>;
+
+export type KnowledgeInvestigatable = Array<{
+  Name: string;
+  XPos: number;
+  YPos: number;
+  ZPos: number;
+  ZRot: number;
 }>;

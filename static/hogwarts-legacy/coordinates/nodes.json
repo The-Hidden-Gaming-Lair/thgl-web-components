@@ -1,699 +1,892 @@
 [
   {
-    "type": "fastTravelFireplaces",
+    "type": "fastTravel",
+    "mapName": "overland",
     "spawns": [
       {
         "id": "FT_Hogsmeade_North",
         "p": [
-          395570.56,
-          -519939.22
-        ],
-        "mapName": "hogsmeade"
+          -519939.22,
+          395570.56
+        ]
       },
       {
         "id": "FT_Hogsmeade_South",
         "p": [
-          390379.72,
-          -512150.31
-        ],
-        "mapName": "hogsmeade"
+          -512150.31,
+          390379.72
+        ]
       },
       {
         "id": "FT_Hogsmeade_West",
         "p": [
-          383460.38,
-          -515966.66
-        ],
-        "mapName": "hogsmeade"
+          -515966.66,
+          383460.38
+        ]
       },
       {
         "id": "FT_HW_AstronomyTower",
         "p": [
-          348253.19,
-          -458689.72
-        ],
-        "mapName": "hogwarts"
+          -458689.72,
+          348253.19
+        ]
       },
       {
         "id": "FT_HW_BellTowerCourtyard",
         "p": [
-          348323.75,
-          -468716.22
-        ],
-        "mapName": "hogwarts"
+          -468716.22,
+          348323.75
+        ]
       },
       {
         "id": "FT_HW_Boathouse",
         "p": [
-          374775.69,
-          -470044.06
-        ],
-        "mapName": "hogwarts"
+          -470044.06,
+          374775.69
+        ]
       },
       {
         "id": "FT_HW_CentralTower",
         "p": [
-          356840.56,
-          -465336.69
-        ],
-        "mapName": "hogwarts"
+          -465336.69,
+          356840.56
+        ]
       },
       {
         "id": "FT_HW_CharmsClass",
         "p": [
-          348965.91,
-          -458274
-        ],
-        "mapName": "hogwarts"
+          -458274,
+          348965.91
+        ]
       },
       {
         "id": "FT_HW_ClockTowerCourtyard",
         "p": [
-          354304.16,
-          -447352.09
-        ],
-        "mapName": "hogwarts"
+          -447352.09,
+          354304.16
+        ]
       },
       {
         "id": "FT_HW_DadaClass",
         "p": [
-          350984.66,
-          -455830.41
-        ],
-        "mapName": "hogwarts"
+          -455830.41,
+          350984.66
+        ]
       },
       {
         "id": "FT_HW_DADATower",
         "p": [
-          352010.5,
-          -460115.16
-        ],
-        "mapName": "hogwarts"
+          -460115.16,
+          352010.5
+        ]
       },
       {
         "id": "FT_HW_DivinationClass",
         "p": [
-          358761.88,
-          -466562.41
-        ],
-        "mapName": "hogwarts"
+          -466562.41,
+          358761.88
+        ]
       },
       {
         "id": "FT_HW_FacultyTower",
         "p": [
-          362548.97,
-          -451870.16
-        ],
-        "mapName": "hogwarts"
+          -451870.16,
+          362548.97
+        ]
       },
       {
         "id": "FT_HW_FigClass",
         "p": [
-          350695.97,
-          -458699.28
-        ],
-        "mapName": "hogwarts"
+          -458699.28,
+          350695.97
+        ]
       },
       {
         "id": "FT_HW_FlyingClass",
         "p": [
-          343170,
-          -463570.88
-        ],
-        "mapName": "hogwarts"
+          -463570.88,
+          343170
+        ]
       },
       {
         "id": "FT_HW_Grandstaircase",
         "p": [
-          364561.56,
-          -454234.22
-        ],
-        "mapName": "hogwarts"
+          -454234.22,
+          364561.56
+        ]
       },
       {
         "id": "FT_HW_GrandStaircaseTower",
         "p": [
-          362634.22,
-          -456285.97
-        ],
-        "mapName": "hogwarts"
+          -456285.97,
+          362634.22
+        ]
       },
       {
         "id": "FT_HW_GreatHall",
         "p": [
-          367914.16,
-          -452477.06
-        ],
-        "mapName": "hogwarts"
+          -452477.06,
+          367914.16
+        ]
       },
       {
         "id": "FT_HW_Greenhouses",
         "p": [
-          355648.66,
-          -472258.34
-        ],
-        "mapName": "hogwarts"
+          -472258.34,
+          355648.66
+        ]
       },
       {
         "id": "FT_HW_GryffindorCommonRoom",
         "p": [
-          355123.66,
-          -451386.84
-        ],
-        "mapName": "hogwarts"
+          -451386.84,
+          355123.66
+        ]
       },
       {
         "id": "FT_HW_Haven",
         "p": [
-          349276.84,
-          -458391.81
-        ],
-        "mapName": "hogwarts"
+          -458391.81,
+          349276.84
+        ]
       },
       {
         "id": "FT_HW_HospitalWing",
         "p": [
-          356871.5,
-          -449014.81
-        ],
-        "mapName": "hogwarts"
+          -449014.81,
+          356871.5
+        ]
       },
       {
         "id": "FT_HW_HufflepuffCommonRoom",
         "p": [
-          364177.59,
-          -448075.88
-        ],
-        "mapName": "hogwarts"
+          -448075.88,
+          364177.59
+        ]
       },
       {
         "id": "FT_HW_Library",
         "p": [
-          348700.5,
-          -468560.31
-        ],
-        "mapName": "hogwarts"
+          -468560.31,
+          348700.5
+        ]
       },
       {
         "id": "FT_HW_LowerGrandstaircase",
         "p": [
-          360550.88,
-          -453649.44
-        ],
-        "mapName": "hogwarts"
+          -453649.44,
+          360550.88
+        ]
       },
       {
         "id": "FT_HW_MagicalCreatures",
         "p": [
-          340356.19,
-          -457099.97
-        ],
-        "mapName": "hogwarts"
+          -457099.97,
+          340356.19
+        ]
       },
       {
         "id": "FT_HW_NorthExitHogwarts",
         "p": [
-          337851.31,
-          -474154.44
-        ],
-        "mapName": "hogwarts"
+          -474154.44,
+          337851.31
+        ]
       },
       {
         "id": "FT_HW_NorthTower",
         "p": [
-          344577.97,
-          -462073.75
-        ],
-        "mapName": "hogwarts"
+          -462073.75,
+          344577.97
+        ]
       },
       {
         "id": "FT_HW_PotionsClass",
         "p": [
-          354228.47,
-          -463418.34
-        ],
-        "mapName": "hogwarts"
+          -463418.34,
+          354228.47
+        ]
       },
       {
         "id": "FT_HW_QuadCourtyard",
         "p": [
-          359799,
-          -456575.47
-        ],
-        "mapName": "hogwarts"
+          -456575.47,
+          359799
+        ]
       },
       {
         "id": "FT_HW_RavenclawCommonRoom",
         "p": [
-          357492.91,
-          -456629.09
-        ],
-        "mapName": "hogwarts"
+          -456629.09,
+          357492.91
+        ]
       },
       {
         "id": "FT_HW_RavenclawTower",
         "p": [
-          359046.16,
-          -457170.81
+          -457170.81,
+          359046.16
+        ]
+      },
+      {
+        "id": "FT_HW_RoomOfRequirement",
+        "p": [
+          -460056,
+          347760
         ],
-        "mapName": "hogwarts"
+        "icon": {
+          "name": "SanctuaryHogwarts",
+          "url": "SanctuaryHogwarts.webp"
+        }
       },
       {
         "id": "FT_HW_SlytherinCommonRoom",
         "p": [
-          360305.09,
-          -456744.75
-        ],
-        "mapName": "hogwarts"
+          -456744.75,
+          360305.09
+        ]
       },
       {
         "id": "FT_HW_SouthExitHogwarts",
         "p": [
-          349366.88,
-          -434705.16
-        ],
-        "mapName": "hogwarts"
+          -434705.16,
+          349366.88
+        ]
       },
       {
         "id": "FT_HW_TransfigurationClass",
         "p": [
-          347778.31,
-          -462967.84
-        ],
-        "mapName": "hogwarts"
+          -462967.84,
+          347778.31
+        ]
       },
       {
         "id": "FT_HW_TransfigurationCourtyard",
         "p": [
-          350649.22,
-          -461348.25
-        ],
-        "mapName": "hogwarts"
+          -461348.25,
+          350649.22
+        ]
       },
       {
         "id": "FT_HW_TrophyRoom",
         "p": [
-          361394.16,
-          -453340.88
-        ],
-        "mapName": "hogwarts"
+          -453340.88,
+          361394.16
+        ]
       },
       {
         "id": "FT_HW_ViaductCourtyard",
         "p": [
-          364087.53,
-          -457850
-        ],
-        "mapName": "hogwarts"
+          -457850,
+          364087.53
+        ]
       },
       {
         "id": "FT_OL_ArchiesFort_HS_AH",
         "p": [
-          331536.78,
-          -363597.31
-        ],
-        "mapName": "overland"
+          -363597.31,
+          331536.78
+        ]
       },
       {
         "id": "FT_OL_BothyA_CO_AM",
         "p": [
-          486007.34,
-          -171533.27
-        ],
-        "mapName": "overland"
+          -171533.27,
+          486007.34
+        ]
       },
       {
         "id": "FT_OL_BothyA_CO_AS",
         "p": [
-          440975.31,
-          -172449.19
-        ],
-        "mapName": "overland"
+          -172449.19,
+          440975.31
+        ]
       },
       {
         "id": "FT_OL_BothyA_CO_BA",
         "p": [
-          460409.72,
-          -93652.27
-        ],
-        "mapName": "overland"
+          -93652.27,
+          460409.72
+        ]
       },
       {
         "id": "FT_OL_BothyA_CO_BQ",
         "p": [
-          547246.06,
-          -7935.83
-        ],
-        "mapName": "overland"
+          -7935.83,
+          547246.06
+        ]
       },
       {
         "id": "FT_OL_BothyA_HN_AK",
         "p": [
-          372222.81,
-          -631250.94
-        ],
-        "mapName": "overland"
+          -631250.94,
+          372222.81
+        ]
       },
       {
         "id": "FT_OL_BothyA_HN_AP",
         "p": [
-          400969.09,
-          -593690.38
-        ],
-        "mapName": "overland"
+          -593690.38,
+          400969.09
+        ]
       },
       {
         "id": "FT_OL_BothyA_HN_AS",
         "p": [
-          422413.81,
-          -545099.94
-        ],
-        "mapName": "overland"
+          -545099.94,
+          422413.81
+        ]
       },
       {
         "id": "FT_OL_BothyA_HN_BI",
         "p": [
-          385265.81,
-          -390042.28
-        ],
-        "mapName": "overland"
+          -390042.28,
+          385265.81
+        ]
       },
       {
         "id": "FT_OL_BothyA_HS_AW",
         "p": [
-          238415.72,
-          -262890.03
-        ],
-        "mapName": "overland"
+          -262890.03,
+          238415.72
+        ]
       },
       {
         "id": "FT_OL_BothyA_HS_AZ",
         "p": [
-          373786.16,
-          -280908.19
-        ],
-        "mapName": "overland"
+          -280908.19,
+          373786.16
+        ]
       },
       {
         "id": "FT_OL_Cairn_Dungeon_2_CO_AA",
         "p": [
-          410482.09,
-          -246806.64
-        ],
-        "mapName": "overland"
+          -246806.64,
+          410482.09
+        ]
       },
       {
         "id": "FT_OL_CairnDungeon3_HS_BF",
         "p": [
-          279538,
-          -244654.19
-        ],
-        "mapName": "overland"
+          -244654.19,
+          279538
+        ]
       },
       {
         "id": "FT_OL_CastleArbroath_CO_BQ",
         "p": [
-          557248.38,
-          -35038.76
-        ],
-        "mapName": "overland"
+          -35038.76,
+          557248.38
+        ]
       },
       {
         "id": "FT_OL_CastleChepstow_HS_AW",
         "p": [
-          246934.77,
-          -281301.47
-        ],
-        "mapName": "overland"
+          -281301.47,
+          246934.77
+        ]
       },
       {
         "id": "FT_OL_CastleDungeon1_TU_BB",
         "p": [
-          282760.47,
-          -511657
-        ],
-        "mapName": "overland"
+          -511657,
+          282760.47
+        ]
       },
       {
         "id": "FT_OL_CastleJerpoint_CO_AG",
         "p": [
-          426537.66,
-          -224421.16
-        ],
-        "mapName": "overland"
+          -224421.16,
+          426537.66
+        ]
       },
       {
         "id": "FT_OL_CavDungeon12_CO_AV",
         "p": [
-          540151.38,
-          -166773.44
-        ],
-        "mapName": "overland"
+          -166773.44,
+          540151.38
+        ]
       },
       {
         "id": "FT_OL_CaveOfDarkness_CO_AH",
         "p": [
-          460080.69,
-          -239205.55
-        ],
-        "mapName": "overland"
+          -239205.55,
+          460080.69
+        ]
       },
       {
         "id": "FT_OL_CoastalEntrance_CO_AA",
         "p": [
-          405626.84,
-          -247967.61
-        ],
-        "mapName": "overland"
+          -247967.61,
+          405626.84
+        ]
       },
       {
         "id": "FT_OL_CoastRegionVault_HS_BA",
         "p": [
-          398497.16,
-          -259040.22
-        ],
-        "mapName": "overland"
+          -259040.22,
+          398497.16
+        ]
       },
       {
         "id": "FT_OL_DarkForestEast_HN_AU",
         "p": [
-          345625.16,
-          -528912
-        ],
-        "mapName": "overland"
+          -528912,
+          345625.16
+        ]
       },
       {
         "id": "FT_OL_DFBanditCamp_HN_AN",
         "p": [
-          335355.97,
-          -576558.56
-        ],
-        "mapName": "overland"
+          -576558.56,
+          335355.97
+        ]
       },
       {
         "id": "FT_OL_FalbartonCastle_FO_AU",
         "p": [
-          445656.03,
-          -542006.38
-        ],
-        "mapName": "overland"
+          -542006.38,
+          445656.03
+        ]
       },
       {
         "id": "FT_OL_Fig07Graphorn_CO_BB",
         "p": [
-          512778.91,
-          -124921.16
-        ],
-        "mapName": "overland"
+          -124921.16,
+          512778.91
+        ]
       },
       {
         "id": "FT_OL_Forbidden_Forest_Entrance_HN_AV",
         "p": [
-          349968.44,
-          -497332.75
-        ],
-        "mapName": "overland"
+          -497332.75,
+          349968.44
+        ]
       },
       {
         "id": "FT_OL_GoblinBridge_CO_AM",
         "p": [
-          465986.41,
-          -185298.38
-        ],
-        "mapName": "overland"
+          -185298.38,
+          465986.41
+        ]
       },
       {
         "id": "FT_OL_Gobmine_Dungeon_07_HS_BA",
         "p": [
-          404745.94,
-          -282184.41
-        ],
-        "mapName": "overland"
+          -282184.41,
+          404745.94
+        ]
       },
       {
         "id": "FT_OL_GobmineDungeon06_CO_AN",
         "p": [
-          525868.69,
-          -211887.47
-        ],
-        "mapName": "overland"
+          -211887.47,
+          525868.69
+        ]
       },
       {
         "id": "FT_OL_HamletHalkirk_CO_BB",
         "p": [
-          490506.19,
-          -127097.15
-        ],
-        "mapName": "overland"
+          -127097.15,
+          490506.19
+        ]
       },
       {
         "id": "FT_OL_HamletHearth_HN_BD",
         "p": [
-          406465.66,
-          -450350.19
-        ],
-        "mapName": "overland"
+          -450350.19,
+          406465.66
+        ]
       },
       {
         "id": "FT_OL_HamletHelmsdale_CO_BD",
         "p": [
-          591532.44,
-          -93455.19
-        ],
-        "mapName": "overland"
+          -93455.19,
+          591532.44
+        ]
       },
       {
         "id": "FT_OL_HamletIrondale_HS_AY",
         "p": [
-          340792.47,
-          -248089.28
-        ],
-        "mapName": "overland"
+          -248089.28,
+          340792.47
+        ]
       },
       {
         "id": "FT_OL_HamletKeenbridge_HS_AR",
         "p": [
-          380450.28,
-          -323597.66
-        ],
-        "mapName": "overland"
+          -323597.66,
+          380450.28
+        ]
       },
       {
         "id": "FT_OL_HamletKinloch_HS_AW",
         "p": [
-          259909.05,
-          -277415.06
-        ],
-        "mapName": "overland"
+          -277415.06,
+          259909.05
+        ]
       },
       {
         "id": "FT_OL_HamletLowerHogsfield_HN_BG",
         "p": [
-          360930.19,
-          -413280.5
-        ],
-        "mapName": "overland"
+          -413280.5,
+          360930.19
+        ]
       },
       {
         "id": "FT_OL_HamletMaruweem_CO_AT",
         "p": [
-          478199.97,
-          -153471.78
-        ],
-        "mapName": "overland"
+          -153471.78,
+          478199.97
+        ]
       },
       {
         "id": "FT_OL_HamletMotherwell_HN_BJ",
         "p": [
-          433063.66,
-          -380046.75
-        ],
-        "mapName": "overland"
+          -380046.75,
+          433063.66
+        ]
       },
       {
         "id": "FT_OL_HamletStirling_HN_AS",
         "p": [
-          399816.44,
-          -560612.75
-        ],
-        "mapName": "overland"
+          -560612.75,
+          399816.44
+        ]
       },
       {
         "id": "FT_OL_NorthBogEntrance_HN_AO",
         "p": [
-          380933.59,
-          -591183.5
-        ],
-        "mapName": "overland"
+          -591183.5,
+          380933.59
+        ]
       },
       {
         "id": "FT_OL_NorthFeldcroft_HS_AG",
         "p": [
-          298005.38,
-          -337862.28
-        ],
-        "mapName": "overland"
+          -337862.28,
+          298005.38
+        ]
       },
       {
         "id": "FT_OL_OldIsidoraCastle_CO_AS",
         "p": [
-          452065.44,
-          -152649.25
-        ],
-        "mapName": "overland"
+          -152649.25,
+          452065.44
+        ]
       },
       {
         "id": "FT_OL_PercivalsTower_HN_AK",
         "p": [
-          373263,
-          -612516
-        ],
-        "mapName": "overland"
+          -612516,
+          373263
+        ]
       },
       {
         "id": "FT_OL_Pitt-UponFord_HN_AK",
         "p": [
-          350064.59,
-          -621841.81
-        ],
-        "mapName": "overland"
+          -621841.81,
+          350064.59
+        ]
       },
       {
         "id": "FT_OL_SanctumDungeonCavern2_HN_AU",
         "p": [
-          339676.12,
-          -548877.19
-        ],
-        "mapName": "overland"
+          -548877.19,
+          339676.12
+        ]
       },
       {
         "id": "FT_OL_SNC_02_MooncalfDen_HN_AZ",
         "p": [
-          311464.25,
-          -486187.97
-        ],
-        "mapName": "overland"
+          -486187.97,
+          311464.25
+        ]
       },
       {
         "id": "FT_OL_TheCollectorsCave_HN_AU",
         "p": [
-          356655.19,
-          -521648.97
-        ],
-        "mapName": "overland"
+          -521648.97,
+          356655.19
+        ]
       }
     ]
   },
   {
-    "type": "fastTravelSanctuaryHogwarts",
+    "type": "accioPage",
+    "mapName": "overland",
     "spawns": [
       {
-        "id": "FT_HW_RoomOfRequirement",
+        "id": "Collect_HM_AccioPageSUB_Neep_X=376503 Y=-519615 Z=-80741",
         "p": [
-          347760,
-          -460056
-        ],
-        "mapName": "hogwarts"
+          -519615.91,
+          376503.03
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPageSUB_Neep_X=381419 Y=-520885 Z=-81361",
+        "p": [
+          -520885.16,
+          381419.31
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPageSUB_Tomes_X=385455 Y=-510083 Z=-82984",
+        "p": [
+          -510083.28,
+          385455.62
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_EastMain_X=391658 Y=-515979 Z=-82448",
+        "p": [
+          -515979.66,
+          391658.94
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_EastMain_X=394937 Y=-508775 Z=-82764",
+        "p": [
+          -508775.25,
+          394937.59
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_Lake_X=393347 Y=-522316 Z=-81558",
+        "p": [
+          -522316,
+          393347.38
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_Lake_X=396782 Y=-522918 Z=-81502",
+        "p": [
+          -522918.78,
+          396782.47
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_Lake_X=402586 Y=-524812 Z=-80373",
+        "p": [
+          -524812.31,
+          402586.84
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_MainStreet_X=384809 Y=-508825 Z=-83369",
+        "p": [
+          -508825.78,
+          384809.25
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_MainStreet_X=389089 Y=-508580 Z=-83337",
+        "p": [
+          -508580.62,
+          389089.03
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_MiddleTown_X=384981 Y=-519186 Z=-81955",
+        "p": [
+          -519186.84,
+          384981.19
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_MiddleTown_X=387386 Y=-515804 Z=-82777",
+        "p": [
+          -515804.97,
+          387386.94
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_NorthHills_X=387727 Y=-529976 Z=-79394",
+        "p": [
+          -529976.81,
+          387727.47
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_NorthHills_X=392175 Y=-533521 Z=-79535",
+        "p": [
+          -533521.19,
+          392175.09
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_NorthHills_X=393869 Y=-525864 Z=-81266",
+        "p": [
+          -525864.12,
+          393869.22
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_NorthHills_X=398141 Y=-529773 Z=-79672",
+        "p": [
+          -529773.88,
+          398141.41
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_RiversEdge_X=390261 Y=-519226 Z=-81585",
+        "p": [
+          -519226.25,
+          390261.81
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_TECH_LOC_Hogsmeade_X=395285 Y=-517839 Z=-81646",
+        "p": [
+          -517839.06,
+          395285.19
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_WestMain_X=381171 Y=-517193 Z=-82527",
+        "p": [
+          -517193.22,
+          381171.31
+        ]
+      },
+      {
+        "id": "Collect_HM_AccioPage_WestMain_X=384465 Y=-512684 Z=-83261",
+        "p": [
+          -512684.62,
+          384465.09
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_BellTowers_TECH_X=348868 Y=-470968 Z=-84981",
+        "p": [
+          -470968.81,
+          348868.88
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_CentralHall_TECH_X=352735 Y=-464401 Z=-85295",
+        "p": [
+          -464401.75,
+          352735.44
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_CentralHall_TECH_X=354424 Y=-466938 Z=-84890",
+        "p": [
+          -466938.44,
+          354424.62
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_ClockTower_TECH_X=356760 Y=-445860 Z=-81301",
+        "p": [
+          -445860.94,
+          356760.25
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_DADA_6_TECH_X=348304 Y=-457725 Z=-81026",
+        "p": [
+          -457725.53,
+          348304.47
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_DeathDayDungeon_TECH_X=367100 Y=-459966 Z=-83872",
+        "p": [
+          -459966.56,
+          367100.06
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_EntranceHall_TECH_X=368002 Y=-457495 Z=-81384",
+        "p": [
+          -457495.31,
+          368002.84
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_FacultySBStairs_TECH_X=358671 Y=-451614 Z=-79694",
+        "p": [
+          -451614.97,
+          358671.34
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_Garden_TECH_X=364449 Y=-449415 Z=-81581",
+        "p": [
+          -449415.84,
+          364449.94
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_GrandStaircaseMiddle_TECH_X=363326 Y=-455246 Z=-81927",
+        "p": [
+          -455246.94,
+          363326.72
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_GroundsQ_TECH_X=354866 Y=-475785 Z=-86470",
+        "p": [
+          -475785,
+          354866.94
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_HospitalWing_TECH_X=357428 Y=-449614 Z=-77193",
+        "p": [
+          -449614,
+          357428.12
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_Library_TECH_X=350873 Y=-467521 Z=-84996",
+        "p": [
+          -467521.78,
+          350873.88
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_MagicalCreatures_TECH_X=337591 Y=-457115 Z=-84502",
+        "p": [
+          -457115.53,
+          337591.34
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_NorthTower_TECH_X=343629 Y=-461223 Z=-85272",
+        "p": [
+          -461223.84,
+          343629.06
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_Owlery_TECH_X=336042 Y=-442297 Z=-75287",
+        "p": [
+          -442297.84,
+          336042.16
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_QuadCourtyard_TECH_X=359018 Y=-453110 Z=-82542",
+        "p": [
+          -453110.28,
+          359018.38
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_SchoolDungeon_TECH_X=349664 Y=-459531 Z=-86209",
+        "p": [
+          -459531.81,
+          349664.06
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_ViaductEntrance_TECH_X=357028 Y=-465384 Z=-82611",
+        "p": [
+          -465384.44,
+          357028.25
+        ]
       }
     ]
   }

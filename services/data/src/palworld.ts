@@ -29,8 +29,6 @@ await generateTiles(
   TEXTURE_DIR + "/Pal/Content/Pal/Texture/UI/map/T_WorldMap.png",
   REAL_SIZE,
   TILE_SIZE,
-  OFFSET,
-  MAP_BOUNDS,
 );
 const tiles = initTiles({
   default: {

@@ -24,11 +24,15 @@ export async function generateTiles(
     [-halfWidth, -halfWidth],
     [halfWidth, halfWidth],
   ] as [[number, number], [number, number]];
-  const realSize = mapBounds[1][0] - mapBounds[0][0];
-  const multiple = realSize / tileSize;
+  const multiple = width / tileSize;
   const offset = [-mapBounds[0][0] / multiple, -mapBounds[0][1] / multiple];
 
   const outDir = `${OUTPUT_DIR}/map-tiles/${mapName}`;
+
+  const realBounds = [
+    [-halfWidth + additionalOffset[1], -halfWidth + additionalOffset[0]],
+    [halfWidth + additionalOffset[1], halfWidth + additionalOffset[0]],
+  ] as [[number, number], [number, number]];
 
   if (Bun.env.TILES === "true") {
     await $`mkdir -p ${outDir}`;
@@ -56,17 +60,17 @@ export async function generateTiles(
       options: {
         minNativeZoom: 0,
         maxNativeZoom: maxNativeZoom,
-        bounds: mapBounds,
+        bounds: realBounds,
         tileSize: tileSize,
       },
       minZoom: -5,
       maxZoom: 7,
-      fitBounds: fitBounds ?? mapBounds,
+      fitBounds: fitBounds ?? realBounds,
       transformation: [
         1 / multiple,
-        offset[0] + additionalOffset[0],
+        offset[0] - additionalOffset[0] / multiple,
         1 / multiple,
-        offset[1] + additionalOffset[1],
+        offset[1] - additionalOffset[1] / multiple,
       ],
     },
   };

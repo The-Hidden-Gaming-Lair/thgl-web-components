@@ -5,13 +5,13 @@
     "defaultOn": true,
     "values": [
       {
-        "id": "fastTravelFireplaces",
-        "icon": "fastTravelFireplaces.webp",
+        "id": "fastTravel",
+        "icon": "fastTravel.webp",
         "size": 1.3
       },
       {
-        "id": "fastTravelSanctuaryHogwarts",
-        "icon": "fastTravelSanctuaryHogwarts.webp",
+        "id": "accioPage",
+        "icon": "accioPage.webp",
         "size": 1.3
       }
     ]
