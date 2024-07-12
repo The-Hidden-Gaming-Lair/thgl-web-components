@@ -227,9 +227,13 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       mapName,
     };
     if (isExistingNode) {
-      trackEvent("Private Node: Update");
+      trackEvent("Private Node: Update", {
+        props: { filter: tempPrivateNode.filter },
+      });
     } else {
-      trackEvent("Private Node: Add");
+      trackEvent("Private Node: Add", {
+        props: { filter: tempPrivateNode.filter },
+      });
     }
     addPrivateNode(marker);
     setFilters([...filters.filter((f) => f !== marker.filter), marker.filter!]);
