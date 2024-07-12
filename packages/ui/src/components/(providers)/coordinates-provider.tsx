@@ -197,6 +197,10 @@ export function CoordinatesProvider({
               },
               mapName: view.map ?? mapNames[0],
               setMapName: (mapName) => {
+                if (!mapNames.includes(mapName)) {
+                  console.warn(`Invalid map name: ${mapName}`);
+                  return;
+                }
                 set({ mapName, center: undefined, zoom: undefined });
               },
               center: view.center,
