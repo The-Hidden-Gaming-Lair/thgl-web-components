@@ -168,6 +168,11 @@ const LARGE = {
   OFFSET_X: (1024000 * 1.6) / 2,
   OFFSET_Y: -(1024000 * 0.4) / 2,
   CAMERA_ANGLE: 0,
+  ADDITIONAL_OFFSET: [0, 0],
+  CROP_BOUNDS: [
+    [0, 0],
+    [614400, 614400],
+  ],
 };
 
 await saveIcon("/PaxDei/Content/_PD/Game/UX/Map/T_MapPointer.png", "player", {
@@ -179,6 +184,11 @@ const SMALL = {
   OFFSET_X: 409600 / 2,
   OFFSET_Y: -409600 / 2,
   CAMERA_ANGLE: 0,
+  ADDITIONAL_OFFSET: [0, 0],
+  CROP_BOUNDS: [
+    [0, 0],
+    [0, 0],
+  ],
 };
 for (const mapName of readDirSync(
   CONTENT_DIR + "/PaxDei/Content/_PD/StaticData/Domain",
@@ -207,18 +217,24 @@ for (const mapName of readDirSync(
     [-HALF_WIDTH, -HALF_WIDTH],
     [HALF_WIDTH, HALF_WIDTH],
   ] as [[number, number], [number, number]];
-  const REAL_SIZE = MAP_BOUNDS[1][0] - MAP_BOUNDS[0][0];
-  const MULTIPLE = REAL_SIZE / TILE_SIZE;
+  const MULTIPLE = WIDTH / TILE_SIZE;
   const OFFSET = [-MAP_BOUNDS[0][0] / MULTIPLE, -MAP_BOUNDS[0][1] / MULTIPLE];
-  const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
-  const FIT_BOUNDS =
-    mapName === "gallia_pve_01"
-      ? MAP_BOUNDS
-      : ([
-          [MAP_BOUNDS[0][0], MAP_BOUNDS[0][1]],
-          [MAP_BOUNDS[1][0] * 0.25, MAP_BOUNDS[1][1] * 0.25],
-        ] as [[number, number], [number, number]]);
 
+  const REAL_BOUNDS = [
+    [
+      -HALF_WIDTH + offset.ADDITIONAL_OFFSET[1],
+      -HALF_WIDTH + offset.ADDITIONAL_OFFSET[0],
+    ],
+    [
+      HALF_WIDTH + offset.ADDITIONAL_OFFSET[1],
+      HALF_WIDTH + offset.ADDITIONAL_OFFSET[0],
+    ],
+  ].map((b, i) => b.map((v, j) => v - (offset.CROP_BOUNDS[i][j] || 0))) as [
+    [number, number],
+    [number, number],
+  ];
+
+  const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
   if (Bun.env.TILES === "true") {
     try {
       const tilesFilepaths = await readDirSync(
@@ -260,12 +276,12 @@ for (const mapName of readDirSync(
     options: {
       minNativeZoom: 0,
       maxNativeZoom: maxNativeZoom,
-      bounds: MAP_BOUNDS,
+      bounds: REAL_BOUNDS,
       tileSize: TILE_SIZE,
     },
     minZoom: -5,
     maxZoom: 7,
-    fitBounds: FIT_BOUNDS,
+    fitBounds: REAL_BOUNDS,
     transformation: [1 / MULTIPLE, OFFSET[0], 1 / MULTIPLE, OFFSET[1]],
   };
 
