@@ -26,7 +26,7 @@ export function GlobalFilters() {
   }, [isHydrated]);
 
   return (
-    <div className="flex justify-center p-1">
+    <div className="flex justify-center p-1 w-[175px] md:w-full flex-wrap">
       {globalFilters.map((globalFilter) => (
         <Popover key={globalFilter.group}>
           <PopoverTrigger asChild>
