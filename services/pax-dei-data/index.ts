@@ -241,7 +241,7 @@ for (const mapName of readDirSync(
           continue;
         }
         if (file.endsWith(".jpg") || file.endsWith(".png")) {
-          await $`cwebp ${file} -quiet -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")}`;
+          await $`cwebp ${file} -quiet -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")}`;
           await $`rm ${file}`;
         }
       }

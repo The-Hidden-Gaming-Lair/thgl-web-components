@@ -213,21 +213,6 @@ export async function mergeImages(paths: string[]) {
   return canvas!;
 }
 
-function isBlackImage(image: Image) {
-  const canvas = createCanvas(image.width, image.height);
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(image, 0, 0, image.width, image.height);
-  const imageData = ctx.getImageData(0, 0, image.width, image.height);
-  const data = imageData.data;
-  for (let i = 0; i < data.length; i += 4) {
-    const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
-    if (r !== 0 || g !== 0 || b !== 0) {
-      return false;
-    }
-  }
-  return true;
-}
-
 export async function extractCanvasFromSprite(
   spritePath: string,
   name: string,
