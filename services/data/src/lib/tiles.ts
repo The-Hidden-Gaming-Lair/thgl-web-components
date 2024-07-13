@@ -18,6 +18,7 @@ export async function generateTiles(
   tileSize = 512,
   additionalOffset = [0, 0],
   fitBounds?: [[number, number], [number, number]],
+  cropBounds?: [[number, number], [number, number]],
 ): Promise<Tiles> {
   const halfWidth = width / 2;
   const mapBounds = [
@@ -32,7 +33,10 @@ export async function generateTiles(
   const realBounds = [
     [-halfWidth + additionalOffset[1], -halfWidth + additionalOffset[0]],
     [halfWidth + additionalOffset[1], halfWidth + additionalOffset[0]],
-  ] as [[number, number], [number, number]];
+  ].map((b, i) => b.map((v, j) => v - (cropBounds?.[i][j] || 0))) as [
+    [number, number],
+    [number, number],
+  ];
 
   if (Bun.env.TILES === "true") {
     await $`mkdir -p ${outDir}`;
@@ -44,7 +48,7 @@ export async function generateTiles(
         continue;
       }
       if (file.endsWith(".jpg") || file.endsWith(".png")) {
-        await $`cwebp ${file} -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
+        await $`cwebp ${file} -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
         await $`rm ${file}`;
       }
     }

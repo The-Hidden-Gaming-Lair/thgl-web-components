@@ -36,11 +36,13 @@ const enDict = initDict({
 });
 
 const ORTHOGRAPHIC_WIDTH = 1360000;
+const TILE_SIZE = 512;
+const multiple = ORTHOGRAPHIC_WIDTH / TILE_SIZE;
 const WORLD = {
   id: "AkiWorld_WP",
   ORTHOGRAPHIC_WIDTH: ORTHOGRAPHIC_WIDTH,
-  OFFSET_X: -96,
-  OFFSET_Y: -96,
+  OFFSET_X: 96 * multiple,
+  OFFSET_Y: 96 * multiple,
   CAMERA_ANGLE: 0,
 };
 const BIG_WORLD_MAP_ID = 8;
@@ -73,11 +75,15 @@ const tiles = initTiles(
     WORLD.id,
     TEMP_DIR + "/bigmap.png",
     WORLD.ORTHOGRAPHIC_WIDTH,
-    512,
+    TILE_SIZE,
     [WORLD.OFFSET_X, WORLD.OFFSET_Y],
     [
       [0, -150000],
       [200000, 50000],
+    ],
+    [
+      [0, 0],
+      [510000, 595000],
     ],
   ),
 );
