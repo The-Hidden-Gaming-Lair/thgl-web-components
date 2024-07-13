@@ -33,11 +33,17 @@ export default function PrivacyPolicy(): JSX.Element {
         banner and privacy policy for more information on their data collection
         practices.
       </p>
+      <p>
+        My in-game apps my display ads served by Overwolf. Please refer to
+        Overwolf's privacy policy for more information on their data collection
+        practices.
+      </p>
       <h3 className="font-bold">Do Not Sell My Personal Information</h3>
       <p>
         To comply with the California Consumer Privacy Act (CCPA), I provide a
         "Do Not Sell My Personal Information" link. You can exercise your CCPA
-        rights by clicking on the following link: <span data-ccpa-link="1" />
+        rights by clicking on the following link:{" "}
+        <span data-ccpa-link="1">Not in California</span>.
       </p>
       <h3 className="font-bold">Data Security</h3>
       <p>

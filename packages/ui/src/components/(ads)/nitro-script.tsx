@@ -27,9 +27,11 @@ export function NitroScript({
 }): JSX.Element {
   const adRemoval = useAccountStore((state) => state.adRemoval);
   const { state, setState } = useNitroState();
+  // @ts-expect-error
+  const isOverwolf = typeof window.___overwolf___ !== "undefined";
 
   useEffect(() => {
-    if (state !== "loading" || adRemoval) {
+    if (state !== "loading" || adRemoval || isOverwolf) {
       return;
     }
     const timeoutId = setTimeout(() => {
@@ -41,7 +43,7 @@ export function NitroScript({
     };
   }, [state]);
 
-  if (adRemoval) {
+  if (adRemoval || isOverwolf) {
     return <></>;
   }
 
