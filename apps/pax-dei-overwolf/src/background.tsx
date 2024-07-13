@@ -4,11 +4,7 @@ import {
   loadPlugin,
 } from "@repo/lib/overwolf";
 
-initBackground(
-  23626,
-  "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
-  "1249803392822546512",
-);
+initBackground(23626, "gjohaodckfkkodlmmmmeifkdkifddegkleppngad", "xxx");
 
 const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
 

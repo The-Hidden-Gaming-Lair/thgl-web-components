@@ -70,7 +70,7 @@ await initDiscordRPC("1249803392822546512", (updatePresence) => {
     true,
     0,
     "Get The App",
-    "https://www.th.gl/apps/Wuthering Waves?ref=discordrpc",
+    "https://www.th.gl/apps/Wuthering%20Waves?ref=discordrpc",
     "",
     "",
   ]);

@@ -96,7 +96,7 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
 }
 
-await initDiscordRPC("1249803392822546512", (updatePresence) => {
+await initDiscordRPC("xxx", (updatePresence) => {
   updatePresence([
     "",
     "Playing",
@@ -107,7 +107,7 @@ await initDiscordRPC("1249803392822546512", (updatePresence) => {
     true,
     0,
     "Get The App",
-    "https://www.th.gl/apps/Pax Dei?ref=discordrpc",
+    "https://www.th.gl/apps/Pax%20Dei?ref=discordrpc",
     "",
     "",
   ]);
