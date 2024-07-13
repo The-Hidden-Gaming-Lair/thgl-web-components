@@ -5,7 +5,7 @@ import { AdsContainer } from "./ads-container";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import { initAd } from "./ads";
 
-const mediaQuery = "(max-width: 1679px) and (max-height: 699px)";
+const mediaQuery = "(max-height: 699px)";
 export function Ads728x90Desktop({ title }: { title: string }): JSX.Element {
   const matched = useMediaQuery(mediaQuery);
   const adRef = useRef<HTMLDivElement | null>(null);
