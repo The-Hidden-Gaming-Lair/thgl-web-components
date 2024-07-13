@@ -178,7 +178,7 @@ export async function listenToPlugin(
     refreshActorsState();
   }
 
-  function getClosestActors(filters = [], limit = 10) {
+  getClosestActors = (filters: string[] = [], limit = 10) => {
     return new Promise((resolve, reject) => {
       gameEventsPlugin.GetActors(
         filters,
@@ -211,7 +211,28 @@ export async function listenToPlugin(
         },
       );
     });
-  }
+  };
   // @ts-ignore
   window.getClosestActors = getClosestActors;
 }
+
+export let getClosestActors:
+  | ((
+      filters?: string[],
+      limit?: number,
+    ) => Promise<
+      {
+        distance: number;
+        isKnown: boolean;
+        address: number;
+        mapName?: string;
+        type: string;
+        x: number;
+        y: number;
+        z: number;
+        r: number;
+        hidden?: boolean;
+        path?: string;
+      }[]
+    >)
+  | null = null;

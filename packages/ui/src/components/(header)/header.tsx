@@ -6,11 +6,13 @@ export function Header({
   children,
   activeApp,
   settingsDialogContent,
+  infoActions,
   ...props
 }: {
   children: React.ReactNode;
   activeApp: string;
   settingsDialogContent?: JSX.Element;
+  infoActions?: JSX.Element;
 } & HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <header
@@ -23,6 +25,7 @@ export function Header({
       <GlobalMenu
         activeApp={activeApp}
         settingsDialogContent={settingsDialogContent}
+        infoActions={infoActions}
       />
       <nav
         className={cn("ml-2 grow flex items-center gap-2 text-sm font-bold")}

@@ -17,6 +17,7 @@ export * from "./map-hotkeys";
 export * from "./qr";
 export * from "./resize-borders";
 export * from "./settings-dialog-content";
+export * from "./send-logs";
 export * from "./status";
 export * from "./streaming-sender";
 export * from "./unlock-button";

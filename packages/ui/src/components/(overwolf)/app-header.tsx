@@ -15,6 +15,7 @@ import { ReactNode, useEffect } from "react";
 import { UnlockButton } from "./unlock-button";
 import { OverwolfSettingsDialogContent } from "./settings-dialog-content";
 import { useCoordinates } from "../(providers)";
+import { SendLogs } from "./send-logs";
 
 export function AppHeader({
   app,
@@ -134,6 +135,7 @@ export function AppHeader({
               more={moreSettings}
             />
           }
+          infoActions={<SendLogs />}
         >
           {isOverlay ? <LockWindowButton /> : null}
           <Brand title={title ?? app} />

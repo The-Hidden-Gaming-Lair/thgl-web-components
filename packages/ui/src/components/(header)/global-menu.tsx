@@ -15,6 +15,7 @@ import {
 } from "../ui/hover-card";
 import { User } from "./user";
 import ConsentLink from "../(ads)/consent-link";
+import { NitroScript } from "../(ads)";
 
 const APPS = [
   {
@@ -215,9 +216,11 @@ const APPS = [
 export function GlobalMenu({
   activeApp,
   settingsDialogContent,
+  infoActions,
 }: {
   activeApp: string;
   settingsDialogContent?: JSX.Element;
+  infoActions?: JSX.Element;
 }): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false);
   const t = useT();
@@ -442,7 +445,10 @@ export function GlobalMenu({
                   {t("privacy_policy")}
                 </ExternalAnchor>
               </Button>
-              <ConsentLink />
+              <NitroScript>
+                <ConsentLink />
+              </NitroScript>
+              {infoActions}
             </HoverCardContent>
           </HoverCard>
         </div>
