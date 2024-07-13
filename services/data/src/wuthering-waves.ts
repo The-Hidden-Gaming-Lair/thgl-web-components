@@ -289,7 +289,7 @@ for (const monster of monsterInfo.monsterinfo) {
       console.warn(`Missing mesh for ${monster.data.Name}`);
     } else {
       bpName =
-        mesh.蓝图_164_769F290B4EFC164B65A1599B535666B6.AssetPathName.split(
+        mesh.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split(
           "/",
         )[6];
     }
@@ -298,8 +298,12 @@ for (const monster of monsterInfo.monsterinfo) {
     } else {
       if (typesIDs[`BP_${bpName}_C`]) {
         console.warn(`Duplicate BP: ${bpName} with ${monster.data.Name}`);
+        if (!phantomItem) {
+          typesIDs[`BP_${bpName}_C`] = id;
+        }
+      } else {
+        typesIDs[`BP_${bpName}_C`] = id;
       }
-      typesIDs[`BP_${bpName}_C`] = id;
     }
   }
   const isExile = name.includes("Exile") || name.includes("Fractsidus");
