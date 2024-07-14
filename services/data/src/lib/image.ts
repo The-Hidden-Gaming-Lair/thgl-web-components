@@ -15,6 +15,8 @@ export async function saveIcon(
     threshold?: number;
     glowing?: boolean;
     rotate?: number;
+    contrast?: number;
+    brightness?: number;
   } = {},
 ) {
   let filePath = assetPath.startsWith("/home")
@@ -26,25 +28,36 @@ export async function saveIcon(
   if (props.border && props.color) {
     const canvas = await drawInCircleWithBorderColor(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.circle && props.color) {
     const canvas = await addCircleToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.glowing && props.color) {
     const canvas = await addOutlineToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.color) {
     const canvas = await colorizeImage(filePath, props.color, props.threshold);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR + `/${name}.png`} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp ${TEMP_DIR + `/${name}.png`} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.rotate) {
     const canvas = await rotateImage(assetPath, props.rotate);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  } else if (
+    typeof props.brightness !== "undefined" &&
+    typeof props.contrast !== "undefined"
+  ) {
+    const canvas = await adjustBrightnessAndContrast(
+      await loadCanvas(filePath),
+      props.brightness,
+      props.contrast,
+    );
+    saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
+    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else {
-    await $`cwebp ${filePath} -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp ${filePath} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   }
   savedIcons.push(name);
   return `${name}.webp`;
@@ -328,7 +341,7 @@ export async function extractCanvasFromSprite(
     saveImage(TEMP_DIR + `/${name}.png`, canvasTmp.toBuffer("image/png"));
   }
 
-  await $`cwebp ${TEMP_DIR}/${name}.png -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+  await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
 
   return `${name}.webp`;
 }
@@ -340,5 +353,39 @@ export async function rotateImage(imagePath: string, angle: number) {
   ctx.translate(image.width / 2, image.height / 2);
   ctx.rotate((angle * Math.PI) / 180);
   ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  return canvas;
+}
+
+export async function loadCanvas(imagePath: string) {
+  const image = await loadImage(imagePath);
+  const canvas = createCanvas(image.width, image.height);
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(image, 0, 0, image.width, image.height);
+  return canvas;
+}
+
+export function adjustBrightnessAndContrast(
+  canvas: Canvas,
+  brightness: number,
+  contrast: number,
+) {
+  const ctx = canvas.getContext("2d");
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imageData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = Math.max(Math.min(data[i] * contrast + brightness, 255), 0);
+    data[i + 1] = Math.max(
+      Math.min(data[i + 1] * contrast + brightness, 255),
+      0,
+    );
+    data[i + 2] = Math.max(
+      Math.min(data[i + 2] * contrast + brightness, 255),
+      0,
+    );
+  }
+
+  ctx.putImageData(imageData, 0, 0);
+
   return canvas;
 }
