@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@repo/lib";
+import { ErrorBoundary } from "../(controls)";
 
 export function HeaderOffset({
   children,
@@ -13,7 +14,7 @@ export function HeaderOffset({
   bypass?: boolean;
 }): JSX.Element {
   if (bypass) {
-    return <>{children}</>;
+    return <ErrorBoundary>{children}</ErrorBoundary>;
   }
   return (
     <div
@@ -25,7 +26,7 @@ export function HeaderOffset({
         className,
       )}
     >
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
     </div>
   );
 }

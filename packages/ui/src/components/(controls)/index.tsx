@@ -1,5 +1,6 @@
 export * from "./actions";
 export * from "./color-picker";
+export * from "./error-boundary";
 export * from "./icon-picker";
 export * from "./icon-sizes";
 export * from "./live-share";
