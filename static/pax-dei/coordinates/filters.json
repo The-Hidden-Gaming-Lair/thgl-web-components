@@ -666,6 +666,10 @@
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T34_Bott_Carrier",
+        "icon": "PD_NPC_Cor_Boar_T34_Bott_Carrier.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T36_Blighted_Pet",
         "icon": "PD_NPC_Cor_Boar_T36_Blighted_Pet.webp"
       },
@@ -962,6 +966,10 @@
         "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
+        "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
         "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
       },
@@ -1233,6 +1241,10 @@
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T34_Bott_Carrier",
+        "icon": "PD_NPC_Cor_Boar_T34_Bott_Carrier.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T36_Blighted_Pet",
         "icon": "PD_NPC_Cor_Boar_T36_Blighted_Pet.webp"
       },
@@ -1411,6 +1423,10 @@
       {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
         "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
+        "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
