@@ -141,6 +141,11 @@
         "id": "sulfur",
         "icon": "sulfur.webp",
         "size": 1
+      },
+      {
+        "id": "crude_oil",
+        "icon": "crude_oil.webp",
+        "size": 1.5
       }
     ]
   },

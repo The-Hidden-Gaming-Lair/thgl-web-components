@@ -1,7 +1,7 @@
 import { initDict, writeDict } from "./lib/dicts.js";
 import { CONTENT_DIR, OUTPUT_DIR, TEXTURE_DIR, initDirs } from "./lib/dirs.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
-import { readJSON } from "./lib/fs.js";
+import { readDirSync, readJSON } from "./lib/fs.js";
 import { saveIcon } from "./lib/image.js";
 import { calculateDistance, initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
@@ -87,6 +87,86 @@ const filters = initFilters(
 ).filter((f) => f.group !== "pal_common" && f.group !== "pal_alpha");
 
 const oldNodes = readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json");
+
+for (const path of readDirSync(
+  CONTENT_DIR + "/Pal/Content/Pal/Maps/MainWorld_5/PL_MainWorld5/_Generated_",
+)) {
+  const data = readJSON<PL_MainWorld5>(
+    CONTENT_DIR +
+      "/Pal/Content/Pal/Maps/MainWorld_5/PL_MainWorld5/_Generated_/" +
+      path,
+  );
+  for (const node of data) {
+    if (
+      node.Type !== "SceneComponent" ||
+      !node.Properties?.RelativeLocation ||
+      !node.Outer
+    ) {
+      continue;
+    }
+    let group = "";
+    let size = 2;
+    let icon = "";
+    let type = "";
+    let isStatic = false;
+    let id = "";
+
+    if (node.Outer.startsWith("BP_LevelObject_OilField_")) {
+      group = "resources";
+      type = "crude_oil";
+      enDict["crude_oil"] = "Crude Oil";
+      icon = await saveIcon(
+        "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/oil-pump_delapouite.webp",
+        type,
+      );
+      size = 1.5;
+    } else {
+      continue;
+    }
+
+    const bp = node.Outer.split("_C")[0] + "_C";
+    typesIDs[bp] = type;
+
+    if (!newNodes.some((n) => n.type === type)) {
+      const nodeDef: Node = {
+        type,
+        spawns: [],
+      };
+      if (isStatic) {
+        nodeDef.static = true;
+      }
+      newNodes.push(nodeDef);
+    }
+    const nodesSpawns = newNodes.find((n) => n.type === type)!;
+
+    const spawn: Node["spawns"][0] = {
+      p: [
+        node.Properties.RelativeLocation.X,
+        node.Properties.RelativeLocation.Y,
+      ],
+    };
+    if (id) {
+      spawn.id = id;
+    }
+    nodesSpawns.spawns.push(spawn);
+
+    if (!filters.find((f) => f.group === group)) {
+      filters.push({
+        group: group,
+        values: [],
+      });
+    }
+    const category = filters.find((f) => f.group === group)!;
+    if (!category.values.some((v) => v.id === type)) {
+      category.values.push({
+        id: type,
+        icon,
+        size,
+      });
+    }
+  }
+}
+
 for (const node of mainWorld) {
   if (
     node.Type !== "SceneComponent" ||
