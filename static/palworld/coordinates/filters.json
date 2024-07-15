@@ -28,6 +28,11 @@
         "id": "goddess_statue",
         "icon": "goddess_statue.webp",
         "size": 2
+      },
+      {
+        "id": "respawn_point",
+        "icon": "respawn_point.webp",
+        "size": 3
       }
     ]
   },

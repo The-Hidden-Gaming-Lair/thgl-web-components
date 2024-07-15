@@ -96,6 +96,9 @@ for (const node of mainWorld) {
     continue;
   }
 
+  let group = "locations";
+  let size = 2;
+  let icon = "";
   let type: string;
   let isStatic: boolean = false;
   let id = "";
@@ -103,6 +106,27 @@ for (const node of mainWorld) {
     type = "dungeon_random";
   } else if (node.Outer.startsWith("BP_DungeonFixedEntrance")) {
     type = "dungeon_sealed";
+  } else if (
+    node.Outer.startsWith("BP_LevelObject_StaticRespawnPoint") ||
+    node.Outer.startsWith("BP_MapObject_StaticRespawnPoint")
+  ) {
+    type = "respawn_point";
+    enDict["respawn_point"] = "Respawn Point";
+    icon = await saveIcon(
+      "/Pal/Content/Pal/Blueprint/UI/WorldMap/IconWidgets/testIcon/T_worldmap_icon_fasttravel.png",
+      type,
+    );
+    size = 3;
+    const parent = mainWorld.find((n) => n.Name === node.Outer);
+    if (!parent || !parent.Properties?.RespawnPointID) {
+      throw new Error(`No parent for ${node.Outer}`);
+    }
+    id = parent.Properties.RespawnPointID;
+    const name =
+      mapRespawnPointInfoText[0].Rows[`${id}_Title`].TextData.LocalizedString;
+    const desc = mapRespawnPointInfoText[0].Rows[id].TextData.LocalizedString;
+    enDict[id] = name;
+    enDict[`${id}_desc`] = desc;
   } else if (
     node.Outer.startsWith("BP_LevelObject_TowerFastTravelPoint") ||
     node.Outer.startsWith("BP_MapObject_TowerFastTravelPoint")
@@ -135,10 +159,13 @@ for (const node of mainWorld) {
     node.Outer.startsWith("BP_LevelObject_Relic")
   ) {
     type = "lifmunk_effigy";
+    group = "collectibles";
   } else if (node.Outer.startsWith("BP_PalMapObjectSpawner_SkillFruits")) {
     type = "skill_fruit";
+    group = "items";
   } else if (node.Outer.startsWith("BP_PalMapObjectSpawner_Treasure")) {
     type = "treasure_box";
+    group = "items";
     // } else if (node.Outer.startsWith("bp_palmapobjectspawner_palegg_")) {
     //   const region = node.Outer.split("_")[3].toLowerCase();
     //   if (region === "volcanic") {
@@ -171,14 +198,30 @@ for (const node of mainWorld) {
     }
     newNodes.push(nodeDef);
   }
-  const category = newNodes.find((n) => n.type === type)!;
+  const nodesSpawns = newNodes.find((n) => n.type === type)!;
+
   const spawn: Node["spawns"][0] = {
     p: [node.Properties.RelativeLocation.X, node.Properties.RelativeLocation.Y],
   };
   if (id) {
     spawn.id = id;
   }
-  category.spawns.push(spawn);
+  nodesSpawns.spawns.push(spawn);
+
+  if (!filters.find((f) => f.group === group)) {
+    filters.push({
+      group: group,
+      values: [],
+    });
+  }
+  const category = filters.find((f) => f.group === group)!;
+  if (!category.values.some((v) => v.id === type)) {
+    category.values.push({
+      id: type,
+      icon,
+      size,
+    });
+  }
 }
 
 const PAL_OFFSET = 2500;

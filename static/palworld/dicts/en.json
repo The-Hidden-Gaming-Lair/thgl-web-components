@@ -434,5 +434,22 @@
   "sifudog": "Dogen",
   "sifudog_desc": "Striving for a state of selflessness, it meditates endlessly. \r\nAfter confronting its worldly desires, it eats a meal and reflects.\r\nIt ate too much today.",
   "candleghost": "Sootseer",
-  "candleghost_desc": "It was once believed that as the world approached its end, the flame would weaken.\r\nDoomsayers would repeatedly rejoice when the flame began to weaken,\r\nbut in the end, it turned out to be a prank by <characterName id=|CandleGhost|/>.\r\nAt least, for now."
+  "candleghost_desc": "It was once believed that as the world approached its end, the flame would weaken.\r\nDoomsayers would repeatedly rejoice when the flame began to weaken,\r\nbut in the end, it turned out to be a prank by <characterName id=|CandleGhost|/>.\r\nAt least, for now.",
+  "respawn_point": "Respawn Point",
+  "SpawnPoint_6": "Ice Wind Island",
+  "SpawnPoint_6_desc": "Cold winds from a snowy mountain blow across the island.\r\nThe cold of the night can be fatal.\r\nNot even the archipelago native often consider living here.",
+  "SpawnPoint_5": "Forgotten Island",
+  "SpawnPoint_5_desc": "Far from the main island, no one seems to be living on the island.\r\nSituated at the north end of the archipelago, the temperature is somewhat low.\r\nWith few Pals and resources, living here is difficult.",
+  "SpawnPoint_7": "Eastern Wild Island",
+  "SpawnPoint_7_desc": "Wild island to the east.\r\nAt the edge of the main island, none have considered developing it.\r\nThose not used to living in the wilds would find it hard to survive here.",
+  "SpawnPoint_8": "Marsh Island",
+  "SpawnPoint_8_desc": "Island with expansive marshes.\r\nBerries can be found everywhere, thanks to its temperate climate.\r\nHas good access to the center of the main island.",
+  "SpawnPoint_3": "Sea Breeze Archipelago Reef",
+  "SpawnPoint_3_desc": "Coastline with reefs in every direction.\r\nAverage number of resources and Pals.\r\nThough rocky, it's easy enough to secure a wide, open plot of land.",
+  "SpawnPoint_4": "Sea Breeze Archipelago Castaway Beach",
+  "SpawnPoint_4_desc": "Sunny islands blessed with a pleasant sea breeze.\r\nNear a volcano with a warm, easy-to-live in climate.\r\nWith good access to the center of the main island, it's a great place for setting off on adventures.",
+  "SpawnPoint_2": "Windswept Hills Flying Fish Coast",
+  "SpawnPoint_2_desc": "Sandy beach with lots of water Pals around.\r\nNot many trees, but many Pals call this place home.",
+  "SpawnPoint_1": "Windswept Hills Plateau of Beginnings",
+  "SpawnPoint_1_desc": "A small hill with a good view and plentiful resources.\r\nRecommended for new players."
 }

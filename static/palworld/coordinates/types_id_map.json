@@ -250,5 +250,7 @@
   "BP_SifuDog_C": "sifudog",
   "BP_CandleGhost_C": "candleghost",
   "BP_BlackGriffon_C": "blackgriffon",
-  "BP_PalMapObjectSpawner_SkillFruits_Sakura_C": "skill_fruit"
+  "BP_PalMapObjectSpawner_SkillFruits_Sakura_C": "skill_fruit",
+  "BP_LevelObject_StaticRespawnPoint_C": "respawn_point",
+  "BP_MapObject_StaticRespawnPoint_C": "respawn_point"
 }
