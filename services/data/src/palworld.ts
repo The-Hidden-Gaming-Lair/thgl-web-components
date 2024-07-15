@@ -243,6 +243,17 @@ for (const node of mainWorld) {
   } else if (node.Outer.startsWith("BP_PalMapObjectSpawner_SkillFruits")) {
     type = "skill_fruit";
     group = "items";
+  } else if (node.Outer.startsWith("BP_PalMapObjectSpawner_Junk")) {
+    type = "junk_yard";
+    group = "items";
+    icon = await saveIcon(
+      "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/brick-pile_delapouite.webp",
+      type,
+      { color: "#ffaa33" },
+    );
+    size = 1.2;
+    enDict["junk_yard"] = "Junk Yard";
+    typesIDs["BP_MapObject_TreasureBox_RequiredLongHold_Junk_C"] = "junk_yard";
   } else if (node.Outer.startsWith("BP_PalMapObjectSpawner_Treasure")) {
     type = "treasure_box";
     group = "items";

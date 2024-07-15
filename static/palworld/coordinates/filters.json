@@ -60,6 +60,11 @@
         "id": "treasure_box",
         "icon": "treasure_box.webp",
         "size": 1
+      },
+      {
+        "id": "junk_yard",
+        "icon": "junk_yard.webp",
+        "size": 1.2
       }
     ]
   },
