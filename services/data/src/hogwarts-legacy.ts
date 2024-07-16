@@ -203,12 +203,15 @@ for (const location of hogwartsFastTravelLocations) {
 
   const extension = mapIcon ? mapIcon.IconName.split("_").at(-1) : "Fireplaces";
   if (isInHogwarts([y, x])) {
+    const level = getHogwartsLevel(z);
+    enDict[`${location.Name}_desc`] = enDict[level];
+
     await handleLocation(
       group,
       title,
       location.Name,
       `fastTravel`,
-      getHogwartsLevel(z),
+      level,
       [y, x],
       "Fast Travel Fireplace",
       iconPath,
@@ -434,12 +437,14 @@ for (const location of moreLocations) {
   const y = location.YPos;
   const z = location.ZPos;
   if (isInHogwarts([y, x])) {
+    const level = getHogwartsLevel(z);
+    enDict[`${name}_desc`] = enDict[level];
     await handleLocation(
       group,
       titleGroup,
       name,
       type,
-      getHogwartsLevel(z),
+      level,
       [y, x],
       title,
       iconPath,

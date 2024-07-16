@@ -28,10 +28,10 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <LivePlayer markerOptions={MARKER_OPTIONS} />
       <TraceLine />
       <Actions>
-        <StreamingReceiver
+        {/* <StreamingReceiver
           domain="hogwarts"
           href="https://www.overwolf.com/app/Leon_Machens-Hogwarts.gg"
-        />
+        /> */}
         <PrivateNode />
         <PrivateDrawing />
       </Actions>
