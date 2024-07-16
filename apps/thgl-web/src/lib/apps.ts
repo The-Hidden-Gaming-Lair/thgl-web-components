@@ -228,7 +228,7 @@ export const apps: App[] = [
     tileSrc: "/hogwarts.jpg",
     overwolf: {
       id: "ejpjngplofkhhplmlfdhlaccobehhefmgbbojdno",
-      protocol: "thgl-hogwarts-map",
+      protocol: "thgl-hogwarts-legacy",
       url: "https://www.overwolf.com/app/Leon_Machens-Hogwarts.gg",
     },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
