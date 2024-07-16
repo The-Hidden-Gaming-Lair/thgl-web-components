@@ -81,30 +81,70 @@ for (const tile of readDirSync(
 
 writeTiles(tiles);
 
-const FastTravelLocations = readContentJSON<FastTravelLocations>(
-  "/Phoenix/Content/SQLiteDB/PhoenixGameData_FastTravelLocations.json",
-);
-const HogwartsMapIconTable = readContentJSON<HogwartsMapIconTable>(
-  "/Phoenix/Content/SQLiteDB/PhoenixGameData_HogwartsMapIconTable.json",
-);
-const KnowledgeInvestigatable = readContentJSON<KnowledgeInvestigatable>(
-  "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeInvestigatable.json",
-);
-const KnowledgeLocations = readContentJSON(
+const FastTravelLocations =
+  readContentJSON<PhoenixGameData_FastTravelLocations>(
+    "/Phoenix/Content/SQLiteDB/PhoenixGameData_FastTravelLocations.json",
+  );
+const HogwartsMapIconTable =
+  readContentJSON<PhoenixGameData_HogwartsMapIconTable>(
+    "/Phoenix/Content/SQLiteDB/PhoenixGameData_HogwartsMapIconTable.json",
+  );
+const KnowledgeInvestigatable =
+  readContentJSON<PhoenixGameData_KnowledgeInvestigatable>(
+    "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeInvestigatable.json",
+  );
+const KnowledgeLocations = readContentJSON<PhoenixGameData_KnowledgeLocations>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeLocations.json",
 );
-const Locations = readContentJSON(
+const Locations = readContentJSON<PhoenixGameData_Locations>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_Locations.json",
 );
-const MiscLocations = readContentJSON(
+const MiscLocations = readContentJSON<PhoenixGameData_MiscLocations>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_MiscLocations.json",
 );
-const SphinxPuzzleLocations = readContentJSON(
-  "/Phoenix/Content/SQLiteDB/PhoenixGameData_SphinxPuzzleLocations.json",
-);
+const SphinxPuzzleLocations =
+  readContentJSON<PhoenixGameData_SphinxPuzzleLocations>(
+    "/Phoenix/Content/SQLiteDB/PhoenixGameData_SphinxPuzzleLocations.json",
+  );
 const enUS = readContentJSON<Record<string, string>>(
   "/Phoenix/Content/Localization/WIN64/MAIN-enUS.json",
 );
+
+const MiniMapNHogwartsLevelData =
+  readContentJSON<UI_DT_MiniMapNHogwartsLevelData>(
+    "/Phoenix/Content/UI/Map/UI_DT_MiniMapNHogwartsLevelData.json",
+  );
+const bottomZValues = Object.entries(MiniMapNHogwartsLevelData[0].Rows).reduce(
+  (acc, [key, value]) => {
+    acc[key] = value.BottomZValue;
+    return acc;
+  },
+  {} as {
+    [level: string]: number;
+  },
+);
+const getLevelByZ = (z: number) => {
+  const entry = Object.entries(bottomZValues).find(([level, bottomZ]) => {
+    if (bottomZ > z) {
+      return false;
+    }
+    const nextLevel = bottomZValues[(+level + 1).toString()];
+    if (nextLevel && nextLevel <= z) {
+      return false;
+    }
+    return true;
+  });
+  if (entry) {
+    return +entry[0];
+  }
+  return 1;
+};
+const pad = (value: number) => `0${Math.floor(value)}`.slice(-2);
+const getHogwartsLevel = (z: number) => {
+  const level = getLevelByZ(z);
+  const padLevel = pad(level);
+  return `hogwarts-${padLevel}`;
+};
 
 const hogwartsFastTravelLocations = FastTravelLocations.filter(
   (location) => location.ShowOnMap,
@@ -114,18 +154,6 @@ for (const location of hogwartsFastTravelLocations) {
   const mapIcon = HogwartsMapIconTable.find(
     (icon) => icon.Name.toLowerCase() === location.Name.toLowerCase(),
   );
-
-  const extension = mapIcon ? mapIcon.IconName.split("_").at(-1) : "Fireplaces";
-  let world = "overland";
-  // if (location.Name.startsWith("FT_HW_")) {
-  //   world = "hogwarts";
-  // } else if (location.Name.startsWith("FT_OL")) {
-  //   world = "overland";
-  // } else if (location.Name.startsWith("FT_Hogsmeade")) {
-  //   world = "hogsmeade";
-  // } else {
-  //   throw new Error(`Unknown world for ${location.Name}`);
-  // }
   const x =
     mapIcon?.OverrideLocationX ||
     location.BeaconLocationX ||
@@ -138,12 +166,38 @@ for (const location of hogwartsFastTravelLocations) {
     mapIcon?.OverrideLocationZ ||
     location.BeaconLocationZ ||
     location.LocationZ;
-
+  const group = "locations";
+  const title = "Locations";
   const iconPath = `/Phoenix/Content/UI/Icons/Map/${mapIcon?.IconName || "UI_T_Fireplaces"}.png`;
+
+  const extension = mapIcon ? mapIcon.IconName.split("_").at(-1) : "Fireplaces";
+  if (location.Name.startsWith("FT_HW_")) {
+    await handleLocation(
+      group,
+      title,
+      location.Name,
+      `fastTravel`,
+      getHogwartsLevel(z),
+      [y, x],
+      "Fast Travel Fireplace",
+      iconPath,
+      extension === "Fireplaces" ? undefined : extension,
+    );
+  }
+  // else if (location.Name.startsWith("FT_OL")) {
+  //   world = "overland";
+  // } else if (location.Name.startsWith("FT_Hogsmeade")) {
+  //   world = "hogsmeade";
+  // } else {
+  //   throw new Error(`Unknown world for ${location.Name}`);
+  // }
+
   await handleLocation(
+    group,
+    title,
     location.Name,
     `fastTravel`,
-    world,
+    "overland",
     [y, x],
     "Fast Travel Fireplace",
     iconPath,
@@ -151,28 +205,68 @@ for (const location of hogwartsFastTravelLocations) {
   );
 }
 
-for (const location of KnowledgeInvestigatable) {
+const moreLocations = [...KnowledgeInvestigatable, ...KnowledgeLocations];
+for (const location of moreLocations) {
   let type;
   let title;
   let iconPath;
+  let group;
+  let titleGroup;
   if (location.Name.includes("AccioPage")) {
     type = "accioPage";
     title = "Accio Page";
     iconPath =
       "/Phoenix/Content/UI/Icons/Talents/UI_T_Talent_Accio_Mastery.png";
+    group = "collectibles";
+    titleGroup = "Collectibles";
   } else if (location.Name.includes("GuardianLeviosa")) {
     type = "guardianLeviosa";
     title = "Winguardian Leviosa";
     iconPath = "/Phoenix/Content/UI/Icons/Spells/UI_T_wingardium.png";
+    group = "collectibles";
+    titleGroup = "Collectibles";
   } else if (location.Name.includes("MothFrame")) {
     type = "mothFrame";
     title = "Moth Frame";
     iconPath =
       "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/cigale_delapouite.webp";
+    group = "locations";
+    titleGroup = "Locations";
+  } else if (location.Name.startsWith("KO_Demiguise")) {
+    type = "demiguise";
+    title = "Demiguise Statue";
+    iconPath = "/Phoenix/Content/UI/Icons/Map/UI_T_DemiguiseStatue.png";
+    group = "collectibles";
+    titleGroup = "Collectibles";
   } else {
     continue;
   }
-  let world = "overland";
+  const x = location.XPos;
+  const y = location.YPos;
+  const z = location.ZPos;
+  if (location.Name.includes("_HW_")) {
+    await handleLocation(
+      group,
+      titleGroup,
+      location.Name,
+      type,
+      getHogwartsLevel(z),
+      [y, x],
+      title,
+      iconPath,
+    );
+  }
+  await handleLocation(
+    group,
+    titleGroup,
+    location.Name,
+    type,
+    "overland",
+    [y, x],
+    title,
+    iconPath,
+  );
+
   // if (location.Name.includes("_HW_")) {
   //   world = "hogwarts";
   // } else if (location.Name.includes("_Overland_")) {
@@ -185,10 +279,6 @@ for (const location of KnowledgeInvestigatable) {
   // } else {
   //   world = "overland";
   // }
-  const x = location.XPos;
-  const y = location.YPos;
-  const z = location.ZPos;
-  await handleLocation(location.Name, type, world, [y, x], title, iconPath);
 }
 
 writeNodes(nodes);
@@ -197,6 +287,8 @@ writeTypesIDs(typesIDs);
 writeDict(enDict, "en");
 
 async function handleLocation(
+  group: string,
+  title: string,
   id: string,
   type: string,
   mapName: string,
@@ -205,7 +297,6 @@ async function handleLocation(
   iconPath: string,
   overrideIconName?: string,
 ) {
-  const group = "locations";
   if (!filters.find((f) => f.group === group)) {
     filters.push({
       group: group,
@@ -213,7 +304,7 @@ async function handleLocation(
       defaultOn: true,
       values: [],
     });
-    enDict[group] = "Locations";
+    enDict[group] = title;
   }
   const iconName = overrideIconName ?? type;
   if (!addedIcons.includes(iconPath)) {
@@ -256,7 +347,7 @@ async function handleLocation(
   oldNodes.spawns.push(spawn);
 }
 
-export type HogwartsMapIconTable = Array<{
+export type PhoenixGameData_HogwartsMapIconTable = Array<{
   Name: string;
   OverrideLocationX: number;
   OverrideLocationY: number;
@@ -267,7 +358,7 @@ export type HogwartsMapIconTable = Array<{
   ShowOnRegionTier: number;
 }>;
 
-type FastTravelLocations = Array<{
+type PhoenixGameData_FastTravelLocations = Array<{
   Name: string;
   Available: any;
   LocationX: number;
@@ -284,7 +375,200 @@ type FastTravelLocations = Array<{
   BeaconLocationZ: number;
 }>;
 
-export type KnowledgeInvestigatable = Array<{
+export type PhoenixGameData_KnowledgeInvestigatable = Array<{
+  Name: string;
+  XPos: number;
+  YPos: number;
+  ZPos: number;
+  ZRot: number;
+}>;
+
+export type PhoenixGameData_KnowledgeLocations = Array<{
+  Name: string;
+  XPos: number;
+  YPos: number;
+  ZPos: number;
+  ZRot: number;
+}>;
+
+export type PhoenixGameData_MiscLocations = Array<{
+  Name: string;
+  XPos: number;
+  YPos: number;
+  ZPos: number;
+  ZRot: number;
+  Owner: any;
+}>;
+
+export type UI_DT_MiniMapNHogwartsLevelData = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: {
+    "1": {
+      BottomZValue: number;
+    };
+    "2": {
+      BottomZValue: number;
+    };
+    "3": {
+      BottomZValue: number;
+    };
+    "4": {
+      BottomZValue: number;
+    };
+    "5": {
+      BottomZValue: number;
+    };
+    "6": {
+      BottomZValue: number;
+    };
+    "7": {
+      BottomZValue: number;
+    };
+    "8": {
+      BottomZValue: number;
+    };
+    "9": {
+      BottomZValue: number;
+    };
+    "10": {
+      BottomZValue: number;
+    };
+    "11": {
+      BottomZValue: number;
+    };
+    "12": {
+      BottomZValue: number;
+    };
+    "13": {
+      BottomZValue: number;
+    };
+    "14": {
+      BottomZValue: number;
+    };
+    "15": {
+      BottomZValue: number;
+    };
+    "16": {
+      BottomZValue: number;
+    };
+    "17": {
+      BottomZValue: number;
+    };
+    "18": {
+      BottomZValue: number;
+    };
+    "19": {
+      BottomZValue: number;
+    };
+    "20": {
+      BottomZValue: number;
+    };
+    "21": {
+      BottomZValue: number;
+    };
+    "22": {
+      BottomZValue: number;
+    };
+    "23": {
+      BottomZValue: number;
+    };
+    "24": {
+      BottomZValue: number;
+    };
+    "25": {
+      BottomZValue: number;
+    };
+    "26": {
+      BottomZValue: number;
+    };
+    "27": {
+      BottomZValue: number;
+    };
+    "28": {
+      BottomZValue: number;
+    };
+    "29": {
+      BottomZValue: number;
+    };
+    "30": {
+      BottomZValue: number;
+    };
+    "31": {
+      BottomZValue: number;
+    };
+    "32": {
+      BottomZValue: number;
+    };
+    "33": {
+      BottomZValue: number;
+    };
+    "34": {
+      BottomZValue: number;
+    };
+    "35": {
+      BottomZValue: number;
+    };
+    "36": {
+      BottomZValue: number;
+    };
+    "37": {
+      BottomZValue: number;
+    };
+    "38": {
+      BottomZValue: number;
+    };
+    "39": {
+      BottomZValue: number;
+    };
+    "40": {
+      BottomZValue: number;
+    };
+    "41": {
+      BottomZValue: number;
+    };
+    "42": {
+      BottomZValue: number;
+    };
+    "43": {
+      BottomZValue: number;
+    };
+    "44": {
+      BottomZValue: number;
+    };
+  };
+}>;
+
+export type PhoenixGameData_Locations = Array<{
+  LocationID: string;
+  XPos: number;
+  YPos: number;
+  ZPos: number;
+  ZRot: number;
+  WorldID?: string;
+  TypeID: string;
+  ParentLocationID?: string;
+  VolumeOriginX?: number;
+  VolumeOriginY?: number;
+  VolumeOriginZ?: number;
+  VolumeExtentX?: number;
+  VolumeExtentY?: number;
+  VolumeExtentZ?: number;
+  VolumeRotX?: number;
+  VolumeRotY?: number;
+  VolumeRotZ?: number;
+  HouseAndGender?: number;
+  DEV_TimeStamp?: string;
+}>;
+
+export type PhoenixGameData_SphinxPuzzleLocations = Array<{
   Name: string;
   XPos: number;
   YPos: number;

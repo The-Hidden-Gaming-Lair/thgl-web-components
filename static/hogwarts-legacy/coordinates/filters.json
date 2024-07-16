@@ -10,18 +10,30 @@
         "size": 1.3
       },
       {
+        "id": "mothFrame",
+        "icon": "mothFrame.webp",
+        "size": 1.3
+      }
+    ]
+  },
+  {
+    "group": "collectibles",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
         "id": "accioPage",
         "icon": "accioPage.webp",
         "size": 1.3
       },
       {
-        "id": "mothFrame",
-        "icon": "mothFrame.webp",
+        "id": "guardianLeviosa",
+        "icon": "guardianLeviosa.webp",
         "size": 1.3
       },
       {
-        "id": "guardianLeviosa",
-        "icon": "guardianLeviosa.webp",
+        "id": "demiguise",
+        "icon": "demiguise.webp",
         "size": 1.3
       }
     ]

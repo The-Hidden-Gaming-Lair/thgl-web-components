@@ -612,6 +612,376 @@
     ]
   },
   {
+    "type": "fastTravel",
+    "mapName": "hogwarts-29",
+    "spawns": [
+      {
+        "id": "FT_HW_AstronomyTower",
+        "p": [
+          -458689.72,
+          348253.19
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "FT_HW_BellTowerCourtyard",
+        "p": [
+          -468716.22,
+          348323.75
+        ]
+      },
+      {
+        "id": "FT_HW_FlyingClass",
+        "p": [
+          -463570.88,
+          343170
+        ]
+      },
+      {
+        "id": "FT_HW_NorthExitHogwarts",
+        "p": [
+          -474154.44,
+          337851.31
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-03",
+    "spawns": [
+      {
+        "id": "FT_HW_Boathouse",
+        "p": [
+          -470044.06,
+          374775.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "FT_HW_CentralTower",
+        "p": [
+          -465336.69,
+          356840.56
+        ]
+      },
+      {
+        "id": "FT_HW_DadaClass",
+        "p": [
+          -455830.41,
+          350984.66
+        ]
+      },
+      {
+        "id": "FT_HW_LowerGrandstaircase",
+        "p": [
+          -453649.44,
+          360550.88
+        ]
+      },
+      {
+        "id": "FT_HW_SlytherinCommonRoom",
+        "p": [
+          -456744.75,
+          360305.09
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-21",
+    "spawns": [
+      {
+        "id": "FT_HW_CharmsClass",
+        "p": [
+          -458274,
+          348965.91
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "FT_HW_ClockTowerCourtyard",
+        "p": [
+          -447352.09,
+          354304.16
+        ]
+      },
+      {
+        "id": "FT_HW_FigClass",
+        "p": [
+          -458699.28,
+          350695.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-16",
+    "spawns": [
+      {
+        "id": "FT_HW_DADATower",
+        "p": [
+          -460115.16,
+          352010.5
+        ]
+      },
+      {
+        "id": "FT_HW_HufflepuffCommonRoom",
+        "p": [
+          -448075.88,
+          364177.59
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "FT_HW_DivinationClass",
+        "p": [
+          -466562.41,
+          358761.88
+        ]
+      },
+      {
+        "id": "FT_HW_Grandstaircase",
+        "p": [
+          -454234.22,
+          364561.56
+        ]
+      },
+      {
+        "id": "FT_HW_GreatHall",
+        "p": [
+          -452477.06,
+          367914.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-22",
+    "spawns": [
+      {
+        "id": "FT_HW_FacultyTower",
+        "p": [
+          -451870.16,
+          362548.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-31",
+    "spawns": [
+      {
+        "id": "FT_HW_GrandStaircaseTower",
+        "p": [
+          -456285.97,
+          362634.22
+        ]
+      },
+      {
+        "id": "FT_HW_HospitalWing",
+        "p": [
+          -449014.81,
+          356871.5
+        ]
+      },
+      {
+        "id": "FT_HW_RavenclawCommonRoom",
+        "p": [
+          -456629.09,
+          357492.91
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "FT_HW_Greenhouses",
+        "p": [
+          -472258.34,
+          355648.66
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-25",
+    "spawns": [
+      {
+        "id": "FT_HW_GryffindorCommonRoom",
+        "p": [
+          -451386.84,
+          355123.66
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-02",
+    "spawns": [
+      {
+        "id": "FT_HW_Haven",
+        "p": [
+          -458391.81,
+          349276.84
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "FT_HW_Library",
+        "p": [
+          -468560.31,
+          348700.5
+        ]
+      },
+      {
+        "id": "FT_HW_MagicalCreatures",
+        "p": [
+          -457099.97,
+          340356.19
+        ]
+      },
+      {
+        "id": "FT_HW_PotionsClass",
+        "p": [
+          -463418.34,
+          354228.47
+        ]
+      },
+      {
+        "id": "FT_HW_TransfigurationClass",
+        "p": [
+          -462967.84,
+          347778.31
+        ]
+      },
+      {
+        "id": "FT_HW_TransfigurationCourtyard",
+        "p": [
+          -461348.25,
+          350649.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "FT_HW_NorthTower",
+        "p": [
+          -462073.75,
+          344577.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "FT_HW_QuadCourtyard",
+        "p": [
+          -456575.47,
+          359799
+        ]
+      },
+      {
+        "id": "FT_HW_SouthExitHogwarts",
+        "p": [
+          -434705.16,
+          349366.88
+        ]
+      },
+      {
+        "id": "FT_HW_ViaductCourtyard",
+        "p": [
+          -457850,
+          364087.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "FT_HW_RavenclawTower",
+        "p": [
+          -457170.81,
+          359046.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-37",
+    "spawns": [
+      {
+        "id": "FT_HW_RoomOfRequirement",
+        "p": [
+          -460056,
+          347760
+        ],
+        "icon": {
+          "name": "SanctuaryHogwarts",
+          "url": "SanctuaryHogwarts.webp"
+        }
+      }
+    ]
+  },
+  {
+    "type": "fastTravel",
+    "mapName": "hogwarts-34",
+    "spawns": [
+      {
+        "id": "FT_HW_TrophyRoom",
+        "p": [
+          -453340.88,
+          361394.16
+        ]
+      }
+    ]
+  },
+  {
     "type": "accioPage",
     "mapName": "overland",
     "spawns": [
@@ -1037,6 +1407,256 @@
     ]
   },
   {
+    "type": "accioPage",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_BellTowers_TECH_X=348868 Y=-470968 Z=-84981",
+        "p": [
+          -470968.81,
+          348868.88
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_CentralHall_TECH_X=352735 Y=-464401 Z=-85295",
+        "p": [
+          -464401.75,
+          352735.44
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_Library_TECH_X=350873 Y=-467521 Z=-84996",
+        "p": [
+          -467521.78,
+          350873.88
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_NorthTower_TECH_X=343629 Y=-461223 Z=-85272",
+        "p": [
+          -461223.84,
+          343629.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_CentralHall_TECH_X=354424 Y=-466938 Z=-84890",
+        "p": [
+          -466938.44,
+          354424.62
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-22",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_ClockTower_TECH_X=356760 Y=-445860 Z=-81301",
+        "p": [
+          -445860.94,
+          356760.25
+        ]
+      },
+      {
+        "id": "Collect_HW_AccioPage_SUB_EntranceHall_TECH_X=368002 Y=-457495 Z=-81384",
+        "p": [
+          -457495.31,
+          368002.84
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-23",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_DADA_6_TECH_X=348304 Y=-457725 Z=-81026",
+        "p": [
+          -457725.53,
+          348304.47
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-15",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_DeathDayDungeon_TECH_X=367100 Y=-459966 Z=-83872",
+        "p": [
+          -459966.56,
+          367100.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-27",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_FacultySBStairs_TECH_X=358671 Y=-451614 Z=-79694",
+        "p": [
+          -451614.97,
+          358671.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-21",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_Garden_TECH_X=364449 Y=-449415 Z=-81581",
+        "p": [
+          -449415.84,
+          364449.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_GrandStaircaseMiddle_TECH_X=363326 Y=-455246 Z=-81927",
+        "p": [
+          -455246.94,
+          363326.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_GroundsQ_TECH_X=354866 Y=-475785 Z=-86470",
+        "p": [
+          -475785,
+          354866.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-32",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_HospitalWing_TECH_X=357428 Y=-449614 Z=-77193",
+        "p": [
+          -449614,
+          357428.12
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_MagicalCreatures_TECH_X=337591 Y=-457115 Z=-84502",
+        "p": [
+          -457115.53,
+          337591.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-36",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_Owlery_TECH_X=336042 Y=-442297 Z=-75287",
+        "p": [
+          -442297.84,
+          336042.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-19",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_QuadCourtyard_TECH_X=359018 Y=-453110 Z=-82542",
+        "p": [
+          -453110.28,
+          359018.38
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_SchoolDungeon_TECH_X=349664 Y=-459531 Z=-86209",
+        "p": [
+          -459531.81,
+          349664.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "accioPage",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Collect_HW_AccioPage_SUB_ViaductEntrance_TECH_X=357028 Y=-465384 Z=-82611",
+        "p": [
+          -465384.44,
+          357028.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_CentralHall_TECH_X=356310 Y=-467970 Z=-85649",
+        "p": [
+          -467970.5,
+          356310
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_NorthTower_TECH_X=343431 Y=-460093 Z=-85700",
+        "p": [
+          -460093.69,
+          343431.41
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_TransfigurationCourtyard_TECH_X=353101 Y=-463197 Z=-85800",
+        "p": [
+          -463197.28,
+          353101.41
+        ]
+      }
+    ]
+  },
+  {
     "type": "guardianLeviosa",
     "mapName": "overland",
     "spawns": [
@@ -1143,6 +1763,537 @@
         "p": [
           -458849.56,
           368265.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_ClockTower_TECH_X=354106 Y=-446298 Z=-82999",
+        "p": [
+          -446298.41,
+          354106.09
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_DADA_6_TECH_X=347283 Y=-459254 Z=-80797",
+        "p": [
+          -459254.28,
+          347283.16
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_QuadEastHall_TECH_X=361286 Y=-455669 Z=-80796",
+        "p": [
+          -455669.22,
+          361286.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-19",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_EntranceHall_TECH_X=369025 Y=-457239 Z=-82300",
+        "p": [
+          -457239.38,
+          369025.03
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_QuadCourtyard_TECH_X=359303 Y=-451630 Z=-82596",
+        "p": [
+          -451630.56,
+          359303.91
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_GroundsQ_TECH_X=337734 Y=-474437 Z=-85113",
+        "p": [
+          -474437.19,
+          337734.44
+        ]
+      },
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_NorthHall_TECH_X=348199 Y=-465312 Z=-85000",
+        "p": [
+          -465312.66,
+          348199.03
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-30",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_HospitalWing_TECH_X=356923 Y=-449630 Z=-78299",
+        "p": [
+          -449630.5,
+          356923.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_LibraryStorage_TECH_X=354010 Y=-467730 Z=-87212",
+        "p": [
+          -467730.44,
+          354010.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-34",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_Owlery_TECH_X=337225 Y=-442608 Z=-75748",
+        "p": [
+          -442608.38,
+          337225.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-07",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_SchoolDungeon_TECH_X=349983 Y=-457669 Z=-87452",
+        "p": [
+          -457669.09,
+          349983.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "guardianLeviosa",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Collect_HW_GuardianLeviosa_SUB_ViaductCourtyard_TECH_X=368265 Y=-458849 Z=-82700",
+        "p": [
+          -458849.56,
+          368265.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-33",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_AstronomyTower_TECH_X=347242 Y=-459922 Z=-76799",
+        "p": [
+          -459922.84,
+          347242.5
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_CentralHall_TECH_X=354925 Y=-466903 Z=-85189",
+        "p": [
+          -466903.53,
+          354925.72
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_NorthHall_TECH_X=347572 Y=-466423 Z=-85212",
+        "p": [
+          -466423.06,
+          347572.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_ClockTower_TECH_X=354245 Y=-444922 Z=-82892",
+        "p": [
+          -444922.72,
+          354245.47
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_ViaductCourtyard_TECH_X=365513 Y=-462943 Z=-83183",
+        "p": [
+          -462943.44,
+          365513.28
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-16",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_DADA_4_TECH_X=352358 Y=-458431 Z=-83477",
+        "p": [
+          -458431.06,
+          352358.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-41",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_GrandStaircaseTower_TECH_X=362453 Y=-452922 Z=-73196",
+        "p": [
+          -452922.09,
+          362453.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_GreatHallAirlocks_TECH_X=367657 Y=-453413 Z=-81869",
+        "p": [
+          -453413.91,
+          367657.62
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_GroundsQ_TECH_X=340189 Y=-476092 Z=-86095",
+        "p": [
+          -476092.81,
+          340189.19
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_GryffindorLowerHallways_TECH_X=354842 Y=-450393 Z=-82786",
+        "p": [
+          -450393.22,
+          354842
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_Library_TECH_X=351518 Y=-465593 Z=-84903",
+        "p": [
+          -465593,
+          351518.34
+        ]
+      },
+      {
+        "id": "Collect_HW_MothFrame_SUB_NorthTower_TECH_X=348790 Y=-461320 Z=-84900",
+        "p": [
+          -461320.72,
+          348790.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_LongGallery_TECH_X=353021 Y=-466962 Z=-86684",
+        "p": [
+          -466962.88,
+          353021.12
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-21",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_Ravenclaw_TECH_X=357318 Y=-457915 Z=-81696",
+        "p": [
+          -457915.84,
+          357318.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mothFrame",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Collect_HW_MothFrame_SUB_SlytherinDungeon_TECH_X=364145 Y=-457971 Z=-84401",
+        "p": [
+          -457971.28,
+          364145.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_CO_AT_F_X=481059 Y=-159622 Z=-94947",
+        "p": [
+          -159622.92,
+          481059.94
+        ]
+      },
+      {
+        "id": "KO_Demiguise_CO_BB_F_X=492466 Y=-129876 Z=-93394",
+        "p": [
+          -129876.11,
+          492466.53
+        ]
+      },
+      {
+        "id": "KO_Demiguise_CO_BD_F_X=580133 Y=-99609 Z=-92501",
+        "p": [
+          -99609.7,
+          580133.06
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HN_AK_F_X=346593 Y=-618034 Z=-85132",
+        "p": [
+          -618034.06,
+          346593.91
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HN_AS_F_X=400316 Y=-565338 Z=-79891",
+        "p": [
+          -565338.44,
+          400316.88
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HN_BD_F_X=406315 Y=-451477 Z=-82455",
+        "p": [
+          -451477.5,
+          406315.25
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HN_BG_F_X=359277 Y=-411986 Z=-89333",
+        "p": [
+          -411986.53,
+          359277.44
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HN_BJ_F_X=427333 Y=-381035 Z=-82279",
+        "p": [
+          -381035.25,
+          427333.47
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HS_AR_Keenbridge_Interior_GamePlay01_X=373492 Y=-321708 Z=-89549",
+        "p": [
+          -321708.31,
+          373492.91
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HS_AW_F_X=265366 Y=-275245 Z=-92516",
+        "p": [
+          -275245.84,
+          265366.94
+        ]
+      },
+      {
+        "id": "KO_Demiguise_HS_AY_F_X=340718 Y=-250965 Z=-87985",
+        "p": [
+          -250965.58,
+          340718.59
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=337793 Y=-457506 Z=-85323",
+        "p": [
+          -457506.53,
+          337793.41
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=342818 Y=-476545 Z=-86136",
+        "p": [
+          -476545.81,
+          342818.84
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=346503 Y=-458986 Z=-82618",
+        "p": [
+          -458986.34,
+          346503.56
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=348904 Y=-464308 Z=-87398",
+        "p": [
+          -464308.09,
+          348904.03
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=348926 Y=-459383 Z=-85617",
+        "p": [
+          -459383.5,
+          348926.94
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=352799 Y=-469385 Z=-86810",
+        "p": [
+          -469385.22,
+          352799
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=354065 Y=-451176 Z=-83134",
+        "p": [
+          -451176.47,
+          354065.16
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=354128 Y=-465200 Z=-86731",
+        "p": [
+          -465200.25,
+          354128.31
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=359546 Y=-467426 Z=-80269",
+        "p": [
+          -467426.94,
+          359546
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=366609 Y=-449613 Z=-81919",
+        "p": [
+          -449613.69,
+          366609.69
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=380838 Y=-514079 Z=-83443",
+        "p": [
+          -514079.69,
+          380838
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=384502 Y=-518858 Z=-82176",
+        "p": [
+          -518858.75,
+          384502.5
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=385643 Y=-509093 Z=-83511",
+        "p": [
+          -509093.44,
+          385643.09
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=385916 Y=-512203 Z=-83071",
+        "p": [
+          -512203.41,
+          385916.56
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=390369 Y=-515774 Z=-81863",
+        "p": [
+          -515774.5,
+          390369.5
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=391848 Y=-520151 Z=-82092",
+        "p": [
+          -520151.41,
+          391848.84
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=391966 Y=-515401 Z=-82944",
+        "p": [
+          -515401.28,
+          391966.94
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=395260 Y=-524235 Z=-81541",
+        "p": [
+          -524235,
+          395260.84
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=401854 Y=-520187 Z=-81327",
+        "p": [
+          -520187.91,
+          401854.72
         ]
       }
     ]
