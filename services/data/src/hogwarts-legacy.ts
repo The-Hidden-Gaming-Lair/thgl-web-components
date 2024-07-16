@@ -12,7 +12,7 @@ import { initFilters, writeFilters } from "./lib/filters.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import { initDict, writeDict } from "./lib/dicts.js";
-import { saveIcon } from "./lib/image.js";
+import { IconProps, saveIcon } from "./lib/image.js";
 import { Node } from "./types.js";
 
 initDirs(
@@ -213,6 +213,8 @@ const moreLocations = [
   ...KnowledgeInvestigatable,
   ...KnowledgeLocations,
   ...Locations,
+  ...MiscLocations,
+  ...SphinxPuzzleLocations,
 ];
 for (const location of moreLocations) {
   const name = "Name" in location ? location.Name : location.LocationID;
@@ -222,6 +224,7 @@ for (const location of moreLocations) {
   let group;
   let titleGroup;
   let isHogwarts = name.includes("_HW_");
+  const iconProps: IconProps = {};
   if (name.includes("AccioPage")) {
     type = "accioPage";
     title = "Accio Page";
@@ -284,7 +287,7 @@ for (const location of moreLocations) {
     name.includes("GryfindorHouseChest")
   ) {
     isHogwarts = true;
-    type = "houseChest";
+    type = "house_chest";
     title = "House Chest";
     iconPath =
       "/Phoenix/Content/UI/Icons/Transfiguration/Categories/UI_T_Chests.png";
@@ -299,6 +302,40 @@ for (const location of moreLocations) {
     } else if (name.includes("GryfindorHouseChest")) {
       enDict[name] = "Gryffindor";
     }
+  } else if (name.startsWith("Chest_")) {
+    iconPath = "/Phoenix/Content/UI/Icons/Map/UI_T_TreasureChest.png";
+    group = "chests";
+    titleGroup = "Chests";
+    iconProps.circle = true;
+    if (name.includes("Disillusionment")) {
+      type = "disillusionment";
+      title = "Disillusionment Chest";
+      iconProps.color = "blue";
+    } else if (name.includes("ConjurationsRecipe")) {
+      type = "conjurations_recipe";
+      title = "Conjurations Recipe Chest";
+      iconProps.color = "green";
+    } else if (name.includes("LargeGoldSuper")) {
+      type = "large_gold_super";
+      title = "Large Gold Super Chest";
+      iconProps.color = "yellow";
+    } else if (name.includes("MediumGear")) {
+      type = "medium_gear";
+      title = "Medium Gear Chest";
+      iconProps.color = "purple";
+    } else if (name.includes("Wandskin")) {
+      type = "wandskin";
+      title = "Wandskin Chest";
+      iconProps.color = "orange";
+    } else {
+      continue;
+    }
+  } else if (name.startsWith("SphinxPuzzle")) {
+    type = "sphinx_puzzle";
+    title = "Merlin Trials";
+    iconPath = "/Phoenix/Content/UI/Icons/Map/UI_T_SphinxPuzzle.png";
+    group = "locations";
+    titleGroup = "Locations";
   } else {
     continue;
   }
@@ -315,6 +352,8 @@ for (const location of moreLocations) {
       [y, x],
       title,
       iconPath,
+      undefined,
+      iconProps,
     );
   }
   await handleLocation(
@@ -326,6 +365,8 @@ for (const location of moreLocations) {
     [y, x],
     title,
     iconPath,
+    undefined,
+    iconProps,
   );
 
   // if (location.Name.includes("_HW_")) {
@@ -357,6 +398,7 @@ async function handleLocation(
   text: string,
   iconPath: string,
   overrideIconName?: string,
+  iconProps?: IconProps,
 ) {
   if (!filters.find((f) => f.group === group)) {
     filters.push({
@@ -369,7 +411,7 @@ async function handleLocation(
   }
   const iconName = overrideIconName ?? type;
   if (!addedIcons.includes(iconPath)) {
-    addedIcons.push(await saveIcon(iconPath, iconName));
+    addedIcons.push(await saveIcon(iconPath, iconName, iconProps));
   }
 
   const category = filters.find((f) => f.group === group)!;

@@ -5,19 +5,20 @@ import { saveImage } from "./fs.js";
 
 const savedIcons: string[] = [];
 
+export type IconProps = {
+  border?: boolean;
+  color?: string;
+  circle?: boolean;
+  threshold?: number;
+  glowing?: boolean;
+  rotate?: number;
+  contrast?: number;
+  brightness?: number;
+};
 export async function saveIcon(
   assetPath: string,
   name: string,
-  props: {
-    border?: boolean;
-    color?: string;
-    circle?: boolean;
-    threshold?: number;
-    glowing?: boolean;
-    rotate?: number;
-    contrast?: number;
-    brightness?: number;
-  } = {},
+  props: IconProps = {},
 ) {
   let filePath = assetPath.startsWith("/home")
     ? assetPath

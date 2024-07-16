@@ -172,8 +172,14 @@
   "demiguise": "Demiguise Statue",
   "NP_COM_19_SlytherinHouseChest_SUB_Slytherin_TECH": "Slytherin",
   "chests": "Chests",
-  "houseChest": "House Chest",
+  "house_chest": "House Chest",
   "NP_M_COM_19_GryfindorHouseChest_SUB_GryffindorCommonRoom_TECH": "Gryffindor",
   "NP_M_COM_19_HufflepuffHouseChest_SUB_HufflepuffBasement_TECH": "Hufflepuff",
-  "NP_M_COM_19_RavenHouseChest_SUB_GryffindorCommonRoom_TECH": "Ravenclaw"
+  "NP_M_COM_19_RavenHouseChest_SUB_GryffindorCommonRoom_TECH": "Ravenclaw",
+  "medium_gear": "Medium Gear Chest",
+  "large_gold_super": "Large Gold Super Chest",
+  "conjurations_recipe": "Conjurations Recipe Chest",
+  "disillusionment": "Disillusionment Chest",
+  "wandskin": "Wandskin Chest",
+  "sphinx_puzzle": "Merlin Trials"
 }

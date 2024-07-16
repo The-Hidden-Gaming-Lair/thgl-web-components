@@ -2870,7 +2870,7 @@
     ]
   },
   {
-    "type": "houseChest",
+    "type": "house_chest",
     "mapName": "hogwarts-14",
     "spawns": [
       {
@@ -2883,7 +2883,7 @@
     ]
   },
   {
-    "type": "houseChest",
+    "type": "house_chest",
     "mapName": "overland",
     "spawns": [
       {
@@ -2917,7 +2917,7 @@
     ]
   },
   {
-    "type": "houseChest",
+    "type": "house_chest",
     "mapName": "hogwarts-24",
     "spawns": [
       {
@@ -2930,7 +2930,7 @@
     ]
   },
   {
-    "type": "houseChest",
+    "type": "house_chest",
     "mapName": "hogwarts-16",
     "spawns": [
       {
@@ -2943,7 +2943,7 @@
     ]
   },
   {
-    "type": "houseChest",
+    "type": "house_chest",
     "mapName": "hogwarts-31",
     "spawns": [
       {
@@ -2951,6 +2951,5566 @@
         "p": [
           -456732.16,
           356860.44
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Chest_BCC_MediumGear_X=244908 Y=-286450 Z=-91011",
+        "p": [
+          -286450.06,
+          244908.36
+        ]
+      },
+      {
+        "id": "Chest_BCC_MediumGear_X=278048 Y=-510931 Z=-80234",
+        "p": [
+          -510931.41,
+          278048.16
+        ]
+      },
+      {
+        "id": "Chest_BCC_MediumGear_X=418486 Y=-310985 Z=-83034",
+        "p": [
+          -310985.84,
+          418486.09
+        ]
+      },
+      {
+        "id": "Chest_BCC_MediumGear_X=423753 Y=-220527 Z=-89078",
+        "p": [
+          -220527.69,
+          423753.25
+        ]
+      },
+      {
+        "id": "Chest_BCC_MediumGear_X=553997 Y=-38408 Z=-90953",
+        "p": [
+          -38408.54,
+          553997.19
+        ]
+      },
+      {
+        "id": "Chest_BCL_MediumGear_HS_AH_X=353653 Y=-359835 Z=-87087",
+        "p": [
+          -359835.28,
+          353653
+        ]
+      },
+      {
+        "id": "Chest_BCL_MediumGear_HS_BI_F_X=384325 Y=-248960 Z=-89312",
+        "p": [
+          -248960.12,
+          384325.5
+        ]
+      },
+      {
+        "id": "Chest_BCM_MediumGear_HNA_BE_F_X=425067 Y=-436935 Z=-77566",
+        "p": [
+          -436935.84,
+          425067.22
+        ]
+      },
+      {
+        "id": "Chest_BCM_MediumGear_HNA_BE_F_X=427819 Y=-438822 Z=-77629",
+        "p": [
+          -438822.34,
+          427819.28
+        ]
+      },
+      {
+        "id": "Chest_BCM_MediumGear_HS_AH_F_X=330612 Y=-355381 Z=-80191",
+        "p": [
+          -355381.28,
+          330612.97
+        ]
+      },
+      {
+        "id": "Chest_BCM_MediumGear_HS_AH_F_X=335475 Y=-358490 Z=-80444",
+        "p": [
+          -358490.28,
+          335475.84
+        ]
+      },
+      {
+        "id": "Chest_DUN_MediumGear_FO_AU_X=448012 Y=-547164 Z=-77841",
+        "p": [
+          -547164.25,
+          448012.91
+        ]
+      },
+      {
+        "id": "Chest_DUN_MediumGear_FO_AU_X=449576 Y=-541771 Z=-81498",
+        "p": [
+          -541771.06,
+          449576.91
+        ]
+      },
+      {
+        "id": "Chest_DUN_MediumGear_FO_AU_X=449972 Y=-543737 Z=-80171",
+        "p": [
+          -543737.12,
+          449972.06
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_AT_F_X=479823 Y=-161330 Z=-95461",
+        "p": [
+          -161330.36,
+          479823.81
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_AT_F_X=490773 Y=-158495 Z=-92357",
+        "p": [
+          -158495.08,
+          490773.31
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_BB_F_X=492812 Y=-125645 Z=-93544",
+        "p": [
+          -125645.53,
+          492812.53
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_BB_F_X=493071 Y=-129622 Z=-93439",
+        "p": [
+          -129622.95,
+          493071.31
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_BB_F_X=494722 Y=-127774 Z=-93320",
+        "p": [
+          -127774.12,
+          494722.38
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_BD_F_X=583588 Y=-100839 Z=-92515",
+        "p": [
+          -100839.7,
+          583588.56
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_BD_F_X=585020 Y=-94181 Z=-92781",
+        "p": [
+          -94181.39,
+          585020.94
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_CO_BD_F_X=585352 Y=-100071 Z=-92249",
+        "p": [
+          -100071.08,
+          585352.62
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BD_F_X=408546 Y=-451575 Z=-82440",
+        "p": [
+          -451575.84,
+          408546.09
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BD_F_X=409434 Y=-452276 Z=-82772",
+        "p": [
+          -452276.25,
+          409434.75
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BD_F_X=410429 Y=-447916 Z=-82806",
+        "p": [
+          -447916.62,
+          410429.31
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BG_F_X=357604 Y=-411518 Z=-89255",
+        "p": [
+          -411518,
+          357604
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BG_F_X=358716 Y=-411863 Z=-89331",
+        "p": [
+          -411863.94,
+          358716
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BG_F_X=360381 Y=-410037 Z=-89517",
+        "p": [
+          -410037.25,
+          360381.28
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BJ_F_X=427077 Y=-387005 Z=-82287",
+        "p": [
+          -387005.44,
+          427077.66
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BJ_F_X=433332 Y=-381802 Z=-82258",
+        "p": [
+          -381802.84,
+          433332
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BJ_F_X=433640 Y=-378475 Z=-82300",
+        "p": [
+          -378475.44,
+          433640.25
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNA_BJ_F_X=435813 Y=-383516 Z=-81907",
+        "p": [
+          -383516.59,
+          435813.47
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNG_AK_F_X=352118 Y=-613961 Z=-85964",
+        "p": [
+          -613961.5,
+          352118.38
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNG_AS_F_X=401082 Y=-568879 Z=-80134",
+        "p": [
+          -568879.25,
+          401082.38
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNG_AS_F_X=401531 Y=-569079 Z=-80626",
+        "p": [
+          -569079,
+          401531
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNG_AS_F_X=402890 Y=-565814 Z=-80016",
+        "p": [
+          -565814.75,
+          402890.19
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HNG_AS_F_X=403819 Y=-567395 Z=-80165",
+        "p": [
+          -567395.06,
+          403819.94
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AR_F_X=376783 Y=-310930 Z=-90337",
+        "p": [
+          -310930,
+          376783
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AR_F_X=377941 Y=-325708 Z=-90203",
+        "p": [
+          -325708.47,
+          377941.09
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AR_F_X=378251 Y=-326772 Z=-90391",
+        "p": [
+          -326772.44,
+          378251.31
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AR_F_X=380425 Y=-321376 Z=-90162",
+        "p": [
+          -321376.34,
+          380425.06
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AW_F_X=257707 Y=-276302 Z=-92379",
+        "p": [
+          -276302.66,
+          257707.03
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AW_F_X=263870 Y=-279564 Z=-92706",
+        "p": [
+          -279564.22,
+          263870.84
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AW_F_X=264926 Y=-274917 Z=-92600",
+        "p": [
+          -274917.34,
+          264926
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AY_F_X=334433 Y=-251576 Z=-88683",
+        "p": [
+          -251576.8,
+          334433.16
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AY_F_X=340922 Y=-247891 Z=-88517",
+        "p": [
+          -247891.25,
+          340922.88
+        ]
+      },
+      {
+        "id": "Chest_HAM_MediumGear_HS_AY_F_X=345780 Y=-250034 Z=-91708",
+        "p": [
+          -250034.55,
+          345780.97
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_AI_F_X=501293 Y=-215070 Z=-94272",
+        "p": [
+          -215070.66,
+          501293.16
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_AI_X=514197 Y=-215676 Z=-95307",
+        "p": [
+          -215676.72,
+          514197.81
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_AL_F_X=423800 Y=-192307 Z=-93359",
+        "p": [
+          -192307.75,
+          423800.03
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_AM_F_X=466990 Y=-176447 Z=-95788",
+        "p": [
+          -176447,
+          466990.81
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_AT_F_X=482324 Y=-129500 Z=-93584",
+        "p": [
+          -129500.71,
+          482324.81
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BA_Rookwood_X=464425 Y=-102960 Z=-91664",
+        "p": [
+          -102960.75,
+          464425.25
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BA_X=461780 Y=-107120 Z=-90545",
+        "p": [
+          -107120,
+          461780
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BH_X=478783 Y=-69858 Z=-95795",
+        "p": [
+          -69858.6,
+          478783.91
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BH_X=492975 Y=-18537 Z=-95799",
+        "p": [
+          -18537.38,
+          492975
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BQ_F_X=550520 Y=-24075 Z=-90940",
+        "p": [
+          -24075.58,
+          550520.56
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BQ_F_X=563244 Y=-28496 Z=-92956",
+        "p": [
+          -28496.06,
+          563244.19
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_CO_BR_X=576434 Y=-24233 Z=-93227",
+        "p": [
+          -24233.64,
+          576434
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_FO_AU_X=447600 Y=-548760 Z=-82410",
+        "p": [
+          -548760.88,
+          447600.53
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_FO_AU_X=450360 Y=-543632 Z=-79641",
+        "p": [
+          -543632.38,
+          450360.31
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_FO_AU_X=452609 Y=-546923 Z=-81398",
+        "p": [
+          -546923.5,
+          452609.44
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_AZ_X=309477 Y=-457006 Z=-78831",
+        "p": [
+          -457006.16,
+          309477.78
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BB_X=374732 Y=-453484 Z=-88965",
+        "p": [
+          -453484.94,
+          374732.16
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BC_X=403287 Y=-456100 Z=-85169",
+        "p": [
+          -456100.59,
+          403287.84
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BD_F_X=395193 Y=-438854 Z=-88981",
+        "p": [
+          -438854.16,
+          395193.66
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BF_F_X=316042 Y=-381342 Z=-71033",
+        "p": [
+          -381342.09,
+          316042.31
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BG_X=328076 Y=-381815 Z=-77068",
+        "p": [
+          -381815.88,
+          328076.44
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BG_X=380130 Y=-411897 Z=-89198",
+        "p": [
+          -411897.03,
+          380130.72
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BI_F_X=383660 Y=-390607 Z=-89329",
+        "p": [
+          -390607.72,
+          383660.41
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BI_X=391438 Y=-400203 Z=-88897",
+        "p": [
+          -400203.97,
+          391438.03
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNA_BJ_X=406786 Y=-390336 Z=-86002",
+        "p": [
+          -390336.56,
+          406786.41
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AK_F_X=355978 Y=-612116 Z=-86188",
+        "p": [
+          -612116.31,
+          355978.78
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AN_F_X=360064 Y=-589113 Z=-88436",
+        "p": [
+          -589113,
+          360064.06
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AN_X=342020 Y=-568521 Z=-86004",
+        "p": [
+          -568521.19,
+          342020.66
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AN_X=344125 Y=-589084 Z=-84404",
+        "p": [
+          -589084,
+          344125
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AN_X=353216 Y=-591723 Z=-85595",
+        "p": [
+          -591723.88,
+          353216.69
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AN_X=355813 Y=-576248 Z=-86803",
+        "p": [
+          -576248,
+          355813
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AN_X=364126 Y=-557671 Z=-86280",
+        "p": [
+          -557671.31,
+          364126.94
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AR_F_X=368813 Y=-562007 Z=-85456",
+        "p": [
+          -562007.06,
+          368813.06
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AR_F_X=369503 Y=-578041 Z=-87278",
+        "p": [
+          -578041.62,
+          369503.5
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HNG_AV_X=329157 Y=-496703 Z=-84318",
+        "p": [
+          -496703.25,
+          329157.53
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AG_F_X=279207 Y=-342490 Z=-89820",
+        "p": [
+          -342490.81,
+          279207.28
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AH_F_X=351484 Y=-359183 Z=-87089",
+        "p": [
+          -359183.88,
+          351484.03
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AH_X=306712 Y=-377083 Z=-71292",
+        "p": [
+          -377083.47,
+          306712.81
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AI_X=368861 Y=-358309 Z=-88487",
+        "p": [
+          -358309.84,
+          368861.53
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AI_X=369787 Y=-351329 Z=-89288",
+        "p": [
+          -351329.44,
+          369787.47
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AJ_F_X=403598 Y=-366827 Z=-84284",
+        "p": [
+          -366827.78,
+          403598.03
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AJ_F_X=405777 Y=-370041 Z=-85346",
+        "p": [
+          -370041.81,
+          405777.69
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AP_F_X=270029 Y=-314714 Z=-92346",
+        "p": [
+          -314714.31,
+          270029.19
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AR_F_X=352742 Y=-292988 Z=-84962",
+        "p": [
+          -292988.81,
+          352742.78
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AR_F_X=358503 Y=-300962 Z=-86886",
+        "p": [
+          -300962.88,
+          358503.12
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AW_X=230969 Y=-280079 Z=-94268",
+        "p": [
+          -280079.56,
+          230969.34
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AW_X=257021 Y=-250598 Z=-95804",
+        "p": [
+          -250598,
+          257021.02
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AX_X=279226 Y=-267073 Z=-90263",
+        "p": [
+          -267073.97,
+          279226.22
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_AY_X=325706 Y=-251240 Z=-86262",
+        "p": [
+          -251240.61,
+          325706.31
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_BA_F_X=401836 Y=-276493 Z=-84975",
+        "p": [
+          -276493.09,
+          401836.88
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_BA_F_X=404288 Y=-285034 Z=-84412",
+        "p": [
+          -285034.44,
+          404288.53
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_BF_X=285548 Y=-243319 Z=-88127",
+        "p": [
+          -243319.42,
+          285548.38
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_BI_F_X=382679 Y=-243650 Z=-88808",
+        "p": [
+          -243650.81,
+          382679.53
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_BI_F_X=384776 Y=-250358 Z=-89201",
+        "p": [
+          -250358.7,
+          384776.62
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_HS_BI_F_X=384814 Y=-241847 Z=-88544",
+        "p": [
+          -241847.97,
+          384814.91
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_TU_BB_X=304361 Y=-529199 Z=-79905",
+        "p": [
+          -529199.69,
+          304361.47
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_X=365084 Y=-616529 Z=-77645",
+        "p": [
+          -616529.5,
+          365084.16
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_X=403001 Y=-253367 Z=-86572",
+        "p": [
+          -253367.03,
+          403001.03
+        ]
+      },
+      {
+        "id": "Chest_HID_MediumGear_X=405321 Y=-257244 Z=-86250",
+        "p": [
+          -257244.06,
+          405321.78
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Cauldron_POP_X=387700 Y=-509136 Z=-83673",
+        "p": [
+          -509136.97,
+          387700.06
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Dogweed_POP_X=392452 Y=-534744 Z=-80484",
+        "p": [
+          -534744.56,
+          392452.97
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_A_POP_One_Loot_X=386428 Y=-513183 Z=-83463",
+        "p": [
+          -513183,
+          386428.91
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_A_POP_Three_X=382044 Y=-514853 Z=-83524",
+        "p": [
+          -514853.78,
+          382044.47
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_A_POP_Three_X=382635 Y=-515412 Z=-83526",
+        "p": [
+          -515412.47,
+          382635
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_B_POP_Five_X=391849 Y=-515157 Z=-82999",
+        "p": [
+          -515157.53,
+          391849.84
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_B_POP_One_Loot_X=387016 Y=-508316 Z=-83431",
+        "p": [
+          -508316.53,
+          387016.75
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_B_POP_Seven_X=381944 Y=-512746 Z=-83497",
+        "p": [
+          -512746.34,
+          381944.69
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_C_POP_Two_X=386326 Y=-518876 Z=-82032",
+        "p": [
+          -518876.22,
+          386326.28
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_E_POP_Five_X=390391 Y=-511503 Z=-83149",
+        "p": [
+          -511503.25,
+          390391.66
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_E_POP_Four_X=387079 Y=-514516 Z=-83068",
+        "p": [
+          -514516.69,
+          387079.47
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_E_POP_One_Loot_X=388390 Y=-511052 Z=-83164",
+        "p": [
+          -511052.69,
+          388390.41
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_E_POP_Three_X=391193 Y=-520320 Z=-81621",
+        "p": [
+          -520320.25,
+          391193
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_F_POP_One_X=385856 Y=-511972 Z=-83175",
+        "p": [
+          -511972.69,
+          385856.62
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_G_POP_One_Loot_X=401820 Y=-520688 Z=-81398",
+        "p": [
+          -520688.28,
+          401820.78
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_G_POP_Two_X=401676 Y=-522606 Z=-81182",
+        "p": [
+          -522606.09,
+          401676.28
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_J_POP_Four_X=379029 Y=-518508 Z=-82153",
+        "p": [
+          -518508.44,
+          379029.44
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_GEN_J_POP_One_Loot_X=394999 Y=-524857 Z=-81715",
+        "p": [
+          -524857.12,
+          394999.28
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_Sub_Honeydukes_Cellar_POP_X=399481 Y=-520863 Z=-82624",
+        "p": [
+          -520863.88,
+          399481.28
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Music_POP_X=395208 Y=-514012 Z=-83095",
+        "p": [
+          -514012.94,
+          395208.34
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Pippens_POP_X=383782 Y=-517680 Z=-82861",
+        "p": [
+          -517680.69,
+          383782.75
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Quidditch_POP_X=389189 Y=-512279 Z=-83324",
+        "p": [
+          -512279.78,
+          389189.91
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Salon_POP_X=388773 Y=-519607 Z=-81854",
+        "p": [
+          -519607,
+          388773.22
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_TeaShop_POP_X=395820 Y=-517518 Z=-81832",
+        "p": [
+          -517518.72,
+          395820.59
+        ]
+      },
+      {
+        "id": "Chest_HM_MediumGear_SUB_Tomes_POP_X=385378 Y=-509199 Z=-83608",
+        "p": [
+          -509199.72,
+          385378.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_AstronomyTower_TECH_X=346709 Y=-459292 Z=-78696",
+        "p": [
+          -459292.59,
+          346709.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_BellTowersUpper_TECH_X=347481 Y=-466819 Z=-83586",
+        "p": [
+          -466819.25,
+          347481.84
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralHall_TECH_X=351397 Y=-464533 Z=-85648",
+        "p": [
+          -464533.91,
+          351397.97
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralHall_TECH_X=353056 Y=-468598 Z=-85698",
+        "p": [
+          -468598.06,
+          353056.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralTower_TECH_X=353106 Y=-466670 Z=-81899",
+        "p": [
+          -466670.81,
+          353106.16
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralTower_TECH_X=353236 Y=-465328 Z=-81899",
+        "p": [
+          -465328.56,
+          353236.91
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralTower_TECH_X=354767 Y=-465990 Z=-81899",
+        "p": [
+          -465990.62,
+          354767.44
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_ClockTower_TECH_X=356872 Y=-444189 Z=-83000",
+        "p": [
+          -444189.91,
+          356872.25
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_ClockTower_TECH_X=357800 Y=-445607 Z=-78252",
+        "p": [
+          -445607,
+          357800.25
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_3_Classroom_TECH_X=347087 Y=-458425 Z=-84098",
+        "p": [
+          -458425.12,
+          347087.5
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_3_Classroom_TECH_X=348146 Y=-459566 Z=-84100",
+        "p": [
+          -459566.94,
+          348146.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_5_TECH_X=351943 Y=-460132 Z=-82900",
+        "p": [
+          -460132.91,
+          351943.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_6_TECH_X=349774 Y=-458195 Z=-81898",
+        "p": [
+          -458195.16,
+          349774.38
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_6_TECH_X=349855 Y=-460909 Z=-81699",
+        "p": [
+          -460909.59,
+          349855.69
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_6_TECH_X=350373 Y=-458040 Z=-81898",
+        "p": [
+          -458040.34,
+          350373.44
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DeathDayDungeon_TECH_X=366816 Y=-461852 Z=-84550",
+        "p": [
+          -461852.12,
+          366816.69
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_EntranceHall_TECH_X=368967 Y=-457708 Z=-82700",
+        "p": [
+          -457708.66,
+          368967.34
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Faculty_Rooms_3_TECH_X=357206 Y=-449826 Z=-81499",
+        "p": [
+          -449826.47,
+          357206.28
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Faculty_Rooms_4_TECH_X=358572 Y=-449586 Z=-80798",
+        "p": [
+          -449586.69,
+          358572.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Garden_TECH_X=360609 Y=-446440 Z=-83088",
+        "p": [
+          -446440.16,
+          360609.56
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=361864 Y=-454638 Z=-74096",
+        "p": [
+          -454638.34,
+          361864.06
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=362306 Y=-455941 Z=-74098",
+        "p": [
+          -455941.5,
+          362306.56
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=362953 Y=-452618 Z=-74496",
+        "p": [
+          -452618.94,
+          362953.78
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=364754 Y=-455416 Z=-75895",
+        "p": [
+          -455416.88,
+          364754.78
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseUpper_TECH_X=360624 Y=-453900 Z=-78996",
+        "p": [
+          -453900.31,
+          360624.09
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GreatHall_TECH_X=368200 Y=-454279 Z=-81000",
+        "p": [
+          -454279.53,
+          368200.19
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GroundsKeepersQuarters_TECH_X=336381 Y=-471171 Z=-85872",
+        "p": [
+          -471171.88,
+          336381.41
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GroundsQ_TECH_X=334212 Y=-467143 Z=-85463",
+        "p": [
+          -467143.91,
+          334212.03
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GroundsQ_TECH_X=338262 Y=-474492 Z=-85114",
+        "p": [
+          -474492.56,
+          338262.28
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorCommonRoom_TECH_X=354216 Y=-452306 Z=-80598",
+        "p": [
+          -452306.16,
+          354216.75
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorCommonRoom_TECH_X=357215 Y=-452063 Z=-80801",
+        "p": [
+          -452063.94,
+          357215.34
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorLowerHallways_TECH_X=353761 Y=-451572 Z=-83200",
+        "p": [
+          -451572.69,
+          353761.66
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorLowerHallways_TECH_X=355415 Y=-449985 Z=-82900",
+        "p": [
+          -449985.53,
+          355415.94
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorMaleDormsUpper_TECH_X=353029 Y=-450546 Z=-79395",
+        "p": [
+          -450546.56,
+          353029.03
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HospitalWing_TECH_X=357495 Y=-450549 Z=-78300",
+        "p": [
+          -450549.06,
+          357495.5
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HospitalWing_TECH_X=358107 Y=-448852 Z=-77698",
+        "p": [
+          -448852.81,
+          358107.06
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HufflepuffBasement_TECH_X=361589 Y=-449939 Z=-83699",
+        "p": [
+          -449939.31,
+          361589.44
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HufflepuffBasement_TECH_X=365723 Y=-445805 Z=-83700",
+        "p": [
+          -445805.19,
+          365723.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HufflepuffBasement_TECH_X=365826 Y=-449479 Z=-83798",
+        "p": [
+          -449479.5,
+          365826.53
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Kitchens_TECH_X=366404 Y=-453947 Z=-83800",
+        "p": [
+          -453947.75,
+          366404.91
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Kitchens_TECH_X=367780 Y=-449816 Z=-83800",
+        "p": [
+          -449816.22,
+          367780.19
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Library_TECH_X=350196 Y=-465617 Z=-85698",
+        "p": [
+          -465617.56,
+          350196.25
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_LibraryRestricted_TECH_X=351143 Y=-470243 Z=-86300",
+        "p": [
+          -470243.5,
+          351143.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_LibraryStorage_TECH_X=354709 Y=-465595 Z=-88212",
+        "p": [
+          -465595.19,
+          354709.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_LongGallery_TECH_X=349345 Y=-466857 Z=-86600",
+        "p": [
+          -466857.59,
+          349345.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_MagicalCreatures_INT_TECH_X=339151 Y=-456556 Z=-85301",
+        "p": [
+          -456556.94,
+          339151.91
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_MagicalCreatures_TECH_X=338840 Y=-456314 Z=-85521",
+        "p": [
+          -456314.31,
+          338840.31
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=343748 Y=-460576 Z=-85700",
+        "p": [
+          -460576.62,
+          343748.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=345704 Y=-466276 Z=-86350",
+        "p": [
+          -466276.91,
+          345704.03
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=345756 Y=-466863 Z=-85698",
+        "p": [
+          -466863.28,
+          345756.69
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=346108 Y=-462247 Z=-84000",
+        "p": [
+          -462247.41,
+          346108.16
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=347277 Y=-465297 Z=-84879",
+        "p": [
+          -465297.16,
+          347277.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHallBasement_TECH_X=343541 Y=-462695 Z=-86700",
+        "p": [
+          -462695.75,
+          343541
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Owlery_TECH_X=336767 Y=-442512 Z=-78850",
+        "p": [
+          -442512.25,
+          336767.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_QuadCourtyard_TECH_X=356861 Y=-454329 Z=-83198",
+        "p": [
+          -454329.16,
+          356861.19
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_QuadSouthHall_TECH_X=362054 Y=-451790 Z=-80595",
+        "p": [
+          -451790.91,
+          362054.69
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Ravenclaw_TECH_X=357695 Y=-458268 Z=-80800",
+        "p": [
+          -458268.88,
+          357695.53
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_RavenclawTower_TECH_X=356189 Y=-456981 Z=-77400",
+        "p": [
+          -456981.47,
+          356189.38
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_RavenclawTower_TECH_X=357769 Y=-455524 Z=-77398",
+        "p": [
+          -455524.44,
+          357769.94
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_RavenclawTower_TECH_X=358244 Y=-456326 Z=-80201",
+        "p": [
+          -456326.31,
+          358244.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_ReceptionHall_TECH_X=365419 Y=-453618 Z=-81500",
+        "p": [
+          -453618.41,
+          365419.09
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_ReceptionHall_TECH_X=369409 Y=-455843 Z=-82000",
+        "p": [
+          -455843.91,
+          369409.09
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SchoolDungeon_TECH_X=348751 Y=-459231 Z=-87099",
+        "p": [
+          -459231.12,
+          348751.56
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SealedDoor_TECH_X=362388 Y=-451180 Z=-84489",
+        "p": [
+          -451180.84,
+          362388.06
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SealedDoor_TECH_X=363473 Y=-452033 Z=-84748",
+        "p": [
+          -452033.47,
+          363473.66
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SealedDoor_TECH_X=365851 Y=-451220 Z=-84750",
+        "p": [
+          -451220.5,
+          365851.28
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Slytherin_TECH_X=360640 Y=-452241 Z=-85627",
+        "p": [
+          -452241,
+          360640.84
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Slytherin_TECH_X=361905 Y=-451773 Z=-85400",
+        "p": [
+          -451773.47,
+          361905.03
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Slytherin_TECH_X=362405 Y=-455499 Z=-86300",
+        "p": [
+          -455499.56,
+          362405.53
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SlytherinDungeon_TECH_X=366712 Y=-456478 Z=-84304",
+        "p": [
+          -456478,
+          366712.97
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SlytherinDungeon_TECH_X=370937 Y=-456756 Z=-84299",
+        "p": [
+          -456756.69,
+          370937.56
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=351726 Y=-458445 Z=-88653",
+        "p": [
+          -458445.91,
+          351726.12
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=352423 Y=-456165 Z=-88653",
+        "p": [
+          -456165.88,
+          352423.12
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_UndergroundHarbor_TECH_X=365116 Y=-462745 Z=-89724",
+        "p": [
+          -462745.59,
+          365116.06
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_WestHall_TECH_X=343987 Y=-460126 Z=-85699",
+        "p": [
+          -460126.44,
+          343987.78
+        ]
+      },
+      {
+        "id": "Chest_MIS_MediumGear_FO_AP_X=523937 Y=-571859 Z=-75865",
+        "p": [
+          -571859.81,
+          523937.72
+        ]
+      },
+      {
+        "id": "Chest_MIS_MediumGear_FO_AP_X=536541 Y=-570466 Z=-79120",
+        "p": [
+          -570466.88,
+          536541.69
+        ]
+      },
+      {
+        "id": "Chest_MIS_MediumGear_FO_AP_X=539766 Y=-580317 Z=-80084",
+        "p": [
+          -580317.75,
+          539766.56
+        ]
+      },
+      {
+        "id": "Chest_MIS_MediumGear_FO_AX_X=530710 Y=-562931 Z=-77659",
+        "p": [
+          -562931.75,
+          530710.44
+        ]
+      },
+      {
+        "id": "Chest_MIS_MediumGear_HNG_AM_X=325774 Y=-592029 Z=-77848",
+        "p": [
+          -592029.38,
+          325774.59
+        ]
+      },
+      {
+        "id": "Chest_MP_MediumGear_CO_AA_X=403891 Y=-245877 Z=-84682",
+        "p": [
+          -245877.25,
+          403891.28
+        ]
+      },
+      {
+        "id": "Chest_MP_MediumGear_CO_AN_F_X=533559 Y=-209445 Z=-94305",
+        "p": [
+          -209445.69,
+          533559.81
+        ]
+      },
+      {
+        "id": "Chest_MP_MediumGear_HNA_BE_X=424659 Y=-443980 Z=-79370",
+        "p": [
+          -443980.81,
+          424659.34
+        ]
+      },
+      {
+        "id": "Chest_MP_MediumGear_HNG_AN_F_X=337842 Y=-587106 Z=-83147",
+        "p": [
+          -587106.62,
+          337842.81
+        ]
+      },
+      {
+        "id": "Chest_MP_MediumGear_HS_AS_F_X=389378 Y=-315246 Z=-87471",
+        "p": [
+          -315246.31,
+          389378.62
+        ]
+      },
+      {
+        "id": "Chest_MP_MediumGear_HS_AS_X=402472 Y=-306676 Z=-86895",
+        "p": [
+          -306676.94,
+          402472.44
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AG_F_X=417887 Y=-237540 Z=-86645",
+        "p": [
+          -237540.02,
+          417887.16
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AG_F_X=422416 Y=-201993 Z=-88734",
+        "p": [
+          -201993.44,
+          422416.88
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AG_F_X=447425 Y=-213320 Z=-83914",
+        "p": [
+          -213320.41,
+          447425.62
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AH_F_X=471431 Y=-218513 Z=-90308",
+        "p": [
+          -218513.52,
+          471431.5
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AH_F_X=476432 Y=-226199 Z=-89745",
+        "p": [
+          -226199.72,
+          476432.91
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AL_F_X=431366 Y=-183510 Z=-90835",
+        "p": [
+          -183510,
+          431366
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AM_F_X=456737 Y=-181816 Z=-94387",
+        "p": [
+          -181816.45,
+          456737.41
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_AT_F_X=455168 Y=-147176 Z=-92690",
+        "p": [
+          -147176.39,
+          455168.16
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BC_F_X=558616 Y=-116766 Z=-91171",
+        "p": [
+          -116766.19,
+          558616.69
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BH_Ruin_01_X=467113 Y=-65963 Z=-91948",
+        "p": [
+          -65963.28,
+          467113.41
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BH_Ruin_01_X=469753 Y=-61084 Z=-92754",
+        "p": [
+          -61084.41,
+          469753.09
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BJ_F_X=537731 Y=-42630 Z=-89862",
+        "p": [
+          -42630.04,
+          537731.38
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BJ_F_X=546084 Y=-68151 Z=-91466",
+        "p": [
+          -68151.7,
+          546084.62
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BK_F_X=569545 Y=-80832 Z=-89580",
+        "p": [
+          -80832.84,
+          569545.5
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BK_F_X=597522 Y=-62440 Z=-94098",
+        "p": [
+          -62440.13,
+          597522.69
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BM_F_X=501465 Y=-32052 Z=-94090",
+        "p": [
+          -32052.68,
+          501465.66
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BM_F_X=507329 Y=-46292 Z=-94361",
+        "p": [
+          -46292.73,
+          507329.19
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BQ_F_X=559291 Y=-8631 Z=-93125",
+        "p": [
+          -8631.38,
+          559291.06
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_CO_BR_F_X=582197 Y=-36320 Z=-90338",
+        "p": [
+          -36320.25,
+          582197.5
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AN_F_X=340893 Y=-586072 Z=-81872",
+        "p": [
+          -586072.56,
+          340893.09
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AN_F_X=357069 Y=-568087 Z=-87660",
+        "p": [
+          -568087.31,
+          357069.78
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AN_F_X=357373 Y=-582748 Z=-86045",
+        "p": [
+          -582748.19,
+          357373.44
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AO_F_X=377814 Y=-596108 Z=-85481",
+        "p": [
+          -596108,
+          377814.97
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AO_F_X=388115 Y=-591785 Z=-85975",
+        "p": [
+          -591785.62,
+          388115.84
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AP_F_X=393871 Y=-568358 Z=-87381",
+        "p": [
+          -568358.06,
+          393871.5
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AR_F_X=375177 Y=-576179 Z=-86241",
+        "p": [
+          -576179.06,
+          375177.38
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AS_F_X=402601 Y=-554235 Z=-79852",
+        "p": [
+          -554235.88,
+          402601.28
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AS_F_X=403164 Y=-544956 Z=-80028",
+        "p": [
+          -544956.31,
+          403164.22
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HNG_AV_F_X=360840 Y=-497505 Z=-87249",
+        "p": [
+          -497505.03,
+          360840.03
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HS_AG_X=261972 Y=-333385 Z=-91536",
+        "p": [
+          -333385.84,
+          261972.58
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HS_AH_CastleRuin_01_X=305783 Y=-342464 Z=-83561",
+        "p": [
+          -342464.25,
+          305783.41
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HS_AP_F_X=259008 Y=-305830 Z=-92680",
+        "p": [
+          -305830.97,
+          259008.48
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HS_AR_F_X=358148 Y=-320198 Z=-87445",
+        "p": [
+          -320198,
+          358148.94
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HS_BF_F_X=304925 Y=-225412 Z=-94384",
+        "p": [
+          -225412.17,
+          304925.78
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_HS_BF_F_X=305080 Y=-240791 Z=-92277",
+        "p": [
+          -240791.02,
+          305080.72
+        ]
+      },
+      {
+        "id": "Chest_R_MediumGear_TU_BB_X=283877 Y=-522632 Z=-81352",
+        "p": [
+          -522632.22,
+          283877.47
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_AH_F_X=456776 Y=-220551 Z=-90284",
+        "p": [
+          -220551.36,
+          456776.28
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_AN_F_X=510374 Y=-188627 Z=-94151",
+        "p": [
+          -188627.09,
+          510374.16
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_AN_F_X=511038 Y=-187756 Z=-92660",
+        "p": [
+          -187756.23,
+          511038.41
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_AN_F_X=512073 Y=-188736 Z=-95762",
+        "p": [
+          -188736.03,
+          512073.62
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_AS_F_X=441312 Y=-163645 Z=-93105",
+        "p": [
+          -163645.95,
+          441312.88
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_BA_Rookwood_X=469388 Y=-103787 Z=-91376",
+        "p": [
+          -103787.4,
+          469388.28
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_BA_Rookwood_X=470291 Y=-103790 Z=-90853",
+        "p": [
+          -103790.7,
+          470291.72
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_CO_BB_F_X=521902 Y=-96916 Z=-93483",
+        "p": [
+          -96916.69,
+          521902.72
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HNA_BG_F_X=350499 Y=-384019 Z=-86510",
+        "p": [
+          -384019.97,
+          350499.91
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HNG_AN_F_X=333634 Y=-567978 Z=-85293",
+        "p": [
+          -567978.38,
+          333634.56
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HNG_AO_F_X=374640 Y=-588235 Z=-85611",
+        "p": [
+          -588235.75,
+          374640.78
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HNG_AU_F_X=351501 Y=-521509 Z=-87300",
+        "p": [
+          -521509.59,
+          351501.66
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HNG_AX_F_X=416920 Y=-533639 Z=-82663",
+        "p": [
+          -533639.44,
+          416920.06
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HS_AH_F_X=307405 Y=-351861 Z=-86672",
+        "p": [
+          -351861.97,
+          307405.75
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HS_AI_F_X=355780 Y=-337190 Z=-83068",
+        "p": [
+          -337190.16,
+          355780.25
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HS_AJ_F_X=403308 Y=-366562 Z=-85384",
+        "p": [
+          -366562.81,
+          403308.81
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HS_AS_F_X=387730 Y=-315536 Z=-87934",
+        "p": [
+          -315536.78,
+          387730.81
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HS_AX_F_X=284938 Y=-281571 Z=-91646",
+        "p": [
+          -281571.69,
+          284938.69
+        ]
+      },
+      {
+        "id": "Chest_RAM_MediumGear_HS_BG_F_X=329084 Y=-231303 Z=-88690",
+        "p": [
+          -231303.95,
+          329084.19
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AG_F_X=427970 Y=-207697 Z=-92669",
+        "p": [
+          -207697.69,
+          427970.62
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AH_F_X=491274 Y=-217551 Z=-95650",
+        "p": [
+          -217551.56,
+          491274.16
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AL_F_X=424040 Y=-197119 Z=-92979",
+        "p": [
+          -197119.47,
+          424040.84
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AL_F_X=446971 Y=-204601 Z=-89049",
+        "p": [
+          -204601.34,
+          446971.69
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AM_F_X=487194 Y=-164557 Z=-93338",
+        "p": [
+          -164557.5,
+          487194.66
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AS_F_X=453302 Y=-144228 Z=-94976",
+        "p": [
+          -144228.2,
+          453302.16
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AT_F_X=457531 Y=-148344 Z=-95868",
+        "p": [
+          -148344.95,
+          457531.69
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AT_F_X=470433 Y=-137525 Z=-94751",
+        "p": [
+          -137525.36,
+          470433.91
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AV_F_X=551059 Y=-158104 Z=-83719",
+        "p": [
+          -158104.98,
+          551059.94
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_AV_F_X=571674 Y=-137787 Z=-90584",
+        "p": [
+          -137787.27,
+          571674.81
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BB_F_X=519016 Y=-121824 Z=-95640",
+        "p": [
+          -121824.76,
+          519016.59
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BB_F_X=522825 Y=-105201 Z=-94931",
+        "p": [
+          -105201.05,
+          522825.16
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BB_F_X=523756 Y=-106552 Z=-91423",
+        "p": [
+          -106552.48,
+          523756.22
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BC_F_X=541690 Y=-75684 Z=-95623",
+        "p": [
+          -75684.7,
+          541690.75
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BH_F_X=468802 Y=-51953 Z=-96063",
+        "p": [
+          -51953.59,
+          468802.47
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BI_F_X=522227 Y=-79107 Z=-96225",
+        "p": [
+          -79107.29,
+          522227.47
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BI_F_X=526878 Y=-73104 Z=-93221",
+        "p": [
+          -73104.74,
+          526878.94
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BK_F_X=574869 Y=-82753 Z=-96284",
+        "p": [
+          -82753.56,
+          574869.75
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BK_F_X=588984 Y=-63852 Z=-95978",
+        "p": [
+          -63852.85,
+          588984.31
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BM_F_X=531884 Y=-35213 Z=-94896",
+        "p": [
+          -35213.92,
+          531884.5
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_CO_BR_F_X=579211 Y=-30307 Z=-95775",
+        "p": [
+          -30307.59,
+          579211.44
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_FO_AU_F_X=439985 Y=-534682 Z=-82239",
+        "p": [
+          -534682.12,
+          439985.19
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNA_BC_F_X=398042 Y=-479805 Z=-89288",
+        "p": [
+          -479805.38,
+          398042.19
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNA_BD_F_X=418924 Y=-427996 Z=-82278",
+        "p": [
+          -427996.91,
+          418924.88
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNA_BF_F_X=314086 Y=-415299 Z=-74163",
+        "p": [
+          -415299.38,
+          314086.44
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNA_BG_F_X=356886 Y=-421530 Z=-90130",
+        "p": [
+          -421530.72,
+          356886.03
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNA_BJ_F_X=410411 Y=-403622 Z=-83840",
+        "p": [
+          -403622.66,
+          410411.97
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AK_F_X=360443 Y=-614890 Z=-84019",
+        "p": [
+          -614890.5,
+          360443.28
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AL_F_X=394416 Y=-615623 Z=-84806",
+        "p": [
+          -615623.56,
+          394416.16
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AN_F_X=335184 Y=-598815 Z=-81229",
+        "p": [
+          -598815.38,
+          335184.84
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AN_F_X=339922 Y=-587400 Z=-83898",
+        "p": [
+          -587400.81,
+          339922.31
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AO_F_X=385845 Y=-592616 Z=-87385",
+        "p": [
+          -592616.19,
+          385845.03
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AP_F_X=397113 Y=-565773 Z=-87909",
+        "p": [
+          -565773.69,
+          397113.38
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AP_F_X=412393 Y=-583101 Z=-84998",
+        "p": [
+          -583101,
+          412393.81
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AP_F_X=416268 Y=-579257 Z=-82909",
+        "p": [
+          -579257.81,
+          416268.28
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AS_F_X=398126 Y=-562584 Z=-85855",
+        "p": [
+          -562584.5,
+          398126.59
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AS_F_X=398622 Y=-564494 Z=-82342",
+        "p": [
+          -564494.75,
+          398622.5
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AV_F_X=331934 Y=-513476 Z=-89671",
+        "p": [
+          -513476.44,
+          331934.22
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HNG_AY_F_X=430982 Y=-511135 Z=-81570",
+        "p": [
+          -511135.66,
+          430982.56
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AG_F_X=268204 Y=-328270 Z=-94066",
+        "p": [
+          -328270.53,
+          268204.38
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AH_F_X=319535 Y=-376819 Z=-84016",
+        "p": [
+          -376819.22,
+          319535.44
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AI_F_X=350020 Y=-342658 Z=-84932",
+        "p": [
+          -342658.88,
+          350020.78
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AI_F_X=397786 Y=-339153 Z=-90564",
+        "p": [
+          -339153.03,
+          397786.62
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AP_F_X=249529 Y=-296722 Z=-96123",
+        "p": [
+          -296722.22,
+          249529.86
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AP_F_X=270271 Y=-297390 Z=-90192",
+        "p": [
+          -297390.53,
+          270271.03
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AR_F_X=334260 Y=-315907 Z=-85878",
+        "p": [
+          -315907.44,
+          334260
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AW_F_X=251047 Y=-261308 Z=-96307",
+        "p": [
+          -261308.53,
+          251047.91
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AX_F_X=289221 Y=-272803 Z=-92138",
+        "p": [
+          -272803.94,
+          289221.09
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AX_F_X=291132 Y=-253506 Z=-92605",
+        "p": [
+          -253506.77,
+          291132
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AY_F_X=342628 Y=-256045 Z=-89464",
+        "p": [
+          -256045.55,
+          342628.97
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AZ_F_X=368686 Y=-250398 Z=-92034",
+        "p": [
+          -250398.69,
+          368686.41
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_AZ_F_X=382953 Y=-269003 Z=-91586",
+        "p": [
+          -269003.44,
+          382953.09
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_BA_F_X=401246 Y=-281235 Z=-89145",
+        "p": [
+          -281235.72,
+          401246.78
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_BF_F_X=312834 Y=-254975 Z=-88528",
+        "p": [
+          -254975.09,
+          312834.41
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_HS_BG_F_X=336125 Y=-226357 Z=-88905",
+        "p": [
+          -226357.48,
+          336125.91
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_TU_BB_F_X=296333 Y=-539533 Z=-79740",
+        "p": [
+          -539533,
+          296333.06
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_TU_BB_F_X=311775 Y=-540405 Z=-83908",
+        "p": [
+          -540405.12,
+          311775.41
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_TU_BB_F_X=315178 Y=-536323 Z=-83535",
+        "p": [
+          -536323.31,
+          315178.62
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_TU_BB_F_X=320774 Y=-523208 Z=-83797",
+        "p": [
+          -523208.25,
+          320774.12
+        ]
+      },
+      {
+        "id": "Chest_V_MediumGear_X=395138 Y=-257867 Z=-86557",
+        "p": [
+          -257867.75,
+          395138.28
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AH_F_X=457190 Y=-210268 Z=-90751",
+        "p": [
+          -210268.03,
+          457190.72
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AH_F_X=480030 Y=-239926 Z=-90345",
+        "p": [
+          -239926.73,
+          480030
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AL_F_X=431637 Y=-194237 Z=-91730",
+        "p": [
+          -194237.67,
+          431637.78
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AL_F_X=439825 Y=-197864 Z=-89506",
+        "p": [
+          -197864.78,
+          439825.53
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AN_F_X=528434 Y=-174434 Z=-92131",
+        "p": [
+          -174434.72,
+          528434.44
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AN_X=498158 Y=-183992 Z=-120044",
+        "p": [
+          -183992.14,
+          498158.72
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AS_X=427841 Y=-154902 Z=-117878",
+        "p": [
+          -154902.94,
+          427841.84
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AU_F_X=494332 Y=-161537 Z=-92408",
+        "p": [
+          -161537.97,
+          494332.53
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_AV_F_X=537273 Y=-172970 Z=-88943",
+        "p": [
+          -172970.02,
+          537273.94
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BA_F_X=466111 Y=-109446 Z=-95189",
+        "p": [
+          -109446.48,
+          466111.97
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BA_F_X=479173 Y=-90564 Z=-96340",
+        "p": [
+          -90564.17,
+          479173.78
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BB_F_X=498220 Y=-121502 Z=-94506",
+        "p": [
+          -121502.61,
+          498220.16
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BB_F_X=499641 Y=-106050 Z=-96342",
+        "p": [
+          -106050.75,
+          499641
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BC_F_X=535782 Y=-97900 Z=-96157",
+        "p": [
+          -97900.55,
+          535782.69
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BC_F_X=540691 Y=-105384 Z=-93692",
+        "p": [
+          -105384.17,
+          540691.62
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BC_F_X=541960 Y=-76674 Z=-94727",
+        "p": [
+          -76674.42,
+          541960.94
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BC_F_X=542533 Y=-92170 Z=-92500",
+        "p": [
+          -92170.98,
+          542533.75
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BC_F_X=552218 Y=-121859 Z=-89344",
+        "p": [
+          -121859.4,
+          552218.75
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BD_F_X=586733 Y=-114114 Z=-91097",
+        "p": [
+          -114114.48,
+          586733.38
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BH_F_X=486848 Y=-32771 Z=-96446",
+        "p": [
+          -32771.81,
+          486848.28
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BI_F_X=524033 Y=-77137 Z=-94729",
+        "p": [
+          -77137.66,
+          524033.5
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BJ_F_X=538288 Y=-64772 Z=-95952",
+        "p": [
+          -64772.12,
+          538288.56
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BK_F_X=579971 Y=-79587 Z=-93653",
+        "p": [
+          -79587.59,
+          579971.62
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BK_F_X=594602 Y=-80872 Z=-94613",
+        "p": [
+          -80872.41,
+          594602.75
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BQ_F_X=541131 Y=-31613 Z=-92105",
+        "p": [
+          -31613.94,
+          541131.69
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_CO_BQ_F_X=565677 Y=-34694 Z=-93630",
+        "p": [
+          -34694.94,
+          565677.62
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BC_F_X=406270 Y=-454778 Z=-88620",
+        "p": [
+          -454778.62,
+          406270.5
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BD_F_X=404341 Y=-449596 Z=-89088",
+        "p": [
+          -449596.88,
+          404341.09
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BF_F_X=315910 Y=-390851 Z=-74740",
+        "p": [
+          -390851.28,
+          315910.5
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BG_F_X=340743 Y=-377074 Z=-86293",
+        "p": [
+          -377074.94,
+          340743.16
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BG_F_X=366282 Y=-386995 Z=-90038",
+        "p": [
+          -386995.69,
+          366282.25
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BH_X=386630 Y=-414154 Z=-111940",
+        "p": [
+          -414154.88,
+          386630.22
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BJ_F_X=414045 Y=-423462 Z=-85363",
+        "p": [
+          -423462.88,
+          414045.69
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNA_BJ_F_X=431931 Y=-393941 Z=-82903",
+        "p": [
+          -393941.62,
+          431931.38
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNG_AN_F_X=327915 Y=-576991 Z=-85389",
+        "p": [
+          -576991.06,
+          327915.06
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNG_AO_F_X=370438 Y=-607525 Z=-88192",
+        "p": [
+          -607525.25,
+          370438.44
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNG_AU_F_X=338751 Y=-547122 Z=-103451",
+        "p": [
+          -547122.56,
+          338751.72
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HNG_AU_F_X=357979 Y=-544041 Z=-87197",
+        "p": [
+          -544041.12,
+          357979.91
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AG_F_X=264187 Y=-328757 Z=-92514",
+        "p": [
+          -328757.91,
+          264187.41
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AG_F_X=287606 Y=-343935 Z=-88189",
+        "p": [
+          -343935.31,
+          287606.09
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AH_F_X=308802 Y=-338265 Z=-84970",
+        "p": [
+          -338265,
+          308802.66
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AJ_F_X=405858 Y=-367998 Z=-86943",
+        "p": [
+          -367998.69,
+          405858.09
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AK_F_X=449032 Y=-377308 Z=-85543",
+        "p": [
+          -377308.72,
+          449032.59
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AP_F_X=237090 Y=-299137 Z=-96261",
+        "p": [
+          -299137.91,
+          237090.8
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AR_F_X=357273 Y=-325212 Z=-88870",
+        "p": [
+          -325212.66,
+          357273.56
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AR_F_X=358854 Y=-293555 Z=-88392",
+        "p": [
+          -293555.31,
+          358854.53
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AS_X=399683 Y=-305613 Z=-112804",
+        "p": [
+          -305614,
+          399684
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AW_F_X=232569 Y=-281018 Z=-96169",
+        "p": [
+          -281018.41,
+          232569.06
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AY_F_X=333858 Y=-267951 Z=-83767",
+        "p": [
+          -267951.03,
+          333858.44
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_AZ_F_X=393399 Y=-264989 Z=-90866",
+        "p": [
+          -264989.53,
+          393399.28
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_BF_F_X=300357 Y=-247252 Z=-90879",
+        "p": [
+          -247252.62,
+          300357.03
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_BF_X=279355 Y=-228345 Z=-117540",
+        "p": [
+          -228345.2,
+          279355.44
+        ]
+      },
+      {
+        "id": "Chest_VP_MediumGear_HS_BI_F_X=369932 Y=-248496 Z=-90356",
+        "p": [
+          -248496.52,
+          369932.75
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Chest_HAM_LargeGoldSuper_CO_AT_F_X=478614 Y=-162576 Z=-95290",
+        "p": [
+          -162576.58,
+          478614.44
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_CO_AT_F_X=484593 Y=-164934 Z=-94852",
+        "p": [
+          -164934.83,
+          484593.75
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_CO_BB_F_X=495934 Y=-127396 Z=-93372",
+        "p": [
+          -127396.16,
+          495934.66
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_CO_BD_F_X=585423 Y=-100120 Z=-92528",
+        "p": [
+          -100120.41,
+          585423.69
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HNA_BD_F_X=410345 Y=-449218 Z=-82806",
+        "p": [
+          -449218.22,
+          410345.25
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HNA_BJ_F_X=426802 Y=-379907 Z=-82267",
+        "p": [
+          -379907.72,
+          426802.88
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HNG_AK_F_X=348389 Y=-613219 Z=-85950",
+        "p": [
+          -613219.19,
+          348389.91
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HNG_AS_F_X=401096 Y=-569056 Z=-79510",
+        "p": [
+          -569056.31,
+          401096.28
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HS_AR_Keenbridge_Interior_GamePlay01_X=380197 Y=-321838 Z=-89884",
+        "p": [
+          -321838.94,
+          380197.19
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HS_AW_F_X=263645 Y=-271061 Z=-92572",
+        "p": [
+          -271061.72,
+          263645.03
+        ]
+      },
+      {
+        "id": "Chest_HAM_LargeGoldSuper_HS_AY_F_X=338141 Y=-250463 Z=-88424",
+        "p": [
+          -250463,
+          338141
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_CO_AV_F_X=540637 Y=-169036 Z=-84017",
+        "p": [
+          -169036.83,
+          540637.69
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_CO_BA_Rookwood_X=469673 Y=-98785 Z=-92753",
+        "p": [
+          -98785.65,
+          469673.97
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_CO_BD_F_X=591791 Y=-93506 Z=-91650",
+        "p": [
+          -93506.92,
+          591791.44
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_CO_BM_X=495496 Y=-22824 Z=-95756",
+        "p": [
+          -22824.28,
+          495496.44
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_FO_AV_X=455511 Y=-544542 Z=-80985",
+        "p": [
+          -544542.06,
+          455511.03
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_HNA_BA_X=316851 Y=-439141 Z=-76089",
+        "p": [
+          -439141.34,
+          316851.53
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_HS_AI_F_X=348845 Y=-333671 Z=-80803",
+        "p": [
+          -333671.38,
+          348845.97
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_HS_AI_X=368632 Y=-347899 Z=-89003",
+        "p": [
+          -347899.44,
+          368632.47
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_HS_AR_X=338904 Y=-306755 Z=-85378",
+        "p": [
+          -306755.03,
+          338904.97
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_HS_AS_X=384112 Y=-291195 Z=-90734",
+        "p": [
+          -291195.12,
+          384112.5
+        ]
+      },
+      {
+        "id": "Chest_HID_LargeGoldSuper_HS_BF_X=274989 Y=-247334 Z=-89795",
+        "p": [
+          -247334.88,
+          274989.75
+        ]
+      },
+      {
+        "id": "Chest_HM_LargeGoldSuper_SUB_AvShop_POP_X=393058 Y=-511998 Z=-83321",
+        "p": [
+          -511998.47,
+          393058.97
+        ]
+      },
+      {
+        "id": "Chest_HM_LargeGoldSuper_SUB_GEN_H_POP_One_X=393237 Y=-513332 Z=-82997",
+        "p": [
+          -513332.31,
+          393237.5
+        ]
+      },
+      {
+        "id": "Chest_HM_LargeGoldSuper_SUB_HM_EastMain_POP_X=395635 Y=-514378 Z=-83085",
+        "p": [
+          -514378,
+          395635.44
+        ]
+      },
+      {
+        "id": "Chest_HM_LargeGoldSuper_SUB_HoneyDukes_POP_X=397495 Y=-519704 Z=-82163",
+        "p": [
+          -519704.47,
+          397495
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_ClockTower_TECH_X=354298 Y=-444394 Z=-79996",
+        "p": [
+          -444394.19,
+          354298
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_DADA_3_Classroom_TECH_X=348183 Y=-459059 Z=-84900",
+        "p": [
+          -459059,
+          348183.53
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_Faculty_Rooms_5_TECH_X=359979 Y=-450916 Z=-80100",
+        "p": [
+          -450916.56,
+          359979.5
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362081 Y=-452780 Z=-74493",
+        "p": [
+          -452780.5,
+          362081.22
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362281 Y=-454617 Z=-72398",
+        "p": [
+          -454617.5,
+          362281.84
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362677 Y=-452920 Z=-75198",
+        "p": [
+          -452920.34,
+          362677.56
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362876 Y=-455269 Z=-73297",
+        "p": [
+          -455269,
+          362876.69
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_Greenhouses_TECH_X=359885 Y=-470080 Z=-86800",
+        "p": [
+          -470080.56,
+          359885.12
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GroundsQ_TECH_X=354161 Y=-470250 Z=-86793",
+        "p": [
+          -470250.12,
+          354161.72
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_LibraryStorage_TECH_X=353620 Y=-466359 Z=-89227",
+        "p": [
+          -466359.88,
+          353620.97
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_SchoolDungeon_TECH_X=349168 Y=-460610 Z=-87000",
+        "p": [
+          -460610.88,
+          349168
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_ViaductBridge_TECH_X=362990 Y=-461180 Z=-84279",
+        "p": [
+          -461180.56,
+          362990.28
+        ]
+      },
+      {
+        "id": "Chest_MIS_LargeGoldSuper_CO_AN_F_X=529523 Y=-207980 Z=-94703",
+        "p": [
+          -207980.03,
+          529523.06
+        ]
+      },
+      {
+        "id": "Chest_R_LargeGoldSuper_CO_AN_F_X=499444 Y=-204479 Z=-94666",
+        "p": [
+          -204479.25,
+          499444.66
+        ]
+      },
+      {
+        "id": "Chest_RAM_LargeGoldSuper_CO_AM_F_X=474727 Y=-181858 Z=-93698",
+        "p": [
+          -181858.58,
+          474727.84
+        ]
+      },
+      {
+        "id": "Chest_RAM_LargeGoldSuper_CO_BB_F_X=522680 Y=-97668 Z=-92529",
+        "p": [
+          -97668.66,
+          522680.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Chest_HM_ConjurationsRecipe_SUB_GEN_E_POP_Five_X=390100 Y=-511659 Z=-83151",
+        "p": [
+          -511659.03,
+          390100.94
+        ]
+      },
+      {
+        "id": "Chest_HM_ConjurationsRecipe_SUB_GEN_G_POP_Two_X=401288 Y=-522604 Z=-81179",
+        "p": [
+          -522604.34,
+          401288.31
+        ]
+      },
+      {
+        "id": "Chest_HM_ConjurationsRecipe_SUB_GEN_H_POP_One_X=392727 Y=-513250 Z=-83334",
+        "p": [
+          -513250.25,
+          392727.5
+        ]
+      },
+      {
+        "id": "Chest_HM_ConjurationsRecipe_SUB_ThreeBroomsticks_POP_X=390420 Y=-515445 Z=-81909",
+        "p": [
+          -515445.31,
+          390420.66
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_BellTowersUpper_TECH_X=347540 Y=-467584 Z=-81000",
+        "p": [
+          -467584.88,
+          347540.47
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_BellTowersUpper_TECH_X=348441 Y=-470933 Z=-81000",
+        "p": [
+          -470933.16,
+          348441.44
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralHall_TECH_X=351676 Y=-464282 Z=-85648",
+        "p": [
+          -464282.75,
+          351676.97
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralTower_TECH_X=353458 Y=-465381 Z=-81900",
+        "p": [
+          -465381.94,
+          353458.38
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralTower_TECH_X=354557 Y=-465687 Z=-81900",
+        "p": [
+          -465687.16,
+          354557.38
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralTower_TECH_X=354736 Y=-466325 Z=-82099",
+        "p": [
+          -466325.72,
+          354736.16
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ClockTower_TECH_X=357396 Y=-445238 Z=-82825",
+        "p": [
+          -445238.16,
+          357396.78
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ClockTower_TECH_X=357615 Y=-445606 Z=-80799",
+        "p": [
+          -445606,
+          357615.25
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_DADA_6_TECH_X=349046 Y=-457878 Z=-81898",
+        "p": [
+          -457878.31,
+          349046.66
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_GrandStaircaseTower_TECH_X=363079 Y=-454073 Z=-71800",
+        "p": [
+          -454073.44,
+          363079.5
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_GrandStaircaseUpper_TECH_X=360847 Y=-453610 Z=-78904",
+        "p": [
+          -453610.91,
+          360847.5
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_LongGallery_TECH_X=348622 Y=-466342 Z=-86543",
+        "p": [
+          -466342.84,
+          348622.81
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_NorthHall_TECH_X=345599 Y=-462185 Z=-83918",
+        "p": [
+          -462185.84,
+          345599.84
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_QuadSouthHall_TECH_X=361081 Y=-450680 Z=-80593",
+        "p": [
+          -450680.75,
+          361081.47
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_Ravenclaw_TECH_X=357914 Y=-458038 Z=-80800",
+        "p": [
+          -458038.69,
+          357914.91
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ReceptionHall_TECH_X=365208 Y=-453774 Z=-81500",
+        "p": [
+          -453774.5,
+          365208.25
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ReceptionHall_TECH_X=369781 Y=-455342 Z=-82000",
+        "p": [
+          -455342.94,
+          369781.31
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ViaductBridge_TECH_X=361615 Y=-461303 Z=-84279",
+        "p": [
+          -461303.22,
+          361615.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Chest_HM_Disillusionment_EastMain_X=393486 Y=-511338 Z=-83205",
+        "p": [
+          -511338.31,
+          393486.16
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_Graveyard_X=383678 Y=-525086 Z=-81655",
+        "p": [
+          -525086.56,
+          383678.78
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_Lake_X=394251 Y=-521121 Z=-82156",
+        "p": [
+          -521121.09,
+          394251.88
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_Lake_X=402385 Y=-520484 Z=-81559",
+        "p": [
+          -520484.88,
+          402385.81
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_MiddleTown_X=386019 Y=-518977 Z=-82422",
+        "p": [
+          -518977.88,
+          386019
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_NorthHills_X=391569 Y=-533720 Z=-79365",
+        "p": [
+          -533720.56,
+          391569.66
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_NorthHills_X=394618 Y=-524919 Z=-81745",
+        "p": [
+          -524919.06,
+          394618.03
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_TECH_LOC_Hogsmeade_X=394213 Y=-503883 Z=-83064",
+        "p": [
+          -503883.06,
+          394213.97
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_WestMain_X=382070 Y=-517436 Z=-83259",
+        "p": [
+          -517436.53,
+          382070.88
+        ]
+      },
+      {
+        "id": "Chest_HM_Disillusionment_WestMain_X=382828 Y=-512928 Z=-83579",
+        "p": [
+          -512928.16,
+          382828.5
+        ]
+      },
+      {
+        "id": "Chest_HM_DisillusionmentSUB_DB_GR_X=391964 Y=-520601 Z=-82189",
+        "p": [
+          -520601.91,
+          391964.66
+        ]
+      },
+      {
+        "id": "Chest_HM_DisillusionmentSUB_Dogweed_X=391961 Y=-533757 Z=-80483",
+        "p": [
+          -533757,
+          391961.53
+        ]
+      },
+      {
+        "id": "Chest_HM_DisillusionmentSUB_Music_X=394931 Y=-514101 Z=-82710",
+        "p": [
+          -514101.84,
+          394931.94
+        ]
+      },
+      {
+        "id": "Chest_HM_DisillusionmentSUB_Neep_X=378753 Y=-517725 Z=-82538",
+        "p": [
+          -517725.62,
+          378753.28
+        ]
+      },
+      {
+        "id": "Chest_HM_DisillusionmentSUB_Tomes_X=385762 Y=-509311 Z=-83609",
+        "p": [
+          -509311.31,
+          385762.16
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_BellTowersUpper_TECH_X=346384 Y=-467420 Z=-84350",
+        "p": [
+          -467420.72,
+          346384.75
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_ClockTower_TECH_X=353635 Y=-445766 Z=-81800",
+        "p": [
+          -445766.06,
+          353635.03
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_DADA_1_TECH_X=348648 Y=-458474 Z=-85000",
+        "p": [
+          -458474.53,
+          348648.5
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_DADA_5_TECH_X=351325 Y=-460165 Z=-82899",
+        "p": [
+          -460165.38,
+          351325.22
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_Faculty_Rooms_5_TECH_X=359463 Y=-448447 Z=-80100",
+        "p": [
+          -448447.78,
+          359463.16
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_Greenhouses_TECH_X=357843 Y=-475768 Z=-87399",
+        "p": [
+          -475768.56,
+          357843.53
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_GroundsQ_TECH_X=339559 Y=-477267 Z=-85500",
+        "p": [
+          -477267.5,
+          339559.28
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_GroundsQ_TECH_X=343542 Y=-459966 Z=-84696",
+        "p": [
+          -459966.34,
+          343542.75
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_LibraryRestricted_TECH_X=352035 Y=-469786 Z=-86900",
+        "p": [
+          -469786.28,
+          352035.75
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_SchoolDungeon_TECH_X=349816 Y=-457604 Z=-88650",
+        "p": [
+          -457604.59,
+          349816.06
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_SlytherinDungeon_TECH_X=357335 Y=-455120 Z=-84101",
+        "p": [
+          -455120.31,
+          357335.69
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_SlytherinDungeon_TECH_X=370111 Y=-455806 Z=-84299",
+        "p": [
+          -455806.22,
+          370111
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_UndergroundHarbor_TECH_X=363358 Y=-462480 Z=-89723",
+        "p": [
+          -462480.94,
+          363358.66
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_ViaductCourtyard_TECH_X=366270 Y=-456422 Z=-82200",
+        "p": [
+          -456422.78,
+          366270.25
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_ViaductEntrance_TECH_X=355852 Y=-462161 Z=-82101",
+        "p": [
+          -462161.88,
+          355852.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-23",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_BellTowersUpper_TECH_X=347540 Y=-467584 Z=-81000",
+        "p": [
+          -467584.88,
+          347540.47
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_BellTowersUpper_TECH_X=348441 Y=-470933 Z=-81000",
+        "p": [
+          -470933.16,
+          348441.44
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralHall_TECH_X=351676 Y=-464282 Z=-85648",
+        "p": [
+          -464282.75,
+          351676.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralTower_TECH_X=353458 Y=-465381 Z=-81900",
+        "p": [
+          -465381.94,
+          353458.38
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralTower_TECH_X=354557 Y=-465687 Z=-81900",
+        "p": [
+          -465687.16,
+          354557.38
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_CentralTower_TECH_X=354736 Y=-466325 Z=-82099",
+        "p": [
+          -466325.72,
+          354736.16
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_DADA_6_TECH_X=349046 Y=-457878 Z=-81898",
+        "p": [
+          -457878.31,
+          349046.66
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ReceptionHall_TECH_X=369781 Y=-455342 Z=-82000",
+        "p": [
+          -455342.94,
+          369781.31
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ClockTower_TECH_X=357396 Y=-445238 Z=-82825",
+        "p": [
+          -445238.16,
+          357396.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ClockTower_TECH_X=357615 Y=-445606 Z=-80799",
+        "p": [
+          -445606,
+          357615.25
+        ]
+      },
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_Ravenclaw_TECH_X=357914 Y=-458038 Z=-80800",
+        "p": [
+          -458038.69,
+          357914.91
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-43",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_GrandStaircaseTower_TECH_X=363079 Y=-454073 Z=-71800",
+        "p": [
+          -454073.44,
+          363079.5
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-28",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_GrandStaircaseUpper_TECH_X=360847 Y=-453610 Z=-78904",
+        "p": [
+          -453610.91,
+          360847.5
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_LongGallery_TECH_X=348622 Y=-466342 Z=-86543",
+        "p": [
+          -466342.84,
+          348622.81
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-15",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_NorthHall_TECH_X=345599 Y=-462185 Z=-83918",
+        "p": [
+          -462185.84,
+          345599.84
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-25",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_QuadSouthHall_TECH_X=361081 Y=-450680 Z=-80593",
+        "p": [
+          -450680.75,
+          361081.47
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-22",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ReceptionHall_TECH_X=365208 Y=-453774 Z=-81500",
+        "p": [
+          -453774.5,
+          365208.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "conjurations_recipe",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Chest_HW_ConjurationsRecipe_SUB_ViaductBridge_TECH_X=361615 Y=-461303 Z=-84279",
+        "p": [
+          -461303.22,
+          361615.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_BellTowersUpper_TECH_X=346384 Y=-467420 Z=-84350",
+        "p": [
+          -467420.72,
+          346384.75
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_SlytherinDungeon_TECH_X=357335 Y=-455120 Z=-84101",
+        "p": [
+          -455120.31,
+          357335.69
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_SlytherinDungeon_TECH_X=370111 Y=-455806 Z=-84299",
+        "p": [
+          -455806.22,
+          370111
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-21",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_ClockTower_TECH_X=353635 Y=-445766 Z=-81800",
+        "p": [
+          -445766.06,
+          353635.03
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_DADA_1_TECH_X=348648 Y=-458474 Z=-85000",
+        "p": [
+          -458474.53,
+          348648.5
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_DADA_5_TECH_X=351325 Y=-460165 Z=-82899",
+        "p": [
+          -460165.38,
+          351325.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-26",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_Faculty_Rooms_5_TECH_X=359463 Y=-448447 Z=-80100",
+        "p": [
+          -448447.78,
+          359463.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-07",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_Greenhouses_TECH_X=357843 Y=-475768 Z=-87399",
+        "p": [
+          -475768.56,
+          357843.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_GroundsQ_TECH_X=339559 Y=-477267 Z=-85500",
+        "p": [
+          -477267.5,
+          339559.28
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_GroundsQ_TECH_X=343542 Y=-459966 Z=-84696",
+        "p": [
+          -459966.34,
+          343542.75
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_LibraryRestricted_TECH_X=352035 Y=-469786 Z=-86900",
+        "p": [
+          -469786.28,
+          352035.75
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-04",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_SchoolDungeon_TECH_X=349816 Y=-457604 Z=-88650",
+        "p": [
+          -457604.59,
+          349816.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-03",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_UndergroundHarbor_TECH_X=363358 Y=-462480 Z=-89723",
+        "p": [
+          -462480.94,
+          363358.66
+        ]
+      }
+    ]
+  },
+  {
+    "type": "disillusionment",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "Chest_HW_Disillusionment_SUB_ViaductCourtyard_TECH_X=366270 Y=-456422 Z=-82200",
+        "p": [
+          -456422.78,
+          366270.25
+        ]
+      },
+      {
+        "id": "Chest_HW_Disillusionment_SUB_ViaductEntrance_TECH_X=355852 Y=-462161 Z=-82101",
+        "p": [
+          -462161.88,
+          355852.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-27",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_ClockTower_TECH_X=354298 Y=-444394 Z=-79996",
+        "p": [
+          -444394.19,
+          354298
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_DADA_3_Classroom_TECH_X=348183 Y=-459059 Z=-84900",
+        "p": [
+          -459059,
+          348183.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-26",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_Faculty_Rooms_5_TECH_X=359979 Y=-450916 Z=-80100",
+        "p": [
+          -450916.56,
+          359979.5
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-38",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362081 Y=-452780 Z=-74493",
+        "p": [
+          -452780.5,
+          362081.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-42",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362281 Y=-454617 Z=-72398",
+        "p": [
+          -454617.5,
+          362281.84
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-36",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362677 Y=-452920 Z=-75198",
+        "p": [
+          -452920.34,
+          362677.56
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-41",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GrandStaircaseTower_TECH_X=362876 Y=-455269 Z=-73297",
+        "p": [
+          -455269,
+          362876.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_Greenhouses_TECH_X=359885 Y=-470080 Z=-86800",
+        "p": [
+          -470080.56,
+          359885.12
+        ]
+      },
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_GroundsQ_TECH_X=354161 Y=-470250 Z=-86793",
+        "p": [
+          -470250.12,
+          354161.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-03",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_LibraryStorage_TECH_X=353620 Y=-466359 Z=-89227",
+        "p": [
+          -466359.88,
+          353620.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_SchoolDungeon_TECH_X=349168 Y=-460610 Z=-87000",
+        "p": [
+          -460610.88,
+          349168
+        ]
+      }
+    ]
+  },
+  {
+    "type": "large_gold_super",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Chest_HW_LargeGoldSuper_SUB_ViaductBridge_TECH_X=362990 Y=-461180 Z=-84279",
+        "p": [
+          -461180.56,
+          362990.28
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-28",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_AstronomyTower_TECH_X=346709 Y=-459292 Z=-78696",
+        "p": [
+          -459292.59,
+          346709.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseUpper_TECH_X=360624 Y=-453900 Z=-78996",
+        "p": [
+          -453900.31,
+          360624.09
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Owlery_TECH_X=336767 Y=-442512 Z=-78850",
+        "p": [
+          -442512.25,
+          336767.88
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-16",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_BellTowersUpper_TECH_X=347481 Y=-466819 Z=-83586",
+        "p": [
+          -466819.25,
+          347481.84
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HufflepuffBasement_TECH_X=361589 Y=-449939 Z=-83699",
+        "p": [
+          -449939.31,
+          361589.44
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HufflepuffBasement_TECH_X=365723 Y=-445805 Z=-83700",
+        "p": [
+          -445805.19,
+          365723.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HufflepuffBasement_TECH_X=365826 Y=-449479 Z=-83798",
+        "p": [
+          -449479.5,
+          365826.53
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Kitchens_TECH_X=366404 Y=-453947 Z=-83800",
+        "p": [
+          -453947.75,
+          366404.91
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Kitchens_TECH_X=367780 Y=-449816 Z=-83800",
+        "p": [
+          -449816.22,
+          367780.19
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralHall_TECH_X=351397 Y=-464533 Z=-85648",
+        "p": [
+          -464533.91,
+          351397.97
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralHall_TECH_X=353056 Y=-468598 Z=-85698",
+        "p": [
+          -468598.06,
+          353056.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GroundsKeepersQuarters_TECH_X=336381 Y=-471171 Z=-85872",
+        "p": [
+          -471171.88,
+          336381.41
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GroundsQ_TECH_X=334212 Y=-467143 Z=-85463",
+        "p": [
+          -467143.91,
+          334212.03
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Library_TECH_X=350196 Y=-465617 Z=-85698",
+        "p": [
+          -465617.56,
+          350196.25
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_MagicalCreatures_TECH_X=338840 Y=-456314 Z=-85521",
+        "p": [
+          -456314.31,
+          338840.31
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=343748 Y=-460576 Z=-85700",
+        "p": [
+          -460576.62,
+          343748.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=345756 Y=-466863 Z=-85698",
+        "p": [
+          -466863.28,
+          345756.69
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Slytherin_TECH_X=360640 Y=-452241 Z=-85627",
+        "p": [
+          -452241,
+          360640.84
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_WestHall_TECH_X=343987 Y=-460126 Z=-85699",
+        "p": [
+          -460126.44,
+          343987.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralTower_TECH_X=353106 Y=-466670 Z=-81899",
+        "p": [
+          -466670.81,
+          353106.16
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralTower_TECH_X=353236 Y=-465328 Z=-81899",
+        "p": [
+          -465328.56,
+          353236.91
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_CentralTower_TECH_X=354767 Y=-465990 Z=-81899",
+        "p": [
+          -465990.62,
+          354767.44
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_6_TECH_X=349774 Y=-458195 Z=-81898",
+        "p": [
+          -458195.16,
+          349774.38
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_6_TECH_X=350373 Y=-458040 Z=-81898",
+        "p": [
+          -458040.34,
+          350373.44
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_ReceptionHall_TECH_X=369409 Y=-455843 Z=-82000",
+        "p": [
+          -455843.91,
+          369409.09
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_ClockTower_TECH_X=356872 Y=-444189 Z=-83000",
+        "p": [
+          -444189.91,
+          356872.25
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_5_TECH_X=351943 Y=-460132 Z=-82900",
+        "p": [
+          -460132.91,
+          351943.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Garden_TECH_X=360609 Y=-446440 Z=-83088",
+        "p": [
+          -446440.16,
+          360609.56
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorLowerHallways_TECH_X=353761 Y=-451572 Z=-83200",
+        "p": [
+          -451572.69,
+          353761.66
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorLowerHallways_TECH_X=355415 Y=-449985 Z=-82900",
+        "p": [
+          -449985.53,
+          355415.94
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_QuadCourtyard_TECH_X=356861 Y=-454329 Z=-83198",
+        "p": [
+          -454329.16,
+          356861.19
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-30",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_ClockTower_TECH_X=357800 Y=-445607 Z=-78252",
+        "p": [
+          -445607,
+          357800.25
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_HospitalWing_TECH_X=357495 Y=-450549 Z=-78300",
+        "p": [
+          -450549.06,
+          357495.5
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_3_Classroom_TECH_X=347087 Y=-458425 Z=-84098",
+        "p": [
+          -458425.12,
+          347087.5
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_3_Classroom_TECH_X=348146 Y=-459566 Z=-84100",
+        "p": [
+          -459566.94,
+          348146.59
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_DeathDayDungeon_TECH_X=366816 Y=-461852 Z=-84550",
+        "p": [
+          -461852.12,
+          366816.69
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SealedDoor_TECH_X=362388 Y=-451180 Z=-84489",
+        "p": [
+          -451180.84,
+          362388.06
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SlytherinDungeon_TECH_X=366712 Y=-456478 Z=-84304",
+        "p": [
+          -456478,
+          366712.97
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SlytherinDungeon_TECH_X=370937 Y=-456756 Z=-84299",
+        "p": [
+          -456756.69,
+          370937.56
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-21",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_DADA_6_TECH_X=349855 Y=-460909 Z=-81699",
+        "p": [
+          -460909.59,
+          349855.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_EntranceHall_TECH_X=368967 Y=-457708 Z=-82700",
+        "p": [
+          -457708.66,
+          368967.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-22",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_Faculty_Rooms_3_TECH_X=357206 Y=-449826 Z=-81499",
+        "p": [
+          -449826.47,
+          357206.28
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_ReceptionHall_TECH_X=365419 Y=-453618 Z=-81500",
+        "p": [
+          -453618.41,
+          365419.09
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_Faculty_Rooms_4_TECH_X=358572 Y=-449586 Z=-80798",
+        "p": [
+          -449586.69,
+          358572.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorCommonRoom_TECH_X=357215 Y=-452063 Z=-80801",
+        "p": [
+          -452063.94,
+          357215.34
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Ravenclaw_TECH_X=357695 Y=-458268 Z=-80800",
+        "p": [
+          -458268.88,
+          357695.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-38",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=361864 Y=-454638 Z=-74096",
+        "p": [
+          -454638.34,
+          361864.06
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=362306 Y=-455941 Z=-74098",
+        "p": [
+          -455941.5,
+          362306.56
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=362953 Y=-452618 Z=-74496",
+        "p": [
+          -452618.94,
+          362953.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-33",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_GrandStaircaseTower_TECH_X=364754 Y=-455416 Z=-75895",
+        "p": [
+          -455416.88,
+          364754.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-23",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_GreatHall_TECH_X=368200 Y=-454279 Z=-81000",
+        "p": [
+          -454279.53,
+          368200.19
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_GroundsQ_TECH_X=338262 Y=-474492 Z=-85114",
+        "p": [
+          -474492.56,
+          338262.28
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_MagicalCreatures_INT_TECH_X=339151 Y=-456556 Z=-85301",
+        "p": [
+          -456556.94,
+          339151.91
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Slytherin_TECH_X=361905 Y=-451773 Z=-85400",
+        "p": [
+          -451773.47,
+          361905.03
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-25",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorCommonRoom_TECH_X=354216 Y=-452306 Z=-80598",
+        "p": [
+          -452306.16,
+          354216.75
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_QuadSouthHall_TECH_X=362054 Y=-451790 Z=-80595",
+        "p": [
+          -451790.91,
+          362054.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-27",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_GryffindorMaleDormsUpper_TECH_X=353029 Y=-450546 Z=-79395",
+        "p": [
+          -450546.56,
+          353029.03
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-31",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_HospitalWing_TECH_X=358107 Y=-448852 Z=-77698",
+        "p": [
+          -448852.81,
+          358107.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_LibraryRestricted_TECH_X=351143 Y=-470243 Z=-86300",
+        "p": [
+          -470243.5,
+          351143.88
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=345704 Y=-466276 Z=-86350",
+        "p": [
+          -466276.91,
+          345704.03
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Slytherin_TECH_X=362405 Y=-455499 Z=-86300",
+        "p": [
+          -455499.56,
+          362405.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-05",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_LibraryStorage_TECH_X=354709 Y=-465595 Z=-88212",
+        "p": [
+          -465595.19,
+          354709.81
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_LongGallery_TECH_X=349345 Y=-466857 Z=-86600",
+        "p": [
+          -466857.59,
+          349345.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHallBasement_TECH_X=343541 Y=-462695 Z=-86700",
+        "p": [
+          -462695.75,
+          343541
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-15",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=346108 Y=-462247 Z=-84000",
+        "p": [
+          -462247.41,
+          346108.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_NorthHall_TECH_X=347277 Y=-465297 Z=-84879",
+        "p": [
+          -465297.16,
+          347277.81
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SealedDoor_TECH_X=363473 Y=-452033 Z=-84748",
+        "p": [
+          -452033.47,
+          363473.66
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_SealedDoor_TECH_X=365851 Y=-451220 Z=-84750",
+        "p": [
+          -451220.5,
+          365851.28
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-32",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_RavenclawTower_TECH_X=356189 Y=-456981 Z=-77400",
+        "p": [
+          -456981.47,
+          356189.38
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_RavenclawTower_TECH_X=357769 Y=-455524 Z=-77398",
+        "p": [
+          -455524.44,
+          357769.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-26",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_RavenclawTower_TECH_X=358244 Y=-456326 Z=-80201",
+        "p": [
+          -456326.31,
+          358244.88
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_SchoolDungeon_TECH_X=348751 Y=-459231 Z=-87099",
+        "p": [
+          -459231.12,
+          348751.56
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-04",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=351726 Y=-458445 Z=-88653",
+        "p": [
+          -458445.91,
+          351726.12
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=352423 Y=-456165 Z=-88653",
+        "p": [
+          -456165.88,
+          352423.12
+        ]
+      }
+    ]
+  },
+  {
+    "type": "medium_gear",
+    "mapName": "hogwarts-03",
+    "spawns": [
+      {
+        "id": "Chest_HW_MediumGear_SUB_UndergroundHarbor_TECH_X=365116 Y=-462745 Z=-89724",
+        "p": [
+          -462745.59,
+          365116.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-23",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_BellTowersUpper_TECH_X=349091 Y=-470608 Z=-81000",
+        "p": [
+          -470608.16,
+          349091.59
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_BellTowersUpper_TECH_X=349091 Y=-470608 Z=-81000",
+        "p": [
+          -470608.16,
+          349091.59
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_ClockTower_TECH_X=357741 Y=-445330 Z=-80688",
+        "p": [
+          -445330.62,
+          357741.62
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_DADA_1_TECH_X=348195 Y=-460395 Z=-85623",
+        "p": [
+          -460395.59,
+          348195.25
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_DADA_5_Classroom_TECH_X=349626 Y=-456519 Z=-82823",
+        "p": [
+          -456519,
+          349626.81
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_DADA_6_TECH_X=349275 Y=-459584 Z=-80800",
+        "p": [
+          -459584.69,
+          349275.81
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_Faculty_Rooms_2_TECH_X=357884 Y=-448534 Z=-82095",
+        "p": [
+          -448534.16,
+          357884.97
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_FacultyTowerAttic_TECH_X=359184 Y=-449816 Z=-78951",
+        "p": [
+          -449816.75,
+          359184.31
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_GrandStaircaseTower_TECH_X=363168 Y=-454519 Z=-71800",
+        "p": [
+          -454519.22,
+          363168.53
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_GrandStaircaseTower_TECH_X=364688 Y=-453593 Z=-72310",
+        "p": [
+          -453593.75,
+          364688.97
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_GreatHall_TECH_X=366898 Y=-449126 Z=-81918",
+        "p": [
+          -449126.38,
+          366898.19
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_GroundsKeepersQuarters_TECH_X=335944 Y=-470436 Z=-86098",
+        "p": [
+          -470436.72,
+          335944.88
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_Kitchens_TECH_X=370182 Y=-452025 Z=-83710",
+        "p": [
+          -452025.28,
+          370182.72
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_LibraryStorage_TECH_X=354934 Y=-468169 Z=-87137",
+        "p": [
+          -468169,
+          354934.38
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_SchoolDungeon_TECH_X=349851 Y=-462293 Z=-87423",
+        "p": [
+          -462293.19,
+          349851.94
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_ViaductBridge_TECH_X=360710 Y=-462801 Z=-84278",
+        "p": [
+          -462801.59,
+          360710.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_ClockTower_TECH_X=357741 Y=-445330 Z=-80688",
+        "p": [
+          -445330.62,
+          357741.62
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_DADA_6_TECH_X=349275 Y=-459584 Z=-80800",
+        "p": [
+          -459584.69,
+          349275.81
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_DADA_1_TECH_X=348195 Y=-460395 Z=-85623",
+        "p": [
+          -460395.59,
+          348195.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_DADA_5_Classroom_TECH_X=349626 Y=-456519 Z=-82823",
+        "p": [
+          -456519,
+          349626.81
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_Faculty_Rooms_2_TECH_X=357884 Y=-448534 Z=-82095",
+        "p": [
+          -448534.16,
+          357884.97
+        ]
+      },
+      {
+        "id": "Chest_HW_Wandskin_SUB_GreatHall_TECH_X=366898 Y=-449126 Z=-81918",
+        "p": [
+          -449126.38,
+          366898.19
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-28",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_FacultyTowerAttic_TECH_X=359184 Y=-449816 Z=-78951",
+        "p": [
+          -449816.75,
+          359184.31
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-43",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_GrandStaircaseTower_TECH_X=363168 Y=-454519 Z=-71800",
+        "p": [
+          -454519.22,
+          363168.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-42",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_GrandStaircaseTower_TECH_X=364688 Y=-453593 Z=-72310",
+        "p": [
+          -453593.75,
+          364688.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_GroundsKeepersQuarters_TECH_X=335944 Y=-470436 Z=-86098",
+        "p": [
+          -470436.72,
+          335944.88
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-16",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_Kitchens_TECH_X=370182 Y=-452025 Z=-83710",
+        "p": [
+          -452025.28,
+          370182.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_LibraryStorage_TECH_X=354934 Y=-468169 Z=-87137",
+        "p": [
+          -468169,
+          354934.38
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-07",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_SchoolDungeon_TECH_X=349851 Y=-462293 Z=-87423",
+        "p": [
+          -462293.19,
+          349851.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "wandskin",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Chest_HW_Wandskin_SUB_ViaductBridge_TECH_X=360710 Y=-462801 Z=-84278",
+        "p": [
+          -462801.59,
+          360710.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "sphinx_puzzle",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "SphinxPuzzle_Ball2_CO_AL_X=433342 Y=-193833 Z=-89601",
+        "p": [
+          -193833.47,
+          433342.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball2_CO_AU_X=497429 Y=-171775 Z=-92713",
+        "p": [
+          -171775,
+          497429
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball2_CO_BA_X=467607 Y=-77739 Z=-95317",
+        "p": [
+          -77739.2,
+          467607.09
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball2_HN_AP_F_X=395650 Y=-596950 Z=-87595",
+        "p": [
+          -596950,
+          395650
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball2_HN_BD_X=396428 Y=-433133 Z=-89605",
+        "p": [
+          -433133.72,
+          396428.69
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball2_HN_BE_X=420654 Y=-443268 Z=-79305",
+        "p": [
+          -443268.31,
+          420654.47
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball2_HS_AR_F_X=379603 Y=-324585 Z=-90314",
+        "p": [
+          -324585.03,
+          379603.62
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_CO_AM_F_X=455896 Y=-183051 Z=-94341",
+        "p": [
+          -183051.67,
+          455896.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_FO_AU_X=436766 Y=-547959 Z=-80840",
+        "p": [
+          -547959.44,
+          436766.75
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_HN_AZ_X=310170 Y=-456627 Z=-78831",
+        "p": [
+          -456627.38,
+          310170.5
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_HN_BG_X=357536 Y=-431755 Z=-86548",
+        "p": [
+          -431755.66,
+          357536.66
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_HS_AJ_X=430879 Y=-377254 Z=-82314",
+        "p": [
+          -377254.69,
+          430879.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_HS_AW_X=250379 Y=-253983 Z=-95643",
+        "p": [
+          -253983.88,
+          250379.97
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Ball_HS_BA_F_X=402448 Y=-281542 Z=-84554",
+        "p": [
+          -281542.94,
+          402448.41
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch2_CO_BA_X=480876 Y=-85075 Z=-94363",
+        "p": [
+          -85075.42,
+          480876.69
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch_CO_AL_X=411270 Y=-197718 Z=-93141",
+        "p": [
+          -197718.47,
+          411270.28
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch_CO_AN_X=530157 Y=-180634 Z=-90330",
+        "p": [
+          -180634.67,
+          530157.12
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch_CO_BR_X=578060 Y=-37325 Z=-91129",
+        "p": [
+          -37325,
+          578060
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch_HN_AL_X=387634 Y=-614404 Z=-84177",
+        "p": [
+          -614404.75,
+          387634.16
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch_HN_AU_F_X=330110 Y=-537310 Z=-85793",
+        "p": [
+          -537310,
+          330110
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_BlockMatch_HS_AH_F_X=305063 Y=-353768 Z=-87862",
+        "p": [
+          -353768,
+          305063
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier2_HN_AS_F_X=418453 Y=-549434 Z=-80389",
+        "p": [
+          -549434.88,
+          418453.03
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier2_TU_BB_X=288324 Y=-520782 Z=-81923",
+        "p": [
+          -520782.84,
+          288324.62
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier3_HS_AI_X=381592 Y=-374651 Z=-89490",
+        "p": [
+          -374651.28,
+          381592.12
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_CO_AG_X=433156 Y=-235648 Z=-88428",
+        "p": [
+          -235648.62,
+          433156.97
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_CO_BA_Rookwood_X=465059 Y=-102918 Z=-91664",
+        "p": [
+          -102918.73,
+          465059.22
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_CO_BD_X=583014 Y=-101763 Z=-92518",
+        "p": [
+          -101763.29,
+          583014.94
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_HN_AU_X=348276 Y=-551237 Z=-87311",
+        "p": [
+          -551237,
+          348276
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_HN_BC_F_X=404681 Y=-485720 Z=-85122",
+        "p": [
+          -485720.84,
+          404681.28
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_HN_BG_X=369200 Y=-413759 Z=-89704",
+        "p": [
+          -413759.38,
+          369200.19
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_HS_AP_X=234701 Y=-297828 Z=-94660",
+        "p": [
+          -297828.28,
+          234701.36
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_HS_AY_F_X=330754 Y=-246297 Z=-89326",
+        "p": [
+          -246297.81,
+          330754.75
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Brazier_HS_BA_X=402218 Y=-272406 Z=-87774",
+        "p": [
+          -272406.69,
+          402218.28
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Confringo2_CO_BM_X=501108 Y=-31978 Z=-93997",
+        "p": [
+          -31978.62,
+          501108.09
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Confringo_CO_AG_X=411471 Y=-217164 Z=-95208",
+        "p": [
+          -217164.95,
+          411471.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Confringo_CO_BB_X=523396 Y=-100272 Z=-91190",
+        "p": [
+          -100272.1,
+          523396.41
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget2_HN_AS_F_X=396775 Y=-546460 Z=-78526",
+        "p": [
+          -546460,
+          396775
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget2_HS_AH_F_X=325628 Y=-350289 Z=-80576",
+        "p": [
+          -350289,
+          325628.06
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget2_HS_AJ_X=393088 Y=-338995 Z=-87530",
+        "p": [
+          -338995.03,
+          393088.78
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget2_HS_BF_X=314925 Y=-248448 Z=-87621",
+        "p": [
+          -248448.55,
+          314925.72
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_CO_BQ_X=564920 Y=-9400 Z=-95543",
+        "p": [
+          -9400.75,
+          564920.88
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_HN_AL_X=379087 Y=-628668 Z=-83118",
+        "p": [
+          -628668.75,
+          379087.09
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_HN_BG_X=329911 Y=-426593 Z=-75293",
+        "p": [
+          -426593.25,
+          329911.69
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_HN_BI_X=389814 Y=-400221 Z=-89385",
+        "p": [
+          -400221.59,
+          389814.59
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_HS_AG_X=271771 Y=-341445 Z=-91398",
+        "p": [
+          -341445,
+          271771
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_HS_AW_F_X=232936 Y=-266385 Z=-95623",
+        "p": [
+          -266385.81,
+          232936.84
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ConfringoTarget_HS_BF_X=278198 Y=-249814 Z=-88970",
+        "p": [
+          -249814.17,
+          278198.94
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos2_CO_AG_F_X=446116 Y=-212329 Z=-83980",
+        "p": [
+          -212329.72,
+          446116.41
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos2_HN_AN_X=352810 Y=-575480 Z=-84991",
+        "p": [
+          -575480,
+          352810
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos2_HN_AY_X=420611 Y=-510146 Z=-81456",
+        "p": [
+          -510146.28,
+          420611.5
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos2_HS_BF_F_X=301327 Y=-242880 Z=-91596",
+        "p": [
+          -242880.22,
+          301327.84
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_CO_AG_X=416757 Y=-219022 Z=-90899",
+        "p": [
+          -219022.44,
+          416757.47
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_CO_AT_F_X=452839 Y=-147503 Z=-93844",
+        "p": [
+          -147503.88,
+          452839.56
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_CO_BC_X=558114 Y=-115800 Z=-89857",
+        "p": [
+          -115800.45,
+          558114.19
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_CO_BH_X=479443 Y=-43871 Z=-93912",
+        "p": [
+          -43871.88,
+          479443.75
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_CO_BJ_X=539485 Y=-64117 Z=-92418",
+        "p": [
+          -64117.64,
+          539485.12
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_FO_AU_X=442154 Y=-547437 Z=-81411",
+        "p": [
+          -547437.94,
+          442154
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HN_AV_F_X=364700 Y=-511727 Z=-84075",
+        "p": [
+          -511727.25,
+          364700.59
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HN_BA_X=320403 Y=-440265 Z=-76616",
+        "p": [
+          -440265.03,
+          320403.16
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HN_BC_X=397300 Y=-470016 Z=-89442",
+        "p": [
+          -470016.34,
+          397300.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HN_BD_X=399946 Y=-440844 Z=-85094",
+        "p": [
+          -440844.38,
+          399946.88
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HN_BJ_F_X=421536 Y=-384409 Z=-82210",
+        "p": [
+          -384409.31,
+          421536.78
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HS_AI_X=365173 Y=-333775 Z=-88227",
+        "p": [
+          -333775.5,
+          365173.16
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Lumos_HS_AZ_X=380709 Y=-270269 Z=-90400",
+        "p": [
+          -270269.62,
+          380709.88
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform2_CO_AT_F_X=473624 Y=-154344 Z=-95592",
+        "p": [
+          -154344.48,
+          473624.28
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform2_CO_BK_X=599735 Y=-59534 Z=-95249",
+        "p": [
+          -59534.33,
+          599735.75
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform2_HN_AO_F_X=378586 Y=-595895 Z=-85465",
+        "p": [
+          -595895.88,
+          378586.06
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform2_HS_AR_F_X=339120 Y=-312973 Z=-83275",
+        "p": [
+          -312973.12,
+          339120.34
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform_CO_AA_X=408764 Y=-242761 Z=-95696",
+        "p": [
+          -242761.72,
+          408764.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform_HN_AK_F_X=355600 Y=-613850 Z=-84965",
+        "p": [
+          -613850,
+          355600
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform_HN_BB_X=388277 Y=-485321 Z=-89529",
+        "p": [
+          -485321.66,
+          388277.19
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform_HS_AG_F_X=288538 Y=-336485 Z=-84507",
+        "p": [
+          -336485.34,
+          288538.53
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_platform_HS_AK_X=450734 Y=-385378 Z=-84797",
+        "p": [
+          -385378.53,
+          450734.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform_HS_AP_X=230097 Y=-291272 Z=-95259",
+        "p": [
+          -291272.22,
+          230097.44
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Platform_HS_AS_X=396226 Y=-298329 Z=-86634",
+        "p": [
+          -298329.97,
+          396226.69
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ReparoTrail3_CO_BQ_X=548879 Y=-5119 Z=-95724",
+        "p": [
+          -5119.17,
+          548879.31
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ReparoTrail_CO_AH_X=471154 Y=-212293 Z=-93551",
+        "p": [
+          -212293.88,
+          471154.78
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ReparoTrail_HS_AP_X=258871 Y=-294141 Z=-92352",
+        "p": [
+          -294141.09,
+          258871.83
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ReparoTrail_HS_AR_F_X=351546 Y=-290198 Z=-85077",
+        "p": [
+          -290198.59,
+          351546.12
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_ReparoTrail_TU_BB_F_X=316924 Y=-527967 Z=-83469",
+        "p": [
+          -527967.25,
+          316924.69
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_RockStack2_HS_AH_F_X=352731 Y=-361064 Z=-87076",
+        "p": [
+          -361064.22,
+          352731.84
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_RockStack3_HS_AH_X=311066 Y=-376059 Z=-74484",
+        "p": [
+          -376059.91,
+          311066.09
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_RockStack4_HN_BG_X=351622 Y=-408454 Z=-87864",
+        "p": [
+          -408454.12,
+          351622.31
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_RockStack_CO_AG_F_X=421593 Y=-201935 Z=-89187",
+        "p": [
+          -201935.94,
+          421593.53
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Rockstack_HN_BD_X=405445 Y=-441886 Z=-83457",
+        "p": [
+          -441886.38,
+          405445.72
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_Stupefy_CO_BC_X=563503 Y=-78813 Z=-95494",
+        "p": [
+          -78813.83,
+          563503
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget2_HN_AV_F_X=339135 Y=-501755 Z=-87101",
+        "p": [
+          -501755.62,
+          339135.91
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget2_HS_AI_F_X=351708 Y=-337052 Z=-82815",
+        "p": [
+          -337052.59,
+          351708.88
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_CO_BR_X=575275 Y=-24560 Z=-93345",
+        "p": [
+          -24560,
+          575275
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_HN_AW_X=395385 Y=-496825 Z=-85250",
+        "p": [
+          -496825,
+          395385
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_HN_BG_X=364529 Y=-383953 Z=-88152",
+        "p": [
+          -383953.28,
+          364529.72
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_HS_AP_F_X=245184 Y=-304521 Z=-94393",
+        "p": [
+          -304521.91,
+          245184.84
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_HS_AX_F_X=282147 Y=-270963 Z=-90208",
+        "p": [
+          -270963.88,
+          282147.19
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_HS_AY_F_X=337711 Y=-253560 Z=-87490",
+        "p": [
+          -253560.59,
+          337711.91
+        ]
+      },
+      {
+        "id": "SphinxPuzzle_StupefyTarget_HS_BI_F_X=385040 Y=-243083 Z=-89439",
+        "p": [
+          -243083.66,
+          385040.88
         ]
       }
     ]
