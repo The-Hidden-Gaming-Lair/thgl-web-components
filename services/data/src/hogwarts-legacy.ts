@@ -109,6 +109,10 @@ const SphinxPuzzleLocations =
 const enUS = readContentJSON<Record<string, string>>(
   "/Phoenix/Content/Localization/WIN64/MAIN-enUS.json",
 );
+const EnemyDefinitionNamed =
+  readContentJSON<PhoenixGameData_EnemyDefinitionNamed>(
+    "/Phoenix/Content/SQLiteDB/PhoenixGameData_EnemyDefinitionNamed.json",
+  );
 
 const MiniMapNHogwartsLevelData =
   readContentJSON<UI_DT_MiniMapNHogwartsLevelData>(
@@ -205,50 +209,107 @@ for (const location of hogwartsFastTravelLocations) {
   );
 }
 
-const moreLocations = [...KnowledgeInvestigatable, ...KnowledgeLocations];
+const moreLocations = [
+  ...KnowledgeInvestigatable,
+  ...KnowledgeLocations,
+  ...Locations,
+];
 for (const location of moreLocations) {
+  const name = "Name" in location ? location.Name : location.LocationID;
   let type;
   let title;
   let iconPath;
   let group;
   let titleGroup;
-  if (location.Name.includes("AccioPage")) {
+  let isHogwarts = name.includes("_HW_");
+  if (name.includes("AccioPage")) {
     type = "accioPage";
     title = "Accio Page";
     iconPath =
       "/Phoenix/Content/UI/Icons/Talents/UI_T_Talent_Accio_Mastery.png";
     group = "collectibles";
     titleGroup = "Collectibles";
-  } else if (location.Name.includes("GuardianLeviosa")) {
+  } else if (name.includes("GuardianLeviosa")) {
     type = "guardianLeviosa";
     title = "Winguardian Leviosa";
     iconPath = "/Phoenix/Content/UI/Icons/Spells/UI_T_wingardium.png";
     group = "collectibles";
     titleGroup = "Collectibles";
-  } else if (location.Name.includes("MothFrame")) {
+  } else if (name.includes("MothFrame")) {
     type = "mothFrame";
     title = "Moth Frame";
     iconPath =
       "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/cigale_delapouite.webp";
     group = "locations";
     titleGroup = "Locations";
-  } else if (location.Name.startsWith("KO_Demiguise")) {
+  } else if (name.startsWith("KO_Demiguise")) {
     type = "demiguise";
     title = "Demiguise Statue";
     iconPath = "/Phoenix/Content/UI/Icons/Map/UI_T_DemiguiseStatue.png";
     group = "collectibles";
     titleGroup = "Collectibles";
+  } else if (name.startsWith("INT_Kill")) {
+    type = "named_enemy";
+    title = "Named Enemy";
+    iconPath = "/Phoenix/Content/UI/Icons/Map/UI_T_EnemyLevel.png";
+    group = "npcs";
+    titleGroup = "NPCs";
+    const enemy = EnemyDefinitionNamed.find(
+      (enemy) => enemy.KilledLockID && name.startsWith(enemy.KilledLockID),
+    );
+    if (!enemy) {
+      throw new Error(`No enemy found for ${name}`);
+    }
+    enDict[name] = enUS[enemy.RegistryID];
+  } else if (name.startsWith("KL_")) {
+    type = "enemy";
+    title = "Enemy";
+    iconPath = "/Phoenix/Content/UI/Icons/MiniMap/UI_T_MiniMap_Enemy.png";
+    group = "npcs";
+    titleGroup = "NPCs";
+    const kind = name.split("_").at(2);
+    if (kind) {
+      enDict[name] = enUS[kind];
+    }
+  } else if (name.startsWith("KO_Astronomy")) {
+    type = "astronomy";
+    title = "Astronomy Altar";
+    iconPath = "/Phoenix/Content/UI/Icons/Map/UI_T_Astronomy.png";
+    group = "locations";
+    titleGroup = "Locations";
+  } else if (
+    name.includes("SlytherinHouseChest") ||
+    name.includes("HufflepuffHouseChest") ||
+    name.includes("RavenHouseChest") ||
+    name.includes("GryfindorHouseChest")
+  ) {
+    isHogwarts = true;
+    type = "houseChest";
+    title = "House Chest";
+    iconPath =
+      "/Phoenix/Content/UI/Icons/Transfiguration/Categories/UI_T_Chests.png";
+    group = "chests";
+    titleGroup = "Chests";
+    if (name.includes("SlytherinHouseChest")) {
+      enDict[name] = "Slytherin";
+    } else if (name.includes("HufflepuffHouseChest")) {
+      enDict[name] = "Hufflepuff";
+    } else if (name.includes("RavenHouseChest")) {
+      enDict[name] = "Ravenclaw";
+    } else if (name.includes("GryfindorHouseChest")) {
+      enDict[name] = "Gryffindor";
+    }
   } else {
     continue;
   }
   const x = location.XPos;
   const y = location.YPos;
   const z = location.ZPos;
-  if (location.Name.includes("_HW_")) {
+  if (isHogwarts) {
     await handleLocation(
       group,
       titleGroup,
-      location.Name,
+      name,
       type,
       getHogwartsLevel(z),
       [y, x],
@@ -259,7 +320,7 @@ for (const location of moreLocations) {
   await handleLocation(
     group,
     titleGroup,
-    location.Name,
+    name,
     type,
     "overland",
     [y, x],
@@ -337,7 +398,9 @@ async function handleLocation(
     id,
     p: pos,
   };
-  enDict[id] = enUS[id];
+  if (enUS[id]) {
+    enDict[id] = enUS[id];
+  }
   if (overrideIconName) {
     spawn.icon = {
       name: iconName,
@@ -574,4 +637,11 @@ export type PhoenixGameData_SphinxPuzzleLocations = Array<{
   YPos: number;
   ZPos: number;
   ZRot: number;
+}>;
+
+export type PhoenixGameData_EnemyDefinitionNamed = Array<{
+  RegistryID: string;
+  ObjectClass: string;
+  LootDrop: string;
+  KilledLockID?: string;
 }>;

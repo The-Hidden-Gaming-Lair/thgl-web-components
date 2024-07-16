@@ -2083,6 +2083,577 @@
     ]
   },
   {
+    "type": "named_enemy",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "INT_Kill_Inferius3",
+        "p": [
+          -96073.64,
+          467456.09
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDugbogCoastal1",
+        "p": [
+          -583764,
+          403918
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWExtortionistMage1",
+        "p": [
+          -31283.02,
+          500381.69
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWExtortionistSoldier1_Dungeon_Hideout01",
+        "p": [
+          -525766.12,
+          386352.5
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWPoacherCaptain1",
+        "p": [
+          -543891.06,
+          453805.06
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWPoacherSoldier1",
+        "p": [
+          -221523.92,
+          428488.66
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWThiefCaptain1",
+        "p": [
+          -36232.3,
+          554354.06
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWThiefMage1",
+        "p": [
+          -96512.12,
+          467070.91
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedDWThiefSolder1_Dungeon_TentInterior04",
+        "p": [
+          -352802.69,
+          304886.84
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedGoblinChieftain1_Dungeon_Castle01",
+        "p": [
+          -517059.53,
+          277463.22
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedGoblinChieftain2",
+        "p": [
+          -288301.34,
+          247700.36
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedGoblinSorcerer1_Dungeon_GobMine06",
+        "p": [
+          -209125.39,
+          533346.06
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedGoblinSorcerer2",
+        "p": [
+          -252302.48,
+          405857.5
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedInferius1",
+        "p": [
+          -592032.56,
+          387642.38
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedSpiderAcromantula1",
+        "p": [
+          -590771.19,
+          362895.69
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedSpiderWoodlouseTank1_Dungeon_Cav21",
+        "p": [
+          -452656.53,
+          406054.62
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedTrollArmored1",
+        "p": [
+          -289215.94,
+          383932.66
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedTrollMountain1",
+        "p": [
+          -366194.47,
+          437091.81
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedTrollRiver1_Dungeon_Cairn5",
+        "p": [
+          -382280.03,
+          456270.16
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedWolf1",
+        "p": [
+          -306849.69,
+          340527.97
+        ]
+      },
+      {
+        "id": "INT_Kill_NamedWolf2",
+        "p": [
+          -307234.91,
+          340319.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enemy",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "KL_E_BabySpiders_HN_AN_X=362019 Y=-599122 Z=-87504",
+        "p": [
+          -599122.38,
+          362019.09
+        ]
+      },
+      {
+        "id": "KL_E_BabySpiders_HN_AU_X=346328 Y=-544731 Z=-86837",
+        "p": [
+          -544731.75,
+          346328.5
+        ]
+      },
+      {
+        "id": "KL_E_BabySpiders_HS_AH_F_X=321156 Y=-376787 Z=-84056",
+        "p": [
+          -376787.44,
+          321156.69
+        ]
+      },
+      {
+        "id": "KL_E_ExtortionistCaptain_CO_BC_F_X=553104 Y=-80089 Z=-95675",
+        "p": [
+          -80089.41,
+          553104.19
+        ]
+      },
+      {
+        "id": "KL_E_ExtortionistCaptain_CO_BI_F_X=528029 Y=-75342 Z=-91857",
+        "p": [
+          -75342.76,
+          528029.88
+        ]
+      },
+      {
+        "id": "KL_E_ExtortionistGrunt_CO_AH_F_X=472125 Y=-204959 Z=-94778",
+        "p": [
+          -204959.59,
+          472125.28
+        ]
+      },
+      {
+        "id": "KL_E_ExtortionistGrunt_HS_AH_X=329367 Y=-354598 Z=-81147",
+        "p": [
+          -354598,
+          329367
+        ]
+      },
+      {
+        "id": "KL_E_GoblinChieftain_CO_AN_F_X=500565 Y=-208637 Z=-95070",
+        "p": [
+          -208637.17,
+          500565.84
+        ]
+      },
+      {
+        "id": "KL_E_GoblinChieftain_CO_AN_X=523896 Y=-190683 Z=-95715",
+        "p": [
+          -190683.84,
+          523896.22
+        ]
+      },
+      {
+        "id": "KL_E_GoblinMage_HS_AG_F_X=282263 Y=-340752 Z=-87550",
+        "p": [
+          -340752,
+          282263
+        ]
+      },
+      {
+        "id": "KL_E_GoblinMage_HS_AH_X=351391 Y=-361675 Z=-87039",
+        "p": [
+          -361675.06,
+          351391.69
+        ]
+      },
+      {
+        "id": "KL_E_GoblinMage_HS_AY_F_X=318051 Y=-249194 Z=-87636",
+        "p": [
+          -249194.27,
+          318051.25
+        ]
+      },
+      {
+        "id": "KL_E_GoblinMelee_HS_AP_X=240515 Y=-299388 Z=-92859",
+        "p": [
+          -299388,
+          240515
+        ]
+      },
+      {
+        "id": "KL_E_PoacherCaptain_CO_AS_X=442894 Y=-159201 Z=-95326",
+        "p": [
+          -159201.97,
+          442894.28
+        ]
+      },
+      {
+        "id": "KL_E_PoacherCaptain_CO_AU_X=506447 Y=-172771 Z=-90763",
+        "p": [
+          -172771.92,
+          506447.28
+        ]
+      },
+      {
+        "id": "KL_E_PoacherCaptain_CO_BI_F_X=522568 Y=-55950 Z=-94110",
+        "p": [
+          -55950.99,
+          522568.62
+        ]
+      },
+      {
+        "id": "KL_E_PoacherCaptain_HN_AN_X=362021 Y=-559913 Z=-87686",
+        "p": [
+          -559913.12,
+          362021.5
+        ]
+      },
+      {
+        "id": "KL_E_PoacherGrunt_CO_AL_F_X=417576 Y=-191332 Z=-92254",
+        "p": [
+          -191332.36,
+          417576.03
+        ]
+      },
+      {
+        "id": "KL_E_PoacherGrunt_HN_AN_X=357904 Y=-568962 Z=-87562",
+        "p": [
+          -568962.81,
+          357904.72
+        ]
+      },
+      {
+        "id": "KL_E_PoacherGrunt_HN_AO_X=381271 Y=-587000 Z=-85429",
+        "p": [
+          -587000.25,
+          381271.66
+        ]
+      },
+      {
+        "id": "KL_E_PoacherGrunt_HN_AP_X=411989 Y=-597042 Z=-87479",
+        "p": [
+          -597042.88,
+          411989.75
+        ]
+      },
+      {
+        "id": "KL_E_PoacherGrunt_HN_AV_X=342039 Y=-509881 Z=-87437",
+        "p": [
+          -509881.28,
+          342039.06
+        ]
+      },
+      {
+        "id": "KL_E_PoacherSoldier_CO_AG_X=424599 Y=-223407 Z=-89093",
+        "p": [
+          -223407,
+          424599.5
+        ]
+      },
+      {
+        "id": "KL_E_SpiderAccromantula_HN_AK_X=378801 Y=-601816 Z=-85357",
+        "p": [
+          -601816.31,
+          378801.53
+        ]
+      },
+      {
+        "id": "KL_E_SpiderLuminous_HN_AN_X=362288 Y=-596130 Z=-87902",
+        "p": [
+          -596130.44,
+          362288.56
+        ]
+      },
+      {
+        "id": "KL_E_SpiderVenomousEggsac_HN_AN_X=361768 Y=-581604 Z=-87740",
+        "p": [
+          -581604,
+          361768.66
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouse_HN_AK_F_X=348970 Y=-610843 Z=-86054",
+        "p": [
+          -610843.19,
+          348970.25
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouse_HN_AK_X=360482 Y=-626920 Z=-85375",
+        "p": [
+          -626920.19,
+          360482.84
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouse_HN_AK_X=363717 Y=-600509 Z=-87609",
+        "p": [
+          -600509.38,
+          363717.72
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouse_HN_AN_X=356788 Y=-567036 Z=-87658",
+        "p": [
+          -567036.69,
+          356788.34
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouse_HS_AH_X=322222 Y=-366893 Z=-83672",
+        "p": [
+          -366893,
+          322222
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouseEggsac_HN_BG_X=355814 Y=-380235 Z=-88031",
+        "p": [
+          -380235.62,
+          355814.38
+        ]
+      },
+      {
+        "id": "KL_E_SpiderWoodlouseTank_HN_AU_F_X=344401 Y=-531751 Z=-87800",
+        "p": [
+          -531751,
+          344401.09
+        ]
+      },
+      {
+        "id": "KL_E_ThiefCaptain_CO_AG_X=413715 Y=-206750 Z=-93337",
+        "p": [
+          -206750.84,
+          413715.81
+        ]
+      },
+      {
+        "id": "KL_E_ThiefCaptain_CO_BA_X=490792 Y=-102107 Z=-93563",
+        "p": [
+          -102107.87,
+          490792.28
+        ]
+      },
+      {
+        "id": "KL_E_ThiefCaptain_HN_BE_F_X=426877 Y=-439676 Z=-77207",
+        "p": [
+          -439676.25,
+          426877.75
+        ]
+      },
+      {
+        "id": "KL_E_ThiefGrunt_HN_AU_X=337186 Y=-533599 Z=-85634",
+        "p": [
+          -533599.31,
+          337186.12
+        ]
+      },
+      {
+        "id": "KL_E_ThiefGrunt_HS_AH_F_X=305757 Y=-353402 Z=-87822",
+        "p": [
+          -353402,
+          305757
+        ]
+      },
+      {
+        "id": "KL_E_TrollForest_HN_AR_X=370282 Y=-576786 Z=-87294",
+        "p": [
+          -576786.12,
+          370282.81
+        ]
+      },
+      {
+        "id": "KL_E_TrollMountain_CO_BI_X=520254 Y=-76157 Z=-94045",
+        "p": [
+          -76157.62,
+          520254.22
+        ]
+      },
+      {
+        "id": "KL_E_TrollRiver_CO_AG_X=411380 Y=-230531 Z=-95059",
+        "p": [
+          -230531.31,
+          411380.72
+        ]
+      },
+      {
+        "id": "KL_E_TrollRiver_CO_BC_X=532944 Y=-78894 Z=-95002",
+        "p": [
+          -78894.48,
+          532944.44
+        ]
+      },
+      {
+        "id": "KL_E_TrollRiver_HS_AW_X=232098 Y=-282889 Z=-93958",
+        "p": [
+          -282889,
+          232098
+        ]
+      }
+    ]
+  },
+  {
+    "type": "astronomy",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "KO_Astronomy_CanisMajor_CO_AN_X=530073 Y=-177409 Z=-87396",
+        "p": [
+          -177409.89,
+          530073.62
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Capricornus_HS_AS_F_X=387390 Y=-315186 Z=-87484",
+        "p": [
+          -315186.31,
+          387390.28
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Centaurus_HN_AK_X=368014 Y=-618763 Z=-80701",
+        "p": [
+          -618763.94,
+          368014
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Cetus_CO_BK_X=588750 Y=-73621 Z=-90790",
+        "p": [
+          -73621.01,
+          588750
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Corvus_HS_AJ_X=423308 Y=-371105 Z=-79828",
+        "p": [
+          -371105.97,
+          423308.38
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Draco_HN_AN_X=347683 Y=-568275 Z=-83142",
+        "p": [
+          -568275.06,
+          347683.91
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Horologium_HS_AW_F_X=237482 Y=-269393 Z=-93082",
+        "p": [
+          -269393.66,
+          237482.12
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Hydra_CO_AS_F_X=444568 Y=-165137 Z=-93870",
+        "p": [
+          -165137.73,
+          444568.44
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Lacerta_HS_AG_F_X=281405 Y=-336928 Z=-85251",
+        "p": [
+          -336928.41,
+          281405.12
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Leo_HN_AS_X=395247 Y=-560137 Z=-79753",
+        "p": [
+          -560137.94,
+          395247.81
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Lupus_CO_BQ_X=557734 Y=-15351 Z=-90110",
+        "p": [
+          -15351.99,
+          557734.94
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Lyra_X=332522 Y=-458904 Z=-84293",
+        "p": [
+          -458904.03,
+          332522.06
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Phoenix_X=354582 Y=-478268 Z=-87776",
+        "p": [
+          -478268.12,
+          354582.38
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Sagittarius_CO_BM_F_X=501085 Y=-32424 Z=-93638",
+        "p": [
+          -32424.8,
+          501085.34
+        ]
+      },
+      {
+        "id": "KO_Astronomy_Scorpius_HN_AV_F_X=338867 Y=-494363 Z=-84990",
+        "p": [
+          -494363.38,
+          338867.66
+        ]
+      }
+    ]
+  },
+  {
     "type": "demiguise",
     "mapName": "overland",
     "spawns": [
@@ -2294,6 +2865,92 @@
         "p": [
           -520187.91,
           401854.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "houseChest",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "NP_COM_19_SlytherinHouseChest_SUB_Slytherin_TECH",
+        "p": [
+          -456665.06,
+          359685.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "houseChest",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "NP_COM_19_SlytherinHouseChest_SUB_Slytherin_TECH",
+        "p": [
+          -456665.06,
+          359685.16
+        ]
+      },
+      {
+        "id": "NP_M_COM_19_GryfindorHouseChest_SUB_GryffindorCommonRoom_TECH",
+        "p": [
+          -451836.69,
+          355691.25
+        ]
+      },
+      {
+        "id": "NP_M_COM_19_HufflepuffHouseChest_SUB_HufflepuffBasement_TECH",
+        "p": [
+          -448476.16,
+          363235.53
+        ]
+      },
+      {
+        "id": "NP_M_COM_19_RavenHouseChest_SUB_GryffindorCommonRoom_TECH",
+        "p": [
+          -456732.16,
+          356860.44
+        ]
+      }
+    ]
+  },
+  {
+    "type": "houseChest",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "NP_M_COM_19_GryfindorHouseChest_SUB_GryffindorCommonRoom_TECH",
+        "p": [
+          -451836.69,
+          355691.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "houseChest",
+    "mapName": "hogwarts-16",
+    "spawns": [
+      {
+        "id": "NP_M_COM_19_HufflepuffHouseChest_SUB_HufflepuffBasement_TECH",
+        "p": [
+          -448476.16,
+          363235.53
+        ]
+      }
+    ]
+  },
+  {
+    "type": "houseChest",
+    "mapName": "hogwarts-31",
+    "spawns": [
+      {
+        "id": "NP_M_COM_19_RavenHouseChest_SUB_GryffindorCommonRoom_TECH",
+        "p": [
+          -456732.16,
+          356860.44
         ]
       }
     ]

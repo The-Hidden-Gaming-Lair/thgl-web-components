@@ -13,6 +13,11 @@
         "id": "mothFrame",
         "icon": "mothFrame.webp",
         "size": 1.3
+      },
+      {
+        "id": "astronomy",
+        "icon": "astronomy.webp",
+        "size": 1.3
       }
     ]
   },
@@ -34,6 +39,35 @@
       {
         "id": "demiguise",
         "icon": "demiguise.webp",
+        "size": 1.3
+      }
+    ]
+  },
+  {
+    "group": "npcs",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "named_enemy",
+        "icon": "named_enemy.webp",
+        "size": 1.3
+      },
+      {
+        "id": "enemy",
+        "icon": "enemy.webp",
+        "size": 1.3
+      }
+    ]
+  },
+  {
+    "group": "chests",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "houseChest",
+        "icon": "houseChest.webp",
         "size": 1.3
       }
     ]
