@@ -1906,6 +1906,300 @@
     ]
   },
   {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-36",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_AstronomyTower_TECH_X=347011 Y=-459796 Z=-75151",
+        "p": [
+          -459796.72,
+          347011.66
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_AstronomyTower_TECH_X=347011 Y=-459796 Z=-75151",
+        "p": [
+          -459796.72,
+          347011.66
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_BellTowers_TECH_X=349521 Y=-470945 Z=-85850",
+        "p": [
+          -470945.78,
+          349521.78
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_Boathouse_TECH_X=375708 Y=-469796 Z=-89647",
+        "p": [
+          -469796.03,
+          375708.22
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_CentralHall_TECH_X=353925 Y=-469196 Z=-84999",
+        "p": [
+          -469196.22,
+          353925.06
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_ClockTower_TECH_X=356525 Y=-444132 Z=-78231",
+        "p": [
+          -444132.22,
+          356525.81
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_DADA_5_TECH_X=352812 Y=-459508 Z=-82610",
+        "p": [
+          -459508.41,
+          352812.5
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_FacultyTowerAttic_TECH_X=358865 Y=-449681 Z=-79048",
+        "p": [
+          -449681.84,
+          358865.06
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GrandStaircaseUpper_TECH_X=361921 Y=-455579 Z=-77277",
+        "p": [
+          -455579.38,
+          361921.72
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GreatHall_TECH_X=369339 Y=-453013 Z=-80800",
+        "p": [
+          -453013.62,
+          369339.09
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GroundsQ_TECH_X=340395 Y=-475759 Z=-85426",
+        "p": [
+          -475759.34,
+          340395.25
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GryffindorLowerHallways_TECH_X=357801 Y=-451769 Z=-83200",
+        "p": [
+          -451769.09,
+          357801.75
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_NorthHall_TECH_X=346111 Y=-464284 Z=-83989",
+        "p": [
+          -464284.88,
+          346111.12
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_QuadCourtyard_TECH_X=360329 Y=-454368 Z=-82638",
+        "p": [
+          -454368.72,
+          360329.94
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_SchoolDungeon_TECH_X=350154 Y=-462879 Z=-86722",
+        "p": [
+          -462879.81,
+          350154.41
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_SlytherinDungeon_TECH_X=369394 Y=-456730 Z=-84304",
+        "p": [
+          -456730.84,
+          369394.62
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_BellTowers_TECH_X=349521 Y=-470945 Z=-85850",
+        "p": [
+          -470945.78,
+          349521.78
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-03",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_Boathouse_TECH_X=375708 Y=-469796 Z=-89647",
+        "p": [
+          -469796.03,
+          375708.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_CentralHall_TECH_X=353925 Y=-469196 Z=-84999",
+        "p": [
+          -469196.22,
+          353925.06
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GroundsQ_TECH_X=340395 Y=-475759 Z=-85426",
+        "p": [
+          -475759.34,
+          340395.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-30",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_ClockTower_TECH_X=356525 Y=-444132 Z=-78231",
+        "p": [
+          -444132.22,
+          356525.81
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_DADA_5_TECH_X=352812 Y=-459508 Z=-82610",
+        "p": [
+          -459508.41,
+          352812.5
+        ]
+      },
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_QuadCourtyard_TECH_X=360329 Y=-454368 Z=-82638",
+        "p": [
+          -454368.72,
+          360329.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-28",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_FacultyTowerAttic_TECH_X=358865 Y=-449681 Z=-79048",
+        "p": [
+          -449681.84,
+          358865.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-32",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GrandStaircaseUpper_TECH_X=361921 Y=-455579 Z=-77277",
+        "p": [
+          -455579.38,
+          361921.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GreatHall_TECH_X=369339 Y=-453013 Z=-80800",
+        "p": [
+          -453013.62,
+          369339.09
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_GryffindorLowerHallways_TECH_X=357801 Y=-451769 Z=-83200",
+        "p": [
+          -451769.09,
+          357801.75
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-15",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_NorthHall_TECH_X=346111 Y=-464284 Z=-83989",
+        "p": [
+          -464284.88,
+          346111.12
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_SchoolDungeon_TECH_X=350154 Y=-462879 Z=-86722",
+        "p": [
+          -462879.81,
+          350154.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "incendioDragon",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "Collect_HW_IncendioDragon_SUB_SlytherinDungeon_TECH_X=369394 Y=-456730 Z=-84304",
+        "p": [
+          -456730.84,
+          369394.62
+        ]
+      }
+    ]
+  },
+  {
     "type": "mothFrame",
     "mapName": "hogwarts-33",
     "spawns": [
@@ -2078,6 +2372,1803 @@
         "p": [
           -457971.28,
           364145.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "KIO_HW_Alchemy Class_SUB_NorthHallBasement_TECH_X=349916 Y=-462995 Z=-87369",
+        "p": [
+          -462995.16,
+          349916.41
+        ]
+      },
+      {
+        "id": "KIO_HW_Important Muggle Artifact_SUB_NorthHallBasement_TECH_X=348294 Y=-465512 Z=-87370",
+        "p": [
+          -465512.81,
+          348294.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Sleeping Dragon Statue_SUB_NorthHallBasement_TECH_X=346608 Y=-464723 Z=-87366",
+        "p": [
+          -464723.22,
+          346608.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "overland",
+    "spawns": [
+      {
+        "id": "KIO_HW_Alchemy Class_SUB_NorthHallBasement_TECH_X=349916 Y=-462995 Z=-87369",
+        "p": [
+          -462995.16,
+          349916.41
+        ]
+      },
+      {
+        "id": "KIO_HW_Architect Statue_SUB_ReceptionHall_TECH_X=366674 Y=-454819 Z=-81701",
+        "p": [
+          -454819.5,
+          366674.94
+        ]
+      },
+      {
+        "id": "KIO_HW_Argllshire Map_SUB_GryffindorLowerHallways_TECH_X=355919 Y=-450004 Z=-82769",
+        "p": [
+          -450004.47,
+          355919.56
+        ]
+      },
+      {
+        "id": "KIO_HW_Arithmancy Class_SUB_ViaductEntrance_TECH_X=354002 Y=-466826 Z=-81774",
+        "p": [
+          -466826.41,
+          354002.91
+        ]
+      },
+      {
+        "id": "KIO_HW_Astronomy Telescope_SUB_AstronomyTower_TECH_X=346607 Y=-460685 Z=-74716",
+        "p": [
+          -460685.56,
+          346607.12
+        ]
+      },
+      {
+        "id": "KIO_HW_Augury Skeleton_SUB_DADA_3_TECH_X=348971 Y=-460163 Z=-84167",
+        "p": [
+          -460163.16,
+          348971.72
+        ]
+      },
+      {
+        "id": "KIO_HW_Barnabas Tapestry_SUB_AstronomyTower_TECH_X=348221 Y=-458251 Z=-79961",
+        "p": [
+          -458251.28,
+          348221.91
+        ]
+      },
+      {
+        "id": "KIO_HW_Bell Tower Plaque_SUB_BellTowers_TECH_X=348755 Y=-470142 Z=-86164",
+        "p": [
+          -470142.59,
+          348755.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Black Lake_SUB_Boathouse_TECH_X=376037 Y=-472721 Z=-89670",
+        "p": [
+          -472721.91,
+          376037.06
+        ]
+      },
+      {
+        "id": "KIO_HW_Bloody Meat Room_SUB_GroundsQ_TECH_X=337055 Y=-472719 Z=-86081",
+        "p": [
+          -472719.84,
+          337055.59
+        ]
+      },
+      {
+        "id": "KIO_HW_Boggart Closet_SUB_DADA_1_TECH_X=347570 Y=-460685 Z=-85562",
+        "p": [
+          -460685.56,
+          347570.47
+        ]
+      },
+      {
+        "id": "KIO_HW_Booby trapped barrels in Cellar_SUB_HufflepuffBasement_TECH_X=363662 Y=-451811 Z=-83698",
+        "p": [
+          -451811.75,
+          363662.53
+        ]
+      },
+      {
+        "id": "KIO_HW_Book of Admittance_SUB_GrandStaircaseTower_TECH_X=362805 Y=-454457 Z=-71671",
+        "p": [
+          -454457.97,
+          362805.25
+        ]
+      },
+      {
+        "id": "KIO_HW_Broken Broom_SUB_BellTowers_TECH_X=347413 Y=-469963 Z=-86173",
+        "p": [
+          -469963.56,
+          347413.16
+        ]
+      },
+      {
+        "id": "KIO_HW_Caged Bathtub_SUB_GroundsR_TECH_X=332333 Y=-454086 Z=-84254",
+        "p": [
+          -454086.41,
+          332333.19
+        ]
+      },
+      {
+        "id": "KIO_HW_Centaur Armour_SUB_GrandStaircaseTower_TECH_X=362677 Y=-456257 Z=-75769",
+        "p": [
+          -456257.91,
+          362677.06
+        ]
+      },
+      {
+        "id": "KIO_HW_Central Tree _SUB_Greenhouses_TECH_X=356566 Y=-470823 Z=-86356",
+        "p": [
+          -470823.97,
+          356566.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Charms Cage Cell_SUB_DADA_6_TECH_X=349978 Y=-461019 Z=-80662",
+        "p": [
+          -461019.91,
+          349978.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Chizperffles (Wizard Bees)_SUB_GroundsQ_TECH_X=355828 Y=-476907 Z=-86650",
+        "p": [
+          -476907.94,
+          355828
+        ]
+      },
+      {
+        "id": "KIO_HW_Clock Mechanism_SUB_ClockTower_TECH_X=355180 Y=-444743 Z=-78367",
+        "p": [
+          -444743.31,
+          355180.06
+        ]
+      },
+      {
+        "id": "KIO_HW_Cursed Bathroom_SUB_GryffindorLowerHallways_TECH_X=354925 Y=-452780 Z=-83065",
+        "p": [
+          -452780.91,
+          354925.31
+        ]
+      },
+      {
+        "id": "KIO_HW_Death Day Dun_SUB_DeathDayDungeon_TECH_X=369231 Y=-461162 Z=-84475",
+        "p": [
+          -461162.84,
+          369231.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Defensive Wall_SUB_GroundsQ_TECH_X=347575 Y=-474230 Z=-86035",
+        "p": [
+          -474230.81,
+          347575.34
+        ]
+      },
+      {
+        "id": "KIO_HW_Detention Room_SUB_SlytherinDungeon_TECH_X=370484 Y=-456355 Z=-84188",
+        "p": [
+          -456355.25,
+          370484.19
+        ]
+      },
+      {
+        "id": "KIO_HW_Dirigible Plum_SUB_Greenhouses_TECH_X=358535 Y=-472705 Z=-86671",
+        "p": [
+          -472705.84,
+          358535
+        ]
+      },
+      {
+        "id": "KIO_HW_Divination Object_SUB_DivinationClassroom_TECH_X=359075 Y=-466643 Z=-80368",
+        "p": [
+          -466643.53,
+          359075.75
+        ]
+      },
+      {
+        "id": "KIO_HW_Dragon Fountain_SUB_TransfigurationCourtyard_TECH_X=350746 Y=-462855 Z=-85683",
+        "p": [
+          -462855.97,
+          350746.62
+        ]
+      },
+      {
+        "id": "KIO_HW_Dragon Skeleton_SUB_DADA_3_Classroom_TECH_X=348199 Y=-457874 Z=-83977",
+        "p": [
+          -457874.88,
+          348199.66
+        ]
+      },
+      {
+        "id": "KIO_HW_Flattened Armor_SUB_BellTowers_TECH_X=347091 Y=-469342 Z=-86203",
+        "p": [
+          -469342.72,
+          347091.94
+        ]
+      },
+      {
+        "id": "KIO_HW_Floating Stairs_SUB_GrandStaircaseMiddle_TECH_X=363251 Y=-454188 Z=-79932",
+        "p": [
+          -454188.84,
+          363251.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Fountain Statue_SUB_CentralHall_TECH_X=353525 Y=-466426 Z=-85173",
+        "p": [
+          -466426.53,
+          353525
+        ]
+      },
+      {
+        "id": "KIO_HW_Gargoyle Escalator to Headmasters Office_SUB_GrandStaircaseTower_TECH_X=362636 Y=-453323 Z=-73166",
+        "p": [
+          -453323.25,
+          362636.03
+        ]
+      },
+      {
+        "id": "KIO_HW_Goblet of Fire_SUB_GrandStaircaseTower_TECH_X=362709 Y=-453958 Z=-75766",
+        "p": [
+          -453958.94,
+          362709.94
+        ]
+      },
+      {
+        "id": "KIO_HW_Goblin Artifact_SUB_BellTowers_TECH_X=346912 Y=-468293 Z=-85867",
+        "p": [
+          -468293.72,
+          346912.91
+        ]
+      },
+      {
+        "id": "KIO_HW_Head Masters Owl Podium_SUB_GreatHall_TECH_X=369025 Y=-449582 Z=-81875",
+        "p": [
+          -449582.12,
+          369025.09
+        ]
+      },
+      {
+        "id": "KIO_HW_Headless Hunt Tapestry_SUB_DeathDayDungeon_TECH_X=366768 Y=-460668 Z=-84425",
+        "p": [
+          -460668.5,
+          366768.56
+        ]
+      },
+      {
+        "id": "KIO_HW_History of Magic Windows_SUB_NorthHall_TECH_X=344901 Y=-464434 Z=-85565",
+        "p": [
+          -464434.53,
+          344901.88
+        ]
+      },
+      {
+        "id": "KIO_HW_Hogwarts Crest_SUB_EntranceHall_TECH_X=367702 Y=-457149 Z=-82455",
+        "p": [
+          -457149.59,
+          367702.88
+        ]
+      },
+      {
+        "id": "KIO_HW_Hogwarts House Hourglasses_SUB_ReceptionHall_TECH_X=368909 Y=-455203 Z=-81865",
+        "p": [
+          -455203.34,
+          368909.69
+        ]
+      },
+      {
+        "id": "KIO_HW_House Elf Armour_SUB_GrandStaircaseTower_TECH_X=364383 Y=-455671 Z=-75767",
+        "p": [
+          -455671.56,
+          364383.94
+        ]
+      },
+      {
+        "id": "KIO_HW_House-Elf Living Quarters_SUB_Kitchens_TECH_X=370519 Y=-450833 Z=-83671",
+        "p": [
+          -450833.75,
+          370519.25
+        ]
+      },
+      {
+        "id": "KIO_HW_Hufflepuff Chimney Statue_SUB_Garden_TECH_X=365206 Y=-451454 Z=-82051",
+        "p": [
+          -451454.44,
+          365206.47
+        ]
+      },
+      {
+        "id": "KIO_HW_Hunchback Witch_SUB_QuadSouthHall_TECH_X=362101 Y=-452468 Z=-81380",
+        "p": [
+          -452468.81,
+          362101.44
+        ]
+      },
+      {
+        "id": "KIO_HW_Illyius Portrait_SUB_DADA_1_TECH_X=349150 Y=-460792 Z=-85566",
+        "p": [
+          -460792.34,
+          349150.69
+        ]
+      },
+      {
+        "id": "KIO_HW_Important Muggle Artifact_SUB_NorthHallBasement_TECH_X=348294 Y=-465512 Z=-87370",
+        "p": [
+          -465512.81,
+          348294.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Interactive Portrait_SUB_Library_TECH_X=348914 Y=-468785 Z=-84885",
+        "p": [
+          -468785.44,
+          348914.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Jewel Encrusted Tortoise Shell_SUB_FacultyTowerAttic_TECH_X=359425 Y=-450904 Z=-79985",
+        "p": [
+          -450904.47,
+          359425.03
+        ]
+      },
+      {
+        "id": "KIO_HW_Kelpie Statue_SUB_SlytherinDungeon_TECH_X=357240 Y=-455746 Z=-84001",
+        "p": [
+          -455746.44,
+          357240.06
+        ]
+      },
+      {
+        "id": "KIO_HW_Kitchen Hidden Entrance_SUB_HufflepuffBasement_TECH_X=365818 Y=-453038 Z=-83672",
+        "p": [
+          -453038.09,
+          365818.28
+        ]
+      },
+      {
+        "id": "KIO_HW_Kitchen Tables_SUB_Kitchens_TECH_X=368621 Y=-451680 Z=-83642",
+        "p": [
+          -451680.78,
+          368621.12
+        ]
+      },
+      {
+        "id": "KIO_HW_Locksley Book Set_SUB_Faculty_Rooms_4_TECH_X=357712 Y=-450458 Z=-80682",
+        "p": [
+          -450458.38,
+          357712.81
+        ]
+      },
+      {
+        "id": "KIO_HW_Madusa Painting_SUB_LongGallery_TECH_X=348677 Y=-466963 Z=-86466",
+        "p": [
+          -466963.81,
+          348677.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Magical FX in ceiling_SUB_GreatHall_TECH_X=368687 Y=-451540 Z=-81867",
+        "p": [
+          -451540.84,
+          368687.09
+        ]
+      },
+      {
+        "id": "KIO_HW_Myrtles Bathroom- boys and girls _SUB_SlytherinDungeon_TECH_X=365830 Y=-458726 Z=-84413",
+        "p": [
+          -458726.34,
+          365830.5
+        ]
+      },
+      {
+        "id": "KIO_HW_Owlery Owls_SUB_Owlery_TECH_X=336504 Y=-442245 Z=-76285",
+        "p": [
+          -442245.44,
+          336504.34
+        ]
+      },
+      {
+        "id": "KIO_HW_Painting of Baruffio_SUB_FacultyTowerHalls_TECH_X=359588 Y=-447969 Z=-81385",
+        "p": [
+          -447969.69,
+          359588.56
+        ]
+      },
+      {
+        "id": "KIO_HW_Painting of Sir Cadogan_SUB_ViaductEntrance_TECH_X=356146 Y=-463577 Z=-82775",
+        "p": [
+          -463577.78,
+          356146.19
+        ]
+      },
+      {
+        "id": "KIO_HW_Pink Fat Lady_SUB_FacultyTowerHalls_TECH_X=356905 Y=-449333 Z=-80685",
+        "p": [
+          -449333.03,
+          356905.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Prefects Bathroom_SUB_HospitalWing_TECH_X=357896 Y=-451197 Z=-78185",
+        "p": [
+          -451197.69,
+          357896
+        ]
+      },
+      {
+        "id": "KIO_HW_Pungent Passage_SUB_NorthTower_TECH_X=347765 Y=-461299 Z=-84870",
+        "p": [
+          -461299.91,
+          347765.22
+        ]
+      },
+      {
+        "id": "KIO_HW_Quidditch Hoops_SUB_GroundsR_TECH_X=328243 Y=-453700 Z=-84462",
+        "p": [
+          -453700.44,
+          328243.56
+        ]
+      },
+      {
+        "id": "KIO_HW_Ravenclaw Doorknocker_SUB_RavenclawTower_TECH_X=357030 Y=-457506 Z=-78625",
+        "p": [
+          -457506.62,
+          357030.59
+        ]
+      },
+      {
+        "id": "KIO_HW_Ravenclaw Talking Bust_SUB_Ravenclaw_TECH_X=356824 Y=-458622 Z=-79590",
+        "p": [
+          -458622.62,
+          356824.75
+        ]
+      },
+      {
+        "id": "KIO_HW_Restricted Section Violent Books_SUB_LibraryRestricted_TECH_X=350254 Y=-470388 Z=-86784",
+        "p": [
+          -470388.19,
+          350254.41
+        ]
+      },
+      {
+        "id": "KIO_HW_Scorch Mark_SUB_BellTowers_TECH_X=348000 Y=-467716 Z=-85599",
+        "p": [
+          -467716.97,
+          348000.72
+        ]
+      },
+      {
+        "id": "KIO_HW_Sharps Auror Badge_SUB_PotionsClassroom_TECH_X=358521 Y=-461757 Z=-85560",
+        "p": [
+          -461757.22,
+          358521.09
+        ]
+      },
+      {
+        "id": "KIO_HW_Sleeping Dragon Statue_SUB_NorthHallBasement_TECH_X=346608 Y=-464723 Z=-87366",
+        "p": [
+          -464723.22,
+          346608.22
+        ]
+      },
+      {
+        "id": "KIO_HW_Sleeping Portraits_SUB_GrandStaircaseTower_TECH_X=363345 Y=-453916 Z=-72166",
+        "p": [
+          -453916.81,
+          363345.25
+        ]
+      },
+      {
+        "id": "KIO_HW_Slytherin Diary Entry_SUB_SealedDoor_TECH_X=363287 Y=-451639 Z=-84630",
+        "p": [
+          -451639.28,
+          363287.53
+        ]
+      },
+      {
+        "id": "KIO_HW_Sorting Hat_SUB_GrandStaircaseTower_TECH_X=364015 Y=-452862 Z=-72269",
+        "p": [
+          -452862.84,
+          364015.59
+        ]
+      },
+      {
+        "id": "KIO_HW_Sphinx Statue_SUB_NorthHall_TECH_X=344208 Y=-462681 Z=-85564",
+        "p": [
+          -462681.22,
+          344208.19
+        ]
+      },
+      {
+        "id": "KIO_HW_Statue of Boris the Bewildered_SUB_HospitalWing_TECH_X=357989 Y=-449093 Z=-78178",
+        "p": [
+          -449093.19,
+          357989.62
+        ]
+      },
+      {
+        "id": "KIO_HW_Statue of Gregory The Smarmy_SUB_CentralHall_TECH_X=353806 Y=-464266 Z=-85525",
+        "p": [
+          -464266.97,
+          353806.88
+        ]
+      },
+      {
+        "id": "KIO_HW_Statue of Lachlan The Lanky_SUB_GryffindorLowerHallways_TECH_X=356984 Y=-450372 Z=-83070",
+        "p": [
+          -450372.75,
+          356984.34
+        ]
+      },
+      {
+        "id": "KIO_HW_The Four Winds Well_SUB_ClockTowerCourtyard_TECH_X=353863 Y=-442200 Z=-82872",
+        "p": [
+          -442200.94,
+          353863.16
+        ]
+      },
+      {
+        "id": "KIO_HW_Toad Choir_SUB_BellTowersUpper_TECH_X=346849 Y=-467939 Z=-84167",
+        "p": [
+          -467939.09,
+          346849.16
+        ]
+      },
+      {
+        "id": "KIO_HW_Transfiguration Desk_SUB_WestHall_TECH_X=347027 Y=-460493 Z=-85601",
+        "p": [
+          -460493.22,
+          347027.72
+        ]
+      },
+      {
+        "id": "KIO_HW_Troll Armour_SUB_GrandStaircaseTower_TECH_X=361338 Y=-452823 Z=-75766",
+        "p": [
+          -452823.88,
+          361338.47
+        ]
+      },
+      {
+        "id": "KIO_HW_Trophy Room_SUB_GrandStaircaseTower_TECH_X=362751 Y=-454768 Z=-75770",
+        "p": [
+          -454768.06,
+          362751
+        ]
+      },
+      {
+        "id": "KIO_HW_Underground Harbor_SUB_UndergroundHarbor_TECH_X=364664 Y=-462283 Z=-89602",
+        "p": [
+          -462283.34,
+          364664.22
+        ]
+      },
+      {
+        "id": "KIO_HW_Unicorn Fountain _SUB_HospitalWing_TECH_X=357642 Y=-448850 Z=-77585",
+        "p": [
+          -448850.97,
+          357642.59
+        ]
+      },
+      {
+        "id": "KIO_HW_UrnOfAshes_SUB_NorthHallBasement_TECH_X=346336 Y=-465165 Z=-86569",
+        "p": [
+          -465165.72,
+          346336.53
+        ]
+      },
+      {
+        "id": "KIO_HW_Waterfall Window_SUB_DADA_2_TECH_X=352614 Y=-459033 Z=-84892",
+        "p": [
+          -459033.19,
+          352614.81
+        ]
+      },
+      {
+        "id": "KIO_HW_Werewolf Saga Tapestries_SUB_NorthHallBasement_TECH_X=343257 Y=-460397 Z=-86562",
+        "p": [
+          -460397.31,
+          343257.69
+        ]
+      },
+      {
+        "id": "KIO_HW_Wiggentree Stairwell_SUB_HufflepuffBasement_TECH_X=365376 Y=-453686 Z=-82863",
+        "p": [
+          -453686.66,
+          365376.31
+        ]
+      },
+      {
+        "id": "KIO_HW_Wooden Cat_SUB_BellTowers_TECH_X=349067 Y=-471190 Z=-85863",
+        "p": [
+          -471190.31,
+          349067.44
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Abandoned Shop_X=386249 Y=-528325 Z=-79494",
+        "p": [
+          -528325.88,
+          386249
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Burnt Ceiling_X=392581 Y=-523934 Z=-81450",
+        "p": [
+          -523934.69,
+          392581.34
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Butterbeer Barrel_X=389169 Y=-515864 Z=-82918",
+        "p": [
+          -515864.84,
+          389169.94
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Community Garden_X=385800 Y=-515554 Z=-83255",
+        "p": [
+          -515554.47,
+          385800.31
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Docks_X=380288 Y=-514812 Z=-83473",
+        "p": [
+          -514812,
+          380288.81
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Dogweed and Deathcap Tree_X=392642 Y=-534299 Z=-80340",
+        "p": [
+          -534299.94,
+          392642.91
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Dung Bomb_X=389147 Y=-517336 Z=-82557",
+        "p": [
+          -517336.62,
+          389147
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Exploding Bon Bon_X=399672 Y=-520415 Z=-82122",
+        "p": [
+          -520415.59,
+          399672.38
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Fizzing Whizzbees_X=398191 Y=-519241 Z=-82051",
+        "p": [
+          -519241.62,
+          398191.19
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Frog Soap_X=387851 Y=-517293 Z=-82915",
+        "p": [
+          -517293.62,
+          387851.56
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Gladrags Wizardwear_X=392646 Y=-519484 Z=-82081",
+        "p": [
+          -519484.03,
+          392646.44
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Hengist of Woodcroft_X=395414 Y=-518999 Z=-82054",
+        "p": [
+          -518999.47,
+          395414.53
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Hogs Head_X=380978 Y=-514211 Z=-83431",
+        "p": [
+          -514211.06,
+          380978.47
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Hogsmeade Welcome Sign_X=385290 Y=-504646 Z=-84277",
+        "p": [
+          -504646.12,
+          385290.78
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Hogsmeade Well_X=390327 Y=-518401 Z=-82271",
+        "p": [
+          -518401.62,
+          390327.5
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Honeydukes_X=397138 Y=-518659 Z=-82062",
+        "p": [
+          -518659.09,
+          397138.66
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Mannequins_X=392269 Y=-519397 Z=-82036",
+        "p": [
+          -519397.5,
+          392269.25
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Meeting Area_X=390384 Y=-515788 Z=-81797",
+        "p": [
+          -515788.94,
+          390384.06
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Ollivanders_X=387787 Y=-513429 Z=-83191",
+        "p": [
+          -513429.34,
+          387787.38
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Owl Perches_X=394443 Y=-517322 Z=-82071",
+        "p": [
+          -517322.62,
+          394443.88
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Pippens_X=383082 Y=-517807 Z=-82758",
+        "p": [
+          -517807.19,
+          383082.09
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Scrivenshaft Cats_X=394410 Y=-520860 Z=-82049",
+        "p": [
+          -520860.94,
+          394410.81
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Sneakoscope_X=392292 Y=-519891 Z=-82088",
+        "p": [
+          -519891.28,
+          392292.06
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Spintwitches_X=389075 Y=-512948 Z=-83225",
+        "p": [
+          -512948.34,
+          389075.91
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Stack of Cauldrons_X=387110 Y=-510113 Z=-83532",
+        "p": [
+          -510113.09,
+          387110.88
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Tea Shop Decor_X=396292 Y=-517708 Z=-82012",
+        "p": [
+          -517708,
+          396292.59
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_The Magic Neep_X=379870 Y=-520473 Z=-82259",
+        "p": [
+          -520473.97,
+          379870.34
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_The Three Broomsticks_X=390586 Y=-516059 Z=-83130",
+        "p": [
+          -516059.69,
+          390586.75
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Tomes Staircase_X=385750 Y=-509539 Z=-83484",
+        "p": [
+          -509539.25,
+          385750
+        ]
+      },
+      {
+        "id": "KIO_Hogsmeade_Zonkos_X=388249 Y=-516445 Z=-82936",
+        "p": [
+          -516445,
+          388249.75
+        ]
+      },
+      {
+        "id": "KIO_Overland_AcromantulaCage_HN_BD_F_X=407984 Y=-448532 Z=-82718",
+        "p": [
+          -448532.09,
+          407984.88
+        ]
+      },
+      {
+        "id": "KIO_Overland_Beehives_HS_AR_F_X=380590 Y=-319720 Z=-90198",
+        "p": [
+          -319720,
+          380590
+        ]
+      },
+      {
+        "id": "KIO_Overland_BigTree_CO_BD_F_X=583621 Y=-97487 Z=-92365",
+        "p": [
+          -97487.7,
+          583621.5
+        ]
+      },
+      {
+        "id": "KIO_Overland_Binoculars_HS_AP_F_X=258218 Y=-304827 Z=-92620",
+        "p": [
+          -304827.28,
+          258218.19
+        ]
+      },
+      {
+        "id": "KIO_Overland_BrokenBothy_HS_AZ_X=373021 Y=-266458 Z=-90875",
+        "p": [
+          -266458.03,
+          373021.06
+        ]
+      },
+      {
+        "id": "KIO_Overland_CaretakersTools_HN_BG_F_X=357159 Y=-425174 Z=-87145",
+        "p": [
+          -425174.22,
+          357159.19
+        ]
+      },
+      {
+        "id": "KIO_Overland_ChocolateFrogs_HN_AW_X=395711 Y=-502974 Z=-82982",
+        "p": [
+          -502974.09,
+          395711.31
+        ]
+      },
+      {
+        "id": "KIO_Overland_CinnamonBark_HS_BF_F_X=297109 Y=-232510 Z=-95378",
+        "p": [
+          -232510.77,
+          297109.53
+        ]
+      },
+      {
+        "id": "KIO_Overland_Compass_CO_AA_X=405734 Y=-247378 Z=-84621",
+        "p": [
+          -247378.53,
+          405734.06
+        ]
+      },
+      {
+        "id": "KIO_Overland_Doily_HS_AR_F_X=357669 Y=-321369 Z=-87021",
+        "p": [
+          -321369.91,
+          357669.5
+        ]
+      },
+      {
+        "id": "KIO_Overland_DoxyEgg_HS_AR_F_X=352662 Y=-292747 Z=-84860",
+        "p": [
+          -292747.5,
+          352662.91
+        ]
+      },
+      {
+        "id": "KIO_Overland_Dummies_HS_AW_F_X=266365 Y=-278386 Z=-92528",
+        "p": [
+          -278386.34,
+          266365.91
+        ]
+      },
+      {
+        "id": "KIO_Overland_Fudge_HN_AV_X=361918 Y=-507087 Z=-85150",
+        "p": [
+          -507087.88,
+          361918.5
+        ]
+      },
+      {
+        "id": "KIO_Overland_Ginger_HS_AR_F_X=380021 Y=-322807 Z=-90101",
+        "p": [
+          -322807.97,
+          380021.94
+        ]
+      },
+      {
+        "id": "KIO_Overland_HebrideanBlackScale_HN_BG_F_X=358957 Y=-389135 Z=-87766",
+        "p": [
+          -389135.34,
+          358957.78
+        ]
+      },
+      {
+        "id": "KIO_Overland_HogsmeadeStation_HN_BC_F_X=400531 Y=-490593 Z=-84963",
+        "p": [
+          -490593.88,
+          400531.38
+        ]
+      },
+      {
+        "id": "KIO_Overland_Horn_HN_AH_X=415565 Y=-616748 Z=-87564",
+        "p": [
+          -616748.44,
+          415565.56
+        ]
+      },
+      {
+        "id": "KIO_Overland_JeweledBrooch_HS_AY_F_X=343601 Y=-254362 Z=-86952",
+        "p": [
+          -254362.56,
+          343601.47
+        ]
+      },
+      {
+        "id": "KIO_Overland_Lovage_HS_AW_X=256307 Y=-260179 Z=-94296",
+        "p": [
+          -260179.08,
+          256307.84
+        ]
+      },
+      {
+        "id": "KIO_Overland_MurtlapTentacles_HN_BG_X=374665 Y=-392146 Z=-89498",
+        "p": [
+          -392146.09,
+          374665.44
+        ]
+      },
+      {
+        "id": "KIO_Overland_Onion_CO_BI_F_X=526892 Y=-53895 Z=-95330",
+        "p": [
+          -53895.14,
+          526892.31
+        ]
+      },
+      {
+        "id": "KIO_Overland_PeruvianDarkness_HS_AH_F_X=334770 Y=-358650 Z=-80345",
+        "p": [
+          -358650.38,
+          334770.66
+        ]
+      },
+      {
+        "id": "KIO_Overland_PumpkinFizz_HN_AP_X=400012 Y=-568564 Z=-80002",
+        "p": [
+          -568564.62,
+          400012.06
+        ]
+      },
+      {
+        "id": "KIO_Overland_RootCottage_HN_AX_F_X=427290 Y=-530419 Z=-83719",
+        "p": [
+          -530419.69,
+          427290.62
+        ]
+      },
+      {
+        "id": "KIO_Overland_RunespoorEgg_FO_AU_X=453310 Y=-550007 Z=-81924",
+        "p": [
+          -550007,
+          453310.25
+        ]
+      },
+      {
+        "id": "KIO_Overland_Scarecrow_HN_BJ_F_X=426434 Y=-380623 Z=-82180",
+        "p": [
+          -380623.78,
+          426434.25
+        ]
+      },
+      {
+        "id": "KIO_Overland_Skeleton_CO_BJ_X=561019 Y=-73945 Z=-95594",
+        "p": [
+          -73945.77,
+          561019.44
+        ]
+      },
+      {
+        "id": "KIO_Overland_SpiderSign_HN_AK_F_X=351348 Y=-613381 Z=-85953",
+        "p": [
+          -613381.06,
+          351348.28
+        ]
+      },
+      {
+        "id": "KIO_Overland_TiltedHouse_HS_AR_F_X=375894 Y=-324486 Z=-89969",
+        "p": [
+          -324486.91,
+          375894.06
+        ]
+      },
+      {
+        "id": "KIO_Overland_Venom_CO_BI_F_X=527456 Y=-72437 Z=-91579",
+        "p": [
+          -72437.23,
+          527456.44
+        ]
+      },
+      {
+        "id": "KIO_Overland_Well_HS_AW_F_X=261875 Y=-275970 Z=-92570",
+        "p": [
+          -275970,
+          261875.17
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-21",
+    "spawns": [
+      {
+        "id": "KIO_HW_Architect Statue_SUB_ReceptionHall_TECH_X=366674 Y=-454819 Z=-81701",
+        "p": [
+          -454819.5,
+          366674.94
+        ]
+      },
+      {
+        "id": "KIO_HW_Arithmancy Class_SUB_ViaductEntrance_TECH_X=354002 Y=-466826 Z=-81774",
+        "p": [
+          -466826.41,
+          354002.91
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "KIO_HW_Argllshire Map_SUB_GryffindorLowerHallways_TECH_X=355919 Y=-450004 Z=-82769",
+        "p": [
+          -450004.47,
+          355919.56
+        ]
+      },
+      {
+        "id": "KIO_HW_Painting of Sir Cadogan_SUB_ViaductEntrance_TECH_X=356146 Y=-463577 Z=-82775",
+        "p": [
+          -463577.78,
+          356146.19
+        ]
+      },
+      {
+        "id": "KIO_HW_The Four Winds Well_SUB_ClockTowerCourtyard_TECH_X=353863 Y=-442200 Z=-82872",
+        "p": [
+          -442200.94,
+          353863.16
+        ]
+      },
+      {
+        "id": "KIO_HW_Wiggentree Stairwell_SUB_HufflepuffBasement_TECH_X=365376 Y=-453686 Z=-82863",
+        "p": [
+          -453686.66,
+          365376.31
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-37",
+    "spawns": [
+      {
+        "id": "KIO_HW_Astronomy Telescope_SUB_AstronomyTower_TECH_X=346607 Y=-460685 Z=-74716",
+        "p": [
+          -460685.56,
+          346607.12
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-14",
+    "spawns": [
+      {
+        "id": "KIO_HW_Augury Skeleton_SUB_DADA_3_TECH_X=348971 Y=-460163 Z=-84167",
+        "p": [
+          -460163.16,
+          348971.72
+        ]
+      },
+      {
+        "id": "KIO_HW_Death Day Dun_SUB_DeathDayDungeon_TECH_X=369231 Y=-461162 Z=-84475",
+        "p": [
+          -461162.84,
+          369231.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Detention Room_SUB_SlytherinDungeon_TECH_X=370484 Y=-456355 Z=-84188",
+        "p": [
+          -456355.25,
+          370484.19
+        ]
+      },
+      {
+        "id": "KIO_HW_Headless Hunt Tapestry_SUB_DeathDayDungeon_TECH_X=366768 Y=-460668 Z=-84425",
+        "p": [
+          -460668.5,
+          366768.56
+        ]
+      },
+      {
+        "id": "KIO_HW_Myrtles Bathroom- boys and girls _SUB_SlytherinDungeon_TECH_X=365830 Y=-458726 Z=-84413",
+        "p": [
+          -458726.34,
+          365830.5
+        ]
+      },
+      {
+        "id": "KIO_HW_Toad Choir_SUB_BellTowersUpper_TECH_X=346849 Y=-467939 Z=-84167",
+        "p": [
+          -467939.09,
+          346849.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-27",
+    "spawns": [
+      {
+        "id": "KIO_HW_Barnabas Tapestry_SUB_AstronomyTower_TECH_X=348221 Y=-458251 Z=-79961",
+        "p": [
+          -458251.28,
+          348221.91
+        ]
+      },
+      {
+        "id": "KIO_HW_Floating Stairs_SUB_GrandStaircaseMiddle_TECH_X=363251 Y=-454188 Z=-79932",
+        "p": [
+          -454188.84,
+          363251.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Jewel Encrusted Tortoise Shell_SUB_FacultyTowerAttic_TECH_X=359425 Y=-450904 Z=-79985",
+        "p": [
+          -450904.47,
+          359425.03
+        ]
+      },
+      {
+        "id": "KIO_HW_Ravenclaw Talking Bust_SUB_Ravenclaw_TECH_X=356824 Y=-458622 Z=-79590",
+        "p": [
+          -458622.62,
+          356824.75
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "KIO_HW_Bell Tower Plaque_SUB_BellTowers_TECH_X=348755 Y=-470142 Z=-86164",
+        "p": [
+          -470142.59,
+          348755.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Bloody Meat Room_SUB_GroundsQ_TECH_X=337055 Y=-472719 Z=-86081",
+        "p": [
+          -472719.84,
+          337055.59
+        ]
+      },
+      {
+        "id": "KIO_HW_Broken Broom_SUB_BellTowers_TECH_X=347413 Y=-469963 Z=-86173",
+        "p": [
+          -469963.56,
+          347413.16
+        ]
+      },
+      {
+        "id": "KIO_HW_Central Tree _SUB_Greenhouses_TECH_X=356566 Y=-470823 Z=-86356",
+        "p": [
+          -470823.97,
+          356566.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Defensive Wall_SUB_GroundsQ_TECH_X=347575 Y=-474230 Z=-86035",
+        "p": [
+          -474230.81,
+          347575.34
+        ]
+      },
+      {
+        "id": "KIO_HW_Flattened Armor_SUB_BellTowers_TECH_X=347091 Y=-469342 Z=-86203",
+        "p": [
+          -469342.72,
+          347091.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-03",
+    "spawns": [
+      {
+        "id": "KIO_HW_Black Lake_SUB_Boathouse_TECH_X=376037 Y=-472721 Z=-89670",
+        "p": [
+          -472721.91,
+          376037.06
+        ]
+      },
+      {
+        "id": "KIO_HW_Underground Harbor_SUB_UndergroundHarbor_TECH_X=364664 Y=-462283 Z=-89602",
+        "p": [
+          -462283.34,
+          364664.22
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "KIO_HW_Boggart Closet_SUB_DADA_1_TECH_X=347570 Y=-460685 Z=-85562",
+        "p": [
+          -460685.56,
+          347570.47
+        ]
+      },
+      {
+        "id": "KIO_HW_Dragon Fountain_SUB_TransfigurationCourtyard_TECH_X=350746 Y=-462855 Z=-85683",
+        "p": [
+          -462855.97,
+          350746.62
+        ]
+      },
+      {
+        "id": "KIO_HW_Goblin Artifact_SUB_BellTowers_TECH_X=346912 Y=-468293 Z=-85867",
+        "p": [
+          -468293.72,
+          346912.91
+        ]
+      },
+      {
+        "id": "KIO_HW_History of Magic Windows_SUB_NorthHall_TECH_X=344901 Y=-464434 Z=-85565",
+        "p": [
+          -464434.53,
+          344901.88
+        ]
+      },
+      {
+        "id": "KIO_HW_Illyius Portrait_SUB_DADA_1_TECH_X=349150 Y=-460792 Z=-85566",
+        "p": [
+          -460792.34,
+          349150.69
+        ]
+      },
+      {
+        "id": "KIO_HW_Scorch Mark_SUB_BellTowers_TECH_X=348000 Y=-467716 Z=-85599",
+        "p": [
+          -467716.97,
+          348000.72
+        ]
+      },
+      {
+        "id": "KIO_HW_Sharps Auror Badge_SUB_PotionsClassroom_TECH_X=358521 Y=-461757 Z=-85560",
+        "p": [
+          -461757.22,
+          358521.09
+        ]
+      },
+      {
+        "id": "KIO_HW_Sphinx Statue_SUB_NorthHall_TECH_X=344208 Y=-462681 Z=-85564",
+        "p": [
+          -462681.22,
+          344208.19
+        ]
+      },
+      {
+        "id": "KIO_HW_Statue of Gregory The Smarmy_SUB_CentralHall_TECH_X=353806 Y=-464266 Z=-85525",
+        "p": [
+          -464266.97,
+          353806.88
+        ]
+      },
+      {
+        "id": "KIO_HW_Transfiguration Desk_SUB_WestHall_TECH_X=347027 Y=-460493 Z=-85601",
+        "p": [
+          -460493.22,
+          347027.72
+        ]
+      },
+      {
+        "id": "KIO_HW_Wooden Cat_SUB_BellTowers_TECH_X=349067 Y=-471190 Z=-85863",
+        "p": [
+          -471190.31,
+          349067.44
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-16",
+    "spawns": [
+      {
+        "id": "KIO_HW_Booby trapped barrels in Cellar_SUB_HufflepuffBasement_TECH_X=363662 Y=-451811 Z=-83698",
+        "p": [
+          -451811.75,
+          363662.53
+        ]
+      },
+      {
+        "id": "KIO_HW_House-Elf Living Quarters_SUB_Kitchens_TECH_X=370519 Y=-450833 Z=-83671",
+        "p": [
+          -450833.75,
+          370519.25
+        ]
+      },
+      {
+        "id": "KIO_HW_Kitchen Hidden Entrance_SUB_HufflepuffBasement_TECH_X=365818 Y=-453038 Z=-83672",
+        "p": [
+          -453038.09,
+          365818.28
+        ]
+      },
+      {
+        "id": "KIO_HW_Kitchen Tables_SUB_Kitchens_TECH_X=368621 Y=-451680 Z=-83642",
+        "p": [
+          -451680.78,
+          368621.12
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-43",
+    "spawns": [
+      {
+        "id": "KIO_HW_Book of Admittance_SUB_GrandStaircaseTower_TECH_X=362805 Y=-454457 Z=-71671",
+        "p": [
+          -454457.97,
+          362805.25
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-34",
+    "spawns": [
+      {
+        "id": "KIO_HW_Centaur Armour_SUB_GrandStaircaseTower_TECH_X=362677 Y=-456257 Z=-75769",
+        "p": [
+          -456257.91,
+          362677.06
+        ]
+      },
+      {
+        "id": "KIO_HW_Goblet of Fire_SUB_GrandStaircaseTower_TECH_X=362709 Y=-453958 Z=-75766",
+        "p": [
+          -453958.94,
+          362709.94
+        ]
+      },
+      {
+        "id": "KIO_HW_House Elf Armour_SUB_GrandStaircaseTower_TECH_X=364383 Y=-455671 Z=-75767",
+        "p": [
+          -455671.56,
+          364383.94
+        ]
+      },
+      {
+        "id": "KIO_HW_Troll Armour_SUB_GrandStaircaseTower_TECH_X=361338 Y=-452823 Z=-75766",
+        "p": [
+          -452823.88,
+          361338.47
+        ]
+      },
+      {
+        "id": "KIO_HW_Trophy Room_SUB_GrandStaircaseTower_TECH_X=362751 Y=-454768 Z=-75770",
+        "p": [
+          -454768.06,
+          362751
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-24",
+    "spawns": [
+      {
+        "id": "KIO_HW_Charms Cage Cell_SUB_DADA_6_TECH_X=349978 Y=-461019 Z=-80662",
+        "p": [
+          -461019.91,
+          349978.38
+        ]
+      },
+      {
+        "id": "KIO_HW_Locksley Book Set_SUB_Faculty_Rooms_4_TECH_X=357712 Y=-450458 Z=-80682",
+        "p": [
+          -450458.38,
+          357712.81
+        ]
+      },
+      {
+        "id": "KIO_HW_Pink Fat Lady_SUB_FacultyTowerHalls_TECH_X=356905 Y=-449333 Z=-80685",
+        "p": [
+          -449333.03,
+          356905.97
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "KIO_HW_Chizperffles (Wizard Bees)_SUB_GroundsQ_TECH_X=355828 Y=-476907 Z=-86650",
+        "p": [
+          -476907.94,
+          355828
+        ]
+      },
+      {
+        "id": "KIO_HW_Dirigible Plum_SUB_Greenhouses_TECH_X=358535 Y=-472705 Z=-86671",
+        "p": [
+          -472705.84,
+          358535
+        ]
+      },
+      {
+        "id": "KIO_HW_Madusa Painting_SUB_LongGallery_TECH_X=348677 Y=-466963 Z=-86466",
+        "p": [
+          -466963.81,
+          348677.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Restricted Section Violent Books_SUB_LibraryRestricted_TECH_X=350254 Y=-470388 Z=-86784",
+        "p": [
+          -470388.19,
+          350254.41
+        ]
+      },
+      {
+        "id": "KIO_HW_UrnOfAshes_SUB_NorthHallBasement_TECH_X=346336 Y=-465165 Z=-86569",
+        "p": [
+          -465165.72,
+          346336.53
+        ]
+      },
+      {
+        "id": "KIO_HW_Werewolf Saga Tapestries_SUB_NorthHallBasement_TECH_X=343257 Y=-460397 Z=-86562",
+        "p": [
+          -460397.31,
+          343257.69
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-29",
+    "spawns": [
+      {
+        "id": "KIO_HW_Clock Mechanism_SUB_ClockTower_TECH_X=355180 Y=-444743 Z=-78367",
+        "p": [
+          -444743.31,
+          355180.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "KIO_HW_Cursed Bathroom_SUB_GryffindorLowerHallways_TECH_X=354925 Y=-452780 Z=-83065",
+        "p": [
+          -452780.91,
+          354925.31
+        ]
+      },
+      {
+        "id": "KIO_HW_Statue of Lachlan The Lanky_SUB_GryffindorLowerHallways_TECH_X=356984 Y=-450372 Z=-83070",
+        "p": [
+          -450372.75,
+          356984.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-25",
+    "spawns": [
+      {
+        "id": "KIO_HW_Divination Object_SUB_DivinationClassroom_TECH_X=359075 Y=-466643 Z=-80368",
+        "p": [
+          -466643.53,
+          359075.75
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-15",
+    "spawns": [
+      {
+        "id": "KIO_HW_Dragon Skeleton_SUB_DADA_3_Classroom_TECH_X=348199 Y=-457874 Z=-83977",
+        "p": [
+          -457874.88,
+          348199.66
+        ]
+      },
+      {
+        "id": "KIO_HW_Kelpie Statue_SUB_SlytherinDungeon_TECH_X=357240 Y=-455746 Z=-84001",
+        "p": [
+          -455746.44,
+          357240.06
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "KIO_HW_Fountain Statue_SUB_CentralHall_TECH_X=353525 Y=-466426 Z=-85173",
+        "p": [
+          -466426.53,
+          353525
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-41",
+    "spawns": [
+      {
+        "id": "KIO_HW_Gargoyle Escalator to Headmasters Office_SUB_GrandStaircaseTower_TECH_X=362636 Y=-453323 Z=-73166",
+        "p": [
+          -453323.25,
+          362636.03
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "KIO_HW_Head Masters Owl Podium_SUB_GreatHall_TECH_X=369025 Y=-449582 Z=-81875",
+        "p": [
+          -449582.12,
+          369025.09
+        ]
+      },
+      {
+        "id": "KIO_HW_Hogwarts House Hourglasses_SUB_ReceptionHall_TECH_X=368909 Y=-455203 Z=-81865",
+        "p": [
+          -455203.34,
+          368909.69
+        ]
+      },
+      {
+        "id": "KIO_HW_Hufflepuff Chimney Statue_SUB_Garden_TECH_X=365206 Y=-451454 Z=-82051",
+        "p": [
+          -451454.44,
+          365206.47
+        ]
+      },
+      {
+        "id": "KIO_HW_Magical FX in ceiling_SUB_GreatHall_TECH_X=368687 Y=-451540 Z=-81867",
+        "p": [
+          -451540.84,
+          368687.09
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-19",
+    "spawns": [
+      {
+        "id": "KIO_HW_Hogwarts Crest_SUB_EntranceHall_TECH_X=367702 Y=-457149 Z=-82455",
+        "p": [
+          -457149.59,
+          367702.88
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-22",
+    "spawns": [
+      {
+        "id": "KIO_HW_Hunchback Witch_SUB_QuadSouthHall_TECH_X=362101 Y=-452468 Z=-81380",
+        "p": [
+          -452468.81,
+          362101.44
+        ]
+      },
+      {
+        "id": "KIO_HW_Painting of Baruffio_SUB_FacultyTowerHalls_TECH_X=359588 Y=-447969 Z=-81385",
+        "p": [
+          -447969.69,
+          359588.56
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-13",
+    "spawns": [
+      {
+        "id": "KIO_HW_Interactive Portrait_SUB_Library_TECH_X=348914 Y=-468785 Z=-84885",
+        "p": [
+          -468785.44,
+          348914.97
+        ]
+      },
+      {
+        "id": "KIO_HW_Pungent Passage_SUB_NorthTower_TECH_X=347765 Y=-461299 Z=-84870",
+        "p": [
+          -461299.91,
+          347765.22
+        ]
+      },
+      {
+        "id": "KIO_HW_Slytherin Diary Entry_SUB_SealedDoor_TECH_X=363287 Y=-451639 Z=-84630",
+        "p": [
+          -451639.28,
+          363287.53
+        ]
+      },
+      {
+        "id": "KIO_HW_Waterfall Window_SUB_DADA_2_TECH_X=352614 Y=-459033 Z=-84892",
+        "p": [
+          -459033.19,
+          352614.81
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-33",
+    "spawns": [
+      {
+        "id": "KIO_HW_Owlery Owls_SUB_Owlery_TECH_X=336504 Y=-442245 Z=-76285",
+        "p": [
+          -442245.44,
+          336504.34
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-30",
+    "spawns": [
+      {
+        "id": "KIO_HW_Prefects Bathroom_SUB_HospitalWing_TECH_X=357896 Y=-451197 Z=-78185",
+        "p": [
+          -451197.69,
+          357896
+        ]
+      },
+      {
+        "id": "KIO_HW_Statue of Boris the Bewildered_SUB_HospitalWing_TECH_X=357989 Y=-449093 Z=-78178",
+        "p": [
+          -449093.19,
+          357989.62
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-28",
+    "spawns": [
+      {
+        "id": "KIO_HW_Ravenclaw Doorknocker_SUB_RavenclawTower_TECH_X=357030 Y=-457506 Z=-78625",
+        "p": [
+          -457506.62,
+          357030.59
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-42",
+    "spawns": [
+      {
+        "id": "KIO_HW_Sleeping Portraits_SUB_GrandStaircaseTower_TECH_X=363345 Y=-453916 Z=-72166",
+        "p": [
+          -453916.81,
+          363345.25
+        ]
+      },
+      {
+        "id": "KIO_HW_Sorting Hat_SUB_GrandStaircaseTower_TECH_X=364015 Y=-452862 Z=-72269",
+        "p": [
+          -452862.84,
+          364015.59
+        ]
+      }
+    ]
+  },
+  {
+    "type": "kio",
+    "mapName": "hogwarts-31",
+    "spawns": [
+      {
+        "id": "KIO_HW_Unicorn Fountain _SUB_HospitalWing_TECH_X=357642 Y=-448850 Z=-77585",
+        "p": [
+          -448850.97,
+          357642.59
         ]
       }
     ]
@@ -2654,6 +4745,19 @@
     ]
   },
   {
+    "type": "astronomy",
+    "mapName": "hogwarts-06",
+    "spawns": [
+      {
+        "id": "KO_Astronomy_Phoenix_X=354582 Y=-478268 Z=-87776",
+        "p": [
+          -478268.12,
+          354582.38
+        ]
+      }
+    ]
+  },
+  {
     "type": "demiguise",
     "mapName": "overland",
     "spawns": [
@@ -2865,6 +4969,130 @@
         "p": [
           -520187.91,
           401854.72
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-12",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=337793 Y=-457506 Z=-85323",
+        "p": [
+          -457506.53,
+          337793.41
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-10",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=342818 Y=-476545 Z=-86136",
+        "p": [
+          -476545.81,
+          342818.84
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-18",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=346503 Y=-458986 Z=-82618",
+        "p": [
+          -458986.34,
+          346503.56
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-08",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=348904 Y=-464308 Z=-87398",
+        "p": [
+          -464308.09,
+          348904.03
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-11",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=348926 Y=-459383 Z=-85617",
+        "p": [
+          -459383.5,
+          348926.94
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-09",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=352799 Y=-469385 Z=-86810",
+        "p": [
+          -469385.22,
+          352799
+        ]
+      },
+      {
+        "id": "KO_Demiguise_X=354128 Y=-465200 Z=-86731",
+        "p": [
+          -465200.25,
+          354128.31
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-17",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=354065 Y=-451176 Z=-83134",
+        "p": [
+          -451176.47,
+          354065.16
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-26",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=359546 Y=-467426 Z=-80269",
+        "p": [
+          -467426.94,
+          359546
+        ]
+      }
+    ]
+  },
+  {
+    "type": "demiguise",
+    "mapName": "hogwarts-20",
+    "spawns": [
+      {
+        "id": "KO_Demiguise_X=366609 Y=-449613 Z=-81919",
+        "p": [
+          -449613.69,
+          366609.69
         ]
       }
     ]
@@ -5957,6 +8185,33 @@
     ]
   },
   {
+    "type": "medium_gear",
+    "mapName": "hogwarts-04",
+    "spawns": [
+      {
+        "id": "Chest_HID_MediumGear_HNA_BB_X=374732 Y=-453484 Z=-88965",
+        "p": [
+          -453484.94,
+          374732.16
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=351726 Y=-458445 Z=-88653",
+        "p": [
+          -458445.91,
+          351726.12
+        ]
+      },
+      {
+        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=352423 Y=-456165 Z=-88653",
+        "p": [
+          -456165.88,
+          352423.12
+        ]
+      }
+    ]
+  },
+  {
     "type": "conjurations_recipe",
     "mapName": "overland",
     "spawns": [
@@ -7513,26 +9768,6 @@
         "p": [
           -459231.12,
           348751.56
-        ]
-      }
-    ]
-  },
-  {
-    "type": "medium_gear",
-    "mapName": "hogwarts-04",
-    "spawns": [
-      {
-        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=351726 Y=-458445 Z=-88653",
-        "p": [
-          -458445.91,
-          351726.12
-        ]
-      },
-      {
-        "id": "Chest_HW_MediumGear_SUB_Undercroft_TECH_X=352423 Y=-456165 Z=-88653",
-        "p": [
-          -456165.88,
-          352423.12
         ]
       }
     ]

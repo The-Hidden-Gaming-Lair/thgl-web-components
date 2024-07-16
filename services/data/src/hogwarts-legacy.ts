@@ -47,6 +47,15 @@ if (Bun.env.DB === "true") {
   sqliteToJSON("/Phoenix/Content/SQLiteDB");
 }
 
+// Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/UI_DT_MinimapCollection_Data.uasset
+const MiniMapParametersHogwarts =
+  readContentJSON<UI_DT_MiniMapParametersHogwarts>(
+    "/Phoenix/Content/UI/HUD/MiniMap/UI_DT_MiniMapParametersHogwarts.json",
+  );
+const MinimapCollectionData = readContentJSON<UI_DT_MinimapCollection_Data>(
+  "/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/UI_DT_MinimapCollection_Data.json",
+);
+
 const tiles = initTiles(
   await generateTiles(
     "overland",
@@ -67,14 +76,20 @@ for (const tile of readDirSync(
   }
   const mapName = `hogwarts-${level}`;
   enDict[mapName] = `Hogwarts Level ${level}`;
+
+  const WIDTH = MiniMapParametersHogwarts[0].Properties.Width;
+  const HEIGHT = MiniMapParametersHogwarts[0].Properties.Height;
   tiles[mapName] = (
     await generateTiles(
       mapName,
       TEXTURE_DIR +
         `/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/Hogwarts/${tile}`,
-      815000,
+      WIDTH,
       512,
-      [404000, -302000],
+      [
+        MiniMapParametersHogwarts[0].Properties.BottomLeft.X + HEIGHT / 2,
+        MiniMapParametersHogwarts[0].Properties.BottomLeft.Y - WIDTH / 2,
+      ],
     )
   )[mapName];
 }
@@ -109,6 +124,8 @@ const SphinxPuzzleLocations =
 const enUS = readContentJSON<Record<string, string>>(
   "/Phoenix/Content/Localization/WIN64/MAIN-enUS.json",
 );
+const enUSKeys = Object.keys(enUS);
+
 const EnemyDefinitionNamed =
   readContentJSON<PhoenixGameData_EnemyDefinitionNamed>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_EnemyDefinitionNamed.json",
@@ -150,6 +167,16 @@ const getHogwartsLevel = (z: number) => {
   return `hogwarts-${padLevel}`;
 };
 
+const isInHogwarts = ([y, x]: [number, number]) => {
+  const bounds = tiles["hogwarts-01"].options!.bounds;
+  return (
+    x >= bounds[0][1] &&
+    x < bounds[1][1] &&
+    y >= bounds[0][0] &&
+    y < bounds[1][0]
+  );
+};
+
 const hogwartsFastTravelLocations = FastTravelLocations.filter(
   (location) => location.ShowOnMap,
 );
@@ -175,7 +202,7 @@ for (const location of hogwartsFastTravelLocations) {
   const iconPath = `/Phoenix/Content/UI/Icons/Map/${mapIcon?.IconName || "UI_T_Fireplaces"}.png`;
 
   const extension = mapIcon ? mapIcon.IconName.split("_").at(-1) : "Fireplaces";
-  if (location.Name.startsWith("FT_HW_")) {
+  if (isInHogwarts([y, x])) {
     await handleLocation(
       group,
       title,
@@ -223,7 +250,6 @@ for (const location of moreLocations) {
   let iconPath;
   let group;
   let titleGroup;
-  let isHogwarts = name.includes("_HW_");
   const iconProps: IconProps = {};
   if (name.includes("AccioPage")) {
     type = "accioPage";
@@ -245,6 +271,72 @@ for (const location of moreLocations) {
       "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/cigale_delapouite.webp";
     group = "locations";
     titleGroup = "Locations";
+  } else if (name.includes("IncendioDragon")) {
+    type = "incendioDragon";
+    title = "Incendio";
+    iconPath =
+      "/Phoenix/Content/UI/Icons/Talents/UI_T_Talent_Incendio_Mastery.png";
+    group = "locations";
+    titleGroup = "Locations";
+  } else if (name.includes("KIO_")) {
+    type = "kio";
+    title = "Field Guide Page (Revelio)";
+    iconPath = "/Phoenix/Content/UI/Icons/Spells/UI_T_revelio.png";
+    group = "locations";
+    titleGroup = "Locations";
+    const key = (name.match(/_HW_(.*)_SUB/) ||
+      name.match(/_Hogsmeade_(.*)_X/) ||
+      name.match(/_Overland_(.*)_/))?.[1];
+    if (!key) {
+      console.warn(`Can not find key for ${name}`);
+    } else {
+      const normalized = key.replaceAll(" ", "");
+      const title =
+        {
+          "KIO_HW_Chizperffles (Wizard Bees)_SUB_GroundsQ_TECH_X=355828 Y=-476907 Z=-86650":
+            "LORE_GROUNDS_CHIZPERFLES",
+          "KIO_Hogsmeade_Hogs Head_X=380978 Y=-514211 Z=-83431":
+            "LORE_HOGSHEAD_MOUNTEDHOG",
+          "KIO_Hogsmeade_Gladrags Wizardwear_X=392646 Y=-519484 Z=-82081":
+            "LORE_GLADRAGS_SHOP",
+          "KIO_Hogsmeade_Tea Shop Decor_X=396292 Y=-517708 Z=-82012":
+            "LORE_TEASHOP_DECOR",
+          "KIO_Hogsmeade_Honeydukes_X=397138 Y=-518659 Z=-82062":
+            "LORE_HONEYDUKES_SHOP",
+          "KIO_Hogsmeade_Tomes Staircase_X=385750 Y=-509539 Z=-83484":
+            "LORE_TOMESNSCROLLS_STAIRCASE",
+          "KIO_Hogsmeade_Dung Bomb_X=389147 Y=-517336 Z=-82557":
+            "LORE_ZONKOS_DUNGBOMB",
+          "KIO_Hogsmeade_Abandoned Shop_X=386249 Y=-528325 Z=-79494":
+            "LORE_OLDFOOL_ABANDONED",
+          "KIO_HW_Booby trapped barrels in Cellar_SUB_HufflepuffBasement_TECH_X=363662 Y=-451811 Z=-83698":
+            "LORE_HUFFBASEMENT_BARRELS",
+          "KIO_HW_Astronomy Telescope_SUB_AstronomyTower_TECH_X=346607 Y=-460685 Z=-74716":
+            "LORE_ASTRONOMYTOWER_TELESCOPE",
+          "KIO_HW_Bell Tower Plaque_SUB_BellTowers_TECH_X=348755 Y=-470142 Z=-86164":
+            "LORE_BELLTOWERS_PLAQUE",
+          "KIO_HW_Painting of Sir Cadogan_SUB_ViaductEntrance_TECH_X=356146 Y=-463577 Z=-82775":
+            "LORE_VIADUCTS_SIRCADOGAN",
+        }[name] ||
+        enUSKeys.find(
+          (key) => key.startsWith("LORE_") && key.includes(normalized),
+        ) ||
+        enUSKeys.find(
+          (key) =>
+            key.startsWith("LORE_") &&
+            (name.includes("Central") ? key.includes("Central") : true) &&
+            (name.includes("Courtyard") ? key.includes("Courtyard") : true) &&
+            name
+              .split(" ")
+              .filter((word) => word !== "Statue")
+              .some((word) => key.includes(word)),
+        );
+      if (!title) {
+        console.warn(`Can not find title for ${name}`);
+      } else {
+        enDict[name] = enUS[title];
+      }
+    }
   } else if (name.startsWith("KO_Demiguise")) {
     type = "demiguise";
     title = "Demiguise Statue";
@@ -286,7 +378,6 @@ for (const location of moreLocations) {
     name.includes("RavenHouseChest") ||
     name.includes("GryfindorHouseChest")
   ) {
-    isHogwarts = true;
     type = "house_chest";
     title = "House Chest";
     iconPath =
@@ -342,7 +433,7 @@ for (const location of moreLocations) {
   const x = location.XPos;
   const y = location.YPos;
   const z = location.ZPos;
-  if (isHogwarts) {
+  if (isInHogwarts([y, x])) {
     await handleLocation(
       group,
       titleGroup,
@@ -686,4 +777,32 @@ export type PhoenixGameData_EnemyDefinitionNamed = Array<{
   ObjectClass: string;
   LootDrop: string;
   KilledLockID?: string;
+}>;
+
+export type UI_DT_MiniMapParametersHogwarts = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    BottomLeft: {
+      X: number;
+      Y: number;
+    };
+    Width: number;
+    Height: number;
+  };
+}>;
+
+export type UI_DT_MinimapCollection_Data = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    StateId: string;
+    ScalarParameters: Array<{
+      DefaultValue: number;
+      ParameterName: string;
+      Id: string;
+    }>;
+  };
 }>;
