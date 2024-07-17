@@ -230,6 +230,7 @@ export const apps: App[] = [
       id: "ejpjngplofkhhplmlfdhlaccobehhefmgbbojdno",
       protocol: "thgl-hogwarts-legacy",
       url: "https://www.overwolf.com/app/Leon_Machens-Hogwarts.gg",
+      supportsCopySecret: true,
     },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
