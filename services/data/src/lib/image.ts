@@ -43,7 +43,7 @@ export async function saveIcon(
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
     await $`cwebp ${TEMP_DIR + `/${name}.png`} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.rotate) {
-    const canvas = await rotateImage(assetPath, props.rotate);
+    const canvas = await rotateImage(filePath, props.rotate);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
     await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (

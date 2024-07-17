@@ -13,7 +13,6 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const MARKER_OPTIONS = {
   radius: 6,
-  playerZoom: 4,
 };
 export default function InteractiveMapDynamic(): JSX.Element {
   return (

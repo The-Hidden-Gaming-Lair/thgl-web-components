@@ -609,7 +609,8 @@
           356655.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -622,7 +623,8 @@
           348253.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -649,7 +651,8 @@
           337851.31
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -662,7 +665,8 @@
           374775.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -696,7 +700,8 @@
           360305.09
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -709,7 +714,8 @@
           348965.91
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -729,7 +735,8 @@
           350695.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -749,7 +756,8 @@
           364177.59
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -776,7 +784,8 @@
           367914.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -789,7 +798,8 @@
           362548.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -816,7 +826,8 @@
           357492.91
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -829,7 +840,8 @@
           355648.66
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -842,7 +854,8 @@
           355123.66
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -855,7 +868,8 @@
           349276.84
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -896,7 +910,8 @@
           350649.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -909,7 +924,8 @@
           344577.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -936,7 +952,8 @@
           364087.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -949,7 +966,8 @@
           359046.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -966,7 +984,8 @@
           "url": "SanctuaryHogwarts.webp"
         }
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "fastTravel",
@@ -979,7 +998,8 @@
           361394.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1258,7 +1278,8 @@
           357028.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -1404,7 +1425,8 @@
           365513.28
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1438,7 +1460,8 @@
           343629.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1451,7 +1474,8 @@
           354424.62
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1471,7 +1495,8 @@
           368002.84
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1484,7 +1509,8 @@
           348304.47
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1497,7 +1523,8 @@
           367100.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1510,7 +1537,8 @@
           358671.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1523,7 +1551,8 @@
           364449.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1536,7 +1565,8 @@
           363326.72
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1549,7 +1579,8 @@
           354866.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1562,7 +1593,8 @@
           357428.12
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1575,7 +1607,8 @@
           337591.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1588,7 +1621,8 @@
           336042.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1601,7 +1635,8 @@
           359018.38
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1614,7 +1649,8 @@
           349664.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "accioPage",
@@ -1627,7 +1663,8 @@
           357028.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1654,7 +1691,8 @@
           353101.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1765,7 +1803,8 @@
           368265.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1778,7 +1817,8 @@
           354106.09
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1798,7 +1838,8 @@
           361286.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1818,7 +1859,8 @@
           359303.91
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1838,7 +1880,8 @@
           348199.03
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1851,7 +1894,8 @@
           356923.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1864,7 +1908,8 @@
           354010.72
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1877,7 +1922,8 @@
           337225.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1890,7 +1936,8 @@
           349983.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "guardianLeviosa",
@@ -1903,7 +1950,8 @@
           368265.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -1916,7 +1964,8 @@
           347011.66
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2027,7 +2076,8 @@
           369394.62
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2040,7 +2090,8 @@
           349521.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2053,7 +2104,8 @@
           375708.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2073,7 +2125,8 @@
           340395.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2086,7 +2139,8 @@
           356525.81
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2106,7 +2160,8 @@
           360329.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2119,7 +2174,8 @@
           358865.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2132,7 +2188,8 @@
           361921.72
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2145,7 +2202,8 @@
           369339.09
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2158,7 +2216,8 @@
           357801.75
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2171,7 +2230,8 @@
           346111.12
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2184,7 +2244,8 @@
           350154.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "incendioDragon",
@@ -2197,7 +2258,8 @@
           369394.62
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2210,7 +2272,8 @@
           347242.5
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2230,7 +2293,8 @@
           347572.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2250,7 +2314,8 @@
           365513.28
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2263,7 +2328,8 @@
           352358.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2276,7 +2342,8 @@
           362453.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2289,7 +2356,8 @@
           367657.62
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2302,7 +2370,8 @@
           340189.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2315,7 +2384,8 @@
           354842
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2335,7 +2405,8 @@
           348790.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2348,7 +2419,8 @@
           353021.12
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2361,7 +2433,8 @@
           357318.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "mothFrame",
@@ -2374,7 +2447,8 @@
           364145.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -2401,7 +2475,8 @@
           346608.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3436,7 +3511,8 @@
           261875.17
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3456,7 +3532,8 @@
           354002.91
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3490,7 +3567,8 @@
           365376.31
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3503,7 +3581,8 @@
           346607.12
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3551,7 +3630,8 @@
           346849.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3585,7 +3665,8 @@
           356824.75
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3633,7 +3714,8 @@
           347091.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3653,7 +3735,8 @@
           364664.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3736,7 +3819,8 @@
           349067.44
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3770,7 +3854,8 @@
           368621.12
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3783,7 +3868,8 @@
           362805.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3824,7 +3910,8 @@
           362751
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3851,7 +3938,8 @@
           356905.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3899,7 +3987,8 @@
           343257.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3912,7 +4001,8 @@
           355180.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3932,7 +4022,8 @@
           356984.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3945,7 +4036,8 @@
           359075.75
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3965,7 +4057,8 @@
           357240.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3978,7 +4071,8 @@
           353525
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -3991,7 +4085,8 @@
           362636.03
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4025,7 +4120,8 @@
           368687.09
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4038,7 +4134,8 @@
           367702.88
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4058,7 +4155,8 @@
           359588.56
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4092,7 +4190,8 @@
           352614.81
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4105,7 +4204,8 @@
           336504.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4125,7 +4225,8 @@
           357989.62
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4138,7 +4239,8 @@
           357030.59
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4158,7 +4260,8 @@
           364015.59
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "kio",
@@ -4171,7 +4274,8 @@
           357642.59
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "named_enemy",
@@ -4324,7 +4428,8 @@
           340319.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "enemy",
@@ -4631,7 +4736,8 @@
           232098
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "astronomy",
@@ -4742,7 +4848,8 @@
           338867.66
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "astronomy",
@@ -4755,7 +4862,8 @@
           354582.38
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -4971,7 +5079,8 @@
           401854.72
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -4984,7 +5093,8 @@
           337793.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -4997,7 +5107,8 @@
           342818.84
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5010,7 +5121,8 @@
           346503.56
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5023,7 +5135,8 @@
           348904.03
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5036,7 +5149,8 @@
           348926.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5056,7 +5170,8 @@
           354128.31
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5069,7 +5184,8 @@
           354065.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5082,7 +5198,8 @@
           359546
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "demiguise",
@@ -5095,7 +5212,8 @@
           366609.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "house_chest",
@@ -5108,7 +5226,8 @@
           359685.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "house_chest",
@@ -5142,7 +5261,8 @@
           356860.44
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "house_chest",
@@ -5155,7 +5275,8 @@
           355691.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "house_chest",
@@ -5168,7 +5289,8 @@
           363235.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "house_chest",
@@ -5181,7 +5303,8 @@
           356860.44
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -7882,7 +8005,8 @@
           369932.75
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -8182,7 +8306,8 @@
           522680.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -8209,7 +8334,8 @@
           352423.12
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8369,7 +8495,8 @@
           361615.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8585,7 +8712,8 @@
           355852.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8605,7 +8733,8 @@
           348441.44
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8618,7 +8747,8 @@
           351676.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8659,7 +8789,8 @@
           369781.31
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8672,7 +8803,8 @@
           357396.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8692,7 +8824,8 @@
           357914.91
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8705,7 +8838,8 @@
           363079.5
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8718,7 +8852,8 @@
           360847.5
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8731,7 +8866,8 @@
           348622.81
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8744,7 +8880,8 @@
           345599.84
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8757,7 +8894,8 @@
           361081.47
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8770,7 +8908,8 @@
           365208.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "conjurations_recipe",
@@ -8783,7 +8922,8 @@
           361615.41
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8810,7 +8950,8 @@
           370111
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8823,7 +8964,8 @@
           353635.03
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8836,7 +8978,8 @@
           348648.5
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8849,7 +8992,8 @@
           351325.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8862,7 +9006,8 @@
           359463.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8875,7 +9020,8 @@
           357843.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8888,7 +9034,8 @@
           339559.28
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8901,7 +9048,8 @@
           343542.75
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8914,7 +9062,8 @@
           352035.75
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8927,7 +9076,8 @@
           349816.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8940,7 +9090,8 @@
           363358.66
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "disillusionment",
@@ -8960,7 +9111,8 @@
           355852.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -8973,7 +9125,8 @@
           354298
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -8986,7 +9139,8 @@
           348183.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -8999,7 +9153,8 @@
           359979.5
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9012,7 +9167,8 @@
           362081.22
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9025,7 +9181,8 @@
           362281.84
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9038,7 +9195,8 @@
           362677.56
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9051,7 +9209,8 @@
           362876.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9071,7 +9230,8 @@
           354161.72
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9084,7 +9244,8 @@
           353620.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9097,7 +9258,8 @@
           349168
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "large_gold_super",
@@ -9110,7 +9272,8 @@
           362990.28
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9137,7 +9300,8 @@
           336767.88
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9185,7 +9349,8 @@
           367780.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9261,7 +9426,8 @@
           343987.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9309,7 +9475,8 @@
           369409.09
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9357,7 +9524,8 @@
           356861.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9377,7 +9545,8 @@
           357495.5
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9425,7 +9594,8 @@
           370937.56
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9438,7 +9608,8 @@
           349855.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9451,7 +9622,8 @@
           368967.34
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9471,7 +9643,8 @@
           365419.09
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9498,7 +9671,8 @@
           357695.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9525,7 +9699,8 @@
           362953.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9538,7 +9713,8 @@
           364754.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9551,7 +9727,8 @@
           368200.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9578,7 +9755,8 @@
           361905.03
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9598,7 +9776,8 @@
           362054.69
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9611,7 +9790,8 @@
           353029.03
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9624,7 +9804,8 @@
           358107.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9651,7 +9832,8 @@
           362405.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9664,7 +9846,8 @@
           354709.81
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9684,7 +9867,8 @@
           343541
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9697,7 +9881,8 @@
           346108.16
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9724,7 +9909,8 @@
           365851.28
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9744,7 +9930,8 @@
           357769.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9757,7 +9944,8 @@
           358244.88
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9770,7 +9958,8 @@
           348751.56
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "medium_gear",
@@ -9783,7 +9972,8 @@
           365116.06
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9796,7 +9986,8 @@
           349091.59
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9907,7 +10098,8 @@
           360710.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9927,7 +10119,8 @@
           349275.81
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9940,7 +10133,8 @@
           348195.25
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9953,7 +10147,8 @@
           349626.81
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9973,7 +10168,8 @@
           366898.19
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9986,7 +10182,8 @@
           359184.31
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -9999,7 +10196,8 @@
           363168.53
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -10012,7 +10210,8 @@
           364688.97
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -10025,7 +10224,8 @@
           335944.88
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -10038,7 +10238,8 @@
           370182.72
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -10051,7 +10252,8 @@
           354934.38
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -10064,7 +10266,8 @@
           349851.94
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "wandskin",
@@ -10077,7 +10280,8 @@
           360710.78
         ]
       }
-    ]
+    ],
+    "static": true
   },
   {
     "type": "sphinx_puzzle",
@@ -10748,6 +10952,7 @@
           385040.88
         ]
       }
-    ]
+    ],
+    "static": true
   }
 ]

@@ -55,7 +55,6 @@ const APP = "Palworld";
 const TITLE = "Palworld Map";
 const MARKER_OPTIONS = {
   radius: 6,
-  playerZoom: 4,
 };
 function App(): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);

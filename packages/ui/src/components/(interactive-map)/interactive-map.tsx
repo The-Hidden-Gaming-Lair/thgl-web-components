@@ -50,6 +50,7 @@ export function InteractiveMap({
       { center, zoom },
       mapTileOptions,
     );
+    world.mapName = mapName;
     setMap(world);
 
     world.on("mousedown", () => {

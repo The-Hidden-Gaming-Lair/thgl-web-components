@@ -41,7 +41,6 @@ export const NIGHTINGALE: {
 } = {
   markerOptions: {
     radius: 6,
-    playerZoom: 4,
     playerIcon: "player.webp",
   },
   tileOptions: {

@@ -51,7 +51,7 @@ export type GameEventsPlugin = {
 
 export async function listenToPlugin(
   types: string[],
-  pathToMapName?: (path: string) => string | undefined,
+  actorToMapName?: (actor: Actor) => string | undefined,
   processName?: string,
   normalizeLocation?: (location: {
     x: number;
@@ -84,8 +84,8 @@ export async function listenToPlugin(
       setError(null);
     }
     if (player) {
-      if (pathToMapName && player.path) {
-        player.mapName = pathToMapName(player.path);
+      if (actorToMapName && player.path) {
+        player.mapName = actorToMapName(player);
       }
       if (normalizeLocation) {
         normalizeLocation(player);
@@ -151,8 +151,8 @@ export async function listenToPlugin(
           lastActorsError = "";
         }
         actors.forEach((actor) => {
-          if (pathToMapName && actor.path) {
-            actor.mapName = pathToMapName(actor.path);
+          if (actorToMapName && actor.path) {
+            actor.mapName = actorToMapName(actor);
           }
           if (normalizeLocation) {
             normalizeLocation(actor);
@@ -185,8 +185,8 @@ export async function listenToPlugin(
         (actors) => {
           const closestActors = actors
             .map((actor) => {
-              if (pathToMapName && actor.path) {
-                actor.mapName = pathToMapName(actor.path);
+              if (actorToMapName && actor.path) {
+                actor.mapName = actorToMapName(actor);
               }
               if (normalizeLocation) {
                 normalizeLocation(actor);
@@ -196,8 +196,8 @@ export async function listenToPlugin(
               const dy = actor.y - prevPlayer.y;
               const dz = actor.z - prevPlayer.z;
               const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-              if (pathToMapName && actor.path) {
-                actor.mapName = pathToMapName(actor.path);
+              if (actorToMapName && actor.path) {
+                actor.mapName = actorToMapName(actor);
               }
               const isKnown = types.includes(actor.type);
               return { ...actor, distance, isKnown };

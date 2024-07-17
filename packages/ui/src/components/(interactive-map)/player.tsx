@@ -16,7 +16,6 @@ export function Player({
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
   const followPlayerPosition = true;
-  const mapName = useUserStore((state) => state.mapName);
   const setMapName = useUserStore((state) => state.setMapName);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ export function Player({
       return;
     }
 
-    const isOnMap = !player.mapName || player.mapName === mapName;
+    const isOnMap = !player.mapName || player.mapName === map.mapName;
     if (!isOnMap) {
       return;
     }
@@ -48,8 +47,11 @@ export function Player({
     }
     try {
       marker.current.addTo(map);
-      map.flyTo([player.x, player.y], markerOptions.playerZoom, {
-        duration: 0.5,
+      map.panTo([player.x, player.y], {
+        animate: false,
+        duration: 0,
+        easeLinearity: 1,
+        noMoveStart: true,
       });
     } catch (e) {}
 
@@ -59,7 +61,7 @@ export function Player({
         marker.current = null;
       } catch (e) {}
     };
-  }, [map, player?.mapName, mapName]);
+  }, [map, player?.mapName]);
 
   const lastAnimation = useRef(0);
   useEffect(() => {
@@ -69,7 +71,7 @@ export function Player({
 
     marker.current.updatePosition(player);
 
-    if (followPlayerPosition) {
+    if (followPlayerPosition && player.mapName === map.mapName) {
       const now = Date.now();
       if (now - lastAnimation.current > 500) {
         lastAnimation.current = now;
@@ -91,12 +93,12 @@ export function Player({
   }, [map, player, followPlayerPosition]);
 
   useEffect(() => {
-    if (!player?.mapName) {
+    if (!player?.mapName || !map) {
       return;
     }
-    if (player.mapName !== mapName) {
+    if (player.mapName !== map.mapName) {
       console.log("Setting map name", player.mapName);
-      setMapName(player.mapName);
+      setMapName(player.mapName, [player.x, player.y], map.getZoom());
     }
   }, [player?.mapName]);
 

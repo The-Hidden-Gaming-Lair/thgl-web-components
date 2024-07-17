@@ -55,7 +55,6 @@ const APP = "Hogwarts Legacy";
 const TITLE = "Hogwarts Legacy Map";
 const MARKER_OPTIONS = {
   radius: 6,
-  playerZoom: 4,
   playerIcon: "player.webp",
 };
 function App(): JSX.Element {
@@ -81,7 +80,7 @@ function App(): JSX.Element {
             mapNames={Object.keys(tiles)}
             regions={regions as unknown as RegionsCoordinates}
             staticNodes={nodes}
-            typesIdMap={typesIdMap}
+            // typesIdMap={typesIdMap}
             globalFilters={globalFilters as GlobalFiltersCoordinates}
             view={{}}
           >

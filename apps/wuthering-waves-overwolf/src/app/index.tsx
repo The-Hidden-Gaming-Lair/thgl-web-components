@@ -56,7 +56,6 @@ const APP = "Wuthering Waves";
 const TITLE = "Wuthering Waves Map";
 const MARKER_OPTIONS = {
   radius: 6,
-  playerZoom: 4,
   playerIcon: "player.webp",
 };
 function App(): JSX.Element {

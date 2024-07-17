@@ -22,8 +22,8 @@ if (el) {
 
 await listenToPlugin(
   Object.keys(typesIdMap),
-  (path) => {
-    return path.split("/")[4];
+  (actor) => {
+    return actor.path?.split("/")[4];
   },
   undefined,
   normalizeLocation,

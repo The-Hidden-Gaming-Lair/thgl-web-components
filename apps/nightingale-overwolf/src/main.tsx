@@ -27,8 +27,8 @@ if (el) {
 
 await listenToPlugin(
   Object.keys(typesIdMap),
-  (path) => {
-    return path.split("/")[6];
+  (actor) => {
+    return actor.path?.split("/")[6];
   },
   "NWXClient-Win64-Shipping",
 );

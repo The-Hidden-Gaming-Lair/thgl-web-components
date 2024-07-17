@@ -13,11 +13,7 @@ initBackground(
 const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
 
 const refreshProcess = () => {
-  gameEventsPlugin.UpdateProcess(
-    handleCallback,
-    handleError,
-    "Client-Win64-Shipping",
-  );
+  gameEventsPlugin.UpdateProcess(handleCallback, handleError, "HogwartsLegacy");
 };
 
 let status = "";

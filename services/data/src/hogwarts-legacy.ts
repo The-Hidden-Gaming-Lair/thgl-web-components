@@ -1,4 +1,4 @@
-import { CONTENT_DIR, TEXTURE_DIR, initDirs } from "./lib/dirs.js";
+import { CONTENT_DIR, TEMP_DIR, TEXTURE_DIR, initDirs } from "./lib/dirs.js";
 import { sqliteToJSON } from "./lib/db.js";
 import {
   readContentJSON,
@@ -96,6 +96,12 @@ for (const tile of readDirSync(
 
 writeTiles(tiles);
 
+await saveIcon(
+  "/Phoenix/Content/UI/Icons/Map/UI_T_PlayerMarker.png",
+  "player",
+  { rotate: 90 },
+);
+
 const FastTravelLocations =
   readContentJSON<PhoenixGameData_FastTravelLocations>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_FastTravelLocations.json",
@@ -144,6 +150,7 @@ const bottomZValues = Object.entries(MiniMapNHogwartsLevelData[0].Rows).reduce(
     [level: string]: number;
   },
 );
+writeJSON(TEMP_DIR + "/bottomZValues.json", bottomZValues);
 const getLevelByZ = (z: number) => {
   const entry = Object.entries(bottomZValues).find(([level, bottomZ]) => {
     if (bottomZ > z) {
@@ -524,7 +531,7 @@ async function handleLocation(
 
   let oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName);
   if (!oldNodes) {
-    oldNodes = { type: type, mapName, spawns: [] };
+    oldNodes = { type: type, mapName, spawns: [], static: true };
     nodes.push(oldNodes);
     oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName)!;
   }

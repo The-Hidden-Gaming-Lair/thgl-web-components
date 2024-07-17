@@ -43,7 +43,6 @@ export function Markers({
     items: TooltipItems;
   } | null>(null);
 
-  const mapName = useUserStore((state) => state.mapName);
   const tempPrivateNodeId = useSettingsStore(
     (state) => state.tempPrivateNode?.id,
   );
@@ -97,7 +96,7 @@ export function Markers({
     );
     const spawnIds = new Set<string | number>();
     [...spawns, ...sharedPrivateSpawns].forEach((spawn) => {
-      if (spawn.mapName && spawn.mapName !== mapName) {
+      if (spawn.mapName && spawn.mapName !== map.mapName) {
         return;
       }
       if (tempPrivateNodeId && tempPrivateNodeId === spawn.id) {

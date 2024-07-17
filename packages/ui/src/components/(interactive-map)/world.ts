@@ -34,14 +34,15 @@ export function createWorld(
     renderer: canvas({ pane: "markerPane" }),
     pmIgnore: false,
   });
+
   if (view.center) {
-    world.setView(view.center, view.zoom);
+    world.setView(view.center, view.zoom, { animate: false });
   } else if (options?.fitBounds) {
-    world.fitBounds(options.fitBounds);
+    world.fitBounds(options.fitBounds, { animate: false });
   } else if (options?.view) {
-    world.setView(options.view.center, options.view.zoom);
+    world.setView(options.view.center, options.view.zoom, { animate: false });
   } else {
-    world.setView([0, 0], 0);
+    world.setView([0, 0], 0, { animate: false });
   }
   const customTranslation = {
     tooltips: {

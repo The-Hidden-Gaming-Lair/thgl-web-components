@@ -2,9 +2,9 @@
   "manifest_version": 1,
   "type": "WebApp",
   "meta": {
-    "name": "Hogwarts Legacy Map-DEV",
+    "name": "Hogwarts.gg-DEV",
     "author": "Leon Machens",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "minimum-overwolf-version": "0.241.0",
     "minimum-gep-version": "242.0",
     "description": "Hogwarts Legacy Interactive Map – The Hidden Gaming Lair",

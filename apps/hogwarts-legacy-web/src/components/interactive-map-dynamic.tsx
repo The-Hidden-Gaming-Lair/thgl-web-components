@@ -13,7 +13,6 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const MARKER_OPTIONS = {
   radius: 6,
-  playerZoom: 4,
   playerIcon: "player.webp",
 };
 export default function InteractiveMapDynamic(): JSX.Element {
@@ -28,10 +27,10 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <LivePlayer markerOptions={MARKER_OPTIONS} />
       <TraceLine />
       <Actions>
-        {/* <StreamingReceiver
+        <StreamingReceiver
           domain="hogwarts"
           href="https://www.overwolf.com/app/Leon_Machens-Hogwarts.gg"
-        /> */}
+        />
         <PrivateNode />
         <PrivateDrawing />
       </Actions>

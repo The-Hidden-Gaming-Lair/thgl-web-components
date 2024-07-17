@@ -20,8 +20,8 @@ if (el) {
   throw new Error("Could not find root element!!");
 }
 
-await listenToPlugin(Object.keys(typesIdMap), (path) => {
-  return path.split("/")[4]?.split(".")[0];
+await listenToPlugin(Object.keys(typesIdMap), (actor) => {
+  return actor.path?.split("/")[4]?.split(".")[0];
 });
 
 useGameState.subscribe(

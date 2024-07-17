@@ -19,6 +19,5 @@ export type TileOptions = Record<string, TileLayer>;
 
 export interface MarkerOptions {
   radius: number;
-  playerZoom: number;
   playerIcon?: string;
 }

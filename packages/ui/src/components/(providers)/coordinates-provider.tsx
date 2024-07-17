@@ -94,7 +94,11 @@ interface UserStoreState {
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
   mapName: string;
-  setMapName: (mapName: string) => void;
+  setMapName: (
+    mapName: string,
+    center?: [number, number],
+    zoom?: number,
+  ) => void;
   search: string;
   setSearch: (search: string) => void;
   searchIsLoading: boolean;
@@ -196,12 +200,12 @@ export function CoordinatesProvider({
                 });
               },
               mapName: view.map ?? mapNames[0],
-              setMapName: (mapName) => {
+              setMapName: (mapName, center, zoom) => {
                 if (!mapNames.includes(mapName)) {
                   console.warn(`Invalid map name: ${mapName}`);
                   return;
                 }
-                set({ mapName, center: undefined, zoom: undefined });
+                set({ mapName, center, zoom });
               },
               center: view.center,
               setCenter: (center) => {
