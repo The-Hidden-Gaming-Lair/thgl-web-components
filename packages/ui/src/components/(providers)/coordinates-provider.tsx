@@ -13,7 +13,12 @@ import type { PersistOptions } from "zustand/middleware";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import Fuse from "fuse.js";
 import { useT } from ".";
-import { isDebug, useGameState, useSettingsStore } from "@repo/lib";
+import {
+  decodeFromBuffer,
+  isDebug,
+  useGameState,
+  useSettingsStore,
+} from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
 import useSWRImmutable from "swr/immutable";
 
@@ -163,6 +168,7 @@ const emptyObject: any = {};
 export function CoordinatesProvider({
   children,
   staticNodes: initialStaticNodes,
+  useCbor,
   regions,
   filters,
   globalFilters = [],
@@ -172,6 +178,7 @@ export function CoordinatesProvider({
 }: {
   children: React.ReactNode;
   staticNodes?: NodesCoordinates;
+  useCbor?: boolean;
   regions: RegionsCoordinates;
   filters: FiltersCoordinates;
   globalFilters?: GlobalFiltersCoordinates;
@@ -318,9 +325,17 @@ export function CoordinatesProvider({
           ),
         };
       }
-      return fetch(`/api/nodes/${mapName}`)
-        .then((res) => res.json() as Promise<NodesCoordinates>)
-        .then((nodes) => ({ [mapName]: nodes }));
+      if (useCbor) {
+        const response = await fetch(`/nodes/${mapName}.cbor`);
+        const buffer = await response.arrayBuffer();
+        const nodes = decodeFromBuffer<NodesCoordinates>(
+          new Uint8Array(buffer),
+        );
+        return { [mapName]: nodes };
+      }
+      const response = await fetch(`/api/nodes/${mapName}`);
+      const nodes = (await response.json()) as NodesCoordinates;
+      return { [mapName]: nodes };
     },
   );
   const staticNodes =
@@ -342,9 +357,14 @@ export function CoordinatesProvider({
       ) {
         return { [search]: emptyArray as Spawns };
       }
-      return fetch(`/api/nodes/search?q=${search}`)
-        .then((res) => res.json() as Promise<Spawns>)
-        .then((spawns) => ({ [search]: spawns }));
+      const response = await fetch(`/api/nodes/search?q=${search}`);
+      if (useCbor) {
+        const buffer = await response.arrayBuffer();
+        const spawns = decodeFromBuffer<Spawns>(new Uint8Array(buffer));
+        return { [search]: spawns };
+      }
+      const spawns = (await response.json()) as Spawns;
+      return { [search]: spawns };
     },
     {
       revalidateOnMount: !search,

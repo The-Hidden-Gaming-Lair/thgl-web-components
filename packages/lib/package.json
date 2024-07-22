@@ -38,6 +38,7 @@
     "typescript": "5.5.3"
   },
   "dependencies": {
+    "cbor-x": "^1.5.9",
     "clsx": "2.1.1",
     "peerjs": "1.5.4",
     "tailwind-merge": "2.4.0",

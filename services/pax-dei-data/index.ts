@@ -2,6 +2,7 @@ import uniqolor from "uniqolor";
 
 import { $ } from "bun";
 import {
+  encodeToFile,
   readDirRecursive,
   readDirSync,
   readJSON,
@@ -1248,6 +1249,13 @@ for (const n of nodes) {
 writeJSON(TEMP_DIR + "/actors.json", Object.keys(typesIdMap));
 writeJSON(OUT_DIR + "/coordinates/tiles.json", tiles);
 writeJSON(OUT_DIR + "/coordinates/nodes.json", newNodes);
+// encodeToFile(OUT_DIR + "/coordinates/cbor/nodes.cbor", newNodes);
+Object.keys(tiles).forEach((mapName) => {
+  encodeToFile(
+    OUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
+    newNodes.filter((n) => n.mapName === mapName),
+  );
+});
 // writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
 writeJSON(OUT_DIR + "/coordinates/filters.json", filtersWithNodes);
 writeJSON(OUT_DIR + "/coordinates/regions.json", regions);
