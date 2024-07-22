@@ -13,6 +13,7 @@ import type {
   Dict,
   FiltersCoordinates,
   GlobalFiltersCoordinates,
+  NodesCoordinates,
   RegionsCoordinates,
 } from "@repo/ui/providers";
 import {
@@ -54,7 +55,7 @@ const MARKER_OPTIONS = {
   radius: 6,
   playerIcon: "player.webp",
 };
-function App(): JSX.Element {
+function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
@@ -76,7 +77,7 @@ function App(): JSX.Element {
             filters={filters as FiltersCoordinates}
             mapNames={Object.keys(tiles)}
             regions={regions as unknown as RegionsCoordinates}
-            useCbor
+            staticNodes={nodes}
             typesIdMap={typesIdMap}
             globalFilters={globalFilters as GlobalFiltersCoordinates}
             view={{}}

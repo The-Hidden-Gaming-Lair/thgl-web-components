@@ -1,3 +1,4 @@
+import { brotliCompressSync } from "node:zlib";
 import {
   type NodesCoordinates,
   type Dict,
@@ -60,11 +61,13 @@ export function GET(request: Request): Response {
     .search(query)
     .map((result) => ({ ...result.item, score: result.score }));
   const buffer = encodeToBuffer(items);
-  return new Response(buffer, {
+  const compressed = brotliCompressSync(buffer);
+  return new Response(compressed, {
     status: 200,
     headers: {
-      "Content-Type": "application/cbor",
+      "Content-Type": "application/octet-stream",
       "Cache-Control": "public, max-age=0, must-revalidate",
+      "Content-Encoding": "br",
       "CDN-Cache-Control": "public, s-maxage=2678400",
     },
   });

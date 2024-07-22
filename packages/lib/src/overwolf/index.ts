@@ -1,4 +1,5 @@
 export * from "./background";
+export * from "./brotli";
 export * from "./discord";
 export * from "./games";
 export * from "./gep";

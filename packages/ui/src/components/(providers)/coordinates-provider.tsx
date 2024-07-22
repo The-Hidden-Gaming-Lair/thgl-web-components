@@ -325,14 +325,15 @@ export function CoordinatesProvider({
           ),
         };
       }
-      const response = await fetch(`/api/nodes/${mapName}`);
       if (useCbor) {
+        const response = await fetch(`/nodes/${mapName}.cbor`);
         const buffer = await response.arrayBuffer();
         const nodes = decodeFromBuffer<NodesCoordinates>(
           new Uint8Array(buffer),
         );
         return { [mapName]: nodes };
       }
+      const response = await fetch(`/api/nodes/${mapName}`);
       const nodes = (await response.json()) as NodesCoordinates;
       return { [mapName]: nodes };
     },

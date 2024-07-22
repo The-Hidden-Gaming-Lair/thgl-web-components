@@ -3,17 +3,45 @@ import "@repo/ui/styles/globals.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { listenToPlugin, initDiscordRPC, type Actor } from "@repo/lib/overwolf";
-import { useGameState } from "@repo/lib";
+import {
+  listenToPlugin,
+  initDiscordRPC,
+  type Actor,
+  brotliDecompress,
+} from "@repo/lib/overwolf";
+import { decodeFromBuffer, useGameState } from "@repo/lib";
+import { type NodesCoordinates } from "@repo/ui/providers";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 import App from "./app";
+import gallia_province_02 from "./coordinates/cbor/gallia_province_02.cbor?url";
+import gallia_province_03 from "./coordinates/cbor/gallia_province_03.cbor?url";
+import gallia_province_04 from "./coordinates/cbor/gallia_province_04.cbor?url";
+import gallia_pve_01 from "./coordinates/cbor/gallia_pve_01.cbor?url";
+import small from "./coordinates/cbor/small.cbor?url";
+
+const maps = [
+  gallia_province_02,
+  gallia_province_03,
+  gallia_province_04,
+  gallia_pve_01,
+  small,
+];
+const allNodes = await Promise.all(
+  maps.map(async (map) => {
+    const response = await fetch(map);
+    const arrayBuffer = await response.arrayBuffer();
+    const decrompressed = brotliDecompress(arrayBuffer);
+    return decodeFromBuffer<NodesCoordinates>(decrompressed);
+  }),
+);
+const nodes = allNodes.flat();
 
 const el = document.getElementById("root");
 if (el) {
   const root = createRoot(el);
   root.render(
     <React.StrictMode>
-      <App />
+      <App nodes={nodes} />
     </React.StrictMode>,
   );
 } else {

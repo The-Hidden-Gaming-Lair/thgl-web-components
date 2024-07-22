@@ -2,11 +2,13 @@ import fs from "node:fs";
 import path, { basename, dirname } from "node:path";
 import { fileURLToPath } from "url";
 import { Encoder } from "cbor-x";
+import { brotliCompressSync } from "node:zlib";
 
 export async function encodeToFile(filePath: string, content: any) {
   const encoder = new Encoder({ useRecords: true, pack: true });
   const serializedAsBuffer = encoder.encode(content);
-  const writeSize = await Bun.write(filePath, serializedAsBuffer);
+  const compressed = brotliCompressSync(serializedAsBuffer);
+  const writeSize = await Bun.write(filePath, compressed);
   return writeSize;
 }
 
