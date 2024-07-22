@@ -3,6 +3,10 @@
     "group": "v",
     "values": [
       {
+        "id": "7/17",
+        "defaultOn": true
+      },
+      {
         "id": "7/2",
         "defaultOn": true
       },

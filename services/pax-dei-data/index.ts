@@ -35,7 +35,6 @@ const TEMP_DIR =
 const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/pax-dei";
 initDirs(CONTENT_DIR, TEXTURE_DIR, OUT_DIR);
 
-const GAME_VERSION = "7/2";
 let nodes: {
   type: string;
   static?: boolean;
@@ -86,10 +85,15 @@ const icons: Record<string, string> = {
   //   `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/portal_lorc.webp`
   // ),
 };
+const GAME_VERSION = "7/17";
 const globalFilters: GlobalFilter[] = [
   {
     group: "v",
     values: [
+      {
+        id: "7/17",
+        defaultOn: true,
+      },
       {
         id: "7/2",
         defaultOn: true,
@@ -108,6 +112,7 @@ const mapMarkerTypes = readJSON<MapMarkerTypes>(
 
 const enDict: Record<string, string> = {
   v: "Game Version",
+  "7/17": "July 17",
   "7/2": "July 2",
   "6/26": "June 26",
   locations: "Locations",
