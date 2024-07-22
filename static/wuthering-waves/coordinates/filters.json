@@ -216,83 +216,6 @@
     ]
   },
   {
-    "group": "ascensionMaterials",
-    "defaultOpen": false,
-    "defaultOn": true,
-    "values": [
-      {
-        "id": "Collect_CXS09",
-        "icon": "ItemInfo_42310210_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect_CXS03",
-        "icon": "ItemInfo_42300120_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect010",
-        "icon": "ItemInfo_42300100_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect004",
-        "icon": "ItemInfo_42300040_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect007",
-        "icon": "ItemInfo_42300070_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect003",
-        "icon": "ItemInfo_42300030_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect009",
-        "icon": "ItemInfo_42300090_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect006",
-        "icon": "ItemInfo_42300060_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect005",
-        "icon": "ItemInfo_42300050_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect_CXS06",
-        "icon": "ItemInfo_42300120_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect_CXS05",
-        "icon": "ItemInfo_42300120_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect_CXS04",
-        "icon": "ItemInfo_42300120_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect_CXS08",
-        "icon": "ItemInfo_42310210_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Collect008",
-        "icon": "ItemInfo_42300080_Name.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
     "group": "gameplay",
     "defaultOpen": false,
     "defaultOn": true,
@@ -850,11 +773,6 @@
         "size": 1.1
       },
       {
-        "id": "Animal032",
-        "icon": "Animal032.webp",
-        "size": 1.5
-      },
-      {
         "id": "Gameplay40040002",
         "icon": "ItemInfo_40040002_Name.webp",
         "size": 1.1
@@ -874,6 +792,16 @@
       {
         "id": "Collect102",
         "icon": "ItemInfo_42310020_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect_CXS09",
+        "icon": "ItemInfo_42310210_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect_CXS03",
+        "icon": "ItemInfo_42300120_Name.webp",
         "size": 1
       },
       {
@@ -899,6 +827,11 @@
       {
         "id": "Collect106",
         "icon": "ItemInfo_42310060_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect010",
+        "icon": "ItemInfo_42300100_Name.webp",
         "size": 1
       },
       {
@@ -944,11 +877,6 @@
       {
         "id": "Collect116",
         "icon": "ItemInfo_42310160_Name.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal024",
-        "icon": "ItemInfo_42400120_Name.webp",
         "size": 1
       },
       {
@@ -1017,6 +945,31 @@
         "size": 1
       },
       {
+        "id": "Collect004",
+        "icon": "ItemInfo_42300040_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect007",
+        "icon": "ItemInfo_42300070_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect003",
+        "icon": "ItemInfo_42300030_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect009",
+        "icon": "ItemInfo_42300090_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect006",
+        "icon": "ItemInfo_42300060_Name.webp",
+        "size": 1
+      },
+      {
         "id": "Collect505",
         "icon": "ItemInfo_42500090_Name.webp",
         "size": 1
@@ -1024,6 +977,83 @@
       {
         "id": "Collect502",
         "icon": "ItemInfo_42500020_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect005",
+        "icon": "ItemInfo_42300050_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect_CXS08",
+        "icon": "ItemInfo_42310210_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect008",
+        "icon": "ItemInfo_42300080_Name.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "animals",
+    "defaultOpen": false,
+    "defaultOn": false,
+    "values": [
+      {
+        "id": "Animal021",
+        "icon": "ItemInfo_42400120_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal027",
+        "icon": "ItemInfo_42400140_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal029",
+        "icon": "ItemInfo_42400160_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal017",
+        "icon": "ItemInfo_42400080_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal019",
+        "icon": "ItemInfo_42400100_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal018",
+        "icon": "ItemInfo_42400090_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal016",
+        "icon": "ItemInfo_42400070_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal020",
+        "icon": "ItemInfo_42400110_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal026",
+        "icon": "ItemInfo_42400130_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal030",
+        "icon": "ItemInfo_42400170_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal028",
+        "icon": "ItemInfo_42400150_Name.webp",
         "size": 1
       }
     ]

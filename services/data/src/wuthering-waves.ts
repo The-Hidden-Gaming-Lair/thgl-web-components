@@ -163,6 +163,9 @@ const dbHandbook = readJSON<DBHandbook>(
 const dtModelConfig = readJSON<DTModelConfig>(
   CONTENT_DIR + "/Client/Content/Aki/Data/Entity/CDT_ModelConfig.json",
 );
+const dbModelConfigPreload = readJSON<DBModelConfigPreload>(
+  CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_model_config_preload.json",
+);
 
 const workMapIconPath =
   TEXTURE_DIR +
@@ -235,6 +238,14 @@ const eventIDs: string[] = ["Gameplay200", "Gameplay124"];
 const overrides: Record<string, string> = {
   Teleport003: "Teleport003",
   Teleport008: "Teleport003",
+  Animal021: "Animal021",
+  Animal022: "Animal021",
+  Animal023: "Animal021",
+  Animal024: "Animal021",
+  Collect_CXS03: "Collect_CXS03",
+  Collect_CXS04: "Collect_CXS03",
+  Collect_CXS05: "Collect_CXS03",
+  Collect_CXS06: "Collect_CXS03",
 };
 const monsterFilterIds: string[] = [];
 const fetterGroupIds: Record<string, string[]> = {};
@@ -277,32 +288,31 @@ for (const monster of monsterInfo.monsterinfo) {
     );
   }
   if (meshId) {
-    // console.log(
-    //   `Found handbook for ${monster.data.Name} (${id} | ${monster.Id})`,
-    // );
-    const mesh = Object.values(dtModelConfig[0].Rows).find(
-      (m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId,
-    );
-
-    let bpName = "";
-    if (!mesh) {
-      console.warn(`Missing mesh for ${monster.data.Name}`);
-    } else {
-      bpName =
-        mesh.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split(
+    let bpName = dbModelConfigPreload.modelconfigpreload
+      .find((m) => m.Id === meshId)
+      ?.data.ActorClassPath.split(".")
+      .at(-1);
+    if (!bpName) {
+      const modelName = Object.values(dtModelConfig[0].Rows)
+        .find((m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId)
+        ?.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split(
           "/",
         )[6];
+      if (modelName) {
+        bpName = `BP_${bpName}_C`;
+      }
     }
+
     if (!bpName) {
       console.warn(`Missing bpName for ${monster.data.Name}`);
     } else {
-      if (typesIDs[`BP_${bpName}_C`]) {
+      if (typesIDs[bpName]) {
         console.warn(`Duplicate BP: ${bpName} with ${monster.data.Name}`);
         if (!phantomItem) {
-          typesIDs[`BP_${bpName}_C`] = id;
+          typesIDs[bpName] = id;
         }
       } else {
-        typesIDs[`BP_${bpName}_C`] = id;
+        typesIDs[bpName] = id;
       }
     }
   }
@@ -456,18 +466,16 @@ for (const levelEntity of sortedEntities) {
   const mapMark = dbMapMark.mapmark.find(
     (m) => m.data.EntityConfigId === levelEntity.data.EntityId,
   );
-  const isCollectible =
-    levelEntity.data.BlueprintType.startsWith("Collect") ||
-    ["Animal024"].includes(levelEntity.data.BlueprintType);
-  const collectTemplate =
-    isCollectible &&
-    dbTemplate.templateconfig.find(
-      (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
-    );
-  const tidName =
-    collectTemplate &&
-    collectTemplate.data.ComponentsData.BaseInfoComponent.TidName;
-  if (tidName) {
+  const template = dbTemplate.templateconfig.find(
+    (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
+  );
+  const meshId =
+    template?.data.ComponentsData.ModelComponent?.ModelType.ModelId;
+
+  const tidName = template?.data.ComponentsData.BaseInfoComponent.TidName;
+  const isAnimal = levelEntity.data.BlueprintType.startsWith("Animal");
+  const isCollectible = levelEntity.data.BlueprintType.startsWith("Collect");
+  if ((isCollectible || isAnimal) && tidName) {
     if (!addedFilterIDs.includes(id)) {
       const nameTerm = MultiText.find((m) => m.Id === tidName)
         ?.Content.replace("Laternberry", "Lanternberry")
@@ -503,7 +511,17 @@ for (const levelEntity of sortedEntities) {
 
       const iconName = itemInfo.data.Name;
       const isAscension = itemInfo.data.ShowTypes.includes(45);
-      const group = isAscension ? "ascensionMaterials" : "collectibles";
+      let group;
+      if (isCollectible) {
+        group = "collectibles";
+        enDict[group] = "Collectibles";
+      } else if (isAnimal) {
+        group = "animals";
+        enDict[group] = "Animals";
+      } else {
+        group = "ascensionMaterials";
+        enDict[group] = "Ascension Materials";
+      }
       if (!filters.find((f) => f.group === group)) {
         filters.push({
           group,
@@ -511,7 +529,6 @@ for (const levelEntity of sortedEntities) {
           defaultOn: isAscension,
           values: [],
         });
-        enDict[group] = isAscension ? "Ascension Materials" : "Collectibles";
       }
 
       const category = filters.find((f) => f.group === group)!;
@@ -538,9 +555,6 @@ for (const levelEntity of sortedEntities) {
     Gameplay_CXS_4: 40040002, // Windchimer
     Gameplay_CXS_14: 40040002, // Windchimer
   };
-  const template = dbTemplate.templateconfig.find(
-    (c) => c.data.BlueprintType === levelEntity.data.BlueprintType,
-  );
   const nameTerm =
     !GAMEPLAY_TREASURES[levelEntity.data.BlueprintType] &&
     template &&
@@ -563,23 +577,6 @@ for (const levelEntity of sortedEntities) {
   ) {
     if (!template) {
       throw new Error(`Missing template for ${id}`);
-    }
-    const mesh =
-      dtModelConfig[0].Rows[
-        template.data.ComponentsData.ModelComponent.ModelType.ModelId.toString()
-      ];
-    if (!mesh) {
-      throw new Error(
-        `Missing mesh for ${id} with ModelID ${template.data.ComponentsData.ModelComponent.ModelType.ModelId}`,
-      );
-    }
-
-    const bpName =
-      mesh.蓝图_164_769F290B4EFC164B65A1599B535666B6.AssetPathName.split(
-        "/",
-      )[6];
-    if (bpName) {
-      typesIDs[`BP_${bpName}_C`] = id;
     }
     const iconName = id;
     let icon;
@@ -1347,6 +1344,38 @@ for (const levelEntity of sortedEntities) {
       oldNodes!.spawns.push(spawn);
     }
   }
+
+  if (meshId) {
+    let bpName = dbModelConfigPreload.modelconfigpreload
+      .find((m) => m.Id === meshId)
+      ?.data.ActorClassPath.split(".")
+      .at(-1);
+    if (!bpName) {
+      const modelName = Object.values(dtModelConfig[0].Rows)
+        .find((m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId)
+        ?.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split(
+          "/",
+        )[6];
+      if (modelName) {
+        bpName = `BP_${bpName}_C`;
+      }
+    }
+
+    if (!bpName) {
+      console.warn(`Missing bpName for ${id}`);
+    } else {
+      if (bpName === "BP_BaseItem_C") {
+        continue;
+      }
+      if (typesIDs[bpName] && typesIDs[bpName] !== id) {
+        console.warn(
+          `Duplicate BP: ${bpName} with ${id} and ${typesIDs[bpName]}`,
+        );
+      } else {
+        typesIDs[bpName] = id;
+      }
+    }
+  }
 }
 
 writeNodes(nodes);
@@ -1364,6 +1393,7 @@ const sortPriority = [
   "exile",
   "treasures",
   "collectibles",
+  "animals",
   "others",
 ];
 const sortedFilters = filters
@@ -9635,3 +9665,21 @@ export type DTModelConfig = Array<{
     };
   };
 }>;
+
+export type DBModelConfigPreload = {
+  modelconfigpreload: Array<{
+    Id: number;
+    data: {
+      Id: number;
+      ActorClassPath: string;
+      ActorClass: Array<string>;
+      Animations: Array<any>;
+      Effects: Array<string>;
+      Audios: Array<any>;
+      Meshes: Array<string>;
+      Materials: Array<any>;
+      AnimationBlueprints: Array<string>;
+      Others: Array<string>;
+    };
+  }>;
+};
