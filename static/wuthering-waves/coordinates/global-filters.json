@@ -3,30 +3,6 @@
     "group": "echoSet",
     "values": [
       {
-        "id": "rejuvenatingGlow",
-        "defaultOn": true
-      },
-      {
-        "id": "voidThunder",
-        "defaultOn": true
-      },
-      {
-        "id": "lingeringTunes",
-        "defaultOn": true
-      },
-      {
-        "id": "moonlitClouds",
-        "defaultOn": true
-      },
-      {
-        "id": "sun-sinkingEclipse",
-        "defaultOn": true
-      },
-      {
-        "id": "moltenRift",
-        "defaultOn": true
-      },
-      {
         "id": "celestialLight",
         "defaultOn": true
       },
@@ -35,7 +11,31 @@
         "defaultOn": true
       },
       {
+        "id": "lingeringTunes",
+        "defaultOn": true
+      },
+      {
+        "id": "moltenRift",
+        "defaultOn": true
+      },
+      {
+        "id": "moonlitClouds",
+        "defaultOn": true
+      },
+      {
+        "id": "rejuvenatingGlow",
+        "defaultOn": true
+      },
+      {
         "id": "sierraGale",
+        "defaultOn": true
+      },
+      {
+        "id": "sun-sinkingEclipse",
+        "defaultOn": true
+      },
+      {
+        "id": "voidThunder",
         "defaultOn": true
       }
     ]
@@ -44,6 +44,23 @@
     "group": "spawnType",
     "values": [
       {
+        "id": "breakableRock/riddle_once"
+      },
+      {
+        "id": "breakableRock/riddle_respawns",
+        "defaultOn": true
+      },
+      {
+        "id": "challenge"
+      },
+      {
+        "id": "monsterTreasure_once"
+      },
+      {
+        "id": "monsterTreasure_respawns",
+        "defaultOn": true
+      },
+      {
         "id": "normal",
         "defaultOn": true
       },
@@ -51,27 +68,10 @@
         "id": "quest"
       },
       {
-        "id": "monsterTreasure_respawns",
-        "defaultOn": true
-      },
-      {
-        "id": "breakableRock/riddle_once"
-      },
-      {
-        "id": "challenge"
-      },
-      {
-        "id": "tacetField"
-      },
-      {
-        "id": "monsterTreasure_once"
-      },
-      {
         "id": "specialelite_respawns"
       },
       {
-        "id": "breakableRock/riddle_respawns",
-        "defaultOn": true
+        "id": "tacetField"
       }
     ]
   }

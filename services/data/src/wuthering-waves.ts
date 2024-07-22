@@ -1389,7 +1389,12 @@ const sortedFilters = filters
     return priorityA - priorityB;
   });
 writeFilters(sortedFilters);
-writeGlobalFilters(globalFilters);
+writeGlobalFilters(
+  globalFilters.map((f) => ({
+    ...f,
+    values: f.values.sort((a, b) => a.id.localeCompare(b.id)),
+  })),
+);
 writeDict(enDict, "en");
 
 writeTypesIDs(typesIDs);
