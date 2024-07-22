@@ -36,27 +36,25 @@ export function GlobalFilters() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-fit p-0 flex flex-col text-sm">
-            {globalFilter.values
-              .sort((a, b) => a.id.localeCompare(b.id))
-              .map((filter) => (
-                <button
-                  key={filter.id}
-                  className={cn(
-                    "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
-                    {
-                      "text-muted-foreground": !myGlobalFilters.includes(
-                        filter.id,
-                      ),
-                    },
-                  )}
-                  onClick={() => {
-                    toggleGlobalFilter(filter.id);
-                  }}
-                  type="button"
-                >
-                  {t(filter.id)}
-                </button>
-              ))}
+            {globalFilter.values.map((filter) => (
+              <button
+                key={filter.id}
+                className={cn(
+                  "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
+                  {
+                    "text-muted-foreground": !myGlobalFilters.includes(
+                      filter.id,
+                    ),
+                  },
+                )}
+                onClick={() => {
+                  toggleGlobalFilter(filter.id);
+                }}
+                type="button"
+              >
+                {t(filter.id)}
+              </button>
+            ))}
           </PopoverContent>
         </Popover>
       ))}
