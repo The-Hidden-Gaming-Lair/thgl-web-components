@@ -782,6 +782,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T34_Servant_of_the_Pound",
+        "icon": "PD_NPC_Zeb_Doctor_T34_Servant_of_the_Pound.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
         "icon": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies.webp"
       },
@@ -834,6 +838,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T37_Swinish_Cultist",
+        "icon": "PD_NPC_Zeb_Warrior_T37_Swinish_Cultist.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
@@ -856,6 +864,14 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Master_Gryllus",
         "icon": "PD_NPC_Zeb_Guardian_T42_Master_Gryllus.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42_Mite",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42_Scudder_Apolline",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Scudder_Apolline.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
@@ -910,8 +926,16 @@
         "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
+        "icon": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow",
         "icon": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag",
+        "icon": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire",
@@ -958,6 +982,10 @@
         "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
       },
       {
+        "id": "PD_NPC_Demon_Hellion_T40_Servant_of_Dorak",
+        "icon": "PD_NPC_Demon_Hellion_T40_Servant_of_Dorak.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
         "icon": "PD_NPC_Demon_Imp_T23_Infested_Apparition.webp"
       },
@@ -966,8 +994,16 @@
         "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T38_Shadow_of_Gluttony",
+        "icon": "PD_NPC_Demon_Imp_T38_Shadow_of_Gluttony.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
         "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42_Tainted_Glutton",
+        "icon": "PD_NPC_Demon_Hellion_T42_Tainted_Glutton.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
@@ -1273,6 +1309,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T34_Servant_of_the_Pound",
+        "icon": "PD_NPC_Zeb_Doctor_T34_Servant_of_the_Pound.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
         "icon": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies.webp"
       },
@@ -1325,6 +1365,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T37_Swinish_Cultist",
+        "icon": "PD_NPC_Zeb_Warrior_T37_Swinish_Cultist.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
@@ -1347,6 +1391,14 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Master_Gryllus",
         "icon": "PD_NPC_Zeb_Guardian_T42_Master_Gryllus.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42_Mite",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42_Scudder_Apolline",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Scudder_Apolline.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
@@ -1401,8 +1453,16 @@
         "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
+        "icon": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow",
         "icon": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag",
+        "icon": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_Diralisens_Desire",
@@ -1417,6 +1477,10 @@
         "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
       },
       {
+        "id": "PD_NPC_Demon_Hellion_T40_Servant_of_Dorak",
+        "icon": "PD_NPC_Demon_Hellion_T40_Servant_of_Dorak.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
         "icon": "PD_NPC_Demon_Imp_T23_Infested_Apparition.webp"
       },
@@ -1425,8 +1489,16 @@
         "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
       },
       {
+        "id": "PD_NPC_Demon_Imp_T38_Shadow_of_Gluttony",
+        "icon": "PD_NPC_Demon_Imp_T38_Shadow_of_Gluttony.webp"
+      },
+      {
         "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
         "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42_Tainted_Glutton",
+        "icon": "PD_NPC_Demon_Hellion_T42_Tainted_Glutton.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
