@@ -71,7 +71,6 @@ namespace GameEventsPlugin.Actions
 
     static public List<Actor> GetActors(UEObject levels, string[] types)
     {
-      var visited = new List<IntPtr>();
       var actors = new List<Actor>();
       try
       {
@@ -97,12 +96,7 @@ namespace GameEventsPlugin.Actions
             try
             {
               var actor = Actors[i];
-              if (visited.Contains(actor.Address))
-              {
-                break;
-              }
-              visited.Add(actor.Address);
-
+            
               string type = null;
 
               var Root = actor["Root"];
