@@ -288,33 +288,44 @@ for (const monster of monsterInfo.monsterinfo) {
     );
   }
   if (meshId) {
-    let bpName = dbModelConfigPreload.modelconfigpreload
-      .find((m) => m.Id === meshId)
-      ?.data.ActorClassPath.split(".")
-      .at(-1);
-    if (!bpName) {
-      const modelName = Object.values(dtModelConfig[0].Rows)
-        .find((m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId)
-        ?.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split(
-          "/",
-        )[6];
-      if (modelName) {
-        bpName = `BP_${bpName}_C`;
-      }
+    const modelConfig = dbModelConfigPreload.modelconfigpreload.find(
+      (m) => m.Id === meshId,
+    );
+    const bpNamesSet = new Set<string>();
+    const meshBpName = modelConfig?.data.Meshes[0]?.split(".").at(-1);
+    if (meshBpName) {
+      bpNamesSet.add(meshBpName);
+    }
+    const actorBpName = modelConfig?.data.ActorClassPath.split(".").at(-1);
+    if (actorBpName) {
+      bpNamesSet.add(actorBpName);
+    }
+    const modelName = Object.values(dtModelConfig[0].Rows)
+      .find((m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId)
+      ?.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split("/")[6];
+    if (modelName) {
+      bpNamesSet.add(`BP_${modelName}_C`);
     }
 
-    if (!bpName) {
-      console.warn(`Missing bpName for ${monster.data.Name}`);
-    } else {
-      if (typesIDs[bpName]) {
-        console.warn(`Duplicate BP: ${bpName} with ${monster.data.Name}`);
+    const bpNames = Array.from(bpNamesSet).filter(
+      (bp) => bp !== "BP_BaseItem_C",
+    );
+
+    if (bpNames.length === 0) {
+      console.warn(`Missing bpName for ${id}`);
+    }
+    bpNames.forEach((bpName) => {
+      if (typesIDs[bpName] && typesIDs[bpName] !== id) {
+        console.warn(
+          `Duplicate BP: ${bpName} with ${id} and ${typesIDs[bpName]}`,
+        );
         if (!phantomItem) {
           typesIDs[bpName] = id;
         }
       } else {
         typesIDs[bpName] = id;
       }
-    }
+    });
   }
   const isExile = name.includes("Exile") || name.includes("Fractsidus");
   const group = isExile ? "exileAndFractsidus" : rarityDesc;
@@ -478,41 +489,72 @@ for (const levelEntity of sortedEntities) {
     levelEntity.data.BlueprintType !== "Animal032";
   const isCollectible = levelEntity.data.BlueprintType.startsWith("Collect");
   if ((isCollectible || isAnimal) && tidName) {
+    const nameTerm = MultiText.find((m) => m.Id === tidName)
+      ?.Content.replace("Laternberry", "Lanternberry")
+      .replace("Tetra", "Fish")
+      .replace("Fowl", "Fowl Meat");
+    if (!nameTerm) {
+      // console.warn(`Missing name term for ${id}`);
+      continue;
+    }
+    const existingId = Object.keys(enDict).find((k) => enDict[k] === nameTerm);
+    if (existingId) {
+      id = existingId;
+    }
     if (!addedFilterIDs.includes(id)) {
-      const nameTerm = MultiText.find((m) => m.Id === tidName)
-        ?.Content.replace("Laternberry", "Lanternberry")
-        .replace("Tetra", "Fish")
-        .replace("Fowl", "Fowl Meat");
-      if (!nameTerm) {
-        // console.warn(`Missing name term for ${id}`);
-        continue;
-      }
-      const itemInfoId = MultiText.find(
-        (m) => m.Id.startsWith("ItemInfo") && m.Content === nameTerm,
-      )?.Id;
-      if (!itemInfoId) {
+      const baseId =
+        MultiText.find(
+          (m) => m.Id.startsWith("ItemInfo") && m.Content === nameTerm,
+        )?.Id ||
+        MultiText.find(
+          (m) => m.Id.startsWith("AnimalHandBook") && m.Content === nameTerm,
+        )?.Id;
+      if (!baseId) {
         // console.warn(`Missing item info for ${nameTerm}`);
         continue;
       }
-      const itemInfo = dbItems.iteminfo.find((i) => i.data.Name === itemInfoId);
-      if (!itemInfo) {
-        console.warn(`Missing item info for ${nameTerm}`);
+      const handbook = dbHandbook.animalhandbook.find(
+        (a) => a.data.Name === baseId,
+      );
+      const itemInfo = dbItems.iteminfo.find((i) => i.data.Name === baseId);
+      if (!itemInfo && !handbook) {
+        console.warn(
+          `Missing item/handbook info for ${nameTerm} (${id} | ${baseId})`,
+        );
         continue;
       }
       enDict[id] = nameTerm;
-      const desc = MultiText.find(
-        (m) => m.Id === itemInfo.data.ObtainedShowDescription,
-      )?.Content;
-      if (desc) {
-        enDict[`${id}_desc`] = desc;
-      }
-      const iconPath =
-        itemInfo.data.IconSmall.replace("/Game", "/Client/Content").split(
-          ".",
-        )[0] + ".png";
+      let iconName = "";
+      let isAscension = false;
+      let iconPath = "";
 
-      const iconName = itemInfo.data.Name;
-      const isAscension = itemInfo.data.ShowTypes.includes(45);
+      if (itemInfo) {
+        iconName = itemInfo.data.Name;
+        isAscension = itemInfo.data.ShowTypes.includes(45);
+        const desc = MultiText.find(
+          (m) => m.Id === itemInfo.data.ObtainedShowDescription,
+        )?.Content;
+        if (desc) {
+          enDict[`${id}_desc`] = desc;
+        }
+        iconPath =
+          itemInfo.data.IconSmall.replace("/Game", "/Client/Content").split(
+            ".",
+          )[0] + ".png";
+      } else if (handbook) {
+        iconName = handbook.data.Name;
+        isAscension = false;
+        const desc = MultiText.find(
+          (m) => m.Id === handbook.data.TypeDescrtption,
+        )?.Content;
+        if (desc) {
+          enDict[`${id}_desc`] = desc;
+        }
+        iconPath =
+          handbook.data.Icon.replace("/Game", "/Client/Content").split(".")[0] +
+          ".png";
+      }
+
       let group;
       if (isCollectible) {
         group = "collectibles";
@@ -858,11 +900,6 @@ for (const levelEntity of sortedEntities) {
     let oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
     if (!oldNodes) {
       oldNodes = { type: id, mapName, spawns: [] };
-      if (!Object.values(typesIDs).includes(id)) {
-        if (!id.startsWith("Monster") || id.startsWith("Monster_Glowing")) {
-          oldNodes.static = true;
-        }
-      }
       nodes.push(oldNodes);
       oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
       // console.log("New type", id);
@@ -1348,27 +1385,33 @@ for (const levelEntity of sortedEntities) {
   }
 
   if (meshId) {
-    let bpName = dbModelConfigPreload.modelconfigpreload
-      .find((m) => m.Id === meshId)
-      ?.data.ActorClassPath.split(".")
-      .at(-1);
-    if (!bpName) {
-      const modelName = Object.values(dtModelConfig[0].Rows)
-        .find((m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId)
-        ?.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split(
-          "/",
-        )[6];
-      if (modelName) {
-        bpName = `BP_${bpName}_C`;
-      }
+    const modelConfig = dbModelConfigPreload.modelconfigpreload.find(
+      (m) => m.Id === meshId,
+    );
+    const bpNamesSet = new Set<string>();
+    const meshBpName = modelConfig?.data.Meshes[0]?.split(".").at(-1);
+    if (meshBpName) {
+      bpNamesSet.add(meshBpName);
+    }
+    const actorBpName = modelConfig?.data.ActorClassPath.split(".").at(-1);
+    if (actorBpName) {
+      bpNamesSet.add(actorBpName);
+    }
+    const modelName = Object.values(dtModelConfig[0].Rows)
+      .find((m) => m.ID_3_6A014D4F486091DDAF9D4D9D32B8C4FF === meshId)
+      ?.网格体_168_BEB7464046E518BA05D4C799C3CC4633.AssetPathName.split("/")[6];
+    if (modelName) {
+      bpNamesSet.add(`BP_${modelName}_C`);
     }
 
-    if (!bpName) {
+    const bpNames = Array.from(bpNamesSet).filter(
+      (bp) => bp !== "BP_BaseItem_C",
+    );
+
+    if (bpNames.length === 0 && !isCollectible) {
       console.warn(`Missing bpName for ${id}`);
-    } else {
-      if (bpName === "BP_BaseItem_C") {
-        continue;
-      }
+    }
+    bpNames.forEach((bpName) => {
       if (typesIDs[bpName] && typesIDs[bpName] !== id) {
         console.warn(
           `Duplicate BP: ${bpName} with ${id} and ${typesIDs[bpName]}`,
@@ -1376,10 +1419,13 @@ for (const levelEntity of sortedEntities) {
       } else {
         typesIDs[bpName] = id;
       }
-    }
+    });
   }
 }
 
+nodes.forEach((n) => {
+  n.static = !Object.values(typesIDs).includes(n.type);
+});
 writeNodes(nodes);
 
 const sortPriority = [

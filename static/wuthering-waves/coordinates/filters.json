@@ -990,11 +990,6 @@
         "size": 1
       },
       {
-        "id": "Collect_CXS08",
-        "icon": "ItemInfo_42310210_Name.webp",
-        "size": 1
-      },
-      {
         "id": "Collect008",
         "icon": "ItemInfo_42300080_Name.webp",
         "size": 1
@@ -1007,8 +1002,23 @@
     "defaultOn": false,
     "values": [
       {
+        "id": "Animal006",
+        "icon": "AnimalHandBook_6_Name.webp",
+        "size": 1
+      },
+      {
         "id": "Animal021",
         "icon": "ItemInfo_42400120_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal004",
+        "icon": "AnimalHandBook_4_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal002",
+        "icon": "AnimalHandBook_1_Name.webp",
         "size": 1
       },
       {
@@ -1019,6 +1029,21 @@
       {
         "id": "Animal029",
         "icon": "ItemInfo_42400160_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal008",
+        "icon": "AnimalHandBook_8_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal014",
+        "icon": "AnimalHandBook_14_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal012",
+        "icon": "AnimalHandBook_12_Name.webp",
         "size": 1
       },
       {
@@ -1042,8 +1067,18 @@
         "size": 1
       },
       {
+        "id": "Animal007_2",
+        "icon": "AnimalHandBook_7_Name.webp",
+        "size": 1
+      },
+      {
         "id": "Animal020",
         "icon": "ItemInfo_42400110_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal003",
+        "icon": "AnimalHandBook_3_Name.webp",
         "size": 1
       },
       {
@@ -1052,8 +1087,18 @@
         "size": 1
       },
       {
+        "id": "Animal009",
+        "icon": "AnimalHandBook_9_Name.webp",
+        "size": 1
+      },
+      {
         "id": "Animal030",
         "icon": "ItemInfo_42400170_Name.webp",
+        "size": 1
+      },
+      {
+        "id": "Animal015",
+        "icon": "AnimalHandBook_15_Name.webp",
         "size": 1
       },
       {

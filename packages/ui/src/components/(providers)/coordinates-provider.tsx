@@ -583,11 +583,13 @@ export function CoordinatesProvider({
           }
         });
       } else {
+        const debug = isDebug();
+
         nodes.forEach((node) => {
           if (node.mapName && node.mapName !== state.mapName) {
             return;
           }
-          if (!state.filters.includes(node.type)) {
+          if (!state.filters.includes(node.type) && !debug) {
             return;
           }
           node.spawns.forEach((s) => {
