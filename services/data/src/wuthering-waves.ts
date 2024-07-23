@@ -473,7 +473,9 @@ for (const levelEntity of sortedEntities) {
     template?.data.ComponentsData.ModelComponent?.ModelType.ModelId;
 
   const tidName = template?.data.ComponentsData.BaseInfoComponent.TidName;
-  const isAnimal = levelEntity.data.BlueprintType.startsWith("Animal");
+  const isAnimal =
+    levelEntity.data.BlueprintType.startsWith("Animal") &&
+    levelEntity.data.BlueprintType !== "Animal032";
   const isCollectible = levelEntity.data.BlueprintType.startsWith("Collect");
   if ((isCollectible || isAnimal) && tidName) {
     if (!addedFilterIDs.includes(id)) {
