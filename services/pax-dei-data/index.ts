@@ -561,6 +561,9 @@ for (const gatherablesPath of gatherablesPaths) {
     if (id === "fruit_apple_red") {
       iconPath =
         "/PaxDei/Content/_PD/Environment/Nature/Resources/Fruit/Red_Apple/T_Red_Apple_INV_state_Icon.png";
+    } else if (id === "fruit_plum") {
+      iconPath =
+        "/PaxDei/Content/_PD/Environment/Nature/Resources/Fruit/Plumb/T_Plumb_INV_state_Icon.png";
     } else if (id === "hops") {
       iconPath =
         "/PaxDei/Content/_PD/Environment/Props/Economy/CraftingProducts/BreadandDrinkProducts/T_Icon_Hops.png";
@@ -1027,7 +1030,7 @@ if (Bun.env.NODES === "true") {
       // Euclidean distance
       Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2),
     );
-    return distance < 10000;
+    return distance < 12000;
   };
 
   nodes = nodes.map((n) => {
