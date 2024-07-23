@@ -454,8 +454,8 @@ namespace GameEventsPlugin
       {
         var classNameIndex = UnrealEngine.Memory.ReadProcessMemory<Int32>(tempEntity + UEObject.nameOffset);
         var name = UEObject.GetName(classNameIndex);
-
-        list.Add(name);
+        var fullPath = this.GetFullPath();
+        list.Add(name + " | " + fullPath);
         var field = tempEntity + UEObject.childPropertiesOffset - UEObject.fieldNextOffset;
 
         tempEntity = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(tempEntity + UEObject.structSuperOffset);
@@ -510,10 +510,11 @@ namespace GameEventsPlugin
           {
             //
           }
-          list.Add("  " + fType + " " + fName + " = " + fValue);
+          var fFullPath = obj?.GetFullPath() ?? "";
+          list.Add(fType + " " + fName + " = " + fValue + " | " + fFullPath);
           more.ForEach(i =>
           {
-            list.Add("  " + pad + i);
+            list.Add(pad + i);
           });
         }
 

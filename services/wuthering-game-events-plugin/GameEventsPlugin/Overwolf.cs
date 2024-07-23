@@ -80,7 +80,6 @@ namespace GameEventsPlugin
           unrealEngine.UpdateAddresses();
           Console.WriteLine("Updated Addresses");
         }
-        
 
         var address = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(UnrealEngine.GWorldPtr);
         var owningWorld = new UEObject(address);
@@ -218,16 +217,23 @@ namespace GameEventsPlugin
               for (var i = 0; i < actorsNum; i++)
               {
                 var actor = actors[i];
+                var name = actor.GetName();
                 /*if (visited.Contains(actor.ClassAddr))
                 {
                   continue;
                 }*/
+                if (name != "BP_NA023_C")
+                {
+                  continue;
+                }
+                  visited = new List<IntPtr>();
                 var actorFieldNames = actor.GetFieldNames(actor.ClassAddr, visited, ""); ;
                 result.Add("");
-                result.Add("ACTOR " + actor.GetName() + " FIELD NAMES");
+                
+                result.Add("ACTOR " + name + " FIELD NAMES");
                 foreach (var field in actorFieldNames)
                 {
-                  result.Add(" " + field);
+                  result.Add("  " + field);
                 }
               }
 

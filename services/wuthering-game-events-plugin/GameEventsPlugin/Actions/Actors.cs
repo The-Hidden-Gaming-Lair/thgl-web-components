@@ -71,6 +71,7 @@ namespace GameEventsPlugin.Actions
 
     static public List<Actor> GetActors(UEObject levels, string[] types)
     {
+      var visited = new List<IntPtr>();
       var actors = new List<Actor>();
       try
       {
@@ -96,17 +97,37 @@ namespace GameEventsPlugin.Actions
             try
             {
               var actor = Actors[i];
-              string type;
-
-              var staticMesh = actor["StaticMesh"]?["StaticMesh"];
-              if (staticMesh != null && staticMesh.ClassName != "None ")
+              if (visited.Contains(actor.Address))
               {
-                type = staticMesh?.ClassName.Split('/').Last().Split('.').First();
+                break;
+              }
+              visited.Add(actor.Address);
+
+              string type = null;
+
+              var Root = actor["Root"];
+              var AttachParent = Root?["AttachParent"];
+              var SkeletalMesh = AttachParent?["SkeletalMesh"];
+              if (SkeletalMesh != null)
+              {
+                type = SkeletalMesh?.ClassName.Split('/').Last().Split('.').First();
               }
               else
               {
+                var staticMesh1 = actor["StaticMesh"]?["StaticMesh"];
+                var staticMesh2 = actor["InstancedStaticMeshComponent"]?["StaticMesh"];
+                var staticMesh = staticMesh1 ?? staticMesh2;
+                if (staticMesh != null && staticMesh.ClassName != "None ")
+                {
+                  type = staticMesh?.ClassName.Split('/').Last().Split('.').First();
+                }
+              }
+              if (type == null)
+              {
                 type = actor.GetName();
               }
+
+
               if (types.Length == 0 || types.Contains(type))
               {
                 var foundActor = GetActor(actor, type, path);
