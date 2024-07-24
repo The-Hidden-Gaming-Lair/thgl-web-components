@@ -671,6 +671,10 @@
         "icon": "PD_NPC_Cor_Boar_T40_Bedlam.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
+        "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
         "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
@@ -795,6 +799,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb",
+        "icon": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
         "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
@@ -829,6 +837,10 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Mite",
         "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42_Roach",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Roach.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
@@ -881,6 +893,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
         "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T24",
+        "icon": "PD_NPC_Demon_Hellion_T24.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T30",
@@ -1194,6 +1210,10 @@
         "icon": "PD_NPC_Cor_Boar_T40_Bedlam.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
+        "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
         "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
@@ -1234,6 +1254,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb",
+        "icon": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
         "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
@@ -1268,6 +1292,10 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Mite",
         "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T42_Roach",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Roach.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
@@ -2360,6 +2388,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T39",
         "icon": "PD_NPC_Zeb_Warrior_T39.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T24",
+        "icon": "PD_NPC_Demon_Hellion_T24.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T30",
