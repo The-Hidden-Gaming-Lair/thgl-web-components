@@ -675,6 +675,10 @@
         "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago",
+        "icon": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
         "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
@@ -831,6 +835,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants",
+        "icon": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
         "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer.webp"
       },
@@ -859,12 +867,16 @@
         "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
       },
       {
-        "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
-        "icon": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira.webp"
+        "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
+        "icon": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy",
         "icon": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare",
+        "icon": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona",
@@ -875,16 +887,16 @@
         "icon": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa.webp"
       },
       {
-        "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
-        "icon": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder.webp"
-      },
-      {
         "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
         "icon": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach.webp"
       },
       {
-        "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
-        "icon": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator.webp"
+        "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
+        "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker",
+        "icon": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
@@ -951,8 +963,8 @@
         "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand.webp"
       },
       {
-        "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
-        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
+        "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
+        "icon": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
@@ -1222,6 +1234,10 @@
         "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago",
+        "icon": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
         "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
       },
@@ -1294,6 +1310,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants",
+        "icon": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
         "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer.webp"
       },
@@ -1322,12 +1342,16 @@
         "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
       },
       {
-        "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
-        "icon": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira.webp"
+        "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
+        "icon": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy",
         "icon": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare",
+        "icon": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare.webp"
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona",
@@ -1338,16 +1362,16 @@
         "icon": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa.webp"
       },
       {
-        "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
-        "icon": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder.webp"
-      },
-      {
         "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
         "icon": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach.webp"
       },
       {
-        "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
-        "icon": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator.webp"
+        "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
+        "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker",
+        "icon": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
@@ -1382,8 +1406,8 @@
         "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand.webp"
       },
       {
-        "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
-        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
+        "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
+        "icon": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
