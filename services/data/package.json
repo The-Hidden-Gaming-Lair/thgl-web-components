@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.51",
+    "cbor-x": "^1.6.0",
     "uniqolor": "^1.1.1"
   }
 }

@@ -42,6 +42,7 @@ export default function Home({
     <CoordinatesProvider
       filters={filters}
       mapNames={Object.keys(tiles)}
+      useCbor
       regions={regions as RegionsCoordinates}
       view={view}
     >

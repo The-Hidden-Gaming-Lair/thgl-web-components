@@ -2,8 +2,21 @@ import fs from "node:fs";
 import path, { basename, dirname } from "node:path";
 import { fileURLToPath } from "url";
 import { CONTENT_DIR } from "./dirs.js";
+import { Encoder } from "cbor-x";
+import { brotliCompressSync } from "node:zlib";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
+
+export async function encodeToFile(filePath: string, content: any) {
+  const encoder = new Encoder({ useRecords: true, pack: true });
+  const serializedAsBuffer = encoder.encode(content);
+  const compressed = brotliCompressSync(serializedAsBuffer);
+  const writeSize = await Bun.write(
+    path.resolve(__dirname, filePath),
+    compressed,
+  );
+  return writeSize;
+}
 
 export function readContentJSON<T>(filePath: string): T {
   return readJSON<T>(CONTENT_DIR + filePath);

@@ -1,7 +1,7 @@
 import { initDict } from "./lib/dicts.js";
-import { initDirs, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
+import { initDirs, OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
 import { initFilters } from "./lib/filters.js";
-import { readDirSync, saveImage } from "./lib/fs.js";
+import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
   adjustBrightnessAndContrast,
   mergeImages,
@@ -17,7 +17,7 @@ initDirs(
   "/home/devleon/the-hidden-gaming-lair/static/once-human",
 );
 
-const nodes = initNodes();
+const nodes = initNodes(readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
 const filters = initFilters();
 const typesIDs = initTypesIDs();
 const enDict = initDict();
@@ -186,6 +186,13 @@ const tiles = initTiles(
 );
 
 writeTiles(tiles);
+Object.keys(tiles).forEach((mapName) => {
+  encodeToFile(
+    OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
+    nodes.filter((n) => !n.mapName || n.mapName === mapName),
+  );
+});
+
 // const regions = await getRegionsFromImage(
 //   TEXTURE_DIR + "/ui/texpack/bigmap_res/grade_area.png",
 //   tiles[mapName].transformation!
