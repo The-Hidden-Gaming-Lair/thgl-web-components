@@ -297,11 +297,6 @@
         "size": 1.15
       },
       {
-        "id": "grass_catgrass",
-        "icon": "grass_catgrass.webp",
-        "size": 1.15
-      },
-      {
         "id": "grass_cotton",
         "icon": "grass_cotton.webp",
         "size": 1.15
@@ -667,10 +662,6 @@
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
       {
-        "id": "PD_NPC_Cor_Boar_T40_Bedlam",
-        "icon": "PD_NPC_Cor_Boar_T40_Bedlam.webp"
-      },
-      {
         "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
         "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
       },
@@ -807,6 +798,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber",
+        "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
         "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
       },
@@ -867,6 +862,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
+        "icon": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
         "icon": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon.webp"
       },
@@ -889,6 +888,10 @@
       {
         "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
         "icon": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan",
+        "icon": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
@@ -961,6 +964,10 @@
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
         "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
+        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
@@ -1226,10 +1233,6 @@
         "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
       },
       {
-        "id": "PD_NPC_Cor_Boar_T40_Bedlam",
-        "icon": "PD_NPC_Cor_Boar_T40_Bedlam.webp"
-      },
-      {
         "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
         "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
       },
@@ -1280,6 +1283,10 @@
       {
         "id": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb",
         "icon": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber",
+        "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
@@ -1342,6 +1349,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
+        "icon": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
         "icon": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon.webp"
       },
@@ -1364,6 +1375,10 @@
       {
         "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
         "icon": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan",
+        "icon": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
@@ -1404,6 +1419,10 @@
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
         "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
+        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
@@ -2260,11 +2279,6 @@
       {
         "id": "flower_wolfsbane",
         "icon": "flower_wolfsbane.webp",
-        "size": 1.15
-      },
-      {
-        "id": "grass_catgrass",
-        "icon": "grass_catgrass.webp",
         "size": 1.15
       },
       {
