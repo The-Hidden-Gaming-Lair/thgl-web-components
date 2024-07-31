@@ -15,6 +15,7 @@
   "dependencies": {
     "@repo/lib": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@vercel/blob": "^0.23.4",
     "@vercel/kv": "2.0.0",
     "jsonwebtoken": "9.0.2",
     "next": "14.2.4",
@@ -35,6 +36,7 @@
     "autoprefixer": "10.4.19",
     "postcss": "8.4.39",
     "tailwindcss": "3.4.4",
-    "typescript": "5.5.3"
+    "typescript": "5.5.3",
+    "vercel": "^35.2.2"
   }
 }

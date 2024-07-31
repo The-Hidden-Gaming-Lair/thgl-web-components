@@ -8,7 +8,7 @@ import { Account, Brand, Header, PlausibleTracker } from "@repo/ui/header";
 import type { Dict } from "@repo/ui/providers";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
 import Link from "next/link";
-import { SettingsDialogContent } from "@repo/ui/controls";
+import { SettingsDialogContent, Toaster } from "@repo/ui/controls";
 import enDictGlobal from "../global_dicts/en.json" assert { type: "json" };
 import enDict from "../dicts/en.json" assert { type: "json" };
 import { Links } from "../components/links";
@@ -61,6 +61,7 @@ export default function RootLayout({
           apiHost="https://metrics.th.gl"
           domain="oncehuman.th.gl"
         />
+        <Toaster />
       </body>
     </html>
   );
