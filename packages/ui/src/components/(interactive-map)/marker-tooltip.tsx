@@ -2,7 +2,7 @@ import Markdown from "markdown-to-jsx";
 import { useT } from "../(providers)";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import { cn, useSettingsStore } from "@repo/lib";
+import { cn, putSharedNodes, useSettingsStore } from "@repo/lib";
 import { Label } from "../ui/label";
 import {
   Carousel,
@@ -52,6 +52,7 @@ export function MarkerTooltip({
     (state) => state.setTempPrivateNode,
   );
   const privateNodes = useSettingsStore((state) => state.privateNodes);
+  const sharedFilters = useSettingsStore((state) => state.sharedFilters);
 
   return (
     <Carousel>
@@ -106,6 +107,20 @@ export function MarkerTooltip({
                         size="sm"
                         variant="destructive"
                         onClick={() => {
+                          if (item.type.includes("shared_")) {
+                            const sharedFilter = sharedFilters.find(
+                              (f) => f.filter === item.type,
+                            );
+                            const markers = privateNodes.filter(
+                              (node) =>
+                                node.id !== item.id &&
+                                node.filter === item.type,
+                            );
+                            putSharedNodes(
+                              sharedFilter?.url ?? item.type,
+                              markers,
+                            );
+                          }
                           removePrivateNode(item.id);
                           onClose();
                         }}

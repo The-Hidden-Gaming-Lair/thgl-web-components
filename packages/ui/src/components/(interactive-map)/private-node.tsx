@@ -241,18 +241,20 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
         props: { filter: tempPrivateNode.filter },
       });
     }
-    addPrivateNode(marker);
-    setFilters([...filters.filter((f) => f !== marker.filter), marker.filter!]);
 
     const isSharedFilter = tempPrivateNode.filter.includes("shared_");
     if (isSharedFilter) {
       const sharedFilter = sharedFilters.find(
         (f) => f.filter === tempPrivateNode.filter,
       );
-      const markers = privateNodes.filter(
-        (node) => node.filter === tempPrivateNode.filter,
-      );
-      markers.push(marker);
+      const markers = [
+        ...privateNodes.filter(
+          (node) =>
+            node.id !== tempPrivateNode.id &&
+            node.filter === tempPrivateNode.filter,
+        ),
+        marker,
+      ];
       const newBlob = await putSharedNodes(
         sharedFilter?.url ?? tempPrivateNode.filter,
         markers,
@@ -265,6 +267,8 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       }
     }
 
+    addPrivateNode(marker);
+    setFilters([...filters.filter((f) => f !== marker.filter), marker.filter!]);
     setTempPrivateNode(null);
   };
 
