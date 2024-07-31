@@ -2,7 +2,7 @@ import Markdown from "markdown-to-jsx";
 import { useT } from "../(providers)";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import { useSettingsStore } from "@repo/lib";
+import { cn, useSettingsStore } from "@repo/lib";
 import { Label } from "../ui/label";
 import {
   Carousel,
@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Button } from "../ui/button";
-import { Info } from "lucide-react";
+import { Info, User, Users } from "lucide-react";
 import {
   HoverCard,
   HoverCardContent,
@@ -62,8 +62,15 @@ export function MarkerTooltip({
               <h3 className="text-lg">
                 {t(item.termId, false, item.type) || item.termId}
               </h3>
-              <p className="italic">
-                {t(item.type) || item.type.replace("private_", "")}
+              <p className="italic flex gap-2 items-center">
+                {item.type.includes("private_") && (
+                  <User className={cn("h-4 w-4 shrink-0")} />
+                )}
+                {item.type.includes("shared_") && (
+                  <Users className={cn("h-4 w-4 shrink-0")} />
+                )}
+                {t(item.type) ||
+                  item.type.replace("private_", "").replace(/shared_\d+_/, "")}
                 {item.group && ` | ${t(item.group) || item.group}`}
               </p>
               <p className="text-xs text-muted-foreground">

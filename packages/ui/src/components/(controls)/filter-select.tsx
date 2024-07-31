@@ -1,4 +1,4 @@
-import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, User, Users } from "lucide-react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
@@ -22,9 +22,7 @@ export function FilterSelect({
   const [value, setValue] = useState("");
 
   const [open, setOpen] = useState(false);
-  const filter = useSettingsStore((state) =>
-    state.tempPrivateNode?.filter?.replace("private_", ""),
-  );
+  const filter = useSettingsStore((state) => state.tempPrivateNode?.filter);
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );
@@ -36,9 +34,7 @@ export function FilterSelect({
       ),
     ),
   ];
-  const isExistingFilter = filter
-    ? privateNodesFilters.includes(filter)
-    : false;
+  const isExistingFilter = privateNodesFilters.includes(value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,7 +49,20 @@ export function FilterSelect({
             className,
           )}
         >
-          <span className="truncate">{filter}</span>
+          {filter ? (
+            <span className="truncate flex gap-2 items-center">
+              {filter.includes("private_") ? (
+                <User className={cn("h-4 w-4 shrink-0")} />
+              ) : (
+                <Users className={cn("h-4 w-4 shrink-0")} />
+              )}
+              <span>
+                {filter.replace("private_", "").replace(/shared_\d+_/, "")}
+              </span>
+            </span>
+          ) : (
+            <span />
+          )}
           <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
         </Button>
       </PopoverTrigger>
@@ -82,23 +91,53 @@ export function FilterSelect({
                         filter === privateFilter ? "opacity-100" : "opacity-0",
                       )}
                     />
-                    {privateFilter.replace("private_", "")}
+                    <div className="flex gap-2 items-center">
+                      {privateFilter.includes("private_") ? (
+                        <User className={cn("h-4 w-4 shrink-0")} />
+                      ) : (
+                        <Users className={cn("h-4 w-4 shrink-0")} />
+                      )}
+                      <span>
+                        {privateFilter
+                          .replace("private_", "")
+                          .replace(/shared_\d+_/, "")}
+                      </span>
+                    </div>
                   </CommandItem>
                 ))}
                 {!isExistingFilter && (
-                  <CommandItem
-                    value={value}
-                    disabled={value.length === 0}
-                    onSelect={() => {
-                      setTempPrivateNode({ filter: value });
-                      setOpen(false);
-                    }}
-                  >
-                    <Plus className={cn("mr-2 h-4 w-4")} />
-                    <span>
-                      Add <i>{value}</i>
-                    </span>
-                  </CommandItem>
+                  <>
+                    <CommandItem
+                      value={`private_${value}`}
+                      disabled={value.length === 0}
+                      onSelect={() => {
+                        setTempPrivateNode({ filter: `private_${value}` });
+                        setOpen(false);
+                      }}
+                    >
+                      <Plus className={cn("mr-2 h-4 w-4")} />
+                      <span className="flex gap-2 items-center">
+                        <User className={cn("h-4 w-4 shrink-0")} /> Add private{" "}
+                        <i>{value}</i>
+                      </span>
+                    </CommandItem>
+                    <CommandItem
+                      value={`shared_${value}`}
+                      disabled={value.length === 0}
+                      onSelect={() => {
+                        setTempPrivateNode({
+                          filter: `shared_${Date.now()}_${value}`,
+                        });
+                        setOpen(false);
+                      }}
+                    >
+                      <Plus className={cn("mr-2 h-4 w-4")} />
+                      <span className="flex gap-2 items-center">
+                        <Users className={cn("h-4 w-4 shrink-0")} /> Add shared{" "}
+                        <i>{value ?? "filter"}</i>
+                      </span>
+                    </CommandItem>
+                  </>
                 )}
               </ScrollArea>
             </CommandGroup>

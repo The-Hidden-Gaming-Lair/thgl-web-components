@@ -105,6 +105,12 @@ export const useSettingsStore = create(
     addPrivateNode: (marker: PrivateNode) => void;
     removePrivateNode: (id: string) => void;
     setPrivateNodes: (markers: PrivateNode[]) => void;
+    sharedFilters: {
+      url: string;
+      filter: string;
+    }[];
+    addSharedFilter: (filter: { url: string; filter: string }) => void;
+    removeSharedFilter: (filterName: string) => void;
     tempPrivateNode: Partial<PrivateNode> | null;
     setTempPrivateNode: (tempPrivateNode: Partial<PrivateNode> | null) => void;
     privateDrawings: PrivateDrawing[];
@@ -232,6 +238,17 @@ export const useSettingsStore = create(
             privateNodes: state.privateNodes.filter((m) => m.id !== id),
           })),
         setPrivateNodes: (markers) => set({ privateNodes: markers }),
+        sharedFilters: [],
+        addSharedFilter: (filter) =>
+          set((state) => ({
+            sharedFilters: [...state.sharedFilters, filter],
+          })),
+        removeSharedFilter: (filterName) =>
+          set((state) => ({
+            sharedFilters: state.sharedFilters.filter(
+              (f) => f.filter !== filterName,
+            ),
+          })),
         tempPrivateNode: null,
         setTempPrivateNode: (tempPrivateNode) =>
           set((state) => ({

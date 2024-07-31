@@ -9,4 +9,5 @@ export * from "./game";
 export * from "./live-share";
 export * from "./search-params";
 export * from "./settings";
+export * from "./shared-nodes";
 export * from "./tailwind";

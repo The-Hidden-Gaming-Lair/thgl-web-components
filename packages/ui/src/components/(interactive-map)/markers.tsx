@@ -166,7 +166,9 @@ export function Markers({
             const items = [
               {
                 id: nodeId,
-                termId: spawn.name ?? spawn.id ?? spawn.type,
+                termId: (spawn.name ?? spawn.id ?? spawn.type)
+                  .replace("private_", "")
+                  .replace(/shared_\d+_/, ""),
                 description: spawn.description,
                 type: spawn.type,
                 group: filter?.group,
@@ -179,7 +181,9 @@ export function Markers({
                   id: spawn.isPrivate
                     ? spawn.id!
                     : `${spawn.id ?? spawn.type}@${spawn.p[0]}:${spawn.p[1]}`,
-                  termId: spawn.name ?? spawn.id ?? spawn.type,
+                  termId: (spawn.name ?? spawn.id ?? spawn.type)
+                    .replace("private_", "")
+                    .replace(/shared_\d+_/, ""),
                   description: spawn.description,
                   type: spawn.type,
                   group: filter?.group,

@@ -7,6 +7,7 @@ import {
   useSettingsStore,
   openFileOrFiles,
   useConnectionStore,
+  putSharedNodes,
 } from "@repo/lib";
 import CanvasMarker from "./canvas-marker";
 import type { LeafletMouseEvent } from "leaflet";
@@ -27,6 +28,8 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { FilterSelect } from "../(controls)/filter-select";
+import { toast } from "sonner";
+import { AddSharedNodes } from "./add-shared-nodes";
 
 export function PrivateNode({ hidden }: { hidden?: boolean }) {
   const map = useMap();
@@ -42,6 +45,8 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     (state) => state.setTempPrivateNode,
   );
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
+  const addSharedFilter = useSettingsStore((state) => state.addSharedFilter);
+  const sharedFilters = useSettingsStore((state) => state.sharedFilters);
 
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
@@ -195,7 +200,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     return <></>;
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!tempPrivateNode?.filter) {
@@ -213,10 +218,10 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       removePrivateNode(tempPrivateNode.id!);
     }
     const latLng = canvasMarker.current.getLatLng();
-    const id = `private_${tempPrivateNode.name ?? tempPrivateNode.filter}_${Date.now()}`;
+    const id = `${tempPrivateNode.filter}_${Date.now()}`;
     const marker: PrivateNode = {
       id,
-      filter: `private_${tempPrivateNode.filter.replaceAll("private_", "")}`,
+      filter: tempPrivateNode.filter,
       name: tempPrivateNode.name,
       description: tempPrivateNode.description,
       color: color,
@@ -238,6 +243,27 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     }
     addPrivateNode(marker);
     setFilters([...filters.filter((f) => f !== marker.filter), marker.filter!]);
+
+    const isSharedFilter = tempPrivateNode.filter.includes("shared_");
+    if (isSharedFilter) {
+      const sharedFilter = sharedFilters.find(
+        (f) => f.filter === tempPrivateNode.filter,
+      );
+      const markers = privateNodes.filter(
+        (node) => node.filter === tempPrivateNode.filter,
+      );
+      markers.push(marker);
+      const newBlob = await putSharedNodes(
+        sharedFilter?.url ?? tempPrivateNode.filter,
+        markers,
+      );
+      if (!sharedFilter) {
+        addSharedFilter({
+          filter: tempPrivateNode.filter,
+          url: newBlob.url,
+        });
+      }
+    }
 
     setTempPrivateNode(null);
   };
@@ -279,7 +305,8 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
                     <HoverCardContent>
                       You can group nodes by filters. For example, you can use a
                       filter to group all nodes related to a specific quest. The
-                      filter is toggled on and off in the search.
+                      filter is toggled on and off in the search. Shared nodes
+                      can be imported by other users.
                     </HoverCardContent>
                   </HoverCard>
                 </Label>
@@ -410,7 +437,9 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
             >
               Cancel
             </Button>
-            <div className="flex-1" />
+          </div>
+          <Separator className="my-2" />
+          <div className="flex items-center space-x-2 mt-2">
             <Button
               size="sm"
               type="button"
@@ -435,6 +464,11 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
                       return;
                     }
                     data.forEach(addPrivateNode);
+                    toast(
+                      `Nodes imported to filter: ${data[0].filter
+                        .replace("private_", "")
+                        .replace(/shared_\d+_/, "")}`,
+                    );
                   } catch (error) {
                     // Do nothing
                   }
@@ -445,6 +479,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
               <Upload className="h-4 w-4 mr-2" />
               Upload Nodes
             </Button>
+            <AddSharedNodes />
           </div>
         </form>
       </PopoverContent>
