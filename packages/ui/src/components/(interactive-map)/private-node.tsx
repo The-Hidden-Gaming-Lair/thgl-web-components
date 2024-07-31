@@ -442,50 +442,50 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
               Cancel
             </Button>
           </div>
-          <Separator className="my-2" />
-          <div className="flex items-center space-x-2 mt-2">
-            <Button
-              size="sm"
-              type="button"
-              variant="secondary"
-              onClick={async () => {
-                const file = await openFileOrFiles();
-                if (!file) {
+        </form>
+        <Separator className="my-2" />
+        <div className="flex items-center space-x-2 mt-2">
+          <Button
+            size="sm"
+            type="button"
+            variant="secondary"
+            onClick={async () => {
+              const file = await openFileOrFiles();
+              if (!file) {
+                return;
+              }
+              const reader = new FileReader();
+              reader.addEventListener("load", (loadEvent) => {
+                const text = loadEvent.target?.result;
+                if (!text || typeof text !== "string") {
                   return;
                 }
-                const reader = new FileReader();
-                reader.addEventListener("load", (loadEvent) => {
-                  const text = loadEvent.target?.result;
-                  if (!text || typeof text !== "string") {
+                try {
+                  const data = JSON.parse(text);
+                  if (typeof data !== "object") {
                     return;
                   }
-                  try {
-                    const data = JSON.parse(text);
-                    if (typeof data !== "object") {
-                      return;
-                    }
-                    if (!Array.isArray(data)) {
-                      return;
-                    }
-                    data.forEach(addPrivateNode);
-                    toast(
-                      `Nodes imported to filter: ${data[0].filter
-                        .replace("private_", "")
-                        .replace(/shared_\d+_/, "")}`,
-                    );
-                  } catch (error) {
-                    // Do nothing
+                  if (!Array.isArray(data)) {
+                    return;
                   }
-                });
-                reader.readAsText(file);
-              }}
-            >
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Nodes
-            </Button>
-            <AddSharedNodes />
-          </div>
-        </form>
+                  data.forEach(addPrivateNode);
+                  toast(
+                    `Nodes imported to filter: ${data[0].filter
+                      .replace("private_", "")
+                      .replace(/shared_\d+_/, "")}`,
+                  );
+                } catch (error) {
+                  // Do nothing
+                }
+              });
+              reader.readAsText(file);
+            }}
+          >
+            <Upload className="h-4 w-4 mr-2" />
+            Upload Nodes
+          </Button>
+          <AddSharedNodes />
+        </div>
       </PopoverContent>
     </Popover>
   );
