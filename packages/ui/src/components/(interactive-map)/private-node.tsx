@@ -26,6 +26,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
+import { FilterSelect } from "../(controls)/filter-select";
 
 export function PrivateNode({ hidden }: { hidden?: boolean }) {
   const map = useMap();
@@ -282,15 +283,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
                     </HoverCardContent>
                   </HoverCard>
                 </Label>
-                <Input
-                  id="filter"
-                  className="col-span-2 h-8"
-                  required
-                  value={tempPrivateNode?.filter?.replace("private_", "") ?? ""}
-                  onChange={(e) =>
-                    setTempPrivateNode({ filter: e.target.value })
-                  }
-                />
+                <FilterSelect id="filter" className="col-span-2 h-8" />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="name" className="flex gap-1 items-center">
