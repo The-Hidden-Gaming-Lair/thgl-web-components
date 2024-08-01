@@ -337,6 +337,9 @@ export const useSettingsStore = create(
             const url = newState.sharedFilters?.find(
               (f) => f.filter === filterName,
             )?.url;
+            if ("filter" in node) {
+              delete node.filter;
+            }
             newState.myFilters.push({
               name: filterName,
               url,
@@ -349,6 +352,10 @@ export const useSettingsStore = create(
             const myFilter = newState.myFilters.find(
               (filter) => filter.name === filterName,
             );
+            if ("name" in drawing) {
+              delete drawing.name;
+            }
+
             if (myFilter) {
               myFilter.drawing = drawing;
             } else {
