@@ -129,7 +129,7 @@ type SettingsStore = {
   toggleFitBoundsOnChange: () => void;
   myFilters: MyFilter[];
   setMyFilters: (myFilters: MyFilter[]) => void;
-  setMyFilter: (myFilter: MyFilter) => void;
+  setMyFilter: (name: string, myFilter: Partial<MyFilter>) => void;
   addMyFilter: (myFilter: MyFilter) => void;
   removeMyFilter: (myFilterName: string) => void;
   removeMyNode: (nodeId: string) => void;
@@ -264,19 +264,27 @@ export const useSettingsStore = create(
           set((state) => ({ fitBoundsOnChange: !state.fitBoundsOnChange })),
         myFilters: [],
         setMyFilters: (myFilters) => set({ myFilters }),
-        setMyFilter: (myFilter) =>
-          set((state) => {
-            const myFilters = state.myFilters.map((filter) =>
-              filter.name === myFilter.name ? myFilter : filter,
-            );
-            return { myFilters };
-          }),
+        setMyFilter: (name, myFilter) =>
+          set((state) => ({
+            myFilters: state.myFilters.map((filter) =>
+              filter.name === name ? { ...filter, ...myFilter } : filter,
+            ),
+          })),
         addMyFilter: async (myFilter) => {
           if (myFilter.isShared && !myFilter.url) {
             const blob = await putSharedFilters(myFilter.name, myFilter);
             myFilter.url = blob.url;
           }
           set((state) => {
+            if (
+              myFilter.isShared &&
+              myFilter.url &&
+              state.myFilters.some(
+                (filter) => filter.isShared && filter.url === myFilter.url,
+              )
+            ) {
+              return state;
+            }
             return {
               myFilters: [...state.myFilters, myFilter],
             };

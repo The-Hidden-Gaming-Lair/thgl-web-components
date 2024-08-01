@@ -20,7 +20,9 @@ export function SharedFilter({ myFilter }: { myFilter: MyFilter }) {
     if (!data) {
       return;
     }
-    setMyFilter({ ...data, url: myFilter.url });
+    const withoutName: Partial<MyFilter> = { ...data };
+    delete withoutName.name;
+    setMyFilter(myFilter.name, withoutName);
   }, [data]);
 
   return <></>;

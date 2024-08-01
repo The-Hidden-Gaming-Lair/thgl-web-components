@@ -13,8 +13,7 @@ export function RenameFilter({
   onClose: () => void;
 }) {
   const [name, setName] = useState("");
-  const addMyFilter = useSettingsStore((state) => state.addMyFilter);
-  const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
+  const setMyFilter = useSettingsStore((state) => state.setMyFilter);
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
 
@@ -23,12 +22,11 @@ export function RenameFilter({
       return;
     }
     event.preventDefault();
-    removeMyFilter(myFilter.name);
     const filterName = `my_${Date.now()}_${name}`;
-    addMyFilter({ ...myFilter, name: filterName });
-    onClose();
     const wasActive = filters.includes(myFilter.name);
     const newFilters = filters.filter((f) => f !== myFilter.name);
+    setMyFilter(myFilter.name, { name: filterName });
+    onClose();
     if (wasActive) {
       newFilters.push(filterName);
     }

@@ -133,7 +133,7 @@ export function FilterSelect({
                           name: filterName,
                           isShared: true,
                         });
-                        onFilterSelect?.(value);
+                        onFilterSelect?.(filterName);
                         setValue(value);
                         setOpen(false);
                       }}
