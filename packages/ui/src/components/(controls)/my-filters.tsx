@@ -14,6 +14,7 @@ import {
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
   CaseSensitive,
+  Clipboard,
   Copy,
   Download,
   EllipsisVertical,
@@ -39,7 +40,7 @@ import { DeleteFilter } from "./delete-filter";
 export function MyFilters() {
   const { filters, setFilters, toggleFilter } = useUserStore();
   const myFilters = useSettingsStore((state) => state.myFilters);
-  const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
+  const addMyFilter = useSettingsStore((state) => state.addMyFilter);
   const [deleteMyFilter, setDeleteMyFilter] = useState<MyFilter | null>(null);
   const [renameMyFilter, setRenameMyFilter] = useState<MyFilter | null>(null);
 
@@ -140,8 +141,8 @@ export function MyFilters() {
                             toast("Copied to clipboard");
                           }}
                         >
-                          <Copy className="mr-2 h-4 w-4" />
-                          <span>Copy share code</span>
+                          <Clipboard className="mr-2 h-4 w-4" />
+                          <span>Copy Share Code</span>
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem
@@ -185,6 +186,21 @@ export function MyFilters() {
                       >
                         <CaseSensitive className="mr-2 h-4 w-4" />
                         <span>Rename</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          const newMyFilter = { ...myFilter };
+                          delete newMyFilter.url;
+                          newMyFilter.name = `my_${Date.now()}_${newMyFilter.name.replace(
+                            /my_\d+_/,
+                            "",
+                          )}`;
+                          addMyFilter(newMyFilter);
+                        }}
+                        disabled={isDrawingEditing}
+                      >
+                        <Copy className="mr-2 h-4 w-4" />
+                        <span>Duplicate</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
