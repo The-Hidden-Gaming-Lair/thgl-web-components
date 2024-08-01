@@ -234,34 +234,32 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     };
     if (isExistingNode) {
       trackEvent("Private Node: Update", {
-        props: { filter: tempPrivateNode.filter },
+        props: { filter: marker.filter },
       });
     } else {
       trackEvent("Private Node: Add", {
-        props: { filter: tempPrivateNode.filter },
+        props: { filter: marker.filter },
       });
     }
 
-    const isSharedFilter = tempPrivateNode.filter.includes("shared_");
+    const isSharedFilter = marker.filter.includes("shared_");
     if (isSharedFilter) {
       const sharedFilter = sharedFilters.find(
-        (f) => f.filter === tempPrivateNode.filter,
+        (f) => f.filter === marker.filter,
       );
       const markers = [
         ...privateNodes.filter(
-          (node) =>
-            node.id !== tempPrivateNode.id &&
-            node.filter === tempPrivateNode.filter,
+          (node) => node.id !== marker.id && node.filter === marker.filter,
         ),
         marker,
       ];
       const newBlob = await putSharedNodes(
-        sharedFilter?.url ?? tempPrivateNode.filter,
+        sharedFilter?.url ?? marker.filter,
         markers,
       );
       if (!sharedFilter) {
         addSharedFilter({
-          filter: tempPrivateNode.filter,
+          filter: marker.filter,
           url: newBlob.url,
         });
       }

@@ -4,7 +4,7 @@ import { withStorageDOMEvents } from "./dom";
 
 export type PrivateNode = {
   id: string;
-  filter?: string;
+  filter: string;
   name?: string;
   description?: string;
   icon: {
