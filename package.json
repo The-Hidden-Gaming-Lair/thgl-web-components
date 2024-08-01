@@ -17,13 +17,13 @@
     "release:palworld-overwolf": "turbo run release --filter=palworld-overwolf"
   },
   "devDependencies": {
-    "prettier": "3.3.2",
-    "turbo": "2.0.6"
+    "prettier": "3.3.3",
+    "turbo": "^2.0.11"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "bun@1.1.12",
+  "packageManager": "bun@1.1.21",
   "workspaces": [
     "apps/*",
     "packages/*"
