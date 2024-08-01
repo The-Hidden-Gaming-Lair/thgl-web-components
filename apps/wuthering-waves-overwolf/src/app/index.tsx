@@ -21,7 +21,7 @@ import {
   TooltipProvider,
   I18NProvider,
 } from "@repo/ui/providers";
-import { Actions, MarkersSearch, Toaster } from "@repo/ui/controls";
+import { Actions, MarkersSearch, Toaster, Whiteboard } from "@repo/ui/controls";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import {
   AdminRights,
@@ -100,6 +100,7 @@ function App(): JSX.Element {
                 <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
               )}
               <Actions>
+                <Whiteboard domain="wuthering" />
                 <StreamingSender domain="wuthering" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

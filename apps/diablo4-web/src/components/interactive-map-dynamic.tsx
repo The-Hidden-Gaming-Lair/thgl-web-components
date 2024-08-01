@@ -7,7 +7,7 @@ import {
   PrivateNode,
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
-import { Actions, StreamingReceiver } from "@repo/ui/controls";
+import { Actions, StreamingReceiver, Whiteboard } from "@repo/ui/controls";
 import type { TileOptions } from "@repo/lib";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
@@ -33,6 +33,7 @@ export default function InteractiveMapDynamic({
           <LivePlayer markerOptions={MARKER_OPTIONS} />
           <TraceLine />
           <Actions>
+            <Whiteboard domain="diablo4" />
             <StreamingReceiver
               domain="diablo4"
               href="https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map"

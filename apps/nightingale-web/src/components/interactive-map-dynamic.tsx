@@ -8,7 +8,7 @@ import {
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
 import { NIGHTINGALE } from "@repo/lib";
-import { Actions, StreamingReceiver } from "@repo/ui/controls";
+import { Actions, StreamingReceiver, Whiteboard } from "@repo/ui/controls";
 
 export default function InteractiveMapDynamic(): JSX.Element {
   return (
@@ -22,6 +22,7 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <LivePlayer markerOptions={NIGHTINGALE.markerOptions} />
       <TraceLine />
       <Actions>
+        <Whiteboard domain="nightingale" />
         <StreamingReceiver
           domain="nightingale"
           href="https://www.overwolf.com/app/Leon_Machens-Nightingale_Map"

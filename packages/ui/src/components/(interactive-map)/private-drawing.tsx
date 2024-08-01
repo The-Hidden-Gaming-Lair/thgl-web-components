@@ -894,10 +894,10 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         <Button
           size="icon"
           variant={isEditing ? "secondary" : "outline"}
-          className={cn("md:w-auto md:h-9 md:px-4 md:py-2")}
+          className={cn("lg:w-auto lg:h-9 lg:px-4 lg:py-2")}
         >
-          <Spline className="md:mr-2 h-4 w-4" />
-          <span className="hidden md:inline">Add Drawing</span>
+          <Spline className="lg:mr-2 h-4 w-4" />
+          <span className="hidden lg:inline">Add Drawing</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent onInteractOutside={(e) => e.preventDefault()}>

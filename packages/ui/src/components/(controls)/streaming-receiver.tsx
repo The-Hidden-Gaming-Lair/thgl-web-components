@@ -178,7 +178,7 @@ export function StreamingReceiver({
           size="icon"
           variant="outline"
           className={cn(
-            "md:w-auto md:h-9 md:px-4 md:py-2",
+            "lg:w-auto lg:h-9 lg:px-4 lg:py-2",
             className,
             connection
               ? "text-green-400"
@@ -187,8 +187,8 @@ export function StreamingReceiver({
                 : "text-orange-500",
           )}
         >
-          <Antenna className="md:mr-2 h-4 w-4" />
-          <span className="hidden md:inline">Live Sync</span>
+          <Antenna className="lg:mr-2 h-4 w-4" />
+          <span className="hidden lg:inline">Live Sync</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

@@ -8,7 +8,7 @@ import {
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
 import { type TileOptions } from "@repo/lib";
-import { Actions, StreamingReceiver } from "@repo/ui/controls";
+import { Actions, StreamingReceiver, Whiteboard } from "@repo/ui/controls";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const MARKER_OPTIONS = {
@@ -26,6 +26,7 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <LivePlayer markerOptions={MARKER_OPTIONS} />
       <TraceLine />
       <Actions>
+        <Whiteboard domain="palworld" />
         <StreamingReceiver
           domain="palworld"
           href="https://www.overwolf.com/oneapp/Leon_Machens-Palworld-Interactive-map"

@@ -20,7 +20,7 @@ import {
   TooltipProvider,
   I18NProvider,
 } from "@repo/ui/providers";
-import { Actions, MarkersSearch, Toaster } from "@repo/ui/controls";
+import { Actions, MarkersSearch, Toaster, Whiteboard } from "@repo/ui/controls";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import {
   Ads160x600Desktop,
@@ -105,6 +105,7 @@ function App(): JSX.Element {
               )}
               {hidden && showTimers ? <Diablo4Events portal /> : null}
               <Actions>
+                <Whiteboard domain="diablo4" />
                 <StreamingSender domain="diablo4" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

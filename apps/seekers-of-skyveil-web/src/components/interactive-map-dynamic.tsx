@@ -7,7 +7,7 @@ import {
   PrivateNode,
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
-import { Actions } from "@repo/ui/controls";
+import { Actions, Whiteboard } from "@repo/ui/controls";
 import type { TileOptions } from "@repo/lib";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
@@ -26,6 +26,7 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <LivePlayer markerOptions={MARKER_OPTIONS} />
       <TraceLine />
       <Actions>
+        <Whiteboard domain="seekers" />
         <PrivateNode />
         <PrivateDrawing />
       </Actions>
