@@ -7,6 +7,7 @@ import { useUserStore } from "../(providers)";
 export function UploadFilter() {
   const addMyFilter = useSettingsStore((state) => state.addMyFilter);
   const mapName = useUserStore((state) => state.mapName);
+  const toggleFilter = useUserStore((state) => state.toggleFilter);
 
   return (
     <Button
@@ -60,10 +61,11 @@ export function UploadFilter() {
                   `my_${Date.now()}_`,
                 );
               }
-            } else if (data[0]?.id && data[0]?.filter) {
+            } else if (data[0]?.id) {
+              const filter = data[0]?.filter ?? "Unsorted";
               // Deprecated Node
               myFilter = {
-                name: `my_${Date.now()}_${data[0].filter.replace("private_", "").replace(/shared_\d+_/, "") ?? "Unsorted"}`,
+                name: `my_${Date.now()}_${filter.replace("private_", "").replace(/shared_\d+_/, "")}`,
                 nodes: data,
               };
               data.forEach((d: any) => {
@@ -76,7 +78,7 @@ export function UploadFilter() {
             }
 
             addMyFilter(myFilter);
-
+            toggleFilter(myFilter.name);
             toast(
               `Imported filter: ${myFilter.name
                 .replace("private_", "")
