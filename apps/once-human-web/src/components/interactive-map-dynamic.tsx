@@ -6,7 +6,7 @@ import {
   Regions,
 } from "@repo/ui/interactive-map";
 import type { TileOptions } from "@repo/lib";
-import { Actions, LiveShare } from "@repo/ui/controls";
+import { Actions, Whiteboard } from "@repo/ui/controls";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const markerOptions = {
@@ -22,7 +22,7 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <Regions />
       <Markers markerOptions={markerOptions} />
       <Actions>
-        <LiveShare domain="oncehuman" />
+        <Whiteboard domain="oncehuman" />
         <PrivateNode />
         <PrivateDrawing />
       </Actions>

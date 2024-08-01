@@ -142,11 +142,11 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
       const polygons: PrivateDrawningDTO["polygons"] = [];
       polygonLayers.forEach((polygonLayer) => {
-        const latLngs = polygonLayer.getLatLngs() as LatLng[];
+        const latLngs = polygonLayer.getLatLngs() as LatLng[][];
         if (latLngs.length === 0) {
           return;
         }
-        const layerPositions = latLngs.map((latLng) => {
+        const layerPositions = latLngs[0].map((latLng) => {
           return [latLng.lat, latLng.lng] as [number, number];
         });
         polygons.push({
@@ -570,6 +570,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     map.on("pm:drawend", () => {
       setPolylines(polylines, mapName);
       setRectangles(rectangles, mapName);
+      setPolygons(polygons, mapName);
       setCircles(circles, mapName);
       updateGlobalMode();
     });

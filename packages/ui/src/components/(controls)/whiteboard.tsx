@@ -18,7 +18,7 @@ import {
   useSettingsStore,
 } from "@repo/lib";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Antenna } from "lucide-react";
+import { Presentation } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -26,7 +26,7 @@ import { useShallow } from "zustand/react/shallow";
 import { toast } from "sonner";
 import { useUserStore } from "../(providers)";
 
-export function LiveShare({ domain }: { domain: string }) {
+export function Whiteboard({ domain }: { domain: string }) {
   const connectionStore = useConnectionStore();
   const [isConnected, setIsConnected] = useState(false);
   const { groupName, setGroupName } = useSettingsStore(
@@ -217,19 +217,18 @@ export function LiveShare({ domain }: { domain: string }) {
                 : "text-orange-500",
           )}
         >
-          <Antenna className="md:mr-2 h-4 w-4" />
-          <span className="hidden md:inline">Live Share</span>
+          <Presentation className="md:mr-2 h-4 w-4" />
+          <span className="hidden md:inline">Whiteboard</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Live Share</DialogTitle>
+          <DialogTitle>Whiteboard</DialogTitle>
           <DialogDescription>
             Share your nodes, drawings with your group in real-time! After
             opening a group, share the group name with your friends to connect
-            to each other. Your selected nodes (My Nodes) and drawings (My
-            Drawings) will be shared, and they will see current changes in
-            real-time (Add Node/Add Drawing).
+            to each other. Your selected filter (My Filters) will be shared, and
+            they will see current changes in real-time (Add Node/Add Drawing).
           </DialogDescription>
         </DialogHeader>
         <section className="space-y-4 overflow-hidden">
