@@ -27,7 +27,6 @@ import { toast } from "sonner";
 import { useT, useUserStore } from "../(providers)";
 
 export function MyFilters() {
-  const t = useT();
   const { filters, setFilters, toggleFilter } = useUserStore();
   const myFilters = useSettingsStore((state) => state.myFilters);
   const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
@@ -96,7 +95,7 @@ export function MyFilters() {
                   onClick={() => {
                     toggleFilter(myFilter.name);
                   }}
-                  title={myFilter.name.replace("my_", "")}
+                  title={myFilter.name.replace(/my_\d+_/, "")}
                   type="button"
                 >
                   {!myFilter.isShared ? (
@@ -108,7 +107,7 @@ export function MyFilters() {
                     </>
                   )}
                   <span className="truncate">
-                    {myFilter.name.replace("my_", "")}
+                    {myFilter.name.replace(/my_\d+_/, "")}
                   </span>
                 </button>
                 <DropdownMenu>

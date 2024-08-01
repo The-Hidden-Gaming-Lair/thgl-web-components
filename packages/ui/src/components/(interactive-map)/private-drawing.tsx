@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useMap } from "./store";
-import { Info, Spline, Upload } from "lucide-react";
+import { Info, Spline } from "lucide-react";
 import { Button, ColorPicker } from "../(controls)";
 import {
   cn,
-  openFileOrFiles,
   putSharedFilters,
   useConnectionStore,
   useSettingsStore,
@@ -39,6 +38,8 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
+import { AddSharedFilter } from "./add-shared-filter";
+import { UploadFilter } from "./upload-filter";
 
 export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const map = useMap();
@@ -1168,53 +1169,13 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
             >
               Cancel
             </Button>
-            <div className="flex-1" />
-            <Button
-              size="sm"
-              type="button"
-              variant="secondary"
-              onClick={async () => {
-                const file = await openFileOrFiles();
-                if (!file) {
-                  return;
-                }
-                const reader = new FileReader();
-                reader.addEventListener("load", (loadEvent) => {
-                  const text = loadEvent.target?.result;
-                  if (!text || typeof text !== "string") {
-                    return;
-                  }
-                  try {
-                    const data = JSON.parse(text);
-                    if (typeof data !== "object") {
-                      return;
-                    }
-                    if ("positions" in data && Array.isArray(data.positions)) {
-                      // Convert deprecate routes to polylines
-                      data.polylines = data.positions.map((b: any) => ({
-                        positions: b.map((c: any) => c.position),
-                        size: 4,
-                        color: "#FFFFFFAA",
-                        mapName: mapName,
-                      }));
-                      delete data.positions;
-                    }
-                    if ("types" in data) {
-                      delete data.types;
-                    }
-                    setTempPrivateDrawing(data);
-                  } catch (error) {
-                    // Do nothing
-                  }
-                });
-                reader.readAsText(file);
-              }}
-            >
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Drawing
-            </Button>
           </div>
         </form>
+        <Separator className="my-2" />
+        <div className="flex items-center space-x-2 mt-2">
+          <UploadFilter />
+          <AddSharedFilter />
+        </div>
       </PopoverContent>
     </Popover>
   );

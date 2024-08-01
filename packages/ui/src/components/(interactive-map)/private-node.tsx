@@ -5,7 +5,6 @@ import {
   type PrivateNode,
   cn,
   useSettingsStore,
-  openFileOrFiles,
   useConnectionStore,
   putSharedFilters,
 } from "@repo/lib";
@@ -17,7 +16,7 @@ import { Input } from "../ui/input";
 import { ColorPicker } from "../(controls)/color-picker";
 import { Slider } from "../ui/slider";
 import { useUserStore } from "../(providers)";
-import { Info, MapPin, Upload } from "lucide-react";
+import { Info, MapPin } from "lucide-react";
 import { trackEvent } from "../(header)/plausible-tracker";
 import { IconPicker } from "../(controls)";
 import { Textarea } from "../ui/textarea";
@@ -28,8 +27,8 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { FilterSelect } from "../(controls)/filter-select";
-import { toast } from "sonner";
 import { AddSharedFilter } from "./add-shared-filter";
+import { UploadFilter } from "./upload-filter";
 
 export function PrivateNode({ hidden }: { hidden?: boolean }) {
   const map = useMap();
@@ -434,56 +433,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
         </form>
         <Separator className="my-2" />
         <div className="flex items-center space-x-2 mt-2">
-          <Button
-            size="sm"
-            type="button"
-            variant="secondary"
-            onClick={async () => {
-              const file = await openFileOrFiles();
-              if (!file) {
-                return;
-              }
-              const reader = new FileReader();
-              reader.addEventListener("load", (loadEvent) => {
-                const text = loadEvent.target?.result;
-                if (!text || typeof text !== "string") {
-                  return;
-                }
-                try {
-                  const data = JSON.parse(text);
-                  if (typeof data !== "object") {
-                    return;
-                  }
-                  if (!Array.isArray(data)) {
-                    return;
-                  }
-                  const isDeprecatedNodes = data[0].id && data[0].filter;
-                  if (!isDeprecatedNodes) {
-                    return;
-                  }
-                  const newMyFilters = [
-                    ...myFilters,
-                    {
-                      name: data[0].filter,
-                      nodes: data,
-                    },
-                  ];
-                  setMyFilters(newMyFilters);
-                  toast(
-                    `Nodes imported to filter: ${data[0].filter
-                      .replace("private_", "")
-                      .replace(/shared_\d+_/, "")}`,
-                  );
-                } catch (error) {
-                  // Do nothing
-                }
-              });
-              reader.readAsText(file);
-            }}
-          >
-            <Upload className="h-4 w-4 mr-2" />
-            Upload Nodes
-          </Button>
+          <UploadFilter />
           <AddSharedFilter />
         </div>
       </PopoverContent>

@@ -108,11 +108,12 @@ export function FilterSelect({
                     <CommandItem
                       value={`private_${value}`}
                       disabled={value.length === 0}
-                      onSelect={(e) => {
+                      onSelect={() => {
+                        const filterName = `my_${Date.now()}_${value}`;
                         addMyFilter({
-                          name: value,
+                          name: filterName,
                         });
-                        onFilterSelect?.(value);
+                        onFilterSelect?.(filterName);
                         setValue(value);
                         setOpen(false);
                       }}
@@ -127,8 +128,9 @@ export function FilterSelect({
                       value={`shared_${value}`}
                       disabled={value.length === 0}
                       onSelect={() => {
+                        const filterName = `my_${Date.now()}_${value}`;
                         addMyFilter({
-                          name: value,
+                          name: filterName,
                           isShared: true,
                         });
                         onFilterSelect?.(value);
