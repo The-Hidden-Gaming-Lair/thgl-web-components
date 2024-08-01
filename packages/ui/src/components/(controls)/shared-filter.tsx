@@ -1,33 +1,26 @@
-import { useSettingsStore } from "@repo/lib";
-import { useEffect, useMemo } from "react";
+import { MyFilter, useSettingsStore } from "@repo/lib";
+import { useEffect } from "react";
 import useSWR from "swr";
 
-export function SharedFilter({ url, filter }: { url: string; filter: string }) {
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const setPrivateNodes = useSettingsStore((state) => state.setPrivateNodes);
+export function SharedFilter({ myFilter }: { myFilter: MyFilter }) {
+  const setMyFilter = useSettingsStore((state) => state.setMyFilter);
 
-  const newPrivateNodes = useMemo(
-    () => privateNodes.filter((node: any) => node.filter !== filter),
-    [privateNodes],
-  );
-
-  const { data } = useSWR(url, async () => {
-    const response = await fetch(url);
+  const { data } = useSWR(myFilter.url, async () => {
+    if (!myFilter.url) {
+      return;
+    }
+    const response = await fetch(myFilter.url);
     if (!response.ok) {
       throw new Error("Can not fetch shared nodes");
     }
-    return response.json();
+    return response.json() as Promise<MyFilter>;
   });
 
   useEffect(() => {
     if (!data) {
       return;
     }
-    data.forEach((node: any) => {
-      newPrivateNodes.push(node);
-    });
-    console.log(data, newPrivateNodes);
-    setPrivateNodes(newPrivateNodes);
+    setMyFilter({ ...data, url: myFilter.url });
   }, [data]);
 
   return <></>;

@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useMap } from "./store";
-import { Spline, Upload } from "lucide-react";
+import { Info, Spline, Upload } from "lucide-react";
 import { Button, ColorPicker } from "../(controls)";
 import {
   cn,
   openFileOrFiles,
+  putSharedFilters,
   useConnectionStore,
   useSettingsStore,
   type PrivateDrawing as PrivateDrawningDTO,
 } from "@repo/lib";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { trackEvent } from "../(header)";
 import { useUserStore } from "../(providers)";
 import { Separator } from "../ui/separator";
@@ -33,6 +33,12 @@ import {
 } from "leaflet";
 import { PM } from "leaflet";
 import { Util } from "leaflet";
+import { FilterSelect } from "../(controls)/filter-select";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
 
 export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const map = useMap();
@@ -46,19 +52,15 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const setTextSize = useSettingsStore((state) => state.setTextSize);
   const [globalMode, setGlobalMode] = useState("none");
   const mapName = useUserStore((state) => state.mapName);
-  const privateDrawings = useSettingsStore((state) => state.privateDrawings);
-  const setPrivateDrawings = useSettingsStore(
-    (state) => state.setPrivateDrawings,
-  );
+  const myFilters = useSettingsStore((state) => state.myFilters);
+  const setMyFilters = useSettingsStore((state) => state.setMyFilters);
   const tempPrivateDrawing = useSettingsStore(
     (state) => state.tempPrivateDrawing,
-  );
-  const addPrivateDrawing = useSettingsStore(
-    (state) => state.addPrivateDrawing,
   );
   const setTempPrivateDrawing = useSettingsStore(
     (state) => state.setTempPrivateDrawing,
   );
+
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
   const isEditing = tempPrivateDrawing !== null;
@@ -245,9 +247,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const sharedTempPrivateDrawing = useConnectionStore(
     (state) => state.tempPrivateDrawing,
   );
-  const sharedPrivateDrawings = useConnectionStore(
-    (state) => state.privateDrawings,
-  );
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
   useEffect(() => {
     if (!map) {
       return;
@@ -256,6 +256,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     try {
       layerGroup.addTo(map);
     } catch (e) {}
+    const sharedPrivateDrawings = sharedMyFilters
+      .map((myFilter) => myFilter.drawing)
+      .filter(Boolean) as PrivateDrawningDTO[];
     const drawings = sharedTempPrivateDrawing
       ? [sharedTempPrivateDrawing, ...sharedPrivateDrawings]
       : sharedPrivateDrawings;
@@ -351,7 +354,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         layerGroup.remove();
       } catch (e) {}
     };
-  }, [map, mapName, sharedTempPrivateDrawing, sharedPrivateDrawings]);
+  }, [map, mapName, sharedTempPrivateDrawing, sharedMyFilters]);
 
   useEffect(() => {
     if (!isEditing || !map) {
@@ -695,14 +698,15 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       featureGroup.addTo(map);
     } catch (e) {}
 
-    privateDrawings.forEach((privateDrawing) => {
+    myFilters.forEach((myFilter) => {
       if (
-        !filters.includes(privateDrawing.id) ||
-        tempPrivateDrawing?.id === privateDrawing.id
+        !myFilter.drawing ||
+        !filters.includes(myFilter.name) ||
+        tempPrivateDrawing?.id === myFilter.drawing.id
       ) {
         return;
       }
-      privateDrawing.polylines?.forEach((polylineData) => {
+      myFilter.drawing.polylines?.forEach((polylineData) => {
         if (polylineData.mapName !== mapName) {
           return;
         }
@@ -719,7 +723,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
         polylineLayer.addTo(featureGroup);
       });
-      privateDrawing.rectangles?.forEach((rectangleData) => {
+      myFilter.drawing.rectangles?.forEach((rectangleData) => {
         if (rectangleData.mapName !== mapName) {
           return;
         }
@@ -736,7 +740,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
         rectangleLayer.addTo(featureGroup);
       });
-      privateDrawing.polygons?.forEach((polygonData) => {
+      myFilter.drawing.polygons?.forEach((polygonData) => {
         if (polygonData.mapName !== mapName) {
           return;
         }
@@ -753,7 +757,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
         polygonLayer.addTo(featureGroup);
       });
-      privateDrawing.circles?.forEach((circleData) => {
+      myFilter.drawing.circles?.forEach((circleData) => {
         if (circleData.mapName !== mapName) {
           return;
         }
@@ -768,7 +772,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
         circleLayer.addTo(featureGroup);
       });
-      privateDrawing.texts?.forEach((textPositions) => {
+      myFilter.drawing.texts?.forEach((textPositions) => {
         if (textPositions.mapName !== mapName) {
           return;
         }
@@ -796,7 +800,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         featureGroup.remove();
       } catch (e) {}
     };
-  }, [map, privateDrawings, filters, tempPrivateDrawing?.id]);
+  }, [map, myFilters, filters, tempPrivateDrawing?.id]);
 
   if (hidden) {
     return <></>;
@@ -811,38 +815,63 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     const newId = `drawing_${tempPrivateDrawing.name}_${Date.now()}`;
     const id = tempPrivateDrawing.id ?? newId;
 
-    const existingDrawing = privateDrawings.find(
-      (drawing) => drawing.id === id,
+    const drawing: PrivateDrawningDTO = {
+      id,
+      name: tempPrivateDrawing.name,
+      polylines: tempPrivateDrawing.polylines,
+      rectangles: tempPrivateDrawing.rectangles,
+      polygons: tempPrivateDrawing.polygons,
+      circles: tempPrivateDrawing.circles,
+      texts: tempPrivateDrawing.texts,
+    };
+
+    const newMyFilters = [...myFilters];
+    const myFilter = newMyFilters.find(
+      (filter) => filter.name === tempPrivateDrawing.name,
     );
-    if (!existingDrawing) {
-      const drawing: PrivateDrawningDTO = {
-        id,
-        name: tempPrivateDrawing.name,
-        polylines: tempPrivateDrawing.polylines,
-        rectangles: tempPrivateDrawing.rectangles,
-        polygons: tempPrivateDrawing.polygons,
-        circles: tempPrivateDrawing.circles,
-        texts: tempPrivateDrawing.texts,
-      };
-      trackEvent("Private Drawing: Add", {
-        props: { name: tempPrivateDrawing.name },
-      });
-      addPrivateDrawing(drawing);
-      setFilters([...filters, id]);
-    } else {
-      existingDrawing.id = newId;
-      existingDrawing.name = tempPrivateDrawing.name;
-      existingDrawing.polylines = tempPrivateDrawing.polylines;
-      existingDrawing.rectangles = tempPrivateDrawing.rectangles;
-      existingDrawing.polygons = tempPrivateDrawing.polygons;
-      existingDrawing.circles = tempPrivateDrawing.circles;
-      existingDrawing.texts = tempPrivateDrawing.texts;
+    if (!myFilter) {
+      return;
+    }
+
+    if (tempPrivateDrawing.id) {
+      myFilter.drawing = drawing;
       trackEvent("Private Drawing: Update", {
         props: { name: tempPrivateDrawing.name },
       });
-      setPrivateDrawings(privateDrawings);
-      setFilters([...filters.filter((f) => f !== id), existingDrawing.id]);
+      setFilters([...filters.filter((f) => f !== id), tempPrivateDrawing.id]);
+    } else {
+      myFilter.drawing = {
+        ...drawing,
+        polylines: [
+          ...(drawing.polylines || []),
+          ...(myFilter.drawing?.polylines || []),
+        ],
+        rectangles: [
+          ...(drawing.rectangles || []),
+          ...(myFilter.drawing?.rectangles || []),
+        ],
+        polygons: [
+          ...(drawing.polygons || []),
+          ...(myFilter.drawing?.polygons || []),
+        ],
+        circles: [
+          ...(drawing.circles || []),
+          ...(myFilter.drawing?.circles || []),
+        ],
+        texts: [...(drawing.texts || []), ...(myFilter.drawing?.texts || [])],
+      };
+
+      trackEvent("Private Drawing: Add", {
+        props: { name: tempPrivateDrawing.name },
+      });
+      setFilters([...filters, id]);
     }
+
+    if (myFilter.isShared && myFilter.url) {
+      putSharedFilters(myFilter.url, myFilter);
+    }
+    setMyFilters(newMyFilters);
+    setFilters([...filters.filter((f) => f !== drawing.name), drawing.name]);
     setTempPrivateDrawing(null);
   };
 
@@ -881,15 +910,30 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
             </div>
             <div className="grid gap-2">
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
+                <Label htmlFor="filter" className="flex gap-1 items-center">
+                  Filter
+                  <HoverCard openDelay={50} closeDelay={50}>
+                    <HoverCardTrigger asChild>
+                      <Info className="h-4 w-4 text-muted-foreground" />
+                    </HoverCardTrigger>
+                    <HoverCardContent>
+                      You can group nodes by filters. For example, you can use a
+                      filter to group all nodes related to a specific quest. The
+                      filter is toggled on and off in the search. Shared nodes
+                      can be imported by other users.
+                    </HoverCardContent>
+                  </HoverCard>
+                </Label>
+                <FilterSelect
+                  id="filter"
                   className="col-span-2 h-8"
-                  required
-                  value={tempPrivateDrawing?.name ?? ""}
-                  onChange={(e) =>
-                    setTempPrivateDrawing({ name: e.target.value })
-                  }
+                  filter={tempPrivateDrawing?.name}
+                  onFilterSelect={(value) => {
+                    setTempPrivateDrawing({
+                      name: value,
+                    });
+                  }}
+                  disabled={tempPrivateDrawing?.id !== undefined}
                 />
               </div>
               <Separator className="my-2" />
@@ -1109,7 +1153,11 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
             </div>
           </div>
           <div className="flex items-center space-x-2 mt-2">
-            <Button size="sm" type="submit">
+            <Button
+              size="sm"
+              type="submit"
+              disabled={!tempPrivateDrawing?.name}
+            >
               Save
             </Button>
             <Button

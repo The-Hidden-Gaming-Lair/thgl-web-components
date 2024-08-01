@@ -7,7 +7,7 @@ import {
   useSettingsStore,
   openFileOrFiles,
   useConnectionStore,
-  putSharedNodes,
+  putSharedFilters,
 } from "@repo/lib";
 import CanvasMarker from "./canvas-marker";
 import type { LeafletMouseEvent } from "leaflet";
@@ -29,25 +29,19 @@ import {
 } from "../ui/hover-card";
 import { FilterSelect } from "../(controls)/filter-select";
 import { toast } from "sonner";
-import { AddSharedNodes } from "./add-shared-nodes";
+import { AddSharedFilter } from "./add-shared-filter";
 
 export function PrivateNode({ hidden }: { hidden?: boolean }) {
   const map = useMap();
   const canvasMarker = useRef<CanvasMarker | null>(null);
   const mapName = useUserStore((state) => state.mapName);
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const addPrivateNode = useSettingsStore((state) => state.addPrivateNode);
-  const removePrivateNode = useSettingsStore(
-    (state) => state.removePrivateNode,
-  );
+  const myFilters = useSettingsStore((state) => state.myFilters);
+  const setMyFilters = useSettingsStore((state) => state.setMyFilters);
   const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
-  const addSharedFilter = useSettingsStore((state) => state.addSharedFilter);
-  const sharedFilters = useSettingsStore((state) => state.sharedFilters);
-
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
   const isEditing = tempPrivateNode !== null;
@@ -211,12 +205,6 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       return;
     }
 
-    const isExistingNode = tempPrivateNode.id
-      ? privateNodes.some((marker) => marker.id === tempPrivateNode.id)
-      : false;
-    if (isExistingNode) {
-      removePrivateNode(tempPrivateNode.id!);
-    }
     const latLng = canvasMarker.current.getLatLng();
     const id = `${tempPrivateNode.filter}_${Date.now()}`;
     const marker: PrivateNode = {
@@ -232,41 +220,35 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       p: [latLng.lat, latLng.lng] as [number, number],
       mapName,
     };
-    if (isExistingNode) {
+
+    const newMyFilters = [...myFilters];
+    const myFilter = newMyFilters.find(
+      (filter) => filter.name === marker.filter,
+    );
+    if (!myFilter) {
+      return;
+    }
+    myFilter.nodes =
+      myFilter.nodes?.filter((marker) => marker.id !== tempPrivateNode.id) ??
+      [];
+    myFilter.nodes.push(marker);
+
+    if (tempPrivateNode.id) {
       trackEvent("Private Node: Update", {
-        props: { filter: marker.filter },
+        props: { filter: tempPrivateNode.filter },
       });
     } else {
       trackEvent("Private Node: Add", {
-        props: { filter: marker.filter },
+        props: { filter: tempPrivateNode.filter },
       });
     }
 
-    const isSharedFilter = marker.filter.includes("shared_");
-    if (isSharedFilter) {
-      const sharedFilter = sharedFilters.find(
-        (f) => f.filter === marker.filter,
-      );
-      const markers = [
-        ...privateNodes.filter(
-          (node) => node.id !== marker.id && node.filter === marker.filter,
-        ),
-        marker,
-      ];
-      const newBlob = await putSharedNodes(
-        sharedFilter?.url ?? marker.filter,
-        markers,
-      );
-      if (!sharedFilter) {
-        addSharedFilter({
-          filter: marker.filter,
-          url: newBlob.url,
-        });
-      }
+    if (myFilter.isShared && myFilter.url) {
+      putSharedFilters(myFilter.url, myFilter);
     }
 
-    addPrivateNode(marker);
-    setFilters([...filters.filter((f) => f !== marker.filter), marker.filter!]);
+    setMyFilters(newMyFilters);
+    setFilters([...filters.filter((f) => f !== marker.filter), marker.filter]);
     setTempPrivateNode(null);
   };
 
@@ -312,7 +294,16 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
                     </HoverCardContent>
                   </HoverCard>
                 </Label>
-                <FilterSelect id="filter" className="col-span-2 h-8" />
+                <FilterSelect
+                  id="filter"
+                  className="col-span-2 h-8"
+                  filter={tempPrivateNode?.filter}
+                  onFilterSelect={(filter) => {
+                    setTempPrivateNode({
+                      filter,
+                    });
+                  }}
+                />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="name" className="flex gap-1 items-center">
@@ -428,7 +419,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
             </div>
           </div>
           <div className="flex items-center space-x-2 mt-2">
-            <Button size="sm" type="submit">
+            <Button size="sm" type="submit" disabled={!tempPrivateNode?.filter}>
               Save
             </Button>
             <Button
@@ -466,7 +457,18 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
                   if (!Array.isArray(data)) {
                     return;
                   }
-                  data.forEach(addPrivateNode);
+                  const isDeprecatedNodes = data[0].id && data[0].filter;
+                  if (!isDeprecatedNodes) {
+                    return;
+                  }
+                  const newMyFilters = [
+                    ...myFilters,
+                    {
+                      name: data[0].filter,
+                      nodes: data,
+                    },
+                  ];
+                  setMyFilters(newMyFilters);
                   toast(
                     `Nodes imported to filter: ${data[0].filter
                       .replace("private_", "")
@@ -482,7 +484,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
             <Upload className="h-4 w-4 mr-2" />
             Upload Nodes
           </Button>
-          <AddSharedNodes />
+          <AddSharedFilter />
         </div>
       </PopoverContent>
     </Popover>

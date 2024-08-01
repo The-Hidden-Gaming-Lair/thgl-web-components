@@ -2,7 +2,7 @@ import Markdown from "markdown-to-jsx";
 import { useT } from "../(providers)";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import { cn, putSharedNodes, useSettingsStore } from "@repo/lib";
+import { useSettingsStore } from "@repo/lib";
 import { Label } from "../ui/label";
 import {
   Carousel,
@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Button } from "../ui/button";
-import { Info, User, Users } from "lucide-react";
+import { Info } from "lucide-react";
 import {
   HoverCard,
   HoverCardContent,
@@ -45,14 +45,10 @@ export function MarkerTooltip({
   const toggleDiscoveredNode = useSettingsStore(
     (state) => state.toggleDiscoveredNode,
   );
-  const removePrivateNode = useSettingsStore(
-    (state) => state.removePrivateNode,
-  );
+  const removeMyNode = useSettingsStore((state) => state.removeMyNode);
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const sharedFilters = useSettingsStore((state) => state.sharedFilters);
 
   return (
     <Carousel>
@@ -64,14 +60,7 @@ export function MarkerTooltip({
                 {t(item.termId, false, item.type) || item.termId}
               </h3>
               <p className="italic flex gap-2 items-center">
-                {item.type.includes("private_") && (
-                  <User className={cn("h-4 w-4 shrink-0")} />
-                )}
-                {item.type.includes("shared_") && (
-                  <Users className={cn("h-4 w-4 shrink-0")} />
-                )}
-                {t(item.type) ||
-                  item.type.replace("private_", "").replace(/shared_\d+_/, "")}
+                {t(item.type) || item.type.replace(/my_\d+_/, "")}
                 {item.group && ` | ${t(item.group) || item.group}`}
               </p>
               <p className="text-xs text-muted-foreground">
@@ -94,7 +83,12 @@ export function MarkerTooltip({
                       <Button
                         size="sm"
                         onClick={() => {
-                          const privateNode = privateNodes.find(
+                          const myFilter = useSettingsStore
+                            .getState()
+                            .myFilters.find((filter) =>
+                              filter.nodes?.some((node) => node.id === item.id),
+                            );
+                          const privateNode = myFilter?.nodes?.find(
                             (node) => node.id === item.id,
                           );
                           setTempPrivateNode(privateNode ?? null);
@@ -107,21 +101,7 @@ export function MarkerTooltip({
                         size="sm"
                         variant="destructive"
                         onClick={() => {
-                          if (item.type.includes("shared_")) {
-                            const sharedFilter = sharedFilters.find(
-                              (f) => f.filter === item.type,
-                            );
-                            const markers = privateNodes.filter(
-                              (node) =>
-                                node.id !== item.id &&
-                                node.filter === item.type,
-                            );
-                            putSharedNodes(
-                              sharedFilter?.url ?? item.type,
-                              markers,
-                            );
-                          }
-                          removePrivateNode(item.id);
+                          removeMyNode(item.id);
                           onClose();
                         }}
                       >

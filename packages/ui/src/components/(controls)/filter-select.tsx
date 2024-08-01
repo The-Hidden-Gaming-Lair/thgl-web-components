@@ -15,26 +15,24 @@ import { ScrollArea } from "../ui/scroll-area";
 export function FilterSelect({
   id,
   className,
+  filter,
+  onFilterSelect,
+  disabled,
 }: {
   id?: string;
   className?: string;
+  filter?: string;
+  onFilterSelect?: (value: string) => void;
+  disabled?: boolean;
 }): JSX.Element {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(filter ?? "");
 
   const [open, setOpen] = useState(false);
-  const filter = useSettingsStore((state) => state.tempPrivateNode?.filter);
-  const setTempPrivateNode = useSettingsStore(
-    (state) => state.setTempPrivateNode,
-  );
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const privateNodesFilters = [
-    ...new Set(
-      privateNodes.map(
-        (privateNode) => privateNode.filter ?? "private_Unsorted",
-      ),
-    ),
-  ];
-  const isExistingFilter = privateNodesFilters.includes(value);
+  const myFilters = useSettingsStore((state) => state.myFilters);
+  const addMyFilter = useSettingsStore((state) => state.addMyFilter);
+  const filterNames = myFilters.map((filter) => filter.name);
+  const isExistingFilter = filterNames.includes(value);
+  const myFilter = myFilters.find((f) => f.name === filter);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -48,17 +46,16 @@ export function FilterSelect({
             "rounded-md border border-input justify-between",
             className,
           )}
+          disabled={disabled}
         >
-          {filter ? (
+          {myFilter ? (
             <span className="truncate flex gap-2 items-center">
-              {filter.includes("private_") ? (
+              {!myFilter.isShared ? (
                 <User className={cn("h-4 w-4 shrink-0")} />
               ) : (
                 <Users className={cn("h-4 w-4 shrink-0")} />
               )}
-              <span>
-                {filter.replace("private_", "").replace(/shared_\d+_/, "")}
-              </span>
+              <span>{myFilter.name.replace(/my_\d+_/, "")}</span>
             </span>
           ) : (
             <span />
@@ -71,37 +68,38 @@ export function FilterSelect({
           <CommandInput
             placeholder="Enter filter name..."
             value={value}
-            onValueChange={setValue}
+            onValueChange={(v) => {
+              if (v.startsWith("private_") || v.startsWith("shared_")) {
+                return;
+              }
+              setValue(v);
+            }}
           />
           <CommandList>
             <CommandGroup className="p-0 grid">
               <ScrollArea className="h-full max-h-96">
-                {privateNodesFilters.map((privateFilter) => (
+                {myFilters.map((myFilter) => (
                   <CommandItem
-                    key={privateFilter}
-                    value={privateFilter}
+                    key={myFilter.name}
+                    value={myFilter.name}
                     onSelect={() => {
-                      setTempPrivateNode({ filter: privateFilter });
+                      onFilterSelect?.(myFilter.name);
                       setOpen(false);
                     }}
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        filter === privateFilter ? "opacity-100" : "opacity-0",
+                        filter === myFilter.name ? "opacity-100" : "opacity-0",
                       )}
                     />
                     <div className="flex gap-2 items-center">
-                      {privateFilter.includes("private_") ? (
+                      {!myFilter.isShared ? (
                         <User className={cn("h-4 w-4 shrink-0")} />
                       ) : (
                         <Users className={cn("h-4 w-4 shrink-0")} />
                       )}
-                      <span>
-                        {privateFilter
-                          .replace("private_", "")
-                          .replace(/shared_\d+_/, "")}
-                      </span>
+                      <span>{myFilter.name.replace(/my_\d+_/, "")}</span>
                     </div>
                   </CommandItem>
                 ))}
@@ -110,8 +108,12 @@ export function FilterSelect({
                     <CommandItem
                       value={`private_${value}`}
                       disabled={value.length === 0}
-                      onSelect={() => {
-                        setTempPrivateNode({ filter: `private_${value}` });
+                      onSelect={(e) => {
+                        addMyFilter({
+                          name: value,
+                        });
+                        onFilterSelect?.(value);
+                        setValue(value);
                         setOpen(false);
                       }}
                     >
@@ -125,9 +127,12 @@ export function FilterSelect({
                       value={`shared_${value}`}
                       disabled={value.length === 0}
                       onSelect={() => {
-                        setTempPrivateNode({
-                          filter: `shared_${Date.now()}_${value}`,
+                        addMyFilter({
+                          name: value,
+                          isShared: true,
                         });
+                        onFilterSelect?.(value);
+                        setValue(value);
                         setOpen(false);
                       }}
                     >

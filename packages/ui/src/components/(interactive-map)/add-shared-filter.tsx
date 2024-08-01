@@ -11,16 +11,22 @@ import {
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { getSharedNodesByCode, useSettingsStore } from "@repo/lib";
+import {
+  getSharedFilterByCode,
+  type MyFilter,
+  useSettingsStore,
+} from "@repo/lib";
 import { toast } from "sonner";
+import { useUserStore } from "../(providers)";
 
-export function AddSharedNodes() {
+export function AddSharedFilter() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [shareCode, setShareCode] = useState("");
-  const addSharedFilter = useSettingsStore((state) => state.addSharedFilter);
-  const addPrivateNode = useSettingsStore((state) => state.addPrivateNode);
+  const addMyFilter = useSettingsStore((state) => state.addMyFilter);
   const [open, setOpen] = useState(false);
+  const filters = useUserStore((state) => state.filters);
+  const setFilters = useUserStore((state) => state.setFilters);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,19 +34,13 @@ export function AddSharedNodes() {
     setErrorMessage("");
 
     try {
-      const blob = await getSharedNodesByCode(shareCode);
+      const blob = await getSharedFilterByCode(shareCode);
       const response = await fetch(blob.url);
-      const data = await response.json();
-      if (!Array.isArray(data)) {
-        throw new Error("Invalid shared nodes");
-      }
-      const filter = data[0].filter as string;
-      await addSharedFilter({
-        filter,
-        url: blob.url,
-      });
-      data.forEach(addPrivateNode);
-      toast.success("Shared nodes added successfully");
+      const data = (await response.json()) as MyFilter;
+      addMyFilter({ ...data, url: blob.url });
+      toast.success("Shared filter added successfully");
+      setFilters([...filters.filter((f) => f !== data.name), data.name]);
+
       setOpen(false);
     } catch (error) {
       if (error instanceof Error) {
@@ -62,16 +62,16 @@ export function AddSharedNodes() {
           onClick={async () => {}}
         >
           <Users className="h-4 w-4 mr-2" />
-          Add Shared Nodes
+          Add Shared Filter
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Shared Nodes</DialogTitle>
+          <DialogTitle>Add Shared Filter</DialogTitle>
           <DialogDescription>
-            Shared nodes can be created by selecting a shared filter and by
-            sharing the code in menu next to the filter. Other users can import
-            the shared nodes by entering the code.
+            The code for the shared filters is available in menu next to the
+            filter. Other users can import the filters including all nodes and
+            drawings by entering the code.
           </DialogDescription>
         </DialogHeader>
         <section className="space-y-4 overflow-hidden">
@@ -96,7 +96,7 @@ export function AddSharedNodes() {
               {isLoading && (
                 <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Add Shared Nodes
+              Add Shared Filter
             </Button>
           </form>
         </section>

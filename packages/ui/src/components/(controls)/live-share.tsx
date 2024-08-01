@@ -11,6 +11,7 @@ import {
 import { Button } from "../ui/button";
 import {
   cn,
+  MyFilter,
   PrivateDrawing,
   PrivateNode,
   useConnectionStore,
@@ -42,8 +43,7 @@ export function LiveShare({ domain }: { domain: string }) {
     setErrorMessage("");
     setIsLoading(false);
     connectionStore.closeExistingConnections();
-    connectionStore.setPrivateDrawings([]);
-    connectionStore.setPrivateNodes([]);
+    connectionStore.setMyFilters([]);
     connectionStore.setTempPrivateDrawing(null);
     connectionStore.setTempPrivateNode(null);
     if (peerRef.current) {
@@ -80,11 +80,9 @@ export function LiveShare({ domain }: { domain: string }) {
             console.error("conn data error", error);
           }
         }
-        if ("selectedPrivateDrawings" in data) {
+        if ("selectedMyFilters" in data) {
           try {
-            connectionStore.setPrivateDrawings(
-              data.selectedPrivateDrawings as PrivateDrawing[],
-            );
+            connectionStore.setMyFilters(data.selectedMyFilters as MyFilter[]);
           } catch (error) {
             console.error("conn data error", error);
           }
@@ -93,15 +91,6 @@ export function LiveShare({ domain }: { domain: string }) {
           try {
             connectionStore.setTempPrivateNode(
               data.tempPrivateNode as Partial<PrivateNode> | null,
-            );
-          } catch (error) {
-            console.error("conn data error", error);
-          }
-        }
-        if ("selectedPrivateNodes" in data) {
-          try {
-            connectionStore.setPrivateNodes(
-              data.selectedPrivateNodes as PrivateNode[],
             );
           } catch (error) {
             console.error("conn data error", error);
@@ -192,17 +181,18 @@ export function LiveShare({ domain }: { domain: string }) {
     sendToConnections({ tempPrivateDrawing });
   }, [isOwner, isConnected, sendToConnections, tempPrivateDrawing]);
   const { filters } = useUserStore();
-  const privateDrawings = useSettingsStore((state) => state.privateDrawings);
-  const selectedPrivateDrawings = useMemo(
-    () => privateDrawings.filter((drawing) => filters.includes(drawing.id)),
-    [filters, privateDrawings],
+  const myFilters = useSettingsStore((state) => state.myFilters);
+  const selectedMyFilters = useMemo(
+    () => myFilters.filter((myFilter) => filters.includes(myFilter.name)),
+    [filters, myFilters],
   );
   useEffect(() => {
     if (!isOwner || !isConnected) {
       return;
     }
-    sendToConnections({ selectedPrivateDrawings });
-  }, [isOwner, isConnected, sendToConnections, selectedPrivateDrawings]);
+    sendToConnections({ selectedMyFilters });
+  }, [isOwner, isConnected, sendToConnections, selectedMyFilters]);
+
   const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
   useEffect(() => {
     if (!isOwner || !isConnected) {
@@ -210,21 +200,6 @@ export function LiveShare({ domain }: { domain: string }) {
     }
     sendToConnections({ tempPrivateNode });
   }, [isOwner, isConnected, sendToConnections, tempPrivateNode]);
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const selectedPrivateNodes = useMemo(
-    () =>
-      privateNodes.filter((node) =>
-        filters.includes(node.filter ?? "private_Unsorted"),
-      ),
-    [filters, privateNodes],
-  );
-
-  useEffect(() => {
-    if (!isOwner || !isConnected) {
-      return;
-    }
-    sendToConnections({ selectedPrivateNodes });
-  }, [isOwner, isConnected, sendToConnections, selectedPrivateNodes]);
 
   const hasConnections = Object.keys(connectionStore.connections).length > 0;
   return (

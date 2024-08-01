@@ -1,11 +1,11 @@
-import { PrivateNode } from "./settings";
+import { MyFilter } from "./settings";
 
-export async function putSharedNodes(filename: string, nodes: PrivateNode[]) {
+export async function putSharedFilters(filename: string, myFilter: MyFilter) {
   const response = await fetch(
-    `https://www.th.gl/api/shared-nodes?filename=${filename}`,
+    `https://www.th.gl/api/shared-filters?filename=${filename}`,
     {
       method: "PUT",
-      body: JSON.stringify(nodes),
+      body: JSON.stringify(myFilter),
     },
   );
   if (!response.ok) {
@@ -20,12 +20,12 @@ export async function putSharedNodes(filename: string, nodes: PrivateNode[]) {
   }>;
 }
 
-export async function getSharedNodesByCode(code: string) {
+export async function getSharedFilterByCode(code: string) {
   const response = await fetch(
-    `https://www.th.gl/api/shared-nodes?code=${code}`,
+    `https://www.th.gl/api/shared-filters?code=${code}`,
   );
   if (!response.ok) {
-    throw new Error("Can not find shared node");
+    throw new Error("Can not find shared filter");
   }
   return response.json() as Promise<{
     url: string;

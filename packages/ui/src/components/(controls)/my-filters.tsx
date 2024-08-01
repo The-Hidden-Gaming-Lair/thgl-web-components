@@ -1,3 +1,4 @@
+"use client";
 import { cn, saveFile, useSettingsStore, writeFileOverwolf } from "@repo/lib";
 import {
   Collapsible,
@@ -10,7 +11,6 @@ import {
   Download,
   EllipsisVertical,
   Pencil,
-  Spline,
   Trash,
   User,
   Users,
@@ -29,17 +29,9 @@ import { useT, useUserStore } from "../(providers)";
 export function MyFilters() {
   const t = useT();
   const { filters, setFilters, toggleFilter } = useUserStore();
-  const privateNodes = useSettingsStore((state) => state.privateNodes);
-  const privateDrawings = useSettingsStore((state) => state.privateDrawings);
-  const sharedFilters = useSettingsStore((state) => state.sharedFilters);
+  const myFilters = useSettingsStore((state) => state.myFilters);
+  const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
 
-  const removePrivateDrawing = useSettingsStore(
-    (state) => state.removePrivateDrawing,
-  );
-  const setPrivateNodes = useSettingsStore((state) => state.setPrivateNodes);
-  const removeSharedFilter = useSettingsStore(
-    (state) => state.removeSharedFilter,
-  );
   const isDrawingEditing = useSettingsStore(
     (state) => state.tempPrivateDrawing !== null,
   );
@@ -47,22 +39,13 @@ export function MyFilters() {
     (state) => state.setTempPrivateDrawing,
   );
 
-  const privateNodesFilters = [
-    ...new Set([
-      ...privateNodes.map(
-        (privateNode) => privateNode.filter ?? "private_Unsorted",
-      ),
-      ...sharedFilters.map((sharedFilter) => sharedFilter.filter),
-    ]),
-  ];
-  const privateFilters = [
-    ...privateNodesFilters,
-    ...privateDrawings.map((value) => value.id),
-  ];
-  const hasActiveFilters = privateFilters.some((filter) =>
+  const filterNames = myFilters.map((filter) => filter.name);
+  const hasActiveFilters = filterNames.some((filter) =>
     filters.includes(filter),
   );
-
+  if (filterNames.length === 0) {
+    return <></>;
+  }
   return (
     <Collapsible defaultOpen>
       <div
@@ -79,14 +62,14 @@ export function MyFilters() {
           )}
           onClick={() => {
             const newFilters = hasActiveFilters
-              ? filters.filter((filter) => !privateFilters.includes(filter))
-              : [...new Set([...filters, ...privateFilters])];
+              ? filters.filter((filter) => !filterNames.includes(filter))
+              : [...new Set([...filters, ...filterNames])];
             setFilters(newFilters);
           }}
-          title="My Nodes & Drawings"
+          title="My Filters"
           type="button"
         >
-          My Drawings & Nodes
+          My Filters
         </button>
         <CollapsibleTrigger asChild>
           <button className="transition-colors hover:text-primary p-2">
@@ -95,49 +78,37 @@ export function MyFilters() {
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent className="flex flex-wrap w-[175px] md:w-full">
-        {privateNodesFilters
-          .sort((a, b) => a.localeCompare(b))
-          .map((nodeFilter) => {
-            const sharedFilter =
-              nodeFilter.includes("shared_") &&
-              sharedFilters.find((f) => f.filter === nodeFilter);
+        {myFilters
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((myFilter) => {
             return (
               <div
-                key={nodeFilter}
+                key={myFilter.name}
                 className="flex md:basis-1/2 overflow-hidden"
               >
                 <button
                   className={cn(
                     "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
                     {
-                      "text-muted-foreground": !filters.includes(nodeFilter),
+                      "text-muted-foreground": !filters.includes(myFilter.name),
                     },
                   )}
                   onClick={() => {
-                    toggleFilter(nodeFilter);
+                    toggleFilter(myFilter.name);
                   }}
-                  title={nodeFilter
-                    .replace("private_", "")
-                    .replace(/shared_\d+_/, "")}
+                  title={myFilter.name.replace("my_", "")}
                   type="button"
                 >
-                  {nodeFilter.includes("private_") ? (
+                  {!myFilter.isShared ? (
                     <User className={cn("h-4 w-4 shrink-0")} />
                   ) : (
                     <>
                       <Users className={cn("h-4 w-4 shrink-0")} />
-                      {sharedFilter && (
-                        <SharedFilter
-                          url={sharedFilter.url}
-                          filter={sharedFilter.filter}
-                        />
-                      )}
+                      <SharedFilter myFilter={myFilter} />
                     </>
                   )}
                   <span className="truncate">
-                    {nodeFilter
-                      .replace("private_", "")
-                      .replace(/shared_\d+_/, "")}
+                    {myFilter.name.replace("my_", "")}
                   </span>
                 </button>
                 <DropdownMenu>
@@ -146,19 +117,10 @@ export function MyFilters() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuGroup>
-                      {nodeFilter.includes("shared_") && (
+                      {myFilter.isShared && (
                         <DropdownMenuItem
                           onClick={() => {
-                            const sharedFilter = useSettingsStore
-                              .getState()
-                              .sharedFilters.find(
-                                (f) => f.filter === nodeFilter,
-                              );
-                            if (!sharedFilter) {
-                              toast.error("Shared filter not found");
-                              return;
-                            }
-                            const code = sharedFilter.url.split("-").at(-1);
+                            const code = myFilter.url?.split("-").at(-1);
                             if (!code) {
                               toast.error("Invalid shared filter code");
                               return;
@@ -173,19 +135,15 @@ export function MyFilters() {
                       )}
                       <DropdownMenuItem
                         onClick={() => {
-                          const fileName = `${nodeFilter}.json`;
-                          const nodes = privateNodes.filter(
-                            (n) =>
-                              (n.filter ?? "private_Unsorted") === nodeFilter,
-                          );
+                          const fileName = `${myFilter}.json`;
                           if (typeof overwolf === "undefined") {
-                            const blob = new Blob([JSON.stringify(nodes)], {
+                            const blob = new Blob([JSON.stringify(myFilter)], {
                               type: "text/json",
                             });
                             saveFile(blob, fileName);
                           } else {
                             writeFileOverwolf(
-                              JSON.stringify(nodes),
+                              JSON.stringify(myFilter),
                               overwolf.io.paths.documents +
                                 "\\the-hidden-gaming-lair",
                               fileName,
@@ -198,13 +156,18 @@ export function MyFilters() {
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
-                          setPrivateNodes(
-                            privateNodes.filter(
-                              (n) =>
-                                (n.filter ?? "private_Unsorted") !== nodeFilter,
-                            ),
+                          setTempPrivateDrawing(
+                            myFilter.drawing ?? { name: myFilter.name },
                           );
-                          removeSharedFilter(nodeFilter);
+                        }}
+                        disabled={isDrawingEditing}
+                      >
+                        <Pencil className="mr-2 h-4 w-4" />
+                        <span>Edit Drawing</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          removeMyFilter(myFilter.name);
                         }}
                       >
                         <Trash className="mr-2 h-4 w-4" />
@@ -216,84 +179,6 @@ export function MyFilters() {
               </div>
             );
           })}
-        {privateDrawings
-          .sort((a, b) => t(a.id).localeCompare(t(b.id)))
-          .map((privateDrawing) => (
-            <div
-              key={privateDrawing.id}
-              className="flex md:basis-1/2 overflow-hidden"
-            >
-              <button
-                className={cn(
-                  "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
-                  {
-                    "text-muted-foreground": !filters.includes(
-                      privateDrawing.id,
-                    ),
-                  },
-                )}
-                onClick={() => {
-                  toggleFilter(privateDrawing.id);
-                }}
-                title={t(privateDrawing.id)}
-                type="button"
-              >
-                <Spline className="h-5 w-5 shrink-0" />
-                <span className="truncate">{privateDrawing.name}</span>
-              </button>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="transition-colors text-muted-foreground hover:text-primary p-2">
-                  <EllipsisVertical className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        const fileName = `${privateDrawing.id}.json`;
-                        if (typeof overwolf === "undefined") {
-                          const blob = new Blob(
-                            [JSON.stringify(privateDrawing)],
-                            {
-                              type: "text/json",
-                            },
-                          );
-                          saveFile(blob, fileName);
-                        } else {
-                          writeFileOverwolf(
-                            JSON.stringify(privateDrawing),
-                            overwolf.io.paths.documents +
-                              "\\the-hidden-gaming-lair",
-                            fileName,
-                          );
-                        }
-                      }}
-                    >
-                      <Download className="mr-2 h-4 w-4" />
-                      <span>Download</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        setTempPrivateDrawing(privateDrawing);
-                      }}
-                      disabled={isDrawingEditing}
-                    >
-                      <Pencil className="mr-2 h-4 w-4" />
-                      <span>Edit</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        removePrivateDrawing(privateDrawing.id);
-                      }}
-                      disabled={isDrawingEditing}
-                    >
-                      <Trash className="mr-2 h-4 w-4" />
-                      <span>Delete</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          ))}
       </CollapsibleContent>
     </Collapsible>
   );

@@ -1,6 +1,6 @@
 import { type DataConnection } from "peerjs";
 import { create } from "zustand";
-import { PrivateDrawing, PrivateNode } from "./settings";
+import { MyFilter, PrivateDrawing, PrivateNode } from "./settings";
 
 export const useConnectionStore = create<{
   peerId: string;
@@ -14,12 +14,10 @@ export const useConnectionStore = create<{
   setTempPrivateDrawing: (
     tempPrivateDrawing: Partial<PrivateDrawing> | null,
   ) => void;
-  privateDrawings: PrivateDrawing[];
-  setPrivateDrawings: (privateDrawings: PrivateDrawing[]) => void;
   tempPrivateNode: Partial<PrivateNode> | null;
   setTempPrivateNode: (tempPrivateNode: Partial<PrivateNode> | null) => void;
-  privateNodes: PrivateNode[];
-  setPrivateNodes: (privateNodes: PrivateNode[]) => void;
+  myFilters: MyFilter[];
+  setMyFilters: (myFilters: MyFilter[]) => void;
 }>((set) => ({
   peerId: "",
   setPeerId: (peerId) => set({ peerId }),
@@ -51,10 +49,8 @@ export const useConnectionStore = create<{
   },
   tempPrivateDrawing: null,
   setTempPrivateDrawing: (tempPrivateDrawing) => set({ tempPrivateDrawing }),
-  privateDrawings: [],
-  setPrivateDrawings: (privateDrawings) => set({ privateDrawings }),
   tempPrivateNode: null,
   setTempPrivateNode: (tempPrivateNode) => set({ tempPrivateNode }),
-  privateNodes: [],
-  setPrivateNodes: (privateNodes) => set({ privateNodes }),
+  myFilters: [],
+  setMyFilters: (myFilters) => set({ myFilters }),
 }));

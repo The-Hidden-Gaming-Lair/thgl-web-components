@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { withStorageDOMEvents } from "./dom";
+import { putSharedFilters } from "./shared-nodes";
 
 export type PrivateNode = {
   id: string;
@@ -54,86 +55,95 @@ export type PrivateDrawing = {
   }[];
 };
 
+export type MyFilter = {
+  name: string;
+  isShared?: boolean;
+  url?: string;
+  nodes?: PrivateNode[];
+  drawing?: PrivateDrawing;
+};
+
+type SettingsStore = {
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
+  groupName: string;
+  setGroupName: (groupName: string) => void;
+  appId: string;
+  setAppId: (lastAppId: string) => void;
+  liveMode: boolean;
+  setLiveMode: (liveMode: boolean) => void;
+  toggleLiveMode: () => void;
+  overlayMode: boolean | null;
+  setOverlayMode: (overlayMode: boolean) => void;
+  lockedWindow: boolean;
+  toggleLockedWindow: () => void;
+  transforms: Record<string, string>;
+  setTransform: (id: string, transform: string) => void;
+  mapTransform: Record<string, string> | null;
+  setMapTransform: (mapTransform: Record<string, string>) => void;
+  mapFilter: string;
+  setMapFilter: (mapFilter: string) => void;
+  windowOpacity: number;
+  setWindowOpacity: (windowOpacity: number) => void;
+  resetTransform: () => void;
+  discoveredNodes: string[];
+  toggleDiscoveredNode: (nodeId: string) => void;
+  setDiscoverNode: (nodeId: string, discovered: boolean) => void;
+  hideDiscoveredNodes: boolean;
+  toggleHideDiscoveredNodes: () => void;
+  setDiscoveredNodes: (discoveredNodes: string[]) => void;
+  actorsPollingRate: number;
+  setActorsPollingRate: (actorsPollingRate: number) => void;
+  showTraceLine: boolean;
+  toggleShowTraceLine: () => void;
+  traceLineLength: number;
+  setTraceLineLength: (traceLineLength: number) => void;
+  traceLineRate: number;
+  setTraceLineRate: (traceLineRate: number) => void;
+  traceLineColor: string;
+  setTraceLineColor: (traceLineColor: string) => void;
+  displayDiscordActivityStatus: boolean;
+  setDisplayDiscordActivityStatus: (
+    displayDiscordActivityStatus: boolean,
+  ) => void;
+  presets: Record<string, string[]>;
+  addPreset: (presetName: string, filters: string[]) => void;
+  removePreset: (presetName: string) => void;
+  tempPrivateNode: Partial<PrivateNode> | null;
+  setTempPrivateNode: (tempPrivateNode: Partial<PrivateNode> | null) => void;
+  tempPrivateDrawing: Partial<PrivateDrawing> | null;
+  setTempPrivateDrawing: (
+    tempPrivateDrawing: Partial<PrivateDrawing> | null,
+  ) => void;
+  drawingColor: string;
+  setDrawingColor: (drawingColor: string) => void;
+  drawingSize: number;
+  setDrawingSize: (drawingSize: number) => void;
+  textColor: string;
+  setTextColor: (textColor: string) => void;
+  textSize: number;
+  setTextSize: (textSize: number) => void;
+  baseIconSize: number;
+  setBaseIconSize: (baseIconSize: number) => void;
+  fitBoundsOnChange: boolean;
+  toggleFitBoundsOnChange: () => void;
+  myFilters: MyFilter[];
+  setMyFilters: (myFilters: MyFilter[]) => void;
+  setMyFilter: (myFilter: MyFilter) => void;
+  addMyFilter: (myFilter: MyFilter) => void;
+  removeMyFilter: (myFilterName: string) => void;
+  removeMyNode: (nodeId: string) => void;
+  // Deprecated
+  privateNodes?: PrivateNode[];
+  privateDrawings?: PrivateDrawing[];
+  sharedFilters?: {
+    url: string;
+    filter: string;
+  }[];
+};
+
 export const useSettingsStore = create(
-  persist<{
-    _hasHydrated: boolean;
-    setHasHydrated: (state: boolean) => void;
-    groupName: string;
-    setGroupName: (groupName: string) => void;
-    appId: string;
-    setAppId: (lastAppId: string) => void;
-    liveMode: boolean;
-    setLiveMode: (liveMode: boolean) => void;
-    toggleLiveMode: () => void;
-    overlayMode: boolean | null;
-    setOverlayMode: (overlayMode: boolean) => void;
-    lockedWindow: boolean;
-    toggleLockedWindow: () => void;
-    transforms: Record<string, string>;
-    setTransform: (id: string, transform: string) => void;
-    mapTransform: Record<string, string> | null;
-    setMapTransform: (mapTransform: Record<string, string>) => void;
-    mapFilter: string;
-    setMapFilter: (mapFilter: string) => void;
-    windowOpacity: number;
-    setWindowOpacity: (windowOpacity: number) => void;
-    resetTransform: () => void;
-    discoveredNodes: string[];
-    toggleDiscoveredNode: (nodeId: string) => void;
-    setDiscoverNode: (nodeId: string, discovered: boolean) => void;
-    hideDiscoveredNodes: boolean;
-    toggleHideDiscoveredNodes: () => void;
-    setDiscoveredNodes: (discoveredNodes: string[]) => void;
-    actorsPollingRate: number;
-    setActorsPollingRate: (actorsPollingRate: number) => void;
-    showTraceLine: boolean;
-    toggleShowTraceLine: () => void;
-    traceLineLength: number;
-    setTraceLineLength: (traceLineLength: number) => void;
-    traceLineRate: number;
-    setTraceLineRate: (traceLineRate: number) => void;
-    traceLineColor: string;
-    setTraceLineColor: (traceLineColor: string) => void;
-    displayDiscordActivityStatus: boolean;
-    setDisplayDiscordActivityStatus: (
-      displayDiscordActivityStatus: boolean,
-    ) => void;
-    presets: Record<string, string[]>;
-    addPreset: (presetName: string, filters: string[]) => void;
-    removePreset: (presetName: string) => void;
-    privateNodes: PrivateNode[];
-    addPrivateNode: (marker: PrivateNode) => void;
-    removePrivateNode: (id: string) => void;
-    setPrivateNodes: (markers: PrivateNode[]) => void;
-    sharedFilters: {
-      url: string;
-      filter: string;
-    }[];
-    addSharedFilter: (filter: { url: string; filter: string }) => void;
-    removeSharedFilter: (filterName: string) => void;
-    tempPrivateNode: Partial<PrivateNode> | null;
-    setTempPrivateNode: (tempPrivateNode: Partial<PrivateNode> | null) => void;
-    privateDrawings: PrivateDrawing[];
-    addPrivateDrawing: (drawing: PrivateDrawing) => void;
-    removePrivateDrawing: (id: string) => void;
-    setPrivateDrawings: (drawings: PrivateDrawing[]) => void;
-    tempPrivateDrawing: Partial<PrivateDrawing> | null;
-    setTempPrivateDrawing: (
-      tempPrivateDrawing: Partial<PrivateDrawing> | null,
-    ) => void;
-    drawingColor: string;
-    setDrawingColor: (drawingColor: string) => void;
-    drawingSize: number;
-    setDrawingSize: (drawingSize: number) => void;
-    textColor: string;
-    setTextColor: (textColor: string) => void;
-    textSize: number;
-    setTextSize: (textSize: number) => void;
-    baseIconSize: number;
-    setBaseIconSize: (baseIconSize: number) => void;
-    fitBoundsOnChange: boolean;
-    toggleFitBoundsOnChange: () => void;
-  }>(
+  persist<SettingsStore>(
     (set) => {
       return {
         _hasHydrated: false,
@@ -225,30 +235,6 @@ export const useSettingsStore = create(
             delete presets[presetName];
             return { presets };
           }),
-        privateNodes: [],
-        addPrivateNode: (marker) =>
-          set((state) => ({
-            privateNodes: [
-              ...state.privateNodes.filter((m) => m.id !== marker.id),
-              marker,
-            ],
-          })),
-        removePrivateNode: (id) =>
-          set((state) => ({
-            privateNodes: state.privateNodes.filter((m) => m.id !== id),
-          })),
-        setPrivateNodes: (markers) => set({ privateNodes: markers }),
-        sharedFilters: [],
-        addSharedFilter: (filter) =>
-          set((state) => ({
-            sharedFilters: [...state.sharedFilters, filter],
-          })),
-        removeSharedFilter: (filterName) =>
-          set((state) => ({
-            sharedFilters: state.sharedFilters.filter(
-              (f) => f.filter !== filterName,
-            ),
-          })),
         tempPrivateNode: null,
         setTempPrivateNode: (tempPrivateNode) =>
           set((state) => ({
@@ -256,16 +242,6 @@ export const useSettingsStore = create(
               ? { ...(state.tempPrivateNode || {}), ...tempPrivateNode }
               : null,
           })),
-        privateDrawings: [],
-        addPrivateDrawing: (drawing) =>
-          set((state) => ({
-            privateDrawings: [...state.privateDrawings, drawing],
-          })),
-        removePrivateDrawing: (id) =>
-          set((state) => ({
-            privateDrawings: state.privateDrawings.filter((m) => m.id !== id),
-          })),
-        setPrivateDrawings: (drawings) => set({ privateDrawings: drawings }),
         tempPrivateDrawing: null,
         setTempPrivateDrawing: (tempPrivateDrawing) =>
           set((state) => ({
@@ -286,12 +262,99 @@ export const useSettingsStore = create(
         fitBoundsOnChange: false,
         toggleFitBoundsOnChange: () =>
           set((state) => ({ fitBoundsOnChange: !state.fitBoundsOnChange })),
+        myFilters: [],
+        setMyFilters: (myFilters) => set({ myFilters }),
+        setMyFilter: (myFilter) =>
+          set((state) => {
+            const myFilters = state.myFilters.map((filter) =>
+              filter.name === myFilter.name ? myFilter : filter,
+            );
+            return { myFilters };
+          }),
+        addMyFilter: async (myFilter) => {
+          if (myFilter.isShared && !myFilter.url) {
+            const blob = await putSharedFilters(myFilter.name, myFilter);
+            myFilter.url = blob.url;
+          }
+          set((state) => {
+            return {
+              myFilters: [...state.myFilters, myFilter],
+            };
+          });
+        },
+        removeMyFilter: (myFilterName) =>
+          set((state) => ({
+            myFilters: state.myFilters.filter(
+              (filter) => filter.name !== myFilterName,
+            ),
+          })),
+        removeMyNode: (nodeId) =>
+          set((state) => {
+            const myFilter = state.myFilters.find((filter) =>
+              filter.nodes?.some((node) => node.id === nodeId),
+            );
+            if (!myFilter) {
+              return state;
+            }
+            myFilter.nodes = myFilter.nodes?.filter(
+              (node) => node.id !== nodeId,
+            );
+            if (myFilter.url) {
+              putSharedFilters(myFilter.url, myFilter);
+            }
+            return {
+              myFilters: state.myFilters.map((filter) =>
+                filter.name === myFilter.name ? myFilter : filter,
+              ),
+            };
+          }),
       };
     },
     {
       name: "settings-storage",
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
+      },
+      version: 1,
+      migrate: (persistedState, version) => {
+        const newState = persistedState as SettingsStore;
+        if (version === 0) {
+          newState.myFilters = [];
+          newState.privateNodes?.forEach((node) => {
+            const filterName = `my_${Date.now()}_${
+              node.filter?.replace("private_", "").replace(/shared_\d+_/, "") ??
+              "Unsorted"
+            }`;
+            const url = newState.sharedFilters?.find(
+              (f) => f.filter === filterName,
+            )?.url;
+            newState.myFilters.push({
+              name: filterName,
+              url,
+              nodes: [node],
+            });
+          });
+          newState.privateDrawings?.forEach((drawing) => {
+            const filterName = `my_${Date.now()}_${drawing.name}`;
+            const myFilter = newState.myFilters.find(
+              (filter) => filter.name === filterName,
+            );
+            if (myFilter) {
+              myFilter.drawing = drawing;
+            } else {
+              newState.myFilters.push({
+                name: filterName,
+                nodes: [],
+                drawing: drawing,
+              });
+            }
+          });
+          delete newState.privateNodes;
+          delete newState.privateDrawings;
+          delete newState.sharedFilters;
+        }
+
+        return newState;
       },
     },
   ),

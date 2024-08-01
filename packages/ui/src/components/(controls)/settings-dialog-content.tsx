@@ -125,18 +125,18 @@ export function SettingsDialogContent({
             />
           </div>
           <Separator />
-          <h4 className="text-md font-semibold">Private Nodes</h4>
+          <h4 className="text-md font-semibold">My Filters</h4>
           <p className="text-muted-foreground text-xs">
-            You have {settingsStore.privateNodes.length} private nodes.
+            You have {settingsStore.myFilters.length} filters.
           </p>
           <div className="flex items-center space-x-2">
             <Button
               size="sm"
               onClick={() => {
-                const fileName = `${activeApp}_Private_Nodes_${Date.now()}.json`;
+                const fileName = `${activeApp}_My_Filters_${Date.now()}.json`;
                 if (typeof overwolf === "undefined") {
                   const blob = new Blob(
-                    [JSON.stringify(settingsStore.privateNodes)],
+                    [JSON.stringify(settingsStore.myFilters)],
                     {
                       type: "text/json",
                     },
@@ -144,7 +144,7 @@ export function SettingsDialogContent({
                   saveFile(blob, fileName);
                 } else {
                   writeFileOverwolf(
-                    JSON.stringify(settingsStore.privateNodes),
+                    JSON.stringify(settingsStore.myFilters),
                     overwolf.io.paths.documents + "\\the-hidden-gaming-lair",
                     fileName,
                   );
@@ -168,13 +168,13 @@ export function SettingsDialogContent({
                     return;
                   }
                   try {
-                    let privateNodes = JSON.parse(text);
-                    if (!Array.isArray(privateNodes)) {
-                      privateNodes = [];
+                    let myFilters = JSON.parse(text);
+                    if (!Array.isArray(myFilters)) {
+                      myFilters = [];
                     }
 
-                    settingsStore.setPrivateNodes(privateNodes);
-                    toast.success("Private nodes restored");
+                    settingsStore.setMyFilters(myFilters);
+                    toast.success("My filters restored");
                   } catch (error) {
                     // Do nothing
                   }
@@ -188,8 +188,8 @@ export function SettingsDialogContent({
               variant="destructive"
               size="sm"
               onClick={() => {
-                settingsStore.setPrivateNodes([]);
-                toast.warning("Private nodes reset");
+                settingsStore.setMyFilters([]);
+                toast.warning("My filters reset");
               }}
             >
               Reset

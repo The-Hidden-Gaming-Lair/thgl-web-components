@@ -29,7 +29,7 @@ export function Markers({
   const t = useT();
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const liveMode = useSettingsStore((state) => state.liveMode);
-  const sharedPrivateNodes = useConnectionStore((state) => state.privateNodes);
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
 
   const handleMapMouseMoveRef = useRef<((e: LeafletMouseEvent) => void) | null>(
     null,
@@ -78,20 +78,24 @@ export function Markers({
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
-    const sharedPrivateSpawns = sharedPrivateNodes.map<Spawns[number]>(
-      (node) => {
-        return {
-          type: node.filter ?? "private_Unsorted",
-          mapName: node.mapName,
-          id: node.id,
-          name: node.name,
-          description: node.description,
-          p: node.p,
-          color: node.color,
-          icon: node.icon,
-          radius: node.radius,
-          isPrivate: true,
-        };
+    const sharedPrivateSpawns = sharedMyFilters.flatMap<Spawns[number]>(
+      (myFilter) => {
+        return (
+          myFilter.nodes?.map((node) => {
+            return {
+              type: node.filter,
+              mapName: node.mapName,
+              id: node.id,
+              name: node.name,
+              description: node.description,
+              p: node.p,
+              color: node.color,
+              icon: node.icon,
+              radius: node.radius,
+              isPrivate: true,
+            };
+          }) ?? []
+        );
       },
     );
     const spawnIds = new Set<string | number>();
@@ -166,9 +170,10 @@ export function Markers({
             const items = [
               {
                 id: nodeId,
-                termId: (spawn.name ?? spawn.id ?? spawn.type)
-                  .replace("private_", "")
-                  .replace(/shared_\d+_/, ""),
+                termId: (spawn.name ?? spawn.id ?? spawn.type).replace(
+                  /my_\d+_/,
+                  "",
+                ),
                 description: spawn.description,
                 type: spawn.type,
                 group: filter?.group,
@@ -181,9 +186,10 @@ export function Markers({
                   id: spawn.isPrivate
                     ? spawn.id!
                     : `${spawn.id ?? spawn.type}@${spawn.p[0]}:${spawn.p[1]}`,
-                  termId: (spawn.name ?? spawn.id ?? spawn.type)
-                    .replace("private_", "")
-                    .replace(/shared_\d+_/, ""),
+                  termId: (spawn.name ?? spawn.id ?? spawn.type).replace(
+                    /my_\d+_/,
+                    "",
+                  ),
                   description: spawn.description,
                   type: spawn.type,
                   group: filter?.group,
@@ -261,7 +267,7 @@ export function Markers({
   }, [
     map,
     spawns,
-    sharedPrivateNodes,
+    sharedMyFilters,
     hideDiscoveredNodes,
     discoveredNodes,
     tempPrivateNodeId,
