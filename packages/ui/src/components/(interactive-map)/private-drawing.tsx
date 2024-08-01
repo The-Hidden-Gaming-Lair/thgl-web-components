@@ -818,7 +818,6 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
     const drawing: PrivateDrawningDTO = {
       id,
-      name: tempPrivateDrawing.name,
       polylines: tempPrivateDrawing.polylines,
       rectangles: tempPrivateDrawing.rectangles,
       polygons: tempPrivateDrawing.polygons,
@@ -872,7 +871,10 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       putSharedFilters(myFilter.url, myFilter);
     }
     setMyFilters(newMyFilters);
-    setFilters([...filters.filter((f) => f !== drawing.name), drawing.name]);
+    setFilters([
+      ...filters.filter((f) => f !== tempPrivateDrawing.name),
+      tempPrivateDrawing.name,
+    ]);
     setTempPrivateDrawing(null);
   };
 

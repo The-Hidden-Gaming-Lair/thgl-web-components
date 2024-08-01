@@ -5,7 +5,6 @@ import { putSharedFilters } from "./shared-nodes";
 
 export type PrivateNode = {
   id: string;
-  filter: string;
   name?: string;
   description?: string;
   icon: {
@@ -20,7 +19,6 @@ export type PrivateNode = {
 
 export type PrivateDrawing = {
   id: string;
-  name: string;
   polylines?: {
     positions: [number, number][];
     size: number;
@@ -109,11 +107,13 @@ type SettingsStore = {
   presets: Record<string, string[]>;
   addPreset: (presetName: string, filters: string[]) => void;
   removePreset: (presetName: string) => void;
-  tempPrivateNode: Partial<PrivateNode> | null;
-  setTempPrivateNode: (tempPrivateNode: Partial<PrivateNode> | null) => void;
-  tempPrivateDrawing: Partial<PrivateDrawing> | null;
+  tempPrivateNode: (Partial<PrivateNode> & { filter?: string }) | null;
+  setTempPrivateNode: (
+    tempPrivateNode: (Partial<PrivateNode> & { filter?: string }) | null,
+  ) => void;
+  tempPrivateDrawing: (Partial<PrivateDrawing> & { name?: string }) | null;
   setTempPrivateDrawing: (
-    tempPrivateDrawing: Partial<PrivateDrawing> | null,
+    tempPrivateDrawing: (Partial<PrivateDrawing> & { name?: string }) | null,
   ) => void;
   drawingColor: string;
   setDrawingColor: (drawingColor: string) => void;
@@ -322,6 +322,7 @@ export const useSettingsStore = create(
           newState.myFilters = [];
           newState.privateNodes?.forEach((node) => {
             const filterName = `my_${Date.now()}_${
+              // @ts-expect-error removed type
               node.filter?.replace("private_", "").replace(/shared_\d+_/, "") ??
               "Unsorted"
             }`;
@@ -335,6 +336,7 @@ export const useSettingsStore = create(
             });
           });
           newState.privateDrawings?.forEach((drawing) => {
+            // @ts-expect-error removed type
             const filterName = `my_${Date.now()}_${drawing.name}`;
             const myFilter = newState.myFilters.find(
               (filter) => filter.name === filterName,

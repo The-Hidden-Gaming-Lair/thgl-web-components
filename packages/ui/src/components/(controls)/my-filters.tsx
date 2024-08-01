@@ -1,5 +1,11 @@
 "use client";
-import { cn, saveFile, useSettingsStore, writeFileOverwolf } from "@repo/lib";
+import {
+  cn,
+  MyFilter,
+  saveFile,
+  useSettingsStore,
+  writeFileOverwolf,
+} from "@repo/lib";
 import {
   Collapsible,
   CollapsibleContent,
@@ -7,6 +13,7 @@ import {
 } from "../ui/collapsible";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
+  CaseSensitive,
   Copy,
   Download,
   EllipsisVertical,
@@ -24,12 +31,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { toast } from "sonner";
-import { useT, useUserStore } from "../(providers)";
+import { useUserStore } from "../(providers)";
+import { RenameFilter } from "./rename-filter";
+import { useState } from "react";
 
 export function MyFilters() {
   const { filters, setFilters, toggleFilter } = useUserStore();
   const myFilters = useSettingsStore((state) => state.myFilters);
   const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
+  const [renameMyFilter, setRenameMyFilter] = useState<MyFilter | null>(null);
 
   const isDrawingEditing = useSettingsStore(
     (state) => state.tempPrivateDrawing !== null,
@@ -134,7 +144,7 @@ export function MyFilters() {
                       )}
                       <DropdownMenuItem
                         onClick={() => {
-                          const fileName = `${myFilter}.json`;
+                          const fileName = `${myFilter.name}_filter_${Date.now()}.json`;
                           if (typeof overwolf === "undefined") {
                             const blob = new Blob([JSON.stringify(myFilter)], {
                               type: "text/json",
@@ -155,14 +165,24 @@ export function MyFilters() {
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
-                          setTempPrivateDrawing(
-                            myFilter.drawing ?? { name: myFilter.name },
-                          );
+                          setTempPrivateDrawing({
+                            ...(myFilter.drawing ?? {}),
+                            name: myFilter.name,
+                          });
                         }}
                         disabled={isDrawingEditing}
                       >
                         <Pencil className="mr-2 h-4 w-4" />
                         <span>Edit Drawing</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setRenameMyFilter(myFilter);
+                        }}
+                        disabled={isDrawingEditing}
+                      >
+                        <CaseSensitive className="mr-2 h-4 w-4" />
+                        <span>Rename</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
@@ -179,6 +199,10 @@ export function MyFilters() {
             );
           })}
       </CollapsibleContent>
+      <RenameFilter
+        myFilter={renameMyFilter}
+        onClose={() => setRenameMyFilter(null)}
+      />
     </Collapsible>
   );
 }

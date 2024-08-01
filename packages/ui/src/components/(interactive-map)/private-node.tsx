@@ -208,7 +208,6 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     const id = `${tempPrivateNode.filter}_${Date.now()}`;
     const marker: PrivateNode = {
       id,
-      filter: tempPrivateNode.filter,
       name: tempPrivateNode.name,
       description: tempPrivateNode.description,
       color: color,
@@ -222,7 +221,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
 
     const newMyFilters = [...myFilters];
     const myFilter = newMyFilters.find(
-      (filter) => filter.name === marker.filter,
+      (filter) => filter.name === tempPrivateNode.filter,
     );
     if (!myFilter) {
       return;
@@ -247,7 +246,10 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     }
 
     setMyFilters(newMyFilters);
-    setFilters([...filters.filter((f) => f !== marker.filter), marker.filter]);
+    setFilters([
+      ...filters.filter((f) => f !== tempPrivateNode.filter),
+      tempPrivateNode.filter,
+    ]);
     setTempPrivateNode(null);
   };
 

@@ -50,8 +50,15 @@ export function UploadFilter() {
                   name: `my_${Date.now()}_${data.name}`,
                   drawing: data,
                 };
+                if ("name" in data) {
+                  delete data.name;
+                }
               } else {
                 myFilter = data;
+                myFilter.name = myFilter.name.replace(
+                  /my_\d+_/,
+                  `my_${Date.now()}_`,
+                );
               }
             } else if (data[0]?.id && data[0]?.filter) {
               // Deprecated Node
@@ -59,9 +66,15 @@ export function UploadFilter() {
                 name: `my_${Date.now()}_${data[0].filter.replace("private_", "").replace(/shared_\d+_/, "") ?? "Unsorted"}`,
                 nodes: data,
               };
+              data.forEach((d: any) => {
+                if ("filter" in d) {
+                  delete d.filter;
+                }
+              });
             } else {
               throw new Error("Invalid filter");
             }
+
             addMyFilter(myFilter);
 
             toast(

@@ -83,7 +83,7 @@ export function Markers({
         return (
           myFilter.nodes?.map((node) => {
             return {
-              type: node.filter,
+              type: myFilter.name,
               mapName: node.mapName,
               id: node.id,
               name: node.name,

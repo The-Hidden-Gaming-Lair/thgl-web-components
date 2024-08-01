@@ -50,7 +50,7 @@ export function SettingsDialogContent({
             <Button
               size="sm"
               onClick={() => {
-                const fileName = `${activeApp}_Discovered_Nodes_${Date.now()}.json`;
+                const fileName = `${activeApp}_discovered_nodes_${Date.now()}.json`;
                 if (typeof overwolf === "undefined") {
                   const blob = new Blob(
                     [JSON.stringify(settingsStore.discoveredNodes)],
