@@ -34,11 +34,13 @@ import { toast } from "sonner";
 import { useUserStore } from "../(providers)";
 import { RenameFilter } from "./rename-filter";
 import { useState } from "react";
+import { DeleteFilter } from "./delete-filter";
 
 export function MyFilters() {
   const { filters, setFilters, toggleFilter } = useUserStore();
   const myFilters = useSettingsStore((state) => state.myFilters);
   const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
+  const [deleteMyFilter, setDeleteMyFilter] = useState<MyFilter | null>(null);
   const [renameMyFilter, setRenameMyFilter] = useState<MyFilter | null>(null);
 
   const isDrawingEditing = useSettingsStore(
@@ -186,8 +188,9 @@ export function MyFilters() {
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
-                          removeMyFilter(myFilter.name);
+                          setDeleteMyFilter(myFilter);
                         }}
+                        disabled={isDrawingEditing}
                       >
                         <Trash className="mr-2 h-4 w-4" />
                         <span>Delete</span>
@@ -202,6 +205,10 @@ export function MyFilters() {
       <RenameFilter
         myFilter={renameMyFilter}
         onClose={() => setRenameMyFilter(null)}
+      />
+      <DeleteFilter
+        myFilter={deleteMyFilter}
+        onClose={() => setDeleteMyFilter(null)}
       />
     </Collapsible>
   );
