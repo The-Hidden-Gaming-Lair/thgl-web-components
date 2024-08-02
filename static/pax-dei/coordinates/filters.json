@@ -822,8 +822,16 @@
         "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
+        "icon": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
         "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
+        "icon": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -892,6 +900,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan",
         "icon": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
+        "icon": "PD_NPC_Zeb_Warrior_T42_The_Pickler.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
@@ -976,6 +988,10 @@
       {
         "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
         "icon": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T42_Doraks_Valet",
+        "icon": "PD_NPC_Demon_Imp_T42_Doraks_Valet.webp"
       },
       {
         "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
@@ -1309,8 +1325,16 @@
         "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
+        "icon": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
         "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
+        "icon": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -1381,6 +1405,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
+        "icon": "PD_NPC_Zeb_Warrior_T42_The_Pickler.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
         "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
       },
@@ -1431,6 +1459,10 @@
       {
         "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
         "icon": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Imp_T42_Doraks_Valet",
+        "icon": "PD_NPC_Demon_Imp_T42_Doraks_Valet.webp"
       },
       {
         "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
