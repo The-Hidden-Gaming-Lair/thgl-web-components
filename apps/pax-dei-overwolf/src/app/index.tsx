@@ -21,7 +21,7 @@ import {
   TooltipProvider,
   I18NProvider,
 } from "@repo/ui/providers";
-import { Actions, MarkersSearch, Toaster } from "@repo/ui/controls";
+import { Actions, MarkersSearch, Toaster, Whiteboard } from "@repo/ui/controls";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import {
   Ads160x600Desktop,
@@ -97,7 +97,7 @@ function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
                 <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
               )}
               <Actions>
-                <Whiteboard domain="pax-dei" />
+                <Whiteboard domain="paxdei" />
                 {/* <StreamingSender domain="pax-dei" hidden={hidden} /> */}
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />
