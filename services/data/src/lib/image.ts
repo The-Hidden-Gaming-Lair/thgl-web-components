@@ -390,3 +390,21 @@ export function adjustBrightnessAndContrast(
 
   return canvas;
 }
+
+export function mirrorCancas(canvas: Canvas) {
+  const mirroredCanvas = createCanvas(canvas.width, canvas.height);
+  const ctx = mirroredCanvas.getContext("2d");
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(canvas, 0, 0);
+  return mirroredCanvas;
+}
+
+export function rotateCanvas(canvas: Canvas, angle: number) {
+  const rotatedCanvas = createCanvas(canvas.width, canvas.height);
+  const ctx = rotatedCanvas.getContext("2d");
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate((angle * Math.PI) / 180);
+  ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+  return rotatedCanvas;
+}

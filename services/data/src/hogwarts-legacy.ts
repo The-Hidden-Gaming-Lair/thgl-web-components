@@ -49,12 +49,13 @@ if (Bun.env.DB === "true") {
 
 // Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/UI_DT_MinimapCollection_Data.uasset
 const MiniMapParametersHogwarts =
-  readContentJSON<UI_DT_MiniMapParametersHogwarts>(
+  await readContentJSON<UI_DT_MiniMapParametersHogwarts>(
     "/Phoenix/Content/UI/HUD/MiniMap/UI_DT_MiniMapParametersHogwarts.json",
   );
-const MinimapCollectionData = readContentJSON<UI_DT_MinimapCollection_Data>(
-  "/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/UI_DT_MinimapCollection_Data.json",
-);
+const MinimapCollectionData =
+  await readContentJSON<UI_DT_MinimapCollection_Data>(
+    "/Phoenix/Content/UI/HUD/MiniMap/MiniMapTiles/UI_DT_MinimapCollection_Data.json",
+  );
 
 const tiles = initTiles(
   await generateTiles(
@@ -103,42 +104,43 @@ await saveIcon(
 );
 
 const FastTravelLocations =
-  readContentJSON<PhoenixGameData_FastTravelLocations>(
+  await readContentJSON<PhoenixGameData_FastTravelLocations>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_FastTravelLocations.json",
   );
 const HogwartsMapIconTable =
-  readContentJSON<PhoenixGameData_HogwartsMapIconTable>(
+  await readContentJSON<PhoenixGameData_HogwartsMapIconTable>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_HogwartsMapIconTable.json",
   );
 const KnowledgeInvestigatable =
-  readContentJSON<PhoenixGameData_KnowledgeInvestigatable>(
+  await readContentJSON<PhoenixGameData_KnowledgeInvestigatable>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeInvestigatable.json",
   );
-const KnowledgeLocations = readContentJSON<PhoenixGameData_KnowledgeLocations>(
-  "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeLocations.json",
-);
-const Locations = readContentJSON<PhoenixGameData_Locations>(
+const KnowledgeLocations =
+  await readContentJSON<PhoenixGameData_KnowledgeLocations>(
+    "/Phoenix/Content/SQLiteDB/PhoenixGameData_KnowledgeLocations.json",
+  );
+const Locations = await readContentJSON<PhoenixGameData_Locations>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_Locations.json",
 );
-const MiscLocations = readContentJSON<PhoenixGameData_MiscLocations>(
+const MiscLocations = await readContentJSON<PhoenixGameData_MiscLocations>(
   "/Phoenix/Content/SQLiteDB/PhoenixGameData_MiscLocations.json",
 );
 const SphinxPuzzleLocations =
-  readContentJSON<PhoenixGameData_SphinxPuzzleLocations>(
+  await readContentJSON<PhoenixGameData_SphinxPuzzleLocations>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_SphinxPuzzleLocations.json",
   );
-const enUS = readContentJSON<Record<string, string>>(
+const enUS = await readContentJSON<Record<string, string>>(
   "/Phoenix/Content/Localization/WIN64/MAIN-enUS.json",
 );
 const enUSKeys = Object.keys(enUS);
 
 const EnemyDefinitionNamed =
-  readContentJSON<PhoenixGameData_EnemyDefinitionNamed>(
+  await readContentJSON<PhoenixGameData_EnemyDefinitionNamed>(
     "/Phoenix/Content/SQLiteDB/PhoenixGameData_EnemyDefinitionNamed.json",
   );
 
 const MiniMapNHogwartsLevelData =
-  readContentJSON<UI_DT_MiniMapNHogwartsLevelData>(
+  await readContentJSON<UI_DT_MiniMapNHogwartsLevelData>(
     "/Phoenix/Content/UI/Map/UI_DT_MiniMapNHogwartsLevelData.json",
   );
 const bottomZValues = Object.entries(MiniMapNHogwartsLevelData[0].Rows).reduce(

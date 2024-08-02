@@ -19,7 +19,7 @@ export async function readActors(
     if (!file.endsWith(".json")) {
       continue;
     }
-    const data = readJSON<any[]>(file);
+    const data = await readJSON<any[]>(file);
     for (const item of data) {
       if (!item.Properties?.RelativeLocation) {
         continue;

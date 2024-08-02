@@ -90,16 +90,16 @@ const tiles = initTiles(
 
 writeTiles(tiles);
 
-const monsterInfo = readJSON<MonsterInfo>(
+const monsterInfo = await readJSON<MonsterInfo>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_monster_Info.json",
 );
-const { MultiText } = readJSON<{
+const { MultiText } = await readJSON<{
   MultiText: Array<{
     Id: string;
     Content: string;
   }>;
 }>(CONTENT_DIR + "/Client/Content/Aki/ConfigDB/en/lang_multi_text.json");
-const { levelentityconfig } = readJSON<{
+const { levelentityconfig } = await readJSON<{
   levelentityconfig: Array<{
     Id: number;
     MapId: number;
@@ -123,47 +123,47 @@ const { levelentityconfig } = readJSON<{
     };
   }>;
 }>(CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_level_entity.json");
-const dbMapMark = readJSON<DBMapMark>(
+const dbMapMark = await readJSON<DBMapMark>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_map_mark.json",
 );
-const dbTemplate = readJSON<DBTemplate>(
+const dbTemplate = await readJSON<DBTemplate>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_template.json",
 );
-const dbDrop = readJSON<DBDrop>(
+const dbDrop = await readJSON<DBDrop>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_drop.json",
 );
-const dbItems = readJSON<DBItems>(
+const dbItems = await readJSON<DBItems>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_item.json",
 );
-const dbLevelPlayData = readJSON<DBLevelPlayData>(
+const dbLevelPlayData = await readJSON<DBLevelPlayData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayData.json",
 );
-const dbLevelPlayNodeData = readJSON<DBLevelPlayNodeData>(
+const dbLevelPlayNodeData = await readJSON<DBLevelPlayNodeData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_LevelPlayNodeData.json",
 );
-const worldMapIconSprite = readJSON<WorldMapIconSprite>(
+const worldMapIconSprite = await readJSON<WorldMapIconSprite>(
   CONTENT_DIR +
     "/Client/Content/Aki/UI/UIResources/Common/Atlas/WorldMapIcon/TPI_Common_WorldMapIcon.json",
 );
-const dbPhantom = readJSON<DBPhantom>(
+const dbPhantom = await readJSON<DBPhantom>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_phantom.json",
 );
-const dbQuestNodeData = readJSON<DBQuestNodeData>(
+const dbQuestNodeData = await readJSON<DBQuestNodeData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestNodeData.json",
 );
-const dbEntityOwnerData = readJSON<DBEntityOwnerData>(
+const dbEntityOwnerData = await readJSON<DBEntityOwnerData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_EntityOwnerData.json",
 );
-const dbQuestData = readJSON<DBQuestData>(
+const dbQuestData = await readJSON<DBQuestData>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_QuestData.json",
 );
-const dbHandbook = readJSON<DBHandbook>(
+const dbHandbook = await readJSON<DBHandbook>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_handbook.json",
 );
-const dtModelConfig = readJSON<DTModelConfig>(
+const dtModelConfig = await readJSON<DTModelConfig>(
   CONTENT_DIR + "/Client/Content/Aki/Data/Entity/CDT_ModelConfig.json",
 );
-const dbModelConfigPreload = readJSON<DBModelConfigPreload>(
+const dbModelConfigPreload = await readJSON<DBModelConfigPreload>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_model_config_preload.json",
 );
 
@@ -214,7 +214,7 @@ writeRegions(regions);
 
 // Player Marker
 {
-  const uiWorldMap = readJSON<WorldMapIconSprite>(
+  const uiWorldMap = await readJSON<WorldMapIconSprite>(
     CONTENT_DIR +
       "/Client/Content/Aki/UI/UIResources/UiWorldMap/Atlas/TPI_UiWorldMap.json",
   );

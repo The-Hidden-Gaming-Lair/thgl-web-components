@@ -18,11 +18,13 @@ export async function encodeToFile(filePath: string, content: any) {
   return writeSize;
 }
 
-export function readContentJSON<T>(filePath: string): T {
-  return readJSON<T>(CONTENT_DIR + filePath);
+export async function readContentJSON<T>(filePath: string): Promise<T> {
+  return await readJSON<T>(CONTENT_DIR + filePath);
 }
-export function readJSON<T>(filePath: string): T {
-  return JSON.parse(fs.readFileSync(path.resolve(__dirname, filePath), "utf8"));
+export async function readJSON<T>(filePath: string): Promise<T> {
+  const file = Bun.file(filePath);
+
+  return await file.json();
 }
 
 export function readDirSync(filePath: string) {

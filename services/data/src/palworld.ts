@@ -48,50 +48,50 @@ const tiles = initTiles({
 
 writeTiles(tiles);
 
-const mainWorld = readJSON<PL_MainWorld5>(
+const mainWorld = await readJSON<PL_MainWorld5>(
   CONTENT_DIR + "/Pal/Content/Pal/Maps/MainWorld_5/PL_MainWorld5.json",
 );
-const palxdexDistributionData = readJSON<DT_PaldexDistributionData>(
+const palxdexDistributionData = await readJSON<DT_PaldexDistributionData>(
   CONTENT_DIR + "/Pal/Content/Pal/DataTable/UI/DT_PaldexDistributionData.json",
 );
-const palNameText = readJSON<DT_PalNameText>(
+const palNameText = await readJSON<DT_PalNameText>(
   CONTENT_DIR + "/Pal/Content/L10N/en/Pal/DataTable/Text/DT_PalNameText.json",
 );
-const uiCommonText = readJSON<DT_UI_Common_Text>(
+const uiCommonText = await readJSON<DT_UI_Common_Text>(
   CONTENT_DIR +
     "/Pal/Content/L10N/en/Pal/DataTable/Text/DT_UI_Common_Text.json",
 );
-const palLongDescriptionText = readJSON<DT_PalLongDescriptionText>(
+const palLongDescriptionText = await readJSON<DT_PalLongDescriptionText>(
   CONTENT_DIR +
     "/Pal/Content/L10N/en/Pal/DataTable/Text/DT_PalLongDescriptionText.json",
 );
-const mapRespawnPointInfoText = readJSON<DT_MapRespawnPointInfoText>(
+const mapRespawnPointInfoText = await readJSON<DT_MapRespawnPointInfoText>(
   CONTENT_DIR +
     "/Pal/Content/L10N/en/Pal/DataTable/Text/DT_MapRespawnPointInfoText.json",
 );
-const palMonsterParameter = readJSON<DT_PalMonsterParameter>(
+const palMonsterParameter = await readJSON<DT_PalMonsterParameter>(
   CONTENT_DIR +
     "/Pal/Content/Pal/DataTable/Character/DT_PalMonsterParameter.json",
 );
-const palCharacterIconDataTable = readJSON<DT_PalCharacterIconDataTable>(
+const palCharacterIconDataTable = await readJSON<DT_PalCharacterIconDataTable>(
   CONTENT_DIR +
     "/Pal/Content/Pal/DataTable/Character/DT_PalCharacterIconDataTable.json",
 );
 const newNodes = initNodes();
-const enDict = initDict(readJSON(OUTPUT_DIR + "/dicts/en.json"));
+const enDict = initDict(await readJSON(OUTPUT_DIR + "/dicts/en.json"));
 const typesIDs = initTypesIDs(
-  readJSON(OUTPUT_DIR + "/coordinates/types_id_map.json"),
+  await readJSON(OUTPUT_DIR + "/coordinates/types_id_map.json"),
 );
 const filters = initFilters(
-  readJSON(OUTPUT_DIR + "/coordinates/filters.json"),
+  await readJSON(OUTPUT_DIR + "/coordinates/filters.json"),
 ).filter((f) => f.group !== "pal_common" && f.group !== "pal_alpha");
 
-const oldNodes = readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json");
+const oldNodes = await readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json");
 
 for (const path of readDirSync(
   CONTENT_DIR + "/Pal/Content/Pal/Maps/MainWorld_5/PL_MainWorld5/_Generated_",
 )) {
-  const data = readJSON<PL_MainWorld5>(
+  const data = await readJSON<PL_MainWorld5>(
     CONTENT_DIR +
       "/Pal/Content/Pal/Maps/MainWorld_5/PL_MainWorld5/_Generated_/" +
       path,

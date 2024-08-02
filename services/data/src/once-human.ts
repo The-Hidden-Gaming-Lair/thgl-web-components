@@ -17,7 +17,7 @@ initDirs(
   "/home/devleon/the-hidden-gaming-lair/static/once-human",
 );
 
-const nodes = initNodes(readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
+const nodes = initNodes(await readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
 const filters = initFilters();
 const typesIDs = initTypesIDs();
 const enDict = initDict();
