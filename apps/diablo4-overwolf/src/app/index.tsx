@@ -105,7 +105,7 @@ function App(): JSX.Element {
               )}
               {hidden && showTimers ? <Diablo4Events portal /> : null}
               <Actions>
-                <Whiteboard domain="diablo4" />
+                <Whiteboard domain="diablo4" hidden={hidden} />
                 <StreamingSender domain="diablo4" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

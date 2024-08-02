@@ -99,7 +99,7 @@ function App(): JSX.Element {
                 <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
               )}
               <Actions>
-                <Whiteboard domain="hogwarts" />
+                <Whiteboard domain="hogwarts" hidden={hidden} />
                 <StreamingSender domain="hogwarts" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

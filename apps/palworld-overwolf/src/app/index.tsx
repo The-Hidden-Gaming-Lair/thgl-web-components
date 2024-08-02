@@ -97,7 +97,7 @@ function App(): JSX.Element {
                 <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
               )}
               <Actions>
-                <Whiteboard domain="palworld" />
+                <Whiteboard domain="palworld" hidden={hidden} />
                 <StreamingSender domain="palworld" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

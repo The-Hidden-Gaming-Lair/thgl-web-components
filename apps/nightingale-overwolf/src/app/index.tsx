@@ -92,7 +92,7 @@ function App(): JSX.Element {
                 <MarkersSearch tileOptions={NIGHTINGALE.tileOptions} />
               )}
               <Actions>
-                <Whiteboard domain="nightingale" />
+                <Whiteboard domain="nightingale" hidden={hidden} />
                 <StreamingSender domain="nightingale" hidden={hidden} />
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

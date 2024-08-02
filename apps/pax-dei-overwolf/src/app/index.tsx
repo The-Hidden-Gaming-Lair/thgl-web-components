@@ -97,7 +97,7 @@ function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
                 <MarkersSearch tileOptions={tiles as unknown as TileOptions} />
               )}
               <Actions>
-                <Whiteboard domain="paxdei" />
+                <Whiteboard domain="paxdei" hidden={hidden} />
                 {/* <StreamingSender domain="pax-dei" hidden={hidden} /> */}
                 <PrivateNode hidden={hidden} />
                 <PrivateDrawing hidden={hidden} />

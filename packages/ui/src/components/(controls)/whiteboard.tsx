@@ -26,7 +26,13 @@ import { useShallow } from "zustand/react/shallow";
 import { toast } from "sonner";
 import { useUserStore } from "../(providers)";
 
-export function Whiteboard({ domain }: { domain: string }) {
+export function Whiteboard({
+  domain,
+  hidden,
+}: {
+  domain: string;
+  hidden?: boolean;
+}) {
   const connectionStore = useConnectionStore();
   const [isConnected, setIsConnected] = useState(false);
   const { groupName, setGroupName } = useSettingsStore(
@@ -200,6 +206,10 @@ export function Whiteboard({ domain }: { domain: string }) {
     }
     sendToConnections({ tempPrivateNode });
   }, [isOwner, isConnected, sendToConnections, tempPrivateNode]);
+
+  if (hidden) {
+    return <></>;
+  }
 
   const hasConnections = Object.keys(connectionStore.connections).length > 0;
   return (
