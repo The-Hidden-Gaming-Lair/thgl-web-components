@@ -64,6 +64,7 @@ export function Player({
   }, [map, player?.mapName]);
 
   const lastAnimation = useRef(0);
+
   useEffect(() => {
     if (!map || !player || !marker.current) {
       return;
@@ -71,7 +72,12 @@ export function Player({
 
     marker.current.updatePosition(player);
 
-    if (followPlayerPosition && player.mapName === map.mapName) {
+    const isOnMap = !player.mapName || player.mapName === map.mapName;
+    if (!isOnMap) {
+      return;
+    }
+
+    if (followPlayerPosition) {
       const now = Date.now();
       if (now - lastAnimation.current > 500) {
         lastAnimation.current = now;
