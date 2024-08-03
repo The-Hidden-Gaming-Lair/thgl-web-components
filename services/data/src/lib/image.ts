@@ -1,4 +1,5 @@
 import { $ } from "bun";
+import fs from "fs";
 import { loadImage, createCanvas, Canvas, Image } from "@napi-rs/canvas";
 import { OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./dirs.js";
 import { saveImage } from "./fs.js";
@@ -20,32 +21,33 @@ export async function saveIcon(
   name: string,
   props: IconProps = {},
 ) {
-  let filePath = assetPath.startsWith("/home")
-    ? assetPath
-    : TEXTURE_DIR + assetPath;
+  let filePath =
+    assetPath.startsWith("/home") || assetPath.startsWith("/mnt")
+      ? assetPath
+      : TEXTURE_DIR + assetPath;
   if (savedIcons.includes(name)) {
     return `${name}.webp`;
   }
   if (props.border && props.color) {
     const canvas = await drawInCircleWithBorderColor(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.circle && props.color) {
     const canvas = await addCircleToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.glowing && props.color) {
     const canvas = await addOutlineToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.color) {
     const canvas = await colorizeImage(filePath, props.color, props.threshold);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR + `/${name}.png`} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${TEMP_DIR + `/${name}.png`} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (props.rotate) {
     const canvas = await rotateImage(filePath, props.rotate);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else if (
     typeof props.brightness !== "undefined" &&
     typeof props.contrast !== "undefined"
@@ -56,9 +58,9 @@ export async function saveIcon(
       props.contrast,
     );
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   } else {
-    await $`cwebp ${filePath} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 ${filePath} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
   }
   savedIcons.push(name);
   return `${name}.webp`;
@@ -407,4 +409,30 @@ export function rotateCanvas(canvas: Canvas, angle: number) {
   ctx.rotate((angle * Math.PI) / 180);
   ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
   return rotatedCanvas;
+}
+
+export async function vectorize(filePath: string, outputPath: string) {
+  const formData = new FormData();
+  const file = Bun.file(filePath);
+  formData.append("image", file);
+
+  const response = await fetch(
+    "https://vectorizer.ai/api/v1/vectorize?mode=test",
+    {
+      method: "POST",
+      headers: {
+        Authorization:
+          "Basic dms0ZXJiY3pycTVjenJsOnFqZW5uZTlqYnIycnZnNWQwNzA3MGVydHFrOWVxYWJ0NjR0cDMwMTBnODYyZXJpMTIyZ2c=",
+      },
+      body: formData,
+    },
+  );
+
+  if (!response.ok) {
+    console.error("Error:", response.status, await response.text());
+    return;
+  }
+
+  const blob = await response.blob();
+  Bun.write(outputPath, blob);
 }

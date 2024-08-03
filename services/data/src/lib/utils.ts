@@ -2,6 +2,10 @@ export function capitalizeWords(str: string): string {
   return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+export function splitPascalCase(str: string): string {
+  return str.replace(/([A-Z])/g, " $1").trim();
+}
+
 export function toCamelCase(str: string): string {
   return str
     .split(" ")

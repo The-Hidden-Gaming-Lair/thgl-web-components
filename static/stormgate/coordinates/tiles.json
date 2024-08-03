@@ -1,25 +1,10 @@
 {
   "Boneyard": {
-    "Boneyard": {
-      "url": "/map-tiles/Boneyard/{z}/{y}/{x}.webp",
-      "options": {
-        "minNativeZoom": 0,
-        "maxNativeZoom": 0,
-        "bounds": [
-          [
-            -1000000,
-            -1000000
-          ],
-          [
-            1000000,
-            1000000
-          ]
-        ],
-        "tileSize": 512
-      },
-      "minZoom": -5,
-      "maxZoom": 7,
-      "fitBounds": [
+    "url": "/map-tiles/Boneyard/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
         [
           -1000000,
           -1000000
@@ -29,12 +14,781 @@
           1000000
         ]
       ],
-      "transformation": [
-        0.000256,
-        256,
-        0.000256,
-        256
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
       ]
-    }
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Boneyard2v2": {
+    "url": "/map-tiles/Boneyard2v2/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "BrokenCrown": {
+    "url": "/map-tiles/BrokenCrown/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "CrookedCanyon": {
+    "url": "/map-tiles/CrookedCanyon/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "DustDevil2v2": {
+    "url": "/map-tiles/DustDevil2v2/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Evergreen2v2": {
+    "url": "/map-tiles/Evergreen2v2/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "InfestedCrater": {
+    "url": "/map-tiles/InfestedCrater/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "IsleOfDread": {
+    "url": "/map-tiles/IsleOfDread/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "JaggedMaw": {
+    "url": "/map-tiles/JaggedMaw/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "LostHope": {
+    "url": "/map-tiles/LostHope/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "RitualWoods": {
+    "url": "/map-tiles/RitualWoods/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "SecludedGroveV2": {
+    "url": "/map-tiles/SecludedGroveV2/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "TheAbyssalGates": {
+    "url": "/map-tiles/TheAbyssalGates/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "TitansCausewayV2": {
+    "url": "/map-tiles/TitansCausewayV2/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "TurfWar": {
+    "url": "/map-tiles/TurfWar/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Vanguard01": {
+    "url": "/map-tiles/Vanguard01/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Vanguard02": {
+    "url": "/map-tiles/Vanguard02/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Vanguard03": {
+    "url": "/map-tiles/Vanguard03/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Vanguard04": {
+    "url": "/map-tiles/Vanguard04/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Vanguard05": {
+    "url": "/map-tiles/Vanguard05/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "Vanguard06": {
+    "url": "/map-tiles/Vanguard06/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
+  },
+  "WreckHavoc": {
+    "url": "/map-tiles/WreckHavoc/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 0,
+      "bounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -1000000,
+        -1000000
+      ],
+      [
+        1000000,
+        1000000
+      ]
+    ],
+    "transformation": [
+      0.000256,
+      256,
+      0.000256,
+      256
+    ]
   }
 }

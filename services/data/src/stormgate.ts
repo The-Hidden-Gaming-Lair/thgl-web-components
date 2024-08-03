@@ -1,11 +1,31 @@
+import uniqolor from "uniqolor";
 import { createCanvas } from "@napi-rs/canvas";
 import { CONTENT_DIR, initDirs, TEMP_DIR } from "./lib/dirs.js";
-import { readJSON, saveImage } from "./lib/fs.js";
-import { mirrorCancas, rotateCanvas, saveIcon } from "./lib/image.js";
+import { readDirSync, readJSON, saveImage } from "./lib/fs.js";
+import {
+  mirrorCancas,
+  rotateCanvas,
+  saveIcon,
+  vectorize,
+} from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
-import { initFilters, writeFilters } from "./lib/filters.js";
+import {
+  initFilters,
+  initGlobalFilters,
+  writeFilters,
+  writeGlobalFilters,
+} from "./lib/filters.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initDict, writeDict } from "./lib/dicts.js";
+import { initRegions, writeRegions } from "./lib/regions.js";
+import {
+  Details,
+  Map,
+  PreplacedNamedObjects,
+  RuntimeSession,
+  Terrain,
+} from "./stormgate.types.js";
+import { splitPascalCase } from "./lib/utils.js";
 
 initDirs(
   "/mnt/c/dev/Stormgate/Extracted/Data",
@@ -13,17 +33,35 @@ initDirs(
   "/home/devleon/the-hidden-gaming-lair/static/stormgate",
 );
 
-const enDict = initDict({
-  locations: "Locations",
-});
+const enDict = initDict();
 const nodes = initNodes();
-const filters = initFilters([{ group: "locations", values: [] }]);
-const locations = filters.find((f) => f.group === "locations")!;
+const filters = initFilters();
 const tiles = initTiles();
+const regions = initRegions();
+const globalFilters = initGlobalFilters();
+
+const en = await readJSON<Record<string, string>>(
+  `${CONTENT_DIR}/Stormgate/Content/Localization/Pegasus/en/Pegasus.json`,
+);
+const t = (key: string) => {
+  const lowerCase = key.toLocaleLowerCase();
+  let value = Object.entries(en).find(
+    ([k]) => k.toLocaleLowerCase() === lowerCase,
+  )?.[1];
+  if (!value) {
+    const coreKey = `pegasus_core.${key.split(".")[1]}`;
+    value = Object.entries(en).find(
+      ([k]) => k.toLocaleLowerCase() === coreKey,
+    )?.[1];
+  }
+  if (!value) {
+    return key.replace("pegasus_core.", "");
+  }
+  return value;
+};
 
 // const mapName = "Vanguard01";
-const mapNames = ["Boneyard"];
-
+const mapNames = readDirSync(`${CONTENT_DIR}/Stormgate/Content/PublishedMaps`);
 for (const mapName of mapNames) {
   const map = await readJSON<Map>(
     `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/map.json`,
@@ -37,50 +75,307 @@ for (const mapName of mapNames) {
   const preplacedNamedObjects = await readJSON<PreplacedNamedObjects>(
     `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/${map.__attr.preplaced_named_objects.__fref}`,
   );
-
-  const mapImagePath = await createMapImage(
-    terrain,
-    details.dimensions[0],
-    details.dimensions[1],
-    mapName,
+  const runtimeSession = await readJSON<RuntimeSession>(
+    `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/runtime_session.json`,
   );
-  const tile = await generateTiles(mapName, mapImagePath, 2000000);
-  tiles[mapName] = tile;
 
+  let mapImagePath = "";
+  if (Bun.env.TILES === "true") {
+    mapImagePath = await createMapImage(
+      terrain,
+      details.dimensions[0],
+      details.dimensions[1],
+      mapName,
+    );
+  }
+  const tile = await generateTiles(mapName, mapImagePath, 2000000);
+  tiles[mapName] = tile[mapName];
+  enDict[mapName] =
+    Object.entries(en).find(([k]) => k.endsWith(`MapName_${mapName}`))?.[1] ||
+    mapName;
   for (const preplacedNamedObject of Object.values(preplacedNamedObjects)) {
-    if (!locations.values.some((v) => v.id === preplacedNamedObject.kind)) {
-      locations.values.push({
-        id: preplacedNamedObject.kind,
-        icon: await saveIcon(
-          `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/flying-target_delapouite.webp`,
-          preplacedNamedObject.kind,
-        ),
+    try {
+      let type = preplacedNamedObject.kind;
+      if (
+        type.startsWith("_SoundAmbience") ||
+        type.startsWith("SoundAmbience") ||
+        type.startsWith("_BasicWorldPoint") ||
+        type.startsWith("_Region") ||
+        type.startsWith("_WorldPoint") ||
+        type.startsWith("_TempleDoor") ||
+        type.startsWith("BasicWorldPoint")
+      ) {
+        continue;
+      }
+      if (type.startsWith("_") && !type.startsWith("_Resource")) {
+        type = type.slice(1);
+        type = type.replace(/\d$/, "");
+      }
+      const archetypes = Object.values(runtimeSession.archetypes);
+      const archetype = archetypes.find(
+        ([, a]) => typeof a === "object" && a.id === type,
+      )?.[1];
+      if (
+        !archetype ||
+        typeof archetype !== "object" ||
+        typeof archetype.__base_type !== "string"
+      ) {
+        console.error("No archetype found for", type);
+        continue;
+      }
+      let group;
+      let defaultOpen = true;
+      let defaultOn = true;
+      if (type === "locationMarkerPlayerStart" || type === "MegaResourceA") {
+        group = "Locations";
+        enDict[group] = "Locations";
+      } else if (
+        (Array.isArray(archetype.starting_snowtags) &&
+          archetype.starting_snowtags.includes("entity_unit_structure")) ||
+        (typeof archetype.capture_filter === "object" &&
+          "excluded" in archetype.capture_filter &&
+          Array.isArray(archetype.capture_filter.excluded) &&
+          archetype.capture_filter.excluded.includes("entity_unit_structure"))
+      ) {
+        group = "Structures";
+        enDict[group] = "Structures";
+      } else if (
+        Array.isArray(archetype.starting_snowtags) &&
+        archetype.starting_snowtags.includes("entity_destructible_tree")
+      ) {
+        group = "Destructible";
+        enDict[group] = "Destructible";
+        defaultOpen = false;
+        if (type.startsWith("Destructible") && type.endsWith("LightTree")) {
+          type = "DestructibleLightTree";
+        } else if (type.startsWith("Destructible") && type.endsWith("Tree")) {
+          type = "DestructibleTree";
+        }
+      } else if (archetype.unit_button === "AttackButton") {
+        group = "Unit";
+      } else {
+        group = archetype.__base_type;
+        enDict[group] = splitPascalCase(group);
+      }
+      if (!filters.some((f) => f.group === group)) {
+        filters.push({
+          group,
+          values: [],
+          defaultOpen,
+          defaultOn,
+        });
+      }
+      const filter = filters.find((f) => f.group === group)!;
+
+      if (!filter.values.some((v) => v.id === type)) {
+        let icon;
+        let size = 2;
+        if (type === "locationMarkerPlayerStart") {
+          icon = await saveIcon(
+            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            type,
+            {
+              color: "#1ccdd1",
+            },
+          );
+          size = 2;
+          enDict[type] = "Player Start";
+        } else if (
+          typeof archetype.unit_info_portrait === "string" &&
+          archetype.unit_info_portrait !== "None"
+        ) {
+          const imagePath =
+            archetype.unit_info_portrait
+              .split("'")[1]
+              .replace("/Game/", "/Stormgate/Content/")
+              .split(".")[0] + ".png";
+          icon = await saveIcon(imagePath, type, {
+            border: true,
+            color: "#aaa",
+          });
+        } else if (type === "DestructibleTree") {
+          icon = await saveIcon(
+            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            type,
+            {
+              color: "#59b082",
+            },
+          );
+          size = 0.7;
+        } else if (type === "DestructibleLightTree") {
+          icon = await saveIcon(
+            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            type,
+            {
+              color: "#82ffbd",
+            },
+          );
+          size = 0.7;
+        } else if (type.startsWith("Destructible")) {
+          icon = await saveIcon(
+            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            type,
+            {
+              color: uniqolor(type).color,
+            },
+          );
+          size = 0.7;
+        } else if (
+          typeof archetype.minimap_icon === "string" &&
+          archetype.minimap_icon &&
+          archetype.minimap_icon !== "None"
+        ) {
+          const imagePath =
+            archetype.minimap_icon
+              .split("'")[1]
+              .replace("/Game/", "/Stormgate/Content/")
+              .split(".")[0] + ".png";
+          icon = await saveIcon(imagePath, type, {
+            border: true,
+            color: "#aaa",
+          });
+        } else if (typeof archetype.icon === "string") {
+          const imagePath =
+            archetype.icon
+              .split("'")[1]
+              .replace("/Game/", "/Stormgate/Content/")
+              .split(".")[0] + ".png";
+          icon = await saveIcon(imagePath, type, {
+            border: true,
+            color: "#aaa",
+          });
+        } else if (typeof archetype.camp_type === "string") {
+          const campType = archetype.camp_type;
+          const campArchetype = archetypes.find(
+            ([, a]) => typeof a === "object" && a.id === campType,
+          )?.[1];
+          if (
+            !campArchetype ||
+            typeof campArchetype !== "object" ||
+            !("icon" in campArchetype)
+          ) {
+            console.error("No archetype found for", campType);
+            continue;
+          }
+          let imagePath;
+          if (typeof campArchetype.minimap_icon === "string") {
+            imagePath =
+              campArchetype.minimap_icon
+                .split("'")[1]
+                .replace("/Game/", "/Stormgate/Content/")
+                .split(".")[0] + ".png";
+          } else if (typeof campArchetype.icon === "string") {
+            imagePath =
+              campArchetype.icon
+                .split("'")[1]
+                .replace("/Game/", "/Stormgate/Content/")
+                .split(".")[0] + ".png";
+          } else {
+            console.error("No icon found for", campType);
+            continue;
+          }
+          icon = await saveIcon(imagePath, type);
+          if (typeof campArchetype.name == "string") {
+            enDict[type] = t(campArchetype.name.replace("|", "."));
+          }
+        } else {
+          icon = await saveIcon(
+            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            type,
+          );
+        }
+
+        filter.values.push({
+          id: type,
+          icon,
+          size,
+        });
+        if (typeof archetype.name == "string") {
+          if (
+            type === "Rewardless_CreepCampType" &&
+            archetype.name === "UNNAMED"
+          ) {
+            enDict[type] = "Rewardless Camp";
+          } else if (
+            type === "DestructibleHavocWallHorizontal" &&
+            archetype.name === "NO_NAME"
+          ) {
+            enDict[type] = "Havoc Wall";
+          } else {
+            enDict[type] = t(archetype.name.replace("|", "."));
+          }
+        }
+        if (archetype.unit_button === "AttackButton") {
+          //.log(archetype.vital_health);
+        } else if (
+          typeof archetype.unit_button === "string" &&
+          archetype.unit_button !== "AttackButton"
+        ) {
+          const action = t(`pegasus_core.Button_name_${archetype.unit_button}`);
+          const actionTooltip = t(
+            `pegasus_core.Button_tooltip_${archetype.unit_button}`,
+          );
+          enDict[`${type}_desc`] = `${action} - ${actionTooltip}`;
+        }
+        if (
+          typeof archetype.vital_health === "object" &&
+          "starting" in archetype.vital_health
+        ) {
+          if (enDict[`${type}_desc`]) {
+            enDict[`${type}_desc`] += "<br>";
+          } else {
+            enDict[`${type}_desc`] = "";
+          }
+          enDict[`${type}_desc`] +=
+            `Health: ${archetype.vital_health.starting}`;
+        }
+      }
+      if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+        nodes.push({
+          type,
+          mapName,
+          spawns: [],
+        });
+      }
+      const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+      node.spawns.push({
+        p: [preplacedNamedObject.position[0], preplacedNamedObject.position[1]],
       });
+    } catch (e) {
+      console.error(preplacedNamedObject.kind, e);
     }
-    if (
-      !nodes.some(
-        (n) => n.type === preplacedNamedObject.kind && n.mapName === mapName,
-      )
-    ) {
-      nodes.push({
-        type: preplacedNamedObject.kind,
-        mapName,
-        spawns: [],
-      });
-    }
-    const node = nodes.find(
-      (n) => n.type === preplacedNamedObject.kind && n.mapName === mapName,
-    )!;
-    node.spawns.push({
-      p: [preplacedNamedObject.position[0], preplacedNamedObject.position[1]],
-    });
   }
 }
 
+const sortPriority = ["Locations", "CreepCamp", "ItemData", "Destructible"];
+const sortedFilters = filters
+  .map((f) => {
+    return {
+      ...f,
+      values: f.values.filter((v) => nodes.some((n) => n.type === v.id)),
+    };
+  })
+  .sort((a, b) => {
+    if (a.group === b.group) {
+      return 0;
+    }
+    const priorityA = sortPriority.findIndex((p) =>
+      a.group.toLowerCase().startsWith(p.toLowerCase()),
+    );
+    const priorityB = sortPriority.findIndex((p) =>
+      b.group.toLowerCase().startsWith(p.toLowerCase()),
+    );
+    if (priorityA === priorityB) {
+      return a.group.localeCompare(b.group);
+    }
+    return priorityA - priorityB;
+  });
+writeFilters(sortedFilters);
 writeNodes(nodes);
-writeFilters(filters);
 writeTiles(tiles);
 writeDict(enDict, "en");
+writeRegions(regions);
+writeGlobalFilters(globalFilters);
 
 async function createMapImage(
   terrain: Terrain,
@@ -183,77 +478,11 @@ async function createMapImage(
     TEMP_DIR + "/" + mapName + ".png",
     mirrorCancas(canvas).toBuffer("image/png"),
   );
+  vectorize(
+    TEMP_DIR + "/" + mapName + "_terrain_nodes.png",
+    TEMP_DIR + "/" + mapName + "_terrain_nodes.svg",
+  );
   return TEMP_DIR + "/" + mapName + "_terrain_nodes.png";
 }
-/**
- * Here are the missions/maps that are available in the game.
- * I think, I can generated the minimap from this data.
- * C:\dev\Stormgate\Extracted\Data\Stormgate\Content\PublishedMaps\Vanguard01
- *
- */
 
-/**
- * The runtime_session has all the actors and stats.
- * C:\dev\Stormgate\Extracted\Data\Stormgate\Content\PublishedCatalogs\pegasus_1v1\Runtime\runtime_session.json
- */
-
-export type Map = {
-  __attr: {
-    catalog_archetypes: {
-      __fref: string;
-    };
-    details: {
-      __fref: string;
-    };
-    preplaced_named_objects: {
-      __fref: string;
-    };
-    terrain: {
-      __fref: string;
-    };
-  };
-  catalog_archetypes: string;
-  catalogs: Array<string>;
-  details: string;
-  gameplay_level_name: string;
-  level_script_location: string;
-  managed_archetypes_path: string;
-  preplaced_named_objects: string;
-  terrain: string;
-};
-
-export type Details = {
-  dimensions: Array<number>;
-  description: string;
-  map_name: string;
-  map_tags: Array<string>;
-  game_mode: string;
-  tile_set_id: string;
-  visibility: string;
-  water_table_id: string;
-  data_format_version: number;
-};
-
-export type Terrain = {
-  terrainLevel: number;
-  terrain_nodes: Array<number>;
-  height_nodes: Array<number>;
-  material_weights: Array<number>;
-  edge_nodes: Array<any>;
-  pathing_water_unpathables: Array<any>;
-  pathing_unbuildables: Array<any>;
-  water_data: Array<number>;
-};
-
-export type PreplacedNamedObjects = Record<
-  string,
-  {
-    data?: {
-      seed: number;
-    };
-    facing: number;
-    kind: string;
-    player: number;
-    position: Array<number>;
-  }
->;
+console.log("Done");

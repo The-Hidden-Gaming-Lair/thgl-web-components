@@ -1,151 +1,1155 @@
 [
   {
-    "group": "locations",
+    "group": "ResourceGeneratorData",
     "values": [
       {
-        "id": "DestructibleTree",
-        "icon": "DestructibleTree.webp"
-      },
-      {
-        "id": "DestructibleLightTree",
-        "icon": "DestructibleLightTree.webp"
-      },
-      {
-        "id": "EnergyTower",
-        "icon": "EnergyTower.webp"
-      },
-      {
-        "id": "HealingFlower",
-        "icon": "HealingFlower.webp"
-      },
-      {
-        "id": "Goat",
-        "icon": "Goat.webp"
-      },
-      {
-        "id": "VisionTower_CreepCamp",
-        "icon": "VisionTower_CreepCamp.webp"
-      },
-      {
-        "id": "_SoundAmbience_NightCricketsD0",
-        "icon": "_SoundAmbience_NightCricketsD0.webp"
-      },
-      {
-        "id": "Deer",
-        "icon": "Deer.webp"
-      },
-      {
-        "id": "_SoundAmbience_BirdsNZRobin0",
-        "icon": "_SoundAmbience_BirdsNZRobin0.webp"
-      },
-      {
-        "id": "_SoundAmbience_CicadasDryHot1",
-        "icon": "_SoundAmbience_CicadasDryHot1.webp"
-      },
-      {
         "id": "ResourceB_Generator_2x2",
-        "icon": "ResourceB_Generator_2x2.webp"
-      },
-      {
-        "id": "MegaResourceA",
-        "icon": "MegaResourceA.webp"
-      },
-      {
-        "id": "ResourceBTower",
-        "icon": "ResourceBTower.webp"
+        "icon": "ResourceB_Generator_2x2.webp",
+        "size": 2
       },
       {
         "id": "ResourceB2x2Super_ResourceGenerator",
-        "icon": "ResourceB2x2Super_ResourceGenerator.webp"
+        "icon": "ResourceB2x2Super_ResourceGenerator.webp",
+        "size": 2
       },
       {
-        "id": "HealthTower_CreepCamp",
-        "icon": "HealthTower_CreepCamp.webp"
+        "id": "ResourceB_Generator",
+        "icon": "ResourceB_Generator.webp",
+        "size": 2
       },
       {
-        "id": "EnergyTower_CreepCamp",
-        "icon": "EnergyTower_CreepCamp.webp"
+        "id": "ResourceB_Enriched_Generator_2x2",
+        "icon": "ResourceB_Enriched_Generator_2x2.webp",
+        "size": 2
       },
       {
-        "id": "_SoundAmbience_BirdsNZRobin1",
-        "icon": "_SoundAmbience_BirdsNZRobin1.webp"
+        "id": "_ResourceB_Generator_2x21",
+        "icon": "_ResourceB_Generator_2x21.webp",
+        "size": 2
       },
       {
-        "id": "SiegeTower_CreepCamp",
-        "icon": "SiegeTower_CreepCamp.webp"
+        "id": "_ResourceB_Generator_2x20",
+        "icon": "_ResourceB_Generator_2x20.webp",
+        "size": 2
       },
       {
-        "id": "_SoundAmbience_BirdsGreenWarbler2",
-        "icon": "_SoundAmbience_BirdsGreenWarbler2.webp"
+        "id": "_ResourceB_Generator_2x22",
+        "icon": "_ResourceB_Generator_2x22.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "SoundEmitter",
+    "values": [
+      {
+        "id": "Sound_Objective_ShrineAmbience",
+        "icon": "Sound_Objective_ShrineAmbience.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "Structures",
+    "values": [
+      {
+        "id": "EnergyTower",
+        "icon": "EnergyTower.webp",
+        "size": 2
       },
       {
-        "id": "_SoundAmbience_BirdsGreenWarbler1",
-        "icon": "_SoundAmbience_BirdsGreenWarbler1.webp"
-      },
-      {
-        "id": "_SoundAmbience_NightCricketsJ0",
-        "icon": "_SoundAmbience_NightCricketsJ0.webp"
-      },
-      {
-        "id": "locationMarkerPlayerStart",
-        "icon": "locationMarkerPlayerStart.webp"
+        "id": "ResourceBTower",
+        "icon": "ResourceBTower.webp",
+        "size": 2
       },
       {
         "id": "ResourceATower",
-        "icon": "ResourceATower.webp"
+        "icon": "ResourceATower.webp",
+        "size": 2
       },
       {
         "id": "HealthTower",
-        "icon": "HealthTower.webp"
-      },
-      {
-        "id": "_SoundAmbienceSOW20",
-        "icon": "_SoundAmbienceSOW20.webp"
-      },
-      {
-        "id": "ResourceATower_CreepCamp",
-        "icon": "ResourceATower_CreepCamp.webp"
+        "icon": "HealthTower.webp",
+        "size": 2
       },
       {
         "id": "SiegeTower",
-        "icon": "SiegeTower.webp"
-      },
-      {
-        "id": "ResourceBTower_CreepCamp",
-        "icon": "ResourceBTower_CreepCamp.webp"
-      },
-      {
-        "id": "_SoundAmbience_Deadlands1",
-        "icon": "_SoundAmbience_Deadlands1.webp"
-      },
-      {
-        "id": "_SoundAmbience_BirdsGreenWarbler0",
-        "icon": "_SoundAmbience_BirdsGreenWarbler0.webp"
-      },
-      {
-        "id": "_SoundAmbience_Deadlands0",
-        "icon": "_SoundAmbience_Deadlands0.webp"
-      },
-      {
-        "id": "_SoundAmbience_CicadasDryHot0",
-        "icon": "_SoundAmbience_CicadasDryHot0.webp"
-      },
-      {
-        "id": "_SoundAmbience_BirdsCrow0",
-        "icon": "_SoundAmbience_BirdsCrow0.webp"
-      },
-      {
-        "id": "_SoundAmbience_BirdsBellsVireo0",
-        "icon": "_SoundAmbience_BirdsBellsVireo0.webp"
-      },
-      {
-        "id": "_SoundAmbience_BirdsCornBunting0",
-        "icon": "_SoundAmbience_BirdsCornBunting0.webp"
+        "icon": "SiegeTower.webp",
+        "size": 2
       },
       {
         "id": "VisionTower",
-        "icon": "VisionTower.webp"
+        "icon": "VisionTower.webp",
+        "size": 2
+      },
+      {
+        "id": "MovementSpeedTower",
+        "icon": "MovementSpeedTower.webp",
+        "size": 2
+      },
+      {
+        "id": "Barracks",
+        "icon": "Barracks.webp",
+        "size": 2
+      },
+      {
+        "id": "Habitat",
+        "icon": "Habitat.webp",
+        "size": 2
+      },
+      {
+        "id": "MechBay",
+        "icon": "MechBay.webp",
+        "size": 2
+      },
+      {
+        "id": "BigOleHavocWeapon",
+        "icon": "BigOleHavocWeapon.webp",
+        "size": 2
+      },
+      {
+        "id": "HangarBay",
+        "icon": "HangarBay.webp",
+        "size": 2
+      },
+      {
+        "id": "SentryPost",
+        "icon": "SentryPost.webp",
+        "size": 2
+      },
+      {
+        "id": "HQTier2",
+        "icon": "HQTier2.webp",
+        "size": 2
+      },
+      {
+        "id": "InfestedSpawner",
+        "icon": "InfestedSpawner.webp",
+        "size": 2
+      },
+      {
+        "id": "RadarTower",
+        "icon": "RadarTower.webp",
+        "size": 2
+      },
+      {
+        "id": "MarauderWatchtower",
+        "icon": "MarauderWatchtower.webp",
+        "size": 2
+      },
+      {
+        "id": "MarauderPerch",
+        "icon": "MarauderPerch.webp",
+        "size": 2
+      },
+      {
+        "id": "SupplyCrateStash",
+        "icon": "SupplyCrateStash.webp",
+        "size": 2
+      },
+      {
+        "id": "RaiderHut",
+        "icon": "RaiderHut.webp",
+        "size": 2
+      },
+      {
+        "id": "Wellspring",
+        "icon": "Wellspring.webp",
+        "size": 2
+      },
+      {
+        "id": "BarrowFarm",
+        "icon": "BarrowFarm.webp",
+        "size": 2
+      },
+      {
+        "id": "IronVault",
+        "icon": "IronVault.webp",
+        "size": 2
+      },
+      {
+        "id": "HQTier1",
+        "icon": "HQTier1.webp",
+        "size": 2
+      },
+      {
+        "id": "LesserShrine",
+        "icon": "LesserShrine.webp",
+        "size": 2
+      },
+      {
+        "id": "Conclave",
+        "icon": "Conclave.webp",
+        "size": 2
+      },
+      {
+        "id": "SentryPostGunner",
+        "icon": "SentryPostGunner.webp",
+        "size": 2
+      },
+      {
+        "id": "Warforge",
+        "icon": "Warforge.webp",
+        "size": 2
+      },
+      {
+        "id": "MunitionsFactory",
+        "icon": "MunitionsFactory.webp",
+        "size": 2
+      },
+      {
+        "id": "SentryPostLancer",
+        "icon": "SentryPostLancer.webp",
+        "size": 2
+      },
+      {
+        "id": "ProtoDoorClosed",
+        "icon": "ProtoDoorClosed.webp",
+        "size": 2
+      },
+      {
+        "id": "GreaterShrine",
+        "icon": "GreaterShrine.webp",
+        "size": 2
+      },
+      {
+        "id": "Obelisk",
+        "icon": "Obelisk.webp",
+        "size": 2
+      },
+      {
+        "id": "TwilightSpire",
+        "icon": "TwilightSpire.webp",
+        "size": 2
+      },
+      {
+        "id": "ShadowCleft",
+        "icon": "ShadowCleft.webp",
+        "size": 2
+      },
+      {
+        "id": "RitualChamber",
+        "icon": "RitualChamber.webp",
+        "size": 2
+      },
+      {
+        "id": "TempleDoorOpen",
+        "icon": "TempleDoorOpen.webp",
+        "size": 2
+      },
+      {
+        "id": "Hellforge",
+        "icon": "Hellforge.webp",
+        "size": 2
+      },
+      {
+        "id": "Drill",
+        "icon": "Drill.webp",
+        "size": 2
+      },
+      {
+        "id": "TempleDoorClosed",
+        "icon": "TempleDoorClosed.webp",
+        "size": 2
+      },
+      {
+        "id": "Vanguard06_CapturePoint",
+        "icon": "Vanguard06_CapturePoint.webp",
+        "size": 2
+      },
+      {
+        "id": "SigmaMegaWeapon",
+        "icon": "SigmaMegaWeapon.webp",
+        "size": 2
       }
-    ]
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "Unit",
+    "values": [
+      {
+        "id": "Goat",
+        "icon": "Goat.webp",
+        "size": 2
+      },
+      {
+        "id": "Deer",
+        "icon": "Deer.webp",
+        "size": 2
+      },
+      {
+        "id": "Chicken",
+        "icon": "Chicken.webp",
+        "size": 2
+      },
+      {
+        "id": "MajorGaltSpecOps",
+        "icon": "MajorGaltSpecOps.webp",
+        "size": 2
+      },
+      {
+        "id": "PygmyJerboa",
+        "icon": "PygmyJerboa.webp",
+        "size": 2
+      },
+      {
+        "id": "BruiserBoss_Galt",
+        "icon": "BruiserBoss_Galt.webp",
+        "size": 2
+      },
+      {
+        "id": "BruiserMinionRenegade",
+        "icon": "BruiserMinionRenegade.webp",
+        "size": 2
+      },
+      {
+        "id": "CleaverMinionRenegade",
+        "icon": "CleaverMinionRenegade.webp",
+        "size": 2
+      },
+      {
+        "id": "PiperMinionRenegade",
+        "icon": "PiperMinionRenegade.webp",
+        "size": 2
+      },
+      {
+        "id": "CleaverMinion",
+        "icon": "CleaverMinion.webp",
+        "size": 2
+      },
+      {
+        "id": "PiperMinion",
+        "icon": "PiperMinion.webp",
+        "size": 2
+      },
+      {
+        "id": "BruiserBoss",
+        "icon": "BruiserBoss.webp",
+        "size": 2
+      },
+      {
+        "id": "BruiserMinion",
+        "icon": "BruiserMinion.webp",
+        "size": 2
+      },
+      {
+        "id": "Cleaver",
+        "icon": "Cleaver.webp",
+        "size": 2
+      },
+      {
+        "id": "Piper",
+        "icon": "Piper.webp",
+        "size": 2
+      },
+      {
+        "id": "CampaignBeacon",
+        "icon": "CampaignBeacon.webp",
+        "size": 2
+      },
+      {
+        "id": "Bruiser",
+        "icon": "Bruiser.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianMale",
+        "icon": "CivilianMale.webp",
+        "size": 2
+      },
+      {
+        "id": "PrimaryResource01_Reward",
+        "icon": "PrimaryResource01_Reward.webp",
+        "size": 2
+      },
+      {
+        "id": "BaseUnit_TopBarCaster",
+        "icon": "BaseUnit_TopBarCaster.webp",
+        "size": 2
+      },
+      {
+        "id": "MajorGalt",
+        "icon": "MajorGalt.webp",
+        "size": 2
+      },
+      {
+        "id": "SecondaryResource01_Reward",
+        "icon": "SecondaryResource01_Reward.webp",
+        "size": 2
+      },
+      {
+        "id": "VanguardTopBarCaster",
+        "icon": "VanguardTopBarCaster.webp",
+        "size": 2
+      },
+      {
+        "id": "Van05_BonusObjective_Glyph01",
+        "icon": "Van05_BonusObjective_Glyph01.webp",
+        "size": 2
+      },
+      {
+        "id": "Van05_BonusObjective_Glyph03",
+        "icon": "Van05_BonusObjective_Glyph03.webp",
+        "size": 2
+      },
+      {
+        "id": "Van05_BonusObjective_Glyph02",
+        "icon": "Van05_BonusObjective_Glyph02.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "UnitData",
+    "values": [
+      {
+        "id": "HealingFlower",
+        "icon": "HealingFlower.webp",
+        "size": 2
+      },
+      {
+        "id": "Worker",
+        "icon": "Worker.webp",
+        "size": 2
+      },
+      {
+        "id": "V5RocketLauncher",
+        "icon": "V5RocketLauncher.webp",
+        "size": 2
+      },
+      {
+        "id": "RaiderWagon",
+        "icon": "RaiderWagon.webp",
+        "size": 2
+      },
+      {
+        "id": "SlimeFleshling",
+        "icon": "SlimeFleshling.webp",
+        "size": 2
+      },
+      {
+        "id": "Slime",
+        "icon": "Slime.webp",
+        "size": 2
+      },
+      {
+        "id": "Unit_Barclay",
+        "icon": "Unit_Barclay.webp",
+        "size": 2
+      },
+      {
+        "id": "RaiderWagonLoaded",
+        "icon": "RaiderWagonLoaded.webp",
+        "size": 2
+      },
+      {
+        "id": "Unit_Ryker",
+        "icon": "Unit_Ryker.webp",
+        "size": 2
+      },
+      {
+        "id": "Fiend",
+        "icon": "Fiend.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Female_PrisonerC",
+        "icon": "CivilianUnarmedBummedOut_Female_PrisonerC.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Male_PrisonerD",
+        "icon": "CivilianUnarmedBummedOut_Male_PrisonerD.webp",
+        "size": 2
+      },
+      {
+        "id": "Orok",
+        "icon": "Orok.webp",
+        "size": 2
+      },
+      {
+        "id": "Imp",
+        "icon": "Imp.webp",
+        "size": 2
+      },
+      {
+        "id": "Lancer",
+        "icon": "Lancer.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Male_PrisonerB",
+        "icon": "CivilianUnarmedBummedOut_Male_PrisonerB.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Female_PrisonerE",
+        "icon": "CivilianUnarmedBummedOut_Female_PrisonerE.webp",
+        "size": 2
+      },
+      {
+        "id": "HavocEvacLanded",
+        "icon": "HavocEvacLanded.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Female_PrisonerA",
+        "icon": "CivilianUnarmedBummedOut_Female_PrisonerA.webp",
+        "size": 2
+      },
+      {
+        "id": "Brute",
+        "icon": "Brute.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Female_PrisonerD",
+        "icon": "CivilianUnarmedBummedOut_Female_PrisonerD.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Male_PrisonerC",
+        "icon": "CivilianUnarmedBummedOut_Male_PrisonerC.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianUnarmedBummedOut_Male_PrisonerA",
+        "icon": "CivilianUnarmedBummedOut_Male_PrisonerA.webp",
+        "size": 2
+      },
+      {
+        "id": "ArtilleryMech",
+        "icon": "ArtilleryMech.webp",
+        "size": 2
+      },
+      {
+        "id": "DormantFirestarter",
+        "icon": "DormantFirestarter.webp",
+        "size": 2
+      },
+      {
+        "id": "Vulcan",
+        "icon": "Vulcan.webp",
+        "size": 2
+      },
+      {
+        "id": "CivilianSusu",
+        "icon": "CivilianSusu.webp",
+        "size": 2
+      },
+      {
+        "id": "MissileJeep",
+        "icon": "MissileJeep.webp",
+        "size": 2
+      },
+      {
+        "id": "RaptorOneLanded",
+        "icon": "RaptorOneLanded.webp",
+        "size": 2
+      },
+      {
+        "id": "Unit_Maloch",
+        "icon": "Unit_Maloch.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "Locations",
+    "values": [
+      {
+        "id": "MegaResourceA",
+        "icon": "MegaResourceA.webp",
+        "size": 2
+      },
+      {
+        "id": "locationMarkerPlayerStart",
+        "icon": "locationMarkerPlayerStart.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "CreepCamp",
+    "values": [
+      {
+        "id": "VisionTower_CreepCamp",
+        "icon": "VisionTower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "HealthTower_CreepCamp",
+        "icon": "HealthTower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "EnergyTower_CreepCamp",
+        "icon": "EnergyTower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "SiegeTower_CreepCamp",
+        "icon": "SiegeTower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "ResourceATower_CreepCamp",
+        "icon": "ResourceATower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "ResourceBTower_CreepCamp",
+        "icon": "ResourceBTower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "SpeedTower_CreepCamp",
+        "icon": "SpeedTower_CreepCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "MinionDamageBuffCamp",
+        "icon": "MinionDamageBuffCamp.webp",
+        "size": 2
+      },
+      {
+        "id": "MinionHealBuffCamp",
+        "icon": "MinionHealBuffCamp.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "ItemData",
+    "values": [
+      {
+        "id": "Item_LuminiteShard",
+        "icon": "Item_LuminiteShard.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_Waterskin",
+        "icon": "Item_Waterskin.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_CombatVest",
+        "icon": "Item_CombatVest.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_BoneJabber",
+        "icon": "Item_BoneJabber.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_MrTwiggy",
+        "icon": "Item_MrTwiggy.webp",
+        "size": 2
+      },
+      {
+        "id": "Consumable_CaffeineShot_Item",
+        "icon": "Consumable_CaffeineShot_Item.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry01",
+        "icon": "JournalEntry_Vanguard01_Entry01.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry05",
+        "icon": "JournalEntry_Vanguard01_Entry05.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_CrudeCudgel",
+        "icon": "Item_CrudeCudgel.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_DesertGarb",
+        "icon": "Item_DesertGarb.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_DiscardedBandages",
+        "icon": "Item_DiscardedBandages.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry08",
+        "icon": "JournalEntry_Vanguard01_Entry08.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_SimpleGoldRing",
+        "icon": "Item_SimpleGoldRing.webp",
+        "size": 2
+      },
+      {
+        "id": "Chicken_Item",
+        "icon": "Chicken_Item.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry04",
+        "icon": "JournalEntry_Vanguard01_Entry04.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry02",
+        "icon": "JournalEntry_Vanguard01_Entry02.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry09",
+        "icon": "JournalEntry_Vanguard01_Entry09.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry06",
+        "icon": "JournalEntry_Vanguard01_Entry06.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_HuntersHat",
+        "icon": "Item_HuntersHat.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry03",
+        "icon": "JournalEntry_Vanguard01_Entry03.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard01_Entry07",
+        "icon": "JournalEntry_Vanguard01_Entry07.webp",
+        "size": 2
+      },
+      {
+        "id": "PassiveStacking_SigmaXCEModule_Item",
+        "icon": "PassiveStacking_SigmaXCEModule_Item.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry06",
+        "icon": "JournalEntry_Vanguard02_Entry06.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_HealingSalve",
+        "icon": "Item_HealingSalve.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_ExplorersLantern",
+        "icon": "Item_ExplorersLantern.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry01",
+        "icon": "JournalEntry_Vanguard02_Entry01.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry10",
+        "icon": "JournalEntry_Vanguard02_Entry10.webp",
+        "size": 2
+      },
+      {
+        "id": "Consumable_NutriBar_Item",
+        "icon": "Consumable_NutriBar_Item.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_ToxiCola",
+        "icon": "Item_ToxiCola.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry09",
+        "icon": "JournalEntry_Vanguard02_Entry09.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry04",
+        "icon": "JournalEntry_Vanguard02_Entry04.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry03",
+        "icon": "JournalEntry_Vanguard02_Entry03.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry07",
+        "icon": "JournalEntry_Vanguard02_Entry07.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry02",
+        "icon": "JournalEntry_Vanguard02_Entry02.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_GoldenToaster",
+        "icon": "Item_GoldenToaster.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry08",
+        "icon": "JournalEntry_Vanguard02_Entry08.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard02_Entry05",
+        "icon": "JournalEntry_Vanguard02_Entry05.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry05",
+        "icon": "JournalEntry_Vanguard03_Entry05.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry06",
+        "icon": "JournalEntry_Vanguard03_Entry06.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry09",
+        "icon": "JournalEntry_Vanguard03_Entry09.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry02",
+        "icon": "JournalEntry_Vanguard03_Entry02.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry03",
+        "icon": "JournalEntry_Vanguard03_Entry03.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry08",
+        "icon": "JournalEntry_Vanguard03_Entry08.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_BattleJuice",
+        "icon": "Item_BattleJuice.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_HerbalTea",
+        "icon": "Item_HerbalTea.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_TheriumCluster",
+        "icon": "Item_TheriumCluster.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_SpareParts",
+        "icon": "Item_SpareParts.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_BigRedButton",
+        "icon": "Item_BigRedButton.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_MedicalWrap",
+        "icon": "Item_MedicalWrap.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry04",
+        "icon": "JournalEntry_Vanguard03_Entry04.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry07",
+        "icon": "JournalEntry_Vanguard03_Entry07.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_SandrunnerBoots",
+        "icon": "Item_SandrunnerBoots.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard03_Entry01",
+        "icon": "JournalEntry_Vanguard03_Entry01.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry03",
+        "icon": "JournalEntry_Vanguard04_Entry03.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry04",
+        "icon": "JournalEntry_Vanguard04_Entry04.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_MedKit",
+        "icon": "Item_MedKit.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_CombatTrainingManual",
+        "icon": "Item_CombatTrainingManual.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry02",
+        "icon": "JournalEntry_Vanguard04_Entry02.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry08",
+        "icon": "JournalEntry_Vanguard04_Entry08.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_HypnoticRod",
+        "icon": "Item_HypnoticRod.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry07",
+        "icon": "JournalEntry_Vanguard04_Entry07.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_AmmoCache",
+        "icon": "Item_AmmoCache.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry06",
+        "icon": "JournalEntry_Vanguard04_Entry06.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry01",
+        "icon": "JournalEntry_Vanguard04_Entry01.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard04_Entry05",
+        "icon": "JournalEntry_Vanguard04_Entry05.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry01",
+        "icon": "JournalEntry_Vanguard05_Entry01.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_LittleMissSquishums",
+        "icon": "Item_LittleMissSquishums.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry08",
+        "icon": "JournalEntry_Vanguard05_Entry08.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_AssassinsGloves",
+        "icon": "Item_AssassinsGloves.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry02",
+        "icon": "JournalEntry_Vanguard05_Entry02.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry05",
+        "icon": "JournalEntry_Vanguard05_Entry05.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry03",
+        "icon": "JournalEntry_Vanguard05_Entry03.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry06",
+        "icon": "JournalEntry_Vanguard05_Entry06.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry09",
+        "icon": "JournalEntry_Vanguard05_Entry09.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry07",
+        "icon": "JournalEntry_Vanguard05_Entry07.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard05_Entry04",
+        "icon": "JournalEntry_Vanguard05_Entry04.webp",
+        "size": 2
+      },
+      {
+        "id": "Passive_Camouflage_Item",
+        "icon": "Passive_Camouflage_Item.webp",
+        "size": 2
+      },
+      {
+        "id": "Item_ContactPoison",
+        "icon": "Item_ContactPoison.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry03",
+        "icon": "JournalEntry_Vanguard06_Entry03.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry04",
+        "icon": "JournalEntry_Vanguard06_Entry04.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry01",
+        "icon": "JournalEntry_Vanguard06_Entry01.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry02",
+        "icon": "JournalEntry_Vanguard06_Entry02.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry06",
+        "icon": "JournalEntry_Vanguard06_Entry06.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry07",
+        "icon": "JournalEntry_Vanguard06_Entry07.webp",
+        "size": 2
+      },
+      {
+        "id": "JournalEntry_Vanguard06_Entry05",
+        "icon": "JournalEntry_Vanguard06_Entry05.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "Destructible",
+    "values": [
+      {
+        "id": "DestructibleTree",
+        "icon": "DestructibleTree.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleLightTree",
+        "icon": "DestructibleLightTree.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleTreeAngled",
+        "icon": "DestructibleTreeAngled.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleConcealmentForest",
+        "icon": "DestructibleConcealmentForest.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleSharpRock",
+        "icon": "DestructibleSharpRock.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleConcealmentDeadlands",
+        "icon": "DestructibleConcealmentDeadlands.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleWallHorizontal",
+        "icon": "DestructibleWallHorizontal.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleWallVertical",
+        "icon": "DestructibleWallVertical.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleLightTree_NoConcealment",
+        "icon": "DestructibleLightTree_NoConcealment.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleForest",
+        "icon": "DestructibleForest.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleDebris",
+        "icon": "DestructibleDebris.webp",
+        "size": 0.7
+      },
+      {
+        "id": "ExplodingBarrel",
+        "icon": "ExplodingBarrel.webp",
+        "size": 2
+      },
+      {
+        "id": "DestructibleMarauderWall",
+        "icon": "DestructibleMarauderWall.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleVillageGate",
+        "icon": "DestructibleVillageGate.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleHavocWallHorizontal",
+        "icon": "DestructibleHavocWallHorizontal.webp",
+        "size": 0.7
+      },
+      {
+        "id": "DestructibleCage",
+        "icon": "DestructibleCage.webp",
+        "size": 0.7
+      }
+    ],
+    "defaultOpen": false,
+    "defaultOn": true
   }
 ]
