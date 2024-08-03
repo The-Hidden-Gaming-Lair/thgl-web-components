@@ -1,7 +1,11 @@
 import { createCanvas } from "@napi-rs/canvas";
 import { CONTENT_DIR, initDirs, TEMP_DIR } from "./lib/dirs.js";
 import { readJSON, saveImage } from "./lib/fs.js";
-import { mirrorCancas, rotateCanvas } from "./lib/image.js";
+import { mirrorCancas, rotateCanvas, saveIcon } from "./lib/image.js";
+import { initNodes, writeNodes } from "./lib/nodes.js";
+import { initFilters, writeFilters } from "./lib/filters.js";
+import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
+import { initDict, writeDict } from "./lib/dicts.js";
 
 initDirs(
   "/mnt/c/dev/Stormgate/Extracted/Data",
@@ -9,19 +13,74 @@ initDirs(
   "/home/devleon/the-hidden-gaming-lair/static/stormgate",
 );
 
-// const mapName = "Vanguard01";
-const mapName = "Boneyard";
+const enDict = initDict({
+  locations: "Locations",
+});
+const nodes = initNodes();
+const filters = initFilters([{ group: "locations", values: [] }]);
+const locations = filters.find((f) => f.group === "locations")!;
+const tiles = initTiles();
 
-const map = await readJSON<Map>(
-  `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/map.json`,
-);
-const details = await readJSON<Details>(
-  `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/${map.__attr.details.__fref}`,
-);
-const terrain = await readJSON<Terrain>(
-  `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/${map.__attr.terrain.__fref}`,
-);
-createMapImage(terrain, details.dimensions[0], details.dimensions[1], mapName);
+// const mapName = "Vanguard01";
+const mapNames = ["Boneyard"];
+
+for (const mapName of mapNames) {
+  const map = await readJSON<Map>(
+    `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/map.json`,
+  );
+  const details = await readJSON<Details>(
+    `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/${map.__attr.details.__fref}`,
+  );
+  const terrain = await readJSON<Terrain>(
+    `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/${map.__attr.terrain.__fref}`,
+  );
+  const preplacedNamedObjects = await readJSON<PreplacedNamedObjects>(
+    `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/${map.__attr.preplaced_named_objects.__fref}`,
+  );
+
+  const mapImagePath = await createMapImage(
+    terrain,
+    details.dimensions[0],
+    details.dimensions[1],
+    mapName,
+  );
+  const tile = await generateTiles(mapName, mapImagePath, 2000000);
+  tiles[mapName] = tile;
+
+  for (const preplacedNamedObject of Object.values(preplacedNamedObjects)) {
+    if (!locations.values.some((v) => v.id === preplacedNamedObject.kind)) {
+      locations.values.push({
+        id: preplacedNamedObject.kind,
+        icon: await saveIcon(
+          `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/flying-target_delapouite.webp`,
+          preplacedNamedObject.kind,
+        ),
+      });
+    }
+    if (
+      !nodes.some(
+        (n) => n.type === preplacedNamedObject.kind && n.mapName === mapName,
+      )
+    ) {
+      nodes.push({
+        type: preplacedNamedObject.kind,
+        mapName,
+        spawns: [],
+      });
+    }
+    const node = nodes.find(
+      (n) => n.type === preplacedNamedObject.kind && n.mapName === mapName,
+    )!;
+    node.spawns.push({
+      p: [preplacedNamedObject.position[0], preplacedNamedObject.position[1]],
+    });
+  }
+}
+
+writeNodes(nodes);
+writeFilters(filters);
+writeTiles(tiles);
+writeDict(enDict, "en");
 
 async function createMapImage(
   terrain: Terrain,
@@ -124,6 +183,7 @@ async function createMapImage(
     TEMP_DIR + "/" + mapName + ".png",
     mirrorCancas(canvas).toBuffer("image/png"),
   );
+  return TEMP_DIR + "/" + mapName + "_terrain_nodes.png";
 }
 /**
  * Here are the missions/maps that are available in the game.
@@ -184,3 +244,16 @@ export type Terrain = {
   pathing_unbuildables: Array<any>;
   water_data: Array<number>;
 };
+
+export type PreplacedNamedObjects = Record<
+  string,
+  {
+    data?: {
+      seed: number;
+    };
+    facing: number;
+    kind: string;
+    player: number;
+    position: Array<number>;
+  }
+>;

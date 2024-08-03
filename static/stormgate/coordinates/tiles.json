@@ -1,0 +1,40 @@
+{
+  "Boneyard": {
+    "Boneyard": {
+      "url": "/map-tiles/Boneyard/{z}/{y}/{x}.webp",
+      "options": {
+        "minNativeZoom": 0,
+        "maxNativeZoom": 0,
+        "bounds": [
+          [
+            -1000000,
+            -1000000
+          ],
+          [
+            1000000,
+            1000000
+          ]
+        ],
+        "tileSize": 512
+      },
+      "minZoom": -5,
+      "maxZoom": 7,
+      "fitBounds": [
+        [
+          -1000000,
+          -1000000
+        ],
+        [
+          1000000,
+          1000000
+        ]
+      ],
+      "transformation": [
+        0.000256,
+        256,
+        0.000256,
+        256
+      ]
+    }
+  }
+}

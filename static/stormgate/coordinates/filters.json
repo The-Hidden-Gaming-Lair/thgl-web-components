@@ -1,0 +1,151 @@
+[
+  {
+    "group": "locations",
+    "values": [
+      {
+        "id": "DestructibleTree",
+        "icon": "DestructibleTree.webp"
+      },
+      {
+        "id": "DestructibleLightTree",
+        "icon": "DestructibleLightTree.webp"
+      },
+      {
+        "id": "EnergyTower",
+        "icon": "EnergyTower.webp"
+      },
+      {
+        "id": "HealingFlower",
+        "icon": "HealingFlower.webp"
+      },
+      {
+        "id": "Goat",
+        "icon": "Goat.webp"
+      },
+      {
+        "id": "VisionTower_CreepCamp",
+        "icon": "VisionTower_CreepCamp.webp"
+      },
+      {
+        "id": "_SoundAmbience_NightCricketsD0",
+        "icon": "_SoundAmbience_NightCricketsD0.webp"
+      },
+      {
+        "id": "Deer",
+        "icon": "Deer.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsNZRobin0",
+        "icon": "_SoundAmbience_BirdsNZRobin0.webp"
+      },
+      {
+        "id": "_SoundAmbience_CicadasDryHot1",
+        "icon": "_SoundAmbience_CicadasDryHot1.webp"
+      },
+      {
+        "id": "ResourceB_Generator_2x2",
+        "icon": "ResourceB_Generator_2x2.webp"
+      },
+      {
+        "id": "MegaResourceA",
+        "icon": "MegaResourceA.webp"
+      },
+      {
+        "id": "ResourceBTower",
+        "icon": "ResourceBTower.webp"
+      },
+      {
+        "id": "ResourceB2x2Super_ResourceGenerator",
+        "icon": "ResourceB2x2Super_ResourceGenerator.webp"
+      },
+      {
+        "id": "HealthTower_CreepCamp",
+        "icon": "HealthTower_CreepCamp.webp"
+      },
+      {
+        "id": "EnergyTower_CreepCamp",
+        "icon": "EnergyTower_CreepCamp.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsNZRobin1",
+        "icon": "_SoundAmbience_BirdsNZRobin1.webp"
+      },
+      {
+        "id": "SiegeTower_CreepCamp",
+        "icon": "SiegeTower_CreepCamp.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsGreenWarbler2",
+        "icon": "_SoundAmbience_BirdsGreenWarbler2.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsGreenWarbler1",
+        "icon": "_SoundAmbience_BirdsGreenWarbler1.webp"
+      },
+      {
+        "id": "_SoundAmbience_NightCricketsJ0",
+        "icon": "_SoundAmbience_NightCricketsJ0.webp"
+      },
+      {
+        "id": "locationMarkerPlayerStart",
+        "icon": "locationMarkerPlayerStart.webp"
+      },
+      {
+        "id": "ResourceATower",
+        "icon": "ResourceATower.webp"
+      },
+      {
+        "id": "HealthTower",
+        "icon": "HealthTower.webp"
+      },
+      {
+        "id": "_SoundAmbienceSOW20",
+        "icon": "_SoundAmbienceSOW20.webp"
+      },
+      {
+        "id": "ResourceATower_CreepCamp",
+        "icon": "ResourceATower_CreepCamp.webp"
+      },
+      {
+        "id": "SiegeTower",
+        "icon": "SiegeTower.webp"
+      },
+      {
+        "id": "ResourceBTower_CreepCamp",
+        "icon": "ResourceBTower_CreepCamp.webp"
+      },
+      {
+        "id": "_SoundAmbience_Deadlands1",
+        "icon": "_SoundAmbience_Deadlands1.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsGreenWarbler0",
+        "icon": "_SoundAmbience_BirdsGreenWarbler0.webp"
+      },
+      {
+        "id": "_SoundAmbience_Deadlands0",
+        "icon": "_SoundAmbience_Deadlands0.webp"
+      },
+      {
+        "id": "_SoundAmbience_CicadasDryHot0",
+        "icon": "_SoundAmbience_CicadasDryHot0.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsCrow0",
+        "icon": "_SoundAmbience_BirdsCrow0.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsBellsVireo0",
+        "icon": "_SoundAmbience_BirdsBellsVireo0.webp"
+      },
+      {
+        "id": "_SoundAmbience_BirdsCornBunting0",
+        "icon": "_SoundAmbience_BirdsCornBunting0.webp"
+      },
+      {
+        "id": "VisionTower",
+        "icon": "VisionTower.webp"
+      }
+    ]
+  }
+]
