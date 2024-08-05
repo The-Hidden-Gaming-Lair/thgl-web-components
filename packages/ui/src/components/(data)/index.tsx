@@ -5,6 +5,7 @@ export * from "./custom-activities";
 export * from "./data-table";
 export * from "./details";
 export * from "./diablo4-events";
+export * from "./ping";
 export * from "./sidebar";
 export * from "./troops";
 export * from "../ui/skeleton";

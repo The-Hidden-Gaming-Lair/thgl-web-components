@@ -1,6 +1,9 @@
+import { url } from "node:inspector";
 import { ContentLayout } from "@repo/ui/ads";
+import { DataTable } from "@repo/ui/data";
 import { HeaderOffset } from "@repo/ui/header";
 import { type Metadata } from "next";
+import { columns } from "./columns";
 
 export const metadata: Metadata = {
   alternates: {
@@ -10,7 +13,33 @@ export const metadata: Metadata = {
   description: "Check the Stormgate server status and ping times.",
 };
 
-export default function ServerStatus() {
+type Servers = {
+  host: string;
+  port: number;
+  region: string;
+}[];
+
+async function fetchServers(): Promise<Servers> {
+  try {
+    const response = await fetch("https://api.hathora.dev/discovery/v1/ping", {
+      next: {
+        revalidate: 60 * 60,
+      },
+    });
+    return (await response.json()) as Servers;
+  } catch (error) {
+    console.error("Failed to fetch servers", error);
+    return [];
+  }
+}
+
+export default async function ServerStatus() {
+  const servers = (await fetchServers())
+    .sort((a, b) => a.region.localeCompare(b.region))
+    .map((server) => ({
+      region: server.region,
+      url: `http://${server.host}:${server.port}`,
+    }));
   return (
     <HeaderOffset full>
       <ContentLayout
@@ -25,13 +54,7 @@ export default function ServerStatus() {
           </>
         }
         content={
-          <div className="flex flex-col gap-4 grow">
-            <div className="ml-auto flex gap-2 mt-4">
-              {/* <CustomActivities />
-                <ActivityReset /> */}
-            </div>
-            {/* <Activities /> */}
-          </div>
+          <DataTable columns={columns} data={servers} filterColumn="region" />
         }
       />
     </HeaderOffset>
