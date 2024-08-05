@@ -1815,3 +1815,1344 @@ export interface Weapons {
   speed: string;
   targets: string;
 }
+
+export type Archetypes = {
+  Enum: {
+    AIWingmanStyle: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    AiStyle: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    CommanderType: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    FactionType: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    SlotType: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    TeamNumber: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    VeterancyTierType: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+    VisionType: {
+      values: Array<{
+        display_name: string;
+        name: string;
+        value: number;
+      }>;
+    };
+  };
+  MapSettings: {
+    defaultMapSettings: {
+      camera_bounds: {
+        bottom_offset: number;
+        left_offset: number;
+        right_offset: number;
+        top_offset: number;
+      };
+      cloud_blackboard: string;
+      construction_preview_bp: string;
+      corpse_expiration_scale: number;
+      description: string;
+      fog: {
+        color: {
+          b: number;
+          g: number;
+          r: number;
+        };
+        density: number;
+        enabled: boolean;
+        height: number;
+      };
+      lighting_settings: string;
+      loading_widget: string;
+      map_music: string;
+      playable_bounds: {
+        bottom_offset: number;
+        left_offset: number;
+        right_offset: number;
+        top_offset: number;
+      };
+      player_attributes: Array<string>;
+      player_slots: Array<any>;
+      shroud_shrink_scale: number;
+      shroud_time_per_radius_unit: number;
+      skybox: {
+        actor: string;
+        enabled: boolean;
+        parallax: number;
+      };
+      starting_worker_count: number;
+      sub_title: string;
+      tileset: string;
+      time_of_day: {
+        dawn_sound: string;
+        day_length: number;
+        dusk_sound: string;
+        scale: number;
+        starting_hour: number;
+      };
+      title: string;
+      veterancy_xp_share_radius: number;
+      win_condition: string;
+    };
+    useMapSettings: {
+      camera_bounds: {
+        bottom_offset: number;
+        left_offset: number;
+        right_offset: number;
+        top_offset: number;
+      };
+      cloud_blackboard: string;
+      construction_preview_bp: string;
+      corpse_expiration_scale: number;
+      description: string;
+      fog: {
+        color: {
+          b: number;
+          g: number;
+          r: number;
+        };
+        density: number;
+        enabled: boolean;
+        height: number;
+      };
+      lighting_settings: string;
+      loading_widget: string;
+      map_music: string;
+      playable_bounds: {
+        bottom_offset: number;
+        left_offset: number;
+        right_offset: number;
+        top_offset: number;
+      };
+      player_attributes: Array<string>;
+      player_slots: Array<{
+        attribute_instance_map_settings: {
+          additional_overrides: Array<any>;
+          slot_type: {
+            locked: boolean;
+            value: string;
+          };
+          team: {
+            locked: boolean;
+            value: number;
+          };
+        };
+      }>;
+      shroud_shrink_scale: number;
+      shroud_time_per_radius_unit: number;
+      skybox: {
+        actor: string;
+        enabled: boolean;
+        parallax: number;
+      };
+      starting_worker_count: number;
+      sub_title: string;
+      tileset: string;
+      time_of_day: {
+        dawn_sound: string;
+        day_length: number;
+        dusk_sound: string;
+        scale: number;
+        starting_hour: number;
+      };
+      title: string;
+      veterancy_xp_share_radius: number;
+      win_condition: string;
+    };
+  };
+  PlayerAttributeDefinition: {
+    aiStyleAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    aiWingmanAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    armySkinAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    colorVariationAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    commanderLevelAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    factionAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    fogOfWarAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    gear1AttributeDefinition: {
+      attribute_id: string;
+      default_data: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    gear2AttributeDefinition: {
+      attribute_id: string;
+      default_data: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    gear3AttributeDefinition: {
+      attribute_id: string;
+      default_data: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    globalPerkTestSlotAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<string>;
+    };
+    pet1AttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    pet2AttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    pet3AttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    pet4AttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    slotTypeAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      is_unique_per_player: boolean;
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+    teamAttributeDefinition: {
+      attribute_id: string;
+      default_instance_map_settings: {
+        default_value: number;
+        locked: boolean;
+      };
+      display_name: string;
+      display_settings: {
+        show_in_custom_lobby: boolean;
+        show_in_internal_lobby: boolean;
+        show_on_ais: boolean;
+        show_on_occupied_humans: boolean;
+      };
+      permission_settings: {
+        user_edit_scope: {
+          anyone: boolean;
+          lobby_owner: boolean;
+          slot_occupant: boolean;
+        };
+        user_editing_allowed: string;
+      };
+      value_kind: number;
+      values: string;
+      values_as_typeref_enum: Array<any>;
+    };
+  };
+  Score: {
+    score_creep_resources_collected: {
+      display_name: string;
+      display_on_score_screen: boolean;
+      score_id: string;
+      upload_with_match_results: boolean;
+    };
+    score_resources_mined: {
+      display_name: string;
+      display_on_score_screen: boolean;
+      score_id: string;
+      upload_with_match_results: boolean;
+    };
+    score_structures_killed: {
+      display_name: string;
+      display_on_score_screen: boolean;
+      score_id: string;
+      upload_with_match_results: boolean;
+    };
+    score_units_killed: {
+      display_name: string;
+      display_on_score_screen: boolean;
+      score_id: string;
+      upload_with_match_results: boolean;
+    };
+    score_xp: {
+      display_name: string;
+      display_on_score_screen: boolean;
+      score_id: string;
+      upload_with_match_results: boolean;
+    };
+  };
+  SnowTag: {
+    alignment_negative: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    alignment_neutral: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    alignment_positive: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    alliance: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    alliance_enemy: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    alliance_friendly: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    alliance_neutral: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_biological: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_fortified: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_heavy: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_hero: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_interceptor: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_item: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_light: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_mechanical: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_medium: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_melee: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_object: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_ranged: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_resilient: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_topbar: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    attribute_worker: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    autoharvester: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    capturable: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    cheat: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    cheat_cooldown: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    cheat_food: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    cheat_free: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    cheat_tech: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    damage_melee: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    damage_ranged: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    damage_spell: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    damage_splash: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    dead: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    defensive: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    disabled: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    dispel: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    dispel_systemshock: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    dispel_technological: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_creepcamp: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_destructible: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_destructible_generator: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_destructible_tree: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_item: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_pet: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_projectile: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_resource: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_resource_a: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_resource_b: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_resource_generator: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_resource_generator_a: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_resource_generator_b: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_unit: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_unit_creep: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_unit_critter: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    entity_unit_structure: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    heightplane_air: {
+      display: string;
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    heightplane_ground: {
+      display: string;
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    immunity_persistent: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    mapobjective: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    mapobjective_primary: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    mapobjective_secondary: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    preventdefeat_elimination: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state_morphing: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state_objective: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state_resourcedropoff: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state_resourcedropoff_a: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state_resourcedropoff_b: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    state_underconstruction: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_burning: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_dormant: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_grounded: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_healing: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_holdfire: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_invulnerable: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_launched: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_lifted: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_pacified: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_paused: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_silenced: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_sleeping: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_slowed: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_stealthed: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_stealthening: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_stunned: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_suppressed: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_timedlife: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    status_weapons_alternate: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    supply: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    townhall: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    visual_fogofwar_ignore: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    visual_minimap: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    visual_minimap_always: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    visual_minimap_never: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    weapon: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+    worker_blink_once: {
+      display_name: string;
+      flags: {
+        display_as_attribute: boolean;
+        display_as_callout: boolean;
+      };
+    };
+  };
+};

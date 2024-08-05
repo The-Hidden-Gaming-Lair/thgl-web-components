@@ -396,8 +396,8 @@ export function adjustBrightnessAndContrast(
 export function mirrorCancas(canvas: Canvas) {
   const mirroredCanvas = createCanvas(canvas.width, canvas.height);
   const ctx = mirroredCanvas.getContext("2d");
-  ctx.translate(canvas.width, 0);
-  ctx.scale(-1, 1);
+  ctx.translate(0, canvas.height);
+  ctx.scale(1, -1);
   ctx.drawImage(canvas, 0, 0);
   return mirroredCanvas;
 }
@@ -411,22 +411,27 @@ export function rotateCanvas(canvas: Canvas, angle: number) {
   return rotatedCanvas;
 }
 
-export async function vectorize(filePath: string, outputPath: string) {
+export async function vectorize(
+  filePath: string,
+  outputPath: string,
+  width: number,
+  height: number,
+) {
   const formData = new FormData();
   const file = Bun.file(filePath);
   formData.append("image", file);
+  formData.append("output.size.width", width.toString());
+  formData.append("output.size.height", height.toString());
+  formData.append("output.size.unit", "px");
 
-  const response = await fetch(
-    "https://vectorizer.ai/api/v1/vectorize?mode=test",
-    {
-      method: "POST",
-      headers: {
-        Authorization:
-          "Basic dms0ZXJiY3pycTVjenJsOnFqZW5uZTlqYnIycnZnNWQwNzA3MGVydHFrOWVxYWJ0NjR0cDMwMTBnODYyZXJpMTIyZ2c=",
-      },
-      body: formData,
+  const response = await fetch("https://vectorizer.ai/api/v1/vectorize", {
+    method: "POST",
+    headers: {
+      Authorization:
+        "Basic dms0ZXJiY3pycTVjenJsOnFqZW5uZTlqYnIycnZnNWQwNzA3MGVydHFrOWVxYWJ0NjR0cDMwMTBnODYyZXJpMTIyZ2c=",
     },
-  );
+    body: formData,
+  });
 
   if (!response.ok) {
     console.error("Error:", response.status, await response.text());
@@ -434,5 +439,11 @@ export async function vectorize(filePath: string, outputPath: string) {
   }
 
   const blob = await response.blob();
-  Bun.write(outputPath, blob);
+  // const svg = await blob.text();
+  // const filteredSvg = svg.replace(
+  //   "viewBox=",
+  //   'width="1000" height="1000" viewBox=',
+  // );
+  // fs.writeFileSync(outputPath, filteredSvg);
+  return Bun.write(outputPath, blob);
 }
