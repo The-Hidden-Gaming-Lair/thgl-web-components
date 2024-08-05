@@ -47,35 +47,28 @@ function formatTimeLeft(timeLeft: number) {
   return result;
 }
 
-export type RECENT_EVENTS = {
-  boss: {
-    name: string;
-    expectedName: string;
-    nextExpectedName: string;
-    timestamp: number;
-    expected: number;
-    nextExpected: number;
-    territory: string;
-    zone: string;
-  };
-  helltide: {
-    timestamp: number;
-    zone: string;
-    refresh: number;
-  };
-  legion: {
-    timestamp: number;
-    territory: string;
-    zone: string;
-    expected: number;
-    nextExpected: number;
-  };
+type Helltide = {
+  e: "Helltide";
+  z: string;
 };
+type WorldBoss = {
+  e: "World Boss";
+  n: string;
+  ts: number;
+};
+type Legion = {
+  e: "Legion";
+  t: string | null;
+  z: string | null;
+  ts: number;
+};
+
+export type RECENT_EVENTS = Array<Helltide | WorldBoss | Legion>;
 
 async function getRecentEvents() {
   const response = await fetch(
     location.origin.startsWith("overwolf")
-      ? `https://d4armory.io/api/events/recent?v=${Date.now()}`
+      ? `https://d4armory.io/api/events.json?v=${Date.now()}`
       : `/api/events?v=${Date.now()}`,
   );
   const data = (await response.json()) as RECENT_EVENTS;
@@ -97,6 +90,10 @@ export function Diablo4Events({ portal }: { portal?: boolean }) {
     (state) => state.removeHighlightSpawnIDs,
   );
 
+  const helltide = data?.find((e) => e.e === "Helltide");
+  const legion = data?.find((e) => e.e === "Legion");
+  const worldBoss = data?.find((e) => e.e === "World Boss");
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setTime(Date.now());
@@ -108,7 +105,7 @@ export function Diablo4Events({ portal }: { portal?: boolean }) {
   }, [time]);
 
   useEffect(() => {
-    if (!data?.helltide) {
+    if (!helltide) {
       return;
     }
 
@@ -117,18 +114,24 @@ export function Diablo4Events({ portal }: { portal?: boolean }) {
       return;
     }
     const spawnIds = chestT3s.spawns
-      .filter((s) => s.id?.includes(data.helltide.zone))
+      .filter((s) => s.id && helltide.z.toLowerCase().startsWith(s.id))
       .map((s) => `${s.id}@${s.p[0]}:${s.p[1]}`);
     addHighlightSpawnIDs(spawnIds);
     return () => {
       removeHighlightSpawnIDs(spawnIds);
     };
-  }, [data?.helltide.timestamp]);
+  }, [helltide?.z]);
 
   if (portal) {
     return (
       <div className="fixed top-2 left-12 flex gap-3">
-        <Timers data={data} time={time} buttonClassName="w-auto" />
+        <Timers
+          helltide={helltide}
+          worldBoss={worldBoss}
+          legion={legion}
+          time={time}
+          buttonClassName="w-auto"
+        />
       </div>
     );
   }
@@ -149,37 +152,45 @@ export function Diablo4Events({ portal }: { portal?: boolean }) {
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <Timers data={data} time={time} />
+          <Timers
+            helltide={helltide}
+            worldBoss={worldBoss}
+            legion={legion}
+            time={time}
+          />
         </PopoverContent>
       </Popover>
       <div className="hidden md:block">
-        <Timers data={data} time={time} buttonClassName="py-2 px-4" />
+        <Timers
+          helltide={helltide}
+          worldBoss={worldBoss}
+          legion={legion}
+          time={time}
+          buttonClassName="py-2 px-4"
+        />
       </div>
     </>
   );
 }
 
 function Timers({
-  data,
+  helltide,
+  worldBoss,
+  legion,
   time,
   buttonClassName,
 }: {
-  data?: RECENT_EVENTS;
+  helltide?: Helltide;
+  worldBoss?: WorldBoss;
+  legion?: Legion;
   time: number | null;
   buttonClassName?: string;
 }) {
   const t = useT();
-
   const legionTimeLeft =
-    data && time
-      ? Math.max(0, data.legion.timestamp * 1000 - time) ||
-        Math.max(0, data.legion.expected * 1000 - time)
-      : 0;
+    legion && time ? Math.max(0, legion.ts * 1000 - time) : 0;
   const bossTimeLeft =
-    data && time
-      ? Math.max(0, data.boss.timestamp * 1000 - time) ||
-        Math.max(0, data.boss.expected * 1000 - time)
-      : 0;
+    worldBoss && time ? Math.max(0, worldBoss.ts * 1000 - time) : 0;
 
   return (
     <>
@@ -197,8 +208,8 @@ function Timers({
       >
         <span>Helltide</span>
         <span className="grow text-muted-foreground truncate">
-          {data?.helltide.zone && data.helltide.zone !== "unkn"
-            ? t(data.helltide.zone) ?? data.helltide.zone
+          {helltide?.z && helltide.z !== "unkn"
+            ? t(helltide.z) || helltide.z
             : ""}
         </span>
         <span>{calculateHelltideTimeLeft(time)}</span>
@@ -216,9 +227,7 @@ function Timers({
         disabled
       >
         <span>{legionTimeLeft > 0 ? "Next " : ""}Legion</span>
-        <span className="grow text-muted-foreground truncate">
-          {data?.legion.territory}
-        </span>
+        <span className="grow text-muted-foreground truncate">{legion?.t}</span>
         <span>{formatTimeLeft(legionTimeLeft)}</span>
       </button>
       <button
@@ -235,7 +244,7 @@ function Timers({
       >
         <span>{bossTimeLeft > 0 ? "Next " : ""}World Boss</span>
         <span className="grow text-muted-foreground truncate">
-          {data?.boss.expectedName}
+          {worldBoss?.n}
         </span>
         <span>{formatTimeLeft(bossTimeLeft)}</span>
       </button>
