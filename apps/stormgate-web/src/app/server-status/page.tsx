@@ -79,7 +79,7 @@ export default async function ServerStatus() {
     .sort((a, b) => a.region.localeCompare(b.region))
     .map((server) => ({
       region: server.region,
-      url: `https://${server.host}:${server.port}`,
+      url: `wss://${server.host}:${server.port}/ws`,
     }));
   const gameInfo = await fetchGameInfo();
 
