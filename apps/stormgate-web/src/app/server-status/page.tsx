@@ -19,6 +19,31 @@ type Servers = {
   region: string;
 }[];
 
+interface GameInfo {
+  name: string;
+  platformVersion: string;
+  backendMode: string;
+  authenticateBackend: {
+    host: string;
+    port: number;
+    protocol: string;
+    scheme: string;
+  };
+  socialBackend: {
+    host: string;
+    port: number;
+    protocol: string;
+    webSocketProtocol: string;
+  };
+  gameBackend: {
+    host: string;
+    port: number;
+    protocol: string;
+    webSocketProtocol: string;
+  };
+  gameShardId: string;
+}
+
 async function fetchServers(): Promise<Servers> {
   try {
     const response = await fetch("https://api.hathora.dev/discovery/v1/ping", {
@@ -28,8 +53,23 @@ async function fetchServers(): Promise<Servers> {
     });
     return (await response.json()) as Servers;
   } catch (error) {
-    console.error("Failed to fetch servers", error);
     return [];
+  }
+}
+
+async function fetchGameInfo(): Promise<GameInfo | null> {
+  try {
+    const response = await fetch(
+      "https://game.ptr.pegasus.frostgiant.pragmaengine.com/v1/info",
+      {
+        next: {
+          revalidate: 60 * 60,
+        },
+      },
+    );
+    return (await response.json()) as GameInfo;
+  } catch (error) {
+    return null;
   }
 }
 
@@ -40,6 +80,8 @@ export default async function ServerStatus() {
       region: server.region,
       url: `https://${server.host}:${server.port}`,
     }));
+  const gameInfo = await fetchGameInfo();
+
   return (
     <HeaderOffset full>
       <ContentLayout
@@ -60,6 +102,9 @@ export default async function ServerStatus() {
           <>
             <h2 className="text-2xl">Game Client Status</h2>
             <p className="text-sm">Check the Stormgate game client status.</p>
+            <p className="text-sm">
+              Platform Version: {gameInfo?.platformVersion ?? "Unknown"}
+            </p>
             <iframe
               src="https://playstormgate.com/gameclient/status"
               title="Game Client Status"
