@@ -38,7 +38,7 @@ export default async function ServerStatus() {
     .sort((a, b) => a.region.localeCompare(b.region))
     .map((server) => ({
       region: server.region,
-      url: `http://${server.host}:${server.port}`,
+      url: `https://${server.host}:${server.port}`,
     }));
   return (
     <HeaderOffset full>
@@ -55,6 +55,17 @@ export default async function ServerStatus() {
         }
         content={
           <DataTable columns={columns} data={servers} filterColumn="region" />
+        }
+        more={
+          <>
+            <h2 className="text-2xl">Game Client Status</h2>
+            <p className="text-sm">Check the Stormgate game client status.</p>
+            <iframe
+              src="https://playstormgate.com/gameclient/status"
+              title="Game Client Status"
+              className="mx-auto"
+            />
+          </>
         }
       />
     </HeaderOffset>
