@@ -19,6 +19,12 @@ import { NitroScript } from "../(ads)";
 
 const APPS = [
   {
+    title: "Stormgate",
+    url: "https://stormgate.th.gl",
+    icon: "/global_icons/stormgate.webp",
+    tags: ["interactive_map", "server_status"],
+  },
+  {
     title: "Wuthering Waves",
     url: "https://wuthering.th.gl",
     icon: "/global_icons/wuthering-waves.webp",

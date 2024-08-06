@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     canonical: "/server-status",
   },
   title: "Stormgate Server Status – The Hidden Gaming Lair",
-  description: "Check the Stormgate server status and ping times.",
+  description:
+    "Check the Stormgate server status, ping times and game client status.",
 };
 
 type Servers = {

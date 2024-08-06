@@ -16,6 +16,7 @@ import {
   SeekersOfSkyveil,
   SongsOfConquest,
   SonsOfTheForest,
+  Stormgate,
   WutheringWaves,
 } from "./games";
 
@@ -41,6 +42,16 @@ export interface App {
 export const DEFAULT_PATREON_TIER_IDS = ["21470797", "21470809", "special"];
 
 export const apps: App[] = [
+  {
+    id: "stormgate",
+    title: "Stormgate",
+    description: "Interactive map",
+    author: DevLeon,
+    game: Stormgate,
+    url: "https://stormgate.th.gl",
+    tileSrc: "/stormgate.jpg",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
   {
     id: "wuthering-waves",
     title: "Wuthering Waves",

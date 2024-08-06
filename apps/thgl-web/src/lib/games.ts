@@ -61,3 +61,7 @@ export const PaxDei: Game = {
 export const WutheringWaves: Game = {
   title: "Wuthering Waves",
 };
+
+export const Stormgate: Game = {
+  title: "Stormgate",
+};
