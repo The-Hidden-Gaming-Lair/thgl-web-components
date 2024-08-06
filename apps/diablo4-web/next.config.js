@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: "/api/events",
-        destination: "https://d4armory.io/api/events/recent",
+        destination: "https://d4armory.io/api/events.json",
       },
     ];
   },
