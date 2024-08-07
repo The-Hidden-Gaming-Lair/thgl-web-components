@@ -688,8 +688,13 @@
     "defaultOn": true
   },
   {
-    "group": "Unit",
+    "group": "UnitData",
     "values": [
+      {
+        "id": "HealingFlower",
+        "icon": "HealingFlower.webp",
+        "size": 1.75
+      },
       {
         "id": "Goat",
         "icon": "Goat.webp",
@@ -708,6 +713,16 @@
       {
         "id": "MajorGaltSpecOps",
         "icon": "MajorGaltSpecOps.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Worker",
+        "icon": "Worker.webp",
+        "size": 1.75
+      },
+      {
+        "id": "V5RocketLauncher",
+        "icon": "V5RocketLauncher.webp",
         "size": 1.75
       },
       {
@@ -771,75 +786,13 @@
         "size": 1.75
       },
       {
-        "id": "Bruiser",
-        "icon": "Bruiser.webp",
-        "size": 1.75
-      },
-      {
-        "id": "PrimaryResource01_Reward",
-        "icon": "PrimaryResource01_Reward.webp",
-        "size": 1.75
-      },
-      {
-        "id": "BaseUnit_TopBarCaster",
-        "icon": "BaseUnit_TopBarCaster.webp",
-        "size": 1.75
-      },
-      {
-        "id": "MajorGalt",
-        "icon": "MajorGalt.webp",
-        "size": 1.75
-      },
-      {
-        "id": "SecondaryResource01_Reward",
-        "icon": "SecondaryResource01_Reward.webp",
-        "size": 1.75
-      },
-      {
-        "id": "VanguardTopBarCaster",
-        "icon": "VanguardTopBarCaster.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Van05_BonusObjective_Glyph01",
-        "icon": "Van05_BonusObjective_Glyph01.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Van05_BonusObjective_Glyph03",
-        "icon": "Van05_BonusObjective_Glyph03.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Van05_BonusObjective_Glyph02",
-        "icon": "Van05_BonusObjective_Glyph02.webp",
-        "size": 1.75
-      }
-    ],
-    "defaultOpen": true,
-    "defaultOn": true
-  },
-  {
-    "group": "UnitData",
-    "values": [
-      {
-        "id": "HealingFlower",
-        "icon": "HealingFlower.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Worker",
-        "icon": "Worker.webp",
-        "size": 1.75
-      },
-      {
-        "id": "V5RocketLauncher",
-        "icon": "V5RocketLauncher.webp",
-        "size": 1.75
-      },
-      {
         "id": "RaiderWagon",
         "icon": "RaiderWagon.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Bruiser",
+        "icon": "Bruiser.webp",
         "size": 1.75
       },
       {
@@ -865,6 +818,11 @@
       {
         "id": "Unit_Ryker",
         "icon": "Unit_Ryker.webp",
+        "size": 1.75
+      },
+      {
+        "id": "PrimaryResource01_Reward",
+        "icon": "PrimaryResource01_Reward.webp",
         "size": 1.75
       },
       {
@@ -938,6 +896,21 @@
         "size": 1.75
       },
       {
+        "id": "BaseUnit_TopBarCaster",
+        "icon": "BaseUnit_TopBarCaster.webp",
+        "size": 1.75
+      },
+      {
+        "id": "MajorGalt",
+        "icon": "MajorGalt.webp",
+        "size": 1.75
+      },
+      {
+        "id": "SecondaryResource01_Reward",
+        "icon": "SecondaryResource01_Reward.webp",
+        "size": 1.75
+      },
+      {
         "id": "ArtilleryMech",
         "icon": "ArtilleryMech.webp",
         "size": 1.75
@@ -950,6 +923,26 @@
       {
         "id": "Vulcan",
         "icon": "Vulcan.webp",
+        "size": 1.75
+      },
+      {
+        "id": "VanguardTopBarCaster",
+        "icon": "VanguardTopBarCaster.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Van05_BonusObjective_Glyph01",
+        "icon": "Van05_BonusObjective_Glyph01.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Van05_BonusObjective_Glyph03",
+        "icon": "Van05_BonusObjective_Glyph03.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Van05_BonusObjective_Glyph02",
+        "icon": "Van05_BonusObjective_Glyph02.webp",
         "size": 1.75
       },
       {

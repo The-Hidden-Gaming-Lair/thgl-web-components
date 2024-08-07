@@ -216,9 +216,12 @@ for (const mapName of mapNames) {
         } else if (type.startsWith("Destructible") && type.endsWith("Tree")) {
           type = "DestructibleTree";
         }
-      } else if (archetype.unit_button === "AttackButton") {
-        group = "Unit";
-        enDict[group] = "Unit";
+      } else if (
+        archetype.unit_button === "AttackButton" &&
+        type.startsWith("Slime")
+      ) {
+        group = "Enemies";
+        enDict[group] = "Enemies";
       } else {
         group = archetype.__base_type;
         enDict[group] = splitPascalCase(group);
@@ -336,7 +339,7 @@ for (const mapName of mapNames) {
               border: true,
               color: "#aaa",
             });
-          } else if (type.startsWith("Unit_")) {
+          } else if (type.startsWith("Unit_") || type.startsWith("Slime")) {
             icon = await saveIcon(imagePath, type, {
               border: true,
               color: "#aaa",
@@ -529,6 +532,7 @@ const sortPriority = [
   "Tower",
   "Journals",
   "Structures",
+  "Enemies",
   "ItemData",
   "Destructible",
 ];
