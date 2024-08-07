@@ -63,6 +63,7 @@ const t = (key: string) => {
   return value;
 };
 
+// const mapNames = ["Boneyard", "IsleOfDread", "JaggedMaw"];
 // const mapNames = ["DustDevil2v2", "Boneyard"];
 // const mapNames = ["Boneyard", "Boneyard2v2", "BrokenCrown"];
 const mapNames = readDirSync(`${CONTENT_DIR}/Stormgate/Content/PublishedMaps`);
@@ -489,11 +490,12 @@ async function createMapImage(
       if (point.x < 0 || point.x >= width || point.y < 0 || point.y >= height) {
         continue;
       }
-      const index = point.x + point.y * width;
-      const newValue =
-        terrain.water_data[index] > 0
-          ? 255
-          : Math.min(terrain.terrain_nodes[index], 5000);
+      const i = point.x + point.y * width;
+      const terrainNode = terrain.terrain_nodes[i];
+      const heightNode = terrain.height_nodes[i];
+      const isWater = terrain.water_data[i] > 0 && heightNode <= 100;
+      const isDark = isWater && heightNode <= 0 && terrainNode <= 9;
+      const newValue = isDark ? -2 : isWater ? -1 : Math.min(terrainNode, 5000);
       if (newValue !== value) {
         continue;
       }
@@ -511,10 +513,12 @@ async function createMapImage(
   for (let i = 0; i < terrain.terrain_nodes.length; i++) {
     const x = i % width;
     const y = Math.floor(i / height);
-    const waterNode = terrain.water_data[i];
-    const terrainNode = terrain.terrain_nodes[i];
 
-    const value = waterNode > 0 ? 255 : Math.min(terrainNode, 5000);
+    const terrainNode = terrain.terrain_nodes[i];
+    const heightNode = terrain.height_nodes[i];
+    const isWater = terrain.water_data[i] > 0 && heightNode <= 100;
+    const isDark = isWater && heightNode <= 0 && terrainNode <= 9;
+    const value = isDark ? -2 : isWater ? -1 : Math.min(terrainNode, 5000);
 
     if (!visited.has(`${x},${y}`)) {
       const points = floodFill(x, y, value);
@@ -524,7 +528,16 @@ async function createMapImage(
       });
       ctx.beginPath();
 
-      if (waterNode) {
+      if (isDark) {
+        ctx.fillStyle = `rgba(50,78,131,1)`;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(50,78,131,1)";
+
+        points.forEach((point) => {
+          ctx.rect(point.x * nodeSize, point.y * nodeSize, nodeSize, nodeSize);
+        });
+        ctx.stroke();
+      } else if (isWater) {
         ctx.fillStyle = `rgba(89,145,223,1)`;
         ctx.lineWidth = 1;
         ctx.strokeStyle = "rgba(89,145,223,1)";
