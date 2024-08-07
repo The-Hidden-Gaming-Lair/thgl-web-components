@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   title: "Diablo IV Interactive Map – The Hidden Gaming Lair",
   description:
-    "Explore Sanctuary with this Diablo IV Interactive Map! Discover Helltide Chests, Altars of Lilith, Bosses, and more with real-time position tracking.",
+    "Explore Sanctuary with this Diablo IV Interactive Map! Discover Infernal Hordes, Helltide Chests, Altars of Lilith, Bosses, and more with real-time position tracking.",
 };
 
 export default function Home({
