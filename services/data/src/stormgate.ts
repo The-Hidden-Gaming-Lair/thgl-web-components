@@ -154,6 +154,10 @@ for (const mapName of mapNames) {
       let defaultOpen = true;
       let defaultOn = true;
       let id = "";
+      if (type === "MinionHealBuffCamp") {
+        type = "HealthTower_CreepCamp";
+      }
+
       if (type === "locationMarkerPlayerStart" || type === "MegaResourceA") {
         group = "Locations";
         enDict[group] = "Locations";

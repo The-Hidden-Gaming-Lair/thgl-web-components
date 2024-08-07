@@ -77364,7 +77364,7 @@
     ]
   },
   {
-    "type": "MinionHealBuffCamp",
+    "type": "HealthTower_CreepCamp",
     "mapName": "TurfWar",
     "spawns": [
       {

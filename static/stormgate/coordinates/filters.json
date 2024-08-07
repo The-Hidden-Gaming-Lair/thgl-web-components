@@ -58,11 +58,6 @@
         "id": "MinionDamageBuffCamp",
         "icon": "MinionDamageBuffCamp.webp",
         "size": 2
-      },
-      {
-        "id": "MinionHealBuffCamp",
-        "icon": "MinionHealBuffCamp.webp",
-        "size": 2
       }
     ],
     "defaultOpen": true,
