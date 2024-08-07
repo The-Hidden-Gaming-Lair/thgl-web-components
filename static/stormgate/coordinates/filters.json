@@ -17,6 +17,28 @@
     "defaultOn": true
   },
   {
+    "group": "ResourceGeneratorData",
+    "values": [
+      {
+        "id": "therium_generator",
+        "icon": "therium_generator.webp",
+        "size": 2
+      },
+      {
+        "id": "ResourceB2x2Super_ResourceGenerator",
+        "icon": "ResourceB2x2Super_ResourceGenerator.webp",
+        "size": 2
+      },
+      {
+        "id": "ResourceB_Enriched_Generator_2x2",
+        "icon": "ResourceB_Enriched_Generator_2x2.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
     "group": "CreepCamp",
     "values": [
       {
@@ -419,48 +441,6 @@
         "id": "DestructibleCage",
         "icon": "DestructibleCage.webp",
         "size": 0.7
-      }
-    ],
-    "defaultOpen": true,
-    "defaultOn": true
-  },
-  {
-    "group": "ResourceGeneratorData",
-    "values": [
-      {
-        "id": "ResourceB_Generator_2x2",
-        "icon": "ResourceB_Generator_2x2.webp",
-        "size": 2
-      },
-      {
-        "id": "ResourceB2x2Super_ResourceGenerator",
-        "icon": "ResourceB2x2Super_ResourceGenerator.webp",
-        "size": 2
-      },
-      {
-        "id": "ResourceB_Generator",
-        "icon": "ResourceB_Generator.webp",
-        "size": 2
-      },
-      {
-        "id": "ResourceB_Enriched_Generator_2x2",
-        "icon": "ResourceB_Enriched_Generator_2x2.webp",
-        "size": 2
-      },
-      {
-        "id": "_ResourceB_Generator_2x21",
-        "icon": "_ResourceB_Generator_2x21.webp",
-        "size": 2
-      },
-      {
-        "id": "_ResourceB_Generator_2x20",
-        "icon": "_ResourceB_Generator_2x20.webp",
-        "size": 2
-      },
-      {
-        "id": "_ResourceB_Generator_2x22",
-        "icon": "_ResourceB_Generator_2x22.webp",
-        "size": 2
       }
     ],
     "defaultOpen": true,

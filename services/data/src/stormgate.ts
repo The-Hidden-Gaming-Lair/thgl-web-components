@@ -158,6 +158,13 @@ for (const mapName of mapNames) {
       if (type === "MinionHealBuffCamp") {
         type = "HealthTower_CreepCamp";
       }
+      if (type.includes("ResourceB_Generator")) {
+        if (typeof archetype.name !== "string") {
+          console.warn("No name for", type);
+          continue;
+        }
+        type = "therium_generator";
+      }
 
       if (type === "locationMarkerPlayerStart" || type === "MegaResourceA") {
         group = "Locations";
@@ -412,6 +419,7 @@ for (const mapName of mapNames) {
 
 const sortPriority = [
   "Locations",
+  "ResourceGeneratorData",
   "CreepCamp",
   "Journals",
   "ItemData",
