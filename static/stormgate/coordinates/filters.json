@@ -133,6 +133,163 @@
     "defaultOn": true
   },
   {
+    "group": "Items",
+    "values": [
+      {
+        "id": "Item_LuminiteShard",
+        "icon": "Item_LuminiteShard.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_Waterskin",
+        "icon": "Item_Waterskin.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_CombatVest",
+        "icon": "Item_CombatVest.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_BoneJabber",
+        "icon": "Item_BoneJabber.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_MrTwiggy",
+        "icon": "Item_MrTwiggy.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Consumable_CaffeineShot_Item",
+        "icon": "Consumable_CaffeineShot_Item.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_CrudeCudgel",
+        "icon": "Item_CrudeCudgel.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_DesertGarb",
+        "icon": "Item_DesertGarb.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_DiscardedBandages",
+        "icon": "Item_DiscardedBandages.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_SimpleGoldRing",
+        "icon": "Item_SimpleGoldRing.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_HuntersHat",
+        "icon": "Item_HuntersHat.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_HealingSalve",
+        "icon": "Item_HealingSalve.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_ExplorersLantern",
+        "icon": "Item_ExplorersLantern.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Consumable_NutriBar_Item",
+        "icon": "Consumable_NutriBar_Item.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_ToxiCola",
+        "icon": "Item_ToxiCola.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_GoldenToaster",
+        "icon": "Item_GoldenToaster.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_BattleJuice",
+        "icon": "Item_BattleJuice.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_HerbalTea",
+        "icon": "Item_HerbalTea.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_TheriumCluster",
+        "icon": "Item_TheriumCluster.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_SpareParts",
+        "icon": "Item_SpareParts.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_BigRedButton",
+        "icon": "Item_BigRedButton.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_MedicalWrap",
+        "icon": "Item_MedicalWrap.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_SandrunnerBoots",
+        "icon": "Item_SandrunnerBoots.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_MedKit",
+        "icon": "Item_MedKit.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_CombatTrainingManual",
+        "icon": "Item_CombatTrainingManual.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_HypnoticRod",
+        "icon": "Item_HypnoticRod.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_AmmoCache",
+        "icon": "Item_AmmoCache.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_LittleMissSquishums",
+        "icon": "Item_LittleMissSquishums.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_AssassinsGloves",
+        "icon": "Item_AssassinsGloves.webp",
+        "size": 1.75
+      },
+      {
+        "id": "Item_ContactPoison",
+        "icon": "Item_ContactPoison.webp",
+        "size": 1.75
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
     "group": "Journals",
     "values": [
       {
@@ -415,63 +572,8 @@
     "group": "ItemData",
     "values": [
       {
-        "id": "Item_LuminiteShard",
-        "icon": "Item_LuminiteShard.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_Waterskin",
-        "icon": "Item_Waterskin.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_CombatVest",
-        "icon": "Item_CombatVest.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_BoneJabber",
-        "icon": "Item_BoneJabber.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_MrTwiggy",
-        "icon": "Item_MrTwiggy.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Consumable_CaffeineShot_Item",
-        "icon": "Consumable_CaffeineShot_Item.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_CrudeCudgel",
-        "icon": "Item_CrudeCudgel.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_DesertGarb",
-        "icon": "Item_DesertGarb.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_DiscardedBandages",
-        "icon": "Item_DiscardedBandages.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_SimpleGoldRing",
-        "icon": "Item_SimpleGoldRing.webp",
-        "size": 1.75
-      },
-      {
         "id": "Chicken_Item",
         "icon": "Chicken_Item.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_HuntersHat",
-        "icon": "Item_HuntersHat.webp",
         "size": 1.75
       },
       {
@@ -480,103 +582,8 @@
         "size": 1.75
       },
       {
-        "id": "Item_HealingSalve",
-        "icon": "Item_HealingSalve.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_ExplorersLantern",
-        "icon": "Item_ExplorersLantern.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Consumable_NutriBar_Item",
-        "icon": "Consumable_NutriBar_Item.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_ToxiCola",
-        "icon": "Item_ToxiCola.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_GoldenToaster",
-        "icon": "Item_GoldenToaster.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_BattleJuice",
-        "icon": "Item_BattleJuice.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_HerbalTea",
-        "icon": "Item_HerbalTea.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_TheriumCluster",
-        "icon": "Item_TheriumCluster.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_SpareParts",
-        "icon": "Item_SpareParts.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_BigRedButton",
-        "icon": "Item_BigRedButton.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_MedicalWrap",
-        "icon": "Item_MedicalWrap.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_SandrunnerBoots",
-        "icon": "Item_SandrunnerBoots.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_MedKit",
-        "icon": "Item_MedKit.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_CombatTrainingManual",
-        "icon": "Item_CombatTrainingManual.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_HypnoticRod",
-        "icon": "Item_HypnoticRod.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_AmmoCache",
-        "icon": "Item_AmmoCache.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_LittleMissSquishums",
-        "icon": "Item_LittleMissSquishums.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_AssassinsGloves",
-        "icon": "Item_AssassinsGloves.webp",
-        "size": 1.75
-      },
-      {
         "id": "Passive_Camouflage_Item",
         "icon": "Passive_Camouflage_Item.webp",
-        "size": 1.75
-      },
-      {
-        "id": "Item_ContactPoison",
-        "icon": "Item_ContactPoison.webp",
         "size": 1.75
       }
     ],

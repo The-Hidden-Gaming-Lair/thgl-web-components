@@ -192,6 +192,9 @@ for (const mapName of mapNames) {
         id = archetype.id;
         enDict[`${id}_desc`] = t(`VanguardJournalEntries.${archetype.id}`);
         type = en[archetype.name.replace("|", ".")];
+      } else if (type.startsWith("Item_") || type.startsWith("Consumable_")) {
+        group = "Items";
+        enDict[group] = "Items";
       } else if (type.endsWith("Tower")) {
         group = "Tower";
         enDict[group] = "Tower";
@@ -530,6 +533,7 @@ const sortPriority = [
   "ResourceGeneratorData",
   "CreepCamp",
   "Tower",
+  "Items",
   "Journals",
   "Structures",
   "Enemies",
