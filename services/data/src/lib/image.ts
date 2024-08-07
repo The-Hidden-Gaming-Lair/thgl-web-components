@@ -80,7 +80,7 @@ export async function drawInCircleWithBorderColor(
   ctx.arc(
     image.width / 2,
     image.height / 2,
-    radius - lineWidth / 2,
+    radius - lineWidth * 2,
     0,
     2 * Math.PI,
   );

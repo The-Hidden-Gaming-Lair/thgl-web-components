@@ -228,7 +228,7 @@ for (const mapName of mapNames) {
 
       if (!filter.values.some((v) => v.id === type)) {
         let icon;
-        let size = 2;
+        let size = 1.75;
 
         if (typeof archetype.name == "string") {
           if (
@@ -244,6 +244,19 @@ for (const mapName of mapNames) {
           } else {
             enDict[type] = t(archetype.name.replace("|", "."));
           }
+        }
+        if (
+          typeof archetype.tooltip == "string" &&
+          archetype.tooltip &&
+          !enDict[`${type}_desc`]
+        ) {
+          enDict[`${type}_desc`] = t(archetype.tooltip.replace("|", "."));
+        } else if (
+          typeof archetype.description == "string" &&
+          archetype.description &&
+          !enDict[`${type}_desc`]
+        ) {
+          enDict[`${type}_desc`] = t(archetype.description.replace("|", "."));
         }
 
         const processSubArchetype = async (subArchetypeId: string) => {
@@ -320,9 +333,18 @@ for (const mapName of mapNames) {
           }
           if (
             typeof subArchetype.tooltip == "string" &&
+            subArchetype.tooltip &&
             !enDict[`${type}_desc`]
           ) {
             enDict[`${type}_desc`] = t(subArchetype.tooltip.replace("|", "."));
+          } else if (
+            typeof subArchetype.description == "string" &&
+            subArchetype.description &&
+            !enDict[`${type}_desc`]
+          ) {
+            enDict[`${type}_desc`] = t(
+              subArchetype.description.replace("|", "."),
+            );
           }
         };
 
@@ -410,10 +432,14 @@ for (const mapName of mapNames) {
               .split("'")[1]
               .replace("/Game/", "/Stormgate/Content/")
               .split(".")[0] + ".png";
-          icon = await saveIcon(imagePath, type, {
-            border: true,
-            color: "#aaa",
-          });
+          if (type === "Chicken_Item") {
+            icon = await saveIcon(imagePath, type, {
+              border: true,
+              color: "#aaa",
+            });
+          } else {
+            icon = await saveIcon(imagePath, type);
+          }
         } else if (
           typeof archetype.camp_type === "string" &&
           archetype.camp_type !== "emptyRef"
@@ -475,8 +501,8 @@ const sortPriority = [
   "Locations",
   "ResourceGeneratorData",
   "CreepCamp",
-  "Journals",
   "Tower",
+  "Journals",
   "Structures",
   "ItemData",
   "Destructible",
