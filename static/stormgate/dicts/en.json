@@ -165,7 +165,7 @@
   "SlimeFleshling": "Slime",
   "SlimeFleshling_desc": "Health: 120",
   "Wellspring": "Wellspring",
-  "Wellspring_desc": "Health: 50",
+  "Wellspring_desc": "Neutral structure. Creates a healing aura that heals all units around it.<br>Health: 50",
   "DestructibleMarauderWall": "Crude Barricade",
   "DestructibleMarauderWall_desc": "A haphazard wall formed from piled debris and twisted scrap metal.\r\n\r\nLooks quite smashable.<br>Health: 10",
   "Journals": "Journals",

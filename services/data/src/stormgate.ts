@@ -279,7 +279,10 @@ for (const mapName of mapNames) {
             return;
           }
           let imagePath;
-          if (typeof subArchetype.minimap_icon === "string") {
+          if (
+            typeof subArchetype.minimap_icon === "string" &&
+            subArchetype.minimap_icon
+          ) {
             imagePath =
               subArchetype.minimap_icon
                 .split("'")[1]
@@ -300,6 +303,12 @@ for (const mapName of mapNames) {
               subArchetype.Icon !== ""
             ) {
               iconTexture = subArchetype.Icon;
+            } else if (
+              typeof archetype.minimap_icon === "string" &&
+              archetype.minimap_icon &&
+              archetype.minimap_icon !== "None"
+            ) {
+              iconTexture = archetype.minimap_icon;
             } else {
               console.error("No icon found for", subArchetypeId);
               return;
@@ -366,10 +375,16 @@ for (const mapName of mapNames) {
           size = 2;
           enDict[type] = "Player Start";
         } else if (
+          typeof archetype.unit_button === "string" &&
+          archetype.unit_button !== "AttackButton" &&
+          archetype.unit_button !== "emptyRef"
+        ) {
+          const subArchetypeId = archetype.unit_button;
+          await processSubArchetype(subArchetypeId);
+        } else if (
           typeof archetype.minimap_icon === "string" &&
           archetype.minimap_icon &&
-          archetype.minimap_icon !== "None" &&
-          !type.startsWith("Unit_")
+          archetype.minimap_icon !== "None"
         ) {
           const imagePath =
             archetype.minimap_icon
@@ -377,13 +392,6 @@ for (const mapName of mapNames) {
               .replace("/Game/", "/Stormgate/Content/")
               .split(".")[0] + ".png";
           icon = await saveIcon(imagePath, type);
-        } else if (
-          typeof archetype.unit_button === "string" &&
-          archetype.unit_button !== "AttackButton" &&
-          archetype.unit_button !== "emptyRef"
-        ) {
-          const subArchetypeId = archetype.unit_button;
-          await processSubArchetype(subArchetypeId);
         } else if (
           typeof archetype.unit_info_portrait === "string" &&
           archetype.unit_info_portrait !== "None"
