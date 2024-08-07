@@ -188,6 +188,230 @@
     "defaultOn": true
   },
   {
+    "group": "Tower",
+    "values": [
+      {
+        "id": "EnergyTower",
+        "icon": "EnergyTower.webp",
+        "size": 2
+      },
+      {
+        "id": "ResourceBTower",
+        "icon": "ResourceBTower.webp",
+        "size": 2
+      },
+      {
+        "id": "ResourceATower",
+        "icon": "ResourceATower.webp",
+        "size": 2
+      },
+      {
+        "id": "HealthTower",
+        "icon": "HealthTower.webp",
+        "size": 2
+      },
+      {
+        "id": "SiegeTower",
+        "icon": "SiegeTower.webp",
+        "size": 2
+      },
+      {
+        "id": "VisionTower",
+        "icon": "VisionTower.webp",
+        "size": 2
+      },
+      {
+        "id": "MovementSpeedTower",
+        "icon": "MovementSpeedTower.webp",
+        "size": 2
+      },
+      {
+        "id": "RadarTower",
+        "icon": "RadarTower.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
+    "group": "Structures",
+    "values": [
+      {
+        "id": "Barracks",
+        "icon": "Barracks.webp",
+        "size": 2
+      },
+      {
+        "id": "Habitat",
+        "icon": "Habitat.webp",
+        "size": 2
+      },
+      {
+        "id": "MechBay",
+        "icon": "MechBay.webp",
+        "size": 2
+      },
+      {
+        "id": "BigOleHavocWeapon",
+        "icon": "BigOleHavocWeapon.webp",
+        "size": 2
+      },
+      {
+        "id": "HangarBay",
+        "icon": "HangarBay.webp",
+        "size": 2
+      },
+      {
+        "id": "SentryPost",
+        "icon": "SentryPost.webp",
+        "size": 2
+      },
+      {
+        "id": "HQTier2",
+        "icon": "HQTier2.webp",
+        "size": 2
+      },
+      {
+        "id": "InfestedSpawner",
+        "icon": "InfestedSpawner.webp",
+        "size": 2
+      },
+      {
+        "id": "MarauderWatchtower",
+        "icon": "MarauderWatchtower.webp",
+        "size": 2
+      },
+      {
+        "id": "MarauderPerch",
+        "icon": "MarauderPerch.webp",
+        "size": 2
+      },
+      {
+        "id": "SupplyCrateStash",
+        "icon": "SupplyCrateStash.webp",
+        "size": 2
+      },
+      {
+        "id": "RaiderHut",
+        "icon": "RaiderHut.webp",
+        "size": 2
+      },
+      {
+        "id": "Wellspring",
+        "icon": "Wellspring.webp",
+        "size": 2
+      },
+      {
+        "id": "BarrowFarm",
+        "icon": "BarrowFarm.webp",
+        "size": 2
+      },
+      {
+        "id": "IronVault",
+        "icon": "IronVault.webp",
+        "size": 2
+      },
+      {
+        "id": "HQTier1",
+        "icon": "HQTier1.webp",
+        "size": 2
+      },
+      {
+        "id": "LesserShrine",
+        "icon": "LesserShrine.webp",
+        "size": 2
+      },
+      {
+        "id": "Conclave",
+        "icon": "Conclave.webp",
+        "size": 2
+      },
+      {
+        "id": "SentryPostGunner",
+        "icon": "SentryPostGunner.webp",
+        "size": 2
+      },
+      {
+        "id": "Warforge",
+        "icon": "Warforge.webp",
+        "size": 2
+      },
+      {
+        "id": "MunitionsFactory",
+        "icon": "MunitionsFactory.webp",
+        "size": 2
+      },
+      {
+        "id": "SentryPostLancer",
+        "icon": "SentryPostLancer.webp",
+        "size": 2
+      },
+      {
+        "id": "ProtoDoorClosed",
+        "icon": "ProtoDoorClosed.webp",
+        "size": 2
+      },
+      {
+        "id": "GreaterShrine",
+        "icon": "GreaterShrine.webp",
+        "size": 2
+      },
+      {
+        "id": "Obelisk",
+        "icon": "Obelisk.webp",
+        "size": 2
+      },
+      {
+        "id": "TwilightSpire",
+        "icon": "TwilightSpire.webp",
+        "size": 2
+      },
+      {
+        "id": "ShadowCleft",
+        "icon": "ShadowCleft.webp",
+        "size": 2
+      },
+      {
+        "id": "RitualChamber",
+        "icon": "RitualChamber.webp",
+        "size": 2
+      },
+      {
+        "id": "TempleDoorOpen",
+        "icon": "TempleDoorOpen.webp",
+        "size": 2
+      },
+      {
+        "id": "Hellforge",
+        "icon": "Hellforge.webp",
+        "size": 2
+      },
+      {
+        "id": "Drill",
+        "icon": "Drill.webp",
+        "size": 2
+      },
+      {
+        "id": "TempleDoorClosed",
+        "icon": "TempleDoorClosed.webp",
+        "size": 2
+      },
+      {
+        "id": "Vanguard06_CapturePoint",
+        "icon": "Vanguard06_CapturePoint.webp",
+        "size": 2
+      },
+      {
+        "id": "SigmaMegaWeapon",
+        "icon": "SigmaMegaWeapon.webp",
+        "size": 2
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
     "group": "ItemData",
     "values": [
       {
@@ -441,235 +665,6 @@
         "id": "DestructibleCage",
         "icon": "DestructibleCage.webp",
         "size": 0.7
-      }
-    ],
-    "defaultOpen": true,
-    "defaultOn": true
-  },
-  {
-    "group": "SoundEmitter",
-    "values": [
-      {
-        "id": "Sound_Objective_ShrineAmbience",
-        "icon": "Sound_Objective_ShrineAmbience.webp",
-        "size": 2
-      }
-    ],
-    "defaultOpen": true,
-    "defaultOn": true
-  },
-  {
-    "group": "Structures",
-    "values": [
-      {
-        "id": "EnergyTower",
-        "icon": "EnergyTower.webp",
-        "size": 2
-      },
-      {
-        "id": "ResourceBTower",
-        "icon": "ResourceBTower.webp",
-        "size": 2
-      },
-      {
-        "id": "ResourceATower",
-        "icon": "ResourceATower.webp",
-        "size": 2
-      },
-      {
-        "id": "HealthTower",
-        "icon": "HealthTower.webp",
-        "size": 2
-      },
-      {
-        "id": "SiegeTower",
-        "icon": "SiegeTower.webp",
-        "size": 2
-      },
-      {
-        "id": "VisionTower",
-        "icon": "VisionTower.webp",
-        "size": 2
-      },
-      {
-        "id": "MovementSpeedTower",
-        "icon": "MovementSpeedTower.webp",
-        "size": 2
-      },
-      {
-        "id": "Barracks",
-        "icon": "Barracks.webp",
-        "size": 2
-      },
-      {
-        "id": "Habitat",
-        "icon": "Habitat.webp",
-        "size": 2
-      },
-      {
-        "id": "MechBay",
-        "icon": "MechBay.webp",
-        "size": 2
-      },
-      {
-        "id": "BigOleHavocWeapon",
-        "icon": "BigOleHavocWeapon.webp",
-        "size": 2
-      },
-      {
-        "id": "HangarBay",
-        "icon": "HangarBay.webp",
-        "size": 2
-      },
-      {
-        "id": "SentryPost",
-        "icon": "SentryPost.webp",
-        "size": 2
-      },
-      {
-        "id": "HQTier2",
-        "icon": "HQTier2.webp",
-        "size": 2
-      },
-      {
-        "id": "InfestedSpawner",
-        "icon": "InfestedSpawner.webp",
-        "size": 2
-      },
-      {
-        "id": "RadarTower",
-        "icon": "RadarTower.webp",
-        "size": 2
-      },
-      {
-        "id": "MarauderWatchtower",
-        "icon": "MarauderWatchtower.webp",
-        "size": 2
-      },
-      {
-        "id": "MarauderPerch",
-        "icon": "MarauderPerch.webp",
-        "size": 2
-      },
-      {
-        "id": "SupplyCrateStash",
-        "icon": "SupplyCrateStash.webp",
-        "size": 2
-      },
-      {
-        "id": "RaiderHut",
-        "icon": "RaiderHut.webp",
-        "size": 2
-      },
-      {
-        "id": "Wellspring",
-        "icon": "Wellspring.webp",
-        "size": 2
-      },
-      {
-        "id": "BarrowFarm",
-        "icon": "BarrowFarm.webp",
-        "size": 2
-      },
-      {
-        "id": "IronVault",
-        "icon": "IronVault.webp",
-        "size": 2
-      },
-      {
-        "id": "HQTier1",
-        "icon": "HQTier1.webp",
-        "size": 2
-      },
-      {
-        "id": "LesserShrine",
-        "icon": "LesserShrine.webp",
-        "size": 2
-      },
-      {
-        "id": "Conclave",
-        "icon": "Conclave.webp",
-        "size": 2
-      },
-      {
-        "id": "SentryPostGunner",
-        "icon": "SentryPostGunner.webp",
-        "size": 2
-      },
-      {
-        "id": "Warforge",
-        "icon": "Warforge.webp",
-        "size": 2
-      },
-      {
-        "id": "MunitionsFactory",
-        "icon": "MunitionsFactory.webp",
-        "size": 2
-      },
-      {
-        "id": "SentryPostLancer",
-        "icon": "SentryPostLancer.webp",
-        "size": 2
-      },
-      {
-        "id": "ProtoDoorClosed",
-        "icon": "ProtoDoorClosed.webp",
-        "size": 2
-      },
-      {
-        "id": "GreaterShrine",
-        "icon": "GreaterShrine.webp",
-        "size": 2
-      },
-      {
-        "id": "Obelisk",
-        "icon": "Obelisk.webp",
-        "size": 2
-      },
-      {
-        "id": "TwilightSpire",
-        "icon": "TwilightSpire.webp",
-        "size": 2
-      },
-      {
-        "id": "ShadowCleft",
-        "icon": "ShadowCleft.webp",
-        "size": 2
-      },
-      {
-        "id": "RitualChamber",
-        "icon": "RitualChamber.webp",
-        "size": 2
-      },
-      {
-        "id": "TempleDoorOpen",
-        "icon": "TempleDoorOpen.webp",
-        "size": 2
-      },
-      {
-        "id": "Hellforge",
-        "icon": "Hellforge.webp",
-        "size": 2
-      },
-      {
-        "id": "Drill",
-        "icon": "Drill.webp",
-        "size": 2
-      },
-      {
-        "id": "TempleDoorClosed",
-        "icon": "TempleDoorClosed.webp",
-        "size": 2
-      },
-      {
-        "id": "Vanguard06_CapturePoint",
-        "icon": "Vanguard06_CapturePoint.webp",
-        "size": 2
-      },
-      {
-        "id": "SigmaMegaWeapon",
-        "icon": "SigmaMegaWeapon.webp",
-        "size": 2
       }
     ],
     "defaultOpen": true,

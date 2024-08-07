@@ -83850,18 +83850,6 @@
     ]
   },
   {
-    "type": "Sound_Objective_ShrineAmbience",
-    "mapName": "Vanguard01",
-    "spawns": [
-      {
-        "p": [
-          146176,
-          -593280
-        ]
-      }
-    ]
-  },
-  {
     "type": "Consumable_CaffeineShot_Item",
     "mapName": "Vanguard01",
     "spawns": [
