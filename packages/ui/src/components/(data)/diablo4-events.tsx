@@ -76,6 +76,7 @@ async function getRecentEvents() {
 }
 
 export function Diablo4Events({ portal }: { portal?: boolean }) {
+  const t = useT();
   const [time, setTime] = useState<null | number>(null);
   const { data } = useSWR("/api/events", getRecentEvents, {
     refreshInterval: 60000,
@@ -114,7 +115,11 @@ export function Diablo4Events({ portal }: { portal?: boolean }) {
       return;
     }
     const spawnIds = chestT3s.spawns
-      .filter((s) => s.id && helltide.z.toLowerCase().startsWith(s.id))
+      .filter(
+        (s) =>
+          s.id &&
+          (t(s.id) === helltide.z || helltide.z.toLowerCase().startsWith(s.id)),
+      )
       .map((s) => `${s.id}@${s.p[0]}:${s.p[1]}`);
     addHighlightSpawnIDs(spawnIds);
     return () => {

@@ -554,9 +554,18 @@ function normalizeTerm(str: string) {
 }
 
 function readTerms(name: string) {
-  return readJSON<StringList>(
-    CONTENT_DIR + `/json/enUS_Text/meta/StringList/${name}.stl.json`,
-  ).arStrings;
+  try {
+    const terms = readJSON<StringList>(
+      CONTENT_DIR + `/json/enUS_Text/meta/StringList/${name}.stl.json`,
+    );
+    if (!terms) {
+      return [];
+    }
+    return terms.arStrings;
+  } catch (e) {
+    console.warn("Missing terms", name);
+    return [];
+  }
 }
 
 for (const regionBoundary of continent.arRegionBoundaries) {
@@ -646,7 +655,7 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
     CELLAR_TYPES.includes(actor.snoActor.name)
   ) {
     const stringId = actor.ptData[0].snoSpecifiedWorld!.name!;
-
+    // const groupName = actor.ptData[0].snoSpecifiedWorld!.groupName!;
     const isCellar =
       !stringId.startsWith("DGN_") &&
       CELLAR_TYPES.includes(actor.snoActor.name);
@@ -666,16 +675,17 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
       continue;
     }
     spawn.id = stringId;
-
     const worldTerms = readTerms(`World_${stringId}`);
     const name = worldTerms
-      .find((term) => term.szLabel === "Name")!
-      .szText.trim();
+      .find((term) => term.szLabel === "Name")
+      ?.szText.trim();
     const description = worldTerms.find(
       (term) => term.szLabel === "Desc",
     )?.szText;
 
-    enDict[spawn.id] = name;
+    if (name) {
+      enDict[spawn.id] = name;
+    }
     if (description) {
       enDict[`${spawn.id}_desc`] = description + "<br>";
     } else {

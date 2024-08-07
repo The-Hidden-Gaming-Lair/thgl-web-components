@@ -66,6 +66,48 @@
         ]
       },
       {
+        "id": "cannibal:cannibal_dualwield_fire",
+        "p": [
+          -139.19573,
+          68.62395
+        ]
+      },
+      {
+        "id": "cannibal:cannibal_dualwield_fire",
+        "p": [
+          -138.8916,
+          68.39138
+        ]
+      },
+      {
+        "id": "cannibal:cannibal_brute_fire",
+        "p": [
+          -138.80214,
+          68.76707
+        ]
+      },
+      {
+        "id": "cannibal:cannibal_twohand_fire",
+        "p": [
+          -139.10628,
+          68.42716
+        ]
+      },
+      {
+        "id": "cannibal:cannibal_twohand_fire",
+        "p": [
+          -138.74847,
+          68.5345
+        ]
+      },
+      {
+        "id": "cannibal:cannibal_melee_fire",
+        "p": [
+          -139.01683,
+          68.83863
+        ]
+      },
+      {
         "id": "cannibal:cannibal_twohand_phys",
         "p": [
           -137.76714,
@@ -371,6 +413,198 @@
     "type": "knight",
     "mapName": "Sanctuary",
     "spawns": [
+      {
+        "p": [
+          -143.33196,
+          67.97828
+        ]
+      },
+      {
+        "p": [
+          -143.18596,
+          68.09971
+        ]
+      },
+      {
+        "p": [
+          -143.58086,
+          67.7909
+        ]
+      },
+      {
+        "p": [
+          -143.53674,
+          69.32022
+        ]
+      },
+      {
+        "p": [
+          -142.49302,
+          69.10283
+        ]
+      },
+      {
+        "p": [
+          -142.79328,
+          68.47259
+        ]
+      },
+      {
+        "p": [
+          -141.35421,
+          70.82112
+        ]
+      },
+      {
+        "p": [
+          -142.20744,
+          70.51839
+        ]
+      },
+      {
+        "p": [
+          -143.5027,
+          68.20439
+        ]
+      },
+      {
+        "p": [
+          -141.57119,
+          67.19597
+        ]
+      },
+      {
+        "p": [
+          -142.21021,
+          70.0311
+        ]
+      },
+      {
+        "p": [
+          -142.36461,
+          69.13272
+        ]
+      },
+      {
+        "p": [
+          -142.51619,
+          69.76918
+        ]
+      },
+      {
+        "p": [
+          -143.07228,
+          68.52077
+        ]
+      },
+      {
+        "p": [
+          -141.7984,
+          69.58546
+        ]
+      },
+      {
+        "p": [
+          -141.27953,
+          69.96371
+        ]
+      },
+      {
+        "p": [
+          -141.02113,
+          70.62669
+        ]
+      },
+      {
+        "p": [
+          -141.42575,
+          70.51342
+        ]
+      },
+      {
+        "p": [
+          -141.15868,
+          70.41367
+        ]
+      },
+      {
+        "p": [
+          -141.14124,
+          70.01796
+        ]
+      },
+      {
+        "p": [
+          -140.74072,
+          70.98107
+        ]
+      },
+      {
+        "p": [
+          -141.42502,
+          70.65888
+        ]
+      },
+      {
+        "p": [
+          -141.71675,
+          70.59312
+        ]
+      },
+      {
+        "p": [
+          -141.10728,
+          69.05772
+        ]
+      },
+      {
+        "p": [
+          -142.04296,
+          68.70487
+        ]
+      },
+      {
+        "p": [
+          -140.68,
+          70.35368
+        ]
+      },
+      {
+        "p": [
+          -141.87812,
+          68.93479
+        ]
+      },
+      {
+        "p": [
+          -141.75733,
+          70.75683
+        ]
+      },
+      {
+        "p": [
+          -141.11262,
+          69.35769
+        ]
+      },
+      {
+        "p": [
+          -140.47099,
+          70.33453
+        ]
+      },
+      {
+        "p": [
+          -139.44755,
+          68.11014
+        ]
+      },
+      {
+        "p": [
+          -142.27584,
+          70.39088
+        ]
+      },
       {
         "id": "knight:knight_caster_ghost_crasdersmon",
         "p": [
@@ -1625,6 +1859,48 @@
         ]
       },
       {
+        "id": "cultist:cultist_melee_female_fire_noWeapon_IsNpc",
+        "p": [
+          -142.57491,
+          93.752
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_Hell_Intro",
+        "p": [
+          -141.52085,
+          94.73356
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_Hell_Intro",
+        "p": [
+          -141.9816,
+          94.60929
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide_Hell_Intro",
+        "p": [
+          -141.89773,
+          94.77625
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide_Hell_Intro",
+        "p": [
+          -141.49688,
+          94.58107
+        ]
+      },
+      {
+        "id": "cultist:cultist_summoner_helltide_Hell_Intro",
+        "p": [
+          -141.72612,
+          94.49451
+        ]
+      },
+      {
         "p": [
           -115.26311,
           129.71143
@@ -1726,6 +2002,62 @@
         "p": [
           -149.34765,
           118.09573
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_QST_Hell_Intro",
+        "p": [
+          -134.59057,
+          119.07075
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_QST_Hell_Intro",
+        "p": [
+          -134.58975,
+          119.23301
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_QST_Hell_Intro",
+        "p": [
+          -134.79824,
+          119.29445
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide_QST_Hell_Intro",
+        "p": [
+          -134.96104,
+          119.15562
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide_QST_Hell_Intro",
+        "p": [
+          -134.75695,
+          118.95189
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_female_fire_noWeapon",
+        "p": [
+          -143.39582,
+          91.26185
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_female_fire_noWeapon",
+        "p": [
+          -143.12442,
+          91.1124
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_female_fire_noWeapon",
+        "p": [
+          -143.54842,
+          91.8303
         ]
       },
       {
@@ -1920,6 +2252,82 @@
         "p": [
           -137.78336,
           68.56572
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_QST_Hell_Intro",
+        "p": [
+          -137.46686,
+          68.42352
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_QST_Hell_Intro",
+        "p": [
+          -137.52842,
+          68.72252
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide_QST_Hell_Intro",
+        "p": [
+          -137.73958,
+          68.68823
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide_QST_Hell_Intro",
+        "p": [
+          -137.67073,
+          68.40819
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide_QST_Hell_Intro",
+        "p": [
+          -137.38199,
+          68.56187
+        ]
+      },
+      {
+        "p": [
+          -137.81818,
+          68.60606
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_female_helltide",
+        "p": [
+          -138.14071,
+          68.24255
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_female_helltide",
+        "p": [
+          -138.31172,
+          68.16725
+        ]
+      },
+      {
+        "id": "cultist:cultist_melee_male_helltide",
+        "p": [
+          -138.49634,
+          68.57307
+        ]
+      },
+      {
+        "id": "cultist:cultist_summoner_helltide",
+        "p": [
+          -138.2645,
+          68.49374
+        ]
+      },
+      {
+        "id": "cultist:cultist_caster_male_helltide",
+        "p": [
+          -138.57504,
+          68.44027
         ]
       },
       {
@@ -2903,6 +3311,12 @@
         "p": [
           -137.63779,
           68.80254
+        ]
+      },
+      {
+        "p": [
+          -137.81818,
+          68.60606
         ]
       },
       {
@@ -4017,6 +4431,20 @@
         ]
       },
       {
+        "id": "demon:demon_spitter_fire_Hell_Intro",
+        "p": [
+          -141.65675,
+          94.62937
+        ]
+      },
+      {
+        "id": "demon:demon_spitter_fire_Hell_Intro",
+        "p": [
+          -141.70587,
+          94.40592
+        ]
+      },
+      {
         "id": "demon:demon_brute_fire",
         "p": [
           -148.59062,
@@ -4165,6 +4593,13 @@
         ]
       },
       {
+        "id": "demon:demon_mega_fire_S05_QST_Rep_Main_05_FinalFight",
+        "p": [
+          -140.65195,
+          68.65072
+        ]
+      },
+      {
         "id": "demon:demon_butcher_miniboss",
         "p": [
           -137.81818,
@@ -4189,6 +4624,20 @@
         "p": [
           -137.7824,
           68.64184
+        ]
+      },
+      {
+        "id": "demon:demon_spitter_fire",
+        "p": [
+          -138.40391,
+          68.43401
+        ]
+      },
+      {
+        "id": "demon:demon_swarmer_fire",
+        "p": [
+          -138.22371,
+          68.57493
         ]
       },
       {
@@ -4315,6 +4764,27 @@
         "p": [
           -106.571,
           87.95545
+        ]
+      },
+      {
+        "id": "demon:demon_mega_fire_S05_QST_Rep_Main_03_Interrogation",
+        "p": [
+          -138.88314,
+          68.84077
+        ]
+      },
+      {
+        "id": "demon:demon_mega_fire_S05_QST_Rep_Main_04b_Temp_Council",
+        "p": [
+          -139.11703,
+          68.66014
+        ]
+      },
+      {
+        "id": "demon:demon_mega_fire_S05_QST_Rep_Main_04b_Temp_Council",
+        "p": [
+          -139.03814,
+          68.91342
         ]
       },
       {
@@ -5447,6 +5917,13 @@
         ]
       },
       {
+        "id": "ghost:ghost_caster_miniboss_QST_Hell_Intro_02",
+        "p": [
+          -137.54505,
+          68.36347
+        ]
+      },
+      {
         "id": "ghost:ghost_caster_noteleport",
         "p": [
           -137.89865,
@@ -6470,6 +6947,27 @@
           73.26468
         ],
         "id": "QST_S02_Main_01_Scos_Cellar"
+      },
+      {
+        "p": [
+          -132.59574,
+          117.61205
+        ],
+        "id": "QST_BSK_CSD_Hawe_Wetland_ZakFortCrypts"
+      },
+      {
+        "p": [
+          -121.79375,
+          50.41958
+        ],
+        "id": "QST_Hell_Intro_03_BSK"
+      },
+      {
+        "p": [
+          -140.87081,
+          71.35599
+        ],
+        "id": "QST_Hell_Intro_03_BSK"
       }
     ]
   },
@@ -7737,6 +8235,13 @@
           43.60331
         ],
         "id": "DGN_S02_Kehj_TombofHallows"
+      },
+      {
+        "p": [
+          -102.77312,
+          133.59744
+        ],
+        "id": "DGN_S05_QST_Rep_Main_05"
       }
     ]
   },
@@ -13431,6 +13936,27 @@
         ]
       },
       {
+        "id": "sideQuests:QST_Hell_Intro_01@-143.21191,90.85718",
+        "p": [
+          -143.21191,
+          90.85718
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Hell_Intro_02@-133.95711,117.9111",
+        "p": [
+          -133.95711,
+          117.9111
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Hell_Intro_03@-122.84141,47.40264",
+        "p": [
+          -122.84141,
+          47.40264
+        ]
+      },
+      {
         "id": "sideQuests:QST_Kehj_Caldeum_DropGift_Barez01@-123.38896,46.52612",
         "p": [
           -123.38896,
@@ -14576,6 +15102,76 @@
         "p": [
           -150.42675,
           27.54752
+        ]
+      },
+      {
+        "id": "sideQuests:S05_Bounty_Hellar_Scos_DeepForest@-52.03954,80.32917",
+        "p": [
+          -52.03954,
+          80.32917
+        ]
+      },
+      {
+        "id": "sideQuests:S05_Bounty_Hellar_Step_Volcano@-76.65005,92.70062",
+        "p": [
+          -76.65005,
+          92.70062
+        ]
+      },
+      {
+        "id": "sideQuests:S05_Bounty_Vault_Kehj_LowDesert@-148.35116,50.81294",
+        "p": [
+          -148.35116,
+          50.81294
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_01@-143.21191,90.85718",
+        "p": [
+          -143.21191,
+          90.85718
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_01b@-143.90261,91.302",
+        "p": [
+          -143.90261,
+          91.302
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_01_Connect_01b@-143.21191,90.85718",
+        "p": [
+          -143.21191,
+          90.85718
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_02@-125.31406,40.47468",
+        "p": [
+          -125.31406,
+          40.47468
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_02b@-125.31406,40.47468",
+        "p": [
+          -125.31406,
+          40.47468
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_03@-125.31406,40.47468",
+        "p": [
+          -125.31406,
+          40.47468
+        ]
+      },
+      {
+        "id": "sideQuests:S05_QST_Rep_Main_03b@-125.31406,40.47468",
+        "p": [
+          -125.31406,
+          40.47468
         ]
       }
     ]
@@ -18967,24 +19563,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Frac_TundraS_DemonSwarmers",
+        "id": "Bounty_Helltide_Tier1_Frac_TundraS_CullCultist",
         "p": [
-          -82.75669,
-          119.70877
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Frac_TundraS_FallenSwarm",
-        "p": [
-          -82.75669,
-          119.70877
+          -86.03242,
+          120.48918
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Frac_TundraS_Harbingers",
         "p": [
-          -82.75669,
-          119.70877
+          -86.03242,
+          120.48918
         ]
       },
       {
@@ -18995,10 +19584,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Frac_TundraS_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Frac_TundraS_Succuboss",
         "p": [
-          -82.49398,
-          117.62555
+          -82.73817,
+          122.15338
         ]
       },
       {
@@ -19023,10 +19612,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Frac_TundraS_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Frac_TundraS_CullDemons",
         "p": [
-          -82.49398,
-          117.62555
+          -86.03242,
+          120.48918
         ]
       },
       {
@@ -19051,24 +19640,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Frac_TundraN_FallenSwarm",
+        "id": "Bounty_Helltide_Tier1_Frac_TundraN_CullCultist",
         "p": [
-          -87.86283,
-          135.37444
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Frac_TundraN_DemonSwarmers",
-        "p": [
-          -87.86283,
-          135.37444
+          -92.80025,
+          133.30461
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Frac_TundraN_Harbingers",
         "p": [
-          -87.86283,
-          135.37444
+          -92.80025,
+          133.30461
         ]
       },
       {
@@ -19100,17 +19682,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Frac_TundraN_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Frac_TundraN_Succuboss",
         "p": [
-          -88.04409,
-          132.6489
+          -84.28464,
+          133.88654
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Frac_TundraN_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Frac_TundraN_CullDemons",
         "p": [
-          -88.04409,
-          132.6489
+          -92.80025,
+          133.30461
         ]
       },
       {
@@ -19135,24 +19717,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Scos_Coast_DemonSwarmers",
+        "id": "Bounty_Helltide_Tier1_Scos_Coast_CullCultist",
         "p": [
-          -35.48714,
-          96.47796
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Scos_Coast_FallenSwarm",
-        "p": [
-          -35.48714,
-          96.47796
+          -32.53775,
+          95.26536
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Scos_Coast_Harbingers",
         "p": [
-          -35.48714,
-          96.47796
+          -32.53775,
+          95.26536
         ]
       },
       {
@@ -19163,10 +19738,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Scos_Coast_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Scos_Coast_Succuboss",
         "p": [
-          -35.48571,
-          94.7555
+          -25.91587,
+          98.67202
         ]
       },
       {
@@ -19191,10 +19766,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Scos_Coast_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Scos_Coast_CullDemons",
         "p": [
-          -35.48571,
-          94.7555
+          -32.53775,
+          95.26536
         ]
       },
       {
@@ -19219,24 +19794,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Scos_DeepForest_DemonSwarmers",
+        "id": "Bounty_Helltide_Tier1_Scos_DeepForest_CullCultist",
         "p": [
-          -52.99674,
-          84.90735
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Scos_DeepForest_FallenSwarm",
-        "p": [
-          -52.99674,
-          84.90735
+          -55.63472,
+          83.96801
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Scos_DeepForest_Harbingers",
         "p": [
-          -52.99674,
-          84.90735
+          -55.63472,
+          83.96801
         ]
       },
       {
@@ -19247,10 +19815,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Scos_DeepForest_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Scos_DeepForest_Succuboss",
         "p": [
-          -53.09309,
-          82.71877
+          -55.57397,
+          79.3982
         ]
       },
       {
@@ -19275,10 +19843,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Scos_DeepForest_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Scos_DeepForest_CullDemons",
         "p": [
-          -53.09309,
-          82.71877
+          -55.63472,
+          83.96801
         ]
       },
       {
@@ -19289,27 +19857,6 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_CultistRituals",
-        "p": [
-          -138.61973,
-          114.96301
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Hawe_Verge_DemonSwarmers",
-        "p": [
-          -121.80839,
-          118.26909
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_DemonSwarmers",
-        "p": [
-          -138.61973,
-          114.96301
-        ]
-      },
-      {
         "id": "Bounty_Helltide_Tier1_Hawe_Verge_Doomsayers",
         "p": [
           -121.80839,
@@ -19317,24 +19864,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Doomsayers",
-        "p": [
-          -138.61973,
-          114.96301
-        ]
-      },
-      {
         "id": "Bounty_Helltide_Tier1_Hawe_Verge_Harbingers",
         "p": [
-          -121.80839,
-          118.26909
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Harbingers",
-        "p": [
-          -138.61973,
-          114.96301
+          -124.8737,
+          117.34667
         ]
       },
       {
@@ -19345,24 +19878,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Ironwolves",
+        "id": "Bounty_Helltide_Tier1_Hawe_Verge_CullCultist",
         "p": [
-          -138.61973,
-          114.96301
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Hawe_Verge_FallenSwarm",
-        "p": [
-          -121.80839,
-          118.26909
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_FallenSwarm",
-        "p": [
-          -138.61973,
-          114.96301
+          -124.8737,
+          117.34667
         ]
       },
       {
@@ -19373,13 +19892,6 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_ChestsAny",
-        "p": [
-          -138.7557,
-          112.67406
-        ]
-      },
-      {
         "id": "Bounty_Helltide_Tier2_Hawe_Verge_Cinders",
         "p": [
           -121.77988,
@@ -19387,24 +19899,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_Cinders",
+        "id": "Bounty_Helltide_Tier1_Hawe_Verge_CullDemons",
         "p": [
-          -138.7557,
-          112.67406
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Hawe_Verge_CullDemons",
-        "p": [
-          -121.77988,
-          115.80485
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_CullDemons",
-        "p": [
-          -138.7557,
-          112.67406
+          -124.8737,
+          117.34667
         ]
       },
       {
@@ -19415,17 +19913,80 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_Hellborne",
+        "id": "Bounty_Helltide_Tier2_Hawe_Verge_Structures",
+        "p": [
+          -121.77988,
+          115.80485
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier3_Hawe_Verge_Succuboss",
+        "p": [
+          -115.5383,
+          123.06524
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_CultistRituals",
+        "p": [
+          -138.61973,
+          114.96301
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Doomsayers",
+        "p": [
+          -138.61973,
+          114.96301
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Harbingers",
+        "p": [
+          -141.10129,
+          113.10382
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Ironwolves",
+        "p": [
+          -138.61973,
+          114.96301
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_CullCultist",
+        "p": [
+          -141.10129,
+          113.10382
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_ChestsAny",
         "p": [
           -138.7557,
           112.67406
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Hawe_Verge_Structures",
+        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_Cinders",
         "p": [
-          -121.77988,
-          115.80485
+          -138.7557,
+          112.67406
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_CullDemons",
+        "p": [
+          -141.10129,
+          113.10382
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_Hellborne",
+        "p": [
+          -138.7557,
+          112.67406
         ]
       },
       {
@@ -19436,28 +19997,14 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Hawe_Verge_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Hawe_Wetlands_Succuboss",
         "p": [
-          -121.77988,
-          115.80485
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Hawe_Wetlands_Succuboss",
-        "p": [
-          -138.7557,
-          112.67406
+          -139.47081,
+          118.89027
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Step_Central_CultistRituals",
-        "p": [
-          -82.14529,
-          79.22856
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Step_Central_DemonSwarmers",
         "p": [
           -82.14529,
           79.22856
@@ -19471,17 +20018,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Step_Central_FallenSwarm",
+        "id": "Bounty_Helltide_Tier1_Step_Central_CullCultist",
         "p": [
-          -82.14529,
-          79.22856
+          -80.15514,
+          77.49282
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Step_Central_Harbingers",
         "p": [
-          -82.14529,
-          79.22856
+          -80.15514,
+          77.49282
         ]
       },
       {
@@ -19506,10 +20053,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Step_Central_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Step_Central_CullDemons",
         "p": [
-          -82.15591,
-          76.84047
+          -80.15514,
+          77.49282
         ]
       },
       {
@@ -19527,52 +20074,45 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Step_Central_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Step_Central_Succuboss",
         "p": [
-          -82.15591,
-          76.84047
+          -85.13628,
+          78.07246
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Step_South_CultistRituals",
         "p": [
-          -104.43405,
-          72.41464
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Step_South_DemonSwarmers",
-        "p": [
-          -104.43405,
-          72.41464
+          -104.61098,
+          72.42219
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Step_South_Doomsayers",
         "p": [
-          -104.43405,
-          72.41464
+          -104.61098,
+          72.42219
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Step_South_FallenSwarm",
+        "id": "Bounty_Helltide_Tier1_Step_South_CullCultist",
         "p": [
-          -104.43405,
-          72.41464
+          -106.96276,
+          70.96464
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Step_South_Harbingers",
         "p": [
-          -104.43405,
-          72.41464
+          -106.96276,
+          70.96464
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Step_South_Ironwolves",
         "p": [
-          -104.43405,
-          72.41464
+          -104.61098,
+          72.42219
         ]
       },
       {
@@ -19590,10 +20130,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Step_South_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Step_South_CullDemons",
         "p": [
-          -104.16022,
-          69.94804
+          -106.96276,
+          70.96464
         ]
       },
       {
@@ -19611,21 +20151,14 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Step_South_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Step_South_Succuboss",
         "p": [
-          -104.16022,
-          69.94804
+          -109.48943,
+          73.39578
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_CultistRituals",
-        "p": [
-          -115.66351,
-          48.32539
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_DemonSwarmers",
         "p": [
           -115.66351,
           48.32539
@@ -19639,17 +20172,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_FallenSwarm",
+        "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_CullCultist",
         "p": [
-          -115.66351,
-          48.32539
+          -118.50461,
+          47.64902
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_Harbingers",
         "p": [
-          -115.66351,
-          48.32539
+          -118.50461,
+          47.64902
         ]
       },
       {
@@ -19674,10 +20207,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Kehj_HighDesert_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_CullDemons",
         "p": [
-          -115.67153,
-          45.9792
+          -118.50461,
+          47.64902
         ]
       },
       {
@@ -19695,105 +20228,14 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Kehj_HighDesert_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Kehj_HighDesert_Succuboss",
         "p": [
-          -115.67153,
-          45.9792
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_CultistRituals",
-        "p": [
-          -144.79251,
-          40.25906
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_DemonSwarmers",
-        "p": [
-          -144.79251,
-          40.25906
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Doomsayers",
-        "p": [
-          -144.79251,
-          40.25906
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_FallenSwarm",
-        "p": [
-          -144.79251,
-          40.25906
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Harbingers",
-        "p": [
-          -144.79251,
-          40.25906
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Ironwolves",
-        "p": [
-          -144.79251,
-          40.25906
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_ChestsAny",
-        "p": [
-          -144.7866,
-          38.16558
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Cinders",
-        "p": [
-          -144.7866,
-          38.16558
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_CullDemons",
-        "p": [
-          -144.7866,
-          38.16558
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Hellborne",
-        "p": [
-          -144.7866,
-          38.16558
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Structures",
-        "p": [
-          -144.7866,
-          38.16558
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Succuboss",
-        "p": [
-          -144.7866,
-          38.16558
+          -115.33793,
+          37.61385
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Kehj_Oasis_CultistRituals",
-        "p": [
-          -131.16845,
-          33.51344
-        ]
-      },
-      {
-        "id": "Bounty_Helltide_Tier1_Kehj_Oasis_DemonSwarmers",
         "p": [
           -131.16845,
           33.51344
@@ -19807,17 +20249,17 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier1_Kehj_Oasis_FallenSwarm",
+        "id": "Bounty_Helltide_Tier1_Kehj_Oasis_CullCultist",
         "p": [
-          -131.16845,
-          33.51344
+          -133.65963,
+          32.41999
         ]
       },
       {
         "id": "Bounty_Helltide_Tier1_Kehj_Oasis_Harbingers",
         "p": [
-          -131.16845,
-          33.51344
+          -133.65963,
+          32.41999
         ]
       },
       {
@@ -19842,10 +20284,10 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Kehj_Oasis_CullDemons",
+        "id": "Bounty_Helltide_Tier1_Kehj_Oasis_CullDemons",
         "p": [
-          -131.2866,
-          31.22256
+          -133.65963,
+          32.41999
         ]
       },
       {
@@ -19863,10 +20305,108 @@
         ]
       },
       {
-        "id": "Bounty_Helltide_Tier2_Kehj_Oasis_Succuboss",
+        "id": "Bounty_Helltide_Tier3_Kehj_Oasis_Succuboss",
         "p": [
-          -131.2866,
-          31.22256
+          -123.82133,
+          27.80757
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_CultistRituals",
+        "p": [
+          -144.79251,
+          40.25906
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Doomsayers",
+        "p": [
+          -144.79251,
+          40.25906
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_CullCultist",
+        "p": [
+          -143.09201,
+          38.85547
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Harbingers",
+        "p": [
+          -143.09201,
+          38.85547
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Ironwolves",
+        "p": [
+          -144.79251,
+          40.25906
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_ChestsAny",
+        "p": [
+          -144.7866,
+          38.16558
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Cinders",
+        "p": [
+          -144.7866,
+          38.16558
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_CullDemons",
+        "p": [
+          -143.09201,
+          38.85547
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Hellborne",
+        "p": [
+          -144.7866,
+          38.16558
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier2_Kehj_LowDesert_Structures",
+        "p": [
+          -144.7866,
+          38.16558
+        ]
+      },
+      {
+        "id": "Bounty_Helltide_Tier3_Kehj_LowDesert_Succuboss",
+        "p": [
+          -141.58962,
+          37.38335
+        ]
+      },
+      {
+        "id": "S05_Bounty_Vault_Kehj_LowDesert",
+        "p": [
+          -148.35116,
+          50.81294
+        ]
+      },
+      {
+        "id": "S05_Bounty_Hellar_Step_Volcano",
+        "p": [
+          -76.65005,
+          92.70062
+        ]
+      },
+      {
+        "id": "S05_Bounty_Hellar_Scos_DeepForest",
+        "p": [
+          -52.03954,
+          80.32917
         ]
       }
     ]
@@ -20134,6 +20674,13 @@
     "mapName": "Sanctuary",
     "spawns": [
       {
+        "id": "vampire:vampire_boss_QST_Hell_Intro_02",
+        "p": [
+          -138.64337,
+          68.05501
+        ]
+      },
+      {
         "id": "cultist:cultist_summoner_boss_camp_churchofkaramat",
         "p": [
           -137.81818,
@@ -20376,6 +20923,348 @@
         "p": [
           -137.8034,
           68.686
+        ]
+      }
+    ]
+  },
+  {
+    "type": "stash",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "Stash",
+        "p": [
+          -137.31091,
+          68.44963
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -108.05138,
+          138.76335
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -86.69882,
+          142.09
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -91.88312,
+          124.06924
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -93.38053,
+          124.78378
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -92.27241,
+          122.71961
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -92.83391,
+          141.46474
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -97.1521,
+          106.04729
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -105.80626,
+          121.8325
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -106.16296,
+          109.36405
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -82.31918,
+          114.21191
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -118.24158,
+          141.81893
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -151.53612,
+          147.61175
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -150.9953,
+          117.72881
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -121.1885,
+          111.63364
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -142.9101,
+          89.28001
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -144.17165,
+          91.34218
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -145.08015,
+          90.23639
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -112.23103,
+          44.94112
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -122.78027,
+          46.71782
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -145.66033,
+          30.10285
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -148.97374,
+          30.50109
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -148.16017,
+          31.14506
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -124.9969,
+          40.91699
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -143.34272,
+          50.99474
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -129.82458,
+          74.42665
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -133.36778,
+          69.45576
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -55.23398,
+          103.92206
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -55.23398,
+          103.92206
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -56.37341,
+          107.67847
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -56.54942,
+          105.1602
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -48.75489,
+          80.65978
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -33.5439,
+          85.40642
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -62.20713,
+          129.72216
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -41.50072,
+          105.00978
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -56.64141,
+          132.74876
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -47.37369,
+          122.41121
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -91.29632,
+          88.62913
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -62.90664,
+          79.59266
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -68.81156,
+          64.80732
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -71.49792,
+          64.8367
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -70.27559,
+          65.6804
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -81.05434,
+          72.57268
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -95.31744,
+          43.60862
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -106.10689,
+          86.99393
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -112.12144,
+          64.57496
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -79.5551,
+          88.05242
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -137.51622,
+          68.34812
         ]
       }
     ]
@@ -20997,341 +21886,6 @@
         "p": [
           -95.19478,
           43.99655
-        ]
-      }
-    ]
-  },
-  {
-    "type": "stash",
-    "mapName": "Sanctuary",
-    "spawns": [
-      {
-        "id": "Stash",
-        "p": [
-          -108.05138,
-          138.76335
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -86.69882,
-          142.09
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -91.88312,
-          124.06924
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -93.38053,
-          124.78378
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -92.27241,
-          122.71961
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -92.83391,
-          141.46474
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -97.1521,
-          106.04729
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -105.80626,
-          121.8325
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -106.16296,
-          109.36405
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -82.31918,
-          114.21191
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -118.24158,
-          141.81893
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -151.53612,
-          147.61175
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -150.9953,
-          117.72881
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -121.1885,
-          111.63364
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -142.9101,
-          89.28001
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -144.17165,
-          91.34218
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -145.08015,
-          90.23639
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -112.23103,
-          44.94112
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -122.78027,
-          46.71782
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -145.66033,
-          30.10285
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -148.97374,
-          30.50109
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -148.16017,
-          31.14506
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -124.9969,
-          40.91699
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -143.34272,
-          50.99474
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -129.82458,
-          74.42665
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -133.36778,
-          69.45576
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -55.23398,
-          103.92206
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -55.23398,
-          103.92206
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -56.37341,
-          107.67847
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -56.54942,
-          105.1602
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -48.75489,
-          80.65978
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -33.5439,
-          85.40642
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -62.20713,
-          129.72216
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -41.50072,
-          105.00978
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -56.64141,
-          132.74876
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -47.37369,
-          122.41121
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -91.29632,
-          88.62913
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -62.90664,
-          79.59266
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -68.81156,
-          64.80732
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -71.49792,
-          64.8367
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -70.27559,
-          65.6804
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -81.05434,
-          72.57268
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -95.31744,
-          43.60862
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -106.10689,
-          86.99393
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -112.12144,
-          64.57496
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -79.5551,
-          88.05242
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
-          -137.51622,
-          68.34812
         ]
       }
     ]
