@@ -671,6 +671,23 @@
     "defaultOn": true
   },
   {
+    "group": "NPC",
+    "values": [
+      {
+        "id": "_CivilianMale0",
+        "icon": "_CivilianMale0.webp",
+        "size": 1.75
+      },
+      {
+        "id": "_CivilianSusu0",
+        "icon": "_CivilianSusu0.webp",
+        "size": 1.75
+      }
+    ],
+    "defaultOpen": true,
+    "defaultOn": true
+  },
+  {
     "group": "Unit",
     "values": [
       {
@@ -756,11 +773,6 @@
       {
         "id": "Bruiser",
         "icon": "Bruiser.webp",
-        "size": 1.75
-      },
-      {
-        "id": "CivilianMale",
-        "icon": "CivilianMale.webp",
         "size": 1.75
       },
       {
@@ -938,11 +950,6 @@
       {
         "id": "Vulcan",
         "icon": "Vulcan.webp",
-        "size": 1.75
-      },
-      {
-        "id": "CivilianSusu",
-        "icon": "CivilianSusu.webp",
         "size": 1.75
       },
       {

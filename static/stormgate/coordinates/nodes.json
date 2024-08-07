@@ -83958,7 +83958,7 @@
     ]
   },
   {
-    "type": "CivilianMale",
+    "type": "_CivilianMale0",
     "mapName": "Vanguard01",
     "spawns": [
       {
@@ -100481,7 +100481,7 @@
     ]
   },
   {
-    "type": "CivilianSusu",
+    "type": "_CivilianSusu0",
     "mapName": "Vanguard04",
     "spawns": [
       {

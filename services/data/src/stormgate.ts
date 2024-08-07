@@ -137,7 +137,11 @@ for (const mapName of mapNames) {
       ) {
         continue;
       }
-      if (type.startsWith("_") && !type.startsWith("_Resource")) {
+      if (
+        type.startsWith("_") &&
+        !type.startsWith("_Resource") &&
+        !type.startsWith("_Civilian")
+      ) {
         type = type.slice(1);
         type = type.replace(/\d$/, "");
       }
@@ -171,6 +175,9 @@ for (const mapName of mapNames) {
       if (type === "locationMarkerPlayerStart" || type === "MegaResourceA") {
         group = "Locations";
         enDict[group] = "Locations";
+      } else if (type.startsWith("_Civilian")) {
+        group = "NPC";
+        enDict[group] = "NPCs";
       } else if (type.startsWith("JournalEntry_")) {
         group = "Journals";
         enDict[group] = "Journals";
@@ -446,6 +453,16 @@ for (const mapName of mapNames) {
         ) {
           const subArchetypeId = archetype.camp_type;
           await processSubArchetype(subArchetypeId);
+        } else if (type === "_CivilianMale0") {
+          const imagePath =
+            "Texture2D'/Game/Pegasus/UI/Assets/Portraits/Neutral/UI_Portrait_Neutral_Default_Colleen.UI_Portrait_Neutral_Default_Maggie'"
+              .split("'")[1]
+              .replace("/Game/", "/Stormgate/Content/")
+              .split(".")[0] + ".png";
+          icon = await saveIcon(imagePath, type, {
+            border: true,
+            color: "#aaa",
+          });
         } else {
           icon = await saveIcon(
             `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
