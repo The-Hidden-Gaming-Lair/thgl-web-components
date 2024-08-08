@@ -80,7 +80,7 @@ export async function drawInCircleWithBorderColor(
   ctx.arc(
     image.width / 2,
     image.height / 2,
-    radius - lineWidth / 2,
+    radius - lineWidth * 2,
     0,
     2 * Math.PI,
   );
@@ -424,14 +424,18 @@ export async function vectorize(
   formData.append("output.size.height", height.toString());
   formData.append("output.size.unit", "px");
 
-  const response = await fetch("https://vectorizer.ai/api/v1/vectorize", {
-    method: "POST",
-    headers: {
-      Authorization:
-        "Basic dms0ZXJiY3pycTVjenJsOnFqZW5uZTlqYnIycnZnNWQwNzA3MGVydHFrOWVxYWJ0NjR0cDMwMTBnODYyZXJpMTIyZ2c=",
+  const response = await fetch(
+    // "https://vectorizer.ai/api/v1/vectorize?mode=test",
+    "https://vectorizer.ai/api/v1/vectorize",
+    {
+      method: "POST",
+      headers: {
+        Authorization:
+          "Basic dms0ZXJiY3pycTVjenJsOnFqZW5uZTlqYnIycnZnNWQwNzA3MGVydHFrOWVxYWJ0NjR0cDMwMTBnODYyZXJpMTIyZ2c=",
+      },
+      body: formData,
     },
-    body: formData,
-  });
+  );
 
   if (!response.ok) {
     console.error("Error:", response.status, await response.text());
