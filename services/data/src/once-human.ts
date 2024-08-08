@@ -1,15 +1,23 @@
 import { initDict } from "./lib/dicts.js";
-import { initDirs, OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
-import { initFilters } from "./lib/filters.js";
+import {
+  CONTENT_DIR,
+  initDirs,
+  OUTPUT_DIR,
+  TEMP_DIR,
+  TEXTURE_DIR,
+} from "./lib/dirs.js";
+import { initFilters, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
   adjustBrightnessAndContrast,
   mergeImages,
   saveIcon,
 } from "./lib/image.js";
-import { initNodes } from "./lib/nodes.js";
+import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs } from "./lib/types-ids.js";
+import { PrefabInfoData, ScenePrefabData } from "./once-human.types.js";
+import { Node } from "./types.js";
 
 initDirs(
   Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
@@ -18,8 +26,10 @@ initDirs(
     "/home/devleon/the-hidden-gaming-lair/static/once-human",
 );
 
-const nodes = initNodes(await readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
-const filters = initFilters();
+let nodes = initNodes(await readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
+const filters = initFilters(
+  await readJSON(OUTPUT_DIR + "/coordinates/filters.json"),
+);
 const typesIDs = initTypesIDs();
 const enDict = initDict();
 const addedFilterIDs: string[] = [];
@@ -187,14 +197,53 @@ const tiles = initTiles(
 );
 
 writeTiles(tiles);
+
+// const regions = await getRegionsFromImage(
+//   TEXTURE_DIR + "/ui/texpack/bigmap_res/grade_area.png",
+//   tiles[mapName].transformation!
+// );
+
+const scenePrefabData = await readJSON<ScenePrefabData>(
+  CONTENT_DIR + "/game_common/data/scene_prefab/scene_prefab_data.json",
+);
+const prefabInfoData = await readJSON<PrefabInfoData>(
+  CONTENT_DIR + "/game_common/data/prefab_info_data.json",
+);
+const newTypes: string[] = [];
+for (const [key, value] of Object.entries(scenePrefabData)) {
+  let type;
+  if (value.prefab_name === "prefab_sp_transport_tower.prefab") {
+    type = "teleportation_tower";
+  }
+  if (!type) {
+    continue;
+  }
+  if (!newTypes.includes(type)) {
+    // Remove all old nodes of this type
+    newTypes.push(type);
+    nodes = nodes.filter((n) => n.type !== type);
+  }
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const group = nodes.find((n) => n.type === type)!;
+  const spawn: Node["spawns"][0] = {
+    p: [value.map_icon_pos[2], value.map_icon_pos[0]],
+  };
+  group.spawns.push(spawn);
+}
+
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(
     OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
     nodes.filter((n) => !n.mapName || n.mapName === mapName),
   );
 });
+writeNodes(nodes);
+writeFilters(filters);
 
-// const regions = await getRegionsFromImage(
-//   TEXTURE_DIR + "/ui/texpack/bigmap_res/grade_area.png",
-//   tiles[mapName].transformation!
-// );
+console.log("Done!");
