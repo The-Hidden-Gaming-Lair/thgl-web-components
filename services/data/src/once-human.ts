@@ -131,8 +131,6 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   if (type === "juluo") {
     group = "locations";
     title = "Hamlet";
-    // iconProps.brightness = -100;
-    // iconProps.contrast = 1.3;
   } else if (type === "chengzhen") {
     group = "locations";
     title = "Settlement";
@@ -148,8 +146,50 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   } else if (type === "yanjiusuo") {
     group = "locations";
     title = "Research Institute";
+  } else if (type === "gongchang") {
+    group = "locations";
+    title = "Factory";
+  } else if (type === "zhongzhiyuan") {
+    group = "locations";
+    title = "Real Estate";
+  } else if (type === "jiaotongshuniu") {
+    group = "locations";
+    title = "Railway";
+  } else if (type === "junshijidi") {
+    group = "locations";
+    title = "Military Base";
+  } else if (type === "guanniaoyingdi") {
+    group = "locations";
+    title = "Camp";
+  } else if (type === "gouwuzhongxin") {
+    group = "locations";
+    title = "Town";
+  } else if (type === "cistern") {
+    group = "locations";
+  } else if (type === "transport") {
+    group = "locations";
+    iconProps.brightness = -100;
+    iconProps.contrast = 1.3;
+  } else if (type === "school") {
+    group = "locations";
+    title = "School";
+  } else if (type === "hud_icon_resourse_null") {
+    group = "locations";
+  } else if (type === "securementsilos") {
+    group = "locations";
+  } else if (type === "raidlea") {
+    group = "locations";
+  } else if (type === "hud_icon_w_wharf") {
+    group = "locations";
+  } else if (type === "zhongliyingdi_kechuansong") {
+    group = "locations";
+    title = "Union Stronghold";
+  } else if (type === "initial_respawn") {
+    group = "locations";
   } else {
     group = "unsorted";
+    // Temporary
+    continue;
   }
   if (!title) {
     title = type;
@@ -187,6 +227,8 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
       filters.push({
         group,
         values: [],
+        defaultOn: true,
+        defaultOpen: true,
       });
     }
     const filter = filters.find((f) => f.group === group)!;
@@ -236,6 +278,17 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     }
   }
 
+  if (
+    node.spawns.some(
+      (s) =>
+        (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+        s.p[0] === spawn.p[0] &&
+        s.p[1] === spawn.p[1],
+    )
+  ) {
+    console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+    continue;
+  }
   node.spawns.push(spawn);
 }
 

@@ -1,140 +1,114 @@
 [
   {
     "group": "locations",
-    "defaultOpen": true,
-    "defaultOn": true,
     "values": [
       {
-        "id": "refinery",
-        "icon": "refinery.webp"
+        "id": "juluo",
+        "icon": "juluo.webp",
+        "size": 1
       },
       {
-        "id": "factory",
-        "icon": "factory.webp"
+        "id": "yanjiusuo",
+        "icon": "yanjiusuo.webp",
+        "size": 1
       },
       {
-        "id": "hamlet",
-        "icon": "hamlet.webp"
+        "id": "yingdi",
+        "icon": "yingdi.webp",
+        "size": 1
       },
       {
-        "id": "hospital",
-        "icon": "hospital.webp"
-      },
-      {
-        "id": "railway",
-        "icon": "railway.webp"
-      },
-      {
-        "id": "real_estate",
-        "icon": "real_estate.webp"
-      },
-      {
-        "id": "lea_research_lab",
-        "icon": "lea_research_lab.webp"
-      },
-      {
-        "id": "military_base",
-        "icon": "military_base.webp"
-      },
-      {
-        "id": "monolith",
-        "icon": "monolith.webp"
-      },
-      {
-        "id": "research_institute",
-        "icon": "research_institute.webp"
+        "id": "gongchang",
+        "icon": "gongchang.webp",
+        "size": 1
       },
       {
         "id": "school",
-        "icon": "school.webp"
+        "icon": "school.webp",
+        "size": 1
       },
       {
-        "id": "securement_silo",
-        "icon": "securement_silo.webp"
+        "id": "hud_icon_w_wharf",
+        "icon": "hud_icon_w_wharf.webp",
+        "size": 1
       },
       {
-        "id": "teleportation_tower",
-        "icon": "teleportation_tower.webp"
+        "id": "transport",
+        "icon": "transport.webp",
+        "size": 1
       },
       {
-        "id": "town",
-        "icon": "town.webp"
+        "id": "hud_icon_resourse_null",
+        "icon": "hud_icon_resourse_null.webp",
+        "size": 1
       },
       {
-        "id": "union_stronghold",
-        "icon": "union_stronghold.webp"
+        "id": "raidlea",
+        "icon": "raidlea.webp",
+        "size": 1
       },
       {
-        "id": "prime_wars",
-        "icon": "prime_wars.webp",
-        "size": 1.5
+        "id": "icon_stronghold_borderlands_nml",
+        "icon": "icon_stronghold_borderlands_nml.webp",
+        "size": 1
       },
       {
-        "id": "silvershore_resort",
-        "icon": "silvershore_resort.webp"
+        "id": "cistern",
+        "icon": "cistern.webp",
+        "size": 1
       },
       {
-        "id": "green_lake_hill",
-        "icon": "green_lake_hill.webp"
+        "id": "chengzhen",
+        "icon": "chengzhen.webp",
+        "size": 1
+      },
+      {
+        "id": "initial_respawn",
+        "icon": "initial_respawn.webp",
+        "size": 1
+      },
+      {
+        "id": "juxie",
+        "icon": "juxie.webp",
+        "size": 1
+      },
+      {
+        "id": "guanniaoyingdi",
+        "icon": "guanniaoyingdi.webp",
+        "size": 1
+      },
+      {
+        "id": "zhongzhiyuan",
+        "icon": "zhongzhiyuan.webp",
+        "size": 1
+      },
+      {
+        "id": "securementsilos",
+        "icon": "securementsilos.webp",
+        "size": 1
+      },
+      {
+        "id": "zhongliyingdi_kechuansong",
+        "icon": "zhongliyingdi_kechuansong.webp",
+        "size": 1
+      },
+      {
+        "id": "junshijidi",
+        "icon": "junshijidi.webp",
+        "size": 1
+      },
+      {
+        "id": "jiaotongshuniu",
+        "icon": "jiaotongshuniu.webp",
+        "size": 1
+      },
+      {
+        "id": "gouwuzhongxin",
+        "icon": "gouwuzhongxin.webp",
+        "size": 1
       }
-    ]
-  },
-  {
-    "group": "items",
-    "defaultOpen": true,
+    ],
     "defaultOn": true,
-    "values": [
-      {
-        "id": "weapon_crate",
-        "icon": "weapon_crate.webp"
-      },
-      {
-        "id": "gear_crate",
-        "icon": "gear_crate.webp"
-      },
-      {
-        "id": "storage_crate",
-        "icon": "storage_crate.webp"
-      },
-      {
-        "id": "morphic_crate",
-        "icon": "morphic_crate.webp"
-      },
-      {
-        "id": "mystical_chest",
-        "icon": "mystical_chest.webp"
-      },
-      {
-        "id": "treasure_chest",
-        "icon": "treasure_chest.webp"
-      },
-      {
-        "id": "recipe",
-        "icon": "recipe.webp"
-      },
-      {
-        "id": "accessory",
-        "icon": "accessory.webp"
-      },
-      {
-        "id": "deviant",
-        "icon": "deviant.webp"
-      }
-    ]
-  },
-  {
-    "group": "hazards",
-    "defaultOpen": true,
-    "defaultOn": true,
-    "values": [
-      {
-        "id": "boss",
-        "icon": "boss.webp"
-      },
-      {
-        "id": "elite",
-        "icon": "elite.webp"
-      }
-    ]
+    "defaultOpen": true
   }
 ]
