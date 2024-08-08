@@ -2,7 +2,6 @@ import { initDict } from "./lib/dicts.js";
 import { initDirs, OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
 import { initFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
-import { existsSync } from 'fs';
 import {
   adjustBrightnessAndContrast,
   mergeImages,
@@ -12,19 +11,12 @@ import { initNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs } from "./lib/types-ids.js";
 
-if (existsSync("/mnt/c/dev/OnceHuman/Extracted/Data")) {
-  initDirs(
-    "/mnt/c/dev/OnceHuman/Extracted/Data",
-    "/mnt/c/dev/OnceHuman/Extracted/Texture",
+initDirs(
+  Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
+  Bun.env.ONCE_HUMAN_TEXTURE_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Texture",
+  Bun.env.ONCE_HUMAN_OUTPUT_DIR ??
     "/home/devleon/the-hidden-gaming-lair/static/once-human",
-  );
-} else {
-  initDirs(
-    "/Extracted/Data",
-    "/Extracted/Texture",
-    "../../../static/once-human",
-  );
-}
+);
 
 const nodes = initNodes(await readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
 const filters = initFilters();
