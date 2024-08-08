@@ -59,3 +59,58 @@ export type ScenePrefabData = Record<
     uuid: string;
   }
 >;
+
+export type BigMapItemData = Record<
+  string,
+  {
+    fog_flag: number;
+    can_gray: number;
+    recommend_title_info: Array<any>;
+    search_type_word: string;
+    search_priority: number;
+    search_desc_info: Array<any>;
+    layer_id: number;
+    recommend_desc_info: Array<any>;
+    keep_screen: number;
+    search_title_info: Array<any>;
+    is_custom_mark_icon: number;
+    tag_number: number;
+    scale: number;
+    search_show_type: number;
+    res_path: string;
+    tip_id_list: Array<number>;
+    search_words: Array<string>;
+    recommend_show_type: number;
+    item_name: string;
+    search_rule: number;
+  }
+>;
+
+export type SmallMapItemData = Record<
+  string,
+  {
+    show_radius: number;
+    zorder: number;
+    scale: number;
+    edge_flag: number;
+    res_path: string;
+  }
+>;
+
+export type PrefabGroupInfoData = Record<
+  string,
+  {
+    task_award: number;
+    prefab_group_level: number;
+    prefab_group_bigmap_icon_id: number;
+    area_id: number;
+    bgm_tag: string;
+    prefab_group_show_name: string;
+    mark_detail_icon_path: string;
+    prefab_group_pos: Array<number>;
+    prefab_item_lst: Array<number>;
+    task_name: string;
+    task_info_list: Array<any>;
+    workshop_id: string;
+  }
+>;

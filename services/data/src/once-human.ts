@@ -1,4 +1,5 @@
-import { initDict } from "./lib/dicts.js";
+import uniqolor from "uniqolor";
+import { initDict, writeDict } from "./lib/dicts.js";
 import {
   CONTENT_DIR,
   initDirs,
@@ -10,13 +11,20 @@ import { initFilters, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
   adjustBrightnessAndContrast,
+  IconProps,
   mergeImages,
   saveIcon,
 } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs } from "./lib/types-ids.js";
-import { PrefabInfoData, ScenePrefabData } from "./once-human.types.js";
+import {
+  BigMapItemData,
+  PrefabGroupInfoData,
+  PrefabInfoData,
+  ScenePrefabData,
+  SmallMapItemData,
+} from "./once-human.types.js";
 import { Node } from "./types.js";
 
 initDirs(
@@ -26,142 +34,11 @@ initDirs(
     "/home/devleon/the-hidden-gaming-lair/static/once-human",
 );
 
-let nodes = initNodes(await readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
-const filters = initFilters(
-  await readJSON(OUTPUT_DIR + "/coordinates/filters.json"),
-);
-const typesIDs = initTypesIDs();
-const enDict = initDict();
-const addedFilterIDs: string[] = [];
-const addedIcons: string[] = [];
-
-const savedIcons: string[] = [];
-const icons: Record<string, string> = {
-  weapon_crate: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
-    "weapon_crate",
-    { color: "yellow", circle: true },
-  ),
-  gear_crate: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
-    "gear_crate",
-    { color: "green", circle: true },
-  ),
-  storage_crate: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
-    "storage_crate",
-    { color: "blue", circle: true },
-  ),
-  morphic_crate: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
-    "morphic_crate",
-    { color: "purple", circle: true },
-  ),
-  mystical_chest: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
-    "mystical_chest",
-    { color: "red", circle: true },
-  ),
-  treasure_chest: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
-    "treasure_chest",
-    { color: "orange", circle: true },
-  ),
-  recipe: await saveIcon(
-    "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/notebook_delapouite.webp",
-    "recipe",
-  ),
-  accessory: await saveIcon(
-    "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/ink-swirl_lorc.webp",
-    "accessory",
-  ),
-  deviant: await saveIcon(
-    "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/lightning-dissipation_lorc.webp",
-    "deviant",
-  ),
-  railway: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_jiaotongshuniu.png",
-    "railway",
-  ),
-  hospital: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_hospital.png",
-    "hospital",
-  ),
-  prime_wars: await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/hud_icon_cluster_excitation.png",
-    "prime_wars",
-  ),
-  silvershore_resort: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_gouwuzhongxin.png",
-    "silvershore_resort",
-  ),
-  green_lake_hill: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_guanniaoyingdi.png",
-    "green_lake_hill",
-  ),
-  school: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_school.png",
-    "school",
-  ),
-  factory: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_gongchang.png",
-    "factory",
-  ),
-  hamlet: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_juluo.png",
-    "hamlet",
-  ),
-  lea_research_lab: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_raidlea.png",
-    "lea_research_lab",
-  ),
-  military_base: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_junshijidi.png",
-    "military_base",
-  ),
-  monolith: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_juxie.png",
-    "monolith",
-  ),
-  real_estate: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_zhongzhiyuan.png",
-    "real_estate",
-  ),
-  refinery: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_cistern.png",
-    "refinery",
-  ),
-  research_institute: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_yanjiusuo.png",
-    "research_institute",
-  ),
-  securement_silo: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_securementsilos.png",
-    "securement_silo",
-  ),
-  teleportation_tower: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_transport.png",
-    "teleportation_tower",
-    { brightness: -100, contrast: 1.3 },
-  ),
-  town: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_chengzhen.png",
-    "town",
-  ),
-  union_stronghold: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_zhongliyingdi_kechuansong.png",
-    "union_stronghold",
-    { brightness: -100, contrast: 1.3 },
-  ),
-  boss: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png",
-    "boss",
-  ),
-  elite: await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_elite.png",
-    "elite",
-  ),
-};
+let nodes = initNodes();
+const filters = initFilters();
+const enDict = initDict({
+  locations: "Locations",
+});
 
 const mapName = "default";
 if (Bun.env.TILES === "true") {
@@ -209,20 +86,117 @@ const scenePrefabData = await readJSON<ScenePrefabData>(
 const prefabInfoData = await readJSON<PrefabInfoData>(
   CONTENT_DIR + "/game_common/data/prefab_info_data.json",
 );
+const textureMap = await readJSON<Record<string, string>>(
+  CONTENT_DIR + "/client_data/ui/texture_map.json",
+);
+const bigMapItemData = await readJSON<BigMapItemData>(
+  CONTENT_DIR + "/client_data/big_map_item_data.json",
+);
+const smallMapItemData = await readJSON<SmallMapItemData>(
+  CONTENT_DIR + "/client_data/small_map_item_data.json",
+);
+const prefabGroupInfoData = await readJSON<PrefabGroupInfoData>(
+  CONTENT_DIR + "/game_common/data/prefab_group_info_data.json",
+);
+
 const newTypes: string[] = [];
-for (const [key, value] of Object.entries(scenePrefabData)) {
+
+for (const [key, value] of Object.entries(prefabInfoData)) {
   let type;
-  if (value.prefab_name === "prefab_sp_transport_tower.prefab") {
-    type = "teleportation_tower";
+  let title;
+  let size = 1;
+  let group = "unsorted";
+  const iconProps: IconProps = {};
+
+  let iconPath;
+  const prefabGroupInfo = Object.values(prefabGroupInfoData).find(
+    (d) => d.prefab_group_show_name === value.stronghold_name,
+  );
+
+  const bigMapItem = bigMapItemData[value.bigmap_icon_id.toString()];
+  if (bigMapItem) {
+    iconPath = textureMap[bigMapItem.res_path];
+    type = bigMapItem.res_path.replace("map_icon_", "").replace(".png", "");
+    title = bigMapItem.item_name;
+  } else if (prefabGroupInfo) {
+    const smappMapItem =
+      smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
+    iconPath = textureMap[smappMapItem.res_path];
+    type = smappMapItem.res_path.replace("map_icon_", "").replace(".png", "");
+    title = prefabGroupInfo.prefab_group_show_name;
   }
   if (!type) {
-    continue;
+    type = value.stronghold_name;
   }
+  if (type === "juluo") {
+    group = "locations";
+    title = "Hamlet";
+    // iconProps.brightness = -100;
+    // iconProps.contrast = 1.3;
+  } else if (type === "chengzhen") {
+    group = "locations";
+    title = "Settlement";
+  } else if (type === "yingdi") {
+    group = "locations";
+    title = "Attack";
+  } else if (type === "icon_stronghold_borderlands_nml") {
+    group = "locations";
+    title = "Frontier";
+  } else if (type === "juxie") {
+    group = "locations";
+    title = "Monolith";
+  } else if (type === "yanjiusuo") {
+    group = "locations";
+    title = "Research Institute";
+  } else {
+    group = "unsorted";
+  }
+  if (!title) {
+    title = type;
+  }
+
+  if (enDict[type] && enDict[type] !== title) {
+    console.warn(`Type ${type} already exists with name ${enDict[type]}`);
+  } else {
+    enDict[type] = title;
+  }
+
+  if (!iconPath) {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
+    iconProps.color = uniqolor(type).color;
+    size = 0.5;
+  }
+
   if (!newTypes.includes(type)) {
     // Remove all old nodes of this type
     newTypes.push(type);
     nodes = nodes.filter((n) => n.type !== type);
+
+    // Remove old filter values
+    filters.forEach((filter) => {
+      filter.values = filter.values.filter((v) => v.id !== type);
+    });
+
+    // Add new filter value
+    if (!iconPath) {
+      console.warn("No icon path for", key);
+      continue;
+    }
+    const icon = await saveIcon(iconPath, type, iconProps);
+    if (!filters.some((f) => f.group === group)) {
+      filters.push({
+        group,
+        values: [],
+      });
+    }
+    const filter = filters.find((f) => f.group === group)!;
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+    });
   }
+
   if (!nodes.some((n) => n.type === type)) {
     nodes.push({
       type,
@@ -230,11 +204,39 @@ for (const [key, value] of Object.entries(scenePrefabData)) {
     });
   }
 
-  const group = nodes.find((n) => n.type === type)!;
+  const node = nodes.find((n) => n.type === type)!;
   const spawn: Node["spawns"][0] = {
-    p: [value.map_icon_pos[2], value.map_icon_pos[0]],
+    p: [value.pos[2], value.pos[0]],
   };
-  group.spawns.push(spawn);
+  if (value.stronghold_name !== enDict[type] || value.stronghold_level) {
+    const id = key;
+    enDict[id] = value.stronghold_name;
+    if (value.stronghold_level) {
+      enDict[id + "_desc"] = `Level: ${value.stronghold_level}`;
+    }
+
+    spawn.id = id;
+    if (prefabGroupInfo?.task_name) {
+      if (enDict[id + "_desc"]) {
+        enDict[id + "_desc"] += "<br>";
+      } else {
+        enDict[id + "_desc"] = "";
+      }
+      enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
+      prefabGroupInfo.task_info_list.forEach((info) => {
+        enDict[id + "_desc"] +=
+          "<br/>- " +
+          info[0].replace(
+            "寻找武器箱和装备箱",
+            "Find Weapon and Armor Crates",
+          ) +
+          ": " +
+          info[2];
+      });
+    }
+  }
+
+  node.spawns.push(spawn);
 }
 
 Object.keys(tiles).forEach((mapName) => {
@@ -245,5 +247,5 @@ Object.keys(tiles).forEach((mapName) => {
 });
 writeNodes(nodes);
 writeFilters(filters);
-
+writeDict(enDict, "en");
 console.log("Done!");

@@ -21,10 +21,14 @@ export async function saveIcon(
   name: string,
   props: IconProps = {},
 ) {
-  let filePath =
-    assetPath.startsWith("/home") || assetPath.startsWith("/mnt")
-      ? assetPath
-      : TEXTURE_DIR + assetPath;
+  let filePath;
+  if (assetPath.startsWith("/home") || assetPath.startsWith("/mnt")) {
+    filePath = assetPath;
+  } else if (assetPath.startsWith("/")) {
+    filePath = TEXTURE_DIR + assetPath;
+  } else {
+    filePath = TEXTURE_DIR + "/" + assetPath;
+  }
   if (savedIcons.includes(name)) {
     return `${name}.webp`;
   }
