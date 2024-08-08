@@ -12,9 +12,10 @@ import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs } from "./lib/types-ids.js";
 
 initDirs(
-  "/mnt/c/dev/OnceHuman/Extracted/Data",
-  "/mnt/c/dev/OnceHuman/Extracted/Texture",
-  "/home/devleon/the-hidden-gaming-lair/static/once-human",
+  Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
+  Bun.env.ONCE_HUMAN_TEXTURE_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Texture",
+  Bun.env.ONCE_HUMAN_OUTPUT_DIR ??
+    "/home/devleon/the-hidden-gaming-lair/static/once-human",
 );
 
 const nodes = initNodes(await readJSON(OUTPUT_DIR + "/coordinates/nodes.json"));
