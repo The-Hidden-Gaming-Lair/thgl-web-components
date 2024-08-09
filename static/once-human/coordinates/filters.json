@@ -18,8 +18,18 @@
         "size": 1
       },
       {
+        "id": "Scattered",
+        "icon": "Scattered.webp",
+        "size": 0.65
+      },
+      {
         "id": "gongchang",
         "icon": "gongchang.webp",
+        "size": 1
+      },
+      {
+        "id": "chengzhen",
+        "icon": "chengzhen.webp",
         "size": 1
       },
       {
@@ -55,11 +65,6 @@
       {
         "id": "cistern",
         "icon": "cistern.webp",
-        "size": 1
-      },
-      {
-        "id": "chengzhen",
-        "icon": "chengzhen.webp",
         "size": 1
       },
       {
@@ -105,6 +110,103 @@
       {
         "id": "gouwuzhongxin",
         "icon": "gouwuzhongxin.webp",
+        "size": 1
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
+    "group": "riddles",
+    "values": [
+      {
+        "id": "Camera",
+        "icon": "Camera.webp",
+        "size": 1
+      },
+      {
+        "id": "Eyeballoon",
+        "icon": "Eyeballoon.webp",
+        "size": 1
+      },
+      {
+        "id": "Bizarre Rocks",
+        "icon": "Bizarre Rocks.webp",
+        "size": 1
+      },
+      {
+        "id": "Lotus Leaf",
+        "icon": "Lotus Leaf.webp",
+        "size": 1
+      },
+      {
+        "id": "The Creeper",
+        "icon": "The Creeper.webp",
+        "size": 1
+      },
+      {
+        "id": "Strange Door",
+        "icon": "Strange Door.webp",
+        "size": 1
+      },
+      {
+        "id": "Treasure Map",
+        "icon": "Treasure Map.webp",
+        "size": 1
+      },
+      {
+        "id": "Billboard Judgment District Defense",
+        "icon": "Billboard Judgment District Defense.webp",
+        "size": 1
+      },
+      {
+        "id": "Telephone Booth",
+        "icon": "Telephone Booth.webp",
+        "size": 1
+      },
+      {
+        "id": "Anti-Construction",
+        "icon": "Anti-Construction.webp",
+        "size": 1
+      },
+      {
+        "id": "Target Practice",
+        "icon": "Target Practice.webp",
+        "size": 1
+      },
+      {
+        "id": "Painter's Cottage",
+        "icon": "Painter's Cottage.webp",
+        "size": 1
+      },
+      {
+        "id": "Abandoned Vehicle",
+        "icon": "Abandoned Vehicle.webp",
+        "size": 1
+      },
+      {
+        "id": "Strange Statues",
+        "icon": "Strange Statues.webp",
+        "size": 1
+      },
+      {
+        "id": "Billboard",
+        "icon": "Billboard.webp",
+        "size": 1
+      },
+      {
+        "id": "Creepy Painting Loot Crate Spot Defense",
+        "icon": "Creepy Painting Loot Crate Spot Defense.webp",
+        "size": 1
+      },
+      {
+        "id": "Eyeballoon Ward",
+        "icon": "Eyeballoon Ward.webp",
+        "size": 1
+      },
+      {
+        "id": "Mountain Rock Defense",
+        "icon": "Mountain Rock Defense.webp",
         "size": 1
       }
     ],

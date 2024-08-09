@@ -37,6 +37,7 @@ let nodes = initNodes();
 const filters = initFilters();
 const enDict = initDict({
   locations: "Locations",
+  riddles: "Riddles",
 });
 
 const mapName = "default";
@@ -100,10 +101,17 @@ const prefabGroupInfoData = await readJSON<PrefabGroupInfoData>(
 
 const newTypes: string[] = [];
 
-const switchType = (initialType: string, initialTitle?: string) => {
+const switchType = (
+  initialType: string,
+  initialTitle: string,
+  initialIconPath: string,
+  more?: string,
+) => {
   let type = initialType;
   let title = initialTitle;
+  let iconPath = initialIconPath;
   let group = "unsorted";
+  let size = 1;
   const iconProps: IconProps = {};
 
   if (type === "juluo") {
@@ -164,6 +172,30 @@ const switchType = (initialType: string, initialTitle?: string) => {
     title = "Union Stronghold";
   } else if (type === "initial_respawn") {
     group = "locations";
+  } else if (type === "Riddle Spot" || type.endsWith("Riddle Spot")) {
+    group = "riddles";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/jigsaw-piece_lorc.webp`;
+    if (more) {
+      type =
+        more
+          .split("Riddle Spot ")[1]
+          ?.replace(" Anti-Construction", "")
+          .replace(" anti-construction", "")
+          .replace(" Construction", "")
+          .replace(" Anti-Building", "")
+          .replace(" Prevention", "")
+          .replace("anti-construction", "Anti-Construction") ||
+        type.replace(" Riddle Spot", "");
+      iconProps.color = uniqolor(type).color;
+    }
+  } else if (more?.includes("_Scattered")) {
+    group = "locations";
+    type = "Scattered";
+    title = type;
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/damaged-house_quoting.webp`;
+    iconProps.glowing = true;
+    iconProps.color = "black";
+    size = 0.65;
   }
   if (!title) {
     title = type;
@@ -174,21 +206,21 @@ const switchType = (initialType: string, initialTitle?: string) => {
     title,
     group,
     iconProps,
+    iconPath,
+    size,
   };
 };
 for (const [key, value] of Object.entries(prefabInfoData)) {
-  let size = 1;
-
-  let iconPath;
+  let initialIconPath = "";
   const prefabGroupInfo = Object.values(prefabGroupInfoData).find(
     (d) => d.prefab_group_show_name === value.stronghold_name,
   );
 
   let initialType;
-  let initialTitle;
+  let initialTitle = "";
   const bigMapItem = bigMapItemData[value.bigmap_icon_id.toString()];
   if (bigMapItem) {
-    iconPath = textureMap[bigMapItem.res_path];
+    initialIconPath = textureMap[bigMapItem.res_path];
     initialType = bigMapItem.res_path
       .replace("map_icon_", "")
       .replace(".png", "");
@@ -196,7 +228,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   } else if (prefabGroupInfo) {
     const smappMapItem =
       smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
-    iconPath = textureMap[smappMapItem.res_path];
+    initialIconPath = textureMap[smappMapItem.res_path];
     initialType = smappMapItem.res_path
       .replace("map_icon_", "")
       .replace(".png", "");
@@ -205,9 +237,12 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   if (!initialType) {
     initialType = value.stronghold_name;
   }
-  const { type, title, group, iconProps } = switchType(
+
+  let { type, title, group, iconProps, iconPath, size } = switchType(
     initialType,
     initialTitle,
+    initialIconPath,
+    value.note,
   );
 
   if (enDict[type] && enDict[type] !== title) {
@@ -220,6 +255,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
     iconProps.color = uniqolor(type).color;
     size = 0.5;
+    continue; // Temporary
   }
 
   if (!newTypes.includes(type)) {
@@ -308,19 +344,18 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
 }
 
 for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
-  let size = 1;
-
   const smappMapItem =
     smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
-  let iconPath = textureMap[smappMapItem.res_path];
+  let initialIconPath = textureMap[smappMapItem.res_path];
   const initialType = smappMapItem.res_path
     .replace("map_icon_", "")
     .replace(".png", "");
   const initialTitle = prefabGroupInfo.prefab_group_show_name;
 
-  const { type, title, group, iconProps } = switchType(
+  let { type, title, group, iconProps, iconPath, size } = switchType(
     initialType,
     initialTitle,
+    initialIconPath,
   );
 
   if (enDict[type] && enDict[type] !== title) {
@@ -333,6 +368,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
     iconProps.color = uniqolor(type).color;
     size = 0.5;
+    continue; // Temporary
   }
 
   if (!newTypes.includes(type)) {
@@ -432,6 +468,35 @@ Object.keys(tiles).forEach((mapName) => {
   );
 });
 writeNodes(nodes);
-writeFilters(filters);
+const sortPriority = ["locations", "riddles"];
+const sortedFilters = filters
+  .map((f) => {
+    return {
+      ...f,
+      values: f.values.filter((v) => nodes.some((n) => n.type === v.id)),
+    };
+  })
+  .sort((a, b) => {
+    if (a.group === b.group) {
+      return 0;
+    }
+    let priorityA = sortPriority.findIndex((p) =>
+      a.group.toLowerCase().startsWith(p.toLowerCase()),
+    );
+    if (priorityA === -1) {
+      priorityA = 1000;
+    }
+    let priorityB = sortPriority.findIndex((p) =>
+      b.group.toLowerCase().startsWith(p.toLowerCase()),
+    );
+    if (priorityB === -1) {
+      priorityB = 1000;
+    }
+    if (priorityA === priorityB) {
+      return a.group.localeCompare(b.group);
+    }
+    return priorityA - priorityB;
+  });
+writeFilters(sortedFilters);
 writeDict(enDict, "en");
 console.log("Done!");
