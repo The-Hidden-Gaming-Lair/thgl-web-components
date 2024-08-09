@@ -17,7 +17,6 @@ import {
 } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
-import { initTypesIDs } from "./lib/types-ids.js";
 import {
   BigMapItemData,
   PrefabGroupInfoData,
@@ -101,33 +100,12 @@ const prefabGroupInfoData = await readJSON<PrefabGroupInfoData>(
 
 const newTypes: string[] = [];
 
-for (const [key, value] of Object.entries(prefabInfoData)) {
-  let type;
-  let title;
-  let size = 1;
+const switchType = (initialType: string, initialTitle?: string) => {
+  let type = initialType;
+  let title = initialTitle;
   let group = "unsorted";
   const iconProps: IconProps = {};
 
-  let iconPath;
-  const prefabGroupInfo = Object.values(prefabGroupInfoData).find(
-    (d) => d.prefab_group_show_name === value.stronghold_name,
-  );
-
-  const bigMapItem = bigMapItemData[value.bigmap_icon_id.toString()];
-  if (bigMapItem) {
-    iconPath = textureMap[bigMapItem.res_path];
-    type = bigMapItem.res_path.replace("map_icon_", "").replace(".png", "");
-    title = bigMapItem.item_name;
-  } else if (prefabGroupInfo) {
-    const smappMapItem =
-      smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
-    iconPath = textureMap[smappMapItem.res_path];
-    type = smappMapItem.res_path.replace("map_icon_", "").replace(".png", "");
-    title = prefabGroupInfo.prefab_group_show_name;
-  }
-  if (!type) {
-    type = value.stronghold_name;
-  }
   if (type === "juluo") {
     group = "locations";
     title = "Hamlet";
@@ -186,14 +164,51 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     title = "Union Stronghold";
   } else if (type === "initial_respawn") {
     group = "locations";
-  } else {
-    group = "unsorted";
-    // Temporary
-    continue;
   }
   if (!title) {
     title = type;
   }
+
+  return {
+    type,
+    title,
+    group,
+    iconProps,
+  };
+};
+for (const [key, value] of Object.entries(prefabInfoData)) {
+  let size = 1;
+
+  let iconPath;
+  const prefabGroupInfo = Object.values(prefabGroupInfoData).find(
+    (d) => d.prefab_group_show_name === value.stronghold_name,
+  );
+
+  let initialType;
+  let initialTitle;
+  const bigMapItem = bigMapItemData[value.bigmap_icon_id.toString()];
+  if (bigMapItem) {
+    iconPath = textureMap[bigMapItem.res_path];
+    initialType = bigMapItem.res_path
+      .replace("map_icon_", "")
+      .replace(".png", "");
+    initialTitle = bigMapItem.item_name;
+  } else if (prefabGroupInfo) {
+    const smappMapItem =
+      smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
+    iconPath = textureMap[smappMapItem.res_path];
+    initialType = smappMapItem.res_path
+      .replace("map_icon_", "")
+      .replace(".png", "");
+    initialTitle = prefabGroupInfo.prefab_group_show_name;
+  }
+  if (!initialType) {
+    initialType = value.stronghold_name;
+  }
+  const { type, title, group, iconProps } = switchType(
+    initialType,
+    initialTitle,
+  );
 
   if (enDict[type] && enDict[type] !== title) {
     console.warn(`Type ${type} already exists with name ${enDict[type]}`);
@@ -278,6 +293,124 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     }
   }
 
+  if (
+    node.spawns.some(
+      (s) =>
+        (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+        s.p[0] === spawn.p[0] &&
+        s.p[1] === spawn.p[1],
+    )
+  ) {
+    console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+    continue;
+  }
+  node.spawns.push(spawn);
+}
+
+for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
+  let size = 1;
+
+  const smappMapItem =
+    smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
+  let iconPath = textureMap[smappMapItem.res_path];
+  const initialType = smappMapItem.res_path
+    .replace("map_icon_", "")
+    .replace(".png", "");
+  const initialTitle = prefabGroupInfo.prefab_group_show_name;
+
+  const { type, title, group, iconProps } = switchType(
+    initialType,
+    initialTitle,
+  );
+
+  if (enDict[type] && enDict[type] !== title) {
+    console.warn(`Type ${type} already exists with name ${enDict[type]}`);
+  } else {
+    enDict[type] = title;
+  }
+
+  if (!iconPath) {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
+    iconProps.color = uniqolor(type).color;
+    size = 0.5;
+  }
+
+  if (!newTypes.includes(type)) {
+    // Remove all old nodes of this type
+    newTypes.push(type);
+    nodes = nodes.filter((n) => n.type !== type);
+
+    // Remove old filter values
+    filters.forEach((filter) => {
+      filter.values = filter.values.filter((v) => v.id !== type);
+    });
+
+    // Add new filter value
+    if (!iconPath) {
+      console.warn("No icon path for", key);
+      continue;
+    }
+    const icon = await saveIcon(iconPath, type, iconProps);
+    if (!filters.some((f) => f.group === group)) {
+      filters.push({
+        group,
+        values: [],
+        defaultOn: true,
+        defaultOpen: true,
+      });
+    }
+    const filter = filters.find((f) => f.group === group)!;
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+    });
+  }
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  const spawn: Node["spawns"][0] = {
+    p: [
+      prefabGroupInfo.prefab_group_pos[2],
+      prefabGroupInfo.prefab_group_pos[0],
+    ],
+  };
+  if (
+    prefabGroupInfo.prefab_group_show_name !== enDict[type] ||
+    prefabGroupInfo.prefab_group_level
+  ) {
+    const id = key;
+    enDict[id] = prefabGroupInfo.prefab_group_show_name;
+    if (prefabGroupInfo.prefab_group_level) {
+      enDict[id + "_desc"] = `Level: ${prefabGroupInfo.prefab_group_level}`;
+    }
+
+    spawn.id = id;
+    if (prefabGroupInfo?.task_name) {
+      if (enDict[id + "_desc"]) {
+        enDict[id + "_desc"] += "<br>";
+      } else {
+        enDict[id + "_desc"] = "";
+      }
+      enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
+      prefabGroupInfo.task_info_list.forEach((info) => {
+        enDict[id + "_desc"] +=
+          "<br/>- " +
+          info[0].replace(
+            "寻找武器箱和装备箱",
+            "Find Weapon and Armor Crates",
+          ) +
+          ": " +
+          info[2];
+      });
+    }
+  }
   if (
     node.spawns.some(
       (s) =>
