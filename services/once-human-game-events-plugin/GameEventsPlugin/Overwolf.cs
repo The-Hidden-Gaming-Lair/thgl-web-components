@@ -85,7 +85,7 @@ namespace GameEventsPlugin
             error("Can not find proc");
             return;
           }
-          var scene = _memory.ReadProcessMemory<IntPtr>(_process.MainModule.BaseAddress + 0x5E73F70);
+          var scene = _memory.ReadProcessMemory<IntPtr>(_process.MainModule.BaseAddress + 0x5e740d0);
           if (scene == IntPtr.Zero)
           {
             error("Can not find scene");
