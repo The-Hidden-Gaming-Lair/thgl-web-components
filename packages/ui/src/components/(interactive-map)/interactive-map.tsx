@@ -17,7 +17,7 @@ export function InteractiveMap({
   isOverlay = false,
   domain,
 }: {
-  tileOptions?: TileOptions;
+  tileOptions: TileOptions;
   isOverlay?: boolean;
   domain: string;
 }): JSX.Element {
@@ -31,7 +31,7 @@ export function InteractiveMap({
   const setCenter = useUserStore((state) => state.setCenter);
   const setZoom = useUserStore((state) => state.setZoom);
 
-  const mapTileOptions = tileOptions?.[mapName];
+  const mapTileOptions = tileOptions[mapName];
   const [contextMenuData, setContextMenuData] = useState<{
     x: number;
     y: number;

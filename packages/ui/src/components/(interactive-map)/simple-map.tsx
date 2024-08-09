@@ -10,7 +10,7 @@ export function SimpleMap({
   className,
 }: {
   mapName: string;
-  tileOptions?: TileOptions;
+  tileOptions: TileOptions;
   className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);

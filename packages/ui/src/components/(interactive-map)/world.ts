@@ -1,5 +1,15 @@
 import type { TileLayer } from "@repo/lib";
-import { CRS, Transformation, canvas, extend, map, PM } from "leaflet";
+import {
+  CRS,
+  Transformation,
+  canvas,
+  extend,
+  map,
+  PM,
+  LatLngBoundsExpression,
+  latLngBounds,
+  LatLngExpression,
+} from "leaflet";
 import "@geoman-io/leaflet-geoman-free";
 import { LeafletMap } from "./store";
 
@@ -8,9 +18,9 @@ PM.setOptIn(true);
 export function createWorld(
   element: string | HTMLElement,
   view: { center?: [number, number]; zoom?: number },
-  options?: TileLayer,
+  options: TileLayer,
 ): LeafletMap {
-  const worldCRS = options?.transformation
+  const worldCRS = options.transformation
     ? extend({}, CRS.Simple, {
         transformation: new Transformation(
           options.transformation[0],
@@ -20,12 +30,13 @@ export function createWorld(
         ),
       })
     : CRS.Simple;
+
   const world = map(element, {
     zoomControl: false,
     markerZoomAnimation: true,
     attributionControl: false,
-    minZoom: options?.minZoom,
-    maxZoom: options?.maxZoom,
+    minZoom: options.minZoom,
+    maxZoom: options.maxZoom,
     zoomSnap: 0,
     zoomDelta: 0.4,
     wheelPxPerZoomLevel: 120,
@@ -37,9 +48,9 @@ export function createWorld(
 
   if (view.center) {
     world.setView(view.center, view.zoom, { animate: false });
-  } else if (options?.fitBounds) {
+  } else if (options.fitBounds) {
     world.fitBounds(options.fitBounds, { animate: false });
-  } else if (options?.view) {
+  } else if (options.view) {
     world.setView(options.view.center, options.view.zoom, { animate: false });
   } else {
     world.setView([0, 0], 0, { animate: false });
@@ -51,6 +62,26 @@ export function createWorld(
   };
 
   world.pm.setLang("thgl" as PM.SupportLocales, customTranslation, "en");
+  const bounds =
+    options.options?.bounds &&
+    latLngBounds(options.options.bounds as LatLngExpression[]);
+  if (bounds) {
+    let isMoving = false;
+    world.on("moveend", () => {
+      if (isMoving) {
+        return;
+      }
+      const currentBounds = world.getBounds();
+
+      if (!currentBounds.intersects(bounds)) {
+        isMoving = true;
+        world.fitBounds(bounds, { animate: false });
+        setTimeout(() => {
+          isMoving = false;
+        }, 1000);
+      }
+    });
+  }
 
   return world as LeafletMap;
 }
