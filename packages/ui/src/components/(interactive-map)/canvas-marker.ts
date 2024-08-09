@@ -18,10 +18,10 @@ leaflet.Canvas.include({
     const dy = p.y - radius;
 
     if (icon !== undefined) {
-      if (fillColor || icon === null) {
+      if (fillColor || icon === null || layer.imageElement.width === 0) {
         layerContext.beginPath();
         layerContext.arc(p.x, p.y, radius * 0.75, 0, Math.PI * 2);
-        layerContext.fillStyle = fillColor ?? "rgba(255, 255, 255, 0.6)";
+        layerContext.fillStyle = fillColor || "rgba(255, 255, 255, 0.6)";
         layerContext.fill();
       }
 
@@ -31,7 +31,7 @@ leaflet.Canvas.include({
         return;
       }
 
-      if (icon === null) {
+      if (icon === null || layer.imageElement.width === 0) {
         return;
       }
       const canvas = document.createElement("canvas");
@@ -180,16 +180,19 @@ class CanvasMarker extends CircleMarker {
     if (!this.imageElement || this.imageElement.complete) {
       if (this._onImageLoad) {
         this.imageElement.removeEventListener("load", this._onImageLoad);
+        this.imageElement.removeEventListener("error", this._onImageLoad);
       }
       // @ts-expect-error updateCanvasImg is a custom method
       this._renderer.updateCanvasImg(this);
     } else if (!this._onImageLoad) {
       this._onImageLoad = () => {
         this.imageElement.removeEventListener("load", this._onImageLoad!);
+        this.imageElement.removeEventListener("error", this._onImageLoad!);
         // @ts-expect-error updateCanvasImg is a custom method
         this._renderer.updateCanvasImg(this);
       };
       this.imageElement.addEventListener("load", this._onImageLoad);
+      this.imageElement.addEventListener("error", this._onImageLoad);
     }
   }
 
