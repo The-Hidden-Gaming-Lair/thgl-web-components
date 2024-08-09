@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Principal;
-using System.Reflection.Emit;
+using GameEventsPlugin.Models;
+using System.IO;
+using static GameEventsPlugin.Extensions;
 
 namespace GameEventsPlugin
 {
@@ -66,12 +68,8 @@ namespace GameEventsPlugin
         error(e.Message);
       }
     }
-    public struct Vector3 { 
-      public float x;    
-      public float y;    
-      public float z;    
-    }
-    public void GetPlayer(Action<Vector3> callback, Action<string> error)
+   
+    public void GetPlayer(Action<object> callback, Action<object> error)
     {
       Task.Run(() =>
       {
@@ -84,21 +82,33 @@ namespace GameEventsPlugin
           }
           if (_process == null || _memory == null)
           {
-            throw new Exception("Can not find proc");
+            error("Can not find proc");
+            return;
           }
           var scene = _memory.ReadProcessMemory<IntPtr>(_process.MainModule.BaseAddress + 0x5E73F70);
           if (scene == IntPtr.Zero)
           {
-            throw new Exception("Can not find scene");
+            error("Can not find scene");
+            return;
           }
-          var playerPos = _memory.ReadProcessMemory<Vector3>(scene + 0x1860);
+          var playerAddress = scene + 0x1860;
+          var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
           if (playerPos.x != 0)
           {
+            new Actor()
+            {
+              address = playerAddress.ToInt64(),
+              type = "player",
+              x = playerPos.x,
+              y = playerPos.y,
+              z = playerPos.z,
+              r = 0,
+            };
             callback(playerPos);
           }
           else
           {
-            error("no player found");
+            error(null);
           }
         }
         catch (Exception e)
@@ -114,6 +124,8 @@ namespace GameEventsPlugin
       {
         try
         {
+          var noActors = new List<Actor>();
+          callback(noActors.ToArray());
         }
         catch (Exception e)
         {
