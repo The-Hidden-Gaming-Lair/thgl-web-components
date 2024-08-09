@@ -115,7 +115,7 @@ for (const [mapName, canvas] of Object.entries(maps)) {
         continue;
       }
       if (file.endsWith(".jpg") || file.endsWith(".png")) {
-        await $`cwebp ${file} -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")}`;
+        await $`cwebp ${file} -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
         await $`rm ${file}`;
       }
     }
@@ -374,26 +374,28 @@ for (const map of mapData) {
           CONTENT_DIR +
             `/${extractionSpawnPoint.Properties.CreaturesToSpawnData.ObjectPath.replace(/\.\d+/, ".json")}`,
         );
-        const targetCreatures =
-          creaturesToSpawnData[0].Properties.CreaturesToSpawn.map(
-            (creatureToSpawn) => {
-              // creatureToSpawn.SpawnLevel
-              const creature = readJSON<any[]>(
-                CONTENT_DIR +
-                  `/${creatureToSpawn.CreatureToSpawn.ObjectPath.replace(/\.\d+/, ".json")}`,
-              );
-              const subData = creature.find(
-                (c) => c.Properties?.CreatureCharacterData,
-              );
-              const creatureCharacterData = readJSON<any[]>(
-                CONTENT_DIR +
-                  `/${subData.Properties.CreatureCharacterData.ObjectPath.replace(/\.\d+/, ".json")}`,
-              );
-              return `${creatureCharacterData[0].Properties.Name.LocalizedString}`;
-            },
-          );
-        enDict[`${id}_desc`] =
-          `<b>Defeat to unlock this chest:</b><br>${targetCreatures.join("<br>")}`;
+        if (creaturesToSpawnData[0]?.Properties?.CreaturesToSpawn) {
+          const targetCreatures =
+            creaturesToSpawnData[0].Properties.CreaturesToSpawn.map(
+              (creatureToSpawn) => {
+                // creatureToSpawn.SpawnLevel
+                const creature = readJSON<any[]>(
+                  CONTENT_DIR +
+                    `/${creatureToSpawn.CreatureToSpawn.ObjectPath.replace(/\.\d+/, ".json")}`,
+                );
+                const subData = creature.find(
+                  (c) => c.Properties?.CreatureCharacterData,
+                );
+                const creatureCharacterData = readJSON<any[]>(
+                  CONTENT_DIR +
+                    `/${subData.Properties.CreatureCharacterData.ObjectPath.replace(/\.\d+/, ".json")}`,
+                );
+                return `${creatureCharacterData[0].Properties.Name.LocalizedString}`;
+              },
+            );
+          enDict[`${id}_desc`] =
+            `<b>Defeat to unlock this chest:</b><br>${targetCreatures.join("<br>")}`;
+        }
       }
     } else if (item.Outer.startsWith("BP_CreatureSpawnPoint")) {
       target = monstersGroup;
@@ -423,8 +425,8 @@ for (const map of mapData) {
         CONTENT_DIR + `/${objectPath.replace(/\.\d+/, ".json")}`,
       );
 
-      for (const creatureToSpawn of creatureSpawnData[0].Properties
-        .CreaturesToSpawn) {
+      for (const creatureToSpawn of creatureSpawnData[0]?.Properties
+        ?.CreaturesToSpawn ?? []) {
         const id = creatureToSpawn.CreatureToSpawn.ObjectName.split("'")[1];
         // creatureToSpawn.SpawnLevel
         if (!enDict[id]) {
@@ -568,13 +570,11 @@ async function saveIcon(assetPath: string, color?: string) {
   }
 
   if (color) {
-    console.log("Saving icon", id, assetPath, color);
     const canvas = await addCircleToImage(assetPath, color);
     saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp ${TEMP_DIR}/${id}.png -o ${OUT_DIR}/icons/${id}.webp -short`;
+    await $`cwebp ${TEMP_DIR}/${id}.png -m 6 -o ${OUT_DIR}/icons/${id}.webp -quiet`;
   } else {
-    console.log("Saving icon", id, assetPath);
-    await $`cwebp ${assetPath} -o ${OUT_DIR}/icons/${id}.webp -short`;
+    await $`cwebp ${assetPath} -m 6 -o ${OUT_DIR}/icons/${id}.webp -quiet`;
   }
 
   savedIcons.push(id);
