@@ -117,6 +117,18 @@
     "defaultOpen": true
   },
   {
+    "group": "items",
+    "values": [
+      {
+        "id": "morphic_crate",
+        "icon": "morphic_crate.webp",
+        "size": 1
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
     "group": "riddles",
     "values": [
       {

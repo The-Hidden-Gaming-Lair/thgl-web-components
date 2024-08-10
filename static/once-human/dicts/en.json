@@ -1,6 +1,8 @@
 {
   "locations": "Locations",
   "riddles": "Riddles",
+  "items": "Items",
+  "monsters": "Monsters",
   "juluo": "Hamlet",
   "07E60A12-12140030-CC6A6B52-1C6B27D6": "Inspection Point 266",
   "07E60A12-12140030-CC6A6B52-1C6B27D6_desc": "Level: 35",
@@ -1406,5 +1408,6 @@
   "T7_D": "“大河”收容区",
   "T7_D_desc": "Level: 55<br><b>聚落探索-“大河”收容区</b><br/>- Look for Mystical Crate: 1<br/>- Defeat normal enemies: 12<br/>- Find Weapon and Armor Crates: 2",
   "T7_E": "心愿奇境东园",
-  "T7_E_desc": "Level: 55<br><b>聚落探索-心愿奇境东园</b><br/>- Look for Mystical Crate: 1<br/>- Defeat normal enemies: 12<br/>- Find Weapon and Armor Crates: 2"
+  "T7_E_desc": "Level: 55<br><b>聚落探索-心愿奇境东园</b><br/>- Look for Mystical Crate: 1<br/>- Defeat normal enemies: 12<br/>- Find Weapon and Armor Crates: 2",
+  "morphic_crate": "Morphic Crate"
 }
