@@ -81,7 +81,7 @@ const tiles = initTiles(
 writeTiles(tiles);
 
 await saveIcon(
-  "/ui/dynamic_texpack/all_icon_res/3dui_res/hud_icon_oneself.png",
+  "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_oneself_v4.png",
   "player",
 );
 // const regions = await getRegionsFromImage(

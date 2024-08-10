@@ -101,16 +101,16 @@ namespace GameEventsPlugin
           var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
           if (playerPos.x != 0)
           {
-            new Actor()
+            var actor = new Actor()
             {
               address = playerAddress.ToInt64(),
               type = "player",
               x = playerPos.z,
               y = playerPos.x,
               z = playerPos.y,
-              r = 0,
+              r = null
             };
-            callback(playerPos);
+            callback(actor);
           }
           else
           {

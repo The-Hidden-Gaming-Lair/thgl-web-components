@@ -84,6 +84,15 @@ export async function listenToPlugin(
       setError(null);
     }
     if (player) {
+      if (player.r === null) {
+        player.r =
+          (Math.atan2(
+            player.y - (prevPlayer.y || player.y),
+            player.x - (prevPlayer.x || player.x),
+          ) *
+            180) /
+          Math.PI;
+      }
       if (actorToMapName && player.path) {
         player.mapName = actorToMapName(player);
       }

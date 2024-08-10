@@ -44,30 +44,28 @@ export class PlayerMarker extends leaflet.Marker {
     return;
   }
 
-  updatePosition({ x, y, r }: ActorPlayer, skipRotation?: boolean) {
+  updatePosition({ x, y, r }: ActorPlayer) {
     const latLng = this.getLatLng();
     const newLatLng = [x, y] as leaflet.LatLngTuple;
     if (!latLng.equals(newLatLng)) {
-      if (!skipRotation) {
-        let playerRotation = r;
+      let playerRotation = r;
 
-        const oldRotation = this.rotation || playerRotation;
+      const oldRotation = this.rotation || playerRotation;
 
-        let spins = 0;
-        if (oldRotation >= 180) {
-          spins += Math.floor(Math.abs(oldRotation + 180) / 360);
-        } else if (oldRotation <= -180) {
-          spins -= Math.floor(Math.abs(oldRotation - 180) / 360);
-        }
-        playerRotation += 360 * spins;
-        if (oldRotation - playerRotation >= 180) {
-          playerRotation += 360;
-        } else if (playerRotation - oldRotation >= 180) {
-          playerRotation -= 360;
-        }
-
-        this.rotation = playerRotation;
+      let spins = 0;
+      if (oldRotation >= 180) {
+        spins += Math.floor(Math.abs(oldRotation + 180) / 360);
+      } else if (oldRotation <= -180) {
+        spins -= Math.floor(Math.abs(oldRotation - 180) / 360);
       }
+      playerRotation += 360 * spins;
+      if (oldRotation - playerRotation >= 180) {
+        playerRotation += 360;
+      } else if (playerRotation - oldRotation >= 180) {
+        playerRotation -= 360;
+      }
+
+      this.rotation = playerRotation;
       this.setLatLng(newLatLng);
     }
   }
