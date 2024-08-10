@@ -99,9 +99,9 @@ namespace GameEventsPlugin
             {
               address = playerAddress.ToInt64(),
               type = "player",
-              x = playerPos.x,
-              y = playerPos.y,
-              z = playerPos.z,
+              x = playerPos.z,
+              y = playerPos.x,
+              z = playerPos.y,
               r = 0,
             };
             callback(playerPos);

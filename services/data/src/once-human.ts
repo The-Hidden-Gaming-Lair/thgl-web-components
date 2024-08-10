@@ -75,6 +75,10 @@ const tiles = initTiles(
 
 writeTiles(tiles);
 
+await saveIcon(
+  "/ui/dynamic_texpack/all_icon_res/3dui_res/hud_icon_oneself.png",
+  "player",
+);
 // const regions = await getRegionsFromImage(
 //   TEXTURE_DIR + "/ui/texpack/bigmap_res/grade_area.png",
 //   tiles[mapName].transformation!
