@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
   title: "Stormgate Structures – The Hidden Gaming Lair",
   description:
-    "Find details about all Stormgate structures for Celestial, Infernal and Vanguard! Check the luminite, therium and supply costs and more stats.",
+    "Find details about all Stormgate structures and buildings for Celestial, Infernal and Vanguard! Check the luminite, therium and supply costs and more stats.",
 };
 
 export default function Item(): JSX.Element {
