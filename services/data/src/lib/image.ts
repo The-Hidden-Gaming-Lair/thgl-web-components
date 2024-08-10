@@ -35,23 +35,23 @@ export async function saveIcon(
   if (props.border && props.color) {
     const canvas = await drawInCircleWithBorderColor(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 "${TEMP_DIR}/${name}.png" -m 6 -o "${OUTPUT_DIR}/icons/${name}.webp" -quiet`;
   } else if (props.circle && props.color) {
     const canvas = await addCircleToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 "${TEMP_DIR}/${name}.png" -m 6 -o "${OUTPUT_DIR}/icons/${name}.webp" -quiet`;
   } else if (props.glowing && props.color) {
     const canvas = await addOutlineToImage(filePath, props.color);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 "${TEMP_DIR}/${name}.png" -m 6 -o "${OUTPUT_DIR}/icons/${name}.webp" -quiet`;
   } else if (props.color) {
     const canvas = await colorizeImage(filePath, props.color, props.threshold);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp -resize 64 64 ${TEMP_DIR + `/${name}.png`} -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 "${TEMP_DIR}/${name}.png" -m 6 -o "${OUTPUT_DIR}/icons/${name}.webp" -quiet`;
   } else if (props.rotate) {
     const canvas = await rotateImage(filePath, props.rotate);
     saveImage(TEMP_DIR + `/${name}.png`, canvas.toBuffer("image/png"));
-    await $`cwebp -resize 64 64 ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
+    await $`cwebp -resize 64 64 "${TEMP_DIR}/${name}.png" -m 6 -o "${OUTPUT_DIR}/icons/${name}.webp" -quiet`;
   } else if (
     typeof props.brightness !== "undefined" &&
     typeof props.contrast !== "undefined"

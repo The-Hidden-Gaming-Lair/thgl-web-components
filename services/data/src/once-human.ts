@@ -18,11 +18,14 @@ import {
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import {
+  BaseNPCData,
+  BattleFieldData,
   BigMapItemData,
   PrefabGroupInfoData,
   PrefabInfoData,
   ScenePrefabData,
   SmallMapItemData,
+  TreasureMonsterDropData,
 } from "./once-human.types.js";
 import { Node } from "./types.js";
 
@@ -38,6 +41,8 @@ const filters = initFilters();
 const enDict = initDict({
   locations: "Locations",
   riddles: "Riddles",
+  items: "Items",
+  monsters: "Monsters",
 });
 
 const mapName = "default";
@@ -102,10 +107,17 @@ const smallMapItemData = await readJSON<SmallMapItemData>(
 const prefabGroupInfoData = await readJSON<PrefabGroupInfoData>(
   CONTENT_DIR + "/game_common/data/prefab_group_info_data.json",
 );
+const treasureMonsterDropData = await readJSON<TreasureMonsterDropData>(
+  CONTENT_DIR + "/game_common/data/treasure_monster_drop_data.json",
+);
+const baseNPCData = await readJSON<BaseNPCData>(
+  CONTENT_DIR + "/game_common/data/unit_data/base_npc_data.json",
+);
 
 const newTypes: string[] = [];
 
 const switchType = (
+  initialGroup: string,
   initialType: string,
   initialTitle: string,
   initialIconPath: string,
@@ -114,7 +126,7 @@ const switchType = (
   let type = initialType;
   let title = initialTitle;
   let iconPath = initialIconPath;
-  let group = "unsorted";
+  let group = initialGroup;
   let size = 1;
   const iconProps: IconProps = {};
 
@@ -200,6 +212,14 @@ const switchType = (
     iconProps.glowing = true;
     iconProps.color = "black";
     size = 0.65;
+  } else if (type === "Morphic - Crate") {
+    (iconPath =
+      "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png"),
+      (type = "morphic_crate");
+    title = "Morphic Crate";
+    group = "items";
+    iconProps.color = "purple";
+    iconProps.circle = true;
   }
   if (!title) {
     title = type;
@@ -243,6 +263,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   }
 
   let { type, title, group, iconProps, iconPath, size } = switchType(
+    "unsorted",
     initialType,
     initialTitle,
     initialIconPath,
@@ -357,6 +378,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
   const initialTitle = prefabGroupInfo.prefab_group_show_name;
 
   let { type, title, group, iconProps, iconPath, size } = switchType(
+    "unsorted",
     initialType,
     initialTitle,
     initialIconPath,
@@ -465,6 +487,111 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
   node.spawns.push(spawn);
 }
 
+const battleFieldNames = readDirSync(
+  CONTENT_DIR + "/game_common/data/battle_field",
+);
+for (const battleFieldName of battleFieldNames) {
+  if (!battleFieldName.endsWith(".json")) {
+    continue;
+  }
+  const battleFieldData = await readJSON<BattleFieldData>(
+    CONTENT_DIR + "/game_common/data/battle_field/" + battleFieldName,
+  );
+
+  for (const nodeData of Object.values(battleFieldData.nodes)) {
+    if (nodeData.Type !== "NpcNode") {
+      continue;
+    }
+
+    const initialGroup = nodeData.unit_type;
+
+    let initialTitle;
+    const baseNPC = baseNPCData[nodeData.prefab_id];
+    if (baseNPC) {
+      initialTitle = baseNPC.unit_name;
+    } else if (nodeData.unit_name) {
+      initialTitle = nodeData.unit_name;
+    }
+    if (!initialTitle) {
+      console.warn("No initialTitle for", nodeData.unit_id);
+      continue;
+    }
+    const initialType = initialTitle.replaceAll(/\s/g, " "); // There are some invalid spaces
+
+    let { type, title, group, iconProps, iconPath, size } = switchType(
+      initialGroup,
+      initialType,
+      initialTitle,
+      "",
+    );
+
+    if (!iconPath) {
+      iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
+      iconProps.color = uniqolor(type).color;
+      size = 0.5;
+      continue; // Temporary
+    }
+
+    enDict[type] = title;
+
+    if (!newTypes.includes(type)) {
+      // Remove all old nodes of this type
+      newTypes.push(type);
+      nodes = nodes.filter((n) => n.type !== type);
+
+      // Remove old filter values
+      filters.forEach((filter) => {
+        filter.values = filter.values.filter((v) => v.id !== type);
+      });
+
+      const icon = await saveIcon(iconPath, type, iconProps);
+      if (!filters.some((f) => f.group === group)) {
+        filters.push({
+          group,
+          values: [],
+          defaultOn: true,
+          defaultOpen: true,
+        });
+      }
+      const filter = filters.find((f) => f.group === group)!;
+      filter.values.push({
+        id: type,
+        icon,
+        size,
+      });
+    }
+
+    if (!nodes.some((n) => n.type === type)) {
+      nodes.push({
+        type,
+        spawns: [],
+      });
+    }
+
+    const node = nodes.find((n) => n.type === type)!;
+    const spawn: Node["spawns"][0] = {
+      p: [nodeData.pos3[2], nodeData.pos3[0]],
+    };
+    if (
+      node.spawns.some(
+        (s) =>
+          (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+          s.p[0] === spawn.p[0] &&
+          s.p[1] === spawn.p[1],
+      )
+    ) {
+      // console.warn(
+      //   "Duplicate spawn",
+      //   spawn.id ?? spawn.p,
+      //   nodeData.unit_id,
+      //   type,
+      // );
+      continue;
+    }
+    node.spawns.push(spawn);
+  }
+}
+
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(
     OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
@@ -472,7 +599,7 @@ Object.keys(tiles).forEach((mapName) => {
   );
 });
 writeNodes(nodes);
-const sortPriority = ["locations", "riddles"];
+const sortPriority = ["locations", "items", "riddles", "monsters"];
 const sortedFilters = filters
   .map((f) => {
     return {
