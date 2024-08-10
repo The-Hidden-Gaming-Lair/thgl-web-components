@@ -33,6 +33,21 @@ export type GlobalFilter = {
   }[];
 };
 
+export type Database = {
+  type: string;
+  items: {
+    id: string;
+    icon?: string;
+    props: Record<string, any>;
+    groupId?: string;
+  }[];
+}[];
+
+export type Group = {
+  id: string;
+  icon: string;
+};
+
 export type Dict = Record<string, string>;
 
 export type Tiles = Record<

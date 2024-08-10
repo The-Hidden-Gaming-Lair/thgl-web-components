@@ -1,0 +1,53 @@
+import { ContentLayout } from "@repo/ui/ads";
+import { DataTable } from "@repo/ui/data";
+import { type Dict } from "@repo/ui/providers";
+import { type Metadata } from "next";
+import { HeaderOffset } from "@repo/ui/header";
+import database from "../../data/database.json" assert { type: "json" };
+import _enDict from "../../dicts/en.json" assert { type: "json" };
+import { columns } from "./columns";
+
+const enDict = _enDict as Dict;
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/units",
+  },
+  title: "Stormgate Units – The Hidden Gaming Lair",
+  description:
+    "Find details about all Stormgate units for Celestial, Infernal and Vanguard! Check the luminite, therium and supply costs and more stats.",
+};
+
+export default function Item(): JSX.Element {
+  const category = database.find((item) => item.type === "units")!;
+
+  const data = category.items
+    .map((item) => ({
+      icon: item.icon,
+      groupId: item.groupId,
+      name: enDict[item.id],
+      ...item.props,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return (
+    <HeaderOffset full>
+      <ContentLayout
+        id="stormgate"
+        header={
+          <>
+            <h2 className="text-2xl">Units</h2>
+            <p className="text-sm">
+              Find details about all Stormgate units for Celestial, Infernal and
+              Vanguard! Check the luminite, therium and supply costs and more
+              stats.
+            </p>
+          </>
+        }
+        content={
+          <DataTable columns={columns} data={data} filterColumn="name" />
+        }
+      />
+    </HeaderOffset>
+  );
+}

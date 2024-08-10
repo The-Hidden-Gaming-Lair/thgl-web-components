@@ -1,0 +1,1932 @@
+[
+  {
+    "type": "units",
+    "items": [
+      {
+        "id": "Fiend",
+        "groupId": "Infernal",
+        "icon": "Fiend.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 0,
+          "speed": 7,
+          "supplyCost": 1,
+          "visionRadius": 8,
+          "vitalHealth": 60
+        }
+      },
+      {
+        "id": "Scythe",
+        "groupId": "Celestial",
+        "icon": "Scythe.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 75,
+          "armor": 5,
+          "buildTime": 38,
+          "speed": 5.5,
+          "supplyCost": 4,
+          "visionRadius": 13,
+          "vitalHealth": 240
+        }
+      },
+      {
+        "id": "VenomTrap_Unit",
+        "groupId": "Infernal",
+        "icon": "VenomTrap_Unit.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 0,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 6,
+          "vitalHealth": 25
+        }
+      },
+      {
+        "id": "Seraphim",
+        "groupId": "Celestial",
+        "icon": "Seraphim.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 75,
+          "armor": 0,
+          "buildTime": 30,
+          "speed": 4.5,
+          "supplyCost": 3,
+          "visionRadius": 12,
+          "vitalHealth": 180
+        }
+      },
+      {
+        "id": "StasisDroneAir",
+        "groupId": "Vanguard",
+        "icon": "StasisDroneAir.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 1,
+          "vitalHealth": 100
+        }
+      },
+      {
+        "id": "Skymine",
+        "groupId": "Vanguard",
+        "icon": "Skymine.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 0,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 6,
+          "vitalHealth": 25
+        }
+      },
+      {
+        "id": "Carnivex",
+        "groupId": "Celestial",
+        "icon": "Carnivex.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 28,
+          "speed": 4.5,
+          "supplyCost": 2,
+          "visionRadius": 10,
+          "vitalHealth": 220
+        }
+      },
+      {
+        "id": "Argent",
+        "groupId": "Celestial",
+        "icon": "Argent.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 26,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 10,
+          "vitalHealth": 210
+        }
+      },
+      {
+        "id": "MorphCore",
+        "groupId": "Celestial",
+        "icon": "MorphCore.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 10,
+          "buildTime": 25,
+          "speed": 2,
+          "supplyCost": 2,
+          "visionRadius": 12,
+          "vitalHealth": 230
+        }
+      },
+      {
+        "id": "Zergling",
+        "groupId": "Infernal",
+        "icon": "Zergling.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 6.57874,
+          "supplyCost": 0.5,
+          "visionRadius": 8,
+          "vitalHealth": 35
+        }
+      },
+      {
+        "id": "Gunner",
+        "groupId": "Vanguard",
+        "icon": "Gunner.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 28,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 11,
+          "vitalHealth": 130
+        }
+      },
+      {
+        "id": "Hecubah",
+        "groupId": "Infernal",
+        "icon": "Hecubah.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 200,
+          "armor": 0,
+          "buildTime": 0,
+          "speed": 5,
+          "supplyCost": 4,
+          "visionRadius": 9,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "Battlebomber",
+        "groupId": "Vanguard",
+        "icon": "Battlebomber.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 150,
+          "armor": 0,
+          "buildTime": 50,
+          "speed": 1.5,
+          "supplyCost": 6,
+          "visionRadius": 11,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "Jet",
+        "groupId": "Vanguard",
+        "icon": "Jet.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 75,
+          "armor": 5,
+          "buildTime": 34,
+          "speed": 5,
+          "supplyCost": 4,
+          "visionRadius": 13,
+          "vitalHealth": 180
+        }
+      },
+      {
+        "id": "Weaver",
+        "groupId": "Infernal",
+        "icon": "Weaver.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 150,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 2,
+          "supplyCost": 4,
+          "visionRadius": 13,
+          "vitalHealth": 580
+        }
+      },
+      {
+        "id": "Hag",
+        "groupId": "Infernal",
+        "icon": "Hag.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 75,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 11,
+          "vitalHealth": 160
+        }
+      },
+      {
+        "id": "Shadowflyer",
+        "groupId": "Infernal",
+        "icon": "Shadowflyer.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 75,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 6,
+          "supplyCost": 1,
+          "visionRadius": 8,
+          "vitalHealth": 60
+        }
+      },
+      {
+        "id": "BigMech",
+        "groupId": "Vanguard",
+        "icon": "BigMech.webp",
+        "props": {
+          "luminite": 250,
+          "therium": 225,
+          "armor": 20,
+          "buildTime": 70,
+          "speed": 1.6,
+          "supplyCost": 10,
+          "visionRadius": 14,
+          "vitalHealth": 1200
+        }
+      },
+      {
+        "id": "Felhog",
+        "groupId": "Infernal",
+        "icon": "Felhog.webp",
+        "props": {
+          "luminite": 25,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 4,
+          "supplyCost": 0,
+          "visionRadius": 8,
+          "vitalHealth": 60
+        }
+      },
+      {
+        "id": "Shade",
+        "groupId": "Infernal",
+        "icon": "Shade.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 50,
+          "armor": 0,
+          "buildTime": 0,
+          "speed": 5,
+          "supplyCost": 2,
+          "visionRadius": 11,
+          "vitalHealth": 150
+        }
+      },
+      {
+        "id": "DemoAir",
+        "groupId": "Vanguard",
+        "icon": "DemoAir.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 18,
+          "speed": 4.6,
+          "supplyCost": 2,
+          "visionRadius": 9,
+          "vitalHealth": 180
+        }
+      },
+      {
+        "id": "SensorDrone",
+        "groupId": "Vanguard",
+        "icon": "SensorDrone.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 50
+        }
+      },
+      {
+        "id": "Animancer",
+        "groupId": "Celestial",
+        "icon": "Animancer.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 150,
+          "armor": 0,
+          "buildTime": 40,
+          "speed": 3.5,
+          "supplyCost": 4,
+          "visionRadius": 12,
+          "vitalHealth": 220
+        }
+      },
+      {
+        "id": "Cabal",
+        "groupId": "Celestial",
+        "icon": "Cabal.webp",
+        "props": {
+          "luminite": 125,
+          "therium": 100,
+          "armor": 0,
+          "buildTime": 32,
+          "speed": 4,
+          "supplyCost": 3,
+          "visionRadius": 12,
+          "vitalHealth": 180
+        }
+      },
+      {
+        "id": "OrbitalPlatform",
+        "groupId": "Vanguard",
+        "icon": "OrbitalPlatform.webp",
+        "props": {
+          "luminite": 75,
+          "therium": 125,
+          "armor": 5,
+          "buildTime": 40,
+          "speed": 5,
+          "supplyCost": 4,
+          "visionRadius": 14,
+          "vitalHealth": 200
+        }
+      },
+      {
+        "id": "Scout",
+        "groupId": "Vanguard",
+        "icon": "Scout.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 13,
+          "speed": 7,
+          "supplyCost": 1,
+          "visionRadius": 8,
+          "vitalHealth": 120
+        }
+      },
+      {
+        "id": "FlayedDragon",
+        "groupId": "Infernal",
+        "icon": "FlayedDragon.webp",
+        "props": {
+          "luminite": 500,
+          "therium": 300,
+          "armor": 20,
+          "buildTime": 0.5,
+          "speed": 6,
+          "supplyCost": 15,
+          "visionRadius": 15,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "Incarnate",
+        "groupId": "Infernal",
+        "icon": "Incarnate.webp",
+        "props": {
+          "luminite": 400,
+          "therium": 400,
+          "armor": 20,
+          "buildTime": 0,
+          "speed": 1.4,
+          "supplyCost": 12,
+          "visionRadius": 14,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "ShrikeGhost",
+        "groupId": "Celestial",
+        "icon": "ShrikeGhost.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 50,
+          "armor": 0,
+          "buildTime": 32,
+          "speed": 6,
+          "supplyCost": 3,
+          "visionRadius": 11,
+          "vitalHealth": 195
+        }
+      },
+      {
+        "id": "Lancer",
+        "groupId": "Vanguard",
+        "icon": "Lancer.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 24,
+          "speed": 4.5,
+          "supplyCost": 2,
+          "visionRadius": 11,
+          "vitalHealth": 240
+        }
+      },
+      {
+        "id": "Evac",
+        "groupId": "Vanguard",
+        "icon": "Evac.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 50,
+          "armor": 10,
+          "buildTime": 32,
+          "speed": 5,
+          "supplyCost": 3,
+          "visionRadius": 14,
+          "vitalHealth": 200
+        }
+      },
+      {
+        "id": "CreepMelee",
+        "groupId": "Vanguard",
+        "icon": "CreepMelee.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 18,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 9,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "CreepMelee02",
+        "groupId": "Vanguard",
+        "icon": "CreepMelee02.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 9,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "Immolator",
+        "groupId": "Vanguard",
+        "icon": "Immolator.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 125,
+          "armor": 0,
+          "buildTime": 27,
+          "speed": 4.4,
+          "supplyCost": 6,
+          "visionRadius": 10,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "CreepMelee03",
+        "groupId": "Vanguard",
+        "icon": "CreepMelee03.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 9,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "CreepMelee01",
+        "groupId": "Vanguard",
+        "icon": "CreepMelee01.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 9,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "Marine",
+        "groupId": "Vanguard",
+        "icon": "Marine.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 3.15,
+          "supplyCost": 1,
+          "visionRadius": 9,
+          "vitalHealth": 55
+        }
+      },
+      {
+        "id": "MedTech",
+        "groupId": "Vanguard",
+        "icon": "MedTech.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 50,
+          "armor": 5,
+          "buildTime": 30,
+          "speed": 4,
+          "supplyCost": 3,
+          "visionRadius": 11,
+          "vitalHealth": 200
+        }
+      },
+      {
+        "id": "WhisperParasite",
+        "groupId": "Infernal",
+        "icon": "WhisperParasite.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 5
+        }
+      },
+      {
+        "id": "Halon",
+        "groupId": "Celestial",
+        "icon": "Halon.webp",
+        "props": {
+          "luminite": 250,
+          "therium": 125,
+          "armor": 10,
+          "buildTime": 55,
+          "speed": 2,
+          "supplyCost": 6,
+          "visionRadius": 10,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "SkullOfShedda_Unit",
+        "groupId": "Infernal",
+        "icon": "SkullOfShedda_Unit.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 5,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 25
+        }
+      },
+      {
+        "id": "StasisDroneGround",
+        "groupId": "Vanguard",
+        "icon": "StasisDroneGround.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 1,
+          "vitalHealth": 100
+        }
+      },
+      {
+        "id": "Helicarrier",
+        "groupId": "Vanguard",
+        "icon": "Helicarrier.webp",
+        "props": {
+          "luminite": 300,
+          "therium": 250,
+          "armor": 20,
+          "buildTime": 55,
+          "speed": 2.5,
+          "supplyCost": 8,
+          "visionRadius": 15,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "ImmolatorDeployed",
+        "groupId": "Vanguard",
+        "icon": "ImmolatorDeployed.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 125,
+          "armor": 0,
+          "buildTime": 27,
+          "speed": 4.4,
+          "supplyCost": 6,
+          "visionRadius": 10,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "Scanner",
+        "groupId": "Celestial",
+        "icon": "Scanner.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 20,
+          "speed": 6,
+          "supplyCost": 1,
+          "visionRadius": 9,
+          "vitalHealth": 70
+        }
+      },
+      {
+        "id": "PitFiend",
+        "groupId": "Infernal",
+        "icon": "PitFiend.webp",
+        "props": {
+          "luminite": 250,
+          "therium": 225,
+          "armor": 10,
+          "buildTime": 0.5,
+          "speed": 3.5,
+          "supplyCost": 8,
+          "visionRadius": 12,
+          "vitalHealth": 260
+        }
+      },
+      {
+        "id": "Kri",
+        "groupId": "Celestial",
+        "icon": "Kri.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 25,
+          "armor": 10,
+          "buildTime": 28,
+          "speed": 4.5,
+          "supplyCost": 2,
+          "visionRadius": 10,
+          "vitalHealth": 190
+        }
+      },
+      {
+        "id": "Magmadon",
+        "groupId": "Infernal",
+        "icon": "Magmadon.webp",
+        "props": {
+          "luminite": 250,
+          "therium": 150,
+          "armor": 20,
+          "buildTime": 0.5,
+          "speed": 3.5,
+          "supplyCost": 6,
+          "visionRadius": 13,
+          "vitalHealth": 480
+        }
+      },
+      {
+        "id": "Saber",
+        "groupId": "Celestial",
+        "icon": "Saber.webp",
+        "props": {
+          "luminite": 225,
+          "therium": 125,
+          "armor": 10,
+          "buildTime": 45,
+          "speed": 2,
+          "supplyCost": 6,
+          "visionRadius": 12,
+          "vitalHealth": 250
+        }
+      },
+      {
+        "id": "Crusher",
+        "groupId": "Vanguard",
+        "icon": "Crusher.webp",
+        "props": {
+          "luminite": 500,
+          "therium": 0,
+          "armor": 25,
+          "buildTime": 0.1,
+          "speed": 3,
+          "supplyCost": 30,
+          "visionRadius": 10,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "Archangel",
+        "groupId": "Celestial",
+        "icon": "Archangel.webp",
+        "props": {
+          "luminite": 400,
+          "therium": 300,
+          "armor": 20,
+          "buildTime": 65,
+          "speed": 4.5,
+          "supplyCost": 12,
+          "visionRadius": 14,
+          "vitalHealth": 750
+        }
+      },
+      {
+        "id": "InterceptorBomber",
+        "groupId": "Vanguard",
+        "icon": "InterceptorBomber.webp",
+        "props": {
+          "luminite": 25,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 20,
+          "speed": 12,
+          "supplyCost": 2,
+          "visionRadius": 5,
+          "vitalHealth": 200
+        }
+      },
+      {
+        "id": "DemoGround",
+        "groupId": "Vanguard",
+        "icon": "DemoGround.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 18,
+          "speed": 4.6,
+          "supplyCost": 2,
+          "visionRadius": 9,
+          "vitalHealth": 180
+        }
+      },
+      {
+        "id": "LeaderTest",
+        "groupId": "Vanguard",
+        "icon": "LeaderTest.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 10,
+          "buildTime": 90,
+          "speed": 3.2,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "Spriggan",
+        "groupId": "Infernal",
+        "icon": "Spriggan.webp",
+        "props": {
+          "luminite": 75,
+          "therium": 75,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 6,
+          "supplyCost": 3,
+          "visionRadius": 12,
+          "vitalHealth": 160
+        }
+      },
+      {
+        "id": "FelhogRanged",
+        "groupId": "Infernal",
+        "icon": "FelhogRanged.webp",
+        "props": {
+          "luminite": 25,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 4,
+          "supplyCost": 0,
+          "visionRadius": 8,
+          "vitalHealth": 60
+        }
+      },
+      {
+        "id": "Machinelord",
+        "groupId": "Celestial",
+        "icon": "Machinelord.webp",
+        "props": {
+          "luminite": 400,
+          "therium": 300,
+          "armor": 20,
+          "buildTime": 90,
+          "speed": 3,
+          "supplyCost": 10,
+          "visionRadius": 10,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "Empath",
+        "groupId": "Vanguard",
+        "icon": "Empath.webp",
+        "props": {
+          "luminite": 125,
+          "therium": 125,
+          "armor": 0,
+          "buildTime": 38,
+          "speed": 4,
+          "supplyCost": 4,
+          "visionRadius": 13,
+          "vitalHealth": 220
+        }
+      },
+      {
+        "id": "Worker",
+        "groupId": "Vanguard",
+        "icon": "Worker.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 20,
+          "speed": 3.5,
+          "supplyCost": 1,
+          "visionRadius": 10,
+          "vitalHealth": 130
+        }
+      },
+      {
+        "id": "Mine",
+        "groupId": "Vanguard",
+        "icon": "Mine.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 10,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 50
+        }
+      },
+      {
+        "id": "Gaunt",
+        "groupId": "Infernal",
+        "icon": "Gaunt.webp",
+        "props": {
+          "luminite": 125,
+          "therium": 25,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 4,
+          "supplyCost": 1,
+          "visionRadius": 10,
+          "vitalHealth": 80
+        }
+      },
+      {
+        "id": "Deathmaw",
+        "groupId": "Infernal",
+        "icon": "Deathmaw.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 75,
+          "armor": 0,
+          "buildTime": 0,
+          "speed": 2.5,
+          "supplyCost": 4,
+          "visionRadius": 11,
+          "vitalHealth": 400
+        }
+      },
+      {
+        "id": "Prism",
+        "groupId": "Celestial",
+        "icon": "Prism.webp",
+        "props": {
+          "luminite": 125,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 30,
+          "speed": 2,
+          "supplyCost": 3,
+          "visionRadius": 11,
+          "vitalHealth": 260
+        }
+      },
+      {
+        "id": "Vulcan",
+        "groupId": "Vanguard",
+        "icon": "Vulcan.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 125,
+          "armor": 10,
+          "buildTime": 45,
+          "speed": 3.5,
+          "supplyCost": 5,
+          "visionRadius": 12,
+          "vitalHealth": 400
+        }
+      },
+      {
+        "id": "Imp",
+        "groupId": "Infernal",
+        "icon": "Imp.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 0.5,
+          "speed": 3.5,
+          "supplyCost": 1,
+          "visionRadius": 10,
+          "vitalHealth": 80
+        }
+      },
+      {
+        "id": "Brute",
+        "groupId": "Infernal",
+        "icon": "Brute.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 0.5,
+          "speed": 4,
+          "supplyCost": 2,
+          "visionRadius": 11,
+          "vitalHealth": 160
+        }
+      },
+      {
+        "id": "Shrike",
+        "groupId": "Celestial",
+        "icon": "Shrike.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 50,
+          "armor": 0,
+          "buildTime": 32,
+          "speed": 6,
+          "supplyCost": 3,
+          "visionRadius": 11,
+          "vitalHealth": 195
+        }
+      }
+    ]
+  },
+  {
+    "type": "structures",
+    "items": [
+      {
+        "id": "BasicTurret",
+        "groupId": "Vanguard",
+        "icon": "BasicTurret.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 10,
+          "buildTime": 55,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 350
+        }
+      },
+      {
+        "id": "ShadowCleft",
+        "groupId": "Infernal",
+        "icon": "ShadowCleft.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "Habitat",
+        "groupId": "Vanguard",
+        "icon": "Habitat.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 20,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 400
+        }
+      },
+      {
+        "id": "Scrapyard",
+        "groupId": "Vanguard",
+        "icon": "Scrapyard.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 35,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "ResearchLab",
+        "groupId": "Vanguard",
+        "icon": "ResearchLab.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "PrecursorUplink",
+        "groupId": "Vanguard",
+        "icon": "PrecursorUplink.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 150,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "Barracks",
+        "groupId": "Vanguard",
+        "icon": "Barracks.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1200
+        }
+      },
+      {
+        "id": "Haven",
+        "groupId": "Celestial",
+        "icon": "Haven.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 75,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "Propagator",
+        "groupId": "Celestial",
+        "icon": "Propagator.webp",
+        "props": {
+          "luminite": 25,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 8,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 15,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "AILab",
+        "groupId": "Vanguard",
+        "icon": "AILab.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "BarrowFarm",
+        "groupId": "Infernal",
+        "icon": "BarrowFarm.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 20,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 500
+        }
+      },
+      {
+        "id": "Slaughterpit",
+        "groupId": "Infernal",
+        "icon": "Slaughterpit.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "CreationChamber",
+        "groupId": "Celestial",
+        "icon": "CreationChamber.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "ArcshipTier1Flying",
+        "groupId": "Celestial",
+        "icon": "ArcshipTier1Flying.webp",
+        "props": {
+          "luminite": 300,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 1,
+          "supplyCost": 5,
+          "visionRadius": 15,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "HQTier2",
+        "groupId": "Vanguard",
+        "icon": "HQTier2.webp",
+        "props": {
+          "luminite": 600,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 2500
+        }
+      },
+      {
+        "id": "HQTier3",
+        "groupId": "Vanguard",
+        "icon": "HQTier3.webp",
+        "props": {
+          "luminite": 850,
+          "therium": 250,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 3500
+        }
+      },
+      {
+        "id": "HQTier1",
+        "groupId": "Vanguard",
+        "icon": "HQTier1.webp",
+        "props": {
+          "luminite": 400,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 90,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 1500
+        }
+      },
+      {
+        "id": "ArcshipTier3Flying",
+        "groupId": "Celestial",
+        "icon": "ArcshipTier3Flying.webp",
+        "props": {
+          "luminite": 750,
+          "therium": 250,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 1,
+          "supplyCost": 10,
+          "visionRadius": 20,
+          "vitalHealth": 1600
+        }
+      },
+      {
+        "id": "LesserShrine",
+        "groupId": "Infernal",
+        "icon": "LesserShrine.webp",
+        "props": {
+          "luminite": 350,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 80,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 1500
+        }
+      },
+      {
+        "id": "ForceProjector",
+        "groupId": "Celestial",
+        "icon": "ForceProjector.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 45,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "SparkNode",
+        "groupId": "Celestial",
+        "icon": "SparkNode.webp",
+        "props": {
+          "luminite": 125,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 10,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 13,
+          "vitalHealth": 350
+        }
+      },
+      {
+        "id": "CannonTurret",
+        "groupId": "Vanguard",
+        "icon": "CannonTurret.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 65,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 700
+        }
+      },
+      {
+        "id": "AssemblyPlant",
+        "groupId": "Vanguard",
+        "icon": "AssemblyPlant.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 1200
+        }
+      },
+      {
+        "id": "Stormgate",
+        "groupId": "Infernal",
+        "icon": "Stormgate.webp",
+        "props": {
+          "luminite": 1100,
+          "therium": 400,
+          "armor": 15,
+          "buildTime": 15,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 4500
+        }
+      },
+      {
+        "id": "ObeliskSlow",
+        "groupId": "Infernal",
+        "icon": "ObeliskSlow.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 25,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 15,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "Purifier",
+        "groupId": "Celestial",
+        "icon": "Purifier.webp",
+        "props": {
+          "luminite": 225,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 30,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "AscensionChamber",
+        "groupId": "Celestial",
+        "icon": "AscensionChamber.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "MunitionsFactory",
+        "groupId": "Vanguard",
+        "icon": "MunitionsFactory.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "HangarBay",
+        "groupId": "Vanguard",
+        "icon": "HangarBay.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 75,
+          "armor": 15,
+          "buildTime": 45,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "PowerBank",
+        "groupId": "Celestial",
+        "icon": "PowerBank.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 15,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 300
+        }
+      },
+      {
+        "id": "GuardianNexus",
+        "groupId": "Celestial",
+        "icon": "GuardianNexus.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "ArcshipTier2Flying",
+        "groupId": "Celestial",
+        "icon": "ArcshipTier2Flying.webp",
+        "props": {
+          "luminite": 500,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 1,
+          "supplyCost": 10,
+          "visionRadius": 15,
+          "vitalHealth": 1200
+        }
+      },
+      {
+        "id": "MachineGunTurret",
+        "groupId": "Vanguard",
+        "icon": "MachineGunTurret.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 65,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 700
+        }
+      },
+      {
+        "id": "TwilightSpire",
+        "groupId": "Infernal",
+        "icon": "TwilightSpire.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 50,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "ValentinesPromo",
+        "groupId": "Vanguard",
+        "icon": "ValentinesPromo.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 9,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "Bastion",
+        "groupId": "Celestial",
+        "icon": "Bastion.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 75,
+          "armor": 15,
+          "buildTime": 45,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "SolarHabitat",
+        "groupId": "Vanguard",
+        "icon": "SolarHabitat.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 0,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "GreaterShrine",
+        "groupId": "Infernal",
+        "icon": "GreaterShrine.webp",
+        "props": {
+          "luminite": 550,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 2500
+        }
+      },
+      {
+        "id": "LinkNode",
+        "groupId": "Celestial",
+        "icon": "LinkNode.webp",
+        "props": {
+          "luminite": 50,
+          "therium": 0,
+          "armor": 5,
+          "buildTime": 5,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 13,
+          "vitalHealth": 200
+        }
+      },
+      {
+        "id": "Effigy",
+        "groupId": "Infernal",
+        "icon": "Effigy.webp",
+        "props": {
+          "luminite": 0,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 1,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 5
+        }
+      },
+      {
+        "id": "ProxyHangarBay",
+        "groupId": "Vanguard",
+        "icon": "ProxyHangarBay.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 75,
+          "armor": 15,
+          "buildTime": 45,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "CollectionArray",
+        "groupId": "Celestial",
+        "icon": "CollectionArray.webp",
+        "props": {
+          "luminite": 450,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 500
+        }
+      },
+      {
+        "id": "Hellforge",
+        "groupId": "Infernal",
+        "icon": "Hellforge.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "Obelisk",
+        "groupId": "Infernal",
+        "icon": "Obelisk.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 10,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 13,
+          "vitalHealth": 400
+        }
+      },
+      {
+        "id": "MissileTurret",
+        "groupId": "Vanguard",
+        "icon": "MissileTurret.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 0,
+          "armor": 0,
+          "buildTime": 90,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 9,
+          "vitalHealth": 500
+        }
+      },
+      {
+        "id": "Mainframe",
+        "groupId": "Celestial",
+        "icon": "Mainframe.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 50,
+          "armor": 15,
+          "buildTime": 45,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "ArcshipTier1",
+        "groupId": "Celestial",
+        "icon": "ArcshipTier1.webp",
+        "props": {
+          "luminite": 300,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 5,
+          "visionRadius": 15,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "ArcshipTier3",
+        "groupId": "Celestial",
+        "icon": "ArcshipTier3.webp",
+        "props": {
+          "luminite": 850,
+          "therium": 250,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 10,
+          "visionRadius": 20,
+          "vitalHealth": 2400
+        }
+      },
+      {
+        "id": "ArcshipTier2",
+        "groupId": "Celestial",
+        "icon": "ArcshipTier2.webp",
+        "props": {
+          "luminite": 600,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 7,
+          "visionRadius": 20,
+          "vitalHealth": 1800
+        }
+      },
+      {
+        "id": "Rampart",
+        "groupId": "Vanguard",
+        "icon": "Rampart.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 0,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "ElderShrine",
+        "groupId": "Infernal",
+        "icon": "ElderShrine.webp",
+        "props": {
+          "luminite": 750,
+          "therium": 250,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 20,
+          "vitalHealth": 3500
+        }
+      },
+      {
+        "id": "WarpNode",
+        "groupId": "Celestial",
+        "icon": "WarpNode.webp",
+        "props": {
+          "luminite": 125,
+          "therium": 50,
+          "armor": 15,
+          "buildTime": 25,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 13,
+          "vitalHealth": 400
+        }
+      },
+      {
+        "id": "MechBay",
+        "groupId": "Vanguard",
+        "icon": "MechBay.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 50,
+          "armor": 15,
+          "buildTime": 45,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1200
+        }
+      },
+      {
+        "id": "CollectionArrayFlying",
+        "groupId": "Celestial",
+        "icon": "CollectionArrayFlying.webp",
+        "props": {
+          "luminite": 450,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 1,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 500
+        }
+      },
+      {
+        "id": "AstralMonolith",
+        "groupId": "Celestial",
+        "icon": "AstralMonolith.webp",
+        "props": {
+          "luminite": 200,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "Skunkworks",
+        "groupId": "Vanguard",
+        "icon": "Skunkworks.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 10,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "CelestialHQ",
+        "groupId": "Celestial",
+        "icon": "CelestialHQ.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 40,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 600
+        }
+      },
+      {
+        "id": "RitualChamber",
+        "groupId": "Infernal",
+        "icon": "RitualChamber.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 50,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "Conclave",
+        "groupId": "Infernal",
+        "icon": "Conclave.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      },
+      {
+        "id": "Warforge",
+        "groupId": "Vanguard",
+        "icon": "Warforge.webp",
+        "props": {
+          "luminite": 150,
+          "therium": 100,
+          "armor": 15,
+          "buildTime": 50,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 800
+        }
+      },
+      {
+        "id": "IronVault",
+        "groupId": "Infernal",
+        "icon": "IronVault.webp",
+        "props": {
+          "luminite": 100,
+          "therium": 0,
+          "armor": 15,
+          "buildTime": 60,
+          "speed": 0,
+          "supplyCost": 0,
+          "visionRadius": 11,
+          "vitalHealth": 1000
+        }
+      }
+    ]
+  }
+]

@@ -1,3 +1,4 @@
+import { ScrollArea } from "../ui/scroll-area";
 import { AdBlocker } from "./ad-blocker";
 import {
   LargeMobileBanner,
@@ -45,7 +46,7 @@ export function ContentLayout({
           />
         </NitroScript>
       </div>
-      <div className="container p-4 text-center space-y-4">
+      <div className="container p-4 text-center space-y-4 overflow-hidden">
         {header}
         <NitroScript
           loading={<LargeMobileBannerLoading />}

@@ -8,13 +8,35 @@ import {
   NavMenu,
   HeaderLink,
 } from "@repo/ui/header";
-import { Server } from "lucide-react";
+import { Bot, House, Server } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
 
   const links = [
     { href: "/", content: <InteractiveMapLink active={pathname === "/"} /> },
+    {
+      href: "/units",
+      content: (
+        <HeaderLink active={pathname === "/units"}>
+          <div>
+            <Bot className="w-4 h-4" />
+            <span>Units</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
+    {
+      href: "/structures",
+      content: (
+        <HeaderLink active={pathname === "/structures"}>
+          <div>
+            <House className="w-4 h-4" />
+            <span>Structures</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
     {
       href: "/server-status",
       content: (

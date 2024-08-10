@@ -2,13 +2,7 @@ import uniqolor from "uniqolor";
 import { createCanvas } from "@napi-rs/canvas";
 import { CONTENT_DIR, initDirs, TEMP_DIR } from "./lib/dirs.js";
 import { readDirSync, readJSON, saveImage } from "./lib/fs.js";
-import {
-  loadCanvas,
-  mirrorCancas,
-  rotateCanvas,
-  saveIcon,
-  vectorize,
-} from "./lib/image.js";
+import { loadCanvas, mirrorCancas, saveIcon, vectorize } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import {
   initFilters,
@@ -29,6 +23,12 @@ import {
 } from "./stormgate.types.js";
 import { splitPascalCase } from "./lib/utils.js";
 import { Node } from "./types.js";
+import {
+  initDatabase,
+  initGroups,
+  writeDatabase,
+  writeGroups,
+} from "./lib/database.js";
 
 initDirs(
   "/mnt/c/dev/Stormgate/Extracted/Data",
@@ -36,7 +36,16 @@ initDirs(
   "/home/devleon/the-hidden-gaming-lair/static/stormgate",
 );
 
-const enDict = initDict();
+const enDict = initDict({
+  luminite: "Luminite",
+  therium: "Therium",
+  armor: "Armor",
+  buildTime: "Build Time",
+  speed: "Speed",
+  supplyCost: "Supply",
+  visionRadius: "Vision",
+  vitalHealth: "Health",
+});
 const nodes = initNodes();
 const filters = initFilters();
 const tiles = initTiles();
@@ -165,7 +174,7 @@ for (const mapName of mapNames) {
         type = "HealthTower_CreepCamp";
       }
       if (type.includes("ResourceB_Generator")) {
-        if (typeof archetype.name !== "string") {
+        if (!("name" in archetype)) {
           console.warn("No name for", type);
           continue;
         }
@@ -181,7 +190,7 @@ for (const mapName of mapNames) {
       } else if (type.startsWith("JournalEntry_")) {
         group = "Journals";
         enDict[group] = "Journals";
-        if (typeof archetype.name !== "string") {
+        if (!("name" in archetype)) {
           console.warn("No name for", type);
           continue;
         }
@@ -199,9 +208,9 @@ for (const mapName of mapNames) {
         group = "Tower";
         enDict[group] = "Tower";
       } else if (
-        (Array.isArray(archetype.starting_snowtags) &&
+        ("starting_snowtags" in archetype &&
           archetype.starting_snowtags.includes("entity_unit_structure")) ||
-        (typeof archetype.capture_filter === "object" &&
+        ("capture_filter" in archetype &&
           "excluded" in archetype.capture_filter &&
           Array.isArray(archetype.capture_filter.excluded) &&
           archetype.capture_filter.excluded.includes("entity_unit_structure"))
@@ -209,7 +218,7 @@ for (const mapName of mapNames) {
         group = "Structures";
         enDict[group] = "Structures";
       } else if (
-        Array.isArray(archetype.starting_snowtags) &&
+        "starting_snowtags" in archetype &&
         archetype.starting_snowtags.includes("entity_destructible_tree")
       ) {
         group = "Destructible";
@@ -220,6 +229,7 @@ for (const mapName of mapNames) {
           type = "DestructibleTree";
         }
       } else if (
+        "unit_button" in archetype &&
         archetype.unit_button === "AttackButton" &&
         type.startsWith("Slime")
       ) {
@@ -243,7 +253,7 @@ for (const mapName of mapNames) {
         let icon;
         let size = 1.75;
 
-        if (typeof archetype.name == "string") {
+        if ("name" in archetype) {
           if (
             type === "Rewardless_CreepCampType" &&
             archetype.name === "UNNAMED"
@@ -259,13 +269,13 @@ for (const mapName of mapNames) {
           }
         }
         if (
-          typeof archetype.tooltip == "string" &&
+          "tooltip" in archetype &&
           archetype.tooltip &&
           !enDict[`${type}_desc`]
         ) {
           enDict[`${type}_desc`] = t(archetype.tooltip.replace("|", "."));
         } else if (
-          typeof archetype.description == "string" &&
+          "description" in archetype &&
           archetype.description &&
           !enDict[`${type}_desc`]
         ) {
@@ -276,16 +286,13 @@ for (const mapName of mapNames) {
           const subArchetype = archetypes.find(
             ([, a]) => typeof a === "object" && a.id === subArchetypeId,
           )?.[1];
-          if (
-            !subArchetype ||
-            typeof subArchetype !== "object" ||
-            !("icon" in subArchetype)
-          ) {
+          if (!subArchetype || !("icon" in subArchetype)) {
             console.error("No archetype found for", subArchetypeId);
             return;
           }
           let imagePath;
           if (
+            "minimap_icon" in subArchetype &&
             typeof subArchetype.minimap_icon === "string" &&
             subArchetype.minimap_icon
           ) {
@@ -296,7 +303,7 @@ for (const mapName of mapNames) {
                 .split(".")[0] + ".png";
           } else if (
             typeof subArchetype.icon === "string" ||
-            typeof subArchetype.Icon === "string"
+            ("Icon" in subArchetype && typeof subArchetype.Icon === "string")
           ) {
             let iconTexture;
             if (
@@ -305,11 +312,13 @@ for (const mapName of mapNames) {
             ) {
               iconTexture = subArchetype.icon;
             } else if (
+              "Icon" in subArchetype &&
               typeof subArchetype.Icon === "string" &&
               subArchetype.Icon !== ""
             ) {
               iconTexture = subArchetype.Icon;
             } else if (
+              "minimap_icon" in archetype &&
               typeof archetype.minimap_icon === "string" &&
               archetype.minimap_icon &&
               archetype.minimap_icon !== "None"
@@ -329,10 +338,7 @@ for (const mapName of mapNames) {
             console.error("No icon found for", subArchetypeId);
             return;
           }
-          if (
-            type === "HealingFlower" &&
-            typeof archetype.unit_info_portrait === "string"
-          ) {
+          if (type === "HealingFlower" && "unit_info_portrait" in archetype) {
             const imagePath =
               archetype.unit_info_portrait
                 .split("'")[1]
@@ -350,17 +356,18 @@ for (const mapName of mapNames) {
           } else {
             icon = await saveIcon(imagePath, type);
           }
-          if (typeof subArchetype.name == "string" && !enDict[type]) {
+          if ("name" in subArchetype && !enDict[type]) {
             enDict[type] = t(subArchetype.name.replace("|", "."));
           }
           if (
-            typeof subArchetype.tooltip == "string" &&
+            "tooltip" in subArchetype &&
             subArchetype.tooltip &&
             !enDict[`${type}_desc`]
           ) {
             enDict[`${type}_desc`] = t(subArchetype.tooltip.replace("|", "."));
           } else if (
-            typeof subArchetype.description == "string" &&
+            "description" in subArchetype &&
+            typeof subArchetype.description === "string" &&
             subArchetype.description &&
             !enDict[`${type}_desc`]
           ) {
@@ -381,14 +388,14 @@ for (const mapName of mapNames) {
           size = 2;
           enDict[type] = "Player Start";
         } else if (
-          typeof archetype.unit_button === "string" &&
+          "unit_button" in archetype &&
           archetype.unit_button !== "AttackButton" &&
           archetype.unit_button !== "emptyRef"
         ) {
           const subArchetypeId = archetype.unit_button;
           await processSubArchetype(subArchetypeId);
         } else if (
-          typeof archetype.minimap_icon === "string" &&
+          "minimap_icon" in archetype &&
           archetype.minimap_icon &&
           archetype.minimap_icon !== "None"
         ) {
@@ -399,7 +406,7 @@ for (const mapName of mapNames) {
               .split(".")[0] + ".png";
           icon = await saveIcon(imagePath, type);
         } else if (
-          typeof archetype.unit_info_portrait === "string" &&
+          "unit_info_portrait" in archetype &&
           archetype.unit_info_portrait !== "None"
         ) {
           const imagePath =
@@ -447,7 +454,7 @@ for (const mapName of mapNames) {
             },
           );
           size = 0.7;
-        } else if (typeof archetype.icon === "string") {
+        } else if ("icon" in archetype) {
           const imagePath =
             archetype.icon
               .split("'")[1]
@@ -462,7 +469,7 @@ for (const mapName of mapNames) {
             icon = await saveIcon(imagePath, type);
           }
         } else if (
-          typeof archetype.camp_type === "string" &&
+          "camp_type" in archetype &&
           archetype.camp_type !== "emptyRef"
         ) {
           const subArchetypeId = archetype.camp_type;
@@ -491,7 +498,7 @@ for (const mapName of mapNames) {
           });
         }
         if (
-          typeof archetype.vital_health === "object" &&
+          "vital_health" in archetype &&
           "starting" in archetype.vital_health
         ) {
           if (enDict[`${type}_desc`]) {
@@ -574,9 +581,133 @@ const sortedTiles = Object.fromEntries(
   Object.entries(tiles).sort(([a], [b]) => enDict[a].localeCompare(enDict[b])),
 );
 writeTiles(sortedTiles);
-writeDict(enDict, "en");
 writeRegions(regions);
 writeGlobalFilters(globalFilters);
+
+const database = initDatabase();
+const groups = initGroups([
+  {
+    id: "Celestial",
+    icon: await saveIcon(
+      "/Stormgate/Content/Pegasus/UI/Assets/Icons/Faction/UI_Icons_Faction_256_Celestials.png",
+      "Celestial",
+    ),
+  },
+  {
+    id: "Vanguard",
+    icon: await saveIcon(
+      "/Stormgate/Content/Pegasus/UI/Assets/Icons/Faction/UI_Icons_Faction_256_Vanguard.png",
+      "Vanguard",
+    ),
+  },
+  {
+    id: "Infernal",
+    icon: await saveIcon(
+      "/Stormgate/Content/Pegasus/UI/Assets/Icons/Faction/UI_Icons_Faction_256_Infernals.png",
+      "Infernal",
+    ),
+  },
+]);
+
+const runtimeSession1v1 = await readJSON<RuntimeSession>(
+  `${CONTENT_DIR}/Stormgate/Content/PublishedCatalogs/pegasus_1v1/Runtime/runtime_session.json`,
+);
+const archetypes1v1 = Object.values(runtimeSession1v1.archetypes).map(
+  (a) => a[1],
+);
+for (const archetype of archetypes1v1) {
+  try {
+    if (
+      typeof archetype !== "object" ||
+      !("__base_type" in archetype) ||
+      archetype.__base_type !== "UnitData"
+    ) {
+      continue;
+    }
+    if (
+      archetype.selection_alias &&
+      archetype.selection_alias !== archetype.id
+    ) {
+      console.warn("Not a base unit", archetype.id);
+      continue;
+    }
+
+    const groupId = archetype.faction;
+    if (groupId === "emptyRef") {
+      continue;
+    }
+    if (!groups.some((g) => g.id === groupId)) {
+      console.warn("No group found for", groupId);
+      continue;
+    }
+
+    let type;
+    if (archetype.starting_snowtags.includes("entity_unit_structure")) {
+      type = "structures";
+    } else if (archetype.starting_snowtags.includes("entity_unit")) {
+      type = "units";
+    } else {
+      console.warn("No type found for", archetype.id);
+      continue;
+    }
+    if (!database.some((i) => i.type === type)) {
+      database.push({
+        type,
+        items: [],
+      });
+    }
+
+    const items = database.find((i) => i.type === type)!;
+    const buttonArchetype = archetypes1v1.find(
+      (a) => a.id === archetype.unit_button,
+    );
+    if (!buttonArchetype || buttonArchetype.__base_type !== "Button") {
+      console.warn("No button found for", archetype.id);
+      continue;
+    }
+    if (buttonArchetype.id === "AttackButton") {
+      continue;
+    }
+    const iconPath =
+      buttonArchetype.icon
+        .split("'")[1]
+        .replace("/Game/", "/Stormgate/Content/")
+        .split(".")[0] + ".png";
+
+    //   const weapons =archetype.weaponList.map(w => {
+    // return {
+
+    // }
+    // })
+    const item: (typeof database)[number]["items"][number] = {
+      id: archetype.id,
+      groupId,
+      icon: await saveIcon(iconPath, archetype.id),
+      props: {
+        luminite: archetype.build_cost.resource_a,
+        therium: archetype.build_cost.resource_b,
+        armor: archetype.armor,
+        buildTime: archetype.build_time,
+        speed: archetype.movement.speed,
+        supplyCost: archetype.supply_cost,
+        visionRadius: archetype.vision_radius,
+        vitalHealth: archetype.vital_health.starting,
+        // groundAttack,
+        // airAttack:
+      },
+    };
+
+    enDict[archetype.id] = t(archetype.name.replace("|", "."));
+
+    items.items.push(item);
+  } catch (e) {
+    console.error(`Error processing ${archetype.id}`);
+  }
+}
+
+writeDatabase(database);
+writeGroups(groups);
+writeDict(enDict, "en");
 
 interface Point {
   x: number;
