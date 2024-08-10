@@ -91,5 +91,36 @@ namespace GameEventsPlugin
     {
       return (T)ReadProcessMemory(typeof(T), addr.ToInt64());
     }
+
+    public IntPtr FindPattern(String pattern)
+    {
+      return FindPattern(pattern, BaseAddress, ModuleMemorySize);
+    }
+    public IntPtr FindStringRef(String str)
+    {
+      var stringAddr = FindPattern(BitConverter.ToString(Encoding.Unicode.GetBytes(str)).Replace("-", " "));
+      var sigScan = new SigScan(Process, BaseAddress, ModuleMemorySize);
+      sigScan.DumpMemory();
+      for (var i = 0; i < sigScan.Size; i++)
+      {
+        if ((sigScan.m_vDumpedRegion[i] == 0x48 || sigScan.m_vDumpedRegion[i] == 0x4c) && sigScan.m_vDumpedRegion[i + 1] == 0x8d)
+        {
+          var jmpTo = BitConverter.ToInt32(sigScan.m_vDumpedRegion, i + 3);
+          var addr = sigScan.Address + i + jmpTo + 7;
+          if (addr == stringAddr)
+          {
+            return BaseAddress + i;
+          }
+        }
+      }
+      return (IntPtr)0;
+    }
+    public IntPtr FindPattern(String pattern, IntPtr start, Int32 length)
+    {
+      var sigScan = new SigScan(Process, start, length);
+      var arrayOfBytes = pattern.Split(' ').Select(b => b.Contains("?") ? (Byte)0 : (Byte)Convert.ToInt32(b, 16)).ToArray();
+      var strMask = String.Join("", pattern.Split(' ').Select(b => b.Contains("?") ? '?' : 'x'));
+      return sigScan.FindPattern(arrayOfBytes, strMask, 0);
+    }
   }
 }

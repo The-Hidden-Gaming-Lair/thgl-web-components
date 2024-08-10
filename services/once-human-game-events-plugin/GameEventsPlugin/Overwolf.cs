@@ -68,7 +68,7 @@ namespace GameEventsPlugin
         error(e.Message);
       }
     }
-   
+    internal ulong Offset;
     public void GetPlayer(Action<object> callback, Action<object> error)
     {
       Task.Run(() =>
@@ -85,7 +85,13 @@ namespace GameEventsPlugin
             error("Can not find proc");
             return;
           }
-          var scene = _memory.ReadProcessMemory<IntPtr>(_process.MainModule.BaseAddress + 0x5e740d0);
+          if (Offset == 0)
+          {
+            var addr = (ulong)_memory.FindPattern("E8 ? ? ? ? 45 33 C0 48 8D 54 24 ? 48 8B C8 E8 ? ? ? ? 48");
+            var callFunc = _memory.ReadProcessMemory<uint>((IntPtr)((ulong)addr + 1)) + addr + 5;
+            Offset = (_memory.ReadProcessMemory<uint>((IntPtr)(callFunc + 0x29 + 3)) + callFunc + 0x29 + 3 + 4 - (ulong)_memory.BaseAddress + 0x10);
+          }
+          var scene = _memory.ReadProcessMemory<IntPtr>((IntPtr)((ulong)_process.MainModule.BaseAddress + Offset));
           if (scene == IntPtr.Zero)
           {
             error("Can not find scene");
