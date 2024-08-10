@@ -209,7 +209,7 @@
           "speed": 5,
           "supplyCost": 4,
           "visionRadius": 13,
-          "vitalHealth": 180
+          "vitalHealth": 210
         }
       },
       {
@@ -944,7 +944,7 @@
           "speed": 2,
           "supplyCost": 3,
           "visionRadius": 11,
-          "vitalHealth": 260
+          "vitalHealth": 180
         }
       },
       {
@@ -959,7 +959,7 @@
           "speed": 3.5,
           "supplyCost": 5,
           "visionRadius": 12,
-          "vitalHealth": 400
+          "vitalHealth": 450
         }
       },
       {
@@ -1032,10 +1032,10 @@
         "groupId": "Infernal",
         "icon": "ShadowCleft.webp",
         "props": {
-          "luminite": 150,
+          "luminite": 100,
           "therium": 100,
           "armor": 15,
-          "buildTime": 60,
+          "buildTime": 50,
           "speed": 0,
           "supplyCost": 0,
           "visionRadius": 11,
@@ -1227,7 +1227,7 @@
         "groupId": "Vanguard",
         "icon": "HQTier2.webp",
         "props": {
-          "luminite": 600,
+          "luminite": 550,
           "therium": 100,
           "armor": 15,
           "buildTime": 40,
@@ -1242,10 +1242,10 @@
         "groupId": "Vanguard",
         "icon": "HQTier3.webp",
         "props": {
-          "luminite": 850,
+          "luminite": 750,
           "therium": 250,
           "armor": 15,
-          "buildTime": 60,
+          "buildTime": 70,
           "speed": 0,
           "supplyCost": 0,
           "visionRadius": 20,
@@ -1272,10 +1272,10 @@
         "groupId": "Celestial",
         "icon": "ArcshipTier3Flying.webp",
         "props": {
-          "luminite": 750,
+          "luminite": 650,
           "therium": 250,
           "armor": 15,
-          "buildTime": 60,
+          "buildTime": 70,
           "speed": 1,
           "supplyCost": 10,
           "visionRadius": 20,
@@ -1302,7 +1302,7 @@
         "groupId": "Celestial",
         "icon": "ForceProjector.webp",
         "props": {
-          "luminite": 150,
+          "luminite": 100,
           "therium": 0,
           "armor": 15,
           "buildTime": 45,
@@ -1482,12 +1482,12 @@
         "groupId": "Celestial",
         "icon": "ArcshipTier2Flying.webp",
         "props": {
-          "luminite": 500,
+          "luminite": 450,
           "therium": 100,
           "armor": 15,
           "buildTime": 40,
           "speed": 1,
-          "supplyCost": 10,
+          "supplyCost": 7,
           "visionRadius": 15,
           "vitalHealth": 1200
         }
@@ -1572,7 +1572,7 @@
         "groupId": "Infernal",
         "icon": "GreaterShrine.webp",
         "props": {
-          "luminite": 550,
+          "luminite": 500,
           "therium": 100,
           "armor": 15,
           "buildTime": 40,
@@ -1648,7 +1648,7 @@
         "icon": "Hellforge.webp",
         "props": {
           "luminite": 100,
-          "therium": 100,
+          "therium": 0,
           "armor": 15,
           "buildTime": 50,
           "speed": 0,
@@ -1767,7 +1767,7 @@
         "groupId": "Infernal",
         "icon": "ElderShrine.webp",
         "props": {
-          "luminite": 750,
+          "luminite": 700,
           "therium": 250,
           "armor": 15,
           "buildTime": 60,
@@ -1902,7 +1902,7 @@
         "groupId": "Vanguard",
         "icon": "Warforge.webp",
         "props": {
-          "luminite": 150,
+          "luminite": 100,
           "therium": 100,
           "armor": 15,
           "buildTime": 50,
