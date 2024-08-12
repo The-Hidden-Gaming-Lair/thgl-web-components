@@ -1,6 +1,6 @@
 import { AdBlocker } from "./ad-blocker";
 import { FloatingBanner } from "./floating-banner";
-import { FloatingMobileBanner } from "./mobile-banner";
+import { FloatingMobileBanner } from "./floating-mobile-banner";
 import { NitroScript } from "./nitro-script";
 import { NitroPayVideoPlayer } from "./nitropay-video-player";
 

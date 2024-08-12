@@ -4,16 +4,6 @@ import { getNitroAds } from "./nitro-pay";
 import { AdFreeContainer } from "./ad-free-container";
 import { cn } from "@repo/lib";
 
-export function FloatingMobileBanner({ id }: { id: string }): JSX.Element {
-  return (
-    <MobileBanner
-      id={id}
-      className="fixed bottom-0 left-0 right-0"
-      mediaQuery="(max-width: 767px)"
-    />
-  );
-}
-
 export function MobileBanner({
   id,
   className,

@@ -2,6 +2,7 @@ export * from "./ad-blocker";
 export * from "./content-layout";
 export * from "./floating-ads";
 export * from "./floating-banner";
+export * from "./floating-mobile-banner";
 export * from "./large-mobile-banner";
 export * from "./mobile-banner";
 export * from "./nitro-script";
