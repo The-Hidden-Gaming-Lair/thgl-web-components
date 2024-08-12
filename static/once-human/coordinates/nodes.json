@@ -5222,18 +5222,6 @@
     ]
   },
   {
-    "type": "hud_icon_w_wharf",
-    "spawns": [
-      {
-        "p": [
-          -4520.32,
-          5773.6
-        ],
-        "id": "T1_E"
-      }
-    ]
-  },
-  {
     "type": "morphic_crate",
     "spawns": [
       {

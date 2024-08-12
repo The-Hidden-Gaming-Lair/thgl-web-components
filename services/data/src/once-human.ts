@@ -400,6 +400,9 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     initialTitle,
     initialIconPath,
   );
+  if (group === "unsorted") {
+    continue; // Temporary
+  }
 
   if (enDict[type] && enDict[type] !== title) {
     console.warn(`Type ${type} already exists with name ${enDict[type]}`);
@@ -541,6 +544,9 @@ for (const battleFieldName of battleFieldNames) {
       initialTitle,
       "",
     );
+    if (group === "unsorted") {
+      continue; // Temporary
+    }
 
     if (!iconPath) {
       iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;

@@ -241,17 +241,5 @@
     ],
     "defaultOn": true,
     "defaultOpen": true
-  },
-  {
-    "group": "unsorted",
-    "values": [
-      {
-        "id": "hud_icon_w_wharf",
-        "icon": "hud_icon_w_wharf.webp",
-        "size": 1
-      }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
   }
 ]
