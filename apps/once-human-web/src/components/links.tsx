@@ -3,12 +3,13 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
+  ExternalAnchor,
   HeaderLink,
   InteractiveMapLink,
   NavMenu,
   ReleaseNotesLink,
 } from "@repo/ui/header";
-import { ArrowUp, Bug } from "lucide-react";
+import { ArrowUp, Bug, ExternalLink } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
@@ -45,7 +46,16 @@ export function Links(): JSX.Element {
       breakpoint="lg"
       active={active.content}
       external={
-        <ReleaseNotesLink href="https://www.th.gl/apps/Once Human/release-notes" />
+        <>
+          <ExternalAnchor
+            className="flex gap-1 hover:text-primary transition-colors"
+            href="https://www.overwolf.com/app/Leon_Machens-Once_Human_Map"
+          >
+            <span>In-Game App</span>
+            <ExternalLink className="w-3 h-3" />
+          </ExternalAnchor>
+          <ReleaseNotesLink href="https://www.th.gl/apps/Once Human/release-notes" />
+        </>
       }
     >
       {links.map(({ href, content }) => (

@@ -202,8 +202,7 @@ export function StreamingReceiver({
             >
               in-game app
             </ExternalAnchor>{" "}
-            to sync your player position and spawned nodes with this map on
-            every device.
+            to sync your player position with this map on every device.
           </DialogDescription>
         </DialogHeader>
         <section className="space-y-2 overflow-hidden">
