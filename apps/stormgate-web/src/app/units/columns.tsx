@@ -20,7 +20,7 @@ const props = Object.keys(database[0].items[0].props).filter(
 
 export interface Item {
   icon: string;
-  [key: string]: string | number;
+  [key: string]: string | number | any;
 }
 
 const propsColumns: ColumnDef<Item>[] = props.map((prop) => ({

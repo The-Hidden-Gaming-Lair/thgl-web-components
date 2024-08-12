@@ -14,6 +14,7 @@ import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import {
+  Archetype,
   Archetypes,
   Details,
   Map,
@@ -52,6 +53,8 @@ const enDict = initDict({
   ranged: "Ranged",
   splash: "Splash",
   abilities: "Abilities",
+  "1v1": "1v1",
+  coop: "Coop",
 });
 const nodes = initNodes();
 const filters = initFilters();
@@ -616,46 +619,44 @@ const groups = initGroups([
   },
 ]);
 
-const runtimeSession1v1 = await readJSON<RuntimeSession>(
-  `${CONTENT_DIR}/Stormgate/Content/PublishedCatalogs/pegasus_1v1/Runtime/runtime_session.json`,
-);
-const archetypes1v1 = Object.values(runtimeSession1v1.archetypes).map(
-  (a) => a[1],
-);
-for (const archetype of archetypes1v1) {
+const handleArchteype = async (
+  archetype: Archetype,
+  archetypes: Archetype[],
+  prefix: string,
+) => {
   try {
     if (
       typeof archetype !== "object" ||
       !("__base_type" in archetype) ||
       archetype.__base_type !== "UnitData"
     ) {
-      continue;
+      return;
     }
     if (
       archetype.selection_alias &&
       archetype.selection_alias !== archetype.id
     ) {
       console.warn("Not a base unit", archetype.id);
-      continue;
+      return;
     }
 
     const groupId = archetype.faction;
     if (groupId === "emptyRef") {
-      continue;
+      return;
     }
     if (!groups.some((g) => g.id === groupId)) {
       console.warn("No group found for", groupId);
-      continue;
+      return;
     }
 
     let type;
     if (archetype.starting_snowtags.includes("entity_unit_structure")) {
-      type = "structures";
+      type = prefix + "structures";
     } else if (archetype.starting_snowtags.includes("entity_unit")) {
-      type = "units";
+      type = prefix + "units";
     } else {
       console.warn("No type found for", archetype.id);
-      continue;
+      return;
     }
     if (!database.some((i) => i.type === type)) {
       database.push({
@@ -665,15 +666,19 @@ for (const archetype of archetypes1v1) {
     }
 
     const items = database.find((i) => i.type === type)!;
-    const buttonArchetype = archetypes1v1.find(
+    if (items.items.some((i) => i.id === archetype.id)) {
+      console.warn("Duplicate found for", archetype.id);
+      return;
+    }
+    const buttonArchetype = archetypes.find(
       (a) => a.id === archetype.unit_button,
     );
     if (!buttonArchetype || buttonArchetype.__base_type !== "Button") {
       console.warn("No button found for", archetype.id);
-      continue;
+      return;
     }
     if (buttonArchetype.id === "AttackButton") {
-      continue;
+      return;
     }
     const iconPath =
       buttonArchetype.icon
@@ -683,11 +688,11 @@ for (const archetype of archetypes1v1) {
         .split(".")[0] + ".png";
 
     const weapons = archetype.weaponList.map((weaponId) => {
-      const weapon = archetypes1v1.find((a) => a.id === weaponId);
+      const weapon = archetypes.find((a) => a.id === weaponId);
       if (weapon?.__base_type !== "WeaponData") {
         throw new Error(`No weapon found for ${weaponId}`);
       }
-      const effectDamage = archetypes1v1.find(
+      const effectDamage = archetypes.find(
         (a) => a.id === weapon.display_effect_damage,
       );
 
@@ -735,34 +740,37 @@ for (const archetype of archetypes1v1) {
       archetype.vital_health.starting
     ).toFixed(2);
 
-    const abilities = await Promise.all(
-      archetype.commandList
-        // .filter((command) => command.row !== 2)
-        .map(async (command) => {
-          const button = archetypes1v1.find((a) => a.id === command.button);
-          if (!button || button.__base_type !== "Button") {
-            throw new Error(`No button found for ${command.button}`);
-          }
+    const abilities: {
+      id: string;
+      icon: string;
+      row: number;
+      slot: number;
+    }[] = [];
 
-          enDict[command.button] = t(button.name.replace("|", "."));
-          enDict[`${command.button}_desc`] = t(
-            button.tooltip.replace("|", "."),
-          );
-          const iconPath =
-            button.icon
-              .split("'")[1]
-              .replace("/Game/", "/Stormgate/Content/")
-              .replace("/HeavyMech/", "/Lancer/")
-              .split(".")[0] + ".png";
+    for (const command of archetype.commandList) {
+      const button = archetypes.find((a) => a.id === command.button);
+      if (!button || button.__base_type !== "Button") {
+        throw new Error(`No button found for ${command.button}`);
+      }
 
-          return {
-            id: command.button,
-            icon: await saveIcon(iconPath, button.id),
-            row: command.row,
-            slot: command.slot,
-          };
-        }),
-    );
+      enDict[command.button] = t(button.name.replace("|", "."));
+      enDict[`${command.button}_desc`] = t(button.tooltip.replace("|", "."));
+      const iconPath =
+        button.icon
+          .split("'")[1]
+          .replace("/Game/", "/Stormgate/Content/")
+          .replace("/HeavyMech/", "/Lancer/")
+          .split(".")[0] + ".png";
+
+      if (!abilities.some((a) => a.id === command.button)) {
+        abilities.push({
+          id: command.button,
+          icon: await saveIcon(iconPath, button.id),
+          row: command.row,
+          slot: command.slot,
+        });
+      }
+    }
 
     const item: (typeof database)[number]["items"][number] = {
       id: archetype.id,
@@ -790,6 +798,25 @@ for (const archetype of archetypes1v1) {
   } catch (e) {
     console.error(`Error processing ${archetype.id}`, e);
   }
+};
+
+const runtimeSession1v1 = await readJSON<RuntimeSession>(
+  `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/Boneyard/Runtime/runtime_session.json`,
+);
+const archetypes1v1 = Object.values(runtimeSession1v1.archetypes).map(
+  (a) => a[1],
+);
+for (const archetype of archetypes1v1) {
+  await handleArchteype(archetype, archetypes1v1, "1v1_");
+}
+const runtimeSessionCoop = await readJSON<RuntimeSession>(
+  `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/TheAbyssalGates/Runtime/runtime_session.json`,
+);
+const archetypesCoop = Object.values(runtimeSessionCoop.archetypes).map(
+  (a) => a[1],
+);
+for (const archetype of archetypesCoop) {
+  await handleArchteype(archetype, archetypesCoop, "coop_");
 }
 
 writeDatabase(database);

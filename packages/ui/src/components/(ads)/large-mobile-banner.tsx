@@ -30,13 +30,9 @@ export function LargeMobileBanner({
   );
 }
 
-export function LargeMobileBannerLoading({
-  className,
-}: {
-  className?: string;
-}): JSX.Element {
+export function LargeMobileBannerLoading(): JSX.Element {
   return (
-    <AdFreeContainer className={cn("max-[859px]:block hidden", className)}>
+    <AdFreeContainer>
       <div className="rounded h-[100px] bg-zinc-800/30 flex flex-col justify-center text-gray-400">
         Loading Ad
       </div>
@@ -44,13 +40,9 @@ export function LargeMobileBannerLoading({
   );
 }
 
-export function LargeMobileBannerFallback({
-  className,
-}: {
-  className?: string;
-}): JSX.Element {
+export function LargeMobileBannerFallback(): JSX.Element {
   return (
-    <AdFreeContainer className={cn("max-[859px]:block hidden", className)}>
+    <AdFreeContainer>
       <div className="rounded h-[100px] bg-zinc-800/30 flex flex-col justify-center text-gray-400">
         Please disable your Ad-Blocker
       </div>

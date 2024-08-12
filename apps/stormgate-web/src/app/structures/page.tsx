@@ -3,9 +3,11 @@ import { DataTable } from "@repo/ui/data";
 import { type Dict } from "@repo/ui/providers";
 import { type Metadata } from "next";
 import { HeaderOffset } from "@repo/ui/header";
+import { notFound } from "next/navigation";
 import database from "../../data/database.json" assert { type: "json" };
 import _enDict from "../../dicts/en.json" assert { type: "json" };
 import { columns } from "./columns";
+import ModeSelect from "@/components/mode-select";
 
 const enDict = _enDict as Dict;
 
@@ -18,8 +20,16 @@ export const metadata: Metadata = {
     "Find details about all Stormgate structures and buildings for Celestial, Infernal and Vanguard! Check the luminite, therium and supply costs and more stats.",
 };
 
-export default function Item(): JSX.Element {
-  const category = database.find((item) => item.type === "structures")!;
+export default function Item({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}): JSX.Element {
+  const mode = (searchParams.mode as string) || "1v1";
+  const category = database.find((item) => item.type === `${mode}_structures`);
+  if (!category) {
+    notFound();
+  }
 
   const data = category.items
     .map((item) => ({
@@ -45,7 +55,10 @@ export default function Item(): JSX.Element {
           </>
         }
         content={
-          <DataTable columns={columns} data={data} filterColumn="name" />
+          <>
+            <ModeSelect mode={mode} />
+            <DataTable columns={columns} data={data} filterColumn="name" />
+          </>
         }
       />
     </HeaderOffset>
