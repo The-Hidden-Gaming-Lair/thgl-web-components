@@ -105,17 +105,17 @@
       "toggle_app": {
         "title": "Show/Hide App",
         "action-type": "custom",
-        "default": "F6"
+        "default": "F4"
       },
       "zoom_in_app": {
         "title": "Zoom in",
         "action-type": "custom",
-        "default": "F7"
+        "default": "F11"
       },
       "zoom_out_app": {
         "title": "Zoom out",
         "action-type": "custom",
-        "default": "F8"
+        "default": "F12"
       },
       "toggle_lock_app": {
         "title": "Lock/Unlock App",
