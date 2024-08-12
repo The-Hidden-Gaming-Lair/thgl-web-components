@@ -1,5 +1,11 @@
 "use client";
-import { ArrowUpDown, Button } from "@repo/ui/controls";
+import {
+  ArrowUpDown,
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@repo/ui/controls";
 import Image from "next/image";
 import { type ColumnDef } from "@repo/ui/data";
 import { type Dict } from "@repo/ui/providers";
@@ -8,7 +14,9 @@ import database from "../../data/database.json" assert { type: "json" };
 import groups from "../../data/groups.json" assert { type: "json" };
 
 const enDict = _enDict as Dict;
-const props = Object.keys(database[0].items[0].props);
+const props = Object.keys(database[0].items[0].props).filter(
+  (prop) => prop !== "weapons" && prop !== "abilities",
+);
 
 export interface Item {
   icon: string;
@@ -80,6 +88,111 @@ export const columns: ColumnDef<Item>[] = [
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "weapons",
+    header: "Weapons",
+    cell: ({ row }) => {
+      const weapons =
+        row.getValue<(typeof database)[0]["items"][0]["props"]["weapons"]>(
+          "weapons",
+        );
+      return (
+        <div className="space-y-1">
+          {weapons.map((weapon) => (
+            <Tooltip key={weapon.id} delayDuration={20} disableHoverableContent>
+              <TooltipTrigger asChild>
+                <Button variant="link">{enDict[weapon.id]}</Button>
+              </TooltipTrigger>
+              <TooltipContent className="text-sm text-left">
+                <p>
+                  <span className="block font-bold">DPS</span>
+                  <span className="block">{weapon.dps}</span>
+                </p>
+                <p>
+                  <span className="block font-bold">Damage</span>
+                  <span className="block">{weapon.damage}</span>
+                </p>
+                <p>
+                  <span className="block font-bold">Speed</span>
+                  <span className="block">{weapon.period}</span>
+                </p>
+                <p>
+                  <span className="block font-bold">Range</span>
+                  <span className="block">{weapon.range}</span>
+                </p>
+                <p>
+                  <span className="block font-bold">Type</span>
+                  <span className="block">
+                    {weapon.tags.map((tag) => enDict[tag]).join(", ")}
+                  </span>
+                </p>
+                <p>
+                  <span className="block font-bold">Splash Areas</span>
+                  <span className="block">
+                    {weapon.areas.map((a) => (
+                      <span key={a.radius} className="block">
+                        {"<="} {a.radius} = {a.fraction * 100}%{" "}
+                      </span>
+                    ))}
+                    {weapon.areas.length === 0 && "-"}
+                  </span>
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "abilities",
+    header: "Abilities",
+    cell: ({ row }) => {
+      const abilities =
+        row.getValue<(typeof database)[0]["items"][0]["props"]["abilities"]>(
+          "abilities",
+        );
+      return (
+        <div className="grid gap-1 w-max">
+          {abilities.map((ability) => (
+            <Tooltip
+              key={ability.id}
+              delayDuration={20}
+              disableHoverableContent
+            >
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className=""
+                  style={{
+                    gridColumn: ability.slot,
+                    gridRow: ability.row,
+                  }}
+                >
+                  <Image
+                    src={`/icons/${ability.icon}`}
+                    width="50"
+                    height="50"
+                    alt={enDict[ability.id]}
+                    className="h-5 w-5"
+                  />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="text-sm max-w-72">
+                <h3 className="font-bold">{enDict[ability.id]}</h3>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: enDict[`${ability.id}_desc`],
+                  }}
+                />
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
       );
     },
   },

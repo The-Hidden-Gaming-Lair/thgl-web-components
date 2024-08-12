@@ -380,7 +380,17 @@ export type Archetype =
       build_time: number;
       cargo_size: string;
       cascade_field_radius: number;
-      commandList: Array<any>;
+      commandList: Array<{
+        ability: string;
+        button: string;
+        commandIndex: number;
+        panel: string;
+        repeatable: boolean;
+        row: number;
+        slot: number;
+        submenu: number;
+        targetSubmenu: number;
+      }>;
       construction_set_sfx: string;
       damage_response: string;
       default_acquire_level: string;
@@ -518,7 +528,7 @@ export type Archetype =
       vital_shroud_bonus_shield_flat: number;
       vital_shroud_bonus_shield_multiplier: number;
       vitals_force_hide: boolean;
-      weaponList: Array<any>;
+      weaponList: Array<string>;
     }
   | {
       __base_type: "Buff";
@@ -1007,6 +1017,67 @@ export type Archetype =
         tags: {
           excluded: Array<string>;
           required: Array<string>;
+        };
+      };
+    }
+  | {
+      __base_type: "GameEffectDamageRadius";
+      amount: number;
+      areas: Array<{
+        damage_fraction: number;
+        radius: number;
+      }>;
+      based_on: string;
+      black_white_list: {
+        exclude: Array<any>;
+        include: Array<{
+          effect_parent: string;
+          target: string;
+        }>;
+      };
+      damage_impact_fx: string;
+      damage_tags: Array<any>;
+      death_type: string;
+      editor_icon: string;
+      flags: {
+        alert: boolean;
+        damage_response: boolean;
+      };
+      friendly_fire_percentage: number;
+      id: string;
+      location_impact_fx: string;
+      search_filter: {
+        alliance: {
+          ally: boolean;
+          enemy: boolean;
+          neutral: boolean;
+          player: boolean;
+          self: boolean;
+        };
+        tags: {
+          excluded: Array<string>;
+          required: Array<string>;
+        };
+      };
+      search_location: {
+        effect_parent: string;
+        entity_or_point: string;
+        target: string;
+      };
+      tag_bonuses: Array<any>;
+      target_armor_multiplier: number;
+      tracker: string;
+      validator: string;
+      vitals_leech: {
+        energy: {
+          max: number;
+          min: number;
+          percent: number;
+        };
+        health: {
+          max: number;
+          min: number;
+          percent: number;
         };
       };
     };

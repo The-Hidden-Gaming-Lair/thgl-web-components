@@ -45,6 +45,13 @@ const enDict = initDict({
   supplyCost: "Supply",
   visionRadius: "Vision",
   vitalHealth: "Health",
+  effectiveHealth: "Effective Health",
+  highestDPS: "DPS",
+  dps: "DPS",
+  melee: "Melee",
+  ranged: "Ranged",
+  splash: "Splash",
+  abilities: "Abilities",
 });
 const nodes = initNodes();
 const filters = initFilters();
@@ -672,28 +679,108 @@ for (const archetype of archetypes1v1) {
       buttonArchetype.icon
         .split("'")[1]
         .replace("/Game/", "/Stormgate/Content/")
+        .replace("/HeavyMech/", "/Lancer/")
         .split(".")[0] + ".png";
 
-    //   const weapons =archetype.weaponList.map(w => {
-    // return {
+    const weapons = archetype.weaponList.map((weaponId) => {
+      const weapon = archetypes1v1.find((a) => a.id === weaponId);
+      if (weapon?.__base_type !== "WeaponData") {
+        throw new Error(`No weapon found for ${weaponId}`);
+      }
+      const effectDamage = archetypes1v1.find(
+        (a) => a.id === weapon.display_effect_damage,
+      );
 
-    // }
-    // })
+      const areas: {
+        fraction: number;
+        radius: number;
+      }[] = [];
+      if (effectDamage?.__base_type === "GameEffectDamage") {
+      } else if (effectDamage?.__base_type === "GameEffectDamageRadius") {
+        effectDamage.areas.forEach((a) => {
+          areas.push({
+            fraction: a.damage_fraction,
+            radius: a.radius,
+          });
+        });
+      } else {
+        throw new Error(`No effect damage found for ${weaponId}`);
+      }
+      const id = weaponId;
+      enDict[id] = t(weapon.name.replace("|", "."));
+      const damage = effectDamage.amount;
+      const tags = effectDamage.damage_tags.map((t) =>
+        t.replace("damage_", ""),
+      );
+      const period = weapon.period;
+      const range = weapon.range_maximum;
+      const dps = +(damage / period).toFixed(2);
+      return {
+        id,
+        dps,
+        damage,
+        areas,
+        tags,
+        period,
+        range,
+      };
+    });
+    const highestDPS = weapons.reduce(
+      (highest, weapon) => (weapon.dps > highest ? weapon.dps : highest),
+      0,
+    );
+
+    const effectiveHealth = +(
+      (1 + archetype.armor / 100) *
+      archetype.vital_health.starting
+    ).toFixed(2);
+
+    const abilities = await Promise.all(
+      archetype.commandList
+        // .filter((command) => command.row !== 2)
+        .map(async (command) => {
+          const button = archetypes1v1.find((a) => a.id === command.button);
+          if (!button || button.__base_type !== "Button") {
+            throw new Error(`No button found for ${command.button}`);
+          }
+
+          enDict[command.button] = t(button.name.replace("|", "."));
+          enDict[`${command.button}_desc`] = t(
+            button.tooltip.replace("|", "."),
+          );
+          const iconPath =
+            button.icon
+              .split("'")[1]
+              .replace("/Game/", "/Stormgate/Content/")
+              .replace("/HeavyMech/", "/Lancer/")
+              .split(".")[0] + ".png";
+
+          return {
+            id: command.button,
+            icon: await saveIcon(iconPath, button.id),
+            row: command.row,
+            slot: command.slot,
+          };
+        }),
+    );
+
     const item: (typeof database)[number]["items"][number] = {
       id: archetype.id,
       groupId,
       icon: await saveIcon(iconPath, archetype.id),
       props: {
+        highestDPS,
+        effectiveHealth,
         luminite: archetype.build_cost.resource_a,
         therium: archetype.build_cost.resource_b,
+        supplyCost: archetype.supply_cost,
         armor: archetype.armor,
         buildTime: archetype.build_time,
         speed: archetype.movement.speed,
-        supplyCost: archetype.supply_cost,
         visionRadius: archetype.vision_radius,
         vitalHealth: archetype.vital_health.starting,
-        // groundAttack,
-        // airAttack:
+        weapons,
+        abilities,
       },
     };
 
@@ -701,7 +788,7 @@ for (const archetype of archetypes1v1) {
 
     items.items.push(item);
   } catch (e) {
-    console.error(`Error processing ${archetype.id}`);
+    console.error(`Error processing ${archetype.id}`, e);
   }
 }
 
