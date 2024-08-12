@@ -38,8 +38,8 @@
         "size": 1
       },
       {
-        "id": "hud_icon_w_wharf",
-        "icon": "hud_icon_w_wharf.webp",
+        "id": "hospital",
+        "icon": "hospital.webp",
         "size": 1
       },
       {
@@ -122,6 +122,23 @@
       {
         "id": "morphic_crate",
         "icon": "morphic_crate.webp",
+        "size": 1
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
+    "group": "monsters",
+    "values": [
+      {
+        "id": "house_monster",
+        "icon": "house_monster.webp",
+        "size": 0.75
+      },
+      {
+        "id": "bus_monster",
+        "icon": "bus_monster.webp",
         "size": 1
       }
     ],
@@ -219,6 +236,18 @@
       {
         "id": "Mountain Rock Defense",
         "icon": "Mountain Rock Defense.webp",
+        "size": 1
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
+    "group": "unsorted",
+    "values": [
+      {
+        "id": "hud_icon_w_wharf",
+        "icon": "hud_icon_w_wharf.webp",
         "size": 1
       }
     ],

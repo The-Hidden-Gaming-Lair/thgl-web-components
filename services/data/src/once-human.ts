@@ -40,9 +40,9 @@ let nodes = initNodes();
 const filters = initFilters();
 const enDict = initDict({
   locations: "Locations",
+  monsters: "Monsters",
   riddles: "Riddles",
   items: "Items",
-  monsters: "Monsters",
 });
 
 const mapName = "default";
@@ -181,29 +181,27 @@ const switchType = (
     group = "locations";
   } else if (type === "raidlea") {
     group = "locations";
-  } else if (type === "hud_icon_w_wharf") {
+  } else if (type === "hospital") {
     group = "locations";
   } else if (type === "zhongliyingdi_kechuansong") {
     group = "locations";
     title = "Union Stronghold";
   } else if (type === "initial_respawn") {
     group = "locations";
-  } else if (type === "Riddle Spot" || type.endsWith("Riddle Spot")) {
+  } else if (more?.includes("Riddle Spot")) {
     group = "riddles";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/jigsaw-piece_lorc.webp`;
-    if (more) {
-      type =
-        more
-          .split("Riddle Spot ")[1]
-          ?.replace(" Anti-Construction", "")
-          .replace(" anti-construction", "")
-          .replace(" Construction", "")
-          .replace(" Anti-Building", "")
-          .replace(" Prevention", "")
-          .replace("anti-construction", "Anti-Construction") ||
-        type.replace(" Riddle Spot", "");
-      iconProps.color = uniqolor(type).color;
-    }
+    type =
+      more!
+        .split("Riddle Spot ")[1]
+        ?.replace(" Anti-Construction", "")
+        .replace(" anti-construction", "")
+        .replace(" Construction", "")
+        .replace(" Anti-Building", "")
+        .replace(" Prevention", "")
+        .replace("anti-construction", "Anti-Construction") ||
+      type.replace(" Riddle Spot", "");
+    iconProps.color = uniqolor(type).color;
   } else if (more?.includes("_Scattered")) {
     group = "locations";
     type = "Scattered";
@@ -220,6 +218,19 @@ const switchType = (
     group = "items";
     iconProps.color = "purple";
     iconProps.circle = true;
+  } else if (more?.includes("Bus ") || more?.includes("_Bus_")) {
+    type = "bus_monster";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/bus_delapouite.webp`;
+    title = "Bus Monster";
+    group = "monsters";
+    iconProps.color = "#ea93b2";
+  } else if (more?.includes("House_Monster")) {
+    type = "house_monster";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/house_delapouite.webp`;
+    title = "Bus Monster";
+    group = "monsters";
+    iconProps.color = "#ea93b2";
+    size = 0.75;
   }
   if (!title) {
     title = type;
@@ -234,6 +245,7 @@ const switchType = (
     size,
   };
 };
+
 for (const [key, value] of Object.entries(prefabInfoData)) {
   let initialIconPath = "";
   const prefabGroupInfo = Object.values(prefabGroupInfoData).find(
@@ -242,33 +254,33 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
 
   let initialType;
   let initialTitle = "";
-  const bigMapItem = bigMapItemData[value.bigmap_icon_id.toString()];
-  if (bigMapItem) {
-    initialIconPath = textureMap[bigMapItem.res_path];
-    initialType = bigMapItem.res_path
-      .replace("map_icon_", "")
-      .replace(".png", "");
-    initialTitle = bigMapItem.item_name;
-  } else if (prefabGroupInfo) {
-    const smappMapItem =
-      smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
-    initialIconPath = textureMap[smappMapItem.res_path];
-    initialType = smappMapItem.res_path
-      .replace("map_icon_", "")
-      .replace(".png", "");
-    initialTitle = prefabGroupInfo.prefab_group_show_name;
+  const mapIconId = (
+    value.bigmap_icon_id ||
+    prefabGroupInfo?.prefab_group_bigmap_icon_id ||
+    0
+  ).toString();
+  const mapItem = bigMapItemData[mapIconId] || smallMapItemData[mapIconId];
+
+  if (!mapItem) {
+    console.warn("No map item for", key);
+    continue;
   }
-  if (!initialType) {
-    initialType = value.stronghold_name;
-  }
+  initialIconPath = textureMap[mapItem.res_path];
+  initialType =
+    mapItem.res_path.replace("map_icon_", "").replace(".png", "") ||
+    value.stronghold_name;
+  initialTitle = prefabGroupInfo?.prefab_group_show_name || mapItem.item_name;
 
   let { type, title, group, iconProps, iconPath, size } = switchType(
     "unsorted",
-    initialType,
+    value.note?.includes("Riddle Spot") ? value.stronghold_name : initialType,
     initialTitle,
     initialIconPath,
     value.note,
   );
+  if (group === "unsorted") {
+    continue; // Temporary
+  }
 
   if (enDict[type] && enDict[type] !== title) {
     console.warn(`Type ${type} already exists with name ${enDict[type]}`);
@@ -298,21 +310,26 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
       console.warn("No icon path for", key);
       continue;
     }
-    const icon = await saveIcon(iconPath, type, iconProps);
-    if (!filters.some((f) => f.group === group)) {
-      filters.push({
-        group,
-        values: [],
-        defaultOn: true,
-        defaultOpen: true,
+    try {
+      const icon = await saveIcon(iconPath, type, iconProps);
+      if (!filters.some((f) => f.group === group)) {
+        filters.push({
+          group,
+          values: [],
+          defaultOn: true,
+          defaultOpen: true,
+        });
+      }
+      const filter = filters.find((f) => f.group === group)!;
+      filter.values.push({
+        id: type,
+        icon,
+        size,
       });
+    } catch (e) {
+      console.warn("Error saving icon", iconPath, type);
+      continue;
     }
-    const filter = filters.find((f) => f.group === group)!;
-    filter.values.push({
-      id: type,
-      icon,
-      size,
-    });
   }
 
   if (!nodes.some((n) => n.type === type)) {
@@ -599,7 +616,7 @@ Object.keys(tiles).forEach((mapName) => {
   );
 });
 writeNodes(nodes);
-const sortPriority = ["locations", "items", "riddles", "monsters"];
+const sortPriority = ["locations", "items", "monsters", "riddles"];
 const sortedFilters = filters
   .map((f) => {
     return {
