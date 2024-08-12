@@ -86,6 +86,12 @@ export const apps: App[] = [
     game: OnceHuman,
     url: "https://oncehuman.th.gl",
     tileSrc: "/once-human.jpg",
+    overwolf: {
+      id: "hjolmidofgehhbnofcpdbcednenibgnblipabcko",
+      protocol: "thgl-once-human",
+      url: "https://www.overwolf.com/app/Leon_Machens-Once_Human_Map",
+      supportsCopySecret: true,
+    },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
