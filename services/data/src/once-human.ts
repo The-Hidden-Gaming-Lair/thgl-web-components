@@ -9,12 +9,7 @@ import {
 } from "./lib/dirs.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
-import {
-  adjustBrightnessAndContrast,
-  IconProps,
-  mergeImages,
-  saveIcon,
-} from "./lib/image.js";
+import { IconProps, mergeImages, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import {
@@ -169,8 +164,6 @@ const switchType = (
     group = "locations";
   } else if (type === "transport") {
     group = "locations";
-    iconProps.brightness = -100;
-    iconProps.contrast = 1.3;
   } else if (type === "school") {
     group = "locations";
     title = "School";
