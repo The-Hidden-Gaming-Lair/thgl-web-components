@@ -48,10 +48,9 @@ const enDict = initDict({
 const mapName = "default";
 if (Bun.env.TILES === "true") {
   const mapTiles = await readDirSync(
-    TEXTURE_DIR + "/ui/texpack/bigmap_res/map/2048/",
-  ).map((f) => TEXTURE_DIR + `/ui/texpack/bigmap_res/map/2048/${f}`);
-  let canvas = await mergeImages(mapTiles);
-  canvas = adjustBrightnessAndContrast(canvas, -40, 1.1);
+    TEXTURE_DIR + "/ui/texpack/bigmap_res/map/1024/",
+  ).map((f) => TEXTURE_DIR + `/ui/texpack/bigmap_res/map/1024/${f}`);
+  const canvas = await mergeImages(mapTiles, /(-?\d+)_(-?\d+)/);
   const imagePath = TEMP_DIR + "/" + mapName + ".png";
   saveImage(imagePath, canvas.toBuffer("image/png"));
 }

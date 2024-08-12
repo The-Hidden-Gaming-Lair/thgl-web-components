@@ -66,7 +66,7 @@ if (Bun.env.TILES === "true") {
         "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles/" +
         f,
     );
-  const bigMap = await mergeImages(mapTiles, "#052736");
+  const bigMap = await mergeImages(mapTiles, /_(-?\d+)_(-?\d+)/, "#052736");
   saveImage(TEMP_DIR + "/bigmap.png", bigMap.toBuffer("image/png"));
 }
 

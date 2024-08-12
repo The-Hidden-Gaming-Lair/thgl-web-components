@@ -3,7 +3,7 @@
     "url": "/map-tiles/default/{z}/{y}/{x}.webp",
     "options": {
       "minNativeZoom": 0,
-      "maxNativeZoom": 4,
+      "maxNativeZoom": 5,
       "bounds": [
         [
           -8200,

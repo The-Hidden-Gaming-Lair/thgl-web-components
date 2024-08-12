@@ -199,10 +199,14 @@ function parseColor(color: string) {
   return [r, g, b];
 }
 
-export async function mergeImages(paths: string[], bgColor?: string) {
+export async function mergeImages(
+  paths: string[],
+  regExp: RegExp,
+  bgColor?: string,
+) {
   let canvas: Canvas | null = null;
   let coordinates = paths.map((path) => {
-    const matched = path.match(/_(-?\d+)_(-?\d+)/);
+    const matched = path.match(regExp);
     if (!matched) {
       throw new Error("Invalid path: " + path);
     }
@@ -220,7 +224,7 @@ export async function mergeImages(paths: string[], bgColor?: string) {
     const image = await loadImage(pathCoordinates.path);
     if (!canvas) {
       canvas = createCanvas(
-        image.width * (cellsMax - cellsMin),
+        image.width * (cellsMax - cellsMin + 1),
         image.height * (rowsMax - rowsMin + 1),
       );
       if (bgColor) {
