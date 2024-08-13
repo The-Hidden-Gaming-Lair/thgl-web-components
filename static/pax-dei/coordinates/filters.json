@@ -870,6 +870,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast",
+        "icon": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan",
         "icon": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan.webp"
       },
@@ -956,6 +960,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
         "icon": "PD_NPC_Zeb_Warrior_T42_The_Pickler.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
+        "icon": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
@@ -1441,6 +1449,10 @@
         "icon": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast",
+        "icon": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan",
         "icon": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan.webp"
       },
@@ -1527,6 +1539,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
         "icon": "PD_NPC_Zeb_Warrior_T42_The_Pickler.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
+        "icon": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator.webp"
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
