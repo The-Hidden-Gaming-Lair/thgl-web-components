@@ -102,8 +102,19 @@ namespace Tracker
       {
         RunOverwolfActors();
       });
-
-
+      if (false)
+      {
+        var startInfo = new ProcessStartInfo
+        {
+          FileName = @"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe",
+          UseShellExecute = false,
+          Arguments = @"sign /tr http://ts.ssl.com /td SHA256 /fd SHA256 /sha1 e58649c35d9f6c4695e5b05dbe6cef4b0ded155d C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll"
+          //Arguments = @"sign /debug /sha1 e58649c35d9f6c4695e5b05dbe6cef4b0ded155d /fd SHA256 C:\Users\shalz\Documents\GitHub\PalWorldTrainerApp\x64\Release\PalWorldTrainer.exe"
+        };
+        // pin is 123456
+        var p = Process.Start(startInfo);
+        p.WaitForExit();
+      }
       while (Console.ReadKey(true).Key == ConsoleKey.D)
       {
         Console.WriteLine("Saving Dump");

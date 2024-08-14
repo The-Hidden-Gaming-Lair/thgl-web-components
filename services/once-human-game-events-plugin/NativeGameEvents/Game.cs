@@ -96,7 +96,7 @@ namespace NativeGameEvents
                         //error("Can not find scene");
                         return 0;
                     }
-                    var playerAddress = scene + int.Parse("0x1860".Replace("0x",""), System.Globalization.NumberStyles.HexNumber);
+                    var playerAddress = scene + playerOffset;
                     var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
                     if (playerPos.X != 0)
                     {
@@ -125,6 +125,10 @@ namespace NativeGameEvents
 
         //internal static Dictionary<nint, string> stringCache = new Dictionary<nint, string> { };
         internal const int objCount = 0x10000;
+        internal static int modelMgrOffset = int.Parse("0xf88".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+        internal static int locOffset = int.Parse("0x174".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+        internal static int nameOffset = int.Parse("0x5d8".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+        internal static int playerOffset = int.Parse("0xf38".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
         [UnmanagedCallersOnly(EntryPoint = "GetActors")]
         internal static nint GetActors()
         {
@@ -134,7 +138,7 @@ namespace NativeGameEvents
                 {
                     var actors = new List<Actor>();
                     var scene = _memory.ReadProcessMemory<nint>(_process.MainModule.BaseAddress + SceneOffset);
-                    var modelMgr = _memory.ReadProcessMemory<nint>(scene + int.Parse("0xf88".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber));
+                    var modelMgr = _memory.ReadProcessMemory<nint>(scene + modelMgrOffset);
                     var modelMgrBlock = _memory.ReadProcessMemory(modelMgr, objCount * 8);
                     var maxDist = 0f;
                     var count = int.Parse(objCount.ToString());
@@ -142,10 +146,10 @@ namespace NativeGameEvents
                     {
                         var model = (nint)BitConverter.ToUInt64(modelMgrBlock, i * 8);
                         //if (ignoreCache.ContainsKey(model)) continue;
-                        var pos = _memory.ReadProcessMemory<Vector3>(model + int.Parse("0x174".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber));
+                        var pos = _memory.ReadProcessMemory<Vector3>(model + locOffset);
                         if (pos.X == 0) continue;
                         //var sharedStrPtr = mem.ReadProcessMemory<nint>(model + 0x58);
-                        var sharedStrPtr = _memory.ReadProcessMemory<nint>(model + int.Parse("0x5d8".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber));
+                        var sharedStrPtr = _memory.ReadProcessMemory<nint>(model + nameOffset);
                         //if (!stringCache.TryGetValue(sharedStrPtr, out string? str))
                         //{
                             var strPtr = _memory.ReadProcessMemory<nint>(sharedStrPtr + 8);
@@ -212,7 +216,7 @@ namespace NativeGameEvents
                             //address = 0,
                         });
                     }
-                    var csv = string.Join("\n", actors.Select(a=>a.ToString()));
+                    var csv = string.Join("\n", actors.DistinctBy(a=>a).Select(a=>a.ToString()));
                     return Marshal.StringToCoTaskMemUTF8(csv);
                     //callback(actors.ToArray());
                 }
