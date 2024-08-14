@@ -537,14 +537,14 @@ for (const battleFieldName of battleFieldNames) {
       "",
     );
     if (group === "unsorted") {
-      continue; // Temporary
+      // continue; // Temporary
     }
 
     if (!iconPath) {
       iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
       iconProps.color = uniqolor(type).color;
       size = 0.5;
-      continue; // Temporary
+      // continue; // Temporary
     }
 
     enDict[type] = title;
