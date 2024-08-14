@@ -6,15 +6,15 @@ using System.Linq;
 using System.Security.Principal;
 using GameEventsPlugin.Models;
 using System.IO;
-using static GameEventsPlugin.Extensions;
+using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace GameEventsPlugin
 {
   public class Overwolf
   {
-    Process _process = null;
-    Memory _memory = null;
     string _lastError = null;
+    int status = -1;
 
     bool IsElevated
     {
@@ -24,7 +24,7 @@ namespace GameEventsPlugin
           .IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid);
       }
     }
-
+    [DllImport("NativeGameEvents.dll")] extern static int UpdateProcess();
     public void UpdateProcess(Action<object> callback, Action<object> error, string processName = null)
     {
       try
@@ -33,34 +33,18 @@ namespace GameEventsPlugin
         {
           throw new Exception("Please run as administrator");
         }
-        if (_process != null && _process.HasExited)
+        status = UpdateProcess();
+        if (status != 0)
         {
-          _memory = null;
-          _process = null;
-          throw new Exception("Process has exited");
+            _lastError = "UpdateProcess failed";
+            error(_lastError);
         }
-        if (_memory == null || _process == null)
+        else
         {
-          if (processName != null)
-          {
-            var processes = Process.GetProcessesByName(processName);
-            if (processes.Count() == 0)
-            {
-              throw new Exception("Can not find process");
-            }
-            _process = processes[0];
-            if (_process == null)
-            {
-              throw new Exception("Can not find process");
-            }
-          }
-          Console.WriteLine("New Memory");
-          _memory = new Memory(_process);
+            _lastError = null;
+
+            callback(true);
         }
-
-        _lastError = null;
-
-        callback(true);
       }
       catch (Exception e)
       {
@@ -68,7 +52,7 @@ namespace GameEventsPlugin
         error(e.Message);
       }
     }
-    internal ulong Offset;
+    [DllImport("NativeGameEvents.dll")] extern static IntPtr GetPlayer();
     public void GetPlayer(Action<object> callback, Action<object> error)
     {
       Task.Run(() =>
@@ -80,34 +64,24 @@ namespace GameEventsPlugin
               error(_lastError);
               return;
           }
-          if (_process == null || _memory == null)
+          if (status != 0)
           {
-            error("Can not find proc");
+            _lastError = "Waiting for process";
+            error(_lastError);
             return;
           }
-          if (Offset == 0)
+          var a = GetPlayer();
+          if (a != IntPtr.Zero)
           {
-            var addr = (ulong)_memory.FindPattern("E8 ? ? ? ? 45 33 C0 48 8D 54 24 ? 48 8B C8 E8 ? ? ? ? 48");
-            var callFunc = _memory.ReadProcessMemory<uint>((IntPtr)((ulong)addr + 1)) + addr + 5;
-            Offset = (_memory.ReadProcessMemory<uint>((IntPtr)(callFunc + 0x29 + 3)) + callFunc + 0x29 + 3 + 4 - (ulong)_memory.BaseAddress + 0x10);
-          }
-          var scene = _memory.ReadProcessMemory<IntPtr>((IntPtr)((ulong)_process.MainModule.BaseAddress + Offset));
-          if (scene == IntPtr.Zero)
-          {
-            error("Can not find scene");
-            return;
-          }
-          var playerAddress = scene + 0x1860;
-          var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
-          if (playerPos.x != 0)
-          {
+            var csv = Marshal.PtrToStringAnsi(a).Split(',');
+            Marshal.FreeHGlobal(a);
             var actor = new Actor()
             {
-              address = playerAddress.ToInt64(),
+              address = 0,//playerAddress.ToInt64(),
               type = "player",
-              x = playerPos.z,
-              y = playerPos.x,
-              z = playerPos.y,
+              x = double.Parse(csv[1]),
+              y = double.Parse(csv[2]),
+              z =  0,
               r = null
             };
             callback(actor);
@@ -123,15 +97,44 @@ namespace GameEventsPlugin
         }
       });
     }
-
+        
+    [DllImport("NativeGameEvents.dll")] extern static IntPtr GetActors();
     public void GetActors(string[] types, Action<object> callback, Action<object> error)
     {
       Task.Run(() =>
       {
         try
         {
-          var noActors = new List<Actor>();
-          callback(noActors.ToArray());
+          if (status != 0)
+          {
+            _lastError = "Waiting for process";
+            error(_lastError);
+            return;
+          }
+          var actorsPtr = GetActors();
+          if (actorsPtr != null)
+          {
+            var csv = Marshal.PtrToStringAnsi(actorsPtr).Split('\n');
+            Marshal.FreeHGlobal(actorsPtr);
+            var actors = csv.Select(c =>
+            {
+              var items = c.Split(',');
+              return new Actor
+              {
+                address = 0,
+                type = items[0],
+                x = double.Parse(items[1]),
+                y = double.Parse(items[2]),
+                z = 0,
+                r = null
+              };
+            });
+            callback(actors.ToArray());
+          }
+          else
+          {
+            callback(null);
+          }
         }
         catch (Exception e)
         {

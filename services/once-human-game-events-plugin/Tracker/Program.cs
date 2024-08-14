@@ -89,7 +89,6 @@ namespace Tracker
       // var fileName = @"C:\Program Files (x86)\Steam\steamapps\common\Palworld\Palworld.exe";
       // var fileName = @"C:\Wuthering Waves\Wuthering Waves Game\Client\Binaries\Win64\Client-Win64-Shipping.exe"; ;
       // var fileName = @"C:\Wemade\NightCrowsG\Client\MadGlobal.exe"; ;
-      Memory memory = null;
 
       Task.Run(() =>
       {

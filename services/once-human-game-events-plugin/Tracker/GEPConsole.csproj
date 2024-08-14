@@ -17,5 +17,10 @@
   <ItemGroup>
     <ProjectReference Include="..\GameEventsPlugin\GameEventsPlugin.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <Content Include="..\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
+  </ItemGroup>
 </Project>
