@@ -10,11 +10,14 @@ import { HeaderOffset } from "@repo/ui/header";
 import { type Metadata } from "next";
 import { searchParamsToView } from "@repo/lib";
 import regions from "../coordinates/regions.json" assert { type: "json" };
+import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
 import _filters from "../coordinates/filters.json" assert { type: "json" };
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const filters = _filters as FiltersCoordinates;
 const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
+
+const typesIdMap = _typesIdMap as Record<string, string>;
 
 const InteractiveMapDynamic = dynamic(
   () => import("@/components/interactive-map-dynamic"),
@@ -44,6 +47,7 @@ export default function Home({
       mapNames={Object.keys(tiles)}
       useCbor
       regions={regions as RegionsCoordinates}
+      typesIdMap={typesIdMap}
       view={view}
     >
       <HeaderOffset full>
