@@ -12,7 +12,6 @@ import {
 import type {
   Dict,
   FiltersCoordinates,
-  GlobalFiltersCoordinates,
   NodesCoordinates,
   RegionsCoordinates,
 } from "@repo/ui/providers";
@@ -44,10 +43,12 @@ import enDict from "../dicts/en.json" assert { type: "json" };
 import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
+import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
 const nodes = _nodes as NodesCoordinates;
+const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Once Human";
 const TITLE = "Once Human Map";
@@ -78,6 +79,7 @@ function App(): JSX.Element {
             mapNames={Object.keys(tiles)}
             regions={regions as unknown as RegionsCoordinates}
             staticNodes={nodes}
+            typesIdMap={typesIdMap}
             view={{}}
           >
             <AppHeader title="Once Human" app={APP} gameClassId={23930} />

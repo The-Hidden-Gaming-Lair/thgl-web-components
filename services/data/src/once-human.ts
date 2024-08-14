@@ -23,6 +23,7 @@ import {
   TreasureMonsterDropData,
 } from "./once-human.types.js";
 import { Node } from "./types.js";
+import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 
 initDirs(
   Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
@@ -35,10 +36,13 @@ let nodes = initNodes();
 const filters = initFilters();
 const enDict = initDict({
   locations: "Locations",
-  monsters: "Monsters",
+  boss: "Bosses",
+  monster: "Monsters",
+  animal: "Animals",
   riddles: "Riddles",
   items: "Items",
 });
+const typeIDs = initTypesIDs();
 
 const mapName = "default";
 if (Bun.env.TILES === "true") {
@@ -202,7 +206,23 @@ const switchType = (
     iconProps.glowing = true;
     iconProps.color = "black";
     size = 0.65;
-  } else if (type === "Morphic - Crate") {
+  } else if (more?.includes("Bus ") || more?.includes("_Bus_")) {
+    type = "bus_monster";
+    iconPath = iconPath =
+      "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_littlemonster.png";
+    title = "Bus Monster";
+    group = "monster";
+    iconProps.color = "#ea93b2";
+    iconProps.circle = true;
+  } else if (more?.includes("House_Monster")) {
+    type = "house_monster";
+    iconPath = iconPath =
+      "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_littlemonster.png";
+    title = "Bus Monster";
+    group = "monster";
+    iconProps.color = "#ea93b2";
+    iconProps.circle = true;
+  } else if (more?.includes("/m_spider_box/")) {
     (iconPath =
       "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png"),
       (type = "morphic_crate");
@@ -210,19 +230,6 @@ const switchType = (
     group = "items";
     iconProps.color = "purple";
     iconProps.circle = true;
-  } else if (more?.includes("Bus ") || more?.includes("_Bus_")) {
-    type = "bus_monster";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/bus_delapouite.webp`;
-    title = "Bus Monster";
-    group = "monsters";
-    iconProps.color = "#ea93b2";
-  } else if (more?.includes("House_Monster")) {
-    type = "house_monster";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/house_delapouite.webp`;
-    title = "Bus Monster";
-    group = "monsters";
-    iconProps.color = "#ea93b2";
-    size = 0.75;
   }
   if (!title) {
     title = type;
@@ -270,6 +277,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     initialIconPath,
     value.note,
   );
+
   if (group === "unsorted") {
     continue; // Temporary
   }
@@ -288,15 +296,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   }
 
   if (!newTypes.includes(type)) {
-    // Remove all old nodes of this type
     newTypes.push(type);
-    nodes = nodes.filter((n) => n.type !== type);
-
-    // Remove old filter values
-    filters.forEach((filter) => {
-      filter.values = filter.values.filter((v) => v.id !== type);
-    });
-
     // Add new filter value
     if (!iconPath) {
       console.warn("No icon path for", key);
@@ -378,10 +378,16 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
 }
 
 for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
-  const smappMapItem =
-    smallMapItemData[prefabGroupInfo.prefab_group_bigmap_icon_id.toString()];
-  let initialIconPath = textureMap[smappMapItem.res_path];
-  const initialType = smappMapItem.res_path
+  const mapIconId = prefabGroupInfo.prefab_group_bigmap_icon_id.toString();
+  const mapItem = bigMapItemData[mapIconId] || smallMapItemData[mapIconId];
+
+  if (!mapItem) {
+    console.warn("No map item for", key);
+    continue;
+  }
+
+  let initialIconPath = textureMap[mapItem.res_path];
+  const initialType = mapItem.res_path
     .replace("map_icon_", "")
     .replace(".png", "");
   const initialTitle = prefabGroupInfo.prefab_group_show_name;
@@ -410,15 +416,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
   }
 
   if (!newTypes.includes(type)) {
-    // Remove all old nodes of this type
     newTypes.push(type);
-    nodes = nodes.filter((n) => n.type !== type);
-
-    // Remove old filter values
-    filters.forEach((filter) => {
-      filter.values = filter.values.filter((v) => v.id !== type);
-    });
-
     // Add new filter value
     if (!iconPath) {
       console.warn("No icon path for", key);
@@ -499,6 +497,79 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
   node.spawns.push(spawn);
 }
 
+const isValidModelPath = (modelPath: string) => {
+  return (
+    modelPath &&
+    !modelPath.includes("/test/") &&
+    !modelPath.includes("/empty/") &&
+    !modelPath.includes("/player/") &&
+    !modelPath.includes("/weapon/") &&
+    !modelPath.includes("/tool/") &&
+    !modelPath.startsWith("editor_res") &&
+    !modelPath.startsWith("effect") &&
+    !modelPath.startsWith("vehicle") &&
+    !modelPath.startsWith("environment")
+  );
+};
+
+for (const baseNPC of Object.values(baseNPCData)) {
+  if (!isValidModelPath(baseNPC.model_path)) {
+    continue;
+  }
+
+  const title = baseNPC.unit_name;
+  const group = baseNPC.model_path.split("/")[1];
+
+  const type = group + "_" + title.toLocaleLowerCase().replaceAll(" ", "_");
+  let iconPath;
+  if (group === "monster") {
+    iconPath =
+      "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
+  } else if (group === "boss") {
+    iconPath =
+      "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
+  } else if (group === "animal") {
+    iconPath =
+      "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
+  } else {
+    continue;
+  }
+  const typeId = baseNPC.model_path.replaceAll("/", "\\");
+  if (typeIDs[typeId] && typeIDs[typeId] !== type) {
+    console.warn(
+      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    );
+  }
+  typeIDs[typeId] = type;
+
+  const iconProps: IconProps = {
+    color: uniqolor(type).color,
+    circle: true,
+  };
+  const size = 0.75;
+
+  enDict[type] = title;
+
+  if (!newTypes.includes(type)) {
+    newTypes.push(type);
+    const icon = await saveIcon(iconPath, type, iconProps);
+    if (!filters.some((f) => f.group === group)) {
+      filters.push({
+        group,
+        values: [],
+        defaultOn: true,
+        defaultOpen: true,
+      });
+    }
+    const filter = filters.find((f) => f.group === group)!;
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+    });
+  }
+}
+
 const battleFieldNames = readDirSync(
   CONTENT_DIR + "/game_common/data/battle_field",
 );
@@ -514,51 +585,86 @@ for (const battleFieldName of battleFieldNames) {
     if (nodeData.Type !== "NpcNode") {
       continue;
     }
-
-    const initialGroup = nodeData.unit_type;
-
-    let initialTitle;
-    const baseNPC = baseNPCData[nodeData.prefab_id];
-    if (baseNPC) {
-      initialTitle = baseNPC.unit_name;
-    } else if (nodeData.unit_name) {
-      initialTitle = nodeData.unit_name;
-    }
-    if (!initialTitle) {
-      console.warn("No initialTitle for", nodeData.unit_id);
+    if (!isValidModelPath(nodeData.model_path)) {
       continue;
     }
-    const initialType = initialTitle.replaceAll(/\s/g, " "); // There are some invalid spaces
+
+    let initialType;
+    const baseUnitData = baseNPCData[nodeData.unit_id];
+    if (nodeData.unit_name === "Default") {
+      continue;
+    }
+    let initialTitle = nodeData.unit_name;
+    if (
+      !initialTitle ||
+      initialTitle.match(/[\u3400-\u9FBF]/) ||
+      !initialTitle.match(/[A-Z]/g)
+    ) {
+      initialTitle = baseUnitData?.unit_name;
+    }
+    if (!initialTitle || initialTitle.match(/[\u3400-\u9FBF]/)) {
+      continue;
+    }
+    const spawn: Node["spawns"][0] = {
+      p: [nodeData.pos3[2], nodeData.pos3[0]],
+    };
+
+    let initialGroup = nodeData.model_path.split("/")[1];
+    initialType =
+      nodeData.model_path.split("/").at(-1)?.split(".")[0] ??
+      nodeData.model_path.split("\\").at(-1)?.split(".")[0] ??
+      nodeData.model_path;
+    spawn.id = initialType;
+
+    if (!initialTitle) {
+      // console.warn("No initialTitle for", nodeData.unit_id);
+      continue;
+    }
+    if (!initialType) {
+      initialType = initialTitle.replaceAll(/\s/g, " "); // There are some invalid spaces
+    }
 
     let { type, title, group, iconProps, iconPath, size } = switchType(
       initialGroup,
       initialType,
       initialTitle,
       "",
+      nodeData.model_path,
     );
     if (group === "unsorted") {
-      // continue; // Temporary
+      continue; // Temporary
     }
 
     if (!iconPath) {
-      iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
+      type =
+        initialGroup + "_" + title.toLocaleLowerCase().replaceAll(" ", "_");
+      if (group === "monster") {
+        iconPath =
+          "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
+      } else if (group === "boss") {
+        iconPath =
+          "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
+      } else if (group === "animal") {
+        iconPath =
+          "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
+      }
       iconProps.color = uniqolor(type).color;
-      size = 0.5;
-      // continue; // Temporary
+      iconProps.circle = true;
+      size = 0.75;
     }
+
+    const typeId = nodeData.model_path.replaceAll("/", "\\");
+    if (typeIDs[typeId] && typeIDs[typeId] !== type) {
+      console.warn(
+        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      );
+    }
+    typeIDs[typeId] = type;
 
     enDict[type] = title;
 
     if (!newTypes.includes(type)) {
-      // Remove all old nodes of this type
       newTypes.push(type);
-      nodes = nodes.filter((n) => n.type !== type);
-
-      // Remove old filter values
-      filters.forEach((filter) => {
-        filter.values = filter.values.filter((v) => v.id !== type);
-      });
-
       const icon = await saveIcon(iconPath, type, iconProps);
       if (!filters.some((f) => f.group === group)) {
         filters.push({
@@ -584,9 +690,7 @@ for (const battleFieldName of battleFieldNames) {
     }
 
     const node = nodes.find((n) => n.type === type)!;
-    const spawn: Node["spawns"][0] = {
-      p: [nodeData.pos3[2], nodeData.pos3[0]],
-    };
+
     if (
       node.spawns.some(
         (s) =>
@@ -607,14 +711,32 @@ for (const battleFieldName of battleFieldNames) {
   }
 }
 
+const filteredNodes = nodes.map((n) => ({
+  ...n,
+  static:
+    !Object.values(typeIDs).includes(n.type) || n.type === "morphic_crate",
+  spawns: n.spawns.filter((s) => {
+    const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
+    return !isNotOnWorldMap;
+  }),
+}));
+
+writeNodes(filteredNodes);
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(
     OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
-    nodes.filter((n) => !n.mapName || n.mapName === mapName),
+    filteredNodes.filter((n) => !n.mapName || n.mapName === mapName),
   );
 });
-writeNodes(nodes);
-const sortPriority = ["locations", "items", "monsters", "riddles"];
+
+const sortPriority = [
+  "locations",
+  "items",
+  "boss",
+  "monster",
+  "animal",
+  "riddles",
+];
 const sortedFilters = filters
   .map((f) => {
     return {
@@ -645,4 +767,6 @@ const sortedFilters = filters
   });
 writeFilters(sortedFilters);
 writeDict(enDict, "en");
+writeTypesIDs(typeIDs);
+
 console.log("Done!");

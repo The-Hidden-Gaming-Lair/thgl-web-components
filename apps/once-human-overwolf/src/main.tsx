@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { listenToPlugin, initDiscordRPC } from "@repo/lib/overwolf";
 import { useGameState } from "@repo/lib";
 import App from "./app";
+import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
 const el = document.getElementById("root");
 if (el) {
@@ -19,7 +20,7 @@ if (el) {
   throw new Error("Could not find root element!!");
 }
 
-await listenToPlugin([]);
+await listenToPlugin(Object.keys(typesIdMap));
 
 useGameState.subscribe((state) => state.actors);
 

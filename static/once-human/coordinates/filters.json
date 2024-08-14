@@ -129,17 +129,781 @@
     "defaultOpen": true
   },
   {
-    "group": "monsters",
+    "group": "boss",
+    "values": [
+      {
+        "id": "boss_forsaken_giant",
+        "icon": "boss_forsaken_giant.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_shadow_hound",
+        "icon": "boss_shadow_hound.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_arachsiam",
+        "icon": "boss_arachsiam.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_ravenous_hunter",
+        "icon": "boss_ravenous_hunter.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_secret_servitor",
+        "icon": "boss_secret_servitor.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_ravenous_hunter's_doppelganger",
+        "icon": "boss_ravenous_hunter's_doppelganger.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_cyst_seed",
+        "icon": "boss_cyst_seed.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_treant's_doppelganger",
+        "icon": "boss_treant's_doppelganger.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_arachsiam's_shadow",
+        "icon": "boss_arachsiam's_shadow.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_shadow_hound's_shadow",
+        "icon": "boss_shadow_hound's_shadow.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_treant",
+        "icon": "boss_treant.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_ferris_wheel",
+        "icon": "boss_ferris_wheel.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_giant",
+        "icon": "boss_giant.webp",
+        "size": 0.75
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
+    "group": "monster",
     "values": [
       {
         "id": "house_monster",
         "icon": "house_monster.webp",
-        "size": 0.75
+        "size": 1
       },
       {
         "id": "bus_monster",
         "icon": "bus_monster.webp",
         "size": 1
+      },
+      {
+        "id": "monster_symbiont",
+        "icon": "monster_symbiont.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_star_walker",
+        "icon": "monster_star_walker.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_charred_maniac",
+        "icon": "monster_charred_maniac.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_watcher",
+        "icon": "monster_watcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_scarecrow",
+        "icon": "monster_scarecrow.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mirror_girl",
+        "icon": "monster_mirror_girl.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_butchers",
+        "icon": "monster_the_butchers.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ede",
+        "icon": "monster_ede.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_haloed_petroller",
+        "icon": "monster_haloed_petroller.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_vocalis",
+        "icon": "monster_vocalis.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_disciple",
+        "icon": "monster_disciple.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_glutton",
+        "icon": "monster_glutton.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_siren",
+        "icon": "monster_siren.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spiderling",
+        "icon": "monster_spiderling.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_toy_spider",
+        "icon": "monster_toy_spider.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_white_hand",
+        "icon": "monster_white_hand.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_wanderer",
+        "icon": "monster_wanderer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_peeper",
+        "icon": "monster_peeper.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spider_egg",
+        "icon": "monster_spider_egg.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_airplane_ancient_one",
+        "icon": "monster_airplane_ancient_one.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_nomad",
+        "icon": "monster_nomad.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_seed_of_life",
+        "icon": "monster_seed_of_life.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_cogitarid",
+        "icon": "monster_cogitarid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_yellow_light",
+        "icon": "monster_yellow_light.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_swarm",
+        "icon": "monster_swarm.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_parasitic_maniac",
+        "icon": "monster_parasitic_maniac.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_firefly",
+        "icon": "monster_firefly.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_budworm",
+        "icon": "monster_budworm.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_arbiter",
+        "icon": "monster_arbiter.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gnawer",
+        "icon": "monster_gnawer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_scorcher",
+        "icon": "monster_the_scorcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_agent",
+        "icon": "monster_agent.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_rainfall_reaper",
+        "icon": "monster_rainfall_reaper.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mother_of_life",
+        "icon": "monster_mother_of_life.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_snatcher",
+        "icon": "monster_snatcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_chagas_weevil",
+        "icon": "monster_chagas_weevil.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gasbag",
+        "icon": "monster_gasbag.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gacha_machine",
+        "icon": "monster_gacha_machine.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_burrower",
+        "icon": "monster_burrower.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_unholy_goanna",
+        "icon": "monster_unholy_goanna.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_taxi",
+        "icon": "monster_taxi.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_tangled_vine",
+        "icon": "monster_tangled_vine.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_sinner_sentry",
+        "icon": "monster_sinner_sentry.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_believer",
+        "icon": "monster_believer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ghoul",
+        "icon": "monster_ghoul.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mayhem",
+        "icon": "monster_mayhem.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mr._ames'_soul",
+        "icon": "monster_mr._ames'_soul.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_butcher",
+        "icon": "monster_the_butcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_maniac_(ranged)",
+        "icon": "monster_maniac_(ranged).webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_maniac_(melee)",
+        "icon": "monster_maniac_(melee).webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_tangled_vine_claw",
+        "icon": "monster_tangled_vine_claw.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_vine_connector_right",
+        "icon": "monster_vine_connector_right.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_vine_connector_middle",
+        "icon": "monster_vine_connector_middle.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_vine_connector_left",
+        "icon": "monster_vine_connector_left.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ancient_one",
+        "icon": "monster_ancient_one.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spider",
+        "icon": "monster_spider.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_charred_madman",
+        "icon": "monster_charred_madman.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_parasitic_madman",
+        "icon": "monster_parasitic_madman.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_hp_flower_cluster",
+        "icon": "monster_hp_flower_cluster.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_life_flower_cluster",
+        "icon": "monster_life_flower_cluster.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ironed-out_maniac",
+        "icon": "monster_ironed-out_maniac.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ironed-out_mayhem",
+        "icon": "monster_ironed-out_mayhem.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ironed-out_scrounger",
+        "icon": "monster_ironed-out_scrounger.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gluttony",
+        "icon": "monster_gluttony.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_eclipse_bull",
+        "icon": "monster_eclipse_bull.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_pawn",
+        "icon": "monster_black_pawn.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_queen",
+        "icon": "monster_black_queen.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_bishop",
+        "icon": "monster_black_bishop.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_knight",
+        "icon": "monster_black_knight.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_king",
+        "icon": "monster_black_king.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mourner",
+        "icon": "monster_mourner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_roaming_glutton",
+        "icon": "monster_roaming_glutton.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_kate",
+        "icon": "monster_kate.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_martin",
+        "icon": "monster_martin.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_interior",
+        "icon": "monster_interior.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_corridor",
+        "icon": "monster_corridor.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_windowsill",
+        "icon": "monster_windowsill.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_patient",
+        "icon": "monster_patient.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_doctor",
+        "icon": "monster_doctor.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_nurse_in_white",
+        "icon": "monster_nurse_in_white.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_nurse",
+        "icon": "monster_nurse.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_head_medic",
+        "icon": "monster_head_medic.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_patient_in_striped_shirt",
+        "icon": "monster_patient_in_striped_shirt.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_worker_patient",
+        "icon": "monster_worker_patient.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_security_force",
+        "icon": "monster_security_force.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_female_patient",
+        "icon": "monster_female_patient.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_house_monster_t1",
+        "icon": "monster_house_monster_t1.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_house_t4",
+        "icon": "monster_house_t4.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_house_t3",
+        "icon": "monster_house_t3.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_house_t5",
+        "icon": "monster_house_t5.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_house_t6",
+        "icon": "monster_house_t6.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_house_monster_t2",
+        "icon": "monster_house_monster_t2.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spider_eggs",
+        "icon": "monster_spider_eggs.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_polluted_human_sample",
+        "icon": "monster_polluted_human_sample.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_blaze_erupted_source",
+        "icon": "monster_blaze_erupted_source.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_erupted_shock",
+        "icon": "monster_erupted_shock.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_disfigured_human_sample",
+        "icon": "monster_disfigured_human_sample.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_frost_erupted_source",
+        "icon": "monster_frost_erupted_source.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_unstable_sample",
+        "icon": "monster_unstable_sample.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_deranged_researcher",
+        "icon": "monster_deranged_researcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_dr._mannheim",
+        "icon": "monster_dr._mannheim.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_scorcher_pale_hand",
+        "icon": "monster_the_scorcher_pale_hand.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spider_plush",
+        "icon": "monster_spider_plush.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gravestone",
+        "icon": "monster_gravestone.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_saint_el",
+        "icon": "monster_saint_el.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_sennacherib",
+        "icon": "monster_sennacherib.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_empty_house",
+        "icon": "monster_empty_house.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_giant_drummer",
+        "icon": "monster_giant_drummer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_polyenergy_chip",
+        "icon": "monster_polyenergy_chip.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ghost_with_braking_force",
+        "icon": "monster_ghost_with_braking_force.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gatling_symbiont",
+        "icon": "monster_gatling_symbiont.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ghost_braking_force",
+        "icon": "monster_ghost_braking_force.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_bone_thrower—soul_hunter",
+        "icon": "monster_bone_thrower—soul_hunter.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_star_walker's_ember",
+        "icon": "monster_star_walker's_ember.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_turret",
+        "icon": "monster_turret.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_ghoul",
+        "icon": "monster_black_lake_ghoul.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_shadow",
+        "icon": "monster_black_lake_shadow.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_monster",
+        "icon": "monster_black_lake_monster.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_heart",
+        "icon": "monster_black_lake_heart.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spawner_guard",
+        "icon": "monster_spawner_guard.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_bone_thrower",
+        "icon": "monster_bone_thrower.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_centaurus",
+        "icon": "monster_centaurus.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_manibus",
+        "icon": "monster_manibus.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_star_cattle",
+        "icon": "monster_star_cattle.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_right_rdt3",
+        "icon": "monster_right_rdt3.webp",
+        "size": 0.75
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
+    "group": "animal",
+    "values": [
+      {
+        "id": "animal_eclipse_bear",
+        "icon": "animal_eclipse_bear.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_wolf",
+        "icon": "animal_wolf.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_lion",
+        "icon": "animal_lion.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_eclipse_crocodile",
+        "icon": "animal_eclipse_crocodile.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_eclipse deer",
+        "icon": "animal_eclipse deer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_eclipse wolf",
+        "icon": "animal_eclipse wolf.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_eclipse bear",
+        "icon": "animal_eclipse bear.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_eclipse_wolf",
+        "icon": "animal_eclipse_wolf.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_black_castle",
+        "icon": "animal_black_castle.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_dog's_after-image",
+        "icon": "animal_dog's_after-image.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_deer",
+        "icon": "animal_deer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_eclipse_deer",
+        "icon": "animal_eclipse_deer.webp",
+        "size": 0.75
       }
     ],
     "defaultOn": true,

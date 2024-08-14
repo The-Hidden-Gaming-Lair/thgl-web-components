@@ -129,6 +129,9 @@ namespace GameEventsPlugin
                 r = null
               };
             });
+            // Remove duplicates by type and x,y
+            actors = actors.GroupBy(a => new { a.type, a.x, a.y }).Select(g => g.First());
+
             callback(actors.ToArray());
           }
           else
