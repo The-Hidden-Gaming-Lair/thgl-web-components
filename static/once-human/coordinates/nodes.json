@@ -1929,7 +1929,7 @@
     "static": true
   },
   {
-    "type": "Scattered",
+    "type": "scattered",
     "spawns": [
       {
         "p": [
@@ -3148,7 +3148,7 @@
     "static": true
   },
   {
-    "type": "Camera",
+    "type": "camera",
     "spawns": [
       {
         "p": [
@@ -3963,7 +3963,7 @@
     "static": true
   },
   {
-    "type": "Eyeballoon",
+    "type": "eyeballoon",
     "spawns": [
       {
         "p": [
@@ -4080,7 +4080,7 @@
     "static": true
   },
   {
-    "type": "Bizarre Rocks",
+    "type": "bizarre_rocks",
     "spawns": [
       {
         "p": [
@@ -4121,7 +4121,7 @@
     "static": true
   },
   {
-    "type": "Lotus Leaf",
+    "type": "lotus_leaf",
     "spawns": [
       {
         "p": [
@@ -4162,7 +4162,7 @@
     "static": true
   },
   {
-    "type": "The Creeper",
+    "type": "the_creeper",
     "spawns": [
       {
         "p": [
@@ -4210,7 +4210,7 @@
     "static": true
   },
   {
-    "type": "Strange Door",
+    "type": "strange_door",
     "spawns": [
       {
         "p": [
@@ -4334,7 +4334,7 @@
     "static": true
   },
   {
-    "type": "Treasure Map",
+    "type": "treasure_map",
     "spawns": [
       {
         "p": [
@@ -4569,7 +4569,7 @@
     "static": true
   },
   {
-    "type": "Billboard Judgment District Defense",
+    "type": "billboard_judgment_district_defense",
     "spawns": [
       {
         "p": [
@@ -4672,7 +4672,7 @@
     "static": true
   },
   {
-    "type": "Telephone Booth",
+    "type": "telephone_booth",
     "spawns": [
       {
         "p": [
@@ -4706,7 +4706,7 @@
     "static": true
   },
   {
-    "type": "Anti-Construction",
+    "type": "anticonstruction",
     "spawns": [
       {
         "p": [
@@ -4747,7 +4747,7 @@
     "static": true
   },
   {
-    "type": "Target Practice",
+    "type": "target_practice",
     "spawns": [
       {
         "p": [
@@ -4863,7 +4863,7 @@
     "static": true
   },
   {
-    "type": "Painter's Cottage",
+    "type": "painters_cottage",
     "spawns": [
       {
         "p": [
@@ -5034,7 +5034,7 @@
     "static": true
   },
   {
-    "type": "Abandoned Vehicle",
+    "type": "abandoned_vehicle",
     "spawns": [
       {
         "p": [
@@ -5054,7 +5054,7 @@
     "static": true
   },
   {
-    "type": "Strange Statues",
+    "type": "strange_statues",
     "spawns": [
       {
         "p": [
@@ -5074,7 +5074,7 @@
     "static": true
   },
   {
-    "type": "Billboard",
+    "type": "billboard",
     "spawns": [
       {
         "p": [
@@ -5163,7 +5163,7 @@
     "static": true
   },
   {
-    "type": "Creepy Painting Loot Crate Spot Defense",
+    "type": "creepy_painting_loot_crate_spot_defense",
     "spawns": [
       {
         "p": [
@@ -5176,7 +5176,7 @@
     "static": true
   },
   {
-    "type": "Eyeballoon Ward",
+    "type": "eyeballoon_ward",
     "spawns": [
       {
         "p": [
@@ -5223,7 +5223,7 @@
     "static": true
   },
   {
-    "type": "Mountain Rock Defense",
+    "type": "mountain_rock_defense",
     "spawns": [
       {
         "p": [

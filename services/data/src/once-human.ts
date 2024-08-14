@@ -254,6 +254,12 @@ const switchType = (
     title = type;
   }
 
+  // Remove special characters
+  type = type
+    .replaceAll(" ", "_")
+    .replace(/[^a-zA-Z0-9_]/g, "")
+    .toLowerCase();
+
   return {
     type,
     title,
@@ -539,10 +545,15 @@ for (const baseNPC of Object.values(baseNPCData)) {
   const title = baseNPC.unit_name;
   const group = baseNPC.model_path.split("/")[1];
 
-  const type = group + "_" + title.toLocaleLowerCase().replaceAll(" ", "_");
+  let type = group + "_" + title.toLocaleLowerCase().replaceAll(" ", "_");
   if (type.match(/[\u3400-\u9FBF]/)) {
     continue;
   }
+  // Remove special characters
+  type = type
+    .replaceAll(" ", "_")
+    .replace(/[^a-zA-Z0-9_]/g, "")
+    .toLowerCase();
 
   let iconPath;
   if (group === "monster") {

@@ -18,8 +18,8 @@
         "size": 1
       },
       {
-        "id": "Scattered",
-        "icon": "Scattered.webp",
+        "id": "scattered",
+        "icon": "scattered.webp",
         "size": 0.65
       },
       {
@@ -913,93 +913,93 @@
     "group": "riddles",
     "values": [
       {
-        "id": "Camera",
-        "icon": "Camera.webp",
+        "id": "camera",
+        "icon": "camera.webp",
         "size": 1
       },
       {
-        "id": "Eyeballoon",
-        "icon": "Eyeballoon.webp",
+        "id": "eyeballoon",
+        "icon": "eyeballoon.webp",
         "size": 1
       },
       {
-        "id": "Bizarre Rocks",
-        "icon": "Bizarre Rocks.webp",
+        "id": "bizarre_rocks",
+        "icon": "bizarre_rocks.webp",
         "size": 1
       },
       {
-        "id": "Lotus Leaf",
-        "icon": "Lotus Leaf.webp",
+        "id": "lotus_leaf",
+        "icon": "lotus_leaf.webp",
         "size": 1
       },
       {
-        "id": "The Creeper",
-        "icon": "The Creeper.webp",
+        "id": "the_creeper",
+        "icon": "the_creeper.webp",
         "size": 1
       },
       {
-        "id": "Strange Door",
-        "icon": "Strange Door.webp",
+        "id": "strange_door",
+        "icon": "strange_door.webp",
         "size": 1
       },
       {
-        "id": "Treasure Map",
-        "icon": "Treasure Map.webp",
+        "id": "treasure_map",
+        "icon": "treasure_map.webp",
         "size": 1
       },
       {
-        "id": "Billboard Judgment District Defense",
-        "icon": "Billboard Judgment District Defense.webp",
+        "id": "billboard_judgment_district_defense",
+        "icon": "billboard_judgment_district_defense.webp",
         "size": 1
       },
       {
-        "id": "Telephone Booth",
-        "icon": "Telephone Booth.webp",
+        "id": "telephone_booth",
+        "icon": "telephone_booth.webp",
         "size": 1
       },
       {
-        "id": "Anti-Construction",
-        "icon": "Anti-Construction.webp",
+        "id": "anticonstruction",
+        "icon": "anticonstruction.webp",
         "size": 1
       },
       {
-        "id": "Target Practice",
-        "icon": "Target Practice.webp",
+        "id": "target_practice",
+        "icon": "target_practice.webp",
         "size": 1
       },
       {
-        "id": "Painter's Cottage",
-        "icon": "Painter's Cottage.webp",
+        "id": "painters_cottage",
+        "icon": "painters_cottage.webp",
         "size": 1
       },
       {
-        "id": "Abandoned Vehicle",
-        "icon": "Abandoned Vehicle.webp",
+        "id": "abandoned_vehicle",
+        "icon": "abandoned_vehicle.webp",
         "size": 1
       },
       {
-        "id": "Strange Statues",
-        "icon": "Strange Statues.webp",
+        "id": "strange_statues",
+        "icon": "strange_statues.webp",
         "size": 1
       },
       {
-        "id": "Billboard",
-        "icon": "Billboard.webp",
+        "id": "billboard",
+        "icon": "billboard.webp",
         "size": 1
       },
       {
-        "id": "Creepy Painting Loot Crate Spot Defense",
-        "icon": "Creepy Painting Loot Crate Spot Defense.webp",
+        "id": "creepy_painting_loot_crate_spot_defense",
+        "icon": "creepy_painting_loot_crate_spot_defense.webp",
         "size": 1
       },
       {
-        "id": "Eyeballoon Ward",
-        "icon": "Eyeballoon Ward.webp",
+        "id": "eyeballoon_ward",
+        "icon": "eyeballoon_ward.webp",
         "size": 1
       },
       {
-        "id": "Mountain Rock Defense",
-        "icon": "Mountain Rock Defense.webp",
+        "id": "mountain_rock_defense",
+        "icon": "mountain_rock_defense.webp",
         "size": 1
       }
     ],
