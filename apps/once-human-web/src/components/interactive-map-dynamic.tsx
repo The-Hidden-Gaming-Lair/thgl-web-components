@@ -1,9 +1,11 @@
 import {
   InteractiveMap,
+  LivePlayer,
   Markers,
   PrivateDrawing,
   PrivateNode,
   Regions,
+  TraceLine,
 } from "@repo/ui/interactive-map";
 import type { TileOptions } from "@repo/lib";
 import { Actions, StreamingReceiver, Whiteboard } from "@repo/ui/controls";
@@ -21,6 +23,8 @@ export default function InteractiveMapDynamic(): JSX.Element {
       />
       <Regions />
       <Markers markerOptions={markerOptions} />
+      <LivePlayer markerOptions={markerOptions} />
+      <TraceLine />
       <Actions>
         <Whiteboard domain="oncehuman" />
         <StreamingReceiver
