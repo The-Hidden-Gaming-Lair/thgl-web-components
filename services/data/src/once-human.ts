@@ -24,6 +24,7 @@ import {
 } from "./once-human.types.js";
 import { Node } from "./types.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
+import { getRegionsFromImage } from "./lib/regions.js";
 
 initDirs(
   Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
@@ -82,10 +83,28 @@ await saveIcon(
   "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_oneself_v4.png",
   "player",
 );
-// const regions = await getRegionsFromImage(
-//   TEXTURE_DIR + "/ui/texpack/bigmap_res/grade_area.png",
-//   tiles[mapName].transformation!
-// );
+const regions = await getRegionsFromImage(
+  TEXTURE_DIR + "/ui/uncompress_tex/monster_level_area_mask.png",
+  (v) => {
+    if (v === 8 || v === 7) {
+      // Chalk Peak
+      return 8;
+    }
+    if (v === 4 || v === 3) {
+      // Broken Delta
+      return 4;
+    }
+    if (v === 2 || v === 6) {
+      // Dayton Wetlands
+      return 2;
+    }
+    return 0;
+  },
+);
+if (regions) {
+  console.log(regions);
+  //process.exit(1);
+}
 
 const scenePrefabData = await readJSON<ScenePrefabData>(
   CONTENT_DIR + "/game_common/data/scene_prefab/scene_prefab_data.json",
@@ -521,6 +540,10 @@ for (const baseNPC of Object.values(baseNPCData)) {
   const group = baseNPC.model_path.split("/")[1];
 
   const type = group + "_" + title.toLocaleLowerCase().replaceAll(" ", "_");
+  if (type.match(/[\u3400-\u9FBF]/)) {
+    continue;
+  }
+
   let iconPath;
   if (group === "monster") {
     iconPath =
