@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
@@ -102,7 +103,7 @@ namespace NativeGameEvents
                     {
                         var actor = new Actor()
                         {
-                            address = 0,
+                            address = playerAddress.GetHashCode(),
                             type = "player",
                             x = playerPos.Z,
                             y = playerPos.X
@@ -209,9 +210,10 @@ namespace NativeGameEvents
                         {
                             continue;
                         }
+
                         actors.Add(new Actor
                         {
-                            address = 0,
+                            address = model.GetHashCode(),
                             type = str,
                             x = pos.Z,
                             y = pos.X,
