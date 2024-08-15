@@ -10,7 +10,7 @@ namespace NativeGameEvents.Models
         public float y;
         public override string ToString()
         {
-            return address.GetHashCode() + "|" + type + "|" + x + "|" + y;
+            return address + "|" + type + "|" + x + "|" + y;
         }
     }
 }

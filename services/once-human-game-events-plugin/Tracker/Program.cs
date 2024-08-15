@@ -112,8 +112,8 @@ namespace Tracker
           //Arguments = @"sign /debug /sha1 e58649c35d9f6c4695e5b05dbe6cef4b0ded155d /fd SHA256 C:\Users\shalz\Documents\GitHub\PalWorldTrainerApp\x64\Release\PalWorldTrainer.exe"
         };
         // pin is 123456
-        //var p = Process.Start(startInfo); p.WaitForExit();
-        File.Copy(@"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll", @"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\apps\once-human-overwolf\plugins\NativeGameEvents.dll");
+        var p = Process.Start(startInfo); p.WaitForExit();
+        File.Copy(@"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll", @"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\apps\once-human-overwolf\plugins\NativeGameEvents.dll", true);
       }
       while (Console.ReadKey(true).Key == ConsoleKey.D)
       {
