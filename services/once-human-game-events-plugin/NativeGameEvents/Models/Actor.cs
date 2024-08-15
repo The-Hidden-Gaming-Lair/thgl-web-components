@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
+
 
 namespace NativeGameEvents.Models
 {
@@ -10,7 +12,7 @@ namespace NativeGameEvents.Models
         public float y;
         public override string ToString()
         {
-            return address + "|" + type + "|" + x + "|" + y;
+          return address + "|" + type + "|" + x.ToString().Replace(',', '.') + "|" + y.ToString().Replace(',', '.');
         }
     }
 }
