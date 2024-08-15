@@ -4,9 +4,9 @@
   {
     public long address;
     public string type;
-    public double x;
-    public double y;
-    public double z;
-    public double? r;
+    public float x;
+    public float y;
+    public float z;
+    public float? r;
   }
 }

@@ -102,6 +102,7 @@ namespace NativeGameEvents
                     {
                         var actor = new Actor()
                         {
+                            address = 0,
                             type = "player",
                             x = playerPos.Z,
                             y = playerPos.X
@@ -210,10 +211,10 @@ namespace NativeGameEvents
                         }
                         actors.Add(new Actor
                         {
+                            address = 0,
                             type = str,
                             x = pos.Z,
                             y = pos.X,
-                            //address = 0,
                         });
                     }
                     var csv = string.Join("\n", actors.DistinctBy(a=>a).Select(a=>a.ToString()));

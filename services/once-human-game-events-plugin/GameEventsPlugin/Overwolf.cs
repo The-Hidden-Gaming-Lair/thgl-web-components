@@ -79,8 +79,8 @@ namespace GameEventsPlugin
             {
               address = long.Parse(csv[0]),
               type = csv[1],
-              x = double.Parse(csv[2]),
-              y = double.Parse(csv[3]),
+              x = float.Parse(csv[2]),
+              y = float.Parse(csv[3]),
               z =  0,
               r = null
             };
@@ -123,8 +123,8 @@ namespace GameEventsPlugin
               {
                 address = long.Parse(items[0]),
                 type = items[1],
-                x = double.Parse(items[2]),
-                y = double.Parse(items[3]),
+                x = float.Parse(items[2]),
+                y = float.Parse(items[3]),
                 z = 0,
                 r = null
               };
