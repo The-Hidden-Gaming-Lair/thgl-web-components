@@ -639,6 +639,11 @@ for (const battleFieldName of battleFieldNames) {
     if (!initialTitle || initialTitle.match(/[\u3400-\u9FBF]/)) {
       continue;
     }
+
+    // if (nodeData.model_path.includes("/m_spider_box/")) {
+    //   continue
+    // }
+
     const spawn: Node["spawns"][0] = {
       p: [nodeData.pos3[2], nodeData.pos3[0]],
     };
@@ -743,6 +748,17 @@ for (const battleFieldName of battleFieldNames) {
     }
     node.spawns.push(spawn);
   }
+}
+
+const type = "morphic_crate";
+const node = nodes.find((n) => n.type === type)!;
+node.spawns = [];
+
+for (const [key, treasureMonster] of Object.entries(treasureMonsterDropData)) {
+  const spawn: Node["spawns"][0] = {
+    p: [treasureMonster.pos3[2], treasureMonster.pos3[0]],
+  };
+  node.spawns.push(spawn);
 }
 
 const filteredNodes = nodes.map((n) => ({
