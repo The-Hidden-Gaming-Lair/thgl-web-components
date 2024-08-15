@@ -123,8 +123,8 @@ namespace GameEventsPlugin
               {
                 address = long.Parse(items[0]),
                 type = items[1],
-                x = double.Parse(items[1]),
-                y = double.Parse(items[2]),
+                x = double.Parse(items[2]),
+                y = double.Parse(items[3]),
                 z = 0,
                 r = null
               };
