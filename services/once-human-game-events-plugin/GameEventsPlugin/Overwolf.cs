@@ -77,10 +77,10 @@ namespace GameEventsPlugin
             Marshal.FreeHGlobal(a);
             var actor = new Actor()
             {
-              address = 0,//playerAddress.ToInt64(),
-              type = "player",
-              x = double.Parse(csv[1]),
-              y = double.Parse(csv[2]),
+              address = long.Parse(csv[0]),
+              type = csv[1],
+              x = double.Parse(csv[2]),
+              y = double.Parse(csv[3]),
               z =  0,
               r = null
             };
@@ -121,8 +121,8 @@ namespace GameEventsPlugin
               var items = c.Split('|');
               return new Actor
               {
-                address = 0,
-                type = items[0],
+                address = long.Parse(items[0]),
+                type = items[1],
                 x = double.Parse(items[1]),
                 y = double.Parse(items[2]),
                 z = 0,

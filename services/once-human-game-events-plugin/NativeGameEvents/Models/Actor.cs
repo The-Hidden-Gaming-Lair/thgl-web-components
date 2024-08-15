@@ -4,12 +4,13 @@ namespace NativeGameEvents.Models
 {
     public class Actor
     {
+        public nint address;
         public string type;
         public float x;
         public float y;
         public override string ToString()
         {
-            return type + "|" + x + "|" + y;
+            return address.GetHashCode() + "|" + type + "|" + x + "|" + y;
         }
     }
 }
