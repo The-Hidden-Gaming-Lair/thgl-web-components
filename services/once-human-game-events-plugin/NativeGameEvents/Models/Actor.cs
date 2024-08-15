@@ -9,7 +9,7 @@ namespace NativeGameEvents.Models
         public float y;
         public override string ToString()
         {
-            return type + "," + x + "," + y;
+            return type + "|" + x + "|" + y;
         }
     }
 }

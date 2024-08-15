@@ -73,7 +73,7 @@ namespace GameEventsPlugin
           var a = GetPlayer();
           if (a != IntPtr.Zero)
           {
-            var csv = Marshal.PtrToStringAnsi(a).Split(',');
+            var csv = Marshal.PtrToStringAnsi(a).Split('|');
             Marshal.FreeHGlobal(a);
             var actor = new Actor()
             {
@@ -118,7 +118,7 @@ namespace GameEventsPlugin
             Marshal.FreeHGlobal(actorsPtr);
             var actors = csv.Select(c =>
             {
-              var items = c.Split(',');
+              var items = c.Split('|');
               return new Actor
               {
                 address = 0,
