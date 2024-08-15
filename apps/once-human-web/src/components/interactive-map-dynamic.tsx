@@ -13,6 +13,7 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
 const markerOptions = {
   radius: 10,
+  playerIcon: "player.webp",
 };
 export default function InteractiveMapDynamic(): JSX.Element {
   return (
