@@ -143,7 +143,7 @@ namespace NativeGameEvents
                     var modelMgr = _memory.ReadProcessMemory<nint>(scene + modelMgrOffset);
                     var modelMgrBlock = _memory.ReadProcessMemory(modelMgr, objCount * 8);
                     var maxDist = 0f;
-                    var count = int.Parse(objCount.ToString());
+                    var count = int.Parse(objCount.ToString().Replace(",","."));
                     for (var i = 0; i < count; i++)
                     {
                         var model = (nint)BitConverter.ToUInt64(modelMgrBlock, i * 8);
