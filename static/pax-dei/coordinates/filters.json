@@ -670,6 +670,10 @@
         "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T40_Squalor",
+        "icon": "PD_NPC_Cor_Boar_T40_Squalor.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T50_Aper_Magnus",
         "icon": "PD_NPC_Cor_Boar_T50_Aper_Magnus.webp"
       },
@@ -810,6 +814,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
+        "icon": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host",
         "icon": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host.webp"
       },
@@ -834,6 +842,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T32_Hallboy",
+        "icon": "PD_NPC_Zeb_Warrior_T32_Hallboy.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
         "icon": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier.webp"
       },
@@ -844,6 +856,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
         "icon": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette",
+        "icon": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -1040,6 +1056,10 @@
       {
         "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
         "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia",
+        "icon": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
@@ -1333,6 +1353,10 @@
         "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
       },
       {
+        "id": "PD_NPC_Cor_Boar_T40_Squalor",
+        "icon": "PD_NPC_Cor_Boar_T40_Squalor.webp"
+      },
+      {
         "id": "PD_NPC_Cor_Boar_T50_Aper_Magnus",
         "icon": "PD_NPC_Cor_Boar_T50_Aper_Magnus.webp"
       },
@@ -1389,6 +1413,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
+        "icon": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host",
         "icon": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host.webp"
       },
@@ -1413,6 +1441,10 @@
         "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Warrior_T32_Hallboy",
+        "icon": "PD_NPC_Zeb_Warrior_T32_Hallboy.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
         "icon": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier.webp"
       },
@@ -1423,6 +1455,10 @@
       {
         "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
         "icon": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette",
+        "icon": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette.webp"
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
@@ -1587,6 +1623,10 @@
       {
         "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
         "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+      },
+      {
+        "id": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia",
+        "icon": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia.webp"
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
