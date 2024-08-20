@@ -36,14 +36,14 @@ namespace GameEventsPlugin
         status = UpdateProcess();
         if (status != 0)
         {
-            _lastError = "UpdateProcess failed";
-            error(_lastError);
+          _lastError = "UpdateProcess failed: " + status;
+          error(_lastError);
         }
         else
         {
-            _lastError = null;
+          _lastError = null;
 
-            callback(true);
+          callback(true);
         }
       }
       catch (Exception e)
@@ -57,16 +57,15 @@ namespace GameEventsPlugin
     {
       Task.Run(() =>
       {
-      try
-      {
+        try
+        {
           if (_lastError != null)
           {
-              error(_lastError);
-              return;
+            error(_lastError);
+            return;
           }
           if (status != 0)
           {
-            _lastError = "Waiting for process";
             error(_lastError);
             return;
           }
@@ -81,7 +80,7 @@ namespace GameEventsPlugin
               type = csv[1],
               x = float.Parse(csv[2]),
               y = float.Parse(csv[3]),
-              z =  0,
+              z = 0,
               r = null
             };
             callback(actor);
@@ -97,7 +96,7 @@ namespace GameEventsPlugin
         }
       });
     }
-        
+
     [DllImport("NativeGameEvents.dll")] extern static IntPtr GetActors();
     public void GetActors(string[] types, Action<object> callback, Action<object> error)
     {
