@@ -4,12 +4,11 @@
   "meta": {
     "name": "Once Human Map-DEV",
     "author": "Leon Machens",
-    "version": "0.2.11",
+    "version": "0.2.12",
     "minimum-overwolf-version": "0.241.0",
     "minimum-gep-version": "242.0",
     "description": "Once Human Interactive Map – The Hidden Gaming Lair",
     "dock_button_title": "Once Human Map",
-    "author_display": "DevLeon",
     "icon": "icons/icon.png",
     "icon_gray": "icons/icon_gray.png",
     "launcher_icon": "icons/launcher_icon.ico"
