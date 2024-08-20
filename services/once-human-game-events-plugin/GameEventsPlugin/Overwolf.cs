@@ -106,7 +106,6 @@ namespace GameEventsPlugin
         {
           if (status != 0)
           {
-            _lastError = "Waiting for process";
             error(_lastError);
             return;
           }
