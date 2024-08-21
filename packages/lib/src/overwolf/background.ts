@@ -12,6 +12,7 @@ import { useAccountStore } from "../account";
 import { HOTKEYS } from "./hotkeys";
 import { useSettingsStore } from "../settings";
 import { dispose, loadDiscordRPCPlugin } from "./discord";
+import { promisifyOverwolf } from "./promisify";
 
 export async function initBackground(
   gameClassId: number,
@@ -93,6 +94,11 @@ export async function initBackground(
       }
     }
   });
+
+  const manifest = await promisifyOverwolf(
+    overwolf.extensions.current.getManifest,
+  )();
+  console.log(`Version: ${manifest.meta.version}`);
 }
 
 async function handleAppLaunch(gameClassId: number) {
