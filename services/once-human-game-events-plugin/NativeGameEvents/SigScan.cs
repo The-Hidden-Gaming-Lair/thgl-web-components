@@ -57,7 +57,7 @@ namespace NativeGameEvents
             AddressOffset = addressOffset;
         }
 
-        public IntPtr ScanSignature(Process process)
+        public IntPtr ScanSignature(NativeProcess process)
         {
             SigScan sigScan = new SigScan(process, new IntPtr(StartAddress), SearchRange);
             return sigScan.FindPattern(WantedBytes, Mask, AddressOffset);
@@ -67,26 +67,6 @@ namespace NativeGameEvents
 
     public class SigScan
     {
-        /// <summary>
-        /// ReadProcessMemory
-        /// 
-        ///     API import definition for ReadProcessMemory.
-        /// </summary>
-        /// <param name="hProcess">Handle to the process we want to read from.</param>
-        /// <param name="lpBaseAddress">The base address to start reading from.</param>
-        /// <param name="lpBuffer">The return buffer to write the read data to.</param>
-        /// <param name="dwSize">The size of data we wish to read.</param>
-        /// <param name="lpNumberOfBytesRead">The number of bytes successfully read.</param>
-        /// <returns></returns>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool ReadProcessMemory(
-            IntPtr hProcess,
-            IntPtr lpBaseAddress,
-            [Out()] byte[] lpBuffer,
-            int dwSize,
-            out int lpNumberOfBytesRead
-            );
-
         /// <summary>
         /// m_vDumpedRegion
         /// 
@@ -99,7 +79,7 @@ namespace NativeGameEvents
         /// 
         ///     The process we want to read the memory of.
         /// </summary>
-        private Process m_vProcess;
+        private NativeProcess m_vProcess;
 
         /// <summary>
         /// m_vAddress
@@ -140,7 +120,7 @@ namespace NativeGameEvents
         /// <param name="proc">The process to dump the memory from.</param>
         /// <param name="addr">The started address to begin the dump.</param>
         /// <param name="size">The size of the dump.</param>
-        public SigScan(Process proc, IntPtr addr, int size)
+        public SigScan(NativeProcess proc, IntPtr addr, int size)
         {
             this.m_vProcess = proc;
             this.m_vAddress = addr;
@@ -156,7 +136,7 @@ namespace NativeGameEvents
         ///     properties to dump a memory region.
         /// </summary>
         /// <returns>Boolean based on RPM results and valid properties.</returns>
-        public bool DumpMemory()
+        public unsafe bool DumpMemory()
         {
             try
             {
@@ -173,16 +153,14 @@ namespace NativeGameEvents
                 // Create the region space to dump into.
                 this.m_vDumpedRegion = new byte[this.m_vSize];
 
-                bool bReturn = false;
+                int bReturn = 0;
                 int nBytesRead = 0;
 
                 // Dump the memory.
-                bReturn = ReadProcessMemory(
-                    this.m_vProcess.Handle, this.m_vAddress, this.m_vDumpedRegion, this.m_vSize, out nBytesRead
-                    );
+                bReturn = Memory.ReadProcessMemory( this.m_vProcess.Handle, this.m_vAddress, this.m_vDumpedRegion, this.m_vSize, out nBytesRead  );
 
                 // Validation checks.
-                if (bReturn == false || nBytesRead != this.m_vSize)
+                if (bReturn == 0 || nBytesRead != this.m_vSize)
                     return false;
                 return true;
             }
@@ -315,7 +293,7 @@ namespace NativeGameEvents
         #endregion
 
         #region "sigScan Class Properties"
-        public Process Process
+        public NativeProcess Process
         {
             get { return this.m_vProcess; }
             set { this.m_vProcess = value; }

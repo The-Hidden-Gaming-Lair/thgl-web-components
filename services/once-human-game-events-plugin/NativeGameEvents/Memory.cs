@@ -10,29 +10,27 @@ namespace NativeGameEvents
 {
     public unsafe class Memory
     {
-        [DllImport("kernel32")] static extern IntPtr OpenProcess(UInt32 dwDesiredAccess, Int32 bInheritHandle, Int32 dwProcessId);
-        [DllImport("kernel32")] static extern Int32 ReadProcessMemory(IntPtr hProcess, Int64 lpBaseAddress, [In, Out] Byte[] buffer, Int32 size, out Int32 lpNumberOfBytesRead);
-        [DllImport("user32")] public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, String lpszClass, String lpszWindow);
-        [DllImport("user32")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out Int32 lpdwProcessId);
+        [DllImport("kernel32")] internal static extern Int32 ReadProcessMemory(IntPtr hProcess, Int64 lpBaseAddress, [In, Out] Byte[] buffer, Int32 size, out Int32 lpNumberOfBytesRead);
+        //public static delegate* unmanaged[Stdcall]<IntPtr, Int64, Byte[], Int32, out Int32, Int32> ReadProcMemInternal;
         public IntPtr procHandle = IntPtr.Zero;
-        public Process Process { get; private set; }
+        internal NativeProcess Process { get; private set; }
         public IntPtr BaseAddress = IntPtr.Zero;
         public int ModuleMemorySize = 0;
 
-        public Memory(Process proc)
+        public Memory()
         {
+
             //r result = NtOpenProcess(ref hProcess, 0x001F0FFF, ref oa, ref ci);
             //var handle = NativeLibrary.Load("kernel32.dll");
-            //ReadProcMemInternal = (delegate* unmanaged[Stdcall]<IntPtr, UInt64, Byte[], Int32, out Int32, Int32>)NativeLibrary.GetExport(handle, "ReadProcessMemory");
-            Process = proc;
+            //ReadProcMemInternal = (delegate* unmanaged[Stdcall]<IntPtr, Int64, Byte[], Int32, out Int32, Int32>)NativeLibrary.GetExport(handle, "ReadProcessMemory");
+            //OpenProcessInternal = (delegate* unmanaged[Stdcall]<UInt32, Int32, Int32, IntPtr>)NativeLibrary.GetExport(handle, "OpenProcess");
+            //Process = Process.GetProcessesByName("ONCE_HUMAN").FirstOrDefault();
+            Process = NativeProcess.GetProcessByName("ONCE_HUMAN.exe");
             if (Process == null) return;
-            OpenProcessById(Process.Id);
-            BaseAddress = Process.MainModule.BaseAddress;
-            ModuleMemorySize = Process.MainModule.ModuleMemorySize;
-        }
-        public void OpenProcessById(Int32 procId)
-        {
-            procHandle = OpenProcess(0x38, 1, procId);
+            //OpenProcessById(Process.Id);
+            procHandle = Process.Handle;
+            BaseAddress = Process.BaseAddress;
+            ModuleMemorySize = Process.ModuleMemorySize;
         }
         public Int32 maxStringLength = 0x100;
 
@@ -45,6 +43,7 @@ namespace NativeGameEvents
             {
                 var blockSize = (i == (length / MaxReadSize)) ? length % MaxReadSize : MaxReadSize;
                 var buf = new Byte[blockSize];
+                //ReadProcessMemory(procHandle, addr + i * MaxReadSize, buf, blockSize, out Int32 bytesRead);
                 ReadProcessMemory(procHandle, addr + i * MaxReadSize, buf, blockSize, out Int32 bytesRead);
                 Array.Copy(buf, 0, buffer, i * MaxReadSize, blockSize);
             }
@@ -87,6 +86,7 @@ namespace NativeGameEvents
             else throw new Exception("bad size AOT");
             var buffer = new Byte[size];
             ReadProcessMemory(procHandle, addr, buffer, size, out Int32 bytesRead);
+            //ReadProcMemInternal(procHandle, addr, buffer, size, out Int32 bytesRead);
             var structPtr = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             var obj = (type == typeof(int)) ? (object)Marshal.PtrToStructure<int>(structPtr.AddrOfPinnedObject()) : (type == typeof(Vector3)) ? (object)Marshal.PtrToStructure<Vector3>(structPtr.AddrOfPinnedObject()) : (type == typeof(uint)) ? (object)Marshal.PtrToStructure<uint>(structPtr.AddrOfPinnedObject()) : (object)Marshal.PtrToStructure<nint>(structPtr.AddrOfPinnedObject());
             structPtr.Free();
@@ -95,37 +95,6 @@ namespace NativeGameEvents
         public T ReadProcessMemory<T>(nint addr)
         {
             return (T)ReadProcessMemory(typeof(T), addr);
-        }
-
-        public IntPtr FindPattern(String pattern)
-        {
-            return FindPattern(pattern, BaseAddress, ModuleMemorySize);
-        }
-        public IntPtr FindStringRef(String str)
-        {
-            var stringAddr = FindPattern(BitConverter.ToString(Encoding.Unicode.GetBytes(str)).Replace("-", " "));
-            var sigScan = new SigScan(Process, BaseAddress, ModuleMemorySize);
-            sigScan.DumpMemory();
-            for (var i = 0; i < sigScan.Size; i++)
-            {
-                if ((sigScan.m_vDumpedRegion[i] == 0x48 || sigScan.m_vDumpedRegion[i] == 0x4c) && sigScan.m_vDumpedRegion[i + 1] == 0x8d)
-                {
-                    var jmpTo = BitConverter.ToInt32(sigScan.m_vDumpedRegion, i + 3);
-                    var addr = sigScan.Address + i + jmpTo + 7;
-                    if (addr == stringAddr)
-                    {
-                        return BaseAddress + i;
-                    }
-                }
-            }
-            return (IntPtr)0;
-        }
-        public IntPtr FindPattern(String pattern, IntPtr start, Int32 length)
-        {
-            var sigScan = new SigScan(Process, start, length);
-            var arrayOfBytes = pattern.Split(' ').Select(b => b.Contains("?") ? (Byte)0 : (Byte)Convert.ToInt32(b, 16)).ToArray();
-            var strMask = String.Join("", pattern.Split(' ').Select(b => b.Contains("?") ? '?' : 'x'));
-            return sigScan.FindPattern(arrayOfBytes, strMask, 0);
         }
         public IntPtr FindPattern(byte[] pattern)
         {

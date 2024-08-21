@@ -89,19 +89,22 @@ namespace Tracker
       // var fileName = @"C:\Program Files (x86)\Steam\steamapps\common\Palworld\Palworld.exe";
       // var fileName = @"C:\Wuthering Waves\Wuthering Waves Game\Client\Binaries\Win64\Client-Win64-Shipping.exe"; ;
       // var fileName = @"C:\Wemade\NightCrowsG\Client\MadGlobal.exe"; ;
-
-      Task.Run(() =>
+      
+            
+      if (false)
       {
-        RunOverwolfProcess();
-      });
-      Task.Run(() =>
-      {
-        RunOverwolfPlayer();
-      });
-      Task.Run(() =>
-      {
-        RunOverwolfActors();
-      });
+        var startInfo = new ProcessStartInfo
+        {
+          FileName = @"C:\Users\andre\Documents\GitHub\Diablo4Logs\Builder\upx.exe",
+          UseShellExecute = false,
+          Arguments = @"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll -9"
+          //Arguments = @"sign /debug /sha1 e58649c35d9f6c4695e5b05dbe6cef4b0ded155d /fd SHA256 C:\Users\shalz\Documents\GitHub\PalWorldTrainerApp\x64\Release\PalWorldTrainer.exe"
+        };
+        var p = Process.Start(startInfo);
+        p.WaitForExit();
+        File.Copy(@"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll", @"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\apps\once-human-overwolf\plugins\NativeGameEvents.dll", true);
+     
+      }
       if (false)
       {
         var startInfo = new ProcessStartInfo
@@ -115,6 +118,18 @@ namespace Tracker
         var p = Process.Start(startInfo); p.WaitForExit();
         File.Copy(@"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\bin\Release\net9.0\publish\win-x64\NativeGameEvents.dll", @"C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\apps\once-human-overwolf\plugins\NativeGameEvents.dll", true);
       }
+      Task.Run(() =>
+      {
+        RunOverwolfProcess();
+      });
+      Task.Run(() =>
+      {
+        RunOverwolfPlayer();
+      });
+      Task.Run(() =>
+      {
+        RunOverwolfActors();
+      });
       while (Console.ReadKey(true).Key == ConsoleKey.D)
       {
         Console.WriteLine("Saving Dump");

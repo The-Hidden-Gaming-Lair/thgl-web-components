@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<Obfuscator>
+  <Var name="InPath" value="." />
+  <Var name="OutPath" value="C:\Users\andre\Documents\GitHub\the-hidden-gaming-lair\services\once-human-game-events-plugin\NativeGameEvents\obj\Release\net9.0\win-x64\" />
+  <Var name="HidePrivateApi" value="true" />
+  <Var name="HideStrings" value="true" />
+  <Var name="RenameProperties" value="true" />
+  <Var name="RenameEvents" value="true" />
+  <Var name="RenameFields" value="true" />
+  <Var name="KeepPublicApi" value="false" />
+
+  <Module file="$(InPath)\NativeGameEvents.dll">
+  </Module>
+</Obfuscator>

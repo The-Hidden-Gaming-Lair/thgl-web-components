@@ -11,9 +11,9 @@ namespace NativeGameEvents
 {
     internal static class Game
     {
-        internal static Process _process = null;
         internal static Memory _memory = null;
         internal static string _lastError = null;
+        internal static nint BaseAddress = 0;
         internal static nint SceneOffset = 0;
         internal static bool IsElevated
         {
@@ -24,39 +24,17 @@ namespace NativeGameEvents
             }
         }
         [UnmanagedCallersOnly(EntryPoint = "UpdateProcess")]
-        internal static int UpdateProcess()
+        internal static int UpdateProcess(int id)
         {
             try
             {
-                if (Process.GetCurrentProcess().ProcessName != "GEPConsole" && Process.GetCurrentProcess().ProcessName != "Once Human Map")
+                if (!System.Environment.ProcessPath.Contains("GEPConsole") && !System.Environment.ProcessPath.Contains("Once Human Map"))
                 {
                     return -1;
                 }
-                if (_process != null && _process.HasExited)
+                if (_memory == null)
                 {
-                    _memory = null;
-                    _process = null;
-                    return 2;
-                    throw new Exception("Process has exited");
-                }
-                if (_memory == null || _process == null)
-                {
-                    //if (processName != null)
-                    {
-                        var processes = Process.GetProcessesByName("ONCE_HUMAN");
-                        if (processes.Count() == 0)
-                        {
-                            return 3;
-                            throw new Exception("Can not find process");
-                        }
-                        _process = processes[0];
-                        if (_process == null)
-                        {
-                            return 4;
-                            throw new Exception("Can not find process");
-                        }
-                    }
-                    _memory = new Memory(_process);
+                    _memory = new Memory();
                     if (SceneOffset == 0)
                     {
                         var addr = _memory.FindPattern(new byte[] { 0xE8, 0, 0, 0, 0, 0x45, 0x33, 0xC0, 0x48, 0x8D, 0x54, 0x24, 0x0, 0x48, 0x8B, 0xC8, 0xE8, 0, 0, 0, 0, 0x48 });
@@ -86,12 +64,12 @@ namespace NativeGameEvents
                         //error(_lastError);
                         return 0;
                     }
-                    if (_process == null || _memory == null)
+                    if (_memory == null)
                     {
                         //error("Can not find proc");
                         return 0;
                     }
-                    var scene = _memory.ReadProcessMemory<nint>(_process.MainModule.BaseAddress + SceneOffset);
+                    var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + SceneOffset);
                     if (scene == IntPtr.Zero)
                     {
                         //error("Can not find scene");
@@ -136,10 +114,15 @@ namespace NativeGameEvents
         {
             //Task.Run(() =>
             {
+                if (_memory == null)
+                {
+                    //error("Can not find proc");
+                    return 0;
+                }
                 try
                 {
                     var actors = new List<Actor>();
-                    var scene = _memory.ReadProcessMemory<nint>(_process.MainModule.BaseAddress + SceneOffset);
+                    var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + SceneOffset);
                     var modelMgr = _memory.ReadProcessMemory<nint>(scene + modelMgrOffset);
                     var modelMgrBlock = _memory.ReadProcessMemory(modelMgr, objCount * 8);
                     var maxDist = 0f;
