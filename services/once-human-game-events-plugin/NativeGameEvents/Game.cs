@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -24,7 +25,7 @@ namespace NativeGameEvents
             }
         }
         [UnmanagedCallersOnly(EntryPoint = "UpdateProcess")]
-        internal static int UpdateProcess(int id)
+        internal static int UpdateProcess()
         {
             try
             {
@@ -32,9 +33,21 @@ namespace NativeGameEvents
                 {
                     return -1;
                 }
+                if (_memory != null && _memory.Process?.HasExited == true)
+                {
+                    _memory = null;
+                    return 2;
+                    throw new Exception("Process has exited");
+
+                }
                 if (_memory == null)
                 {
                     _memory = new Memory();
+                    if (_memory.Process == null)
+                    {
+                        _memory = null;
+                        return 3;
+                    }
                     if (SceneOffset == 0)
                     {
                         var addr = _memory.FindPattern(new byte[] { 0xE8, 0, 0, 0, 0, 0x45, 0x33, 0xC0, 0x48, 0x8D, 0x54, 0x24, 0x0, 0x48, 0x8B, 0xC8, 0xE8, 0, 0, 0, 0, 0x48 });
@@ -123,10 +136,12 @@ namespace NativeGameEvents
                 {
                     var actors = new List<Actor>();
                     var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + SceneOffset);
+                    if (scene == 0) return 0;
                     var modelMgr = _memory.ReadProcessMemory<nint>(scene + modelMgrOffset);
+                    if (modelMgr == 0) return 0;
                     var modelMgrBlock = _memory.ReadProcessMemory(modelMgr, objCount * 8);
                     var maxDist = 0f;
-                    var count = int.Parse(objCount.ToString().Replace(",","."));
+                    var count = int.Parse(objCount.ToString(), CultureInfo.InvariantCulture);
                     for (var i = 0; i < count; i++)
                     {
                         var model = (nint)BitConverter.ToUInt64(modelMgrBlock, i * 8);

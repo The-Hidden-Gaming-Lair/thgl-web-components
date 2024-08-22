@@ -11,9 +11,20 @@ namespace NativeGameEvents
 {
     public class NativeProcess
     {
+        [DllImport("kernel32")] internal static extern bool GetExitCodeProcess(IntPtr hProcess, out uint lpExitCode);
         internal nint Handle;
         internal nint BaseAddress;
         internal int ModuleMemorySize;
+        const uint STILL_ACTIVE = 259;
+        internal bool HasExited
+        {
+            get {
+                var res = GetExitCodeProcess(Handle, out uint exitCode);
+                if (res == false) return true;
+                //Console.WriteLine(res + " : " + exitCode);
+                return exitCode != STILL_ACTIVE;
+            }
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct MODULEINFO

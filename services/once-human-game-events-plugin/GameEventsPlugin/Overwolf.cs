@@ -8,6 +8,7 @@ using GameEventsPlugin.Models;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace GameEventsPlugin
 {
@@ -76,10 +77,10 @@ namespace GameEventsPlugin
             Marshal.FreeHGlobal(a);
             var actor = new Actor()
             {
-              address = long.Parse(csv[0]),
+              address = long.Parse(csv[0], CultureInfo.InvariantCulture),
               type = csv[1],
-              x = float.Parse(csv[2]),
-              y = float.Parse(csv[3]),
+              x = float.Parse(csv[2], CultureInfo.InvariantCulture),
+              y = float.Parse(csv[3], CultureInfo.InvariantCulture),
               z = 0,
               r = null
             };
@@ -110,7 +111,7 @@ namespace GameEventsPlugin
             return;
           }
           var actorsPtr = GetActors();
-          if (actorsPtr != null)
+          if (actorsPtr != IntPtr.Zero)
           {
             var csv = Marshal.PtrToStringAnsi(actorsPtr).Split('\n');
             Marshal.FreeHGlobal(actorsPtr);
@@ -119,10 +120,10 @@ namespace GameEventsPlugin
               var items = c.Split('|');
               return new Actor
               {
-                address = long.Parse(items[0]),
+                address = long.Parse(items[0], CultureInfo.InvariantCulture),
                 type = items[1],
-                x = float.Parse(items[2]),
-                y = float.Parse(items[3]),
+                x = float.Parse(items[2], CultureInfo.InvariantCulture),
+                y = float.Parse(items[3], CultureInfo.InvariantCulture),
                 z = 0,
                 r = null
               };
