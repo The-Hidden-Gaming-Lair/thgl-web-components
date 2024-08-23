@@ -25,6 +25,9 @@ const tiles = initTiles();
 const regions = initRegions();
 const globalFilters = initGlobalFilters();
 
+// /Game/00Main/Maps/HFS01/HFS01_PersistentLevel.HFS01_PersistentLevel."
+// "Unit_Player_Wukong_C /Game/00Main/Maps/HFS01/HFS01_PersistentLevel.HFS01_PersistentLevel.PersistentLevel."
+
 writeNodes(nodes);
 writeFilters(filters);
 writeTypesIDs(typesIDs);
