@@ -121,7 +121,8 @@ namespace NativeGameEvents
         internal static int modelMgrOffset = int.Parse("0xf88".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
         internal static int locOffset = int.Parse("0x174".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
         internal static int nameOffset = int.Parse("0x5d8".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
-        internal static int playerOffset = int.Parse("0x1860".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+        //internal static int playerOffset = int.Parse("0x1848".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+        internal static int playerOffset = int.Parse("0xf38".Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
         [UnmanagedCallersOnly(EntryPoint = "GetActors")]
         internal static nint GetActors()
         {
