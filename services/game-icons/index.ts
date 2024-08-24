@@ -91,6 +91,10 @@ const TAGS = [
       name: "Settlers of Catan",
     },
     {
+      tag: "tarot",
+      name: "Tarot",
+    },
+    {
       tag: "toy",
       name: "Toy",
     },
@@ -497,6 +501,120 @@ const TAGS = [
       name: "Target",
     },
   ],
+  [
+    {
+      tag: "action",
+      name: "Action",
+    },
+  ],
+  [
+    {
+      tag: "bag",
+      name: "Bag",
+    },
+  ],
+  [
+    {
+      tag: "ball",
+      name: "Ball",
+    },
+  ],
+  [
+    {
+      tag: "block",
+      name: "Block",
+    },
+  ],
+  [
+    {
+      tag: "container",
+      name: "Container",
+    },
+  ],
+  [
+    {
+      tag: "farm",
+      name: "Farm",
+    },
+  ],
+  [
+    {
+      tag: "flag",
+      name: "Flag",
+    },
+  ],
+  [
+    {
+      tag: "household",
+      name: "Household",
+    },
+  ],
+  [
+    {
+      tag: "life",
+      name: "Life, Health & Medicine",
+    },
+  ],
+  [
+    {
+      tag: "light",
+      name: "Light",
+    },
+  ],
+  [
+    {
+      tag: "lock",
+      name: "Lock & Key",
+    },
+  ],
+  [
+    {
+      tag: "money",
+      name: "Money",
+    },
+  ],
+  [
+    {
+      tag: "rank",
+      name: "Rank",
+    },
+  ],
+  [
+    {
+      tag: "spike",
+      name: "Spike, Slash & Crack",
+    },
+  ],
+  [
+    {
+      tag: "sport",
+      name: "Sport",
+    },
+  ],
+  [
+    {
+      tag: "state",
+      name: "State & mood",
+    },
+  ],
+  [
+    {
+      tag: "string",
+      name: "String",
+    },
+  ],
+  [
+    {
+      tag: "time",
+      name: "Time",
+    },
+  ],
+  [
+    {
+      tag: "trap",
+      name: "Trap",
+    },
+  ],
 ];
 const icons: {
   tag: string;
@@ -518,13 +636,16 @@ for (const tags of TAGS) {
   }[] = [];
 
   for (const tag of tags) {
-    // await downloadAndUnzip(tag.tag);
+    await downloadAndUnzip(tag.tag);
     const itemIcons: {
       name: string;
       url: string;
       author: string;
     }[] = [];
     for (const icon of readDirRecursive(`icons/${tag.tag}`)) {
+      if (icon.endsWith("license.txt")) {
+        continue;
+      }
       const matched = icon.match(
         /icons\/(.+?)\/icons\/ffffff\/transparent\/1x1\/(.+?)\/(.+?)\.png/,
       );
@@ -538,7 +659,7 @@ for (const tags of TAGS) {
         url: `/global_icons/game-icons/${name}_${author}.webp`,
         author: capitalizeString(author),
       });
-      //   await $`cwebp ${icon} -resize 64 64 -o ../../static/global/icons/game-icons/${name}_${author}.webp`;
+      await $`cwebp ${icon} -resize 64 64 -m 6 -o ../../static/global/icons/game-icons/${name}_${author}.webp -quiet`;
     }
     items.push({
       tag: tag.name,
@@ -563,7 +684,7 @@ function capitalizeString(str: string) {
 
 async function downloadAndUnzip(tag: string) {
   await $`wget https://game-icons.net/archives/png/zip/ffffff/transparent/${tag}.png.zip`;
-  await $`unzip ${tag}.png.zip -d icons/${tag}`;
+  await $`unzip -o ${tag}.png.zip -d icons/${tag}`;
   await $`rm ${tag}.png.zip`;
 }
 
