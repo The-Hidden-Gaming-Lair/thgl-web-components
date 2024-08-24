@@ -196,7 +196,7 @@ namespace GameEventsPlugin
           for (var l = 0; l < _levels.Num; l++)
           {
             var level = _levels[l];
-            var actorsAddress = level.Address + (l == 0 ? 0xA0 : 0x90);
+            var actorsAddress = level.Address + (l == 0 ? 0xA8 : 0x98);
             var actors = new UEObject(actorsAddress);
             var actorsNum = actors.Num;
             if (actorsNum < 65536)
@@ -209,10 +209,7 @@ namespace GameEventsPlugin
                 {
                   continue;
                 }*/
-                if (name != "BP_NA023_C")
-                {
-                  continue;
-                }
+             
                 visited = new List<IntPtr>();
                 var actorFieldNames = actor.GetFieldNames(actor.ClassAddr, visited, ""); ;
                 result.Add("");

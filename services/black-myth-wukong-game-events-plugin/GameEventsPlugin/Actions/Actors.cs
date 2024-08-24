@@ -45,7 +45,7 @@ namespace GameEventsPlugin.Actions
         return null;
       }
       var position = UnrealEngine.Memory.ReadProcessMemory<Vector3Double>(relativeLocation.Address);
-      if (position.X == 0 && position.Y == 0) 
+      if (position.X == 0 && position.Y == 0)
       {
         return null;
       }
@@ -105,7 +105,7 @@ namespace GameEventsPlugin.Actions
                 type = actor.GetName();
               }
 
-              if (types.Length == 0 || types.Contains(type))
+              if (types.Length == 0 || types.Contains(type, StringComparer.OrdinalIgnoreCase))
               {
                 var foundActor = GetActor(actor, type, path);
                 if (foundActor != null)

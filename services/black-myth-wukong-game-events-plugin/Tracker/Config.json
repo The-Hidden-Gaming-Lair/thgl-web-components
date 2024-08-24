@@ -1,3 +1,4 @@
 {
-  "ProcessName": "NWXClient-Win64-Shipping"
+  "ProcessName": "b1-Win64-Shipping",
+  "ActorNames": [ "UNIT_gycy_lang_05_C" ]
 }

@@ -55,7 +55,7 @@ namespace Tracker
 
     static private void RunOverwolfActors()
     {
-      overwolf.GetActors(new String[0], (actors) =>
+      overwolf.GetActors(_config.ActorNames, (actors) =>
       {
         Thread.Sleep(500);
         RunOverwolfActors();
