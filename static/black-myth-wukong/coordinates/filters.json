@@ -1,1 +1,190 @@
-[]
+[
+  {
+    "group": "items",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "treasure_box",
+        "icon": "treasure_box.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "materials",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "aged_ginseng",
+        "icon": "aged_ginseng.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "rebirth_point",
+        "icon": "rebirth_point.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "enemies",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "hfm_mamian_01a",
+        "icon": "hfm_mamian_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_she_01",
+        "icon": "gycy_she_01.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_she_02",
+        "icon": "gycy_she_02.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_she_02_passive",
+        "icon": "gycy_she_02_passive.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_she_03",
+        "icon": "gycy_she_03.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_wa_01",
+        "icon": "gycy_wa_01.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_wa_02",
+        "icon": "gycy_wa_02.webp",
+        "size": 1
+      },
+      {
+        "id": "lys_yaoseng_03a",
+        "icon": "lys_yaoseng_03a.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC_Shenhou",
+        "icon": "NPC_Shenhou.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_01",
+        "icon": "gycy_lang_01.webp",
+        "size": 1
+      },
+      {
+        "id": "wolf_scout",
+        "icon": "wolf_scout.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_03_huoba",
+        "icon": "gycy_lang_03_huoba.webp",
+        "size": 1
+      },
+      {
+        "id": "wolf_swornsword",
+        "icon": "wolf_swornsword.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_07a",
+        "icon": "gycy_lang_07a.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_hfdw",
+        "icon": "gycy_hfdw.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_02",
+        "icon": "gycy_lang_02.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_04",
+        "icon": "gycy_lang_04.webp",
+        "size": 1
+      },
+      {
+        "id": "wolf_stalwart",
+        "icon": "wolf_stalwart.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_08_NotMove",
+        "icon": "gycy_lang_08_NotMove.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_tufei_01",
+        "icon": "gycy_tufei_01.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_yanjianxi_01b",
+        "icon": "gycy_yanjianxi_01b.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_yaxiangke",
+        "icon": "gycy_yaxiangke.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_lang_08",
+        "icon": "gycy_lang_08.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_xiong_02",
+        "icon": "gycy_xiong_02.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_niu_01",
+        "icon": "hfm_niu_01.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_dbl_01",
+        "icon": "gycy_dbl_01.webp",
+        "size": 1
+      },
+      {
+        "id": "ftt_tianqiaoyiren_03a",
+        "icon": "ftt_tianqiaoyiren_03a.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_baiyi_03",
+        "icon": "gycy_baiyi_03.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_baiyi_she",
+        "icon": "gycy_baiyi_she.webp",
+        "size": 1
+      }
+    ]
+  }
+]

@@ -427,18 +427,30 @@ export function CoordinatesProvider({
       return acc;
     }, []);
   }, [isHydrated, myFilters]);
+  const normalizedTypesIdMap = useMemo(() => {
+    if (!typesIdMap) {
+      return typesIdMap;
+    }
+    return Object.entries(typesIdMap).reduce<Record<string, string>>(
+      (acc, [key, value]) => {
+        acc[key.toLowerCase()] = value;
+        return acc;
+      },
+      {},
+    );
+  }, [typesIdMap]);
 
   const nodes = useMemo<NodesCoordinates>(() => {
     if (!isHydrated || !staticNodes) {
       return emptyArray as NodesCoordinates;
     }
-    if (!liveMode || !typesIdMap || !appId) {
+    if (!liveMode || !normalizedTypesIdMap || !appId) {
       return [...privateGroups, ...staticNodes];
     }
     const debug = isDebug();
-    const targetNodes = typesIdMap
+    const targetNodes = normalizedTypesIdMap
       ? actors.reduce<NodesCoordinates>((acc, actor) => {
-          let id = typesIdMap[actor.type];
+          let id = normalizedTypesIdMap[actor.type.toLowerCase()];
           if (!id || actor.hidden) {
             if (!debug) {
               return acc;
@@ -690,7 +702,7 @@ export function CoordinatesProvider({
         userStore,
         spawns,
         icons,
-        typesIdMap,
+        typesIdMap: normalizedTypesIdMap,
         globalFilters,
       }}
     >

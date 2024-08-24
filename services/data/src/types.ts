@@ -77,3 +77,11 @@ export type Region = {
 };
 
 export type TypesIds = Record<string, string>;
+
+export type UEObjects = Array<{
+  Type: string;
+  Name: string;
+  Outer: string;
+  Class?: string;
+  Properties?: any;
+}>;

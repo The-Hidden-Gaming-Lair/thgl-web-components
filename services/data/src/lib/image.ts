@@ -1,5 +1,4 @@
 import { $ } from "bun";
-import fs from "fs";
 import { loadImage, createCanvas, Canvas, Image } from "@napi-rs/canvas";
 import { OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./dirs.js";
 import { saveImage } from "./fs.js";
@@ -458,4 +457,16 @@ export async function vectorize(
   // );
   // fs.writeFileSync(outputPath, filteredSvg);
   return Bun.write(outputPath, blob);
+}
+
+export function createBlankImage(
+  filePath: string,
+  width: number,
+  height: number,
+) {
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#333";
+  ctx.fillRect(0, 0, width, height);
+  saveImage(filePath, canvas.toBuffer("image/png"));
 }

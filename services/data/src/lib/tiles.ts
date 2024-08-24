@@ -20,6 +20,7 @@ export async function generateTiles(
   fitBounds?: [[number, number], [number, number]],
   cropBounds?: [[number, number], [number, number]],
   transformation?: [number, number, number, number],
+  transformationMultiplier = [1, 1] as [number, number],
 ): Promise<Tiles> {
   const halfWidth = width / 2;
   const mapBounds = [
@@ -72,9 +73,9 @@ export async function generateTiles(
       maxZoom: 7,
       fitBounds: fitBounds ?? realBounds,
       transformation: transformation ?? [
-        1 / multiple,
+        (1 / multiple) * transformationMultiplier[0],
         offset[0] - additionalOffset[0] / multiple,
-        1 / multiple,
+        (1 / multiple) * transformationMultiplier[1],
         offset[1] - additionalOffset[1] / multiple,
       ],
     },

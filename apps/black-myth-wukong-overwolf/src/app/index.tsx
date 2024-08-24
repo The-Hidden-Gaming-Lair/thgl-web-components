@@ -55,7 +55,7 @@ const APP = "Black Myth: Wukong";
 const TITLE = "Black Myth: Wukong Map";
 const MARKER_OPTIONS = {
   radius: 6,
-  playerIcon: "player.webp",
+  // playerIcon: "player.webp",
 };
 function App(): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
@@ -80,7 +80,7 @@ function App(): JSX.Element {
             mapNames={Object.keys(tiles)}
             regions={regions as unknown as RegionsCoordinates}
             staticNodes={nodes}
-            // typesIdMap={typesIdMap}
+            typesIdMap={typesIdMap}
             globalFilters={globalFilters as GlobalFiltersCoordinates}
             view={{}}
           >

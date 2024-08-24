@@ -13,7 +13,11 @@ initBackground(
 const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
 
 const refreshProcess = () => {
-  gameEventsPlugin.UpdateProcess(handleCallback, handleError, "b1");
+  gameEventsPlugin.UpdateProcess(
+    handleCallback,
+    handleError,
+    "b1-Win64-Shipping",
+  );
 };
 
 let status = "";
