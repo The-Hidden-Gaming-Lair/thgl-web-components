@@ -1,5 +1,11 @@
 import uniqolor from "uniqolor";
-import { ItemTreasureStart } from "./black-myth-wukong.types.js";
+import {
+  CardDesc,
+  FUStGuideGroupDesc,
+  FUStSummonCommDesc,
+  GMMapStaticData,
+  ItemTreasureStart,
+} from "./black-myth-wukong.types.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { CONTENT_DIR, initDirs, TEMP_DIR } from "./lib/dirs.js";
 import {
@@ -34,6 +40,39 @@ const en = await readJSON<Record<string, string>>(
   CONTENT_DIR + "/b1/Content/Localization/Game/en/Game.json",
 );
 
+const fustSummonCommonDesc = await readJSON<FUStSummonCommDesc>(
+  CONTENT_DIR +
+    "/b1/Content/00Main/PBTable/NoneRuntime/FUStSummonCommDesc.json",
+);
+
+const fustGuideGroupDesc = await readJSON<FUStGuideGroupDesc>(
+  CONTENT_DIR +
+    "/b1/Content/00Main/PBTable/NoneRuntime/FUStGuideGroupDesc.json",
+);
+
+const cardDesc = await readJSON<CardDesc>(
+  CONTENT_DIR + "/b1/Content/00Main/PBTable/Runtime/CardDesc.json",
+);
+
+const gmMapStaticData = await readJSON<GMMapStaticData>(
+  CONTENT_DIR +
+    "/b1/Content/00Main/PBTable/GMMapStaticData/GMMapStaticData.json",
+);
+
+const typeIdsToResId = Object.fromEntries(
+  Object.values(gmMapStaticData.MapData).flatMap((map) => {
+    return Object.values(map).map((v) => {
+      const last = v.Guid.split("-").at(-1)!;
+      let typeId;
+      if (last.includes("_C")) {
+        typeId = last.split("_C")[0];
+      } else {
+        typeId = last.replace(/_[^_]*$/, "");
+      }
+      return [typeId.toLowerCase(), v.ResId];
+    });
+  }),
+);
 const mapNames = ["HFS01"];
 enDict["HFS01"] = "Chapter 1";
 const mapFolders = readDirSync(CONTENT_DIR + "/b1/Content/00Main/Maps");
@@ -80,9 +119,9 @@ for (const mapName of mapFolders) {
   );
   let i = 1;
   for (const file of files) {
-    console.log(
-      `File: ${i++}/${files.length}: ${file.replace(`${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/`, "")}`,
-    );
+    // console.log(
+    //   `File: ${i++}/${files.length}: ${file.replace(`${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/`, "")}`,
+    // );
 
     if (!file.endsWith(".json") || file.includes("Audio")) {
       continue;
@@ -115,6 +154,8 @@ for (const mapName of mapFolders) {
       let type;
       let iconName;
       let size = 2;
+      let typeId = item.Outer.split("_C")[0] + "_C";
+
       if (item.Outer.startsWith("BP_yaocai_renshen_C")) {
         group = "materials";
         enDict[group] = "Materials";
@@ -200,9 +241,38 @@ for (const mapName of mapFolders) {
         type = item.Outer.split("_C")[0]
           .replace("BP_", "")
           .replace("TAMER_", "");
-        enDict[type] = type;
-        enDict[`${type}_desc`] =
-          "Please join my Discord server to help mapping the name of this enemy!";
+
+        const typeId1 = typeId.replace("_C", "").toLowerCase();
+        const typeId2 = typeId1.replace("tamer_", "unit_");
+        const resId = typeIdsToResId[typeId1] || typeIdsToResId[typeId2];
+        if (!resId) {
+          console.warn(`resId not found for ${typeId1} | ${typeId2}`);
+          continue;
+        }
+
+        const guideGroupDesc = fustGuideGroupDesc["1"].find(
+          (f) => f["1"] === resId,
+        );
+        if (!guideGroupDesc) {
+          // console.warn(`GuideGroupDesc not found for ${typeId}`);
+          enDict[type] = type;
+        } else {
+          const cardGroup = guideGroupDesc["3"]!;
+          const card = cardDesc["1"].find((c) =>
+            c["10"]?.startsWith(cardGroup),
+          );
+          if (!card) {
+            // console.warn(`Card not found for ${typeId}: ${cardGroup}`);
+            enDict[type] = type;
+          } else {
+            const cardId = card["1"];
+
+            enDict[type] = en[`StringKVMapDesc.CardDesc.${cardId}.UnitName`];
+            enDict[`${type}_desc`] =
+              en[`StringKVMapDesc.CardDesc.${cardId}.UnitPoetry`];
+          }
+        }
+
         iconName = await saveIcon(
           "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/targeted_sbed.webp",
           type,
@@ -281,7 +351,6 @@ for (const mapName of mapFolders) {
       };
       oldNodes.spawns.push(spawn);
 
-      const typeId = item.Outer.split("_C")[0] + "_C";
       if (typeId.startsWith("TAMER_")) {
         typesIDs[typeId.replace("TAMER_", "UNIT_")] = type;
       } else {

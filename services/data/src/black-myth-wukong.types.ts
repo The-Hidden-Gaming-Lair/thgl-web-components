@@ -254,3 +254,90 @@ export type ItemTreasureStart = Array<{
   ExtraReferencedObjects?: Array<any>;
   StreamingLevels?: Array<any>;
 }>;
+
+export type FUStSummonCommDesc = {
+  "1": Array<{
+    "1": number;
+    "2"?: number;
+    "3"?: number;
+    "4"?: string;
+    "5"?: string;
+    "6"?: number;
+    "7"?: number;
+    "11"?: string;
+    "17": Array<string>;
+    "18"?: number;
+    "27": number;
+    "28": number;
+    "13"?: string;
+    "15": any;
+    "22": any;
+    "10"?: string;
+    "20"?: number;
+    "21"?: number;
+    "14"?: number;
+    "16"?: string;
+    "9"?: number;
+    "19"?: number;
+    "23"?: number;
+    "24"?: number;
+    "8"?: number;
+    "26"?: number;
+    "25"?: number;
+  }>;
+};
+
+export type FUStGuideGroupDesc = {
+  "1": Array<{
+    "1": number;
+    "3": string;
+    "4"?: number;
+    "5"?: number;
+    "6"?: number;
+    "8"?: number;
+    "2"?: number;
+    "7"?: number;
+  }>;
+};
+
+export type CardDesc = {
+  "1": Array<{
+    "1": number;
+    "2": string;
+    "3": number;
+    "4"?: number;
+    "5"?: string;
+    "6": string;
+    "7": {
+      "1": number;
+      "2": string;
+    };
+    "8"?: number;
+    "9"?: number;
+    "10"?: string;
+    "12": number;
+    "13": number;
+    "11"?: number;
+  }>;
+};
+
+export type GMMapStaticData = {
+  MapData: Record<
+    string,
+    Record<
+      string,
+      {
+        Guid: string;
+        CategoryName: string;
+        ResId: number;
+        ActorLoctionX: number;
+        ActorLoctionY: number;
+        ActorLoctionZ: number;
+        TransformLoctionX: number;
+        TransformLoctionY: number;
+        TransformLoctionZ: number;
+        ExtendId: number;
+      }
+    >
+  >;
+};
