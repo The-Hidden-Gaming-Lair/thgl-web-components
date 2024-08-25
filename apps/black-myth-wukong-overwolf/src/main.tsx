@@ -3,16 +3,35 @@ import "@repo/ui/styles/globals.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { listenToPlugin, initDiscordRPC } from "@repo/lib/overwolf";
+import {
+  listenToPlugin,
+  initDiscordRPC,
+  brotliDecompress,
+} from "@repo/lib/overwolf";
+import { decodeFromBuffer } from "@repo/lib";
+import { type NodesCoordinates } from "@repo/ui/providers";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 import App from "./app";
+import HFS01 from "./coordinates/cbor/HFS01.cbor?url";
+import HFM02 from "./coordinates/cbor/HFM02.cbor?url";
+
+const maps = [HFS01, HFM02];
+const allNodes = await Promise.all(
+  maps.map(async (map) => {
+    const response = await fetch(map);
+    const arrayBuffer = await response.arrayBuffer();
+    const decrompressed = brotliDecompress(arrayBuffer);
+    return decodeFromBuffer<NodesCoordinates>(decrompressed);
+  }),
+);
+const nodes = allNodes.flat();
 
 const el = document.getElementById("root");
 if (el) {
   const root = createRoot(el);
   root.render(
     <React.StrictMode>
-      <App />
+      <App nodes={nodes} />
     </React.StrictMode>,
   );
 } else {

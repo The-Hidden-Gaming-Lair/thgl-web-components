@@ -7,14 +7,19 @@ import {
   ItemTreasureStart,
 } from "./black-myth-wukong.types.js";
 import { initDict, writeDict } from "./lib/dicts.js";
-import { CONTENT_DIR, initDirs, TEMP_DIR } from "./lib/dirs.js";
+import { CONTENT_DIR, initDirs, OUTPUT_DIR, TEMP_DIR } from "./lib/dirs.js";
 import {
   initFilters,
   initGlobalFilters,
   writeFilters,
   writeGlobalFilters,
 } from "./lib/filters.js";
-import { readDirRecursive, readDirSync, readJSON } from "./lib/fs.js";
+import {
+  encodeToFile,
+  readDirRecursive,
+  readDirSync,
+  readJSON,
+} from "./lib/fs.js";
 import { createBlankImage, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
@@ -104,9 +109,9 @@ for (const mapName of mapFolders) {
   );
   let i = 1;
   for (const file of files) {
-    // console.log(
-    //   `File: ${i++}/${files.length}: ${file.replace(`${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/`, "")}`,
-    // );
+    console.log(
+      `File: ${i++}/${files.length}: ${file.replace(`${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/`, "")}`,
+    );
 
     if (!file.endsWith(".json") || file.includes("Audio")) {
       continue;
@@ -117,21 +122,22 @@ for (const mapName of mapFolders) {
       if (
         !item.Properties ||
         !item.Outer ||
-        (item.Type !== "SceneComponent" && !item.Outer.startsWith("TAMER")) ||
+        // (item.Type !== "SceneComponent" && !item.Outer.startsWith("TAMER")) ||
         !("RelativeLocation" in item.Properties) ||
-        !item.Properties.RelativeLocation ||
-        item.Outer.includes("CineCamera") ||
-        item.Outer.includes("StaticMeshActor") ||
-        item.Outer.includes("Volume") ||
-        item.Outer.includes("BGW") ||
-        item.Outer.startsWith("Cube") ||
-        item.Outer.startsWith("DecalActor") ||
-        item.Outer.startsWith("PreviewActor") ||
-        item.Outer.startsWith("NiagaraActor") ||
-        item.Outer.startsWith("SM_") ||
-        item.Outer.startsWith("ST_") ||
-        item.Outer.startsWith("SceneItem") ||
-        item.Outer.startsWith("Landscape")
+        !item.Properties.RelativeLocation
+        // ||
+        // item.Outer.includes("CineCamera") ||
+        // item.Outer.includes("StaticMeshActor") ||
+        // item.Outer.includes("Volume") ||
+        // item.Outer.includes("BGW") ||
+        // item.Outer.startsWith("Cube") ||
+        // item.Outer.startsWith("DecalActor") ||
+        // item.Outer.startsWith("PreviewActor") ||
+        // item.Outer.startsWith("NiagaraActor") ||
+        // item.Outer.startsWith("SM_") ||
+        // item.Outer.startsWith("ST_") ||
+        // item.Outer.startsWith("SceneItem") ||
+        // item.Outer.startsWith("Landscape")
       ) {
         continue;
       }
@@ -140,8 +146,20 @@ for (const mapName of mapFolders) {
       let iconName;
       let size = 2;
       let typeId = item.Outer.split("_C")[0] + "_C";
-
-      if (item.Outer.startsWith("BP_yaocai_renshen_C")) {
+      if (item.Outer.startsWith("BP_yaocai_lingzhi_C")) {
+        group = "materials";
+        enDict[group] = "Materials";
+        type = "purple_lingzhi";
+        enDict[type] = en["StringKVMapDesc.ItemDesc.3204.Name"];
+        iconName = await saveIcon(
+          "/b1/Content/00MainHZ/UI/AlwaysCook/Icon/Item_Icon_3204_t.png",
+          type,
+          {
+            // color: "#ffffff",
+            threshold: 0,
+          },
+        );
+      } else if (item.Outer.startsWith("BP_yaocai_renshen_C")) {
         group = "materials";
         enDict[group] = "Materials";
         type = "aged_ginseng";
@@ -158,60 +176,9 @@ for (const mapName of mapFolders) {
         group = "locations";
         enDict[group] = "Locations";
         type = "rebirth_point";
-        enDict[type] = "Rebirth Point";
+        enDict[type] = "Keeper's Shrine";
         iconName = await saveIcon(
           "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/shinto-shrine_delapouite.webp",
-          type,
-          {
-            color: uniqolor(type, {
-              lightness: [70, 80],
-            }).color,
-          },
-        );
-        size = 1;
-      } else if (item.Outer.startsWith("TAMER_gycy_lang_05_C")) {
-        group = "enemies";
-        enDict[group] = "Enemies";
-        type = "wolf_swornsword";
-        enDict[type] = en["StringKVMapDesc.CardDesc.101010.UnitName"];
-        enDict[`${type}_desc`] =
-          en["StringKVMapDesc.CardDesc.101010.UnitPoetry"];
-        iconName = await saveIcon(
-          "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp",
-          type,
-          {
-            color: uniqolor(type, {
-              lightness: [70, 80],
-            }).color,
-          },
-        );
-        size = 1;
-      } else if (item.Outer.startsWith("TAMER_gycy_lang_03_C")) {
-        group = "enemies";
-        enDict[group] = "Enemies";
-        type = "wolf_scout";
-        enDict[type] = en["StringKVMapDesc.CardDesc.101004.UnitName"];
-        enDict[`${type}_desc`] =
-          en["StringKVMapDesc.CardDesc.101004.UnitPoetry"];
-        iconName = await saveIcon(
-          "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp",
-          type,
-          {
-            color: uniqolor(type, {
-              lightness: [70, 80],
-            }).color,
-          },
-        );
-        size = 1;
-      } else if (item.Outer.startsWith("TAMER_gycy_lang_06_C")) {
-        group = "enemies";
-        enDict[group] = "Enemies";
-        type = "wolf_stalwart";
-        enDict[type] = en["StringKVMapDesc.CardDesc.101006.UnitName"];
-        enDict[`${type}_desc`] =
-          en["StringKVMapDesc.CardDesc.101006.UnitPoetry"];
-        iconName = await saveIcon(
-          "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp",
           type,
           {
             color: uniqolor(type, {
@@ -225,7 +192,8 @@ for (const mapName of mapFolders) {
         enDict[group] = "Enemies";
         type = item.Outer.split("_C")[0]
           .replace("BP_", "")
-          .replace("TAMER_", "");
+          .replace("TAMER_", "")
+          .replace("_huoba", "");
 
         const typeId1 = typeId.replace("_C", "").toLowerCase();
         const typeId2 = typeId1.replace("tamer_", "unit_");
@@ -258,16 +226,34 @@ for (const mapName of mapFolders) {
           }
         }
 
-        iconName = await saveIcon(
-          "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/targeted_sbed.webp",
-          type,
-          {
-            color: uniqolor(type, {
-              lightness: [70, 80],
-            }).color,
-          },
-        );
+        if (enDict[type].includes("Wolf")) {
+          iconName = await saveIcon(
+            "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/wolf-head_lorc.webp",
+            type,
+            {
+              color: uniqolor(type, {
+                lightness: [70, 80],
+              }).color,
+            },
+          );
+        } else {
+          iconName = await saveIcon(
+            "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/targeted_sbed.webp",
+            type,
+            {
+              color: uniqolor(type, {
+                lightness: [70, 80],
+              }).color,
+            },
+          );
+        }
         size = 1;
+
+        if (typeId.startsWith("TAMER_")) {
+          typesIDs[typeId.replace("TAMER_", "UNIT_")] = type;
+        } else {
+          typesIDs[typeId] = type;
+        }
       } else if (item.Outer.startsWith("BPO_TreasureBox_")) {
         group = "items";
         enDict[group] = "Items";
@@ -288,15 +274,16 @@ for (const mapName of mapFolders) {
         // group = "unsorted";
         // enDict[group] = "Unsorted";
         // type = item.Outer.split("_C")[0].replace("BP_", "");
+        // type = type.replaceAll(/\d+/g, "");
         // enDict[type] = type;
         // iconName = await saveIcon(
         //   "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp",
-        //   type,
-        //   {
-        //     color: uniqolor(type, {
-        //       lightness: [70, 80],
-        //     }).color,
-        //   },
+        //   "unknown",
+        //   // {
+        //   //   color: uniqolor(type, {
+        //   //     lightness: [70, 80],
+        //   //   }).color,
+        //   // },
         // );
         // size = 0.8;
       }
@@ -335,12 +322,6 @@ for (const mapName of mapFolders) {
         ],
       };
       oldNodes.spawns.push(spawn);
-
-      if (typeId.startsWith("TAMER_")) {
-        typesIDs[typeId.replace("TAMER_", "UNIT_")] = type;
-      } else {
-        typesIDs[typeId] = type;
-      }
     }
   }
 
@@ -390,7 +371,19 @@ for (const mapName of mapFolders) {
 
 // BP_yaocai_renshen_C === Aged Ginseng
 
-writeNodes(nodes);
+const filteredNodes = nodes.map((n) => ({
+  ...n,
+  static: !Object.values(typesIDs).includes(n.type),
+}));
+
+writeNodes(filteredNodes);
+Object.keys(tiles).forEach((mapName) => {
+  encodeToFile(
+    OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
+    filteredNodes.filter((n) => !n.mapName || n.mapName === mapName),
+  );
+});
+
 writeFilters(filters);
 writeTypesIDs(typesIDs);
 writeDict(enDict, "en");

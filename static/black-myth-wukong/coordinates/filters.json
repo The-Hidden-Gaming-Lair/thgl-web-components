@@ -1,5 +1,22 @@
 [
   {
+    "group": "materials",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "purple_lingzhi",
+        "icon": "purple_lingzhi.webp",
+        "size": 2
+      },
+      {
+        "id": "aged_ginseng",
+        "icon": "aged_ginseng.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
     "group": "items",
     "defaultOpen": true,
     "defaultOn": true,
@@ -277,18 +294,13 @@
         "size": 1
       },
       {
-        "id": "wolf_scout",
-        "icon": "wolf_scout.webp",
+        "id": "gycy_lang_03",
+        "icon": "gycy_lang_03.webp",
         "size": 1
       },
       {
-        "id": "gycy_lang_03_huoba",
-        "icon": "gycy_lang_03_huoba.webp",
-        "size": 1
-      },
-      {
-        "id": "wolf_swornsword",
-        "icon": "wolf_swornsword.webp",
+        "id": "gycy_lang_05",
+        "icon": "gycy_lang_05.webp",
         "size": 1
       },
       {
@@ -312,8 +324,8 @@
         "size": 1
       },
       {
-        "id": "wolf_stalwart",
-        "icon": "wolf_stalwart.webp",
+        "id": "gycy_lang_06",
+        "icon": "gycy_lang_06.webp",
         "size": 1
       },
       {
@@ -370,18 +382,6 @@
         "id": "gycy_baiyi_she",
         "icon": "gycy_baiyi_she.webp",
         "size": 1
-      }
-    ]
-  },
-  {
-    "group": "materials",
-    "defaultOpen": true,
-    "defaultOn": true,
-    "values": [
-      {
-        "id": "aged_ginseng",
-        "icon": "aged_ginseng.webp",
-        "size": 2
       }
     ]
   },

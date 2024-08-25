@@ -466,7 +466,7 @@ export function createBlankImage(
 ) {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#000";
+  ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.fillRect(0, 0, width, height);
   saveImage(filePath, canvas.toBuffer("image/png"));
 }

@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
+  headers: async () => {
     return [
       {
-        source: "/api/events",
-        destination: "https://d4armory.io/api/events/recent",
+        source: "/nodes/:mapName",
+        headers: [
+          {
+            key: "Content-Encoding",
+            value: "br",
+          },
+        ],
       },
     ];
   },

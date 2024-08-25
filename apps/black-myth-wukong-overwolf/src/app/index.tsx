@@ -40,7 +40,6 @@ import {
 } from "@repo/ui/overwolf";
 import enDictGlobal from "../global_dicts/en.json" assert { type: "json" };
 import enDict from "../dicts/en.json" assert { type: "json" };
-import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
 import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
@@ -48,7 +47,6 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import globalFilters from "../coordinates/global-filters.json" assert { type: "json" };
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
-const nodes = _nodes as NodesCoordinates;
 const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Black Myth: Wukong";
@@ -57,7 +55,7 @@ const MARKER_OPTIONS = {
   radius: 6,
   // playerIcon: "player.webp",
 };
-function App(): JSX.Element {
+function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);

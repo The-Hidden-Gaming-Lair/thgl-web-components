@@ -52,6 +52,7 @@ export default function Home({
       regions={regions as unknown as RegionsCoordinates}
       globalFilters={globalFilters}
       view={view}
+      useCbor
     >
       <HeaderOffset full>
         <InteractiveMapDynamic />
