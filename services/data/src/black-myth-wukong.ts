@@ -73,8 +73,9 @@ const typeIdsToResId = Object.fromEntries(
     });
   }),
 );
-const mapNames = ["HFS01"];
+const mapNames = ["HFS01", "HFM02"];
 enDict["HFS01"] = "Chapter 1";
+enDict["HFM02"] = "Chapter 2";
 const mapFolders = readDirSync(CONTENT_DIR + "/b1/Content/00Main/Maps");
 for (const mapName of mapFolders) {
   if (!mapNames.includes(mapName)) {
@@ -82,37 +83,21 @@ for (const mapName of mapFolders) {
   }
   console.log(`Map: ${mapName}`);
   const mapImage = TEMP_DIR + "/" + mapName + ".png";
-  const persistentLevel = await readJSON<UEObjects>(
-    `${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/${mapName}_PersistentLevel.json`,
-  );
-  const levelBounds = persistentLevel.find((o) => o.Outer === "LevelBounds_0");
-  if (!levelBounds?.Properties) {
-    throw new Error("LevelBounds_0 not found");
-  }
-  const width = Math.max(
-    levelBounds.Properties.RelativeScale3D.X,
-    levelBounds.Properties.RelativeScale3D.X,
-    levelBounds.Properties.RelativeScale3D.Y,
-  );
-  const additionalOffset = [
-    levelBounds.Properties.RelativeLocation.X,
-    levelBounds.Properties.RelativeLocation.Y,
-  ];
-
-  createBlankImage(mapImage, 1024, 1024);
-
-  const tile = await generateTiles(
-    mapName,
-    mapImage,
-    width,
-    512,
-    additionalOffset,
-    undefined,
-    undefined,
-    undefined,
-    [1, -1],
-  );
-  tiles[mapName] = tile[mapName];
+  // const persistentLevel = await readJSON<UEObjects>(
+  //   `${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/${mapName}_PersistentLevel.json`,
+  // );
+  // const levelBounds = persistentLevel.find((o) => o.Outer === "LevelBounds_0");
+  // if (!levelBounds?.Properties) {
+  //   throw new Error("LevelBounds_0 not found");
+  // }
+  // const width = Math.max(
+  //   levelBounds.Properties.RelativeScale3D.X,
+  //   levelBounds.Properties.RelativeScale3D.Y,
+  // );
+  // const additionalOffset = [
+  //   levelBounds.Properties.RelativeLocation.X,
+  //   levelBounds.Properties.RelativeLocation.Y,
+  // ];
 
   const files = readDirRecursive(
     `${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/`,
@@ -358,6 +343,49 @@ for (const mapName of mapFolders) {
       }
     }
   }
+
+  const minX = Math.min(
+    ...nodes
+      .filter((n) => n.mapName === mapName)
+      .flatMap((n) => n.spawns.map((s) => s.p[0])),
+  );
+  const minY = Math.min(
+    ...nodes
+      .filter((n) => n.mapName === mapName)
+      .flatMap((n) => n.spawns.map((s) => s.p[1])),
+  );
+  const maxX = Math.max(
+    ...nodes
+      .filter((n) => n.mapName === mapName)
+      .flatMap((n) => n.spawns.map((s) => s.p[0])),
+  );
+  const maxY = Math.max(
+    ...nodes
+      .filter((n) => n.mapName === mapName)
+      .flatMap((n) => n.spawns.map((s) => s.p[1])),
+  );
+
+  const width = Math.max(maxX - minX, maxY - minY);
+  const padding = width * 0.05;
+  const fitBounds = [
+    [minX - padding, minY - padding],
+    [maxX + padding, maxY + padding],
+  ] as [[number, number], [number, number]];
+
+  createBlankImage(mapImage, 1024, 1024);
+
+  const tile = await generateTiles(
+    mapName,
+    mapImage,
+    width,
+    512,
+    [0, 0],
+    fitBounds,
+    undefined,
+    undefined,
+    [1, -1],
+  );
+  tiles[mapName] = tile[mapName];
 }
 
 // BP_yaocai_renshen_C === Aged Ginseng

@@ -12,34 +12,225 @@
     ]
   },
   {
-    "group": "materials",
-    "defaultOpen": true,
-    "defaultOn": true,
-    "values": [
-      {
-        "id": "aged_ginseng",
-        "icon": "aged_ginseng.webp",
-        "size": 2
-      }
-    ]
-  },
-  {
-    "group": "locations",
-    "defaultOpen": true,
-    "defaultOn": true,
-    "values": [
-      {
-        "id": "rebirth_point",
-        "icon": "rebirth_point.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
     "group": "enemies",
     "defaultOpen": true,
     "defaultOn": true,
     "values": [
+      {
+        "id": "hfm_guyao_01_realstand",
+        "icon": "hfm_guyao_01_realstand.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_roubianfu_01a_fly",
+        "icon": "hfm_roubianfu_01a_fly.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shu_05a",
+        "icon": "hfm_shu_05a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shunushou_01b_stand",
+        "icon": "hfm_shunushou_01b_stand.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shuwang_01a",
+        "icon": "hfm_shuwang_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_dujiaoxian_hfds_lol",
+        "icon": "hfm_dujiaoxian_hfds_lol.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_hfds_01a",
+        "icon": "hfm_hfds_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_bxa_01a_preenter_03",
+        "icon": "hfm_bxa_01a_preenter_03.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_ganshi_01a",
+        "icon": "hfm_ganshi_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_ganshi_01a_invisible_01",
+        "icon": "hfm_ganshi_01a_invisible_01.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_guyao_01_stand",
+        "icon": "hfm_guyao_01_stand.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_magu_01a",
+        "icon": "hfm_magu_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shunushou_01b",
+        "icon": "hfm_shunushou_01b.webp",
+        "size": 1
+      },
+      {
+        "id": "lys_hongpaoshu",
+        "icon": "lys_hongpaoshu.webp",
+        "size": 1
+      },
+      {
+        "id": "NPC_mamian_01a_empty",
+        "icon": "NPC_mamian_01a_empty.webp",
+        "size": 1
+      },
+      {
+        "id": "yaoseng_03a_zaobi",
+        "icon": "yaoseng_03a_zaobi.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_bxa_01a",
+        "icon": "hfm_bxa_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_roubianfu_01a",
+        "icon": "hfm_roubianfu_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shawuliang_01a",
+        "icon": "hfm_shawuliang_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "gycy_wa_02",
+        "icon": "gycy_wa_02.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_bxa_01a_preenter_02",
+        "icon": "hfm_bxa_01a_preenter_02.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_wa_01",
+        "icon": "hfm_wa_01.webp",
+        "size": 1
+      },
+      {
+        "id": "npc_paohuoshu",
+        "icon": "npc_paohuoshu.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_hu_stone_01",
+        "icon": "hfm_hu_stone_01.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_huangpaozhu",
+        "icon": "hfm_huangpaozhu.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_maoyou_02a",
+        "icon": "hfm_maoyou_02a.webp",
+        "size": 1
+      },
+      {
+        "id": "npc_xugouwithfan",
+        "icon": "npc_xugouwithfan.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shanzhen_01a",
+        "icon": "hfm_shanzhen_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_magu_01b",
+        "icon": "hfm_magu_01b.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shanzhen_02",
+        "icon": "hfm_shanzhen_02.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shanzhen_03",
+        "icon": "hfm_shanzhen_03.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shigandang_01",
+        "icon": "hfm_shigandang_01.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shigandang_fake",
+        "icon": "hfm_shigandang_fake.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shigong_01",
+        "icon": "hfm_shigong_01.webp",
+        "size": 1
+      },
+      {
+        "id": "HFM_ShiXianFeng_01",
+        "icon": "HFM_ShiXianFeng_01.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_stoneman_01",
+        "icon": "hfm_stoneman_01.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_fushu",
+        "icon": "hfm_fushu.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_fuzishu",
+        "icon": "hfm_fuzishu.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_hou_01a",
+        "icon": "hfm_hou_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shu_04a",
+        "icon": "hfm_shu_04a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shuangtoushu_01a",
+        "icon": "hfm_shuangtoushu_01a.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_shuangtoushu_empty",
+        "icon": "hfm_shuangtoushu_empty.webp",
+        "size": 1
+      },
+      {
+        "id": "hfm_bashanhu_01",
+        "icon": "hfm_bashanhu_01.webp",
+        "size": 1
+      },
       {
         "id": "hfm_mamian_01a",
         "icon": "hfm_mamian_01a.webp",
@@ -68,11 +259,6 @@
       {
         "id": "gycy_wa_01",
         "icon": "gycy_wa_01.webp",
-        "size": 1
-      },
-      {
-        "id": "gycy_wa_02",
-        "icon": "gycy_wa_02.webp",
         "size": 1
       },
       {
@@ -183,6 +369,30 @@
       {
         "id": "gycy_baiyi_she",
         "icon": "gycy_baiyi_she.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "materials",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "aged_ginseng",
+        "icon": "aged_ginseng.webp",
+        "size": 2
+      }
+    ]
+  },
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "rebirth_point",
+        "icon": "rebirth_point.webp",
         "size": 1
       }
     ]
