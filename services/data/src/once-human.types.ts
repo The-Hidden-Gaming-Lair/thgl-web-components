@@ -519,3 +519,11 @@ export type BattleFieldData = {
   };
   add_buff_on_normal_leave: {};
 };
+
+export type AchieveCollectData = Record<
+  string,
+  {
+    icon: string;
+    attrs: Array<string>;
+  }
+>;

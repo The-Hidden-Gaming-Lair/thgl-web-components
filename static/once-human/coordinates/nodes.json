@@ -5236,243 +5236,29 @@
     "static": true
   },
   {
-    "type": "boss_ravenous_hunter's_doppelganger",
+    "type": "monster_symbiont",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_star_walker",
     "spawns": [
       {
         "p": [
-          -4990.6577,
-          5960.0132
+          -6986.43,
+          5270.09
         ],
-        "id": "timekiller"
-      }
-    ],
-    "static": true
-  },
-  {
-    "type": "monster_tangled_vine",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "boss_cyst_seed",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_swarm",
-    "spawns": [
-      {
-        "p": [
-          -3011.2949,
-          4688.6455
-        ],
-        "id": "sniperbug"
+        "id": "scz_skin"
       },
       {
         "p": [
-          -3013.3164,
-          4695.2544
+          -6984.22,
+          5256.06
         ],
-        "id": "sniperbug"
-      },
-      {
-        "p": [
-          -5502.4517,
-          6393.084
-        ],
-        "id": "cluster"
+        "id": "scz_skin"
       }
     ],
     "static": false
-  },
-  {
-    "type": "boss_treant's_doppelganger",
-    "spawns": [],
-    "static": true
-  },
-  {
-    "type": "boss_arachsiam",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "boss_arachsiam's_shadow",
-    "spawns": [],
-    "static": true
-  },
-  {
-    "type": "boss_shadow_hound's_shadow",
-    "spawns": [],
-    "static": true
-  },
-  {
-    "type": "monster_arbiter",
-    "spawns": [
-      {
-        "p": [
-          -5031.57,
-          5401.4
-        ],
-        "id": "destroyer"
-      }
-    ],
-    "static": false
-  },
-  {
-    "type": "monster_mr._ames'_soul",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "animal_wolf",
-    "spawns": [
-      {
-        "p": [
-          -3070.5798,
-          4686.4355
-        ],
-        "id": "wolf_skin"
-      },
-      {
-        "p": [
-          -3067.425,
-          4689.1675
-        ],
-        "id": "wolf_skin"
-      },
-      {
-        "p": [
-          -3059.2876,
-          4678.4746
-        ],
-        "id": "wolf_skin"
-      },
-      {
-        "p": [
-          -3064.9226,
-          4682.127
-        ],
-        "id": "wolf_skin"
-      },
-      {
-        "p": [
-          -3069.2615,
-          4676.3931
-        ],
-        "id": "wolf_skin"
-      }
-    ],
-    "static": true
-  },
-  {
-    "type": "monster_the_butcher",
-    "spawns": [
-      {
-        "p": [
-          -4103.5933,
-          2327.4666
-        ],
-        "id": "tk0303_03"
-      }
-    ],
-    "static": true
-  },
-  {
-    "type": "monster_parasitic_maniac",
-    "spawns": [
-      {
-        "p": [
-          -4623.8628,
-          6227.4722
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -4629.23,
-          6232.1147
-        ],
-        "id": "djgrz0312"
-      },
-      {
-        "p": [
-          -4620.855,
-          6232.9536
-        ],
-        "id": "djgrz0312"
-      },
-      {
-        "p": [
-          -6527.2524,
-          5738.1787
-        ],
-        "id": "jbt0322"
-      },
-      {
-        "p": [
-          -6525.0469,
-          5734.9072
-        ],
-        "id": "djgrz0312"
-      },
-      {
-        "p": [
-          -6518.2295,
-          5735.2056
-        ],
-        "id": "jbt0322"
-      },
-      {
-        "p": [
-          -6535.917,
-          5737.7563
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -6511.9258,
-          5739.8638
-        ],
-        "id": "djgrz0311"
-      },
-      {
-        "p": [
-          -6521.3672,
-          5732.355
-        ],
-        "id": "jbt0322"
-      },
-      {
-        "p": [
-          -6513.833,
-          5739.4399
-        ],
-        "id": "jbt0322"
-      },
-      {
-        "p": [
-          -6524.1055,
-          5733.7798
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -6517.1362,
-          5733.0791
-        ],
-        "id": "djgrz0312"
-      },
-      {
-        "p": [
-          -6514.6006,
-          5736.5996
-        ],
-        "id": "djgrz0311"
-      }
-    ],
-    "static": true
   },
   {
     "type": "monster_charred_maniac",
@@ -5670,239 +5456,9 @@
     "static": false
   },
   {
-    "type": "monster_disciple",
-    "spawns": [
-      {
-        "p": [
-          -4717.8467,
-          6171.6084
-        ],
-        "id": "undertaker"
-      }
-    ],
+    "type": "monster_customer",
+    "spawns": [],
     "static": false
-  },
-  {
-    "type": "monster_maniac_(ranged)",
-    "spawns": [
-      {
-        "p": [
-          -6129.7275,
-          5670.4028
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -6129.7441,
-          5666.7217
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -6126.6929,
-          5674.3906
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -5776.3379,
-          4108.9561
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -5776.481,
-          4103.4912
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -5784.2422,
-          4113.8374
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -4531.4639,
-          5143.4834
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -4532.4683,
-          5139.0908
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -4533.5845,
-          5153.3018
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -4199.7993,
-          3003.0249
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -4200.4922,
-          2995.447
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -4203.2671,
-          3013.7478
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -3206.6995,
-          6230.8989
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -3199.9905,
-          6226.5571
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -3208.2212,
-          6235.3901
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -1567.4159,
-          6679.4512
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -1572.9131,
-          6681.7324
-        ],
-        "id": "djgrz0310"
-      },
-      {
-        "p": [
-          -1569.9396,
-          6673.0811
-        ],
-        "id": "djgrz0310"
-      }
-    ],
-    "static": true
-  },
-  {
-    "type": "monster_maniac_(melee)",
-    "spawns": [
-      {
-        "p": [
-          -6123.6709,
-          5668.9824
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -6121.5444,
-          5672.8135
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -5784.9473,
-          4110.4595
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -5778.896,
-          4106.5337
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -4538.7007,
-          5142.5352
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -4536.7495,
-          5146.71
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -4194.5474,
-          3003.4287
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -4195.959,
-          2996.2566
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -3198.0686,
-          6231.5923
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -3193.0593,
-          6222.9336
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -1572.7678,
-          6668.5
-        ],
-        "id": "djgrz0309"
-      },
-      {
-        "p": [
-          -1578.8522,
-          6671.8931
-        ],
-        "id": "djgrz0309"
-      }
-    ],
-    "static": true
   },
   {
     "type": "monster_watcher",
@@ -5994,386 +5550,145 @@
     "static": false
   },
   {
-    "type": "boss_shadow_hound",
+    "type": "monster_mirror_girl",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_spider_egg",
+    "type": "monster_novice_employee",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_senior_employee",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_the_butchers",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_butcher_sennacherib",
     "spawns": [],
     "static": true
   },
   {
-    "type": "monster_gnawer",
+    "type": "monster_workshop__the_butcher",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_ede",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_the_prime_war__the_butcher",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_morphic__weapon_crate",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_morphic__armor_crate",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_haloed_petroller",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_vocalis",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_disciple",
     "spawns": [
       {
         "p": [
-          -6987.23,
-          5217.04
+          -4717.8467,
+          6171.6084
         ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6977.31,
-          5218.84
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6982.28,
-          5222.53
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6974.43,
-          5226.4
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6648.98,
-          5097.8101
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6644.98,
-          5097.6602
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6650.75,
-          5097.6001
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6646.9702,
-          5097.7002
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5032.79,
-          5403.59
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5025.12,
-          5401.24
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5033.96,
-          5393.49
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5040.02,
-          5410.62
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5035.93,
-          5419.8
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5032.6,
-          5396.89
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5025.17,
-          5405.8
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5025.68,
-          5400.14
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5794.01,
-          7199.77
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5818.93,
-          7194.77
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5810.61,
-          7186.07
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5812.68,
-          7204.27
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5803.34,
-          7202.93
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6528.1191,
-          5731.8354
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6522.8252,
-          5734.6592
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6510.3101,
-          5740.5518
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6507.9434,
-          5742.4863
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6512.8193,
-          5738.1265
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6526.1914,
-          5735.3633
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -6517.1221,
-          5733.7534
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5502.4517,
-          6393.084
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5514.519,
-          6389.8706
-        ],
-        "id": "m_spider_skin_ru"
-      },
-      {
-        "p": [
-          -5240.0923,
-          6842.2603
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5244.2383,
-          6847.3413
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5245.0884,
-          6838.52
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5244.1436,
-          6828.1909
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5249.5083,
-          6832.4004
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5246.3413,
-          6826.8188
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5244.4434,
-          6825.8164
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5242.6279,
-          6843.3345
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5255.5815,
-          6844.5176
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5256.8574,
-          6846.8296
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5255.1797,
-          6846.3672
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5257.8711,
-          6847.8198
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5255.0356,
-          6849.1201
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5242.9277,
-          6840.96
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5241.6079,
-          6827.1167
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5244.6401,
-          6845.4917
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5249.9111,
-          6834.5249
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5249.5093,
-          6836.3745
-        ],
-        "id": "infected"
-      },
-      {
-        "p": [
-          -5257.5713,
-          6850.1943
-        ],
-        "id": "infected"
+        "id": "undertaker"
       }
     ],
     "static": false
   },
   {
-    "type": "monster_tangled_vine_claw",
+    "type": "monster_ancient_one_novice_island_corpse",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_church_afterimage",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_star_cow",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_gas_canister",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_vine_connector_right",
+    "type": "monster_laser_turret",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_umbrella",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_vine_connector_middle",
+    "type": "monster_void__morphic",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_firetrap__morphic",
     "spawns": [],
     "static": false
   },
   {
-    "type": "boss_treant",
+    "type": "animal_eclipse_bear",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_vine_connector_left",
+    "type": "animal_small_bear",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_corrupted_bear",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_bear",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_work_permit",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_radar",
     "spawns": [],
     "static": false
   },
@@ -7700,65 +7015,110 @@
     "static": false
   },
   {
-    "type": "monster_star_walker",
+    "type": "monster_siren",
     "spawns": [
       {
         "p": [
-          -6986.43,
-          5270.09
+          -5680.5752,
+          6807.167
         ],
-        "id": "scz_skin"
+        "id": "siren"
       },
       {
         "p": [
-          -6984.22,
-          5256.06
+          -5861.3315,
+          3164.3899
         ],
-        "id": "scz_skin"
-      }
-    ],
-    "static": false
-  },
-  {
-    "type": "boss_ravenous_hunter",
-    "spawns": [
+        "id": "siren"
+      },
       {
         "p": [
-          -5804.64,
-          7192.39
+          -5597.9287,
+          5243.8101
         ],
-        "id": "timekiller"
+        "id": "siren"
+      },
+      {
+        "p": [
+          -4223.603,
+          5846.52
+        ],
+        "id": "siren"
+      },
+      {
+        "p": [
+          -2056.906,
+          4797.9136
+        ],
+        "id": "siren"
+      },
+      {
+        "p": [
+          -5264.5396,
+          6820.2964
+        ],
+        "id": "siren"
       }
     ],
     "static": false
   },
   {
-    "type": "boss_forsaken_giant",
+    "type": "animal_small_rabbit",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_pelican",
     "spawns": [],
     "static": false
   },
   {
-    "type": "boss_secret_servitor",
+    "type": "animal_fish",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_ancient_one",
+    "type": "animal_leopard",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_chagas_weevil",
+    "type": "animal_capybara",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_mother_of_life",
+    "type": "animal_raven",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_spider",
+    "type": "animal_fox",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_rat",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_rabbit",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_raccoon",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_sheep",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_spiderling",
     "spawns": [
       {
         "p": [
@@ -7771,19 +7131,246 @@
     "static": false
   },
   {
-    "type": "monster_charred_madman",
+    "type": "monster_toy_spider",
     "spawns": [],
     "static": true
   },
   {
-    "type": "animal_eclipse deer",
+    "type": "monster_white_hand",
+    "spawns": [
+      {
+        "p": [
+          -5502.4517,
+          6393.084
+        ],
+        "id": "m_spider_light"
+      }
+    ],
+    "static": false
+  },
+  {
+    "type": "monster_wanderer",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_public_bus__big_white_hand",
     "spawns": [],
     "static": true
   },
   {
-    "type": "monster_parasitic_madman",
+    "type": "monster_morphic__crate",
     "spawns": [],
     "static": true
+  },
+  {
+    "type": "monster_peeper",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_spider_egg",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_airplane_ancient_one",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_light",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_migrant_arm",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_nomad",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_angry_harriet",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_swamp_foulbrood",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_seed_of_life",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_flower_of_life",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_small_boar",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_boar",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_cogitarid",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_yellow_light",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_swarm",
+    "spawns": [
+      {
+        "p": [
+          -3011.2949,
+          4688.6455
+        ],
+        "id": "sniperbug"
+      },
+      {
+        "p": [
+          -3013.3164,
+          4695.2544
+        ],
+        "id": "sniperbug"
+      },
+      {
+        "p": [
+          -5502.4517,
+          6393.084
+        ],
+        "id": "cluster"
+      }
+    ],
+    "static": false
+  },
+  {
+    "type": "monster_parasitic_maniac",
+    "spawns": [
+      {
+        "p": [
+          -4623.8628,
+          6227.4722
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -4629.23,
+          6232.1147
+        ],
+        "id": "djgrz0312"
+      },
+      {
+        "p": [
+          -4620.855,
+          6232.9536
+        ],
+        "id": "djgrz0312"
+      },
+      {
+        "p": [
+          -6527.2524,
+          5738.1787
+        ],
+        "id": "jbt0322"
+      },
+      {
+        "p": [
+          -6525.0469,
+          5734.9072
+        ],
+        "id": "djgrz0312"
+      },
+      {
+        "p": [
+          -6518.2295,
+          5735.2056
+        ],
+        "id": "jbt0322"
+      },
+      {
+        "p": [
+          -6535.917,
+          5737.7563
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -6511.9258,
+          5739.8638
+        ],
+        "id": "djgrz0311"
+      },
+      {
+        "p": [
+          -6521.3672,
+          5732.355
+        ],
+        "id": "jbt0322"
+      },
+      {
+        "p": [
+          -6513.833,
+          5739.4399
+        ],
+        "id": "jbt0322"
+      },
+      {
+        "p": [
+          -6524.1055,
+          5733.7798
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -6517.1362,
+          5733.0791
+        ],
+        "id": "djgrz0312"
+      },
+      {
+        "p": [
+          -6514.6006,
+          5736.5996
+        ],
+        "id": "djgrz0311"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "monster_shepherd",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_destroyer",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_firefly",
+    "spawns": [],
+    "static": false
   },
   {
     "type": "monster_budworm",
@@ -7806,45 +7393,460 @@
     "static": false
   },
   {
-    "type": "animal_eclipse wolf",
+    "type": "monster_morphic__fridge",
     "spawns": [],
     "static": true
   },
   {
-    "type": "monster_the_butchers",
+    "type": "monster_arbiter",
+    "spawns": [
+      {
+        "p": [
+          -5031.57,
+          5401.4
+        ],
+        "id": "destroyer"
+      }
+    ],
+    "static": false
+  },
+  {
+    "type": "monster_shockwave__judicator",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_gnawer",
+    "spawns": [
+      {
+        "p": [
+          -6987.23,
+          5217.04
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6977.31,
+          5218.84
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6982.28,
+          5222.53
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6974.43,
+          5226.4
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6648.98,
+          5097.8101
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6644.98,
+          5097.6602
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6650.75,
+          5097.6001
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6646.9702,
+          5097.7002
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5032.79,
+          5403.59
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5025.12,
+          5401.24
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5033.96,
+          5393.49
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5040.02,
+          5410.62
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5035.93,
+          5419.8
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5032.6,
+          5396.89
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5025.17,
+          5405.8
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5025.68,
+          5400.14
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5794.01,
+          7199.77
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5818.93,
+          7194.77
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5810.61,
+          7186.07
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5812.68,
+          7204.27
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5803.34,
+          7202.93
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6528.1191,
+          5731.8354
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6522.8252,
+          5734.6592
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6510.3101,
+          5740.5518
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6507.9434,
+          5742.4863
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6512.8193,
+          5738.1265
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6526.1914,
+          5735.3633
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -6517.1221,
+          5733.7534
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5502.4517,
+          6393.084
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5514.519,
+          6389.8706
+        ],
+        "id": "m_spider_skin_ru"
+      },
+      {
+        "p": [
+          -5240.0923,
+          6842.2603
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5244.2383,
+          6847.3413
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5245.0884,
+          6838.52
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5244.1436,
+          6828.1909
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5249.5083,
+          6832.4004
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5246.3413,
+          6826.8188
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5244.4434,
+          6825.8164
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5242.6279,
+          6843.3345
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5255.5815,
+          6844.5176
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5256.8574,
+          6846.8296
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5255.1797,
+          6846.3672
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5257.8711,
+          6847.8198
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5255.0356,
+          6849.1201
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5242.9277,
+          6840.96
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5241.6079,
+          6827.1167
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5244.6401,
+          6845.4917
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5249.9111,
+          6834.5249
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5249.5093,
+          6836.3745
+        ],
+        "id": "infected"
+      },
+      {
+        "p": [
+          -5257.5713,
+          6850.1943
+        ],
+        "id": "infected"
+      }
+    ],
+    "static": false
+  },
+  {
+    "type": "monster_the_scorcher",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_believer",
+    "type": "monster_agent",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_ignoramus",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_portal",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_rainfall_reaper",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_wolf",
     "spawns": [
       {
         "p": [
-          -6511.9526,
-          5739.6089
+          -3070.5798,
+          4686.4355
         ],
-        "id": "undertaker"
+        "id": "wolf_skin"
+      },
+      {
+        "p": [
+          -3067.425,
+          4689.1675
+        ],
+        "id": "wolf_skin"
+      },
+      {
+        "p": [
+          -3059.2876,
+          4678.4746
+        ],
+        "id": "wolf_skin"
+      },
+      {
+        "p": [
+          -3064.9226,
+          4682.127
+        ],
+        "id": "wolf_skin"
+      },
+      {
+        "p": [
+          -3069.2615,
+          4676.3931
+        ],
+        "id": "wolf_skin"
       }
     ],
     "static": true
   },
   {
-    "type": "animal_eclipse bear",
+    "type": "animal_corrupted_wolf",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_small_wolf",
     "spawns": [],
     "static": true
   },
   {
-    "type": "monster_mayhem",
+    "type": "monster_mother_of_life",
     "spawns": [],
     "static": false
   },
   {
-    "type": "animal_eclipse_crocodile",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_toy_spider",
+    "type": "monster_df157m6",
     "spawns": [],
     "static": true
   },
@@ -7897,7 +7899,87 @@
     "static": false
   },
   {
-    "type": "animal_eclipse_wolf",
+    "type": "monster_claw_machine_teddy",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_chagas_weevil",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_gasbag",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_gacha_machine",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_eclipse",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_red_green_light",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_the_lost",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_doe",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_fawn",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_base_npc",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_indicator_unit",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "boss_titans_hand",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_forsaken_giant",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_shadow_hound",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_morgan",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_burrower",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_unholy_goanna",
     "spawns": [],
     "static": false
   },
@@ -7907,25 +7989,509 @@
     "static": false
   },
   {
-    "type": "monster_airplane_ancient_one",
+    "type": "monster_weather_fourecaster",
     "spawns": [],
     "static": false
   },
   {
-    "type": "monster_white_hand",
+    "type": "monster_test_nurse",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_test_nurse__roller_skating_version",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_tangled_vine",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_jump_over_flower_bud",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_sinner_sentry",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_the_shepherd_tombstone",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_shepherd_saint_el",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_cervitaur",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_lion",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_eclipse_lion",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_snapping_turtle",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_believer",
+    "spawns": [
+      {
+        "p": [
+          -6511.9526,
+          5739.6089
+        ],
+        "id": "undertaker"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "boss_treants",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "boss_spores",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_stag",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_altered_corrupted_bull",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_arachsiam",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_ravenous_hunter",
+    "spawns": [
+      {
+        "p": [
+          -5804.64,
+          7192.39
+        ],
+        "id": "timekiller"
+      }
+    ],
+    "static": false
+  },
+  {
+    "type": "boss_secret_servitor",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_small_crocodile",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_eclipse_crocodile",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "animal_corrupted_crocodile",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_crocodiles",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_ghoul",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_void__ghost",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_mayhem",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_altered_arbiter",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_mr_ames_soul",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "boss_ravenous_hunter's_doppelganger",
+    "spawns": [
+      {
+        "p": [
+          -4990.6577,
+          5960.0132
+        ],
+        "id": "timekiller"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "boss_cyst_seed",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_treant's_doppelganger",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "boss_arachsiam's_shadow",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "boss_shadow_hound's_shadow",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_mr._ames'_soul",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_the_butcher",
+    "spawns": [
+      {
+        "p": [
+          -4103.5933,
+          2327.4666
+        ],
+        "id": "tk0303_03"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "monster_maniac_(ranged)",
+    "spawns": [
+      {
+        "p": [
+          -6129.7275,
+          5670.4028
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -6129.7441,
+          5666.7217
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -6126.6929,
+          5674.3906
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -5776.3379,
+          4108.9561
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -5776.481,
+          4103.4912
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -5784.2422,
+          4113.8374
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -4531.4639,
+          5143.4834
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -4532.4683,
+          5139.0908
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -4533.5845,
+          5153.3018
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -4199.7993,
+          3003.0249
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -4200.4922,
+          2995.447
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -4203.2671,
+          3013.7478
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -3206.6995,
+          6230.8989
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -3199.9905,
+          6226.5571
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -3208.2212,
+          6235.3901
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -1567.4159,
+          6679.4512
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -1572.9131,
+          6681.7324
+        ],
+        "id": "djgrz0310"
+      },
+      {
+        "p": [
+          -1569.9396,
+          6673.0811
+        ],
+        "id": "djgrz0310"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "monster_maniac_(melee)",
+    "spawns": [
+      {
+        "p": [
+          -6123.6709,
+          5668.9824
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -6121.5444,
+          5672.8135
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -5784.9473,
+          4110.4595
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -5778.896,
+          4106.5337
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -4538.7007,
+          5142.5352
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -4536.7495,
+          5146.71
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -4194.5474,
+          3003.4287
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -4195.959,
+          2996.2566
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -3198.0686,
+          6231.5923
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -3193.0593,
+          6222.9336
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -1572.7678,
+          6668.5
+        ],
+        "id": "djgrz0309"
+      },
+      {
+        "p": [
+          -1578.8522,
+          6671.8931
+        ],
+        "id": "djgrz0309"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "monster_tangled_vine_claw",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_vine_connector_right",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_vine_connector_middle",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "boss_treant",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_vine_connector_left",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_ancient_one",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "monster_spider",
     "spawns": [
       {
         "p": [
           -5502.4517,
           6393.084
         ],
-        "id": "m_spider_light"
+        "id": "m_spider_skin"
       }
     ],
     "static": false
   },
   {
-    "type": "monster_ede",
+    "type": "monster_charred_madman",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_eclipse deer",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "monster_parasitic_madman",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_eclipse wolf",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_eclipse bear",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "animal_eclipse_wolf",
     "spawns": [],
     "static": false
   },
@@ -7935,24 +8501,9 @@
     "static": false
   },
   {
-    "type": "monster_wanderer",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_nomad",
-    "spawns": [],
-    "static": false
-  },
-  {
     "type": "monster_hp_flower_cluster",
     "spawns": [],
     "static": true
-  },
-  {
-    "type": "monster_seed_of_life",
-    "spawns": [],
-    "static": false
   },
   {
     "type": "monster_life_flower_cluster",
@@ -8290,54 +8841,6 @@
       }
     ],
     "static": true
-  },
-  {
-    "type": "monster_siren",
-    "spawns": [
-      {
-        "p": [
-          -5680.5752,
-          6807.167
-        ],
-        "id": "siren"
-      },
-      {
-        "p": [
-          -5861.3315,
-          3164.3899
-        ],
-        "id": "siren"
-      },
-      {
-        "p": [
-          -5597.9287,
-          5243.8101
-        ],
-        "id": "siren"
-      },
-      {
-        "p": [
-          -4223.603,
-          5846.52
-        ],
-        "id": "siren"
-      },
-      {
-        "p": [
-          -2056.906,
-          4797.9136
-        ],
-        "id": "siren"
-      },
-      {
-        "p": [
-          -5264.5396,
-          6820.2964
-        ],
-        "id": "siren"
-      }
-    ],
-    "static": false
   },
   {
     "type": "monster_mourner",
@@ -9615,19 +10118,6 @@
     "static": false
   },
   {
-    "type": "monster_spiderling",
-    "spawns": [
-      {
-        "p": [
-          -5502.4517,
-          6393.084
-        ],
-        "id": "m_spider_skin"
-      }
-    ],
-    "static": false
-  },
-  {
     "type": "monster_polluted_human_sample",
     "spawns": [],
     "static": true
@@ -9636,11 +10126,6 @@
     "type": "monster_blaze_erupted_source",
     "spawns": [],
     "static": true
-  },
-  {
-    "type": "monster_vocalis",
-    "spawns": [],
-    "static": false
   },
   {
     "type": "monster_erupted_shock",
@@ -9673,52 +10158,7 @@
     "static": true
   },
   {
-    "type": "monster_ghoul",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_symbiont",
-    "spawns": [],
-    "static": true
-  },
-  {
-    "type": "monster_yellow_light",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_burrower",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_gasbag",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_firefly",
-    "spawns": [],
-    "static": false
-  },
-  {
     "type": "monster_the_scorcher_pale_hand",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_sinner_sentry",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_the_scorcher",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_mirror_girl",
     "spawns": [],
     "static": false
   },
@@ -9728,39 +10168,14 @@
     "static": false
   },
   {
-    "type": "monster_haloed_petroller",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_agent",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "monster_gacha_machine",
-    "spawns": [],
-    "static": false
-  },
-  {
     "type": "monster_gravestone",
     "spawns": [],
     "static": true
   },
   {
-    "type": "monster_rainfall_reaper",
-    "spawns": [],
-    "static": false
-  },
-  {
     "type": "monster_saint_el",
     "spawns": [],
     "static": true
-  },
-  {
-    "type": "monster_cogitarid",
-    "spawns": [],
-    "static": false
   },
   {
     "type": "monster_sennacherib",
@@ -9783,11 +10198,6 @@
     "static": false
   },
   {
-    "type": "monster_peeper",
-    "spawns": [],
-    "static": false
-  },
-  {
     "type": "monster_ghost_with_braking_force",
     "spawns": [],
     "static": true
@@ -9803,11 +10213,6 @@
     "static": true
   },
   {
-    "type": "monster_unholy_goanna",
-    "spawns": [],
-    "static": false
-  },
-  {
     "type": "monster_bone_thrower—soul_hunter",
     "spawns": [],
     "static": true
@@ -9819,11 +10224,6 @@
   },
   {
     "type": "boss_giant",
-    "spawns": [],
-    "static": false
-  },
-  {
-    "type": "animal_lion",
     "spawns": [],
     "static": false
   },
@@ -9843,11 +10243,6 @@
         "id": "deer_variation"
       }
     ],
-    "static": false
-  },
-  {
-    "type": "animal_eclipse_bear",
-    "spawns": [],
     "static": false
   },
   {
@@ -9926,5 +10321,25 @@
     "type": "monster_right_rdt3",
     "spawns": [],
     "static": false
+  },
+  {
+    "type": "weapon_crate",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "gear_crate",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "storage_crate",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "mystical_crate",
+    "spawns": [],
+    "static": true
   }
 ]

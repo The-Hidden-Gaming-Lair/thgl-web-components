@@ -123,6 +123,26 @@
         "id": "morphic_crate",
         "icon": "morphic_crate.webp",
         "size": 1
+      },
+      {
+        "id": "weapon_crate",
+        "icon": "weapon_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "gear_crate",
+        "icon": "gear_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "storage_crate",
+        "icon": "storage_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "mystical_crate",
+        "icon": "mystical_crate.webp",
+        "size": 1
       }
     ],
     "defaultOn": true,
@@ -132,6 +152,11 @@
     "group": "boss",
     "values": [
       {
+        "id": "boss_titans_hand",
+        "icon": "boss_titans_hand.webp",
+        "size": 0.75
+      },
+      {
         "id": "boss_forsaken_giant",
         "icon": "boss_forsaken_giant.webp",
         "size": 0.75
@@ -139,6 +164,21 @@
       {
         "id": "boss_shadow_hound",
         "icon": "boss_shadow_hound.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_jump_over_flower_bud",
+        "icon": "boss_jump_over_flower_bud.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_treants",
+        "icon": "boss_treants.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_spores",
+        "icon": "boss_spores.webp",
         "size": 0.75
       },
       {
@@ -229,6 +269,11 @@
         "size": 0.75
       },
       {
+        "id": "monster_customer",
+        "icon": "monster_customer.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_watcher",
         "icon": "monster_watcher.webp",
         "size": 0.75
@@ -244,13 +289,48 @@
         "size": 0.75
       },
       {
+        "id": "monster_novice_employee",
+        "icon": "monster_novice_employee.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_senior_employee",
+        "icon": "monster_senior_employee.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_the_butchers",
         "icon": "monster_the_butchers.webp",
         "size": 0.75
       },
       {
+        "id": "monster_butcher_sennacherib",
+        "icon": "monster_butcher_sennacherib.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_workshop__the_butcher",
+        "icon": "monster_workshop__the_butcher.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_ede",
         "icon": "monster_ede.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_prime_war__the_butcher",
+        "icon": "monster_the_prime_war__the_butcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_morphic__weapon_crate",
+        "icon": "monster_morphic__weapon_crate.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_morphic__armor_crate",
+        "icon": "monster_morphic__armor_crate.webp",
         "size": 0.75
       },
       {
@@ -266,6 +346,51 @@
       {
         "id": "monster_disciple",
         "icon": "monster_disciple.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ancient_one_novice_island_corpse",
+        "icon": "monster_ancient_one_novice_island_corpse.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_star_cow",
+        "icon": "monster_star_cow.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_gas_canister",
+        "icon": "monster_gas_canister.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_laser_turret",
+        "icon": "monster_laser_turret.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_umbrella",
+        "icon": "monster_umbrella.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_void__morphic",
+        "icon": "monster_void__morphic.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_firetrap__morphic",
+        "icon": "monster_firetrap__morphic.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_work_permit",
+        "icon": "monster_work_permit.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_radar",
+        "icon": "monster_radar.webp",
         "size": 0.75
       },
       {
@@ -299,6 +424,16 @@
         "size": 0.75
       },
       {
+        "id": "monster_public_bus__big_white_hand",
+        "icon": "monster_public_bus__big_white_hand.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_morphic__crate",
+        "icon": "monster_morphic__crate.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_peeper",
         "icon": "monster_peeper.webp",
         "size": 0.75
@@ -314,13 +449,38 @@
         "size": 0.75
       },
       {
+        "id": "monster_light",
+        "icon": "monster_light.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_migrant_arm",
+        "icon": "monster_migrant_arm.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_nomad",
         "icon": "monster_nomad.webp",
         "size": 0.75
       },
       {
+        "id": "monster_angry_harriet",
+        "icon": "monster_angry_harriet.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_swamp_foulbrood",
+        "icon": "monster_swamp_foulbrood.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_seed_of_life",
         "icon": "monster_seed_of_life.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_flower_of_life",
+        "icon": "monster_flower_of_life.webp",
         "size": 0.75
       },
       {
@@ -344,6 +504,16 @@
         "size": 0.75
       },
       {
+        "id": "monster_shepherd",
+        "icon": "monster_shepherd.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_destroyer",
+        "icon": "monster_destroyer.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_firefly",
         "icon": "monster_firefly.webp",
         "size": 0.75
@@ -354,8 +524,18 @@
         "size": 0.75
       },
       {
+        "id": "monster_morphic__fridge",
+        "icon": "monster_morphic__fridge.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_arbiter",
         "icon": "monster_arbiter.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_shockwave__judicator",
+        "icon": "monster_shockwave__judicator.webp",
         "size": 0.75
       },
       {
@@ -374,6 +554,16 @@
         "size": 0.75
       },
       {
+        "id": "monster_ignoramus",
+        "icon": "monster_ignoramus.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_portal",
+        "icon": "monster_portal.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_rainfall_reaper",
         "icon": "monster_rainfall_reaper.webp",
         "size": 0.75
@@ -384,8 +574,18 @@
         "size": 0.75
       },
       {
+        "id": "monster_df157m6",
+        "icon": "monster_df157m6.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_snatcher",
         "icon": "monster_snatcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_claw_machine_teddy",
+        "icon": "monster_claw_machine_teddy.webp",
         "size": 0.75
       },
       {
@@ -404,6 +604,21 @@
         "size": 0.75
       },
       {
+        "id": "monster_eclipse",
+        "icon": "monster_eclipse.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_red_green_light",
+        "icon": "monster_red_green_light.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_lost",
+        "icon": "monster_the_lost.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_burrower",
         "icon": "monster_burrower.webp",
         "size": 0.75
@@ -419,6 +634,21 @@
         "size": 0.75
       },
       {
+        "id": "monster_weather_fourecaster",
+        "icon": "monster_weather_fourecaster.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_test_nurse",
+        "icon": "monster_test_nurse.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_test_nurse__roller_skating_version",
+        "icon": "monster_test_nurse__roller_skating_version.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_tangled_vine",
         "icon": "monster_tangled_vine.webp",
         "size": 0.75
@@ -429,8 +659,28 @@
         "size": 0.75
       },
       {
+        "id": "monster_the_shepherd_tombstone",
+        "icon": "monster_the_shepherd_tombstone.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_shepherd_saint_el",
+        "icon": "monster_shepherd_saint_el.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_cervitaur",
+        "icon": "monster_cervitaur.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_believer",
         "icon": "monster_believer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_altered_corrupted_bull",
+        "icon": "monster_altered_corrupted_bull.webp",
         "size": 0.75
       },
       {
@@ -439,8 +689,23 @@
         "size": 0.75
       },
       {
+        "id": "monster_void__ghost",
+        "icon": "monster_void__ghost.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_mayhem",
         "icon": "monster_mayhem.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_altered_arbiter",
+        "icon": "monster_altered_arbiter.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mr_ames_soul",
+        "icon": "monster_mr_ames_soul.webp",
         "size": 0.75
       },
       {
@@ -846,8 +1111,93 @@
     "group": "animal",
     "values": [
       {
+        "id": "animal_church_afterimage",
+        "icon": "animal_church_afterimage.webp",
+        "size": 0.75
+      },
+      {
         "id": "animal_eclipse_bear",
         "icon": "animal_eclipse_bear.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_small_bear",
+        "icon": "animal_small_bear.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_corrupted_bear",
+        "icon": "animal_corrupted_bear.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_bear",
+        "icon": "animal_bear.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_small_rabbit",
+        "icon": "animal_small_rabbit.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_pelican",
+        "icon": "animal_pelican.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_fish",
+        "icon": "animal_fish.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_leopard",
+        "icon": "animal_leopard.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_capybara",
+        "icon": "animal_capybara.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_raven",
+        "icon": "animal_raven.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_fox",
+        "icon": "animal_fox.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_rat",
+        "icon": "animal_rat.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_rabbit",
+        "icon": "animal_rabbit.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_raccoon",
+        "icon": "animal_raccoon.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_sheep",
+        "icon": "animal_sheep.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_small_boar",
+        "icon": "animal_small_boar.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_boar",
+        "icon": "animal_boar.webp",
         "size": 0.75
       },
       {
@@ -856,13 +1206,78 @@
         "size": 0.75
       },
       {
+        "id": "animal_corrupted_wolf",
+        "icon": "animal_corrupted_wolf.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_small_wolf",
+        "icon": "animal_small_wolf.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_doe",
+        "icon": "animal_doe.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_fawn",
+        "icon": "animal_fawn.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_base_npc",
+        "icon": "animal_base_npc.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_indicator_unit",
+        "icon": "animal_indicator_unit.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_morgan",
+        "icon": "animal_morgan.webp",
+        "size": 0.75
+      },
+      {
         "id": "animal_lion",
         "icon": "animal_lion.webp",
         "size": 0.75
       },
       {
+        "id": "animal_eclipse_lion",
+        "icon": "animal_eclipse_lion.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_snapping_turtle",
+        "icon": "animal_snapping_turtle.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_stag",
+        "icon": "animal_stag.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_small_crocodile",
+        "icon": "animal_small_crocodile.webp",
+        "size": 0.75
+      },
+      {
         "id": "animal_eclipse_crocodile",
         "icon": "animal_eclipse_crocodile.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_corrupted_crocodile",
+        "icon": "animal_corrupted_crocodile.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_crocodiles",
+        "icon": "animal_crocodiles.webp",
         "size": 0.75
       },
       {

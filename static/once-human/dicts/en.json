@@ -1643,5 +1643,9 @@
   "monster_centaurus": "Centaurus",
   "monster_manibus": "Manibus",
   "monster_star_cattle": "Star cattle",
-  "monster_right_rdt3": "Right_RDt3"
+  "monster_right_rdt3": "Right_RDt3",
+  "weapon_crate": "Weapon Crate",
+  "gear_crate": "Gear Crate",
+  "storage_crate": "Storage Crate",
+  "mystical_crate": "Mystical Crate"
 }

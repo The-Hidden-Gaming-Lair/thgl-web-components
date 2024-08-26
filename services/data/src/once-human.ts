@@ -13,6 +13,7 @@ import { IconProps, mergeImages, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import {
+  AchieveCollectData,
   BaseNPCData,
   BattleFieldData,
   BigMapItemData,
@@ -545,7 +546,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
   const title = baseNPC.unit_name;
   const group = baseNPC.model_path.split("/")[1];
 
-  let type = group + "_" + title.toLocaleLowerCase().replaceAll(" ", "_");
+  let type = group + "_" + title.toLowerCase().replaceAll(" ", "_");
   if (type.match(/[\u3400-\u9FBF]/)) {
     continue;
   }
@@ -568,7 +569,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
   } else {
     continue;
   }
-  const typeId = baseNPC.model_path.replaceAll("/", "\\");
+  const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
   if (typeIDs[typeId] && typeIDs[typeId] !== type) {
     console.warn(
       `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
@@ -601,6 +602,12 @@ for (const baseNPC of Object.values(baseNPCData)) {
       icon,
       size,
     });
+    if (!nodes.some((n) => n.type === type)) {
+      nodes.push({
+        type,
+        spawns: [],
+      });
+    }
   }
 }
 
@@ -692,7 +699,10 @@ for (const battleFieldName of battleFieldNames) {
       size = 0.75;
     }
 
-    const typeId = nodeData.model_path.replaceAll("/", "\\");
+    const typeId = nodeData.model_path
+      .replaceAll("/", "\\")
+      .split("\\")
+      .at(-1)!;
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
       console.warn(
         `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
@@ -750,21 +760,169 @@ for (const battleFieldName of battleFieldNames) {
   }
 }
 
-const type = "morphic_crate";
-const node = nodes.find((n) => n.type === type)!;
-node.spawns = [];
+const achieveCollectData = await readJSON<AchieveCollectData>(
+  CONTENT_DIR + "/game_common/data/achieve_collect_data.json",
+);
+// Morphic Crate
+{
+  const type = "morphic_crate";
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
 
-for (const [key, treasureMonster] of Object.entries(treasureMonsterDropData)) {
-  const spawn: Node["spawns"][0] = {
-    p: [treasureMonster.pos3[2], treasureMonster.pos3[0]],
-  };
-  node.spawns.push(spawn);
+  for (const [key, treasureMonster] of Object.entries(
+    treasureMonsterDropData,
+  )) {
+    const spawn: Node["spawns"][0] = {
+      p: [treasureMonster.pos3[2], treasureMonster.pos3[0]],
+    };
+    node.spawns.push(spawn);
+  }
+}
+
+// Weapon Crate
+{
+  const group = "items";
+  const type = "weapon_crate";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    type,
+    {
+      color: "green",
+      circle: true,
+    },
+  );
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Weapon Crate";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["weapon_box_01.gim"] = type;
+  typeIDs["weapon_box_02.gim"] = type;
+  typeIDs["weapon_box_03.gim"] = type;
+}
+// Gear Crate
+{
+  const group = "items";
+  const type = "gear_crate";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    type,
+    {
+      color: "yellow",
+      circle: true,
+    },
+  );
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Gear Crate";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["iron_box_03.gim"] = type;
+}
+// Storage Crate
+{
+  const group = "items";
+  const type = "storage_crate";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    type,
+    {
+      color: "lightblue",
+      circle: true,
+    },
+  );
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Storage Crate";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+
+  Object.entries(achieveCollectData).forEach(([key, value]) => {
+    if (value.attrs.includes("collection_box_abandoned")) {
+      typeIDs[key] = type;
+    }
+  });
+}
+// Mystical Crate
+{
+  const group = "items";
+  const type = "mystical_crate";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    type,
+    {
+      color: "orange",
+      circle: true,
+    },
+  );
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Mystical Crate";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["invisible_treasure_01a.gim"] = type;
+  Object.entries(achieveCollectData).forEach(([key, value]) => {
+    if (value.attrs.includes("collection_box_unique")) {
+      typeIDs[key] = type;
+    }
+  });
 }
 
 const filteredNodes = nodes.map((n) => ({
   ...n,
-  static:
-    !Object.values(typeIDs).includes(n.type) || n.type === "morphic_crate",
+  static: !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
   spawns: n.spawns.filter((s) => {
     const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
     return !isNotOnWorldMap;

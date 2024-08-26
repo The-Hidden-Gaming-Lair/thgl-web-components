@@ -4,7 +4,7 @@
   "meta": {
     "name": "Once Human Map-DEV",
     "author": "Leon Machens",
-    "version": "0.2.16",
+    "version": "0.3.0",
     "minimum-overwolf-version": "0.241.0",
     "minimum-gep-version": "242.0",
     "description": "Once Human Interactive Map – The Hidden Gaming Lair",
@@ -134,7 +134,7 @@
     "force_browser": "user",
     "externally_connectable": {
       "matches": [
-        "https://www.th.gl",
+        "https://*.th.gl",
         "http://localhost:6000"
       ]
     },
