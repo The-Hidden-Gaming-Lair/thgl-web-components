@@ -43,7 +43,6 @@ namespace GameEventsPlugin
         else
         {
           _lastError = null;
-
           callback(true);
         }
       }
