@@ -814,6 +814,14 @@
         "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall",
+        "icon": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist",
+        "icon": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
         "icon": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb.webp"
       },
@@ -894,6 +902,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T42_Mite",
         "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
       },
@@ -956,6 +968,10 @@
       {
         "id": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master",
         "icon": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
+        "icon": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder.webp"
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila",
@@ -1413,6 +1429,14 @@
         "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall",
+        "icon": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist",
+        "icon": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
         "icon": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb.webp"
       },
@@ -1493,6 +1517,10 @@
         "icon": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan.webp"
       },
       {
+        "id": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel",
+        "icon": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel.webp"
+      },
+      {
         "id": "PD_NPC_Zeb_Guardian_T42_Mite",
         "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
       },
@@ -1555,6 +1583,10 @@
       {
         "id": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master",
         "icon": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master.webp"
+      },
+      {
+        "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
+        "icon": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder.webp"
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila",
