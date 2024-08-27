@@ -616,7 +616,17 @@ for (const [key, data] of Object.entries(subZoneData)) {
     const zone = Object.values(zoneResources)
       .find((z) => z.Areas.find((a) => a.Key === area))!
       .Areas.find((a) => a.Key === area)!;
-    const category = nodes.find((n) => n.type === "BossMonster")!;
+    if (!nodes.some((n) => n.type === "BossMonster" && n.mapName === mapName)) {
+      nodes.push({
+        type: "BossMonster",
+        mapName,
+        spawns: [],
+      });
+    }
+    const category = nodes.find(
+      (n) => n.type === "BossMonster" && n.mapName === mapName,
+    )!;
+
     const spawn: (typeof nodes)[number]["spawns"][number] = {
       id,
       p: [zone.Position.Y, zone.Position.X] as [number, number],
