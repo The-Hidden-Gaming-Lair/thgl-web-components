@@ -763,6 +763,7 @@ for (const battleFieldName of battleFieldNames) {
 const achieveCollectData = await readJSON<AchieveCollectData>(
   CONTENT_DIR + "/game_common/data/achieve_collect_data.json",
 );
+
 // Morphic Crate
 {
   const type = "morphic_crate";
@@ -913,11 +914,29 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
   typeIDs["invisible_treasure_01a.gim"] = type;
-  Object.entries(achieveCollectData).forEach(([key, value]) => {
-    if (value.attrs.includes("collection_box_unique")) {
-      typeIDs[key] = type;
+  typeIDs["invisible_treasure_04.gim"] = type;
+  typeIDs["invisible_treasure_03.gim"] = type;
+  // typeIDs["large_storage_crate_rare.gim"] = type;
+  typeIDs["invisible_treasure_02.gim"] = type;
+  typeIDs["invisible_treasure_01.gim"] = type;
+
+  //   Object.entries(achieveCollectData).forEach(([key, value]) => {
+  //     if (value.attrs.includes("collection_box_unique")) {
+  //       typeIDs[key] = type;
+  //     }
+  //   });
+}
+{
+  const filter = filters.find((f) => f.group === "items")!;
+  const previousNodes = await readJSON<Node[]>(
+    OUTPUT_DIR + "/coordinates/nodes.json",
+  );
+  for (const node of previousNodes) {
+    if (filter.values.some((v) => v.id === node.type)) {
+      const prevNode = nodes.find((n) => n.type === node.type)!;
+      prevNode.spawns = node.spawns;
     }
-  });
+  }
 }
 
 const filteredNodes = nodes.map((n) => ({

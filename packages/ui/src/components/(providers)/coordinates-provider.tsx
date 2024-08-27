@@ -440,6 +440,11 @@ export function CoordinatesProvider({
     );
   }, [typesIdMap]);
 
+  const realStaticNodes = useMemo(
+    () => staticNodes.filter((node) => "static" in node && !!node.static)!,
+    [staticNodes],
+  );
+
   const nodes = useMemo<NodesCoordinates>(() => {
     if (!isHydrated || !staticNodes) {
       return emptyArray as NodesCoordinates;
@@ -448,7 +453,7 @@ export function CoordinatesProvider({
       return [...privateGroups, ...staticNodes];
     }
     const debug = isDebug();
-    const targetNodes = normalizedTypesIdMap
+    const actorsNodes = normalizedTypesIdMap
       ? actors.reduce<NodesCoordinates>((acc, actor) => {
           let id = normalizedTypesIdMap[actor.type.toLowerCase()];
           if (!id || actor.hidden) {
@@ -481,10 +486,28 @@ export function CoordinatesProvider({
           return acc;
         }, [])
       : [];
-    targetNodes.push(
-      ...privateGroups,
-      ...staticNodes.filter((node) => "static" in node && !!node.static)!,
-    );
+    const leftStaticNodes = realStaticNodes.map((node) => {
+      const actorNode = actorsNodes.find(
+        (n) =>
+          n.type === node.type && (!n.mapName || n.mapName === node.mapName),
+      );
+      if (!actorNode) {
+        return node;
+      }
+      const leftSpawns = node.spawns.filter((spawn) => {
+        return !actorNode?.spawns.some((s) => {
+          return (
+            Math.abs(s.p[0] - spawn.p[0]) < 1 &&
+            Math.abs(s.p[1] - spawn.p[1]) < 1
+          );
+        });
+      });
+      return {
+        ...node,
+        spawns: leftSpawns,
+      };
+    });
+    const targetNodes = [...actorsNodes, ...privateGroups, ...leftStaticNodes];
     return targetNodes;
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 
