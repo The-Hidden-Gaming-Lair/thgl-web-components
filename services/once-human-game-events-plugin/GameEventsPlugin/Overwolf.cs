@@ -80,7 +80,7 @@ namespace GameEventsPlugin
               type = csv[1],
               x = float.Parse(csv[2], CultureInfo.InvariantCulture),
               y = float.Parse(csv[3], CultureInfo.InvariantCulture),
-              z = 0,
+              z = float.Parse(csv[4], CultureInfo.InvariantCulture),
               r = null
             };
             callback(actor);
@@ -123,7 +123,7 @@ namespace GameEventsPlugin
                 type = items[1],
                 x = float.Parse(items[2], CultureInfo.InvariantCulture),
                 y = float.Parse(items[3], CultureInfo.InvariantCulture),
-                z = 0,
+                z = float.Parse(items[4], CultureInfo.InvariantCulture),
                 r = null
               };
             });

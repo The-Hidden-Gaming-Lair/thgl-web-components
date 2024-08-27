@@ -103,7 +103,8 @@ namespace NativeGameEvents
               address = playerAddress.GetHashCode(),
               type = "player",
               x = playerPos.Z,
-              y = playerPos.X
+              y = playerPos.X,
+              z = playerPos.Y
             };
             //Console.WriteLine(actor.ToString());
             return Marshal.StringToCoTaskMemUTF8(actor.ToString());
@@ -235,6 +236,7 @@ namespace NativeGameEvents
               type = type,
               x = pos.Z,
               y = pos.X,
+              z = pos.Y
             });
           }
           var csv = string.Join("\n", actors.DistinctBy(a => a).Select(a => a.ToString()));
