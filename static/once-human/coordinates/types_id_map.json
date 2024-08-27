@@ -189,6 +189,7 @@
   "weapon_box_02.gim": "weapon_crate",
   "weapon_box_03.gim": "weapon_crate",
   "iron_box_03.gim": "gear_crate",
+  "v_mod_box.gim": "gear_crate",
   "r_ammo_box.gim": "storage_crate",
   "container_pumpkin.gim": "storage_crate",
   "gas_station_vendmachine02.gim": "storage_crate",

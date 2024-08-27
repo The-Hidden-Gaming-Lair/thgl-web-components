@@ -846,6 +846,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
   typeIDs["iron_box_03.gim"] = type;
+  typeIDs["v_mod_box.gim"] = type;
 }
 // Storage Crate
 {
