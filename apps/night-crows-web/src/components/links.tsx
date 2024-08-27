@@ -9,24 +9,13 @@ import {
   HeaderLink,
   NavMenu,
 } from "@repo/ui/header";
-import { ExternalLink, Dices, SquareCheckBig } from "lucide-react";
+import { ExternalLink, SquareCheckBig } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
 
   const links = [
     { href: "/", content: <InteractiveMapLink active={pathname === "/"} /> },
-    {
-      href: "/item-drop-chances",
-      content: (
-        <HeaderLink active={pathname === "/item-drop-chances"}>
-          <div>
-            <Dices className="w-4 h-4" />
-            <span>Item Drop Chances</span>
-          </div>
-        </HeaderLink>
-      ),
-    },
     {
       href: "/activities-tracker",
       content: (

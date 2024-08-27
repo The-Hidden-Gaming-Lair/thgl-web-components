@@ -146,8 +146,8 @@
         "size": 1.5
       },
       {
-        "id": "100thDayEventStore",
-        "icon": "ui_texture_icon_npc_event.webp",
+        "id": "NpcCorePartsStore",
+        "icon": "ui_gl_texture_icon_npc_corepartsstore.webp",
         "size": 1.5
       }
     ]

@@ -576,6 +576,162 @@
     "zoneId": 5147
   },
   {
+    "id": "Map_RGF01_W_Sz_None",
+    "zoneId": 5200
+  },
+  {
+    "id": "Map_RGF01_W_Sz_Town",
+    "zoneId": 5201
+  },
+  {
+    "id": "Map_RGF01_W_SzA",
+    "zoneId": 5202
+  },
+  {
+    "id": "Map_RGF01_W_SzB1",
+    "zoneId": 5203
+  },
+  {
+    "id": "Map_RGF01_W_SzB2",
+    "zoneId": 5204
+  },
+  {
+    "id": "Map_RGF01_W_SzB3",
+    "zoneId": 5205
+  },
+  {
+    "id": "Map_RGF01_W_SzC1",
+    "zoneId": 5206
+  },
+  {
+    "id": "Map_RGF01_W_SzC2",
+    "zoneId": 5207
+  },
+  {
+    "id": "Map_RGF01_W_SzC3",
+    "zoneId": 5208
+  },
+  {
+    "id": "Map_RGF01_W_SzC1_H",
+    "zoneId": 5209
+  },
+  {
+    "id": "Map_RGF01_W_SzC2_H",
+    "zoneId": 5210
+  },
+  {
+    "id": "Map_RGF01_W_SzC3_H",
+    "zoneId": 5211
+  },
+  {
+    "id": "Map_RGF01_W_SzD",
+    "zoneId": 5212
+  },
+  {
+    "id": "Map_RGF01_W_SzE",
+    "zoneId": 5213
+  },
+  {
+    "id": "Map_RGF01_W_SzF",
+    "zoneId": 5214
+  },
+  {
+    "id": "Map_RGF01_W_SzG",
+    "zoneId": 5215
+  },
+  {
+    "id": "Map_RGF01_W_SzH",
+    "zoneId": 5216
+  },
+  {
+    "id": "Map_RGF01_W_SzH1_H",
+    "zoneId": 5217
+  },
+  {
+    "id": "Map_RGF01_W_SzH2_H",
+    "zoneId": 5218
+  },
+  {
+    "id": "Map_RGF01_W_SzH3_H",
+    "zoneId": 5219
+  },
+  {
+    "id": "Map_RGF01_W_B1",
+    "zoneId": 5220
+  },
+  {
+    "id": "Map_RGF01_W_B2",
+    "zoneId": 5221
+  },
+  {
+    "id": "Map_RGF01_W_B3",
+    "zoneId": 5222
+  },
+  {
+    "id": "Map_RGF01_W_NorthTpSpot",
+    "zoneId": 5223
+  },
+  {
+    "id": "Map_RGF01_W_EastTpSpot1",
+    "zoneId": 5224
+  },
+  {
+    "id": "Map_RGF01_W_EastTpSpot2",
+    "zoneId": 5225
+  },
+  {
+    "id": "Map_RGF01_W_WestTpSpot1",
+    "zoneId": 5226
+  },
+  {
+    "id": "Map_RGF01_W_WestTpSpot2",
+    "zoneId": 5227
+  },
+  {
+    "id": "Map_RGF01_W_SouthTpSpot",
+    "zoneId": 5228
+  },
+  {
+    "id": "Map_RGF01_W_OutPost1",
+    "zoneId": 5229
+  },
+  {
+    "id": "Map_RGF01_W_OutPost1_Side",
+    "zoneId": 5230
+  },
+  {
+    "id": "Map_RGF01_W_OutPost2",
+    "zoneId": 5231
+  },
+  {
+    "id": "Map_RGF01_W_OutPost2_Side",
+    "zoneId": 5232
+  },
+  {
+    "id": "Map_RGF01_W_OutPost3",
+    "zoneId": 5233
+  },
+  {
+    "id": "Map_RGF01_W_OutPost3_Side",
+    "zoneId": 5234
+  },
+  {
+    "id": "Map_RGF01_W_OutPost4",
+    "zoneId": 5235
+  },
+  {
+    "id": "Map_RGF01_W_OutPost5",
+    "zoneId": 5236
+  },
+  {
+    "id": "Map_RGF01_W_OutPost6",
+    "zoneId": 5237
+  },
+  {
+    "id": "Map_RGF01_W_Sz_Town_Side",
+    "zoneId": 5238
+  },
+  {
     "id": "Map_FD02_01_Sz_None",
     "zoneId": 2002100
   },
@@ -802,6 +958,18 @@
   {
     "id": "Map_IBD01_SzA",
     "zoneId": 8500101
+  },
+  {
+    "id": "Map_GD02_Sz_None",
+    "zoneId": 8200000
+  },
+  {
+    "id": "Map_GD02_SzA",
+    "zoneId": 8200001
+  },
+  {
+    "id": "Map_GD02_Town",
+    "zoneId": 8200002
   },
   {
     "id": "Map_DD01_01_Sz_None",
@@ -1316,6 +1484,114 @@
     "zoneId": 50001305
   },
   {
+    "id": "Map_RGD01_W_01_Sz_None",
+    "zoneId": 58000100
+  },
+  {
+    "id": "Map_RGD01_W_01_SzA",
+    "zoneId": 58000101
+  },
+  {
+    "id": "Map_RGD01_W_01_SzEntry01",
+    "zoneId": 58000102
+  },
+  {
+    "id": "Map_RGD01_W_01_SzEntry02",
+    "zoneId": 58000103
+  },
+  {
+    "id": "Map_RGD01_W_01_SzEntry03",
+    "zoneId": 58000104
+  },
+  {
+    "id": "Map_RGD01_W_02_Sz_None",
+    "zoneId": 58000200
+  },
+  {
+    "id": "Map_RGD01_W_02_SzA",
+    "zoneId": 58000201
+  },
+  {
+    "id": "Map_RGD01_W_02_SzEntry01",
+    "zoneId": 58000202
+  },
+  {
+    "id": "Map_RGD01_W_02_SzEntry02",
+    "zoneId": 58000203
+  },
+  {
+    "id": "Map_RGD01_W_02_SzEntry03",
+    "zoneId": 58000204
+  },
+  {
+    "id": "Map_RGD01_W_02_SzBoss",
+    "zoneId": 58000205
+  },
+  {
+    "id": "Map_RGD01_W_03_Sz_None",
+    "zoneId": 58000300
+  },
+  {
+    "id": "Map_RGD01_W_03_SzA",
+    "zoneId": 58000301
+  },
+  {
+    "id": "Map_RGD01_W_03_SzEntry01",
+    "zoneId": 58000302
+  },
+  {
+    "id": "Map_RGD01_W_03_SzEntry02",
+    "zoneId": 58000303
+  },
+  {
+    "id": "Map_RGD01_W_03_SzEntry03",
+    "zoneId": 58000304
+  },
+  {
+    "id": "Map_RGD01_W_03_SzBoss",
+    "zoneId": 58000305
+  },
+  {
+    "id": "Map_RGD01_W_04_Sz_None",
+    "zoneId": 58000400
+  },
+  {
+    "id": "Map_RGD01_W_04_SzA",
+    "zoneId": 58000401
+  },
+  {
+    "id": "Map_RGD01_W_04_SzEntry01",
+    "zoneId": 58000402
+  },
+  {
+    "id": "Map_RGD01_W_04_SzEntry02",
+    "zoneId": 58000403
+  },
+  {
+    "id": "Map_RGD01_W_04_SzBoss",
+    "zoneId": 58000404
+  },
+  {
+    "id": "Map_RGD01_W_05_Sz_None",
+    "zoneId": 58000500
+  },
+  {
+    "id": "Map_RGD01_W_05_SzA",
+    "zoneId": 58000501
+  },
+  {
+    "id": "Map_RGD01_W_05_SzEntry01",
+    "zoneId": 58000502
+  },
+  {
+    "id": "Map_RGD01_W_05_SzEntry02",
+    "zoneId": 58000503
+  },
+  {
+    "id": "Map_RGD01_W_05_SzEntry03",
+    "zoneId": 58000504
+  },
+  {
     "id": "Map_PD01_Sz_None",
     "zoneId": 60000100
   },
@@ -1462,5 +1738,805 @@
   {
     "id": "Map_WD01_Low_Sz_Shop_2",
     "zoneId": 10115
+  },
+  {
+    "id": "Map_SD01_Stg01_None",
+    "zoneId": 20000100
+  },
+  {
+    "id": "Map_SD01_Stg01_SzA",
+    "zoneId": 20000101
+  },
+  {
+    "id": "Map_SD01_Stg02_None",
+    "zoneId": 20000200
+  },
+  {
+    "id": "Map_SD01_Stg02_SzA",
+    "zoneId": 20000201
+  },
+  {
+    "id": "Map_SD01_Stg03_None",
+    "zoneId": 20000300
+  },
+  {
+    "id": "Map_SD01_Stg03_SzA",
+    "zoneId": 20000301
+  },
+  {
+    "id": "Map_SD01_Stg04_None",
+    "zoneId": 20000400
+  },
+  {
+    "id": "Map_SD01_Stg04_SzA",
+    "zoneId": 20000401
+  },
+  {
+    "id": "Map_SD01_Stg05_None",
+    "zoneId": 20000500
+  },
+  {
+    "id": "Map_SD01_Stg05_SzA",
+    "zoneId": 20000501
+  },
+  {
+    "id": "Map_SD01_Stg06_None",
+    "zoneId": 20000600
+  },
+  {
+    "id": "Map_SD01_Stg06_SzA",
+    "zoneId": 20000601
+  },
+  {
+    "id": "Map_SD01_Stg07_None",
+    "zoneId": 20000700
+  },
+  {
+    "id": "Map_SD01_Stg07_SzA",
+    "zoneId": 20000701
+  },
+  {
+    "id": "Map_SD01_Stg08_None",
+    "zoneId": 20000800
+  },
+  {
+    "id": "Map_SD01_Stg08_SzA",
+    "zoneId": 20000801
+  },
+  {
+    "id": "Map_SD01_Stg09_None",
+    "zoneId": 20000900
+  },
+  {
+    "id": "Map_SD01_Stg09_SzA",
+    "zoneId": 20000901
+  },
+  {
+    "id": "Map_SD01_Stg10_None",
+    "zoneId": 20001000
+  },
+  {
+    "id": "Map_SD01_Stg10_SzA",
+    "zoneId": 20001001
+  },
+  {
+    "id": "Map_SD01_Stg11_None",
+    "zoneId": 20001100
+  },
+  {
+    "id": "Map_SD01_Stg11_SzA",
+    "zoneId": 20001101
+  },
+  {
+    "id": "Map_SD01_Stg12_None",
+    "zoneId": 20001200
+  },
+  {
+    "id": "Map_SD01_Stg12_SzA",
+    "zoneId": 20001201
+  },
+  {
+    "id": "Map_SD01_Stg13_None",
+    "zoneId": 20001300
+  },
+  {
+    "id": "Map_SD01_Stg13_SzA",
+    "zoneId": 20001301
+  },
+  {
+    "id": "Map_SD01_Stg14_None",
+    "zoneId": 20001400
+  },
+  {
+    "id": "Map_SD01_Stg14_SzA",
+    "zoneId": 20001401
+  },
+  {
+    "id": "Map_SD01_Stg15_None",
+    "zoneId": 20001500
+  },
+  {
+    "id": "Map_SD01_Stg15_SzA",
+    "zoneId": 20001501
+  },
+  {
+    "id": "Map_SD01_Stg16_None",
+    "zoneId": 20001600
+  },
+  {
+    "id": "Map_SD01_Stg16_SzA",
+    "zoneId": 20001601
+  },
+  {
+    "id": "Map_SD01_Stg17_None",
+    "zoneId": 20001700
+  },
+  {
+    "id": "Map_SD01_Stg17_SzA",
+    "zoneId": 20001701
+  },
+  {
+    "id": "Map_SD01_Stg18_None",
+    "zoneId": 20001800
+  },
+  {
+    "id": "Map_SD01_Stg18_SzA",
+    "zoneId": 20001801
+  },
+  {
+    "id": "Map_SD01_Stg19_None",
+    "zoneId": 20001900
+  },
+  {
+    "id": "Map_SD01_Stg19_SzA",
+    "zoneId": 20001901
+  },
+  {
+    "id": "Map_SD01_Stg20_None",
+    "zoneId": 20002000
+  },
+  {
+    "id": "Map_SD01_Stg20_SzA",
+    "zoneId": 20002001
+  },
+  {
+    "id": "Map_SD01_Stg21_None",
+    "zoneId": 20002100
+  },
+  {
+    "id": "Map_SD01_Stg21_SzA",
+    "zoneId": 20002101
+  },
+  {
+    "id": "Map_SD01_Stg22_None",
+    "zoneId": 20002200
+  },
+  {
+    "id": "Map_SD01_Stg22_SzA",
+    "zoneId": 20002201
+  },
+  {
+    "id": "Map_SD01_Stg23_None",
+    "zoneId": 20002300
+  },
+  {
+    "id": "Map_SD01_Stg23_SzA",
+    "zoneId": 20002301
+  },
+  {
+    "id": "Map_SD01_Stg24_None",
+    "zoneId": 20002400
+  },
+  {
+    "id": "Map_SD01_Stg24_SzA",
+    "zoneId": 20002401
+  },
+  {
+    "id": "Map_SD01_Stg25_None",
+    "zoneId": 20002500
+  },
+  {
+    "id": "Map_SD01_Stg25_SzA",
+    "zoneId": 20002501
+  },
+  {
+    "id": "Map_SD01_Stg26_None",
+    "zoneId": 20002600
+  },
+  {
+    "id": "Map_SD01_Stg26_SzA",
+    "zoneId": 20002601
+  },
+  {
+    "id": "Map_SD01_Stg27_None",
+    "zoneId": 20002700
+  },
+  {
+    "id": "Map_SD01_Stg27_SzA",
+    "zoneId": 20002701
+  },
+  {
+    "id": "Map_SD01_Stg28_None",
+    "zoneId": 20002800
+  },
+  {
+    "id": "Map_SD01_Stg28_SzA",
+    "zoneId": 20002801
+  },
+  {
+    "id": "Map_SD01_Stg29_None",
+    "zoneId": 20002900
+  },
+  {
+    "id": "Map_SD01_Stg29_SzA",
+    "zoneId": 20002901
+  },
+  {
+    "id": "Map_SD01_Stg30_None",
+    "zoneId": 20003000
+  },
+  {
+    "id": "Map_SD01_Stg30_SzA",
+    "zoneId": 20003001
+  },
+  {
+    "id": "Map_SD01_Stg31_None",
+    "zoneId": 20003100
+  },
+  {
+    "id": "Map_SD01_Stg31_SzA",
+    "zoneId": 20003101
+  },
+  {
+    "id": "Map_SD01_Stg32_None",
+    "zoneId": 20003200
+  },
+  {
+    "id": "Map_SD01_Stg32_SzA",
+    "zoneId": 20003201
+  },
+  {
+    "id": "Map_SD01_Stg33_None",
+    "zoneId": 20003300
+  },
+  {
+    "id": "Map_SD01_Stg33_SzA",
+    "zoneId": 20003301
+  },
+  {
+    "id": "Map_SD01_Stg34_None",
+    "zoneId": 20003400
+  },
+  {
+    "id": "Map_SD01_Stg34_SzA",
+    "zoneId": 20003401
+  },
+  {
+    "id": "Map_SD01_Stg35_None",
+    "zoneId": 20003500
+  },
+  {
+    "id": "Map_SD01_Stg35_SzA",
+    "zoneId": 20003501
+  },
+  {
+    "id": "Map_SD01_Stg36_None",
+    "zoneId": 20003600
+  },
+  {
+    "id": "Map_SD01_Stg36_SzA",
+    "zoneId": 20003601
+  },
+  {
+    "id": "Map_SD01_Stg37_None",
+    "zoneId": 20003700
+  },
+  {
+    "id": "Map_SD01_Stg37_SzA",
+    "zoneId": 20003701
+  },
+  {
+    "id": "Map_SD01_Stg38_None",
+    "zoneId": 20003800
+  },
+  {
+    "id": "Map_SD01_Stg38_SzA",
+    "zoneId": 20003801
+  },
+  {
+    "id": "Map_SD01_Stg39_None",
+    "zoneId": 20003900
+  },
+  {
+    "id": "Map_SD01_Stg39_SzA",
+    "zoneId": 20003901
+  },
+  {
+    "id": "Map_SD01_Stg40_None",
+    "zoneId": 20004000
+  },
+  {
+    "id": "Map_SD01_Stg40_SzA",
+    "zoneId": 20004001
+  },
+  {
+    "id": "Map_SD01_Stg41_None",
+    "zoneId": 20004100
+  },
+  {
+    "id": "Map_SD01_Stg41_SzA",
+    "zoneId": 20004101
+  },
+  {
+    "id": "Map_SD01_Stg42_None",
+    "zoneId": 20004200
+  },
+  {
+    "id": "Map_SD01_Stg42_SzA",
+    "zoneId": 20004201
+  },
+  {
+    "id": "Map_SD01_Stg43_None",
+    "zoneId": 20004300
+  },
+  {
+    "id": "Map_SD01_Stg43_SzA",
+    "zoneId": 20004301
+  },
+  {
+    "id": "Map_SD01_Stg44_None",
+    "zoneId": 20004400
+  },
+  {
+    "id": "Map_SD01_Stg44_SzA",
+    "zoneId": 20004401
+  },
+  {
+    "id": "Map_SD01_Stg45_None",
+    "zoneId": 20004500
+  },
+  {
+    "id": "Map_SD01_Stg45_SzA",
+    "zoneId": 20004501
+  },
+  {
+    "id": "Map_SD01_Stg46_None",
+    "zoneId": 20004600
+  },
+  {
+    "id": "Map_SD01_Stg46_SzA",
+    "zoneId": 20004601
+  },
+  {
+    "id": "Map_SD01_Stg47_None",
+    "zoneId": 20004700
+  },
+  {
+    "id": "Map_SD01_Stg47_SzA",
+    "zoneId": 20004701
+  },
+  {
+    "id": "Map_SD01_Stg48_None",
+    "zoneId": 20004800
+  },
+  {
+    "id": "Map_SD01_Stg48_SzA",
+    "zoneId": 20004801
+  },
+  {
+    "id": "Map_SD01_Stg49_None",
+    "zoneId": 20004900
+  },
+  {
+    "id": "Map_SD01_Stg49_SzA",
+    "zoneId": 20004901
+  },
+  {
+    "id": "Map_SD01_Stg50_None",
+    "zoneId": 20005000
+  },
+  {
+    "id": "Map_SD01_Stg50_SzA",
+    "zoneId": 20005001
+  },
+  {
+    "id": "Map_SD01_Stg51_None",
+    "zoneId": 20005100
+  },
+  {
+    "id": "Map_SD01_Stg51_SzA",
+    "zoneId": 20005101
+  },
+  {
+    "id": "Map_SD01_Stg52_None",
+    "zoneId": 20005200
+  },
+  {
+    "id": "Map_SD01_Stg52_SzA",
+    "zoneId": 20005201
+  },
+  {
+    "id": "Map_SD01_Stg53_None",
+    "zoneId": 20005300
+  },
+  {
+    "id": "Map_SD01_Stg53_SzA",
+    "zoneId": 20005301
+  },
+  {
+    "id": "Map_SD01_Stg54_None",
+    "zoneId": 20005400
+  },
+  {
+    "id": "Map_SD01_Stg54_SzA",
+    "zoneId": 20005401
+  },
+  {
+    "id": "Map_SD01_Stg55_None",
+    "zoneId": 20005500
+  },
+  {
+    "id": "Map_SD01_Stg55_SzA",
+    "zoneId": 20005501
+  },
+  {
+    "id": "Map_SD01_Stg56_None",
+    "zoneId": 20005600
+  },
+  {
+    "id": "Map_SD01_Stg56_SzA",
+    "zoneId": 20005601
+  },
+  {
+    "id": "Map_SD01_Stg57_None",
+    "zoneId": 20005700
+  },
+  {
+    "id": "Map_SD01_Stg57_SzA",
+    "zoneId": 20005701
+  },
+  {
+    "id": "Map_SD01_Stg58_None",
+    "zoneId": 20005800
+  },
+  {
+    "id": "Map_SD01_Stg58_SzA",
+    "zoneId": 20005801
+  },
+  {
+    "id": "Map_SD01_Stg59_None",
+    "zoneId": 20005900
+  },
+  {
+    "id": "Map_SD01_Stg59_SzA",
+    "zoneId": 20005901
+  },
+  {
+    "id": "Map_SD01_Stg60_None",
+    "zoneId": 20006000
+  },
+  {
+    "id": "Map_SD01_Stg60_SzA",
+    "zoneId": 20006001
+  },
+  {
+    "id": "Map_SD01_Stg61_None",
+    "zoneId": 20006100
+  },
+  {
+    "id": "Map_SD01_Stg61_SzA",
+    "zoneId": 20006101
+  },
+  {
+    "id": "Map_SD01_Stg62_None",
+    "zoneId": 20006200
+  },
+  {
+    "id": "Map_SD01_Stg62_SzA",
+    "zoneId": 20006201
+  },
+  {
+    "id": "Map_SD01_Stg63_None",
+    "zoneId": 20006300
+  },
+  {
+    "id": "Map_SD01_Stg63_SzA",
+    "zoneId": 20006301
+  },
+  {
+    "id": "Map_SD01_Stg64_None",
+    "zoneId": 20006400
+  },
+  {
+    "id": "Map_SD01_Stg64_SzA",
+    "zoneId": 20006401
+  },
+  {
+    "id": "Map_SD01_Stg65_None",
+    "zoneId": 20006500
+  },
+  {
+    "id": "Map_SD01_Stg65_SzA",
+    "zoneId": 20006501
+  },
+  {
+    "id": "Map_SD01_Stg66_None",
+    "zoneId": 20006600
+  },
+  {
+    "id": "Map_SD01_Stg66_SzA",
+    "zoneId": 20006601
+  },
+  {
+    "id": "Map_SD01_Stg67_None",
+    "zoneId": 20006700
+  },
+  {
+    "id": "Map_SD01_Stg67_SzA",
+    "zoneId": 20006701
+  },
+  {
+    "id": "Map_SD01_Stg68_None",
+    "zoneId": 20006800
+  },
+  {
+    "id": "Map_SD01_Stg68_SzA",
+    "zoneId": 20006801
+  },
+  {
+    "id": "Map_SD01_Stg69_None",
+    "zoneId": 20006900
+  },
+  {
+    "id": "Map_SD01_Stg69_SzA",
+    "zoneId": 20006901
+  },
+  {
+    "id": "Map_SD01_Stg70_None",
+    "zoneId": 20007000
+  },
+  {
+    "id": "Map_SD01_Stg70_SzA",
+    "zoneId": 20007001
+  },
+  {
+    "id": "Map_SD01_Stg71_None",
+    "zoneId": 20007100
+  },
+  {
+    "id": "Map_SD01_Stg71_SzA",
+    "zoneId": 20007101
+  },
+  {
+    "id": "Map_SD01_Stg72_None",
+    "zoneId": 20007200
+  },
+  {
+    "id": "Map_SD01_Stg72_SzA",
+    "zoneId": 20007201
+  },
+  {
+    "id": "Map_SD01_Stg73_None",
+    "zoneId": 20007300
+  },
+  {
+    "id": "Map_SD01_Stg73_SzA",
+    "zoneId": 20007301
+  },
+  {
+    "id": "Map_SD01_Stg74_None",
+    "zoneId": 20007400
+  },
+  {
+    "id": "Map_SD01_Stg74_SzA",
+    "zoneId": 20007401
+  },
+  {
+    "id": "Map_SD01_Stg75_None",
+    "zoneId": 20007500
+  },
+  {
+    "id": "Map_SD01_Stg75_SzA",
+    "zoneId": 20007501
+  },
+  {
+    "id": "Map_SD01_Stg76_None",
+    "zoneId": 20007600
+  },
+  {
+    "id": "Map_SD01_Stg76_SzA",
+    "zoneId": 20007601
+  },
+  {
+    "id": "Map_SD01_Stg77_None",
+    "zoneId": 20007700
+  },
+  {
+    "id": "Map_SD01_Stg77_SzA",
+    "zoneId": 20007701
+  },
+  {
+    "id": "Map_SD01_Stg78_None",
+    "zoneId": 20007800
+  },
+  {
+    "id": "Map_SD01_Stg78_SzA",
+    "zoneId": 20007801
+  },
+  {
+    "id": "Map_SD01_Stg79_None",
+    "zoneId": 20007900
+  },
+  {
+    "id": "Map_SD01_Stg79_SzA",
+    "zoneId": 20007901
+  },
+  {
+    "id": "Map_SD01_Stg80_None",
+    "zoneId": 20008000
+  },
+  {
+    "id": "Map_SD01_Stg80_SzA",
+    "zoneId": 20008001
+  },
+  {
+    "id": "Map_SD01_Stg81_None",
+    "zoneId": 20008100
+  },
+  {
+    "id": "Map_SD01_Stg81_SzA",
+    "zoneId": 20008101
+  },
+  {
+    "id": "Map_SD01_Stg82_None",
+    "zoneId": 20008200
+  },
+  {
+    "id": "Map_SD01_Stg82_SzA",
+    "zoneId": 20008201
+  },
+  {
+    "id": "Map_SD01_Stg83_None",
+    "zoneId": 20008300
+  },
+  {
+    "id": "Map_SD01_Stg83_SzA",
+    "zoneId": 20008301
+  },
+  {
+    "id": "Map_SD01_Stg84_None",
+    "zoneId": 20008400
+  },
+  {
+    "id": "Map_SD01_Stg84_SzA",
+    "zoneId": 20008401
+  },
+  {
+    "id": "Map_SD01_Stg85_None",
+    "zoneId": 20008500
+  },
+  {
+    "id": "Map_SD01_Stg85_SzA",
+    "zoneId": 20008501
+  },
+  {
+    "id": "Map_SD01_Stg86_None",
+    "zoneId": 20008600
+  },
+  {
+    "id": "Map_SD01_Stg86_SzA",
+    "zoneId": 20008601
+  },
+  {
+    "id": "Map_SD01_Stg87_None",
+    "zoneId": 20008700
+  },
+  {
+    "id": "Map_SD01_Stg87_SzA",
+    "zoneId": 20008701
+  },
+  {
+    "id": "Map_SD01_Stg88_None",
+    "zoneId": 20008800
+  },
+  {
+    "id": "Map_SD01_Stg88_SzA",
+    "zoneId": 20008801
+  },
+  {
+    "id": "Map_SD01_Stg89_None",
+    "zoneId": 20008900
+  },
+  {
+    "id": "Map_SD01_Stg89_SzA",
+    "zoneId": 20008901
+  },
+  {
+    "id": "Map_SD01_Stg90_None",
+    "zoneId": 20009000
+  },
+  {
+    "id": "Map_SD01_Stg90_SzA",
+    "zoneId": 20009001
+  },
+  {
+    "id": "Map_SD01_Stg91_None",
+    "zoneId": 20009100
+  },
+  {
+    "id": "Map_SD01_Stg91_SzA",
+    "zoneId": 20009101
+  },
+  {
+    "id": "Map_SD01_Stg92_None",
+    "zoneId": 20009200
+  },
+  {
+    "id": "Map_SD01_Stg92_SzA",
+    "zoneId": 20009201
+  },
+  {
+    "id": "Map_SD01_Stg93_None",
+    "zoneId": 20009300
+  },
+  {
+    "id": "Map_SD01_Stg93_SzA",
+    "zoneId": 20009301
+  },
+  {
+    "id": "Map_SD01_Stg94_None",
+    "zoneId": 20009400
+  },
+  {
+    "id": "Map_SD01_Stg94_SzA",
+    "zoneId": 20009401
+  },
+  {
+    "id": "Map_SD01_Stg95_None",
+    "zoneId": 20009500
+  },
+  {
+    "id": "Map_SD01_Stg95_SzA",
+    "zoneId": 20009501
+  },
+  {
+    "id": "Map_SD01_Stg96_None",
+    "zoneId": 20009600
+  },
+  {
+    "id": "Map_SD01_Stg96_SzA",
+    "zoneId": 20009601
+  },
+  {
+    "id": "Map_SD01_Stg97_None",
+    "zoneId": 20009700
+  },
+  {
+    "id": "Map_SD01_Stg97_SzA",
+    "zoneId": 20009701
+  },
+  {
+    "id": "Map_SD01_Stg98_None",
+    "zoneId": 20009800
+  },
+  {
+    "id": "Map_SD01_Stg98_SzA",
+    "zoneId": 20009801
+  },
+  {
+    "id": "Map_SD01_Stg99_None",
+    "zoneId": 20009900
+  },
+  {
+    "id": "Map_SD01_Stg99_SzA",
+    "zoneId": 20009901
+  },
+  {
+    "id": "Map_SD01_Stg100_None",
+    "zoneId": 20010000
+  },
+  {
+    "id": "Map_SD01_Stg100_SzA",
+    "zoneId": 20010001
   }
 ]

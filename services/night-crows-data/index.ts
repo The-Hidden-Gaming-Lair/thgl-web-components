@@ -324,6 +324,12 @@ for (const exportData of Object.values(zoneExportData)) {
         } else if (id.includes("GolemFlame")) {
           role = "Inferno";
           color = "#ff0000";
+        } else if (id.includes("SkeletonWarrior")) {
+          role = "Skeleton";
+          color = "#0000ff";
+        } else if (id.includes("KnightsCommander")) {
+          role = "Templar";
+          color = "#00ff00";
         } else {
           throw new Error(`Missing color for ${id}`);
         }
@@ -705,7 +711,7 @@ for (const [mapName, zoneData] of sortedZoneData) {
         continue;
       }
       if (file.endsWith(".jpg") || file.endsWith(".png")) {
-        await $`cwebp ${file} -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
+        await $`cwebp ${file} -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
         await $`rm ${file}`;
       }
     }
@@ -780,97 +786,105 @@ for (const [key, subZone] of Object.entries(subZoneData)) {
   });
 }
 
-const items: {
-  id: string;
-  itemId: number;
-  icon: string;
-}[] = [];
+// const items: {
+//   id: string;
+//   itemId: number;
+//   icon: string;
+// }[] = [];
 
-for (const [key, item] of Object.entries(materialItemData)) {
-  await processItem(key, item);
-}
+// for (const [key, item] of Object.entries(materialItemData)) {
+//   await processItem(key, item);
+// }
 
-for (const [key, item] of Object.entries(equipmentItemData)) {
-  await processItem(key, item);
-}
+// for (const [key, item] of Object.entries(equipmentItemData)) {
+//   await processItem(key, item);
+// }
 
-for (const [key, item] of Object.entries(boxItemData)) {
-  await processItem(key, item);
-}
+// for (const [key, item] of Object.entries(boxItemData)) {
+//   await processItem(key, item);
+// }
 
-async function processItem(
-  key: string,
-  item:
-    | MMaterialItemData["0"]["Rows"]["0"]
-    | MEquipmentItemData["0"]["Rows"]["0"]
-    | MBoxItemData["0"]["Rows"]["0"],
-) {
-  if (item.Title.StringId.includes("Test")) {
-    return;
-  }
-  if (!stringData[item.Title.StringId]) {
-    console.warn("Missing title data for", key);
-    return;
-  }
-  if (key.includes("Test")) {
-    return;
-  }
-  enDict[key] = stringData[item.Title.StringId].English.LocalizedString;
-  if (!stringData[item.Description.StringId]) {
-    // console.warn("Missing description data for", key);
-  } else {
-    enDict[`${key}_desc`] =
-      stringData[item.Description.StringId].English.LocalizedString;
-  }
-  let color;
-  if (item.CommonTrait.Grade === "EGrade::Grade0") {
-    color = "#f3e6aa";
-  } else if (item.CommonTrait.Grade === "EGrade::Grade1") {
-    color = "#d2cdbe";
-  } else if (item.CommonTrait.Grade === "EGrade::Grade2") {
-    color = "rgb(88, 156, 137)";
-  } else if (item.CommonTrait.Grade === "EGrade::Grade3") {
-    color = "#71c7e7";
-  } else if (item.CommonTrait.Grade === "EGrade::Grade4") {
-    color = "#9d71b9";
-  } else if (item.CommonTrait.Grade === "EGrade::Grade5") {
-    color = "#f2bb8f";
-  } else {
-    console.error(`Missing color for ${key}`);
-    return;
-  }
+// async function processItem(
+//   key: string,
+//   item:
+//     | MMaterialItemData["0"]["Rows"]["0"]
+//     | MEquipmentItemData["0"]["Rows"]["0"]
+//     | MBoxItemData["0"]["Rows"]["0"],
+// ) {
+//   console.log("Processing item", key);
+//   if (item.Title.StringId.includes("Test")) {
+//     return;
+//   }
+//   if (!stringData[item.Title.StringId]) {
+//     console.warn("Missing title data for", key);
+//     return;
+//   }
+//   if (key.includes("Test")) {
+//     return;
+//   }
+//   enDict[key] = stringData[item.Title.StringId].English.LocalizedString;
+//   if (!stringData[item.Description.StringId]) {
+//     // console.warn("Missing description data for", key);
+//   } else {
+//     enDict[`${key}_desc`] =
+//       stringData[item.Description.StringId].English.LocalizedString;
+//   }
+//   let color;
+//   if (item.CommonTrait.Grade === "EGrade::Grade0") {
+//     color = "#f3e6aa";
+//   } else if (item.CommonTrait.Grade === "EGrade::Grade1") {
+//     color = "#d2cdbe";
+//   } else if (item.CommonTrait.Grade === "EGrade::Grade2") {
+//     color = "rgb(88, 156, 137)";
+//   } else if (item.CommonTrait.Grade === "EGrade::Grade3") {
+//     color = "#71c7e7";
+//   } else if (item.CommonTrait.Grade === "EGrade::Grade4") {
+//     color = "#9d71b9";
+//   } else if (item.CommonTrait.Grade === "EGrade::Grade5") {
+//     color = "#f2bb8f";
+//   } else {
+//     console.error(`Missing color for ${key}`);
+//     return;
+//   }
 
-  try {
-    const canvas = await addCircleToImage(
-      `${TEXTURE_DIR}${
-        item.Icon.AssetPathName!.toLowerCase()
-          .replace("/game", "/mad/content")
-          .split(".")[0]
-      }.png`,
-      color,
-    );
-    await saveImage(TEMP_DIR + `/${key}.png`, canvas.toBuffer("image/png"));
-    const path = await saveIcon(`${TEMP_DIR}/${key}.png`);
+//   try {
+//     const canvas = await addCircleToImage(
+//       `${TEXTURE_DIR}${
+//         item.Icon.AssetPathName!.toLowerCase()
+//           .replace("/game", "/mad/content")
+//           .split(".")[0]
+//       }.png`,
+//       color,
+//     );
+//     await saveImage(TEMP_DIR + `/${key}.png`, canvas.toBuffer("image/png"));
+//     const path = await saveIcon(`${TEMP_DIR}/${key}.png`);
 
-    icons[key] = path;
-    items.push({
-      id: key,
-      itemId: item.ID,
-      icon: path,
-    });
-  } catch (e) {
-    console.error(`Error processing item ${key}`);
-  }
-}
+//     icons[key] = path;
+//     items.push({
+//       id: key,
+//       itemId: item.ID,
+//       icon: path,
+//     });
+//   } catch (e) {
+//     console.error(`Error processing item ${key}`);
+//   }
+// }
 
 const flatFilters = Object.values(filters).flatMap((f) => f.values);
 nodes.sort((a, b) => {
+  if (a.type === "BossMonster" && b.type !== "BossMonster") {
+    return 1;
+  }
+  if (a.type !== "BossMonster" && b.type === "BossMonster") {
+    return -1;
+  }
   const aSize = flatFilters.find((f) => f.id === a.type)!.size!;
   const bSize = flatFilters.find((f) => f.id === b.type)!.size!;
   return aSize - bSize;
 });
 
 const priorityTileNames = [
+  "Kildebat of Chaos",
   "Kildebat",
   "Avilius",
   "Bastium",
@@ -900,18 +914,28 @@ const sortedTiles = Object.entries(tiles)
     return acc;
   }, {});
 
+const filteredNodes = nodes.filter((n) => {
+  return !!tiles[n.mapName];
+});
+const filteredFilters = filters.map((f) => {
+  f.values = f.values.filter((v) => {
+    return !!filteredNodes.find((n) => n.type === v.id);
+  });
+  return f;
+});
+
 writeJSON(OUT_DIR + "/coordinates/tiles.json", sortedTiles);
-writeJSON(OUT_DIR + "/coordinates/nodes.json", nodes);
-writeJSON(OUT_DIR + "/coordinates/filters.json", filters);
+writeJSON(OUT_DIR + "/coordinates/nodes.json", filteredNodes);
+writeJSON(OUT_DIR + "/coordinates/filters.json", filteredFilters);
 writeJSON(OUT_DIR + "/coordinates/zones.json", zones);
-writeJSON(OUT_DIR + "/coordinates/items.json", items);
+// writeJSON(OUT_DIR + "/coordinates/items.json", items);
 writeJSON(OUT_DIR + "/dicts/en.json", enDict);
 
 async function saveIcon(assetPath: string) {
   const fileName = assetPath.split("/").at(-1)?.split(".")[0]!;
   if (!savedIcons.includes(fileName)) {
     // console.log("Saving icon", fileName, assetPath);
-    await $`cwebp ${assetPath} -o ${OUT_DIR}/icons/${fileName}.webp -quiet`;
+    await $`cwebp ${assetPath} -m 6 -o ${OUT_DIR}/icons/${fileName}.webp -quiet`;
     savedIcons.push(fileName);
   }
   return `${fileName}.webp`;
