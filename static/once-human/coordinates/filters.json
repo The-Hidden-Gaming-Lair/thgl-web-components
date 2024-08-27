@@ -1,5 +1,37 @@
 [
   {
+    "group": "items",
+    "values": [
+      {
+        "id": "morphic_crate",
+        "icon": "morphic_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "weapon_crate",
+        "icon": "weapon_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "gear_crate",
+        "icon": "gear_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "storage_crate",
+        "icon": "storage_crate.webp",
+        "size": 1
+      },
+      {
+        "id": "mystical_crate",
+        "icon": "mystical_crate.webp",
+        "size": 1
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": true
+  },
+  {
     "group": "locations",
     "values": [
       {
@@ -117,31 +149,96 @@
     "defaultOpen": true
   },
   {
-    "group": "items",
+    "group": "riddles",
     "values": [
       {
-        "id": "morphic_crate",
-        "icon": "morphic_crate.webp",
+        "id": "camera",
+        "icon": "camera.webp",
         "size": 1
       },
       {
-        "id": "weapon_crate",
-        "icon": "weapon_crate.webp",
+        "id": "eyeballoon",
+        "icon": "eyeballoon.webp",
         "size": 1
       },
       {
-        "id": "gear_crate",
-        "icon": "gear_crate.webp",
+        "id": "bizarre_rocks",
+        "icon": "bizarre_rocks.webp",
         "size": 1
       },
       {
-        "id": "storage_crate",
-        "icon": "storage_crate.webp",
+        "id": "lotus_leaf",
+        "icon": "lotus_leaf.webp",
         "size": 1
       },
       {
-        "id": "mystical_crate",
-        "icon": "mystical_crate.webp",
+        "id": "the_creeper",
+        "icon": "the_creeper.webp",
+        "size": 1
+      },
+      {
+        "id": "strange_door",
+        "icon": "strange_door.webp",
+        "size": 1
+      },
+      {
+        "id": "treasure_map",
+        "icon": "treasure_map.webp",
+        "size": 1
+      },
+      {
+        "id": "billboard_judgment_district_defense",
+        "icon": "billboard_judgment_district_defense.webp",
+        "size": 1
+      },
+      {
+        "id": "telephone_booth",
+        "icon": "telephone_booth.webp",
+        "size": 1
+      },
+      {
+        "id": "anticonstruction",
+        "icon": "anticonstruction.webp",
+        "size": 1
+      },
+      {
+        "id": "target_practice",
+        "icon": "target_practice.webp",
+        "size": 1
+      },
+      {
+        "id": "painters_cottage",
+        "icon": "painters_cottage.webp",
+        "size": 1
+      },
+      {
+        "id": "abandoned_vehicle",
+        "icon": "abandoned_vehicle.webp",
+        "size": 1
+      },
+      {
+        "id": "strange_statues",
+        "icon": "strange_statues.webp",
+        "size": 1
+      },
+      {
+        "id": "billboard",
+        "icon": "billboard.webp",
+        "size": 1
+      },
+      {
+        "id": "creepy_painting_loot_crate_spot_defense",
+        "icon": "creepy_painting_loot_crate_spot_defense.webp",
+        "size": 1
+      },
+      {
+        "id": "eyeballoon_ward",
+        "icon": "eyeballoon_ward.webp",
+        "size": 1
+      },
+      {
+        "id": "mountain_rock_defense",
+        "icon": "mountain_rock_defense.webp",
         "size": 1
       }
     ],
@@ -1319,103 +1416,6 @@
         "id": "animal_eclipse_deer",
         "icon": "animal_eclipse_deer.webp",
         "size": 0.75
-      }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
-  },
-  {
-    "group": "riddles",
-    "values": [
-      {
-        "id": "camera",
-        "icon": "camera.webp",
-        "size": 1
-      },
-      {
-        "id": "eyeballoon",
-        "icon": "eyeballoon.webp",
-        "size": 1
-      },
-      {
-        "id": "bizarre_rocks",
-        "icon": "bizarre_rocks.webp",
-        "size": 1
-      },
-      {
-        "id": "lotus_leaf",
-        "icon": "lotus_leaf.webp",
-        "size": 1
-      },
-      {
-        "id": "the_creeper",
-        "icon": "the_creeper.webp",
-        "size": 1
-      },
-      {
-        "id": "strange_door",
-        "icon": "strange_door.webp",
-        "size": 1
-      },
-      {
-        "id": "treasure_map",
-        "icon": "treasure_map.webp",
-        "size": 1
-      },
-      {
-        "id": "billboard_judgment_district_defense",
-        "icon": "billboard_judgment_district_defense.webp",
-        "size": 1
-      },
-      {
-        "id": "telephone_booth",
-        "icon": "telephone_booth.webp",
-        "size": 1
-      },
-      {
-        "id": "anticonstruction",
-        "icon": "anticonstruction.webp",
-        "size": 1
-      },
-      {
-        "id": "target_practice",
-        "icon": "target_practice.webp",
-        "size": 1
-      },
-      {
-        "id": "painters_cottage",
-        "icon": "painters_cottage.webp",
-        "size": 1
-      },
-      {
-        "id": "abandoned_vehicle",
-        "icon": "abandoned_vehicle.webp",
-        "size": 1
-      },
-      {
-        "id": "strange_statues",
-        "icon": "strange_statues.webp",
-        "size": 1
-      },
-      {
-        "id": "billboard",
-        "icon": "billboard.webp",
-        "size": 1
-      },
-      {
-        "id": "creepy_painting_loot_crate_spot_defense",
-        "icon": "creepy_painting_loot_crate_spot_defense.webp",
-        "size": 1
-      },
-      {
-        "id": "eyeballoon_ward",
-        "icon": "eyeballoon_ward.webp",
-        "size": 1
-      },
-      {
-        "id": "mountain_rock_defense",
-        "icon": "mountain_rock_defense.webp",
-        "size": 1
       }
     ],
     "defaultOn": true,

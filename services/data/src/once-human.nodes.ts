@@ -20,28 +20,27 @@ const typeIDs = await readJSON<TypesIds>(
   OUTPUT_DIR + "/coordinates/types_id_map.json",
 );
 
-const filter = filters.find((f) => f.group === "items")!;
-
 const response = await fetch("https://actors-api.th.gl/nodes/once-human");
 const data = (await response.json()) as Record<
   string,
   [number, number, number, string][]
 >;
 
+const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
   let id = typeIDs[type];
   if (!id) {
     console.warn("No type for", type);
     return;
   }
-  if (!filter.values.some((v) => v.id === id)) {
-    return;
-  }
+  const isItem = items.values.some((v) => v.id === id);
+  const minDistance = isItem ? 1 : 20;
 
   spawnNodes.forEach(([x, y]) => {
     const oldNodes = nodes.find((n) => n.type === id)!;
     const hasCloseSpawn = oldNodes.spawns.some((s) => {
-      return Math.abs(s.p[0] - x) < 1 && Math.abs(s.p[1] - y) < 1;
+      const distance = Math.sqrt((s.p[0] - x) ** 2 + (s.p[1] - y) ** 2);
+      return distance < minDistance;
     });
     if (hasCloseSpawn) {
       return;

@@ -63,17 +63,14 @@ async function sendActorsToAPI(actors: Actor[]) {
     return;
   }
   try {
-    const staticActors = newActors
-      .map(({ address, r, mapName, hidden, ...actor }) => ({
+    const staticActors = newActors.map(
+      ({ address, r, mapName, hidden, ...actor }) => ({
         ...actor,
         timestamp: lastSend,
         path: actor.type,
-      }))
-      .filter((actor) =>
-        (typesIdMap as Partial<Record<string, string>>)[actor.type]?.endsWith(
-          "_crate",
-        ),
-      );
+      }),
+    );
+
     await fetch("https://actors-api.th.gl/nodes/once-human", {
       method: "POST",
       headers: {

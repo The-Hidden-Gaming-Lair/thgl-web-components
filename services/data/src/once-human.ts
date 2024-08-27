@@ -756,7 +756,8 @@ for (const battleFieldName of battleFieldNames) {
       // );
       continue;
     }
-    node.spawns.push(spawn);
+    // Don't add static monsters yet
+    // node.spawns.push(spawn);
   }
 }
 
@@ -913,7 +914,6 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["invisible_treasure_01a.gim"] = type;
   typeIDs["invisible_treasure_04.gim"] = type;
   typeIDs["invisible_treasure_03.gim"] = type;
   // typeIDs["large_storage_crate_rare.gim"] = type;
@@ -927,15 +927,15 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   //   });
 }
 {
-  const filter = filters.find((f) => f.group === "items")!;
   const previousNodes = await readJSON<Node[]>(
     OUTPUT_DIR + "/coordinates/nodes.json",
   );
   for (const node of previousNodes) {
-    if (filter.values.some((v) => v.id === node.type)) {
-      const prevNode = nodes.find((n) => n.type === node.type)!;
-      prevNode.spawns = node.spawns;
+    if (!Object.values(typeIDs).includes(node.type)) {
+      continue;
     }
+    const prevNode = nodes.find((n) => n.type === node.type)!;
+    prevNode.spawns = node.spawns;
   }
 }
 
@@ -957,12 +957,12 @@ Object.keys(tiles).forEach((mapName) => {
 });
 
 const sortPriority = [
-  "locations",
   "items",
+  "locations",
+  "riddles",
   "boss",
   "monster",
   "animal",
-  "riddles",
 ];
 const sortedFilters = filters
   .map((f) => {
