@@ -453,6 +453,7 @@ export function CoordinatesProvider({
       return [...privateGroups, ...staticNodes];
     }
     const debug = isDebug();
+
     const actorsNodes = normalizedTypesIdMap
       ? actors.reduce<NodesCoordinates>((acc, actor) => {
           let id = normalizedTypesIdMap[actor.type.toLowerCase()];
@@ -461,6 +462,20 @@ export function CoordinatesProvider({
               return acc;
             }
             id = actor.type;
+          }
+          const staticNode = realStaticNodes.find(
+            (n) => n.type === id && (!n.mapName || n.mapName === actor.mapName),
+          );
+          if (staticNode) {
+            if (
+              staticNode.spawns.some(
+                (spawn) =>
+                  Math.abs(spawn.p[0] - actor.x) < 1 &&
+                  Math.abs(spawn.p[1] - actor.y) < 1,
+              )
+            ) {
+              return acc;
+            }
           }
 
           const category = acc.find(
@@ -486,28 +501,8 @@ export function CoordinatesProvider({
           return acc;
         }, [])
       : [];
-    const leftStaticNodes = realStaticNodes.map((node) => {
-      const actorNode = actorsNodes.find(
-        (n) =>
-          n.type === node.type && (!n.mapName || n.mapName === node.mapName),
-      );
-      if (!actorNode) {
-        return node;
-      }
-      const leftSpawns = node.spawns.filter((spawn) => {
-        return !actorNode?.spawns.some((s) => {
-          return (
-            Math.abs(s.p[0] - spawn.p[0]) < 1 &&
-            Math.abs(s.p[1] - spawn.p[1]) < 1
-          );
-        });
-      });
-      return {
-        ...node,
-        spawns: leftSpawns,
-      };
-    });
-    const targetNodes = [...actorsNodes, ...privateGroups, ...leftStaticNodes];
+
+    const targetNodes = [...actorsNodes, ...privateGroups, ...realStaticNodes];
     return targetNodes;
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 
