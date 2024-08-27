@@ -32,6 +32,7 @@ export function InteractiveMap({
   const setZoom = useUserStore((state) => state.setZoom);
 
   const mapTileOptions = tileOptions[mapName];
+
   const [contextMenuData, setContextMenuData] = useState<{
     x: number;
     y: number;
@@ -39,7 +40,7 @@ export function InteractiveMap({
   } | null>(null);
 
   useLayoutEffect(() => {
-    if (!isHydrated) {
+    if (!isHydrated || !mapTileOptions) {
       return;
     }
     if (!containerRef.current) {
