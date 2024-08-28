@@ -380,6 +380,7 @@ export function CoordinatesProvider({
   }, [publicSearchIsLoading]);
 
   const liveMode = useSettingsStore((state) => state.liveMode);
+  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
   const appId = useSettingsStore((state) => state.appId);
   const myFilters = useSettingsStore((state) => state.myFilters);
   const actors = useGameState((state) => state.actors);
@@ -505,6 +506,31 @@ export function CoordinatesProvider({
     const targetNodes = [...actorsNodes, ...privateGroups, ...realStaticNodes];
     return targetNodes;
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
+
+  useEffect(() => {
+    if (!normalizedTypesIdMap) {
+      return;
+    }
+    const hiddenActors = actors.filter((a) => a.hidden);
+    hiddenActors.forEach((actor) => {
+      const id = normalizedTypesIdMap[actor.type.toLowerCase()] || actor.type;
+
+      const staticNode = realStaticNodes.find(
+        (n) => n.type === id && (!n.mapName || n.mapName === actor.mapName),
+      );
+      if (staticNode) {
+        const spawn = staticNode.spawns.find(
+          (spawn) =>
+            Math.abs(spawn.p[0] - actor.x) < 1 &&
+            Math.abs(spawn.p[1] - actor.y) < 1,
+        );
+        if (spawn) {
+          const nodeId = `${spawn.id ?? staticNode.type}@${spawn.p[0]}:${spawn.p[1]}`;
+          setDiscoverNode(nodeId, true);
+        }
+      }
+    });
+  }, [normalizedTypesIdMap, actors]);
 
   const privateFuse = useMemo(() => {
     const nodeSpawns = nodes.flatMap((node) =>
