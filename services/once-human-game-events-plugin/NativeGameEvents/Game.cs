@@ -16,7 +16,7 @@ namespace NativeGameEvents
     internal static string _lastError = null;
     internal static nint BaseAddress = 0;
     internal static nint SceneOffset = 0;
-    internal static nint ModelAddr = 0;
+    //internal static nint ModelAddr = 0;
     internal static bool IsElevated
     {
       get
@@ -62,9 +62,9 @@ namespace NativeGameEvents
             var callFunc = _memory.ReadProcessMemory<int>(addr + 1) + addr + 5;
             SceneOffset = _memory.ReadProcessMemory<int>(callFunc + 0x29 + 3) + callFunc + 0x29 + 3 + 4 - _memory.BaseAddress + 0x10;
                         
-            var modelSig = _memory.FindPattern(new byte[] { 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x01, 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x81, 0, 0, 0, 0, 0x48, 0x8B, 0x89, 0, 0, 0, 0, 0x45, 0x33, 0xED });
+            //var modelSig = _memory.FindPattern(new byte[] { 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x01, 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x81, 0, 0, 0, 0, 0x48, 0x8B, 0x89, 0, 0, 0, 0, 0x45, 0x33, 0xED });
            // var modelSig = _memory.FindPattern("48 8D 05 ? ? ? ? 48 89 01 48 8D 05 ? ? ? ? 48 89 81 ? ? ? ? 48 8B 89 ? ? ? ? 45 33 ED");
-            ModelAddr = _memory.ReadProcessMemory<int>((nint)modelSig + 3) + (nint)modelSig + 7;// - proc[0].MainModule.BaseAddress;
+            //ModelAddr = _memory.ReadProcessMemory<int>((nint)modelSig + 3) + (nint)modelSig + 7;// - proc[0].MainModule.BaseAddress;
           }
         }
       }
@@ -230,8 +230,11 @@ namespace NativeGameEvents
             //  continue;
             //}
             var type = str.Split("\\").Last();
-            var modelType = _memory.ReadProcessMemory<nint>(model);
-            if (modelType == ModelAddr) type = "MODEL_" + type;
+            var interactable = _memory.ReadProcessMemory<nint>(model + 0x68);
+            if (interactable == 0) continue;
+            var interactStatus = _memory.ReadProcessMemory<int>(interactable);
+            if (interactStatus == 1) continue; // already looted
+            //if (modelType == ModelAddr) type = "MODEL_" + type;
             if (actors.Find(a => a.type == type && a.x== pos.Z && a.y == pos.X) != null)
             {
               // Skip duplicates
