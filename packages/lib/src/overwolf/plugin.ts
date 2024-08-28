@@ -38,13 +38,13 @@ export type GameEventsPlugin = {
     processName?: string | null,
   ) => void;
   GetPlayer: (
-    callback: (data: ActorPlayer) => void,
+    callback: (data: ActorPlayer | null) => void,
     onError: (err: string) => void,
     processName?: string | null,
   ) => void;
   GetActors: (
     types: string[],
-    callback: (data: Actor[]) => void,
+    callback: (data: Actor[] | null) => void,
     onError: (err: string) => void,
   ) => void;
 };
@@ -112,9 +112,9 @@ export async function listenToPlugin(
 
     setTimeout(refreshPlayerState, 50);
   };
-  const handleError = (err: string) => {
+  const handleError = (err: string | null) => {
     if (err !== lastPlayerError) {
-      lastPlayerError = err;
+      lastPlayerError = err || "";
       console.error("Player Error: ", err);
       setError(err);
     }
@@ -148,7 +148,7 @@ export async function listenToPlugin(
     gameEventsPlugin.GetActors(
       targetTypes,
       (allActors) => {
-        const actors = allActors.filter(
+        const actors = (allActors || []).filter(
           (a) => !BLACKLISTED_TYPES.includes(a.type),
         );
 
@@ -192,7 +192,7 @@ export async function listenToPlugin(
       gameEventsPlugin.GetActors(
         filters,
         (actors) => {
-          const closestActors = actors
+          const closestActors = (actors || [])
             .map((actor) => {
               if (actorToMapName && actor.path) {
                 actor.mapName = actorToMapName(actor);
