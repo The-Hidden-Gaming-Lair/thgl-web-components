@@ -341,3 +341,72 @@ export type GMMapStaticData = {
     >
   >;
 };
+
+export type CommDropRuleDesc = {
+  "1": Array<{
+    "1": number;
+    "4": any;
+    "10"?: number;
+    "8": any;
+    "9"?: {
+      "1": number;
+      "3": number;
+    };
+    "6"?: number;
+    "13": any;
+    "11"?: number;
+    "5"?: number;
+    "15"?: number;
+    "16"?: number;
+    "7"?: number;
+    "14"?: number;
+    "12"?: number;
+    "2"?: number;
+    "3"?: Array<{
+      "1": number;
+      "2"?: number;
+    }>;
+  }>;
+};
+
+export type FUStUnitBattleInfoExtendDesc = {
+  "1": Array<{
+    "1": number;
+    "3": number;
+    "4": number;
+    "5": number;
+    "7": number;
+    "8"?: number;
+    "10"?: string;
+    "13"?: number;
+    "16": number;
+    "26": number;
+    "28": number;
+    "29": number;
+    "30": number;
+    "31": number;
+    "32": number;
+    "36"?: number;
+    "39": number;
+    "40"?: number;
+    "41": string;
+    "2"?: string;
+    "6"?: number;
+    "9"?: number;
+    "17"?: number;
+    "38"?: number;
+    "14"?: number;
+    "21"?: number;
+    "37"?: number;
+    "11"?: number;
+    "12"?: number;
+    "15"?: number;
+    "22"?: number;
+    "23"?: number;
+    "24"?: number;
+    "27"?: number;
+    "33"?: number;
+    "34"?: number;
+    "18"?: string;
+  }>;
+};
