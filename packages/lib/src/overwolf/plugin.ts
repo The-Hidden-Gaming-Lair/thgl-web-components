@@ -113,10 +113,11 @@ export async function listenToPlugin(
     setTimeout(refreshPlayerState, 50);
   };
   const handleError = (err: string | null) => {
-    if (err !== lastPlayerError) {
-      lastPlayerError = err || "";
-      console.error("Player Error: ", err);
-      setError(err);
+    const errMessage = err || "";
+    if (errMessage !== lastPlayerError) {
+      lastPlayerError = errMessage;
+      console.error("Player Error: ", errMessage);
+      setError(errMessage);
     }
     setTimeout(refreshPlayerState, 200);
   };
