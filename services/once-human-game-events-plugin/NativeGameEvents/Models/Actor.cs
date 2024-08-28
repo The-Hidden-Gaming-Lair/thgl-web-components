@@ -11,10 +11,10 @@ namespace NativeGameEvents.Models
     public float x;
     public float y;
     public float z;
-
+    public bool hidden;
     public override string ToString()
     {
-      return address + "|" + type + "|" + x.ToString().Replace(',', '.') + "|" + y.ToString().Replace(',', '.') + "|" + z.ToString().Replace(',', '.');
+      return address + "|" + type + "|" + x.ToString().Replace(',', '.') + "|" + y.ToString().Replace(',', '.') + "|" + z.ToString().Replace(',', '.') + "|" + hidden.ToString();
     }
   }
 }

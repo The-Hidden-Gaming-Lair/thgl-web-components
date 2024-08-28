@@ -8,5 +8,6 @@
     public float y;
     public float z;
     public float? r;
+    public bool hidden;
   }
 }

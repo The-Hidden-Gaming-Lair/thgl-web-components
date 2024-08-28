@@ -124,6 +124,7 @@ namespace GameEventsPlugin
                 x = float.Parse(items[2], CultureInfo.InvariantCulture),
                 y = float.Parse(items[3], CultureInfo.InvariantCulture),
                 z = float.Parse(items[4], CultureInfo.InvariantCulture),
+                hidden = bool.Parse(items[5]),
                 r = null
               };
             });

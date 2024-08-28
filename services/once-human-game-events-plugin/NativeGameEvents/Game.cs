@@ -232,21 +232,29 @@ namespace NativeGameEvents
             var type = str.Split("\\").Last();
             var interactable = _memory.ReadProcessMemory<nint>(model + 0x68);
             if (interactable == 0) continue;
-            var interactStatus = _memory.ReadProcessMemory<int>(interactable);
-            if (interactStatus == 1) continue; // already looted
             //if (modelType == ModelAddr) type = "MODEL_" + type;
             if (actors.Find(a => a.type == type && a.x== pos.Z && a.y == pos.X) != null)
             {
               // Skip duplicates
               continue;
             }
+            
+            var interactStatus = _memory.ReadProcessMemory<int>(interactable);
+            var hidden = false;
+            if (interactStatus == 1)
+            {
+              // already looted
+              hidden = true;
+            }
+
             actors.Add(new Actor
             {
               address = model.GetHashCode(),
               type = type,
               x = pos.Z,
               y = pos.X,
-              z = pos.Y
+              z = pos.Y,
+              hidden = hidden
             });
           }
           var csv = string.Join("\n", actors.DistinctBy(a => a).Select(a => a.ToString()));
