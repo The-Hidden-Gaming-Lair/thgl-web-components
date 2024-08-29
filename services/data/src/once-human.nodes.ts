@@ -20,7 +20,7 @@ const typeIDs = await readJSON<TypesIds>(
   OUTPUT_DIR + "/coordinates/types_id_map.json",
 );
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-2");
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-3");
 const data = (await response.json()) as Record<
   string,
   [number, number, number, string][]
