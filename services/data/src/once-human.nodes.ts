@@ -1,6 +1,7 @@
-import { initDirs, OUTPUT_DIR } from "./lib/dirs.js";
-import { encodeToFile, readJSON } from "./lib/fs.js";
+import { CONTENT_DIR, initDirs, OUTPUT_DIR } from "./lib/dirs.js";
+import { encodeToFile, readDirSync, readJSON } from "./lib/fs.js";
 import { writeNodes } from "./lib/nodes.js";
+import { TriggerData } from "./once-human.types.js";
 
 import { Filter, Node, Tiles, TypesIds } from "./types.js";
 
@@ -19,6 +20,24 @@ const filters = await readJSON<Filter[]>(
 const typeIDs = await readJSON<TypesIds>(
   OUTPUT_DIR + "/coordinates/types_id_map.json",
 );
+const triggeredDrops: [number, number, number][] = [];
+for (const file of readDirSync(
+  CONTENT_DIR + "/game_common/data/task/trigger_data/",
+)) {
+  if (!file.endsWith(".json")) {
+    continue;
+  }
+  const prefabInfoData = await readJSON<TriggerData>(
+    CONTENT_DIR + "/game_common/data/task/trigger_data/" + file,
+  );
+  for (const placeNode of Object.values(prefabInfoData.place_nodes)) {
+    for (const node of Object.values(placeNode)) {
+      if (node.drop_no && node.pos3) {
+        triggeredDrops.push(node.pos3);
+      }
+    }
+  }
+}
 
 const response = await fetch("https://actors-api.th.gl/nodes/once-human-3");
 const data = (await response.json()) as Record<
@@ -43,7 +62,10 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   }
   let targetSpawnNodes = spawnNodes;
   if (id === "gear_crate") {
-    const busMonsterLocations = data["bus_monster.gim"] || [];
+    const busMonsterLocations = [
+      ...(data["bus_monster.gim"] || []),
+      ...(data["bus_monster_arm.gim"] || []),
+    ];
     targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
       return busMonsterLocations.every(([bx, by, bz]) => {
         const distance = Math.sqrt(
@@ -53,9 +75,23 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
       });
     });
   }
+
   const oldNodes = nodes.find((n) => n.type === id)!;
   const isItem = items.values.some((v) => v.id === id);
   const minDistance = isItem ? 1 : 50;
+
+  if (isItem) {
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
+      const closestDrop = triggeredDrops.reduce((acc, [ty, tz, tx]) => {
+        const distance = Math.sqrt(
+          (x - tx) ** 2 + (y - ty) ** 2 + (z - tz) ** 2,
+        );
+        return Math.min(acc, distance);
+      }, Infinity);
+
+      return closestDrop > 1;
+    });
+  }
 
   targetSpawnNodes.forEach(([x, y]) => {
     const hasCloseSpawn = oldNodes.spawns.some((s) => {

@@ -527,3 +527,8 @@ export type AchieveCollectData = Record<
     attrs: Array<string>;
   }
 >;
+
+export type TriggerData = {
+  place_nodes: Record<string, Record<string, any>>;
+  links: Record<string, any>;
+};
