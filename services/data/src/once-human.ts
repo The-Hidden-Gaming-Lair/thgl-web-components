@@ -284,7 +284,11 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     console.warn("No map item for", key);
     continue;
   }
-  initialIconPath = textureMap[mapItem.res_path];
+  initialIconPath =
+    "ui/dynamic_texpack/" +
+    textureMap[mapItem.res_path] +
+    "/" +
+    mapItem.res_path;
   initialType =
     mapItem.res_path.replace("map_icon_", "").replace(".png", "") ||
     value.stronghold_name;
@@ -405,8 +409,11 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     console.warn("No map item for", key);
     continue;
   }
-
-  let initialIconPath = textureMap[mapItem.res_path];
+  let initialIconPath =
+    "ui/dynamic_texpack/" +
+    textureMap[mapItem.res_path] +
+    "/" +
+    mapItem.res_path;
   const initialType = mapItem.res_path
     .replace("map_icon_", "")
     .replace(".png", "");
