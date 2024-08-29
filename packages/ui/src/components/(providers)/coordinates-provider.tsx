@@ -78,6 +78,7 @@ export type FiltersCoordinates = {
     icon: string;
     size?: number;
     live_only?: boolean;
+    autoDiscover?: boolean;
   }[];
 }[];
 
@@ -441,6 +442,18 @@ export function CoordinatesProvider({
     );
   }, [typesIdMap]);
 
+  const allFilters = useMemo(() => {
+    if (!isHydrated) {
+      return [];
+    }
+
+    return [
+      ...filters.flatMap((filter) => filter.values.map((value) => value.id)),
+      ...myFilters.map((node) => node.name),
+      ...REGION_FILTERS.map((filter) => filter.id),
+    ];
+  }, [isHydrated, filters, myFilters]);
+
   const realStaticNodes = useMemo(
     () => staticNodes.filter((node) => "static" in node && !!node.static)!,
     [staticNodes],
@@ -511,9 +524,19 @@ export function CoordinatesProvider({
     if (!normalizedTypesIdMap) {
       return;
     }
-    const hiddenActors = actors.filter((a) => a.hidden);
-    hiddenActors.forEach((actor) => {
-      const id = normalizedTypesIdMap[actor.type.toLowerCase()] || actor.type;
+    const filterValues = filters.flatMap((filter) => filter.values);
+    actors.forEach((actor) => {
+      if (!("hidden" in actor)) {
+        return;
+      }
+      const filterValue = filterValues.find((f) => f.id === actor.type);
+      if (!filterValue || !filterValue.autoDiscover) {
+        return;
+      }
+      const id = normalizedTypesIdMap[actor.type.toLowerCase()];
+      if (!id) {
+        return;
+      }
 
       const staticNode = realStaticNodes.find(
         (n) => n.type === id && (!n.mapName || n.mapName === actor.mapName),
@@ -526,7 +549,7 @@ export function CoordinatesProvider({
         );
         if (spawn) {
           const nodeId = `${spawn.id ?? staticNode.type}@${spawn.p[0]}:${spawn.p[1]}`;
-          setDiscoverNode(nodeId, true);
+          setDiscoverNode(nodeId, !actor.hidden);
         }
       }
     });
@@ -592,18 +615,6 @@ export function CoordinatesProvider({
     () => filters.flatMap((filter) => filter.values).map((value) => value),
     [filters],
   );
-
-  const allFilters = useMemo(() => {
-    if (!isHydrated) {
-      return [];
-    }
-
-    return [
-      ...filters.flatMap((filter) => filter.values.map((value) => value.id)),
-      ...myFilters.map((node) => node.name),
-      ...REGION_FILTERS.map((filter) => filter.id),
-    ];
-  }, [isHydrated, filters, myFilters]);
 
   const [spawns, setSpawns] = useState<Spawns>([]);
 

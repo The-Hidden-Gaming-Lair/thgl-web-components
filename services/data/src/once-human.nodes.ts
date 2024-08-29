@@ -25,6 +25,14 @@ const data = (await response.json()) as Record<
   string,
   [number, number, number, string][]
 >;
+Object.keys(data).forEach((type) => {
+  let id = typeIDs[type];
+  if (!id) {
+    return;
+  }
+  const oldNodes = nodes.find((n) => n.type === id)!;
+  oldNodes.spawns = [];
+});
 
 const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
@@ -33,11 +41,23 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     console.warn("No type for", type);
     return;
   }
+  let targetSpawnNodes = spawnNodes;
+  if (id === "gear_crate") {
+    const busMonsterLocations = data["bus_monster.gim"] || [];
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
+      return busMonsterLocations.every(([bx, by, bz]) => {
+        const distance = Math.sqrt(
+          (x - bx) ** 2 + (y - by) ** 2 + (z - bz) ** 2,
+        );
+        return distance > 20;
+      });
+    });
+  }
+  const oldNodes = nodes.find((n) => n.type === id)!;
   const isItem = items.values.some((v) => v.id === id);
-  const minDistance = isItem ? 1 : 20;
+  const minDistance = isItem ? 1 : 50;
 
-  spawnNodes.forEach(([x, y]) => {
-    const oldNodes = nodes.find((n) => n.type === id)!;
+  targetSpawnNodes.forEach(([x, y]) => {
     const hasCloseSpawn = oldNodes.spawns.some((s) => {
       const distance = Math.sqrt((s.p[0] - x) ** 2 + (s.p[1] - y) ** 2);
       return distance < minDistance;

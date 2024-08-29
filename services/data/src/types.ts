@@ -22,6 +22,7 @@ export type Filter = {
     icon: string;
     size?: number;
     live_only?: boolean;
+    autoDiscover?: boolean;
   }[];
 };
 

@@ -35,7 +35,9 @@ initDirs(
 );
 
 let nodes = initNodes();
-const filters = initFilters();
+const filters = initFilters([
+  { group: "items", defaultOn: true, defaultOpen: true, values: [] },
+]);
 const enDict = initDict({
   locations: "Locations",
   boss: "Bosses",
@@ -241,14 +243,6 @@ const switchType = (
     title = "Bus Monster";
     group = "monster";
     iconProps.color = "#ea93b2";
-    iconProps.circle = true;
-  } else if (more?.includes("/m_spider_box/")) {
-    (iconPath =
-      "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png"),
-      (type = "morphic_crate");
-    title = "Morphic Crate";
-    group = "items";
-    iconProps.color = "purple";
     iconProps.circle = true;
   }
   if (!title) {
@@ -669,6 +663,9 @@ for (const battleFieldName of battleFieldNames) {
     if (!initialType) {
       initialType = initialTitle.replaceAll(/\s/g, " "); // There are some invalid spaces
     }
+    if (nodeData.model_path.includes("/m_spider_box/")) {
+      continue;
+    }
 
     let { type, title, group, iconProps, iconPath, size } = switchType(
       initialGroup,
@@ -677,6 +674,7 @@ for (const battleFieldName of battleFieldNames) {
       "",
       nodeData.model_path,
     );
+
     if (group === "unsorted") {
       continue; // Temporary
     }
@@ -767,18 +765,36 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
 // Morphic Crate
 {
+  const group = "items";
   const type = "morphic_crate";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    type,
+    {
+      color: "purple",
+      circle: true,
+    },
+  );
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    autoDiscover: true,
+  });
+  enDict[type] = "Morphic Crate";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-
-  for (const [key, treasureMonster] of Object.entries(
-    treasureMonsterDropData,
-  )) {
-    const spawn: Node["spawns"][0] = {
-      p: [treasureMonster.pos3[2], treasureMonster.pos3[0]],
-    };
-    node.spawns.push(spawn);
-  }
+  typeIDs["m_spider_box.gim"] = type;
 }
 
 // Weapon Crate
@@ -799,6 +815,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     id: type,
     icon,
     size: 1,
+    autoDiscover: true,
   });
   enDict[type] = "Weapon Crate";
 
@@ -811,9 +828,10 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["weapon_box_01.gim"] = type;
   typeIDs["weapon_box_02.gim"] = type;
   typeIDs["weapon_box_03.gim"] = type;
+  typeIDs["r_mod_box.gim"] = type;
+  typeIDs["v_weaponbox.gim"] = type;
 }
 // Gear Crate
 {
@@ -833,6 +851,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     id: type,
     icon,
     size: 1,
+    autoDiscover: true,
   });
   enDict[type] = "Gear Crate";
 
@@ -866,6 +885,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     id: type,
     icon,
     size: 1,
+    autoDiscover: true,
   });
   enDict[type] = "Storage Crate";
 
@@ -903,6 +923,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     id: type,
     icon,
     size: 1,
+    autoDiscover: true,
   });
   enDict[type] = "Mystical Crate";
 

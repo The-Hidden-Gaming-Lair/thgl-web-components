@@ -1,35 +1,40 @@
 [
   {
     "group": "items",
+    "defaultOn": true,
+    "defaultOpen": true,
     "values": [
       {
         "id": "morphic_crate",
         "icon": "morphic_crate.webp",
-        "size": 1
+        "size": 1,
+        "autoDiscover": true
       },
       {
         "id": "weapon_crate",
         "icon": "weapon_crate.webp",
-        "size": 1
+        "size": 1,
+        "autoDiscover": true
       },
       {
         "id": "gear_crate",
         "icon": "gear_crate.webp",
-        "size": 1
+        "size": 1,
+        "autoDiscover": true
       },
       {
         "id": "storage_crate",
         "icon": "storage_crate.webp",
-        "size": 1
+        "size": 1,
+        "autoDiscover": true
       },
       {
         "id": "mystical_crate",
         "icon": "mystical_crate.webp",
-        "size": 1
+        "size": 1,
+        "autoDiscover": true
       }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
+    ]
   },
   {
     "group": "locations",
