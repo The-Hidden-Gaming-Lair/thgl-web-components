@@ -526,15 +526,15 @@ export function CoordinatesProvider({
     }
     const filterValues = filters.flatMap((filter) => filter.values);
     actors.forEach((actor) => {
-      if (!("hidden" in actor)) {
-        return;
-      }
-      const filterValue = filterValues.find((f) => f.id === actor.type);
-      if (!filterValue || !filterValue.autoDiscover) {
+      if (typeof actor.hidden === "undefined") {
         return;
       }
       const id = normalizedTypesIdMap[actor.type.toLowerCase()];
       if (!id) {
+        return;
+      }
+      const filterValue = filterValues.find((f) => f.id === id);
+      if (!filterValue || !filterValue.autoDiscover) {
         return;
       }
 
@@ -549,7 +549,7 @@ export function CoordinatesProvider({
         );
         if (spawn) {
           const nodeId = `${spawn.id ?? staticNode.type}@${spawn.p[0]}:${spawn.p[1]}`;
-          setDiscoverNode(nodeId, !actor.hidden);
+          setDiscoverNode(nodeId, actor.hidden);
         }
       }
     });
