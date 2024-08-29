@@ -27,6 +27,7 @@ import {
   readDirRecursive,
   readDirSync,
   readJSON,
+  saveImage,
 } from "./lib/fs.js";
 import { createBlankImage, IconProps, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
@@ -129,11 +130,11 @@ const typeIdsToExtendId = Object.fromEntries(
     });
   }),
 );
-const PORTRAITS: Record<string, string> = {
-  "1": "lesser_yaoguais",
-  "2": "yaoguai_chiefs",
-  "3": "yaoguai_kings",
-  "4": "characters",
+const PORTRAITS: Record<string, { name: string; size: number }> = {
+  "1": { name: "lesser_yaoguais", size: 1 },
+  "2": { name: "yaoguai_chiefs", size: 1.4 },
+  "3": { name: "yaoguai_kings", size: 1.5 },
+  "4": { name: "characters", size: 1 },
 };
 enDict["lesser_yaoguais"] = "Lesser Yaoguais";
 enDict["yaoguai_chiefs"] = "Yaoguai Chiefs";
@@ -177,6 +178,7 @@ for (const folder of readDirSync(
     const typeAlt = type.replace(/_[^_]*$/, "");
     const resId = typeIdsToResId[type] || typeIdsToResId[typeAlt];
     const extendId = typeIdsToExtendId[type] || typeIdsToExtendId[typeAlt];
+    let size = 1;
     if (!resId || !extendId) {
       console.warn(`resId not found for ${type} | ${typeAlt} | ${file}`);
     } else {
@@ -196,7 +198,9 @@ for (const folder of readDirSync(
         );
         if (card) {
           const portraitId = card["4"]!;
-          group = PORTRAITS[portraitId] || "enemies";
+          const portrait = PORTRAITS[portraitId];
+          group = portrait?.name || "enemies";
+          size = portrait?.size || 1;
         }
         enDict[type] =
           en[`StringKVMapDesc.UnitBattleInfoExtendDesc.${extendId}.UnitName`];
@@ -212,7 +216,9 @@ for (const folder of readDirSync(
         } else {
           const cardId = card["1"];
           const portraitId = card["4"]!;
-          group = PORTRAITS[portraitId] || "enemies";
+          const portrait = PORTRAITS[portraitId];
+          group = portrait?.name || "enemies";
+          size = portrait?.size || 1;
 
           enDict[type] = en[`StringKVMapDesc.CardDesc.${cardId}.UnitName`];
           enDict[`${type}_desc`] =
@@ -279,6 +285,12 @@ for (const folder of readDirSync(
         iconProps.color = uniqolor(type, {
           lightness: [70, 80],
         }).color;
+      } else if (enDict[type].startsWith("Bullguard")) {
+        iconPath =
+          "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/bully-minion_delapouite.webp";
+        iconProps.color = uniqolor(type, {
+          lightness: [70, 80],
+        }).color;
       } else {
         iconPath =
           "/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/targeted_sbed.webp";
@@ -287,7 +299,6 @@ for (const folder of readDirSync(
         }).color;
       }
       const iconName = await saveIcon(iconPath, type, iconProps);
-      const size = 1;
       category.values.push({
         id: type,
         icon: iconName,
@@ -324,6 +335,7 @@ for (const mapName of mapFolders) {
   //   levelBounds.Properties.RelativeLocation.Y,
   // ];
 
+  const waterPoints: [number, number][] = [];
   const files = readDirRecursive(
     `${CONTENT_DIR}/b1/Content/00Main/Maps/${mapName}/`,
   );
@@ -478,6 +490,12 @@ for (const mapName of mapFolders) {
           },
         );
         size = 1;
+      } else if (item.Outer.startsWith("BP_InteractiveWater_")) {
+        waterPoints.push([
+          item.Properties.RelativeLocation.X,
+          item.Properties.RelativeLocation.Y,
+        ]);
+        continue;
       } else {
         continue;
         // group = "unsorted";
@@ -562,7 +580,8 @@ for (const mapName of mapFolders) {
     [maxX + padding, maxY + padding],
   ] as [[number, number], [number, number]];
 
-  createBlankImage(mapImage, 1024, 1024);
+  let canvas = createBlankImage(1024, 1024);
+  saveImage(mapImage, canvas.toBuffer("image/png"));
 
   const tile = await generateTiles(
     mapName,
@@ -575,6 +594,7 @@ for (const mapName of mapFolders) {
     undefined,
     [1, -1],
   );
+
   tiles[mapName] = tile[mapName];
 }
 

@@ -459,14 +459,61 @@ export async function vectorize(
   return Bun.write(outputPath, blob);
 }
 
-export function createBlankImage(
+export function createBlankImage(width: number, height: number) {
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, width, height);
+  return canvas;
+}
+
+export function createCustomMapImage(
   filePath: string,
   width: number,
   height: number,
+  waterPoints: [number, number][],
 ) {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "rgba(0, 0, 0, 0)";
+  ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = "#0000FF";
+  for (const [x, y] of waterPoints) {
+    ctx.fillRect(x, y, 10, 10);
+  }
   saveImage(filePath, canvas.toBuffer("image/png"));
+}
+
+export function virtualToRealSize(
+  virtualPoint: [number, number],
+  virtualBounds: [[number, number], [number, number]],
+  realImageSize: [number, number],
+): [number, number] {
+  const [virtualWidth, virtualHeight] = [
+    virtualBounds[1][0] - virtualBounds[0][0],
+    virtualBounds[1][1] - virtualBounds[0][1],
+  ];
+  const [realWidth, realHeight] = realImageSize;
+  const [realX, realY] = [
+    (virtualPoint[0] - virtualBounds[0][0]) * (realWidth / virtualWidth),
+    (virtualPoint[1] - virtualBounds[0][1]) * (realHeight / virtualHeight),
+  ];
+  return [realX, realY];
+}
+
+export function drawOnCanvas(
+  canvas: Canvas,
+  center: [number, number],
+  yaw: number,
+  size: [number, number],
+  color: string,
+) {
+  const ctx = canvas.getContext("2d");
+  ctx.save();
+  ctx.translate(center[0], center[1]);
+  ctx.rotate((yaw * Math.PI) / 180);
+  ctx.fillStyle = color;
+  ctx.fillRect(-size[0] / 2, -size[1] / 2, size[0], size[1]);
+  ctx.restore();
+  return canvas;
 }
