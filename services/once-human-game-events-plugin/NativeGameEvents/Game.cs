@@ -61,9 +61,9 @@ namespace NativeGameEvents
             //var addr = _memory.FindPattern("E8 ? ? ? ? 45 33 C0 48 8D 54 24 ? 48 8B C8 E8 ? ? ? ? 48");
             var callFunc = _memory.ReadProcessMemory<int>(addr + 1) + addr + 5;
             SceneOffset = _memory.ReadProcessMemory<int>(callFunc + 0x29 + 3) + callFunc + 0x29 + 3 + 4 - _memory.BaseAddress + 0x10;
-                        
+
             //var modelSig = _memory.FindPattern(new byte[] { 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x01, 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x81, 0, 0, 0, 0, 0x48, 0x8B, 0x89, 0, 0, 0, 0, 0x45, 0x33, 0xED });
-           // var modelSig = _memory.FindPattern("48 8D 05 ? ? ? ? 48 89 01 48 8D 05 ? ? ? ? 48 89 81 ? ? ? ? 48 8B 89 ? ? ? ? 45 33 ED");
+            // var modelSig = _memory.FindPattern("48 8D 05 ? ? ? ? 48 89 01 48 8D 05 ? ? ? ? 48 89 81 ? ? ? ? 48 8B 89 ? ? ? ? 45 33 ED");
             //ModelAddr = _memory.ReadProcessMemory<int>((nint)modelSig + 3) + (nint)modelSig + 7;// - proc[0].MainModule.BaseAddress;
           }
         }
@@ -173,7 +173,9 @@ namespace NativeGameEvents
               !str.StartsWith("character\\animal") &&
               !str.StartsWith("character\\boss") &&
               !str.StartsWith("environment\\dynamic_objects\\interaction\\spacetime\\invisible_treasure_") &&
-              !str.StartsWith("environment\\static_objects\\common\\prop\\box"))
+              !str.StartsWith("environment\\static_objects\\common\\prop\\box") &&
+              !str.StartsWith("environment\\ecosystem\\mineral") &&
+              !str.StartsWith("environment\\dynamic_objects\\interaction"))
             {
               continue;
             }
@@ -233,12 +235,12 @@ namespace NativeGameEvents
             var interactable = _memory.ReadProcessMemory<nint>(model + 0x68);
             if (interactable == 0) continue;
             //if (modelType == ModelAddr) type = "MODEL_" + type;
-            if (actors.Find(a => a.type == type && a.x== pos.Z && a.y == pos.X) != null)
+            if (actors.Find(a => a.type == type && a.x == pos.Z && a.y == pos.X) != null)
             {
               // Skip duplicates
               continue;
             }
-            
+
             var interactStatus = _memory.ReadProcessMemory<int>(interactable);
             var hidden = false;
             if (interactStatus == 1)
