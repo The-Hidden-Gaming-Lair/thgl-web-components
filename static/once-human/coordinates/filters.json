@@ -7,8 +7,7 @@
       {
         "id": "morphic_crate",
         "icon": "morphic_crate.webp",
-        "size": 1,
-        "autoDiscover": true
+        "size": 1
       },
       {
         "id": "weapon_crate",

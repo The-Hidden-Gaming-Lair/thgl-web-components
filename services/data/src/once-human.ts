@@ -788,7 +788,6 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     id: type,
     icon,
     size: 1,
-    autoDiscover: true,
   });
   enDict[type] = "Morphic Crate";
 
