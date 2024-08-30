@@ -838,7 +838,6 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   node.spawns = [];
   typeIDs["weapon_box_02.gim"] = type;
   typeIDs["weapon_box_03.gim"] = type;
-  typeIDs["r_mod_box.gim"] = type;
   typeIDs["v_weaponbox.gim"] = type;
 }
 // Gear Crate
@@ -874,6 +873,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   node.spawns = [];
   typeIDs["iron_box_03.gim"] = type;
   typeIDs["v_mod_box.gim"] = type;
+  typeIDs["r_mod_box.gim"] = type;
 }
 // Storage Crate
 {
