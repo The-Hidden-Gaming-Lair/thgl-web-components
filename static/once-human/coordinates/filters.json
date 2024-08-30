@@ -315,7 +315,7 @@
       },
       {
         "id": "boss_ravenous_hunter's_doppelganger",
-        "icon": "boss_ravenous_hunter's_doppelganger.webp",
+        "icon": "boss_ravenous_hunters_doppelganger.webp",
         "size": 0.75
       },
       {
@@ -325,17 +325,17 @@
       },
       {
         "id": "boss_treant's_doppelganger",
-        "icon": "boss_treant's_doppelganger.webp",
+        "icon": "boss_treants_doppelganger.webp",
         "size": 0.75
       },
       {
         "id": "boss_arachsiam's_shadow",
-        "icon": "boss_arachsiam's_shadow.webp",
+        "icon": "boss_arachsiams_shadow.webp",
         "size": 0.75
       },
       {
         "id": "boss_shadow_hound's_shadow",
-        "icon": "boss_shadow_hound's_shadow.webp",
+        "icon": "boss_shadow_hounds_shadow.webp",
         "size": 0.75
       },
       {
@@ -937,7 +937,7 @@
       },
       {
         "id": "monster_mr._ames'_soul",
-        "icon": "monster_mr._ames'_soul.webp",
+        "icon": "monster_mr_ames_soul.webp",
         "size": 0.75
       },
       {
@@ -947,12 +947,12 @@
       },
       {
         "id": "monster_maniac_(ranged)",
-        "icon": "monster_maniac_(ranged).webp",
+        "icon": "monster_maniac_ranged.webp",
         "size": 0.75
       },
       {
         "id": "monster_maniac_(melee)",
-        "icon": "monster_maniac_(melee).webp",
+        "icon": "monster_maniac_melee.webp",
         "size": 0.75
       },
       {
@@ -1002,17 +1002,17 @@
       },
       {
         "id": "monster_ironed-out_maniac",
-        "icon": "monster_ironed-out_maniac.webp",
+        "icon": "monster_ironedout_maniac.webp",
         "size": 0.75
       },
       {
         "id": "monster_ironed-out_mayhem",
-        "icon": "monster_ironed-out_mayhem.webp",
+        "icon": "monster_ironedout_mayhem.webp",
         "size": 0.75
       },
       {
         "id": "monster_ironed-out_scrounger",
-        "icon": "monster_ironed-out_scrounger.webp",
+        "icon": "monster_ironedout_scrounger.webp",
         "size": 0.75
       },
       {
@@ -1197,7 +1197,7 @@
       },
       {
         "id": "monster_dr._mannheim",
-        "icon": "monster_dr._mannheim.webp",
+        "icon": "monster_dr_mannheim.webp",
         "size": 0.75
       },
       {
@@ -1212,7 +1212,7 @@
       },
       {
         "id": "monster_\"portal\"",
-        "icon": "monster_\"portal\".webp",
+        "icon": "monster_portal.webp",
         "size": 0.75
       },
       {
@@ -1257,12 +1257,12 @@
       },
       {
         "id": "monster_bone_thrower—soul_hunter",
-        "icon": "monster_bone_thrower—soul_hunter.webp",
+        "icon": "monster_bone_throwersoul_hunter.webp",
         "size": 0.75
       },
       {
         "id": "monster_star_walker's_ember",
-        "icon": "monster_star_walker's_ember.webp",
+        "icon": "monster_star_walkers_ember.webp",
         "size": 0.75
       },
       {
@@ -1559,17 +1559,17 @@
       },
       {
         "id": "animal_eclipse deer",
-        "icon": "animal_eclipse deer.webp",
+        "icon": "animal_eclipsedeer.webp",
         "size": 0.75
       },
       {
         "id": "animal_eclipse wolf",
-        "icon": "animal_eclipse wolf.webp",
+        "icon": "animal_eclipsewolf.webp",
         "size": 0.75
       },
       {
         "id": "animal_eclipse bear",
-        "icon": "animal_eclipse bear.webp",
+        "icon": "animal_eclipsebear.webp",
         "size": 0.75
       },
       {
@@ -1584,7 +1584,7 @@
       },
       {
         "id": "animal_dog's_after-image",
-        "icon": "animal_dog's_after-image.webp",
+        "icon": "animal_dogs_afterimage.webp",
         "size": 0.75
       },
       {
