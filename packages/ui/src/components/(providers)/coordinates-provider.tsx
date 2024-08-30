@@ -471,7 +471,7 @@ export function CoordinatesProvider({
     const actorsNodes = normalizedTypesIdMap
       ? actors.reduce<NodesCoordinates>((acc, actor) => {
           let id = normalizedTypesIdMap[actor.type.toLowerCase()];
-          if (!id || actor.hidden) {
+          if (!id) {
             if (!debug) {
               return acc;
             }
