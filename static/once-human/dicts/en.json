@@ -5,6 +5,7 @@
   "animal": "Animals",
   "riddles": "Riddles",
   "items": "Items",
+  "gatherables": "Gatherables",
   "juluo": "Hamlet",
   "07E60A12-12140030-CC6A6B52-1C6B27D6": "Inspection Point 266",
   "07E60A12-12140030-CC6A6B52-1C6B27D6_desc": "Level: 35",
@@ -1796,5 +1797,7 @@
   "weapon_crate": "Weapon Crate",
   "gear_crate": "Gear Crate",
   "storage_crate": "Storage Crate",
-  "mystical_crate": "Mystical Crate"
+  "mystical_crate": "Mystical Crate",
+  "copper_ore": "Copper Ore",
+  "recipe": "Recipe"
 }

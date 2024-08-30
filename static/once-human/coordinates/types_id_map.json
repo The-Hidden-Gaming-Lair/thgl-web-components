@@ -303,5 +303,7 @@
   "invisible_treasure_04.gim": "mystical_crate",
   "invisible_treasure_03.gim": "mystical_crate",
   "invisible_treasure_02.gim": "mystical_crate",
-  "invisible_treasure_01.gim": "mystical_crate"
+  "invisible_treasure_01.gim": "mystical_crate",
+  "cu_l_01.gim": "copper_ore",
+  "magazine01.gim": "recipe"
 }

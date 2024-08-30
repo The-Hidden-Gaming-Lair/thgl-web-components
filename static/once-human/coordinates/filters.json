@@ -32,6 +32,25 @@
         "icon": "mystical_crate.webp",
         "size": 1,
         "autoDiscover": true
+      },
+      {
+        "id": "recipe",
+        "icon": "recipe.webp",
+        "size": 1,
+        "autoDiscover": true
+      }
+    ]
+  },
+  {
+    "group": "gatherables",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": [
+      {
+        "id": "copper_ore",
+        "icon": "copper_ore.webp",
+        "size": 1,
+        "autoDiscover": true
       }
     ]
   },

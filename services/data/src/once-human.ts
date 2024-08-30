@@ -37,6 +37,7 @@ initDirs(
 let nodes = initNodes();
 const filters = initFilters([
   { group: "items", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "gatherables", defaultOn: true, defaultOpen: true, values: [] },
 ]);
 const enDict = initDict({
   locations: "Locations",
@@ -45,6 +46,7 @@ const enDict = initDict({
   animal: "Animals",
   riddles: "Riddles",
   items: "Items",
+  gatherables: "Gatherables",
 });
 const typeIDs = initTypesIDs();
 
@@ -954,6 +956,63 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   //     }
   //   });
 }
+// Copper
+{
+  const group = "gatherables";
+  const type = "copper_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon/icon_copper_ore.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    autoDiscover: true,
+  });
+  enDict[type] = "Copper Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["cu_l_01.gim"] = type;
+}
+// Folk Recipe
+{
+  const group = "items";
+  const type = "recipe";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon/icon_magazine.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    autoDiscover: true,
+  });
+  enDict[type] = "Recipe";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["magazine01.gim"] = type;
+}
+
 {
   const previousNodes = await readJSON<Node[]>(
     OUTPUT_DIR + "/coordinates/nodes.json",
@@ -967,14 +1026,53 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   }
 }
 
-const filteredNodes = nodes.map((n) => ({
-  ...n,
-  static: !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
-  spawns: n.spawns.filter((s) => {
-    const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
-    return !isNotOnWorldMap;
-  }),
-}));
+const sortPriority = [
+  "items",
+  "gatherables",
+  "locations",
+  "riddles",
+  "boss",
+  "monster",
+  "animal",
+];
+
+const filteredNodes = nodes
+  .map((n) => ({
+    ...n,
+    static:
+      !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
+    spawns: n.spawns.filter((s) => {
+      const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
+      return !isNotOnWorldMap;
+    }),
+  }))
+  .sort((a, b) => {
+    const groupA =
+      filters.find((f) => f.values.some((v) => v.id === a.type))?.group ??
+      a.type;
+    const groupB =
+      filters.find((f) => f.values.some((v) => v.id === b.type))?.group ??
+      b.type;
+    if (groupA === groupB) {
+      return 0;
+    }
+    let priorityA = sortPriority.findIndex((p) =>
+      groupA.toLowerCase().startsWith(p.toLowerCase()),
+    );
+    if (priorityA === -1) {
+      priorityA = 1000;
+    }
+    let priorityB = sortPriority.findIndex((p) =>
+      groupB.toLowerCase().startsWith(p.toLowerCase()),
+    );
+    if (priorityB === -1) {
+      priorityB = 1000;
+    }
+    if (priorityA === priorityB) {
+      return groupA.localeCompare(groupB);
+    }
+    return priorityA - priorityB;
+  });
 
 writeNodes(filteredNodes);
 Object.keys(tiles).forEach((mapName) => {
@@ -984,14 +1082,6 @@ Object.keys(tiles).forEach((mapName) => {
   );
 });
 
-const sortPriority = [
-  "items",
-  "locations",
-  "riddles",
-  "boss",
-  "monster",
-  "animal",
-];
 const sortedFilters = filters
   .map((f) => {
     return {
