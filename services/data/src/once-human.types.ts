@@ -532,3 +532,29 @@ export type TriggerData = {
   place_nodes: Record<string, Record<string, any>>;
   links: Record<string, any>;
 };
+
+export type InteractResData = Record<
+  string,
+  {
+    enable_culled: boolean;
+    res_name: string;
+    drop_type: number;
+    dungeon_show_type: number;
+    far_behavior_dis: number;
+    high_light_range: number;
+    near_behavior_dis: number;
+    res_subtype: number;
+    behavior_time: number;
+    interact_cd: number;
+    res_icon: string;
+    sense_height: number;
+    vehicle_destroy_level: number;
+    sense_range: number;
+    res_type: number;
+    sense_horizontial_offset: number;
+    behavior_type: number;
+    space_rule_effect_lst: Array<number>;
+    sense_height_offset: Array<number>;
+    res_detect_type: number;
+  }
+>;

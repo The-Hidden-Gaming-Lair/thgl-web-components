@@ -17,6 +17,7 @@ import {
   BaseNPCData,
   BattleFieldData,
   BigMapItemData,
+  InteractResData,
   PrefabGroupInfoData,
   PrefabInfoData,
   ScenePrefabData,
@@ -37,6 +38,7 @@ initDirs(
 let nodes = initNodes();
 const filters = initFilters([
   { group: "items", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "recipes", defaultOn: true, defaultOpen: true, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: true, values: [] },
 ]);
 const enDict = initDict({
@@ -46,6 +48,7 @@ const enDict = initDict({
   animal: "Animals",
   riddles: "Riddles",
   items: "Items",
+  recipes: "Recipes",
   gatherables: "Gatherables",
 });
 const typeIDs = initTypesIDs();
@@ -135,7 +138,9 @@ const treasureMonsterDropData = await readJSON<TreasureMonsterDropData>(
 const baseNPCData = await readJSON<BaseNPCData>(
   CONTENT_DIR + "/game_common/data/unit_data/base_npc_data.json",
 );
-
+const interactResData = await readJSON<InteractResData>(
+  CONTENT_DIR + "/game_common/data/interact_res_data.json",
+);
 const newTypes: string[] = [];
 
 const switchType = (
@@ -222,6 +227,8 @@ const switchType = (
         .replace("anti-construction", "Anti-Construction") ||
       type.replace(" Riddle Spot", "");
     iconProps.color = uniqolor(type).color;
+
+    // typeIDs[typeId] = "deviation_point_box.gim"
   } else if (more?.includes("_Scattered")) {
     group = "locations";
     type = "Scattered";
@@ -316,7 +323,9 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
 
   if (!iconPath) {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
-    iconProps.color = uniqolor(type).color;
+    iconProps.color = uniqolor(type, {
+      lightness: [70, 80],
+    }).color;
     size = 0.5;
     continue; // Temporary
   }
@@ -439,7 +448,9 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
 
   if (!iconPath) {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
-    iconProps.color = uniqolor(type).color;
+    iconProps.color = uniqolor(type, {
+      lightness: [70, 80],
+    }).color;
     size = 0.5;
     continue; // Temporary
   }
@@ -581,7 +592,9 @@ for (const baseNPC of Object.values(baseNPCData)) {
   typeIDs[typeId] = type;
 
   const iconProps: IconProps = {
-    color: uniqolor(type).color,
+    color: uniqolor(type, {
+      lightness: [70, 80],
+    }).color,
     circle: true,
   };
   const size = 0.75;
@@ -701,7 +714,9 @@ for (const battleFieldName of battleFieldNames) {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
       }
-      iconProps.color = uniqolor(type).color;
+      iconProps.color = uniqolor(type, {
+        lightness: [70, 80],
+      }).color;
       iconProps.circle = true;
       size = 0.75;
     }
@@ -836,9 +851,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["weapon_box_02.gim"] = type;
-  typeIDs["weapon_box_03.gim"] = type;
-  typeIDs["v_weaponbox.gim"] = type;
+  for (const [key, value] of Object.entries(interactResData)) {
+    if (value.res_name === "Weapon Crate") {
+      typeIDs[key] = type;
+    }
+  }
 }
 // Gear Crate
 {
@@ -871,9 +888,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["iron_box_03.gim"] = type;
-  typeIDs["v_mod_box.gim"] = type;
-  typeIDs["r_mod_box.gim"] = type;
+  for (const [key, value] of Object.entries(interactResData)) {
+    if (value.res_name === "Gear Crate") {
+      typeIDs[key] = type;
+    }
+  }
 }
 // Storage Crate
 {
@@ -907,12 +926,76 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
 
-  Object.entries(achieveCollectData).forEach(([key, value]) => {
-    if (value.attrs.includes("collection_box_abandoned")) {
+  for (const [key, value] of Object.entries(interactResData)) {
+    if (value.res_name === "Storage Crate") {
       typeIDs[key] = type;
     }
-  });
+  }
 }
+
+for (const [key, value] of Object.entries(interactResData)) {
+  if (value.res_icon !== "hud_icon_gather_s.png") {
+    continue;
+  }
+
+  if (key === "deviation_point_box.gim") {
+    continue;
+  }
+  let group;
+  let size = 1;
+  const type = value.res_name
+    .toLowerCase()
+    .replaceAll(" ", "_")
+    .replace(/[^a-zA-Z0-9_]/g, "");
+  let iconPath;
+  const iconProps: IconProps = {};
+  if (value.res_name.endsWith(" Recipe")) {
+    group = "recipes";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/full-folder_delapouite.webp`;
+    iconProps.color = uniqolor(key, {
+      lightness: [70, 80],
+    }).color;
+    iconProps.circle = true;
+    size = 0.76;
+  } else if (value.res_name === "Fruit & Veggies") {
+    group = "items";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/fruit-bowl_skoll.webp`;
+    size = 0.76;
+  } else {
+    group = "items";
+    iconPath =
+      "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png";
+    iconProps.color = uniqolor(key, {
+      lightness: [70, 80],
+    }).color;
+    iconProps.circle = true;
+
+    continue; // Temporary
+  }
+  const icon = await saveIcon(iconPath, type, iconProps);
+
+  const filter = filters.find((f) => f.group === group)!;
+  if (!filter.values.some((v) => v.id === type)) {
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+      // autoDiscover: true,
+    });
+    enDict[type] = value.res_name;
+  }
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+
+  typeIDs[key] = type;
+}
+
 // Mystical Crate
 {
   const group = "items";
@@ -944,17 +1027,10 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["invisible_treasure_04.gim"] = type;
-  typeIDs["invisible_treasure_03.gim"] = type;
-  // typeIDs["large_storage_crate_rare.gim"] = type;
-  typeIDs["invisible_treasure_02.gim"] = type;
   typeIDs["invisible_treasure_01.gim"] = type;
-
-  //   Object.entries(achieveCollectData).forEach(([key, value]) => {
-  //     if (value.attrs.includes("collection_box_unique")) {
-  //       typeIDs[key] = type;
-  //     }
-  //   });
+  typeIDs["invisible_treasure_02.gim"] = type;
+  typeIDs["invisible_treasure_03.gim"] = type;
+  typeIDs["invisible_treasure_04.gim"] = type;
 }
 // Copper
 {
@@ -984,34 +1060,6 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   node.spawns = [];
   typeIDs["cu_l_01.gim"] = type;
 }
-// Folk Recipe
-{
-  const group = "items";
-  const type = "recipe";
-  const icon = await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/item_icon/icon_magazine.png",
-    type,
-  );
-  const filter = filters.find((f) => f.group === group)!;
-  filter.values.push({
-    id: type,
-    icon,
-    size: 1,
-    autoDiscover: true,
-  });
-  enDict[type] = "Recipe";
-
-  if (!nodes.some((n) => n.type === type)) {
-    nodes.push({
-      type,
-      spawns: [],
-    });
-  }
-
-  const node = nodes.find((n) => n.type === type)!;
-  node.spawns = [];
-  typeIDs["magazine01.gim"] = type;
-}
 
 {
   const previousNodes = await readJSON<Node[]>(
@@ -1028,6 +1076,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
 const sortPriority = [
   "items",
+  "recipes",
   "gatherables",
   "locations",
   "riddles",
@@ -1074,6 +1123,12 @@ const filteredNodes = nodes
     return priorityA - priorityB;
   });
 
+const flatFilters = Object.values(filters).flatMap((f) => f.values);
+filteredNodes.sort((a, b) => {
+  const aSize = flatFilters.find((f) => f.id === a.type)!.size!;
+  const bSize = flatFilters.find((f) => f.id === b.type)!.size!;
+  return aSize - bSize;
+});
 writeNodes(filteredNodes);
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(

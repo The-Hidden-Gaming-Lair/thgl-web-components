@@ -28,16 +28,37 @@
         "autoDiscover": true
       },
       {
+        "id": "fruit__veggies",
+        "icon": "fruit__veggies.webp",
+        "size": 0.76
+      },
+      {
         "id": "mystical_crate",
         "icon": "mystical_crate.webp",
         "size": 1,
         "autoDiscover": true
+      }
+    ]
+  },
+  {
+    "group": "recipes",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": [
+      {
+        "id": "canning_recipe",
+        "icon": "canning_recipe.webp",
+        "size": 0.76
       },
       {
-        "id": "recipe",
-        "icon": "recipe.webp",
-        "size": 1,
-        "autoDiscover": true
+        "id": "folk_recipe",
+        "icon": "folk_recipe.webp",
+        "size": 0.76
+      },
+      {
+        "id": "gourmet_recipe",
+        "icon": "gourmet_recipe.webp",
+        "size": 0.76
       }
     ]
   },
