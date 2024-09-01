@@ -78,7 +78,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
 
   const oldNodes = nodes.find((n) => n.type === id)!;
   const isItem = items.values.some((v) => v.id === id);
-  const minDistance = isItem ? 1 : 50;
+  const minDistance = isItem ? 1 : 75;
 
   if (isItem) {
     targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
