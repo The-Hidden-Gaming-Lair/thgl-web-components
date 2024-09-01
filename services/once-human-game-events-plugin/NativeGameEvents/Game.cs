@@ -1,11 +1,7 @@
-﻿using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Numerics;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Text;
-using System.Text.Json.Nodes;
 using NativeGameEvents.Models;
 
 namespace NativeGameEvents
@@ -13,7 +9,6 @@ namespace NativeGameEvents
   internal static class Game
   {
     internal static Memory _memory = null;
-    internal static string _lastError = null;
     internal static nint BaseAddress = 0;
     internal static nint SceneOffset = 0;
     //internal static nint ModelAddr = 0;
@@ -83,11 +78,6 @@ namespace NativeGameEvents
       {
         try
         {
-          if (_lastError != null)
-          {
-            //error(_lastError);
-            return 0;
-          }
           if (_memory == null)
           {
             //error("Can not find proc");
@@ -113,10 +103,6 @@ namespace NativeGameEvents
             };
             //Console.WriteLine(actor.ToString());
             return Marshal.StringToCoTaskMemUTF8(actor.ToString());
-          }
-          else
-          {
-            //error(null);
           }
         }
         catch (Exception e)
