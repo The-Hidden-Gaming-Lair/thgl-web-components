@@ -4,15 +4,17 @@ import database from "../../data/database.json" assert { type: "json" };
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "/remnants",
+    canonical: "/regional_records",
   },
-  title: "All Remnants Field Guide Entries – The Hidden Gaming Lair",
+  title: "All Echoes Of Stardust Field Guide Entries – The Hidden Gaming Lair",
   description:
-    "A comprehensive list of remnants records for Once Human. It details the names, titles, authors and more details.",
+    "A comprehensive list of Echoes Of Stardust for Once Human. It details the names, titles, authors and more details.",
 };
 
 export default function Remnants(): JSX.Element {
-  const category = database.find((item) => item.type.startsWith("remnants_"));
+  const category = database.find((item) =>
+    item.type.startsWith("echoes_of_stardust_"),
+  );
   if (!category) {
     notFound();
   }

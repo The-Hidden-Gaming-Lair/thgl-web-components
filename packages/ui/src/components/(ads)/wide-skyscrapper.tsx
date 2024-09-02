@@ -33,12 +33,15 @@ export function WideSkyscraper({
   }
 
   return (
-    <AdFreeContainer>
-      <div
-        className="flex bg-zinc-800/30 text-gray-400 flex-col justify-center text-center h-[600px] w-[160px]"
-        id={id}
-      />
-    </AdFreeContainer>
+    <>
+      <div className="w-[160px]"></div>
+      <AdFreeContainer className="fixed">
+        <div
+          className="bg-zinc-800/30 text-gray-400 flex-col justify-center text-center h-[600px] w-[160px]"
+          id={id}
+        />
+      </AdFreeContainer>
+    </>
   );
 }
 

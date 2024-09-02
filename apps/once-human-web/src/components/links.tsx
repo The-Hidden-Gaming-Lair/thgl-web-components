@@ -41,7 +41,7 @@ export function Links(): JSX.Element {
     {
       href: "/remnants",
       content: (
-        <HeaderLink active={pathname === "/remnants"}>
+        <HeaderLink active={pathname.startsWith("/remnants")}>
           <div>
             <NotepadText className="w-4 h-4" />
             <span>Remnants</span>
@@ -49,8 +49,33 @@ export function Links(): JSX.Element {
         </HeaderLink>
       ),
     },
+    {
+      href: "/regional-records",
+      content: (
+        <HeaderLink active={pathname.startsWith("/regional-records")}>
+          <div>
+            <NotepadText className="w-4 h-4" />
+            <span>Regional Records</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
+    {
+      href: "/echoes-of-stardust",
+      content: (
+        <HeaderLink active={pathname.startsWith("/echoes-of-stardust")}>
+          <div>
+            <NotepadText className="w-4 h-4" />
+            <span>Echoes Of Stardust</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
   ];
-  const active = links.find((link) => link.href === pathname) ?? links[0];
+  const active =
+    links.find((link) => link.href === pathname) ??
+    links.find((link) => link.href !== "/" && pathname.startsWith(link.href)) ??
+    links[0];
 
   return (
     <NavMenu

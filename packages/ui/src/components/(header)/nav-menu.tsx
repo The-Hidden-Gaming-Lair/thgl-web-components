@@ -16,17 +16,21 @@ export function NavMenu({
   external: ReactNode;
   breakpoint?: "lg" | "md" | "sm";
 }) {
-  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   useEffect(() => {
-    if (open) {
-      setOpen(false);
+    if (open1) {
+      setOpen1(false);
+    }
+    if (open2) {
+      setOpen2(false);
     }
   }, [active]);
 
   return (
     <>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open1} onOpenChange={setOpen1}>
         <PopoverTrigger
           asChild
           className={cn("ml-auto", {
@@ -54,7 +58,16 @@ export function NavMenu({
           "sm:flex": breakpoint === "sm",
         })}
       >
-        {children}
+        <Popover open={open2} onOpenChange={setOpen2}>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="px-1 ml-2">
+              {active}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex flex-col items-center gap-2">{children}</div>
+          </PopoverContent>
+        </Popover>
         <div className="grow" />
         {external}
       </div>

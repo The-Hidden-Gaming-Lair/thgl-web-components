@@ -583,3 +583,15 @@ export type BigWorldCollectableNotesData = Record<
     video_path: string;
   }
 >;
+
+export type BookCollectSeriesData = Record<
+  string,
+  {
+    frag_num: number;
+    corr_super_no: string;
+    award_id: number;
+    text_type: number;
+    trigger_id: number;
+    series_name: string;
+  }
+>;

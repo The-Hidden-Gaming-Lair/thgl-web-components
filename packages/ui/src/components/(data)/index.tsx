@@ -8,4 +8,7 @@ export * from "./diablo4-events";
 export * from "./ping";
 export * from "./sidebar";
 export * from "./troops";
+export * from "../ui/breadcrumb";
+export * from "../ui/dropdown-menu";
 export * from "../ui/skeleton";
+export { ChevronDownIcon } from "@radix-ui/react-icons";

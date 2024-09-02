@@ -1,3 +1,4 @@
+import { cn } from "@repo/lib";
 import { ScrollArea } from "../ui/scroll-area";
 import { AdBlocker } from "./ad-blocker";
 import {
@@ -22,15 +23,17 @@ export function ContentLayout({
   header,
   content,
   more,
+  sidebar,
 }: {
   id: string;
   header: React.ReactNode;
   content: React.ReactNode;
   more?: React.ReactNode;
+  sidebar?: React.ReactNode;
 }) {
   return (
     <div className="flex grow p-2">
-      <div className="">
+      <div>
         <NitroScript
           loading={<WideSkyscraperLoading />}
           fallback={
@@ -46,7 +49,13 @@ export function ContentLayout({
           />
         </NitroScript>
       </div>
-      <div className="container p-4 text-center space-y-4 overflow-hidden">
+      <div
+        className={cn("relative container p-4 text-center space-y-4", {
+          "xl:pl-[262px]": !!sidebar,
+        })}
+      >
+        {sidebar}
+
         {header}
         <NitroScript
           loading={<LargeMobileBannerLoading />}

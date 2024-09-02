@@ -18,6 +18,7 @@ import {
   BattleFieldData,
   BigMapItemData,
   BigWorldCollectableNotesData,
+  BookCollectSeriesData,
   InteractResData,
   PrefabGroupInfoData,
   PrefabInfoData,
@@ -1174,14 +1175,39 @@ const database = initDatabase();
     await readJSON<BigWorldCollectableNotesData>(
       CONTENT_DIR + "/client_data/big_world_collectable_notes_data.json",
     );
+
+  const bookCollectSeriesData = await readJSON<BookCollectSeriesData>(
+    CONTENT_DIR + "/game_common/data/book_collect_series_data.json",
+  );
+
   for (const [key, value] of Object.entries(bigWorldCollectableNotesData)) {
     if (!value.content_lst) {
       console.warn("No content for", key);
       continue;
     }
 
+    const seriesData = bookCollectSeriesData[value.corr_series_id];
+    if (!seriesData) {
+      console.warn("No series data for", key);
+      continue;
+    }
+
+    let baseType;
+    if (seriesData.corr_super_no.startsWith("area_")) {
+      baseType = "regional_records_";
+    } else if (seriesData.corr_super_no === "collection_1") {
+      baseType = "echoes_of_stardust_";
+    } else if (
+      seriesData.corr_super_no === "collection_3" ||
+      seriesData.corr_super_no === "colleciton_3"
+    ) {
+      baseType = "remnants_";
+    } else {
+      console.warn("Unknown series", seriesData.corr_super_no);
+      continue;
+    }
     const type =
-      "remnants_" +
+      baseType +
       value.sub_type_name
         .replaceAll(" ", "_")
         .replace(/[^a-zA-Z0-9_]/g, "")
