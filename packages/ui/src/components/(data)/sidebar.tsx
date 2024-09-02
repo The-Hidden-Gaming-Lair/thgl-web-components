@@ -8,6 +8,7 @@ import {
 } from "../ui/collapsible";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 
+export { CollapsibleTrigger };
 export function Sidebar({
   className,
   activeCategory,
@@ -20,7 +21,7 @@ export function Sidebar({
   menu: {
     category: {
       key: string;
-      value: JSX.Element;
+      value: JSX.Element | string;
     };
     items: {
       key: string;
@@ -31,7 +32,7 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block",
+        "md:fixed top-14 z-30 -ml-2 h-[calc(50vh-3.5rem)] md:h-[calc(100vh-3.5rem)] w-full md:w-[330px] shrink-0 md:sticky",
         className,
       )}
     >
@@ -43,14 +44,27 @@ export function Sidebar({
             defaultOpen={entry.category.key === activeCategory}
           >
             <div className="mb-2 px-4 flex items-center justify-between pr-6">
-              <Button
-                variant="link"
-                className={cn(
-                  "text-lg font-semibold tracking-tight text-secondary-foreground",
-                )}
-              >
-                {entry.category.value}
-              </Button>
+              {typeof entry.category.value === "string" ? (
+                <CollapsibleTrigger asChild>
+                  <Button
+                    variant="link"
+                    className={cn(
+                      "text-lg font-semibold tracking-tight text-secondary-foreground",
+                    )}
+                  >
+                    {entry.category.value}
+                  </Button>
+                </CollapsibleTrigger>
+              ) : (
+                <Button
+                  variant="link"
+                  className={cn(
+                    "text-lg font-semibold tracking-tight text-secondary-foreground",
+                  )}
+                >
+                  {entry.category.value}
+                </Button>
+              )}
 
               <CollapsibleTrigger asChild>
                 <button className="transition-colors hover:text-primary p-2">

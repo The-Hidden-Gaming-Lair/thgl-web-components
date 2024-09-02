@@ -558,3 +558,28 @@ export type InteractResData = Record<
     res_detect_type: number;
   }
 >;
+
+export type BigWorldCollectableNotesData = Record<
+  string,
+  {
+    title3: string;
+    text_type: number;
+    is_theater: boolean;
+    sort_priority: number;
+    map_img_path: string;
+    content_lst: Array<string>;
+    corr_series_id: string;
+    sub_type_name: string;
+    picture_path: string;
+    second_title_lst: Array<string>;
+    sidebar_show_duration: number;
+    title: string;
+    title2: string;
+    sub_text_type: number;
+    carrier_model_type: string;
+    trigger_id: number;
+    title1: string;
+    audio_path: string;
+    video_path: string;
+  }
+>;

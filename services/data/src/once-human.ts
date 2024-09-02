@@ -17,6 +17,7 @@ import {
   BaseNPCData,
   BattleFieldData,
   BigMapItemData,
+  BigWorldCollectableNotesData,
   InteractResData,
   PrefabGroupInfoData,
   PrefabInfoData,
@@ -27,6 +28,7 @@ import {
 import { Node } from "./types.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import { getRegionsFromImage } from "./lib/regions.js";
+import { initDatabase, writeDatabase } from "./lib/database.js";
 
 initDirs(
   Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
@@ -1165,8 +1167,53 @@ const sortedFilters = filters
     }
     return priorityA - priorityB;
   });
+
+const database = initDatabase();
+{
+  const bigWorldCollectableNotesData =
+    await readJSON<BigWorldCollectableNotesData>(
+      CONTENT_DIR + "/client_data/big_world_collectable_notes_data.json",
+    );
+  for (const [key, value] of Object.entries(bigWorldCollectableNotesData)) {
+    if (!value.content_lst) {
+      console.warn("No content for", key);
+      continue;
+    }
+
+    const type =
+      "remnants_" +
+      value.sub_type_name
+        .replaceAll(" ", "_")
+        .replace(/[^a-zA-Z0-9_]/g, "")
+        .toLowerCase();
+    enDict[type] = value.sub_type_name;
+    if (!database.some((i) => i.type === type)) {
+      database.push({
+        type,
+        items: [],
+      });
+    }
+    const items = database.find((i) => i.type === type)!;
+
+    const item: (typeof database)[number]["items"][number] = {
+      id: key,
+      props: {
+        title: value.title,
+        title1: value.title1,
+        title2: value.title2,
+        title3: value.title3,
+        content: value.content_lst.join("\n\n"),
+        sortPriority: value.sort_priority,
+      },
+    };
+
+    items.items.push(item);
+  }
+}
+
 writeFilters(sortedFilters);
 writeDict(enDict, "en");
 writeTypesIDs(typeIDs);
+writeDatabase(database);
 
 console.log("Done!");
