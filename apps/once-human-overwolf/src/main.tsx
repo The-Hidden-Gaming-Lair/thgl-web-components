@@ -55,9 +55,13 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
 
   lastSend = Date.now();
-  const newActors = actors.filter(
-    (actor) => !lastActorAddresses.includes(actor.address),
-  );
+  const newActors = actors.filter((actor) => {
+    const id = typesIdMap[actor.type as keyof typeof typesIdMap];
+    if (!id || id.startsWith("monster") || id.startsWith("animal")) {
+      return false;
+    }
+    return !lastActorAddresses.includes(actor.address);
+  });
   lastActorAddresses = actors.map((actor) => actor.address);
   if (newActors.length === 0) {
     return;
@@ -71,7 +75,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-3", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-4", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
