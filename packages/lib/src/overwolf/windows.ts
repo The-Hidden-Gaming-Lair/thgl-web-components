@@ -40,6 +40,7 @@ export async function getPreferedWindowName(): Promise<string> {
 }
 
 export async function restoreWindow(windowName: string): Promise<string> {
+  console.log("Restoring window", windowName);
   const declaredWindow = await obtainDeclaredWindow(windowName);
   if (!declaredWindow.isVisible) {
     await promisifyOverwolf(overwolf.windows.restore)(windowName);
@@ -54,6 +55,7 @@ export async function moveToOtherScreen(
   windowId: string,
   monitorHandleValue: number,
 ) {
+  console.log("Moving window to other screen", windowId, monitorHandleValue);
   const monitors = await getMonitors();
   if (monitors.displays.length <= 1) {
     return null;
@@ -93,6 +95,7 @@ export async function toggleWindow(windowName: string) {
 }
 
 export async function closeWindow(windowName: string) {
+  console.log("Closing window", windowName);
   const backgroundWindow = await obtainDeclaredWindow(windowName);
   return promisifyOverwolf(overwolf.windows.close)(backgroundWindow.id);
 }

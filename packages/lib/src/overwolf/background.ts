@@ -22,6 +22,8 @@ export async function initBackground(
   const openApp = async (
     event?: overwolf.extensions.AppLaunchTriggeredEvent,
   ) => {
+    console.log("App launch triggered", event?.origin);
+
     const search = new URLSearchParams(location.search);
     const origin = event?.origin ?? search.get("source");
     const parameter = event?.parameter ?? location.search;
