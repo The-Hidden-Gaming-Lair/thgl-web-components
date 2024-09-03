@@ -20,6 +20,7 @@ import { Presets } from "./presets";
 import { MapSelect } from "./map-select";
 import { GlobalFilters } from "./global-filters";
 import { MyFilters } from "./my-filters";
+import { FilterTooltip } from "./filter-tooltip";
 
 export function MarkersFilters({
   mapNames,
@@ -176,32 +177,38 @@ export function MarkersFilters({
                       key={filter.id}
                       className="flex md:basis-1/2 overflow-hidden"
                     >
-                      <button
-                        className={cn(
-                          "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
-                          {
-                            "text-muted-foreground": !filters.includes(
-                              filter.id,
-                            ),
-                          },
-                        )}
-                        onClick={() => {
-                          toggleFilter(filter.id);
-                        }}
-                        title={t(filter.id)}
-                        type="button"
-                      >
-                        <img
-                          alt=""
-                          className="h-5 w-5 shrink-0"
-                          height={20}
-                          src={`/icons/${filter.icon}`}
-                          width={20}
-                        />
-                        <span className="truncate">
-                          {t(filter.id) || filter.id}
-                        </span>
-                      </button>
+                      <Tooltip delayDuration={50} disableHoverableContent>
+                        <TooltipTrigger asChild>
+                          <button
+                            className={cn(
+                              "grow flex gap-2 items-center transition-colors hover:text-primary p-2 truncate",
+                              {
+                                "text-muted-foreground": !filters.includes(
+                                  filter.id,
+                                ),
+                              },
+                            )}
+                            onClick={() => {
+                              toggleFilter(filter.id);
+                            }}
+                            type="button"
+                          >
+                            <img
+                              alt=""
+                              className="h-5 w-5 shrink-0"
+                              height={20}
+                              src={`/icons/${filter.icon}`}
+                              width={20}
+                            />
+                            <span className="truncate">
+                              {t(filter.id) || filter.id}
+                            </span>
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" className="max-w-96">
+                          <FilterTooltip id={filter.id} />
+                        </TooltipContent>
+                      </Tooltip>
                       {filter.live_only && (
                         <Tooltip delayDuration={20} disableHoverableContent>
                           <TooltipTrigger asChild>
