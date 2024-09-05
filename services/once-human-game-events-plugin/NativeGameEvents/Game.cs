@@ -86,15 +86,15 @@ namespace NativeGameEvents
     {
       //Task.Run(static () =>
       {
-          if (_scene == IntPtr.Zero)
-          {
-            return 0;
-          }
+        if (_scene == IntPtr.Zero)
+        {
+          return 0;
+        }
         try
         {
           var playerAddress = _scene + playerOffset;
           var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
-          if (playerPos.X == 0)
+          if (playerPos.X == 0 || playerPos.Z == 0)
           {
             // This should not happen, except the scene has changed -> trigger scene update
             _scene = IntPtr.Zero;
@@ -148,7 +148,10 @@ namespace NativeGameEvents
             var model = (nint)BitConverter.ToUInt64(modelMgrBlock, i * 8);
             //if (ignoreCache.ContainsKey(model)) continue;
             var pos = _memory.ReadProcessMemory<Vector3>(model + locOffset);
-            if (pos.X == 0) continue;
+            if (pos.X == 0 || pos.Z == 0)
+            {
+              continue;
+            }
             //var sharedStrPtr = mem.ReadProcessMemory<nint>(model + 0x58);
             var sharedStrPtr = _memory.ReadProcessMemory<nint>(model + nameOffset);
             //if (!stringCache.TryGetValue(sharedStrPtr, out string? str))
