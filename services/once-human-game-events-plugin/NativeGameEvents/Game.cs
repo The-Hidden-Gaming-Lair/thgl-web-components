@@ -160,13 +160,20 @@ namespace NativeGameEvents
             if (!str.StartsWith("character\\monster") &&
               !str.StartsWith("character\\animal") &&
               !str.StartsWith("character\\boss") &&
-              !str.StartsWith("environment\\dynamic_objects\\interaction\\spacetime\\invisible_treasure_") &&
               !str.StartsWith("environment\\static_objects\\common\\prop\\box") &&
+              !str.StartsWith("environment\\static_objects\\common\\prop\\furniture") &&
+              !str.StartsWith("environment\\static_objects\\common\\prop\\interior") &&
+              !str.StartsWith("environment\\static_objects\\ue_asset") &&
+              !str.StartsWith("environment\\decals\\bridge_school") &&
+              !str.StartsWith("environment\\collection") &&
               !str.StartsWith("environment\\ecosystem\\mineral") &&
+              !str.StartsWith("environment\\dynamic_objects\\fortified_point") &&
+              !str.StartsWith("environment\\dynamic_objects\\buildingsystem\\furniture") &&
               !str.StartsWith("environment\\dynamic_objects\\interaction"))
             {
               continue;
             }
+
             //if (
             //                //str.StartsWith(@"environment\static_objects") ||
             //                //str.StartsWith(@"environment/static_objects") ||
