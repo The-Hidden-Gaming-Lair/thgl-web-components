@@ -8,6 +8,7 @@ import {
   initDiscordRPC,
   type Actor,
   brotliDecompress,
+  logVersion,
 } from "@repo/lib/overwolf";
 import { decodeFromBuffer, useGameState } from "@repo/lib";
 import { type NodesCoordinates } from "@repo/ui/providers";
@@ -18,6 +19,8 @@ import gallia_province_03 from "./coordinates/cbor/gallia_province_03.cbor?url";
 import gallia_province_04 from "./coordinates/cbor/gallia_province_04.cbor?url";
 import gallia_pve_01 from "./coordinates/cbor/gallia_pve_01.cbor?url";
 import small from "./coordinates/cbor/small.cbor?url";
+
+logVersion();
 
 const maps = [
   gallia_province_02,

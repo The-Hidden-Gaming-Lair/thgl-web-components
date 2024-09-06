@@ -12,13 +12,15 @@ import { useAccountStore } from "../account";
 import { HOTKEYS } from "./hotkeys";
 import { useSettingsStore } from "../settings";
 import { dispose, loadDiscordRPCPlugin } from "./discord";
-import { promisifyOverwolf } from "./promisify";
+import { logVersion } from "./manifest";
 
 export async function initBackground(
   gameClassId: number,
   appId: string,
   discordApplicationId: string,
 ) {
+  logVersion();
+
   const openApp = async (
     event?: overwolf.extensions.AppLaunchTriggeredEvent,
   ) => {
@@ -96,11 +98,6 @@ export async function initBackground(
       }
     }
   });
-
-  const manifest = await promisifyOverwolf(
-    overwolf.extensions.current.getManifest,
-  )();
-  console.log(`Version: ${manifest.meta.version}`);
 }
 
 async function handleAppLaunch(gameClassId: number) {

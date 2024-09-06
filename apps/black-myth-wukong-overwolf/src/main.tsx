@@ -7,6 +7,7 @@ import {
   listenToPlugin,
   initDiscordRPC,
   brotliDecompress,
+  logVersion,
 } from "@repo/lib/overwolf";
 import { decodeFromBuffer } from "@repo/lib";
 import { type NodesCoordinates } from "@repo/ui/providers";
@@ -14,6 +15,8 @@ import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" }
 import App from "./app";
 import HFS01 from "./coordinates/cbor/HFS01.cbor?url";
 import HFM02 from "./coordinates/cbor/HFM02.cbor?url";
+
+logVersion();
 
 const maps = [HFS01, HFM02];
 const allNodes = await Promise.all(

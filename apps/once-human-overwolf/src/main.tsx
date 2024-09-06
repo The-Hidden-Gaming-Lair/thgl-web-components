@@ -8,12 +8,15 @@ import {
   initDiscordRPC,
   type Actor,
   brotliDecompress,
+  logVersion,
 } from "@repo/lib/overwolf";
 import { decodeFromBuffer, useGameState } from "@repo/lib";
 import { type NodesCoordinates } from "@repo/ui/providers";
 import App from "./app";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 import defaultMap from "./coordinates/cbor/default.cbor?url";
+
+logVersion();
 
 const maps = [defaultMap];
 const allNodes = await Promise.all(

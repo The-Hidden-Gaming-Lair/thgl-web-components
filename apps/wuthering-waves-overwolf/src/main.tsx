@@ -3,10 +3,17 @@ import "@repo/ui/styles/globals.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { listenToPlugin, initDiscordRPC, type Actor } from "@repo/lib/overwolf";
+import {
+  listenToPlugin,
+  initDiscordRPC,
+  type Actor,
+  logVersion,
+} from "@repo/lib/overwolf";
 import { useGameState } from "@repo/lib";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 import App from "./app";
+
+logVersion();
 
 const el = document.getElementById("root");
 if (el) {

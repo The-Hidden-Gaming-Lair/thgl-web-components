@@ -4,6 +4,7 @@ export * from "./discord";
 export * from "./games";
 export * from "./gep";
 export * from "./hotkeys";
+export * from "./manifest";
 export * from "./plugin";
 export * from "./promisify";
 export * from "./state";

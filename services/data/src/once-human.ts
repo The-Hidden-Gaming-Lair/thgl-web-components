@@ -19,7 +19,10 @@ import {
   BigMapItemData,
   BigWorldCollectableNotesData,
   BookCollectSeriesData,
+  CollectNewTagData,
+  GiftDropNormalDataClient,
   InteractResData,
+  ItemData,
   PrefabGroupInfoData,
   PrefabInfoData,
   ScenePrefabData,
@@ -143,6 +146,15 @@ const baseNPCData = await readJSON<BaseNPCData>(
 );
 const interactResData = await readJSON<InteractResData>(
   CONTENT_DIR + "/game_common/data/interact_res_data.json",
+);
+const collectNewTagData = await readJSON<CollectNewTagData>(
+  CONTENT_DIR + "/game_common/data/collect_new_tag_data.json",
+);
+const giftDropNormalDataClient = await readJSON<GiftDropNormalDataClient>(
+  CONTENT_DIR + "/client_data/gift_drop_normal_data_client.json",
+);
+const itemData = await readJSON<ItemData>(
+  CONTENT_DIR + "/game_common/data/item_data.json",
 );
 const newTypes: string[] = [];
 
@@ -936,6 +948,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   }
 }
 
+const allModelPaths: string[] = [];
 for (const [key, value] of Object.entries(interactResData)) {
   if (value.res_icon !== "hud_icon_gather_s.png") {
     continue;
@@ -964,6 +977,17 @@ for (const [key, value] of Object.entries(interactResData)) {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/fruit-bowl_skoll.webp`;
     size = 0.76;
+  } else if (
+    value.res_name === "Medkit" ||
+    value.res_name === "Emergency Medkit"
+  ) {
+    group = "items";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/medical-pack_sbed.webp`;
+    size = 0.76;
+  } else if (value.res_name === "Car Trunk") {
+    group = "items";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/city-car_delapouite.webp`;
+    size = 0.76;
   } else {
     group = "items";
     iconPath =
@@ -972,9 +996,8 @@ for (const [key, value] of Object.entries(interactResData)) {
       lightness: [70, 80],
     }).color;
     iconProps.circle = true;
-
-    continue; // Temporary
   }
+
   const icon = await saveIcon(iconPath, type, iconProps);
 
   const filter = filters.find((f) => f.group === group)!;
@@ -986,6 +1009,38 @@ for (const [key, value] of Object.entries(interactResData)) {
       // autoDiscover: true,
     });
     enDict[type] = value.res_name;
+    const modelPaths = Object.values(collectNewTagData).filter((entry) =>
+      entry.model_path1?.endsWith(key),
+    );
+    allModelPaths.push(...modelPaths.map((entry) => entry.model_path1!));
+    const itemNames = [
+      ...new Set(
+        modelPaths.flatMap((entry) => {
+          const drops = Object.entries(entry)
+            .filter(([key]) => key.startsWith("drops"))
+            .flatMap((entry) => entry[1] as number[]);
+
+          const dropNormalData = drops
+            .flatMap((drop) =>
+              Object.entries(giftDropNormalDataClient)
+                .filter(([key]) => key.startsWith(drop.toString()))
+                .map((entry) => entry[1]),
+            )
+            .filter((drop) => drop);
+          const itemIds = [
+            ...new Set(dropNormalData.flatMap((drop) => drop.item_no_lst)),
+          ];
+          const items = itemIds
+            .map((id) => itemData[id])
+            .filter((item) => item);
+          return items.map((item) => item.name);
+        }),
+      ),
+    ];
+    if (itemNames.length) {
+      enDict[`${type}_desc`] =
+        `<b>Drop Items</b><p>${itemNames.sort().join("<br>")}</p>`;
+    }
   }
   if (!nodes.some((n) => n.type === type)) {
     nodes.push({
@@ -998,7 +1053,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   typeIDs[key] = type;
 }
-
+// console.log(allModelPaths);
 // Mystical Crate
 {
   const group = "items";

@@ -3,9 +3,11 @@ import "@repo/ui/styles/globals.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { listenToPlugin, initDiscordRPC } from "@repo/lib/overwolf";
+import { listenToPlugin, initDiscordRPC, logVersion } from "@repo/lib/overwolf";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 import App from "./app";
+
+logVersion();
 
 const el = document.getElementById("root");
 if (el) {

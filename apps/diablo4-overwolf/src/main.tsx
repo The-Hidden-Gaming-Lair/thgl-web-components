@@ -8,8 +8,11 @@ import {
   getGameInfo,
   initDiscordRPC,
   listenToGEP,
+  logVersion,
 } from "@repo/lib/overwolf";
 import App from "./app";
+
+logVersion();
 
 const el = document.getElementById("root");
 if (el) {
