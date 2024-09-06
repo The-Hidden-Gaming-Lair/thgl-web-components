@@ -4,6 +4,7 @@ import { useGameState } from "../game";
 import { promisifyOverwolf } from "./promisify";
 
 export async function loadPlugin<T>(name: string): Promise<T> {
+  console.log("Loading plugin", name);
   const plugin = await promisifyOverwolf(
     overwolf.extensions.current.getExtraObject,
   )(name);
