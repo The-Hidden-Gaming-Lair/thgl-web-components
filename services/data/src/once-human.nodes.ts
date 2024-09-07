@@ -39,7 +39,11 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-4");
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-4", {
+  headers: {
+    Authorization: `thgl`,
+  },
+});
 const data = (await response.json()) as Record<
   string,
   [number, number, number, string][]

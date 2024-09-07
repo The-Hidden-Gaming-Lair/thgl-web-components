@@ -30,7 +30,26 @@
       {
         "id": "fruit__veggies",
         "icon": "fruit__veggies.webp",
-        "size": 0.76
+        "size": 0.76,
+        "autoDiscover": false
+      },
+      {
+        "id": "car_trunk",
+        "icon": "car_trunk.webp",
+        "size": 0.76,
+        "autoDiscover": true
+      },
+      {
+        "id": "medkit",
+        "icon": "medkit.webp",
+        "size": 0.76,
+        "autoDiscover": false
+      },
+      {
+        "id": "emergency_medkit",
+        "icon": "emergency_medkit.webp",
+        "size": 0.76,
+        "autoDiscover": false
       },
       {
         "id": "mystical_crate",
@@ -48,17 +67,20 @@
       {
         "id": "canning_recipe",
         "icon": "canning_recipe.webp",
-        "size": 0.76
+        "size": 0.76,
+        "autoDiscover": false
       },
       {
         "id": "folk_recipe",
         "icon": "folk_recipe.webp",
-        "size": 0.76
+        "size": 0.76,
+        "autoDiscover": false
       },
       {
         "id": "gourmet_recipe",
         "icon": "gourmet_recipe.webp",
-        "size": 0.76
+        "size": 0.76,
+        "autoDiscover": false
       }
     ]
   },

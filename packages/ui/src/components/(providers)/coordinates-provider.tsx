@@ -553,7 +553,12 @@ export function CoordinatesProvider({
           if (discoveredNodes.includes(nodeId) !== actor.hidden) {
             setDiscoverNode(nodeId, actor.hidden);
           }
+          return;
         }
+      }
+      const nodeId = `${id}@${actor.x}:${actor.y}`;
+      if (discoveredNodes.includes(nodeId) !== actor.hidden) {
+        setDiscoverNode(nodeId, actor.hidden);
       }
     });
   }, [normalizedTypesIdMap, actors]);

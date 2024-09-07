@@ -90260,6 +90260,21 @@
     "static": false
   },
   {
+    "type": "car_trunk",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "medkit",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "emergency_medkit",
+    "spawns": [],
+    "static": false
+  },
+  {
     "type": "canning_recipe",
     "spawns": [
       {

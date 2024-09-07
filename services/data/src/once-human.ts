@@ -585,16 +585,32 @@ for (const baseNPC of Object.values(baseNPCData)) {
     .replace(/[^a-zA-Z0-9_]/g, "")
     .toLowerCase();
 
+  const iconProps: IconProps = {
+    color: uniqolor(type, {
+      lightness: [70, 80],
+    }).color,
+  };
   let iconPath;
-  if (group === "monster") {
+  if (type === "animal_fish") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/salmon_various-artists.webp`;
+  } else if (type === "animal_bear") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/bear-head_delapouite.webp`;
+  } else if (type === "animal_rabbit") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit-head_delapouite.webp`;
+  } else if (type === "animal_small_rabbit") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit_delapouite.webp`;
+  } else if (group === "monster") {
     iconPath =
       "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
+    iconProps.circle = true;
   } else if (group === "boss") {
     iconPath =
       "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
+    iconProps.circle = true;
   } else if (group === "animal") {
     iconPath =
       "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
+    iconProps.circle = true;
   } else {
     continue;
   }
@@ -606,12 +622,6 @@ for (const baseNPC of Object.values(baseNPCData)) {
   }
   typeIDs[typeId] = type;
 
-  const iconProps: IconProps = {
-    color: uniqolor(type, {
-      lightness: [70, 80],
-    }).color,
-    circle: true,
-  };
   const size = 0.75;
 
   enDict[type] = title;
@@ -964,7 +974,10 @@ for (const [key, value] of Object.entries(interactResData)) {
     .replaceAll(" ", "_")
     .replace(/[^a-zA-Z0-9_]/g, "");
   let iconPath;
+  let autoDiscover = false;
   const iconProps: IconProps = {};
+  typeIDs[key] = type;
+
   if (value.res_name.endsWith(" Recipe")) {
     group = "recipes";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/full-folder_delapouite.webp`;
@@ -988,6 +1001,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/city-car_delapouite.webp`;
     size = 0.76;
+    autoDiscover = true;
   } else {
     group = "items";
     iconPath =
@@ -996,6 +1010,7 @@ for (const [key, value] of Object.entries(interactResData)) {
       lightness: [70, 80],
     }).color;
     iconProps.circle = true;
+    continue; // Temporary
   }
 
   const icon = await saveIcon(iconPath, type, iconProps);
@@ -1006,7 +1021,7 @@ for (const [key, value] of Object.entries(interactResData)) {
       id: type,
       icon,
       size,
-      // autoDiscover: true,
+      autoDiscover,
     });
     enDict[type] = value.res_name;
     const modelPaths = Object.values(collectNewTagData).filter((entry) =>
@@ -1038,8 +1053,8 @@ for (const [key, value] of Object.entries(interactResData)) {
       ),
     ];
     if (itemNames.length) {
-      enDict[`${type}_desc`] =
-        `<b>Drop Items</b><p>${itemNames.sort().join("<br>")}</p>`;
+      // enDict[`${type}_desc`] =
+      //   `<b>Drop Items</b><p>${itemNames.sort().join("<br>")}</p>`; // Temporary
     }
   }
   if (!nodes.some((n) => n.type === type)) {
@@ -1050,8 +1065,6 @@ for (const [key, value] of Object.entries(interactResData)) {
   }
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-
-  typeIDs[key] = type;
 }
 // console.log(allModelPaths);
 // Mystical Crate
