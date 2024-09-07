@@ -192,13 +192,13 @@ export const useSettingsStore = create(
           set((state) => ({
             discoveredNodes: state.discoveredNodes.includes(nodeId)
               ? state.discoveredNodes.filter((id) => id !== nodeId)
-              : [...state.discoveredNodes, nodeId],
+              : [...new Set([...state.discoveredNodes, nodeId])],
           }));
         },
         setDiscoverNode: (nodeId, discovered) =>
           set((state) => ({
             discoveredNodes: discovered
-              ? [...state.discoveredNodes, nodeId]
+              ? [...new Set([...state.discoveredNodes, nodeId])]
               : state.discoveredNodes.filter((id) => id !== nodeId),
           })),
         hideDiscoveredNodes: false,

@@ -381,7 +381,6 @@ export function CoordinatesProvider({
   }, [publicSearchIsLoading]);
 
   const liveMode = useSettingsStore((state) => state.liveMode);
-  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
   const appId = useSettingsStore((state) => state.appId);
   const myFilters = useSettingsStore((state) => state.myFilters);
   const actors = useGameState((state) => state.actors);
@@ -524,6 +523,8 @@ export function CoordinatesProvider({
     if (!normalizedTypesIdMap) {
       return;
     }
+    const { setDiscoverNode, discoveredNodes } = useSettingsStore.getState();
+
     const filterValues = filters.flatMap((filter) => filter.values);
     actors.forEach((actor) => {
       if (typeof actor.hidden === "undefined") {
@@ -549,7 +550,9 @@ export function CoordinatesProvider({
         );
         if (spawn) {
           const nodeId = `${spawn.id ?? staticNode.type}@${spawn.p[0]}:${spawn.p[1]}`;
-          setDiscoverNode(nodeId, actor.hidden);
+          if (discoveredNodes.includes(nodeId) !== actor.hidden) {
+            setDiscoverNode(nodeId, actor.hidden);
+          }
         }
       }
     });
