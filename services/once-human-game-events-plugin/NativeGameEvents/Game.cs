@@ -98,6 +98,7 @@ namespace NativeGameEvents
           {
             // This should not happen, except the scene has changed -> trigger scene update
             _scene = IntPtr.Zero;
+            _memory = null;
             return 0;
           }
           var actor = new Actor()
