@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import type {
   FiltersCoordinates,
@@ -13,19 +12,13 @@ import tiles from "../../../coordinates/tiles.json" assert { type: "json" };
 import regions from "../../../coordinates/regions.json" assert { type: "json" };
 import _filters from "../../../coordinates/filters.json" assert { type: "json" };
 import _globalFilters from "../../../coordinates/global-filters.json" assert { type: "json" };
+import InteractiveMapClient from "@/components/interactive-map-client";
 
 const globalFilters = _globalFilters as GlobalFiltersCoordinates;
 const filters = _filters as FiltersCoordinates;
 const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
 const gIds = Object.values(globalFilters).flatMap((g) =>
   g.values.map((v) => v.id),
-);
-
-const InteractiveMapDynamic = dynamic(
-  () => import("@/components/interactive-map-dynamic"),
-  {
-    ssr: false,
-  },
 );
 
 export const metadata: Metadata = {
@@ -52,7 +45,7 @@ export default function Home({
       view={view}
     >
       <div className="relative h-dscreen">
-        <InteractiveMapDynamic embed />
+        <InteractiveMapClient embed />
         <MarkersSearch tileOptions={tiles as unknown as TileOptions} embed>
           <FloatingAds id="pax-dei" />
         </MarkersSearch>

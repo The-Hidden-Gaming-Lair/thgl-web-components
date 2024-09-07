@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import type {
   FiltersCoordinates,
@@ -9,6 +8,7 @@ import { CoordinatesProvider } from "@repo/ui/providers";
 import { HeaderOffset } from "@repo/ui/header";
 import { type Metadata } from "next";
 import { searchParamsToView } from "@repo/lib";
+import InteractiveMapClient from "@/components/interactive-map-client";
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import _typesIdMap from "../coordinates/types_id_map.json" assert { type: "json" };
 import _filters from "../coordinates/filters.json" assert { type: "json" };
@@ -18,13 +18,6 @@ const filters = _filters as FiltersCoordinates;
 const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
 
 const typesIdMap = _typesIdMap as Record<string, string>;
-
-const InteractiveMapDynamic = dynamic(
-  () => import("@/components/interactive-map-dynamic"),
-  {
-    ssr: false,
-  },
-);
 
 export const metadata: Metadata = {
   alternates: {
@@ -51,7 +44,7 @@ export default function Home({
       view={view}
     >
       <HeaderOffset full>
-        <InteractiveMapDynamic />
+        <InteractiveMapClient />
         <MarkersSearch>
           <FloatingAds id="once-human" />
         </MarkersSearch>

@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import type { FiltersCoordinates } from "@repo/ui/providers";
 import { FloatingAds } from "@repo/ui/ads";
@@ -8,16 +7,10 @@ import type { Metadata } from "next";
 import { searchParamsToView, type TileOptions } from "@repo/lib";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import _filters from "../coordinates/filters.json" assert { type: "json" };
+import InteractiveMapClient from "@/components/interactive-map-client";
 
 const filters = _filters as FiltersCoordinates;
 const fIds = Object.values(filters).flatMap((f) => f.values.map((v) => v.id));
-
-const InteractiveMapDynamic = dynamic(
-  () => import("@/components/interactive-map-dynamic"),
-  {
-    ssr: false,
-  },
-);
 
 export const metadata: Metadata = {
   alternates: {
@@ -42,7 +35,7 @@ export default function Home({
       view={view}
     >
       <HeaderOffset full>
-        <InteractiveMapDynamic />
+        <InteractiveMapClient />
         <MarkersSearch tileOptions={tiles as unknown as TileOptions}>
           <FloatingAds id="night-crows" />
         </MarkersSearch>
