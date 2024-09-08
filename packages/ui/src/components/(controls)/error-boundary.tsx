@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import { ExternalAnchor } from "../(header)";
 import { ExternalLink } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface Props {
   children: ReactNode;
@@ -29,11 +30,9 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="p-4">
-          <h1>Sorry.. there was an error</h1>
-          <p>{this.state.error?.message}</p>
+        <div className="p-4 space-y-1">
           <p>
-            Please join the{" "}
+            Sorry.. there was an error. Please join the{" "}
             <ExternalAnchor
               href="https://www.th.gl/discord"
               className="inline-flex gap-1 text-primary hover:underline"
@@ -42,6 +41,12 @@ export class ErrorBoundary extends Component<Props, State> {
               <ExternalLink className="w-3 h-3" />
             </ExternalAnchor>{" "}
             for support.
+          </p>
+          <Button onClick={() => window.location.reload()}>Reload now!</Button>
+          <p className="text-muted-foreground font-mono">
+            {this.state.error?.stack
+              ?.split("\n")
+              .map((line, index) => <div key={index}>{line}</div>)}
           </p>
         </div>
       );
