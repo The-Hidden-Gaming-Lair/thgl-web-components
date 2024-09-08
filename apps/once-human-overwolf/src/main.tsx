@@ -58,12 +58,35 @@ async function sendActorsToAPI(actors: Actor[]) {
   }
 
   lastSend = Date.now();
+
+  const busMonsterLocations = actors.filter((actor) => {
+    return (
+      actor.type === "bus_monster.gim" || actor.type === "bus_monster_arm.gim"
+    );
+  });
+
   const newActors = actors.filter((actor) => {
     const id = typesIdMap[actor.type as keyof typeof typesIdMap];
     if (!id || id.startsWith("monster") || id.startsWith("animal")) {
       return false;
     }
-    return !lastActorAddresses.includes(actor.address);
+    if (lastActorAddresses.includes(actor.address)) {
+      return false;
+    }
+    if (id === "gear_crate") {
+      const isNearBusMonster = busMonsterLocations.every((busMonster) => {
+        const distance = Math.sqrt(
+          (actor.x - busMonster.x) ** 2 +
+            (actor.y - busMonster.y) ** 2 +
+            (actor.z - busMonster.z) ** 2,
+        );
+        return distance > 20;
+      });
+      if (isNearBusMonster) {
+        return false;
+      }
+    }
+    return true;
   });
   lastActorAddresses = actors.map((actor) => actor.address);
   if (newActors.length === 0) {
