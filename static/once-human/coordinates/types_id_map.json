@@ -324,5 +324,6 @@
   "cu_l_01.gim": "copper_ore",
   "sn_l_01.gim": "silver_ore",
   "mine_gold_01.gim": "gold_ore",
+  "au_l_01.gim": "gold_ore",
   "sd_l_01.gim": "stardust_ore"
 }

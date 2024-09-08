@@ -1200,6 +1200,7 @@ for (const [key, value] of Object.entries(interactResData)) {
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
   typeIDs["mine_gold_01.gim"] = type;
+  typeIDs["au_l_01.gim"] = type;
 }
 {
   const group = "gatherables";
