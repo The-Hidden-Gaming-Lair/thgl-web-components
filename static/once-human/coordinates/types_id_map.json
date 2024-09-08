@@ -321,5 +321,8 @@
   "shotgun_dp_12.gim": "double_barrel_pump_shotgun",
   "scatter_car_03.gim": "car_trunk",
   "s_trunk_01.gim": "travel_case",
-  "cu_l_01.gim": "copper_ore"
+  "cu_l_01.gim": "copper_ore",
+  "sn_l_01.gim": "silver_ore",
+  "mine_gold_01.gim": "gold_ore",
+  "sd_l_01.gim": "stardust_ore"
 }
