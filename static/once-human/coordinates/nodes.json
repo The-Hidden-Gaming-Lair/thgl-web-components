@@ -90320,6 +90320,11 @@
     "static": true
   },
   {
+    "type": "vending_machine",
+    "spawns": [],
+    "static": true
+  },
+  {
     "type": "car_trunk",
     "spawns": [
       {
@@ -90497,6 +90502,16 @@
         ]
       }
     ],
+    "static": true
+  },
+  {
+    "type": "long_table",
+    "spawns": [],
+    "static": true
+  },
+  {
+    "type": "table",
+    "spawns": [],
     "static": true
   },
   {
@@ -101279,6 +101294,21 @@
         ]
       }
     ],
+    "static": false
+  },
+  {
+    "type": "silver_ore",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "gold_ore",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "stardust_ore",
+    "spawns": [],
     "static": false
   },
   {

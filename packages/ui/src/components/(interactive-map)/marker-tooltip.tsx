@@ -2,7 +2,7 @@ import Markdown from "markdown-to-jsx";
 import { useT } from "../(providers)";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import { useSettingsStore } from "@repo/lib";
+import { useGameState, useSettingsStore } from "@repo/lib";
 import { Label } from "../ui/label";
 import {
   Carousel,
@@ -49,6 +49,15 @@ export function MarkerTooltip({
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );
+  const player = useGameState((state) => state.player);
+
+  const distance = player
+    ? Math.sqrt(
+        Math.pow(player.x - latLng[0], 2) +
+          Math.pow(player.y - latLng[1], 2) +
+          Math.pow(player.z - (latLng.length === 3 ? latLng[2] : player.z), 2),
+      )
+    : null;
 
   return (
     <Carousel>
@@ -67,6 +76,11 @@ export function MarkerTooltip({
                 [{latLng[1].toFixed(0)}, {latLng[0].toFixed(0)}
                 {latLng[2] ? `, ${latLng[2].toFixed(0)}` : ""}]
               </p>
+              {distance && (
+                <p className="text-xs text-muted-foreground">
+                  Distance: {distance.toFixed(0)}
+                </p>
+              )}
               <div>
                 <Markdown options={{ forceBlock: false }}>
                   {item.description

@@ -34,8 +34,26 @@
         "autoDiscover": false
       },
       {
+        "id": "vending_machine",
+        "icon": "vending_machine.webp",
+        "size": 0.76,
+        "autoDiscover": false
+      },
+      {
         "id": "car_trunk",
         "icon": "car_trunk.webp",
+        "size": 0.76,
+        "autoDiscover": false
+      },
+      {
+        "id": "long_table",
+        "icon": "long_table.webp",
+        "size": 0.76,
+        "autoDiscover": false
+      },
+      {
+        "id": "table",
+        "icon": "table.webp",
         "size": 0.76,
         "autoDiscover": false
       },
@@ -92,6 +110,21 @@
       {
         "id": "copper_ore",
         "icon": "copper_ore.webp",
+        "size": 1
+      },
+      {
+        "id": "silver_ore",
+        "icon": "silver_ore.webp",
+        "size": 1
+      },
+      {
+        "id": "gold_ore",
+        "icon": "gold_ore.webp",
+        "size": 1
+      },
+      {
+        "id": "stardust_ore",
+        "icon": "stardust_ore.webp",
         "size": 1
       }
     ]

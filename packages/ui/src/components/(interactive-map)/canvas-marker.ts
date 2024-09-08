@@ -80,30 +80,29 @@ leaflet.Canvas.include({
         context.moveTo(startX, startY + length);
         context.lineTo(startX, startY - length);
         context.stroke();
+      } else if (zPos === "top") {
+        context.beginPath();
+        const arrowSize = canvas.width / 6;
+        const arrowX = canvas.width / 6;
+        const arrowY = canvas.height / 6;
+        context.moveTo(arrowX, arrowY);
+        context.lineTo(arrowX - arrowSize, arrowY + arrowSize);
+        context.lineTo(arrowX + arrowSize, arrowY + arrowSize);
+        context.closePath();
+        context.fillStyle = "white";
+        context.fill();
+      } else if (zPos === "bottom") {
+        context.beginPath();
+        const arrowSize = canvas.width / 6;
+        const arrowX = canvas.width / 6;
+        const arrowY = canvas.height / 6;
+        context.moveTo(arrowX, arrowY);
+        context.lineTo(arrowX - arrowSize, arrowY - arrowSize);
+        context.lineTo(arrowX + arrowSize, arrowY - arrowSize);
+        context.closePath();
+        context.fillStyle = "white";
+        context.fill();
       }
-      // else if (zPos === "top") {
-      //   context.beginPath();
-      //   const arrowSize = canvas.width / 6;
-      //   const arrowX = canvas.width / 6;
-      //   const arrowY = canvas.height / 6;
-      //   context.moveTo(arrowX, arrowY);
-      //   context.lineTo(arrowX - arrowSize, arrowY + arrowSize);
-      //   context.lineTo(arrowX + arrowSize, arrowY + arrowSize);
-      //   context.closePath();
-      //   context.fillStyle = "white";
-      //   context.fill();
-      // } else if (zPos === "bottom") {
-      //   context.beginPath();
-      //   const arrowSize = canvas.width / 6;
-      //   const arrowX = canvas.width / 6;
-      //   const arrowY = canvas.height / 6;
-      //   context.moveTo(arrowX, arrowY);
-      //   context.lineTo(arrowX - arrowSize, arrowY - arrowSize);
-      //   context.lineTo(arrowX + arrowSize, arrowY - arrowSize);
-      //   context.closePath();
-      //   context.fillStyle = "white";
-      //   context.fill();
-      // }
 
       if (!noCache) {
         canvasCache[key] = canvas;

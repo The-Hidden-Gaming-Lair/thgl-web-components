@@ -600,6 +600,14 @@ for (const baseNPC of Object.values(baseNPCData)) {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit-head_delapouite.webp`;
   } else if (type === "animal_small_rabbit") {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit_delapouite.webp`;
+  } else if (type === "animal_small_boar") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar-ensign_cathelineau.webp`;
+  } else if (type === "animal_boar") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar_caro-asercion.webp`;
+  } else if (type === "animal_capybara") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/capybara_caro-asercion.webp`;
+  } else if (type === "animal_deer") {
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/deer_caro-asercion.webp`;
   } else if (group === "monster") {
     iconPath =
       "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
@@ -999,6 +1007,21 @@ for (const [key, value] of Object.entries(interactResData)) {
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/city-car_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
+  } else if (value.res_name === "Vending Machine") {
+    group = "items";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/vending-machine_delapouite.webp`;
+    size = 0.76;
+    // autoDiscover = true;
+  } else if (value.res_name === "Vending Machine") {
+    group = "items";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/vending-machine_delapouite.webp`;
+    size = 0.76;
+    // autoDiscover = true;
+  } else if (value.res_name === "Long Table" || value.res_name === "Table") {
+    group = "items";
+    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/table_delapouite.webp`;
+    size = 0.76;
+    // autoDiscover = true;
   } else {
     group = "items";
     iconPath =
@@ -1100,12 +1123,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   typeIDs["invisible_treasure_03.gim"] = type;
   typeIDs["invisible_treasure_04.gim"] = type;
 }
-// Copper
 {
   const group = "gatherables";
   const type = "copper_ore";
   const icon = await saveIcon(
-    "/ui/dynamic_texpack/all_icon_res/item_icon/icon_copper_ore.png",
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_copper_ore_new.png",
     type,
   );
   const filter = filters.find((f) => f.group === group)!;
@@ -1127,7 +1149,84 @@ for (const [key, value] of Object.entries(interactResData)) {
   node.spawns = [];
   typeIDs["cu_l_01.gim"] = type;
 }
+{
+  const group = "gatherables";
+  const type = "silver_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sliver_ore_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Silver Ore";
 
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["sn_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "gold_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_gold_ore_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Gold Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["mine_gold_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "stardust_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon/icon_crystal_patagium.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+  });
+  enDict[type] = "Stardust Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["sd_l_01.gim"] = type;
+}
 {
   const previousNodes = await readJSON<Node[]>(
     OUTPUT_DIR + "/coordinates/nodes.json",
