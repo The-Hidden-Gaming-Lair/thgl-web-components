@@ -39,7 +39,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-4", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-5", {
   headers: {
     Authorization: `thgl`,
   },
@@ -54,7 +54,7 @@ Object.keys(data).forEach((type) => {
     return;
   }
   const oldNodes = nodes.find((n) => n.type === id)!;
-  oldNodes.spawns = [];
+  // oldNodes.spawns = [];
 });
 
 const items = filters.find((f) => f.group === "items")!;
@@ -80,7 +80,16 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     });
   }
 
-  const oldNodes = nodes.find((n) => n.type === id)!;
+  const oldNodes = nodes.find((n) => n.type === id);
+  if (!oldNodes) {
+    console.warn("No old nodes for", type);
+    return;
+  }
+  if (oldNodes.spawns.length > 0) {
+    return;
+  }
+  oldNodes.spawns = [];
+
   const isItem = items.values.some((v) => v.id === id);
   const minDistance = isItem ? 1 : 75;
 

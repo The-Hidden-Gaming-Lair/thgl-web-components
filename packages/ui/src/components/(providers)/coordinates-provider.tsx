@@ -467,7 +467,8 @@ export function CoordinatesProvider({
     }
     const debug = isDebug();
 
-    const actorsNodes = normalizedTypesIdMap
+    const existingNodes = [...privateGroups, ...realStaticNodes];
+    const targetNodes = normalizedTypesIdMap
       ? actors.reduce<NodesCoordinates>((acc, actor) => {
           let id = normalizedTypesIdMap[actor.type.toLowerCase()];
           if (!id) {
@@ -492,7 +493,9 @@ export function CoordinatesProvider({
           }
 
           const category = acc.find(
-            (node) => node.type === id && node.mapName === actor.mapName,
+            (node) =>
+              node.type === id &&
+              (!node.mapName || node.mapName === actor.mapName),
           );
           if (category) {
             category.spawns.push({
@@ -512,10 +515,8 @@ export function CoordinatesProvider({
             });
           }
           return acc;
-        }, [])
-      : [];
-
-    const targetNodes = [...actorsNodes, ...privateGroups, ...realStaticNodes];
+        }, existingNodes)
+      : existingNodes;
     return targetNodes;
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 

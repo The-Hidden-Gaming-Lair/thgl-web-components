@@ -37,7 +37,7 @@
         "id": "car_trunk",
         "icon": "car_trunk.webp",
         "size": 0.76,
-        "autoDiscover": true
+        "autoDiscover": false
       },
       {
         "id": "medkit",

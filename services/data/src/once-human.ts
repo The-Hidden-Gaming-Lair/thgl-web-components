@@ -688,10 +688,6 @@ for (const battleFieldName of battleFieldNames) {
       continue;
     }
 
-    // if (nodeData.model_path.includes("/m_spider_box/")) {
-    //   continue
-    // }
-
     const spawn: Node["spawns"][0] = {
       p: [nodeData.pos3[2], nodeData.pos3[0]],
     };
@@ -1001,7 +997,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/city-car_delapouite.webp`;
     size = 0.76;
-    autoDiscover = true;
+    // autoDiscover = true;
   } else {
     group = "items";
     iconPath =
@@ -1156,16 +1152,21 @@ const sortPriority = [
   "animal",
 ];
 
+const items = filters.find((f) => f.group === "items")!;
+
 const filteredNodes = nodes
-  .map((n) => ({
-    ...n,
-    static:
-      !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
-    spawns: n.spawns.filter((s) => {
-      const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
-      return !isNotOnWorldMap;
-    }),
-  }))
+  .map((n) => {
+    const isItem = items.values.some((v) => v.id === n.type);
+    return {
+      ...n,
+      static: !Object.values(typeIDs).includes(n.type) || isItem,
+      spawns: n.spawns.filter((s) => {
+        const isNotOnWorldMap =
+          s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
+        return !isNotOnWorldMap;
+      }),
+    };
+  })
   .sort((a, b) => {
     const groupA =
       filters.find((f) => f.values.some((v) => v.id === a.type))?.group ??
