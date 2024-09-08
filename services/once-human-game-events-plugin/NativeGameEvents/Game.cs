@@ -161,6 +161,7 @@ namespace NativeGameEvents
             var str = _memory.ReadProcessMemory<string>(strPtr);
             //stringCache[sharedStrPtr] = str;
             // }
+            var isMineral = str.StartsWith("environment\\ecosystem\\mineral");
             if (!str.StartsWith("character\\monster") &&
               !str.StartsWith("character\\animal") &&
               !str.StartsWith("character\\boss") &&
@@ -170,7 +171,7 @@ namespace NativeGameEvents
               !str.StartsWith("environment\\static_objects\\ue_asset") &&
               !str.StartsWith("environment\\decals\\bridge_school") &&
               !str.StartsWith("environment\\collection") &&
-              !str.StartsWith("environment\\ecosystem\\mineral") &&
+              !isMineral &&
               !str.StartsWith("environment\\dynamic_objects\\fortified_point") &&
               !str.StartsWith("environment\\dynamic_objects\\buildingsystem\\furniture") &&
               !str.StartsWith("environment\\dynamic_objects\\interaction"))
@@ -231,23 +232,29 @@ namespace NativeGameEvents
             //  continue;
             //}
             var type = str.Split("\\").Last();
-            var interactable = _memory.ReadProcessMemory<nint>(model + 0x68);
-            if (interactable == 0) continue;
-            //if (modelType == ModelAddr) type = "MODEL_" + type;
             if (actors.Find(a => a.type == type && a.x == pos.Z && a.y == pos.X) != null)
             {
               // Skip duplicates
               continue;
             }
 
-            var interactStatus = _memory.ReadProcessMemory<int>(interactable);
             var hidden = false;
-            if (interactStatus == 1)
+            if (!isMineral)
             {
-              // already looted
-              hidden = true;
-            }
+              var interactable = _memory.ReadProcessMemory<nint>(model + 0x68);
+              if (interactable == 0)
+              {
+                continue;
+              }
+              var interactStatus = _memory.ReadProcessMemory<int>(interactable);
+              if (interactStatus == 1)
+              {
+                // already looted
+                hidden = true;
+              }
 
+            }
+            //if (modelType == ModelAddr) type = "MODEL_" + type;
             actors.Add(new Actor
             {
               address = model.GetHashCode(),
