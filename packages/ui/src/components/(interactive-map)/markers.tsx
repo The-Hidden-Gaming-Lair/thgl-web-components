@@ -4,7 +4,7 @@ import { DomEvent } from "leaflet";
 import { useEffect, useRef, useState } from "react";
 import { Spawns, useCoordinates, useT, useUserStore } from "../(providers)";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
-import CanvasMarker from "./canvas-marker";
+import CanvasMarker, { CanvasMarkerOptions } from "./canvas-marker";
 import { useMap } from "./store";
 import {
   MarkerOptions,
@@ -39,7 +39,7 @@ export function Markers({
     x: number;
     y: number;
     radius: number;
-    latLng: [number, number];
+    latLng: [number, number] | [number, number, number];
     items: TooltipItems;
   } | null>(null);
 
@@ -76,6 +76,7 @@ export function Markers({
     if (!existingSpawnIds.current) {
       existingSpawnIds.current = new Map();
     }
+    const { player } = useGameState.getState();
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
     const sharedPrivateSpawns = sharedMyFilters.flatMap<Spawns[number]>(
@@ -124,6 +125,19 @@ export function Markers({
               ),
           )
         : discoveredNodes.includes(nodeId);
+      let zPos: CanvasMarkerOptions["zPos"] = null;
+      if (player && spawn.p.length === 3) {
+        if (
+          Math.abs(player.x - spawn.p[0]) > 200 ||
+          Math.abs(player.y - spawn.p[1]) > 200
+        ) {
+          zPos = null;
+        } else if (player.z - spawn.p[2] > 3) {
+          zPos = "bottom";
+        } else if (player.z - spawn.p[2] < -3) {
+          zPos = "top";
+        }
+      }
       const existingMarker = existingSpawnIds.current!.get(spawn.address || id);
       if (existingMarker) {
         if (isDiscovered && hideDiscoveredNodes) {
@@ -134,6 +148,9 @@ export function Markers({
         }
         if (spawn.address && !existingMarker.getLatLng().equals(spawn.p)) {
           existingMarker.setLatLng(spawn.p);
+        }
+        if (existingMarker.options.zPos !== zPos) {
+          existingMarker.setZPos(zPos);
         }
         return;
       }
@@ -153,6 +170,7 @@ export function Markers({
         isDiscovered,
         isCluster,
         isHighlighted: highlightSpawnIDs.includes(nodeId),
+        zPos,
       });
 
       marker.on({

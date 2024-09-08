@@ -92,8 +92,7 @@
       {
         "id": "copper_ore",
         "icon": "copper_ore.webp",
-        "size": 1,
-        "autoDiscover": true
+        "size": 1
       }
     ]
   },

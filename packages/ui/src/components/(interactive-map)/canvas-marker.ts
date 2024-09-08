@@ -6,8 +6,15 @@ leaflet.Canvas.include({
     if (!layerContext) {
       return;
     }
-    const { icon, isHighlighted, isDiscovered, isCluster, fillColor, noCache } =
-      layer.options;
+    const {
+      icon,
+      isHighlighted,
+      isDiscovered,
+      isCluster,
+      fillColor,
+      noCache,
+      zPos,
+    } = layer.options;
     let radius = layer.getRadius();
     if (isHighlighted) {
       radius *= 1.5;
@@ -25,7 +32,7 @@ leaflet.Canvas.include({
         layerContext.fill();
       }
 
-      const key = `${icon}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}`;
+      const key = `${icon}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`;
       if (canvasCache[key]) {
         layerContext.drawImage(canvasCache[key], dx, dy);
         return;
@@ -74,6 +81,29 @@ leaflet.Canvas.include({
         context.lineTo(startX, startY - length);
         context.stroke();
       }
+      // else if (zPos === "top") {
+      //   context.beginPath();
+      //   const arrowSize = canvas.width / 6;
+      //   const arrowX = canvas.width / 6;
+      //   const arrowY = canvas.height / 6;
+      //   context.moveTo(arrowX, arrowY);
+      //   context.lineTo(arrowX - arrowSize, arrowY + arrowSize);
+      //   context.lineTo(arrowX + arrowSize, arrowY + arrowSize);
+      //   context.closePath();
+      //   context.fillStyle = "white";
+      //   context.fill();
+      // } else if (zPos === "bottom") {
+      //   context.beginPath();
+      //   const arrowSize = canvas.width / 6;
+      //   const arrowX = canvas.width / 6;
+      //   const arrowY = canvas.height / 6;
+      //   context.moveTo(arrowX, arrowY);
+      //   context.lineTo(arrowX - arrowSize, arrowY - arrowSize);
+      //   context.lineTo(arrowX + arrowSize, arrowY - arrowSize);
+      //   context.closePath();
+      //   context.fillStyle = "white";
+      //   context.fill();
+      // }
 
       if (!noCache) {
         canvasCache[key] = canvas;
@@ -105,6 +135,7 @@ export type CanvasMarkerOptions = {
   noCache?: boolean;
   icon?: string | null;
   text?: string;
+  zPos?: "top" | "bottom" | null;
 };
 
 const imageElements: Record<string, HTMLImageElement> = {};
@@ -145,6 +176,11 @@ class CanvasMarker extends CircleMarker {
     } catch (err) {
       //
     }
+  }
+
+  setZPos(zPos: CanvasMarkerOptions["zPos"]) {
+    this.options.zPos = zPos;
+    this.update();
   }
 
   setIcon(icon: string | null) {

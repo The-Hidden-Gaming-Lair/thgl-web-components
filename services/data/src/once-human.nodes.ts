@@ -106,7 +106,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     });
   }
 
-  targetSpawnNodes.forEach(([x, y]) => {
+  targetSpawnNodes.forEach(([x, y, z]) => {
     const hasCloseSpawn = oldNodes.spawns.some((s) => {
       const distance = Math.sqrt((s.p[0] - x) ** 2 + (s.p[1] - y) ** 2);
       return distance < minDistance;
@@ -115,7 +115,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
       return;
     }
     oldNodes.spawns.push({
-      p: [x, y],
+      p: [x, y, z],
     });
   });
 });

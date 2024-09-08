@@ -67,7 +67,7 @@ async function sendActorsToAPI(actors: Actor[]) {
 
   const newActors = actors.filter((actor) => {
     const id = typesIdMap[actor.type as keyof typeof typesIdMap];
-    if (!id || id.startsWith("monster") || id.startsWith("animal")) {
+    if (!id) {
       return false;
     }
     if (lastActorAddresses.includes(actor.address)) {
@@ -101,7 +101,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-5", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-6", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

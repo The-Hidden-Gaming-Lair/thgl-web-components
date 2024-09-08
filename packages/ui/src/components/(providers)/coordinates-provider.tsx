@@ -31,7 +31,7 @@ export type NodesCoordinates = {
     name?: string;
     description?: string;
     address?: number;
-    p: [number, number];
+    p: [number, number] | [number, number, number];
     color?: string;
     icon?: {
       name: string;
@@ -48,7 +48,7 @@ export type Spawns = {
   name?: string | undefined;
   description?: string | undefined;
   address?: number;
-  p: [number, number];
+  p: [number, number] | [number, number, number];
   type: string;
   cluster?: Omit<Spawns[number], "cluster">[];
   mapName?: string;
@@ -500,7 +500,9 @@ export function CoordinatesProvider({
           if (category) {
             category.spawns.push({
               address: actor.address,
-              p: [actor.x, actor.y] as [number, number],
+              p: actor.z
+                ? ([actor.x, actor.y, actor.z] as [number, number, number])
+                : ([actor.x, actor.y] as [number, number]),
             });
           } else {
             acc.push({
@@ -509,7 +511,9 @@ export function CoordinatesProvider({
               spawns: [
                 {
                   address: actor.address,
-                  p: [actor.x, actor.y] as [number, number],
+                  p: actor.z
+                    ? ([actor.x, actor.y, actor.z] as [number, number, number])
+                    : ([actor.x, actor.y] as [number, number]),
                 },
               ],
             });

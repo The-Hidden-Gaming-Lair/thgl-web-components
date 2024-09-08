@@ -383,7 +383,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   const spawn: Node["spawns"][0] = {
-    p: [value.pos[2], value.pos[0]],
+    p: [value.pos[2], value.pos[0], value.pos[1]],
   };
   if (value.stronghold_name !== enDict[type] || value.stronghold_level) {
     const id = key;
@@ -506,6 +506,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     p: [
       prefabGroupInfo.prefab_group_pos[2],
       prefabGroupInfo.prefab_group_pos[0],
+      prefabGroupInfo.prefab_group_pos[1],
     ],
   };
   if (
@@ -689,7 +690,7 @@ for (const battleFieldName of battleFieldNames) {
     }
 
     const spawn: Node["spawns"][0] = {
-      p: [nodeData.pos3[2], nodeData.pos3[0]],
+      p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
     };
 
     let initialGroup = nodeData.model_path.split("/")[1];
@@ -1112,7 +1113,6 @@ for (const [key, value] of Object.entries(interactResData)) {
     id: type,
     icon,
     size: 1,
-    autoDiscover: true,
   });
   enDict[type] = "Copper Ore";
 

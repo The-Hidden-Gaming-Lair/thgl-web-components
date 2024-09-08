@@ -35,7 +35,7 @@ export function MarkerTooltip({
   onClose,
   hideDiscovered,
 }: {
-  latLng: [number, number];
+  latLng: [number, number] | [number, number, number];
   items: TooltipItems;
   onClose: () => void;
   hideDiscovered?: boolean;
@@ -64,7 +64,8 @@ export function MarkerTooltip({
                 {item.group && ` | ${t(item.group) || item.group}`}
               </p>
               <p className="text-xs text-muted-foreground">
-                [{latLng[1].toFixed(0)}, {latLng[0].toFixed(0)}]
+                [{latLng[1].toFixed(0)}, {latLng[0].toFixed(0)}
+                {latLng[2] ? `, ${latLng[2].toFixed(0)}` : ""}]
               </p>
               <div>
                 <Markdown options={{ forceBlock: false }}>
