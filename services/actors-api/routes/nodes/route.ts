@@ -1,4 +1,10 @@
-import { getSpawnNodes, insertNode, resetNodes } from "../../lib/gatherables";
+import {
+  calculateDistance,
+  getMinDistance,
+  getSpawnNodes,
+  insertNode,
+  resetNodes,
+} from "../../lib/gatherables";
 import { toNode, validateActors } from "../../lib/nodes";
 
 export async function fetchNodes(req: Request) {
@@ -80,10 +86,12 @@ async function handlePOST(req: Request) {
     nodes.forEach((node) => {
       const spawnNodes = getSpawnNodes(app);
       if (spawnNodes[node.type]) {
-        const isKnown = spawnNodes[node.type]?.some((coords) => {
-          return coords[0] === node.x && coords[1] === node.y;
+        const isTooClose = spawnNodes[node.type]?.some((coords) => {
+          const distance = calculateDistance(node, coords);
+          const minDistance = getMinDistance(node.type);
+          return distance < minDistance;
         });
-        if (isKnown) {
+        if (isTooClose) {
           return;
         }
       }

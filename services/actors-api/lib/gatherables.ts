@@ -25,3 +25,16 @@ export function resetNodes(app: string) {
   }
   db[app] = {};
 }
+
+export function getMinDistance(type: string) {
+  return 1;
+}
+
+export function calculateDistance(
+  node1: Node,
+  coords: [number, number, number, string],
+) {
+  const dx = node1.x - coords[0];
+  const dy = node1.y - coords[1];
+  return Math.sqrt(dx * dx + dy * dy);
+}
