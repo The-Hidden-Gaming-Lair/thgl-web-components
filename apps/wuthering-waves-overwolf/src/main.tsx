@@ -70,7 +70,7 @@ await initDiscordRPC("1249803392822546512", (updatePresence) => {
   updatePresence([
     "",
     "Playing",
-    "wuthering-waves",
+    "wuthering",
     "Wuthering Waves",
     "thgl",
     "Wuthering Waves Map – The Hidden Gaming Lair",
