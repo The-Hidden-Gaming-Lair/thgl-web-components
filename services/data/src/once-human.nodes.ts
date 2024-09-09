@@ -39,7 +39,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-5", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-6", {
   headers: {
     Authorization: `thgl`,
   },
@@ -50,17 +50,21 @@ const data = (await response.json()) as Record<
 >;
 Object.keys(data).forEach((type) => {
   let id = typeIDs[type];
-  if (!id) {
+  if (!id || id === "gear_crate" || id === "morphic_crate") {
     return;
   }
-  const oldNodes = nodes.find((n) => n.type === id)!;
-  // oldNodes.spawns = [];
+  const oldNodes = nodes.find((n) => n.type === id);
+  if (!oldNodes) {
+    console.log("No old nodes for", type);
+  } else {
+    oldNodes.spawns = [];
+  }
 });
 
 const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
   let id = typeIDs[type];
-  if (!id) {
+  if (!id || id === "gear_crate" || id === "morphic_crate") {
     console.warn("No type for", type);
     return;
   }
@@ -82,13 +86,10 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
 
   const oldNodes = nodes.find((n) => n.type === id);
   if (!oldNodes) {
-    console.warn("No old nodes for", type);
+    // console.warn("No old nodes for", type);
     return;
   }
-  if (oldNodes.spawns.length > 0) {
-    return;
-  }
-  oldNodes.spawns = [];
+  // oldNodes.spawns = [];
 
   const isItem = items.values.some((v) => v.id === id);
   const minDistance = isItem ? 1 : 75;
@@ -111,7 +112,9 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
       const distance = Math.sqrt((s.p[0] - x) ** 2 + (s.p[1] - y) ** 2);
       return distance < minDistance;
     });
-    if (hasCloseSpawn) {
+    const isNotOnWorldMap =
+      x < -8100 || x > 3050 || y > 8200 || y < -2000 || (x > -600 && y < 600);
+    if (hasCloseSpawn || isNotOnWorldMap) {
       return;
     }
     oldNodes.spawns.push({

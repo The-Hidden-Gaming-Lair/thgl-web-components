@@ -79,6 +79,7 @@ export type FiltersCoordinates = {
     size?: number;
     live_only?: boolean;
     autoDiscover?: boolean;
+    defaultOn?: boolean;
   }[];
 }[];
 
@@ -233,9 +234,9 @@ export function CoordinatesProvider({
               },
               filters: view.filters ?? [
                 ...filters.flatMap((filter) =>
-                  filter.defaultOn
-                    ? filter.values.map((value) => value.id)
-                    : [],
+                  filter.values
+                    .filter((value) => value.defaultOn ?? filter.defaultOn)
+                    .map((value) => value.id),
                 ),
                 ...REGION_FILTERS.map((filter) => filter.id),
               ],

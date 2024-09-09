@@ -46,6 +46,11 @@ const filters = initFilters([
   { group: "items", defaultOn: true, defaultOpen: true, values: [] },
   { group: "recipes", defaultOn: true, defaultOpen: true, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "locations", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "riddles", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "boss", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "monster", defaultOn: false, defaultOpen: true, values: [] },
+  { group: "animal", defaultOn: false, defaultOpen: true, values: [] },
 ]);
 const enDict = initDict({
   locations: "Locations",
@@ -980,6 +985,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     .replace(/[^a-zA-Z0-9_]/g, "");
   let iconPath;
   let autoDiscover = false;
+  let defaultOn: boolean | undefined;
   const iconProps: IconProps = {};
   typeIDs[key] = type;
 
@@ -995,6 +1001,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/fruit-bowl_skoll.webp`;
     size = 0.76;
+    defaultOn = false;
   } else if (
     value.res_name === "Medkit" ||
     value.res_name === "Emergency Medkit"
@@ -1006,22 +1013,26 @@ for (const [key, value] of Object.entries(interactResData)) {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/city-car_delapouite.webp`;
     size = 0.76;
+    defaultOn = false;
     // autoDiscover = true;
   } else if (value.res_name === "Vending Machine") {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/vending-machine_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
+    defaultOn = false;
   } else if (value.res_name === "Vending Machine") {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/vending-machine_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
+    defaultOn = false;
   } else if (value.res_name === "Long Table" || value.res_name === "Table") {
     group = "items";
     iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/table_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
+    defaultOn = false;
   } else {
     group = "items";
     iconPath =
@@ -1030,6 +1041,7 @@ for (const [key, value] of Object.entries(interactResData)) {
       lightness: [70, 80],
     }).color;
     iconProps.circle = true;
+    defaultOn = false;
     continue; // Temporary
   }
 
@@ -1042,6 +1054,7 @@ for (const [key, value] of Object.entries(interactResData)) {
       icon,
       size,
       autoDiscover,
+      defaultOn,
     });
     enDict[type] = value.res_name;
     const modelPaths = Object.values(collectNewTagData).filter((entry) =>
@@ -1135,6 +1148,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     id: type,
     icon,
     size: 1,
+    defaultOn: false,
   });
   enDict[type] = "Copper Ore";
 
@@ -1161,6 +1175,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     id: type,
     icon,
     size: 1,
+    defaultOn: false,
   });
   enDict[type] = "Silver Ore";
 

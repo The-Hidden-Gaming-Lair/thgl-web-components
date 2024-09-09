@@ -74,7 +74,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       return false;
     }
     if (id === "gear_crate") {
-      const isNearBusMonster = busMonsterLocations.every((busMonster) => {
+      const isNearBusMonster = !busMonsterLocations.every((busMonster) => {
         const distance = Math.sqrt(
           (actor.x - busMonster.x) ** 2 +
             (actor.y - busMonster.y) ** 2 +

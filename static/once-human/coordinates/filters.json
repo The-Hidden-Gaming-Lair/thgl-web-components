@@ -31,31 +31,36 @@
         "id": "fruit__veggies",
         "icon": "fruit__veggies.webp",
         "size": 0.76,
-        "autoDiscover": false
+        "autoDiscover": false,
+        "defaultOn": false
       },
       {
         "id": "vending_machine",
         "icon": "vending_machine.webp",
         "size": 0.76,
-        "autoDiscover": false
+        "autoDiscover": false,
+        "defaultOn": false
       },
       {
         "id": "car_trunk",
         "icon": "car_trunk.webp",
         "size": 0.76,
-        "autoDiscover": false
+        "autoDiscover": false,
+        "defaultOn": false
       },
       {
         "id": "long_table",
         "icon": "long_table.webp",
         "size": 0.76,
-        "autoDiscover": false
+        "autoDiscover": false,
+        "defaultOn": false
       },
       {
         "id": "table",
         "icon": "table.webp",
         "size": 0.76,
-        "autoDiscover": false
+        "autoDiscover": false,
+        "defaultOn": false
       },
       {
         "id": "medkit",
@@ -110,12 +115,14 @@
       {
         "id": "copper_ore",
         "icon": "copper_ore.webp",
-        "size": 1
+        "size": 1,
+        "defaultOn": false
       },
       {
         "id": "silver_ore",
         "icon": "silver_ore.webp",
-        "size": 1
+        "size": 1,
+        "defaultOn": false
       },
       {
         "id": "gold_ore",
@@ -131,6 +138,8 @@
   },
   {
     "group": "locations",
+    "defaultOn": true,
+    "defaultOpen": true,
     "values": [
       {
         "id": "juluo",
@@ -242,12 +251,12 @@
         "icon": "gouwuzhongxin.webp",
         "size": 1
       }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
+    ]
   },
   {
     "group": "riddles",
+    "defaultOn": true,
+    "defaultOpen": true,
     "values": [
       {
         "id": "camera",
@@ -339,12 +348,12 @@
         "icon": "mountain_rock_defense.webp",
         "size": 1
       }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
+    ]
   },
   {
     "group": "boss",
+    "defaultOn": true,
+    "defaultOpen": true,
     "values": [
       {
         "id": "boss_titans_hand",
@@ -446,12 +455,12 @@
         "icon": "boss_giant.webp",
         "size": 0.75
       }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
+    ]
   },
   {
     "group": "monster",
+    "defaultOn": false,
+    "defaultOpen": true,
     "values": [
       {
         "id": "house_monster",
@@ -1413,12 +1422,12 @@
         "icon": "monster_right_rdt3.webp",
         "size": 0.75
       }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
+    ]
   },
   {
     "group": "animal",
+    "defaultOn": false,
+    "defaultOpen": true,
     "values": [
       {
         "id": "animal_church_afterimage",
@@ -1695,8 +1704,6 @@
         "icon": "animal_deviated_giant_crocodile.webp",
         "size": 0.75
       }
-    ],
-    "defaultOn": true,
-    "defaultOpen": true
+    ]
   }
 ]

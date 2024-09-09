@@ -23,6 +23,7 @@ export type Filter = {
     size?: number;
     live_only?: boolean;
     autoDiscover?: boolean;
+    defaultOn?: boolean;
   }[];
 };
 
