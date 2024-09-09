@@ -20,4 +20,8 @@ export type TileOptions = Record<string, TileLayer>;
 export interface MarkerOptions {
   radius: number;
   playerIcon?: string;
+  zPos?: {
+    xyMaxDistance: number;
+    zDistance: number;
+  };
 }

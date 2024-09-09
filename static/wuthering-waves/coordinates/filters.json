@@ -1015,6 +1015,11 @@
         "size": 1
       },
       {
+        "id": "Collect001_1",
+        "icon": "iteminfo_42300010_name.webp",
+        "size": 1
+      },
+      {
         "id": "Collect004",
         "icon": "iteminfo_42300040_name.webp",
         "size": 1

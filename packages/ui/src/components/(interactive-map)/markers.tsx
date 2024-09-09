@@ -126,16 +126,16 @@ export function Markers({
           )
         : discoveredNodes.includes(nodeId);
       let zPos: CanvasMarkerOptions["zPos"] = null;
-      if (player && spawn.p.length === 3) {
+      if (markerOptions.zPos && player && spawn.p.length === 3) {
         const xyDistance = Math.sqrt(
           Math.pow(player.x - spawn.p[0], 2) +
             Math.pow(player.y - spawn.p[1], 2),
         );
-        if (xyDistance > 200) {
+        if (xyDistance > markerOptions.zPos.xyMaxDistance) {
           zPos = null;
-        } else if (player.z - spawn.p[2] > 3) {
+        } else if (player.z - spawn.p[2] > markerOptions.zPos.zDistance) {
           zPos = "bottom";
-        } else if (player.z - spawn.p[2] < -3) {
+        } else if (player.z - spawn.p[2] < -markerOptions.zPos.zDistance) {
           zPos = "top";
         }
       }
