@@ -1,5 +1,19 @@
 [
   {
+    "type": "10007_NPC328",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          52300,
+          -92850
+        ],
+        "id": "6700002"
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "tactical_hologram",
     "mapName": "AkiWorld_WP",
     "spawns": [
@@ -591,6 +605,12 @@
         "p": [
           -75773.34,
           1296.72
+        ]
+      },
+      {
+        "p": [
+          321031.59,
+          259882.69
         ]
       },
       {
@@ -1270,6 +1290,61 @@
     "static": false
   },
   {
+    "type": "380033_Gameplay422",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          53520,
+          -91534.62
+        ],
+        "id": "123700015"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10016_Gameplay055",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          64742.857142857145,
+          -138771.42857142858
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10011_Event_ZhuiYueJie1",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          45313.48,
+          -101610.3
+        ],
+        "id": "123700059"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "380022_Event_1-2event1",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          269018,
+          86305.16
+        ],
+        "id": "123700071"
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "10000_Gameplay200",
     "mapName": "AkiWorld_WP",
     "spawns": [
@@ -1496,6 +1571,20 @@
     "static": true
   },
   {
+    "type": "380025_Gameplay124",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          168606,
+          -40104
+        ],
+        "id": "225700000"
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "300310_Gameplay333",
     "mapName": "AkiWorld_WP",
     "spawns": [
@@ -1561,6 +1650,103 @@
           -45184.42
         ],
         "id": "610000001"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10015_NPC326",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          54680,
+          -94980
+        ],
+        "id": "880700036"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10010_NPC329",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          55922.14,
+          -96501.7
+        ],
+        "id": "880700038"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10013_NPC336",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          52930,
+          -97570
+        ],
+        "id": "880700041"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10008_NPC327",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          52915.96,
+          -101577.77
+        ],
+        "id": "880700042"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10014_NPC333",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          56340,
+          -94810
+        ],
+        "id": "880700043"
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10012_Player016",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          54837.14,
+          -96835.33
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "10009_NPC330",
+    "mapName": "AkiWorld_WP",
+    "spawns": [
+      {
+        "p": [
+          55390,
+          -97810
+        ],
+        "id": "880700045"
       }
     ],
     "static": true
@@ -3908,7 +4094,7 @@
       },
       {
         "p": [
-          70777.55,
+          70637.55,
           -49702.2
         ]
       },
@@ -7582,6 +7768,96 @@
           ]
         },
         "id": "Monster119_136906099"
+      },
+      {
+        "p": [
+          317911,
+          265388
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          318358,
+          266237
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          318758,
+          265712
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          320411,
+          251946
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          319485,
+          252833
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          320445.03,
+          253407
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        }
       }
     ],
     "static": false
@@ -8468,6 +8744,23 @@
       },
       {
         "p": [
+          20098,
+          -18048
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "sun-sinkingEclipse",
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster034_139700034"
+      },
+      {
+        "p": [
           318021.78,
           -22263.11
         ],
@@ -8715,6 +9008,55 @@
       },
       {
         "p": [
+          338922,
+          274252
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "sun-sinkingEclipse",
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          339772,
+          274846
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "sun-sinkingEclipse",
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        }
+      },
+      {
+        "p": [
+          328558,
+          253761
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "sun-sinkingEclipse",
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster034_143700088"
+      },
+      {
+        "p": [
           253293.63,
           102090.05
         ],
@@ -8905,6 +9247,36 @@
           ]
         },
         "id": "Monster126_136904791"
+      },
+      {
+        "p": [
+          319623.69,
+          259258.86
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "celestialLight"
+          ]
+        },
+        "id": "Monster126_143000298"
+      },
+      {
+        "p": [
+          318244.44,
+          261779.25
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "celestialLight"
+          ]
+        },
+        "id": "Monster126_143000394"
       }
     ],
     "static": false
@@ -12148,6 +12520,38 @@
       },
       {
         "p": [
+          334946.88,
+          257894.69
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster053_143000265"
+      },
+      {
+        "p": [
+          335410.38,
+          258369.98
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster053_143000395"
+      },
+      {
+        "p": [
           255310,
           60195
         ],
@@ -14732,6 +15136,23 @@
       },
       {
         "p": [
+          19432,
+          -17387
+        ],
+        "data": {
+          "spawnType": [
+            "dungeon_once"
+          ],
+          "echoSet": [
+            "freezingFrost",
+            "lingeringTunes",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster033_139700033"
+      },
+      {
+        "p": [
           244100.28,
           -43599.73
         ],
@@ -14777,6 +15198,23 @@
             "moltenRift"
           ]
         }
+      },
+      {
+        "p": [
+          329334,
+          254909
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "freezingFrost",
+            "lingeringTunes",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster033_143700090"
       },
       {
         "p": [
@@ -17965,6 +18403,38 @@
           ]
         },
         "id": "Monster058_146900259"
+      },
+      {
+        "p": [
+          81010,
+          -90520
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster058_880000058"
+      },
+      {
+        "p": [
+          81150,
+          -89750
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster058_880000059"
       }
     ],
     "static": false
@@ -21746,6 +22216,42 @@
         "p": [
           293940,
           231583
+        ]
+      },
+      {
+        "p": [
+          322640,
+          252901.02
+        ]
+      },
+      {
+        "p": [
+          322528,
+          252731
+        ]
+      },
+      {
+        "p": [
+          331969.09,
+          266594.09
+        ]
+      },
+      {
+        "p": [
+          332102.56,
+          266887.13
+        ]
+      },
+      {
+        "p": [
+          331264.25,
+          271505
+        ]
+      },
+      {
+        "p": [
+          335648.94,
+          278684.44
         ]
       }
     ],
@@ -27584,6 +28090,22 @@
           ]
         },
         "id": "Monster037_146000672"
+      },
+      {
+        "p": [
+          81060,
+          -90160
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "moonlitClouds"
+          ]
+        },
+        "id": "Monster037_880000057"
       }
     ],
     "static": false
@@ -29332,6 +29854,57 @@
           ]
         },
         "id": "Monster001_146000460"
+      },
+      {
+        "p": [
+          180073.98,
+          -57571.13
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "voidThunder",
+            "lingeringTunes"
+          ]
+        },
+        "id": "Monster001_311000364"
+      },
+      {
+        "p": [
+          180090.55,
+          -57466.41
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "voidThunder",
+            "lingeringTunes"
+          ]
+        },
+        "id": "Monster001_311000365"
+      },
+      {
+        "p": [
+          18861.84,
+          -92903.86
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "voidThunder",
+            "lingeringTunes"
+          ]
+        },
+        "id": "Monster001_311000422"
       }
     ],
     "static": false
@@ -30195,6 +30768,23 @@
       },
       {
         "p": [
+          19528,
+          -19361
+        ],
+        "data": {
+          "spawnType": [
+            "dungeon_once"
+          ],
+          "echoSet": [
+            "voidThunder",
+            "celestialLight",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster036_139700032"
+      },
+      {
+        "p": [
           304235.4,
           -36550.62
         ],
@@ -30294,6 +30884,39 @@
           ]
         },
         "id": "Monster036_142800025"
+      },
+      {
+        "p": [
+          338765,
+          275028
+        ],
+        "data": {
+          "spawnType": [
+            "normal"
+          ],
+          "echoSet": [
+            "voidThunder",
+            "celestialLight",
+            "sun-sinkingEclipse"
+          ]
+        }
+      },
+      {
+        "p": [
+          328574,
+          254577
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "voidThunder",
+            "celestialLight",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster036_143700089"
       },
       {
         "p": [
@@ -35791,6 +36414,18 @@
       },
       {
         "p": [
+          329038,
+          254188
+        ]
+      },
+      {
+        "p": [
+          332416.56,
+          266218.13
+        ]
+      },
+      {
+        "p": [
           -64160,
           8621
         ]
@@ -38912,20 +39547,20 @@
       },
       {
         "p": [
-          265036.81,
-          -95657.8
+          265142.96,
+          -95690.94
         ]
       },
       {
         "p": [
-          265029.38,
-          -95644.12
+          265134.78,
+          -95677
         ]
       },
       {
         "p": [
-          265040.88,
-          -95652.84
+          265146.5,
+          -95685.33
         ]
       },
       {
@@ -40232,6 +40867,54 @@
             "lingeringTunes"
           ]
         }
+      },
+      {
+        "p": [
+          332963.78,
+          264756.96
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "lingeringTunes"
+          ]
+        },
+        "id": "Monster057_146700173"
+      },
+      {
+        "p": [
+          332635.09,
+          264177.71
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "lingeringTunes"
+          ]
+        },
+        "id": "Monster057_146700174"
+      },
+      {
+        "p": [
+          332013.03,
+          264165.09
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "lingeringTunes"
+          ]
+        },
+        "id": "Monster057_146700175"
       }
     ],
     "static": false
@@ -42216,20 +42899,20 @@
       },
       {
         "p": [
-          87085.52,
-          35502.86
+          87165.52,
+          35362.86
         ]
       },
       {
         "p": [
-          87141.41,
-          35539.29
+          87221.41,
+          35399.29
         ]
       },
       {
         "p": [
-          87219.04,
-          35469.87
+          87299.04,
+          35329.87
         ]
       },
       {
@@ -44705,6 +45388,38 @@
       },
       {
         "p": [
+          52076,
+          -107994
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster019_139700063"
+      },
+      {
+        "p": [
+          51420,
+          -107880
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster019_139700064"
+      },
+      {
+        "p": [
           288070.28,
           -33087.98
         ],
@@ -44920,6 +45635,54 @@
           ]
         },
         "id": "Monster019_142800467"
+      },
+      {
+        "p": [
+          330255,
+          270810
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster019_143700101"
+      },
+      {
+        "p": [
+          328298,
+          271024
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster019_143700102"
+      },
+      {
+        "p": [
+          328912,
+          268420
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster019_143700103"
       },
       {
         "p": [
@@ -45743,6 +46506,22 @@
       },
       {
         "p": [
+          51725,
+          -108048
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "freezingFrost",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster043_139700062"
+      },
+      {
+        "p": [
           286932.88,
           -33184.24
         ],
@@ -45818,6 +46597,22 @@
           ]
         },
         "id": "Monster043_142800465"
+      },
+      {
+        "p": [
+          330299,
+          270368
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "freezingFrost",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster043_143700100"
       },
       {
         "p": [
@@ -59574,6 +60369,18 @@
       },
       {
         "p": [
+          331774.34,
+          277313.71
+        ]
+      },
+      {
+        "p": [
+          325152,
+          269195.25
+        ]
+      },
+      {
+        "p": [
           -73940,
           9552.01
         ]
@@ -68490,6 +69297,186 @@
       },
       {
         "p": [
+          27957.31,
+          -101815.74
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311000408"
+      },
+      {
+        "p": [
+          27986.24,
+          -101938.47
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311000409"
+      },
+      {
+        "p": [
+          28841.69,
+          -97793.06
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700046"
+      },
+      {
+        "p": [
+          28864.09,
+          -98027.48
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700047"
+      },
+      {
+        "p": [
+          28678.98,
+          -97939.06
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700048"
+      },
+      {
+        "p": [
+          22441.28,
+          -93260.01
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700068"
+      },
+      {
+        "p": [
+          23770.13,
+          -93450.81
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700069"
+      },
+      {
+        "p": [
+          23690,
+          -93333
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700070"
+      },
+      {
+        "p": [
+          24607,
+          -94041
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700071"
+      },
+      {
+        "p": [
+          21274.76,
+          -96545.73
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700075"
+      },
+      {
+        "p": [
+          21187.15,
+          -96596.45
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700076"
+      },
+      {
+        "p": [
+          20364.81,
+          -93389.88
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700093"
+      },
+      {
+        "p": [
+          20206.5,
+          -93373.53
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700094"
+      },
+      {
+        "p": [
+          22371.37,
+          -98693.27
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700101"
+      },
+      {
+        "p": [
+          22538.84,
+          -98754.52
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "exile_311700102"
+      },
+      {
+        "p": [
           200050.5,
           510.21
         ],
@@ -69004,6 +69991,18 @@
           ]
         },
         "id": "Monster056_146000585"
+      },
+      {
+        "p": [
+          22307,
+          -93257
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "Monster056_311700067"
       }
     ],
     "static": false
@@ -70150,6 +71149,23 @@
           ]
         },
         "id": "Monster008_310000527"
+      },
+      {
+        "p": [
+          18776.79,
+          -92766.46
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "rejuvenatingGlow",
+            "moonlitClouds",
+            "sierraGale"
+          ]
+        },
+        "id": "Monster008_311000421"
       }
     ],
     "static": false
@@ -71554,6 +72570,23 @@
             "sun-sinkingEclipse"
           ]
         }
+      },
+      {
+        "p": [
+          18712.07,
+          -92938.25
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "lingeringTunes",
+            "rejuvenatingGlow",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster009_311000420"
       }
     ],
     "static": false
@@ -90806,7 +91839,7 @@
       },
       {
         "p": [
-          110801.27,
+          111091.27,
           -51979.15
         ]
       },
@@ -90965,8 +91998,8 @@
       },
       {
         "p": [
-          51476,
-          -98393
+          51084.18,
+          -98569.28
         ]
       },
       {
@@ -91005,6 +92038,12 @@
         "p": [
           72408.45,
           -586.9
+        ]
+      },
+      {
+        "p": [
+          102081.62,
+          -53766.91
         ]
       }
     ],
@@ -101527,6 +102566,18 @@
       },
       {
         "p": [
+          22377.24,
+          -98905.58
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ]
+        },
+        "id": "Monster055_311700084"
+      },
+      {
+        "p": [
           65400,
           -23740
         ],
@@ -106152,6 +107203,36 @@
       },
       {
         "p": [
+          335920.19,
+          257079.89
+        ]
+      },
+      {
+        "p": [
+          326735.21,
+          251648.84
+        ]
+      },
+      {
+        "p": [
+          318962.65,
+          262144.9
+        ]
+      },
+      {
+        "p": [
+          323417.81,
+          269458.59
+        ]
+      },
+      {
+        "p": [
+          339192.38,
+          279345.15
+        ]
+      },
+      {
+        "p": [
           353506,
           268894
         ]
@@ -108250,6 +109331,23 @@
       },
       {
         "p": [
+          17923,
+          -18027
+        ],
+        "data": {
+          "spawnType": [
+            "dungeon_once"
+          ],
+          "echoSet": [
+            "moltenRift",
+            "voidThunder",
+            "celestialLight"
+          ]
+        },
+        "id": "Monster035_139700031"
+      },
+      {
+        "p": [
           293757.69,
           -87550.25
         ],
@@ -108348,6 +109446,23 @@
           ]
         },
         "id": "Monster035_142800026"
+      },
+      {
+        "p": [
+          329654,
+          253937
+        ],
+        "data": {
+          "spawnType": [
+            "monsterTreasure_respawns"
+          ],
+          "echoSet": [
+            "moltenRift",
+            "voidThunder",
+            "celestialLight"
+          ]
+        },
+        "id": "Monster035_143700091"
       },
       {
         "p": [
@@ -112366,6 +113481,12 @@
       },
       {
         "p": [
+          329165.81,
+          269450.69
+        ]
+      },
+      {
+        "p": [
           -64210,
           42101
         ]
@@ -115862,14 +116983,14 @@
       },
       {
         "p": [
-          156110.82,
-          -149715.75
+          156318.19,
+          -149718.67
         ]
       },
       {
         "p": [
-          156128.32,
-          -148571.1
+          155888.32,
+          -148791.1
         ]
       },
       {
@@ -115880,8 +117001,8 @@
       },
       {
         "p": [
-          156585.41,
-          -149593.06
+          156545.41,
+          -149638.06
         ]
       },
       {
@@ -134049,6 +135170,57 @@
           ]
         },
         "id": "Monster004_310000734"
+      },
+      {
+        "p": [
+          81440.8,
+          -30244.46
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "voidThunder",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster004_880000032"
+      },
+      {
+        "p": [
+          81330.8,
+          -30534.46
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "voidThunder",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster004_880000033"
+      },
+      {
+        "p": [
+          81450.8,
+          -30414.46
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "sierraGale",
+            "voidThunder",
+            "moltenRift"
+          ]
+        },
+        "id": "Monster004_880000034"
       }
     ],
     "static": false
@@ -136223,6 +137395,22 @@
           ]
         },
         "id": "Monster005_200000191"
+      },
+      {
+        "p": [
+          179982.7,
+          -57420.63
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "celestialLight",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster005_311000363"
       }
     ],
     "static": false
@@ -137732,6 +138920,22 @@
           ]
         },
         "id": "Monster003_310000735"
+      },
+      {
+        "p": [
+          18417.5,
+          -92990.63
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "moltenRift",
+            "voidThunder"
+          ]
+        },
+        "id": "Monster003_311000423"
       }
     ],
     "static": false
@@ -138225,6 +139429,22 @@
           ]
         },
         "id": "Monster038_143800057"
+      },
+      {
+        "p": [
+          179963.44,
+          -57622.53
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "lingeringTunes",
+            "voidThunder"
+          ]
+        },
+        "id": "Monster038_311000362"
       }
     ],
     "static": false
@@ -146529,6 +147749,22 @@
       },
       {
         "p": [
+          335719.59,
+          257915.33
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "moltenRift",
+            "sun-sinkingEclipse"
+          ]
+        },
+        "id": "Monster049_143000396"
+      },
+      {
+        "p": [
           254905,
           59195
         ],
@@ -147637,6 +148873,70 @@
           ]
         },
         "id": "Monster051_142005971"
+      },
+      {
+        "p": [
+          335470.84,
+          258459.45
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "lingeringTunes",
+            "moonlitClouds"
+          ]
+        },
+        "id": "Monster051_143000397"
+      },
+      {
+        "p": [
+          335439.46,
+          257919.11
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "lingeringTunes",
+            "moonlitClouds"
+          ]
+        },
+        "id": "Monster051_143000398"
+      },
+      {
+        "p": [
+          334954.75,
+          257931.73
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "lingeringTunes",
+            "moonlitClouds"
+          ]
+        },
+        "id": "Monster051_143000399"
+      },
+      {
+        "p": [
+          55980,
+          -69940
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "lingeringTunes",
+            "moonlitClouds"
+          ]
+        },
+        "id": "Monster051_880700168"
       }
     ],
     "static": false
@@ -153360,6 +154660,22 @@
           ]
         },
         "id": "Monster031_146800008"
+      },
+      {
+        "p": [
+          320800,
+          77140
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "moltenRift",
+            "voidThunder"
+          ]
+        },
+        "id": "Monster031_880700162"
       }
     ],
     "static": false
@@ -156582,6 +157898,22 @@
             "sierraGale"
           ]
         }
+      },
+      {
+        "p": [
+          18568.33,
+          -93190.31
+        ],
+        "data": {
+          "spawnType": [
+            "quest"
+          ],
+          "echoSet": [
+            "voidThunder",
+            "sierraGale"
+          ]
+        },
+        "id": "Monster011_311000424"
       }
     ],
     "static": false
@@ -159536,6 +160868,86 @@
       },
       {
         "p": [
+          319875,
+          259604
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster_branch1.1_001_143700094"
+      },
+      {
+        "p": [
+          318832,
+          259168
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster_branch1.1_001_143700095"
+      },
+      {
+        "p": [
+          318636,
+          261833
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster_branch1.1_001_143700096"
+      },
+      {
+        "p": [
+          318081,
+          261655
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster_branch1.1_001_143700097"
+      },
+      {
+        "p": [
+          335422.15,
+          257447.88
+        ],
+        "data": {
+          "spawnType": [
+            "challenge"
+          ],
+          "echoSet": [
+            "moonlitClouds",
+            "freezingFrost"
+          ]
+        },
+        "id": "Monster_branch1.1_001_146700182"
+      },
+      {
+        "p": [
           298891.75,
           221078.84
         ],
@@ -160105,6 +161517,42 @@
         "p": [
           329946,
           286628.03
+        ]
+      },
+      {
+        "p": [
+          330444.06,
+          270441.09
+        ]
+      },
+      {
+        "p": [
+          330583.78,
+          270292.5
+        ]
+      },
+      {
+        "p": [
+          330268.09,
+          270669.13
+        ]
+      },
+      {
+        "p": [
+          319535.5,
+          265394.81
+        ]
+      },
+      {
+        "p": [
+          319208.5,
+          265386.81
+        ]
+      },
+      {
+        "p": [
+          319800.5,
+          265444.81
         ]
       }
     ],

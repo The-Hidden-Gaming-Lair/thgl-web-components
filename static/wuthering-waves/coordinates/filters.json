@@ -13,6 +13,11 @@
         "id": "380018_Gameplay124",
         "icon": "SP_IconMap_Activity_04_UI.webp",
         "size": 1.5
+      },
+      {
+        "id": "380025_Gameplay124",
+        "icon": "SP_IconMap_Activity_04_UI.webp",
+        "size": 1.5
       }
     ]
   },
@@ -23,102 +28,102 @@
     "values": [
       {
         "id": "Monster_Glowing_111000031",
-        "icon": "Glowing Monster043.webp",
+        "icon": "glowing_monster043.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000032",
-        "icon": "Glowing Monster015.webp",
+        "icon": "glowing_monster015.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster042",
-        "icon": "Glowing Monster042.webp",
+        "icon": "glowing_monster042.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000034",
-        "icon": "Glowing Monster053.webp",
+        "icon": "glowing_monster053.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster037",
-        "icon": "Glowing Monster037.webp",
+        "icon": "glowing_monster037.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000037",
-        "icon": "Glowing Monster032.webp",
+        "icon": "glowing_monster032.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000038",
-        "icon": "Glowing Monster009.webp",
+        "icon": "glowing_monster009.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000040",
-        "icon": "Glowing Monster035.webp",
+        "icon": "glowing_monster035.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000045",
-        "icon": "Glowing Monster057.webp",
+        "icon": "glowing_monster057.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster150",
-        "icon": "Glowing Monster150.webp",
+        "icon": "glowing_monster150.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000056",
-        "icon": "Glowing Monster151.webp",
+        "icon": "glowing_monster151.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster041",
-        "icon": "Glowing Monster041.webp",
+        "icon": "glowing_monster041.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111800001",
-        "icon": "Glowing Monster050.webp",
+        "icon": "glowing_monster050.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster054",
-        "icon": "Glowing Monster054.webp",
+        "icon": "glowing_monster054.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster051",
-        "icon": "Glowing Monster051.webp",
+        "icon": "glowing_monster051.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_111000044",
-        "icon": "Glowing Monster087.webp",
+        "icon": "glowing_monster087.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster119",
-        "icon": "Glowing Monster119.webp",
+        "icon": "glowing_monster119.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster126",
-        "icon": "Glowing Monster126.webp",
+        "icon": "glowing_monster126.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_142900005",
-        "icon": "Glowing Monster_branch1.1_001.webp",
+        "icon": "glowing_monster_branch11_001.webp",
         "size": 2
       },
       {
         "id": "Monster_Glowing_Monster170",
-        "icon": "Glowing Monster170.webp",
+        "icon": "glowing_monster170.webp",
         "size": 2
       }
     ]
@@ -128,6 +133,11 @@
     "defaultOpen": false,
     "defaultOn": true,
     "values": [
+      {
+        "id": "10007_NPC328",
+        "icon": "SP_IconActMoon_05.webp",
+        "size": 1.5
+      },
       {
         "id": "tactical_hologram",
         "icon": "SP_IconMap_Play_10_UI.webp",
@@ -184,6 +194,16 @@
         "size": 1.5
       },
       {
+        "id": "10011_Event_ZhuiYueJie1",
+        "icon": "SP_IconActMoon_12.webp",
+        "size": 1.5
+      },
+      {
+        "id": "380022_Event_1-2event1",
+        "icon": "SP_IconMap_Activity_08_UI.webp",
+        "size": 1.5
+      },
+      {
         "id": "380020_Quest129",
         "icon": "SP_IconMap_Activity_06_UI.webp",
         "size": 1.5
@@ -206,6 +226,41 @@
       {
         "id": "3016_NPC0280",
         "icon": "SP_IconMap_Shop_06_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10015_NPC326",
+        "icon": "SP_IconActMoon_06.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10010_NPC329",
+        "icon": "SP_IconActMoon_01.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10013_NPC336",
+        "icon": "SP_IconActMoon_09.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10008_NPC327",
+        "icon": "SP_IconActMoon_02.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10014_NPC333",
+        "icon": "SP_IconActMoon_07.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10012_Player016",
+        "icon": "SP_IconActMoon_04.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10009_NPC330",
+        "icon": "SP_IconActMoon_08.webp",
         "size": 1.5
       },
       {
@@ -296,6 +351,16 @@
         "size": 1.5
       },
       {
+        "id": "380033_Gameplay422",
+        "icon": "SP_IconActMoon_03.webp",
+        "size": 1.5
+      },
+      {
+        "id": "10016_Gameplay055",
+        "icon": "SP_IconActMoon_11.webp",
+        "size": 1.5
+      },
+      {
         "id": "301204_Gameplay571",
         "icon": "SP_IconMap_Activity_02_UI.webp",
         "size": 1.5
@@ -349,7 +414,7 @@
     "values": [
       {
         "id": "Monster047",
-        "icon": "Monster047.webp",
+        "icon": "monster047.webp",
         "size": 1.3
       }
     ]
@@ -361,47 +426,47 @@
     "values": [
       {
         "id": "Monster044",
-        "icon": "Monster044.webp",
+        "icon": "monster044.webp",
         "size": 1.3
       },
       {
         "id": "Monster046",
-        "icon": "Monster046.webp",
+        "icon": "monster046.webp",
         "size": 1.3
       },
       {
         "id": "Monster045",
-        "icon": "Monster045.webp",
+        "icon": "monster045.webp",
         "size": 1.3
       },
       {
         "id": "Monster061",
-        "icon": "Monster061.webp",
+        "icon": "monster061.webp",
         "size": 1.3
       },
       {
         "id": "Monster062",
-        "icon": "Monster062.webp",
+        "icon": "monster062.webp",
         "size": 1.3
       },
       {
         "id": "Monster063",
-        "icon": "Monster063.webp",
+        "icon": "monster063.webp",
         "size": 1.3
       },
       {
         "id": "Monster070",
-        "icon": "Monster070.webp",
+        "icon": "monster070.webp",
         "size": 1.3
       },
       {
         "id": "Monster080",
-        "icon": "Monster080.webp",
+        "icon": "monster080.webp",
         "size": 1.3
       },
       {
         "id": "Monster066",
-        "icon": "Monster066.webp",
+        "icon": "monster066.webp",
         "size": 1.3
       }
     ]
@@ -413,97 +478,97 @@
     "values": [
       {
         "id": "Monster037",
-        "icon": "Monster037.webp",
+        "icon": "monster037.webp",
         "size": 1.3
       },
       {
         "id": "Monster031",
-        "icon": "Monster031.webp",
+        "icon": "monster031.webp",
         "size": 1.3
       },
       {
         "id": "Monster032",
-        "icon": "Monster032.webp",
+        "icon": "monster032.webp",
         "size": 1.3
       },
       {
         "id": "Monster038",
-        "icon": "Monster038.webp",
+        "icon": "monster038.webp",
         "size": 1.3
       },
       {
         "id": "Monster039",
-        "icon": "Monster039.webp",
+        "icon": "monster039.webp",
         "size": 1.3
       },
       {
         "id": "Monster040",
-        "icon": "Monster040.webp",
+        "icon": "monster040.webp",
         "size": 1.3
       },
       {
         "id": "Monster041",
-        "icon": "Monster041.webp",
+        "icon": "monster041.webp",
         "size": 1.3
       },
       {
         "id": "Monster042",
-        "icon": "Monster042.webp",
+        "icon": "monster042.webp",
         "size": 1.3
       },
       {
         "id": "Monster043",
-        "icon": "Monster043.webp",
+        "icon": "monster043.webp",
         "size": 1.3
       },
       {
         "id": "Monster049",
-        "icon": "Monster049.webp",
+        "icon": "monster049.webp",
         "size": 1.3
       },
       {
         "id": "Monster050",
-        "icon": "Monster050.webp",
+        "icon": "monster050.webp",
         "size": 1.3
       },
       {
         "id": "Monster051",
-        "icon": "Monster051.webp",
+        "icon": "monster051.webp",
         "size": 1.3
       },
       {
         "id": "Monster054",
-        "icon": "Monster054.webp",
+        "icon": "monster054.webp",
         "size": 1.3
       },
       {
         "id": "Monster128",
-        "icon": "Monster128.webp",
+        "icon": "monster128.webp",
         "size": 1.3
       },
       {
         "id": "Monster150",
-        "icon": "Monster150.webp",
+        "icon": "monster150.webp",
         "size": 1.3
       },
       {
         "id": "Monster1058",
-        "icon": "Monster1058.webp",
+        "icon": "monster1058.webp",
         "size": 1.3
       },
       {
         "id": "Monster_branch1.1_001",
-        "icon": "Monster_branch1.1_001.webp",
+        "icon": "monster_branch11_001.webp",
         "size": 1.3
       },
       {
         "id": "Monster170",
-        "icon": "Monster170.webp",
+        "icon": "monster170.webp",
         "size": 1.3
       },
       {
         "id": "Monster126",
-        "icon": "Monster126.webp",
+        "icon": "monster126.webp",
         "size": 1.3
       }
     ]
@@ -515,162 +580,162 @@
     "values": [
       {
         "id": "Monster001",
-        "icon": "Monster001.webp",
+        "icon": "monster001.webp",
         "size": 1.3
       },
       {
         "id": "Monster002",
-        "icon": "Monster002.webp",
+        "icon": "monster002.webp",
         "size": 1.3
       },
       {
         "id": "Monster003",
-        "icon": "Monster003.webp",
+        "icon": "monster003.webp",
         "size": 1.3
       },
       {
         "id": "Monster010",
-        "icon": "Monster010.webp",
+        "icon": "monster010.webp",
         "size": 1.3
       },
       {
         "id": "Monster011",
-        "icon": "Monster011.webp",
+        "icon": "monster011.webp",
         "size": 1.3
       },
       {
         "id": "Monster004",
-        "icon": "Monster004.webp",
+        "icon": "monster004.webp",
         "size": 1.3
       },
       {
         "id": "Monster005",
-        "icon": "Monster005.webp",
+        "icon": "monster005.webp",
         "size": 1.3
       },
       {
         "id": "Monster006",
-        "icon": "Monster006.webp",
+        "icon": "monster006.webp",
         "size": 1.3
       },
       {
         "id": "Monster007",
-        "icon": "Monster007.webp",
+        "icon": "monster007.webp",
         "size": 1.3
       },
       {
         "id": "Monster008",
-        "icon": "Monster008.webp",
+        "icon": "monster008.webp",
         "size": 1.3
       },
       {
         "id": "Monster009",
-        "icon": "Monster009.webp",
+        "icon": "monster009.webp",
         "size": 1.3
       },
       {
         "id": "Monster016",
-        "icon": "Monster016.webp",
+        "icon": "monster016.webp",
         "size": 1.3
       },
       {
         "id": "Monster030",
-        "icon": "Monster030.webp",
+        "icon": "monster030.webp",
         "size": 1.3
       },
       {
         "id": "Monster034",
-        "icon": "Monster034.webp",
+        "icon": "monster034.webp",
         "size": 1.3
       },
       {
         "id": "Monster033",
-        "icon": "Monster033.webp",
+        "icon": "monster033.webp",
         "size": 1.3
       },
       {
         "id": "Monster035",
-        "icon": "Monster035.webp",
+        "icon": "monster035.webp",
         "size": 1.3
       },
       {
         "id": "Monster036",
-        "icon": "Monster036.webp",
+        "icon": "monster036.webp",
         "size": 1.3
       },
       {
         "id": "Monster014",
-        "icon": "Monster014.webp",
+        "icon": "monster014.webp",
         "size": 1.3
       },
       {
         "id": "Monster015",
-        "icon": "Monster015.webp",
+        "icon": "monster015.webp",
         "size": 1.3
       },
       {
         "id": "Monster017",
-        "icon": "Monster017.webp",
+        "icon": "monster017.webp",
         "size": 1.3
       },
       {
         "id": "Monster018",
-        "icon": "Monster018.webp",
+        "icon": "monster018.webp",
         "size": 1.3
       },
       {
         "id": "Monster019",
-        "icon": "Monster019.webp",
+        "icon": "monster019.webp",
         "size": 1.3
       },
       {
         "id": "Monster052",
-        "icon": "Monster052.webp",
+        "icon": "monster052.webp",
         "size": 1.3
       },
       {
         "id": "Monster057",
-        "icon": "Monster057.webp",
+        "icon": "monster057.webp",
         "size": 1.3
       },
       {
         "id": "Monster058",
-        "icon": "Monster058.webp",
+        "icon": "monster058.webp",
         "size": 1.3
       },
       {
         "id": "Monster053",
-        "icon": "Monster053.webp",
+        "icon": "monster053.webp",
         "size": 1.3
       },
       {
         "id": "Monster146",
-        "icon": "Monster146.webp",
+        "icon": "monster146.webp",
         "size": 1.3
       },
       {
         "id": "Monster151",
-        "icon": "Monster151.webp",
+        "icon": "monster151.webp",
         "size": 1.3
       },
       {
         "id": "Monster119",
-        "icon": "Monster119.webp",
+        "icon": "monster119.webp",
         "size": 1.3
       },
       {
         "id": "Monster1040",
-        "icon": "Monster1040.webp",
+        "icon": "monster1040.webp",
         "size": 1.3
       },
       {
         "id": "Monster118",
-        "icon": "Monster118.webp",
+        "icon": "monster118.webp",
         "size": 1.3
       },
       {
         "id": "Monster127",
-        "icon": "Monster127.webp",
+        "icon": "monster127.webp",
         "size": 1.3
       }
     ]
@@ -687,32 +752,32 @@
       },
       {
         "id": "Monster055",
-        "icon": "Monster055.webp",
+        "icon": "monster055.webp",
         "size": 1.3
       },
       {
         "id": "Monster056",
-        "icon": "Monster056.webp",
+        "icon": "monster056.webp",
         "size": 1.3
       },
       {
         "id": "Monster069",
-        "icon": "Monster069.webp",
+        "icon": "monster069.webp",
         "size": 1.3
       },
       {
         "id": "Monster072",
-        "icon": "Monster072.webp",
+        "icon": "monster072.webp",
         "size": 1.3
       },
       {
         "id": "Monster086",
-        "icon": "Monster086.webp",
+        "icon": "monster086.webp",
         "size": 1.3
       },
       {
         "id": "Monster087",
-        "icon": "Monster087.webp",
+        "icon": "monster087.webp",
         "size": 1.3
       }
     ]
@@ -724,67 +789,67 @@
     "values": [
       {
         "id": "Treasure005",
-        "icon": "Treasure005.webp",
+        "icon": "treasure005.webp",
         "size": 1.5
       },
       {
         "id": "Gameplay50000165",
-        "icon": "ItemInfo_50000165_Name.webp",
+        "icon": "iteminfo_50000165_name.webp",
         "size": 1.1
       },
       {
         "id": "Gameplay111",
-        "icon": "Gameplay111.webp",
+        "icon": "gameplay111.webp",
         "size": 1.5
       },
       {
         "id": "Gameplay40040001",
-        "icon": "ItemInfo_40040001_Name.webp",
+        "icon": "iteminfo_40040001_name.webp",
         "size": 1.1
       },
       {
         "id": "Gameplay50000167",
-        "icon": "ItemInfo_50000167_Name.webp",
+        "icon": "iteminfo_50000167_name.webp",
         "size": 1.1
       },
       {
         "id": "Gameplay50000164",
-        "icon": "ItemInfo_50000164_Name.webp",
+        "icon": "iteminfo_50000164_name.webp",
         "size": 1.1
       },
       {
         "id": "Treasure011",
-        "icon": "Treasure011.webp",
+        "icon": "treasure011.webp",
         "size": 1.5
       },
       {
         "id": "Treasure008",
-        "icon": "Treasure008.webp",
+        "icon": "treasure008.webp",
         "size": 1.5
       },
       {
         "id": "Gameplay50000201",
-        "icon": "ItemInfo_50000201_Name.webp",
+        "icon": "iteminfo_50000201_name.webp",
         "size": 1.1
       },
       {
         "id": "Gameplay50000168",
-        "icon": "ItemInfo_50000168_Name.webp",
+        "icon": "iteminfo_50000168_name.webp",
         "size": 1.1
       },
       {
         "id": "Animal032",
-        "icon": "Animal032.webp",
+        "icon": "animal032.webp",
         "size": 1.5
       },
       {
         "id": "Gameplay40040002",
-        "icon": "ItemInfo_40040002_Name.webp",
+        "icon": "iteminfo_40040002_name.webp",
         "size": 1.1
       },
       {
         "id": "Monster139",
-        "icon": "Monster139.webp",
+        "icon": "monster139.webp",
         "size": 1.5
       }
     ]
@@ -796,202 +861,202 @@
     "values": [
       {
         "id": "Collect102",
-        "icon": "ItemInfo_42310020_Name.webp",
+        "icon": "iteminfo_42310020_name.webp",
         "size": 1
       },
       {
         "id": "Collect_CXS09",
-        "icon": "ItemInfo_42310210_Name.webp",
+        "icon": "iteminfo_42310210_name.webp",
         "size": 1
       },
       {
         "id": "Collect_CXS03",
-        "icon": "ItemInfo_42300120_Name.webp",
+        "icon": "iteminfo_42300120_name.webp",
         "size": 1
       },
       {
         "id": "Collect_CXS01",
-        "icon": "ItemInfo_42310220_Name.webp",
+        "icon": "iteminfo_42310220_name.webp",
         "size": 1
       },
       {
         "id": "Collect601",
-        "icon": "ItemInfo_42600010_Name.webp",
+        "icon": "iteminfo_42600010_name.webp",
         "size": 1
       },
       {
         "id": "Collect105",
-        "icon": "ItemInfo_42310050_Name.webp",
+        "icon": "iteminfo_42310050_name.webp",
         "size": 1
       },
       {
         "id": "Collect107",
-        "icon": "ItemInfo_42310070_Name.webp",
+        "icon": "iteminfo_42310070_name.webp",
         "size": 1
       },
       {
         "id": "Collect106",
-        "icon": "ItemInfo_42310060_Name.webp",
+        "icon": "iteminfo_42310060_name.webp",
         "size": 1
       },
       {
         "id": "Collect010",
-        "icon": "ItemInfo_42300100_Name.webp",
+        "icon": "iteminfo_42300100_name.webp",
         "size": 1
       },
       {
         "id": "Collect112",
-        "icon": "ItemInfo_42310120_Name.webp",
+        "icon": "iteminfo_42310120_name.webp",
         "size": 1
       },
       {
         "id": "Collect111",
-        "icon": "ItemInfo_42310110_Name.webp",
+        "icon": "iteminfo_42310110_name.webp",
         "size": 1
       },
       {
         "id": "Collect117",
-        "icon": "ItemInfo_42310170_Name.webp",
+        "icon": "iteminfo_42310170_name.webp",
         "size": 1
       },
       {
         "id": "Collect118",
-        "icon": "ItemInfo_42310180_Name.webp",
+        "icon": "iteminfo_42310180_name.webp",
         "size": 1
       },
       {
         "id": "Collect114",
-        "icon": "ItemInfo_42310140_Name.webp",
+        "icon": "iteminfo_42310140_name.webp",
         "size": 1
       },
       {
         "id": "Collect119",
-        "icon": "ItemInfo_42310190_Name.webp",
+        "icon": "iteminfo_42310190_name.webp",
         "size": 1
       },
       {
         "id": "Collect115",
-        "icon": "ItemInfo_42310150_Name.webp",
+        "icon": "iteminfo_42310150_name.webp",
         "size": 1
       },
       {
         "id": "Collect109",
-        "icon": "ItemInfo_42310090_Name.webp",
+        "icon": "iteminfo_42310090_name.webp",
         "size": 1
       },
       {
         "id": "Collect116",
-        "icon": "ItemInfo_42310160_Name.webp",
+        "icon": "iteminfo_42310160_name.webp",
         "size": 1
       },
       {
         "id": "Collect101",
-        "icon": "ItemInfo_42310010_Name.webp",
+        "icon": "iteminfo_42310010_name.webp",
         "size": 1
       },
       {
         "id": "Collect103",
-        "icon": "ItemInfo_42310030_Name.webp",
+        "icon": "iteminfo_42310030_name.webp",
         "size": 1
       },
       {
         "id": "Collect113",
-        "icon": "ItemInfo_42310130_Name.webp",
+        "icon": "iteminfo_42310130_name.webp",
         "size": 1
       },
       {
         "id": "Collect501",
-        "icon": "ItemInfo_42500010_Name.webp",
+        "icon": "iteminfo_42500010_name.webp",
         "size": 1
       },
       {
         "id": "Collect504",
-        "icon": "ItemInfo_42500040_Name.webp",
+        "icon": "iteminfo_42500040_name.webp",
         "size": 1
       },
       {
         "id": "Collect503",
-        "icon": "ItemInfo_42500030_Name.webp",
+        "icon": "iteminfo_42500030_name.webp",
         "size": 1
       },
       {
         "id": "Collect104",
-        "icon": "ItemInfo_42310040_Name.webp",
+        "icon": "iteminfo_42310040_name.webp",
         "size": 1
       },
       {
         "id": "Collect108",
-        "icon": "ItemInfo_42310080_Name.webp",
+        "icon": "iteminfo_42310080_name.webp",
         "size": 1
       },
       {
         "id": "Collect110",
-        "icon": "ItemInfo_42310100_Name.webp",
+        "icon": "iteminfo_42310100_name.webp",
         "size": 1
       },
       {
         "id": "Collect011",
-        "icon": "ItemInfo_42300110_Name.webp",
+        "icon": "iteminfo_42300110_name.webp",
         "size": 1
       },
       {
         "id": "Collect603",
-        "icon": "ItemInfo_42400010_Name.webp",
+        "icon": "iteminfo_42400010_name.webp",
         "size": 1
       },
       {
         "id": "Collect602",
-        "icon": "ItemInfo_42400030_Name.webp",
+        "icon": "iteminfo_42400030_name.webp",
         "size": 1
       },
       {
         "id": "Collect002",
-        "icon": "ItemInfo_42300020_Name.webp",
+        "icon": "iteminfo_42300020_name.webp",
         "size": 1
       },
       {
         "id": "Collect004",
-        "icon": "ItemInfo_42300040_Name.webp",
+        "icon": "iteminfo_42300040_name.webp",
         "size": 1
       },
       {
         "id": "Collect007",
-        "icon": "ItemInfo_42300070_Name.webp",
+        "icon": "iteminfo_42300070_name.webp",
         "size": 1
       },
       {
         "id": "Collect003",
-        "icon": "ItemInfo_42300030_Name.webp",
+        "icon": "iteminfo_42300030_name.webp",
         "size": 1
       },
       {
         "id": "Collect009",
-        "icon": "ItemInfo_42300090_Name.webp",
+        "icon": "iteminfo_42300090_name.webp",
         "size": 1
       },
       {
         "id": "Collect006",
-        "icon": "ItemInfo_42300060_Name.webp",
+        "icon": "iteminfo_42300060_name.webp",
         "size": 1
       },
       {
         "id": "Collect505",
-        "icon": "ItemInfo_42500090_Name.webp",
+        "icon": "iteminfo_42500090_name.webp",
         "size": 1
       },
       {
         "id": "Collect502",
-        "icon": "ItemInfo_42500020_Name.webp",
+        "icon": "iteminfo_42500020_name.webp",
         "size": 1
       },
       {
         "id": "Collect005",
-        "icon": "ItemInfo_42300050_Name.webp",
+        "icon": "iteminfo_42300050_name.webp",
         "size": 1
       },
       {
         "id": "Collect008",
-        "icon": "ItemInfo_42300080_Name.webp",
+        "icon": "iteminfo_42300080_name.webp",
         "size": 1
       }
     ]
@@ -1003,107 +1068,107 @@
     "values": [
       {
         "id": "Animal006",
-        "icon": "AnimalHandBook_6_Name.webp",
+        "icon": "animalhandbook_6_name.webp",
         "size": 1
       },
       {
         "id": "Animal021",
-        "icon": "ItemInfo_42400120_Name.webp",
+        "icon": "iteminfo_42400120_name.webp",
         "size": 1
       },
       {
         "id": "Animal004",
-        "icon": "AnimalHandBook_4_Name.webp",
+        "icon": "animalhandbook_4_name.webp",
         "size": 1
       },
       {
         "id": "Animal002",
-        "icon": "AnimalHandBook_1_Name.webp",
+        "icon": "animalhandbook_1_name.webp",
         "size": 1
       },
       {
         "id": "Animal027",
-        "icon": "ItemInfo_42400140_Name.webp",
+        "icon": "iteminfo_42400140_name.webp",
         "size": 1
       },
       {
         "id": "Animal029",
-        "icon": "ItemInfo_42400160_Name.webp",
+        "icon": "iteminfo_42400160_name.webp",
         "size": 1
       },
       {
         "id": "Animal008",
-        "icon": "AnimalHandBook_8_Name.webp",
+        "icon": "animalhandbook_8_name.webp",
         "size": 1
       },
       {
         "id": "Animal014",
-        "icon": "AnimalHandBook_14_Name.webp",
+        "icon": "animalhandbook_14_name.webp",
         "size": 1
       },
       {
         "id": "Animal012",
-        "icon": "AnimalHandBook_12_Name.webp",
+        "icon": "animalhandbook_12_name.webp",
         "size": 1
       },
       {
         "id": "Animal017",
-        "icon": "ItemInfo_42400080_Name.webp",
+        "icon": "iteminfo_42400080_name.webp",
         "size": 1
       },
       {
         "id": "Animal019",
-        "icon": "ItemInfo_42400100_Name.webp",
+        "icon": "iteminfo_42400100_name.webp",
         "size": 1
       },
       {
         "id": "Animal018",
-        "icon": "ItemInfo_42400090_Name.webp",
+        "icon": "iteminfo_42400090_name.webp",
         "size": 1
       },
       {
         "id": "Animal016",
-        "icon": "ItemInfo_42400070_Name.webp",
+        "icon": "iteminfo_42400070_name.webp",
         "size": 1
       },
       {
         "id": "Animal007_2",
-        "icon": "AnimalHandBook_7_Name.webp",
+        "icon": "animalhandbook_7_name.webp",
         "size": 1
       },
       {
         "id": "Animal020",
-        "icon": "ItemInfo_42400110_Name.webp",
+        "icon": "iteminfo_42400110_name.webp",
         "size": 1
       },
       {
         "id": "Animal003",
-        "icon": "AnimalHandBook_3_Name.webp",
+        "icon": "animalhandbook_3_name.webp",
         "size": 1
       },
       {
         "id": "Animal026",
-        "icon": "ItemInfo_42400130_Name.webp",
+        "icon": "iteminfo_42400130_name.webp",
         "size": 1
       },
       {
         "id": "Animal009",
-        "icon": "AnimalHandBook_9_Name.webp",
+        "icon": "animalhandbook_9_name.webp",
         "size": 1
       },
       {
         "id": "Animal030",
-        "icon": "ItemInfo_42400170_Name.webp",
+        "icon": "iteminfo_42400170_name.webp",
         "size": 1
       },
       {
         "id": "Animal015",
-        "icon": "AnimalHandBook_15_Name.webp",
+        "icon": "animalhandbook_15_name.webp",
         "size": 1
       },
       {
         "id": "Animal028",
-        "icon": "ItemInfo_42400150_Name.webp",
+        "icon": "iteminfo_42400150_name.webp",
         "size": 1
       }
     ]
