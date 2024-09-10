@@ -453,5 +453,6 @@
   "SpawnPoint_1": "Windswept Hills Plateau of Beginnings",
   "SpawnPoint_1_desc": "A small hill with a good view and plentiful resources.\r\nRecommended for new players.",
   "crude_oil": "Crude Oil",
-  "junk_yard": "Junk Yard"
+  "junk_yard": "Junk Yard",
+  "note": "Journal Note"
 }

@@ -254,5 +254,7 @@
   "BP_LevelObject_StaticRespawnPoint_C": "respawn_point",
   "BP_MapObject_StaticRespawnPoint_C": "respawn_point",
   "BP_LevelObject_OilField_C": "crude_oil",
-  "BP_MapObject_TreasureBox_RequiredLongHold_Junk_C": "junk_yard"
+  "BP_MapObject_TreasureBox_RequiredLongHold_Junk_C": "junk_yard",
+  "BP_MapLevelObject_Note_C": "note",
+  "BP_LevelObject_Note_C": "note"
 }

@@ -65,6 +65,11 @@
         "id": "junk_yard",
         "icon": "junk_yard.webp",
         "size": 1.2
+      },
+      {
+        "id": "note",
+        "icon": "note.webp",
+        "size": 1.2
       }
     ]
   },
