@@ -1,4 +1,9 @@
-import { type TileOptions, cn, useSettingsStore } from "@repo/lib";
+import {
+  type MarkerOptions,
+  type TileOptions,
+  cn,
+  useSettingsStore,
+} from "@repo/lib";
 import { HeaderOffset, PlausibleTracker } from "@repo/ui/header";
 import {
   InteractiveMap,
@@ -53,8 +58,13 @@ const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Palworld";
 const TITLE = "Palworld Map";
-const MARKER_OPTIONS = {
+const MARKER_OPTIONS: MarkerOptions = {
   radius: 6,
+  // playerIcon: "player.webp",
+  zPos: {
+    xyMaxDistance: 15000,
+    zDistance: 400,
+  },
 };
 function App(): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);

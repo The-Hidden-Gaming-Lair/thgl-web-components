@@ -7,12 +7,17 @@ import {
   PrivateNode,
   PrivateDrawing,
 } from "@repo/ui/interactive-map";
-import { type TileOptions } from "@repo/lib";
+import { type MarkerOptions, type TileOptions } from "@repo/lib";
 import { Actions, StreamingReceiver, Whiteboard } from "@repo/ui/controls";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 
-const MARKER_OPTIONS = {
+const MARKER_OPTIONS: MarkerOptions = {
   radius: 6,
+  // playerIcon: "player.webp",
+  zPos: {
+    xyMaxDistance: 15000,
+    zDistance: 400,
+  },
 };
 export default function InteractiveMapDynamic(): JSX.Element {
   return (
