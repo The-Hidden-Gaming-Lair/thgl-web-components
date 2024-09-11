@@ -9,7 +9,7 @@ namespace NativeGameEvents
   internal static class Game
   {
     internal static Memory _memory = null;
-    internal static nint _scene = IntPtr.Zero;
+    internal static nint _sceneOffset = IntPtr.Zero;
     //internal static nint ModelAddr = 0;
     internal static bool IsElevated
     {
@@ -37,7 +37,7 @@ namespace NativeGameEvents
           {
             returnCode = (int)(2000 + exitCode);
           }
-          _scene = IntPtr.Zero;
+          _sceneOffset = IntPtr.Zero;
           _memory = null;
           return returnCode;
           throw new Exception("Process has exited");
@@ -52,25 +52,12 @@ namespace NativeGameEvents
           }
           _memory = memory;
         }
-        if (_memory != null && _scene == IntPtr.Zero)
+        if (_memory != null && _sceneOffset == IntPtr.Zero)
         {
           var addr = _memory.FindPattern(new byte[] { 0xE8, 0, 0, 0, 0, 0x45, 0x33, 0xC0, 0x48, 0x8D, 0x54, 0x24, 0x0, 0x48, 0x8B, 0xC8, 0xE8, 0, 0, 0, 0, 0x48 });
           //var addr = _memory.FindPattern("E8 ? ? ? ? 45 33 C0 48 8D 54 24 ? 48 8B C8 E8 ? ? ? ? 48");
           var callFunc = _memory.ReadProcessMemory<int>(addr + 1) + addr + 5;
-          var sceneOffset = _memory.ReadProcessMemory<int>(callFunc + 0x29 + 3) + callFunc + 0x29 + 3 + 4 - _memory.BaseAddress + 0x10;
-          var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + sceneOffset);
-
-          //var modelSig = _memory.FindPattern(new byte[] { 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x01, 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x81, 0, 0, 0, 0, 0x48, 0x8B, 0x89, 0, 0, 0, 0, 0x45, 0x33, 0xED });
-          // var modelSig = _memory.FindPattern("48 8D 05 ? ? ? ? 48 89 01 48 8D 05 ? ? ? ? 48 89 81 ? ? ? ? 48 8B 89 ? ? ? ? 45 33 ED");
-          //ModelAddr = _memory.ReadProcessMemory<int>((nint)modelSig + 3) + (nint)modelSig + 7;// - proc[0].MainModule.BaseAddress;
-
-          var playerAddress = scene + playerOffset;
-          var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
-          if (playerPos.X != 0)
-          {
-            // Only update if player is found
-            _scene = scene;
-          }
+          _sceneOffset = _memory.ReadProcessMemory<int>(callFunc + 0x29 + 3) + callFunc + 0x29 + 3 + 4 - _memory.BaseAddress + 0x10;
         }
       }
       catch (Exception e)
@@ -86,21 +73,27 @@ namespace NativeGameEvents
     {
       //Task.Run(static () =>
       {
-        if (_scene == IntPtr.Zero)
+        if (_sceneOffset == IntPtr.Zero)
         {
           return 0;
         }
         try
         {
-          var playerAddress = _scene + playerOffset;
+          var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + _sceneOffset);
+          //var sceneNameMonolith = _memory.ReadProcessMemory<ushort>(scene + )
+          //var modelSig = _memory.FindPattern(new byte[] { 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x01, 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x81, 0, 0, 0, 0, 0x48, 0x8B, 0x89, 0, 0, 0, 0, 0x45, 0x33, 0xED });
+          // var modelSig = _memory.FindPattern("48 8D 05 ? ? ? ? 48 89 01 48 8D 05 ? ? ? ? 48 89 81 ? ? ? ? 48 8B 89 ? ? ? ? 45 33 ED");
+          //ModelAddr = _memory.ReadProcessMemory<int>((nint)modelSig + 3) + (nint)modelSig + 7;// - proc[0].MainModule.BaseAddress;
+
+          var playerAddress = scene + playerOffset;
           var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
-          if (playerPos.X == 0 || playerPos.Z == 0)
+          /*if (playerPos.X == 0 || playerPos.Z == 0)
           {
             // This should not happen, except the scene has changed -> trigger scene update
-            _scene = IntPtr.Zero;
+            _sceneOffset = IntPtr.Zero;
             _memory = null;
             return 0;
-          }
+          }*/
           var actor = new Actor()
           {
             address = playerAddress.GetHashCode(),
@@ -133,14 +126,15 @@ namespace NativeGameEvents
     {
       //Task.Run(() =>
       {
-        if (_scene == IntPtr.Zero)
+        if (_sceneOffset == IntPtr.Zero)
         {
           return 0;
         }
         try
         {
           var actors = new List<Actor>();
-          var modelMgr = _memory.ReadProcessMemory<nint>(_scene + modelMgrOffset);
+          var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + _sceneOffset);
+          var modelMgr = _memory.ReadProcessMemory<nint>(scene + modelMgrOffset);
           if (modelMgr == 0) return 0;
           var modelMgrBlock = _memory.ReadProcessMemory(modelMgr, objCount * 8);
           var count = int.Parse(objCount.ToString(), CultureInfo.InvariantCulture);
