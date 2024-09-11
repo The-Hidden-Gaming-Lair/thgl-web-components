@@ -60,171 +60,175 @@ export async function listenToPlugin(
     mapName?: string;
   }) => void,
 ) {
-  const state = useGameState.getState();
-  const { setPlayer, setActors, setError } = state;
-  const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
-  let firstPlayerData = false;
-  let lastPlayerError = "";
-  let prevPlayer: ActorPlayer = {
-    address: 0,
-    type: "",
-    path: "",
-    x: 0,
-    y: 0,
-    z: 0,
-    r: 0,
-  };
+  try {
+    const state = useGameState.getState();
+    const { setPlayer, setActors, setError } = state;
+    const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
+    let firstPlayerData = false;
+    let lastPlayerError = "";
+    let prevPlayer: ActorPlayer = {
+      address: 0,
+      type: "",
+      path: "",
+      x: 0,
+      y: 0,
+      z: 0,
+      r: 0,
+    };
 
-  const handlePlayer = (player: ActorPlayer | null) => {
-    if (player && !firstPlayerData) {
-      firstPlayerData = true;
-      console.log("Got first data", JSON.stringify(player));
-    }
-    if (lastPlayerError) {
-      lastPlayerError = "";
-      setError(null);
-    }
-    if (player) {
-      if (player.r === null) {
-        player.r =
-          (Math.atan2(
-            player.y - (prevPlayer.y || player.y),
-            player.x - (prevPlayer.x || player.x),
-          ) *
-            180) /
-          Math.PI;
+    const handlePlayer = (player: ActorPlayer | null) => {
+      if (player && !firstPlayerData) {
+        firstPlayerData = true;
+        console.log("Got first data", JSON.stringify(player));
       }
-      if (actorToMapName && player.path) {
-        player.mapName = actorToMapName(player);
+      if (lastPlayerError) {
+        lastPlayerError = "";
+        setError(null);
       }
-      if (normalizeLocation) {
-        normalizeLocation(player);
+      if (player) {
+        if (player.r === null) {
+          player.r =
+            (Math.atan2(
+              player.y - (prevPlayer.y || player.y),
+              player.x - (prevPlayer.x || player.x),
+            ) *
+              180) /
+            Math.PI;
+        }
+        if (actorToMapName && player.path) {
+          player.mapName = actorToMapName(player);
+        }
+        if (normalizeLocation) {
+          normalizeLocation(player);
+        }
+        if (
+          player.x !== prevPlayer.x ||
+          player.y !== prevPlayer.y ||
+          player.z !== prevPlayer.z ||
+          player.r !== prevPlayer.r
+        ) {
+          prevPlayer = player;
+          setPlayer(player);
+        }
       }
-      if (
-        player.x !== prevPlayer.x ||
-        player.y !== prevPlayer.y ||
-        player.z !== prevPlayer.z ||
-        player.r !== prevPlayer.r
-      ) {
-        prevPlayer = player;
-        setPlayer(player);
+
+      setTimeout(refreshPlayerState, 50);
+    };
+    const handleError = (err: string | null) => {
+      const errMessage = err || "";
+      if (errMessage !== lastPlayerError) {
+        lastPlayerError = errMessage;
+        console.error("Player Error: ", errMessage);
+        setError(errMessage);
+      }
+      setTimeout(refreshPlayerState, 200);
+    };
+
+    function refreshPlayerState() {
+      if (processName) {
+        gameEventsPlugin.GetPlayer(handlePlayer, handleError, processName);
+      } else {
+        gameEventsPlugin.GetPlayer(handlePlayer, handleError);
       }
     }
+    refreshPlayerState();
 
-    setTimeout(refreshPlayerState, 50);
-  };
-  const handleError = (err: string | null) => {
-    const errMessage = err || "";
-    if (errMessage !== lastPlayerError) {
-      lastPlayerError = errMessage;
-      console.error("Player Error: ", errMessage);
-      setError(errMessage);
-    }
-    setTimeout(refreshPlayerState, 200);
-  };
+    let liveMode = useSettingsStore.getState().liveMode;
+    let actorsPollingRate = useSettingsStore.getState().actorsPollingRate;
+    useSettingsStore.subscribe((settings) => {
+      if (!liveMode && settings.liveMode) {
+        refreshActorsState();
+      }
+      liveMode = settings.liveMode;
+      actorsPollingRate = settings.actorsPollingRate;
+    });
 
-  function refreshPlayerState() {
-    if (processName) {
-      gameEventsPlugin.GetPlayer(handlePlayer, handleError, processName);
-    } else {
-      gameEventsPlugin.GetPlayer(handlePlayer, handleError);
-    }
-  }
-  refreshPlayerState();
-
-  let liveMode = useSettingsStore.getState().liveMode;
-  let actorsPollingRate = useSettingsStore.getState().actorsPollingRate;
-  useSettingsStore.subscribe((settings) => {
-    if (!liveMode && settings.liveMode) {
-      refreshActorsState();
-    }
-    liveMode = settings.liveMode;
-    actorsPollingRate = settings.actorsPollingRate;
-  });
-
-  let firsActorstData = false;
-  let lastActorsError = "";
-  function refreshActorsState() {
-    const debug = isDebug();
-    const targetTypes = debug ? [] : types;
-    gameEventsPlugin.GetActors(
-      targetTypes,
-      (allActors) => {
-        const actors = (allActors || []).filter(
-          (a) => !BLACKLISTED_TYPES.includes(a.type),
-        );
-
-        if (!firsActorstData && actors.length > 0) {
-          firsActorstData = true;
-          console.log("Got first actors", actors.length);
-        }
-        if (lastActorsError) {
-          lastActorsError = "";
-        }
-        actors.forEach((actor) => {
-          if (actorToMapName && actor.path) {
-            actor.mapName = actorToMapName(actor);
-          }
-          if (normalizeLocation) {
-            normalizeLocation(actor);
-          }
-        });
-        setActors(actors);
-        if (liveMode) {
-          setTimeout(refreshActorsState, actorsPollingRate);
-        }
-      },
-      (err) => {
-        if (err !== lastActorsError) {
-          lastActorsError = err;
-          console.error("Actors Error: ", err);
-        }
-        if (liveMode) {
-          setTimeout(refreshActorsState, 200);
-        }
-      },
-    );
-  }
-  if (liveMode) {
-    refreshActorsState();
-  }
-
-  getClosestActors = (filters: string[] = [], limit = 10) => {
-    return new Promise((resolve, reject) => {
+    let firsActorstData = false;
+    let lastActorsError = "";
+    function refreshActorsState() {
+      const debug = isDebug();
+      const targetTypes = debug ? [] : types;
       gameEventsPlugin.GetActors(
-        filters,
-        (actors) => {
-          const closestActors = (actors || [])
-            .map((actor) => {
-              if (actorToMapName && actor.path) {
-                actor.mapName = actorToMapName(actor);
-              }
-              if (normalizeLocation) {
-                normalizeLocation(actor);
-              }
+        targetTypes,
+        (allActors) => {
+          const actors = (allActors || []).filter(
+            (a) => !BLACKLISTED_TYPES.includes(a.type),
+          );
 
-              const dx = actor.x - prevPlayer.x;
-              const dy = actor.y - prevPlayer.y;
-              const dz = actor.z - prevPlayer.z;
-              const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-              if (actorToMapName && actor.path) {
-                actor.mapName = actorToMapName(actor);
-              }
-              const isKnown = types.includes(actor.type);
-              return { ...actor, distance, isKnown };
-            })
-            .sort((a, b) => a.distance - b.distance)
-            .slice(0, limit);
-          resolve(closestActors);
+          if (!firsActorstData && actors.length > 0) {
+            firsActorstData = true;
+            console.log("Got first actors", actors.length);
+          }
+          if (lastActorsError) {
+            lastActorsError = "";
+          }
+          actors.forEach((actor) => {
+            if (actorToMapName && actor.path) {
+              actor.mapName = actorToMapName(actor);
+            }
+            if (normalizeLocation) {
+              normalizeLocation(actor);
+            }
+          });
+          setActors(actors);
+          if (liveMode) {
+            setTimeout(refreshActorsState, actorsPollingRate);
+          }
         },
-        () => {
-          reject();
+        (err) => {
+          if (err !== lastActorsError) {
+            lastActorsError = err;
+            console.error("Actors Error: ", err);
+          }
+          if (liveMode) {
+            setTimeout(refreshActorsState, 200);
+          }
         },
       );
-    });
-  };
-  // @ts-ignore
-  window.getClosestActors = getClosestActors;
+    }
+    if (liveMode) {
+      refreshActorsState();
+    }
+
+    getClosestActors = (filters: string[] = [], limit = 10) => {
+      return new Promise((resolve, reject) => {
+        gameEventsPlugin.GetActors(
+          filters,
+          (actors) => {
+            const closestActors = (actors || [])
+              .map((actor) => {
+                if (actorToMapName && actor.path) {
+                  actor.mapName = actorToMapName(actor);
+                }
+                if (normalizeLocation) {
+                  normalizeLocation(actor);
+                }
+
+                const dx = actor.x - prevPlayer.x;
+                const dy = actor.y - prevPlayer.y;
+                const dz = actor.z - prevPlayer.z;
+                const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                if (actorToMapName && actor.path) {
+                  actor.mapName = actorToMapName(actor);
+                }
+                const isKnown = types.includes(actor.type);
+                return { ...actor, distance, isKnown };
+              })
+              .sort((a, b) => a.distance - b.distance)
+              .slice(0, limit);
+            resolve(closestActors);
+          },
+          () => {
+            reject();
+          },
+        );
+      });
+    };
+    // @ts-ignore
+    window.getClosestActors = getClosestActors;
+  } catch (e) {
+    console.error("Error listening to plugin", e);
+  }
 }
 
 export let getClosestActors:
