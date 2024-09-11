@@ -82,7 +82,7 @@ namespace GameEventsPlugin
               y = float.Parse(csv[3], CultureInfo.InvariantCulture),
               z = float.Parse(csv[4], CultureInfo.InvariantCulture),
               r = null,
-              path = csv[5],
+              path = csv[6],
             };
             callback(actor);
           }

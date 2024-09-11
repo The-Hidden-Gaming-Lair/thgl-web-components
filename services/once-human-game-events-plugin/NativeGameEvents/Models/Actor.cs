@@ -15,7 +15,7 @@ namespace NativeGameEvents.Models
     public string path;
     public override string ToString()
     {
-      return address + "|" + type + "|" + x.ToString().Replace(',', '.') + "|" + y.ToString().Replace(',', '.') + "|" + z.ToString().Replace(',', '.') + "|" + hidden.ToString() + path;
+      return address + "|" + type + "|" + x.ToString().Replace(',', '.') + "|" + y.ToString().Replace(',', '.') + "|" + z.ToString().Replace(',', '.') + "|" + hidden.ToString() + "|" + path;
     }
   }
 }
