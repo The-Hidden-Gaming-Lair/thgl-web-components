@@ -42,6 +42,7 @@ namespace Tracker
     {
       overwolf.GetPlayer((player) =>
       {
+        Console.WriteLine(((GameEventsPlugin.Models.Actor)player).x + " : " + ((GameEventsPlugin.Models.Actor)player).y + " : " + ((GameEventsPlugin.Models.Actor)player).z);
         Thread.Sleep(50);
         RunOverwolfPlayer();
       }, (error) =>

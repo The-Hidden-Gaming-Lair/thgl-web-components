@@ -10,6 +10,7 @@ namespace NativeGameEvents
   {
     internal static Memory _memory = null;
     internal static nint _sceneOffset = IntPtr.Zero;
+    internal static nint _scene = IntPtr.Zero;
     //internal static nint ModelAddr = 0;
     internal static bool IsElevated
     {
@@ -80,12 +81,23 @@ namespace NativeGameEvents
         try
         {
           var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + _sceneOffset);
-          //var sceneNameMonolith = _memory.ReadProcessMemory<ushort>(scene + )
+          //var sceneRoot = _memory.ReadProcessMemory<ushort>(scene + 0x13f8);
+          var sceneName = _memory.ReadProcessMemory<string>(scene + 0x1380); //OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
+          if (sceneName != "Charactor")
+          {
+            _scene = scene;
+          }
+          if (_scene == IntPtr.Zero)
+          {
+            return 0;
+          }
+          //var sceneNamePtr = _memory.ReadProcessMemory<nint>(scene + 0x1680);
+          //var sceneName = _memory.ReadProcessMemory<string>(scene + 0x1380); // scene\scene_openworld\scene_openworld_content, scene\scene_ui_book_scene_ui_book_content, scene\scene_boss_timekiller\scene_boss_timekiller_content
           //var modelSig = _memory.FindPattern(new byte[] { 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x01, 0x48, 0x8D, 0x05, 0, 0, 0, 0, 0x48, 0x89, 0x81, 0, 0, 0, 0, 0x48, 0x8B, 0x89, 0, 0, 0, 0, 0x45, 0x33, 0xED });
           // var modelSig = _memory.FindPattern("48 8D 05 ? ? ? ? 48 89 01 48 8D 05 ? ? ? ? 48 89 81 ? ? ? ? 48 8B 89 ? ? ? ? 45 33 ED");
           //ModelAddr = _memory.ReadProcessMemory<int>((nint)modelSig + 3) + (nint)modelSig + 7;// - proc[0].MainModule.BaseAddress;
 
-          var playerAddress = scene + playerOffset;
+          var playerAddress = _scene + playerOffset;
           var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
           /*if (playerPos.X == 0 || playerPos.Z == 0)
           {
@@ -100,7 +112,8 @@ namespace NativeGameEvents
             type = "player",
             x = playerPos.Z,
             y = playerPos.X,
-            z = playerPos.Y
+            z = playerPos.Y,
+            path = sceneName
           };
           //Console.WriteLine(actor.ToString());
           return Marshal.StringToCoTaskMemUTF8(actor.ToString());
@@ -130,11 +143,14 @@ namespace NativeGameEvents
         {
           return 0;
         }
+        if (_scene == IntPtr.Zero)
+        {
+          return 0;
+        }
         try
         {
           var actors = new List<Actor>();
-          var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + _sceneOffset);
-          var modelMgr = _memory.ReadProcessMemory<nint>(scene + modelMgrOffset);
+          var modelMgr = _memory.ReadProcessMemory<nint>(_scene + modelMgrOffset);
           if (modelMgr == 0) return 0;
           var modelMgrBlock = _memory.ReadProcessMemory(modelMgr, objCount * 8);
           var count = int.Parse(objCount.ToString(), CultureInfo.InvariantCulture);
