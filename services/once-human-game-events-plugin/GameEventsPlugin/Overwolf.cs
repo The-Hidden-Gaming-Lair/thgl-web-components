@@ -88,7 +88,7 @@ namespace GameEventsPlugin
           }
           else
           {
-            error(null);
+            callback(null);
           }
         }
         catch (Exception e)
