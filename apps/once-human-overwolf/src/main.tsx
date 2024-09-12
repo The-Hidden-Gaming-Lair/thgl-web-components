@@ -42,25 +42,27 @@ if (el) {
 }
 
 let lastMapName = "default";
-await listenToPlugin(Object.keys(typesIdMap), (actor, playerActor) => {
-  let mapName = lastMapName;
-  if (actor.path) {
-    // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
-    if (actor.path === "Charactor") {
-      // return lastMapName;
-    } else if (actor.path === "OpenWorld") {
-      lastMapName = "default";
-    } else if (actor.path === "LevelScene_Raid") {
-      lastMapName = "monolith";
-    } else {
-      lastMapName = actor.path;
+setTimeout(async () => {
+  await listenToPlugin(Object.keys(typesIdMap), (actor, playerActor) => {
+    let mapName = lastMapName;
+    if (actor.path) {
+      // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
+      if (actor.path === "Charactor") {
+        // return lastMapName;
+      } else if (actor.path === "OpenWorld") {
+        lastMapName = "default";
+      } else if (actor.path === "LevelScene_Raid") {
+        lastMapName = "monolith";
+      } else {
+        lastMapName = actor.path;
+      }
+      lastMapName = mapName;
+    } else if (playerActor.mapName) {
+      mapName = playerActor.mapName;
     }
-    lastMapName = mapName;
-  } else if (playerActor.mapName) {
-    mapName = playerActor.mapName;
-  }
-  return mapName;
-});
+    return mapName;
+  });
+}, 1000);
 
 useGameState.subscribe(
   (state) => state.actors,

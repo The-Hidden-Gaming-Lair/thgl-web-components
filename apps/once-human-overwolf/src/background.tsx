@@ -1,5 +1,6 @@
 import {
   type GameEventsPlugin,
+  getRunningGameInfo,
   initBackground,
   loadPlugin,
 } from "@repo/lib/overwolf";
@@ -33,4 +34,23 @@ const handleError = (err: string) => {
   setTimeout(refreshProcess, 1000);
 };
 
-refreshProcess();
+const runningGameInfo = await getRunningGameInfo(23930);
+if (runningGameInfo?.isRunning) {
+  console.log("Game is already running");
+  setTimeout(refreshProcess, 2000);
+} else {
+  const handleOnGameInfoUpdated = async (
+    event: overwolf.games.GameInfoUpdatedEvent,
+  ) => {
+    if (
+      event.runningChanged &&
+      event.gameInfo?.classId === 23930 &&
+      event.gameInfo.isRunning
+    ) {
+      console.log("Game is running now");
+      setTimeout(refreshProcess, 5000);
+      overwolf.games.onGameInfoUpdated.removeListener(handleOnGameInfoUpdated);
+    }
+  };
+  overwolf.games.onGameInfoUpdated.addListener(handleOnGameInfoUpdated);
+}
