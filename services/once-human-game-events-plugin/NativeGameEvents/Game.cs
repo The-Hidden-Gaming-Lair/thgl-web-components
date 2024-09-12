@@ -175,6 +175,8 @@ namespace NativeGameEvents
             if (!str.StartsWith("character\\monster") &&
               !str.StartsWith("character\\animal") &&
               !str.StartsWith("character\\boss") &&
+              !str.StartsWith("character\\player\\backpack_sco") &&
+              !str.StartsWith("character\\player\\npc") &&
               !str.StartsWith("environment\\static_objects\\common\\prop\\box") &&
               !str.StartsWith("environment\\static_objects\\common\\prop\\furniture") &&
               !str.StartsWith("environment\\static_objects\\common\\prop\\interior") &&
