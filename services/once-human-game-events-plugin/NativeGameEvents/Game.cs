@@ -58,7 +58,15 @@ namespace NativeGameEvents
           var addr = _memory.FindPattern(new byte[] { 0xE8, 0, 0, 0, 0, 0x45, 0x33, 0xC0, 0x48, 0x8D, 0x54, 0x24, 0x0, 0x48, 0x8B, 0xC8, 0xE8, 0, 0, 0, 0, 0x48 });
           //var addr = _memory.FindPattern("E8 ? ? ? ? 45 33 C0 48 8D 54 24 ? 48 8B C8 E8 ? ? ? ? 48");
           var callFunc = _memory.ReadProcessMemory<int>(addr + 1) + addr + 5;
-          _sceneOffset = _memory.ReadProcessMemory<int>(callFunc + 0x29 + 3) + callFunc + 0x29 + 3 + 4 - _memory.BaseAddress + 0x10;
+          var sceneOffset = _memory.ReadProcessMemory<int>(callFunc + 0x29 + 3) + callFunc + 0x29 + 3 + 4 - _memory.BaseAddress + 0x10;
+
+          var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + sceneOffset);
+          var playerAddress = scene + playerOffset;
+          var playerPos = _memory.ReadProcessMemory<Vector3>(playerAddress);
+          if (playerPos.X != 0)
+          {
+            _sceneOffset = sceneOffset;
+          }
         }
       }
       catch (Exception e)
