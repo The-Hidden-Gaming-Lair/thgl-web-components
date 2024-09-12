@@ -20,6 +20,7 @@ import {
   BigWorldCollectableNotesData,
   BookCollectSeriesData,
   CollectNewTagData,
+  DeviationBaseData,
   GiftDropNormalDataClient,
   InteractResData,
   ItemData,
@@ -54,6 +55,7 @@ const filters = initFilters([
 ]);
 const enDict = initDict({
   locations: "Locations",
+  deviations: "Deviants",
   boss: "Bosses",
   monster: "Monsters",
   animal: "Animals",
@@ -161,6 +163,10 @@ const giftDropNormalDataClient = await readJSON<GiftDropNormalDataClient>(
 const itemData = await readJSON<ItemData>(
   CONTENT_DIR + "/game_common/data/item_data.json",
 );
+const deviationBaseData = await readJSON<DeviationBaseData>(
+  CONTENT_DIR + "/game_common/data/deviation_base_data.json",
+);
+
 const newTypes: string[] = [];
 
 const switchType = (
@@ -563,7 +569,6 @@ const isValidModelPath = (modelPath: string) => {
     modelPath &&
     !modelPath.includes("/test/") &&
     !modelPath.includes("/empty/") &&
-    !modelPath.includes("/player/") &&
     !modelPath.includes("/weapon/") &&
     !modelPath.includes("/tool/") &&
     !modelPath.startsWith("editor_res") &&
@@ -574,95 +579,113 @@ const isValidModelPath = (modelPath: string) => {
 };
 
 for (const baseNPC of Object.values(baseNPCData)) {
-  if (!isValidModelPath(baseNPC.model_path)) {
-    continue;
-  }
-
-  const title = baseNPC.unit_name;
-  const group = baseNPC.model_path.split("/")[1];
-
-  let type = group + "_" + title.toLowerCase().replaceAll(" ", "_");
-  if (type.match(/[\u3400-\u9FBF]/)) {
-    continue;
-  }
-  // Remove special characters
-  type = type
-    .replaceAll(" ", "_")
-    .replace(/[^a-zA-Z0-9_]/g, "")
-    .toLowerCase();
-
-  const iconProps: IconProps = {
-    color: uniqolor(type, {
-      lightness: [70, 80],
-    }).color,
-  };
-  let iconPath;
-  if (type === "animal_fish") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/salmon_various-artists.webp`;
-  } else if (type === "animal_bear") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/bear-head_delapouite.webp`;
-  } else if (type === "animal_rabbit") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit-head_delapouite.webp`;
-  } else if (type === "animal_small_rabbit") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit_delapouite.webp`;
-  } else if (type === "animal_small_boar") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar-ensign_cathelineau.webp`;
-  } else if (type === "animal_boar") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar_caro-asercion.webp`;
-  } else if (type === "animal_capybara") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/capybara_caro-asercion.webp`;
-  } else if (type === "animal_deer") {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/deer_caro-asercion.webp`;
-  } else if (group === "monster") {
-    iconPath =
-      "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
-    iconProps.circle = true;
-  } else if (group === "boss") {
-    iconPath =
-      "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
-    iconProps.circle = true;
-  } else if (group === "animal") {
-    iconPath =
-      "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
-    iconProps.circle = true;
-  } else {
-    continue;
-  }
-  const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
-  if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    console.warn(
-      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    );
-  }
-  typeIDs[typeId] = type;
-
-  const size = 0.75;
-
-  enDict[type] = title;
-
-  if (!newTypes.includes(type)) {
-    newTypes.push(type);
-    const icon = await saveIcon(iconPath, type, iconProps);
-    if (!filters.some((f) => f.group === group)) {
-      filters.push({
-        group,
-        values: [],
-        defaultOn: true,
-        defaultOpen: true,
-      });
+  try {
+    if (!isValidModelPath(baseNPC.model_path)) {
+      continue;
     }
-    const filter = filters.find((f) => f.group === group)!;
-    filter.values.push({
-      id: type,
-      icon,
-      size,
-    });
-    if (!nodes.some((n) => n.type === type)) {
-      nodes.push({
-        type,
-        spawns: [],
-      });
+
+    let title = baseNPC.unit_name;
+    let group = baseNPC.model_path.split("/")[1];
+
+    let type = group + "_" + title.toLowerCase().replaceAll(" ", "_");
+    if (type.match(/[\u3400-\u9FBF]/)) {
+      continue;
     }
+    // Remove special characters
+    type = type
+      .replaceAll(" ", "_")
+      .replace(/[^a-zA-Z0-9_]/g, "")
+      .toLowerCase();
+
+    const iconProps: IconProps = {};
+    let iconPath;
+    if (baseNPC.unit_entity_type === "Deviation") {
+      const deviation = Object.values(deviationBaseData).find(
+        (d) => d.unit_id === baseNPC.unit_id,
+      );
+      if (!deviation) {
+        console.warn("No deviation for", baseNPC.unit_id);
+        continue;
+      }
+      group = "deviations";
+      type = `deviations_${deviation.name.toLowerCase().replaceAll(" ", "_")}`;
+      title = deviation.name;
+      iconPath = `/ui/dynamic_texpack/contain_system_ui/containment_icon/${deviation.pal_icon}`;
+      enDict[`${type}_desc`] = deviation.skill_info_lst.join("<br>");
+    } else {
+      iconProps.color = uniqolor(type, {
+        lightness: [70, 80],
+      }).color;
+      if (type === "animal_fish") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/salmon_various-artists.webp`;
+      } else if (type === "animal_bear") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/bear-head_delapouite.webp`;
+      } else if (type === "animal_rabbit") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit-head_delapouite.webp`;
+      } else if (type === "animal_small_rabbit") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit_delapouite.webp`;
+      } else if (type === "animal_small_boar") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar-ensign_cathelineau.webp`;
+      } else if (type === "animal_boar") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar_caro-asercion.webp`;
+      } else if (type === "animal_capybara") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/capybara_caro-asercion.webp`;
+      } else if (type === "animal_deer") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/deer_caro-asercion.webp`;
+      } else if (group === "monster") {
+        iconPath =
+          "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
+        iconProps.circle = true;
+      } else if (group === "boss") {
+        iconPath =
+          "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
+        iconProps.circle = true;
+      } else if (group === "animal") {
+        iconPath =
+          "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
+        iconProps.circle = true;
+      } else {
+        continue;
+      }
+    }
+    const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
+    if (typeIDs[typeId] && typeIDs[typeId] !== type) {
+      console.warn(
+        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      );
+    }
+    typeIDs[typeId] = type;
+
+    const size = 0.75;
+
+    enDict[type] = title;
+
+    if (!newTypes.includes(type)) {
+      newTypes.push(type);
+      const icon = await saveIcon(iconPath, type, iconProps);
+      if (!filters.some((f) => f.group === group)) {
+        filters.push({
+          group,
+          values: [],
+          defaultOn: true,
+          defaultOpen: true,
+        });
+      }
+      const filter = filters.find((f) => f.group === group)!;
+      filter.values.push({
+        id: type,
+        icon,
+        size,
+      });
+      if (!nodes.some((n) => n.type === type)) {
+        nodes.push({
+          type,
+          spawns: [],
+        });
+      }
+    }
+  } catch (e) {
+    console.error("Error for", baseNPC.unit_id, e);
   }
 }
 
@@ -748,6 +771,9 @@ for (const battleFieldName of battleFieldNames) {
       } else if (group === "animal") {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
+      } else {
+        console.warn("No icon path for", group);
+        continue;
       }
       iconProps.color = uniqolor(type, {
         lightness: [70, 80],
@@ -817,6 +843,8 @@ for (const battleFieldName of battleFieldNames) {
     // node.spawns.push(spawn);
   }
 }
+
+console.log("New types", newTypes.length);
 
 const achieveCollectData = await readJSON<AchieveCollectData>(
   CONTENT_DIR + "/game_common/data/achieve_collect_data.json",
@@ -1260,6 +1288,7 @@ const sortPriority = [
   "items",
   "recipes",
   "gatherables",
+  "deviations",
   "locations",
   "riddles",
   "boss",

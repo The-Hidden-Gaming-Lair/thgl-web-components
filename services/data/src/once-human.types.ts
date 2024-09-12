@@ -750,3 +750,60 @@ export type ItemData = Record<
     icon: string;
   }
 >;
+
+export type DeviationBaseData = Record<
+  string,
+  {
+    deviation_degree_coe: {
+      "5": number;
+      "1": number;
+      "2": number;
+      "3": number;
+      "4": number;
+    };
+    frostbite_point: number;
+    mood_recover_base: number;
+    containment_recover_base: number;
+    base_temperature: number;
+    heatstroke_point: number;
+    balance_degree_coe: {
+      "5": number;
+      "1": number;
+      "2": number;
+      "3": number;
+      "4": number;
+    };
+    power: number;
+    unit_type: number;
+    skill_icon_lst: Array<string>;
+    share_big_icon: string;
+    skill_name_lst: Array<string>;
+    max_containment: number;
+    mood_state_coe: {
+      "3": number;
+      "1": number;
+      "2": number;
+    };
+    mood_base: number;
+    mood_state_val_dict: {
+      "3": number;
+      "1": number;
+      "2": number;
+    };
+    max_mood: number;
+    pal_icon: string;
+    quality_dict: {
+      "3": number;
+      "1": number;
+      "2": number;
+    };
+    skill_info_lst: Array<string>;
+    unit_id: string;
+    squeezed_coe: Array<number>;
+    min_work_containment: number;
+    containment_recover_coe_by_power: number;
+    deviation_type: number;
+    name: string;
+    containment_base: number;
+  }
+>;

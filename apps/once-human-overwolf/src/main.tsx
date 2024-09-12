@@ -41,7 +41,22 @@ if (el) {
   throw new Error("Could not find root element!!");
 }
 
-await listenToPlugin(Object.keys(typesIdMap));
+await listenToPlugin(Object.keys(typesIdMap), (actor, playerActor) => {
+  if (actor.mapName) {
+    return actor.mapName;
+  }
+  if (actor.path) {
+    // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
+    if (actor.path === "OpenWorld") {
+      return "default";
+    }
+    return actor.path;
+  }
+  if (playerActor.mapName) {
+    return playerActor.mapName;
+  }
+  return "default";
+});
 
 useGameState.subscribe(
   (state) => state.actors,
@@ -101,7 +116,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-6", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-7", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -486,6 +486,196 @@
     "static": true
   },
   {
+    "type": "deviations_eternal_sun",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_dr._teddy",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_enchanting_void",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_grumpy_bulb",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_pyro_dino",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_polar_jelly",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_festering_gel",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_lonewolf's_whisper",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_mr._wish",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_butterfly's_emissary",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_winter_spirit",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_by-the-wind",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_shattered_maiden",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_voodoo_doll",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_mini_wonder",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_zeno-purifier",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_mini_feaster",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_snapshot",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_night_watch_lamp",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_azure_dragon",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_navigator_fish",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_flame_essence",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_rain_man",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_paper_doll",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_extradimensional_cat",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_tar_pudding",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_lethal_rabbit",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_fetch-a-lot_bunny",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_logging_beaver",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_the_digby_boy",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_rebecca",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_h37",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_electric_eel",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_chefosaurus_rex",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_buzzy_bee",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_growshroom",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_nutcracker",
+    "spawns": [],
+    "static": false
+  },
+  {
+    "type": "deviations_radiant_one",
+    "spawns": [],
+    "static": false
+  },
+  {
     "type": "boss_titans_hand",
     "spawns": [],
     "static": false

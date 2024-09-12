@@ -52,7 +52,7 @@ export type GameEventsPlugin = {
 
 export async function listenToPlugin(
   types: string[],
-  actorToMapName?: (actor: Actor) => string | undefined,
+  actorToMapName?: (actor: Actor, player: ActorPlayer) => string | undefined,
   processName?: string,
   normalizeLocation?: (location: {
     x: number;
@@ -96,7 +96,7 @@ export async function listenToPlugin(
             Math.PI;
         }
         if (actorToMapName && player.path) {
-          player.mapName = actorToMapName(player);
+          player.mapName = actorToMapName(player, prevPlayer);
         }
         if (normalizeLocation) {
           normalizeLocation(player);
@@ -164,7 +164,7 @@ export async function listenToPlugin(
           }
           actors.forEach((actor) => {
             if (actorToMapName && actor.path) {
-              actor.mapName = actorToMapName(actor);
+              actor.mapName = actorToMapName(actor, prevPlayer);
             }
             if (normalizeLocation) {
               normalizeLocation(actor);
@@ -198,7 +198,7 @@ export async function listenToPlugin(
             const closestActors = (actors || [])
               .map((actor) => {
                 if (actorToMapName && actor.path) {
-                  actor.mapName = actorToMapName(actor);
+                  actor.mapName = actorToMapName(actor, prevPlayer);
                 }
                 if (normalizeLocation) {
                   normalizeLocation(actor);
@@ -209,7 +209,7 @@ export async function listenToPlugin(
                 const dz = actor.z - prevPlayer.z;
                 const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
                 if (actorToMapName && actor.path) {
-                  actor.mapName = actorToMapName(actor);
+                  actor.mapName = actorToMapName(actor, prevPlayer);
                 }
                 const isKnown = types.includes(actor.type);
                 return { ...actor, distance, isKnown };
@@ -228,6 +228,7 @@ export async function listenToPlugin(
     window.getClosestActors = getClosestActors;
   } catch (e) {
     console.error("Error listening to plugin", e);
+    throw e;
   }
 }
 
