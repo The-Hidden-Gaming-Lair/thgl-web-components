@@ -41,21 +41,25 @@ if (el) {
   throw new Error("Could not find root element!!");
 }
 
+let lastMapName = "default";
 await listenToPlugin(Object.keys(typesIdMap), (actor, playerActor) => {
-  if (actor.mapName) {
-    return actor.mapName;
-  }
+  let mapName = lastMapName;
   if (actor.path) {
     // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
-    if (actor.path === "OpenWorld") {
-      return "default";
+    if (actor.path === "Charactor") {
+      // return lastMapName;
+    } else if (actor.path === "OpenWorld") {
+      lastMapName = "default";
+    } else if (actor.path === "LevelScene_Raid") {
+      lastMapName = "monolith";
+    } else {
+      lastMapName = actor.path;
     }
-    return actor.path;
+    lastMapName = mapName;
+  } else if (playerActor.mapName) {
+    mapName = playerActor.mapName;
   }
-  if (playerActor.mapName) {
-    return playerActor.mapName;
-  }
-  return "default";
+  return mapName;
 });
 
 useGameState.subscribe(
