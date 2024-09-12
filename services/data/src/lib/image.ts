@@ -207,6 +207,7 @@ export async function mergeImages(
   paths: string[],
   regExp: RegExp,
   bgColor?: string,
+  invertY?: boolean,
 ) {
   let canvas: Canvas | null = null;
   let coordinates = paths.map((path) => {
@@ -256,13 +257,23 @@ export async function mergeImages(
         image.height,
       );
     } else {
-      ctx.drawImage(
-        image,
-        image.width * (pathCoordinates.coords[0] - cellsMin),
-        image.height * (rowsMax - pathCoordinates.coords[1]),
-        image.width,
-        image.height,
-      );
+      if (invertY) {
+        ctx.drawImage(
+          image,
+          image.width * (pathCoordinates.coords[0] - cellsMin),
+          image.height * pathCoordinates.coords[1],
+          image.width,
+          image.height,
+        );
+      } else {
+        ctx.drawImage(
+          image,
+          image.width * (pathCoordinates.coords[0] - cellsMin),
+          image.height * (rowsMax - pathCoordinates.coords[1]),
+          image.width,
+          image.height,
+        );
+      }
     }
   }
 
