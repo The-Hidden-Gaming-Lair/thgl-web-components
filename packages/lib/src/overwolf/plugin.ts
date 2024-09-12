@@ -64,6 +64,7 @@ export async function listenToPlugin(
     const state = useGameState.getState();
     const { setPlayer, setActors, setError } = state;
     const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
+    console.log("Listening to game events plugin");
     let firstPlayerData = false;
     let lastPlayerError = "";
     let prevPlayer: ActorPlayer = {
@@ -152,7 +153,10 @@ export async function listenToPlugin(
         targetTypes,
         (allActors) => {
           const actors = (allActors || []).filter(
-            (a) => !BLACKLISTED_TYPES.includes(a.type),
+            (a) =>
+              !BLACKLISTED_TYPES.includes(a.type) &&
+              !Number.isNaN(a.x) &&
+              !Number.isNaN(a.y),
           );
 
           if (!firsActorstData && actors.length > 0) {

@@ -21,61 +21,65 @@ export async function initDiscordRPC(
     callback: (data: PresenceData) => void,
   ) => void | Promise<void>,
 ) {
-  let discordRPCPlugin = await loadDiscordRPCPlugin(applicationID);
-  let refreshPresenceTimeout: NodeJS.Timeout | null = null;
-  let displayDiscordActivityStatus =
-    useSettingsStore.getState().displayDiscordActivityStatus;
-  const refreshPresence = async () => {
-    if (!displayDiscordActivityStatus) {
-      return;
-    }
-    if (refreshPresenceTimeout) {
-      clearTimeout(refreshPresenceTimeout);
-    }
-    updatePresence((data) =>
-      discordRPCPlugin.updatePresence(
-        ...data,
-        async (response: SuccessResponse | ErrorResponse) => {
-          if (response.status === "error") {
-            discordRPCPlugin = await loadDiscordRPCPlugin(applicationID);
-            updatePresence((data) =>
-              discordRPCPlugin.updatePresence(
-                ...data,
-                (response: SuccessResponse | ErrorResponse) => {
-                  if (response.status === "error") {
-                    console.error("Discord RPC error: " + response.error);
-                  }
-                },
-              ),
-            );
-          }
-        },
-      ),
-    );
-
-    refreshPresenceTimeout = setTimeout(refreshPresence, 30000);
-  };
-  useSettingsStore.subscribe((state) => {
-    if (state.displayDiscordActivityStatus === displayDiscordActivityStatus) {
-      return;
-    }
-    displayDiscordActivityStatus = state.displayDiscordActivityStatus;
-    if (displayDiscordActivityStatus) {
-      console.log("Displaying Discord Activity Status");
-      refreshPresence();
-    } else {
+  try {
+    let discordRPCPlugin = await loadDiscordRPCPlugin(applicationID);
+    let refreshPresenceTimeout: NodeJS.Timeout | null = null;
+    let displayDiscordActivityStatus =
+      useSettingsStore.getState().displayDiscordActivityStatus;
+    const refreshPresence = async () => {
+      if (!displayDiscordActivityStatus) {
+        return;
+      }
       if (refreshPresenceTimeout) {
         clearTimeout(refreshPresenceTimeout);
       }
-      console.log("Disposing Discord RPC plugin");
-      discordRPCPlugin.dispose(() => {});
+      updatePresence((data) =>
+        discordRPCPlugin.updatePresence(
+          ...data,
+          async (response: SuccessResponse | ErrorResponse) => {
+            if (response.status === "error") {
+              discordRPCPlugin = await loadDiscordRPCPlugin(applicationID);
+              updatePresence((data) =>
+                discordRPCPlugin.updatePresence(
+                  ...data,
+                  (response: SuccessResponse | ErrorResponse) => {
+                    if (response.status === "error") {
+                      console.error("Discord RPC error: " + response.error);
+                    }
+                  },
+                ),
+              );
+            }
+          },
+        ),
+      );
+
+      refreshPresenceTimeout = setTimeout(refreshPresence, 30000);
+    };
+    useSettingsStore.subscribe((state) => {
+      if (state.displayDiscordActivityStatus === displayDiscordActivityStatus) {
+        return;
+      }
+      displayDiscordActivityStatus = state.displayDiscordActivityStatus;
+      if (displayDiscordActivityStatus) {
+        console.log("Displaying Discord Activity Status");
+        refreshPresence();
+      } else {
+        if (refreshPresenceTimeout) {
+          clearTimeout(refreshPresenceTimeout);
+        }
+        console.log("Disposing Discord RPC plugin");
+        discordRPCPlugin.dispose(() => {});
+      }
+    });
+    if (displayDiscordActivityStatus) {
+      console.log("Displaying Discord Activity Status");
+      refreshPresence();
     }
-  });
-  if (displayDiscordActivityStatus) {
-    console.log("Displaying Discord Activity Status");
-    refreshPresence();
+    return refreshPresence;
+  } catch (e) {
+    console.error("Error initializing Discord RPC", e);
   }
-  return refreshPresence;
 }
 
 export async function loadDiscordRPCPlugin(
