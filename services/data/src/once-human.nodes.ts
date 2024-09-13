@@ -57,7 +57,7 @@ Object.keys(data).forEach((type) => {
   if (!oldNodes) {
     console.log("No old nodes for", type);
   } else {
-    oldNodes.spawns = [];
+    // oldNodes.spawns = [];
   }
 });
 
