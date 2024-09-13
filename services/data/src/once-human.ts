@@ -18,6 +18,7 @@ import {
   BattleFieldData,
   BigMapItemData,
   BigWorldCollectableNotesData,
+  BookCollectModelData,
   BookCollectSeriesData,
   CollectNewTagData,
   DeviationBaseData,
@@ -167,6 +168,9 @@ const itemData = await readJSON<ItemData>(
 );
 const deviationBaseData = await readJSON<DeviationBaseData>(
   CONTENT_DIR + "/game_common/data/deviation_base_data.json",
+);
+const bookCollectModelData = await readJSON<BookCollectModelData>(
+  CONTENT_DIR + "/client_data/book_collect_model_data.json",
 );
 
 const newTypes: string[] = [];
@@ -580,6 +584,66 @@ const isValidModelPath = (modelPath: string) => {
   );
 };
 
+for (const deviation of Object.values(deviationBaseData)) {
+  const group = "deviations";
+  const type = `deviations_${deviation.name.toLowerCase().replaceAll(" ", "_")}`;
+  enDict[type] = deviation.name;
+  const iconPath = `/ui/dynamic_texpack/contain_system_ui/containment_icon/${deviation.pal_icon}`;
+  enDict[`${type}_desc`] = deviation.skill_info_lst.join("<br>");
+  const size = 1.5;
+  const iconProps: IconProps = {
+    border: true,
+    color: "#d1aedd",
+  };
+
+  let typeId;
+  if (deviation.unit_id) {
+    const baseNPC = baseNPCData[deviation.unit_id]!;
+    typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
+  } else {
+    const modelData = Object.values(bookCollectModelData).find(
+      (d) => d.name === deviation.name,
+    );
+    if (!modelData) {
+      console.warn(`No model data for ${deviation.name}`);
+      continue;
+    }
+
+    typeId = modelData.model_path!.replaceAll("/", "\\").split("\\").at(-1)!;
+  }
+  if (typeIDs[typeId] && typeIDs[typeId] !== type) {
+    console.warn(
+      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    );
+  }
+  typeIDs[typeId] = type;
+
+  if (!newTypes.includes(type)) {
+    newTypes.push(type);
+    const icon = await saveIcon(iconPath, type, iconProps);
+    if (!filters.some((f) => f.group === group)) {
+      filters.push({
+        group,
+        values: [],
+        defaultOn: true,
+        defaultOpen: true,
+      });
+    }
+    const filter = filters.find((f) => f.group === group)!;
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+    });
+    if (!nodes.some((n) => n.type === type)) {
+      nodes.push({
+        type,
+        spawns: [],
+      });
+    }
+  }
+}
+
 for (const baseNPC of Object.values(baseNPCData)) {
   try {
     if (!isValidModelPath(baseNPC.model_path)) {
@@ -604,21 +668,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
     let size = 0.75;
 
     if (baseNPC.unit_entity_type === "Deviation") {
-      const deviation = Object.values(deviationBaseData).find(
-        (d) => d.unit_id === baseNPC.unit_id,
-      );
-      if (!deviation) {
-        console.warn("No deviation for", baseNPC.unit_id);
-        continue;
-      }
-      group = "deviations";
-      type = `deviations_${deviation.name.toLowerCase().replaceAll(" ", "_")}`;
-      title = deviation.name;
-      iconPath = `/ui/dynamic_texpack/contain_system_ui/containment_icon/${deviation.pal_icon}`;
-      enDict[`${type}_desc`] = deviation.skill_info_lst.join("<br>");
-      size = 1.5;
-      iconProps.border = true;
-      iconProps.color = "#d1aedd";
+      continue;
     } else {
       iconProps.color = uniqolor(type, {
         lightness: [70, 80],

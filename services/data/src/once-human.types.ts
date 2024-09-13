@@ -807,3 +807,34 @@ export type DeviationBaseData = Record<
     containment_base: number;
   }
 >;
+
+export type BookCollectModelData = Record<
+  string,
+  {
+    title2: string;
+    unlock2: number;
+    brand_type: number;
+    text_type: number;
+    display_name: string;
+    content2: string;
+    content1: string;
+    mobile_rotation: Array<number>;
+    mobile_pos3: Array<number>;
+    title1: string;
+    title: string;
+    mobile_scale: Array<number>;
+    hand_hold_item_no: number;
+    pos3: Array<number>;
+    title3: string;
+    content3: string;
+    rotation: Array<number>;
+    scale: Array<number>;
+    anim_path: string;
+    name: string;
+    head_img_path: string;
+    sort_priority: number;
+    unit_ids: Array<string>;
+    unlock3: number;
+    model_path?: string;
+  }
+>;
