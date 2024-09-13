@@ -64,7 +64,9 @@ const enDict = initDict({
   recipes: "Recipes",
   gatherables: "Gatherables",
 });
-const typeIDs = initTypesIDs();
+const typeIDs = initTypesIDs({
+  "ball.gim": "deviations_ball",
+});
 
 const mapName = "default";
 if (Bun.env.TILES === "true") {
@@ -599,6 +601,8 @@ for (const baseNPC of Object.values(baseNPCData)) {
 
     const iconProps: IconProps = {};
     let iconPath;
+    let size = 0.75;
+
     if (baseNPC.unit_entity_type === "Deviation") {
       const deviation = Object.values(deviationBaseData).find(
         (d) => d.unit_id === baseNPC.unit_id,
@@ -612,6 +616,9 @@ for (const baseNPC of Object.values(baseNPCData)) {
       title = deviation.name;
       iconPath = `/ui/dynamic_texpack/contain_system_ui/containment_icon/${deviation.pal_icon}`;
       enDict[`${type}_desc`] = deviation.skill_info_lst.join("<br>");
+      size = 1.5;
+      iconProps.border = true;
+      iconProps.color = "#d1aedd";
     } else {
       iconProps.color = uniqolor(type, {
         lightness: [70, 80],
@@ -655,8 +662,6 @@ for (const baseNPC of Object.values(baseNPCData)) {
       );
     }
     typeIDs[typeId] = type;
-
-    const size = 0.75;
 
     enDict[type] = title;
 

@@ -39,7 +39,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-6", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-7", {
   headers: {
     Authorization: `thgl`,
   },
@@ -80,6 +80,17 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
           (x - bx) ** 2 + (y - by) ** 2 + (z - bz) ** 2,
         );
         return distance > 20;
+      });
+    });
+  }
+  if (id.startsWith("deviations_")) {
+    const balls = data["ball.gim"] || [];
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
+      return balls.some(([bx, by, bz]) => {
+        const distance = Math.sqrt(
+          (x - bx) ** 2 + (y - by) ** 2 + (z - bz) ** 2,
+        );
+        return distance < 1;
       });
     });
   }
