@@ -43,10 +43,19 @@ export function MapHotkeys() {
             if (spawn.mapName !== player.mapName) {
               return nearest;
             }
-            const distance = Math.sqrt(
-              Math.pow(player.x - spawn.p[0], 2) +
-                Math.pow(player.y - spawn.p[1], 2),
-            );
+            let distance;
+            if (player.z && spawn.p[2]) {
+              distance = Math.sqrt(
+                Math.pow(player.x - spawn.p[0], 2) +
+                  Math.pow(player.y - spawn.p[1], 2) +
+                  Math.pow(player.z - spawn.p[2], 2),
+              );
+            } else {
+              distance = Math.sqrt(
+                Math.pow(player.x - spawn.p[0], 2) +
+                  Math.pow(player.y - spawn.p[1], 2),
+              );
+            }
             if (distance < nearest.distance) {
               return { distance, spawn };
             }

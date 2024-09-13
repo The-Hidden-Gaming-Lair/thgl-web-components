@@ -167,7 +167,7 @@ export async function listenToPlugin(
             lastActorsError = "";
           }
           actors.forEach((actor) => {
-            if (actorToMapName && actor.path) {
+            if (actorToMapName) {
               actor.mapName = actorToMapName(actor, prevPlayer);
             }
             if (normalizeLocation) {
