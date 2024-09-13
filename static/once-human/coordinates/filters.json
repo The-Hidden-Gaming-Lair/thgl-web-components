@@ -133,6 +133,48 @@
         "id": "stardust_ore",
         "icon": "stardust_ore.webp",
         "size": 1
+      },
+      {
+        "id": "tungsten_ore",
+        "icon": "tungsten_ore.webp",
+        "size": 1,
+        "defaultOn": false
+      },
+      {
+        "id": "aluminum_ore",
+        "icon": "aluminum_ore.webp",
+        "size": 1,
+        "defaultOn": false
+      },
+      {
+        "id": "iron_ore",
+        "icon": "iron_ore.webp",
+        "size": 1,
+        "defaultOn": false
+      },
+      {
+        "id": "tin_ore",
+        "icon": "tin_ore.webp",
+        "size": 1,
+        "defaultOn": false
+      },
+      {
+        "id": "sulfur",
+        "icon": "sulfur.webp",
+        "size": 1,
+        "defaultOn": false
+      },
+      {
+        "id": "seaweed_rock",
+        "icon": "seaweed_rock.webp",
+        "size": 1,
+        "defaultOn": false
+      },
+      {
+        "id": "shell_rock",
+        "icon": "shell_rock.webp",
+        "size": 1,
+        "defaultOn": false
       }
     ]
   },

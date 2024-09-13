@@ -1307,6 +1307,199 @@ for (const [key, value] of Object.entries(interactResData)) {
   typeIDs["sd_l_01.gim"] = type;
 }
 {
+  const group = "gatherables";
+  const type = "tungsten_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_tungsten_ore_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Tungsten Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["w_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "aluminum_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_aluminum_ore_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Aluminum Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["al_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "iron_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_iron_ore_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Iron Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["fe_s_01.gim"] = type;
+  typeIDs["fe_m_01.gim"] = type;
+  typeIDs["fe_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "tin_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_stannum_ore_new.png.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Tin Ore";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["ag_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "sulfur";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sulfur_ore_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Sulfur";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["s_s_01.gim"] = type;
+  typeIDs["s_m_01.gim"] = type;
+  typeIDs["s_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "seaweed_rock";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_kelp_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Seaweed Rock";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["mossy_l_01.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "shell_rock";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_kelp_new.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: false,
+  });
+  enDict[type] = "Shell Rock";
+
+  if (!nodes.some((n) => n.type === type)) {
+    nodes.push({
+      type,
+      spawns: [],
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["mossy_l_01.gim"] = type;
+}
+{
   const previousNodes = await readJSON<Node[]>(
     OUTPUT_DIR + "/coordinates/nodes.json",
   );
