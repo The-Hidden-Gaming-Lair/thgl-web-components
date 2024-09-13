@@ -639,6 +639,36 @@ for (const baseNPC of Object.values(baseNPCData)) {
         iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/capybara_caro-asercion.webp`;
       } else if (type === "animal_deer") {
         iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/deer_caro-asercion.webp`;
+      } else if (type.endsWith("_crocodile")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/croc-jaws_lorc.webp`;
+      } else if (type === "animal_eagle") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/eagle-head_delapouite.webp`;
+      } else if (type.endsWith("_wolf")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/wolf-head_lorc.webp`;
+      } else if (type === "animal_flamingo") {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/flamingo_delapouite.webp`;
+      } else if (type.endsWith("_fox")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/fox_caro-asercion.webp`;
+      } else if (type.endsWith("_pelican")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/eating-pelican_delapouite.webp`;
+      } else if (type.endsWith("_raccoon")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/raccoon-head_delapouite.webp`;
+      } else if (type.endsWith("_turtle")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/sea-turtle_delapouite.webp`;
+      } else if (type.endsWith("_swan")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/swan_lorc.webp`;
+      } else if (type.endsWith("_squirrel")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/squirrel_delapouite.webp`;
+      } else if (type.endsWith("_raven")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/raven_lorc.webp`;
+      } else if (type.endsWith("_rat")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rat_delapouite.webp`;
+      } else if (type.endsWith("_seal")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/juggling-seal_delapouite.webp`;
+      } else if (type.endsWith("_gull")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/finch_delapouite.webp`;
+      } else if (type.endsWith("_lion")) {
+        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/lion_lorc.webp`;
       } else if (group === "monster") {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
@@ -1137,12 +1167,12 @@ for (const [key, value] of Object.entries(interactResData)) {
 {
   const group = "items";
   const type = "mystical_crate";
+
   const icon = await saveIcon(
-    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/locked-box_delapouite.webp`,
     type,
     {
-      color: "orange",
-      circle: true,
+      color: "#f2be59",
     },
   );
 
