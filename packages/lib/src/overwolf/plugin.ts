@@ -59,6 +59,7 @@ export async function listenToPlugin(
     y: number;
     mapName?: string;
   }) => void,
+  filterActor?: (actor: Actor, index: number, actors: Actor[]) => boolean,
 ) {
   try {
     const state = useGameState.getState();
@@ -152,12 +153,15 @@ export async function listenToPlugin(
       gameEventsPlugin.GetActors(
         targetTypes,
         (allActors) => {
-          const actors = (allActors || []).filter(
+          let actors = (allActors || []).filter(
             (a) =>
               !BLACKLISTED_TYPES.includes(a.type) &&
               !Number.isNaN(a.x) &&
               !Number.isNaN(a.y),
           );
+          if (filterActor) {
+            actors = actors.filter(filterActor);
+          }
 
           if (!firsActorstData && actors.length > 0) {
             firsActorstData = true;

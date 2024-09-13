@@ -42,26 +42,49 @@ if (el) {
 }
 
 let lastMapName = "default";
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 setTimeout(async () => {
-  await listenToPlugin(Object.keys(typesIdMap), (actor, playerActor) => {
-    let mapName = lastMapName;
-    if (actor.path) {
-      // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
-      if (actor.path === "Charactor") {
-        // return lastMapName;
-      } else if (actor.path === "OpenWorld") {
-        lastMapName = "default";
-      } else if (actor.path === "LevelScene_Raid") {
-        lastMapName = "monolith";
-      } else {
-        lastMapName = actor.path;
+  await listenToPlugin(
+    Object.keys(typesIdMap),
+    (actor, playerActor) => {
+      let mapName = lastMapName;
+      if (actor.path) {
+        // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
+        if (actor.path === "Charactor") {
+          // return lastMapName;
+        } else if (actor.path === "OpenWorld") {
+          lastMapName = "default";
+        } else if (actor.path === "LevelScene_Raid") {
+          lastMapName = "monolith";
+        } else {
+          lastMapName = actor.path;
+        }
+        lastMapName = mapName;
+      } else if (playerActor.mapName) {
+        mapName = playerActor.mapName;
       }
-      lastMapName = mapName;
-    } else if (playerActor.mapName) {
-      mapName = playerActor.mapName;
-    }
-    return mapName;
-  });
+      return mapName;
+    },
+    undefined,
+    undefined,
+    (actor, _index, actors) => {
+      const id = typesIdMap[actor.type as keyof typeof typesIdMap];
+
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (!id?.startsWith("deviations_")) {
+        return true;
+      }
+      const balls = actors.filter((a) => a.type === "ball.gim");
+      return balls.some((ball) => {
+        const distance = Math.sqrt(
+          (actor.x - ball.x) ** 2 +
+            (actor.y - ball.y) ** 2 +
+            (actor.z - ball.z) ** 2,
+        );
+        return distance < 1;
+      });
+    },
+  );
 }, 1000);
 
 useGameState.subscribe(
