@@ -1,6 +1,6 @@
 "use client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useAccountStore } from "@repo/lib";
+import { isOverwolf, useAccountStore } from "@repo/lib";
 import { Button } from "../(controls)";
 import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
@@ -14,9 +14,6 @@ export function UserDialog() {
   const account = useAccountStore();
   const [userId, setUserId] = useState<string>("");
   const [loading, setLoading] = useState(false);
-
-  const isOverwolf =
-    typeof window !== "undefined" && "___overwolf___" in window;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (loading) {

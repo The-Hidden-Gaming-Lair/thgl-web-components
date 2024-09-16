@@ -2,6 +2,11 @@ export function isDebug() {
   return localStorage.getItem("DEBUG") === "true";
 }
 
+export const isOverwolf =
+  typeof window !== "undefined" &&
+  // @ts-expect-error
+  typeof window.___overwolf___ !== "undefined";
+
 export const BLACKLISTED_TYPES = [
   // "BP_Creature_NPC_Puck_C",
   "StaticMeshActor",

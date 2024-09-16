@@ -130,6 +130,11 @@
         "action-type": "custom",
         "passthrough": true,
         "default": "F10"
+      },
+      "toggle_live_mode": {
+        "title": "Toggle Live Mode",
+        "action-type": "custom",
+        "default": "F5"
       }
     },
     "protocol_override_domains": {

@@ -1,5 +1,5 @@
 "use client";
-import { useAccountStore } from "@repo/lib";
+import { isOverwolf, useAccountStore } from "@repo/lib";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
@@ -27,10 +27,6 @@ export function NitroScript({
 }): JSX.Element {
   const adRemoval = useAccountStore((state) => state.adRemoval);
   const { state, setState } = useNitroState();
-  const isOverwolf =
-    typeof window !== "undefined" &&
-    // @ts-expect-error
-    typeof window.___overwolf___ !== "undefined";
 
   useEffect(() => {
     if (state !== "loading" || adRemoval || isOverwolf) {

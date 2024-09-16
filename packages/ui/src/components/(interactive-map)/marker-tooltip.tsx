@@ -147,6 +147,10 @@ export function MarkerTooltip({
                             settings.
                           </p>
                           <p>Right-Click on the icon to toggle the node</p>
+                          <p>
+                            In-Game App Only: Use the hotkey to toggle near-by
+                            node
+                          </p>
                         </HoverCardContent>
                       </HoverCardPortal>
                     </HoverCard>

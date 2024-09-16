@@ -2,7 +2,7 @@ import { HOTKEYS } from "@repo/lib/overwolf";
 import { useEffect } from "react";
 import { useMap } from "../(interactive-map)/store";
 import { useGameState, useSettingsStore } from "@repo/lib";
-import { Spawns, useCoordinates, useT } from "../(providers)";
+import { useCoordinates, useT } from "../(providers)";
 import { toast } from "sonner";
 
 export function MapHotkeys() {

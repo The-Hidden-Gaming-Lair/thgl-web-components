@@ -1,11 +1,11 @@
 import Markdown from "markdown-to-jsx";
 import { useCoordinates, useT } from "../(providers)";
 import { useMemo } from "react";
-import { useSettingsStore } from "@repo/lib";
+import { isOverwolf, useSettingsStore } from "@repo/lib";
 
 export function FilterTooltip({ id }: { id: string }) {
   const t = useT();
-  const { nodes } = useCoordinates();
+  const { nodes, typesIdMap } = useCoordinates();
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
   const filterNode = useMemo(
     () => nodes.find((node) => node.type === id),
@@ -26,7 +26,22 @@ export function FilterTooltip({ id }: { id: string }) {
         Total: {filterNode?.spawns.length || 0} – Discovered:{" "}
         {discoveredSpawns.length}
       </p>
-      <Markdown>{t(id, true, id)}</Markdown>
+      {typesIdMap && (
+        <p>
+          Live Mode:
+          {Object.values(typesIdMap).includes(id) ? (
+            <span className="text-primary mx-1">supported</span>
+          ) : (
+            <span className="text-orange-500 mx-1">not supported</span>
+          )}
+          {!isOverwolf && (
+            <span className="text-muted-foreground">(In-Game App only)</span>
+          )}
+        </p>
+      )}
+      <div className="mt-1">
+        <Markdown>{t(id, true, id)}</Markdown>
+      </div>
     </>
   );
 }

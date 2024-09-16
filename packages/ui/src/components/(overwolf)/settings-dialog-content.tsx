@@ -46,6 +46,10 @@ export function OverwolfSettingsDialogContent({
         Discover Nearest Node
         <Hotkey name={HOTKEYS.DISCOVER_NODE} gameClassId={gameClassId} />
       </Label>
+      <Label className="flex items-center gap-2 justify-between">
+        Toggle Live Mode
+        <Hotkey name={HOTKEYS.TOGGLE_LIVE_MODE} gameClassId={gameClassId} />
+      </Label>
       <Separator />
       <h4 className="text-md font-semibold">Performance</h4>
       <div className="flex items-center gap-2 justify-between">

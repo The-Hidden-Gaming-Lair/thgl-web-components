@@ -121,6 +121,8 @@ function initHotkeys() {
       toggleWindow(preferedWindowName);
     } else if (event.name === HOTKEYS.TOGGLE_LOCK_APP) {
       useSettingsStore.getState().toggleLockedWindow();
+    } else if (event.name === HOTKEYS.TOGGLE_LIVE_MODE) {
+      useSettingsStore.getState().toggleLiveMode();
     }
   });
 }

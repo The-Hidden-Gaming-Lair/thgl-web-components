@@ -4,4 +4,5 @@ export const HOTKEYS = {
   ZOOM_IN_APP: "zoom_in_app",
   ZOOM_OUT_APP: "zoom_out_app",
   DISCOVER_NODE: "discover_node",
+  TOGGLE_LIVE_MODE: "toggle_live_mode",
 };
