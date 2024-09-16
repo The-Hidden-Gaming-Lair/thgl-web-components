@@ -1,7 +1,9 @@
 import fs from "fs";
 
-export const TEMP_DIR =
-  "/home/devleon/the-hidden-gaming-lair/services/data/tmp";
+export const TEMP_DIR = import.meta.path.replace(
+  String.raw`src\lib\dirs.ts`,
+  "tmp",
+);
 export let CONTENT_DIR = TEMP_DIR;
 export let TEXTURE_DIR = TEMP_DIR;
 export let OUTPUT_DIR = TEMP_DIR;

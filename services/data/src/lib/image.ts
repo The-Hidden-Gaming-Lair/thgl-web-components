@@ -203,6 +203,63 @@ function parseColor(color: string) {
   return [r, g, b];
 }
 
+export async function arrayJoinImages(
+  paths: string[],
+  regExp: RegExp,
+  outPath: string,
+) {
+  const coordinates = paths
+    .map((path) => {
+      const matched = path.match(regExp);
+      if (!matched) {
+        throw new Error("Invalid path: " + path);
+      }
+      return { coords: [+matched[1], +matched[2]], path };
+    })
+    .sort((a, b) => {
+      if (a.coords[1] !== b.coords[1]) {
+        return a.coords[1] - b.coords[1];
+      }
+      return a.coords[0] - b.coords[0];
+    });
+  const firstImage = await loadImage(coordinates[0].path);
+  const width = firstImage.width;
+  const height = firstImage.height;
+
+  const cellsMax = Math.max(...coordinates.map((c) => c.coords[0]));
+  const rowsMax = Math.max(...coordinates.map((c) => c.coords[1]));
+
+  const tempFolder = TEMP_DIR + "/arrayjoin";
+  await $`mkdir -p ${tempFolder}`;
+  await $`rm ${tempFolder}/*`.catch(() => null);
+
+  console.log("Cells:", cellsMax, "Rows:", rowsMax);
+  for (let j = 0; j < rowsMax; j++) {
+    for (let i = 0; i < cellsMax; i++) {
+      if (coordinates.find((c) => c.coords[0] === i && c.coords[1] === j)) {
+        continue;
+      }
+      const canvas = createBlankImage(width, height);
+      saveImage(
+        tempFolder + `/${100000 + i * 1000 + j}}.png`,
+        canvas.toBuffer("image/png"),
+      );
+    }
+  }
+
+  const across = cellsMax + 1;
+
+  let i = 0;
+  for (const pathCoordinates of coordinates) {
+    // copy the image to the temp folder
+    await $`cp ${pathCoordinates.path} ${tempFolder}/${100000 + pathCoordinates.coords[1] * 1000 + pathCoordinates.coords[0]}.png`;
+    i++;
+  }
+
+  await $`python ${import.meta.path.replace("image.ts", "arrayjoin.py")} ${tempFolder} ${outPath} ${across}`;
+  // await $`rm ${tempFolder}/*`.catch(() => null);
+}
+
 export async function mergeImages(
   paths: string[],
   regExp: RegExp,
@@ -283,6 +340,7 @@ export async function mergeImages(
 
   return canvas!;
 }
+
 function isBlackImage(image: Image) {
   const canvas = createCanvas(image.width, image.height);
   const ctx = canvas.getContext("2d");
