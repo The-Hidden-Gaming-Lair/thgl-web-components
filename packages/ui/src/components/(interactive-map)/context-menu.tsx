@@ -40,7 +40,7 @@ export function ContextMenu({
 
   return (
     <>
-      {contextMenuData && (
+      {contextMenuData && mapContainer && (
         <DropdownMenu
           onOpenChange={(open) => {
             if (!open) {

@@ -14,5 +14,6 @@
     "./packages/jest-presets",
     "./packages/lib",
     "./packages/ui"
-  ]
+  ],
+  "dotnet.defaultSolution": "disable"
 }
