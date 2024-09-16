@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 export function MapHotkeys() {
   const map = useMap();
-  const { spawns } = useCoordinates();
+  const { nodes } = useCoordinates();
   const t = useT();
 
   useEffect(() => {
@@ -38,65 +38,39 @@ export function MapHotkeys() {
         }
         const { discoveredNodes, setDiscoverNode } =
           useSettingsStore.getState();
-        const { distance, spawn } = spawns.reduce(
+        const nodeSpawns = nodes.flatMap((n) =>
+          n.spawns.map((s) => ({ ...s, type: n.type })),
+        );
+        const { distance, spawns } = nodeSpawns.reduce(
           (nearest, spawn) => {
-            if (spawn.mapName !== player.mapName) {
-              return nearest;
-            }
-            let distance;
-            if (player.z && spawn.p[2]) {
-              distance = Math.sqrt(
-                Math.pow(player.x - spawn.p[0], 2) +
-                  Math.pow(player.y - spawn.p[1], 2) +
-                  Math.pow(player.z - spawn.p[2], 2),
-              );
-            } else {
-              distance = Math.sqrt(
-                Math.pow(player.x - spawn.p[0], 2) +
-                  Math.pow(player.y - spawn.p[1], 2),
-              );
-            }
+            const distance = Math.sqrt(
+              Math.pow(player.x - spawn.p[0], 2) +
+                Math.pow(player.y - spawn.p[1], 2),
+            );
             if (distance < nearest.distance) {
-              return { distance, spawn };
+              return { distance, spawns: [spawn] };
+            }
+            if (distance === nearest.distance) {
+              return { distance, spawns: [...nearest.spawns, spawn] };
             }
             return nearest;
           },
-          { distance: Infinity, spawn: null } as {
+          { distance: Infinity, spawns: [] } as {
             distance: number;
-            spawn: Spawns[number] | null;
+            spawns: typeof nodeSpawns;
           },
         );
-        if (!spawn) {
-          return;
-        }
-        const nodeId = spawn.isPrivate
-          ? spawn.id!
-          : `${spawn.id ?? spawn.type}@${spawn.p[0]}:${spawn.p[1]}`;
-        const isCluster = Boolean(spawn.cluster && spawn.cluster.length > 0);
-        let isDiscovered = isCluster
-          ? discoveredNodes.includes(nodeId) &&
-            !spawn.cluster!.some(
-              (a) =>
-                !discoveredNodes.includes(
-                  `${a.id ?? t(a.type)}@${a.p[0]}:${a.p[1]}`,
-                ),
-            )
-          : discoveredNodes.includes(nodeId);
-        isDiscovered = !isDiscovered;
-
-        if (isCluster) {
-          spawn.cluster!.forEach((s) => {
-            setDiscoverNode(
-              `${s.id ?? t(s.type)}@${s.p[0]}:${s.p[1]}`,
-              isDiscovered,
-            );
-          });
-        }
-        setDiscoverNode(nodeId, isDiscovered);
-        toast(
-          (isDiscovered ? "Discovered " : "Undiscovered ") + t(spawn.type),
-          { duration: 2000 },
-        );
+        spawns.forEach((spawn) => {
+          const nodeId = spawn.isPrivate
+            ? spawn.id!
+            : `${spawn.id ?? spawn.type}@${spawn.p[0]}:${spawn.p[1]}`;
+          const isDiscovered = discoveredNodes.includes(nodeId);
+          setDiscoverNode(nodeId, !isDiscovered);
+          toast(
+            (isDiscovered ? "Discovered " : "Undiscovered ") + t(spawn.type),
+            { duration: 2000 },
+          );
+        });
       }
     };
 
@@ -105,7 +79,7 @@ export function MapHotkeys() {
     return () => {
       overwolf.settings.hotkeys.onPressed.removeListener(handleHotkey);
     };
-  }, [spawns]);
+  }, [nodes]);
 
   return <></>;
 }
