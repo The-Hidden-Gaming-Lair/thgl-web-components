@@ -125,6 +125,7 @@
       "discover_node": {
         "title": "Discover Node",
         "action-type": "custom",
+        "passthrough": true,
         "default": "F10"
       }
     },
