@@ -153,7 +153,7 @@ export function AppHeader({
                 }}
               />
             </TooltipTrigger>
-            <TooltipContent className="text-sm w-64" side="bottom">
+            <TooltipContent className="w-64" side="bottom">
               <p>
                 Switch between 2nd screen mode and overlay mode. The overlay
                 mode requires that the game is running and it's enabled in the
@@ -171,7 +171,7 @@ export function AppHeader({
                   onChange={settingsStore.toggleLiveMode}
                 />
               </TooltipTrigger>
-              <TooltipContent className="text-sm w-64" side="bottom">
+              <TooltipContent className="w-64" side="bottom">
                 <p>
                   The live mode shows the current locations of some nodes on the
                   map in a limited range. Disable it to see the spawn locations
