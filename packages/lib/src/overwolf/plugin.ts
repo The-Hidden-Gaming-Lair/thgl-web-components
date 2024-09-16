@@ -87,7 +87,8 @@ export async function listenToPlugin(
         lastPlayerError = "";
         setError(null);
       }
-      if (player) {
+
+      if (player && !Number.isNaN(player.x) && !Number.isNaN(player.y)) {
         if (player.r === null) {
           player.r =
             (Math.atan2(
