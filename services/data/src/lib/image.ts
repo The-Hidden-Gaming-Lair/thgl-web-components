@@ -227,7 +227,15 @@ export async function mergeImages(
 
   for (const pathCoordinates of coordinates) {
     const image = await loadImage(pathCoordinates.path);
+    console.log(
+      `Rendering ${pathCoordinates.path.split("/").at(-1)} at ${pathCoordinates.coords} with offset ${pathCoordinates.coords[0] - cellsMin}, ${rowsMax - rowsMin - (pathCoordinates.coords[1] - rowsMin)} with size ${image.width}x${image.height}`,
+    );
     if (!canvas) {
+      console.log(
+        "Creating canvas with size",
+        image.width * (cellsMax - cellsMin + 1),
+        image.height * (rowsMax - rowsMin + 1),
+      );
       canvas = createCanvas(
         image.width * (cellsMax - cellsMin + 1),
         image.height * (rowsMax - rowsMin + 1),
@@ -239,10 +247,6 @@ export async function mergeImages(
       }
     }
     const ctx = canvas.getContext("2d");
-
-    console.log(
-      `Rendering ${pathCoordinates.path.split("/").at(-1)} at ${pathCoordinates.coords} with offset ${pathCoordinates.coords[0] - cellsMin}, ${rowsMax - rowsMin - (pathCoordinates.coords[1] - rowsMin)} with size ${image.width}x${image.height}`,
-    );
 
     const isImageOnlyBlack = isBlackImage(image);
 

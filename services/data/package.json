@@ -9,7 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.51",
+    "@napi-rs/canvas": "^0.1.55",
     "cbor-x": "^1.6.0",
     "uniqolor": "^1.1.1"
   }

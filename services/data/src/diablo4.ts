@@ -9,19 +9,25 @@ initDirs(
 );
 
 if (Bun.env.TILES === "true") {
-  const mapFilters = [
-    "zmap_Frac_Underworld_",
-    "zmap_Kehj_Hell_",
-    "zmap_Kehj_Hell_Sightless_Eye_",
-    "zmap_Sanctuary_Eastern_Continent_",
-  ];
-  for (const mapFilter of mapFilters) {
-    const mapName = mapFilter.split("_")[1];
-    const mapTiles = await readDirSync(TEXTURE_DIR)
-      .filter((f) => f.startsWith(mapFilter) && !f.includes("cc"))
-      .map((f) => TEXTURE_DIR + "/" + f);
+  const mapImages = await readDirSync(TEXTURE_DIR).filter(
+    (f) => f.startsWith("zmap_") && f.match(/_\d\d_\d\d.png$/),
+  );
+  const mapImagesByName = mapImages.reduce(
+    (acc, f) => {
+      const mapName = f.match(/(.+)_\d\d_\d\d.png$/)![1];
+      const fileName = TEXTURE_DIR + "/" + f;
+      if (!acc[mapName]) {
+        acc[mapName] = [];
+      }
+      acc[mapName].push(fileName);
+      return acc;
+    },
+    {} as Record<string, string[]>,
+  );
+
+  for (const [mapName, images] of Object.entries(mapImagesByName)) {
     const mapImage = await mergeImages(
-      mapTiles,
+      images,
       /_(-?\d+)_(-?\d+)/,
       "#101010",
       true,
