@@ -17,7 +17,7 @@ import { cn, useGameState, useSettingsStore } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
 import { Input } from "../ui/input";
 import { QR } from "./qr";
-import { Antenna } from "lucide-react";
+import { Cast } from "lucide-react";
 
 const useConnectionStore = create<{
   connections: Record<string, DataConnection>;
@@ -199,13 +199,13 @@ export function StreamingSender({
                 : "text-orange-500",
           )}
         >
-          <Antenna className="lg:mr-2 h-4 w-4" />
-          <span className="hidden lg:inline">Live Sync</span>
+          <Cast className="lg:mr-2 h-4 w-4" />
+          <span className="hidden lg:inline">Peer Link</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Live Sync</DialogTitle>
+          <DialogTitle>Peer Link</DialogTitle>
           <DialogDescription>
             Stream the player position and spawned nodes by connecting to a
             browser on your favorite device (phone, tablet, PC). The connection

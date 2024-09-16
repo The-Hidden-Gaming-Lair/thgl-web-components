@@ -18,7 +18,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Antenna } from "lucide-react";
+import { Cast } from "lucide-react";
 import { useCoordinates } from "../(providers)";
 
 export function StreamingReceiver({
@@ -187,13 +187,13 @@ export function StreamingReceiver({
                 : "text-orange-500",
           )}
         >
-          <Antenna className="lg:mr-2 h-4 w-4" />
-          <span className="hidden lg:inline">Live Sync</span>
+          <Cast className="lg:mr-2 h-4 w-4" />
+          <span className="hidden lg:inline">Peer Link</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Live Sync</DialogTitle>
+          <DialogTitle>Peer Link</DialogTitle>
           <DialogDescription>
             Install the{" "}
             <ExternalAnchor
@@ -202,7 +202,8 @@ export function StreamingReceiver({
             >
               in-game app
             </ExternalAnchor>{" "}
-            to sync your player position with this map on every device.
+            to sync your player position and spawned nodes with this map on
+            every device (phone, tablet, PC).
           </DialogDescription>
         </DialogHeader>
         <section className="space-y-2 overflow-hidden">
