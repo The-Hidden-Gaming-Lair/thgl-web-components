@@ -39,6 +39,14 @@ export function FilterTooltip({ id }: { id: string }) {
           )}
         </p>
       )}
+      <p>
+        Spawn Type:
+        {filterNode?.static ? (
+          <span className="mx-1">static</span>
+        ) : (
+          <span className="mx-1">dynamic</span>
+        )}
+      </p>
       <div className="mt-1">
         <Markdown>{t(id, true, id)}</Markdown>
       </div>

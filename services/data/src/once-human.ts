@@ -1547,7 +1547,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["mossy_l_01.gim"] = type;
+  typeIDs["conch_l_01.gim"] = type;
 }
 {
   const previousNodes = await readJSON<Node[]>(
@@ -1575,13 +1575,16 @@ const sortPriority = [
 ];
 
 const items = filters.find((f) => f.group === "items")!;
+const recipes = filters.find((f) => f.group === "recipes")!;
 
 const filteredNodes = nodes
   .map((n) => {
-    const isItem = items.values.some((v) => v.id === n.type);
+    const isStatic =
+      items.values.some((v) => v.id === n.type) ||
+      recipes.values.some((v) => v.id === n.type);
     return {
       ...n,
-      static: !Object.values(typeIDs).includes(n.type) || isItem,
+      static: !Object.values(typeIDs).includes(n.type) || isStatic,
       spawns: n.spawns.filter((s) => {
         const isNotOnWorldMap =
           s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);

@@ -145,7 +145,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-7", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-8", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

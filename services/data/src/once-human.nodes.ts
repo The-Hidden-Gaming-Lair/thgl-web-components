@@ -39,7 +39,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-7", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-8", {
   headers: {
     Authorization: `thgl`,
   },
@@ -136,7 +136,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
 
 const filteredNodes = nodes.map((n) => ({
   ...n,
-  static: !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
+  // static: !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
   spawns: n.spawns.filter((s) => {
     const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
     return !isNotOnWorldMap;

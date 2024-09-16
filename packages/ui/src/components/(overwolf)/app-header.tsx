@@ -17,13 +17,7 @@ import { UnlockButton } from "./unlock-button";
 import { OverwolfSettingsDialogContent } from "./settings-dialog-content";
 import { useCoordinates } from "../(providers)";
 import { SendLogs } from "./send-logs";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardPortal,
-  HoverCardTrigger,
-  Label,
-} from "../(controls)";
+import { Label, Tooltip, TooltipContent, TooltipTrigger } from "../(controls)";
 import { Hotkey } from "./hotkey";
 
 export function AppHeader({
@@ -148,8 +142,8 @@ export function AppHeader({
         >
           {isOverlay ? <LockWindowButton /> : null}
           <Brand title={title ?? app} />
-          <HoverCard openDelay={50} closeDelay={50}>
-            <HoverCardTrigger>
+          <Tooltip delayDuration={200} disableHoverableContent>
+            <TooltipTrigger>
               <HeaderSwitch
                 checked={!settingsStore.overlayMode}
                 label="2nd Screen Mode"
@@ -158,45 +152,40 @@ export function AppHeader({
                   togglePreferedWindow(gameClassId);
                 }}
               />
-            </HoverCardTrigger>
-            <HoverCardPortal>
-              <HoverCardContent className="text-sm">
-                <p>
-                  Switch between 2nd screen mode and overlay mode. The overlay
-                  mode requires that the game is running and it's enabled in the
-                  Overwolf overlay settings.
-                </p>
-              </HoverCardContent>
-            </HoverCardPortal>
-          </HoverCard>
+            </TooltipTrigger>
+            <TooltipContent className="text-sm w-64" side="bottom">
+              <p>
+                Switch between 2nd screen mode and overlay mode. The overlay
+                mode requires that the game is running and it's enabled in the
+                Overwolf overlay settings.
+              </p>
+            </TooltipContent>
+          </Tooltip>
 
           {typesIdMap && (
-            <HoverCard openDelay={50} closeDelay={50}>
-              <HoverCardTrigger>
+            <Tooltip delayDuration={200} disableHoverableContent>
+              <TooltipTrigger>
                 <HeaderSwitch
                   checked={settingsStore.liveMode}
                   label="Live Mode"
                   onChange={settingsStore.toggleLiveMode}
                 />
-              </HoverCardTrigger>
-              <HoverCardPortal>
-                <HoverCardContent className="text-sm">
-                  <p>
-                    The live mode shows the current locations of some nodes on
-                    the map in a limited range. Disable it to see the spawn
-                    locations instead. Check the filter tooltip for the live
-                    mode support.
-                  </p>
-                  <Label className="flex items-center gap-2 justify-between">
-                    Toggle Live Mode
-                    <Hotkey
-                      name={HOTKEYS.TOGGLE_LIVE_MODE}
-                      gameClassId={gameClassId}
-                    />
-                  </Label>
-                </HoverCardContent>
-              </HoverCardPortal>
-            </HoverCard>
+              </TooltipTrigger>
+              <TooltipContent className="text-sm w-64" side="bottom">
+                <p>
+                  The live mode shows the current locations of some nodes on the
+                  map in a limited range. Disable it to see the spawn locations
+                  instead. Check the filter tooltip for the live mode support.
+                </p>
+                <Label className="flex items-center gap-2 justify-between">
+                  Toggle Live Mode
+                  <Hotkey
+                    name={HOTKEYS.TOGGLE_LIVE_MODE}
+                    gameClassId={gameClassId}
+                  />
+                </Label>
+              </TooltipContent>
+            </Tooltip>
           )}
           <div className="grow" />
           <ReleaseNotesLink
