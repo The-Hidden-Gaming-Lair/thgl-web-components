@@ -70,7 +70,7 @@ const typeIDs = initTypesIDs({
 });
 
 const mapName = "default";
-if (Bun.env.TILES === "true") {
+if (Bun.argv.includes("--tiles")) {
   const mapTiles = await readDirSync(
     TEXTURE_DIR + "/ui/texpack/bigmap_res/map/1024/",
   ).map((f) => TEXTURE_DIR + `/ui/texpack/bigmap_res/map/1024/${f}`);

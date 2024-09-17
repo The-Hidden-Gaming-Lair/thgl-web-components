@@ -241,7 +241,7 @@ for (const mapName of readDirSync(
   ];
 
   const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
-  if (Bun.env.TILES === "true") {
+  if (Bun.argv.includes("--tiles")) {
     try {
       const tilesFilepaths = await readDirSync(
         TEXTURE_DIR + `/PaxDei/Content/_PD/World/${mapName}/Map`,

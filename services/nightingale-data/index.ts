@@ -35,7 +35,7 @@ for (const temporal of temporals) {
     try {
       const tempPath = TEMP_DIR + "/" + name + ".png";
       allMaps.push(map);
-      if (Bun.env.TILES === "true") {
+      if (Bun.argv.includes("--tiles")) {
         const canvas = await createMap(
           TEXTURE_DIR + `/NWX/Content/NWX/Maps/Temporal/${temporal}/${map}`,
           CONTENT_DIR + `/NWX/Content/NWX/Maps/Temporal/${temporal}/${map}`,

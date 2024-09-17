@@ -105,7 +105,7 @@ for (const [mapName, canvas] of Object.entries(maps)) {
   const MULTIPLE = REAL_SIZE / TILE_SIZE;
   const OFFSET = [-MAP_BOUNDS[0][0] / MULTIPLE, -MAP_BOUNDS[0][1] / MULTIPLE];
   const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
-  if (Bun.env.TILES === "true") {
+  if (Bun.argv.includes("--tiles")) {
     await $`mkdir -p ${outDir}`;
     await $`vips dzsave ${imagePath} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
 

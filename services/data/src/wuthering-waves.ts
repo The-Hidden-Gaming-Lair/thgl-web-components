@@ -71,7 +71,7 @@ if (Bun.env.DB === "true") {
   );
 }
 
-if (Bun.env.TILES === "true") {
+if (Bun.argv.includes("--tiles")) {
   const mapTiles = await readDirSync(
     TEXTURE_DIR +
       "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles",

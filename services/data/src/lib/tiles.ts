@@ -40,7 +40,7 @@ export async function generateTiles(
     [number, number],
   ];
 
-  if (Bun.env.TILES === "true") {
+  if (Bun.argv.includes("--tiles")) {
     await $`mkdir -p ${outDir}`;
     await $`vips dzsave ${imagePath} ${outDir} --tile-size ${tileSize} --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
 

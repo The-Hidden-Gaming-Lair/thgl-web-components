@@ -111,7 +111,7 @@ for (const mapName of mapNames) {
   const width = 3700000 * multiplier;
 
   let mapImagePath = "";
-  if (Bun.env.TILES === "true") {
+  if (Bun.argv.includes("--tiles")) {
     mapImagePath = await createMapImage(
       terrain,
       details.dimensions[0] + 1,
