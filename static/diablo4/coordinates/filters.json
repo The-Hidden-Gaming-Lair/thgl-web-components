@@ -6,7 +6,7 @@
     "values": [
       {
         "id": "altarsOfLilith",
-        "icon": "altarsOfLilith.webp",
+        "icon": "altarsoflilith.webp",
         "size": 1.5
       },
       {
@@ -21,12 +21,12 @@
       },
       {
         "id": "sideQuestDungeons",
-        "icon": "sideQuestDungeons.webp",
+        "icon": "sidequestdungeons.webp",
         "size": 1.5
       },
       {
         "id": "campaignDungeons",
-        "icon": "campaignDungeons.webp",
+        "icon": "campaigndungeons.webp",
         "size": 1.5
       },
       {
@@ -51,7 +51,7 @@
       },
       {
         "id": "worldTierStatue",
-        "icon": "worldTierStatue.webp",
+        "icon": "worldtierstatue.webp",
         "size": 2
       }
     ]
@@ -98,7 +98,7 @@
       },
       {
         "id": "stableMasters",
-        "icon": "stableMasters.webp",
+        "icon": "stablemasters.webp",
         "size": 1.5
       },
       {
@@ -115,12 +115,12 @@
     "values": [
       {
         "id": "sideQuests",
-        "icon": "sideQuests.webp",
+        "icon": "sidequests.webp",
         "size": 1.5
       },
       {
         "id": "campaignQuests",
-        "icon": "campaignQuests.webp",
+        "icon": "campaignquests.webp",
         "size": 1.5
       },
       {
@@ -137,12 +137,12 @@
     "values": [
       {
         "id": "chestGuardian",
-        "icon": "chestGuardian.webp",
+        "icon": "chestguardian.webp",
         "size": 2
       },
       {
         "id": "chestT3",
-        "icon": "chestT3.webp",
+        "icon": "chestt3.webp",
         "size": 2
       }
     ]

@@ -20,7 +20,8 @@ import {
 } from "./diablo4.types.js";
 
 initDirs(
-  String.raw`C:\dev\DiabloIV\d4data\json`,
+  // String.raw`C:\dev\DiabloIV\d4data\json`,
+  String.raw`C:\dev\DiabloIV\d4data_ptr\json`,
   String.raw`C:\dev\DiabloIV\d4-texture-extractor\png`,
   String.raw`C:\dev\the-hidden-gaming-lair\static\diablo4`,
 );
@@ -80,17 +81,17 @@ for (const [mapName, images] of Object.entries(mapImagesByName)) {
   }
 
   // tiles[mapName] = (
-  //   await generateTiles(
-  //     mapName,
-  //     `${TEMP_DIR}/${mapName}.png`,
-  //     301,
-  //     512,
-  //     [150, 150],
-  //     undefined,
-  //     undefined,
-  //     undefined,
-  //     [1, -1],
-  //   )
+  await generateTiles(
+    mapName,
+    `${TEMP_DIR}/${mapName}.png`,
+    301,
+    512,
+    [150, 150],
+    undefined,
+    undefined,
+    undefined,
+    [1, -1],
+  );
   // )[mapName];
 }
 writeTiles(tiles);
@@ -734,7 +735,10 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
       );
       const aspect = trackedReward.snoAspect!;
       const aspectId = aspect.name.replace("Asp_", "");
-      const aspectTerms = await readTerms(`Affix_${aspectId.toLowerCase()}`);
+      const termId = aspectId.includes("Spiritborn")
+        ? `Affix_${aspectId.toLowerCase()}_x1`
+        : `Affix_${aspectId.toLowerCase()}`;
+      const aspectTerms = await readTerms(termId);
       const aspectName = aspectTerms.find(
         (term) => term.szLabel === "Name",
       )!.szText;
@@ -1132,6 +1136,14 @@ for (const bountyZone of [
   for (const bounty of bountyZone.arBounties) {
     const [, , , zone, subzone] = bounty.snoWorldState.name.split("_");
     const stringId = bounty.snoQuest.name;
+    if (!stringId) {
+      console.warn(
+        "Missing quest name",
+        bounty.snoWorldState.name,
+        bounty.snoQuest,
+      );
+      continue;
+    }
     const quest = await readJSON<Quest>(
       CONTENT_DIR + "/base/meta/Quest/" + stringId + ".qst.json",
     );
