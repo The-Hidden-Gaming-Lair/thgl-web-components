@@ -26,15 +26,17 @@ export function AdsContainer({
   const setShowUserDialog = useAccountStore((state) => state.setShowUserDialog);
 
   useEffect(() => {
-    if (!transformId || !moveableRef.current) {
+    if (!transformId) {
       return;
     }
 
-    moveableRef.current.moveable.request(
-      "draggable",
-      { deltaX: 0, deltaY: 0 },
-      true,
-    );
+    const timeoutId = setTimeout(() => {
+      moveableRef.current?.moveable.request(
+        "draggable",
+        { deltaX: 0, deltaY: 0 },
+        true,
+      );
+    }, 1000);
 
     const onResize = () => {
       moveableRef.current?.moveable.request(
@@ -46,6 +48,7 @@ export function AdsContainer({
     window.addEventListener("resize", onResize, true);
 
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("resize", onResize, true);
     };
   }, []);

@@ -77,8 +77,12 @@ type SettingsStore = {
   toggleLockedWindow: () => void;
   transforms: Record<string, string>;
   setTransform: (id: string, transform: string) => void;
-  mapTransform: Record<string, string> | null;
-  setMapTransform: (mapTransform: Record<string, string>) => void;
+  mapTransform: { transform: string; width: string; height: string } | null;
+  setMapTransform: (mapTransform: {
+    transform: string;
+    width: string;
+    height: string;
+  }) => void;
   mapFilter: string;
   setMapFilter: (mapFilter: string) => void;
   windowOpacity: number;

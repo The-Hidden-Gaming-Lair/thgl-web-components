@@ -25,6 +25,7 @@ export function MapContainer({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const map = useMap();
   const {
+    _hasHydrated,
     lockedWindow,
     mapTransform,
     setMapTransform,
@@ -40,14 +41,16 @@ export function MapContainer({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!isOverlay) {
+    if (!isOverlay || !_hasHydrated) {
       return;
     }
-    moveableRef.current?.moveable.request(
-      "draggable",
-      { deltaX: 0, deltaY: 0 },
-      true,
-    );
+    const timeoutId = setTimeout(() => {
+      moveableRef.current?.moveable.request(
+        "draggable",
+        { deltaX: 0, deltaY: 0 },
+        true,
+      );
+    }, 1000);
 
     const onResize = () => {
       // @ts-ignore
@@ -59,12 +62,13 @@ export function MapContainer({
     };
     window.addEventListener("resize", onResize, true);
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("resize", onResize, true);
     };
-  }, []);
+  }, [_hasHydrated]);
 
   useEffect(() => {
-    if (!isOverlay) {
+    if (!isOverlay || !_hasHydrated) {
       return;
     }
 
@@ -81,10 +85,14 @@ export function MapContainer({
       width: "300px",
       height: "300px",
     });
-  }, [mapTransform]);
+  }, [mapTransform, _hasHydrated]);
 
   if (!isOverlay) {
     return children;
+  }
+
+  if (!_hasHydrated) {
+    return <></>;
   }
   return (
     <>
