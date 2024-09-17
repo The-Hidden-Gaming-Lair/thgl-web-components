@@ -61,6 +61,7 @@ export type Tiles = Record<
       maxNativeZoom: number;
       bounds: [[number, number], [number, number]];
       tileSize: number;
+      threshold?: number;
     };
     minZoom?: number;
     maxZoom?: number;
