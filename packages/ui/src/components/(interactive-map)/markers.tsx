@@ -13,6 +13,7 @@ import {
   useSettingsStore,
 } from "@repo/lib";
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
+import { useThrottle } from "@uidotdev/usehooks";
 
 export function Markers({
   markerOptions,
@@ -20,17 +21,6 @@ export function Markers({
   markerOptions: MarkerOptions;
 }): JSX.Element {
   const map = useMap();
-  const { spawns, icons, filters } = useCoordinates();
-  const hideDiscoveredNodes = useSettingsStore(
-    (state) => state.hideDiscoveredNodes,
-  );
-  const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
-  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
-  const t = useT();
-  const baseIconSize = useSettingsStore((state) => state.baseIconSize);
-  const liveMode = useSettingsStore((state) => state.liveMode);
-  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
-
   const handleMapMouseMoveRef = useRef<((e: LeafletMouseEvent) => void) | null>(
     null,
   );
@@ -43,31 +33,102 @@ export function Markers({
     items: TooltipItems;
   } | null>(null);
 
+  const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
+  const mapContainer = map?.getPane("mapPane");
+  return (
+    <>
+      <MarkersContent
+        markerOptions={markerOptions}
+        onTooltipData={setTooltipData}
+        onTooltipOpen={setTooltipIsOpen}
+        handleMapMouseMoveRef={handleMapMouseMoveRef}
+      />
+      {mapContainer && tooltipData ? (
+        <HoverCard
+          closeDelay={0}
+          onOpenChange={(open) => {
+            if (!open) {
+              setTooltipIsOpen(false);
+            }
+          }}
+          open={tooltipIsOpen && !isDrawing}
+        >
+          <HoverCardPortal container={mapContainer}>
+            <HoverCardContent
+              className="cursor-default"
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+              onDoubleClick={(event) => {
+                event.stopPropagation();
+              }}
+              onMouseEnter={() => {
+                if (handleMapMouseMoveRef.current) {
+                  map?.off("mousemove", handleMapMouseMoveRef.current);
+                  handleMapMouseMoveRef.current = null;
+                }
+              }}
+              style={{
+                transform: `translate3d(calc(${tooltipData.x}px - 50%), calc(${tooltipData.y}px + 100% - ${tooltipData.radius}px - 2px), 0px)`,
+              }}
+            >
+              <MarkerTooltip
+                latLng={tooltipData.latLng}
+                items={tooltipData.items}
+                onClose={() => {
+                  setTooltipIsOpen(false);
+                }}
+              />
+            </HoverCardContent>
+          </HoverCardPortal>
+        </HoverCard>
+      ) : null}
+    </>
+  );
+}
+
+function MarkersContent({
+  markerOptions,
+  onTooltipData,
+  onTooltipOpen,
+  handleMapMouseMoveRef,
+}: {
+  markerOptions: MarkerOptions;
+  onTooltipData: (data: {
+    x: number;
+    y: number;
+    radius: number;
+    latLng: [number, number] | [number, number, number];
+    items: TooltipItems;
+  }) => void;
+  onTooltipOpen: (open: boolean) => void;
+  handleMapMouseMoveRef: React.MutableRefObject<
+    ((e: LeafletMouseEvent) => void) | null
+  >;
+}) {
+  const map = useMap();
+  const { spawns, icons, filters } = useCoordinates();
+  const hideDiscoveredNodes = useSettingsStore(
+    (state) => state.hideDiscoveredNodes,
+  );
+  const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
+  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
+  const t = useT();
+  const baseIconSize = useSettingsStore((state) => state.baseIconSize);
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
+  const liveMode = useSettingsStore((state) => state.liveMode);
+
+  const fitBoundsOnChange = useSettingsStore(
+    (state) => state.fitBoundsOnChange,
+  );
   const tempPrivateNodeId = useSettingsStore(
     (state) => state.tempPrivateNode?.id,
   );
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
-  const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
-  const fitBoundsOnChange = useSettingsStore(
-    (state) => state.fitBoundsOnChange,
-  );
-
   const existingSpawnIds = useRef<Map<string | number, CanvasMarker>>();
-
-  useEffect(() => {
-    if (!map) {
-      return;
-    }
-
-    return () => {
-      existingSpawnIds.current?.forEach((marker) => {
-        try {
-          marker.remove();
-        } catch (e) {}
-      });
-      existingSpawnIds.current?.clear();
-    };
-  }, [map]);
+  const player = useGameState((state) => state.player);
+  const throttledPlayer = useThrottle(player, 1000);
+  const firstRender = useRef(true);
 
   useEffect(() => {
     if (!map || !map._mapPane) {
@@ -76,7 +137,6 @@ export function Markers({
     if (!existingSpawnIds.current) {
       existingSpawnIds.current = new Map();
     }
-    const { player } = useGameState.getState();
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
     const sharedPrivateSpawns = sharedMyFilters.flatMap<Spawns[number]>(
@@ -126,16 +186,22 @@ export function Markers({
           )
         : discoveredNodes.includes(nodeId);
       let zPos: CanvasMarkerOptions["zPos"] = null;
-      if (markerOptions.zPos && player && spawn.p.length === 3) {
+      if (markerOptions.zPos && throttledPlayer && spawn.p.length === 3) {
         const xyDistance = Math.sqrt(
-          Math.pow(player.x - spawn.p[0], 2) +
-            Math.pow(player.y - spawn.p[1], 2),
+          Math.pow(throttledPlayer.x - spawn.p[0], 2) +
+            Math.pow(throttledPlayer.y - spawn.p[1], 2),
         );
         if (xyDistance > markerOptions.zPos.xyMaxDistance) {
           zPos = null;
-        } else if (player.z - spawn.p[2] > markerOptions.zPos.zDistance) {
+        } else if (
+          throttledPlayer.z - spawn.p[2] >
+          markerOptions.zPos.zDistance
+        ) {
           zPos = "bottom";
-        } else if (player.z - spawn.p[2] < -markerOptions.zPos.zDistance) {
+        } else if (
+          throttledPlayer.z - spawn.p[2] <
+          -markerOptions.zPos.zDistance
+        ) {
           zPos = "top";
         }
       }
@@ -217,14 +283,14 @@ export function Markers({
               );
             }
 
-            setTooltipData({
+            onTooltipData({
               x: event.sourceTarget._point.x,
               y: event.sourceTarget._point.y,
               radius: marker.getRadius(),
               items: items,
               latLng: spawn.p,
             });
-            setTooltipIsOpen(true);
+            onTooltipOpen(true);
           }, 50);
         },
         mouseout: () => {
@@ -237,7 +303,7 @@ export function Markers({
             const maxDistance = marker.getRadius() + 15;
 
             if (distanceFromMarker > maxDistance) {
-              setTooltipIsOpen(false);
+              onTooltipOpen(false);
               if (handleMapMouseMoveRef.current) {
                 map.off("mousemove", handleMapMouseMoveRef.current);
                 handleMapMouseMoveRef.current = null;
@@ -290,7 +356,23 @@ export function Markers({
     hideDiscoveredNodes,
     discoveredNodes,
     tempPrivateNodeId,
+    throttledPlayer,
   ]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    return () => {
+      existingSpawnIds.current?.forEach((marker) => {
+        try {
+          marker.remove();
+        } catch (e) {}
+      });
+      existingSpawnIds.current?.clear();
+    };
+  }, [map]);
 
   useEffect(() => {
     existingSpawnIds.current?.forEach((marker) => {
@@ -307,7 +389,6 @@ export function Markers({
     });
   }, [highlightSpawnIDs]);
 
-  const firstRender = useRef(true);
   useEffect(() => {
     if (!fitBoundsOnChange || liveMode || spawns.length === 0 || !map) {
       return;
@@ -328,49 +409,5 @@ export function Markers({
     }
   }, [spawns]);
 
-  const mapContainer = map?.getPane("mapPane");
-  return (
-    <>
-      {mapContainer && tooltipData ? (
-        <HoverCard
-          closeDelay={0}
-          onOpenChange={(open) => {
-            if (!open) {
-              setTooltipIsOpen(false);
-            }
-          }}
-          open={tooltipIsOpen && !isDrawing}
-        >
-          <HoverCardPortal container={mapContainer}>
-            <HoverCardContent
-              className="cursor-default"
-              onClick={(event) => {
-                event.stopPropagation();
-              }}
-              onDoubleClick={(event) => {
-                event.stopPropagation();
-              }}
-              onMouseEnter={() => {
-                if (handleMapMouseMoveRef.current) {
-                  map?.off("mousemove", handleMapMouseMoveRef.current);
-                  handleMapMouseMoveRef.current = null;
-                }
-              }}
-              style={{
-                transform: `translate3d(calc(${tooltipData.x}px - 50%), calc(${tooltipData.y}px + 100% - ${tooltipData.radius}px - 2px), 0px)`,
-              }}
-            >
-              <MarkerTooltip
-                latLng={tooltipData.latLng}
-                items={tooltipData.items}
-                onClose={() => {
-                  setTooltipIsOpen(false);
-                }}
-              />
-            </HoverCardContent>
-          </HoverCardPortal>
-        </HoverCard>
-      ) : null}
-    </>
-  );
+  return <></>;
 }

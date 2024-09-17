@@ -14,6 +14,10 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 const MARKER_OPTIONS = {
   radius: 6,
   playerIcon: "player.webp",
+  zPos: {
+    xyMaxDistance: 10,
+    zDistance: 2,
+  },
 };
 export default function InteractiveMapDynamic({
   mobalytics,

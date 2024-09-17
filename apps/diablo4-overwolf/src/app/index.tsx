@@ -55,6 +55,10 @@ const TITLE = "Diablo IV Map";
 const MARKER_OPTIONS = {
   radius: 6,
   playerIcon: "player.webp",
+  zPos: {
+    xyMaxDistance: 10,
+    zDistance: 2,
+  },
 };
 function App(): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
