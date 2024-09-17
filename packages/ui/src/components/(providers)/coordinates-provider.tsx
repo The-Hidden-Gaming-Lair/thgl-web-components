@@ -295,6 +295,9 @@ export function CoordinatesProvider({
                 if (view.globalFilters) {
                   result.globalFilters = view.globalFilters;
                 }
+                if (result.mapName && !mapNames.includes(result.mapName)) {
+                  result.mapName = mapNames[0];
+                }
                 return result;
               },
             },
