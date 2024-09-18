@@ -471,8 +471,7 @@ export function CoordinatesProvider({
     }
     const debug = isDebug();
 
-    const existingNodes = [...privateGroups, ...realStaticNodes];
-    const targetNodes = normalizedTypesIdMap
+    const actorNodes = normalizedTypesIdMap
       ? actors.reduce<NodesCoordinates>((acc, actor) => {
           let id = normalizedTypesIdMap[actor.type.toLowerCase()];
           if (!id) {
@@ -523,8 +522,9 @@ export function CoordinatesProvider({
             });
           }
           return acc;
-        }, existingNodes)
-      : existingNodes;
+        }, [])
+      : [];
+    const targetNodes = [...privateGroups, ...realStaticNodes, ...actorNodes];
     return targetNodes;
   }, [isHydrated, liveMode, appId, actors, privateGroups, staticNodes]);
 
