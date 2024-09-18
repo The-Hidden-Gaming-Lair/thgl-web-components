@@ -67,7 +67,7 @@ export function MapHotkeys() {
           const isDiscovered = discoveredNodes.includes(nodeId);
           setDiscoverNode(nodeId, !isDiscovered);
           toast(
-            (isDiscovered ? "Discovered " : "Undiscovered ") + t(spawn.type),
+            (!isDiscovered ? "Discovered " : "Undiscovered ") + t(spawn.type),
             { duration: 2000 },
           );
         });
