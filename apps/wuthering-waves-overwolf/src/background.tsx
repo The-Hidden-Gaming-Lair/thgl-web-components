@@ -1,8 +1,5 @@
-import {
-  type GameEventsPlugin,
-  initBackground,
-  loadPlugin,
-} from "@repo/lib/overwolf";
+import { initBackground, initGameEventsPlugin } from "@repo/lib/overwolf";
+import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
 initBackground(
   24300,
@@ -10,31 +7,10 @@ initBackground(
   "1249803392822546512",
 );
 
-const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
-
-const refreshProcess = () => {
-  gameEventsPlugin.UpdateProcess(
-    handleCallback,
-    handleError,
-    "Client-Win64-Shipping",
-  );
-};
-
-let status = "";
-const handleCallback = () => {
-  if (status !== "ok") {
-    status = "ok";
-    console.log("Game Events Plugin is running");
-  }
-  setTimeout(refreshProcess, 1000);
-};
-
-const handleError = (err: string) => {
-  if (err !== status) {
-    status = err;
-    console.error("Game Events Plugin Error: ", err);
-  }
-  setTimeout(refreshProcess, 1000);
-};
-
-refreshProcess();
+initGameEventsPlugin(
+  "Client-Win64-Shipping",
+  Object.keys(typesIdMap),
+  (actor) => {
+    return actor.path?.split("/")[4]?.split(".")[0];
+  },
+);
