@@ -2,13 +2,12 @@ import { useSettingsStore } from "../settings";
 import { BLACKLISTED_TYPES, isDebug } from "../env";
 import { useGameState } from "../game";
 import { promisifyOverwolf } from "./promisify";
+import type { EventBus } from "./event-bus";
 
-export async function loadPlugin<T>(name: string): Promise<T> {
-  console.log("Loading plugin", name);
-  const plugin = await promisifyOverwolf(
-    overwolf.extensions.current.getExtraObject,
-  )(name);
-  return plugin.object as T;
+declare global {
+  interface Window {
+    gameEventBus: EventBus;
+  }
 }
 
 export type ActorPlayer = {
@@ -50,22 +49,59 @@ export type GameEventsPlugin = {
   ) => void;
 };
 
-export async function listenToPlugin(
+export async function loadPlugin<T>(name: string): Promise<T> {
+  console.log("Loading plugin", name);
+  const plugin = await promisifyOverwolf(
+    overwolf.extensions.current.getExtraObject,
+  )(name);
+  return plugin.object as T;
+}
+
+export async function initGameEventsPlugin(
+  processName: string,
   types: string[],
   actorToMapName?: (actor: Actor, player: ActorPlayer) => string | undefined,
-  processName?: string,
+  actorProcessName?: string,
   normalizeLocation?: (location: {
     x: number;
     y: number;
     mapName?: string;
   }) => void,
   filterActor?: (actor: Actor, index: number, actors: Actor[]) => boolean,
+  onActors?: (actors: Actor[]) => void,
 ) {
   try {
-    const state = useGameState.getState();
-    const { setPlayer, setActors, setError } = state;
     const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
-    console.log("Listening to game events plugin");
+    console.log("Game Events Plugin loaded");
+
+    const refreshProcess = () => {
+      gameEventsPlugin.UpdateProcess(
+        handleRefreshProcessCallback,
+        handleRefreshProcessError,
+        processName,
+      );
+    };
+
+    let status = "";
+    const handleRefreshProcessCallback = () => {
+      if (status !== "ok") {
+        status = "ok";
+        console.log("Game Events Process updated");
+      }
+      setTimeout(refreshProcess, 1000);
+    };
+
+    const handleRefreshProcessError = (err: string) => {
+      if (err !== status) {
+        status = err;
+        console.error("Game Events Plugin Error: ", err);
+      }
+      setTimeout(refreshProcess, 1000);
+    };
+    setTimeout(() => {
+      refreshProcess();
+    }, 1000);
+
     let firstPlayerData = false;
     let lastPlayerError = "";
     let prevPlayer: ActorPlayer = {
@@ -81,11 +117,11 @@ export async function listenToPlugin(
     const handlePlayer = (player: ActorPlayer | null) => {
       if (player && !firstPlayerData) {
         firstPlayerData = true;
-        console.log("Got first data", JSON.stringify(player));
+        console.log("Got first player", JSON.stringify(player));
       }
       if (lastPlayerError) {
         lastPlayerError = "";
-        setError(null);
+        window.gameEventBus.trigger("player_error", null);
       }
 
       if (player && !Number.isNaN(player.x) && !Number.isNaN(player.y)) {
@@ -112,11 +148,10 @@ export async function listenToPlugin(
         ) {
           if (!Number.isNaN(player.x) && !Number.isNaN(player.y)) {
             prevPlayer = player;
-            setPlayer(player);
+            window.gameEventBus.trigger("player", player);
           }
         }
       }
-
       setTimeout(refreshPlayerState, 50);
     };
     const handleError = (err: string | null) => {
@@ -124,14 +159,14 @@ export async function listenToPlugin(
       if (errMessage !== lastPlayerError) {
         lastPlayerError = errMessage;
         console.error("Player Error: ", errMessage);
-        setError(errMessage);
+        window.gameEventBus.trigger("error", errMessage);
       }
       setTimeout(refreshPlayerState, 200);
     };
 
     function refreshPlayerState() {
-      if (processName) {
-        gameEventsPlugin.GetPlayer(handlePlayer, handleError, processName);
+      if (actorProcessName) {
+        gameEventsPlugin.GetPlayer(handlePlayer, handleError, actorProcessName);
       } else {
         gameEventsPlugin.GetPlayer(handlePlayer, handleError);
       }
@@ -162,7 +197,7 @@ export async function listenToPlugin(
               !Number.isNaN(a.x) &&
               !Number.isNaN(a.y),
           );
-          if (filterActor) {
+          if (filterActor && !debug) {
             actors = actors.filter(filterActor);
           }
 
@@ -181,7 +216,10 @@ export async function listenToPlugin(
               normalizeLocation(actor);
             }
           });
-          setActors(actors);
+          window.gameEventBus.trigger("actors", actors);
+          if (onActors) {
+            onActors(actors);
+          }
           if (liveMode) {
             setTimeout(refreshActorsState, actorsPollingRate);
           }
@@ -241,6 +279,31 @@ export async function listenToPlugin(
     console.error("Error listening to plugin", e);
     throw e;
   }
+}
+
+export async function listenToGameEvents(): Promise<void> {
+  const state = useGameState.getState();
+  const { setPlayer, setActors, setError } = state;
+  const { gameEventBus } = overwolf.windows.getMainWindow() as {
+    gameEventBus: EventBus;
+  };
+
+  gameEventBus.addListener((eventName, eventValue) => {
+    const value = JSON.parse(eventValue);
+    switch (eventName) {
+      case "error":
+        setError(value);
+        break;
+      case "player":
+        setPlayer(value);
+        break;
+      case "actors":
+        setActors(value);
+        break;
+    }
+  });
+
+  console.log("Listening to game events");
 }
 
 export let getClosestActors:

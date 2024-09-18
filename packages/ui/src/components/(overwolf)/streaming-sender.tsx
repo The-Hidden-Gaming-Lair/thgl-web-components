@@ -100,7 +100,9 @@ export function StreamingSender({
       Object.values(connectionStore.connections).forEach((conn) => {
         conn.send(data);
       });
-    } catch (e) {}
+    } catch (e) {
+      console.error("Error sending data to connections", e);
+    }
   }
 
   useEffect(() => {

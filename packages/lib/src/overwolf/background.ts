@@ -13,6 +13,13 @@ import { HOTKEYS } from "./hotkeys";
 import { useSettingsStore } from "../settings";
 import { dispose, loadDiscordRPCPlugin } from "./discord";
 import { logVersion } from "./manifest";
+import { EventBus } from "./event-bus";
+
+declare global {
+  interface Window {
+    gameEventBus: EventBus;
+  }
+}
 
 export async function initBackground(
   gameClassId: number,
@@ -20,6 +27,7 @@ export async function initBackground(
   discordApplicationId: string,
 ) {
   logVersion();
+  window.gameEventBus = new EventBus();
 
   const openApp = async (
     event?: overwolf.extensions.AppLaunchTriggeredEvent,
