@@ -96,9 +96,11 @@ export function StreamingSender({
   }, []);
 
   function sendToConnections(data: any) {
-    Object.values(connectionStore.connections).forEach((conn) => {
-      conn.send(data);
-    });
+    try {
+      Object.values(connectionStore.connections).forEach((conn) => {
+        conn.send(data);
+      });
+    } catch (e) {}
   }
 
   useEffect(() => {
