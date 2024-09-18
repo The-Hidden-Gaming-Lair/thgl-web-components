@@ -37,10 +37,9 @@ import { getRegionsFromImage } from "./lib/regions.js";
 import { initDatabase, writeDatabase } from "./lib/database.js";
 
 initDirs(
-  Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
-  Bun.env.ONCE_HUMAN_TEXTURE_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Texture",
-  Bun.env.ONCE_HUMAN_OUTPUT_DIR ??
-    "/home/devleon/the-hidden-gaming-lair/static/once-human",
+  String.raw`C:\dev\OnceHuman\Extracted\Data`,
+  String.raw`C:\dev\OnceHuman\Extracted\Texture`,
+  String.raw`C:\dev\the-hidden-gaming-lair\static\once-human`,
 );
 
 let nodes = initNodes();
@@ -247,7 +246,7 @@ const switchType = (
     group = "locations";
   } else if (more?.includes("Riddle Spot")) {
     group = "riddles";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/jigsaw-piece_lorc.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\jigsaw-piece_lorc.webp`;
     type =
       more!
         .split("Riddle Spot ")[1]
@@ -265,7 +264,7 @@ const switchType = (
     group = "locations";
     type = "Scattered";
     title = type;
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/damaged-house_quoting.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\damaged-house_quoting.webp`;
     iconProps.glowing = true;
     iconProps.color = "black";
     size = 0.65;
@@ -354,7 +353,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   }
 
   if (!iconPath) {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\plain-circle_delapouite.webp`;
     iconProps.color = uniqolor(type, {
       lightness: [70, 80],
     }).color;
@@ -479,7 +478,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
   }
 
   if (!iconPath) {
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/plain-circle_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\plain-circle_delapouite.webp`;
     iconProps.color = uniqolor(type, {
       lightness: [70, 80],
     }).color;
@@ -674,51 +673,51 @@ for (const baseNPC of Object.values(baseNPCData)) {
         lightness: [70, 80],
       }).color;
       if (type === "animal_fish") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/salmon_various-artists.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\salmon_various-artists.webp`;
       } else if (type === "animal_bear") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/bear-head_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\bear-head_delapouite.webp`;
       } else if (type === "animal_rabbit") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit-head_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\rabbit-head_delapouite.webp`;
       } else if (type === "animal_small_rabbit") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rabbit_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\rabbit_delapouite.webp`;
       } else if (type === "animal_small_boar") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar-ensign_cathelineau.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\boar-ensign_cathelineau.webp`;
       } else if (type === "animal_boar") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/boar_caro-asercion.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\boar_caro-asercion.webp`;
       } else if (type === "animal_capybara") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/capybara_caro-asercion.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\capybara_caro-asercion.webp`;
       } else if (type === "animal_deer") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/deer_caro-asercion.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\deer_caro-asercion.webp`;
       } else if (type.endsWith("_crocodile")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/croc-jaws_lorc.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\croc-jaws_lorc.webp`;
       } else if (type === "animal_eagle") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/eagle-head_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\eagle-head_delapouite.webp`;
       } else if (type.endsWith("_wolf")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/wolf-head_lorc.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\wolf-head_lorc.webp`;
       } else if (type === "animal_flamingo") {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/flamingo_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\flamingo_delapouite.webp`;
       } else if (type.endsWith("_fox")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/fox_caro-asercion.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\fox_caro-asercion.webp`;
       } else if (type.endsWith("_pelican")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/eating-pelican_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\eating-pelican_delapouite.webp`;
       } else if (type.endsWith("_raccoon")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/raccoon-head_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\raccoon-head_delapouite.webp`;
       } else if (type.endsWith("_turtle")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/sea-turtle_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\sea-turtle_delapouite.webp`;
       } else if (type.endsWith("_swan")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/swan_lorc.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\swan_lorc.webp`;
       } else if (type.endsWith("_squirrel")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/squirrel_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\squirrel_delapouite.webp`;
       } else if (type.endsWith("_raven")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/raven_lorc.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\raven_lorc.webp`;
       } else if (type.endsWith("_rat")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/rat_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\rat_delapouite.webp`;
       } else if (type.endsWith("_seal")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/juggling-seal_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\juggling-seal_delapouite.webp`;
       } else if (type.endsWith("_gull")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/finch_delapouite.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\finch_delapouite.webp`;
       } else if (type.endsWith("_lion")) {
-        iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/lion_lorc.webp`;
+        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\lion_lorc.webp`;
       } else if (group === "monster") {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
@@ -1104,7 +1103,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   if (value.res_name.endsWith(" Recipe")) {
     group = "recipes";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/full-folder_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\full-folder_delapouite.webp`;
     iconProps.color = uniqolor(key, {
       lightness: [70, 80],
     }).color;
@@ -1112,7 +1111,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     size = 0.76;
   } else if (value.res_name === "Fruit & Veggies") {
     group = "items";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/fruit-bowl_skoll.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\fruit-bowl_skoll.webp`;
     size = 0.76;
     defaultOn = false;
   } else if (
@@ -1120,29 +1119,29 @@ for (const [key, value] of Object.entries(interactResData)) {
     value.res_name === "Emergency Medkit"
   ) {
     group = "items";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/medical-pack_sbed.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\medical-pack_sbed.webp`;
     size = 0.76;
   } else if (value.res_name === "Car Trunk") {
     group = "items";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/city-car_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\city-car_delapouite.webp`;
     size = 0.76;
     defaultOn = false;
     // autoDiscover = true;
   } else if (value.res_name === "Vending Machine") {
     group = "items";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/vending-machine_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\vending-machine_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
     defaultOn = false;
   } else if (value.res_name === "Vending Machine") {
     group = "items";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/vending-machine_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\vending-machine_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
     defaultOn = false;
   } else if (value.res_name === "Long Table" || value.res_name === "Table") {
     group = "items";
-    iconPath = `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/table_delapouite.webp`;
+    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\table_delapouite.webp`;
     size = 0.76;
     // autoDiscover = true;
     defaultOn = false;
@@ -1219,7 +1218,7 @@ for (const [key, value] of Object.entries(interactResData)) {
   const type = "mystical_crate";
 
   const icon = await saveIcon(
-    `${Bun.env.GLOBAL_ICONS_DIR || "/home/devleon/the-hidden-gaming-lair/static/global/icons"}/game-icons/locked-box_delapouite.webp`,
+    String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\locked-box_delapouite.webp`,
     type,
     {
       color: "#f2be59",
@@ -1582,14 +1581,38 @@ const filteredNodes = nodes
     const isStatic =
       items.values.some((v) => v.id === n.type) ||
       recipes.values.some((v) => v.id === n.type);
+
+    let id = typeIDs[n.type];
+    const isItem = items.values.some((v) => v.id === id);
+
+    const minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+    const targetSpawnNodes = n.spawns.filter((s, i) => {
+      const isNotOnWorldMap =
+        s.p[0] < -8100 ||
+        s.p[0] > 3050 ||
+        s.p[1] > 8200 ||
+        s.p[1] < -2000 ||
+        (s.p[0] > -600 && s.p[1] < 600);
+      if (isNotOnWorldMap) {
+        return false;
+      }
+      const isCloseToOtherSpawn = n.spawns.slice(i + 1).some((other) => {
+        const distance = Math.sqrt(
+          (other.p[0] - s.p[0]) ** 2 + (other.p[1] - s.p[1]) ** 2,
+        );
+        return distance < minDistance;
+      });
+      if (isCloseToOtherSpawn) {
+        return false;
+      }
+      return true;
+    });
+    console.log(targetSpawnNodes.length, n.spawns.length);
+
     return {
       ...n,
       static: !Object.values(typeIDs).includes(n.type) || isStatic,
-      spawns: n.spawns.filter((s) => {
-        const isNotOnWorldMap =
-          s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
-        return !isNotOnWorldMap;
-      }),
+      spawns: targetSpawnNodes,
     };
   })
   .sort((a, b) => {

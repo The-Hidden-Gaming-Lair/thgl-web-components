@@ -21,7 +21,11 @@ export async function saveIcon(
   props: IconProps = {},
 ) {
   let filePath;
-  if (assetPath.startsWith("/home") || assetPath.startsWith("/mnt")) {
+  if (
+    assetPath.startsWith("/home") ||
+    assetPath.startsWith("/mnt") ||
+    assetPath.startsWith("C:\\")
+  ) {
     filePath = assetPath;
   } else if (assetPath.startsWith("/")) {
     filePath = TEXTURE_DIR + assetPath;

@@ -119,22 +119,6 @@
         "defaultOn": false
       },
       {
-        "id": "silver_ore",
-        "icon": "silver_ore.webp",
-        "size": 1,
-        "defaultOn": false
-      },
-      {
-        "id": "gold_ore",
-        "icon": "gold_ore.webp",
-        "size": 1
-      },
-      {
-        "id": "stardust_ore",
-        "icon": "stardust_ore.webp",
-        "size": 1
-      },
-      {
         "id": "tungsten_ore",
         "icon": "tungsten_ore.webp",
         "size": 1,

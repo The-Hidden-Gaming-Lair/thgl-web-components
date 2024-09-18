@@ -6,10 +6,9 @@ import { TriggerData } from "./once-human.types.js";
 import { Filter, Node, Tiles, TypesIds } from "./types.js";
 
 initDirs(
-  Bun.env.ONCE_HUMAN_CONTENT_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Data",
-  Bun.env.ONCE_HUMAN_TEXTURE_DIR ?? "/mnt/c/dev/OnceHuman/Extracted/Texture",
-  Bun.env.ONCE_HUMAN_OUTPUT_DIR ??
-    "/home/devleon/the-hidden-gaming-lair/static/once-human",
+  String.raw`C:\dev\OnceHuman\Extracted\Data`,
+  String.raw`C:\dev\OnceHuman\Extracted\Texture`,
+  String.raw`C:\dev\the-hidden-gaming-lair\static\once-human`,
 );
 
 const nodes = await readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json");
@@ -50,7 +49,7 @@ const data = (await response.json()) as Record<
 >;
 Object.keys(data).forEach((type) => {
   let id = typeIDs[type];
-  if (!id || id === "gear_crate" || id === "morphic_crate") {
+  if (!id || id === "gear_crate") {
     return;
   }
   const oldNodes = nodes.find((n) => n.type === id);
@@ -58,13 +57,16 @@ Object.keys(data).forEach((type) => {
     console.log("No old nodes for", type);
   } else {
     // oldNodes.spawns = [];
+    if (id === "morphic_crate") {
+      oldNodes.spawns = [];
+    }
   }
 });
 
 const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
   let id = typeIDs[type];
-  if (!id || id === "gear_crate" || id === "morphic_crate") {
+  if (!id || id === "gear_crate") {
     console.warn("No type for", type);
     return;
   }
@@ -103,7 +105,6 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   // oldNodes.spawns = [];
 
   const isItem = items.values.some((v) => v.id === id);
-  const minDistance = isItem ? 1 : 75;
 
   if (isItem) {
     targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
@@ -117,6 +118,8 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
       return closestDrop > 1;
     });
   }
+
+  const minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
 
   targetSpawnNodes.forEach(([x, y, z]) => {
     const hasCloseSpawn = oldNodes.spawns.some((s) => {
