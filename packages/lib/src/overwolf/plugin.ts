@@ -110,8 +110,10 @@ export async function listenToPlugin(
           player.z !== prevPlayer.z ||
           player.r !== prevPlayer.r
         ) {
-          prevPlayer = player;
-          setPlayer(player);
+          if (!Number.isNaN(player.x) && !Number.isNaN(player.y)) {
+            prevPlayer = player;
+            setPlayer(player);
+          }
         }
       }
 
