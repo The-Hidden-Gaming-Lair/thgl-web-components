@@ -58,8 +58,8 @@ export async function loadPlugin<T>(name: string): Promise<T> {
 }
 
 export async function initGameEventsPlugin(
-  processName: string,
-  types: string[],
+  processName?: string,
+  types?: string[],
   actorToMapName?: (actor: Actor, player: ActorPlayer) => string | undefined,
   actorProcessName?: string,
   normalizeLocation?: (location: {
@@ -187,7 +187,7 @@ export async function initGameEventsPlugin(
     let lastActorsError = "";
     function refreshActorsState() {
       const debug = isDebug();
-      const targetTypes = debug ? [] : types;
+      const targetTypes = debug ? [] : types || [];
       gameEventsPlugin.GetActors(
         targetTypes,
         (allActors) => {
@@ -260,7 +260,7 @@ export async function initGameEventsPlugin(
                 if (actorToMapName && actor.path) {
                   actor.mapName = actorToMapName(actor, prevPlayer);
                 }
-                const isKnown = types.includes(actor.type);
+                const isKnown = types?.includes(actor.type) || false;
                 return { ...actor, distance, isKnown };
               })
               .sort((a, b) => a.distance - b.distance)

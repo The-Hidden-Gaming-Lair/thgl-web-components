@@ -3,8 +3,11 @@ import "@repo/ui/styles/globals.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { listenToPlugin, initDiscordRPC, logVersion } from "@repo/lib/overwolf";
-import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
+import {
+  initDiscordRPC,
+  logVersion,
+  listenToGameEvents,
+} from "@repo/lib/overwolf";
 import App from "./app";
 
 logVersion();
@@ -21,7 +24,7 @@ if (el) {
   throw new Error("Could not find root element!!!!!");
 }
 
-await listenToPlugin(Object.keys(typesIdMap));
+listenToGameEvents();
 
 await initDiscordRPC("1199636411821854730", (updatePresence) => {
   updatePresence([
