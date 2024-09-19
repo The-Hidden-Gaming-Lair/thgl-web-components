@@ -32,9 +32,9 @@ import {
 } from "./lib/database.js";
 
 initDirs(
-  "/mnt/c/dev/Stormgate/Extracted/Data",
-  "/mnt/c/dev/Stormgate/Extracted/Texture",
-  "/home/devleon/the-hidden-gaming-lair/static/stormgate",
+  String.raw`C:\dev\Stormgate\Extracted\Data`,
+  String.raw`C:\dev\Stormgate\Extracted\Texture`,
+  String.raw`C:\dev\the-hidden-gaming-lair\static\stormgate`,
 );
 
 const enDict = initDict({
@@ -87,6 +87,7 @@ const t = (key: string) => {
 // const mapNames = ["Boneyard", "Boneyard2v2", "BrokenCrown"];
 const mapNames = readDirSync(`${CONTENT_DIR}/Stormgate/Content/PublishedMaps`);
 for (const mapName of mapNames) {
+  console.log("Processing", mapName);
   const map = await readJSON<Map>(
     `${CONTENT_DIR}/Stormgate/Content/PublishedMaps/${mapName}/Runtime/map.json`,
   );
@@ -389,7 +390,7 @@ for (const mapName of mapNames) {
 
         if (type === "locationMarkerPlayerStart") {
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global/icons/game-icons/plain-circle_delapouite.webp`,
             type,
             {
               color: "#1ccdd1",
@@ -430,7 +431,7 @@ for (const mapName of mapNames) {
           });
         } else if (type === "DestructibleTree") {
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global/icons/game-icons/plain-circle_delapouite.webp`,
             type,
             {
               color: "#59b082",
@@ -439,7 +440,7 @@ for (const mapName of mapNames) {
           size = 0.7;
         } else if (type === "DestructibleLightTree") {
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global/icons/game-icons/plain-circle_delapouite.webp`,
             type,
             {
               color: "#82ffbd",
@@ -448,7 +449,7 @@ for (const mapName of mapNames) {
           size = 0.7;
         } else if (type === "ExplodingBarrel") {
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global/icons/game-icons/plain-circle_delapouite.webp`,
             type,
             {
               color: "#cb0000",
@@ -457,7 +458,7 @@ for (const mapName of mapNames) {
           size = 0.7;
         } else if (type.startsWith("Destructible")) {
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global/icons/game-icons/plain-circle_delapouite.webp`,
             type,
             {
               color: uniqolor(type).color,
@@ -496,7 +497,7 @@ for (const mapName of mapNames) {
           });
         } else {
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/plain-circle_delapouite.webp`,
+            `C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\plain-circle_delapouite.webp`,
             type,
           );
         }
@@ -834,6 +835,7 @@ async function createMapImage(
   height: number,
   mapName: string,
 ) {
+  console.log("Creating map image for", mapName);
   const nodeSize = 1;
   const mapSize = Math.sqrt(terrain.terrain_nodes.length);
   const canvas = createCanvas(width, height);
@@ -944,14 +946,14 @@ async function createMapImage(
       });
     }
   }
-
+  console.log("Saving map image for", mapName);
   saveImage(
     TEMP_DIR + "/" + mapName + ".png",
     mirrorCancas(canvas).toBuffer("image/png"),
   );
   await vectorize(
-    TEMP_DIR + "/" + mapName + ".png",
-    TEMP_DIR + "/" + mapName + ".svg",
+    TEMP_DIR + "\\" + mapName + ".png",
+    TEMP_DIR + "\\" + mapName + ".svg",
     8000,
     8000,
   );

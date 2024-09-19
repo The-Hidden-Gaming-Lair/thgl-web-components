@@ -506,6 +506,7 @@ export async function vectorize(
   width: number,
   height: number,
 ) {
+  console.log("Vectorizing", filePath);
   const formData = new FormData();
   const file = Bun.file(filePath);
   formData.append("image", file);
@@ -514,8 +515,8 @@ export async function vectorize(
   formData.append("output.size.unit", "px");
 
   const response = await fetch(
-    // "https://vectorizer.ai/api/v1/vectorize?mode=test",
-    "https://vectorizer.ai/api/v1/vectorize",
+    "https://vectorizer.ai/api/v1/vectorize?mode=test",
+    // "https://vectorizer.ai/api/v1/vectorize",
     {
       method: "POST",
       headers: {
