@@ -4,6 +4,7 @@ import { Button } from "../(controls)";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Separator } from "../ui/separator";
 import { cn } from "@repo/lib";
+import { ChevronsUpDown } from "lucide-react";
 
 export function NavMenu({
   children,
@@ -60,8 +61,9 @@ export function NavMenu({
       >
         <Popover open={open2} onOpenChange={setOpen2}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="px-1 ml-2">
+            <Button variant="secondary" size="sm" className="px-1 ml-2">
               {active}
+              <ChevronsUpDown className="w-4 h-4" />
             </Button>
           </PopoverTrigger>
           <PopoverContent>

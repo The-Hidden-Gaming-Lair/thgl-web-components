@@ -1,6 +1,5 @@
 import { useSettingsStore } from "../settings";
 import { BLACKLISTED_TYPES, isDebug } from "../env";
-import { useGameState } from "../game";
 import { promisifyOverwolf } from "./promisify";
 import type { EventBus } from "./event-bus";
 
@@ -279,31 +278,6 @@ export async function initGameEventsPlugin(
     console.error("Error listening to plugin", e);
     throw e;
   }
-}
-
-export async function listenToGameEvents(): Promise<void> {
-  const state = useGameState.getState();
-  const { setPlayer, setActors, setError } = state;
-  const { gameEventBus } = overwolf.windows.getMainWindow() as {
-    gameEventBus: EventBus;
-  };
-
-  gameEventBus.addListener((eventName, eventValue) => {
-    const value = JSON.parse(eventValue);
-    switch (eventName) {
-      case "error":
-        setError(value);
-        break;
-      case "player":
-        setPlayer(value);
-        break;
-      case "actors":
-        setActors(value);
-        break;
-    }
-  });
-
-  console.log("Listening to game events");
 }
 
 export let getClosestActors:

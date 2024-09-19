@@ -7,14 +7,26 @@ import {
   InteractiveMapLink,
   ExternalAnchor,
   NavMenu,
+  HeaderLink,
 } from "@repo/ui/header";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, MessageSquareWarning } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
 
   const links = [
     { href: "/", content: <InteractiveMapLink active={pathname === "/"} /> },
+    {
+      href: "/vessel-of-hatred",
+      content: (
+        <HeaderLink active={pathname === "/vessel-of-hatred"}>
+          <div>
+            <MessageSquareWarning className="w-4 h-4" />
+            <span>Vessel of Hatred</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
   ];
   const active = links.find((link) => link.href === pathname) ?? links[0];
 

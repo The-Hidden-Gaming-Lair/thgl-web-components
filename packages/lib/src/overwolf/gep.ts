@@ -1,14 +1,18 @@
-import { useGameState } from "../game";
+import type { EventBus } from "./event-bus";
 import { getGameInfo, listenToGameLaunched, setFeatures } from "./games";
 import { ActorPlayer } from "./plugin";
+
+declare global {
+  interface Window {
+    gameEventBus: EventBus;
+  }
+}
 
 export function listenToGEP(
   gameClassId: number,
   interestedInFeatures: string[],
   gameInfoToPlayer: (gameInfo: any) => ActorPlayer | null,
 ) {
-  const state = useGameState.getState();
-  const { setPlayer, setError } = state;
   let isActive = false;
 
   let firstPlayerData = false;
@@ -29,16 +33,15 @@ export function listenToGEP(
       }
       if (lastPlayerError) {
         lastPlayerError = "";
-        setError(null);
+        window.gameEventBus.trigger("player_error", null);
       }
-      setPlayer(player);
-
+      window.gameEventBus.trigger("player", player);
       setTimeout(refreshPlayerState, 50);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : (err as string);
       if (errorMessage !== lastPlayerError) {
         lastPlayerError = errorMessage;
-        setError(errorMessage);
+        window.gameEventBus.trigger("player_error", errorMessage);
       }
       setTimeout(refreshPlayerState, 200);
     }
