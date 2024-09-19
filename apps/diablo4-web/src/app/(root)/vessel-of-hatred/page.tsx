@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   },
   title: "Vessel of Hatred - Diablo IV - The Hidden Gaming Lair",
   description:
-    "Prepare for the Vessel of Hatred expansion in Diablo IV with this interactive map and in-game app featuring real-time player position tracking. Find Helltide, Legion events, Altars of Lilith, and more!",
+    "Prepare for the Vessel of Hatred expansion in Diablo IV with this interactive map and in-game app featuring real-time player position tracking. Find Tenet of Akarat, Helltide, Legion events, Altars of Lilith, and more!",
   keywords:
-    "Vessel of Hatred, Diablo IV, Diablo 4, expansion, interactive map, real-time position tracking, Helltide, Legion, Altars of Lilith, in-game app, Diablo map, bosses, chests",
+    "Vessel of Hatred, Diablo IV, Diablo 4, expansion, interactive map, real-time position tracking, Tenet of Akarat, Helltide, Legion, Altars of Lilith, in-game app, Diablo map, bosses, chests",
 };
 
 export default function VesselIOfHatred(): JSX.Element {
@@ -56,8 +56,8 @@ export default function VesselIOfHatred(): JSX.Element {
                   Helltide zones.
                 </li>
                 <li>
-                  <strong>Uncover Secrets</strong>: Discover Altars of Lilith,
-                  hidden chests, and the Wandering Death.
+                  <strong>Uncover Secrets</strong>: Discover Tenet of Akarat,
+                  Altars of Lilith, hidden chests, and the Wandering Death.
                 </li>
               </ul>
             </section>

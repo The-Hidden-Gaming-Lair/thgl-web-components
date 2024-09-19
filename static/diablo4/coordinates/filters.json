@@ -10,6 +10,11 @@
         "size": 1.5
       },
       {
+        "id": "tenetOfAkarat",
+        "icon": "tenetofakarat.webp",
+        "size": 1.5
+      },
+      {
         "id": "cellars",
         "icon": "cellars.webp",
         "size": 1.5

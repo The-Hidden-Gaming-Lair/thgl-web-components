@@ -114,6 +114,14 @@ const filters = initFilters([
         size: 1.5,
       },
       {
+        id: "tenetOfAkarat",
+        icon: await saveIcon(
+          "/slices/2DUIMinimapIcons/3548354396.png",
+          "tenetOfAkarat",
+        ),
+        size: 1.5,
+      },
+      {
         id: "cellars",
         icon: await saveIcon(
           "/slices/2DUIMinimapIcons/1573024828.png",
@@ -495,6 +503,7 @@ const enDict = initDict({
   step: "Dry Steppes",
   kehj: "Kehjistan",
   altarsOfLilith: "Altars of Lilith",
+  tenetOfAkarat: "Tenet of Akarat",
   cellars: "Cellars",
   dungeons: "Dungeons",
   sideQuestDungeons: "Side Quest Dungeons",
@@ -794,6 +803,12 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
         };
       }
     }
+  } else if (actor.snoActor.name.includes("AkaratShrine")) {
+    const stringId = actor.snoLevelArea!.name!;
+    spawn.id = stringId;
+    const worldTerms = await readTerms(`LevelArea_${stringId}`);
+    enDict[spawn.id] = worldTerms[0].szText;
+    type = "tenetOfAkarat";
   } else if (actor.snoActor.name.includes("LilithShrine")) {
     const stringId = actor.snoLevelArea!.name!;
     spawn.id = stringId;

@@ -15882,6 +15882,253 @@
     "static": true
   },
   {
+    "type": "tenetOfAkarat",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "p": [
+          -168.8558,
+          9.18709,
+          19.8225
+        ],
+        "id": "Naha_SevenStones_2"
+      },
+      {
+        "p": [
+          -182.10344,
+          26.12871,
+          32.2248
+        ],
+        "id": "Naha_SevenStones_Cave"
+      },
+      {
+        "p": [
+          -172.02072,
+          17.56953,
+          34.5765
+        ],
+        "id": "Naha_SevenStones_2"
+      },
+      {
+        "p": [
+          -182.48529,
+          6.78981,
+          35.1372
+        ],
+        "id": "Naha_SevenStones_4"
+      },
+      {
+        "p": [
+          -186.7082,
+          16.96873,
+          27.8977
+        ],
+        "id": "Naha_SevenStones_4"
+      },
+      {
+        "p": [
+          -203.27592,
+          19.79389,
+          5.14781
+        ],
+        "id": "Naha_FiveHills_1"
+      },
+      {
+        "p": [
+          -188.47292,
+          21.04128,
+          23.1796
+        ],
+        "id": "Naha_FiveHills_4"
+      },
+      {
+        "p": [
+          -189.93092,
+          33.09675,
+          8.38293
+        ],
+        "id": "Naha_FiveHills_2"
+      },
+      {
+        "p": [
+          -196.34009,
+          29.55681,
+          14.7718
+        ],
+        "id": "Naha_FiveHills_3_Lacuni"
+      },
+      {
+        "p": [
+          -206.06572,
+          34.49716,
+          24.9943
+        ],
+        "id": "Naha_FiveHills_11_MistyHills"
+      },
+      {
+        "p": [
+          -182.28643,
+          61.37834,
+          41.8243
+        ],
+        "id": "Naha_RestlessCanopy_SkitteringEarth"
+      },
+      {
+        "p": [
+          -197.40653,
+          66.24713,
+          -7.54658
+        ],
+        "id": "Naha_RestlessCanopy_DregHive"
+      },
+      {
+        "p": [
+          -198.88816,
+          43.28269,
+          49.792
+        ],
+        "id": "Naha_RestlessCanopy_South"
+      },
+      {
+        "p": [
+          -184.75753,
+          49.52051,
+          32.306
+        ],
+        "id": "Naha_RestlessCanopy_3"
+      },
+      {
+        "p": [
+          -194.29091,
+          52.60976,
+          23.7161
+        ],
+        "id": "Naha_RestlessCanopy_SkitteringEarth"
+      },
+      {
+        "p": [
+          -157.97052,
+          40.79863,
+          17.2366
+        ],
+        "id": "Naha_LingeringHatred_2"
+      },
+      {
+        "p": [
+          -173.57544,
+          39.3075,
+          17.905
+        ],
+        "id": "Naha_LingeringHatred_6"
+      },
+      {
+        "p": [
+          -161.84205,
+          50.30515,
+          27.5426
+        ],
+        "id": "Naha_LingeringHatred_1"
+      },
+      {
+        "p": [
+          -164.07803,
+          18.38446,
+          27.6193
+        ],
+        "id": "Naha_LingeringHatred_5"
+      },
+      {
+        "p": [
+          -164.99648,
+          30.53798,
+          20.4251
+        ],
+        "id": "Naha_LingeringHatred_3"
+      },
+      {
+        "p": [
+          -189.22139,
+          69.38013,
+          10.1217
+        ],
+        "id": "Naha_FieldOfGiants_Remains_2"
+      },
+      {
+        "p": [
+          -172.38039,
+          70.63603,
+          14.7592
+        ],
+        "id": "Naha_FieldOfGiants_Scar_1"
+      },
+      {
+        "p": [
+          -182.99191,
+          76.13302,
+          -0.00924
+        ],
+        "id": "Naha_FieldOfGiants_Remains_2"
+      },
+      {
+        "p": [
+          -173.05385,
+          75.95973,
+          13.5245
+        ],
+        "id": "Naha_FieldOfGiants_Scar_2"
+      },
+      {
+        "p": [
+          -172.59929,
+          64.63243,
+          20.4271
+        ],
+        "id": "Naha_FieldOfGiants_Ridge_1"
+      },
+      {
+        "p": [
+          -155.41709,
+          77.1933,
+          11.6328
+        ],
+        "id": "Naha_Plateau_GreenBelt_1"
+      },
+      {
+        "p": [
+          -162.05647,
+          65.9952,
+          37.4793
+        ],
+        "id": "Naha_Plateau_UpperPlateau_1"
+      },
+      {
+        "p": [
+          -163.92329,
+          88.59885,
+          51.0084
+        ],
+        "id": "Naha_Plateau_RockPillars_1"
+      },
+      {
+        "p": [
+          -159.32975,
+          59.59511,
+          30.8077
+        ],
+        "id": "Naha_Plateau_LowerPlateau_1"
+      },
+      {
+        "p": [
+          -162.58109,
+          78.9259,
+          28.8064
+        ],
+        "id": "Naha_Plateau_RockFormations_1"
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "blacksmiths",
     "mapName": "Sanctuary",
     "spawns": [

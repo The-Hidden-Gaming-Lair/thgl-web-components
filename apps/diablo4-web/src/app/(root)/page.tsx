@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   title: "Diablo IV Interactive Map – The Hidden Gaming Lair",
   description:
-    "Explore Diablo 4 Vessel of Hatred with this Interactive Map! Discover Helltide, Legion, Wandering Death, Altars of Lilith, Chests, Bosses, and more with real-time position tracking.",
+    "Explore Diablo 4 Vessel of Hatred with this Interactive Map! Discover Tenet of Akarat, Helltide, Legion, Wandering Death, Altars of Lilith, Chests, Bosses, and more with real-time position tracking.",
 };
 
 export default function Home({
