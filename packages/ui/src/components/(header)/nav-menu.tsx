@@ -40,8 +40,9 @@ export function NavMenu({
             "sm:hidden": breakpoint === "sm",
           })}
         >
-          <Button variant="outline" size="sm" className="px-1">
+          <Button variant="secondary" size="sm" className="px-1">
             {active}
+            <ChevronsUpDown className="w-4 h-4" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
