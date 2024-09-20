@@ -28,6 +28,9 @@ initGameEventsPlugin(
       } else {
         mapName = actor.path;
       }
+      if (lastMapName !== mapName) {
+        console.log(`Map changed to ${mapName}`);
+      }
       lastMapName = mapName;
     } else if (playerActor.mapName) {
       mapName = playerActor.mapName;
