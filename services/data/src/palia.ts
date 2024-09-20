@@ -6,7 +6,12 @@ import {
   writeFilters,
   writeGlobalFilters,
 } from "./lib/filters.js";
-import { encodeToFile, readDirSync, readJSON } from "./lib/fs.js";
+import {
+  encodeToFile,
+  readDirRecursive,
+  readDirSync,
+  readJSON,
+} from "./lib/fs.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
@@ -34,6 +39,12 @@ const worldMapGlobalConfig = await readJSON<DA_WorldMapGlobalConfig>(
   CONTENT_DIR + "/Palia/Content/Configs/DA_WorldMapGlobalConfig.json",
 );
 const tiles = initTiles();
+const filters = initFilters();
+const nodes = initNodes();
+const regions = initRegions();
+const typeIDs = initTypesIDs();
+const globalFilters = initGlobalFilters();
+
 const worldMaps = worldMapGlobalConfig[0].Properties.WorldMaps;
 for (const worldMap of worldMaps) {
   if (
@@ -83,11 +94,9 @@ for (const privateSpaceMap of privateSpaceMaps) {
 }
 writeTiles(tiles);
 
-const filters = initFilters();
-const nodes = initNodes();
-const regions = initRegions();
-const typeIDs = initTypesIDs();
-const globalFilters = initGlobalFilters();
+const mapsData = readDirRecursive(CONTENT_DIR + "/Maps");
+for (const mapData of mapsData) {
+}
 
 writeFilters(filters);
 writeDict(dict, "en");
