@@ -150,10 +150,12 @@ export async function initGameEventsPlugin(
             window.gameEventBus.trigger("player", player);
           }
         }
+      } else {
+        prevPlayer.mapName = undefined;
       }
       setTimeout(refreshPlayerState, 50);
     };
-    const handleError = (err: string | null) => {
+    const handlePlayerError = (err: string | null) => {
       const errMessage = err || "";
       if (errMessage !== lastPlayerError) {
         lastPlayerError = errMessage;
@@ -165,9 +167,13 @@ export async function initGameEventsPlugin(
 
     function refreshPlayerState() {
       if (actorProcessName) {
-        gameEventsPlugin.GetPlayer(handlePlayer, handleError, actorProcessName);
+        gameEventsPlugin.GetPlayer(
+          handlePlayer,
+          handlePlayerError,
+          actorProcessName,
+        );
       } else {
-        gameEventsPlugin.GetPlayer(handlePlayer, handleError);
+        gameEventsPlugin.GetPlayer(handlePlayer, handlePlayerError);
       }
     }
     refreshPlayerState();

@@ -11,7 +11,7 @@ await initBackground(
   "1271431538675814461",
 );
 
-let lastMapName = "default";
+let lastMapName: string | undefined;
 initGameEventsPlugin(
   "ONCE_HUMAN",
   Object.keys(typesIdMap),
@@ -111,7 +111,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-8", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-9", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

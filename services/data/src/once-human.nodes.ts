@@ -47,29 +47,34 @@ const data = (await response.json()) as Record<
   string,
   [number, number, number, string][]
 >;
-Object.keys(data).forEach((type) => {
-  let id = typeIDs[type];
-  if (!id || id === "gear_crate") {
-    return;
-  }
-  const oldNodes = nodes.find((n) => n.type === id);
-  if (!oldNodes) {
-    console.log("No old nodes for", type);
-  } else {
-    // oldNodes.spawns = [];
-    if (id === "morphic_crate") {
-      oldNodes.spawns = [];
-    }
-  }
-});
+// Object.keys(data).forEach((type) => {
+//   let id = typeIDs[type];
+//   if (!id || id === "gear_crate") {
+//     return;
+//   }
+//   const oldNodes = nodes.find((n) => n.type === id);
+//   if (!oldNodes) {
+//     console.log("No old nodes for", type);
+//   } else {
+//     // oldNodes.spawns = [];
+//     if (id === "morphic_crate") {
+//       oldNodes.spawns = [];
+//     }
+//   }
+// });
 
 const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
   let id = typeIDs[type];
-  if (!id || id === "gear_crate") {
+  if (!id) {
     console.warn("No type for", type);
     return;
   }
+  if (!nodes.some((n) => n.type === id)) {
+    console.log("No filter for", id);
+    return;
+  }
+
   let targetSpawnNodes = spawnNodes;
   if (id === "gear_crate") {
     const busMonsterLocations = [
@@ -118,22 +123,32 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     });
   }
 
-  const minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
-
   targetSpawnNodes.forEach(([x, y, z, mapName]) => {
-    const oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
-    if (!oldNodes) {
-      // console.warn("No old nodes for", type);
+    if (!["default", "raid"].includes(mapName)) {
       return;
     }
+    let minDistance;
+    if (mapName === "raid") {
+      minDistance = 1;
+    } else {
+      minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+    }
+
+    if (!nodes.some((n) => n.type === id && n.mapName === mapName)) {
+      nodes.push({
+        type: id,
+        mapName,
+        spawns: [],
+      });
+    }
+    const oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName)!;
 
     const hasCloseSpawn = oldNodes.spawns.some((s) => {
       const distance = Math.sqrt((s.p[0] - x) ** 2 + (s.p[1] - y) ** 2);
       return distance < minDistance;
     });
-    const isNotOnWorldMap =
-      x < -8100 || x > 3050 || y > 8200 || y < -2000 || (x > -600 && y < 600);
-    if (hasCloseSpawn || isNotOnWorldMap) {
+
+    if (hasCloseSpawn) {
       return;
     }
     oldNodes.spawns.push({
@@ -142,20 +157,11 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   });
 });
 
-const filteredNodes = nodes.map((n) => ({
-  ...n,
-  // static: !Object.values(typeIDs).includes(n.type) || n.type.endsWith("_crate"),
-  spawns: n.spawns.filter((s) => {
-    const isNotOnWorldMap = s.p[0] > 3050 || (s.p[0] > -600 && s.p[1] < 600);
-    return !isNotOnWorldMap;
-  }),
-}));
-
-writeNodes(filteredNodes);
+writeNodes(nodes);
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(
     OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
-    filteredNodes.filter((n) => !n.mapName || n.mapName === mapName),
+    nodes.filter((n) => !n.mapName || n.mapName === mapName),
   );
 });
 
