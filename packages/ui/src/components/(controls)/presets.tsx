@@ -90,7 +90,9 @@ export function Presets(): JSX.Element {
               const defaultFilters = [
                 ...coordinates.filters.flatMap((filter) =>
                   filter.defaultOn
-                    ? filter.values.map((value) => value.id)
+                    ? filter.values
+                        .filter((value) => value.defaultOn !== false)
+                        .map((value) => value.id)
                     : [],
                 ),
                 ...REGION_FILTERS.map((filter) => filter.id),
