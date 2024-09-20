@@ -1,0 +1,290 @@
+{
+  "VillageWorld": {
+    "url": "/map-tiles/VillageWorld/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -60000,
+          -69000
+        ],
+        [
+          62000,
+          53000
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -60000,
+        -69000
+      ],
+      [
+        62000,
+        53000
+      ]
+    ],
+    "transformation": [
+      0.00419672131147541,
+      289.57377049180326,
+      0.00419672131147541,
+      251.80327868852459
+    ]
+  },
+  "AdventureZoneWorld": {
+    "url": "/map-tiles/AdventureZoneWorld/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          31291.997999999992,
+          -129948
+        ],
+        [
+          191548,
+          30308.002000000008
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        31291.997999999992,
+        -129948
+      ],
+      [
+        191548,
+        30308.002000000008
+      ]
+    ],
+    "transformation": [
+      0.003194888139041432,
+      415.16932389215594,
+      0.003194888139041432,
+      -99.97443325710816
+    ]
+  },
+  "MajiMarket": {
+    "url": "/map-tiles/MajiMarket/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 2,
+      "bounds": [
+        [
+          -22430,
+          -23100
+        ],
+        [
+          29170,
+          28500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -22430,
+        -23100
+      ],
+      [
+        29170,
+        28500
+      ]
+    ],
+    "transformation": [
+      0.00992248062015504,
+      229.2093023255814,
+      0.00992248062015504,
+      222.56124031007752
+    ]
+  },
+  "HousingPlot": {
+    "url": "/map-tiles/HousingPlot/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 2,
+      "bounds": [
+        [
+          -46000,
+          -46350
+        ],
+        [
+          46000,
+          45650
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -46000,
+        -46350
+      ],
+      [
+        46000,
+        45650
+      ]
+    ],
+    "transformation": [
+      0.005565217391304348,
+      257.9478260869565,
+      0.005565217391304348,
+      256
+    ]
+  },
+  "AirTemple": {
+    "url": "/map-tiles/AirTemple/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -7500,
+          -7500
+        ],
+        [
+          7500,
+          7500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -7500,
+        -7500
+      ],
+      [
+        7500,
+        7500
+      ]
+    ],
+    "transformation": [
+      0.034133333333333335,
+      256,
+      0.034133333333333335,
+      256
+    ]
+  },
+  "FireTemple": {
+    "url": "/map-tiles/FireTemple/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -7500,
+          -7500
+        ],
+        [
+          7500,
+          7500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -7500,
+        -7500
+      ],
+      [
+        7500,
+        7500
+      ]
+    ],
+    "transformation": [
+      0.034133333333333335,
+      256,
+      0.034133333333333335,
+      256
+    ]
+  },
+  "EarthTemple": {
+    "url": "/map-tiles/EarthTemple/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -7500,
+          -7500
+        ],
+        [
+          7500,
+          7500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -7500,
+        -7500
+      ],
+      [
+        7500,
+        7500
+      ]
+    ],
+    "transformation": [
+      0.034133333333333335,
+      256,
+      0.034133333333333335,
+      256
+    ]
+  },
+  "WaterTemple": {
+    "url": "/map-tiles/WaterTemple/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -7500,
+          -7500
+        ],
+        [
+          7500,
+          7500
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -7500,
+        -7500
+      ],
+      [
+        7500,
+        7500
+      ]
+    ],
+    "transformation": [
+      0.034133333333333335,
+      256,
+      0.034133333333333335,
+      256
+    ]
+  }
+}
