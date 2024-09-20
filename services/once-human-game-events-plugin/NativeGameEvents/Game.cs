@@ -90,7 +90,7 @@ namespace NativeGameEvents
         {
           var scene = _memory.ReadProcessMemory<nint>(_memory.BaseAddress + _sceneOffset);
           //var sceneRoot = _memory.ReadProcessMemory<ushort>(scene + 0x13f8);
-          var sceneName = _memory.ReadProcessMemory<string>(scene + 0x1380); //OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
+          var sceneName = _memory.ReadProcessMemory<string>(scene + 0x1380); //OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith, raid)
           if (sceneName != "Charactor")
           {
             _scene = scene;

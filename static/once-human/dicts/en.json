@@ -1,4 +1,6 @@
 {
+  "default": "Open World",
+  "raid": "Dungeons (WIP)",
   "locations": "Locations",
   "deviations": "Deviants",
   "boss": "Bosses",

@@ -38,7 +38,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-8", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-9", {
   headers: {
     Authorization: `thgl`,
   },
@@ -76,8 +76,11 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
       ...(data["bus_monster.gim"] || []),
       ...(data["bus_monster_arm.gim"] || []),
     ];
-    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
-      return busMonsterLocations.every(([bx, by, bz]) => {
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z, mapName]) => {
+      return busMonsterLocations.every(([bx, by, bz, bMapName]) => {
+        if (mapName !== bMapName) {
+          return true;
+        }
         const distance = Math.sqrt(
           (x - bx) ** 2 + (y - by) ** 2 + (z - bz) ** 2,
         );
@@ -87,8 +90,11 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   }
   if (id.startsWith("deviations_")) {
     const balls = data["ball.gim"] || [];
-    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
-      return balls.some(([bx, by, bz]) => {
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z, mapName]) => {
+      return balls.some(([bx, by, bz, bMapName]) => {
+        if (mapName !== bMapName) {
+          return false;
+        }
         const distance = Math.sqrt(
           (x - bx) ** 2 + (y - by) ** 2 + (z - bz) ** 2,
         );
@@ -97,17 +103,10 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     });
   }
 
-  const oldNodes = nodes.find((n) => n.type === id);
-  if (!oldNodes) {
-    // console.warn("No old nodes for", type);
-    return;
-  }
-  // oldNodes.spawns = [];
-
   const isItem = items.values.some((v) => v.id === id);
 
   if (isItem) {
-    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z, mapName]) => {
       const closestDrop = triggeredDrops.reduce((acc, [ty, tz, tx]) => {
         const distance = Math.sqrt(
           (x - tx) ** 2 + (y - ty) ** 2 + (z - tz) ** 2,
@@ -121,7 +120,13 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
 
   const minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
 
-  targetSpawnNodes.forEach(([x, y, z]) => {
+  targetSpawnNodes.forEach(([x, y, z, mapName]) => {
+    const oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName);
+    if (!oldNodes) {
+      // console.warn("No old nodes for", type);
+      return;
+    }
+
     const hasCloseSpawn = oldNodes.spawns.some((s) => {
       const distance = Math.sqrt((s.p[0] - x) ** 2 + (s.p[1] - y) ** 2);
       return distance < minDistance;

@@ -9,7 +9,12 @@ import {
 } from "./lib/dirs.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
-import { IconProps, mergeImages, saveIcon } from "./lib/image.js";
+import {
+  createBlankImage,
+  IconProps,
+  mergeImages,
+  saveIcon,
+} from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import {
@@ -54,6 +59,8 @@ const filters = initFilters([
   { group: "animal", defaultOn: false, defaultOpen: true, values: [] },
 ]);
 const enDict = initDict({
+  default: "Open World",
+  raid: "Dungeons",
   locations: "Locations",
   deviations: "Deviants",
   boss: "Bosses",
@@ -81,24 +88,47 @@ if (Bun.argv.includes("--tiles")) {
 const TILE_SIZE = 512;
 const ORTHOGRAPHIC_WIDTH = 8200 * 2;
 
-const tiles = initTiles(
-  await generateTiles(
-    mapName,
-    TEMP_DIR + "/" + mapName + ".png",
-    ORTHOGRAPHIC_WIDTH,
-    TILE_SIZE,
-    [0, 0],
-    [
-      [2500, -1200],
-      [-8200, 8200],
-    ],
-    [
+const blank = createBlankImage(TILE_SIZE, TILE_SIZE);
+saveImage(TEMP_DIR + "/raid.png", blank.toBuffer("image/png"));
+
+const tiles = initTiles({
+  [mapName]: (
+    await generateTiles(
+      mapName,
+      TEMP_DIR + "/" + mapName + ".png",
+      ORTHOGRAPHIC_WIDTH,
+      TILE_SIZE,
       [0, 0],
+      [
+        [2500, -1200],
+        [-8200, 8200],
+      ],
+      [
+        [0, 0],
+        [0, 0],
+      ],
+      [0.03121951219512195, 256, -0.03121951219512195, 256],
+    )
+  )[mapName],
+  ["raid"]: (
+    await generateTiles(
+      "raid",
+      TEMP_DIR + "/raid.png",
+      ORTHOGRAPHIC_WIDTH,
+      TILE_SIZE,
       [0, 0],
-    ],
-    [0.03121951219512195, 256, -0.03121951219512195, 256],
-  ),
-);
+      [
+        [2500, -1200],
+        [-8200, 8200],
+      ],
+      [
+        [0, 0],
+        [0, 0],
+      ],
+      [0.03121951219512195, 256, -0.03121951219512195, 256],
+    )
+  )["raid"],
+});
 
 writeTiles(tiles);
 
@@ -390,10 +420,11 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     }
   }
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -510,10 +541,11 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     });
   }
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -634,10 +666,11 @@ for (const deviation of Object.values(deviationBaseData)) {
       icon,
       size,
     });
-    if (!nodes.some((n) => n.type === type)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
       nodes.push({
         type,
         spawns: [],
+        mapName,
       });
     }
   }
@@ -761,10 +794,11 @@ for (const baseNPC of Object.values(baseNPCData)) {
         icon,
         size,
       });
-      if (!nodes.some((n) => n.type === type)) {
+      if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
         nodes.push({
           type,
           spawns: [],
+          mapName,
         });
       }
     }
@@ -898,10 +932,11 @@ for (const battleFieldName of battleFieldNames) {
       });
     }
 
-    if (!nodes.some((n) => n.type === type)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
       nodes.push({
         type,
         spawns: [],
+        mapName,
       });
     }
 
@@ -955,10 +990,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Morphic Crate";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -989,10 +1025,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Weapon Crate";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1026,10 +1063,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Gear Crate";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1063,10 +1101,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Storage Crate";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1202,10 +1241,11 @@ for (const [key, value] of Object.entries(interactResData)) {
       //   `<b>Drop Items</b><p>${itemNames.sort().join("<br>")}</p>`; // Temporary
     }
   }
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
   const node = nodes.find((n) => n.type === type)!;
@@ -1234,10 +1274,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Mystical Crate";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1264,10 +1305,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Copper Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1291,10 +1333,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Silver Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1317,10 +1360,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Gold Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1344,10 +1388,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Stardust Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1371,10 +1416,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Tungsten Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1398,10 +1444,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Aluminum Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1425,10 +1472,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Iron Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1454,10 +1502,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Tin Ore";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1481,10 +1530,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Sulfur";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1510,10 +1560,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Seaweed Rock";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1537,10 +1588,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Shell Rock";
 
-  if (!nodes.some((n) => n.type === type)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
     nodes.push({
       type,
       spawns: [],
+      mapName,
     });
   }
 
@@ -1556,7 +1608,9 @@ for (const [key, value] of Object.entries(interactResData)) {
     if (!Object.values(typeIDs).includes(node.type)) {
       continue;
     }
-    const prevNode = nodes.find((n) => n.type === node.type)!;
+    const prevNode = nodes.find(
+      (n) => n.type === node.type && n.mapName === mapName,
+    )!;
     prevNode.spawns = node.spawns;
   }
 }

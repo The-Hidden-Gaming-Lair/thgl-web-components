@@ -18,13 +18,13 @@ initGameEventsPlugin(
   (actor, playerActor) => {
     let mapName = lastMapName;
     if (actor.path) {
-      // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith)
+      // OpenWorld, Charactor (misspelled, inventory menus), LevelScene_Raid (monolith, raid)
       if (actor.path === "Charactor") {
         // return lastMapName;
       } else if (actor.path === "OpenWorld") {
         mapName = "default";
       } else if (actor.path === "LevelScene_Raid") {
-        mapName = "monolith";
+        mapName = "raid";
       } else {
         mapName = actor.path;
       }
@@ -107,7 +107,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       ({ address, r, mapName, hidden, ...actor }) => ({
         ...actor,
         timestamp: lastSend,
-        path: actor.type,
+        path: mapName,
       }),
     );
 

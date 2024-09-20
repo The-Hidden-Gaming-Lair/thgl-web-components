@@ -19,7 +19,6 @@ export function MapSelect({ mapNames }: { mapNames: string[] }): JSX.Element {
   const mapName = useUserStore((state) => state.mapName);
   const setMapName = useUserStore((state) => state.setMapName);
   const t = useT();
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
