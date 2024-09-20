@@ -28,7 +28,7 @@ export function TraceLine() {
   const traceLineColor = useSettingsStore((state) => state.traceLineColor);
 
   useEffect(() => {
-    if (!showTraceLine || !map) {
+    if (!showTraceLine || !map || player?.mapName !== map.mapName) {
       return;
     }
     const targetLayerGroup = layerGroup.current!;
@@ -40,7 +40,7 @@ export function TraceLine() {
         targetLayerGroup.removeFrom(map);
       } catch (e) {}
     };
-  }, [showTraceLine, map]);
+  }, [showTraceLine, map, player?.mapName]);
 
   const traceLineRateRef = useRef(0);
   useEffect(() => {
