@@ -18,6 +18,7 @@ import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import {
+  TeleportTravelConfigAsset,
   DA_WorldMapGlobalConfig,
   DT_LevelConfigs,
   MapData,
@@ -39,6 +40,7 @@ const enDict = initDict({
   FireTemple: "Fire Temple",
   EarthTemple: "Earth Temple",
   WaterTemple: "Water Temple",
+  locations: "Locations",
 });
 
 const worldMapGlobalConfig = await readJSON<DA_WorldMapGlobalConfig>(
@@ -84,11 +86,18 @@ for (const worldMap of worldMaps) {
     Math.max(...bounds.map((b) => b[0])) - Math.min(...bounds.map((b) => b[0]));
 
   const offset = [
-    (bounds[0][1] + bounds[1][1]) / 2,
     (bounds[0][0] + bounds[1][0]) / 2,
+    (bounds[0][1] + bounds[1][1]) / 2,
   ];
   tiles[worldMap.Value.Name] = (
-    await generateTiles(worldMap.Value.Name, path, width, 512, offset)
+    await generateTiles(
+      worldMap.Value.Name,
+      path,
+      width,
+      512,
+      offset,
+      undefined,
+    )
   )[worldMap.Value.Name];
   mapKeys[worldMap.Key] = worldMap.Value.Name;
 }
@@ -113,78 +122,109 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
   if (!mapName) {
     continue;
   }
-  const root = await readJSON<MapData>(
+
+  const mapPath =
     CONTENT_DIR +
-      levelConfig.Level.AssetPathName.replace(
-        "/Game/",
-        "/Palia/Content/",
-      ).split(".")[0] +
-      ".json",
+    levelConfig.Level.AssetPathName.replace("/Game/", "/Palia/Content/").split(
+      ".",
+    )[0];
+
+  const generatedMapPath = mapPath + "/_Generated_";
+  const generatedFiles = readDirSync(generatedMapPath).map(
+    (f) => generatedMapPath + "/" + f,
   );
-  console.log(mapName, root.length);
-  for (const item of root) {
-    if (
-      !item.Properties ||
-      !item.Outer ||
-      !("RelativeLocation" in item.Properties) ||
-      !item.Properties.RelativeLocation
-    ) {
-      continue;
-    }
-    const id = item.Outer;
-    let group;
-    let type;
-    let iconName;
-    let size = 1;
-    if (item.Outer.startsWith("BP_Stables_Sign_UAID")) {
-      group = "locations";
-      type = "stables";
-      enDict[type] = "Stable";
-      iconName = await saveIcon(
-        `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/Icon_Compass_Stable_01.png`,
-        type,
+  const mapFiles = [mapPath + ".json", ...generatedFiles];
+
+  for (const mapFile of mapFiles) {
+    console.log(`Reading ${mapFile}`);
+    const mapData = await readJSON<MapData>(mapFile);
+    console.log(mapName, mapData.length);
+    for (const element of mapData) {
+      if (
+        !element.Properties ||
+        !element.Outer ||
+        !("RelativeLocation" in element.Properties) ||
+        !element.Properties.RelativeLocation
+      ) {
+        continue;
+      }
+      const id = element.Outer;
+      let group;
+      let type;
+      let iconName;
+      let size = 1;
+      if (
+        element.Name === "DefaultSceneRoot" &&
+        element.Outer.startsWith("BP_Stables_Sign_UAID")
+      ) {
+        group = "locations";
+        type = "stables";
+        size = 1.5;
+
+        enDict[type] = "Stable";
+        iconName = await saveIcon(
+          `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/Icon_Compass_Stable_01.png`,
+          type,
+        );
+        const destinationAddress = mapData.find(
+          (e) => e.Outer === element.Outer && e.Properties?.DestinationAddress,
+        );
+        if (!destinationAddress) {
+          console.warn("No destination address for stable", element.Outer);
+          continue;
+        }
+        const destinationElement = await readJSON<TeleportTravelConfigAsset>(
+          CONTENT_DIR +
+            "/Palia/Content/" +
+            destinationAddress
+              .Properties!.DestinationAddress.ObjectPath.replace("Game/", "")
+              .replace(".0", "") +
+            ".json",
+        );
+        if (!destinationElement) {
+          console.warn("No destination element for stable", element.Outer);
+          continue;
+        }
+        enDict[id] =
+          destinationElement[0].Properties.DestinationDisplayName.LocalizedString;
+      } else {
+        continue;
+      }
+
+      let category = filters.find((f) => f.group === group);
+      if (!category) {
+        filters.push({
+          group: group,
+          defaultOpen: true,
+          defaultOn: true,
+          values: [],
+        });
+        category = filters.find((f) => f.group === group)!;
+      }
+      if (!category.values.some((v) => v.id === type)) {
+        category.values.push({
+          id: type,
+          icon: iconName,
+          size,
+        });
+      }
+      let oldNodes = nodes.find(
+        (n) => n.type === type && n.mapName === mapName,
       );
-    } else {
-      continue;
-    }
+      if (!oldNodes) {
+        nodes.push({ type: type, mapName, spawns: [], static: true });
+        oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+      }
 
-    const tooltipItem = root.find(
-      (e) => e.Outer === item.Outer && e.Properties?.Tooltip,
-    );
-    if (tooltipItem) {
-      enDict[id] = tooltipItem.Properties!.Tooltip;
+      const spawn: Node["spawns"][number] = {
+        id,
+        p: [
+          element.Properties.RelativeLocation.Y,
+          element.Properties.RelativeLocation.X,
+        ],
+      };
+      oldNodes.spawns.push(spawn);
     }
-
-    let category = filters.find((f) => f.group === group);
-    if (!category) {
-      filters.push({
-        group: group,
-        defaultOpen: true,
-        defaultOn: true,
-        values: [],
-      });
-      category = filters.find((f) => f.group === group)!;
-    }
-    if (!category.values.some((v) => v.id === type)) {
-      category.values.push({
-        id: type,
-        icon: iconName,
-        size,
-      });
-    }
-    let oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName);
-    if (!oldNodes) {
-      nodes.push({ type: type, mapName, spawns: [] });
-      oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName)!;
-    }
-
-    const spawn: Node["spawns"][number] = {
-      p: [
-        item.Properties.RelativeLocation.X,
-        item.Properties.RelativeLocation.Y,
-      ],
-    };
-    oldNodes.spawns.push(spawn);
   }
 }
 

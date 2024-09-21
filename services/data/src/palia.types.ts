@@ -184,3 +184,21 @@ export type MapData = Array<{
   Properties?: Record<string, any>;
   Template?: Record<string, any>;
 }>;
+
+export type TeleportTravelConfigAsset = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    DestinationDisplayName: {
+      Namespace: string;
+      Key: string;
+      SourceString: string;
+      LocalizedString: string;
+    };
+    ExperiencePackage: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+  };
+}>;

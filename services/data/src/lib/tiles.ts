@@ -18,7 +18,10 @@ export async function generateTiles(
   tileSize = 512,
   additionalOffset = [0, 0],
   fitBounds?: [[number, number], [number, number]],
-  cropBounds?: [[number, number], [number, number]],
+  cropBounds: [[number, number], [number, number]] = [
+    [-1, -1],
+    [1, 1],
+  ],
   transformation?: [number, number, number, number],
   transformationMultiplier = [1, 1] as [number, number],
 ): Promise<Tiles> {

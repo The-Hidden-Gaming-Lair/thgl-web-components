@@ -7,5 +7,17 @@
   "FireTemple": "Fire Temple",
   "EarthTemple": "Earth Temple",
   "WaterTemple": "Water Temple",
-  "stables": "Stable"
+  "locations": "Locations",
+  "stables": "Stable",
+  "BP_Stables_Sign_UAID_6C02E03F65D9936101_1437950312": "Kilima - Central Stables",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF47501_2055973898": "Kilima - Mirror Fields",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF47501_2116097899": "Kilima - Whispering Banks",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF47501_2119042900": "Kilima - Leafhopper Hills",
+  "BP_Stables_Sign_UAID_6C02E03F65D9C66301_1698475622": "Bahari - Central Stables",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF17501_2051031162": "Bahari - Coral Shores",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF27501_1076227339": "Bahari - The Outskirts",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF27501_1104149340": "Bahari - Pulsewater Plains",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF27501_1135505341": "Bahari - Beachcomber Cove",
+  "BP_Stables_Sign_UAID_B04F1306EDBFF27501_1164310342": "Bahari - Hideaway Bluffs",
+  "BP_Stables_Sign_UAID_7486E2271DBF409B01_2003868107": "Kilima Village Fairgrounds"
 }
