@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "stables",
+        "icon": "stables.webp",
+        "size": 1
+      }
+    ]
+  }
+]

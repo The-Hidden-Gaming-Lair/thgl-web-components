@@ -12,11 +12,17 @@ import {
   readDirSync,
   readJSON,
 } from "./lib/fs.js";
+import { saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
-import { DA_WorldMapGlobalConfig } from "./palia.types.js";
+import {
+  DA_WorldMapGlobalConfig,
+  DT_LevelConfigs,
+  MapData,
+} from "./palia.types.js";
+import { Node } from "./types.js";
 
 initDirs(
   String.raw`C:\dev\Palia\Extracted\Data`,
@@ -24,7 +30,7 @@ initDirs(
   String.raw`C:\dev\the-hidden-gaming-lair\static\palia`,
 );
 
-const dict = initDict({
+const enDict = initDict({
   VillageWorld: "Kilima Village",
   AdventureZoneWorld: "Bahari Bay",
   MajiMarket: "Fairgrounds",
@@ -38,14 +44,19 @@ const dict = initDict({
 const worldMapGlobalConfig = await readJSON<DA_WorldMapGlobalConfig>(
   CONTENT_DIR + "/Palia/Content/Configs/DA_WorldMapGlobalConfig.json",
 );
+const levelConfigs = await readJSON<DT_LevelConfigs>(
+  CONTENT_DIR + "/Palia/Content/Configs/DT_LevelConfigs.json",
+);
+
 const tiles = initTiles();
 const filters = initFilters();
 const nodes = initNodes();
 const regions = initRegions();
-const typeIDs = initTypesIDs();
+const typesIDs = initTypesIDs();
 const globalFilters = initGlobalFilters();
 
 const worldMaps = worldMapGlobalConfig[0].Properties.WorldMaps;
+const mapKeys: Record<string, string> = {};
 for (const worldMap of worldMaps) {
   if (
     ![
@@ -79,6 +90,7 @@ for (const worldMap of worldMaps) {
   tiles[worldMap.Value.Name] = (
     await generateTiles(worldMap.Value.Name, path, width, 512, offset)
   )[worldMap.Value.Name];
+  mapKeys[worldMap.Key] = worldMap.Value.Name;
 }
 
 const privateSpaceMaps = worldMapGlobalConfig[0].Properties.PrivateSpaceMaps;
@@ -94,12 +106,90 @@ for (const privateSpaceMap of privateSpaceMaps) {
 }
 writeTiles(tiles);
 
-const mapsData = readDirRecursive(CONTENT_DIR + "/Maps");
-for (const mapData of mapsData) {
+for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
+  const mapName = Object.entries(mapKeys).find(([mapKey]) =>
+    levelConfig.Level.AssetPathName.includes(mapKey),
+  )?.[1];
+  if (!mapName) {
+    continue;
+  }
+  const root = await readJSON<MapData>(
+    CONTENT_DIR +
+      levelConfig.Level.AssetPathName.replace(
+        "/Game/",
+        "/Palia/Content/",
+      ).split(".")[0] +
+      ".json",
+  );
+  console.log(mapName, root.length);
+  for (const item of root) {
+    if (
+      !item.Properties ||
+      !item.Outer ||
+      !("RelativeLocation" in item.Properties) ||
+      !item.Properties.RelativeLocation
+    ) {
+      continue;
+    }
+    const id = item.Outer;
+    let group;
+    let type;
+    let iconName;
+    let size = 1;
+    if (item.Outer.startsWith("BP_Stables_Sign_UAID")) {
+      group = "locations";
+      type = "stables";
+      enDict[type] = "Stable";
+      iconName = await saveIcon(
+        `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/Icon_Compass_Stable_01.png`,
+        type,
+      );
+    } else {
+      continue;
+    }
+
+    const tooltipItem = root.find(
+      (e) => e.Outer === item.Outer && e.Properties?.Tooltip,
+    );
+    if (tooltipItem) {
+      enDict[id] = tooltipItem.Properties!.Tooltip;
+    }
+
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: true,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+    }
+    if (!category.values.some((v) => v.id === type)) {
+      category.values.push({
+        id: type,
+        icon: iconName,
+        size,
+      });
+    }
+    let oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName);
+    if (!oldNodes) {
+      nodes.push({ type: type, mapName, spawns: [] });
+      oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    }
+
+    const spawn: Node["spawns"][number] = {
+      p: [
+        item.Properties.RelativeLocation.X,
+        item.Properties.RelativeLocation.Y,
+      ],
+    };
+    oldNodes.spawns.push(spawn);
+  }
 }
 
 writeFilters(filters);
-writeDict(dict, "en");
+writeDict(enDict, "en");
 writeNodes(nodes);
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(
@@ -109,7 +199,7 @@ Object.keys(tiles).forEach((mapName) => {
 });
 
 writeRegions(regions);
-writeTypesIDs(typeIDs);
+writeTypesIDs(typesIDs);
 writeGlobalFilters(globalFilters);
 
 console.log("Done");
