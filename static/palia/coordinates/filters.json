@@ -5,8 +5,18 @@
     "defaultOn": true,
     "values": [
       {
-        "id": "stables",
-        "icon": "stables.webp",
+        "id": "stable",
+        "icon": "stable.webp",
+        "size": 1.5
+      },
+      {
+        "id": "landmark",
+        "icon": "landmark.webp",
+        "size": 1.5
+      },
+      {
+        "id": "wardrobe",
+        "icon": "wardrobe.webp",
         "size": 1.5
       }
     ]

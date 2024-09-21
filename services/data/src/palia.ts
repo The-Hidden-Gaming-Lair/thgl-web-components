@@ -136,9 +136,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
   const mapFiles = [mapPath + ".json", ...generatedFiles];
 
   for (const mapFile of mapFiles) {
-    console.log(`Reading ${mapFile}`);
     const mapData = await readJSON<MapData>(mapFile);
-    console.log(mapName, mapData.length);
     for (const element of mapData) {
       if (
         !element.Properties ||
@@ -158,7 +156,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         element.Outer.startsWith("BP_Stables_Sign_UAID")
       ) {
         group = "locations";
-        type = "stables";
+        type = "stable";
         size = 1.5;
 
         enDict[type] = "Stable";
@@ -187,6 +185,44 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         }
         enDict[id] =
           destinationElement[0].Properties.DestinationDisplayName.LocalizedString;
+      } else if (
+        element.Name === "DefaultSceneRoot" &&
+        element.Outer.startsWith("BP_Decor_Invisible_Wardrobe")
+      ) {
+        group = "locations";
+        type = "wardrobe";
+        size = 1.5;
+
+        enDict[type] = "Wardrobe";
+        iconName = await saveIcon(
+          `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/WT_Icon_Wardrobe.png`,
+          type,
+        );
+      } else if (
+        element.Name === "DefaultSceneRoot" &&
+        element.Outer.startsWith("MapMarker_")
+      ) {
+        const trackingTarget = mapData.find(
+          (e) =>
+            e.Outer === element.Outer &&
+            (e.Properties?.Tooltip || e.Properties?.DisplayText),
+        );
+        if (!trackingTarget) {
+          console.warn("No tracking target for landmark", element.Outer);
+          continue;
+        }
+        group = "locations";
+        type = "landmark";
+        size = 1.5;
+
+        enDict[type] = "Landmark";
+        iconName = await saveIcon(
+          `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/Icon_Landmark_01.png`,
+          type,
+        );
+        enDict[id] =
+          trackingTarget.Properties!.Tooltip?.SourceString ||
+          trackingTarget.Properties!.DisplayText.SourceString;
       } else {
         continue;
       }
