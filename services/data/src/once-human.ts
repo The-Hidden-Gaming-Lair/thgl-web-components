@@ -52,6 +52,7 @@ const filters = initFilters([
   { group: "items", defaultOn: true, defaultOpen: true, values: [] },
   { group: "recipes", defaultOn: true, defaultOpen: true, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: true, values: [] },
+  { group: "plants", defaultOn: true, defaultOpen: true, values: [] },
   { group: "locations", defaultOn: true, defaultOpen: true, values: [] },
   { group: "riddles", defaultOn: true, defaultOpen: true, values: [] },
   { group: "boss", defaultOn: true, defaultOpen: true, values: [] },
@@ -70,6 +71,7 @@ const enDict = initDict({
   items: "Items",
   recipes: "Recipes",
   gatherables: "Gatherables",
+  plants: "Plants",
 });
 const typeIDs = initTypesIDs({
   "ball.gim": "deviations_ball",
@@ -1594,7 +1596,7 @@ for (const [key, value] of Object.entries(interactResData)) {
       continue;
     }
     const prevNode = nodes.find(
-      (n) => n.type === node.type && n.mapName === mapName,
+      (n) => n.type === node.type && n.mapName === node.mapName,
     )!;
     prevNode.spawns = node.spawns;
   }
@@ -1604,6 +1606,7 @@ const sortPriority = [
   "items",
   "recipes",
   "gatherables",
+  "plants",
   "deviations",
   "locations",
   "riddles",
