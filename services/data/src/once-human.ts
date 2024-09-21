@@ -111,22 +111,7 @@ const tiles = initTiles({
     )
   )[mapName],
   ["raid"]: (
-    await generateTiles(
-      "raid",
-      TEMP_DIR + "/raid.png",
-      ORTHOGRAPHIC_WIDTH,
-      TILE_SIZE,
-      [0, 0],
-      [
-        [2500, -1200],
-        [-8200, 8200],
-      ],
-      [
-        [0, 0],
-        [0, 0],
-      ],
-      [0.03121951219512195, 256, -0.03121951219512195, 256],
-    )
+    await generateTiles("raid", TEMP_DIR + "/raid.png", 1200, TILE_SIZE)
   )["raid"],
 });
 
@@ -1639,16 +1624,24 @@ const filteredNodes = nodes
     let id = typeIDs[n.type];
     const isItem = items.values.some((v) => v.id === id);
 
-    const minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+    let minDistance;
+    if (n.mapName === "raid") {
+      minDistance = isItem ? 1 : 3;
+    } else {
+      minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+    }
+
     const targetSpawnNodes = n.spawns.filter((s, i) => {
-      const isNotOnWorldMap =
-        s.p[0] < -8100 ||
-        s.p[0] > 3050 ||
-        s.p[1] > 8200 ||
-        s.p[1] < -2000 ||
-        (s.p[0] > -600 && s.p[1] < 600);
-      if (isNotOnWorldMap) {
-        return false;
+      if (n.mapName !== "raid") {
+        const isNotOnWorldMap =
+          s.p[0] < -8100 ||
+          s.p[0] > 3050 ||
+          s.p[1] > 8200 ||
+          s.p[1] < -2000 ||
+          (s.p[0] > -600 && s.p[1] < 600);
+        if (isNotOnWorldMap) {
+          return false;
+        }
       }
       const isCloseToOtherSpawn = n.spawns.slice(i + 1).some((other) => {
         const distance = Math.sqrt(

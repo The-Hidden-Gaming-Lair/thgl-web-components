@@ -129,9 +129,14 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     }
     let minDistance;
     if (mapName === "raid") {
-      minDistance = 1;
+      minDistance = isItem ? 1 : 3;
     } else {
       minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+      const isNotOnWorldMap =
+        x < -8100 || x > 3050 || y > 8200 || y < -2000 || (x > -600 && y < 600);
+      if (isNotOnWorldMap) {
+        return false;
+      }
     }
 
     if (!nodes.some((n) => n.type === id && n.mapName === mapName)) {
