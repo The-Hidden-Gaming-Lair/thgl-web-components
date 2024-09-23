@@ -1,6 +1,6 @@
 {
   "default": "Open World",
-  "raid": "Dungeons (WIP)",
+  "raid": "Dungeons",
   "locations": "Locations",
   "deviations": "Deviants",
   "boss": "Bosses",
@@ -10,6 +10,7 @@
   "items": "Items",
   "recipes": "Recipes",
   "gatherables": "Gatherables",
+  "plants": "Plants",
   "juluo": "Hamlet",
   "07E60A12-12140030-CC6A6B52-1C6B27D6": "Inspection Point 266",
   "07E60A12-12140030-CC6A6B52-1C6B27D6_desc": "Level: 35",

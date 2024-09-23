@@ -178,7 +178,7 @@
   "m_spider_gastank.gim": "monster_white_hand",
   "bus_monster.gim": "monster_wanderer",
   "bus_monster_01.gim": "monster_house_monster_t2",
-  "m_spider_box.gim": "morphic_crate",
+  "m_spider_box.gim": "monster_morphic__crate",
   "m_spider_eye.gim": "monster_peeper",
   "m_spider_skin_ru.gim": "monster_spider_eggs",
   "ancientones_plane.gim": "monster_airplane_ancient_one",

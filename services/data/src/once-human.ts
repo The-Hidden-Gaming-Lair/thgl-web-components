@@ -93,43 +93,33 @@ const ORTHOGRAPHIC_WIDTH = 8200 * 2;
 const blank = createBlankImage(TILE_SIZE, TILE_SIZE);
 saveImage(TEMP_DIR + "/raid.png", blank.toBuffer("image/png"));
 
+const defaultTiles = await generateTiles(
+  mapName,
+  TEMP_DIR + "/" + mapName + ".png",
+  ORTHOGRAPHIC_WIDTH,
+  TILE_SIZE,
+  [0, 0],
+  [
+    [2500, -1200],
+    [-8200, 8200],
+  ],
+  [
+    [0, 0],
+    [0, 0],
+  ],
+  [0.03121951219512195, 256, -0.03121951219512195, 256],
+);
+const raidTiles = {
+  ...defaultTiles[mapName],
+  url: "/map-tiles/raid/{z}/{y}/{x}.webp",
+  fitBounds: [
+    [300, -770],
+    [-450, 530],
+  ] as [[number, number], [number, number]],
+};
 const tiles = initTiles({
-  [mapName]: (
-    await generateTiles(
-      mapName,
-      TEMP_DIR + "/" + mapName + ".png",
-      ORTHOGRAPHIC_WIDTH,
-      TILE_SIZE,
-      [0, 0],
-      [
-        [2500, -1200],
-        [-8200, 8200],
-      ],
-      [
-        [0, 0],
-        [0, 0],
-      ],
-      [0.03121951219512195, 256, -0.03121951219512195, 256],
-    )
-  )[mapName],
-  ["raid"]: (
-    await generateTiles(
-      "raid",
-      TEMP_DIR + "/raid.png",
-      1200,
-      TILE_SIZE,
-      [0, 0],
-      [
-        [300, -770],
-        [-450, 530],
-      ],
-      [
-        [0, 0],
-        [0, 0],
-      ],
-      [0.03121951219512195, 256, -0.03121951219512195, 256],
-    )
-  )["raid"],
+  [mapName]: defaultTiles[mapName],
+  ["raid"]: raidTiles,
 });
 
 writeTiles(tiles);
@@ -854,7 +844,7 @@ for (const battleFieldName of battleFieldNames) {
       nodeData.model_path.split("/").at(-1)?.split(".")[0] ??
       nodeData.model_path.split("\\").at(-1)?.split(".")[0] ??
       nodeData.model_path;
-    spawn.id = initialType;
+    spawn.id = nodeData.unit_id;
 
     if (!initialTitle) {
       // console.warn("No initialTitle for", nodeData.unit_id);
@@ -912,7 +902,6 @@ for (const battleFieldName of battleFieldNames) {
       );
     }
     typeIDs[typeId] = type;
-
     enDict[type] = title;
 
     if (!newTypes.includes(type)) {
@@ -1002,7 +991,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["m_spider_box.gim"] = type;
+  // typeIDs["m_spider_box.gim"] = type;
 }
 
 // Weapon Crate
@@ -1035,7 +1024,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     });
   }
 
-  const node = nodes.find((n) => n.type === type)!;
+  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
   node.spawns = [];
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Weapon Crate") {
@@ -1073,7 +1062,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     });
   }
 
-  const node = nodes.find((n) => n.type === type)!;
+  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
   node.spawns = [];
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Gear Crate") {
@@ -1111,7 +1100,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     });
   }
 
-  const node = nodes.find((n) => n.type === type)!;
+  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
   node.spawns = [];
 
   for (const [key, value] of Object.entries(interactResData)) {
@@ -1610,9 +1599,19 @@ for (const [key, value] of Object.entries(interactResData)) {
     if (!Object.values(typeIDs).includes(node.type)) {
       continue;
     }
-    const prevNode = nodes.find(
+    let prevNode = nodes.find(
       (n) => n.type === node.type && n.mapName === node.mapName,
-    )!;
+    );
+    if (!prevNode) {
+      nodes.push({
+        type: node.type,
+        spawns: [],
+        mapName: node.mapName,
+      });
+      prevNode = nodes.find(
+        (n) => n.type === node.type && n.mapName === node.mapName,
+      )!;
+    }
     prevNode.spawns = node.spawns;
   }
 }
@@ -1646,7 +1645,7 @@ const filteredNodes = nodes
     if (n.mapName === "raid") {
       minDistance = isItem ? 1 : 3;
     } else {
-      minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+      minDistance = isItem ? 5 : 75;
     }
 
     const targetSpawnNodes = n.spawns.filter((s, i) => {

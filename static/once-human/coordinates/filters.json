@@ -179,6 +179,12 @@
     ]
   },
   {
+    "group": "plants",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": []
+  },
+  {
     "group": "deviations",
     "values": [
       {

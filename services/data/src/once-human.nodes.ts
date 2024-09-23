@@ -1,7 +1,7 @@
 import { CONTENT_DIR, initDirs, OUTPUT_DIR } from "./lib/dirs.js";
 import { encodeToFile, readDirSync, readJSON } from "./lib/fs.js";
 import { writeNodes } from "./lib/nodes.js";
-import { TriggerData } from "./once-human.types.js";
+import { BattleFieldData, TriggerData } from "./once-human.types.js";
 
 import { Filter, Node, Tiles, TypesIds } from "./types.js";
 
@@ -63,19 +63,60 @@ const data = (await response.json()) as Record<
 //   }
 // });
 
+const battleFieldNames = readDirSync(
+  CONTENT_DIR + "/game_common/data/battle_field",
+);
+const spiderBoxes: [number, number, number, string][] = [];
+for (const battleFieldName of battleFieldNames) {
+  if (!battleFieldName.endsWith(".json")) {
+    continue;
+  }
+  const battleFieldData = await readJSON<BattleFieldData>(
+    CONTENT_DIR + "/game_common/data/battle_field/" + battleFieldName,
+  );
+  for (const nodeData of Object.values(battleFieldData.nodes)) {
+    if (nodeData.Type !== "NpcNode") {
+      continue;
+    }
+    if (!nodeData.model_path.endsWith("/m_spider_box.gim")) {
+      continue;
+    }
+    spiderBoxes.push([nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]]);
+  }
+}
+console.log(`Found ${spiderBoxes.length} spider boxes`);
+const morphicCrates = nodes.filter((n) => n.type === "morphic_crate");
+morphicCrates.forEach((morphicCrate) => {
+  morphicCrate.spawns = [];
+});
+
 const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
   let id = typeIDs[type];
-  if (!id) {
-    console.warn("No type for", type);
+  if (type === "m_spider_box.gim") {
+    id = "morphic_crate";
+  }
+  if (!id && type !== "m_spider_box.gim") {
+    // console.warn("No type for", type);
     return;
   }
   if (!nodes.some((n) => n.type === id)) {
-    console.log("No filter for", id);
+    // console.log("No filter for", id);
     return;
   }
 
   let targetSpawnNodes = spawnNodes;
+  if (id === "morphic_crate") {
+    targetSpawnNodes = targetSpawnNodes.filter(([x, y, z]) => {
+      return spiderBoxes.some(([sx, sy, sz]) => {
+        const distance = Math.sqrt(
+          (x - sx) ** 2 + (y - sy) ** 2 + (z - sz) ** 2,
+        );
+        return distance < 20;
+      });
+    });
+    console.log(`Found ${targetSpawnNodes.length} morphic crates`);
+  }
   if (id === "gear_crate") {
     const busMonsterLocations = [
       ...(data["bus_monster.gim"] || []),
@@ -131,7 +172,7 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
     if (mapName === "raid") {
       minDistance = isItem ? 1 : 3;
     } else {
-      minDistance = isItem ? (id === "morphic_crate" ? 20 : 5) : 75;
+      minDistance = isItem ? (id === "morphic_crate" ? 100 : 5) : 75;
       const isNotOnWorldMap =
         x < -8100 || x > 3050 || y > 8200 || y < -2000 || (x > -600 && y < 600);
       if (isNotOnWorldMap) {
