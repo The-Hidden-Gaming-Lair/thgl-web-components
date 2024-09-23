@@ -99,7 +99,7 @@ export async function initGameEventsPlugin(
     };
     setTimeout(() => {
       refreshProcess();
-    }, 1000);
+    }, 1500);
 
     let firstPlayerData = false;
     let lastPlayerError = "";
