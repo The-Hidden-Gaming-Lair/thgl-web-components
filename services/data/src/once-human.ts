@@ -113,7 +113,22 @@ const tiles = initTiles({
     )
   )[mapName],
   ["raid"]: (
-    await generateTiles("raid", TEMP_DIR + "/raid.png", 1200, TILE_SIZE)
+    await generateTiles(
+      "raid",
+      TEMP_DIR + "/raid.png",
+      1200,
+      TILE_SIZE,
+      [0, 0],
+      [
+        [300, -770],
+        [-450, 530],
+      ],
+      [
+        [0, 0],
+        [0, 0],
+      ],
+      [0.03121951219512195, 256, -0.03121951219512195, 256],
+    )
   )["raid"],
 });
 
