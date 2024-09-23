@@ -1,10 +1,17 @@
 import { cn } from "@repo/lib";
 
-export function Brand({ title }: { title: string }): JSX.Element {
+export function Brand({
+  title,
+  className,
+}: {
+  title: string;
+  className?: string;
+}): JSX.Element {
   return (
     <h1
       className={cn(
         "text-lg md:text-2xl md:leading-6 font-extrabold tracking-tight whitespace-nowrap",
+        className,
       )}
     >
       {title.replaceAll(" ", "").toUpperCase()}

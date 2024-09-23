@@ -1,4 +1,3 @@
-export * from "./admin-rights";
 export * from "./ads-160-600-desktop";
 export * from "./ads-300-250-overlay";
 export * from "./ads-400-300-overlay";

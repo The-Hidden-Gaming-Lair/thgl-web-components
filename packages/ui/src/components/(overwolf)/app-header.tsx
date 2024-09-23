@@ -19,6 +19,7 @@ import { useCoordinates } from "../(providers)";
 import { SendLogs } from "./send-logs";
 import { Label, Tooltip, TooltipContent, TooltipTrigger } from "../(controls)";
 import { Hotkey } from "./hotkey";
+import { AppStatus } from "./app-status";
 
 export function AppHeader({
   app,
@@ -141,52 +142,59 @@ export function AppHeader({
           infoActions={<SendLogs />}
         >
           {isOverlay ? <LockWindowButton /> : null}
-          <Brand title={title ?? app} />
-          <Tooltip delayDuration={200} disableHoverableContent>
-            <TooltipTrigger>
-              <HeaderSwitch
-                checked={!settingsStore.overlayMode}
-                label="2nd Screen Mode"
-                onChange={(checked) => {
-                  settingsStore.setOverlayMode(!checked);
-                  togglePreferedWindow(gameClassId);
-                }}
-              />
-            </TooltipTrigger>
-            <TooltipContent className="w-64" side="bottom">
-              <p>
-                Switch between 2nd screen mode and overlay mode. The overlay
-                mode requires that the game is running and it's enabled in the
-                Overwolf overlay settings.
-              </p>
-            </TooltipContent>
-          </Tooltip>
-
-          {typesIdMap && (
+          <Brand title={title ?? app} className="hidden lg:block" />
+          <div
+            onMouseDown={(event) => event.stopPropagation()}
+            className="space-x-2"
+          >
             <Tooltip delayDuration={200} disableHoverableContent>
               <TooltipTrigger>
                 <HeaderSwitch
-                  checked={settingsStore.liveMode}
-                  label="Live Mode"
-                  onChange={settingsStore.toggleLiveMode}
+                  checked={!settingsStore.overlayMode}
+                  label="2nd Screen Mode"
+                  onChange={(checked) => {
+                    settingsStore.setOverlayMode(!checked);
+                    togglePreferedWindow(gameClassId);
+                  }}
                 />
               </TooltipTrigger>
               <TooltipContent className="w-64" side="bottom">
                 <p>
-                  The live mode shows the current locations of some nodes on the
-                  map in a limited range. Disable it to see the spawn locations
-                  instead. Check the filter tooltip for the live mode support.
+                  Switch between 2nd screen mode and overlay mode. The overlay
+                  mode requires that the game is running and it's enabled in the
+                  Overwolf overlay settings.
                 </p>
-                <Label className="flex items-center gap-2 justify-between">
-                  Toggle Live Mode
-                  <Hotkey
-                    name={HOTKEYS.TOGGLE_LIVE_MODE}
-                    gameClassId={gameClassId}
-                  />
-                </Label>
               </TooltipContent>
             </Tooltip>
-          )}
+
+            {typesIdMap && (
+              <Tooltip delayDuration={200} disableHoverableContent>
+                <TooltipTrigger>
+                  <HeaderSwitch
+                    checked={settingsStore.liveMode}
+                    label="Live Mode"
+                    onChange={settingsStore.toggleLiveMode}
+                  />
+                </TooltipTrigger>
+                <TooltipContent className="w-64" side="bottom">
+                  <p>
+                    The live mode shows the current locations of some nodes on
+                    the map in a limited range. Disable it to see the spawn
+                    locations instead. Check the filter tooltip for the live
+                    mode support.
+                  </p>
+                  <Label className="flex items-center gap-2 justify-between">
+                    Toggle Live Mode
+                    <Hotkey
+                      name={HOTKEYS.TOGGLE_LIVE_MODE}
+                      gameClassId={gameClassId}
+                    />
+                  </Label>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            <AppStatus gameClassId={gameClassId} />
+          </div>
           <div className="grow" />
           <ReleaseNotesLink
             href={`https://www.th.gl/apps/${app}/release-notes`}
