@@ -6,12 +6,7 @@ import {
   writeFilters,
   writeGlobalFilters,
 } from "./lib/filters.js";
-import {
-  encodeToFile,
-  readDirRecursive,
-  readDirSync,
-  readJSON,
-} from "./lib/fs.js";
+import { encodeToFile, readDirSync, readJSON } from "./lib/fs.js";
 import { saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
@@ -243,6 +238,79 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         enDict[id] =
           trackingTarget.Properties!.Tooltip?.SourceString ||
           trackingTarget.Properties!.DisplayText.SourceString;
+      } else if (element.Name === "Teleporter Root") {
+        group = "locations";
+        size = 1.5;
+
+        const tooltipElement = mapData.find(
+          (e) =>
+            e.Outer === element.Outer && e.Properties?.Tooltip?.LocalizedString,
+        );
+        if (
+          tooltipElement &&
+          tooltipElement.Properties!.Tooltip.LocalizedString ===
+            "To Housing Plot"
+        ) {
+          type = "housingPlot";
+          enDict[type] = "Housing Plot";
+          enDict[id] = tooltipElement.Properties!.Tooltip.LocalizedString;
+          iconName = await saveIcon(
+            `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/Icon_Compass_Home_01.png`,
+            type,
+          );
+        } else if (tooltipElement) {
+          if (
+            tooltipElement.Properties!.WorldLocationContext ===
+              "EWorldLocationContext::LimitedEvent" &&
+            mapName === "VillageWorld"
+          ) {
+            console.warn("Limited event teleporter", element.Outer);
+            continue;
+          }
+          type = "zone";
+          enDict[type] = "Zone";
+          enDict[id] = tooltipElement.Properties!.Tooltip.LocalizedString;
+          iconName = await saveIcon(
+            `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/WT_Icon_Compass_Zone.png`,
+            type,
+          );
+        } else {
+          const targetTravelAssetElement = mapData.find(
+            (e) => e.Outer === element.Outer && e.Properties?.TargetTravelAsset,
+          );
+          if (targetTravelAssetElement) {
+            type = "location";
+            enDict[type] = "Location";
+            iconName = await saveIcon(
+              `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/Icon_Map_Marker.png`,
+              type,
+            );
+            const destinationElement =
+              await readJSON<TeleportTravelConfigAsset>(
+                CONTENT_DIR +
+                  "/Palia/Content/" +
+                  targetTravelAssetElement
+                    .Properties!.TargetTravelAsset.ObjectPath.replace(
+                      "Game/",
+                      "",
+                    )
+                    .replace(".0", "") +
+                  ".json",
+              );
+            if (!destinationElement) {
+              console.warn("No destination element for stable", element.Outer);
+              continue;
+            }
+            enDict[id] =
+              destinationElement[0].Properties.DestinationDisplayName.LocalizedString;
+            if (destinationElement[0].Properties.WrongTagsErrorMessage) {
+              enDict[`${id}_desc`] =
+                destinationElement[0].Properties.WrongTagsErrorMessage.LocalizedString;
+            }
+          } else {
+            continue;
+          }
+        }
       } else {
         continue;
       }
@@ -279,6 +347,14 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           element.Properties.RelativeLocation.X,
         ],
       };
+      if (
+        oldNodes.spawns.some(
+          (s) => s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
+        )
+      ) {
+        console.warn("Duplicate spawn", spawn.id);
+        continue;
+      }
       oldNodes.spawns.push(spawn);
     }
   }

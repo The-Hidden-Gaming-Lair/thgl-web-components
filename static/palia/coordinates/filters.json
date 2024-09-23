@@ -5,6 +5,11 @@
     "defaultOn": true,
     "values": [
       {
+        "id": "location",
+        "icon": "location.webp",
+        "size": 1.5
+      },
+      {
         "id": "stable",
         "icon": "stable.webp",
         "size": 1.5
@@ -17,6 +22,16 @@
       {
         "id": "wardrobe",
         "icon": "wardrobe.webp",
+        "size": 1.5
+      },
+      {
+        "id": "housingPlot",
+        "icon": "housingplot.webp",
+        "size": 1.5
+      },
+      {
+        "id": "zone",
+        "icon": "zone.webp",
         "size": 1.5
       }
     ]

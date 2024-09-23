@@ -196,9 +196,31 @@ export type TeleportTravelConfigAsset = Array<{
       SourceString: string;
       LocalizedString: string;
     };
-    ExperiencePackage: {
+    ExperiencePackage?: {
       AssetPathName: string;
       SubPathString: string;
+    };
+    PrivateSpaceConfig?: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    PlayerTagRequirements?: Array<{
+      TagToCheck: {
+        TagName: string;
+      };
+      MinimumAcceptedValue: number;
+      MaximumAcceptedValue: number;
+      TagPrereq: {
+        TagName: string;
+      };
+      TagPrereq_MinimumAcceptedValue: number;
+      TagPrereq_MaximumAcceptedValue: number;
+    }>;
+    WrongTagsErrorMessage?: {
+      Namespace: string;
+      Key: string;
+      SourceString: string;
+      LocalizedString: string;
     };
   };
 }>;

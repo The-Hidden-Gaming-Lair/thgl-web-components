@@ -1,5 +1,194 @@
 [
   {
+    "type": "location",
+    "mapName": "VillageWorld",
+    "spawns": [
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55D6C301_1117161175",
+        "p": [
+          -32712.463,
+          -12484.276
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE630D7901_2065472831",
+        "p": [
+          -1475.6511,
+          -382.907
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Chayne_C_UAID_CC96E503DD7EDC7701_1659484090",
+        "p": [
+          -19360,
+          11250
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_00BE43BC7D5532AD01_1839565916",
+        "p": [
+          5138.673,
+          -2274.8054
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63027A01_1846573965",
+        "p": [
+          927.51245,
+          9289.373
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE630D7901_1180776852",
+        "p": [
+          33930,
+          -7150
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63107901_1465714255",
+        "p": [
+          -5746.8086,
+          24299.285
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63117A01_1306167092",
+        "p": [
+          -12294.594,
+          519.2541
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63117A01_1565504093",
+        "p": [
+          -35197.07,
+          -26840.541
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63117A01_1634586094",
+        "p": [
+          -25507.24,
+          -23612.758
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63117A01_1765929095",
+        "p": [
+          -7169.688,
+          -30203.41
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63117A01_1905855096",
+        "p": [
+          -9584.809,
+          -34009.715
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63117A01_2054381097",
+        "p": [
+          -3087.7307,
+          -27047.164
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63127A01_1110902274",
+        "p": [
+          -3487.852,
+          -27037.912
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63147901_1235260488",
+        "p": [
+          4493.607,
+          36362.758
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63177A01_1613718543",
+        "p": [
+          -41241.645,
+          -292.31732
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63197A01_1883867172",
+        "p": [
+          960.25433,
+          8471.556
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63197A01_2067513173",
+        "p": [
+          884.4205,
+          8599.617
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE631B7A01_2127635217",
+        "p": [
+          -15013.738,
+          -27042.768
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63F77901_1205368166",
+        "p": [
+          14303.779,
+          -4007.9294
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63F77901_1545949167",
+        "p": [
+          10185.438,
+          -8402.142
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63F77901_1705194168",
+        "p": [
+          5430.5356,
+          -524.0385
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63F77901_1825970169",
+        "p": [
+          6812.3926,
+          -1340.2582
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63F87901_1276917346",
+        "p": [
+          254.90381,
+          -2771.6987
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63FC7901_1561438987",
+        "p": [
+          22686.525,
+          14604.491
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63FC7901_1912430989",
+        "p": [
+          23134.436,
+          13339.7
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "stable",
     "mapName": "VillageWorld",
     "spawns": [
@@ -133,6 +322,132 @@
     "static": true
   },
   {
+    "type": "housingPlot",
+    "mapName": "VillageWorld",
+    "spawns": [
+      {
+        "id": "BP_GateTeleporter_Parent_C_UAID_CC96E503DE63617801_2105154458",
+        "p": [
+          -15635.923,
+          20423.076
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "zone",
+    "mapName": "VillageWorld",
+    "spawns": [
+      {
+        "id": "BP_GateTeleporter_Parent_C_UAID_CC96E503DE634E7A01_1976701586",
+        "p": [
+          21536.953,
+          54908.113
+        ]
+      },
+      {
+        "id": "BP_GateTeleporter_Parent_C_UAID_CC96E503DE63627801_1776598294",
+        "p": [
+          -5721.5854,
+          50743.09
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "location",
+    "mapName": "AdventureZoneWorld",
+    "spawns": [
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_B04F1306E948198801_1687213524",
+        "p": [
+          -87690.41,
+          73257.74
+        ]
+      },
+      {
+        "id": "BP_GateTeleporter_Parent_C_UAID_7486E22722AE31C301_1570592825",
+        "p": [
+          -81363.26,
+          54211.31
+        ]
+      },
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55D1C301_1108486904",
+        "p": [
+          -56298.297,
+          124248.26
+        ]
+      },
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55D5C301_1272344746",
+        "p": [
+          1982.9125,
+          99329.56
+        ]
+      },
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55E0B701_2107979866",
+        "p": [
+          20870.63,
+          123011.83
+        ]
+      },
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55F4AC01_1201166771",
+        "p": [
+          -25085.639,
+          131291.83
+        ]
+      },
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55F7C401_2115611887",
+        "p": [
+          -84725.78,
+          94796.83
+        ]
+      },
+      {
+        "id": "BP_InvisibleTeleporter_Parent_C_UAID_00BE43BC7D55F9A101_1768487034",
+        "p": [
+          -45645,
+          85085
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63147A01_1804531996",
+        "p": [
+          6891.907,
+          75234.33
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63147A01_1934212997",
+        "p": [
+          -23047.643,
+          65861.8
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63147A01_2092305998",
+        "p": [
+          -24190.543,
+          66339.17
+        ]
+      },
+      {
+        "id": "BP_DoorTeleporter_Parent_C_UAID_CC96E503DE63157A01_1109767176",
+        "p": [
+          -108676.516,
+          78751.69
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "stable",
     "mapName": "AdventureZoneWorld",
     "spawns": [
@@ -182,6 +497,20 @@
     "static": true
   },
   {
+    "type": "zone",
+    "mapName": "AdventureZoneWorld",
+    "spawns": [
+      {
+        "id": "BP_GateTeleporter_Parent_C_UAID_CC96E503DE63137A01_1673725565",
+        "p": [
+          -10820.326,
+          59135.844
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
     "type": "landmark",
     "mapName": "AdventureZoneWorld",
     "spawns": [
@@ -218,6 +547,20 @@
         "p": [
           -108706.5,
           79317
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "zone",
+    "mapName": "MajiMarket",
+    "spawns": [
+      {
+        "id": "BP_GateTeleporter_Parent_C_UAID_7486E227219CE7C201_1392658658",
+        "p": [
+          -5619.183,
+          -3139.594
         ]
       }
     ],
