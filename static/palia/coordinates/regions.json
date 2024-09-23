@@ -1,1 +1,254 @@
-[]
+[
+  {
+    "id": "MapMarker_Apothecary_UAID_CC96E5156C5D4B9101_1701465443",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      -30860.605,
+      -19096.855
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_6C02E03F65D9936101_1437953322",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      20930,
+      13500
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1821434640",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      24140,
+      31510
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1856820641",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      8990,
+      45150
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1893206642",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      -22740,
+      33400
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1928571643",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      -5090,
+      24380
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1972807644",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      -27550,
+      4680
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1999525645",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      4870,
+      2270
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_2035310646",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      6860,
+      -26170
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_2068254647",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      12030,
+      -47480
+    ]
+  },
+  {
+    "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_2094865648",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      -19080,
+      -12180
+    ]
+  },
+  {
+    "id": "MapMarker_RemembranceGarden_UAID_6C02E03F65D9936101_1437953320",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      27000,
+      -7330
+    ]
+  },
+  {
+    "id": "MapMarker_RemembranceGarden_UAID_CC96E5156C5D479101_1753509996",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      18210,
+      -7330
+    ]
+  },
+  {
+    "id": "MapMarker_RemembranceGarden_UAID_CC96E5156C5D4A9101_1765151639",
+    "mapName": "VillageWorld",
+    "border": [],
+    "center": [
+      37380,
+      -1090
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3D9201_2102627787",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -39720,
+      131120
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3D9201_2130131788",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -60600,
+      142130
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1104990965",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -50080,
+      101830
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1136480966",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -50080,
+      67590
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1169627967",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -36820,
+      84690
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1196462968",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -104850,
+      90550
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1218807969",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      6740,
+      84550
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1251673970",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -14030,
+      97380
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1275559971",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -7620,
+      127630
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1547700974",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      17200,
+      123870
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1601927976",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -67490,
+      109920
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1649469977",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -67490,
+      80780
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1668547978",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -79900,
+      134600
+    ]
+  },
+  {
+    "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1912837980",
+    "mapName": "AdventureZoneWorld",
+    "border": [],
+    "center": [
+      -89240,
+      68100
+    ]
+  }
+]

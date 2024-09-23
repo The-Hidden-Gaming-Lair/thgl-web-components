@@ -202,6 +202,26 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         element.Name === "DefaultSceneRoot" &&
         element.Outer.startsWith("MapMarker_")
       ) {
+        const textOnly = mapData.find(
+          (e) =>
+            e.Outer === element.Outer &&
+            e.Properties?.Asset?.ObjectName.endsWith("TextOnly'"),
+        );
+        if (textOnly) {
+          regions.push({
+            id,
+            mapName,
+            border: [],
+            center: [
+              element.Properties.RelativeLocation.Y,
+              element.Properties.RelativeLocation.X,
+            ],
+          });
+          enDict[id] = enDict[id] =
+            textOnly.Properties!.DisplayText.SourceString;
+          continue;
+        }
+
         const trackingTarget = mapData.find(
           (e) =>
             e.Outer === element.Outer &&

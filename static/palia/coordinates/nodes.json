@@ -46,13 +46,6 @@
         ]
       },
       {
-        "id": "MapMarker_Apothecary_UAID_CC96E5156C5D4B9101_1701465443",
-        "p": [
-          -30860.605,
-          -19096.855
-        ]
-      },
-      {
         "id": "MapMarker_Blacksmith_UAID_6C02E03F65D9936101_1437952314",
         "p": [
           7586,
@@ -102,101 +95,10 @@
         ]
       },
       {
-        "id": "MapMarker_MayorsEstate_UAID_6C02E03F65D9936101_1437953322",
-        "p": [
-          20930,
-          13500
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1821434640",
-        "p": [
-          24140,
-          31510
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1856820641",
-        "p": [
-          8990,
-          45150
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1893206642",
-        "p": [
-          -22740,
-          33400
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1928571643",
-        "p": [
-          -5090,
-          24380
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1972807644",
-        "p": [
-          -27550,
-          4680
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_1999525645",
-        "p": [
-          4870,
-          2270
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_2035310646",
-        "p": [
-          6860,
-          -26170
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_2068254647",
-        "p": [
-          12030,
-          -47480
-        ]
-      },
-      {
-        "id": "MapMarker_MayorsEstate_UAID_CC96E5156C5D4A9101_2094865648",
-        "p": [
-          -19080,
-          -12180
-        ]
-      },
-      {
         "id": "MapMarker_PhoenixFalls_UAID_6C02E03F65D9936101_1437954325",
         "p": [
           -35620,
           670
-        ]
-      },
-      {
-        "id": "MapMarker_RemembranceGarden_UAID_6C02E03F65D9936101_1437953320",
-        "p": [
-          27000,
-          -7330
-        ]
-      },
-      {
-        "id": "MapMarker_RemembranceGarden_UAID_CC96E5156C5D479101_1753509996",
-        "p": [
-          18210,
-          -7330
-        ]
-      },
-      {
-        "id": "MapMarker_RemembranceGarden_UAID_CC96E5156C5D4A9101_1765151639",
-        "p": [
-          37380,
-          -1090
         ]
       },
       {
@@ -309,104 +211,6 @@
         "p": [
           6829,
           75254
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3D9201_2102627787",
-        "p": [
-          -39720,
-          131120
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3D9201_2130131788",
-        "p": [
-          -60600,
-          142130
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1104990965",
-        "p": [
-          -50080,
-          101830
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1136480966",
-        "p": [
-          -50080,
-          67590
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1169627967",
-        "p": [
-          -36820,
-          84690
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1196462968",
-        "p": [
-          -104850,
-          90550
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1218807969",
-        "p": [
-          6740,
-          84550
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1251673970",
-        "p": [
-          -14030,
-          97380
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1275559971",
-        "p": [
-          -7620,
-          127630
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1547700974",
-        "p": [
-          17200,
-          123870
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1601927976",
-        "p": [
-          -67490,
-          109920
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1649469977",
-        "p": [
-          -67490,
-          80780
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1668547978",
-        "p": [
-          -79900,
-          134600
-        ]
-      },
-      {
-        "id": "MapMarker_OldLighthouse_UAID_CC96E5156C5D3E9201_1912837980",
-        "p": [
-          -89240,
-          68100
         ]
       },
       {
