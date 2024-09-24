@@ -35,5 +35,519 @@
         "size": 1.5
       }
     ]
+  },
+  {
+    "group": "bugs",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "BP_Bug_AZ2_BatterflyC",
+        "icon": "bp_bug_az2_batterflyc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BatterflyE",
+        "icon": "bp_bug_az2_batterflye.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BatterflyU1",
+        "icon": "bp_bug_az2_batterflyu1.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BatterflyU2",
+        "icon": "bp_bug_az2_batterflyu2.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BeetleC",
+        "icon": "bp_bug_az2_beetlec.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BeetleE",
+        "icon": "bp_bug_az2_beetlee.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BeetleR",
+        "icon": "bp_bug_az2_beetler.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_BeetleU",
+        "icon": "bp_bug_az2_beetleu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_MothC",
+        "icon": "bp_bug_az2_mothc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_MothE",
+        "icon": "bp_bug_az2_mothe.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_MothR",
+        "icon": "bp_bug_az2_mothr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_MothU",
+        "icon": "bp_bug_az2_mothu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_PiksiiC1",
+        "icon": "bp_bug_az2_piksiic1.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_PiksiiC2",
+        "icon": "bp_bug_az2_piksiic2.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_PiksiiE",
+        "icon": "bp_bug_az2_piksiie.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_PiksiiR",
+        "icon": "bp_bug_az2_piksiir.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_PiksiiU",
+        "icon": "bp_bug_az2_piksiiu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_RockHopperC",
+        "icon": "bp_bug_az2_rockhopperc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_RockhopperE",
+        "icon": "bp_bug_az2_rockhoppere.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_RockhopperR",
+        "icon": "bp_bug_az2_rockhopperr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AZ2_RockhopperU",
+        "icon": "bp_bug_az2_rockhopperu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeeR",
+        "icon": "bp_bug_beer.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeeU",
+        "icon": "bp_bug_beeu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleC",
+        "icon": "bp_bug_beetlec.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleE",
+        "icon": "bp_bug_beetlee.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleR",
+        "icon": "bp_bug_beetler.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleU",
+        "icon": "bp_bug_beetleu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyC",
+        "icon": "bp_bug_butterflyc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyE",
+        "icon": "bp_bug_butterflye.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyR",
+        "icon": "bp_bug_butterflyr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyU",
+        "icon": "bp_bug_butterflyu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CicadaC",
+        "icon": "bp_bug_cicadac.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CicadaR",
+        "icon": "bp_bug_cicadar.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CicadaU",
+        "icon": "bp_bug_cicadau.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CrabC",
+        "icon": "bp_bug_crabc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CrabR",
+        "icon": "bp_bug_crabr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CrabU",
+        "icon": "bp_bug_crabu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CricketC",
+        "icon": "bp_bug_cricketc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CricketR",
+        "icon": "bp_bug_cricketr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CricketU",
+        "icon": "bp_bug_cricketu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyC",
+        "icon": "bp_bug_dragonflyc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyE",
+        "icon": "bp_bug_dragonflye.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyR",
+        "icon": "bp_bug_dragonflyr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyU",
+        "icon": "bp_bug_dragonflyu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_GlowbugC",
+        "icon": "bp_bug_glowbugc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_GlowbugR",
+        "icon": "bp_bug_glowbugr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_LadybugR",
+        "icon": "bp_bug_ladybugr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_LadybugU",
+        "icon": "bp_bug_ladybugu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisE",
+        "icon": "bp_bug_mantise.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisR1",
+        "icon": "bp_bug_mantisr1.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisR2",
+        "icon": "bp_bug_mantisr2.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisU",
+        "icon": "bp_bug_mantisu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MothC",
+        "icon": "bp_bug_mothc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MothR",
+        "icon": "bp_bug_mothr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MothU",
+        "icon": "bp_bug_mothu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_PedeR1",
+        "icon": "bp_bug_peder1.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_PedeR2",
+        "icon": "bp_bug_peder2.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_PedeU",
+        "icon": "bp_bug_pedeu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_AncientFlowbug",
+        "icon": "bp_bug_ancientflowbug.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_SnailR",
+        "icon": "bp_bug_snailr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_SnailU",
+        "icon": "bp_bug_snailu.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "bugs_star",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "BP_Bug_BeeR+",
+        "icon": "bp_bug_beer.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeeU+",
+        "icon": "bp_bug_beeu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleC+",
+        "icon": "bp_bug_beetlec.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleE+",
+        "icon": "bp_bug_beetlee.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleR+",
+        "icon": "bp_bug_beetler.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_BeetleU+",
+        "icon": "bp_bug_beetleu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyC+",
+        "icon": "bp_bug_butterflyc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyE+",
+        "icon": "bp_bug_butterflye.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyR+",
+        "icon": "bp_bug_butterflyr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_ButterflyU+",
+        "icon": "bp_bug_butterflyu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CicadaC+",
+        "icon": "bp_bug_cicadac.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CicadaR+",
+        "icon": "bp_bug_cicadar.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CicadaU+",
+        "icon": "bp_bug_cicadau.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CrabC+",
+        "icon": "bp_bug_crabc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CrabR+",
+        "icon": "bp_bug_crabr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CrabU+",
+        "icon": "bp_bug_crabu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CricketC+",
+        "icon": "bp_bug_cricketc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CricketR+",
+        "icon": "bp_bug_cricketr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_CricketU+",
+        "icon": "bp_bug_cricketu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyC+",
+        "icon": "bp_bug_dragonflyc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyE+",
+        "icon": "bp_bug_dragonflye.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyR+",
+        "icon": "bp_bug_dragonflyr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_DragonflyU+",
+        "icon": "bp_bug_dragonflyu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_GlowbugC+",
+        "icon": "bp_bug_glowbugc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_GlowbugR+",
+        "icon": "bp_bug_glowbugr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_LadybugR+",
+        "icon": "bp_bug_ladybugr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_LadybugU+",
+        "icon": "bp_bug_ladybugu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisE+",
+        "icon": "bp_bug_mantise.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisR1+",
+        "icon": "bp_bug_mantisr1.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisR2+",
+        "icon": "bp_bug_mantisr2.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MantisU+",
+        "icon": "bp_bug_mantisu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MothC+",
+        "icon": "bp_bug_mothc.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MothR+",
+        "icon": "bp_bug_mothr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_MothU+",
+        "icon": "bp_bug_mothu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_PedeR1+",
+        "icon": "bp_bug_peder1.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_PedeR2+",
+        "icon": "bp_bug_peder2.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_PedeU+",
+        "icon": "bp_bug_pedeu.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_SnailR+",
+        "icon": "bp_bug_snailr.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_Bug_SnailU+",
+        "icon": "bp_bug_snailu.webp",
+        "size": 1
+      }
+    ]
   }
 ]

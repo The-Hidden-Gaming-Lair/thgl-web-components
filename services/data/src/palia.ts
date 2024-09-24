@@ -6,7 +6,12 @@ import {
   writeFilters,
   writeGlobalFilters,
 } from "./lib/filters.js";
-import { encodeToFile, readDirSync, readJSON } from "./lib/fs.js";
+import {
+  encodeToFile,
+  readDirRecursive,
+  readDirSync,
+  readJSON,
+} from "./lib/fs.js";
 import { saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
@@ -17,6 +22,8 @@ import {
   DA_WorldMapGlobalConfig,
   DT_LevelConfigs,
   MapData,
+  Bug,
+  DA_ItemType,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -171,7 +178,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
             "/Palia/Content/" +
             destinationAddress
               .Properties!.DestinationAddress.ObjectPath.replace("Game/", "")
-              .replace(".0", "") +
+              .replace(/\.\d+/, "") +
             ".json",
         );
         if (!destinationElement) {
@@ -294,7 +301,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
                       "Game/",
                       "",
                     )
-                    .replace(".0", "") +
+                    .replace(/\.\d+/, "") +
                   ".json",
               );
             if (!destinationElement) {
@@ -356,6 +363,104 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         continue;
       }
       oldNodes.spawns.push(spawn);
+    }
+  }
+}
+
+// C:\dev\Palia\Extracted\Data\Palia\Content\Configs\DT_SpawnRarityConfigs.json StarQualityChance!!!
+// VillageRoot TimeOfDay!!!
+{
+  const bugsFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/BugCatching/Bugs",
+  );
+  for (const bugFile of bugsFiles) {
+    const skill = await readJSON<Bug>(bugFile);
+
+    const lootComponent = skill.find((s) => s.Type === "LootComponent");
+    if (!lootComponent) {
+      console.warn("No loot component", bugFile);
+      continue;
+    }
+    let rewardFinalItem;
+    if (!lootComponent.Properties!.RewardFinal?.ItemType) {
+      const templateBug = await readJSON<Bug>(
+        CONTENT_DIR +
+          "/Palia/Content/" +
+          lootComponent
+            .Template!.ObjectPath.replace("Game/", "")
+            .replace(/\.\d+/, "") +
+          ".json",
+      );
+      const templateLootComponent = templateBug.find(
+        (s) => s.Type === "LootComponent",
+      )!;
+      rewardFinalItem = await readJSON<DA_ItemType>(
+        CONTENT_DIR +
+          "/Palia/Content/" +
+          templateLootComponent
+            .Properties!.RewardFinal?.ItemType.ObjectPath.replace("Game/", "")
+            .replace(/\.\d+/, "") +
+          ".json",
+      );
+    } else {
+      rewardFinalItem = await readJSON<DA_ItemType>(
+        CONTENT_DIR +
+          "/Palia/Content/" +
+          lootComponent
+            .Properties!.RewardFinal?.ItemType.ObjectPath.replace("Game/", "")
+            .replace(/\.\d+/, "") +
+          ".json",
+      );
+    }
+    const type = bugFile.replace(".json", "").split("\\").at(-1)!;
+    const isStarQuality = type.endsWith("+");
+
+    const group = isStarQuality ? "bugs_star" : "bugs";
+    const size = 1;
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: true,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      if (isStarQuality) {
+        enDict[group] = "Star Quality Bugs";
+      } else {
+        enDict[group] = "Bugs";
+      }
+    }
+
+    if (!category.values.some((v) => v.id === type)) {
+      if (!rewardFinalItem[0].Properties?.ItemIcon?.AssetPathName) {
+        throw new Error("No reward final item" + bugFile);
+      }
+      const iconName = await saveIcon(
+        "/Palia/Content" +
+          rewardFinalItem[0].Properties.ItemIcon.AssetPathName.replace(
+            "Game/",
+            "",
+          ).split(".")[0] +
+          ".png",
+        type,
+      );
+      category.values.push({
+        id: type,
+        icon: iconName,
+        size,
+      });
+      enDict[type] = rewardFinalItem[0].Properties.DisplayName.LocalizedString;
+      enDict[`${type}_desc`] =
+        `<p>Max Stack Size: ${rewardFinalItem[0].Properties.MaxStackSize}</p>`;
+      if (isStarQuality) {
+        enDict[`${type}_desc`] +=
+          rewardFinalItem[0].Properties.StarQualityDescription[0].LocalizedString;
+      } else {
+        enDict[`${type}_desc`] +=
+          rewardFinalItem[0].Properties.Description.LocalizedString;
+      }
     }
   }
 }
