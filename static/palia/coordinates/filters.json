@@ -44,22 +44,26 @@
       {
         "id": "bp_bug_beetlee_star",
         "icon": "bp_bug_beetlee_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_butterflye_star",
         "icon": "bp_bug_butterflye_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_dragonflye_star",
         "icon": "bp_bug_dragonflye_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mantise_star",
         "icon": "bp_bug_mantise_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       }
     ]
   },
@@ -71,22 +75,26 @@
       {
         "id": "bp_bug_beetlee",
         "icon": "bp_bug_beetlee.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_butterflye",
         "icon": "bp_bug_butterflye.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_dragonflye",
         "icon": "bp_bug_dragonflye.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mantise",
         "icon": "bp_bug_mantise.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       }
     ]
   },
@@ -98,77 +106,92 @@
       {
         "id": "bp_bug_beer_star",
         "icon": "bp_bug_beer_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_beetler_star",
         "icon": "bp_bug_beetler_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_butterflyr_star",
         "icon": "bp_bug_butterflyr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_cicadar_star",
         "icon": "bp_bug_cicadar_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_crabr_star",
         "icon": "bp_bug_crabr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_cricketr_star",
         "icon": "bp_bug_cricketr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_dragonflyr_star",
         "icon": "bp_bug_dragonflyr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_glowbugr_star",
         "icon": "bp_bug_glowbugr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_ladybugr_star",
         "icon": "bp_bug_ladybugr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mantisr1_star",
         "icon": "bp_bug_mantisr1_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mantisr2_star",
         "icon": "bp_bug_mantisr2_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mothr_star",
         "icon": "bp_bug_mothr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_peder1_star",
         "icon": "bp_bug_peder1_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_peder2_star",
         "icon": "bp_bug_peder2_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_snailr_star",
         "icon": "bp_bug_snailr_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       }
     ]
   },
@@ -180,77 +203,92 @@
       {
         "id": "bp_bug_beer",
         "icon": "bp_bug_beer.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_beetler",
         "icon": "bp_bug_beetler.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_butterflyr",
         "icon": "bp_bug_butterflyr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_cicadar",
         "icon": "bp_bug_cicadar.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_crabr",
         "icon": "bp_bug_crabr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_cricketr",
         "icon": "bp_bug_cricketr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_dragonflyr",
         "icon": "bp_bug_dragonflyr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_glowbugr",
         "icon": "bp_bug_glowbugr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_ladybugr",
         "icon": "bp_bug_ladybugr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mantisr1",
         "icon": "bp_bug_mantisr1.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mantisr2",
         "icon": "bp_bug_mantisr2.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mothr",
         "icon": "bp_bug_mothr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_peder1",
         "icon": "bp_bug_peder1.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_peder2",
         "icon": "bp_bug_peder2.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_snailr",
         "icon": "bp_bug_snailr.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       }
     ]
   },
@@ -262,62 +300,74 @@
       {
         "id": "bp_bug_beeu_star",
         "icon": "bp_bug_beeu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_beetleu_star",
         "icon": "bp_bug_beetleu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_butterflyu_star",
         "icon": "bp_bug_butterflyu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_cicadau_star",
         "icon": "bp_bug_cicadau_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_crabu_star",
         "icon": "bp_bug_crabu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_cricketu_star",
         "icon": "bp_bug_cricketu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_dragonflyu_star",
         "icon": "bp_bug_dragonflyu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_ladybugu_star",
         "icon": "bp_bug_ladybugu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mantisu_star",
         "icon": "bp_bug_mantisu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mothu_star",
         "icon": "bp_bug_mothu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_pedeu_star",
         "icon": "bp_bug_pedeu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_snailu_star",
         "icon": "bp_bug_snailu_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       }
     ]
   },
@@ -329,62 +379,74 @@
       {
         "id": "bp_bug_beeu",
         "icon": "bp_bug_beeu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_beetleu",
         "icon": "bp_bug_beetleu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_butterflyu",
         "icon": "bp_bug_butterflyu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_cicadau",
         "icon": "bp_bug_cicadau.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_crabu",
         "icon": "bp_bug_crabu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_cricketu",
         "icon": "bp_bug_cricketu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_dragonflyu",
         "icon": "bp_bug_dragonflyu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_ladybugu",
         "icon": "bp_bug_ladybugu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mantisu",
         "icon": "bp_bug_mantisu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mothu",
         "icon": "bp_bug_mothu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_pedeu",
         "icon": "bp_bug_pedeu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_snailu",
         "icon": "bp_bug_snailu.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       }
     ]
   },
@@ -396,42 +458,50 @@
       {
         "id": "bp_bug_beetlec_star",
         "icon": "bp_bug_beetlec_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_butterflyc_star",
         "icon": "bp_bug_butterflyc_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_cicadac_star",
         "icon": "bp_bug_cicadac_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_crabc_star",
         "icon": "bp_bug_crabc_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_cricketc_star",
         "icon": "bp_bug_cricketc_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_dragonflyc_star",
         "icon": "bp_bug_dragonflyc_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_glowbugc_star",
         "icon": "bp_bug_glowbugc_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       },
       {
         "id": "bp_bug_mothc_star",
         "icon": "bp_bug_mothc_star.webp",
-        "size": 1
+        "size": 1,
+        "live_only": true
       }
     ]
   },
@@ -443,42 +513,50 @@
       {
         "id": "bp_bug_beetlec",
         "icon": "bp_bug_beetlec.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_butterflyc",
         "icon": "bp_bug_butterflyc.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_cicadac",
         "icon": "bp_bug_cicadac.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_crabc",
         "icon": "bp_bug_crabc.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_cricketc",
         "icon": "bp_bug_cricketc.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_dragonflyc",
         "icon": "bp_bug_dragonflyc.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_glowbugc",
         "icon": "bp_bug_glowbugc.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       },
       {
         "id": "bp_bug_mothc",
         "icon": "bp_bug_mothc.webp",
-        "size": 1
+        "size": 1,
+        "live_only": false
       }
     ]
   }

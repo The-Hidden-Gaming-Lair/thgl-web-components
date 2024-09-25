@@ -1,4 +1,4 @@
-import { cn } from "@repo/lib";
+import { cn, useSettingsStore } from "@repo/lib";
 import { ReactNode } from "react";
 import {
   REGION_FILTERS,
@@ -13,8 +13,6 @@ import {
 } from "../ui/collapsible";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Button } from "../ui/button";
-import { AlertCircleIcon } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Presets } from "./presets";
 import { MapSelect } from "./map-select";
@@ -32,6 +30,7 @@ export function MarkersFilters({
   const { filters: filterDetails, regions } = useCoordinates();
   const t = useT();
   const { filters, setFilters, toggleFilter } = useUserStore();
+  const liveMode = useSettingsStore((state) => state.liveMode);
 
   return (
     <>
@@ -206,26 +205,15 @@ export function MarkersFilters({
                           </button>
                         </TooltipTrigger>
                         <TooltipContent side="right" className="max-w-96">
+                          {filter.live_only && (
+                            <p className="font-bold tex-lg text-orange-500">
+                              This filter is only available with the live mode
+                              of the In-Game app.
+                            </p>
+                          )}
                           <FilterTooltip id={filter.id} />
                         </TooltipContent>
                       </Tooltip>
-                      {filter.live_only && (
-                        <Tooltip delayDuration={20} disableHoverableContent>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <AlertCircleIcon className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">
-                            {filter.live_only && (
-                              <div className="text-bold">
-                                This filter is only available in live mode.
-                                Please install the in-game app.
-                              </div>
-                            )}
-                          </TooltipContent>
-                        </Tooltip>
-                      )}
                     </div>
                   ))}
               </CollapsibleContent>

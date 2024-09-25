@@ -373,15 +373,19 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
 );
 
 {
+  const foragingFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Foraging",
+  );
   const bugsFiles = readDirRecursive(
     CONTENT_DIR + "/Palia/Content/Gameplay/Skills/BugCatching/Bugs",
   );
-  for (const bugFile of bugsFiles) {
-    const skill = await readJSON<Bug>(bugFile);
+  const skillsFiles = [...bugsFiles, ...foragingFiles];
+  for (const skillFile of skillsFiles) {
+    const skill = await readJSON<Bug>(skillFile);
 
     const lootComponent = skill.find((s) => s.Type === "LootComponent");
     if (!lootComponent) {
-      console.warn("No loot component", bugFile);
+      console.warn("No loot component", skillFile);
       continue;
     }
     let rewardFinalItem;
@@ -416,21 +420,29 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       );
     }
     if (!rewardFinalItem[0].Properties?.ItemIcon?.AssetPathName) {
-      throw new Error("No reward final item" + bugFile);
+      throw new Error("No reward final item" + skillFile);
     }
     if (!rewardFinalItem[0].Properties.DisplayName.LocalizedString) {
       continue;
     }
-    if (bugFile.includes("QuestSpecial")) {
+    if (skillFile.includes("QuestSpecial")) {
       continue;
     }
 
-    const baseType = bugFile.replace(".json", "").split("\\").at(-1)!;
+    const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
     const type = baseType.replace("+", "_star").toLowerCase();
     const typeId = baseType + "_C";
     const isStarQuality = typeId.includes("+");
 
-    let group = "bugs";
+    let group;
+    if (skillFile.includes("Foraging")) {
+      group = "foraging";
+    } else if (skillFile.includes("Bugs")) {
+      group = "bugs";
+    } else {
+      console.warn("Unknown skill", skillFile);
+      continue;
+    }
     const rarity = rewardFinalItem[0].Properties.Rarity.replace(
       "EItemRarity::",
       "",
@@ -479,6 +491,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
         id: type,
         icon: iconName,
         size,
+        live_only: isStarQuality,
       });
       enDict[type] = rewardFinalItem[0].Properties.DisplayName.LocalizedString;
       if (isStarQuality) {
@@ -505,6 +518,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     }
   }
 }
+
 const sortPriority = [
   "locations",
   "bugs_epic_star",
