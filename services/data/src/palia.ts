@@ -24,6 +24,7 @@ import {
   MapData,
   Bug,
   DA_ItemType,
+  DT_SpawnRarityConfigs,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -367,8 +368,10 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
   }
 }
 
-// C:\dev\Palia\Extracted\Data\Palia\Content\Configs\DT_SpawnRarityConfigs.json StarQualityChance!!!
-// VillageRoot TimeOfDay!!!
+const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
+  CONTENT_DIR + "/Palia/Content/Configs/DT_SpawnRarityConfigs.json",
+);
+
 {
   const bugsFiles = readDirRecursive(
     CONTENT_DIR + "/Palia/Content/Gameplay/Skills/BugCatching/Bugs",
@@ -422,9 +425,10 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
       continue;
     }
 
-    const typeId = bugFile.replace(".json", "").split("\\").at(-1)!;
-    const isStarQuality = typeId.endsWith("+");
-    const type = typeId.replace("+", "_star").toLowerCase();
+    const baseType = bugFile.replace(".json", "").split("\\").at(-1)!;
+    const type = baseType.replace("+", "_star").toLowerCase();
+    const typeId = baseType + "_C";
+    const isStarQuality = typeId.includes("+");
 
     let group = "bugs";
     const rarity = rewardFinalItem[0].Properties.Rarity.replace(
@@ -482,6 +486,14 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
       }
       enDict[`${type}_desc`] =
         `<p>Max Stack Size: ${rewardFinalItem[0].Properties.MaxStackSize}</p>`;
+
+      const baseTypeId = typeId.replace("+", "");
+      const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
+        (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
+      )![1];
+      enDict[`${type}_desc`] +=
+        `<p>Star Quality Chance: ${spawnRarityConfig.StarQualityChance * 100}%</p>`;
+
       if (isStarQuality) {
         enDict[`${type}_desc`] +=
           rewardFinalItem[0].Properties.StarQualityDescription[0].LocalizedString;

@@ -496,3 +496,30 @@ export type DA_ItemType = Array<{
     PersistId: number;
   };
 }>;
+
+export type DT_SpawnRarityConfigs = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      BaseActor: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      BaseRarity: string;
+      StarQualityVariant: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      StarQualityChance: number;
+    }
+  >;
+}>;
