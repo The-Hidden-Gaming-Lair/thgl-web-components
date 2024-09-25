@@ -606,6 +606,173 @@ export type Forage = Array<{
   Outer?: string;
 }>;
 
+export type MiningNode = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Super?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    OwnerVitals?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    bTrackable?: boolean;
+    SphereRadius?: number;
+    RelativeLocation?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    DefaultSceneRootNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VariableGuid?: string;
+    InternalVariableName?: string;
+    SimpleConstructionScript?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InheritableComponentHandler?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    mineNode_type?: string;
+    mineNode_size?: string;
+    SM_miningNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Mat_miningNode?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    pos_offsetMesh?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    ExplosionSFX?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SFX_Hit?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ValeriaGAS?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Vitals: any;
+    RequirementConfig?: {
+      ItemTags: {
+        GameplayTags: {
+          GameplayTags: Array<string>;
+        };
+      };
+    };
+    RewardFinal?: {
+      Loot: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+      SkillXpEarnings: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+    };
+    ChestTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RewardPerVital?: {
+      Loot: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+    };
+    LootPerVitalAmount?: number;
+    Tags?: {
+      GameplayTags: Array<string>;
+    };
+    OnChangedContext?: {
+      InvocationList: Array<{
+        Object: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        FunctionName: string;
+      }>;
+    };
+    AttributeSet?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Records?: Array<{
+      ComponentClass: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentTemplate: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentKey: {
+        OwnerClass: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        SCSVariableName: string;
+        AssociatedGuid: string;
+      };
+      CookedComponentInstancingData: {
+        ChangedPropertyList: Array<any>;
+        bHasValidCookedData: boolean;
+      };
+    }>;
+  };
+  ClassFlags?: string;
+  ClassWithin?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ClassConfigName?: string;
+  bCooked?: boolean;
+  ClassDefaultObject?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  EditorTags?: {
+    BlueprintType: string;
+  };
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Outer?: string;
+}>;
+
 export type DA_ItemType = Array<{
   Type: string;
   Name: string;
@@ -706,6 +873,99 @@ export type DT_SpawnRarityConfigs = Array<{
         SubPathString: string;
       };
       StarQualityChance: number;
+    }
+  >;
+}>;
+
+export type DT_LootBundleConfigs = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      bEnabled: boolean;
+      LootBundle: Array<{
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      }>;
+      bAwardRecipesAsInspiration: boolean;
+      InspirationOptionCount: number;
+    }
+  >;
+}>;
+
+export type DT_LootPoolConfigs = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      PersistId: number;
+      bEnabled: boolean;
+      BadLuckTrackingThreshold: number;
+      bShouldUseSharedLoot: boolean;
+      LootPool: Array<{
+        Weight: number;
+        Requirements: {
+          TimeOfDay: {
+            Periods: number;
+            MinTime: {
+              Hour: number;
+              Minute: number;
+            };
+            MaxTime: {
+              Hour: number;
+              Minute: number;
+            };
+          };
+          FriendshipRequirements: Array<any>;
+          RomanceRequirements: Array<any>;
+          PlayerTagRequirements: Array<any>;
+          QuestPrereqs: Array<any>;
+          RequiredItems: Array<any>;
+          VitalRequirement: {
+            VitalType: string;
+            MinimumAmount: number;
+          };
+          RequiredAccomplishments: Array<any>;
+          RequiredRecipes: Array<any>;
+          WeatherGameStates: Array<any>;
+          ContentBatch: {
+            AssetPathName: string;
+            SubPathString: string;
+          };
+        };
+        ItemType?: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        ItemAmount: number;
+        QualityStars: number;
+        bTrackedForBadLuck: boolean;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+      }>;
     }
   >;
 }>;

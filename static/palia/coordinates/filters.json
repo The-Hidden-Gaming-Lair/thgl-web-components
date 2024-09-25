@@ -37,6 +37,78 @@
     ]
   },
   {
+    "group": "mining",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Mining.Clay.Final",
+        "icon": "miningclayfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Copper.Large.Final",
+        "icon": "miningcopperlargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Copper.Final",
+        "icon": "miningcopperfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Copper.Small.Final",
+        "icon": "miningcoppersmallfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Iron.Large.Final",
+        "icon": "miningironlargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Iron.Final",
+        "icon": "miningironfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Iron.Small.Final",
+        "icon": "miningironsmallfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Palium.Large.Final",
+        "icon": "miningpaliumlargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Palium.Medium.Final",
+        "icon": "miningpaliummediumfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Palium.Small.Final",
+        "icon": "miningpaliumsmallfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Stone.Large.Final",
+        "icon": "miningstonelargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Stone.Final",
+        "icon": "miningstonefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Mining.Stone.Small.Final",
+        "icon": "miningstonesmallfinal.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "bugs_epic_star",
     "defaultOpen": false,
     "defaultOn": true,

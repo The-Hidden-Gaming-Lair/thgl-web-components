@@ -126,5 +126,18 @@
   "BP_WaterFlower_C": "bp_waterflower",
   "BP_WildGarlic+_C": "bp_wildgarlic_star",
   "BP_WildGarlic_C": "bp_wildgarlic",
-  "BP_Worm_C": "bp_worm"
+  "BP_Worm_C": "bp_worm",
+  "BP_Mining_Clay_MultiHarvest_C": "Mining.Clay.Final",
+  "BP_Mining_Copper_Large_MultiHarvest_C": "Mining.Copper.Large.Final",
+  "BP_Mining_Copper_Medium_MultiHarvest_C": "Mining.Copper.Final",
+  "BP_Mining_Copper_Small_MultiHarvest_C": "Mining.Copper.Small.Final",
+  "BP_Mining_Iron_Large_MultiHarvest_C": "Mining.Iron.Large.Final",
+  "BP_Mining_Iron_Medium_MultiHarvest_C": "Mining.Iron.Final",
+  "BP_Mining_Iron_Small_MultiHarvest_C": "Mining.Iron.Small.Final",
+  "BP_Mining_Palium_Large_MultiHarvest_C": "Mining.Palium.Large.Final",
+  "BP_Mining_Palium_Medium_MultiHarvest_C": "Mining.Palium.Medium.Final",
+  "BP_Mining_Palium_Small_MultiHarvest_C": "Mining.Palium.Small.Final",
+  "BP_Mining_Stone_Large_MultiHarvest_C": "Mining.Stone.Large.Final",
+  "BP_Mining_Stone_Medium_MultiHarvest_C": "Mining.Stone.Final",
+  "BP_Mining_Stone_Small_MultiHarvest_C": "Mining.Stone.Small.Final"
 }

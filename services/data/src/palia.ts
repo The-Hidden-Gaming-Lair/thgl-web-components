@@ -26,6 +26,9 @@ import {
   DA_ItemType,
   DT_SpawnRarityConfigs,
   Forage,
+  MiningNode,
+  DT_LootBundleConfigs,
+  DT_LootPoolConfigs,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -490,14 +493,10 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
         (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
       );
-      if (!spawnRarityConfig?.[1]) {
-        throw new Error(
-          "No spawn rarity config for " + baseTypeId + " in " + skillFile,
-        );
+      if (spawnRarityConfig?.[1].StarQualityVariant?.AssetPathName) {
+        enDict[`${type}_desc`] +=
+          `<p>Star Quality Chance: ${spawnRarityConfig[1].StarQualityChance * 100}%</p>`;
       }
-      enDict[`${type}_desc`] +=
-        `<p>Star Quality Chance: ${spawnRarityConfig[1].StarQualityChance * 100}%</p>`;
-
       if (isStarQuality) {
         enDict[`${type}_desc`] +=
           itemType[0].Properties.StarQualityDescription[0].LocalizedString;
@@ -610,7 +609,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
         (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
       );
-      if (spawnRarityConfig?.[1]) {
+      if (spawnRarityConfig?.[1].StarQualityVariant?.AssetPathName) {
         enDict[`${type}_desc`] +=
           `<p>Star Quality Chance: ${spawnRarityConfig[1].StarQualityChance * 100}%</p>`;
       }
@@ -621,8 +620,149 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     }
   }
 }
+
+const lootBundleConfigs = await readJSON<DT_LootBundleConfigs>(
+  CONTENT_DIR + "/Palia/Content/Configs/DT_LootBundleConfigs.json",
+);
+const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
+  CONTENT_DIR + "/Palia/Content/Configs/DT_LootPoolConfigs.json",
+);
+
+// Mining
+{
+  const skillFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Mining/Nodes",
+  );
+  for (const skillFile of skillFiles) {
+    const skill = await readJSON<MiningNode>(skillFile);
+
+    const gatherableLootComponent = skill.find(
+      (s) => s.Type === "GatherableLootComponent",
+    );
+    if (!gatherableLootComponent) {
+      console.warn("No gatherable loot component", skillFile);
+      continue;
+    }
+    const lootBundleConfig =
+      lootBundleConfigs[0].Rows[
+        gatherableLootComponent.Properties!.RewardFinal!.Loot.RowName
+      ];
+
+    if (!lootBundleConfig.bEnabled) {
+      continue;
+    }
+
+    const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
+    const typeId = baseType + "_C";
+    const size = 1;
+
+    if (typeId.includes("_AZ2")) {
+      continue;
+    }
+    const type = gatherableLootComponent.Properties!.RewardFinal!.Loot.RowName;
+    const group = "mining";
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: false,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      enDict[group] = "Mining";
+    }
+
+    const desc: string[] = [];
+    for (const loot of lootBundleConfig.LootBundle) {
+      const lootPoolConfig = Object.entries(lootPoolConfigs[0].Rows).find(
+        (e) => e[0].toLowerCase() === loot.RowName.toLowerCase(),
+      );
+      if (!lootPoolConfig) {
+        console.warn("No loot pool config", loot.RowName);
+        continue;
+      }
+      for (const loot of lootPoolConfig![1].LootPool) {
+        if (!loot.ItemType) {
+          continue;
+        }
+
+        const itemType = await readJSON<DA_ItemType>(
+          CONTENT_DIR +
+            "/Palia/Content/" +
+            loot
+              .ItemType!.ObjectPath.replace("Game/", "")
+              .replace(/\.\d+/, "") +
+            ".json",
+        );
+        const rarity =
+          itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ??
+          "Special";
+        let desc = `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
+        desc += rarity;
+        const baseTypeId = typeId.replace("+", "");
+        const spawnRarityConfig = Object.entries(
+          spawnRarityConfigs[0].Rows,
+        ).find(
+          (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
+        );
+
+        desc += itemType[0].Properties.Description.LocalizedString;
+      }
+      if (!category.values.some((v) => v.id === type)) {
+        const iconProps: IconProps = {};
+        const oreType = type.split(".").at(1)!;
+        const icons = [
+          "Icon_Ore_Clay",
+          "Icon_Ore_Copper",
+          "Icon_Ore_Iron",
+          "Icon_Ore_Palium",
+          "Icon_Stone",
+          // "Icon_Wood_Softwood",
+          // "Icon_Wood_Magicwood",
+          // "Icon_Wood_Hardwood",
+        ];
+        const iconPath = icons.find((i) => i.includes(oreType));
+        if (!iconPath) {
+          continue;
+        }
+        enDict[type] = oreType;
+        if (typeId.includes("Large")) {
+          enDict[type] += " (L)";
+          iconProps.circle = true;
+          iconProps.color = "red";
+        } else if (typeId.includes("Medium")) {
+          enDict[type] += " (M)";
+          iconProps.circle = true;
+          iconProps.color = "yellow";
+        } else if (typeId.includes("Small")) {
+          enDict[type] += " (S)";
+          iconProps.circle = true;
+          iconProps.color = "green";
+        }
+        enDict[`${type}_desc`] = desc.join("<br>");
+
+        typesIDs[typeId] = type;
+
+        const iconName = await saveIcon(
+          `/Palia/Content/UI/Icons/${iconPath}.png`,
+          type,
+          iconProps,
+        );
+
+        category.values.push({
+          id: type,
+          icon: iconName,
+          size,
+        });
+      }
+    }
+  }
+}
+
 const sortPriority = [
   "locations",
+  "mining",
   "bugs_epic_star",
   "bugs_epic",
   "bugs_rare_star",
