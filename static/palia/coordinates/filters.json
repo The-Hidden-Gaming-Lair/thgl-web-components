@@ -559,5 +559,382 @@
         "live_only": false
       }
     ]
+  },
+  {
+    "group": "foraging_special",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_gatherable_gravesite",
+        "icon": "bp_gatherable_gravesite.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_gatherable_remembrancegarden",
+        "icon": "bp_gatherable_remembrancegarden.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_questitem_calerilvl3book",
+        "icon": "bp_questitem_calerilvl3book.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_questitem_cookbook_1",
+        "icon": "bp_questitem_cookbook_1.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_questitem_cookbook_2",
+        "icon": "bp_questitem_cookbook_2.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "foraging_legendary",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_heartofmagic",
+        "icon": "bp_heartofmagic.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "foraging_epic_star",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_spice_daricloves_star",
+        "icon": "bp_spice_daricloves_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_heartdroplilly_star",
+        "icon": "bp_heartdroplilly_star.webp",
+        "size": 1,
+        "live_only": true
+      }
+    ]
+  },
+  {
+    "group": "foraging_epic",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_spice_daricloves",
+        "icon": "bp_spice_daricloves.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_heartdroplilly",
+        "icon": "bp_heartdroplilly.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "foraging_rare_star",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_gatherable_mushroomblue_star",
+        "icon": "bp_gatherable_mushroomblue_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_spice_heatroot_star",
+        "icon": "bp_spice_heatroot_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_moss_dragonsbeard_star",
+        "icon": "bp_moss_dragonsbeard_star.webp",
+        "size": 1,
+        "live_only": true
+      }
+    ]
+  },
+  {
+    "group": "foraging_rare",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_gatherable_mushroomblue",
+        "icon": "bp_gatherable_mushroomblue.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_spice_heatroot",
+        "icon": "bp_spice_heatroot.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_lootcrate_parent",
+        "icon": "bp_lootcrate_parent.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_moss_dragonsbeard",
+        "icon": "bp_moss_dragonsbeard.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_firestone",
+        "icon": "bp_firestone.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_moonstone",
+        "icon": "bp_moonstone.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "foraging_uncommon_star",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_honey_star",
+        "icon": "bp_honey_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_coral_star",
+        "icon": "bp_coral_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_gatherable_ginger_star",
+        "icon": "bp_gatherable_ginger_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_gatherable_greenonion_star",
+        "icon": "bp_gatherable_greenonion_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_moss_emeraldcarpet_star",
+        "icon": "bp_moss_emeraldcarpet_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_poisonflower_star",
+        "icon": "bp_poisonflower_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_spiced_sprouts_star",
+        "icon": "bp_spiced_sprouts_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_sweetleaves_star",
+        "icon": "bp_sweetleaves_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_waterflower_star",
+        "icon": "bp_waterflower_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_wildgarlic_star",
+        "icon": "bp_wildgarlic_star.webp",
+        "size": 1,
+        "live_only": true
+      }
+    ]
+  },
+  {
+    "group": "foraging_uncommon",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_honey",
+        "icon": "bp_honey.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_coral",
+        "icon": "bp_coral.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_gatherable_ginger",
+        "icon": "bp_gatherable_ginger.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_gatherable_greenonion",
+        "icon": "bp_gatherable_greenonion.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_moss_emeraldcarpet",
+        "icon": "bp_moss_emeraldcarpet.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_poisonflower",
+        "icon": "bp_poisonflower.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_spiced_sprouts",
+        "icon": "bp_spiced_sprouts.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_sweetleaves",
+        "icon": "bp_sweetleaves.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_waterflower",
+        "icon": "bp_waterflower.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_wildgarlic",
+        "icon": "bp_wildgarlic.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "foraging_common_star",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_gatherable_mushroomr_star",
+        "icon": "bp_gatherable_mushroomr_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_seashell_star",
+        "icon": "bp_seashell_star.webp",
+        "size": 1,
+        "live_only": true
+      },
+      {
+        "id": "bp_sundroplillies_star",
+        "icon": "bp_sundroplillies_star.webp",
+        "size": 1,
+        "live_only": true
+      }
+    ]
+  },
+  {
+    "group": "foraging_common",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_oyster",
+        "icon": "bp_oyster.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_gatherable_mushroomr",
+        "icon": "bp_gatherable_mushroomr.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_seashell",
+        "icon": "bp_seashell.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_sundroplillies",
+        "icon": "bp_sundroplillies.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_worm",
+        "icon": "bp_worm.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "foraging_abundant",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "bp_gatherable_knapweed",
+        "icon": "bp_gatherable_knapweed.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_stone",
+        "icon": "bp_stone.webp",
+        "size": 1,
+        "live_only": false
+      },
+      {
+        "id": "bp_gatherable_thistle",
+        "icon": "bp_gatherable_thistle.webp",
+        "size": 1,
+        "live_only": false
+      }
+    ]
   }
 ]

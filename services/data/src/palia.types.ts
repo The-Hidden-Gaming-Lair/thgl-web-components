@@ -420,6 +420,192 @@ export type Bug = Array<{
   };
 }>;
 
+export type Forage = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Super?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    DefaultSceneRootNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VariableGuid?: string;
+    InternalVariableName?: string;
+    SimpleConstructionScript?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InheritableComponentHandler?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SM_gatherable?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    override_meshMaterial?: boolean;
+    mat_gatherable?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    "Sfx Idle Loop"?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ItemType?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ItemAmount?: number;
+    AdditionalRewards?: Array<{
+      PercentChance: number;
+      rewards: Array<{
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: {
+            ObjectName: string;
+            ObjectPath: string;
+          };
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: {
+            ObjectName: string;
+            ObjectPath: string;
+          };
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      }>;
+    }>;
+    LocalHasBeenGatheredMaterials?: Array<{
+      AssetPathName: string;
+      SubPathString: string;
+    }>;
+    Records?: Array<{
+      ComponentClass: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentTemplate: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentKey: {
+        OwnerClass: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        SCSVariableName: string;
+        AssociatedGuid: string;
+      };
+      CookedComponentInstancingData: {
+        ChangedPropertyList: Array<any>;
+        bHasValidCookedData: boolean;
+      };
+    }>;
+    OverrideParameters?: {
+      ParameterData: Array<number>;
+    };
+  };
+  ClassFlags?: string;
+  ClassWithin?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ClassConfigName?: string;
+  bCooked?: boolean;
+  ClassDefaultObject?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  EditorTags?: {
+    BlueprintType: string;
+  };
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Outer?: string;
+}>;
+
 export type DA_ItemType = Array<{
   Type: string;
   Name: string;

@@ -25,6 +25,7 @@ import {
   Bug,
   DA_ItemType,
   DT_SpawnRarityConfigs,
+  Forage,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -372,15 +373,12 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
   CONTENT_DIR + "/Palia/Content/Configs/DT_SpawnRarityConfigs.json",
 );
 
+// Bugs
 {
-  const foragingFiles = readDirRecursive(
-    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Foraging",
-  );
-  const bugsFiles = readDirRecursive(
+  const skillFiles = readDirRecursive(
     CONTENT_DIR + "/Palia/Content/Gameplay/Skills/BugCatching/Bugs",
   );
-  const skillsFiles = [...bugsFiles, ...foragingFiles];
-  for (const skillFile of skillsFiles) {
+  for (const skillFile of skillFiles) {
     const skill = await readJSON<Bug>(skillFile);
 
     const lootComponent = skill.find((s) => s.Type === "LootComponent");
@@ -388,7 +386,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       console.warn("No loot component", skillFile);
       continue;
     }
-    let rewardFinalItem;
+    let itemType;
     if (!lootComponent.Properties!.RewardFinal?.ItemType) {
       const templateBug = await readJSON<Bug>(
         CONTENT_DIR +
@@ -401,7 +399,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       const templateLootComponent = templateBug.find(
         (s) => s.Type === "LootComponent",
       )!;
-      rewardFinalItem = await readJSON<DA_ItemType>(
+      itemType = await readJSON<DA_ItemType>(
         CONTENT_DIR +
           "/Palia/Content/" +
           templateLootComponent
@@ -410,7 +408,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
           ".json",
       );
     } else {
-      rewardFinalItem = await readJSON<DA_ItemType>(
+      itemType = await readJSON<DA_ItemType>(
         CONTENT_DIR +
           "/Palia/Content/" +
           lootComponent
@@ -419,10 +417,10 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
           ".json",
       );
     }
-    if (!rewardFinalItem[0].Properties?.ItemIcon?.AssetPathName) {
+    if (!itemType[0].Properties?.ItemIcon?.AssetPathName) {
       throw new Error("No reward final item" + skillFile);
     }
-    if (!rewardFinalItem[0].Properties.DisplayName.LocalizedString) {
+    if (!itemType[0].Properties.DisplayName.LocalizedString) {
       continue;
     }
     if (skillFile.includes("QuestSpecial")) {
@@ -434,20 +432,8 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     const typeId = baseType + "_C";
     const isStarQuality = typeId.includes("+");
 
-    let group;
-    if (skillFile.includes("Foraging")) {
-      group = "foraging";
-    } else if (skillFile.includes("Bugs")) {
-      group = "bugs";
-    } else {
-      console.warn("Unknown skill", skillFile);
-      continue;
-    }
-    const rarity = rewardFinalItem[0].Properties.Rarity.replace(
-      "EItemRarity::",
-      "",
-    );
-    group += "_" + rarity.toLowerCase();
+    const rarity = itemType[0].Properties.Rarity.replace("EItemRarity::", "");
+    let group = "bugs_" + rarity.toLowerCase();
     if (isStarQuality) {
       group += "_star";
     }
@@ -478,7 +464,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       }
       const iconName = await saveIcon(
         "/Palia/Content" +
-          rewardFinalItem[0].Properties.ItemIcon.AssetPathName.replace(
+          itemType[0].Properties.ItemIcon.AssetPathName.replace(
             "Game/",
             "",
           ).split(".")[0] +
@@ -493,32 +479,148 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
         size,
         live_only: isStarQuality,
       });
-      enDict[type] = rewardFinalItem[0].Properties.DisplayName.LocalizedString;
+      enDict[type] = itemType[0].Properties.DisplayName.LocalizedString;
       if (isStarQuality) {
         enDict[type] += " - Star Quality";
       }
       enDict[`${type}_desc`] =
-        `<p>Max Stack Size: ${rewardFinalItem[0].Properties.MaxStackSize}</p>`;
+        `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
 
       const baseTypeId = typeId.replace("+", "");
       const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
         (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
-      )![1];
+      );
+      if (!spawnRarityConfig?.[1]) {
+        throw new Error(
+          "No spawn rarity config for " + baseTypeId + " in " + skillFile,
+        );
+      }
       enDict[`${type}_desc`] +=
-        `<p>Star Quality Chance: ${spawnRarityConfig.StarQualityChance * 100}%</p>`;
+        `<p>Star Quality Chance: ${spawnRarityConfig[1].StarQualityChance * 100}%</p>`;
 
       if (isStarQuality) {
         enDict[`${type}_desc`] +=
-          rewardFinalItem[0].Properties.StarQualityDescription[0].LocalizedString;
+          itemType[0].Properties.StarQualityDescription[0].LocalizedString;
       } else {
         enDict[`${type}_desc`] +=
-          rewardFinalItem[0].Properties.Description.LocalizedString;
+          itemType[0].Properties.Description.LocalizedString;
       }
       typesIDs[typeId] = type;
     }
   }
 }
 
+// Foraging
+{
+  const skillFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Foraging",
+  );
+  for (const skillFile of skillFiles) {
+    const skill = await readJSON<Forage>(skillFile);
+
+    const gatherableComponent = skill.find(
+      (s) => s.Type === "GatherableComponent",
+    );
+    if (!gatherableComponent) {
+      console.warn("No gatherable component", skillFile);
+      continue;
+    }
+    const itemType = await readJSON<DA_ItemType>(
+      CONTENT_DIR +
+        "/Palia/Content/" +
+        gatherableComponent
+          .Properties!.ItemType!.ObjectPath.replace("Game/", "")
+          .replace(/\.\d+/, "") +
+        ".json",
+    );
+    if (!itemType[0].Properties?.ItemIcon?.AssetPathName) {
+      throw new Error("No reward final item" + skillFile);
+    }
+    if (!itemType[0].Properties.DisplayName.LocalizedString) {
+      continue;
+    }
+    if (
+      itemType[0].Properties.ItemIcon.AssetPathName.includes("Elderwood") ||
+      itemType[0].Properties.Description.LocalizedString.includes("Elderwood")
+    ) {
+      continue;
+    }
+
+    const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
+    const type = baseType.replace("+", "_star").toLowerCase();
+    const typeId = baseType + "_C";
+    const isStarQuality = typeId.includes("+");
+
+    const rarity =
+      itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ?? "Special";
+    let group = "foraging_" + rarity.toLowerCase();
+    if (isStarQuality) {
+      group += "_star";
+    }
+
+    const size = 1;
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: false,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      enDict[group] = "Foraging";
+      enDict[group] += ` (${rarity})`;
+      if (isStarQuality) {
+        enDict[group] += " - Star Quality";
+      }
+    }
+
+    if (!category.values.some((v) => v.id === type)) {
+      const iconProps: IconProps = {};
+      if (isStarQuality) {
+        iconProps.badgeIcon =
+          TEXTURE_DIR +
+          "/Palia/Content/UI/Assets_Shared/Icons/Icon_Star_01.png";
+      }
+      const iconName = await saveIcon(
+        "/Palia/Content" +
+          itemType[0].Properties.ItemIcon.AssetPathName.replace(
+            "Game/",
+            "",
+          ).split(".")[0] +
+          ".png",
+        type,
+        iconProps,
+      );
+
+      category.values.push({
+        id: type,
+        icon: iconName,
+        size,
+        live_only: isStarQuality,
+      });
+      enDict[type] = itemType[0].Properties.DisplayName.LocalizedString;
+      if (isStarQuality) {
+        enDict[type] += " - Star Quality";
+      }
+      enDict[`${type}_desc`] =
+        `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
+
+      const baseTypeId = typeId.replace("+", "");
+      const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
+        (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
+      );
+      if (spawnRarityConfig?.[1]) {
+        enDict[`${type}_desc`] +=
+          `<p>Star Quality Chance: ${spawnRarityConfig[1].StarQualityChance * 100}%</p>`;
+      }
+
+      enDict[`${type}_desc`] +=
+        itemType[0].Properties.Description.LocalizedString;
+      typesIDs[typeId] = type;
+    }
+  }
+}
 const sortPriority = [
   "locations",
   "bugs_epic_star",
@@ -529,6 +631,17 @@ const sortPriority = [
   "bugs_uncommon",
   "bugs_common_star",
   "bugs_common",
+  "foraging_special",
+  "foraging_legendary",
+  "foraging_epic_star",
+  "foraging_epic",
+  "foraging_rare_star",
+  "foraging_rare",
+  "foraging_uncommon_star",
+  "foraging_uncommon",
+  "foraging_common_star",
+  "foraging_common",
+  "foraging_abundant",
 ];
 const sortedFilters = filters.sort(
   (a, b) => sortPriority.indexOf(a.group) - sortPriority.indexOf(b.group),
