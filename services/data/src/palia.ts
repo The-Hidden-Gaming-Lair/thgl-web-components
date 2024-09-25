@@ -12,7 +12,7 @@ import {
   readDirSync,
   readJSON,
 } from "./lib/fs.js";
-import { saveIcon } from "./lib/image.js";
+import { IconProps, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
@@ -412,30 +412,53 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           ".json",
       );
     }
-    const type = bugFile.replace(".json", "").split("\\").at(-1)!;
-    const isStarQuality = type.endsWith("+");
+    if (!rewardFinalItem[0].Properties?.ItemIcon?.AssetPathName) {
+      throw new Error("No reward final item" + bugFile);
+    }
+    if (!rewardFinalItem[0].Properties.DisplayName.LocalizedString) {
+      continue;
+    }
+    if (bugFile.includes("QuestSpecial")) {
+      continue;
+    }
 
-    const group = isStarQuality ? "bugs_star" : "bugs";
+    const typeId = bugFile.replace(".json", "").split("\\").at(-1)!;
+    const isStarQuality = typeId.endsWith("+");
+    const type = typeId.replace("+", "_star").toLowerCase();
+
+    let group = "bugs";
+    const rarity = rewardFinalItem[0].Properties.Rarity.replace(
+      "EItemRarity::",
+      "",
+    );
+    group += "_" + rarity.toLowerCase();
+    if (isStarQuality) {
+      group += "_star";
+    }
+
     const size = 1;
     let category = filters.find((f) => f.group === group);
     if (!category) {
       filters.push({
         group: group,
-        defaultOpen: true,
+        defaultOpen: false,
         defaultOn: true,
         values: [],
       });
       category = filters.find((f) => f.group === group)!;
+      enDict[group] = "Bugs";
+      enDict[group] += ` (${rarity})`;
       if (isStarQuality) {
-        enDict[group] = "Star Quality Bugs";
-      } else {
-        enDict[group] = "Bugs";
+        enDict[group] += " - Star Quality";
       }
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      if (!rewardFinalItem[0].Properties?.ItemIcon?.AssetPathName) {
-        throw new Error("No reward final item" + bugFile);
+      const iconProps: IconProps = {};
+      if (isStarQuality) {
+        iconProps.badgeIcon =
+          TEXTURE_DIR +
+          "/Palia/Content/UI/Assets_Shared/Icons/Icon_Star_01.png";
       }
       const iconName = await saveIcon(
         "/Palia/Content" +
@@ -445,13 +468,18 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           ).split(".")[0] +
           ".png",
         type,
+        iconProps,
       );
+
       category.values.push({
         id: type,
         icon: iconName,
         size,
       });
       enDict[type] = rewardFinalItem[0].Properties.DisplayName.LocalizedString;
+      if (isStarQuality) {
+        enDict[type] += " - Star Quality";
+      }
       enDict[`${type}_desc`] =
         `<p>Max Stack Size: ${rewardFinalItem[0].Properties.MaxStackSize}</p>`;
       if (isStarQuality) {
@@ -461,11 +489,25 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         enDict[`${type}_desc`] +=
           rewardFinalItem[0].Properties.Description.LocalizedString;
       }
+      typesIDs[typeId] = type;
     }
   }
 }
-
-writeFilters(filters);
+const sortPriority = [
+  "locations",
+  "bugs_epic_star",
+  "bugs_epic",
+  "bugs_rare_star",
+  "bugs_rare",
+  "bugs_uncommon_star",
+  "bugs_uncommon",
+  "bugs_common_star",
+  "bugs_common",
+];
+const sortedFilters = filters.sort(
+  (a, b) => sortPriority.indexOf(a.group) - sortPriority.indexOf(b.group),
+);
+writeFilters(sortedFilters);
 writeDict(enDict, "en");
 writeNodes(nodes);
 Object.keys(tiles).forEach((mapName) => {
