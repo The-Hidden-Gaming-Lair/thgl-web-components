@@ -109,6 +109,180 @@
     ]
   },
   {
+    "group": "lumberjacking_magical",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Woodcutting.Birch.Large.Final.Magical",
+        "icon": "woodcuttingbirchlargefinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Birch.Medium.Final.Magical",
+        "icon": "woodcuttingbirchmediumfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Birch.Sapling.Final.Magical",
+        "icon": "woodcuttingbirchsaplingfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Birch.Small.Final.Magical",
+        "icon": "woodcuttingbirchsmallfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Large.Final.Magical",
+        "icon": "woodcuttingjuniperlargefinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Medium.Final.Magical",
+        "icon": "woodcuttingjunipermediumfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Sapling.Final.Magical",
+        "icon": "woodcuttingjunipersaplingfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Small.Final.Magical",
+        "icon": "woodcuttingjunipersmallfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Large.Final.Magical",
+        "icon": "woodcuttingoaklargefinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Medium.Final.Magical",
+        "icon": "woodcuttingoakmediumfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Sapling.Final.Magical",
+        "icon": "woodcuttingoaksaplingfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Small.Final.Magical",
+        "icon": "woodcuttingoaksmallfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Large.Final.Magical",
+        "icon": "woodcuttingpinelargefinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Medium.Final.Magical",
+        "icon": "woodcuttingpinemediumfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Sapling.Final.Magical",
+        "icon": "woodcuttingpinesaplingfinalmagical.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Small.Final.Magical",
+        "icon": "woodcuttingpinesmallfinalmagical.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "lumberjacking",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Woodcutting.Birch.Large.Final",
+        "icon": "woodcuttingbirchlargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Birch.Medium.Final",
+        "icon": "woodcuttingbirchmediumfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Birch.Sapling.Final",
+        "icon": "woodcuttingbirchsaplingfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Birch.Small.Final",
+        "icon": "woodcuttingbirchsmallfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Large.Final",
+        "icon": "woodcuttingjuniperlargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Medium.Final",
+        "icon": "woodcuttingjunipermediumfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Sapling.Final",
+        "icon": "woodcuttingjunipersaplingfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Juniper.Small.Final",
+        "icon": "woodcuttingjunipersmallfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Large.Final",
+        "icon": "woodcuttingoaklargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Medium.Final",
+        "icon": "woodcuttingoakmediumfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Sapling.Final",
+        "icon": "woodcuttingoaksaplingfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Oak.Small.Final",
+        "icon": "woodcuttingoaksmallfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Large.Final",
+        "icon": "woodcuttingpinelargefinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Medium.Final",
+        "icon": "woodcuttingpinemediumfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Sapling.Final",
+        "icon": "woodcuttingpinesaplingfinal.webp",
+        "size": 1
+      },
+      {
+        "id": "Woodcutting.Pine.Small.Final",
+        "icon": "woodcuttingpinesmallfinal.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "bugs_epic_star",
     "defaultOpen": false,
     "defaultOn": true,

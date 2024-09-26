@@ -29,6 +29,8 @@ import {
   MiningNode,
   DT_LootBundleConfigs,
   DT_LootPoolConfigs,
+  Tree,
+  GrowableTree,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -673,7 +675,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       enDict[group] = "Mining";
     }
 
-    const desc: string[] = [];
+    const descs: string[] = [];
     for (const loot of lootBundleConfig.LootBundle) {
       const lootPoolConfig = Object.entries(lootPoolConfigs[0].Rows).find(
         (e) => e[0].toLowerCase() === loot.RowName.toLowerCase(),
@@ -698,16 +700,15 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         const rarity =
           itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ??
           "Special";
-        let desc = `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
-        desc += rarity;
-        const baseTypeId = typeId.replace("+", "");
-        const spawnRarityConfig = Object.entries(
-          spawnRarityConfigs[0].Rows,
-        ).find(
-          (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
-        );
+        let desc = `${itemType[0].Properties.DisplayName.LocalizedString} (${rarity})`;
 
-        desc += itemType[0].Properties.Description.LocalizedString;
+        // desc += `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
+        // desc += `<p>Rarity: ${rarity}</p>`;
+
+        // desc += `<p>${itemType[0].Properties.Description.LocalizedString}</p>`;
+        if (!descs.includes(desc)) {
+          descs.push(desc);
+        }
       }
       if (!category.values.some((v) => v.id === type)) {
         const iconProps: IconProps = {};
@@ -718,9 +719,6 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
           "Icon_Ore_Iron",
           "Icon_Ore_Palium",
           "Icon_Stone",
-          // "Icon_Wood_Softwood",
-          // "Icon_Wood_Magicwood",
-          // "Icon_Wood_Hardwood",
         ];
         const iconPath = icons.find((i) => i.includes(oreType));
         if (!iconPath) {
@@ -740,9 +738,6 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
           iconProps.circle = true;
           iconProps.color = "green";
         }
-        enDict[`${type}_desc`] = desc.join("<br>");
-
-        typesIDs[typeId] = type;
 
         const iconName = await saveIcon(
           `/Palia/Content/UI/Icons/${iconPath}.png`,
@@ -757,12 +752,210 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         });
       }
     }
+    const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
+      (config) => config[0].toLowerCase() === typeId.toLowerCase(),
+    );
+    if (spawnRarityConfig) {
+      enDict[`${type}_desc`] =
+        `<p>Rarity: ${spawnRarityConfig![1].BaseRarity.replace("EItemRarity::", "")}</p>`;
+      enDict[`${type}_desc`] += `<p><b>Drops:</b></p>${descs.join("<br>")}`;
+    } else if (!enDict[`${type}_desc`]) {
+      enDict[`${type}_desc`] = `<p><b>Drops:</b></p>${descs.join("<br>")}`;
+    }
+    typesIDs[typeId] = type;
+  }
+}
+// Lumberjacking
+{
+  const skillFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Lumberjacking/Tree",
+  );
+  for (const skillFile of skillFiles) {
+    if (
+      (!skillFile.includes("BP_TreeChoppable_") &&
+        !skillFile.includes("BP_Bush_")) ||
+      skillFile.includes("Legacy") ||
+      skillFile.includes("_Elder_")
+    ) {
+      continue;
+    }
+    const skill = await readJSON<Tree>(skillFile);
+
+    const gatherableLootComponent = skill.find(
+      (s) => s.Type === "GatherableLootComponent",
+    );
+    if (!gatherableLootComponent?.Properties?.RewardFinal?.Loot) {
+      console.warn("No gatherable loot component", skillFile);
+      continue;
+    }
+    const lootBundleConfig =
+      lootBundleConfigs[0].Rows[
+        gatherableLootComponent.Properties!.RewardFinal!.Loot.RowName
+      ];
+
+    if (!lootBundleConfig) {
+      console.warn("No loot bundle config", skillFile);
+      continue;
+    }
+    if (!lootBundleConfig.bEnabled) {
+      continue;
+    }
+
+    const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
+    const typeId = baseType + "_C";
+    const size = 1;
+
+    let type = gatherableLootComponent.Properties!.RewardFinal!.Loot.RowName;
+    if (type.includes(".Magical")) {
+      const template = await readJSON<Tree>(
+        CONTENT_DIR +
+          "/Palia/Content/" +
+          gatherableLootComponent
+            .Template!.ObjectPath.replace("Game/", "")
+            .replace(/\.\d+/, "") +
+          ".json",
+      );
+      const templateGatherableLootComponent = template.find(
+        (s) => s.Type === "GatherableLootComponent",
+      );
+      type =
+        templateGatherableLootComponent!.Properties!.RewardFinal!.Loot.RowName +
+        ".Magical";
+    }
+    const isMagical = type.endsWith(".Magical");
+
+    const group = isMagical ? "lumberjacking_magical" : "lumberjacking";
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: false,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      enDict[group] = isMagical ? "Flow Trees" : "Trees";
+    }
+
+    const descs: string[] = [];
+    for (const loot of lootBundleConfig.LootBundle) {
+      const lootPoolConfig = Object.entries(lootPoolConfigs[0].Rows).find(
+        (e) => e[0].toLowerCase() === loot.RowName.toLowerCase(),
+      );
+      if (!lootPoolConfig) {
+        console.warn("No loot pool config", loot.RowName);
+        continue;
+      }
+      for (const loot of lootPoolConfig![1].LootPool) {
+        if (!loot.ItemType) {
+          continue;
+        }
+
+        const itemType = await readJSON<DA_ItemType>(
+          CONTENT_DIR +
+            "/Palia/Content/" +
+            loot
+              .ItemType!.ObjectPath.replace("Game/", "")
+              .replace(/\.\d+/, "") +
+            ".json",
+        );
+        const rarity =
+          itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ??
+          "Special";
+        let desc = `${itemType[0].Properties.DisplayName.LocalizedString} (${rarity})`;
+
+        // desc += `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
+        // desc += `<p>Rarity: ${rarity}</p>`;
+
+        // desc += `<p>${itemType[0].Properties.Description.LocalizedString}</p>`;
+        if (!descs.includes(desc)) {
+          descs.push(desc);
+        }
+      }
+      if (!category.values.some((v) => v.id === type)) {
+        const iconProps: IconProps = {};
+        const growableTree = await readJSON<GrowableTree>(
+          skillFile
+            .replace(
+              "\\Tree\\BP_TreeChoppable_",
+              "\\Tree\\Growable\\BP_TreeGrowable_",
+            )
+            .replace(
+              "\\Tree\\CoOp\\BP_TreeChoppable_",
+              "\\Tree\\Growable\\BP_TreeGrowable_",
+            )
+            .replace("_CoOp", "")
+            .replace("2", ""),
+        );
+        const gatherableComponent = growableTree.find(
+          (s) => s.Type === "GatherableComponent",
+        );
+        if (!gatherableComponent) {
+          console.warn("No gatherable component", skillFile);
+          continue;
+        }
+        const itemType = await readJSON<DA_ItemType>(
+          CONTENT_DIR +
+            "/Palia/Content/" +
+            gatherableComponent
+              .Properties!.ItemType!.ObjectPath.replace("Game/", "")
+              .replace(/\.\d+/, "") +
+            ".json",
+        );
+        let iconPath =
+          "/Palia/Content" +
+          itemType[0].Properties.ItemIcon.AssetPathName.replace(
+            "Game/",
+            "",
+          ).split(".")[0] +
+          ".png";
+        if (!iconPath) {
+          continue;
+        }
+
+        enDict[type] = "";
+        if (isMagical) {
+          enDict[type] += "Flow ";
+          iconPath = iconPath.replace(".png", "Flow.png");
+        }
+        enDict[type] += type.split(".")[1];
+        if (typeId.includes("Large")) {
+          enDict[type] += " (L)";
+        } else if (typeId.includes("Medium")) {
+          enDict[type] += " (M)";
+        } else if (typeId.includes("Small")) {
+          enDict[type] += " (S)";
+        } else if (typeId.includes("Sapling")) {
+          enDict[type] += " (XS)";
+        }
+        const iconName = await saveIcon(iconPath, type, iconProps);
+
+        category.values.push({
+          id: type,
+          icon: iconName,
+          size,
+        });
+      }
+    }
+    const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
+      (config) => config[0].toLowerCase() === typeId.toLowerCase(),
+    );
+    if (spawnRarityConfig) {
+      enDict[`${type}_desc`] =
+        `<p>Rarity: ${spawnRarityConfig![1].BaseRarity.replace("EItemRarity::", "")}</p>`;
+      enDict[`${type}_desc`] += `<p><b>Drops:</b></p>${descs.join("<br>")}`;
+    } else if (!enDict[`${type}_desc`]) {
+      enDict[`${type}_desc`] = `<p><b>Drops:</b></p>${descs.join("<br>")}`;
+    }
+    typesIDs[typeId] = type;
   }
 }
 
 const sortPriority = [
   "locations",
   "mining",
+  "lumberjacking_magical",
+  "lumberjacking",
   "bugs_epic_star",
   "bugs_epic",
   "bugs_rare_star",

@@ -773,6 +773,352 @@ export type MiningNode = Array<{
   Outer?: string;
 }>;
 
+export type Tree = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Super?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    OwnerVitals?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    StaticMesh?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SphereRadius?: number;
+    RelativeLocation?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    DefaultSceneRootNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VariableGuid?: string;
+    InternalVariableName?: string;
+    SimpleConstructionScript?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InheritableComponentHandler?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SM_Plant?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    plant_LocationOffset?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    leaf_type?: string;
+    leaf_size?: number;
+    leaf_spawnAmount?: number;
+    dust_size?: number;
+    dust_spawnAmount?: number;
+    branch_size?: number;
+    branch_spawnAmount?: number;
+    trunk_spawnAmount?: number;
+    trunk_size?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    AkOneShot?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    tree_size?: string;
+    decal_MaxSize?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    heal_radius?: number;
+    heal_offset?: number;
+    FlowClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    delay_destroyMe?: number;
+    ValeriaGAS?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Vitals: any;
+    RequirementConfig?: {
+      ItemTags: {
+        GameplayTags: {
+          GameplayTags: Array<string>;
+        };
+      };
+    };
+    RewardFinal?: {
+      Loot: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+    };
+    ChestTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RewardPerVital?: {
+      Loot: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+      SkillXpEarnings: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+    };
+    LootPerVitalAmount?: number;
+    Tags?: {
+      GameplayTags: Array<string>;
+    };
+    OnChangedContext?: {
+      InvocationList: Array<{
+        Object: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        FunctionName: string;
+      }>;
+    };
+    AttributeSet?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Records?: Array<{
+      ComponentClass: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentTemplate: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentKey: {
+        OwnerClass: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        SCSVariableName: string;
+        AssociatedGuid: string;
+      };
+      CookedComponentInstancingData: {
+        ChangedPropertyList: Array<any>;
+        bHasValidCookedData: boolean;
+      };
+    }>;
+    OverrideParameters?: {};
+  };
+  ClassFlags?: string;
+  ClassWithin?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ClassConfigName?: string;
+  bCooked?: boolean;
+  ClassDefaultObject?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  EditorTags?: {
+    BlueprintType: string;
+  };
+  Outer?: string;
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+}>;
+
+export type GrowableTree = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Super?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    OwnerVitals?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    StaticMesh?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    OverrideMaterials?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    RuntimeVirtualTextures?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    VirtualTextureRenderPassType?: string;
+    RelativeLocation?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    RelativeScale3D?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    RootNodes?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    AllNodes?: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    DefaultSceneRootNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VariableGuid?: string;
+    InternalVariableName?: string;
+    ParentComponentOrVariableName?: string;
+    ParentComponentOwnerClassName?: string;
+    SimpleConstructionScript?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InheritableComponentHandler?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    DisableAmbientAudio?: boolean;
+    ValeriaGAS?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Vitals?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RequiredTimesToWaterForReward?: number;
+    IntervalStartsBeforeWater?: boolean;
+    ItemTypeToReward?: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    ItemType?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ItemAmount?: number;
+    OnChangedContext?: {
+      InvocationList: Array<{
+        Object: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        FunctionName: string;
+      }>;
+    };
+    AttributeSet?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Records?: Array<{
+      ComponentClass: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentTemplate: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentKey: {
+        OwnerClass: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        SCSVariableName: string;
+        AssociatedGuid: string;
+      };
+      CookedComponentInstancingData: {
+        ChangedPropertyList: Array<any>;
+        bHasValidCookedData: boolean;
+      };
+    }>;
+    InteractPlateUseSphereLocation?: boolean;
+    OverrideParameters?: {};
+    bAlwaysAddHomeOwnerToParticipantList?: boolean;
+  };
+  ChildProperties?: Array<{
+    Type: string;
+    Name: string;
+    Flags: string;
+    ElementSize: number;
+    PropertyFlags: string;
+    PropertyClass: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  }>;
+  ClassFlags?: string;
+  ClassWithin?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ClassConfigName?: string;
+  bCooked?: boolean;
+  ClassDefaultObject?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  EditorTags?: {
+    BlueprintType: string;
+  };
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Outer?: string;
+}>;
+
 export type DA_ItemType = Array<{
   Type: string;
   Name: string;
