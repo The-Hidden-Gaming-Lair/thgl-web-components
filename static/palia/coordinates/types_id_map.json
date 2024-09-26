@@ -295,5 +295,11 @@
   "BP_Fish_AncientFish_C": "Fish_AncientFish",
   "BP_Trash_WaterloggedBoot_C": "Trash_WaterloggedBoot",
   "BP_Fish_Cloudminnow_C": "QuestItem_CloudMinnow4",
-  "BP_MysteryKey_C": "QuestItem_FT_DoorKey"
+  "BP_MysteryKey_C": "QuestItem_FT_DoorKey",
+  "BP_WaterPlane_Fishing_AZ1_Cave_SQ_C": "BP_WaterPlane_Fishing_AZ1_Cave_SQ",
+  "BP_WaterPlane_Fishing_LakeVillage_SQ_C": "BP_WaterPlane_Fishing_LakeVillage_SQ",
+  "BP_WaterPlane_Fishing_OceanAZ1_SQ_C": "BP_WaterPlane_Fishing_OceanAZ1_SQ",
+  "BP_WaterPlane_Fishing_PondVillage_SQ_C": "BP_WaterPlane_Fishing_PondVillage_SQ",
+  "BP_WaterPlane_Fishing_RiverAZ1_SQ_C": "BP_WaterPlane_Fishing_RiverAZ1_SQ",
+  "BP_WaterPlane_Fishing_RiverVillage_SQ_C": "BP_WaterPlane_Fishing_RiverVillage_SQ"
 }

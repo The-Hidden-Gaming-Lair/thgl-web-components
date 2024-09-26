@@ -1636,3 +1636,85 @@ export type DT_FishConfigs = Array<{
     }
   >;
 }>;
+
+export type WaterPlane_Fishing = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Super?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    FishMinigameWaterBodyConfig?: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    WaterType?: string;
+    DefaultSceneRootNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VariableGuid?: string;
+    InternalVariableName?: string;
+    SimpleConstructionScript?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InheritableComponentHandler?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RemoteRole?: string;
+    Records?: Array<{
+      ComponentClass: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentTemplate: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentKey: {
+        OwnerClass: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        SCSVariableName: string;
+        AssociatedGuid: string;
+      };
+      CookedComponentInstancingData: {
+        ChangedPropertyList: Array<any>;
+        bHasValidCookedData: boolean;
+      };
+    }>;
+    OverrideParameters?: {};
+  };
+  ClassFlags?: string;
+  ClassWithin?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ClassConfigName?: string;
+  bCooked?: boolean;
+  ClassDefaultObject?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  EditorTags?: {
+    BlueprintType: string;
+  };
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Outer?: string;
+}>;

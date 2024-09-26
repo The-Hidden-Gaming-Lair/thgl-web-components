@@ -33,6 +33,7 @@ import {
   GrowableTree,
   Creature,
   DT_FishConfigs,
+  WaterPlane_Fishing,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -1176,6 +1177,76 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   }
 }
 
+// Hotspots
+{
+  const waterFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Environment/Water",
+  );
+  for (const waterFile of waterFiles) {
+    if (
+      !waterFile.includes("BP_WaterPlane_Fishing_") ||
+      waterFile.includes("_Base_")
+    ) {
+      continue;
+    }
+    const waterPlane = await readJSON<WaterPlane_Fishing>(waterFile);
+    const baseType = waterFile.replace(".json", "").split("\\").at(-1)!;
+    const typeId = baseType + "_C";
+    const size = 1;
+    const type = baseType;
+
+    const group = "hotspots";
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: false,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      enDict[group] = "Hotspots";
+    }
+
+    if (!category.values.some((v) => v.id === type)) {
+      const iconProps: IconProps = {};
+
+      let name: string;
+      if (baseType.includes("Cave")) {
+        name = "Cave";
+      } else if (baseType.includes("Ocean")) {
+        name = "Ocean";
+      } else if (baseType.includes("Pond")) {
+        name = "Pond";
+      } else if (baseType.includes("Lake")) {
+        name = "Lake";
+      } else if (baseType.includes("River")) {
+        name = "River";
+      } else {
+        throw new Error("Unknown water type: " + baseType);
+      }
+      if (baseType.includes("AZ1")) {
+        name += " Bay";
+      } else if (baseType.includes("Village")) {
+        name += " Village";
+      } else {
+        throw new Error("Unknown water location: " + baseType);
+      }
+      enDict[type] = name;
+
+      const iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\fishing-hook_lorc.webp`;
+      const iconName = await saveIcon(iconPath, type, iconProps);
+
+      category.values.push({
+        id: type,
+        icon: iconName,
+        size,
+      });
+    }
+    typesIDs[typeId] = type;
+  }
+}
+
 const sortPriority = [
   "locations",
   "mining",
@@ -1201,6 +1272,7 @@ const sortPriority = [
   "foraging_common_star",
   "foraging_common",
   "foraging_abundant",
+  "hotspots",
   "fishing_epic",
   "fishing_rare",
   "fishing_uncommon",

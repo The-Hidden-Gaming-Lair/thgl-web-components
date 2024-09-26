@@ -742,5 +742,12 @@
   "QuestItem_CloudMinnow4_desc": "<p>Max Stack Size: 5</p><p>Difficulty: 1</p>A legendary minnow that was previously only known in legend. Found in clouds... allegedly.",
   "fishing_special": "Fishing (Special)",
   "QuestItem_FT_DoorKey": "Cosmos Protocol Key",
-  "QuestItem_FT_DoorKey_desc": "<p>Max Stack Size: 1</p><p>Difficulty: 1</p>The key to mystery"
+  "QuestItem_FT_DoorKey_desc": "<p>Max Stack Size: 1</p><p>Difficulty: 1</p>The key to mystery",
+  "hotspots": "Hotspots",
+  "BP_WaterPlane_Fishing_AZ1_Cave_SQ": "Cave Bay",
+  "BP_WaterPlane_Fishing_LakeVillage_SQ": "Lake Village",
+  "BP_WaterPlane_Fishing_OceanAZ1_SQ": "Ocean Bay",
+  "BP_WaterPlane_Fishing_PondVillage_SQ": "Pond Village",
+  "BP_WaterPlane_Fishing_RiverAZ1_SQ": "River Bay",
+  "BP_WaterPlane_Fishing_RiverVillage_SQ": "River Village"
 }

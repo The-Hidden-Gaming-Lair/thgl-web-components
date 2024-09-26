@@ -1263,6 +1263,43 @@
     ]
   },
   {
+    "group": "hotspots",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "BP_WaterPlane_Fishing_AZ1_Cave_SQ",
+        "icon": "bp_waterplane_fishing_az1_cave_sq.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_WaterPlane_Fishing_LakeVillage_SQ",
+        "icon": "bp_waterplane_fishing_lakevillage_sq.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_WaterPlane_Fishing_OceanAZ1_SQ",
+        "icon": "bp_waterplane_fishing_oceanaz1_sq.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_WaterPlane_Fishing_PondVillage_SQ",
+        "icon": "bp_waterplane_fishing_pondvillage_sq.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_WaterPlane_Fishing_RiverAZ1_SQ",
+        "icon": "bp_waterplane_fishing_riveraz1_sq.webp",
+        "size": 1
+      },
+      {
+        "id": "BP_WaterPlane_Fishing_RiverVillage_SQ",
+        "icon": "bp_waterplane_fishing_rivervillage_sq.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "fishing_epic",
     "defaultOpen": false,
     "defaultOn": true,
