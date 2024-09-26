@@ -1,5 +1,32 @@
 [
   {
+    "group": "fishing_legendary",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "QuestItem_CloudMinnow1",
+        "icon": "questitem_cloudminnow1.webp",
+        "size": 1
+      },
+      {
+        "id": "QuestItem_CloudMinnow2",
+        "icon": "questitem_cloudminnow2.webp",
+        "size": 1
+      },
+      {
+        "id": "QuestItem_CloudMinnow3",
+        "icon": "questitem_cloudminnow3.webp",
+        "size": 1
+      },
+      {
+        "id": "QuestItem_CloudMinnow4",
+        "icon": "questitem_cloudminnow4.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "locations",
     "defaultOpen": true,
     "defaultOn": true,
@@ -1232,6 +1259,493 @@
         "icon": "bp_gatherable_thistle.webp",
         "size": 1,
         "live_only": false
+      }
+    ]
+  },
+  {
+    "group": "fishing_epic",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Fish_UnicornFish",
+        "icon": "fish_unicornfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Giant_Goldfish",
+        "icon": "fish_giant_goldfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Flametongue_Ray",
+        "icon": "fish_flametongue_ray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Swordfin_Eel",
+        "icon": "fish_swordfin_eel.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Giant_Kilima_Stingray",
+        "icon": "fish_giant_kilima_stingray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Voidray",
+        "icon": "fish_voidray.webp",
+        "size": 1
+      },
+      {
+        "id": "Recipe_Cooking_Sushi",
+        "icon": "recipe_cooking_sushi.webp",
+        "size": 1
+      },
+      {
+        "id": "Jackpot_Makeshift",
+        "icon": "jackpot_makeshift.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_AncientFish",
+        "icon": "fish_ancientfish.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "fishing_rare",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Fish_FairyCarp",
+        "icon": "fish_fairycarp.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_RadiantSunfish",
+        "icon": "fish_radiantsunfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_BlueMarlin",
+        "icon": "fish_bluemarlin.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_ShimmerFin",
+        "icon": "fish_shimmerfin.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_MutatedAngler",
+        "icon": "fish_mutatedangler.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Energized_Pirhana",
+        "icon": "fish_energized_pirhana.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Willow_Lamprey",
+        "icon": "fish_willow_lamprey.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Thundering_Eel",
+        "icon": "fish_thundering_eel.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Cloudfish",
+        "icon": "fish_cloudfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Kenjis_Carp",
+        "icon": "fish_kenjis_carp.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Stormray",
+        "icon": "fish_stormray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Blue_Spotted_Ray",
+        "icon": "fish_blue_spotted_ray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Midnight_Paddlefish",
+        "icon": "fish_midnight_paddlefish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Hypnotic_Moray",
+        "icon": "fish_hypnotic_moray.webp",
+        "size": 1
+      },
+      {
+        "id": "Recipe_Cooking_FishStew",
+        "icon": "recipe_cooking_fishstew.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "fishing_uncommon",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Fish_CantankerousKoi",
+        "icon": "fish_cantankerouskoi.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Stickleback",
+        "icon": "fish_stickleback.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_FreshwaterEel",
+        "icon": "fish_freshwatereel.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Barracuda",
+        "icon": "fish_barracuda.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_RibbontailRay",
+        "icon": "fish_ribbontailray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_PrismTrout",
+        "icon": "fish_prismtrout.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_StripedSturgeon",
+        "icon": "fish_stripedsturgeon.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_UmbranCarp",
+        "icon": "fish_umbrancarp.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_BatRay",
+        "icon": "fish_batray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Mirror_Carp",
+        "icon": "fish_mirror_carp.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Channel_Catfish",
+        "icon": "fish_channel_catfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Dawnray",
+        "icon": "fish_dawnray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Duskray",
+        "icon": "fish_duskray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Rainbow_Trout",
+        "icon": "fish_rainbow_trout.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Paddlefish",
+        "icon": "fish_paddlefish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Cutthroat_Trout",
+        "icon": "fish_cutthroat_trout.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Stalking_Catfish",
+        "icon": "fish_stalking_catfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Kilima_Grayling",
+        "icon": "fish_kilima_grayling.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Indigo_Lamprey",
+        "icon": "fish_indigo_lamprey.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Honey_Loach",
+        "icon": "fish_honey_loach.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Chub",
+        "icon": "fish_chub.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Cactus_Moray",
+        "icon": "fish_cactus_moray.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Enchanted_Pupfish",
+        "icon": "fish_enchanted_pupfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Crimson_Fangtooth",
+        "icon": "fish_crimson_fangtooth.webp",
+        "size": 1
+      },
+      {
+        "id": "Recipe_Cooking_Sashimi",
+        "icon": "recipe_cooking_sashimi.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "fishing_common",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Fish_Gillyfin",
+        "icon": "fish_gillyfin.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_CalicoKoi",
+        "icon": "fish_calicokoi.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_KilimaCatfish",
+        "icon": "fish_kilimacatfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_SpottedBullhead",
+        "icon": "fish_spottedbullhead.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_SilverSalmon",
+        "icon": "fish_silversalmon.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_GoldenSalmon",
+        "icon": "fish_goldensalmon.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Sardine",
+        "icon": "fish_sardine.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_BahariBream",
+        "icon": "fish_baharibream.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_SmallmouthBass",
+        "icon": "fish_smallmouthbass.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_LargemouthBass",
+        "icon": "fish_largemouthbass.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_PaintedPerch",
+        "icon": "fish_paintedperch.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_EyelessMinnow",
+        "icon": "fish_eyelessminnow.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_AlbinoEel",
+        "icon": "fish_albinoeel.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Mudminnow",
+        "icon": "fish_mudminnow.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Orange_Bluegill",
+        "icon": "fish_orange_bluegill.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Striped_Dace",
+        "icon": "fish_striped_dace.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Yellow_Perch",
+        "icon": "fish_yellow_perch.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Silvery_Minnow",
+        "icon": "fish_silvery_minnow.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Rosy_Bitterling",
+        "icon": "fish_rosy_bitterling.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Red-bellied_Pirhana",
+        "icon": "fish_redbellied_pirhana.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Kilima_Redfin",
+        "icon": "fish_kilima_redfin.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Oily_Anchovy",
+        "icon": "fish_oily_anchovy.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Codfish",
+        "icon": "fish_codfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Bigeye_Tuna",
+        "icon": "fish_bigeye_tuna.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Scarlet_Koi",
+        "icon": "fish_scarlet_koi.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Mottled_Gobi",
+        "icon": "fish_mottled_gobi.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Crucian_Carp",
+        "icon": "fish_crucian_carp.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Platinum_Chad",
+        "icon": "fish_platinum_chad.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Bahari_Pike",
+        "icon": "fish_bahari_pike.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Fathead_Minnow",
+        "icon": "fish_fathead_minnow.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Yellowfin_Tuna",
+        "icon": "fish_yellowfin_tuna.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Black_Sea_Bass",
+        "icon": "fish_black_sea_bass.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Beluga_Sturgeon",
+        "icon": "fish_beluga_sturgeon.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Alligator_Gar",
+        "icon": "fish_alligator_gar.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Blobfish",
+        "icon": "fish_blobfish.webp",
+        "size": 1
+      },
+      {
+        "id": "Fish_Stonefish",
+        "icon": "fish_stonefish.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "fishing_special",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "QuestItem_FT_DoorKey",
+        "icon": "questitem_ft_doorkey.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "fishing_abundant",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Trash_Wagonwheel",
+        "icon": "trash_wagonwheel.webp",
+        "size": 1
+      },
+      {
+        "id": "Trash_ShipFragments",
+        "icon": "trash_shipfragments.webp",
+        "size": 1
+      },
+      {
+        "id": "Trash_WaterloggedBoot",
+        "icon": "trash_waterloggedboot.webp",
+        "size": 1
       }
     ]
   }

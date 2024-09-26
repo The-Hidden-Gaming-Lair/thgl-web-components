@@ -32,6 +32,7 @@ import {
   Tree,
   GrowableTree,
   Creature,
+  DT_FishConfigs,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -1092,6 +1093,89 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   }
 }
 
+// Fishing
+{
+  const fishConfigs = await readJSON<DT_FishConfigs>(
+    CONTENT_DIR + "/Palia/Content/Configs/DT_FishConfigs.json",
+  );
+  for (const [type, config] of Object.entries(fishConfigs[0].Rows)) {
+    if (!config.FishItemType) {
+      continue;
+    }
+    if (type.endsWith("_SQ") || type.includes("Questitem_")) {
+      continue;
+    }
+    const starQualityConfig = fishConfigs[0].Rows[type + "_SQ"];
+
+    const typeId = config.FishBlueprint.AssetPathName.split(".").at(-1)!;
+    const size = 1;
+    const itemType = await readJSON<DA_ItemType>(
+      CONTENT_DIR +
+        "/Palia/Content/" +
+        config.FishItemType.ObjectPath.replace("Game/", "").replace(
+          /\.\d+/,
+          "",
+        ) +
+        ".json",
+    );
+
+    const rarity =
+      itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ?? "Special";
+    let group = "fishing_" + rarity.toLowerCase();
+
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: false,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      enDict[group] = `Fishing (${rarity})`;
+    }
+
+    if (!category.values.some((v) => v.id === type)) {
+      const iconProps: IconProps = {};
+      const iconName = await saveIcon(
+        "/Palia/Content" +
+          itemType[0].Properties.ItemIcon.AssetPathName.replace(
+            "Game/",
+            "",
+          ).split(".")[0] +
+          ".png",
+        type,
+        iconProps,
+      );
+
+      category.values.push({
+        id: type,
+        icon: iconName,
+        size,
+      });
+      enDict[type] = itemType[0].Properties.DisplayName.LocalizedString;
+
+      enDict[`${type}_desc`] =
+        `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p><p>Difficulty: ${config.DifficultyLevel}</p>`;
+      if (starQualityConfig) {
+        enDict[`${type}_desc`] +=
+          `<p>Star Quality Difficulty: ${starQualityConfig.DifficultyLevel}</p>`;
+      }
+      const baseTypeId = typeId.replace("+", "");
+      const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
+        (config) => config[0].toLowerCase() === baseTypeId.toLowerCase(),
+      );
+      if (spawnRarityConfig?.[1].StarQualityVariant?.AssetPathName) {
+        enDict[`${type}_desc`] +=
+          `<p>Star Quality Chance: ${spawnRarityConfig[1].StarQualityChance * 100}%</p>`;
+      }
+      enDict[`${type}_desc`] +=
+        itemType[0].Properties.Description.LocalizedString;
+      typesIDs[typeId] = type;
+    }
+  }
+}
+
 const sortPriority = [
   "locations",
   "mining",
@@ -1117,6 +1201,12 @@ const sortPriority = [
   "foraging_common_star",
   "foraging_common",
   "foraging_abundant",
+  "fishing_epic",
+  "fishing_rare",
+  "fishing_uncommon",
+  "fishing_common",
+  "fishing_special",
+  "fishing_abundant",
 ];
 const sortedFilters = filters.sort(
   (a, b) => sortPriority.indexOf(a.group) - sortPriority.indexOf(b.group),
