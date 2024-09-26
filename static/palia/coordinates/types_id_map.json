@@ -198,5 +198,14 @@
   "BP_TreeChoppable_Pine_Large_CoOp_C": "Woodcutting.Pine.Large.Final.Magical",
   "BP_TreeChoppable_Pine_Medium_CoOp_C": "Woodcutting.Pine.Medium.Final.Magical",
   "BP_TreeChoppable_Pine_Sapling_CoOp_C": "Woodcutting.Pine.Sapling.Final.Magical",
-  "BP_TreeChoppable_Pine_Small_CoOp_C": "Woodcutting.Pine.Small.Final.Magical"
+  "BP_TreeChoppable_Pine_Small_CoOp_C": "Woodcutting.Pine.Small.Final.Magical",
+  "BP_ValeriaHuntingCreature_Cearnuk_T1_C": "Hunting.Creature.Cearnuk_T1",
+  "BP_ValeriaHuntingCreature_Cearnuk_T2_C": "Hunting.Creature.Cearnuk_T2",
+  "BP_ValeriaHuntingCreature_Cearnuk_T3_C": "Hunting.Creature.Cearnuk_T3",
+  "BP_ValeriaHuntingCreature_Chapaa_T1_C": "Hunting.Creature.Chapaa_T1",
+  "BP_ValeriaHuntingCreature_Chapaa_T2_C": "Hunting.Creature.Chapaa_T2",
+  "BP_ValeriaHuntingCreature_Chapaa_T3_C": "Hunting.Creature.Chapaa_T3",
+  "BP_ValeriaHuntingCreature_TreeClimber_T1_C": "Hunting.Creature.TreeClimber_T1",
+  "BP_ValeriaHuntingCreature_TreeClimber_T2_C": "Hunting.Creature.TreeClimber_T2",
+  "BP_ValeriaHuntingCreature_TreeClimber_T3_C": "Hunting.Creature.TreeClimber_T3"
 }

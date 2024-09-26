@@ -31,6 +31,7 @@ import {
   DT_LootPoolConfigs,
   Tree,
   GrowableTree,
+  Creature,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -951,9 +952,150 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   }
 }
 
+// Hunting
+{
+  const skillFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Hunting",
+  );
+  for (const skillFile of skillFiles) {
+    if (
+      !skillFile.includes("BP_ValeriaHuntingCreature_") ||
+      skillFile.includes("_Base") ||
+      skillFile.includes("_MirrorImage")
+    ) {
+      continue;
+    }
+    const skill = await readJSON<Creature>(skillFile);
+
+    const lootComponent = skill.find((s) => s.Type === "LootComponent");
+    if (!lootComponent?.Properties?.RewardFinal?.Loot) {
+      console.warn("No loot component", skillFile);
+      continue;
+    }
+    const lootBundleConfig =
+      lootBundleConfigs[0].Rows[
+        lootComponent.Properties!.RewardFinal!.Loot.RowName
+      ];
+
+    if (!lootBundleConfig) {
+      console.warn("No loot bundle config", skillFile);
+      continue;
+    }
+    if (!lootBundleConfig.bEnabled) {
+      continue;
+    }
+
+    const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
+    const typeId = baseType + "_C";
+    const size = 1;
+
+    const type = lootComponent.Properties!.RewardFinal!.Loot.RowName;
+
+    const group = "hunting";
+    let category = filters.find((f) => f.group === group);
+    if (!category) {
+      filters.push({
+        group: group,
+        defaultOpen: false,
+        defaultOn: true,
+        values: [],
+      });
+      category = filters.find((f) => f.group === group)!;
+      enDict[group] = "Hunting";
+    }
+
+    const descs: string[] = [];
+    let iconPath;
+    for (const lootBundle of lootBundleConfig.LootBundle) {
+      const lootPoolConfig = Object.entries(lootPoolConfigs[0].Rows).find(
+        (e) => e[0].toLowerCase() === lootBundle.RowName.toLowerCase(),
+      );
+      if (!lootPoolConfig) {
+        console.warn("No loot pool config", lootBundle.RowName);
+        continue;
+      }
+      for (const lootPool of lootPoolConfig![1].LootPool) {
+        if (!lootPool.ItemType) {
+          continue;
+        }
+
+        const itemType = await readJSON<DA_ItemType>(
+          CONTENT_DIR +
+            "/Palia/Content/" +
+            lootPool
+              .ItemType!.ObjectPath.replace("Game/", "")
+              .replace(/\.\d+/, "") +
+            ".json",
+        );
+        const rarity =
+          itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ??
+          "Special";
+        let desc = `${itemType[0].Properties.DisplayName.LocalizedString} (${rarity})`;
+
+        // desc += `<p>Max Stack Size: ${itemType[0].Properties.MaxStackSize}</p>`;
+        // desc += `<p>Rarity: ${rarity}</p>`;
+
+        // desc += `<p>${itemType[0].Properties.Description.LocalizedString}</p>`;
+        if (!descs.includes(desc)) {
+          descs.push(desc);
+        }
+
+        if (lootBundle.RowName.includes("Trophy")) {
+          iconPath =
+            "/Palia/Content" +
+            itemType[0].Properties.ItemIcon.AssetPathName.replace(
+              "Game/",
+              "",
+            ).split(".")[0] +
+            ".png";
+        }
+      }
+      if (!category.values.some((v) => v.id === type)) {
+        const iconProps: IconProps = {};
+
+        if (!iconPath) {
+          continue;
+        }
+        const creatureNames: Record<string, string> = {
+          BP_ValeriaHuntingCreature_Chapaa_T1_C: "Spotted Chapaa",
+          BP_ValeriaHuntingCreature_Chapaa_T2_C: "Striped Chapaa",
+          BP_ValeriaHuntingCreature_Chapaa_T3_C: "Azure Chapaa",
+          BP_ValeriaHuntingCreature_Cearnuk_T1_C: "Sernuk",
+          BP_ValeriaHuntingCreature_Cearnuk_T2_C: "Elder Sernuk",
+          BP_ValeriaHuntingCreature_Cearnuk_T3_C: "Proudhorn Sernuk",
+          BP_ValeriaHuntingCreature_TreeClimber_T1_C: "Muujin",
+          BP_ValeriaHuntingCreature_TreeClimber_T2_C: "Banded Muujin",
+          BP_ValeriaHuntingCreature_TreeClimber_T3_C: "Bluebristle Muujin",
+        };
+
+        enDict[type] = creatureNames[typeId];
+        const iconName = await saveIcon(iconPath, type, iconProps);
+
+        category.values.push({
+          id: type,
+          icon: iconName,
+          size,
+        });
+      }
+    }
+    const spawnRarityConfig = Object.entries(spawnRarityConfigs[0].Rows).find(
+      (config) => config[0].toLowerCase() === typeId.toLowerCase(),
+    );
+    if (spawnRarityConfig) {
+      enDict[`${type}_desc`] =
+        `<p>Rarity: ${spawnRarityConfig![1].BaseRarity.replace("EItemRarity::", "")}</p>`;
+      enDict[`${type}_desc`] += `<p><b>Drops:</b></p>${descs.join("<br>")}`;
+    } else if (!enDict[`${type}_desc`]) {
+      enDict[`${type}_desc`] = `<p><b>Drops:</b></p>${descs.join("<br>")}`;
+    }
+    typesIDs[typeId] = type;
+  }
+}
+
 const sortPriority = [
   "locations",
   "mining",
+  "hunting",
   "lumberjacking_magical",
   "lumberjacking",
   "bugs_epic_star",

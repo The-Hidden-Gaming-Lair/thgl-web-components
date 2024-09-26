@@ -109,6 +109,58 @@
     ]
   },
   {
+    "group": "hunting",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "Hunting.Creature.Cearnuk_T1",
+        "icon": "huntingcreaturecearnuk_t1.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.Cearnuk_T2",
+        "icon": "huntingcreaturecearnuk_t2.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.Cearnuk_T3",
+        "icon": "huntingcreaturecearnuk_t3.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.Chapaa_T1",
+        "icon": "huntingcreaturechapaa_t1.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.Chapaa_T2",
+        "icon": "huntingcreaturechapaa_t2.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.Chapaa_T3",
+        "icon": "huntingcreaturechapaa_t3.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.TreeClimber_T1",
+        "icon": "huntingcreaturetreeclimber_t1.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.TreeClimber_T2",
+        "icon": "huntingcreaturetreeclimber_t2.webp",
+        "size": 1
+      },
+      {
+        "id": "Hunting.Creature.TreeClimber_T3",
+        "icon": "huntingcreaturetreeclimber_t3.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "lumberjacking_magical",
     "defaultOpen": false,
     "defaultOn": true,

@@ -960,6 +960,200 @@ export type Tree = Array<{
   };
 }>;
 
+export type Creature = Array<{
+  Type: string;
+  Name: string;
+  Outer?: string;
+  Class: string;
+  Template?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Super?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  Properties?: {
+    Vitals: any;
+    AttributeSet?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    OwnerVitals?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    AnimClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SkeletalMesh?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SkinnedAsset?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    bCastCapsuleDirectShadow?: boolean;
+    AttachParent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RelativeLocation?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    RelativeScale3D?: {
+      X: number;
+      Y: number;
+      Z: number;
+    };
+    DefaultSceneRootNode?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ComponentTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VariableGuid?: string;
+    InternalVariableName?: string;
+    OverrideParameters?: {};
+    RewardFinal?: {
+      ItemType: any;
+      ItemAmount: number;
+      AdditionalItems: Array<any>;
+      Loot: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+      SkillXpEarnings: {
+        RowName: string;
+      };
+    };
+    ChestTemplate?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Records?: Array<{
+      ComponentClass: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentTemplate: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ComponentKey: {
+        OwnerClass: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        SCSVariableName: string;
+        AssociatedGuid: string;
+      };
+      CookedComponentInstancingData: {
+        ChangedPropertyList: Array<any>;
+        bHasValidCookedData: boolean;
+      };
+    }>;
+    SprintSpeedMultiplier?: number;
+    MaxWalkSpeed?: number;
+    CreatureAudioSet?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    CapsuleHalfHeight?: number;
+    CapsuleRadius?: number;
+    CreatureConfig?: {
+      RowName: string;
+    };
+    CombatState?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    LootComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ValeriaGAS?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Death?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Despawn?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    HitReact?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    ParticipationTracking?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    Mesh?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    MovementComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    CapsuleComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    VisibilityComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    AIControllerClass?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    RootComponent?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    SimpleConstructionScript?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+    InheritableComponentHandler?: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  ClassFlags?: string;
+  ClassWithin?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  ClassConfigName?: string;
+  bCooked?: boolean;
+  ClassDefaultObject?: {
+    ObjectName: string;
+    ObjectPath: string;
+  };
+  EditorTags?: {
+    BlueprintType: string;
+  };
+}>;
+
 export type GrowableTree = Array<{
   Type: string;
   Name: string;
