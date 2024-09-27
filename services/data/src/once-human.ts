@@ -52,7 +52,7 @@ const filters = initFilters([
   { group: "items", defaultOn: true, defaultOpen: true, values: [] },
   { group: "recipes", defaultOn: true, defaultOpen: true, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "plants", defaultOn: true, defaultOpen: true, values: [] },
+  // { group: "plants", defaultOn: true, defaultOpen: true, values: [] },
   { group: "locations", defaultOn: true, defaultOpen: true, values: [] },
   { group: "riddles", defaultOn: true, defaultOpen: true, values: [] },
   { group: "boss", defaultOn: true, defaultOpen: true, values: [] },
@@ -71,7 +71,7 @@ const enDict = initDict({
   items: "Items",
   recipes: "Recipes",
   gatherables: "Gatherables",
-  plants: "Plants",
+  // plants: "Plants",
 });
 const typeIDs = initTypesIDs({
   "ball.gim": "deviations_ball",
@@ -1596,7 +1596,10 @@ for (const [key, value] of Object.entries(interactResData)) {
     OUTPUT_DIR + "/coordinates/nodes.json",
   );
   for (const node of previousNodes) {
-    if (!Object.values(typeIDs).includes(node.type)) {
+    if (
+      !Object.values(typeIDs).includes(node.type) &&
+      node.type !== "morphic_crate"
+    ) {
       continue;
     }
     let prevNode = nodes.find(
@@ -1641,12 +1644,12 @@ const filteredNodes = nodes
     let id = typeIDs[n.type];
     const isItem = items.values.some((v) => v.id === id);
 
-    let minDistance;
-    if (n.mapName === "raid") {
-      minDistance = isItem ? 1 : 3;
-    } else {
-      minDistance = isItem ? 5 : 75;
-    }
+    // let minDistance;
+    // if (n.mapName === "raid") {
+    //   minDistance = isItem ? 1 : 3;
+    // } else {
+    //   minDistance = isItem ? 5 : 75;
+    // }
 
     const targetSpawnNodes = n.spawns.filter((s, i) => {
       if (n.mapName !== "raid") {
@@ -1660,15 +1663,15 @@ const filteredNodes = nodes
           return false;
         }
       }
-      const isCloseToOtherSpawn = n.spawns.slice(i + 1).some((other) => {
-        const distance = Math.sqrt(
-          (other.p[0] - s.p[0]) ** 2 + (other.p[1] - s.p[1]) ** 2,
-        );
-        return distance < minDistance;
-      });
-      if (isCloseToOtherSpawn) {
-        return false;
-      }
+      // const isCloseToOtherSpawn = n.spawns.slice(i + 1).some((other) => {
+      //   const distance = Math.sqrt(
+      //     (other.p[0] - s.p[0]) ** 2 + (other.p[1] - s.p[1]) ** 2,
+      //   );
+      //   return distance < minDistance;
+      // });
+      // if (isCloseToOtherSpawn) {
+      //   return false;
+      // }
       return true;
     });
     console.log(targetSpawnNodes.length, n.spawns.length);

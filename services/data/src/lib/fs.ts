@@ -24,7 +24,12 @@ export async function readContentJSON<T>(filePath: string): Promise<T> {
 export async function readJSON<T>(filePath: string): Promise<T> {
   const file = Bun.file(filePath);
 
-  return await file.json();
+  try {
+    return await file.json();
+  } catch (e) {
+    console.error("Error reading JSON file", filePath);
+    throw e;
+  }
 }
 
 export function readDirSync(filePath: string) {

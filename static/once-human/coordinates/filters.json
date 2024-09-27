@@ -179,17 +179,11 @@
     ]
   },
   {
-    "group": "plants",
-    "defaultOn": true,
-    "defaultOpen": true,
-    "values": []
-  },
-  {
     "group": "deviations",
     "values": [
       {
-        "id": "deviations_azure_dragon",
-        "icon": "deviations_azure_dragon.webp",
+        "id": "deviations_berserkosaurus_rex",
+        "icon": "deviations_berserkosaurus_rex.webp",
         "size": 1.5
       },
       {
@@ -388,8 +382,8 @@
         "size": 1.5
       },
       {
-        "id": "deviations_navigator_fish",
-        "icon": "deviations_navigator_fish.webp",
+        "id": "deviations_hydronaut_fish",
+        "icon": "deviations_hydronaut_fish.webp",
         "size": 1.5
       },
       {
@@ -492,6 +486,11 @@
         "size": 0.65
       },
       {
+        "id": "transport",
+        "icon": "transport.webp",
+        "size": 1
+      },
+      {
         "id": "gongchang",
         "icon": "gongchang.webp",
         "size": 1
@@ -499,11 +498,6 @@
       {
         "id": "chengzhen",
         "icon": "chengzhen.webp",
-        "size": 1
-      },
-      {
-        "id": "transport",
-        "icon": "transport.webp",
         "size": 1
       },
       {
@@ -537,11 +531,6 @@
         "size": 1
       },
       {
-        "id": "guanniaoyingdi",
-        "icon": "guanniaoyingdi.webp",
-        "size": 1
-      },
-      {
         "id": "initial_respawn",
         "icon": "initial_respawn.webp",
         "size": 1
@@ -552,18 +541,23 @@
         "size": 1
       },
       {
+        "id": "zhongliyingdi_kechuansong",
+        "icon": "zhongliyingdi_kechuansong.webp",
+        "size": 1
+      },
+      {
         "id": "zhongzhiyuan",
         "icon": "zhongzhiyuan.webp",
         "size": 1
       },
       {
-        "id": "securementsilos",
-        "icon": "securementsilos.webp",
+        "id": "guanniaoyingdi",
+        "icon": "guanniaoyingdi.webp",
         "size": 1
       },
       {
-        "id": "zhongliyingdi_kechuansong",
-        "icon": "zhongliyingdi_kechuansong.webp",
+        "id": "securementsilos",
+        "icon": "securementsilos.webp",
         "size": 1
       },
       {
@@ -686,18 +680,28 @@
     "defaultOpen": true,
     "values": [
       {
+        "id": "boss_chaosweaver",
+        "icon": "boss_chaosweaver.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_lava_stone",
+        "icon": "boss_lava_stone.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_exterminator",
+        "icon": "boss_exterminator.webp",
+        "size": 0.75
+      },
+      {
         "id": "boss_titans_hand",
         "icon": "boss_titans_hand.webp",
         "size": 0.75
       },
       {
-        "id": "boss_forsaken_giant",
-        "icon": "boss_forsaken_giant.webp",
-        "size": 0.75
-      },
-      {
-        "id": "boss_permafroster",
-        "icon": "boss_permafroster.webp",
+        "id": "boss_the_forsaken_giant",
+        "icon": "boss_the_forsaken_giant.webp",
         "size": 0.75
       },
       {
@@ -716,8 +720,8 @@
         "size": 0.75
       },
       {
-        "id": "boss_treants",
-        "icon": "boss_treants.webp",
+        "id": "boss_treant",
+        "icon": "boss_treant.webp",
         "size": 0.75
       },
       {
@@ -771,18 +775,13 @@
         "size": 0.75
       },
       {
-        "id": "boss_treant",
-        "icon": "boss_treant.webp",
-        "size": 0.75
-      },
-      {
-        "id": "boss_the_forsaken_giant",
-        "icon": "boss_the_forsaken_giant.webp",
-        "size": 0.75
-      },
-      {
         "id": "boss_giant",
         "icon": "boss_giant.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_spore",
+        "icon": "boss_spore.webp",
         "size": 0.75
       }
     ]
@@ -843,13 +842,43 @@
         "size": 0.75
       },
       {
-        "id": "monster_snatcher",
-        "icon": "monster_snatcher.webp",
+        "id": "monster_scrounger",
+        "icon": "monster_scrounger.webp",
         "size": 0.75
       },
       {
         "id": "monster_gnawer",
         "icon": "monster_gnawer.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_ignium_miner",
+        "icon": "monster_ignium_miner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_fire_hydrant_miner",
+        "icon": "monster_fire_hydrant_miner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_chaosium_miner",
+        "icon": "monster_chaosium_miner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_iron_bucket_miner",
+        "icon": "monster_iron_bucket_miner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_forged_digger",
+        "icon": "monster_forged_digger.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_watcher",
+        "icon": "monster_watcher.webp",
         "size": 0.75
       },
       {
@@ -878,8 +907,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_watcher",
-        "icon": "monster_watcher.webp",
+        "id": "monster_new_employee",
+        "icon": "monster_new_employee.webp",
         "size": 0.75
       },
       {
@@ -890,6 +919,11 @@
       {
         "id": "monster_sync__ede",
         "icon": "monster_sync__ede.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_butcher",
+        "icon": "monster_the_butcher.webp",
         "size": 0.75
       },
       {
@@ -993,28 +1027,23 @@
         "size": 0.75
       },
       {
-        "id": "monster_tiny_bear_ballon",
-        "icon": "monster_tiny_bear_ballon.webp",
+        "id": "monster_tiny_bear_balloon",
+        "icon": "monster_tiny_bear_balloon.webp",
         "size": 0.75
       },
       {
-        "id": "monster_black_eyeballoon",
-        "icon": "monster_black_eyeballoon.webp",
+        "id": "monster_black_balloon",
+        "icon": "monster_black_balloon.webp",
         "size": 0.75
       },
       {
-        "id": "monster_blue_eyeballoon",
-        "icon": "monster_blue_eyeballoon.webp",
+        "id": "monster_blue_balloon",
+        "icon": "monster_blue_balloon.webp",
         "size": 0.75
       },
       {
         "id": "monster_hydrogen_balloon",
         "icon": "monster_hydrogen_balloon.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_red_eyeballoon",
-        "icon": "monster_red_eyeballoon.webp",
         "size": 0.75
       },
       {
@@ -1038,8 +1067,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_spiderling",
-        "icon": "monster_spiderling.webp",
+        "id": "monster_spider",
+        "icon": "monster_spider.webp",
         "size": 0.75
       },
       {
@@ -1095,6 +1124,16 @@
       {
         "id": "monster_nomad",
         "icon": "monster_nomad.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_pale_hand",
+        "icon": "monster_pale_hand.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spiderling",
+        "icon": "monster_spiderling.webp",
         "size": 0.75
       },
       {
@@ -1188,6 +1227,46 @@
         "size": 0.75
       },
       {
+        "id": "monster_scenic_viewpoint_camera",
+        "icon": "monster_scenic_viewpoint_camera.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_rime_frost",
+        "icon": "monster_rime_frost.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_research_team_member_type_ii",
+        "icon": "monster_research_team_member_type_ii.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_research_team_member_type_iii",
+        "icon": "monster_research_team_member_type_iii.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_radar_head",
+        "icon": "monster_radar_head.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_beacon_head",
+        "icon": "monster_beacon_head.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_sweet_factory_female_worker",
+        "icon": "monster_sweet_factory_female_worker.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_research_team_member_type_i",
+        "icon": "monster_research_team_member_type_i.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_arbiter",
         "icon": "monster_arbiter.webp",
         "size": 0.75
@@ -1195,6 +1274,11 @@
       {
         "id": "monster_shockwave__judicator",
         "icon": "monster_shockwave__judicator.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_agent",
+        "icon": "monster_agent.webp",
         "size": 0.75
       },
       {
@@ -1208,13 +1292,13 @@
         "size": 0.75
       },
       {
-        "id": "monster_agent",
-        "icon": "monster_agent.webp",
+        "id": "monster_blazing_scorcher",
+        "icon": "monster_blazing_scorcher.webp",
         "size": 0.75
       },
       {
-        "id": "monster_ignoramus",
-        "icon": "monster_ignoramus.webp",
+        "id": "monster_fool",
+        "icon": "monster_fool.webp",
         "size": 0.75
       },
       {
@@ -1240,6 +1324,11 @@
       {
         "id": "monster_df157m6",
         "icon": "monster_df157m6.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_snatcher",
+        "icon": "monster_snatcher.webp",
         "size": 0.75
       },
       {
@@ -1283,8 +1372,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_unholy_goanna",
-        "icon": "monster_unholy_goanna.webp",
+        "id": "monster_unholy_goanna_",
+        "icon": "monster_unholy_goanna_.webp",
         "size": 0.75
       },
       {
@@ -1293,8 +1382,13 @@
         "size": 0.75
       },
       {
-        "id": "monster_weather_fourecaster",
-        "icon": "monster_weather_fourecaster.webp",
+        "id": "monster_weather_forecast",
+        "icon": "monster_weather_forecast.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_electrocardiogram_headgear_nurse",
+        "icon": "monster_electrocardiogram_headgear_nurse.webp",
         "size": 0.75
       },
       {
@@ -1305,11 +1399,6 @@
       {
         "id": "monster_tangled_vine",
         "icon": "monster_tangled_vine.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_spider",
-        "icon": "monster_spider.webp",
         "size": 0.75
       },
       {
@@ -1348,8 +1437,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_phase__ghost",
-        "icon": "monster_phase__ghost.webp",
+        "id": "monster_phase__ghoul",
+        "icon": "monster_phase__ghoul.webp",
         "size": 0.75
       },
       {
@@ -1370,11 +1459,6 @@
       {
         "id": "monster_mr._ames'_soul",
         "icon": "monster_mr_ames_soul.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_the_butcher",
-        "icon": "monster_the_butcher.webp",
         "size": 0.75
       },
       {
@@ -1480,6 +1564,11 @@
       {
         "id": "monster_black_king",
         "icon": "monster_black_king.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_spider_eggs",
+        "icon": "monster_spider_eggs.webp",
         "size": 0.75
       },
       {
@@ -1593,11 +1682,6 @@
         "size": 0.75
       },
       {
-        "id": "monster_spider_eggs",
-        "icon": "monster_spider_eggs.webp",
-        "size": 0.75
-      },
-      {
         "id": "monster_disfigured_human_sample",
         "icon": "monster_disfigured_human_sample.webp",
         "size": 0.75
@@ -1618,13 +1702,13 @@
         "size": 0.75
       },
       {
-        "id": "monster_polluted_human_sample",
-        "icon": "monster_polluted_human_sample.webp",
+        "id": "monster_unstable_sample",
+        "icon": "monster_unstable_sample.webp",
         "size": 0.75
       },
       {
-        "id": "monster_unstable_sample",
-        "icon": "monster_unstable_sample.webp",
+        "id": "monster_polluted_human_sample",
+        "icon": "monster_polluted_human_sample.webp",
         "size": 0.75
       },
       {
@@ -1688,6 +1772,11 @@
         "size": 0.75
       },
       {
+        "id": "monster_unholy_goanna",
+        "icon": "monster_unholy_goanna.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_bone_thrower—soul_hunter",
         "icon": "monster_bone_throwersoul_hunter.webp",
         "size": 0.75
@@ -1703,18 +1792,13 @@
         "size": 0.75
       },
       {
-        "id": "monster_black_lake_ghoul",
-        "icon": "monster_black_lake_ghoul.webp",
-        "size": 0.75
-      },
-      {
         "id": "monster_black_lake_shadow",
         "icon": "monster_black_lake_shadow.webp",
         "size": 0.75
       },
       {
-        "id": "monster_black_lake_heart",
-        "icon": "monster_black_lake_heart.webp",
+        "id": "monster_black_lake_ghoul",
+        "icon": "monster_black_lake_ghoul.webp",
         "size": 0.75
       },
       {
@@ -1723,8 +1807,18 @@
         "size": 0.75
       },
       {
-        "id": "monster_scrounger",
-        "icon": "monster_scrounger.webp",
+        "id": "monster_black_lake_heart",
+        "icon": "monster_black_lake_heart.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_mirage",
+        "icon": "monster_black_lake_mirage.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_water_demon",
+        "icon": "monster_black_lake_water_demon.webp",
         "size": 0.75
       },
       {
@@ -1770,8 +1864,8 @@
         "size": 0.75
       },
       {
-        "id": "animal_small_bear",
-        "icon": "animal_small_bear.webp",
+        "id": "animal_bear_cub",
+        "icon": "animal_bear_cub.webp",
         "size": 0.75
       },
       {
@@ -1840,8 +1934,8 @@
         "size": 0.75
       },
       {
-        "id": "animal_small_rabbit",
-        "icon": "animal_small_rabbit.webp",
+        "id": "animal_rabbit_kit",
+        "icon": "animal_rabbit_kit.webp",
         "size": 0.75
       },
       {
@@ -1867,6 +1961,21 @@
       {
         "id": "animal_capybara",
         "icon": "animal_capybara.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_little_capybara",
+        "icon": "animal_little_capybara.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_little_leopard",
+        "icon": "animal_little_leopard.webp",
+        "size": 0.75
+      },
+      {
+        "id": "animal_little_flamingo",
+        "icon": "animal_little_flamingo.webp",
         "size": 0.75
       },
       {
@@ -1900,8 +2009,8 @@
         "size": 0.75
       },
       {
-        "id": "animal_small_boar",
-        "icon": "animal_small_boar.webp",
+        "id": "animal_boar_piglet",
+        "icon": "animal_boar_piglet.webp",
         "size": 0.75
       },
       {
@@ -1920,8 +2029,8 @@
         "size": 0.75
       },
       {
-        "id": "animal_small_wolf",
-        "icon": "animal_small_wolf.webp",
+        "id": "animal_wolf_cub",
+        "icon": "animal_wolf_cub.webp",
         "size": 0.75
       },
       {
@@ -1970,8 +2079,8 @@
         "size": 0.75
       },
       {
-        "id": "animal_small_crocodile",
-        "icon": "animal_small_crocodile.webp",
+        "id": "animal_crocodile_hatchling",
+        "icon": "animal_crocodile_hatchling.webp",
         "size": 0.75
       },
       {

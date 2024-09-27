@@ -3505,6 +3505,77 @@
     ]
   },
   {
+    "type": "remnants_mousseville_sweet_factory",
+    "items": [
+      {
+        "id": "book_307010",
+        "props": {
+          "title": "For Now",
+          "title1": "Anne Montrose, Guerilla Technician",
+          "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
+          "title3": "June 27, ██39",
+          "content": "I come here thrice a month, which is enough to process all the potatoes we produce into the starch we use to bake bread. But if we could transport these machines back to Camp Igloo, I wouldn't have to put myself at risk of blizzards and Vulture attacks on the journey here.\n\nCommander Wendy and I have looked into it, but our findings were depressing: the boiler and oven are built in, so we'd have to demolish the whole structure. For now, all I can do is hope the weather's somewhat better next time.\n\n\n\n",
+          "sortPriority": 242039062701
+        }
+      },
+      {
+        "id": "book_307011",
+        "props": {
+          "title": "Waiting for Assistance",
+          "title1": "Thomas Sosi, Guerilla Laborer",
+          "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
+          "title3": "November 16, ██39",
+          "content": "This place is extraordinarily cold... Monica's orders were to stay put, and the boiler's heated up the building well enough. But within six hours, the baking will be done and we'll have run out of fuel. When that happens, our only option will be to dismantle the furniture here and toss it into the boiler for heat.\n\nI pray that Camp Igloo's received our SOS signal. We're in no state to evacuate by ourselves. We need someone to come rescue us...\n\n\n\n",
+          "sortPriority": 242039111601
+        }
+      },
+      {
+        "id": "book_307012",
+        "props": {
+          "title": "Ghosts",
+          "title1": "Monica Vesuvya, Guerilla Work Leader",
+          "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
+          "title3": "November 9, ██39",
+          "content": "Tell Thomas to stop being paranoid. There's no one here but us. Not even the Vultures bother coming here. Besides, we're decamping the moment we finish \"borrowing\" the food production facilities here, and it'll be another couple of weeks before we come back. He should go outside if the sound of the machinery's creeping him out, not chatter about a little girl's voice... Wait, did you just hear something?\n\n\n\n",
+          "sortPriority": 242039110901
+        }
+      },
+      {
+        "id": "book_307013",
+        "props": {
+          "title": "Rapid Evacuation",
+          "title1": "\"Poison Apple\" Bruce, Vulture Grunt",
+          "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
+          "title3": "December 7, ██35",
+          "content": "What the hell is with this place? I'm certain the freezer room's power supply is broken; I've checked it multiple times. So, why is it frozen over inside? And the ice's spreading, too. Damn it! Tell \"Incisor\" Paulie and his crew to evacuate right now, and forget about anyone left behind! Even an idiot can tell that it's a Deviation at work!\n\n\n\n",
+          "sortPriority": 242035120701
+        }
+      },
+      {
+        "id": "book_307014",
+        "props": {
+          "title": "Sleeping Girl",
+          "title1": "Victor Hammett, Mayfly",
+          "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
+          "title3": "July 13, ██38",
+          "content": "I can tell she's here. That little girl, sleeping in some hidden corner. But there's nothing I can do if she won't wake up.\n\nWinter... Her reaction's strongest during the winter. That must be when she awakens, but it's still months away. I don't know if I'll be able to come back to do something for her. Guess I'll try my best. At least, I'll tell the mercenaries that if they're planning to use this factory, they should be careful... of this \"girl.\"\n\n\n\n",
+          "sortPriority": 242038071301
+        }
+      },
+      {
+        "id": "book_307015",
+        "props": {
+          "title": "Nothing Left",
+          "title1": "Jeff Bacon, Scavenger",
+          "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
+          "title3": "May 6, ██27",
+          "content": "*phew* There's plenty of supplies here, but it's all been contaminated by Stardust. What a shame. But Burke wasn't lying: the Starfall must have killed most people here instantly, and the survivors probably didn't last for more than a few days. They didn't even manage to seal the kitchen and the warehouse. If they had, these reserves would have lasted them quite some time.\n\nThere's nothing left for us here. The machinery in the factory's still usable, but way too heavy to transport. We can come back and dismantle them when we're desperate for spare parts.\n\n\n\n",
+          "sortPriority": 242027050601
+        }
+      }
+    ]
+  },
+  {
     "type": "remnants_wishland_park",
     "items": [
       {
@@ -3591,7 +3662,7 @@
           "title1": "",
           "title2": "Found in Wishland Park",
           "title3": "",
-          "content": "Animal Show Guide\n(READ CAREFULLY)\n\n1. Gorilla is a hairless and thin primate that loves beating its chest to relieve the pain from its gall bladder inflammation.\n\n2. Tiger is a small and fat primate with short hair. It adopts a distinctive pouncing pose during mating season.\n\n3. Kangaroo is a tall, long-haired primate that constantly performs squat jumps as it believes it will become a Meta after completing 100 million repetitions.\n\n4. Please feed them with the correct foods.\n\nHave a good time!\nFrom: Wishland Animal Show.\n\n\n\n",
+          "content": "Animal Show Guide\n(READ CAREFULLY)\n\n1. Gorilla is a hairless and thin primate that loves beating its chest to relieve the pain from its gall bladder inflammation.\n\n2. Lions are lazy primates that like to crouch. They adopt a distinctive menacing behavior during mating season.\n\n3. Flamingos are tall primates that like to observe the outside world. Their main characteristic is standing on one foot because they believe that by staying away from the earth, they automatically become Metas.\n\n4. Please feed them with the correct foods.\n\nHave a good time!\nFrom: Wish Land Animal Show.\n\n\n\n",
           "sortPriority": 1
         }
       }
@@ -3607,12 +3678,13 @@
           "title1": "",
           "title2": "",
           "title3": "",
-          "content": "亲爱的，恐怕我们没法在你生日之前见上面了。这次的搜救任务比想象过的还复杂，我们在这附近的巨楔发现了秃鹫的踪迹，没想到那些神神叨叨的家伙不仅在雪国捣乱，就连东部区域都不放过！等解决这里的危机以后，我还得先回一趟北方，秃鹫已经失控，罗兰德老爹正是需要我们的时候……当然，你在我心里，和他同样重要，我发誓！\n\n\n\n"
+          "content": "My love, I'm afraid I won't be able to make it for your birthday. The search and rescue operation is far more complicated than expected. We've discovered traces of the Vultures near the Monolith—those freaks have come all the way here from the Snowy Realm. Once we resolve this crisis, I'll have to head north. The Vultures are out of control, and Roland will need our help. Of course, you are just as dear to me as he is. I swear it!\n\n\n\n"
         }
       },
       {
         "id": "Book_302159",
         "props": {
+          "title": "Snowy Realm Scenery",
           "title1": "",
           "title2": "",
           "title3": "",
