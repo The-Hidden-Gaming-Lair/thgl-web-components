@@ -34,9 +34,9 @@ import {
 } from "./wuthering-waves.types.js";
 
 initDirs(
-  "/mnt/c/dev/Wuthering Waves/Extracted/Data",
-  "/mnt/c/dev/Wuthering Waves/Extracted/Texture",
-  "/home/devleon/the-hidden-gaming-lair/static/wuthering-waves",
+  String.raw`C:\dev\WutheringWaves\Extracted_Pre_Download\Data`,
+  String.raw`C:\dev\WutheringWaves\Extracted_Pre_Download\Texture`,
+  String.raw`C:\dev\the-hidden-gaming-lair\static\wuthering-waves`,
 );
 
 const nodes = initNodes();
@@ -64,7 +64,7 @@ const WORLD = {
 };
 const BIG_WORLD_MAP_ID = 8;
 
-if (Bun.env.DB === "true") {
+if (Bun.argv.includes("--db")) {
   sqliteToJSONWithModels(
     "/Client/Content/Aki/ConfigDB",
     "/Client/Content/Aki/JavaScript",
@@ -654,7 +654,7 @@ for (const levelEntity of sortedEntities) {
         {
           enDict[id] = "Bobfly";
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/flying-target_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\flying-target_delapouite.webp`,
             iconName,
           );
         }
@@ -663,7 +663,7 @@ for (const levelEntity of sortedEntities) {
         {
           enDict[id] = "Blue Tidal Heritage";
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/polar-star_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\polar-star_delapouite.webp`,
             iconName,
             { color: "#76ffff" },
           );
@@ -673,7 +673,7 @@ for (const levelEntity of sortedEntities) {
         {
           enDict[id] = "Golden Tidal Heritage";
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/polar-star_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\polar-star_delapouite.webp`,
             iconName,
             { color: "#d0b72c" },
           );
@@ -683,7 +683,7 @@ for (const levelEntity of sortedEntities) {
         {
           enDict[id] = "Purple Tidal Heritage";
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/polar-star_delapouite.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\polar-star_delapouite.webp`,
             iconName,
             { color: "#cfafdc" },
           );
@@ -693,7 +693,7 @@ for (const levelEntity of sortedEntities) {
         {
           enDict[id] = "Frostbug";
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/sea-serpent_lorc.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\sea-serpent_lorc.webp`,
             iconName,
             { color: "#a3cffd" },
           );
@@ -703,7 +703,7 @@ for (const levelEntity of sortedEntities) {
         {
           enDict[id] = "Mutterfly";
           icon = await saveIcon(
-            `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/butterfly_lorc.webp`,
+            String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\butterfly_lorc.webp`,
             iconName,
             { color: "#fff77a" },
           );
@@ -1214,6 +1214,8 @@ for (const levelEntity of sortedEntities) {
               } else {
                 text += ` or ${formatTimer(levelPlayRefreshConfig.AwardedRefreshCd!.MinRefreshCd!)} after awarded`;
               }
+            } else if (levelPlayRefreshConfig.Type === "CustomOnlineRefresh") {
+              text = `Spawns on custom online refresh`;
             } else {
               throw new Error(
                 `Unknown refresh type: ${levelPlayRefreshConfig.Type}`,
@@ -1313,11 +1315,11 @@ for (const levelEntity of sortedEntities) {
     //   }
     // } else
     if (template.data.BlueprintType.startsWith("NPC")) {
-      iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/character_delapouite.webp`;
+      iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\character_delapouite.webp`;
       iconName = "npc";
     }
     if (!iconPath || !iconName) {
-      iconPath = `/home/devleon/the-hidden-gaming-lair/static/global/icons/game-icons/uncertainty_lorc.webp`;
+      iconPath = `C:\\dev\\the-hidden-gaming-lair\\static\\global\\icons\\game-icons\\uncertainty_lorc.webp`;
       iconName = "unknown";
     }
     if (!enDict[id]) {

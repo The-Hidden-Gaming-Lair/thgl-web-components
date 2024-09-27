@@ -125,6 +125,16 @@
         "id": "Monster_Glowing_Monster170",
         "icon": "glowing_monster170.webp",
         "size": 2
+      },
+      {
+        "id": "Monster_Glowing_Monster069",
+        "icon": "glowing_monster069.webp",
+        "size": 2
+      },
+      {
+        "id": "Monster_Glowing_224750001",
+        "icon": "glowing_monster031.webp",
+        "size": 2
       }
     ]
   },
@@ -204,8 +214,38 @@
         "size": 1.5
       },
       {
+        "id": "130003_Animal004",
+        "icon": "SP_IconRedMonsterHead_03.webp",
+        "size": 1.5
+      },
+      {
+        "id": "130004_Animal004",
+        "icon": "SP_IconRedMonsterHead_04.webp",
+        "size": 1.5
+      },
+      {
+        "id": "130006_NPC420078",
+        "icon": "SP_IconMap_Play_14_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "380034_NPC420091",
+        "icon": "SP_IconMap_Activity_10_UI.webp",
+        "size": 1.5
+      },
+      {
         "id": "380020_Quest129",
         "icon": "SP_IconMap_Activity_06_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "380023_Event_1-2event1",
+        "icon": "SP_IconMap_Activity_11_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "380032_NPC420083",
+        "icon": "SP_IconMap_Activity_09_0_UI.webp",
         "size": 1.5
       },
       {
@@ -226,6 +266,11 @@
       {
         "id": "3016_NPC0280",
         "icon": "SP_IconMap_Shop_06_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "3022_NPC_HeiHaiAn_商人",
+        "icon": "SP_IconMap_Shop_12_UI.webp",
         "size": 1.5
       },
       {
@@ -388,6 +433,21 @@
       {
         "id": "380021_Gameplay_Dungeon/SuiGuang1",
         "icon": "SP_IconMonsterHead_327_1_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "131001_Gameplay102",
+        "icon": "SP_IconMap_WYQ_06_UI.webp",
+        "size": 1.5
+      },
+      {
+        "id": "BossChallenge_Monster_branch1.3_004",
+        "icon": "SP_IconRedMonsterHead_01.webp",
+        "size": 1.5
+      },
+      {
+        "id": "BossChallenge_Monster_branch1.3_006",
+        "icon": "SP_IconRedMonsterHead_02.webp",
         "size": 1.5
       },
       {
@@ -1060,6 +1120,16 @@
         "size": 1
       },
       {
+        "id": "Collect605",
+        "icon": "iteminfo_42310230_name.webp",
+        "size": 1
+      },
+      {
+        "id": "Collect_HHA5",
+        "icon": "iteminfo_42310240_name.webp",
+        "size": 1
+      },
+      {
         "id": "Collect008",
         "icon": "iteminfo_42300080_name.webp",
         "size": 1
@@ -1072,6 +1142,11 @@
     "defaultOn": false,
     "values": [
       {
+        "id": "Animal004",
+        "icon": "animalhandbook_4_name.webp",
+        "size": 1
+      },
+      {
         "id": "Animal006",
         "icon": "animalhandbook_6_name.webp",
         "size": 1
@@ -1079,11 +1154,6 @@
       {
         "id": "Animal021",
         "icon": "iteminfo_42400120_name.webp",
-        "size": 1
-      },
-      {
-        "id": "Animal004",
-        "icon": "animalhandbook_4_name.webp",
         "size": 1
       },
       {
