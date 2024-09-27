@@ -24,7 +24,8 @@ export default function Weapons(): JSX.Element {
   }
   const data = category.items
     .map((item) => ({
-      icon: item.icon,
+      icon: item.icon!,
+      name: item.props.name as string,
       ...item.props,
     }))
     .sort((a, b) => a.name.localeCompare(b.name));

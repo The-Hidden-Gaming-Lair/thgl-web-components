@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
+import { type Database } from "@repo/ui/providers";
 import database from "../../../data/database.json" assert { type: "json" };
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = database.find((item) =>
     item.items.some((i) => i.id === params.id),
-  );
+  ) as Database[number];
   if (!category) {
     return {};
   }
@@ -33,7 +34,7 @@ export default function Item({
 }): JSX.Element {
   const category = database.find((item) =>
     item.items.some((i) => i.id === params.id),
-  );
+  ) as Database[number];
   if (!category) {
     notFound();
   }

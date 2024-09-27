@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
+import { type Database } from "@repo/ui/providers";
 import database from "../../data/database.json" assert { type: "json" };
 
 export const metadata: Metadata = {
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 };
 
 export default function Remnants(): JSX.Element {
-  const category = database.find((item) => item.type.startsWith("remnants_"));
+  const category = database.find((item) =>
+    item.type.startsWith("remnants_"),
+  ) as Database[number];
   if (!category) {
     notFound();
   }
