@@ -725,6 +725,7 @@ export type ItemData = Record<
     type: number;
     can_destroy: number;
     forge_icon_female: string;
+    short_desc?: string;
     name: string;
     nev_transfer_limit_point: number;
     has_sel_state: number;
@@ -836,5 +837,29 @@ export type BookCollectModelData = Record<
     unit_ids: Array<string>;
     unlock3: number;
     model_path?: string;
+  }
+>;
+
+export type FishData = Record<
+  string,
+  {
+    model_path: string;
+    fish_struggle_consume: number;
+    fish_priority: number;
+    anim_graph: string;
+    bait_items: Array<string>;
+    fish_body_rate: Array<number>;
+    occupy_grid_num: number;
+    extra_output: Array<string>;
+    facility_socket_name: string;
+    fish_desc: string;
+    fish_bone_name: string;
+    fish_speed: number;
+    fish_mutation_id: string;
+    output: string;
+    fish_mutation_add_rate: number;
+    fish_base_length: number;
+    fish_base_energy: number;
+    fish_base_weight: number;
   }
 >;

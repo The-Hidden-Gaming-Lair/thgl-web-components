@@ -2,7 +2,7 @@
   {
     "group": "items",
     "defaultOn": true,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "morphic_crate",
@@ -85,7 +85,7 @@
   {
     "group": "recipes",
     "defaultOn": true,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "canning_recipe",
@@ -110,7 +110,7 @@
   {
     "group": "gatherables",
     "defaultOn": true,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "copper_ore",
@@ -463,7 +463,7 @@
   {
     "group": "locations",
     "defaultOn": true,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "juluo",
@@ -580,7 +580,7 @@
   {
     "group": "riddles",
     "defaultOn": true,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "camera",
@@ -677,7 +677,7 @@
   {
     "group": "boss",
     "defaultOn": true,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "boss_chaosweaver",
@@ -789,7 +789,7 @@
   {
     "group": "monster",
     "defaultOn": false,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "house_monster",
@@ -1851,7 +1851,7 @@
   {
     "group": "animal",
     "defaultOn": false,
-    "defaultOpen": true,
+    "defaultOpen": false,
     "values": [
       {
         "id": "animal_church_afterimage",
@@ -1876,11 +1876,6 @@
       {
         "id": "animal_bear",
         "icon": "animal_bear.webp",
-        "size": 0.75
-      },
-      {
-        "id": "animal_fish",
-        "icon": "animal_fish.webp",
         "size": 0.75
       },
       {
@@ -2142,7 +2137,229 @@
         "id": "animal_deviated_giant_crocodile",
         "icon": "animal_deviated_giant_crocodile.webp",
         "size": 0.75
+      },
+      {
+        "id": "animal_fish",
+        "icon": "animal_fish.webp",
+        "size": 0.75
       }
     ]
+  },
+  {
+    "group": "fishes",
+    "values": [
+      {
+        "id": "fishes_koi_fish_(cloud)",
+        "icon": "fishes_koi_fish_cloud.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_barracuda_(aquamarine)",
+        "icon": "fishes_barracuda_aquamarine.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_black_bass_(pure_white)",
+        "icon": "fishes_black_bass_pure_white.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_guppy_(peacock)",
+        "icon": "fishes_guppy_peacock.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sardine_(blood_mark)",
+        "icon": "fishes_sardine_blood_mark.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_bighead_carp_(gold_knife)",
+        "icon": "fishes_bighead_carp_gold_knife.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_angelfish_(purple_dawn)",
+        "icon": "fishes_angelfish_purple_dawn.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_tilapia_(red_giant)",
+        "icon": "fishes_tilapia_red_giant.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_northern_pike_(blood_jade)",
+        "icon": "fishes_northern_pike_blood_jade.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sunfish_(black_rose)",
+        "icon": "fishes_sunfish_black_rose.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_rainbow_trout_(blue_porcelain)",
+        "icon": "fishes_rainbow_trout_blue_porcelain.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sucker_fish_(spotted)",
+        "icon": "fishes_sucker_fish_spotted.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_oscar_fish_(amber)",
+        "icon": "fishes_oscar_fish_amber.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_pompano_(opal)",
+        "icon": "fishes_pompano_opal.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_tilapia",
+        "icon": "fishes_tilapia.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_bighead_carp",
+        "icon": "fishes_bighead_carp.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sucker_fish",
+        "icon": "fishes_sucker_fish.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_pompano",
+        "icon": "fishes_pompano.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_barracuda",
+        "icon": "fishes_barracuda.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_oscar_fish",
+        "icon": "fishes_oscar_fish.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_angelfish",
+        "icon": "fishes_angelfish.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_koi_carp",
+        "icon": "fishes_koi_carp.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_electric_eel",
+        "icon": "fishes_electric_eel.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sunfish",
+        "icon": "fishes_sunfish.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_large_blue_cichlid",
+        "icon": "fishes_large_blue_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_red_cichlid",
+        "icon": "fishes_red_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_jade-eye_cichlid",
+        "icon": "fishes_jadeeye_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_large_yellow_cichlid",
+        "icon": "fishes_large_yellow_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_white_cichlid",
+        "icon": "fishes_white_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_guppy",
+        "icon": "fishes_guppy.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sea_bass",
+        "icon": "fishes_sea_bass.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_golden_cichlid",
+        "icon": "fishes_golden_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_lionhead_cichlid",
+        "icon": "fishes_lionhead_cichlid.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_arowana",
+        "icon": "fishes_arowana.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_carp",
+        "icon": "fishes_carp.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_mackerel",
+        "icon": "fishes_mackerel.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_rainbow_trout",
+        "icon": "fishes_rainbow_trout.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_salmon",
+        "icon": "fishes_salmon.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_sardine",
+        "icon": "fishes_sardine.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_longnose_gar",
+        "icon": "fishes_longnose_gar.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_largemouth_black_bass",
+        "icon": "fishes_largemouth_black_bass.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_northern_pike",
+        "icon": "fishes_northern_pike.webp",
+        "size": 0.75
+      }
+    ],
+    "defaultOn": true,
+    "defaultOpen": false
   }
 ]

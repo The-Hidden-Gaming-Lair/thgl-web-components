@@ -27,6 +27,7 @@ import {
   BookCollectSeriesData,
   CollectNewTagData,
   DeviationBaseData,
+  FishData,
   GiftDropNormalDataClient,
   InteractResData,
   ItemData,
@@ -49,15 +50,15 @@ initDirs(
 
 let nodes = initNodes();
 const filters = initFilters([
-  { group: "items", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "recipes", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "gatherables", defaultOn: true, defaultOpen: true, values: [] },
-  // { group: "plants", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "locations", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "riddles", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "boss", defaultOn: true, defaultOpen: true, values: [] },
-  { group: "monster", defaultOn: false, defaultOpen: true, values: [] },
-  { group: "animal", defaultOn: false, defaultOpen: true, values: [] },
+  { group: "items", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "recipes", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "gatherables", defaultOn: true, defaultOpen: false, values: [] },
+  // { group: "plants", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "locations", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "riddles", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "boss", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "monster", defaultOn: false, defaultOpen: false, values: [] },
+  { group: "animal", defaultOn: false, defaultOpen: false, values: [] },
 ]);
 const enDict = initDict({
   default: "Open World",
@@ -67,6 +68,7 @@ const enDict = initDict({
   boss: "Bosses",
   monster: "Monsters",
   animal: "Animals",
+  fishes: "Fishes",
   riddles: "Riddles",
   items: "Items",
   recipes: "Recipes",
@@ -397,7 +399,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
           group,
           values: [],
           defaultOn: true,
-          defaultOpen: true,
+          defaultOpen: false,
         });
       }
       const filter = filters.find((f) => f.group === group)!;
@@ -522,7 +524,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
         group,
         values: [],
         defaultOn: true,
-        defaultOpen: true,
+        defaultOpen: false,
       });
     }
     const filter = filters.find((f) => f.group === group)!;
@@ -649,7 +651,7 @@ for (const deviation of Object.values(deviationBaseData)) {
         group,
         values: [],
         defaultOn: true,
-        defaultOpen: true,
+        defaultOpen: false,
       });
     }
     const filter = filters.find((f) => f.group === group)!;
@@ -667,8 +669,58 @@ for (const deviation of Object.values(deviationBaseData)) {
     }
   }
 }
+const fishData = await readJSON<FishData>(
+  CONTENT_DIR + "/game_common/data/fish_data.json",
+);
+for (const fish of Object.values(fishData)) {
+  if (!fish.model_path) {
+    continue;
+  }
+  const group = "fishes";
+  const size = 0.75;
+  const typeId = fish.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
+  const item = itemData[fish.output];
+  const type = "fishes_" + item.name.toLowerCase().replaceAll(" ", "_");
+  const iconPath =
+    "ui/dynamic_texpack/" + textureMap[item.icon] + "/" + item.icon;
+  enDict[type] = item.name;
+  if (item.short_desc) {
+    enDict[`${type}_desc`] = item.short_desc;
+  }
+  if (!newTypes.includes(type)) {
+    newTypes.push(type);
+    const icon = await saveIcon(iconPath, type, {});
+    if (!filters.some((f) => f.group === group)) {
+      filters.push({
+        group,
+        values: [],
+        defaultOn: true,
+        defaultOpen: false,
+      });
+    }
+    const filter = filters.find((f) => f.group === group)!;
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+    });
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName,
+      });
+    }
+  }
+  if (typeIDs[typeId] && typeIDs[typeId] !== type) {
+    console.warn(
+      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    );
+  }
+  typeIDs[typeId] = type;
+}
 
-for (const baseNPC of Object.values(baseNPCData)) {
+for (const [key, baseNPC] of Object.entries(baseNPCData)) {
   try {
     if (!isValidModelPath(baseNPC.model_path)) {
       continue;
@@ -676,6 +728,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
 
     let title = baseNPC.unit_name;
     let group = baseNPC.model_path.split("/")[1];
+    let desc: string | undefined;
 
     let type = group + "_" + title.toLowerCase().replaceAll(" ", "_");
     if (type.match(/[\u3400-\u9FBF]/)) {
@@ -690,6 +743,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
     const iconProps: IconProps = {};
     let iconPath;
     let size = 0.75;
+    const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
 
     if (baseNPC.unit_entity_type === "Deviation") {
       continue;
@@ -698,7 +752,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
         lightness: [70, 80],
       }).color;
       if (type === "animal_fish") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\salmon_various-artists.webp`;
+        continue;
       } else if (type === "animal_bear") {
         iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\bear-head_delapouite.webp`;
       } else if (type === "animal_rabbit") {
@@ -759,7 +813,6 @@ for (const baseNPC of Object.values(baseNPCData)) {
         continue;
       }
     }
-    const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
       console.warn(
         `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
@@ -768,6 +821,9 @@ for (const baseNPC of Object.values(baseNPCData)) {
     typeIDs[typeId] = type;
 
     enDict[type] = title;
+    if (desc) {
+      enDict[type + "_desc"] = desc;
+    }
 
     if (!newTypes.includes(type)) {
       newTypes.push(type);
@@ -777,7 +833,7 @@ for (const baseNPC of Object.values(baseNPCData)) {
           group,
           values: [],
           defaultOn: true,
-          defaultOpen: true,
+          defaultOpen: false,
         });
       }
       const filter = filters.find((f) => f.group === group)!;
@@ -912,7 +968,7 @@ for (const battleFieldName of battleFieldNames) {
           group,
           values: [],
           defaultOn: true,
-          defaultOpen: true,
+          defaultOpen: false,
         });
       }
       const filter = filters.find((f) => f.group === group)!;
