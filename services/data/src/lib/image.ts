@@ -22,67 +22,76 @@ export async function saveIcon(
   name: string,
   props: IconProps = {},
 ) {
-  let filePath;
-  if (
-    assetPath.startsWith("/home") ||
-    assetPath.startsWith("/mnt") ||
-    assetPath.startsWith("C:\\")
-  ) {
-    filePath = assetPath;
-  } else if (assetPath.startsWith("/")) {
-    filePath = TEXTURE_DIR + assetPath;
-  } else {
-    filePath = TEXTURE_DIR + "/" + assetPath;
-  }
-  const filename = name
-    .replaceAll(" ", "_")
-    .replace(/[^a-zA-Z0-9_]/g, "")
-    .toLowerCase();
+  try {
+    let filePath;
+    if (
+      assetPath.startsWith("/home") ||
+      assetPath.startsWith("/mnt") ||
+      assetPath.startsWith("C:\\")
+    ) {
+      filePath = assetPath;
+    } else if (assetPath.startsWith("/")) {
+      filePath = TEXTURE_DIR + assetPath;
+    } else {
+      filePath = TEXTURE_DIR + "/" + assetPath;
+    }
+    const filename = name
+      .replaceAll(" ", "_")
+      .replace(/[^a-zA-Z0-9_]/g, "")
+      .toLowerCase();
 
-  if (savedIcons.includes(filename)) {
+    if (savedIcons.includes(filename)) {
+      return `${filename}.webp`;
+    }
+    let tempIconPath = TEMP_DIR + `/${filename}.png`;
+    const file = Bun.file(filePath);
+    await Bun.write(tempIconPath, file);
+
+    if (props.border && props.color) {
+      const canvas = await drawInCircleWithBorderColor(filePath, props.color);
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    } else if (props.circle && props.color) {
+      const canvas = await addCircleToImage(filePath, props.color);
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    } else if (props.glowing && props.color) {
+      const canvas = await addOutlineToImage(filePath, props.color);
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    } else if (props.color) {
+      const canvas = await colorizeImage(
+        filePath,
+        props.color,
+        props.threshold,
+      );
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    } else if (props.rotate) {
+      const canvas = await rotateImage(filePath, props.rotate);
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    } else if (
+      typeof props.brightness !== "undefined" &&
+      typeof props.contrast !== "undefined"
+    ) {
+      const canvas = await adjustBrightnessAndContrast(
+        await loadCanvas(filePath),
+        props.brightness,
+        props.contrast,
+      );
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    }
+    if (props.badgeIcon) {
+      const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    }
+    if (!props.noResize) {
+      await $`cwebp -resize 64 64 "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+    } else {
+      await $`cwebp "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+    }
+    savedIcons.push(filename);
     return `${filename}.webp`;
+  } catch (e) {
+    console.error("Error saving icon", name, assetPath, props);
+    throw e;
   }
-  let tempIconPath = TEMP_DIR + `/${filename}.png`;
-  const file = Bun.file(filePath);
-  await Bun.write(tempIconPath, file);
-
-  if (props.border && props.color) {
-    const canvas = await drawInCircleWithBorderColor(filePath, props.color);
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  } else if (props.circle && props.color) {
-    const canvas = await addCircleToImage(filePath, props.color);
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  } else if (props.glowing && props.color) {
-    const canvas = await addOutlineToImage(filePath, props.color);
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  } else if (props.color) {
-    const canvas = await colorizeImage(filePath, props.color, props.threshold);
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  } else if (props.rotate) {
-    const canvas = await rotateImage(filePath, props.rotate);
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  } else if (
-    typeof props.brightness !== "undefined" &&
-    typeof props.contrast !== "undefined"
-  ) {
-    const canvas = await adjustBrightnessAndContrast(
-      await loadCanvas(filePath),
-      props.brightness,
-      props.contrast,
-    );
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  }
-  if (props.badgeIcon) {
-    const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
-    saveImage(tempIconPath, canvas.toBuffer("image/png"));
-  }
-  if (!props.noResize) {
-    await $`cwebp -resize 64 64 "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
-  } else {
-    await $`cwebp "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
-  }
-  savedIcons.push(filename);
-  return `${filename}.webp`;
 }
 
 export async function drawIconWithBadge(
