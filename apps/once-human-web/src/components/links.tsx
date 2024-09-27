@@ -9,7 +9,7 @@ import {
   NavMenu,
   ReleaseNotesLink,
 } from "@repo/ui/header";
-import { ArrowUp, Bug, ExternalLink, NotepadText } from "lucide-react";
+import { ArrowUp, Bug, ExternalLink, NotepadText, Axe } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
@@ -67,6 +67,17 @@ export function Links(): JSX.Element {
           <div>
             <NotepadText className="w-4 h-4" />
             <span>Echoes Of Stardust</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
+    {
+      href: "/weapons",
+      content: (
+        <HeaderLink active={pathname.startsWith("/weapons")}>
+          <div>
+            <Axe className="w-4 h-4" />
+            <span>Weapons</span>
           </div>
         </HeaderLink>
       ),

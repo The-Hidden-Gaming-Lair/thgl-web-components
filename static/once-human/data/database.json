@@ -1,5 +1,980 @@
 [
   {
+    "type": "weapon",
+    "items": [
+      {
+        "id": "weapon_10111202",
+        "icon": "weapon_10111202.webp",
+        "props": {
+          "name": "DE.50 - Goshawk",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10111300",
+        "icon": "weapon_10111300.webp",
+        "props": {
+          "name": "DE.50 - Wildfire",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10112302",
+        "icon": "weapon_10112302.webp",
+        "props": {
+          "name": "DE.50 - Jaws",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10121100",
+        "icon": "weapon_10121100.webp",
+        "props": {
+          "name": "R500",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10121200",
+        "icon": "weapon_10121200.webp",
+        "props": {
+          "name": "R500 - Hunter 500",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10121201",
+        "icon": "weapon_10121201.webp",
+        "props": {
+          "name": "R500 - Hunter",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10121302",
+        "icon": "weapon_10121302.webp",
+        "props": {
+          "name": "R500 - Interfade",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10122301",
+        "icon": "weapon_10122301.webp",
+        "props": {
+          "name": "R500 - Memento",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10123302",
+        "icon": "weapon_10123302.webp",
+        "props": {
+          "name": "R500 - Hammerhead Shark",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10131103",
+        "icon": "weapon_10131103.webp",
+        "props": {
+          "name": "Glock",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10131201",
+        "icon": "weapon_10131201.webp",
+        "props": {
+          "name": "G17 - Dusty",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10131301",
+        "icon": "weapon_10131301.webp",
+        "props": {
+          "name": "G17 - Cash Only",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10191103",
+        "icon": "weapon_10191103.webp",
+        "props": {
+          "name": "Flare Gun",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_10211100",
+        "icon": "weapon_10211100.webp",
+        "props": {
+          "name": "DBSG",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10211200",
+        "icon": "weapon_10211200.webp",
+        "props": {
+          "name": "Old Huntsman",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10211201",
+        "icon": "weapon_10211201.webp",
+        "props": {
+          "name": "DBSG - Old Huntsman",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10211303",
+        "icon": "weapon_10211303.webp",
+        "props": {
+          "name": "Dual Fury",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10211307",
+        "icon": "weapon_10211307.webp",
+        "props": {
+          "name": "DBSG - Dual Fury",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10212402",
+        "icon": "weapon_10212402.webp",
+        "props": {
+          "name": "Format",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10213400",
+        "icon": "weapon_10213400.webp",
+        "props": {
+          "name": "DBSG - Doombringer",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10221100",
+        "icon": "weapon_10221100.webp",
+        "props": {
+          "name": "DP12",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10221304",
+        "icon": "weapon_10221304.webp",
+        "props": {
+          "name": "DB12 - Backfire",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10222302",
+        "icon": "weapon_10222302.webp",
+        "props": {
+          "name": "DB12 - Raining Cash",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10231100",
+        "icon": "weapon_10231100.webp",
+        "props": {
+          "name": "AA12",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10231300",
+        "icon": "weapon_10231300.webp",
+        "props": {
+          "name": "ACS12 - Corrosion",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10233301",
+        "icon": "weapon_10233301.webp",
+        "props": {
+          "name": "ACS12 - Netherworld",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10241100",
+        "icon": "weapon_10241100.webp",
+        "props": {
+          "name": "M870",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10241202",
+        "icon": "weapon_10241202.webp",
+        "props": {
+          "name": "S870 - Sandstorm",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10241300",
+        "icon": "weapon_10241300.webp",
+        "props": {
+          "name": "M870_SR_TEMP",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10241400",
+        "icon": "weapon_10241400.webp",
+        "props": {
+          "name": "M870_SSR_TEMP",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10311104",
+        "icon": "weapon_10311104.webp",
+        "props": {
+          "name": "KV-SBR",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10311200",
+        "icon": "weapon_10311200.webp",
+        "props": {
+          "name": "KV-SBR - Icy Rain",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10311302",
+        "icon": "weapon_10311302.webp",
+        "props": {
+          "name": "KV-SBR - Little Jaws",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10321101",
+        "icon": "weapon_10321101.webp",
+        "props": {
+          "name": "MP5",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10321200",
+        "icon": "weapon_10321200.webp",
+        "props": {
+          "name": "MPS5 - Blue Tiger",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10321302",
+        "icon": "weapon_10321302.webp",
+        "props": {
+          "name": "MPS5 - Kumawink",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10331102",
+        "icon": "weapon_10331102.webp",
+        "props": {
+          "name": "MP7",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10331202",
+        "icon": "weapon_10331202.webp",
+        "props": {
+          "name": "MPS7 - Focus",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10331301",
+        "icon": "weapon_10331301.webp",
+        "props": {
+          "name": "MPS7 - Div-Evo",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10332200",
+        "icon": "weapon_10332200.webp",
+        "props": {
+          "name": "MPS7 - Urban Ninja",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10332401",
+        "icon": "weapon_10332401.webp",
+        "props": {
+          "name": "MPS7 - Chaos Domain",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10333400",
+        "icon": "weapon_10333400.webp",
+        "props": {
+          "name": "MPS7 - Outer Space",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10411101",
+        "icon": "weapon_10411101.webp",
+        "props": {
+          "name": "SCAR",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10411201",
+        "icon": "weapon_10411201.webp",
+        "props": {
+          "name": "SOCR - Sand Dancer",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10411302",
+        "icon": "weapon_10411302.webp",
+        "props": {
+          "name": "SOCR - The Last Valor",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10412300",
+        "icon": "weapon_10412300.webp",
+        "props": {
+          "name": "SOCR - Outsider",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10421101",
+        "icon": "weapon_10421101.webp",
+        "props": {
+          "name": "AKM",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10421200",
+        "icon": "weapon_10421200.webp",
+        "props": {
+          "name": "KAM - Pioneer",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10421306",
+        "icon": "weapon_10421306.webp",
+        "props": {
+          "name": "KAM - Crank",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10422301",
+        "icon": "weapon_10422301.webp",
+        "props": {
+          "name": "KAM - Abyss Glance",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10431101",
+        "icon": "weapon_10431101.webp",
+        "props": {
+          "name": "XM8",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10431301",
+        "icon": "weapon_10431301.webp",
+        "props": {
+          "name": "OIC-8 - Last Carnival",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10441100",
+        "icon": "weapon_10441100.webp",
+        "props": {
+          "name": "M416",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10441300",
+        "icon": "weapon_10441300.webp",
+        "props": {
+          "name": "M416 - Autumn Equinox",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10511200",
+        "icon": "weapon_10511200.webp",
+        "props": {
+          "name": "SN700 - Dark Snowflake",
+          "durability": 100,
+          "quality": 2,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10511300",
+        "icon": "weapon_10511300.webp",
+        "props": {
+          "name": "SN700 - Gulped Lore",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10521102",
+        "icon": "weapon_10521102.webp",
+        "props": {
+          "name": "AWM",
+          "durability": 100,
+          "quality": 1,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10521300",
+        "icon": "weapon_10521300.webp",
+        "props": {
+          "name": "AWS.338 - Black Panther",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10521402",
+        "icon": "weapon_10521402.webp",
+        "props": {
+          "name": "AWS.338 - Bingo",
+          "durability": 100,
+          "quality": 4,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10521403",
+        "icon": "weapon_10521403.webp",
+        "props": {
+          "name": "AWS.338 - Bullseye",
+          "durability": 100,
+          "quality": 4,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10531100",
+        "icon": "weapon_10531100.webp",
+        "props": {
+          "name": "M82A1",
+          "durability": 100,
+          "quality": 1,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10531201",
+        "icon": "weapon_10531201.webp",
+        "props": {
+          "name": "HAMR - Crumble",
+          "durability": 100,
+          "quality": 2,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10531301",
+        "icon": "weapon_10531301.webp",
+        "props": {
+          "name": "HAMR - Hannya",
+          "durability": 100,
+          "quality": 4,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10532401",
+        "icon": "weapon_10532401.webp",
+        "props": {
+          "name": "HAMR - Brahminy",
+          "durability": 100,
+          "quality": 4,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10541100",
+        "icon": "weapon_10541100.webp",
+        "props": {
+          "name": "WA2000",
+          "durability": 100,
+          "quality": 1,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10541204",
+        "icon": "weapon_10541204.webp",
+        "props": {
+          "name": "SR2000 - Jungle Camouflage",
+          "durability": 100,
+          "quality": 2,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10541300",
+        "icon": "weapon_10541300.webp",
+        "props": {
+          "name": "SR2000 - Die Another Day",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10611100",
+        "icon": "weapon_10611100.webp",
+        "props": {
+          "name": "BAR",
+          "durability": 100,
+          "quality": 1,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10621101",
+        "icon": "weapon_10621101.webp",
+        "props": {
+          "name": "MG4",
+          "durability": 100,
+          "quality": 1,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10621203",
+        "icon": "weapon_10621203.webp",
+        "props": {
+          "name": "MG4 - Sandstorm",
+          "durability": 100,
+          "quality": 2,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10621300",
+        "icon": "weapon_10621300.webp",
+        "props": {
+          "name": "MG4 - Wrath Of Hades",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10622301",
+        "icon": "weapon_10622301.webp",
+        "props": {
+          "name": "MG4 - Predator",
+          "durability": 100,
+          "quality": 4,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10623306",
+        "icon": "weapon_10623306.webp",
+        "props": {
+          "name": "MG4 - Mr Squid",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10631100",
+        "icon": "weapon_10631100.webp",
+        "props": {
+          "name": "RPD",
+          "durability": 100,
+          "quality": 1,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10631200",
+        "icon": "weapon_10631200.webp",
+        "props": {
+          "name": "KVD - Icebreaker",
+          "durability": 100,
+          "quality": 2,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10631302",
+        "icon": "weapon_10631302.webp",
+        "props": {
+          "name": "KVD - Boom! Boom!",
+          "durability": 100,
+          "quality": 4,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10711100",
+        "icon": "weapon_10711100.webp",
+        "props": {
+          "name": "Rustic Crossbow",
+          "durability": 100,
+          "quality": 1,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10721302",
+        "icon": "weapon_10721302.webp",
+        "props": {
+          "name": "Recurve Crossbow",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10731400",
+        "icon": "weapon_10731400.webp",
+        "props": {
+          "name": "Compound Bow",
+          "durability": 100,
+          "quality": 4,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10741201",
+        "icon": "weapon_10741201.webp",
+        "props": {
+          "name": "Recurve Bow",
+          "durability": 100,
+          "quality": 2,
+          "weight": 1.5
+        }
+      },
+      {
+        "id": "weapon_10800403",
+        "icon": "weapon_10800403.webp",
+        "props": {
+          "name": "Flamethrower",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_10810300",
+        "icon": "weapon_10810300.webp",
+        "props": {
+          "name": "RPG7 Rocket Launcher",
+          "durability": 100,
+          "quality": 2,
+          "weight": 3
+        }
+      },
+      {
+        "id": "weapon_10820402",
+        "icon": "weapon_10820402.webp",
+        "props": {
+          "name": "MGL",
+          "durability": 100,
+          "quality": 3,
+          "weight": 2
+        }
+      },
+      {
+        "id": "weapon_12700020",
+        "icon": "weapon_12700020.webp",
+        "props": {
+          "name": "Wallet Head (suspension test)",
+          "durability": 100,
+          "quality": 3,
+          "weight": 1
+        }
+      },
+      {
+        "id": "weapon_90000120",
+        "icon": "weapon_90000120.webp",
+        "props": {
+          "name": "Pistol Crafting Upgrade",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000126",
+        "icon": "weapon_90000126.webp",
+        "props": {
+          "name": "SMG Crafting Upgrade",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000134",
+        "icon": "weapon_90000134.webp",
+        "props": {
+          "name": "Shotgun Crafting Upgrade",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000138",
+        "icon": "weapon_90000138.webp",
+        "props": {
+          "name": "Assault Rifle Crafting Upgrade",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000143",
+        "icon": "weapon_90000143.webp",
+        "props": {
+          "name": "Sniper Rifle Crafting Upgrade",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000151",
+        "icon": "weapon_90000151.webp",
+        "props": {
+          "name": "LMG Crafting Upgrade",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000160",
+        "icon": "weapon_90000160.webp",
+        "props": {
+          "name": "Baseball Bat",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000161",
+        "icon": "weapon_90000161.webp",
+        "props": {
+          "name": "DE.50",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000163",
+        "icon": "weapon_90000163.webp",
+        "props": {
+          "name": "DBSG",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000166",
+        "icon": "weapon_90000166.webp",
+        "props": {
+          "name": "MG4 Light Machine Gun",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000167",
+        "icon": "weapon_90000167.webp",
+        "props": {
+          "name": "Flamethrower",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000168",
+        "icon": "weapon_90000168.webp",
+        "props": {
+          "name": "Rocket Launcher",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      },
+      {
+        "id": "weapon_90000169",
+        "icon": "weapon_90000169.webp",
+        "props": {
+          "name": "MGL",
+          "durability": 0,
+          "quality": 0,
+          "weight": 0
+        }
+      }
+    ]
+  },
+  {
     "type": "remnants_greywater_industrial_zone",
     "items": [
       {

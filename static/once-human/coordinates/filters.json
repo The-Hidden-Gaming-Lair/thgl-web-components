@@ -458,7 +458,7 @@
       }
     ],
     "defaultOn": true,
-    "defaultOpen": true
+    "defaultOpen": false
   },
   {
     "group": "locations",

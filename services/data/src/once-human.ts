@@ -1811,6 +1811,56 @@ const sortedFilters = filters
 
 const database = initDatabase();
 {
+  enDict["name"] = "Name";
+  enDict["durability"] = "Durability";
+  enDict["quality"] = "Quality";
+  enDict["weight"] = "Weight";
+
+  for (const [key, item] of Object.entries(itemData)) {
+    if (item.item_type_name !== "Weapon") {
+      continue;
+    }
+    if (item.name.startsWith("#t")) {
+      continue;
+    }
+    const type = "weapon";
+    if (!database.some((i) => i.type === type)) {
+      database.push({
+        type,
+        items: [],
+      });
+    }
+    const items = database.find((i) => i.type === type)!;
+
+    const iconPath =
+      "ui/dynamic_texpack/" + textureMap[item.icon] + "/" + item.icon;
+    const id = "weapon_" + key;
+    if (
+      items.items.some(
+        (i) =>
+          i.props.name === item.name &&
+          i.props.durability === item.durability &&
+          i.props.quality === item.quality &&
+          i.props.weight === item.weight,
+      )
+    ) {
+      continue;
+    }
+    items.items.push({
+      id,
+      icon: await saveIcon(iconPath, id, {
+        noResize: true,
+      }),
+      props: {
+        name: item.name,
+        durability: item.durability,
+        quality: item.quality,
+        weight: item.weight,
+      },
+    });
+  }
+}
+{
   const bigWorldCollectableNotesData =
     await readJSON<BigWorldCollectableNotesData>(
       CONTENT_DIR + "/client_data/big_world_collectable_notes_data.json",

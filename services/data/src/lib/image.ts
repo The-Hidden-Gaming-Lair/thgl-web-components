@@ -15,6 +15,7 @@ export type IconProps = {
   contrast?: number;
   brightness?: number;
   badgeIcon?: string;
+  noResize?: boolean;
 };
 export async function saveIcon(
   assetPath: string,
@@ -75,7 +76,11 @@ export async function saveIcon(
     const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
     saveImage(tempIconPath, canvas.toBuffer("image/png"));
   }
-  await $`cwebp -resize 64 64 "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+  if (!props.noResize) {
+    await $`cwebp -resize 64 64 "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+  } else {
+    await $`cwebp "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+  }
   savedIcons.push(filename);
   return `${filename}.webp`;
 }
