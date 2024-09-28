@@ -863,3 +863,25 @@ export type FishData = Record<
     fish_base_weight: number;
   }
 >;
+
+export type AreaMaskDefineData = Record<
+  string,
+  {
+    area_base_level: number;
+    sub_area_no: string;
+    area_edge_opacity_light: number;
+    area_mask_res: Array<any>;
+    rgb: Array<number>;
+    area_edge_opacity: number;
+    area_level_template_no: number;
+    correct_rule: number;
+    mas_pos_offset: Array<any>;
+    mask_filename: string;
+    area_name: string;
+    area_mask_id: number;
+    t_area_id: number;
+    area_edge_rgb: Array<any>;
+    area_edge_sprite: string;
+    area_no: string;
+  }
+>;

@@ -19,6 +19,7 @@ import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import {
   AchieveCollectData,
+  AreaMaskDefineData,
   BaseNPCData,
   BattleFieldData,
   BigMapItemData,
@@ -39,8 +40,13 @@ import {
 } from "./once-human.types.js";
 import { Node } from "./types.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
-import { getRegionsFromImage } from "./lib/regions.js";
+import {
+  getBorderFromMaskImage,
+  initRegions,
+  writeRegions,
+} from "./lib/regions.js";
 import { initDatabase, writeDatabase } from "./lib/database.js";
+import { Canvas, createCanvas } from "@napi-rs/canvas";
 
 initDirs(
   String.raw`C:\dev\OnceHuman\Extracted\Data`,
@@ -130,27 +136,111 @@ await saveIcon(
   "/ui/dynamic_texpack/all_icon_res/map_icon/map_icon/map_icon_oneself_v4.png",
   "player",
 );
-const regions = await getRegionsFromImage(
-  TEXTURE_DIR + "/ui/uncompress_tex/monster_level_area_mask.png",
-  (v) => {
-    if (v === 8 || v === 7) {
-      // Chalk Peak
-      return 8;
-    }
-    if (v === 4 || v === 3) {
-      // Broken Delta
-      return 4;
-    }
-    if (v === 2 || v === 6) {
-      // Dayton Wetlands
-      return 2;
-    }
-    return 0;
-  },
+
+const areaMaskDefineData = await readJSON<AreaMaskDefineData>(
+  CONTENT_DIR + "/game_common/data/area_mask_define_data.json",
 );
-if (regions) {
-  console.log(regions);
-  //process.exit(1);
+
+const areaMasks = Object.values(areaMaskDefineData).reduce(
+  (acc, val) => {
+    const id = val.t_area_id + "_" + val.mask_filename;
+    if (!acc[id]) {
+      acc[id] = {
+        maskFilename: val.mask_filename,
+        areaMaskIDs: [],
+      };
+    }
+    acc[id].areaMaskIDs.push([
+      val.area_mask_id,
+      val.area_mask_id,
+      val.area_mask_id,
+    ]);
+    return acc;
+  },
+  {} as Record<
+    string,
+    {
+      maskFilename: string;
+      areaMaskIDs: [number, number, number][];
+    }
+  >,
+);
+const borderCanvas: Record<string, Canvas> = {};
+const regions = initRegions();
+for (const [id, areaMask] of Object.entries(areaMasks)) {
+  try {
+    // console.log(id, areaMask.maskFilename);
+    // if (
+    //   // id !== "2_east_butterflydream_pve_pvp_mask" &&
+    //   id !== "1_east_butterflydream_pve_pvp_mask"
+    // ) {
+    //   continue;
+    // }
+
+    if (!borderCanvas[areaMask.maskFilename]) {
+      borderCanvas[areaMask.maskFilename] = createCanvas(128, 128);
+    }
+    const borderCtx = borderCanvas[areaMask.maskFilename].getContext("2d");
+    borderCtx.fillStyle = "#fff";
+
+    const borders = await getBorderFromMaskImage(
+      TEXTURE_DIR + "/ui/uncompress_tex/" + areaMask.maskFilename + ".png",
+      areaMask.areaMaskIDs,
+    );
+
+    // Save the border image
+    for (const [x, y] of borders) {
+      borderCtx.fillRect(x, y, 1, 1);
+    }
+    saveImage(
+      TEMP_DIR + "/" + areaMask.maskFilename + ".png",
+      borderCanvas[areaMask.maskFilename].toBuffer("image/png"),
+    );
+    // borders.forEach(([x, y]) => {
+    //   console.log(x, y);
+    // });
+    const center = borders.reduce(
+      ([x, y], [bx, by]) => [x + bx, y + by],
+      [0, 0],
+    );
+    center[0] /= borders.length;
+    center[1] /= borders.length;
+
+    const resizedBorders = borders.map(([x, y]) => {
+      const newX = x > center[0] ? x + 0.5 : x - 0.5;
+      const newY = y > center[1] ? y + 0.5 : y - 0.5;
+      return [newX, newY];
+    });
+
+    let border = resizedBorders.map(([x, y]) => [
+      -y * 128 + ORTHOGRAPHIC_WIDTH / 2,
+      x * 128 - ORTHOGRAPHIC_WIDTH / 2,
+    ]) as [number, number][];
+
+    let mapName;
+    if (areaMask.maskFilename === "east_blackfell_pvp_mask") {
+      mapName = "east_blackfell_pvp"; // Prismverse's Clash
+    } else if (areaMask.maskFilename === "east_butterflydream_pve_pvp_mask") {
+      mapName = "default"; //
+    } else if (areaMask.maskFilename === "north_snow_pve_mask") {
+      mapName = "north_snow_pve";
+    } else {
+      console.error(`Unknown map name for ${areaMask.maskFilename}`);
+      continue;
+    }
+    regions.push({
+      id: id,
+      center: [0, 0],
+      border,
+      mapName,
+    });
+  } catch (e) {
+    console.error(`Error processing ${id}`);
+  }
+}
+writeRegions(regions);
+if (1 > 0) {
+  process.exit(0);
 }
 
 const scenePrefabData = await readJSON<ScenePrefabData>(

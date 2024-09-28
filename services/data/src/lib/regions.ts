@@ -1,8 +1,7 @@
 import { createCanvas, loadImage } from "@napi-rs/canvas";
 import { Region } from "../types.js";
-import { OUTPUT_DIR, TEMP_DIR } from "./dirs.js";
-import { saveImage, writeJSON } from "./fs.js";
-import uniqolor from "uniqolor";
+import { OUTPUT_DIR } from "./dirs.js";
+import { writeJSON } from "./fs.js";
 
 export function initRegions(seed?: Region[]): Region[] {
   return seed ?? [];
@@ -12,14 +11,10 @@ export function writeRegions(regions: Region[]) {
   writeJSON(OUTPUT_DIR + "/coordinates/regions.json", regions);
 }
 
-interface Point {
-  x: number;
-  y: number;
-}
-export async function getRegionsFromImage(
+export async function getBorderFromMaskImage(
   fileName: string,
-  normalizeValue: (value: number) => number,
-): Promise<Region[]> {
+  maskValues: [number, number, number][],
+) {
   const image = await loadImage(fileName);
   const width = image.width;
   const height = image.height;
@@ -27,81 +22,177 @@ export async function getRegionsFromImage(
   const canvas = createCanvas(image.width, image.height);
   const ctx = canvas.getContext("2d");
   ctx.drawImage(image, 0, 0);
-  const data = ctx.getImageData(0, 0, image.width, image.height).data;
-  const pixels = data.reduce((acc, value, index) => {
-    const j = index % 4;
-    if (j === 0) {
-      acc.push(value);
+  const imageData = ctx.getImageData(0, 0, width, height).data;
+
+  // Function to get the RGB values of a pixel at (x, y)
+  function getPixelRGB(x: number, y: number): [number, number, number] | null {
+    if (x < 0 || y < 0 || x >= width || y >= height) {
+      return null; // Out of bounds
     }
-    return acc;
-  }, [] as number[]);
-  const floodFill = (x: number, y: number, value: number): Point[] => {
-    const queue: Point[] = [{ x, y }];
-    const points: Point[] = [];
-    const directions = [
-      { x: 0, y: -1 }, // up
-      { x: 1, y: 0 }, // right
-      { x: 0, y: 1 }, // down
-      { x: -1, y: 0 }, // left
+    const index = (y * width + x) * 4;
+    return [imageData[index], imageData[index + 1], imageData[index + 2]];
+  }
+
+  // Function to check if a pixel's RGB matches any of the mask values
+  function isMaskValue(pixelRGB: [number, number, number] | null): boolean {
+    if (!pixelRGB) return false;
+    return maskValues.some(
+      (maskRGB) =>
+        pixelRGB[0] === maskRGB[0] &&
+        pixelRGB[1] === maskRGB[1] &&
+        pixelRGB[2] === maskRGB[2],
+    );
+  }
+
+  const border: [number, number][] = [];
+  const visited = new Set<string>();
+
+  // Stack-based traversal of the boundary of the region
+  function findAndTraverseBorder(startX: number, startY: number) {
+    const stack: [number, number][] = [[startX, startY]];
+    visited.add(`${startX},${startY}`);
+
+    const startPoint: [number, number] = [startX, startY];
+    let hasReturnedToStart = false;
+
+    // Directions for orthogonal and diagonal movement
+    const directions: [number, number][] = [
+      [-1, 0],
+      [1, 0], // Left, Right
+      [0, -1],
+      [0, 1], // Top, Bottom
+      [-1, -1],
+      [1, -1], // Top-left, Top-right
+      [-1, 1],
+      [1, 1], // Bottom-left, Bottom-right
     ];
 
-    while (queue.length > 0) {
-      const point = queue.shift();
-      if (!point) continue;
+    while (stack.length > 0 && !hasReturnedToStart) {
+      const [x, y] = stack.pop()!;
+      border.push([x, y]);
+      console.log(x, y);
+      const candidates: Record<string, number> = {};
+      // Check all 8 neighbors (including diagonals)
+      for (const [dx, dy] of directions) {
+        const nx = x + dx;
+        const ny = y + dy;
 
-      if (point.x < 0 || point.x >= width || point.y < 0 || point.y >= height) {
-        continue;
+        // Check if we've returned to the starting point
+        if (nx === startPoint[0] && ny === startPoint[1] && border.length > 5) {
+          hasReturnedToStart = true;
+          console.log("Returned to start point");
+          break;
+        }
+
+        // If this neighbor has not been visited and is within the region
+        if (!visited.has(`${nx},${ny}`) && isMaskValue(getPixelRGB(nx, ny))) {
+          // Check if this is a border pixel
+
+          for (const [bx, by] of directions) {
+            const neighborX = nx + bx;
+            const neighborY = ny + by;
+            const neighborRGB = getPixelRGB(neighborX, neighborY);
+
+            // If any neighbor is out of bounds or not in the region, it's a border pixel
+            if (!isMaskValue(neighborRGB)) {
+              if (!candidates[`${nx},${ny}`]) {
+                candidates[`${nx},${ny}`] = 0;
+              }
+              candidates[`${nx},${ny}`]++;
+            }
+          }
+        }
       }
-      const i = point.x + point.y * width;
-      const newValue = normalizeValue(pixels[i]);
-      if (newValue !== value) {
-        continue;
+
+      const candidate = Object.entries(candidates).sort((a, b) => {
+        if (b[1] === a[1]) {
+          const [ax, ay] = a[0].split(",").map(Number);
+          const [bx, by] = b[0].split(",").map(Number);
+          const isDiagonalA = Math.abs(ax - x) === 1 && Math.abs(ay - y) === 1;
+          const isDiagonalB = Math.abs(bx - x) === 1 && Math.abs(by - y) === 1;
+          if (x === 124 && y === 97) {
+            console.log(a, b, isDiagonalA, isDiagonalB);
+          }
+          if (isDiagonalA && !isDiagonalB) return -1;
+          if (isDiagonalB && !isDiagonalA) return 1;
+          return 0;
+        }
+        return b[1] - a[1];
+      })[0];
+      if (x === 124 && y === 97) {
+        console.log(candidates, candidate);
       }
-      if (points.find((p) => p.x === point.x && p.y === point.y)) continue;
-      points.push(point);
+      if (candidate) {
+        const [nx, ny] = candidate[0].split(",").map(Number);
+        stack.push([nx, ny]);
+        visited.add(`${nx},${ny}`);
 
-      for (const direction of directions) {
-        queue.push({ x: point.x + direction.x, y: point.y + direction.y });
+        // Check if we've returned to the starting point
+        if (nx === startPoint[0] && ny === startPoint[1]) {
+          hasReturnedToStart = true;
+          console.log("Returned to start point");
+        }
       }
-    }
-    return points;
-  };
-
-  const regions: Region[] = [];
-  const visited = new Set<string>();
-  const nodeSize = 1;
-  const canvas2 = createCanvas(width, height);
-  const ctx2 = canvas2.getContext("2d");
-
-  for (let i = 0; i < pixels.length; i++) {
-    const x = i % width;
-    const y = Math.floor(i / height);
-    if (!visited.has(`${x},${y}`)) {
-      const value = normalizeValue(pixels[i]);
-
-      const points = floodFill(x, y, value);
-      console.log(value, points.length);
-      ctx2.beginPath();
-      ctx2.lineWidth = 1;
-      ctx2.fillStyle = `rgba(0,0,0,1)`;
-      ctx2.strokeStyle = uniqolor(value, { format: "hex" }).color;
-
-      points.forEach((point) => {
-        visited.add(`${point.x},${point.y}`);
-        ctx2.rect(point.x * nodeSize, point.y * nodeSize, nodeSize, nodeSize);
-      });
-
-      ctx2.stroke();
-      points.forEach((point) => {
-        ctx2.fillRect(
-          point.x * nodeSize,
-          point.y * nodeSize,
-          nodeSize,
-          nodeSize,
-        );
-      });
     }
   }
-  saveImage(TEMP_DIR + "/regions.png", canvas2.toBuffer("image/png"));
-  return regions;
+
+  // Find the first border point to start traversal
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const pixelRGB = getPixelRGB(x, y);
+
+      // Check if the pixel belongs to one of the target regions
+      if (isMaskValue(pixelRGB)) {
+        // Check 8 neighbors (orthogonal + diagonal) to see if this pixel is a border pixel
+        const neighbors: [number, number][] = [
+          [x - 1, y],
+          [x + 1, y],
+          [x, y - 1],
+          [x, y + 1],
+          [x - 1, y - 1],
+          [x + 1, y - 1],
+          [x - 1, y + 1],
+          [x + 1, y + 1],
+        ];
+
+        let isBorder = false;
+
+        for (const [nx, ny] of neighbors) {
+          const neighborRGB = getPixelRGB(nx, ny);
+          if (!isMaskValue(neighborRGB)) {
+            isBorder = true;
+            break;
+          }
+        }
+
+        // If it is a border pixel, initiate boundary traversal from here
+        if (isBorder) {
+          findAndTraverseBorder(x, y);
+
+          // Reduce points on the same line of the border array
+          // for (let i = 0; i < border.length; i++) {
+          //   const [x, y] = border[i];
+          //   const [px, py] = border[i - 1] ?? border[border.length - 1];
+          //   const [nx, ny] = border[i + 1] ?? border[0];
+
+          //   // If the current point is on the same line as the previous and next points, remove it
+          //   const sameHorizontal = x === px && x === nx;
+          //   const sameVertical = y === py && y === ny;
+          //   const sameDiagonal =
+          //     Math.abs(x - px) === Math.abs(y - py) &&
+          //     Math.abs(x - nx) === Math.abs(y - ny);
+
+          //   if (sameHorizontal || sameVertical || sameDiagonal) {
+          //     border.splice(i, 1);
+          //     i--; // Adjust the index after removal
+          //   }
+          // }
+
+          return border; // Once we find the border, return the result
+        }
+      }
+    }
+  }
+
+  return border;
 }
