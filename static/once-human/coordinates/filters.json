@@ -28,6 +28,11 @@
         "autoDiscover": true
       },
       {
+        "id": "treasure_chest",
+        "icon": "treasure_chest.webp",
+        "size": 1
+      },
+      {
         "id": "fruit__veggies",
         "icon": "fruit__veggies.webp",
         "size": 0.76,

@@ -243,9 +243,6 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
   }
 }
 writeRegions(regions);
-if (1 > 0) {
-  process.exit(0);
-}
 
 const scenePrefabData = await readJSON<ScenePrefabData>(
   CONTENT_DIR + "/game_common/data/scene_prefab/scene_prefab_data.json",
@@ -1255,6 +1252,45 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Storage Crate") {
+      typeIDs[key] = type;
+    }
+  }
+}
+// Treasure Chest
+{
+  const group = "items";
+  const type = "treasure_chest";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
+    type,
+    {
+      color: "#746cd7",
+      circle: true,
+    },
+  );
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    // autoDiscover: true,
+  });
+  enDict[type] = "Treasure Chest";
+
+  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName,
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+  node.spawns = [];
+
+  for (const [key, value] of Object.entries(interactResData)) {
+    if (value.res_name === "Treasure Chest") {
       typeIDs[key] = type;
     }
   }
