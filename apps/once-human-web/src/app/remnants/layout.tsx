@@ -1,6 +1,6 @@
 import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
-import { type Dict } from "@repo/ui/providers";
+import { type Database, type Dict } from "@repo/ui/providers";
 import Link from "next/link";
 import { DatabaseSidebar } from "@/components/database-sidebar";
 import database from "../../data/database.json" assert { type: "json" };
@@ -19,7 +19,7 @@ export default function Layout({
       enDict[a.type].localeCompare(enDict[b.type], undefined, {
         numeric: true,
       }),
-    );
+    ) as Database;
 
   const menu = data.map((item) => {
     return {
