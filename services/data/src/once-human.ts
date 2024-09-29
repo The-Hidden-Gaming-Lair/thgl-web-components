@@ -143,7 +143,7 @@ const areaMaskDefineData = await readJSON<AreaMaskDefineData>(
 
 const areaMasks = Object.values(areaMaskDefineData).reduce(
   (acc, val) => {
-    const id = val.t_area_id + "_" + val.mask_filename;
+    const id = val.area_name;
     if (!acc[id]) {
       acc[id] = {
         maskFilename: val.mask_filename,
@@ -170,12 +170,9 @@ const regions = initRegions();
 for (const [id, areaMask] of Object.entries(areaMasks)) {
   try {
     // console.log(id, areaMask.maskFilename);
-    // if (
-    //   // id !== "2_east_butterflydream_pve_pvp_mask" &&
-    //   id !== "1_east_butterflydream_pve_pvp_mask"
-    // ) {
-    //   continue;
-    // }
+    if (id === "Rift Space") {
+      continue;
+    }
 
     if (!borderCanvas[areaMask.maskFilename]) {
       borderCanvas[areaMask.maskFilename] = createCanvas(128, 128);
@@ -209,7 +206,7 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     const resizedBorders = borders.map(([x, y]) => {
       const newX = x > center[0] ? x + 0.5 : x - 0.5;
       const newY = y > center[1] ? y + 0.5 : y - 0.5;
-      return [newX, newY];
+      return [newX, newY] as [number, number];
     });
 
     let border = resizedBorders.map(([x, y]) => [
@@ -217,6 +214,12 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
       x * 128 - ORTHOGRAPHIC_WIDTH / 2,
     ]) as [number, number][];
 
+    const resizedCenter = border.reduce(
+      ([x, y], [bx, by]) => [x + bx, y + by],
+      [0, 0],
+    );
+    resizedCenter[0] /= border.length;
+    resizedCenter[1] /= border.length;
     let mapName;
     if (areaMask.maskFilename === "east_blackfell_pvp_mask") {
       mapName = "east_blackfell_pvp"; // Prismverse's Clash
@@ -230,10 +233,11 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     }
     regions.push({
       id: id,
-      center: [0, 0],
+      center: resizedCenter,
       border,
       mapName,
     });
+    enDict[id] = id;
   } catch (e) {
     console.error(`Error processing ${id}`);
   }

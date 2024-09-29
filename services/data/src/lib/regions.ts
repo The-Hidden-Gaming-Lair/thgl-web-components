@@ -70,9 +70,38 @@ export async function getBorderFromMaskImage(
     while (stack.length > 0 && !hasReturnedToStart) {
       const [x, y] = stack.pop()!;
       border.push([x, y]);
-      console.log(x, y);
-      const candidates: Record<string, number> = {};
+      const candidates: Record<string, number> = checkNeighbors(x, y);
       // Check all 8 neighbors (including diagonals)
+      const candidate = Object.entries(candidates).sort((a, b) => {
+        const [ax, ay] = a[0].split(",").map(Number);
+        const [bx, by] = b[0].split(",").map(Number);
+
+        const candidatesA = Object.keys(checkNeighbors(ax, ay)).length;
+        const candidatesB = Object.keys(checkNeighbors(bx, by)).length;
+        if (candidatesA > candidatesB) return -1;
+        if (candidatesB > candidatesA) return 1;
+        const isDiagonalA = Math.abs(ax - x) === 1 && Math.abs(ay - y) === 1;
+        const isDiagonalB = Math.abs(bx - x) === 1 && Math.abs(by - y) === 1;
+        if (isDiagonalA && !isDiagonalB) return -1;
+        if (isDiagonalB && !isDiagonalA) return 1;
+        return b[1] - a[1];
+      })[0];
+
+      if (candidate) {
+        const [nx, ny] = candidate[0].split(",").map(Number);
+        stack.push([nx, ny]);
+        visited.add(`${nx},${ny}`);
+
+        // Check if we've returned to the starting point
+        if (nx === startPoint[0] && ny === startPoint[1]) {
+          hasReturnedToStart = true;
+          console.log("Returned to start point");
+        }
+      }
+    }
+
+    function checkNeighbors(x: number, y: number) {
+      const candidates: Record<string, number> = {};
       for (const [dx, dy] of directions) {
         const nx = x + dx;
         const ny = y + dy;
@@ -86,8 +115,17 @@ export async function getBorderFromMaskImage(
 
         // If this neighbor has not been visited and is within the region
         if (!visited.has(`${nx},${ny}`) && isMaskValue(getPixelRGB(nx, ny))) {
-          // Check if this is a border pixel
+          const isDiagonal = Math.abs(dx) === 1 && Math.abs(dy) === 1;
+          if (isDiagonal) {
+            // Check if the orthogonal neighbors are in the region
+            const ortho1 = getPixelRGB(nx - dx, ny);
+            const ortho2 = getPixelRGB(nx, ny - dy);
+            if (isMaskValue(ortho1) && isMaskValue(ortho2)) {
+              continue;
+            }
+          }
 
+          // Check if this is a border pixel
           for (const [bx, by] of directions) {
             const neighborX = nx + bx;
             const neighborY = ny + by;
@@ -103,36 +141,7 @@ export async function getBorderFromMaskImage(
           }
         }
       }
-
-      const candidate = Object.entries(candidates).sort((a, b) => {
-        if (b[1] === a[1]) {
-          const [ax, ay] = a[0].split(",").map(Number);
-          const [bx, by] = b[0].split(",").map(Number);
-          const isDiagonalA = Math.abs(ax - x) === 1 && Math.abs(ay - y) === 1;
-          const isDiagonalB = Math.abs(bx - x) === 1 && Math.abs(by - y) === 1;
-          if (x === 124 && y === 97) {
-            console.log(a, b, isDiagonalA, isDiagonalB);
-          }
-          if (isDiagonalA && !isDiagonalB) return -1;
-          if (isDiagonalB && !isDiagonalA) return 1;
-          return 0;
-        }
-        return b[1] - a[1];
-      })[0];
-      if (x === 124 && y === 97) {
-        console.log(candidates, candidate);
-      }
-      if (candidate) {
-        const [nx, ny] = candidate[0].split(",").map(Number);
-        stack.push([nx, ny]);
-        visited.add(`${nx},${ny}`);
-
-        // Check if we've returned to the starting point
-        if (nx === startPoint[0] && ny === startPoint[1]) {
-          hasReturnedToStart = true;
-          console.log("Returned to start point");
-        }
-      }
+      return candidates;
     }
   }
 
