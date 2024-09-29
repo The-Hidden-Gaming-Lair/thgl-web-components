@@ -120,7 +120,7 @@ export async function initGameEventsPlugin(
       }
       if (lastPlayerError) {
         lastPlayerError = "";
-        window.gameEventBus.trigger("player_error", null);
+        window.gameEventBus.trigger("error", null);
       }
 
       if (player && !Number.isNaN(player.x) && !Number.isNaN(player.y)) {
@@ -160,8 +160,8 @@ export async function initGameEventsPlugin(
       if (errMessage !== lastPlayerError) {
         lastPlayerError = errMessage;
         console.error("Player Error: ", errMessage);
-        window.gameEventBus.trigger("error", errMessage);
       }
+      window.gameEventBus.trigger("error", errMessage);
       setTimeout(refreshPlayerState, 200);
     };
 

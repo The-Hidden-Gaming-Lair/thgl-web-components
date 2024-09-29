@@ -12,7 +12,12 @@ export async function listenToGameEvents(): Promise<void> {
     const value = JSON.parse(eventValue);
     switch (eventName) {
       case "error":
-        setError(value);
+        {
+          const state = useGameState.getState();
+          if (state.error !== value) {
+            setError(value);
+          }
+        }
         break;
       case "player":
         setPlayer(value);
