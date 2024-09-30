@@ -26,6 +26,7 @@ import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import {
   CDT_BPCreatureData,
+  CDT_BPSpawnerData,
   CDT_CreatureUIData,
   DA_Coast,
   ST_Y1S1_Creatures,
@@ -296,26 +297,24 @@ for (const temporal of temporals) {
           CONTENT_DIR + `/NWX/Content/NWX/Maps/Temporal/${temporal}/${map}`,
         );
         saveImage(tempPath, canvas.toBuffer("image/png"));
-
-        const SIZE_A = 102400 * 2;
-        const SIZE_B = 128000 * 2;
-        const TILE_SIZE = 512;
-
-        tiles[map] = (await generateTiles(map, tempPath, SIZE_A, TILE_SIZE))[
-          map
-        ];
       }
+
+      const SIZE_A = 102400 * 2;
+      const SIZE_B = 128000 * 2;
+      const TILE_SIZE = 512;
+
+      tiles[map] = (await generateTiles(map, tempPath, SIZE_A, TILE_SIZE))[map];
     } catch (e) {
       console.error(`Failed to process ${map} due to ${e}`);
     }
   }
 }
 
-const creatureData = await readJSON<CDT_BPCreatureData>(
+const bpSpawnerData = await readJSON<CDT_BPSpawnerData>(
   CONTENT_DIR +
-    "/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_BPCreatureData.json",
+    "/NWX/Content/NWX/Creatures/Wildlife/Data/CDT_BPSpawnerData.json",
 );
-const creatures = creatureData[0].Rows;
+const spawnerData = bpSpawnerData[0].Rows;
 
 const creatureUIData = await readJSON<CDT_CreatureUIData>(
   CONTENT_DIR +
@@ -337,43 +336,23 @@ for (const file of files) {
   if (!file.includes("BP_")) {
     continue;
   }
-  const bpName = file.split("/").at(-1)?.replace(".json", "") + "_C";
+  const bpName = file.split("\\").at(-1)?.replace(".json", "") + "_C";
   // console.log(`Processing ${bpName}`);
 
-  const json = readJSON(file);
-  if (!Array.isArray(json)) {
+  const spawner = Object.entries(spawnerData).find(([, entry]) =>
+    entry.Spawning_22_2823F2B64D945B8C7CBE299F4E256506.DefaultCreatureClasses_31_69C2283C4871D391730C1C9D84F6B848.some(
+      (d) => d.AssetPathName.endsWith(bpName),
+    ),
+  );
+  if (!spawner) {
+    console.warn(`No spawner for ${bpName}`);
     continue;
   }
-  const entry = json.find((entry) => entry.Properties?.BPCreatureData?.RowName);
-  if (!entry) {
-    // console.warn(`No entry for ${bpName} in ${file}`);
-    continue;
-  }
-  const creatureName = entry.Properties.BPCreatureData.RowName;
+  const creatureName =
+    spawner[1].UIData_32_B2B931744F13DF1E453EAD95FE07B7E4.RowName;
 
   let uiRowName = creatureName;
-  let isBoss = false;
-  const creature = creatures[creatureName];
-  if (creature) {
-    const uiDataKey = Object.keys(creature).find((key) =>
-      key.startsWith("UIData"),
-    );
-    if (!uiDataKey) {
-      console.warn(`No UIData for ${creatureName}`);
-      continue;
-    }
-    uiRowName = creature[uiDataKey as keyof typeof creature].RowName;
-    const tagsKey = Object.keys(creature).find((key) =>
-      key.startsWith("AddedTags"),
-    );
-    if (!tagsKey) {
-      console.warn(`No AddedTags for ${creatureName}`);
-      continue;
-    }
-    if (creature[tagsKey as keyof typeof creature].includes("Creature.Hero")) {
-      isBoss = true;
-    }
-  }
+  let isBoss = spawner[0].endsWith("Hero");
 
   const uiRow = creatureUIRows[uiRowName as keyof typeof creatureUIRows];
   if (!uiRow) {

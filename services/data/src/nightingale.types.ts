@@ -3727,79 +3727,6 @@ export type MAP_ROOT = Array<{
   StreamingLevels?: Array<any>;
 }>;
 
-export type CDT_BPCreatureData = Array<{
-  Type: string;
-  Name: string;
-  Class: string;
-  Properties: {
-    ParentTables: Array<{
-      ObjectName: string;
-      ObjectPath: string;
-    }>;
-    RowStruct: {
-      ObjectName: string;
-      ObjectPath: string;
-    };
-  };
-  Rows: {
-    [key: string]: {
-      AICCreatureData_5_4C3F914F4D9F5FF753D7FA839410B9CE: {
-        DataTable: {
-          ObjectName: string;
-          ObjectPath: string;
-        };
-        RowName: string;
-      };
-      ItemRewards_105_F2FAFE4C41443D911A7AF49E33CF86AF: any;
-      AddedTags_2_C5AB1E914E0203006F2C258CFA79D710: Array<string>;
-      HostilityTag_27_8E058A5D40DEC19B67CC649035B59554: {
-        TagName: string;
-      };
-      Prey_11_C65EC3284577F75E9FE801B23C46468B: Array<any>;
-      HitReactionThresholdStagger_98_CAED1B4F46E87ECE01E6FCAF72CBE239: number;
-      HitReactionThresholdKnockdown_99_0E043984433C32FCADBDB181F6807263: number;
-      HitReactionThresholdExplosive_102_F681D9B246B2FB37F6AAF2BD47575BD4: number;
-      AllowCorpseDamage_39_B02E6CE644AECF6AAD5C76BE25A19FBA: boolean;
-      GASAttributes_47_D7D5DB844903F7C7243F3BA3DD65BC40: Array<any>;
-      HitReactThresholdReactions_53_4CA5202E457299B7D756F5855349F67E: {
-        UseHitReactThresholdReactions_11_3D682FB1451332DDFFB414A0973B47BE: boolean;
-        HitReactThresholdValue_12_6D2278E04C0D408DE48D0BB06D5CBEBF: number;
-        HitReactThresholdUpdateRate_14_40023FBA448CD3F24B146D822E703C06: number;
-        HitReactThresholdDecayRate_15_F92CCB104ED2297B2B679D8DBDDBFAEB: number;
-        HitReactThresholdIncreasePerReaction_21_CFAF94394C274D4655251A9D18795A4E: number;
-        HitReactThresholdIncreaseDecayRate_22_7B227BDD4C3ADCC7B705D49D24799334: number;
-      };
-      MovementSpeeds_58_B5681098453142D99C175ABC409D7C9B: Array<{
-        Key: string;
-        Value: number;
-      }>;
-      WeakPointData_61_C97D6665404AB38EF5A19DB7D85A2064: {
-        DataTable: {
-          ObjectName: string;
-          ObjectPath: string;
-        };
-        RowName: string;
-      };
-      UIData_65_EC03BEAC4A64525471F201B77ABADC02: {
-        DataTable: {
-          ObjectName: string;
-          ObjectPath: string;
-        };
-        RowName: string;
-      };
-      MeshVariations_78_3498B6A940CC1FEF7AB75986B8BC75FF: Array<any>;
-      SocketTraceData_86_7E3C67E64F42AC0A04A0E190F38C26EF: Array<any>;
-      CorpseCleanupTime_89_88C9EBDB4ED67F9EC13BFA8C68F44301: number;
-      FamilyTag_92_622830484996C2C36F57A5920FE79FF1: {
-        TagName: string;
-      };
-      PowerTier_95_90754F82435854FBA2E68FBC64F29752: number;
-      ChallengeRating_97_D9F774424149996AAF3895B82F0370BA: number;
-      CreatureClassCategory_108_2650EBF0470C603DD877039E2A821F42: string;
-    };
-  };
-}>;
-
 export type CDT_CreatureUIData = Array<{
   Type: string;
   Name: string;
@@ -5787,4 +5714,76 @@ export type DA_Coast = Array<{
       ObjectPath: string;
     };
   };
+}>;
+
+export type CDT_BPSpawnerData = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    ParentTables: Array<{
+      ObjectName: string;
+      ObjectPath: string;
+    }>;
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      DebugMode_40_293CF6AC48EB22A118BF50A8B7C7CF41: boolean;
+      AddedTags_2_E75DBD2043B4A99E25AAE5BD0DCE3084: Array<string>;
+      Spawning_22_2823F2B64D945B8C7CBE299F4E256506: {
+        DefaultCreatureClasses_31_69C2283C4871D391730C1C9D84F6B848: Array<any>;
+        RequiredCreatureClasses_30_DBFA596246815AE5E43CC69579759C42: Array<any>;
+        MinCreatures_5_0305A4144000840E715085BDF2E4B432: number;
+        MaxCreatures_7_47E4D7EA453EF54430D66A8E668AB15C: number;
+        UseReserveCreatures_38_79206B37467E52505DF78AB74A0C1743: boolean;
+        AutomaticSpawn_13_4AE8B6D946096A2DA6BC2ABA083DB9E7: boolean;
+        AutomaticSpawnDelay_35_4E0D58CC4A7AAE3DB2CEF5BA369F33E2: number;
+        DestroyWhenAllCreaturesDestroyed_41_C1D2E9524003FC112F73109D8915FEA6: boolean;
+        WeaponOverrides_46_C2C8B8DF48EA8722D60925B931C722E0: Array<any>;
+        CreatureGrants_50_375F5230459FBBA071C87BBF24796D0C: Array<any>;
+        SpawningQuery_53_86A4AE14435DD2B9B7B356B3E6DC5457: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        CustomValueMap_59_95BE62E544EBC9789914419F1BD6C6D7: Array<any>;
+        SpawnerTimeout_62_4B1F188246067A4DD7FF7D98A041864B: number;
+        CustomRowHandles_67_146282CE47B05A9598AE639F36AB35FF: Array<any>;
+        CollisionHandlingMethod_75_8CFFFC134E015EB5BBB8F0973709724B: string;
+      };
+      InCombatTimeout_9_EF203C1046B7522ED9F5F4859C6BEFD6: number;
+      DenTag_12_0CF8F3B54C3373DB516187AD41FD3BDD: {
+        TagName: string;
+      };
+      HomeActors_19_0A8ED87946968440020FC7B4F83A476F: Array<any>;
+      UIData_32_B2B931744F13DF1E453EAD95FE07B7E4: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+      AudioData_43_1AF2C7ED4DD61D302D47879C355B1305: {
+        Priority_7_C29A8E1847E4DFA91EDA1B9F4AEB2CF1: number;
+        MinRange_2_C6FAB7374DA8EEE701AA98BBE2E9ECBC: number;
+        MaxRange_4_EC178F9D4FD60061BDA4B0863FC55FFF: number;
+        AudioEvent_11_505C21224C2A0D91B10D1DAC96EA88D5: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      SquadData_54_FCC0791347F04A4008F078A2E2C32C06: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      ControllerData_59_615B809F4DC6898E089788BF9F6C5374: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+    }
+  >;
 }>;
