@@ -136,6 +136,7 @@ export async function initGameEventsPlugin(
         if (actorToMapName && player.path) {
           player.mapName = actorToMapName(player, prevPlayer);
         }
+
         if (normalizeLocation) {
           normalizeLocation(player);
         }
@@ -143,11 +144,16 @@ export async function initGameEventsPlugin(
           player.x !== prevPlayer.x ||
           player.y !== prevPlayer.y ||
           player.z !== prevPlayer.z ||
-          player.r !== prevPlayer.r
+          player.r !== prevPlayer.r ||
+          player.mapName !== prevPlayer.mapName
         ) {
           if (!Number.isNaN(player.x) && !Number.isNaN(player.y)) {
             prevPlayer = player;
             window.gameEventBus.trigger("player", player);
+
+            if (prevPlayer.mapName !== player.mapName) {
+              console.log(`Map changed to ${player.mapName}`);
+            }
           }
         }
       } else {
