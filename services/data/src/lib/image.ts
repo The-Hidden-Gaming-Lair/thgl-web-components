@@ -630,3 +630,13 @@ export function drawOnCanvas(
   ctx.restore();
   return canvas;
 }
+
+export function putImageData(
+  canvas: Canvas,
+  imageData: ImageData,
+  dx: number,
+  dy: number,
+) {
+  const ctx = canvas.getContext("2d");
+  ctx.putImageData(imageData, dx, dy);
+}
