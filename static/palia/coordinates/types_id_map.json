@@ -127,6 +127,8 @@
   "BP_WildGarlic+_C": "bp_wildgarlic_star",
   "BP_WildGarlic_C": "bp_wildgarlic",
   "BP_Worm_C": "bp_worm",
+  "BP_BeachPile_C": "beach_pile",
+  "BP_ChapaaPile_C": "kilima_pile",
   "BP_Mining_Clay_MultiHarvest_C": "Mining.Clay.Final",
   "BP_Mining_Copper_Large_MultiHarvest_C": "Mining.Copper.Large.Final",
   "BP_Mining_Copper_Medium_MultiHarvest_C": "Mining.Copper.Final",

@@ -1,32 +1,5 @@
 [
   {
-    "group": "fishing_legendary",
-    "defaultOpen": false,
-    "defaultOn": true,
-    "values": [
-      {
-        "id": "QuestItem_CloudMinnow1",
-        "icon": "questitem_cloudminnow1.webp",
-        "size": 1
-      },
-      {
-        "id": "QuestItem_CloudMinnow2",
-        "icon": "questitem_cloudminnow2.webp",
-        "size": 1
-      },
-      {
-        "id": "QuestItem_CloudMinnow3",
-        "icon": "questitem_cloudminnow3.webp",
-        "size": 1
-      },
-      {
-        "id": "QuestItem_CloudMinnow4",
-        "icon": "questitem_cloudminnow4.webp",
-        "size": 1
-      }
-    ]
-  },
-  {
     "group": "locations",
     "defaultOpen": true,
     "defaultOn": true,
@@ -60,6 +33,23 @@
         "id": "zone",
         "icon": "zone.webp",
         "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "timed_loot_piles",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "beach_pile",
+        "icon": "rummage_pile.webp",
+        "size": 1
+      },
+      {
+        "id": "kilima_pile",
+        "icon": "rummage_pile.webp",
+        "size": 1
       }
     ]
   },
@@ -1295,6 +1285,33 @@
       {
         "id": "BP_WaterPlane_Fishing_RiverVillage_SQ",
         "icon": "bp_waterplane_fishing_rivervillage_sq.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
+    "group": "fishing_legendary",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "QuestItem_CloudMinnow1",
+        "icon": "questitem_cloudminnow1.webp",
+        "size": 1
+      },
+      {
+        "id": "QuestItem_CloudMinnow2",
+        "icon": "questitem_cloudminnow2.webp",
+        "size": 1
+      },
+      {
+        "id": "QuestItem_CloudMinnow3",
+        "icon": "questitem_cloudminnow3.webp",
+        "size": 1
+      },
+      {
+        "id": "QuestItem_CloudMinnow4",
+        "icon": "questitem_cloudminnow4.webp",
         "size": 1
       }
     ]

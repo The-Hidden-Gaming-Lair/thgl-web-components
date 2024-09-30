@@ -137,6 +137,8 @@ type SettingsStore = {
   addMyFilter: (myFilter: MyFilter) => void;
   removeMyFilter: (myFilterName: string) => void;
   removeMyNode: (nodeId: string) => void;
+  showGrid: boolean;
+  toggleShowGrid: () => void;
   // Deprecated
   privateNodes?: PrivateNode[];
   privateDrawings?: PrivateDrawing[];
@@ -320,6 +322,8 @@ export const useSettingsStore = create(
               ),
             };
           }),
+        showGrid: false,
+        toggleShowGrid: () => set((state) => ({ showGrid: !state.showGrid })),
       };
     },
     {

@@ -626,6 +626,50 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
   }
 }
 
+// Timed Loot Piles
+{
+  const group = "timed_loot_piles";
+  enDict[group] = "Timed Loot Piles";
+
+  const beachType = "beach_pile";
+  enDict[beachType] = "Bahari Rummage Pile";
+  typesIDs["BP_BeachPile_C"] = beachType;
+
+  const villageType = "kilima_pile";
+  enDict[villageType] = "Kilima Rummage Pile";
+  typesIDs["BP_ChapaaPile_C"] = villageType;
+
+  const size = 1;
+  let category = filters.find((f) => f.group === group);
+  if (!category) {
+    filters.push({
+      group: group,
+      defaultOpen: false,
+      defaultOn: true,
+      values: [],
+    });
+    category = filters.find((f) => f.group === group)!;
+  }
+  const iconName = await saveIcon(
+    `/Palia/Content/UI/Icons/Icon_Deco_Chapaa_Nest.png`,
+    "rummage_pile",
+  );
+  if (!category.values.some((v) => v.id === beachType)) {
+    category.values.push({
+      id: beachType,
+      icon: iconName,
+      size,
+    });
+  }
+  if (!category.values.some((v) => v.id === villageType)) {
+    category.values.push({
+      id: villageType,
+      icon: iconName,
+      size,
+    });
+  }
+}
+
 const lootBundleConfigs = await readJSON<DT_LootBundleConfigs>(
   CONTENT_DIR + "/Palia/Content/Configs/DT_LootBundleConfigs.json",
 );
@@ -1249,6 +1293,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 
 const sortPriority = [
   "locations",
+  "timed_loot_piles",
   "mining",
   "hunting",
   "lumberjacking_magical",
@@ -1273,6 +1318,7 @@ const sortPriority = [
   "foraging_common",
   "foraging_abundant",
   "hotspots",
+  "fishing_legendary",
   "fishing_epic",
   "fishing_rare",
   "fishing_uncommon",

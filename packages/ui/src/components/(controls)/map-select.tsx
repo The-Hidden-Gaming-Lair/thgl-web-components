@@ -1,4 +1,4 @@
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Map } from "lucide-react";
 import { useT, useUserStore } from "../(providers)";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -28,7 +28,9 @@ export function MapSelect({ mapNames }: { mapNames: string[] }): JSX.Element {
           aria-expanded={open}
           className="border-none rounded-none w-[175px] md:w-[300px] justify-between"
         >
-          <span className="truncate">{t(mapName) || mapName}</span>
+          <span className="truncate flex items-center">
+            <Map className="mr-2 h-4 w-4" /> {t(mapName) || mapName}
+          </span>
           <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
         </Button>
       </PopoverTrigger>

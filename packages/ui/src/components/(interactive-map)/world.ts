@@ -6,7 +6,6 @@ import {
   extend,
   map,
   PM,
-  LatLngBoundsExpression,
   latLngBounds,
   LatLngExpression,
 } from "leaflet";
