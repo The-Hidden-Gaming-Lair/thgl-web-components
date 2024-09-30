@@ -106,5 +106,14 @@
     ],
     "border": [],
     "mapName": "AkiWorld_WP"
+  },
+  {
+    "id": "1015",
+    "center": [
+      51950,
+      2510
+    ],
+    "border": [],
+    "mapName": "WP_HHA_Underground"
   }
 ]

@@ -34,5 +34,41 @@
       0.00037647058823529414,
       160
     ]
+  },
+  "WP_HHA_Underground": {
+    "url": "/map-tiles/WP_HHA_Underground/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 4,
+      "bounds": [
+        [
+          -169900,
+          -254900
+        ],
+        [
+          509900,
+          424900
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -51446,
+        -83889
+      ],
+      [
+        141463,
+        77964
+      ]
+    ],
+    "transformation": [
+      0.0007529411764705883,
+      192,
+      0.0007529411764705883,
+      128
+    ]
   }
 }

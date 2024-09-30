@@ -46,23 +46,36 @@ const regions = initRegions();
 const typesIDs = initTypesIDs();
 
 const enDict = initDict({
+  AkiWorld_WP: "Overworld",
+  WP_HHA_Underground: "Tethys' Deep",
   events: "Temporary Events",
   gameplay: "Waveplate Activities",
   locations: "Locations",
   others: "Others",
 });
 
-const ORTHOGRAPHIC_WIDTH = 1360000;
+const ORTHOGRAPHIC_WIDTH_WORLD = 1360000;
 const TILE_SIZE = 512;
-const multiple = ORTHOGRAPHIC_WIDTH / TILE_SIZE;
+const multipleWorld = ORTHOGRAPHIC_WIDTH_WORLD / TILE_SIZE;
 const WORLD = {
   id: "AkiWorld_WP",
-  ORTHOGRAPHIC_WIDTH: ORTHOGRAPHIC_WIDTH,
-  OFFSET_X: 96 * multiple,
-  OFFSET_Y: 96 * multiple,
+  ORTHOGRAPHIC_WIDTH: ORTHOGRAPHIC_WIDTH_WORLD,
+  OFFSET_X: 96 * multipleWorld,
+  OFFSET_Y: 96 * multipleWorld,
   CAMERA_ANGLE: 0,
 };
 const BIG_WORLD_MAP_ID = 8;
+const ORTHOGRAPHIC_WIDTH_UNDERGROUND = 1360000 / 2;
+
+const multipleUnderground = ORTHOGRAPHIC_WIDTH_UNDERGROUND / TILE_SIZE;
+const UNDERGROUND = {
+  id: "WP_HHA_Underground",
+  ORTHOGRAPHIC_WIDTH: ORTHOGRAPHIC_WIDTH_UNDERGROUND,
+  OFFSET_X: 64 * multipleUnderground,
+  OFFSET_Y: 128 * multipleUnderground,
+  CAMERA_ANGLE: 0,
+};
+const UNDERGROUND_MAP_ID = 900;
 
 if (Bun.argv.includes("--db")) {
   sqliteToJSONWithModels(
@@ -72,7 +85,7 @@ if (Bun.argv.includes("--db")) {
 }
 
 if (Bun.argv.includes("--tiles")) {
-  const mapTiles = await readDirSync(
+  const mainMapTiles = await readDirSync(
     TEXTURE_DIR +
       "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles",
   )
@@ -83,14 +96,32 @@ if (Bun.argv.includes("--tiles")) {
         "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/MapTiles/" +
         f,
     );
-  const bigMap = await mergeImages(mapTiles, /_(-?\d+)_(-?\d+)/, "#052736");
-  saveImage(TEMP_DIR + "/bigmap.png", bigMap.toBuffer("image/png"));
+  const mainMap = await mergeImages(
+    mainMapTiles,
+    /_(-?\d+)_(-?\d+)/,
+    "#052736",
+  );
+  saveImage(TEMP_DIR + "/main.png", mainMap.toBuffer("image/png"));
+
+  const hhaTiles = await readDirSync(
+    TEXTURE_DIR +
+      "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/HHATiles",
+  )
+    .filter((f) => f.endsWith(".png"))
+    .map(
+      (f) =>
+        TEXTURE_DIR +
+        "/Client/Content/Aki/UI/UIResources/UiWorldMap/Image/HHATiles/" +
+        f,
+    );
+  const hhaMap = await mergeImages(hhaTiles, /_(-?\d+)_(-?\d+)/, "#112a37");
+  saveImage(TEMP_DIR + "/hha.png", hhaMap.toBuffer("image/png"));
 }
 
 const tiles = initTiles(
   await generateTiles(
     WORLD.id,
-    TEMP_DIR + "/bigmap.png",
+    TEMP_DIR + "/main.png",
     WORLD.ORTHOGRAPHIC_WIDTH,
     TILE_SIZE,
     [WORLD.OFFSET_X, WORLD.OFFSET_Y],
@@ -104,8 +135,28 @@ const tiles = initTiles(
     ],
   ),
 );
+tiles[UNDERGROUND.id] = (
+  await generateTiles(
+    UNDERGROUND.id,
+    TEMP_DIR + "/hha.png",
+    UNDERGROUND.ORTHOGRAPHIC_WIDTH,
+    TILE_SIZE,
+    [UNDERGROUND.OFFSET_X, UNDERGROUND.OFFSET_Y],
+    [
+      [-51446, -83889],
+      [141463, 77964],
+    ],
+    [
+      [-100, -100],
+      [100, 100],
+    ],
+  )
+)[UNDERGROUND.id];
 
 writeTiles(tiles);
+if (tiles[UNDERGROUND.id]) {
+  process.exit(0);
+}
 
 const monsterInfo = await readJSON<MonsterInfo>(
   CONTENT_DIR + "/Client/Content/Aki/ConfigDB/db_monster_Info.json",
@@ -191,10 +242,14 @@ const workMapIconPath =
   ".png";
 
 for (const mapMark of dbMapMark.mapmark) {
-  if (mapMark.data.MapId !== BIG_WORLD_MAP_ID) {
+  if (
+    mapMark.data.MapId !== BIG_WORLD_MAP_ID &&
+    mapMark.data.MapId !== UNDERGROUND_MAP_ID
+  ) {
     continue;
   }
-  const mapName = "AkiWorld_WP";
+  const mapName =
+    mapMark.data.MapId === BIG_WORLD_MAP_ID ? WORLD.id : UNDERGROUND.id;
   // if (mapMark.data.MapShow !== 2) {
   //   continue;
   // }
@@ -462,9 +517,14 @@ const sortedEntities = levelentityconfig.sort((a, b) => {
 });
 // const filterIds = filters.flatMap((f) => f.values.map((v) => v.id));
 for (const levelEntity of sortedEntities) {
-  if (levelEntity.data.MapId !== BIG_WORLD_MAP_ID) {
+  if (
+    levelEntity.data.MapId !== BIG_WORLD_MAP_ID &&
+    levelEntity.data.MapId !== UNDERGROUND_MAP_ID
+  ) {
     continue;
   }
+  const mapName =
+    levelEntity.data.MapId === BIG_WORLD_MAP_ID ? WORLD.id : UNDERGROUND.id;
 
   let id =
     levelEntity.data.BlueprintType ?? levelEntity.data.EntityId.toString();
@@ -480,7 +540,6 @@ for (const levelEntity of sortedEntities) {
   const x = levelEntity.data.Transform[0].X / levelEntity.data.Transform[2].X;
   const y = levelEntity.data.Transform[0].Y / levelEntity.data.Transform[2].Y;
   const z = levelEntity.data.Transform[0].Z / levelEntity.data.Transform[2].Z;
-  const mapName = WORLD.id;
   const location = { x, y, z };
   const spawn: Node["spawns"][number] = {
     p: [+location.y, +location.x, +location.z],
