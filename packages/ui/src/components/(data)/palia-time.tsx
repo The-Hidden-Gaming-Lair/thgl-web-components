@@ -28,7 +28,7 @@ export function PaliaTime({ portal }: { portal?: boolean }) {
 
   if (portal) {
     return (
-      <div className="fixed top-2 left-12 flex gap-3">
+      <div className="fixed top-2 left-28 flex gap-3">
         <div className={cn("w-full text-left flex gap-2 justify-between")}>
           <span>Palia Time</span>
           <span>{timeFormated}</span>

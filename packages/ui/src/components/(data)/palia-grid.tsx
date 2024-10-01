@@ -3,18 +3,20 @@ import { useMapStore } from "../(interactive-map)/store";
 import { useEffect } from "react";
 import { useSettingsStore } from "@repo/lib";
 
+const villagePadding = ((-68999 - -59999) / 2) * 0.6;
 const villageGrid = [
-  [-67000 * 0.98, -57250 * 0.98],
-  [51344 * 0.98, 60000 * 0.98],
+  [-68999 - villagePadding, -59999 - villagePadding],
+  [52999 + villagePadding, 61999 + villagePadding],
 ] as [[number, number], [number, number]];
 
+const bayPadding = ((-129947 - 31292.997999999992) / 2) * 0.05;
 const bayGrid = [
-  [-125825, 35226],
-  [27248, 188416],
+  [-129947 - bayPadding, 31292.997999999992 - bayPadding],
+  [30307.002000000008 + bayPadding, 191547 + bayPadding],
 ] as [[number, number], [number, number]];
 const fairgroundsGrid = [
-  [-20000, -20000],
-  [28000, 28000],
+  [-23099 * 0.98, -22429 * 0.98],
+  [28499 * 0.98, 29169 * 0.98],
 ] as [[number, number], [number, number]];
 const housingGrid = [
   [-46349 * 0.955, -45999 * 0.955],
