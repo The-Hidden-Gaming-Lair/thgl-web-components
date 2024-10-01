@@ -11,6 +11,7 @@ import { useMapStore } from "./store";
 import { useIsHydrated, useUserStore } from "../(providers)";
 import { ContextMenu } from "./context-menu";
 // import { createCoordinatesControl } from "./coordinates-control";
+import leaflet from "leaflet";
 
 export function InteractiveMap({
   tileOptions,
@@ -22,7 +23,7 @@ export function InteractiveMap({
   domain: string;
 }): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { map, setMap } = useMapStore();
+  const { map, setMap, setLeaflet } = useMapStore();
   const isHydrated = useIsHydrated();
   const mapFilter = useSettingsStore((state) => state.mapFilter);
   const mapName = useUserStore((state) => state.mapName);
@@ -52,6 +53,7 @@ export function InteractiveMap({
       mapTileOptions,
     );
     world.mapName = mapName;
+    setLeaflet(leaflet);
     setMap(world);
 
     world.on("mousedown", () => {

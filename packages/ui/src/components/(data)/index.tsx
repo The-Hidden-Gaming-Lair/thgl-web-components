@@ -5,6 +5,7 @@ export * from "./custom-activities";
 export * from "./data-table";
 export * from "./details";
 export * from "./diablo4-events";
+export * from "./palia-grid-toggle";
 export * from "./palia-grid";
 export * from "./palia-time";
 export * from "./ping";

@@ -35,6 +35,7 @@ import {
   DT_FishConfigs,
   WaterPlane_Fishing,
   DT_VillagerConfigs,
+  DA_HousingStartSpawnConfig,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -86,10 +87,7 @@ for (const worldMap of worldMaps) {
   }
 
   const image = worldMap.Value.Image;
-  const name =
-    worldMap.Key === "HousingPlot"
-      ? "Map_HousingPlot"
-      : image.AssetPathName.split("/").at(-1)!.split(".")[0];
+  const name = image.AssetPathName.split("/").at(-1)!.split(".")[0];
   const path = `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/${name}.png`;
   const bounds = [
     [worldMap.Value.TopLeftCorner.X, worldMap.Value.TopLeftCorner.Y],
@@ -392,7 +390,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
 
     const lootComponent = skill.find((s) => s.Type === "LootComponent");
     if (!lootComponent) {
-      console.warn("No loot component", skillFile);
+      // console.warn("No loot component", skillFile);
       continue;
     }
     let itemType;
@@ -683,7 +681,12 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   const skillFiles = readDirRecursive(
     CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Mining/Nodes",
   );
-  for (const skillFile of skillFiles) {
+  const foliageFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Housing/Foliage",
+  );
+  const allFiles = [...skillFiles, ...foliageFiles];
+
+  for (const skillFile of allFiles) {
     const skill = await readJSON<MiningNode>(skillFile);
 
     const gatherableLootComponent = skill.find(
@@ -693,9 +696,12 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       console.warn("No gatherable loot component", skillFile);
       continue;
     }
+    if (!gatherableLootComponent.Properties?.RewardFinal) {
+      continue;
+    }
     const lootBundleConfig =
       lootBundleConfigs[0].Rows[
-        gatherableLootComponent.Properties!.RewardFinal!.Loot.RowName
+        gatherableLootComponent.Properties.RewardFinal.Loot.RowName
       ];
 
     if (!lootBundleConfig.bEnabled) {
@@ -818,9 +824,14 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   const skillFiles = readDirRecursive(
     CONTENT_DIR + "/Palia/Content/Gameplay/Skills/Lumberjacking/Tree",
   );
-  for (const skillFile of skillFiles) {
+  const foliageFiles = readDirRecursive(
+    CONTENT_DIR + "/Palia/Content/Gameplay/Housing/Foliage",
+  );
+  const allFiles = [...skillFiles, ...foliageFiles];
+  for (const skillFile of allFiles) {
     if (
       (!skillFile.includes("BP_TreeChoppable_") &&
+        !skillFile.includes("BP_FoliageOnPlot_Tree") &&
         !skillFile.includes("BP_Bush_")) ||
       skillFile.includes("Legacy") ||
       skillFile.includes("_Elder_")
@@ -1289,6 +1300,76 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       });
     }
     typesIDs[typeId] = type;
+  }
+}
+
+// Housing Start Spawns
+{
+  const housingStartSpawnConfig = await readJSON<DA_HousingStartSpawnConfig>(
+    CONTENT_DIR + "/Palia/Content/Configs/DA_HousingStartSpawnConfig.json",
+  );
+  const mapName = "HousingPlot";
+  for (const startingSpawnItem of housingStartSpawnConfig[0].Properties
+    .StartingSpawnItems) {
+    const pathName = startingSpawnItem.ItemTypeToSpawn.AssetPathName;
+    const itemType = pathName.split(".")[1];
+    if (!itemType) {
+      continue;
+    }
+
+    const item = await readJSON<DA_ItemType>(
+      CONTENT_DIR +
+        "/Palia/Content/" +
+        pathName.replace("Game/", "").split(".")[0] +
+        ".json",
+    );
+    const typeId =
+      item[0].Properties.Placement.Placeable.AssetPathName.split(".").at(-1);
+    const type = typeId && typesIDs[typeId];
+    if (!type) {
+      continue;
+    }
+    let oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName);
+    if (!oldNodes) {
+      nodes.push({ type: type, mapName, spawns: [] });
+      oldNodes = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    }
+
+    const spawn: Node["spawns"][number] = {
+      p: [startingSpawnItem.Position.Y, startingSpawnItem.Position.X],
+    };
+    if (
+      oldNodes.spawns.some(
+        (s) => s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
+      )
+    ) {
+      console.warn("Duplicate spawn", spawn.id);
+      continue;
+    }
+    oldNodes.spawns.push(spawn);
+
+    // let type;
+    // if (itemType.startsWith("DA_ItemType_FoliageOnPlot_")) {
+    //   const [baseType, size] = itemType.split("_").slice(4);
+    //   if (baseType.startsWith("Tree")) {
+    //     type = "Woodcutting." + baseType.replace("Tree", "");
+    //     if (size === "Tiny") {
+    //       type += ".Small";
+    //     } else if (size === "Sapling") {
+    //       type += ".Sapling";
+    //     } else if (size === "M") {
+    //       type += ".Medium";
+    //     } else {
+    //       console.warn("Unknown tree size", size);
+    //       continue;
+    //     }
+    //     type += ".Final"
+    //   }
+    // }
+
+    // if (!type) {
+    //   continue;
+    // }
   }
 }
 

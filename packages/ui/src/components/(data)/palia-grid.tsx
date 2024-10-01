@@ -1,13 +1,11 @@
 "use client";
-import leaflet from "leaflet";
 import { useMapStore } from "../(interactive-map)/store";
 import { useEffect } from "react";
-import { cn, useSettingsStore } from "@repo/lib";
-import { Label, Switch } from "../(controls)";
+import { useSettingsStore } from "@repo/lib";
 
 const villageGrid = [
-  [-67000, -57250],
-  [51344, 60000],
+  [-67000 * 0.98, -57250 * 0.98],
+  [51344 * 0.98, 60000 * 0.98],
 ] as [[number, number], [number, number]];
 
 const bayGrid = [
@@ -19,16 +17,16 @@ const fairgroundsGrid = [
   [28000, 28000],
 ] as [[number, number], [number, number]];
 const housingGrid = [
-  [-6533, 22644],
-  [62768, 92028],
+  [-46349 * 0.955, -45999 * 0.955],
+  [45649 * 0.955, 45999 * 0.955],
 ] as [[number, number], [number, number]];
 
 export function PaliaGrid() {
-  const { map } = useMapStore();
+  const { map, leaflet } = useMapStore();
   const showGrid = useSettingsStore((state) => state.showGrid);
 
   useEffect(() => {
-    if (!map || !showGrid) {
+    if (!map || !leaflet || !showGrid) {
       return;
     }
     let grid: [[number, number], [number, number]];
@@ -50,47 +48,47 @@ export function PaliaGrid() {
     const areas = 10;
     const offset = 0;
     const zoneSize = (grid[1][1] - grid[0][1]) / areas;
-    drawZones();
-    function drawZones() {
-      for (let i = 0; i < areas; i++) {
-        for (let j = 0; j < areas; j++) {
-          leaflet
-            .rectangle(
+
+    for (let i = 0; i < areas; i++) {
+      for (let j = 0; j < areas; j++) {
+        leaflet
+          .rectangle(
+            [
               [
-                [
-                  grid[0][0] + j * zoneSize + offset,
-                  grid[0][1] + i * zoneSize + offset,
-                ],
-                [
-                  grid[0][0] + j * zoneSize + zoneSize + offset,
-                  grid[0][1] + i * zoneSize + zoneSize + offset,
-                ],
+                grid[0][0] + j * zoneSize + offset,
+                grid[0][1] + i * zoneSize + offset,
               ],
-              {
-                color: "#fff",
-                fill: false,
-                opacity: 0.2,
-                weight: 1,
-                interactive: false,
-              },
-            )
-            .addTo(layerGroup);
-          leaflet
-            .marker(
               [
-                grid[0][0] + j * zoneSize + zoneSize / 2 + offset + 6,
-                grid[0][1] + i * zoneSize + zoneSize / 2 + offset - 6,
+                grid[0][0] + j * zoneSize + zoneSize + offset,
+                grid[0][1] + i * zoneSize + zoneSize + offset,
               ],
-              {
-                icon: leaflet.divIcon({
-                  className: "zone-label",
-                  html: `${String.fromCharCode(97 + i)}${j + 1}`.toUpperCase(),
-                }),
-                interactive: false,
-              },
-            )
-            .addTo(layerGroup);
-        }
+            ],
+            {
+              color: "#fff",
+              fill: false,
+              opacity: 0.2,
+              weight: 1,
+              interactive: false,
+              pane: "shadowPane",
+            },
+          )
+          .addTo(layerGroup);
+        leaflet
+          .marker(
+            [
+              grid[0][0] + j * zoneSize + zoneSize / 2 + offset + 6,
+              grid[0][1] + i * zoneSize + zoneSize / 2 + offset - 6,
+            ],
+            {
+              icon: leaflet.divIcon({
+                className: "zone-label",
+                html: `${String.fromCharCode(97 + i)}${j + 1}`.toUpperCase(),
+              }),
+              interactive: false,
+              pane: "shadowPane",
+            },
+          )
+          .addTo(layerGroup);
       }
     }
 
@@ -100,22 +98,4 @@ export function PaliaGrid() {
   }, [map, showGrid]);
 
   return <></>;
-}
-
-export function PaliaGridToggle() {
-  const showGrid = useSettingsStore((state) => state.showGrid);
-  const toggleShowGrid = useSettingsStore((state) => state.toggleShowGrid);
-
-  return (
-    <div className="flex items-center justify-between space-x-2 py-2 px-4">
-      <Label htmlFor="show-grid" className="grow">
-        Show Grid
-      </Label>
-      <Switch
-        id="show-grid"
-        onCheckedChange={toggleShowGrid}
-        checked={showGrid}
-      />
-    </div>
-  );
 }

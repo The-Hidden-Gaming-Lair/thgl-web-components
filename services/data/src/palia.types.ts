@@ -1785,3 +1785,85 @@ export type DT_VillagerConfigs = Array<{
     }
   >;
 }>;
+
+export type DA_HousingStartSpawnConfig = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    StartingSpawnItems: Array<{
+      ItemTypeToSpawn: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      Position: {
+        X: number;
+        Y: number;
+        Z: number;
+      };
+      Rotation: {
+        Pitch: number;
+        Yaw: number;
+        Roll: number;
+      };
+    }>;
+    WritRegions: Array<{
+      PersistId: number;
+      Costs: Array<{
+        VitalType: string;
+        VitalAmount: number;
+        ItemType: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        ItemAmount: number;
+        SkillType: string;
+        SkillLevel: number;
+      }>;
+      StartRow: number;
+      StartCol: number;
+      NumRows: number;
+      NumCols: number;
+      bIsStartingPlotUnlock: boolean;
+      TargetRegion: string;
+    }>;
+    WritDebrisActorTemplate: {
+      AssetPathName: string;
+      SubPathString: string;
+    };
+    BuildingLimit: Array<{
+      NumUnlockedWrits: number;
+      AdditionalPlaceableBuildings: number;
+    }>;
+    ConditionalSpawnItemLists: Array<{
+      SpawnRequirements: Array<{
+        TagToCheck: {
+          TagName: string;
+        };
+        MinimumAcceptedValue: number;
+        MaximumAcceptedValue: number;
+        TagPrereq: {
+          TagName: string;
+        };
+        TagPrereq_MinimumAcceptedValue: number;
+        TagPrereq_MaximumAcceptedValue: number;
+      }>;
+      SpawnItems: Array<{
+        ItemTypeToSpawn: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+        Position: {
+          X: number;
+          Y: number;
+          Z: number;
+        };
+        Rotation: {
+          Pitch: number;
+          Yaw: number;
+          Roll: number;
+        };
+      }>;
+    }>;
+  };
+}>;

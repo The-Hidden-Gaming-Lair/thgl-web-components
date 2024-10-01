@@ -30,6 +30,7 @@ leaflet.Canvas.include({
         layerContext.arc(p.x, p.y, radius * 0.75, 0, Math.PI * 2);
         layerContext.fillStyle = fillColor || "rgba(255, 255, 255, 0.6)";
         layerContext.fill();
+        return;
       }
 
       const key = `${icon}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`;

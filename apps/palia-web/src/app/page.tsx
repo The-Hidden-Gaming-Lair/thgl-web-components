@@ -9,7 +9,7 @@ import { CoordinatesProvider } from "@repo/ui/providers";
 import { HeaderOffset } from "@repo/ui/header";
 import type { Metadata } from "next";
 import { searchParamsToView, type TileOptions } from "@repo/lib";
-import { PaliaTime, PaliaGrid } from "@repo/ui/data";
+import { PaliaGrid, PaliaGridToggle, PaliaTime } from "@repo/ui/data";
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import _filters from "../coordinates/filters.json" assert { type: "json" };
@@ -58,12 +58,13 @@ export default function Home({
           additionalFilters={
             <>
               <PaliaTime />
-              <PaliaGrid />
+              <PaliaGridToggle />
             </>
           }
         >
           <FloatingAds id="wukong" />
         </MarkersSearch>
+        <PaliaGrid />
       </HeaderOffset>
     </CoordinatesProvider>
   );
