@@ -1718,3 +1718,70 @@ export type WaterPlane_Fishing = Array<{
   };
   Outer?: string;
 }>;
+
+export type DT_VillagerConfigs = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      PersistId: number;
+      VillagerCoreConfig: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+      MasterScheduleConfig: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      MaxDialogueTimeSecs: number;
+      VillagerName: {
+        Namespace: string;
+        Key: string;
+        SourceString: string;
+        LocalizedString: string;
+      };
+      bOverrideGrammaticalGender: boolean;
+      GrammaticalGender: string;
+      Icon: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      LetterSealIcon: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      LetterStampIcon: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      CanAcceptGifts: boolean;
+      bSupportChangeOfFocusDuringDialogue: boolean;
+      bHideOnMap: boolean;
+      bLowZOrder: boolean;
+      CharacterWidth: number;
+      CharacterHeight: number;
+      MultiCharacterDialogueHeightIncrease: number;
+      VillagerClass: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      Store: any;
+      DialogueSpeaker: any;
+      FallbackDialogueAssetIfAlreadyReceivedThisWeek: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+    }
+  >;
+}>;

@@ -1,7 +1,7 @@
 import { useSettingsStore } from "../settings";
 import { BLACKLISTED_TYPES, isDebug } from "../env";
 import { promisifyOverwolf } from "./promisify";
-import type { EventBus } from "./event-bus";
+import { EventBus } from "./event-bus";
 
 declare global {
   interface Window {
@@ -70,6 +70,8 @@ export async function initGameEventsPlugin(
   onActors?: (actors: Actor[]) => void,
 ) {
   try {
+    window.gameEventBus = new EventBus();
+
     const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
     console.log("Game Events Plugin loaded");
 
@@ -206,7 +208,8 @@ export async function initGameEventsPlugin(
             (a) =>
               !BLACKLISTED_TYPES.includes(a.type) &&
               !Number.isNaN(a.x) &&
-              !Number.isNaN(a.y),
+              !Number.isNaN(a.y) &&
+              a.address !== prevPlayer.address,
           );
           if (filterActor && !debug) {
             actors = actors.filter(filterActor);

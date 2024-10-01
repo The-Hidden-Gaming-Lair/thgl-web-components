@@ -54,6 +54,143 @@
     ]
   },
   {
+    "group": "people",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "players",
+        "icon": "players.webp",
+        "size": 1
+      },
+      {
+        "id": "fisherman",
+        "icon": "fisherman.webp",
+        "size": 1
+      },
+      {
+        "id": "deliveryboy",
+        "icon": "deliveryboy.webp",
+        "size": 1
+      },
+      {
+        "id": "thewatcher",
+        "icon": "thewatcher.webp",
+        "size": 1
+      },
+      {
+        "id": "thedemolitionist",
+        "icon": "thedemolitionist.webp",
+        "size": 1
+      },
+      {
+        "id": "theinnkeeper",
+        "icon": "theinnkeeper.webp",
+        "size": 1
+      },
+      {
+        "id": "thehunter",
+        "icon": "thehunter.webp",
+        "size": 1
+      },
+      {
+        "id": "thearcheologist",
+        "icon": "thearcheologist.webp",
+        "size": 1
+      },
+      {
+        "id": "themagistrate",
+        "icon": "themagistrate.webp",
+        "size": 1
+      },
+      {
+        "id": "thecook",
+        "icon": "thecook.webp",
+        "size": 1
+      },
+      {
+        "id": "thesalesman",
+        "icon": "thesalesman.webp",
+        "size": 1
+      },
+      {
+        "id": "thecarpenter",
+        "icon": "thecarpenter.webp",
+        "size": 1
+      },
+      {
+        "id": "themayor",
+        "icon": "themayor.webp",
+        "size": 1
+      },
+      {
+        "id": "thefarmer",
+        "icon": "thefarmer.webp",
+        "size": 1
+      },
+      {
+        "id": "therancher",
+        "icon": "therancher.webp",
+        "size": 1
+      },
+      {
+        "id": "theblacksmith",
+        "icon": "theblacksmith.webp",
+        "size": 1
+      },
+      {
+        "id": "theminer",
+        "icon": "theminer.webp",
+        "size": 1
+      },
+      {
+        "id": "thealchemist",
+        "icon": "thealchemist.webp",
+        "size": 1
+      },
+      {
+        "id": "thelibrarian",
+        "icon": "thelibrarian.webp",
+        "size": 1
+      },
+      {
+        "id": "thefarmboy",
+        "icon": "thefarmboy.webp",
+        "size": 1
+      },
+      {
+        "id": "thenanny",
+        "icon": "thenanny.webp",
+        "size": 1
+      },
+      {
+        "id": "themayorsdaughter",
+        "icon": "themayorsdaughter.webp",
+        "size": 1
+      },
+      {
+        "id": "thetailor",
+        "icon": "thetailor.webp",
+        "size": 1
+      },
+      {
+        "id": "thecurator",
+        "icon": "thecurator.webp",
+        "size": 1
+      },
+      {
+        "id": "thehealer",
+        "icon": "thehealer.webp",
+        "size": 1
+      },
+      {
+        "id": "theplumehound",
+        "icon": "theplumehound.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "mining",
     "defaultOpen": false,
     "defaultOn": true,

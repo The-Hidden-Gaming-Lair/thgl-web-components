@@ -1,3 +1,8 @@
+declare global {
+  interface Window {
+    gameEventBus: EventBus;
+  }
+}
 export class EventBus {
   private _listeners: Array<(eventName: string, eventValue: any) => void>;
 

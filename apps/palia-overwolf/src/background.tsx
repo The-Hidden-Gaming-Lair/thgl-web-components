@@ -7,18 +7,17 @@ initBackground(
   "1181323945866178560",
 );
 
-initGameEventsPlugin(
-  "Client-Win64-Shipping",
-  Object.keys(typesIdMap),
-  (actor) => {
-    const parts = actor.path?.split("/");
-    if (!parts) {
-      return undefined;
-    }
-    let mapName = parts[4]?.split(".")[0];
-    if (mapName === "Level") {
-      mapName = parts[7]?.split(".")[0];
-    }
-    return mapName;
-  },
-);
+initGameEventsPlugin("", Object.keys(typesIdMap), (actor) => {
+  if (!actor.path) {
+    return;
+  }
+  if (actor.path.includes("Maps/Village")) {
+    return "VillageWorld";
+  } else if (actor.path.includes("Maps/AZ1")) {
+    return "AdventureZoneWorld";
+  } else if (actor.path.includes("Maps/MajiMarket")) {
+    return "MajiMarket";
+  } else if (actor.path.includes("Maps/HousingMaps")) {
+    return "HousingPlot";
+  }
+});

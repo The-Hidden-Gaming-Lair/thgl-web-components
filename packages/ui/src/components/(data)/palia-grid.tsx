@@ -26,7 +26,6 @@ const housingGrid = [
 export function PaliaGrid() {
   const { map } = useMapStore();
   const showGrid = useSettingsStore((state) => state.showGrid);
-  const toggleShowGrid = useSettingsStore((state) => state.toggleShowGrid);
 
   useEffect(() => {
     if (!map || !showGrid) {
@@ -99,6 +98,13 @@ export function PaliaGrid() {
       layerGroup.removeFrom(map);
     };
   }, [map, showGrid]);
+
+  return <></>;
+}
+
+export function PaliaGridToggle() {
+  const showGrid = useSettingsStore((state) => state.showGrid);
+  const toggleShowGrid = useSettingsStore((state) => state.toggleShowGrid);
 
   return (
     <div className="flex items-center justify-between space-x-2 py-2 px-4">

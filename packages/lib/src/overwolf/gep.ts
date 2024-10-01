@@ -1,4 +1,4 @@
-import type { EventBus } from "./event-bus";
+import { EventBus } from "./event-bus";
 import { getGameInfo, listenToGameLaunched, setFeatures } from "./games";
 import { ActorPlayer } from "./plugin";
 
@@ -13,6 +13,8 @@ export function listenToGEP(
   interestedInFeatures: string[],
   gameInfoToPlayer: (gameInfo: any) => ActorPlayer | null,
 ) {
+  window.gameEventBus = new EventBus();
+
   let isActive = false;
 
   let firstPlayerData = false;

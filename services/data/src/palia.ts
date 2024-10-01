@@ -34,6 +34,7 @@ import {
   Creature,
   DT_FishConfigs,
   WaterPlane_Fishing,
+  DT_VillagerConfigs,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -1291,9 +1292,87 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   }
 }
 
+{
+  await saveIcon(
+    TEXTURE_DIR + "/Palia/Content/UI/WorldMap/Icon_PlayerMarker.png",
+    "player",
+    {
+      rotate: 90,
+    },
+  );
+
+  const group = "people";
+  const type = "players";
+  const size = 1;
+  let category = filters.find((f) => f.group === group);
+  if (!category) {
+    filters.push({
+      group: group,
+      defaultOpen: false,
+      defaultOn: true,
+      values: [],
+    });
+    category = filters.find((f) => f.group === group)!;
+    enDict[group] = "People";
+  }
+
+  if (!category.values.some((v) => v.id === type)) {
+    const iconProps: IconProps = {};
+    const iconPath =
+      TEXTURE_DIR +
+      "/Palia/Content/UI/WorldMap/Assets/Icon_Map_Marker_Player.png";
+    const iconName = await saveIcon(iconPath, type, iconProps);
+    enDict[type] = "Players";
+
+    category.values.push({
+      id: type,
+      icon: iconName,
+      size,
+    });
+  }
+  typesIDs["BP_ValeriaCharacter_C"] = type;
+
+  const villagerConfigs = await readJSON<DT_VillagerConfigs>(
+    CONTENT_DIR + "/Palia/Content/Configs/DT_VillagerConfigs.json",
+  );
+  for (const config of Object.values(villagerConfigs[0].Rows)) {
+    const type = config.VillagerCoreConfig.RowName;
+    if (type.includes("test")) {
+      continue;
+    }
+    if (!category.values.some((v) => v.id === type)) {
+      const typeId = config.VillagerClass.AssetPathName.split(".").at(-1)!;
+      if (!typeId || !config.Icon.AssetPathName) {
+        continue;
+      }
+      if (typesIDs[typeId]) {
+        if (typesIDs[typeId] !== type) {
+          console.warn("Duplicate type ID", type, typesIDs[typeId]);
+        }
+        continue;
+      }
+      const iconProps: IconProps = {};
+      const iconPath =
+        TEXTURE_DIR +
+        "/Palia/Content" +
+        config.Icon.AssetPathName.replace("Game/", "").split(".")[0] +
+        ".png";
+      const iconName = await saveIcon(iconPath, type, iconProps);
+      enDict[type] = config.VillagerName.LocalizedString;
+      typesIDs[typeId] = type;
+
+      category.values.push({
+        id: type,
+        icon: iconName,
+        size,
+      });
+    }
+  }
+}
 const sortPriority = [
   "locations",
   "timed_loot_piles",
+  "people",
   "mining",
   "hunting",
   "lumberjacking_magical",
