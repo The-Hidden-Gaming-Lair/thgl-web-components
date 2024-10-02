@@ -1,4 +1,4 @@
-import { EventBus } from "./event-bus";
+import { EventBus, MESSAGES } from "./event-bus";
 import { getGameInfo, listenToGameLaunched, setFeatures } from "./games";
 import { ActorPlayer } from "./plugin";
 
@@ -35,15 +35,15 @@ export function listenToGEP(
       }
       if (lastPlayerError) {
         lastPlayerError = "";
-        window.gameEventBus.trigger("player_error", null);
+        window.gameEventBus.trigger(MESSAGES.PLAYER_ERROR, null);
       }
-      window.gameEventBus.trigger("player", player);
+      window.gameEventBus.trigger(MESSAGES.PLAYER, player);
       setTimeout(refreshPlayerState, 50);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : (err as string);
       if (errorMessage !== lastPlayerError) {
         lastPlayerError = errorMessage;
-        window.gameEventBus.trigger("player_error", errorMessage);
+        window.gameEventBus.trigger(MESSAGES.PLAYER_ERROR, errorMessage);
       }
       setTimeout(refreshPlayerState, 200);
     }

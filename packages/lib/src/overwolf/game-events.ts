@@ -1,9 +1,9 @@
 import { useGameState } from "../game";
-import type { EventBus } from "./event-bus";
+import { MESSAGES, type EventBus } from "./event-bus";
 
 export async function listenToGameEvents(): Promise<void> {
   const state = useGameState.getState();
-  const { setPlayer, setActors, setError } = state;
+  const { setPlayer, setActors, setError, setCharacter } = state;
   const { gameEventBus } = overwolf.windows.getMainWindow() as {
     gameEventBus: EventBus;
   };
@@ -11,7 +11,7 @@ export async function listenToGameEvents(): Promise<void> {
   gameEventBus.addListener((eventName, eventValue) => {
     const value = JSON.parse(eventValue);
     switch (eventName) {
-      case "error":
+      case MESSAGES.PLAYER_ERROR:
         {
           const state = useGameState.getState();
           if (state.error !== value) {
@@ -19,11 +19,14 @@ export async function listenToGameEvents(): Promise<void> {
           }
         }
         break;
-      case "player":
+      case MESSAGES.PLAYER:
         setPlayer(value);
         break;
-      case "actors":
+      case MESSAGES.ACTORS:
         setActors(value);
+        break;
+      case MESSAGES.CHARACTER:
+        setCharacter(value);
         break;
     }
   });

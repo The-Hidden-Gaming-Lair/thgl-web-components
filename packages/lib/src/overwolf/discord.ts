@@ -90,7 +90,14 @@ export async function loadDiscordRPCPlugin(
     overwolf.extensions.current.getExtraObject,
   )("discord");
   const discordRPCPlugin = result.object as DiscordRPCPlugin;
-  await promisifyOverwolf(discordRPCPlugin.initialize)(applicationID, logLevel);
+  try {
+    await promisifyOverwolf(discordRPCPlugin.initialize)(
+      applicationID,
+      logLevel,
+    );
+  } catch (e) {
+    // If the plugin is already initialized, we can ignore this error
+  }
   return discordRPCPlugin;
 }
 

@@ -1,4 +1,9 @@
-import { initBackground, initGameEventsPlugin } from "@repo/lib/overwolf";
+import {
+  type GameEventsPlugin,
+  initBackground,
+  initGameEventsPlugin,
+  MESSAGES,
+} from "@repo/lib/overwolf";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
 initBackground(
@@ -7,7 +12,35 @@ initBackground(
   "1181323945866178560",
 );
 
-initGameEventsPlugin(
+type PaliaEventsPlugin = {
+  GetValeriaCharacter: (
+    callback: (valeriaCharacter: ValeriaCharacter) => void,
+    onError: (err: string) => void,
+  ) => void;
+} & GameEventsPlugin;
+
+export interface ValeriaCharacter {
+  name: string;
+  guid: string;
+  giftHistory: VillagerGiftHistory[];
+  skillLevels: SkillLevels[];
+  lastKnownPrimaryHousingPlotValue: number;
+}
+
+export interface VillagerGiftHistory {
+  villagerCoreId: number;
+  itemPersistId: number;
+  lastGiftedMs: number;
+  associatedPreferenceVersion: number;
+}
+
+export interface SkillLevels {
+  type: string;
+  level: number;
+  xpGainedThisLevel: number;
+}
+
+const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
   "",
   Object.keys(typesIdMap),
   (actor) => {
@@ -40,3 +73,16 @@ initGameEventsPlugin(
     return !actor.hidden;
   },
 );
+
+setInterval(() => {
+  gameEventsPlugin.GetValeriaCharacter(
+    (valeriaCharacter) => {
+      if (valeriaCharacter) {
+        window.gameEventBus.trigger(MESSAGES.CHARACTER, valeriaCharacter);
+      }
+    },
+    () => {
+      //
+    },
+  );
+}, 10000);

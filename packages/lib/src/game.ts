@@ -6,6 +6,8 @@ export const useGameState = create(
   subscribeWithSelector<{
     player: ActorPlayer | null;
     setPlayer: (player: ActorPlayer | null) => void;
+    character: Record<string, any> | null;
+    setCharacter: (character: Record<string, any> | null) => void;
     actors: Actor[];
     setActors: (actors: Actor[]) => void;
     error: string | null;
@@ -20,6 +22,8 @@ export const useGameState = create(
     isOverlay: null,
     player: null,
     setPlayer: (player) => set({ player }),
+    character: null,
+    setCharacter: (character) => set({ character }),
     actors: [],
     setActors: (actors) => set({ actors }),
     error: null,

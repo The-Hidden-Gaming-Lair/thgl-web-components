@@ -3,6 +3,13 @@ declare global {
     gameEventBus: EventBus;
   }
 }
+
+export const MESSAGES = {
+  PLAYER: "player",
+  PLAYER_ERROR: "player_error",
+  ACTORS: "actors",
+  CHARACTER: "character",
+};
 export class EventBus {
   private _listeners: Array<(eventName: string, eventValue: any) => void>;
 

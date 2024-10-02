@@ -1,7 +1,7 @@
 import { useSettingsStore } from "../settings";
 import { BLACKLISTED_TYPES, isDebug } from "../env";
 import { promisifyOverwolf } from "./promisify";
-import { EventBus } from "./event-bus";
+import { EventBus, MESSAGES } from "./event-bus";
 
 declare global {
   interface Window {
@@ -18,6 +18,7 @@ export type ActorPlayer = {
   z: number;
   r: number;
   path?: string;
+  props?: Record<string, any>;
 };
 export type Actor = {
   address: number;
@@ -56,7 +57,7 @@ export async function loadPlugin<T>(name: string): Promise<T> {
   return plugin.object as T;
 }
 
-export async function initGameEventsPlugin(
+export async function initGameEventsPlugin<T extends GameEventsPlugin>(
   processName?: string,
   types?: string[],
   actorToMapName?: (actor: Actor, player: ActorPlayer) => string | undefined,
@@ -72,7 +73,7 @@ export async function initGameEventsPlugin(
   try {
     window.gameEventBus = new EventBus();
 
-    const gameEventsPlugin = await loadPlugin<GameEventsPlugin>("game-events");
+    const gameEventsPlugin = await loadPlugin<T>("game-events");
     console.log("Game Events Plugin loaded");
 
     const refreshProcess = () => {
@@ -122,7 +123,7 @@ export async function initGameEventsPlugin(
       }
       if (lastPlayerError) {
         lastPlayerError = "";
-        window.gameEventBus.trigger("error", null);
+        window.gameEventBus.trigger(MESSAGES.PLAYER_ERROR, null);
       }
 
       if (player && !Number.isNaN(player.x) && !Number.isNaN(player.y)) {
@@ -151,7 +152,7 @@ export async function initGameEventsPlugin(
         ) {
           if (!Number.isNaN(player.x) && !Number.isNaN(player.y)) {
             prevPlayer = player;
-            window.gameEventBus.trigger("player", player);
+            window.gameEventBus.trigger(MESSAGES.PLAYER, player);
 
             if (prevPlayer.mapName !== player.mapName) {
               console.log(`Map changed to ${player.mapName}`);
@@ -169,7 +170,7 @@ export async function initGameEventsPlugin(
         lastPlayerError = errMessage;
         console.error("Player Error: ", errMessage);
       }
-      window.gameEventBus.trigger("error", errMessage);
+      window.gameEventBus.trigger(MESSAGES.PLAYER_ERROR, errMessage);
       setTimeout(refreshPlayerState, 200);
     };
 
@@ -230,7 +231,7 @@ export async function initGameEventsPlugin(
               normalizeLocation(actor);
             }
           });
-          window.gameEventBus.trigger("actors", actors);
+          window.gameEventBus.trigger(MESSAGES.ACTORS, actors);
           if (onActors) {
             onActors(actors);
           }
@@ -289,6 +290,8 @@ export async function initGameEventsPlugin(
     };
     // @ts-ignore
     window.getClosestActors = getClosestActors;
+
+    return gameEventsPlugin;
   } catch (e) {
     console.error("Error listening to plugin", e);
     throw e;

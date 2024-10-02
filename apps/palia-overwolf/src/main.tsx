@@ -32,13 +32,18 @@ if (el) {
 listenToGameEvents();
 
 await initDiscordRPC("1181323945866178560", (updatePresence) => {
-  const player = useGameState.getState().player;
-  if (!player?.mapName) {
+  const { player, character } = useGameState.getState();
+  if (!player?.mapName || !character) {
     return;
   }
+  const level = character?.skillLevels.reduce(
+    (acc: number, cur: { level: number }) => acc + (cur.level - 1),
+    1,
+  );
+
   const mapTitle = enDict[player.mapName];
   updatePresence([
-    `Playing`,
+    `${character.name} | Level ${level}`,
     mapTitle,
     "palia",
     "Palia",

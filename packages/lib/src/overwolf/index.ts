@@ -1,6 +1,7 @@
 export * from "./background";
 export * from "./brotli";
 export * from "./discord";
+export * from "./event-bus";
 export * from "./game-events";
 export * from "./games";
 export * from "./gep";
