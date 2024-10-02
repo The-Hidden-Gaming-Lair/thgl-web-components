@@ -33,4 +33,7 @@ initGameEventsPlugin(
       location.y = y;
     }
   },
+  (actor) => {
+    return !actor.hidden;
+  },
 );
