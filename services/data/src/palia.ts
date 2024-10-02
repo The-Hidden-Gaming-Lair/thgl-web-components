@@ -979,6 +979,8 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         if (isMagical) {
           enDict[type] += "Flow ";
           iconPath = iconPath.replace(".png", "Flow.png");
+          iconProps.glowing = true;
+          iconProps.color = "#8241b5";
         }
         enDict[type] += type.split(".")[1];
         if (typeId.includes("Large")) {
