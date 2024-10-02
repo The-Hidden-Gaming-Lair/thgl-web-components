@@ -11,13 +11,13 @@ export function PaliaTime({ portal }: { portal?: boolean }) {
       const paliaSeconds = realSeconds * 24;
 
       let hours = Math.floor(paliaSeconds / 3600);
+      const minutes = Math.floor((paliaSeconds % 3600) / 60);
+      const period = hours >= 12 ? "PM" : "AM";
       if (hours === 0) {
         hours = 12;
       } else if (hours > 12) {
         hours -= 12;
       }
-      const minutes = Math.floor((paliaSeconds % 3600) / 60);
-      const period = hours >= 12 ? "PM" : "AM";
 
       setTimeFormated(`${hours}:${String(minutes).padStart(2, "0")} ${period}`);
     }, 300);
