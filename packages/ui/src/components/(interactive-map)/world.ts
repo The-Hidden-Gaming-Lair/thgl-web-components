@@ -1,4 +1,4 @@
-import type { TileLayer } from "@repo/lib";
+import { useGameState, type TileLayer } from "@repo/lib";
 import {
   CRS,
   Transformation,
@@ -18,6 +18,7 @@ export function createWorld(
   element: string | HTMLElement,
   view: { center?: [number, number]; zoom?: number },
   options: TileLayer,
+  mapName: string,
 ): LeafletMap {
   const worldCRS = options.transformation
     ? extend({}, CRS.Simple, {
@@ -45,7 +46,10 @@ export function createWorld(
     pmIgnore: false,
   });
 
-  if (view.center) {
+  const player = useGameState.getState().player;
+  if (player && player.mapName === mapName) {
+    world.setView([player.x, player.y], view.zoom, { animate: false });
+  } else if (view.center) {
     world.setView(view.center, view.zoom, { animate: false });
   } else if (options.fitBounds) {
     world.fitBounds(options.fitBounds, { animate: false });
@@ -66,15 +70,19 @@ export function createWorld(
     latLngBounds(options.options.bounds as LatLngExpression[]);
   if (bounds) {
     let isMoving = false;
+    let isReady = false;
+    world.on("whenReady", () => {
+      isReady = true;
+    });
     world.on("moveend", () => {
-      if (isMoving) {
+      if (isMoving || !isReady) {
         return;
       }
       const currentBounds = world.getBounds();
 
       if (!currentBounds.intersects(bounds)) {
         isMoving = true;
-        world.fitBounds(bounds, { animate: false });
+        world.panInsideBounds(bounds, { animate: false, duration: 0 });
         setTimeout(() => {
           isMoving = false;
         }, 1000);

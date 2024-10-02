@@ -28,8 +28,15 @@ export const normalizePoint = ({
 };
 
 export class PlayerMarker extends leaflet.Marker {
-  declare rotation: number;
+  declare options: leaflet.MarkerOptions & { rotation: number };
   private _icon: HTMLElement | undefined = undefined;
+
+  constructor(
+    latLng: leaflet.LatLngExpression,
+    options: leaflet.MarkerOptions & { rotation: number },
+  ) {
+    super(latLng, options);
+  }
 
   _setPos(pos: leaflet.Point): void {
     if (!this._icon) {
@@ -40,7 +47,7 @@ export class PlayerMarker extends leaflet.Marker {
     }
 
     this._icon.style.transformOrigin = "center";
-    this._icon.style.transform = `translate3d(${pos.x}px,${pos.y}px,0) rotate(${this.rotation}deg)`;
+    this._icon.style.transform = `translate3d(${pos.x}px,${pos.y}px,0) rotate(${this.options.rotation}deg)`;
     return;
   }
 
@@ -50,7 +57,7 @@ export class PlayerMarker extends leaflet.Marker {
     if (!latLng.equals(newLatLng)) {
       let playerRotation = r;
 
-      const oldRotation = this.rotation || playerRotation;
+      const oldRotation = this.options.rotation || playerRotation;
 
       let spins = 0;
       if (oldRotation >= 180) {
@@ -65,7 +72,7 @@ export class PlayerMarker extends leaflet.Marker {
         playerRotation -= 360;
       }
 
-      this.rotation = playerRotation;
+      this.options.rotation = playerRotation;
       this.setLatLng(newLatLng);
     }
   }

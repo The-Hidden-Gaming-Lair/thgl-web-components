@@ -21,7 +21,12 @@ export function SimpleMap({
     if (!containerRef.current) {
       throw new Error("Map ref is not defined");
     }
-    const world = createWorld(containerRef.current, {}, mapTileOptions);
+    const world = createWorld(
+      containerRef.current,
+      {},
+      mapTileOptions,
+      mapName,
+    );
     setMap(world);
 
     world.on("mousedown", () => {

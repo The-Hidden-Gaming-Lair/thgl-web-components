@@ -19,7 +19,7 @@ export function Player({
   const setMapName = useUserStore((state) => state.setMapName);
 
   useEffect(() => {
-    if (!map) {
+    if (!map?.mapName) {
       return;
     }
 
@@ -40,8 +40,8 @@ export function Player({
       marker.current = new PlayerMarker([player.x, player.y], {
         icon,
         interactive: false,
+        rotation: player.r,
       });
-      marker.current.rotation = player.r;
     } else {
       marker.current.updatePosition(player);
     }
@@ -61,12 +61,12 @@ export function Player({
         marker.current = null;
       } catch (e) {}
     };
-  }, [map, player?.mapName]);
+  }, [map?.mapName, player?.mapName]);
 
   const lastAnimation = useRef(0);
 
   useEffect(() => {
-    if (!map || !player || !marker.current) {
+    if (!map?.mapName || !player || !marker.current) {
       return;
     }
 
@@ -96,7 +96,7 @@ export function Player({
         });
       }
     }
-  }, [map, player, followPlayerPosition]);
+  }, [map?.mapName, player, followPlayerPosition]);
 
   useEffect(() => {
     if (!player?.mapName || !map) {

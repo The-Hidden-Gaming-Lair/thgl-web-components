@@ -51,6 +51,7 @@ export function InteractiveMap({
       containerRef.current,
       { center, zoom },
       mapTileOptions,
+      mapName,
     );
     world.mapName = mapName;
     setLeaflet(leaflet);
