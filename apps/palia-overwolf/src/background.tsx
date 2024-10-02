@@ -28,7 +28,10 @@ initGameEventsPlugin(
   (location) => {
     if (location.mapName === "HousingPlot") {
       const x = (location.x % 65000) + 35000;
-      const y = (location.y % 65000) - 55000;
+      let y = (location.y % 65000) - 55000;
+      if (y < -40000) {
+        y += 65000;
+      }
       location.x = x;
       location.y = y;
     }
