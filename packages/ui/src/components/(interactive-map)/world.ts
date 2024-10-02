@@ -46,10 +46,7 @@ export function createWorld(
     pmIgnore: false,
   });
 
-  const player = useGameState.getState().player;
-  if (player && player.mapName === mapName) {
-    world.setView([player.x, player.y], view.zoom, { animate: false });
-  } else if (view.center) {
+  if (view.center) {
     world.setView(view.center, view.zoom, { animate: false });
   } else if (options.fitBounds) {
     world.fitBounds(options.fitBounds, { animate: false });
@@ -70,19 +67,29 @@ export function createWorld(
     latLngBounds(options.options.bounds as LatLngExpression[]);
   if (bounds) {
     let isMoving = false;
-    let isReady = false;
-    world.on("whenReady", () => {
-      isReady = true;
-    });
+
     world.on("moveend", () => {
-      if (isMoving || !isReady) {
+      if (isMoving) {
         return;
       }
       const currentBounds = world.getBounds();
 
+      const player = useGameState.getState().player;
+      const playerIsOnMap = player && player.mapName === mapName;
+      if (playerIsOnMap) {
+        if (currentBounds.contains([player.x, player.y])) {
+          return;
+        }
+      }
+
       if (!currentBounds.intersects(bounds)) {
         isMoving = true;
-        world.panInsideBounds(bounds, { animate: false, duration: 0 });
+
+        if (playerIsOnMap) {
+          world.panTo([player.x, player.y], { animate: false, duration: 0 });
+        } else {
+          world.panInsideBounds(bounds, { animate: false, duration: 0 });
+        }
         setTimeout(() => {
           isMoving = false;
         }, 1000);

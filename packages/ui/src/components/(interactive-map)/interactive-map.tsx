@@ -55,7 +55,9 @@ export function InteractiveMap({
     );
     world.mapName = mapName;
     setLeaflet(leaflet);
-    setMap(world);
+    world.whenReady(() => {
+      setMap(world);
+    });
 
     world.on("mousedown", () => {
       document

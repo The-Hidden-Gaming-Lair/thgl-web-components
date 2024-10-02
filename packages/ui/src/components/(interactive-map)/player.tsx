@@ -69,7 +69,6 @@ export function Player({
     if (!map?.mapName || !player || !marker.current) {
       return;
     }
-
     marker.current.updatePosition(player);
 
     const isOnMap = !player.mapName || player.mapName === map.mapName;
