@@ -321,7 +321,7 @@
   "BP_WaterPlane_Fishing_PondVillage_SQ_C": "BP_WaterPlane_Fishing_PondVillage_SQ",
   "BP_WaterPlane_Fishing_RiverAZ1_SQ_C": "BP_WaterPlane_Fishing_RiverAZ1_SQ",
   "BP_WaterPlane_Fishing_RiverVillage_SQ_C": "BP_WaterPlane_Fishing_RiverVillage_SQ",
-  "BP_ValeriaCharacter_C": "players",
+  "BP_ValeriaCharacter_C": "other_player",
   "BP_VillagerFisherman_C": "fisherman",
   "BP_VillagerDeliveryBoy_C": "deliveryboy",
   "BP_VillagerTheWatcher_C": "thewatcher",

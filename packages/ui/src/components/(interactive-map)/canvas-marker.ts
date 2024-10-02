@@ -52,7 +52,7 @@ leaflet.Canvas.include({
       context.shadowOffsetX = 0;
       context.shadowOffsetY = 0;
       context.shadowColor = "black";
-      context.shadowBlur = 4;
+      context.shadowBlur = 1;
       if (isDiscovered) {
         context.filter = "grayscale(100%)";
         context.globalAlpha = 0.5;

@@ -335,7 +335,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
       if (!category) {
         filters.push({
           group: group,
-          defaultOpen: true,
+          defaultOpen: false,
           defaultOn: true,
           values: [],
         });
@@ -445,7 +445,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       group += "_star";
     }
 
-    const size = 1;
+    const size = 1.1;
     let category = filters.find((f) => f.group === group);
     if (!category) {
       filters.push({
@@ -561,13 +561,13 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       group += "_star";
     }
 
-    const size = 1;
+    const size = 1.1;
     let category = filters.find((f) => f.group === group);
     if (!category) {
       filters.push({
         group: group,
         defaultOpen: false,
-        defaultOn: true,
+        defaultOn: isStarQuality,
         values: [],
       });
       category = filters.find((f) => f.group === group)!;
@@ -710,7 +710,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 
     const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
     const typeId = baseType + "_C";
-    const size = 1;
+    let size = 1;
 
     if (typeId.includes("_AZ2")) {
       continue;
@@ -722,7 +722,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       filters.push({
         group: group,
         defaultOpen: false,
-        defaultOn: true,
+        defaultOn: false,
         values: [],
       });
       category = filters.find((f) => f.group === group)!;
@@ -783,14 +783,17 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
           enDict[type] += " (L)";
           iconProps.circle = true;
           iconProps.color = "red";
+          size = 1.2;
         } else if (typeId.includes("Medium")) {
           enDict[type] += " (M)";
           iconProps.circle = true;
           iconProps.color = "yellow";
+          size = 1.1;
         } else if (typeId.includes("Small")) {
           enDict[type] += " (S)";
           iconProps.circle = true;
           iconProps.color = "green";
+          size = 1;
         }
 
         const iconName = await saveIcon(
@@ -862,7 +865,6 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 
     const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
     const typeId = baseType + "_C";
-    const size = 1;
 
     let type = gatherableLootComponent.Properties!.RewardFinal!.Loot.RowName;
     if (type.includes(".Magical")) {
@@ -882,6 +884,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         ".Magical";
     }
     const isMagical = type.endsWith(".Magical");
+    const size = isMagical ? 1.5 : 1;
 
     const group = isMagical ? "lumberjacking_magical" : "lumberjacking";
     let category = filters.find((f) => f.group === group);
@@ -889,7 +892,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       filters.push({
         group: group,
         defaultOpen: false,
-        defaultOn: true,
+        defaultOn: isMagical,
         values: [],
       });
       category = filters.find((f) => f.group === group)!;
@@ -1045,7 +1048,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 
     const baseType = skillFile.replace(".json", "").split("\\").at(-1)!;
     const typeId = baseType + "_C";
-    const size = 1;
+    const size = 1.1;
 
     const type = lootComponent.Properties!.RewardFinal!.Loot.RowName;
 
@@ -1165,7 +1168,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     const starQualityConfig = fishConfigs[0].Rows[type + "_SQ"];
 
     const typeId = config.FishBlueprint.AssetPathName.split(".").at(-1)!;
-    const size = 1;
+    const size = 1.2;
     const itemType = await readJSON<DA_ItemType>(
       CONTENT_DIR +
         "/Palia/Content/" +
@@ -1185,7 +1188,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       filters.push({
         group: group,
         defaultOpen: false,
-        defaultOn: true,
+        defaultOn: false,
         values: [],
       });
       category = filters.find((f) => f.group === group)!;
@@ -1248,7 +1251,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     const waterPlane = await readJSON<WaterPlane_Fishing>(waterFile);
     const baseType = waterFile.replace(".json", "").split("\\").at(-1)!;
     const typeId = baseType + "_C";
-    const size = 1;
+    const size = 1.1;
     const type = baseType;
 
     const group = "hotspots";
@@ -1382,8 +1385,8 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     },
   );
 
-  const group = "people";
-  const type = "players";
+  const group = "players";
+  const type = "other_player";
   const size = 1;
   let category = filters.find((f) => f.group === group);
   if (!category) {
@@ -1394,7 +1397,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       values: [],
     });
     category = filters.find((f) => f.group === group)!;
-    enDict[group] = "People";
+    enDict[group] = "Players";
   }
 
   if (!category.values.some((v) => v.id === type)) {
@@ -1403,7 +1406,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       TEXTURE_DIR +
       "/Palia/Content/UI/WorldMap/Assets/Icon_Map_Marker_Player.png";
     const iconName = await saveIcon(iconPath, type, iconProps);
-    enDict[type] = "Players";
+    enDict[type] = "Other Player";
 
     category.values.push({
       id: type,
@@ -1412,6 +1415,21 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     });
   }
   typesIDs["BP_ValeriaCharacter_C"] = type;
+}
+{
+  const group = "villagers";
+  const size = 1.2;
+  let category = filters.find((f) => f.group === group);
+  if (!category) {
+    filters.push({
+      group: group,
+      defaultOpen: false,
+      defaultOn: true,
+      values: [],
+    });
+    category = filters.find((f) => f.group === group)!;
+    enDict[group] = "Villagers";
+  }
 
   const villagerConfigs = await readJSON<DT_VillagerConfigs>(
     CONTENT_DIR + "/Palia/Content/Configs/DT_VillagerConfigs.json",
@@ -1453,7 +1471,8 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 const sortPriority = [
   "locations",
   "timed_loot_piles",
-  "people",
+  "players",
+  "villagers",
   "mining",
   "hunting",
   "lumberjacking_magical",

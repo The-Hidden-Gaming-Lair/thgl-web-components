@@ -1,7 +1,7 @@
 [
   {
     "group": "locations",
-    "defaultOpen": true,
+    "defaultOpen": false,
     "defaultOn": true,
     "values": [
       {
@@ -54,146 +54,153 @@
     ]
   },
   {
-    "group": "people",
+    "group": "players",
     "defaultOpen": false,
     "defaultOn": true,
     "values": [
       {
-        "id": "players",
-        "icon": "players.webp",
+        "id": "other_player",
+        "icon": "other_player.webp",
         "size": 1
-      },
+      }
+    ]
+  },
+  {
+    "group": "villagers",
+    "defaultOpen": false,
+    "defaultOn": true,
+    "values": [
       {
         "id": "fisherman",
         "icon": "fisherman.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "deliveryboy",
         "icon": "deliveryboy.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thewatcher",
         "icon": "thewatcher.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thedemolitionist",
         "icon": "thedemolitionist.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "theinnkeeper",
         "icon": "theinnkeeper.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thehunter",
         "icon": "thehunter.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thearcheologist",
         "icon": "thearcheologist.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "themagistrate",
         "icon": "themagistrate.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thecook",
         "icon": "thecook.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thesalesman",
         "icon": "thesalesman.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thecarpenter",
         "icon": "thecarpenter.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "themayor",
         "icon": "themayor.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thefarmer",
         "icon": "thefarmer.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "therancher",
         "icon": "therancher.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "theblacksmith",
         "icon": "theblacksmith.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "theminer",
         "icon": "theminer.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thealchemist",
         "icon": "thealchemist.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thelibrarian",
         "icon": "thelibrarian.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thefarmboy",
         "icon": "thefarmboy.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thenanny",
         "icon": "thenanny.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "themayorsdaughter",
         "icon": "themayorsdaughter.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thetailor",
         "icon": "thetailor.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thecurator",
         "icon": "thecurator.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "thehealer",
         "icon": "thehealer.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "theplumehound",
         "icon": "theplumehound.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "mining",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Mining.Clay.Final",
@@ -203,12 +210,12 @@
       {
         "id": "Mining.Copper.Large.Final",
         "icon": "miningcopperlargefinal.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Mining.Copper.Final",
         "icon": "miningcopperfinal.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Mining.Copper.Small.Final",
@@ -218,12 +225,12 @@
       {
         "id": "Mining.Iron.Large.Final",
         "icon": "miningironlargefinal.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Mining.Iron.Final",
         "icon": "miningironfinal.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Mining.Iron.Small.Final",
@@ -233,12 +240,12 @@
       {
         "id": "Mining.Palium.Large.Final",
         "icon": "miningpaliumlargefinal.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Mining.Palium.Medium.Final",
         "icon": "miningpaliummediumfinal.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Mining.Palium.Small.Final",
@@ -248,12 +255,12 @@
       {
         "id": "Mining.Stone.Large.Final",
         "icon": "miningstonelargefinal.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Mining.Stone.Final",
         "icon": "miningstonefinal.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Mining.Stone.Small.Final",
@@ -270,47 +277,47 @@
       {
         "id": "Hunting.Creature.Cearnuk_T1",
         "icon": "huntingcreaturecearnuk_t1.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.Cearnuk_T2",
         "icon": "huntingcreaturecearnuk_t2.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.Cearnuk_T3",
         "icon": "huntingcreaturecearnuk_t3.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.Chapaa_T1",
         "icon": "huntingcreaturechapaa_t1.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.Chapaa_T2",
         "icon": "huntingcreaturechapaa_t2.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.Chapaa_T3",
         "icon": "huntingcreaturechapaa_t3.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.TreeClimber_T1",
         "icon": "huntingcreaturetreeclimber_t1.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.TreeClimber_T2",
         "icon": "huntingcreaturetreeclimber_t2.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "Hunting.Creature.TreeClimber_T3",
         "icon": "huntingcreaturetreeclimber_t3.webp",
-        "size": 1
+        "size": 1.1
       }
     ]
   },
@@ -322,89 +329,89 @@
       {
         "id": "Woodcutting.Birch.Large.Final.Magical",
         "icon": "woodcuttingbirchlargefinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Birch.Medium.Final.Magical",
         "icon": "woodcuttingbirchmediumfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Birch.Sapling.Final.Magical",
         "icon": "woodcuttingbirchsaplingfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Birch.Small.Final.Magical",
         "icon": "woodcuttingbirchsmallfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Juniper.Large.Final.Magical",
         "icon": "woodcuttingjuniperlargefinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Juniper.Medium.Final.Magical",
         "icon": "woodcuttingjunipermediumfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Juniper.Sapling.Final.Magical",
         "icon": "woodcuttingjunipersaplingfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Juniper.Small.Final.Magical",
         "icon": "woodcuttingjunipersmallfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Oak.Large.Final.Magical",
         "icon": "woodcuttingoaklargefinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Oak.Medium.Final.Magical",
         "icon": "woodcuttingoakmediumfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Oak.Sapling.Final.Magical",
         "icon": "woodcuttingoaksaplingfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Oak.Small.Final.Magical",
         "icon": "woodcuttingoaksmallfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Pine.Large.Final.Magical",
         "icon": "woodcuttingpinelargefinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Pine.Medium.Final.Magical",
         "icon": "woodcuttingpinemediumfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Pine.Sapling.Final.Magical",
         "icon": "woodcuttingpinesaplingfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       },
       {
         "id": "Woodcutting.Pine.Small.Final.Magical",
         "icon": "woodcuttingpinesmallfinalmagical.webp",
-        "size": 1
+        "size": 1.5
       }
     ]
   },
   {
     "group": "lumberjacking",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Woodcutting.Birch.Large.Final",
@@ -496,25 +503,25 @@
       {
         "id": "bp_bug_beetlee_star",
         "icon": "bp_bug_beetlee_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflye_star",
         "icon": "bp_bug_butterflye_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflye_star",
         "icon": "bp_bug_dragonflye_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantise_star",
         "icon": "bp_bug_mantise_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -527,25 +534,25 @@
       {
         "id": "bp_bug_beetlee",
         "icon": "bp_bug_beetlee.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflye",
         "icon": "bp_bug_butterflye.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflye",
         "icon": "bp_bug_dragonflye.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantise",
         "icon": "bp_bug_mantise.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -558,91 +565,91 @@
       {
         "id": "bp_bug_beer_star",
         "icon": "bp_bug_beer_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_beetler_star",
         "icon": "bp_bug_beetler_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflyr_star",
         "icon": "bp_bug_butterflyr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cicadar_star",
         "icon": "bp_bug_cicadar_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_crabr_star",
         "icon": "bp_bug_crabr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cricketr_star",
         "icon": "bp_bug_cricketr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflyr_star",
         "icon": "bp_bug_dragonflyr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_glowbugr_star",
         "icon": "bp_bug_glowbugr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_ladybugr_star",
         "icon": "bp_bug_ladybugr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantisr1_star",
         "icon": "bp_bug_mantisr1_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantisr2_star",
         "icon": "bp_bug_mantisr2_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mothr_star",
         "icon": "bp_bug_mothr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_peder1_star",
         "icon": "bp_bug_peder1_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_peder2_star",
         "icon": "bp_bug_peder2_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_snailr_star",
         "icon": "bp_bug_snailr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -655,91 +662,91 @@
       {
         "id": "bp_bug_beer",
         "icon": "bp_bug_beer.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_beetler",
         "icon": "bp_bug_beetler.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflyr",
         "icon": "bp_bug_butterflyr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cicadar",
         "icon": "bp_bug_cicadar.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_crabr",
         "icon": "bp_bug_crabr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cricketr",
         "icon": "bp_bug_cricketr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflyr",
         "icon": "bp_bug_dragonflyr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_glowbugr",
         "icon": "bp_bug_glowbugr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_ladybugr",
         "icon": "bp_bug_ladybugr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantisr1",
         "icon": "bp_bug_mantisr1.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantisr2",
         "icon": "bp_bug_mantisr2.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mothr",
         "icon": "bp_bug_mothr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_peder1",
         "icon": "bp_bug_peder1.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_peder2",
         "icon": "bp_bug_peder2.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_snailr",
         "icon": "bp_bug_snailr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -752,73 +759,73 @@
       {
         "id": "bp_bug_beeu_star",
         "icon": "bp_bug_beeu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_beetleu_star",
         "icon": "bp_bug_beetleu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflyu_star",
         "icon": "bp_bug_butterflyu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cicadau_star",
         "icon": "bp_bug_cicadau_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_crabu_star",
         "icon": "bp_bug_crabu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cricketu_star",
         "icon": "bp_bug_cricketu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflyu_star",
         "icon": "bp_bug_dragonflyu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_ladybugu_star",
         "icon": "bp_bug_ladybugu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantisu_star",
         "icon": "bp_bug_mantisu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mothu_star",
         "icon": "bp_bug_mothu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_pedeu_star",
         "icon": "bp_bug_pedeu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_snailu_star",
         "icon": "bp_bug_snailu_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -831,73 +838,73 @@
       {
         "id": "bp_bug_beeu",
         "icon": "bp_bug_beeu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_beetleu",
         "icon": "bp_bug_beetleu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflyu",
         "icon": "bp_bug_butterflyu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cicadau",
         "icon": "bp_bug_cicadau.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_crabu",
         "icon": "bp_bug_crabu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cricketu",
         "icon": "bp_bug_cricketu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflyu",
         "icon": "bp_bug_dragonflyu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_ladybugu",
         "icon": "bp_bug_ladybugu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantisu",
         "icon": "bp_bug_mantisu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mothu",
         "icon": "bp_bug_mothu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_pedeu",
         "icon": "bp_bug_pedeu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_snailu",
         "icon": "bp_bug_snailu.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -910,49 +917,49 @@
       {
         "id": "bp_bug_beetlec_star",
         "icon": "bp_bug_beetlec_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflyc_star",
         "icon": "bp_bug_butterflyc_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cicadac_star",
         "icon": "bp_bug_cicadac_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_crabc_star",
         "icon": "bp_bug_crabc_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cricketc_star",
         "icon": "bp_bug_cricketc_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflyc_star",
         "icon": "bp_bug_dragonflyc_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_glowbugc_star",
         "icon": "bp_bug_glowbugc_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mothc_star",
         "icon": "bp_bug_mothc_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -965,49 +972,49 @@
       {
         "id": "bp_bug_beetlec",
         "icon": "bp_bug_beetlec.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflyc",
         "icon": "bp_bug_butterflyc.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cicadac",
         "icon": "bp_bug_cicadac.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_crabc",
         "icon": "bp_bug_crabc.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cricketc",
         "icon": "bp_bug_cricketc.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflyc",
         "icon": "bp_bug_dragonflyc.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_glowbugc",
         "icon": "bp_bug_glowbugc.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mothc",
         "icon": "bp_bug_mothc.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1015,36 +1022,36 @@
   {
     "group": "foraging_special",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_gatherable_gravesite",
         "icon": "bp_gatherable_gravesite.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_remembrancegarden",
         "icon": "bp_gatherable_remembrancegarden.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_questitem_calerilvl3book",
         "icon": "bp_questitem_calerilvl3book.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_questitem_cookbook_1",
         "icon": "bp_questitem_cookbook_1.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_questitem_cookbook_2",
         "icon": "bp_questitem_cookbook_2.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1052,12 +1059,12 @@
   {
     "group": "foraging_legendary",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_heartofmagic",
         "icon": "bp_heartofmagic.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1070,13 +1077,13 @@
       {
         "id": "bp_spice_daricloves_star",
         "icon": "bp_spice_daricloves_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_heartdroplilly_star",
         "icon": "bp_heartdroplilly_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -1084,18 +1091,18 @@
   {
     "group": "foraging_epic",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_spice_daricloves",
         "icon": "bp_spice_daricloves.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_heartdroplilly",
         "icon": "bp_heartdroplilly.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1108,19 +1115,19 @@
       {
         "id": "bp_gatherable_mushroomblue_star",
         "icon": "bp_gatherable_mushroomblue_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_spice_heatroot_star",
         "icon": "bp_spice_heatroot_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_moss_dragonsbeard_star",
         "icon": "bp_moss_dragonsbeard_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -1128,42 +1135,42 @@
   {
     "group": "foraging_rare",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_gatherable_mushroomblue",
         "icon": "bp_gatherable_mushroomblue.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_spice_heatroot",
         "icon": "bp_spice_heatroot.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_lootcrate_parent",
         "icon": "bp_lootcrate_parent.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_moss_dragonsbeard",
         "icon": "bp_moss_dragonsbeard.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_firestone",
         "icon": "bp_firestone.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_moonstone",
         "icon": "bp_moonstone.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1176,61 +1183,61 @@
       {
         "id": "bp_honey_star",
         "icon": "bp_honey_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_coral_star",
         "icon": "bp_coral_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_gatherable_ginger_star",
         "icon": "bp_gatherable_ginger_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_gatherable_greenonion_star",
         "icon": "bp_gatherable_greenonion_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_moss_emeraldcarpet_star",
         "icon": "bp_moss_emeraldcarpet_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_poisonflower_star",
         "icon": "bp_poisonflower_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_spiced_sprouts_star",
         "icon": "bp_spiced_sprouts_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_sweetleaves_star",
         "icon": "bp_sweetleaves_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_waterflower_star",
         "icon": "bp_waterflower_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_wildgarlic_star",
         "icon": "bp_wildgarlic_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -1238,66 +1245,66 @@
   {
     "group": "foraging_uncommon",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_honey",
         "icon": "bp_honey.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_coral",
         "icon": "bp_coral.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_ginger",
         "icon": "bp_gatherable_ginger.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_greenonion",
         "icon": "bp_gatherable_greenonion.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_moss_emeraldcarpet",
         "icon": "bp_moss_emeraldcarpet.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_poisonflower",
         "icon": "bp_poisonflower.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_spiced_sprouts",
         "icon": "bp_spiced_sprouts.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_sweetleaves",
         "icon": "bp_sweetleaves.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_waterflower",
         "icon": "bp_waterflower.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_wildgarlic",
         "icon": "bp_wildgarlic.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1310,19 +1317,19 @@
       {
         "id": "bp_gatherable_mushroomr_star",
         "icon": "bp_gatherable_mushroomr_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_seashell_star",
         "icon": "bp_seashell_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_sundroplillies_star",
         "icon": "bp_sundroplillies_star.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": true
       }
     ]
@@ -1330,36 +1337,36 @@
   {
     "group": "foraging_common",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_oyster",
         "icon": "bp_oyster.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_mushroomr",
         "icon": "bp_gatherable_mushroomr.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_seashell",
         "icon": "bp_seashell.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_sundroplillies",
         "icon": "bp_sundroplillies.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_worm",
         "icon": "bp_worm.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1367,24 +1374,24 @@
   {
     "group": "foraging_abundant",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "bp_gatherable_knapweed",
         "icon": "bp_gatherable_knapweed.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_stone",
         "icon": "bp_stone.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_thistle",
         "icon": "bp_gatherable_thistle.webp",
-        "size": 1,
+        "size": 1.1,
         "live_only": false
       }
     ]
@@ -1397,546 +1404,546 @@
       {
         "id": "BP_WaterPlane_Fishing_AZ1_Cave_SQ",
         "icon": "bp_waterplane_fishing_az1_cave_sq.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_LakeVillage_SQ",
         "icon": "bp_waterplane_fishing_lakevillage_sq.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_OceanAZ1_SQ",
         "icon": "bp_waterplane_fishing_oceanaz1_sq.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_PondVillage_SQ",
         "icon": "bp_waterplane_fishing_pondvillage_sq.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_RiverAZ1_SQ",
         "icon": "bp_waterplane_fishing_riveraz1_sq.webp",
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_RiverVillage_SQ",
         "icon": "bp_waterplane_fishing_rivervillage_sq.webp",
-        "size": 1
+        "size": 1.1
       }
     ]
   },
   {
     "group": "fishing_legendary",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "QuestItem_CloudMinnow1",
         "icon": "questitem_cloudminnow1.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "QuestItem_CloudMinnow2",
         "icon": "questitem_cloudminnow2.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "QuestItem_CloudMinnow3",
         "icon": "questitem_cloudminnow3.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "QuestItem_CloudMinnow4",
         "icon": "questitem_cloudminnow4.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "fishing_epic",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Fish_UnicornFish",
         "icon": "fish_unicornfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Giant_Goldfish",
         "icon": "fish_giant_goldfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Flametongue_Ray",
         "icon": "fish_flametongue_ray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Swordfin_Eel",
         "icon": "fish_swordfin_eel.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Giant_Kilima_Stingray",
         "icon": "fish_giant_kilima_stingray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Voidray",
         "icon": "fish_voidray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Recipe_Cooking_Sushi",
         "icon": "recipe_cooking_sushi.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Jackpot_Makeshift",
         "icon": "jackpot_makeshift.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_AncientFish",
         "icon": "fish_ancientfish.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "fishing_rare",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Fish_FairyCarp",
         "icon": "fish_fairycarp.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_RadiantSunfish",
         "icon": "fish_radiantsunfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_BlueMarlin",
         "icon": "fish_bluemarlin.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_ShimmerFin",
         "icon": "fish_shimmerfin.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_MutatedAngler",
         "icon": "fish_mutatedangler.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Energized_Pirhana",
         "icon": "fish_energized_pirhana.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Willow_Lamprey",
         "icon": "fish_willow_lamprey.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Thundering_Eel",
         "icon": "fish_thundering_eel.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Cloudfish",
         "icon": "fish_cloudfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Kenjis_Carp",
         "icon": "fish_kenjis_carp.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Stormray",
         "icon": "fish_stormray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Blue_Spotted_Ray",
         "icon": "fish_blue_spotted_ray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Midnight_Paddlefish",
         "icon": "fish_midnight_paddlefish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Hypnotic_Moray",
         "icon": "fish_hypnotic_moray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Recipe_Cooking_FishStew",
         "icon": "recipe_cooking_fishstew.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "fishing_uncommon",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Fish_CantankerousKoi",
         "icon": "fish_cantankerouskoi.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Stickleback",
         "icon": "fish_stickleback.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_FreshwaterEel",
         "icon": "fish_freshwatereel.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Barracuda",
         "icon": "fish_barracuda.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_RibbontailRay",
         "icon": "fish_ribbontailray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_PrismTrout",
         "icon": "fish_prismtrout.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_StripedSturgeon",
         "icon": "fish_stripedsturgeon.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_UmbranCarp",
         "icon": "fish_umbrancarp.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_BatRay",
         "icon": "fish_batray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Mirror_Carp",
         "icon": "fish_mirror_carp.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Channel_Catfish",
         "icon": "fish_channel_catfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Dawnray",
         "icon": "fish_dawnray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Duskray",
         "icon": "fish_duskray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Rainbow_Trout",
         "icon": "fish_rainbow_trout.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Paddlefish",
         "icon": "fish_paddlefish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Cutthroat_Trout",
         "icon": "fish_cutthroat_trout.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Stalking_Catfish",
         "icon": "fish_stalking_catfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Kilima_Grayling",
         "icon": "fish_kilima_grayling.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Indigo_Lamprey",
         "icon": "fish_indigo_lamprey.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Honey_Loach",
         "icon": "fish_honey_loach.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Chub",
         "icon": "fish_chub.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Cactus_Moray",
         "icon": "fish_cactus_moray.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Enchanted_Pupfish",
         "icon": "fish_enchanted_pupfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Crimson_Fangtooth",
         "icon": "fish_crimson_fangtooth.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Recipe_Cooking_Sashimi",
         "icon": "recipe_cooking_sashimi.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "fishing_common",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Fish_Gillyfin",
         "icon": "fish_gillyfin.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_CalicoKoi",
         "icon": "fish_calicokoi.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_KilimaCatfish",
         "icon": "fish_kilimacatfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_SpottedBullhead",
         "icon": "fish_spottedbullhead.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_SilverSalmon",
         "icon": "fish_silversalmon.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_GoldenSalmon",
         "icon": "fish_goldensalmon.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Sardine",
         "icon": "fish_sardine.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_BahariBream",
         "icon": "fish_baharibream.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_SmallmouthBass",
         "icon": "fish_smallmouthbass.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_LargemouthBass",
         "icon": "fish_largemouthbass.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_PaintedPerch",
         "icon": "fish_paintedperch.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_EyelessMinnow",
         "icon": "fish_eyelessminnow.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_AlbinoEel",
         "icon": "fish_albinoeel.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Mudminnow",
         "icon": "fish_mudminnow.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Orange_Bluegill",
         "icon": "fish_orange_bluegill.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Striped_Dace",
         "icon": "fish_striped_dace.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Yellow_Perch",
         "icon": "fish_yellow_perch.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Silvery_Minnow",
         "icon": "fish_silvery_minnow.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Rosy_Bitterling",
         "icon": "fish_rosy_bitterling.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Red-bellied_Pirhana",
         "icon": "fish_redbellied_pirhana.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Kilima_Redfin",
         "icon": "fish_kilima_redfin.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Oily_Anchovy",
         "icon": "fish_oily_anchovy.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Codfish",
         "icon": "fish_codfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Bigeye_Tuna",
         "icon": "fish_bigeye_tuna.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Scarlet_Koi",
         "icon": "fish_scarlet_koi.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Mottled_Gobi",
         "icon": "fish_mottled_gobi.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Crucian_Carp",
         "icon": "fish_crucian_carp.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Platinum_Chad",
         "icon": "fish_platinum_chad.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Bahari_Pike",
         "icon": "fish_bahari_pike.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Fathead_Minnow",
         "icon": "fish_fathead_minnow.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Yellowfin_Tuna",
         "icon": "fish_yellowfin_tuna.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Black_Sea_Bass",
         "icon": "fish_black_sea_bass.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Beluga_Sturgeon",
         "icon": "fish_beluga_sturgeon.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Alligator_Gar",
         "icon": "fish_alligator_gar.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Blobfish",
         "icon": "fish_blobfish.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Fish_Stonefish",
         "icon": "fish_stonefish.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "fishing_special",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "QuestItem_FT_DoorKey",
         "icon": "questitem_ft_doorkey.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   },
   {
     "group": "fishing_abundant",
     "defaultOpen": false,
-    "defaultOn": true,
+    "defaultOn": false,
     "values": [
       {
         "id": "Trash_Wagonwheel",
         "icon": "trash_wagonwheel.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Trash_ShipFragments",
         "icon": "trash_shipfragments.webp",
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "Trash_WaterloggedBoot",
         "icon": "trash_waterloggedboot.webp",
-        "size": 1
+        "size": 1.2
       }
     ]
   }
