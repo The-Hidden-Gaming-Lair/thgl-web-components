@@ -1,8 +1,10 @@
 import {
+  type Actor,
   type GameEventsPlugin,
   initBackground,
   initGameEventsPlugin,
   MESSAGES,
+  promisifyOverwolf,
 } from "@repo/lib/overwolf";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
@@ -14,7 +16,11 @@ initBackground(
 
 type PaliaEventsPlugin = {
   GetValeriaCharacter: (
-    callback: (valeriaCharacter: ValeriaCharacter) => void,
+    callback: (valeriaCharacter: ValeriaCharacter | null) => void,
+    onError: (err: string) => void,
+  ) => void;
+  GetCurrentGiftPreferences: (
+    callback: (currentGiftPreferences: CurrentGiftPreferences) => void,
     onError: (err: string) => void,
   ) => void;
 } & GameEventsPlugin;
@@ -38,6 +44,19 @@ export interface SkillLevels {
   type: string;
   level: number;
   xpGainedThisLevel: number;
+}
+
+export interface CurrentGiftPreferences {
+  preferenceResetTime: {
+    dayOfWeek: number;
+    hour: number;
+    minute: number;
+  };
+  preferenceDataVersionNumber: number;
+  currentPreferenceData: {
+    villagerCoreId: number;
+    currentGiftPreferences: number[];
+  }[];
 }
 
 const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
@@ -72,7 +91,69 @@ const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
   (actor) => {
     return !actor.hidden;
   },
+  sendActorsToAPI,
 );
+
+const manifest = await promisifyOverwolf(
+  overwolf.extensions.current.getManifest,
+)();
+const version = manifest.meta.version;
+
+let lastSend = 0;
+let lastActorAddresses: number[] = [];
+function sendActorsToAPI(actors: Actor[]): void {
+  if (Date.now() - lastSend < 10000) {
+    return;
+  }
+
+  lastSend = Date.now();
+
+  const newActors = actors.filter((actor) => {
+    const id = typesIdMap[actor.type as keyof typeof typesIdMap];
+    if (!id) {
+      return false;
+    }
+    if (lastActorAddresses.includes(actor.address)) {
+      return false;
+    }
+    return true;
+  });
+  lastActorAddresses = actors.map((actor) => actor.address);
+  if (newActors.length === 0) {
+    return;
+  }
+
+  const staticActors = newActors.map(
+    ({ address, path, hidden, ...actor }) => actor,
+  );
+
+  fetch("https://palia-api.th.gl/nodes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "App-Version": version,
+    },
+    body: JSON.stringify(staticActors),
+  }).catch(() => null);
+}
+
+setInterval(() => {
+  gameEventsPlugin.GetCurrentGiftPreferences(
+    (currentGiftPreferences) => {
+      fetch("https://palia-api.th.gl/weekly-wants", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "App-Version": version,
+        },
+        body: JSON.stringify(currentGiftPreferences),
+      }).catch(() => null);
+    },
+    () => {
+      //
+    },
+  );
+}, 30000);
 
 setInterval(() => {
   gameEventsPlugin.GetValeriaCharacter(

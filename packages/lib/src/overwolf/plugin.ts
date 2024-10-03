@@ -68,7 +68,7 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
     mapName?: string;
   }) => void,
   filterActor?: (actor: Actor, index: number, actors: Actor[]) => boolean,
-  onActors?: (actors: Actor[]) => void,
+  onActors?: (actors: Actor[]) => void | Promise<void>,
 ) {
   try {
     window.gameEventBus = new EventBus();
