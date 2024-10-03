@@ -43,7 +43,12 @@ import {
   AdsScript,
   AdsFallback,
 } from "@repo/ui/overwolf";
-import { PaliaGrid, PaliaTime, PaliaGridToggle } from "@repo/ui/data";
+import {
+  PaliaGrid,
+  PaliaTime,
+  PaliaGridToggle,
+  PaliaWeeklyWants,
+} from "@repo/ui/data";
 import enDictGlobal from "../global_dicts/en.json" assert { type: "json" };
 import enDict from "../dicts/en.json" assert { type: "json" };
 import _nodes from "../coordinates/nodes.json" assert { type: "json" };
@@ -109,6 +114,7 @@ function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
                   tileOptions={tiles as unknown as TileOptions}
                   additionalFilters={
                     <>
+                      {/* <PaliaWeeklyWants /> */}
                       <PaliaTime />
                       <PaliaGridToggle />
                     </>

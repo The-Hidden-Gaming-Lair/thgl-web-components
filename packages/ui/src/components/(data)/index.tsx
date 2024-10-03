@@ -8,6 +8,7 @@ export * from "./diablo4-events";
 export * from "./palia-grid-toggle";
 export * from "./palia-grid";
 export * from "./palia-time";
+export * from "./palia-weekly-wants";
 export * from "./ping";
 export * from "./sidebar";
 export * from "./troops";
