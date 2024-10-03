@@ -7,22 +7,37 @@ import {
   initDiscordRPC,
   logVersion,
   listenToGameEvents,
+  brotliDecompress,
 } from "@repo/lib/overwolf";
-import { useGameState } from "@repo/lib";
-import { type Dict } from "@repo/ui/providers";
+import { decodeFromBuffer, useGameState } from "@repo/lib";
+import { type NodesCoordinates, type Dict } from "@repo/ui/providers";
 import App from "./app";
 import _enDict from "./dicts/en.json" assert { type: "json" };
-
-const enDict = _enDict as Dict;
+import AdventureZoneWorld from "./coordinates/cbor/AdventureZoneWorld.cbor?url";
+import VillageWorld from "./coordinates/cbor/VillageWorld.cbor?url";
+import HousingPlot from "./coordinates/cbor/HousingPlot.cbor?url";
+import MajiMarket from "./coordinates/cbor/MajiMarket.cbor?url";
 
 logVersion();
+
+const enDict = _enDict as Dict;
+const maps = [AdventureZoneWorld, VillageWorld, HousingPlot, MajiMarket];
+const allNodes = await Promise.all(
+  maps.map(async (map) => {
+    const response = await fetch(map);
+    const arrayBuffer = await response.arrayBuffer();
+    const decrompressed = brotliDecompress(arrayBuffer);
+    return decodeFromBuffer<NodesCoordinates>(decrompressed);
+  }),
+);
+const nodes = allNodes.flat();
 
 const el = document.getElementById("root");
 if (el) {
   const root = createRoot(el);
   root.render(
     <React.StrictMode>
-      <App />
+      <App nodes={nodes} />
     </React.StrictMode>,
   );
 } else {
@@ -36,7 +51,7 @@ await initDiscordRPC("1181323945866178560", (updatePresence) => {
   if (!player?.mapName || !character) {
     return;
   }
-  const level = character?.skillLevels.reduce(
+  const level = character.skillLevels.reduce(
     (acc: number, cur: { level: number }) => acc + (cur.level - 1),
     1,
   );

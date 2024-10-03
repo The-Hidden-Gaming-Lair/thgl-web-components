@@ -54,7 +54,6 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import globalFilters from "../coordinates/global-filters.json" assert { type: "json" };
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
-const nodes = _nodes as NodesCoordinates;
 const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Palia";
@@ -67,7 +66,7 @@ const MARKER_OPTIONS: MarkerOptions = {
     zDistance: 400,
   },
 };
-function App(): JSX.Element {
+function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
