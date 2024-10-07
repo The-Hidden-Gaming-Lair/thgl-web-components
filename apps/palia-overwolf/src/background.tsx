@@ -59,6 +59,14 @@ export interface CurrentGiftPreferences {
   }[];
 }
 
+const manifest = await promisifyOverwolf(
+  overwolf.extensions.current.getManifest,
+)();
+const version = manifest.meta.version;
+
+let lastSend = 0;
+let lastActorAddresses: number[] = [];
+
 const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
   "",
   Object.keys(typesIdMap),
@@ -94,13 +102,6 @@ const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
   sendActorsToAPI,
 );
 
-const manifest = await promisifyOverwolf(
-  overwolf.extensions.current.getManifest,
-)();
-const version = manifest.meta.version;
-
-let lastSend = 0;
-let lastActorAddresses: number[] = [];
 function sendActorsToAPI(actors: Actor[]): void {
   if (Date.now() - lastSend < 10000) {
     return;
