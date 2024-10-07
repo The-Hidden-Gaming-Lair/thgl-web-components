@@ -22,19 +22,19 @@ export async function saveIcon(
   name: string,
   props: IconProps = {},
 ) {
+  let filePath;
+  if (
+    assetPath.startsWith("/home") ||
+    assetPath.startsWith("/mnt") ||
+    assetPath.startsWith("C:\\")
+  ) {
+    filePath = assetPath;
+  } else if (assetPath.startsWith("/")) {
+    filePath = TEXTURE_DIR + assetPath;
+  } else {
+    filePath = TEXTURE_DIR + "/" + assetPath;
+  }
   try {
-    let filePath;
-    if (
-      assetPath.startsWith("/home") ||
-      assetPath.startsWith("/mnt") ||
-      assetPath.startsWith("C:\\")
-    ) {
-      filePath = assetPath;
-    } else if (assetPath.startsWith("/")) {
-      filePath = TEXTURE_DIR + assetPath;
-    } else {
-      filePath = TEXTURE_DIR + "/" + assetPath;
-    }
     const filename = name
       .replaceAll(" ", "_")
       .replace(/[^a-zA-Z0-9_]/g, "")
@@ -89,7 +89,7 @@ export async function saveIcon(
     savedIcons.push(filename);
     return `${filename}.webp`;
   } catch (e) {
-    console.error("Error saving icon", name, assetPath, props);
+    console.error("Error saving icon", name, assetPath, filePath, props);
     throw e;
   }
 }

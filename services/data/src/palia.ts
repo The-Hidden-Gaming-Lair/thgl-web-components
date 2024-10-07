@@ -11,6 +11,7 @@ import {
   readDirRecursive,
   readDirSync,
   readJSON,
+  writeJSON,
 } from "./lib/fs.js";
 import { IconProps, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
@@ -36,6 +37,8 @@ import {
   WaterPlane_Fishing,
   DT_VillagerConfigs,
   DA_HousingStartSpawnConfig,
+  DT_GiftPreferenceConfigs,
+  DT_VillagerCoreConfigs,
 } from "./palia.types.js";
 import { Node } from "./types.js";
 
@@ -66,7 +69,8 @@ const levelConfigs = await readJSON<DT_LevelConfigs>(
 
 const tiles = initTiles();
 const filters = initFilters();
-const nodes = initNodes();
+const nodes = await readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json");
+
 const regions = initRegions();
 const typesIDs = initTypesIDs();
 const globalFilters = initGlobalFilters();
@@ -1433,14 +1437,25 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     enDict[group] = "Villagers";
   }
 
+  const villagers: {
+    villagerCoreId: number;
+    persistId: number;
+    type: string;
+    typeId: string;
+    icon: string;
+  }[] = [];
   const villagerConfigs = await readJSON<DT_VillagerConfigs>(
     CONTENT_DIR + "/Palia/Content/Configs/DT_VillagerConfigs.json",
+  );
+  const villagerCoreConfigs = await readJSON<DT_VillagerCoreConfigs>(
+    CONTENT_DIR + "/Palia/Content/Configs/DT_VillagerCoreConfigs.json",
   );
   for (const config of Object.values(villagerConfigs[0].Rows)) {
     const type = config.VillagerCoreConfig.RowName;
     if (type.includes("test")) {
       continue;
     }
+
     if (!category.values.some((v) => v.id === type)) {
       const typeId = config.VillagerClass.AssetPathName.split(".").at(-1)!;
       if (!typeId || !config.Icon.AssetPathName) {
@@ -1467,9 +1482,60 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         icon: iconName,
         size,
       });
+
+      villagers.push({
+        villagerCoreId: villagerCoreConfigs[0].Rows[type].PersistId,
+        persistId: config.PersistId,
+        type,
+        typeId,
+        icon: iconName,
+      });
     }
   }
+  villagers.sort((a, b) => enDict[a.type].localeCompare(enDict[b.type]));
+  const villagersPath =
+    "C:\\dev\\the-hidden-gaming-lair\\packages\\ui\\src\\components\\(data)\\palia-villagers.json";
+  writeJSON(villagersPath, villagers);
+  const itemIcons: Record<string, string> = {};
+  const gifts = readDirRecursive(CONTENT_DIR + "/Palia/Content/Configs/Gifts");
+  for (const file of gifts) {
+    const config = await readJSON<DT_GiftPreferenceConfigs>(file);
+    if (!config[0].Rows) {
+      continue;
+    }
+    for (const gift of Object.values(config[0].Rows)) {
+      if (!gift.ItemType?.ObjectPath) {
+        continue;
+      }
+      const itemTypePath =
+        CONTENT_DIR +
+        "/Palia/Content" +
+        gift.ItemType.ObjectPath.replace("Game/", "").split(".")[0] +
+        ".json";
+      const config = await readJSON<DA_ItemType>(itemTypePath);
+      const item = config[0];
+      if (item.Properties?.DisplayName?.Key && item.Properties?.ItemIcon) {
+        enDict[item.Name] = item.Properties.DisplayName.LocalizedString;
+        itemIcons[item.Name] = await saveIcon(
+          "/Palia/Content" +
+            item.Properties.ItemIcon.AssetPathName.replace("Game/", "").split(
+              ".",
+            )[0] +
+            ".png",
+          item.Name,
+        );
+
+        // if (item.Properties.Description) {
+        //   enDict[`${item.Name}_desc`] = item.Properties.Description.LocalizedString;
+        // }
+      }
+    }
+  }
+  const itemIconsPath =
+    "C:\\dev\\the-hidden-gaming-lair\\packages\\ui\\src\\components\\(data)\\palia-item-icons.json";
+  writeJSON(itemIconsPath, itemIcons);
 }
+
 const sortPriority = [
   "locations",
   "timed_loot_piles",

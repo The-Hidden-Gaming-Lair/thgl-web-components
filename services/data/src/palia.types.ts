@@ -1867,3 +1867,871 @@ export type DA_HousingStartSpawnConfig = Array<{
     }>;
   };
 }>;
+
+export type DT_GiftPreferenceConfigs = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      Villager: string;
+      ItemType: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      Tags: {
+        GameplayTags: Array<any>;
+      };
+      IsDefault: boolean;
+      RewardLevel: string;
+      DialogueAssetOnReward: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      DialogueAssetsOnReward: Array<{
+        AssetPathName: string;
+        SubPathString: string;
+      }>;
+      IsRomantic: boolean;
+      RewardLevelIfInappropriate: string;
+      DialogueAssetIfInappropriate: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      DialogueAssetOnFirstAcceptance: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      DialogueAssetIfAlreadyReceivedThisWeek: {
+        AssetPathName: string;
+        SubPathString: string;
+      };
+      PreferenceWeight: number;
+      PersistId: number;
+      IsAlwaysOn: boolean;
+      DifficultyGrouping: string;
+      GoldValueMinimum: number;
+      GoldValueMaximum: number;
+      bIsEnabled: boolean;
+    }
+  >;
+}>;
+
+export type DT_VillagerCoreConfigs = Array<{
+  Type: string;
+  Name: string;
+  Class: string;
+  Properties: {
+    RowStruct: {
+      ObjectName: string;
+      ObjectPath: string;
+    };
+  };
+  Rows: Record<
+    string,
+    {
+      PersistId: number;
+      PrimaryVillagerConfig: {
+        DataTable: {
+          ObjectName: string;
+          ObjectPath: string;
+        };
+        RowName: string;
+      };
+      IsVisibleInUi: boolean;
+      VillagerName: {
+        Namespace: string;
+        Key: string;
+        SourceString: string;
+        LocalizedString: string;
+      };
+      GrammaticalGender: string;
+      bHasFriendship: boolean;
+      bHasRomance: boolean;
+      FriendshipLevelNecessaryForRomance: number;
+      Icon: {
+        ObjectName: string;
+        ObjectPath: string;
+      };
+      RelationshipDifficulty: string;
+      CanAcceptGifts: boolean;
+      GiftVillagerRewardsLove: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      GiftVillagerRewardsLike: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      GiftVillagerRewardsNeutral: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      GiftVillagerRewardsDislike: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      GiftVillagerRewardsHate: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      RomanticGiftVillagerRewardsLove: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      RomanticGiftVillagerRewardsLike: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      RomanticGiftVillagerRewardsNeutral: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      RomanticGiftVillagerRewardsDislike: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+      RomanticGiftVillagerRewardsHate: {
+        PlayerTagRequirements: Array<any>;
+        OverrideIsCriticalReward: string;
+        OverrideIsPermanentUnlock: string;
+        ItemType: any;
+        ItemAmount: number;
+        AdditionalItems: Array<any>;
+        QualityStars: number;
+        RecipeConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        Loot: {
+          DataTable: any;
+          RowName: string;
+        };
+        DisallowItemsGrantingAccomplishmentProgress: boolean;
+        VitalType: string;
+        VitalAmount: number;
+        VitalRewardIsUpgrade: boolean;
+        CurrencyConfig: any;
+        CurrencyAmount: number;
+        RelationshipVillager: {
+          DataTable: any;
+          RowName: string;
+        };
+        RelationshipVillagerCore: {
+          DataTable: any;
+          RowName: string;
+        };
+        FriendshipChange: number;
+        RomanceChange: number;
+        RomanceStateChange: string;
+        MailMessage: {
+          DataTable: any;
+          RowName: string;
+        };
+        MailMessageToDeleteIfUnread: {
+          DataTable: any;
+          RowName: string;
+        };
+        GiftPreferenceRevealed: {
+          Villager: {
+            DataTable: any;
+            RowName: string;
+          };
+          GiftPreference: {
+            DataTable: any;
+            RowName: string;
+          };
+        };
+        VisitToGrant: {
+          VillagerConfigId: number;
+        };
+        BuffConfig: {
+          DataTable: any;
+          RowName: string;
+        };
+        SkillXpEarnings: {
+          DataTable: any;
+          RowName: string;
+        };
+        PlayerTagWriteback: Array<any>;
+        GrantBagUpgrade: boolean;
+        BagUpgradeType: string;
+        ItemUseChange: {
+          UseChange: number;
+          CurrentlyEquipped: boolean;
+        };
+        LanternFuelTime: number;
+        NameplateReward: string;
+        GrantedHousingSlots: Array<any>;
+        QuestToStart: {
+          AssetPathName: string;
+          SubPathString: string;
+        };
+      };
+    }
+  >;
+}>;

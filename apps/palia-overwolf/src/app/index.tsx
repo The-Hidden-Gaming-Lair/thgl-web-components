@@ -114,7 +114,7 @@ function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
                   tileOptions={tiles as unknown as TileOptions}
                   additionalFilters={
                     <>
-                      {/* <PaliaWeeklyWants /> */}
+                      <PaliaWeeklyWants />
                       <PaliaTime />
                       <PaliaGridToggle />
                     </>

@@ -155,10 +155,16 @@ setInterval(() => {
   );
 }, 30000);
 
+let prevValeriaCharacterJson = "";
 setInterval(() => {
   gameEventsPlugin.GetValeriaCharacter(
     (valeriaCharacter) => {
       if (valeriaCharacter) {
+        const valeriaCharacterJson = JSON.stringify(valeriaCharacter);
+        if (valeriaCharacterJson === prevValeriaCharacterJson) {
+          return;
+        }
+        prevValeriaCharacterJson = valeriaCharacterJson;
         window.gameEventBus.trigger(MESSAGES.CHARACTER, valeriaCharacter);
       }
     },

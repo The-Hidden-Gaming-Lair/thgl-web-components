@@ -25,8 +25,12 @@ await fs.cp(
   path.resolve(__dirname, "../dist/icons/"),
   { recursive: true },
 );
-await fs.cp(
-  path.resolve(__dirname, "../plugins/"),
-  path.resolve(__dirname, "../dist/plugins/"),
-  { recursive: true },
-);
+try {
+  await fs.cp(
+    path.resolve(__dirname, "../plugins/"),
+    path.resolve(__dirname, "../dist/plugins/"),
+    { recursive: true },
+  );
+} catch (e) {
+  console.error("Could not copy plugins directory -> exit the app first", e);
+}
