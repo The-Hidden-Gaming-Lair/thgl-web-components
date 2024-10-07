@@ -3,10 +3,10 @@
 import { useGameState } from "@repo/lib";
 import { useEffect, useState } from "react";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../(controls)";
-import { Check, CircleCheckBig, Gift, Heart } from "lucide-react";
+import { CircleCheckBig, Gift, Heart } from "lucide-react";
 import { useT } from "../(providers)";
-import villagers from "./palia-villagers.json";
-import itemIcons from "./palia-item-icons.json";
+import _villagers from "./palia-villagers.json";
+import _itemIcons from "./palia-item-icons.json";
 import {
   Sheet,
   SheetContent,
@@ -18,6 +18,9 @@ import {
 import { ScrollArea } from "../ui/scroll-area";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
+
+export const villagers = _villagers;
+export const itemIcons = _itemIcons;
 
 export function PaliaWeeklyWants() {
   const t = useT();
@@ -74,72 +77,11 @@ export function PaliaWeeklyWants() {
           </SheetDescription>
         </SheetHeader>
         <ScrollArea>
-          <div className="space-y-1">
-            {villagers.map((villager) => {
-              return (
-                <div key={villager.persistId} className={`flex items-center`}>
-                  <Tooltip delayDuration={200}>
-                    <TooltipTrigger>
-                      <Avatar>
-                        <AvatarImage
-                          src={`/icons/${villager.icon}`}
-                          alt={t(villager.type)}
-                        />
-                      </Avatar>
-                    </TooltipTrigger>
-                    <TooltipContent>{t(villager.type)}</TooltipContent>
-                  </Tooltip>
-                  <div className="mx-4 space-x-2">
-                    {data?.weeklyWants[villager.type]?.map((item) => {
-                      const isGifted = character?.giftHistory.find(
-                        (g) =>
-                          g.itemPersistId === item.itemPersistId &&
-                          g.villagerCoreId === villager.villagerCoreId &&
-                          g.associatedPreferenceVersion === data.version,
-                      );
-                      return (
-                        <Tooltip delayDuration={200} key={item.itemPersistId}>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={"ghost"}
-                              size="icon"
-                              className="relative"
-                            >
-                              <img
-                                className="h-6 w-6"
-                                src={`/icons/${itemIcons[item.objectId as keyof typeof itemIcons]}`}
-                                alt={item.objectId}
-                              />
-                              {item.rewardLevel === "Love" && (
-                                <Heart className="absolute top-0 right-0 h-2 w-2 text-red-600 fill-red-600" />
-                              )}
-                              {isGifted && (
-                                <CircleCheckBig className="absolute bottom-0 right-0 h-4 w-4 text-green-600" />
-                              )}
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>{t(item.objectId)}</TooltipContent>
-                        </Tooltip>
-                      );
-                    })}
-                  </div>
-                  <Tooltip delayDuration={200}>
-                    <TooltipTrigger>
-                      <Badge variant="outline">
-                        <Gift className="h-4 w-4 mr-2" />
-                        {character?.giftHistory.filter(
-                          (g) => g.villagerCoreId === villager.villagerCoreId,
-                        ).length ?? 0}
-                      </Badge>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      Total number of how many times you gifted this villager
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              );
-            })}
-          </div>
+          {data ? (
+            <VillagersWeeklyWants data={data} character={character} />
+          ) : (
+            <div>Loading...</div>
+          )}
         </ScrollArea>
         <SheetDescription>
           <p className="text-gray-300 text-sm">
@@ -151,7 +93,89 @@ export function PaliaWeeklyWants() {
   );
 }
 
-async function fetchWeeklyWants(): Promise<WEEKLY_WANTS> {
+export function VillagersWeeklyWants({
+  data,
+  character,
+  showGifts = true,
+}: {
+  data: WEEKLY_WANTS;
+  character?: ValeriaCharacter | null;
+  showGifts?: boolean;
+}) {
+  const t = useT();
+  return (
+    <div className="space-y-1">
+      {villagers.map((villager) => {
+        return (
+          <div key={villager.persistId} className={`flex items-center`}>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger>
+                <Avatar>
+                  <AvatarImage
+                    src={`/icons/${villager.icon}`}
+                    alt={t(villager.type)}
+                  />
+                </Avatar>
+              </TooltipTrigger>
+              <TooltipContent>{t(villager.type)}</TooltipContent>
+            </Tooltip>
+            <div className="mx-4 space-x-2">
+              {data?.weeklyWants[villager.type]?.map((item) => {
+                const isGifted = character?.giftHistory.find(
+                  (g) =>
+                    g.itemPersistId === item.itemPersistId &&
+                    g.villagerCoreId === villager.villagerCoreId &&
+                    g.associatedPreferenceVersion === data.version,
+                );
+                return (
+                  <Tooltip delayDuration={200} key={item.itemPersistId}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={"ghost"}
+                        size="icon"
+                        className="relative"
+                      >
+                        <img
+                          className="h-6 w-6"
+                          src={`/icons/${itemIcons[item.objectId as keyof typeof itemIcons]}`}
+                          alt={item.objectId}
+                        />
+                        {item.rewardLevel === "Love" && (
+                          <Heart className="absolute top-0 right-0 h-2 w-2 text-red-600 fill-red-600" />
+                        )}
+                        {isGifted && (
+                          <CircleCheckBig className="absolute bottom-0 right-0 h-4 w-4 text-green-600" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>{t(item.objectId)}</TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </div>
+            {showGifts && (
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger>
+                  <Badge variant="outline">
+                    <Gift className="h-4 w-4 mr-2" />
+                    {character?.giftHistory.filter(
+                      (g) => g.villagerCoreId === villager.villagerCoreId,
+                    ).length ?? 0}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Total number of how many times you gifted this villager
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export async function fetchWeeklyWants(): Promise<WEEKLY_WANTS> {
   const response = await fetch("https://palia-api.th.gl/weekly-wants");
   const data = (await response.json()) as API_WEEKLY_WANTS;
   const weeklyWants = Object.entries(data.preferences).reduce(
@@ -189,8 +213,8 @@ async function fetchWeeklyWants(): Promise<WEEKLY_WANTS> {
   return result;
 }
 
-type REWARD_LEVEL = "Like" | "Love";
-type WEEKLY_WANTS = {
+export type REWARD_LEVEL = "Like" | "Love";
+export type WEEKLY_WANTS = {
   version: number;
   timestamp: number;
   weeklyWants: Record<
@@ -208,7 +232,7 @@ type ITEMS = Array<{
   itemPersistId: number;
   rewardLevel: string;
 }>;
-type API_WEEKLY_WANTS = {
+export type API_WEEKLY_WANTS = {
   version: number;
   timestamp: number;
   preferences: {

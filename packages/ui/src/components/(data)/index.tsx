@@ -12,6 +12,7 @@ export * from "./palia-weekly-wants";
 export * from "./ping";
 export * from "./sidebar";
 export * from "./troops";
+export * from "../ui/avatar";
 export * from "../ui/breadcrumb";
 export * from "../ui/dropdown-menu";
 export * from "../ui/skeleton";
