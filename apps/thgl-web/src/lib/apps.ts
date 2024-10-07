@@ -174,6 +174,7 @@ export const apps: App[] = [
       id: "fgbodfoepckgplklpccjedophlahnjemfdknhfce",
       protocol: "thgl-palia-map",
       url: "https://www.overwolf.com/app/Leon_Machens-Palia_Map",
+      supportsCopySecret: true,
     },
     patreonTierIDs: ["21470797", "21470809", "10151819", "special"],
   },
