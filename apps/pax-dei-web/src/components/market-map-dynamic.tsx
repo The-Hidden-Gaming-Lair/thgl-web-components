@@ -24,9 +24,11 @@ export default function MarketMapDynamic({
       <SimpleMarkers
         spawns={spawns}
         onClick={(spawn) => {
-          const url = spawn.description.match(/href="([^"]+)"/);
-          if (url) {
-            window.open(url[1], "_blank");
+          if (spawn.description) {
+            const url = /href="([^"]+)"/.exec(spawn.description);
+            if (url) {
+              window.open(url[1], "_blank");
+            }
           }
         }}
       />

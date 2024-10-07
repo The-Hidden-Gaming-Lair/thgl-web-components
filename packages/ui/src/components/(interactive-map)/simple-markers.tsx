@@ -8,11 +8,11 @@ import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 
 export type SimpleSpawn = {
   id: string;
-  p: [number, number];
+  p: [number, number] | [number, number, number];
   icon?: string;
   name: string;
   color?: string;
-  description: string;
+  description?: string;
 };
 export function SimpleMarkers({
   spawns,
@@ -31,7 +31,7 @@ export function SimpleMarkers({
     x: number;
     y: number;
     radius: number;
-    latLng: [number, number];
+    latLng: [number, number] | [number, number, number];
     items: TooltipItems;
   } | null>(null);
 

@@ -632,14 +632,14 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
 // Timed Loot Piles
 {
   const group = "timed_loot_piles";
-  enDict[group] = "Timed Loot Piles";
+  enDict[group] = "Rummage Piles / Chapaa Piles";
 
   const beachType = "beach_pile";
-  enDict[beachType] = "Bahari Rummage Pile";
+  enDict[beachType] = "Bahari Pile";
   typesIDs["BP_BeachPile_C"] = beachType;
 
   const villageType = "kilima_pile";
-  enDict[villageType] = "Kilima Rummage Pile";
+  enDict[villageType] = "Kilima Pile";
   typesIDs["BP_ChapaaPile_C"] = villageType;
 
   const size = 1;
@@ -656,6 +656,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
   const iconName = await saveIcon(
     `/Palia/Content/UI/Icons/Icon_Deco_Chapaa_Nest.png`,
     "rummage_pile",
+    { glowing: true, color: "#fff" },
   );
   if (!category.values.some((v) => v.id === beachType)) {
     category.values.push({

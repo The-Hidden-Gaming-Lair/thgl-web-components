@@ -9,7 +9,7 @@ import {
   NavMenu,
   HeaderLink,
 } from "@repo/ui/header";
-import { ExternalLink, Gift } from "lucide-react";
+import { ExternalLink, Gift, MapPin } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
@@ -23,6 +23,17 @@ export function Links(): JSX.Element {
           <div>
             <Gift className="w-4 h-4" />
             <span>Weekly Wants</span>
+          </div>
+        </HeaderLink>
+      ),
+    },
+    {
+      href: "/rummage-pile",
+      content: (
+        <HeaderLink active={pathname === "/rummage-pile"}>
+          <div>
+            <MapPin className="w-4 h-4" />
+            <span>Rummage Pile</span>
           </div>
         </HeaderLink>
       ),

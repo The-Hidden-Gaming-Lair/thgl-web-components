@@ -214,8 +214,8 @@ export async function addOutlineToImage(imagePath: string, color: string) {
   const canvas = createCanvas(image.width, image.height);
   const ctx = canvas.getContext("2d");
   const grow = 8;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
   ctx.shadowColor = color;
   ctx.shadowBlur = image.width / 26;
   for (var i = 0; i < grow; i++) {

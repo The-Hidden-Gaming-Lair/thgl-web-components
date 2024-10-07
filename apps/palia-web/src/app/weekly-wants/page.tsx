@@ -35,7 +35,7 @@ export default function WeeklyWants() {
         content={
           <div className="flex flex-col gap-2 items-center">
             <p>1: Install the In-Game app from the Overwolf App Store</p>
-            <Button asChild className="mt-4">
+            <Button asChild>
               <ExternalAnchor href="https://www.overwolf.com/app/Leon_Machens-Palia_Map">
                 Overwolf App Store
               </ExternalAnchor>
