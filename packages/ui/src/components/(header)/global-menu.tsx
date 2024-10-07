@@ -176,6 +176,18 @@ const APPS = [
     url: "https://palia.th.gl",
     icon: "/global_icons/palia.webp",
     tags: ["interactive_map", "leaderboard"],
+    partners: [
+      {
+        title: "Palia Database",
+        url: "https://paliapedia.com?ref=thgl",
+        icon: "/global_icons/gaming-tools.webp",
+      },
+      {
+        title: "Palia Tracker",
+        url: "https://paliatracker.com?ref=thgl",
+        icon: "/global_icons/palia-tracker.webp",
+      },
+    ],
   },
   {
     title: "Palworld",
