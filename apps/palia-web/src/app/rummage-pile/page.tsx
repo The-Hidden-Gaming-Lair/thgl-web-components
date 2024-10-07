@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { ContentLayout } from "@repo/ui/ads";
 import { Button } from "@repo/ui/controls";
 import Image from "next/image";
+import { Suspense } from "react";
 import _enDict from "../../dicts/en.json" assert { type: "json" };
 import Filter from "./filter.webp";
 import Map from "./map.webp";
@@ -41,7 +42,9 @@ export default async function RummagePile() {
         }
         content={
           <>
-            <PileMapClient timedLootPiles={data} />
+            <Suspense>
+              <PileMapClient timedLootPiles={data} />
+            </Suspense>
             <div className="flex flex-col gap-2 items-center">
               <h3 className="text-xl font-semibold text-primary mb-4">
                 In-Game App
