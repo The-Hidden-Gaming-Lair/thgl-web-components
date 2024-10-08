@@ -139,6 +139,10 @@ type SettingsStore = {
   removeMyNode: (nodeId: string) => void;
   showGrid: boolean;
   toggleShowGrid: () => void;
+  showFilters: boolean;
+  toggleShowFilters: () => void;
+  expandedFilters: boolean;
+  toggleExpandedFilters: () => void;
   // Deprecated
   privateNodes?: PrivateNode[];
   privateDrawings?: PrivateDrawing[];
@@ -324,6 +328,12 @@ export const useSettingsStore = create(
           }),
         showGrid: false,
         toggleShowGrid: () => set((state) => ({ showGrid: !state.showGrid })),
+        showFilters: true,
+        toggleShowFilters: () =>
+          set((state) => ({ showFilters: !state.showFilters })),
+        expandedFilters: false,
+        toggleExpandedFilters: () =>
+          set((state) => ({ expandedFilters: !state.expandedFilters })),
       };
     },
     {

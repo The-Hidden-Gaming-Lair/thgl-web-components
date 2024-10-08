@@ -32,3 +32,15 @@ export function NitroPayVideoPlayer({ id }: { id: string }): JSX.Element {
     </AdFreeContainer>
   );
 }
+
+export function NitroPayVideoPlayerLoading({ id }: { id: string }) {
+  const matched = useMediaQuery(mediaQuery);
+  if (!matched) {
+    return <></>;
+  }
+  return (
+    <AdFreeContainer>
+      <div className="max-w-[400px] min-h-[170px]" id={id} />
+    </AdFreeContainer>
+  );
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { TileOptions, cn } from "@repo/lib";
+import { TileOptions, cn, useSettingsStore } from "@repo/lib";
 import { ReactNode, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { useUserStore } from "../(providers)";
@@ -8,7 +8,16 @@ import { MarkersSearchResults } from "./markers-search-results";
 import { MarkersFilters } from "./markers-filters";
 import { ScrollArea } from "../ui/scroll-area";
 import { CaretSortIcon } from "@radix-ui/react-icons";
-import { Search, TriangleAlert } from "lucide-react";
+import {
+  FoldVertical,
+  Search,
+  TriangleAlert,
+  UnfoldVertical,
+} from "lucide-react";
+import { Separator } from "../ui/separator";
+import { MapSelect } from "./map-select";
+import { Presets } from "./presets";
+import { GlobalFilters } from "./global-filters";
 
 export function MarkersSearch({
   children,
@@ -22,9 +31,17 @@ export function MarkersSearch({
   embed?: boolean;
 }): JSX.Element {
   const { _hasHydrated, search, setSearch, searchIsLoading } = useUserStore();
-  const [showFilters, setShowFilters] = useState(true);
   const mapNames = Object.keys(tileOptions ?? {});
   const [internalSearch, setInternalSearch] = useState(search);
+  const showFilters = useSettingsStore((state) => state.showFilters);
+  const toggleShowFilters = useSettingsStore(
+    (state) => state.toggleShowFilters,
+  );
+
+  const expandedFilters = useSettingsStore((state) => state.expandedFilters);
+  const toggleExpandedFilters = useSettingsStore(
+    (state) => state.toggleExpandedFilters,
+  );
 
   useEffect(() => {
     if (_hasHydrated) {
@@ -46,7 +63,7 @@ export function MarkersSearch({
   return (
     <div
       className={cn(
-        `fixed w-[175px] md:w-[300px] top-[64px] left-2 bottom-2 z-[500] md:ml-[77px] pointer-events-none flex flex-col`,
+        `fixed w-[175px] md:w-[300px] top-[64px] left-2 bottom-2 z-[500] md:ml-[77px] pointer-events-none`,
         { "top-2 md:ml-0 ": embed },
       )}
     >
@@ -109,53 +126,91 @@ export function MarkersSearch({
           className={cn(
             `flex absolute inset-y-0 right-1 items-center pr-2 text-gray-400 hover:text-gray-200 md:text-white`,
           )}
-          onClick={() => {
-            setShowFilters(!showFilters);
-          }}
+          onClick={toggleShowFilters}
           type="button"
         >
-          <CaretSortIcon />
+          {showFilters ? (
+            <FoldVertical className="h-4 w-4" />
+          ) : (
+            <UnfoldVertical className="h-4 w-4" />
+          )}
         </button>
       </div>
       <div
         className={cn(
-          `w-full text-sm mt-1 h-[calc(100vh-116px)] flex flex-col md:gap-2 justify-between`,
+          `w-full text-sm mt-1 h-[calc(100vh-116px)] flex flex-col md:gap-1`,
           { "h-[100vh]": embed },
         )}
       >
-        <ScrollArea
+        <div
           className={cn(
-            "pointer-events-auto border rounded-md bg-card text-card-foreground shadow max-h-[300px] md:max-h-[500px]",
+            "pointer-events-auto border rounded-md bg-card text-card-foreground shadow grid relative pb-1 overflow-hidden",
             {
               collapse: !showFilters,
             },
           )}
-          type="auto"
         >
-          {internalSearch ? (
+          {additionalFilters && (
             <>
-              {isLoading && internalSearch.length >= 3 && (
-                <div className="p-2 text-center">
-                  <Search className="w-4 h-4 mx-auto" />
-                  Searching...
-                </div>
-              )}
-              {internalSearch.length < 3 && (
-                <div className="p-2 text-center">
-                  <TriangleAlert className="w-4 h-4 mx-auto" />
-                  Please enter at least 3 characters
-                </div>
-              )}
-              {!isLoading && internalSearch.length >= 3 && (
-                <MarkersSearchResults mapNames={mapNames} />
-              )}
-            </>
-          ) : (
-            <MarkersFilters mapNames={mapNames}>
               {additionalFilters}
-            </MarkersFilters>
+              <Separator />
+            </>
           )}
-        </ScrollArea>
+          {mapNames.length > 1 && (
+            <>
+              <MapSelect mapNames={mapNames} />
+              <Separator />
+            </>
+          )}
+          <Presets />
+          <Separator />
+          <GlobalFilters />
+          <ScrollArea
+            className={cn("max-h-[40vh]", {
+              "md:max-h-[25vh]": !expandedFilters,
+              "md:max-h-none": expandedFilters,
+            })}
+            type="auto"
+          >
+            {internalSearch ? (
+              <>
+                {isLoading && internalSearch.length >= 3 && (
+                  <div className="p-2 text-center">
+                    <Search className="w-4 h-4 mx-auto" />
+                    Searching...
+                  </div>
+                )}
+                {internalSearch.length < 3 && (
+                  <div className="p-2 text-center">
+                    <TriangleAlert className="w-4 h-4 mx-auto" />
+                    Please enter at least 3 characters
+                  </div>
+                )}
+                {!isLoading && internalSearch.length >= 3 && (
+                  <MarkersSearchResults mapNames={mapNames} />
+                )}
+              </>
+            ) : (
+              <MarkersFilters />
+            )}
+          </ScrollArea>
+        </div>
+        <button
+          className={cn(
+            "pointer-events-auto hover:text-primary mx-auto bg-card p-1 rounded-b-md -mt-4 hidden md:block",
+            {
+              collapse: !showFilters,
+            },
+          )}
+          onClick={toggleExpandedFilters}
+        >
+          {expandedFilters ? (
+            <FoldVertical className="h-4 w-4" />
+          ) : (
+            <UnfoldVertical className="h-4 w-4" />
+          )}
+        </button>
+        <div className="grow" />
         {children}
       </div>
     </div>
