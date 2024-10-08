@@ -10,7 +10,7 @@ import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" }
 
 initBackground(
   23186,
-  "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
+  "fgbodfoepckgplklpccjedophlahnjemfdknhfce",
   "1181323945866178560",
 );
 
