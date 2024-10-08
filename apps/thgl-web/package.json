@@ -15,28 +15,28 @@
   "dependencies": {
     "@repo/lib": "workspace:*",
     "@repo/ui": "workspace:*",
-    "@vercel/blob": "^0.23.4",
-    "@vercel/kv": "2.0.0",
+    "@vercel/blob": "^0.24.1",
+    "@vercel/kv": "3.0.0",
     "jsonwebtoken": "9.0.2",
-    "next": "14.2.8",
+    "next": "14.2.14",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-markdown": "9.0.1",
     "remark-gfm": "4.0.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "14.2.8",
+    "@next/eslint-plugin-next": "14.2.14",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/jsonwebtoken": "9.0.6",
-    "@types/node": "22.5.4",
-    "@types/react": "18.3.5",
+    "@types/jsonwebtoken": "9.0.7",
+    "@types/node": "22.7.5",
+    "@types/react": "18.3.11",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.20",
-    "postcss": "8.4.45",
-    "tailwindcss": "3.4.10",
-    "typescript": "5.5.4",
-    "vercel": "^37.4.0"
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.13",
+    "typescript": "5.6.2",
+    "vercel": "^37.6.2"
   }
 }

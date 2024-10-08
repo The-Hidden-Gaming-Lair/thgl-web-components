@@ -9,6 +9,6 @@
     "devDependencies": {
         "@repo/eslint-config": "workspace:*",
         "@repo/typescript-config": "workspace:*",
-        "tailwindcss": "3.4.10"
+        "tailwindcss": "3.4.13"
     }
 }
