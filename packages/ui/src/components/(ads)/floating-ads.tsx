@@ -1,5 +1,6 @@
+"use client";
+
 import { AdBlocker } from "./ad-blocker";
-import { AdFreeContainer } from "./ad-free-container";
 import { FloatingBanner } from "./floating-banner";
 import { FloatingMobileBanner } from "./floating-mobile-banner";
 import { NitroScript } from "./nitro-script";

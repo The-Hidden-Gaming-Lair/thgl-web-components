@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import { getNitroAds } from "./nitro-pay";
 import { AdFreeContainer } from "./ad-free-container";
-import { cn } from "@repo/lib";
 
 export function LargeMobileBanner({
   id,
