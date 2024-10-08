@@ -598,7 +598,12 @@ export type BookCollectSeriesData = Record<
     trigger_id: number;
     series_name: string;
   }
->;
+> & {
+  extra_info: {
+    text_type2series_no_map: Record<string, string[]>;
+    super_no2series_no_map: Record<string, string[]>;
+  };
+};
 
 export type CollectNewTagData = Record<
   string,
@@ -887,5 +892,17 @@ export type AreaMaskDefineData = Record<
     area_edge_rgb: Array<any>;
     area_edge_sprite: string;
     area_no: string;
+  }
+>;
+
+export type BookCollectAreaEnterClientData = Record<
+  string,
+  {
+    area_name: string;
+    award_reach_num: Array<any>;
+    area_desc: string;
+    text_type: number;
+    award_config: Array<any>;
+    corr_super_no: string;
   }
 >;

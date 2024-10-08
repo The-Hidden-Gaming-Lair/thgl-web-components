@@ -975,6 +975,736 @@
     ]
   },
   {
+    "type": "regional_records_dayton_wetlands",
+    "items": [
+      {
+        "id": "book_201001",
+        "props": {
+          "title": "Overlook Town",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "At one time, the Dayton Wetlands was under the complete control of one family - the Sutherlands. The Sutherland family had been investing heavily in Overlook Town, with the grand aim of making it into a thriving new settlement.\n\nI passed through the town once around this time, and when I saw it, the entire place was one big construction site. Row upon row of unfinished houses, the freshly-poured foundations for luxury beach-side villas... Even a movie theater, although it was only half-finished (they never did finish it, in the end).\n\nOf course, most of the town's real estate, the motel, the supermarkets, and most of the other commercial properties all belonged to one certain member of the Sutherland family. I only stayed in that town for as long as it took me to pay for a tank of overpriced gas. Something about the place gave me the creeps.\n\nAnd then there was the Starfall. Overlook Town will never get built now. All that luxury - the beautiful furniture, the expensive appliances - is still just sitting there gathering dust. The whole town stands like a monument to the people who perished trying to construct it.\n\nThe place was silent as a tomb when we arrived. From a distance, the old site looked almost completely intact. No signs of the Marauders. Keith and Amelia were both strongly in favor of exploring, but I decided not to take the risk. There are dark forces lurking in that place, I'm sure of it. Otherwise, the place would've been stripped clean of valuables long ago.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201002",
+        "props": {
+          "title": "Sutherland Family Orchard",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "This orchard was once one of the Sutherland family's most important properties and the most \"legitimate\" part of their business. Anne Sutherland - the woman who ran the place - was an elegant lady, widely admired by those who knew her. She had been widowed not long into her marriage, leaving her with two young children to raise alone. She managed the orchard and all the surrounding farmland herself.\n\nI was a teenager when I first came to the orchard with some of my older relatives. In between all the wine drinking, I paid a visit to Ms. Anne and negotiated a few mutually beneficial business deals. I didn't really get to know her well though. So much time has passed that I can't even really remember her face too clearly. But I do remember how much I admired her at that time.\n\nThe Sutherland Family Orchard is just as quiet as I remember it. In the moonlight, the outline of the ruined buildings makes me think of a pale woman lying on a couch. There is no doubt that a large number of Deviants still lurk among those walls.\n\nThe urge to revisit the site and go deeper into the orchard to find out what happened to Ms. Anne and her family was almost overwhelming. I ordered the expedition to camp as far away from that sad, dangerous site as possible. We would plot a route around it the next morning.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201105",
+        "props": {
+          "title": "Saving One Bullet",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "John O'Sullivan: Is it time to retreat?\n\nJoan Sutherland: You go ahead...\n\nJohn O'Sullivan: You aren't coming? You saw how they fired on that crowd on the bridge. You can't get back onto the island now, even if your last name is Sutherland. \n\nJoan Sutherland: I know that. I'm not staying because I want to try and sneak back onto Mola Island.\n\nJohn O'Sullivan: So, what? Are you trying to repent? Redeem yourself for causing all this?\n\nJoan Sutherland: Terrible mistakes were made, and there's nothing I can do to undo them. I don't want to run. I'm ready to die.\n\nJohn O'Sullivan: Suit yourself. Remember to leave the last bullet for yourself.\n\nJoan Sutherland: I know. Goodbye, John.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201106",
+        "props": {
+          "title": "It Can't Be!",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Joan Sutherland: This isn't possible... \n\nGeorge Hearst: I used to think so too.\n\nJoan Sutherland: How long? \n\nGeorge Hearst: I don't... I don't know how long it's been.\n\nJoan Sutherland: Finally...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201107",
+        "props": {
+          "title": "Dark Dealings in the Wine Cellar",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Nelson Sutherland: Rosetta will send a negotiator over next week to tell us about these \"Monolith\" things, and discuss the future of Nalcott Island, and the family.\n\nAnne Sutherland: Does the old man... know about this?\n\nJesse Sutherland: He's still sick and needs rest, so we didn't tell him.\n\nNelson Sutherland: That's right. But everyone who matters is already here. We all know the deal, right?\n\nEli Sutherland: And no one objects.\n\nJoan Sutherland: Why would we object? I've been saying it for weeks. This is a great opportunity for the family.\n\nJesse Sutherland: Well then, my brothers and sisters, here's to everything going smoothly.\n\nEveryone: Cheers!\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201108",
+        "props": {
+          "title": "On the Balcony",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Anne Sutherland: We can't just pretend all this shit isn't happening! Mr. Rick Handel and the others say the grapes have got this freaky blue glow now too... I'm sure it's related to that hideous Monolith out west.\n\nEli Sutherland: Alright, alright. We'll dispose of all the bad fruit. It'll cost us, but we've been doing well, thanks to Rosetta. We can afford to take this hit.\n\nAnne Sutherland: Eli, you're missing the point.\nEli Sutherland: I know what you meant, baby. You don't think we should've ever let Rosetta build that Monolith in the first place. But what can we do? It's already up.\n\nEli Sutherland: Don't worry. They have Monoliths in almost every country on Earth, now. They are the future—they provide limitless energy ...\n\nAnne Sutherland: And limitless money... How did it come to this? How did we sink so low?\n\nEli Sutherland: Because we're humans, babe. Humans always succumb to temptation.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201003",
+        "props": {
+          "title": "Coastside Plaza",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "We found some indications that survivors had taken up residence in the Coastside Plaza. It seems that the place had served as a refuge for a year or two after the Starfall. Not anymore though. The place just stands empty now.\n\nI can just imagine how... desperate... these people must have been towards the end. That's right. It wasn't Deviants or Rift Entities that destroyed this place. It wasn't even the slow, painful creep of Stardust. It was the survivors themselves. They tore this place apart from the inside out - a premeditated assault on what little peace and stability they had managed to create.\n\nAnd look at this. It looks like they tied people to these posts, doused them with gasoline, and then lit the whole thing on fire... The wind swept away the ashes of that blaze long ago, of course, but the charred black remains of those victims are still clearly visible, burned into the earth. What must have gone on in the clinic was even more gruesome - I'll spare you the details.\n\nFortunately, that group of thugs didn't manage to keep hold of this place for long. Looks like the Stardust got to them... My guess is that they got badly infected and ended their lives in pain, or kept on living a painful life as a Deviant. Maybe some of them are still wandering among the ruins... And also... It's hard to tell exactly what happened here, but it seems that there was some kind of conflict. Infighting, perhaps? I saw signs of some very intense conflict, offensive and defensive.\n\nI can't tell if the thugs were all killed in the fighting or not. But for the sake of those poor survivors, I hope none of them died peacefully.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201004",
+        "props": {
+          "title": "Brookham",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Brookham is the largest settlement in the Dayton Wetlands. It used to have a population of over two thousand, with a bustling main street running through it. At one time, it was possible to buy pretty much anything on that street, even some quite specialty items. Business hours weren't restricted either, and many stores were open all night long.\n\nOf course, that was all before the Starfall. Now, it houses the graves of over two thousand dead.\n\nBrookham seems to have been annihilated in an instant. We didn't find a shred of evidence that there were any survivors, apart from a few people who appeared to have taken refuge in the station waiting room. They huddled there for a few hours, it seems, trying hopelessly to seal the door against the Rift Entities that were pouring out from the Monolith.\n\nI had everyone scope out a few rooms quickly. We got a good haul - enough to supply the whole team for the next few days. But we didn't dare stay long. This place is too close to the Monolith, and Stardust pollution levels are extremely high. Can't get greedy.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201005",
+        "props": {
+          "title": "Dayton Hospital",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "The Dayton Hospital, built by Rosetta to support the Monolith construction project, is located right next to the Monolith itself. No one could set foot in there without a Rosetta name badge. The doctors and nurses, the sick and wounded patients, and even the security guards were all Rosetta personnel. Even the outer buffer zone was out of bounds to locals (unless you were one of the lucky few with a special \"connection\"). \n\nThere is one thing that I just can't get my head around, though. Trent Palmieri claimed that he had worked here before the catastrophe. He provided a lot of information about the Monolith and Stardust Infection to a local contact with the aim of exposing Rosetta's dastardly deeds (ultimately it didn't make much of a difference). I believe what he said is true, but, well, it's hard for me to imagine how someone as frail and dorky-looking as Trent could pull off espionage like that in the heavily guarded Rosetta Hospital. For starters, how did he manage to slip past Rosetta's tight security?\n\nAnyway, things are different now. No one from Rosetta is still active around here. The place has become pretty heavily polluted by Stardust, and thanks to the Monolith, it's likely to stay that way. As for us, we performed a simple search to gather supplies, then cleared out as quickly as we could.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201006",
+        "props": {
+          "title": "Citrus County",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "\"We hold dear this native land, whether we once called it home or journeyed far from its embrace.\n\nMay 8, 1965 – July 7, 2026\"\n\nAt the time of writing this, it is July 2, 2031 AD. It has been nearly five years since this sanctuary \"passed away.\"\n\nI do not know the names of those who once lived here. Prior to the Starfall, neither I nor any other members of the expedition had visited this town, nor did we have any ties here. But what I do know is that those people must have deeply cherished the land beneath their feet, for I have witnessed: the fields that had been meticulously tilled, the walls of living rooms decorated with stickers, vibrant lights, love, and patience, the verses carved by guards on the door frames during damp or chilling nights, and the small tombstone dedicated to this town.\n\nAll of this has slowly faded and become indiscernible amidst the encroaching erosion of Stardust. It is truly a shame that we never crossed paths with these people. Had we arrived when it was still a town in flames, the Union would have surely gained another dependable ally in the south of Nalcott Island.\n\nWhere did these people go? Are they dead or still alive? Might we still chance upon each other in our unknown journeys ahead?\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201007",
+        "props": {
+          "title": "Throughville",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "This is the only place I can be honest. I'm scared to death of venturing into Throughville. I hope I never set even one foot in that place.\n\nGod, this place gives me the creeps! There are other settlements closer to the Monolith than this one, and yet, Throughville somehow still manages to be the most terrifying place in the entire Dayton Wetlands. The Stardust lies thick on the ground like some kind of hellish snow, emitting a blue-black glow. And the broken remains of the once living creatures covering every corner of every house... The whole town is one great, twisted nightmare...\n\nI'm afraid we cannot provide any first-hand intel about Throughville. We have, however, done our best to gather the relevant information (collected from searching the surrounding areas, interviews already conducted with relevant people, and recollections from myself and others). These are our findings:\n\nJesse Sutherland was the youngest member of the Sutherland family and the most highly respected among the younger generation. He was the nephew of the patriarch and managed most of the family's resources before the Starfall. He was an overbearing, fearless, and ruthless man, famed for his greed and profligacy. Throughville was a luxury estate and Jesse Sutherland's home before the Starfall. Tightly guarded and well-equipped, the estate was where Jesse stored most of his vast wealth, which he had extracted from the Dayton Wetlands and surrounding areas. No one knows how Jesse Sutherland met his end, because none of Throughville's residents managed to escape with their lives. Looking at the place now, it's not hard to imagine why they all perished. One likely theory:\n\nJesse Sutherland, along with his guards and a number of close relatives were devoured by Rift Entities shortly after the Starfall, or else got infected with Stardust, and perished without a trace.\n\nThe only unsolved question is, why was the Stardust contamination level so incredibly high in Throughville? Could there be a Rift Entity using this place as their lair...?\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201101",
+        "props": {
+          "title": "The Trial of Keefer",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Keefer Sutherland: How are you doing Uncle? You didn't have to come here yourself.\n\nOld Man: There are some things that I have to take care of.\n\nKeefer Sutherland: Whatever you need, I can take care of it for you.\n\nOld Man: You've done enough, kid. I know... the blame doesn't lie entirely with you.\n\nOld Man: Even without you, Rosetta would've found some other chink in our armor, and stuck her tentacles in... We were never really able to resist.\n\nOld Man: But, you did make things worse.\n\nKeefer Sutherland: So, can you forgive me?\n\nOld Man: Sure. Ragazzo Sei stato perdonato.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201102",
+        "props": {
+          "title": "Losing Control",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Nelson Sutherland: Hey, Jesse... Do you... have a moment?\n\nJesse Sutherland: Of course! I'll always make time for our accountant! What's up?\n\nNelson Sutherland: I've been going over the accounts for the last quarter, and the numbers are a bit... off. There are a lot of expenses... seems like they were never properly recorded.\n\nJesse Sutherland: Well, I can explain that. I dipped into the accounts to buy a couple of personal items. I'll pay it all back soon.\n\nNelson Sutherland: Right... Jesse, you have to be careful. The Old Man has been asking about the accounts lately... if too much has gone missing, he's sure to notice...\n\nJesse Sutherland: Well, why don't you just remind the Old Man that we belong to Rosetta now! It was YOU who oversaw the whole deal, wasn't it Nelson?\n\nJesse Sutherland: At least you got a good deal when you sold out the whole family, eh? Go on, why don't you tell the Old Man the truth?! Why don't you tell him and his outdated sense of honor to go to hell?!\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201103",
+        "props": {
+          "title": "Monolith Revealed",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Jesse Sutherland: You've been doing a good job. Rosetta is happy with what we've been able to supply. We'll start to see some income soon enough, thanks to those Monoliths.\n\nJesse Sutherland: Why the long face, Eli? Is something wrong?\n\nEli Sutherland: Oh nothing, nothing. It's just, Annie was talking to me about the Orchard. She says the fruit is giving off this strange glow, and the texture is... off.  \n\nEli Sutherland: Are we absolutely sure there's nothing wrong with those Monoliths? There are rumors, you know. More and more people are starting to think that there might be some kind of a connection—  \n\nJesse Sutherland: So?! You just let people spout that kind of bullshit? Or do you actually believe it, too?  \n\nJesse Sutherland: You want us to back out of the Rosetta contract? You want to let the whole family go broke? Is that it? You disappoint me, man.\n\nJesse Sutherland: It's your job to stamp out these rumors, and the people spreading them. We can't show them any weakness. You get that?  \n\n\n\n"
+        }
+      },
+      {
+        "id": "book_201104",
+        "props": {
+          "title": "Escape in Style",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Jesse Sutherland: Hey baby, where are you going with all those bags? \n\nAnnette Collins: Oh! Mr Sutherland! I'm sorry, I couldn't find you earlier. I want to go back home for a visit. My dad and brother, they both... They both... \n\nJesse Sutherland: Sounds tough, whatever it is. But why are you shaking? Here, let me help you.\n\nAnnette Collins: No need Mr Sutherland! You really don't have to... \n\nJesse Sutherland: Alright. Well, I guess this is goodbye, huh?  \n\n\n\n"
+        }
+      }
+    ]
+  },
+  {
+    "type": "regional_records_chalk_peak",
+    "items": [
+      {
+        "id": "book_204101",
+        "props": {
+          "title": "Old Woman",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Old Woman: ...Marlo? Is that you? You've finally come to visit me! \n\nCaregiver: No, no, I think you're confusing me for... Uh, actually, yes, you're right! It's me, Marlo, your husband. \nOld Woman: You're so late, Marlo. It's been so long...\n\nCaregiver: Yes... but I'm here now. Do you remember where we're going?\n\nOld Woman: A birthday... party?\n\nCaregiver: That's right. Your birthday party! Your children will come to celebrate with you.\n\nOld Woman: Oh, that's wonderful. Quick, my... my coat... where is it?\n\nCaregiver: It's just there, to your left. Just turn your head and you'll see it.\n\nOld Woman: That's odd... Where is it? Why... can't I find it...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_204102",
+        "props": {
+          "title": "Uncle",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Man: Who is it?! Who, who are you?\n\nCaregiver: Calm down, it's me. I look after you. Do you remember?\n\nMan: Ah, ah, the nurse! Of course I remember!\n\nMan: You, you scared me! I thought a stranger had broken in here...\n\nCaregiver: It's okay... There's nothing worth taking from here anymore anyway. Are you hungry?\n\nMan: A little... Also, my diaper needs to be changed... Can you help me?\n\nCaregiver: Wait a minute and I'll help you with that. By the way, I also found a little food: some candy. Would you like it?\n\nMan: Candy?! Oh wow! You've made an old man very happy today!\n\nCaregiver: Then close your eyes. Just close your eyes and you can have the candy.\n\nMan: Sure, sure!\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_204103",
+        "props": {
+          "title": "Auntie",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Caretaker: Are you doing okay? Do you feel comfortable today?\nLady: Oh, don't worry. I'm doing fine. Come, help me try on this new scarf!\n\nCaretaker: You did such a great job. Is this for him?\n\nLady: Oh, I wouldn't make anything for that old toad. This is for you, dear!\n\nCaretaker: For me?\n\nLady: You're so good to us, looking after us after everyone else has left.\n\nLady: I wish I had a daughter like you, you know that?\n\nCaretaker: That's very kind...\n\nLady: Here, can you help me find the light blue yarn? I think it fell by the trash over there...\n\nCaretaker: Hold on a sec. Ah, I... I found it...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_204104",
+        "props": {
+          "title": "Old Man",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Old Man: Come here, kiddo. When you're as old as me, you're allowed to stay up as late as you like. \n\nNurse: ...Grandpa, I...\n\nOld Man: No need to say anything. Please, just take my hand. \n\nOld Man: I know, how much you've done. Old sinners like us, we don't deserve it. Thank you. \n\nNurse: I haven't... I shouldn't... Grandpa, I don't want... I don't want...\n\nOld Man: *Sigh*, I wish I could've been the one to help you. But I'm not as strong as I once was...\n\nOld Man: Just hold my hand. \n\nOld Man: For the last time, goodnight, kiddo.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_204105",
+        "props": {
+          "title": "Ahhh!",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Unknown Victim: No! I can still work! I'm still useful, I tell you!\n\nUnknown Victim: Stay back! Stay away from me! No, don't do this!!\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_204106",
+        "props": {
+          "title": "Devotion",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Unknown Victim: Oh... yes... I feel incredibly honored... to sacrifice myself for the greater good...\n\nUnknown Victim: My blood... my flesh... can bring divine forgiveness to this sinful land. Even if it's only for a moment, that's enough...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_204107",
+        "props": {
+          "title": "Come to Mommy",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Unknown Victim: Amelie...? Is that you?\n\nUnknown Victim: They told me you'd be here. Come on out baby... Mommy won't mind.\n\nUnknown Victim: Even if you don't remember Mommy anymore... I'll still... Stay with you...\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204001",
+        "props": {
+          "title": "Gaia Military Base",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "This is a place of ugliness and darkness, and its shiny exterior can't hide its sordid nature.\n\nThis place is actually a Rosetta slave market, or as they call it, a \"recruitment center\". Whether through violence or deception, Rosetta brought in as many Survivors as they could control, and then, no one knows where they were taken to.\n\nThere have always been rumors that huge underground facilities were built underneath Nalcott Island. After the Starfall, Rosetta established a strictly stratified society there, one similar to the slavery state of Ancient Rome. No one can verify these rumors' validity, but no one can deny them either, including Rosetta themselves. In any case, Rosetta has been scouring the wilderness for Survivors, and even if they aren't being used for such an unproductive purpose of \"slavery\", it's certainly not for anything good.\n\nSomeday, when the Union has built up enough power, we should destroy this place and rid it of all its wrongdoing.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204002",
+        "props": {
+          "title": "Holt Town",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "As its name suggested, this is the ancestral home of the Holt family and the place Ted had long missed. Before I set out, Ted told me about the terrain of the place, the locations of important buildings and stores, and, of course, the physical characteristics of his family members, although he had emphasized that he had no hope that they would survive.\n\nUnfortunately, reality did not give Ted any hope but only despair—Holt Town had long been a dead town. But from the traces left behind, it was evident that the residents put up a resilient struggle. *Sigh* Regardless of age, they all held on until the last moment in the confrontation with despair... They did not give in. \n\n The survivors at the Tall Grass also confirmed to us the harsh truth: no one survived. We took the necessary supplies (some of them were at the places where Ted had told me they would be), and before we left, I picked a few strawflowers from the side of the road and let them drift in the breeze blowing in the direction of the town of Brookham. For the loved ones of Ted Holt, we couldn't give them a proper burial, but at least, let me offer them a token of remembrance.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204003",
+        "props": {
+          "title": "Furnace Lair",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Since the Starfall, Chalk Peak has been a disquieting place, perpetually cast in gloom and terror. And this blasted place... no, this abandoned town is a perfect example of that.\n\nSome really crazy things have happened here. A bunch of maniacs left some bizarre drawings on the walls, marks I couldn't even begin to describe... Those people must have been driven to insanity by Chalk Peak itself. I'm beginning to suspect that even I may have fallen under its strange influence... We must leave these endless, maddening mountains at once.\n\nThe locals call this place Furnace Lair, but no one can tell us how this name arose, or what it was like pre-Starfall. It's odd, almost as if the town appeared out of nowhere, or that all of their memories of what it was like before have been erased.\n\nWhile keeping vigilant, we carried out further investigations but found no information about the town's past other than the marks left by those crazies. We can leave this page blank for now. Maybe we'll be able to find out more in the future.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204004",
+        "props": {
+          "title": "Rotten Saddle",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Rotten Saddle, where the \"cancer\" first began to spread — the Vultures, if I must — they are this crazed and ruthless gang that casts a shadow of death over Chalk Peak.\n\nThe residents of Tall Grass have confirmed this to us. Vultures were active here in the early days under the guise of prophets, healers, and philosophers. It also allowed Vulture leaders to recruit their first followers, who were also the earliest members of the gang. They gradually corrupted more residents until the entire sanctuary fell, and all the righteous people who refused to abandon their consciences were killed. The remaining scumbags... turned this place into a total bandit lair.\n\nBut then, they left too. Perhaps it was due to the intensification of Stardust contamination, causing Deviants to group up and invade this place? Or maybe it was because there were no more settlements nearby for them to plunder and they needed to go to new \"hunting grounds\" to find more prey.\n\nI will try my best to record the information about this place to warn future generations. If one day the Vultures become the enemy of the Union (which is bound to happen as long as they exist), we need to learn our enemy's origins.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204005",
+        "props": {
+          "title": "Silvershore Resort",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "\"Silvershore\"... My pen trembles between my fingers, tears brimming in my eyes...\n\nSilvershore was my home, where I spent my childhood as a young girl, where my father and mother had had their laughs, their sorrows, their solace, and finally, their burial. And now it is just Silvershore Resort, a mere geographic remark under the tip of my pen since it has been deserted after the Starfall, with no survivors.\n\nMy teammates understand how I feel, and they explore these ruins carefully, showing their respect. I appreciate their understanding, but it's not necessary, since the departed are gone, but the living must live on. I've gathered the firearms and ammunition in my father's safe, and the last few pieces of jewelry left by my mother in her hidden compartment. I love you, Dad and Mom, so I will make good use of these things you've left behind and carry on. \n\n Farewell, my home.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204006",
+        "props": {
+          "title": "Greenlake Hill",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "I was once a frequent visitor to Greenlake Hill, which was the biggest and most bustling community in the entire region... before the Starfall. I still remember the neon lights shimmering in the midnight, and the bars resonating with music and lively chatter until dawn. It was like a hidden gem in this secluded mountain area.\n\nTo our surprise, we found that the Survivors have established a strong shelter in Greenlake Hill, taking advantage of the steep terrain and the expansive views. With a large population and abundant resources, they maintained significant influence over the entire Chalk Peak region for several years following the Starfall.\n\nHowever, they seemed to have developed a peculiar system of governance, resembling a matriarchy, with several elder women holding the power, and their decisions were often far from wise.\n\nThe shelter, unfortunately, didn't make it to our arrival, falling apart due to internal corruption and external threats. The surviving residents dispersed: some sought refuge in Tall Grass (and it was from them we learned valuable information about this place), some were captured by Rosetta, and some even transformed into Marauders. There are reports of some going west, becoming pioneers on the plains.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204007",
+        "props": {
+          "title": "Evergreen Vineyard",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Oh, the elegant and charming Mr. Quinn York, and his wild and untamed companion Chester. The duo makes for a truly strange combination.\n\n It's almost as if they are not of this time, both Mr. Quinn and Chester have an air of mystery about them—despite their very different qualities. They appeared in our camp out of nowhere, completely unnoticed by the lookout scout, and stood before me. The elegant Mr. Quinn invited me and my teammates to a small gathering at his estate, saying that a \"modest banquet\" had been prepared for our arrival.\n\nIt was apparent that saying no would be dangerous. The wisest thing to do with these two peculiar guests was to let nature take its course and improvise. Fortunately, Mr. Quinn didn't have any \"surprises\" in store for us—the food was plain but normal, normal enough that I could clearly distinguish that the dishes served were goat meat and watercress, rather than some kind of grotesque cuisine. We also tasted a \"blue wine\" from the Evergreen Vineyard, which had a rich and complex flavour profile I'd never experienced before. \n\nAfter the modest banquet, Mr. Quinn and Chester asked us where we came from and why we were here, and in the spirit of goodwill, we exchanged a lot of information with each other...\n\\n(The rest has been redacted)\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_204008",
+        "props": {
+          "title": "ALPHA Institute",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "\t\nIt's a challenge to capture the essence of this place, with its tumultuous past. Once a research base for Rosetta, it was quickly abandoned in the wake of the Starfall. Then, the residents of Greenlake Hill arrived, scavenging all available supplies and equipment before departing, leaving this place deserted once more. \n\nBut a man named Isaac Finn stayed behind. A teacher who remained hopeful amidst the end of the days, Isaac planned to transform the abandoned institute into a school to teach the children of Greenlake Hill before the knowledge of past eras was lost to time. \n\nAt least initially, Isaac's passionate idea was supported by some of Greenlake Hill's key individuals, who provided some resources and manpower to renovate the place and worked on collecting worn-out pre-Starfall books. He compiled them into teaching materials for children, who, like the adults, were numbed by their daily struggle for survival, to come and learn...\n\nHope is a flower that may not bear fruit. Despite Isaac's efforts, he ultimately failed. The whole school program was discarded, and the children still went to the workshops and farms. As for the old books, they were likely used as firewood for a meal. \n\nI don't know what eventually happened to Mr. Isaac Finn, as many traces of him were erased after Rosetta reoccupied the place. But I sincerely hope that he's still alive, and I wish I could find him to have a chat. I'd like to tell him that the torch is still burning in the north, and if he's willing, he can join me in traveling there.\n\n\n\n"
+        }
+      }
+    ]
+  },
+  {
+    "type": "regional_records_iron_river",
+    "items": [
+      {
+        "id": "book_203102",
+        "props": {
+          "title": "Sleep Well",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Mom: Sleep well, child. Sleep well...\n\nMom: You are safe here. The monsters can't get in, and no one can... hurt you.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203103",
+        "props": {
+          "title": "Produce food",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Chef: We found a van full of food! I couldn't believe my eyes! Looks like we won't be starving any time soon!\n\nChef: We've got enough supplies for the next few months... Rest up. There will be plenty to eat when you wake up...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203104",
+        "props": {
+          "title": "A New Cure",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Doctor: Yes, what you heard is true. Our latest experimental drug is highly effective at curing Stardust infection.\n\nDoctor: I'll schedule you for an injection right away. It may make you a little sleepy, but rest assured, that's an entirely normal reaction...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_303137",
+        "props": {
+          "title": "Investigation Report: About Vultures",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "From the gathered Vulture manuals, we found that unlike the eastern region, the north isn't a desolate wasteland. The Vulture presence is strong here—they're like a fanatical army with excellent equipment and cohesion. It's rumored their mysterious leader refines entropy elements for expansion. Our survey near the snow mountains faced major interference from the Vulture forces. Therefore, we request Additional manpower.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203001",
+        "props": {
+          "title": "Highland",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "This place makes me sick...\n\nThe bandits here are similar to the vicious ones found on other parts of Nalcott Island. I wonder if they all underwent some kind of training to achieve such uniformity in their actions and mentality.\n\nDisasters always push humanity to the extremes...\n\nThis used to be a relatively large settlement in the lower reaches of the Iron River. The torn posters and scattered books hint at a once vibrant cultural life. The rich spirits of humanity here were gradually driven mad by the Stardust contamination, leading to suicide or the harming of others. The bandits showed no mercy, recklessly destroying everything and using this place as mere food storage. They're outsiders who seized the high ground, and perhaps even abducted surviving residents in the process.\n\nThis was the horrifying scene we witnessed when we infiltrated the place at night, except... there were no other survivors and just... bandits firing at us. Fortunately, we weren't unarmed survivors. After a fierce battle, we finally managed to escape. Human settlements in the wilderness can easily lull people into a false sense of security, potentially leading them into even greater danger. Severe Stardust contamination, however, can keep survivors out in the first place, making it safer.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203002",
+        "props": {
+          "title": "Refinery Pollution Point",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Before the Starfall, this place was full of young people putting in their hours and chasing their dreams. There used to be a fleet of trucks working around the clock, taking finished goods to customers, and bringing in raw materials for smelting in the factory. It was only a medium-sized refinery at best, but it did good business and paid its workers a fair wage. I imagine all this must seem very strange to the younger generation. The Union has done its best to maintain some semblance of social order, but still. The world is so unimaginably different now...\n\nBut what's the use in dwelling on the past? The refinery was abandoned after the Starfall, and now it stands empty. Some survivors must have taken refuge in there at some point though - I saw the remains of a campfire, and some small tents. It was late at night when Stardust first spread to the refinery, and there were only a few kids on guard duty at the time. They didn't stand a chance. Some of them probably still wander the halls of the refinery even now, in a new, twisted form...\n\nThat last bit is just conjecture.\n\nThe facts of our exploration are as follows: we cleared out a few monsters, then conducted a detailed search of the location. It was practically deserted, and we found almost nothing of value, just some metals. No food whatsoever. We're running dangerously low on rations at the moment. If we don't find food in the next week, the expedition... No. We've still got some time. It's not over yet.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202106",
+        "props": {
+          "title": "Good Teacher, Bad Teacher",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Maxie Rodriguez: Here are your shoes, your gun, and all the bottles and jars in your bag. \n\nTrent Palmieri: Those are medicines, for emergencies. You take them. \n\nMaxie Rodriguez: You take them. You need them more than I do. \n\nTrent Palmieri: It's not safe for you and the kids to stay here. Won't you just come with me? Come with me to Sandbank. \n\nMaxie Rodriguez: Hmph! I didn't save your skin because I wanted to cozy up to those people. I can't stand the sight of them, and they think the same of me. \n\nTrent Palmieri: I know. But that doesn't stop you from coming as my student? \n\nMaxie Rodriguez: Stu... Student? \n\nTrent Palmieri: I've been to Sunbury Middle School. I've seen the shadows of your past ... Miss Kia Armas. She wouldn't want you to stay, mixed up in all this. \n\nMaxie Rodriguez: Are you looking to get a bullet through the head?\n\nTrent Palmieri: Maybe I am. But I'm also a good teacher—though maybe not quite as good as Miss Kia. Come with me. And bring the other kids with you. There's so much I can teach you.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203003",
+        "props": {
+          "title": "Greywater Industrial Zone",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "In the old days, before the Starfall, this place would have been regarded as a remote settlement. Nowhere to go and nothing to do, and the heavy clanking of machinery 24 hours a day was enough to give anyone a headache. Even maintenance crews didn't hang around long. Who'd have thought that after the Starfall, this place would become such a prime piece of real estate! Somehow, the oil wells managed to survive relatively intact.\n\nWe also found some canned goods - tuna, luncheon meat and so on. Maybe a maintenance crew left them? This place had no restaurant, after all. It was so delicious, I got to thinking - when was the last time I ate canned tuna? 5 years ago, at the Union? No, it was 3 years ago, in the storeroom of that old fast food joint in the Dayton Wetlands.\n\nAnyway, we scoped out the area and didn't find any signs of a bandit presence. We stayed for several days, and didn't see anyone from Rosetta, either. Before we showed up, this place was Nalcott Deviant territory. Maybe the Deviants will come back as soon as we leave, or maybe some poor human survivors will pass through. Either way, I don't expect this place to become a major Stronghold for any faction in the near future. It's a safe distance from Rosetta - unlike the East Blackfell Junction - and resources are more plentiful. It's Melanie's for the taking, in my opinion.\n\nI haven't seen Melanie in such a long time. If only we weren't so busy exploring Nalcott...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203004",
+        "props": {
+          "title": "Alkirk",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Alkirk must have been a bustling little town at one point. Its fate was sealed the day that Monolith rose from the ground. I can almost imagine the blue and purple Stardust spilling out from the Monolith on the day of the Starfall. The town, swallowed up by wave after wave... Most of Alkirk's residents would have simply perished in their sleep.\n\n...Our previous records are wrong. Upon entering the town, we discovered that the plague of Stardust had been tormenting Alkirk's residents even BEFORE the Starfall. The residents had seen the early warning signs. They didn't understand them, but they were scared, that much was clear. Rosetta had the town by the neck by the time they built their Monolith. It seems that the townsfolk were forbidden from telling the outside world about the Monolith, or any of the Deviations they were starting to experience.\n\nThat was all 10 years ago, and the Stardust has mostly dissipated now, but the inhabitants of Alkirk have been irrevocably transformed. We had to wipe out some of these 'inhabitants' when we first arrived, for the safety of the camp. Our expedition party is a highly experienced, highly skilled bunch, and yet, picking off a few of the roaming Deviants who came too close to our camp was the best we could manage. We prevented a full-scale onslaught, but the place remains infested with Deviants.\n\nWe've just set out from Blackfell. We haven't encountered any survivors so far, but this is absolutely to be expected. As I keep telling my troops - no reason to be discouraged. None at all... We're heading south right now. I refuse to believe that humanity has been completely swallowed up by Stardust here. There must be someone out here, still clinging to life.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203005",
+        "props": {
+          "title": "East Blackfell Junction",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "The way I see it, any survivor is worth reaching out to. No matter how small, no matter how weak. Even if they are barely surviving. In all honesty, things are a lot better here than I thought they would be. Three people on patrol and foraging duty, while the other two stay behind. It seems like a fairly equitable arrangement, with a clear chain of command. Melanie seems like a brave and capable leader.\n\nI had a very pleasant evening last night... alcohol-free, unfortunately. I had a long, productive chat with Melanie, but I made sure to stay off the dangerous topic of the past, of dead loved ones. Our conversation kept circling back to the Union. Melanie seemed interested, and it's not hard to see why. These people have been wandering the wilderness, alone. The Union's resources, the society we've managed to create... The Union can offer a degree of security that these people crave. I hope Melanie decides to join. I like her. Her group would be an excellent asset to the organization.\n\nWe also found a number of other significant features in this area. The bridge and the oil wells across the river, for example, were once an old transportation hub. This place could make an excellent new Union Stronghold - an opportunity for the Union to extend its influence into the Iron River valley. The only potential problem is Rosetta. At one time, this place was used by Rosetta to transfer supplies and manpower. On the eve of Starfall it was hastily evacuated, but according to Melanie, the entire Iron River basin remains firmly in Rosetta's control. \"We're like caged animals,\" Melanie said to me. \"Rosetta lets us live for now - but there's no telling when they'll decide to crack down\". \n\nDespite that, I can see that Melanie still wants to keep up the resistance. But she needs help. I hope she can come to an agreement with the Union. As for me, I said my goodbyes, and embarked on the next leg of our search for survivors, alone.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203101",
+        "props": {
+          "title": "Come at Me, Then",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Melanie: So why are you here?\n\nArno Ⅰ-S1134: Rosetta would appreciate your assistance. In return, you'll receive a monthly shipment of food and guns.\n\nMelanie: My assistance? I thought Rosetta was omnipotent.\n\nArno Ⅰ-S1134: It is, but according to corporate regulations, current survivors on the surface are eligible to provide assistance to the organization.\n\nMelanie: It's funny, you didn't expect any of us to survive, did you?\n\nArno Ⅰ-S1134: Melanie Gold, I recommend you seriously consider our offer. After all, your supplies won't last forever.\n\nMelanie: I've already considered it. If we agreed, we'd become human shields for Rosetta. Mayor Sutton already made that dumb mistake.\n\nArno Ⅰ-S114: Very well. But if you refuse Rosetta's request, then you should understand the consequences.\n\nMelanie: Come at me, then. I'm not afraid.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203105",
+        "props": {
+          "title": "Dad's Shelter",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Unknown Victim: I've had enough... The endless hiding, the labor, enduring hunger, pain... No moment of respite...\n\nUnnamed Victim: Dad wouldn't lie to me... He was so kind and comforting in my dreams. I was foolish to doubt him.\n\nUnnamed Victim: Ah... This must be the shelter that Dad mentioned... Jill and Matthew should be here too...\n\nUnnamed Victim: Seriously... Why aren't they here to greet me? Hey! Is anyone there? I'm here, and I'm so tired...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203106",
+        "props": {
+          "title": "Ruined Hospital",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Matt \"Baldy\": You call these medicines? Damn it! There's nothing in this whole damn hospital apart from all this garbage!\n\nNeil \"Beanpole\": But Glen said he had dreamed that—\n\nMatt \"Baldy\": Cut it out! Has Glen ever gotten anything right? Damn it! How stupid can you get? Believing in dreams... Where the hell has Glen got to, anyway? Where did he go?\n\nNeil \"Beanpole\": He was just here. Maybe... he's in the parking lot?\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203107",
+        "props": {
+          "title": "Who Are You?",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Kim II-S1134: We've reached the location. The Anchor has been placed. There are no signs of any Stardust-related reality distortions.\n\nSandra I-S1134: Weird. The Stardust is off the charts here... but there are almost no energy reactions. It's... too stable.\n\nKim II-S1134: Dr. Marshall told us that the Deviation Point is just within range of Monolith BL1103C. The Omega reactions could, theoretically, fall to an extremely low level.\n\nSandra I-S1134: Right, I forgot that... Wait a moment, who's Dr. Marshall?\n\nKim II-S1134: Marshall II-Kv0251, of course. How could you forget the director of our research station, Captain Sandra?\n\nKim II-S1134: Kim, look at your shoulder patch.\n\nSandra I-S1134: You are the captain, not me.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203006",
+        "props": {
+          "title": "Ricci Securement Point",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "This is no place for us. We're just a small expedition team. We have no hope against Rosetta troops, armed to the teeth with state-of-the-art gear... One thing is clear - Rosetta is just as strong now as they were 10 years ago. They've just been biding their time...\n\nWe managed to hide from the patrol squads, and bedded down for the night in an abandoned camp, in the beast's shadow. It was a well-protected military encampment, with zero signs of Stardust erosion. There was also a two-story concrete building that looked like a command post or research center of some kind. Rosetta really got busy here before Starfall...\n\nAnyway, this Rosetta stronghold seems to be in a period of temporary activity. They won't stay here permanently though, I'm sure of it. They'll keep expanding into the rest of Nalcott. I still can't get my head round it. Rosetta are human! Why do they seem to be on the side of the Stardust? Pushing Nalcott closer and closer to the brink... The Starfall and Rosetta are intimately connected - I'm sure of it. We have no idea what new horrors they're working on. But for as long as the Union is working to bring humankind together, you can be sure that Rosetta will stand in our way.\n\nI've made a comprehensive assessment of the expedition's current strength, and determined that we won't be able to get away with a 5-man patrol. So, we made plans to leave under the cover of darkness instead. There's too much at stake. Can't be reckless.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_203007",
+        "props": {
+          "title": "Rippleby",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "On our third loop of the island, the expedition was finally able to go deeper into the legendary town of Rippleby. Thomas is from Rippleby - I heard that from someone else, mind you, not the man himself. The last time we passed through here, the place was teeming with Deviants. It was out of consideration for Thomas that we waited this long to venture into the town. As it turns out, Thomas has been to Nalcott before, as part of one of the earliest geographical research teams. He'd probably make a much better expedition leader than me...\n\nIt seems that the Deviants have been cleared out since the last time we were here, although it's not clear whether this was the work of Rosetta, or those bandits. There's not much here anymore - just some empty factories, run-down homes and a trashed supermarket. The old Rippleby is long gone, that's for sure. The Union has a few members from Rippleby, and according to them, this town used to be the most beautiful town on the lower reaches of the Iron River. Then, the town's mayor came to an arrangement with Rosetta. Rippleby's factories, market and bustling fishing port all benefited from Rosetta's deep pockets, and the town began to grow rapidly.\n\nStanding here now, though, it's hard to believe that this place had ever really been prosperous. Tonight the expedition will camp out inside one of the town's old houses. It's been a long time since I slept in a real bed. Unfortunately, it seems that the last group to pass through here (it's unclear whether they were human survivors, Rosetta soldiers, or bandits) have already picked the place clean. We searched through every home, but it seems there isn't a scrap of food left in the whole town.\n\n\n\n"
+        }
+      }
+    ]
+  },
+  {
+    "type": "regional_records_broken_delta",
+    "items": [
+      {
+        "id": "book_202108",
+        "props": {
+          "title": "Word of Comfort",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Breanna Meyer: Wait! Sir, you forgot your book.\n\nDavid Clark: I didn't forget. It's a gift, for you... and the baby in your belly. Thank you for sharing your food with an old bum like me.\n\nBreanna: *Smiling* You're very welcome, but there's no need to do this. Besides, I can't read whatever language that book is written in.\n\nDavid: That doesn't matter. Just pick it up and flip through the pages whenever you feel tired, or lonely. It'll give you strength—courage to carry on.\n\nDavid: The loss of your husband must have been difficult, Breanna. Rest assured, your child will grow up safe and strong, like a banyan tree.\n\nBreanna: ... How did you know?\n\nDavid: There are some mysterious and mighty beings in this world. They told me of your sorrow, and they asked me to come... and talk to you.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202109",
+        "props": {
+          "title": "A Magical Book",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Breanna: There's something magical about that book... \n\nBreanna: I've never felt so peaceful. Not since Paul left... \n\nBreanna: But, I know what that thing is... I shouldn't... I shouldn't have touched it... \n\nBreanna: But I just couldn't resist... I thought I'd never find peace again.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202110",
+        "props": {
+          "title": "Take Care",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Maxie: I've left some canned corn, instant oats and goat's cheese in the pantry. If you find yourself in trouble, call for help. The neighbors will be able to hear you.\n\nBreanna: Thank you, Maxie.\n\nMaxie: Huh. You've changed. So respectful all of a sudden...\n\nBreanna: Really? My bad. Shouldn't you be getting along? I'm sure you're very busy...\n\nMaxie: ...Nancy is worried about you, and so is Benjamin. You should consider moving back in with them. That way, things will be easier after the baby is born.\n\nBreanna: Tell them thank you. But I'm staying here. I can look after myself and my child.\n\nMaxie: Breanna.\n\nBreanna: Yes?\n\nMaxie: You're like a daughter to me, a sister. Can you at least promise me one thing? Promise me, if you ever find yourself in trouble, you'll come find me.\n\nBreanna: ...alright.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202111",
+        "props": {
+          "title": "Banish Them!",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Brad (Lito): Exile her!! We've long agreed, no followers of Stardust in Meyer's Market!\n\nNancy (Russell): Shut it, you maniac! You don't run things here. Breanna, say something!\n\nBreanna: ...\n\nThomas (Grint): The texts in her drawer... and those shady dealings... those are all solid evidence.\n\nNancy (Russell): So, you're going to exile a pregnant woman?! You might as well kill her and her unborn child!\n\nBenjamin (Miller): She's right... but it's a vow we all swore to uphold—including herself.\n\n(Oscar) Old Pierre: The votes are in. Well then, Mayor...\n\nMaxie: Sorry... Breanna...\n\nMaxie: You have to leave this place.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202112",
+        "props": {
+          "title": "The Final Confession",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Breanna: ... I questioned you, because I was worried about losing...\n\nBreanna: Now my weak and dying body is all I have...and the little one I'm carrying is no different...\n\nBreanna: You promised me peace, immortality... You promised to let my child grow up healthy, like a banyan tree...\n\nBreanna: I regret what I did.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_301133",
+        "props": {
+          "title": "Investigation Report: Northern Region",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "As per the ongoing plan, we've completed a survey of the area in a 50-kilometer radius from the target point.\nHere's a brief summary: Facing the northern region's extreme cold, residents use advanced technology with high-energy fuel to regulate the temperature to the bare minimum required to survive.\nTo better utilize this fuel more effectively, they have built massive Thermal Towers and rely on these in order to live.\nWe need further investigation to fully understand the underlying technology and potential of these towers.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202001",
+        "props": {
+          "title": "High Banks",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "This town serves as yet another example of how human civilization was utterly and completely destroyed. Like the memorials constructed to commemorate world wars in the old times, this town is like a single giant tomb, commemorating the countless dead.\n\nIt is clear from the wreckage that High Banks was annihilated not long after Starfall. The residents were clearly taken by surprise and did little to protect themselves when the assault began. Large numbers of Rift Entities, it seems, poured into the town and simply began to feast.\n\nWhat a pity... This place used to be one of the most important settlements on the southern coast. I had hoped that there might be some survivors hiding out in a hidden bunker somewhere, waiting for rescue. But so far, we've found the Wetlands devoid of anything but the undead and Stardust. And the expedition to the Broken Delta is... not off to a good start.\n\nWe found exactly zero habitable or reclaimed land in the entire High Banks region. The area will have to remain off-limits for humans for some time yet.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202113",
+        "props": {
+          "title": "An Interview",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "George Hearst: I should go... I've got to get an early night... I've got to drive out west tomorrow morning. I've got an interview.\n\nJeremy Logan: For Rosetta?\n\nGeorge Hearst: Yes. My uncles arranged it for me. They say it's a good opportunity, a good company... But to be honest, I'm not sure about the idea.\n\nJeremy Logan: I dunno man. It sounds like a pretty sweet gig to me. You'll never be able to make any money if you stay on this crappy island. Ever since Rosetta came, they've had people lining up to fill out a job application.\n\nGeorge Hearst: That's what everyone's been saying... But...\n\nJeremy Logan: Look man, if you won't do it for yourself, do it for Joan. She's so busy over at Harborside. If you don't take this chance, the two of you will only grow further and further apart.\n\nGeorge Hearst: Ok, ok... I'm gonna head out. See you later.\n\nJeremy Logan: See you later, bro. Knock 'em dead.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202002",
+        "props": {
+          "title": "Hearst Industries",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "I know of the Hearst family. They were one of the earliest families to migrate to Nalcott. They were one of the oldest and most distinguished families on the island. They had their fingers in quite a few pies, too. They owned restaurants and real estate, and had investments in various light industries, in transportation... The Hearst family exerted their influence on almost every aspect of island life.\n\nOf course, they had been in a steady decline for years, even before the Starfall hit. By the time I was born, the Hearst family's influence had already shrunk significantly. Just the southern corner of the island still truly belonged to them. They also faced a number of internal and external crises (some of which could be said to be self-inflicted). Gradually, the town's population withered and the stores were abandoned. Later, it seems that the Hearts' became involved in the violence with the Wetland gang... \n\nBut anyway, back to the facts. The Hearst family lost nearly all their industrial properties. Only the chemical plant in front of me remains in their hands. It's no longer operational, but it had been struggling for several years even before that. Much to our surprise, however, it seemed to have survived the Starfall.\n\nThere's an electronic calendar inside, and it stopped sometime in 2026. That means it was still operational for several years after the Starfall. I believe that there was a small group of survivors who did their best to stay alive by seeking refuge inside the plant. They managed to survive right up to the winter of 2026 (that was one of the harshest years), when they finally succumbed to famine.\n\nGod Damnit!!! Sorry, I really needed to get that out.\n\nWe were too late, yet again! More than four years too late. There is nothing worth exploring inside that plant now. We noticed a few rare mechanical parts that might have some value, but my team is already overburdened as it is, so we left them where they were.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202102",
+        "props": {
+          "title": "Mommy's Here...",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Rachel Hower: I'm scared... Mom! I'm scared....\n\nAlice Hower: Stay close to me darlings... Stay together... Stay close to Mommy...\n\n\n\n\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202103",
+        "props": {
+          "title": "Don't Look Back",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Andrew Hearst: Don't look back! Alice, get the two little ones into the house. \n\nMorgan: Woof! Woof!\n\n\n\n\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202104",
+        "props": {
+          "title": "Enemy",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Joachim Hower: Aaaah! Monster! Monster!!!\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202003",
+        "props": {
+          "title": "Harborside",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "It's been more than six months, and the gloom that has been hanging over the expedition team's heads has finally lifted. Having spent so long searching, finding a group of survivors has really lifted the group's spirits.\n\nWere the survivors somehow able to discover that the sandbar in the river was still unpolluted by Stardust? It all seems so unlikely, even thinking about it now. The survivors were just a bunch of regular people. Healthy, but not exceptionally skilled. We had a lot in common. We established an especially good relationship with their leader - Simon Meyer. Simon is a really charismatic guy. He gave us a lot of useful information about the surrounding area, and even volunteered to serve as our guide. He showed us the way to some important yet remote sites, like Harborside.\n\nSimon's theory about what happened to this town seems very reasonable to me. Simon believes that Harborside was ransacked by a Rift Entity early on. Even if anyone managed to escape this attack, they must've perished sometime during the subsequent decade of hardship. The way things currently stand, there is no possibility of settling here. The land and air are both still thick with Stardust - even the sea off the dock is covered in a thick blue-black residue.\n\nBut there was still value in coming here. With the information we've gathered, we'll be able to chart a more accurate map of Nalcott Island. Which places are safe, which places are worth investigating in more depth, and so on.\n\nMy hope is that one day, this information will motivate us... the Union... all of humanity... to take back this world for ourselves.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202004",
+        "props": {
+          "title": "Sunbury Middle School",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "We carefully approached Sunbury Middle School. Simon Meyer said this place is more dangerous than other areas in the wilderness — not because of Deviants or Stardust, but because it is constantly occupied by a group of extremely vicious bandits.\n\nThese bandits lived nearby before the Starfall, so they're locals, but this doesn't make them any more merciful toward other survivors. Some of Simon's people were captured by them. The look on his face when he talked about it said everything about the terrifying fates they faced.\n\nSince then, Simon's group has been in a long struggle with the bandits. Sandbank, the shelter built on a river, has hardly seen a day of peace, with endless ambushing and counter-ambushing from both sides. The price of blood continues to rise, but neither side has gained a decisive advantage.\n\nThe school ruins need a thorough cleanup. If I can successfully return to the north and help Simon Meyer secure more support from the Union's headquarters, this stalemate will end for sure. This is both for the victims who died at the hands of the bandits and for the development of Sandbank and the Union. There must be land in Sunbury Middle School free from Stardust contamination, and it shouldn't exist as a bandit lair.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202005",
+        "props": {
+          "title": "Sunbury",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "The original inhabitants of this town perished in the Starfall. Like Sunbury Middle School to the east, the town has now been occupied by bandits. A LOT of bandits.\n\nBut things are more complicated than that. Rosetta has also established several outposts to the west. Things tend to play out in a similar way to how they do up north - with lots of threats and saber-rattling. Violent incidents tend to be short and end in retreat.\n\nOf course, hostilities between Rosetta and the bandits are good for Sandbank (the bandits act as a buffer between the residents and Rosetta). The bandits have nailed a bloodstained Rosetta uniform to a post right next to the main Sunbury entrance. There are also a couple of not-so-intact corpses dangling from streetlights. The bandits don't intend to go down without a fight - that much is clear.\n\nWe, the expedition team, don't plan on getting ourselves caught up in all this mess. We did some careful recon of the surrounding area, then avoided Sunbury by crossing the hilly terrain to the north.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202107",
+        "props": {
+          "title": "In the Name of the Law",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Jim Chandler: Now, say your last words.\n\nVanessa Dunn: Hahaha! Don't make me laugh, you puny little... \n\nJim Chandler: Vanessa Dunn. Also known as \"The Streetlight Hangman\", \"The Vegetarian\", \"Laura Kirby\", and \"The Nun\". You're wanted for robbing travelers, trade caravans, and supply points at gunpoint...\n\nJim Chandler: At least six murders, several kidnappings, torture, extortion, and theft, among other charges. \n\nVanessa Dunn: Come on then! Give me your best shot. I dare you! \n\nJim Chandler: In accordance with the Union's General Penal Code, as amended in March 2024, you are hereby sentenced to death. The execution is to be carried out by Guard Captain Jim Chandler. Now, Vanessa Dunn—\n\nVanessa Dunn: DAMN YOU!!! Do NOT call me by that name!!!\n\nJim Chandler: May you rest in peace. \n\nVanessa Dunn: The Vultures will rise, you fool!!! Long live the God of Creation—\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202006",
+        "props": {
+          "title": "Sutherland Chemical Plant",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Ms. Han told me in detail the story of the Sutherland Chemical Plant. She worked there as a warehouse supervisor when the Starfall hit and somehow managed to survive the initial attack by the Rift Entity, along with several colleagues. But what happened after that... isn't easy to write.\n\nThe plant workers were desperate and scared. They blamed the factory owners for the attack - not that there's anything they could've done to prevent it, of course. The Sutherland family were the ones who first brokered Rosetta's entry to the island. Driven to madness by their fear, the workers themselves dealt with the plant's managers, brothers Nelson and Donald Sutherland. Then, they turned their uncontrollable anger on the rest of the Sutherland family. Men, women, children, no one was spared... \n\nIt's been more than ten years, and Ms. Han was still on the verge of tears as she told me this story. She said that after witnessing all that destruction, she left the plant alone and headed out into the wilderness on foot. Somehow, despite the Stardust and the circling Rift Entities, she managed to survive. Ms. Han has since never set foot in the chemical plant again, nor does she know what happened to the other workers.\n\nThere's no trace of life at the plant now, but from what they left behind, it seems Ms. Han was right. A group of humans used this place as a shelter after the Starfall. It looks like they managed to hold on for two years, one year, maybe even less. And it's easy to see why. There wasn't much in the way of food stores, and the land around the plant is completely barren even now. The poison of Stardust runs deep.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202101",
+        "props": {
+          "title": "Request",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Han Fei: Please get out of the way. \n\nDakota Leto: Won't you reconsider? Donald, Nelson, and those good-for-nothing Sutherland kids got what they deserve. What this place needs right now is a leader. \n\nHan Fei: Do it yourself. Or Martin, Winona, Emily Ferguson - any of them would make a good leader. \n\nDakota Leto: But... Ms. Han, you were the one who closed that door at the crucial moment, and led the charge to beat back those monsters. Only you can command the respect of-\n\nHan Fei: I did nothing to stop you from killing those women and children! Yes, they were Sutherlands, but that doesn't mean they deserved to be slaughtered like that! \n\nHan Fei: You're all damned, and so am I. Goodbye.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202007",
+        "props": {
+          "title": "Eastern Railway Junction",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "The Eastern Railway Junction. I've got to note a thing or two about this place. After the Starfall, this was the most important shelter south of the Broken River. Survivors flocked here in the hundreds, Simon Meyer's gang among them, having once made their home here. \n\nSadly the place is now thoroughly obliterated. According to Brad Lito, a resident who fled to the Sandbank, the Eastern Railway Junction was attacked by Rosetta late last spring. The boss was publicly dealt with, and most of the remaining residents were taken away, their current whereabouts unknown. \n\nIt's a sad story, but one thing intrigues me: the boss of this place (or \"Consul,\" as he styled himself), Owen Hicks. \n\nWhere on earth did this guy come from? No matter who I asked — Brad, Simon, or whoever else — the one-time residents of the Eastern Railway Junction all had a high opinion of Consul Owen (and Simon looked pained to admit it). They said he was brave, decisive, and careful, with an aptitude for management and military strategy. Sounds like he must have been a military man himself, or at least an accomplished official or businessman. \n\nOwen was said to have appeared on the day of the Starfall. Nobody had ever heard of him before then. But Owen Hicks burst onto the scene in their moment of need and used his leadership to organize a defense against the first offensive, firmly winning the people's trust. After that, he taught them to deal with the Deviants, to protect against contamination, to evade the Rift Entities... \n\nI simply don't believe that this guy didn't have some dark, hidden background.\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202008",
+        "props": {
+          "title": "Gaia Research Center Ruins",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "I never doubted the existence of some kind of secret, underground Rosetta base on Nalcott. Somewhere well-supplied and self-sustaining. If not, where else could these Rosetta troops be coming from?\n\nBefore the Starfall, when the Gaia Research Center was founded, they said it was a center for ecological research, something about alligators and land-based leeches that live in the delta - what a bare-faced lie. Think about it, the first thing Rosetta did upon their return after the Starfall was to take back that research center. Why would they do this? The building must house some classified files, or have some kind of strategic military importance. Either way, the center is now their base of operations in this region.\n\nI've got an even wilder theory. There could be an entrance to Rosetta's underground city somewhere inside the Gaia lab.\n\nI've decided not to explore the area further. It would be madness to try and sneak into the place alone...\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202105",
+        "props": {
+          "title": "Existential Crisis",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "Tylor Ⅰ-S2147: Cindy, did you fix the equipment? We'll need it for our next expedition, which, I remind you, is just around the corner.\n\nVerna Ⅱ-S2147: What's the matter with you? This is not the maintenance department, and I am not Cindy Ⅳ, but Mana Ⅴ-S2147.\n\nTylor Ⅰ-S2147: Oh wow, very funny. Mana Ⅴ-S2147 died during the mission last week. I had to bury her myself.\n\nVerna Ⅱ-S2147: That's nonsense! As the head of the personnel department, I can tell you for sure that there were no missions last week, and certainly no casualties reported.\n\nTylor Ⅰ-S2147: Personnel Department? This station's way too small to have its own personnel department. It's almost like none of this makes any sense...\n\nVerna Ⅱ-S2147: I dunno, maybe you're just crazy.\n\nTylor Ⅰ-S2147: Me? No way! If anything, you're the crazy one!\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202009",
+        "props": {
+          "title": "Junkyard",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "Unexpectedly, a Rosetta official reached out to us, a woman calling herself Hannah. She said she was the commander of this depot, overseeing the security and logistics supplies here. \n\nShe walked into our camp, unarmed and alone, but she seemed to give off elegance with every movement. She gladly accepted my lunch invitation and openly scrutinized the coffee, oatcakes, cheese, bacon, and everything else on the table. She frowned slightly, sizing up my expedition team and the Union behind us. The Union's entire supply system - production, distribution, and scale - must be crystal clear to her now.\n\nNot that I can really blame her for doing this. I've been spending a lot of time trying to size up Rosetta, after all. Ms. Hannah's visit cost us at least half of a week's worth of food (of course we had to send her off with decent goodbye gifts to show our goodwill). We'll have to tighten our belts for a few days now. Other than that, I think our luncheon went pretty smoothly, even \"flawlessly\". We didn't give away the Union's secret, after all.\n\nAmelia and Larry came back later after Ms. Hannah left. Just as we guessed, this depot had been set up to fortify the south coast. Its previous residents, if there were any, were ejected or kindly \"re-settled\" long ago by Rosetta.\n\nNot a good place to linger. We'd better get out of here.\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_302158",
+        "props": {
+          "title": "A Burnt Letter",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "My love, I'm afraid I won't be able to make it for your birthday. The search and rescue operation is far more complicated than expected. We've discovered traces of the Vultures near the Monolith—those freaks have come all the way here from the Snowy Realm. Once we resolve this crisis, I'll have to head north. The Vultures are out of control, and Roland will need our help. Of course, you are just as dear to me as he is. I swear it!\n\n\n\n"
+        }
+      },
+      {
+        "id": "Book_302159",
+        "props": {
+          "title": "Snowy Realm Scenery",
+          "title1": "",
+          "title2": "",
+          "title3": "",
+          "content": "\n\n\n\n"
+        }
+      },
+      {
+        "id": "book_202010",
+        "props": {
+          "title": "Wild Dog Isle Outpost",
+          "title1": "Excerpt from Rediscovered",
+          "title2": "By Denise Cooper",
+          "title3": "",
+          "content": "In the summer of '31, I made my first visit to the Broken Delta since the Starfall. 7 years later, here I am again. This is now my fifth investigation into these isles. That notepad of mine is almost full of writings, all about spots I've set foot on over these years and dense with details. There is, however, one last place in this southern sea that I still haven't seen. It's what keeps my curiosity burning.\n\nWild Dog Isle.\n\nIt wouldn't be a good idea to attempt to swim across that contaminated water. Just look at the tides lapping the shore, as thick and inky as they were at the time of Starfall. Twenty years have elapsed, and Stardust residue still haunts this place. But, there must be something special about that island. Otherwise, why would those Rosetta expedition fleets take such a long detour along the western coast to this forgotten little corner of the southeast?\n\nIt's such a shame that I can only watch them through my telescope from so far away! A massive construction project is taking place on the island. Looks like they plan to build some kind of long-term settlement. But what for? Is there unpolluted land? Have they found some valuable new type of Deviated plant? Or do they simply want somewhere remote to build a new prison?\n\nIf only we also knew how to build those Stardust-proof ships. Maybe I could just \"borrow\" one from Rosetta?\n\n\n\n"
+        }
+      }
+    ]
+  },
+  {
     "type": "echoes_of_stardust_simon_meyer",
     "items": [
       {
@@ -1076,31 +1806,6 @@
           "title2": "",
           "title3": "",
           "content": "Oh, great Stardust, I ignite this crimson candle as a tribute and present to you the purest of souls, praying for your acceptance.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_sunbury",
-    "items": [
-      {
-        "id": "book_202005",
-        "props": {
-          "title": "Sunbury",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "The original inhabitants of this town perished in the Starfall. Like Sunbury Middle School to the east, the town has now been occupied by bandits. A LOT of bandits.\n\nBut things are more complicated than that. Rosetta has also established several outposts to the west. Things tend to play out in a similar way to how they do up north - with lots of threats and saber-rattling. Violent incidents tend to be short and end in retreat.\n\nOf course, hostilities between Rosetta and the bandits are good for Sandbank (the bandits act as a buffer between the residents and Rosetta). The bandits have nailed a bloodstained Rosetta uniform to a post right next to the main Sunbury entrance. There are also a couple of not-so-intact corpses dangling from streetlights. The bandits don't intend to go down without a fight - that much is clear.\n\nWe, the expedition team, don't plan on getting ourselves caught up in all this mess. We did some careful recon of the surrounding area, then avoided Sunbury by crossing the hilly terrain to the north.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202107",
-        "props": {
-          "title": "In the Name of the Law",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Jim Chandler: Now, say your last words.\n\nVanessa Dunn: Hahaha! Don't make me laugh, you puny little... \n\nJim Chandler: Vanessa Dunn. Also known as \"The Streetlight Hangman\", \"The Vegetarian\", \"Laura Kirby\", and \"The Nun\". You're wanted for robbing travelers, trade caravans, and supply points at gunpoint...\n\nJim Chandler: At least six murders, several kidnappings, torture, extortion, and theft, among other charges. \n\nVanessa Dunn: Come on then! Give me your best shot. I dare you! \n\nJim Chandler: In accordance with the Union's General Penal Code, as amended in March 2024, you are hereby sentenced to death. The execution is to be carried out by Guard Captain Jim Chandler. Now, Vanessa Dunn—\n\nVanessa Dunn: DAMN YOU!!! Do NOT call me by that name!!!\n\nJim Chandler: May you rest in peace. \n\nVanessa Dunn: The Vultures will rise, you fool!!! Long live the God of Creation—\n\n\n\n"
         }
       }
     ]
@@ -1575,21 +2280,6 @@
     ]
   },
   {
-    "type": "regional_records_furnace_lair",
-    "items": [
-      {
-        "id": "Book_204003",
-        "props": {
-          "title": "Furnace Lair",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Since the Starfall, Chalk Peak has been a disquieting place, perpetually cast in gloom and terror. And this blasted place... no, this abandoned town is a perfect example of that.\n\nSome really crazy things have happened here. A bunch of maniacs left some bizarre drawings on the walls, marks I couldn't even begin to describe... Those people must have been driven to insanity by Chalk Peak itself. I'm beginning to suspect that even I may have fallen under its strange influence... We must leave these endless, maddening mountains at once.\n\nThe locals call this place Furnace Lair, but no one can tell us how this name arose, or what it was like pre-Starfall. It's odd, almost as if the town appeared out of nowhere, or that all of their memories of what it was like before have been erased.\n\nWhile keeping vigilant, we carried out further investigations but found no information about the town's past other than the marks left by those crazies. We can leave this page blank for now. Maybe we'll be able to find out more in the future.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_fishermans_wharf",
     "items": [
       {
@@ -1650,31 +2340,6 @@
           "title2": "Fisherman's Wharf, South Chalk Peak",
           "title3": "May 6, ██31",
           "content": "There is no way we can undo the pollution that Stardust has brought upon us. No matter how many precautions we've taken. We've lost two loyal members of the team this week. Such sacrifices are meaningless and I can't risk my people any longer! Tomorrow, I will lead them back to Centipede Nest. If the higher-ups blame us, I will take the responsibility. \n\nThese cursed mountains are not our land. If it was up to me, I would have left already. Now, I only hope that Miyako is doing better in the south. It's been weeks since I've gotten in touch with her. I hope she's still doing ok.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_gaia_research_center_ruins",
-    "items": [
-      {
-        "id": "book_202008",
-        "props": {
-          "title": "Gaia Research Center Ruins",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "I never doubted the existence of some kind of secret, underground Rosetta base on Nalcott. Somewhere well-supplied and self-sustaining. If not, where else could these Rosetta troops be coming from?\n\nBefore the Starfall, when the Gaia Research Center was founded, they said it was a center for ecological research, something about alligators and land-based leeches that live in the delta - what a bare-faced lie. Think about it, the first thing Rosetta did upon their return after the Starfall was to take back that research center. Why would they do this? The building must house some classified files, or have some kind of strategic military importance. Either way, the center is now their base of operations in this region.\n\nI've got an even wilder theory. There could be an entrance to Rosetta's underground city somewhere inside the Gaia lab.\n\nI've decided not to explore the area further. It would be madness to try and sneak into the place alone...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202105",
-        "props": {
-          "title": "Existential Crisis",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Tylor Ⅰ-S2147: Cindy, did you fix the equipment? We'll need it for our next expedition, which, I remind you, is just around the corner.\n\nVerna Ⅱ-S2147: What's the matter with you? This is not the maintenance department, and I am not Cindy Ⅳ, but Mana Ⅴ-S2147.\n\nTylor Ⅰ-S2147: Oh wow, very funny. Mana Ⅴ-S2147 died during the mission last week. I had to bury her myself.\n\nVerna Ⅱ-S2147: That's nonsense! As the head of the personnel department, I can tell you for sure that there were no missions last week, and certainly no casualties reported.\n\nTylor Ⅰ-S2147: Personnel Department? This station's way too small to have its own personnel department. It's almost like none of this makes any sense...\n\nVerna Ⅱ-S2147: I dunno, maybe you're just crazy.\n\nTylor Ⅰ-S2147: Me? No way! If anything, you're the crazy one!\n\n\n\n"
         }
       }
     ]
@@ -1755,21 +2420,6 @@
           "title2": "Greendale, West Chalk Peak",
           "title3": "April 2, ██30",
           "content": "The strangest thing just happened - someone fixed our generator. Last night, when the rain was pouring down, and the wind tore half our roof off, I was sure it was all over. I was sure it would only be a matter of time before the Deviants and the wild beasts came pouring in, and tore me and Inna to pieces. I didn't put my gun down for a second all night long. I just sat there, shivering, waiting for the attack. And nothing happened... And now, the generator! It was clearly damaged by yesterday's storm, and now it's been fixed... Someone must have crept in around dawn and fixed it for us. They even left us some spare parts... If this isn't a miracle, I don't know what is.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_evergreen_vineyard",
-    "items": [
-      {
-        "id": "Book_204007",
-        "props": {
-          "title": "Evergreen Vineyard",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Oh, the elegant and charming Mr. Quinn York, and his wild and untamed companion Chester. The duo makes for a truly strange combination.\n\n It's almost as if they are not of this time, both Mr. Quinn and Chester have an air of mystery about them—despite their very different qualities. They appeared in our camp out of nowhere, completely unnoticed by the lookout scout, and stood before me. The elegant Mr. Quinn invited me and my teammates to a small gathering at his estate, saying that a \"modest banquet\" had been prepared for our arrival.\n\nIt was apparent that saying no would be dangerous. The wisest thing to do with these two peculiar guests was to let nature take its course and improvise. Fortunately, Mr. Quinn didn't have any \"surprises\" in store for us—the food was plain but normal, normal enough that I could clearly distinguish that the dishes served were goat meat and watercress, rather than some kind of grotesque cuisine. We also tasted a \"blue wine\" from the Evergreen Vineyard, which had a rich and complex flavour profile I'd never experienced before. \n\nAfter the modest banquet, Mr. Quinn and Chester asked us where we came from and why we were here, and in the spirit of goodwill, we exchanged a lot of information with each other...\n\\n(The rest has been redacted)\n\n\n\n"
         }
       }
     ]
@@ -2125,36 +2775,6 @@
           "title2": "Lakeheart Camp, East Broken Delta",
           "title3": "April 5, ██34",
           "content": "Every year I visit this place, and every year it feels like I'm stepping into a graveyard. \n\nThe Hearst family mountain cabin is now so rotten and derelict that I'm sure the whole thing would've collapsed, had the summer rains not been unusually light this year. Dandelion, pyrethrum, and pumpkin still grow here, even without human intervention. The plants are all full of poison, and the land is still too heavily polluted with \"Stardust\" for humans to return. \n\nBut this is still a place of hope—and of Sara's final wish. Sara once said that if one day, the Stardust naturally starts to dissipate, it will happen here first. \n\nThe town of Highbank still stands on the other side of the river, but it's an abandoned ruin now, too. Deviants are the only creatures living there now. I kind of miss that place, even if it was seriously screwed up. I miss Sara, Simon, and Dave too. They're still just as screwed up as I used to be.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_alpha_institute",
-    "items": [
-      {
-        "id": "Book_204008",
-        "props": {
-          "title": "ALPHA Institute",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "\t\nIt's a challenge to capture the essence of this place, with its tumultuous past. Once a research base for Rosetta, it was quickly abandoned in the wake of the Starfall. Then, the residents of Greenlake Hill arrived, scavenging all available supplies and equipment before departing, leaving this place deserted once more. \n\nBut a man named Isaac Finn stayed behind. A teacher who remained hopeful amidst the end of the days, Isaac planned to transform the abandoned institute into a school to teach the children of Greenlake Hill before the knowledge of past eras was lost to time. \n\nAt least initially, Isaac's passionate idea was supported by some of Greenlake Hill's key individuals, who provided some resources and manpower to renovate the place and worked on collecting worn-out pre-Starfall books. He compiled them into teaching materials for children, who, like the adults, were numbed by their daily struggle for survival, to come and learn...\n\nHope is a flower that may not bear fruit. Despite Isaac's efforts, he ultimately failed. The whole school program was discarded, and the children still went to the workshops and farms. As for the old books, they were likely used as firewood for a meal. \n\nI don't know what eventually happened to Mr. Isaac Finn, as many traces of him were erased after Rosetta reoccupied the place. But I sincerely hope that he's still alive, and I wish I could find him to have a chat. I'd like to tell him that the torch is still burning in the north, and if he's willing, he can join me in traveling there.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_greenlake_hill",
-    "items": [
-      {
-        "id": "Book_204006",
-        "props": {
-          "title": "Greenlake Hill",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "I was once a frequent visitor to Greenlake Hill, which was the biggest and most bustling community in the entire region... before the Starfall. I still remember the neon lights shimmering in the midnight, and the bars resonating with music and lively chatter until dawn. It was like a hidden gem in this secluded mountain area.\n\nTo our surprise, we found that the Survivors have established a strong shelter in Greenlake Hill, taking advantage of the steep terrain and the expansive views. With a large population and abundant resources, they maintained significant influence over the entire Chalk Peak region for several years following the Starfall.\n\nHowever, they seemed to have developed a peculiar system of governance, resembling a matriarchy, with several elder women holding the power, and their decisions were often far from wise.\n\nThe shelter, unfortunately, didn't make it to our arrival, falling apart due to internal corruption and external threats. The surviving residents dispersed: some sought refuge in Tall Grass (and it was from them we learned valuable information about this place), some were captured by Rosetta, and some even transformed into Marauders. There are reports of some going west, becoming pioneers on the plains.\n\n\n\n"
         }
       }
     ]
@@ -2584,21 +3204,6 @@
           "title2": "Rippleby",
           "title3": "",
           "content": "Helicopter Wreckage: \n\nOnly 500 kilograms were salvaged today. Frank's still slacking off. His parents really raised him well, huh?\n\nBrandon mentioned the helicopter was taken down by a woman who could fly. She was like a superhero who knocked it out of the sky... Quite the funny one, that guy. I better have him ease up on the drinks later.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_wild_dog_isle_outpost",
-    "items": [
-      {
-        "id": "book_202010",
-        "props": {
-          "title": "Wild Dog Isle Outpost",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "In the summer of '31, I made my first visit to the Broken Delta since the Starfall. 7 years later, here I am again. This is now my fifth investigation into these isles. That notepad of mine is almost full of writings, all about spots I've set foot on over these years and dense with details. There is, however, one last place in this southern sea that I still haven't seen. It's what keeps my curiosity burning.\n\nWild Dog Isle.\n\nIt wouldn't be a good idea to attempt to swim across that contaminated water. Just look at the tides lapping the shore, as thick and inky as they were at the time of Starfall. Twenty years have elapsed, and Stardust residue still haunts this place. But, there must be something special about that island. Otherwise, why would those Rosetta expedition fleets take such a long detour along the western coast to this forgotten little corner of the southeast?\n\nIt's such a shame that I can only watch them through my telescope from so far away! A massive construction project is taking place on the island. Looks like they plan to build some kind of long-term settlement. But what for? Is there unpolluted land? Have they found some valuable new type of Deviated plant? Or do they simply want somewhere remote to build a new prison?\n\nIf only we also knew how to build those Stardust-proof ships. Maybe I could just \"borrow\" one from Rosetta?\n\n\n\n"
         }
       }
     ]
@@ -3209,76 +3814,6 @@
     ]
   },
   {
-    "type": "regional_records_sunbury_middle_school",
-    "items": [
-      {
-        "id": "book_202004",
-        "props": {
-          "title": "Sunbury Middle School",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "We carefully approached Sunbury Middle School. Simon Meyer said this place is more dangerous than other areas in the wilderness — not because of Deviants or Stardust, but because it is constantly occupied by a group of extremely vicious bandits.\n\nThese bandits lived nearby before the Starfall, so they're locals, but this doesn't make them any more merciful toward other survivors. Some of Simon's people were captured by them. The look on his face when he talked about it said everything about the terrifying fates they faced.\n\nSince then, Simon's group has been in a long struggle with the bandits. Sandbank, the shelter built on a river, has hardly seen a day of peace, with endless ambushing and counter-ambushing from both sides. The price of blood continues to rise, but neither side has gained a decisive advantage.\n\nThe school ruins need a thorough cleanup. If I can successfully return to the north and help Simon Meyer secure more support from the Union's headquarters, this stalemate will end for sure. This is both for the victims who died at the hands of the bandits and for the development of Sandbank and the Union. There must be land in Sunbury Middle School free from Stardust contamination, and it shouldn't exist as a bandit lair.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_east_blackfell_junction",
-    "items": [
-      {
-        "id": "book_203005",
-        "props": {
-          "title": "East Blackfell Junction",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "The way I see it, any survivor is worth reaching out to. No matter how small, no matter how weak. Even if they are barely surviving. In all honesty, things are a lot better here than I thought they would be. Three people on patrol and foraging duty, while the other two stay behind. It seems like a fairly equitable arrangement, with a clear chain of command. Melanie seems like a brave and capable leader.\n\nI had a very pleasant evening last night... alcohol-free, unfortunately. I had a long, productive chat with Melanie, but I made sure to stay off the dangerous topic of the past, of dead loved ones. Our conversation kept circling back to the Union. Melanie seemed interested, and it's not hard to see why. These people have been wandering the wilderness, alone. The Union's resources, the society we've managed to create... The Union can offer a degree of security that these people crave. I hope Melanie decides to join. I like her. Her group would be an excellent asset to the organization.\n\nWe also found a number of other significant features in this area. The bridge and the oil wells across the river, for example, were once an old transportation hub. This place could make an excellent new Union Stronghold - an opportunity for the Union to extend its influence into the Iron River valley. The only potential problem is Rosetta. At one time, this place was used by Rosetta to transfer supplies and manpower. On the eve of Starfall it was hastily evacuated, but according to Melanie, the entire Iron River basin remains firmly in Rosetta's control. \"We're like caged animals,\" Melanie said to me. \"Rosetta lets us live for now - but there's no telling when they'll decide to crack down\". \n\nDespite that, I can see that Melanie still wants to keep up the resistance. But she needs help. I hope she can come to an agreement with the Union. As for me, I said my goodbyes, and embarked on the next leg of our search for survivors, alone.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203101",
-        "props": {
-          "title": "Come at Me, Then",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Melanie: So why are you here?\n\nArno Ⅰ-S1134: Rosetta would appreciate your assistance. In return, you'll receive a monthly shipment of food and guns.\n\nMelanie: My assistance? I thought Rosetta was omnipotent.\n\nArno Ⅰ-S1134: It is, but according to corporate regulations, current survivors on the surface are eligible to provide assistance to the organization.\n\nMelanie: It's funny, you didn't expect any of us to survive, did you?\n\nArno Ⅰ-S1134: Melanie Gold, I recommend you seriously consider our offer. After all, your supplies won't last forever.\n\nMelanie: I've already considered it. If we agreed, we'd become human shields for Rosetta. Mayor Sutton already made that dumb mistake.\n\nArno Ⅰ-S114: Very well. But if you refuse Rosetta's request, then you should understand the consequences.\n\nMelanie: Come at me, then. I'm not afraid.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203105",
-        "props": {
-          "title": "Dad's Shelter",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Unknown Victim: I've had enough... The endless hiding, the labor, enduring hunger, pain... No moment of respite...\n\nUnnamed Victim: Dad wouldn't lie to me... He was so kind and comforting in my dreams. I was foolish to doubt him.\n\nUnnamed Victim: Ah... This must be the shelter that Dad mentioned... Jill and Matthew should be here too...\n\nUnnamed Victim: Seriously... Why aren't they here to greet me? Hey! Is anyone there? I'm here, and I'm so tired...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203106",
-        "props": {
-          "title": "Ruined Hospital",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Matt \"Baldy\": You call these medicines? Damn it! There's nothing in this whole damn hospital apart from all this garbage!\n\nNeil \"Beanpole\": But Glen said he had dreamed that—\n\nMatt \"Baldy\": Cut it out! Has Glen ever gotten anything right? Damn it! How stupid can you get? Believing in dreams... Where the hell has Glen got to, anyway? Where did he go?\n\nNeil \"Beanpole\": He was just here. Maybe... he's in the parking lot?\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203107",
-        "props": {
-          "title": "Who Are You?",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Kim II-S1134: We've reached the location. The Anchor has been placed. There are no signs of any Stardust-related reality distortions.\n\nSandra I-S1134: Weird. The Stardust is off the charts here... but there are almost no energy reactions. It's... too stable.\n\nKim II-S1134: Dr. Marshall told us that the Deviation Point is just within range of Monolith BL1103C. The Omega reactions could, theoretically, fall to an extremely low level.\n\nSandra I-S1134: Right, I forgot that... Wait a moment, who's Dr. Marshall?\n\nKim II-S1134: Marshall II-Kv0251, of course. How could you forget the director of our research station, Captain Sandra?\n\nKim II-S1134: Kim, look at your shoulder patch.\n\nSandra I-S1134: You are the captain, not me.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_citrus_county",
     "items": [
       {
@@ -3808,51 +4343,6 @@
     ]
   },
   {
-    "type": "regional_records_hearst_industries",
-    "items": [
-      {
-        "id": "book_202002",
-        "props": {
-          "title": "Hearst Industries",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "I know of the Hearst family. They were one of the earliest families to migrate to Nalcott. They were one of the oldest and most distinguished families on the island. They had their fingers in quite a few pies, too. They owned restaurants and real estate, and had investments in various light industries, in transportation... The Hearst family exerted their influence on almost every aspect of island life.\n\nOf course, they had been in a steady decline for years, even before the Starfall hit. By the time I was born, the Hearst family's influence had already shrunk significantly. Just the southern corner of the island still truly belonged to them. They also faced a number of internal and external crises (some of which could be said to be self-inflicted). Gradually, the town's population withered and the stores were abandoned. Later, it seems that the Hearts' became involved in the violence with the Wetland gang... \n\nBut anyway, back to the facts. The Hearst family lost nearly all their industrial properties. Only the chemical plant in front of me remains in their hands. It's no longer operational, but it had been struggling for several years even before that. Much to our surprise, however, it seemed to have survived the Starfall.\n\nThere's an electronic calendar inside, and it stopped sometime in 2026. That means it was still operational for several years after the Starfall. I believe that there was a small group of survivors who did their best to stay alive by seeking refuge inside the plant. They managed to survive right up to the winter of 2026 (that was one of the harshest years), when they finally succumbed to famine.\n\nGod Damnit!!! Sorry, I really needed to get that out.\n\nWe were too late, yet again! More than four years too late. There is nothing worth exploring inside that plant now. We noticed a few rare mechanical parts that might have some value, but my team is already overburdened as it is, so we left them where they were.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202102",
-        "props": {
-          "title": "Mommy's Here...",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Rachel Hower: I'm scared... Mom! I'm scared....\n\nAlice Hower: Stay close to me darlings... Stay together... Stay close to Mommy...\n\n\n\n\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202103",
-        "props": {
-          "title": "Don't Look Back",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Andrew Hearst: Don't look back! Alice, get the two little ones into the house. \n\nMorgan: Woof! Woof!\n\n\n\n\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202104",
-        "props": {
-          "title": "Enemy",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Joachim Hower: Aaaah! Monster! Monster!!!\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_alkirk",
     "items": [
       {
@@ -3913,96 +4403,6 @@
           "title2": "Alkirk, North Iron River",
           "title3": "July 12, ██19",
           "content": "Listless eyes, pale complexion, cold skin, frayed nerves -- I've seen a lot of these symptoms recently.\n\nThe patients have all said they were frightened by Rosetta forces after running into them at night, but it's rarely that simple. Someone like William obviously isn't such a coward that the sight of Rosetta would reduce him to this. No, I suspect this is caused by some sort of airborne virus, and a highly contagious one at that. It's already infected people all across Alkirk. I'm sure in the right conditions, such a virus could cause heart palpitations in even the bravest person. These nighttime encounters are, I believe, just be a trigger in their already weakened bodies.\n\nThis is worth discussing with Dr. Kelvin. If my supposition is true, this is extremely serious! Dr. Kelvin said I was delusional before, but wait until he sees the evidence.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_brookham",
-    "items": [
-      {
-        "id": "book_201004",
-        "props": {
-          "title": "Brookham",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Brookham is the largest settlement in the Dayton Wetlands. It used to have a population of over two thousand, with a bustling main street running through it. At one time, it was possible to buy pretty much anything on that street, even some quite specialty items. Business hours weren't restricted either, and many stores were open all night long.\n\nOf course, that was all before the Starfall. Now, it houses the graves of over two thousand dead.\n\nBrookham seems to have been annihilated in an instant. We didn't find a shred of evidence that there were any survivors, apart from a few people who appeared to have taken refuge in the station waiting room. They huddled there for a few hours, it seems, trying hopelessly to seal the door against the Rift Entities that were pouring out from the Monolith.\n\nI had everyone scope out a few rooms quickly. We got a good haul - enough to supply the whole team for the next few days. But we didn't dare stay long. This place is too close to the Monolith, and Stardust pollution levels are extremely high. Can't get greedy.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_throughville",
-    "items": [
-      {
-        "id": "book_201007",
-        "props": {
-          "title": "Throughville",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "This is the only place I can be honest. I'm scared to death of venturing into Throughville. I hope I never set even one foot in that place.\n\nGod, this place gives me the creeps! There are other settlements closer to the Monolith than this one, and yet, Throughville somehow still manages to be the most terrifying place in the entire Dayton Wetlands. The Stardust lies thick on the ground like some kind of hellish snow, emitting a blue-black glow. And the broken remains of the once living creatures covering every corner of every house... The whole town is one great, twisted nightmare...\n\nI'm afraid we cannot provide any first-hand intel about Throughville. We have, however, done our best to gather the relevant information (collected from searching the surrounding areas, interviews already conducted with relevant people, and recollections from myself and others). These are our findings:\n\nJesse Sutherland was the youngest member of the Sutherland family and the most highly respected among the younger generation. He was the nephew of the patriarch and managed most of the family's resources before the Starfall. He was an overbearing, fearless, and ruthless man, famed for his greed and profligacy. Throughville was a luxury estate and Jesse Sutherland's home before the Starfall. Tightly guarded and well-equipped, the estate was where Jesse stored most of his vast wealth, which he had extracted from the Dayton Wetlands and surrounding areas. No one knows how Jesse Sutherland met his end, because none of Throughville's residents managed to escape with their lives. Looking at the place now, it's not hard to imagine why they all perished. One likely theory:\n\nJesse Sutherland, along with his guards and a number of close relatives were devoured by Rift Entities shortly after the Starfall, or else got infected with Stardust, and perished without a trace.\n\nThe only unsolved question is, why was the Stardust contamination level so incredibly high in Throughville? Could there be a Rift Entity using this place as their lair...?\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_eastern_railway_junction",
-    "items": [
-      {
-        "id": "book_202007",
-        "props": {
-          "title": "Eastern Railway Junction",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "The Eastern Railway Junction. I've got to note a thing or two about this place. After the Starfall, this was the most important shelter south of the Broken River. Survivors flocked here in the hundreds, Simon Meyer's gang among them, having once made their home here. \n\nSadly the place is now thoroughly obliterated. According to Brad Lito, a resident who fled to the Sandbank, the Eastern Railway Junction was attacked by Rosetta late last spring. The boss was publicly dealt with, and most of the remaining residents were taken away, their current whereabouts unknown. \n\nIt's a sad story, but one thing intrigues me: the boss of this place (or \"Consul,\" as he styled himself), Owen Hicks. \n\nWhere on earth did this guy come from? No matter who I asked — Brad, Simon, or whoever else — the one-time residents of the Eastern Railway Junction all had a high opinion of Consul Owen (and Simon looked pained to admit it). They said he was brave, decisive, and careful, with an aptitude for management and military strategy. Sounds like he must have been a military man himself, or at least an accomplished official or businessman. \n\nOwen was said to have appeared on the day of the Starfall. Nobody had ever heard of him before then. But Owen Hicks burst onto the scene in their moment of need and used his leadership to organize a defense against the first offensive, firmly winning the people's trust. After that, he taught them to deal with the Deviants, to protect against contamination, to evade the Rift Entities... \n\nI simply don't believe that this guy didn't have some dark, hidden background.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_highland",
-    "items": [
-      {
-        "id": "book_203001",
-        "props": {
-          "title": "Highland",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "This place makes me sick...\n\nThe bandits here are similar to the vicious ones found on other parts of Nalcott Island. I wonder if they all underwent some kind of training to achieve such uniformity in their actions and mentality.\n\nDisasters always push humanity to the extremes...\n\nThis used to be a relatively large settlement in the lower reaches of the Iron River. The torn posters and scattered books hint at a once vibrant cultural life. The rich spirits of humanity here were gradually driven mad by the Stardust contamination, leading to suicide or the harming of others. The bandits showed no mercy, recklessly destroying everything and using this place as mere food storage. They're outsiders who seized the high ground, and perhaps even abducted surviving residents in the process.\n\nThis was the horrifying scene we witnessed when we infiltrated the place at night, except... there were no other survivors and just... bandits firing at us. Fortunately, we weren't unarmed survivors. After a fierce battle, we finally managed to escape. Human settlements in the wilderness can easily lull people into a false sense of security, potentially leading them into even greater danger. Severe Stardust contamination, however, can keep survivors out in the first place, making it safer.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_coastside_plaza",
-    "items": [
-      {
-        "id": "book_201003",
-        "props": {
-          "title": "Coastside Plaza",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "We found some indications that survivors had taken up residence in the Coastside Plaza. It seems that the place had served as a refuge for a year or two after the Starfall. Not anymore though. The place just stands empty now.\n\nI can just imagine how... desperate... these people must have been towards the end. That's right. It wasn't Deviants or Rift Entities that destroyed this place. It wasn't even the slow, painful creep of Stardust. It was the survivors themselves. They tore this place apart from the inside out - a premeditated assault on what little peace and stability they had managed to create.\n\nAnd look at this. It looks like they tied people to these posts, doused them with gasoline, and then lit the whole thing on fire... The wind swept away the ashes of that blaze long ago, of course, but the charred black remains of those victims are still clearly visible, burned into the earth. What must have gone on in the clinic was even more gruesome - I'll spare you the details.\n\nFortunately, that group of thugs didn't manage to keep hold of this place for long. Looks like the Stardust got to them... My guess is that they got badly infected and ended their lives in pain, or kept on living a painful life as a Deviant. Maybe some of them are still wandering among the ruins... And also... It's hard to tell exactly what happened here, but it seems that there was some kind of conflict. Infighting, perhaps? I saw signs of some very intense conflict, offensive and defensive.\n\nI can't tell if the thugs were all killed in the fighting or not. But for the sake of those poor survivors, I hope none of them died peacefully.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_silvershore_resort",
-    "items": [
-      {
-        "id": "Book_204005",
-        "props": {
-          "title": "Silvershore Resort",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "\"Silvershore\"... My pen trembles between my fingers, tears brimming in my eyes...\n\nSilvershore was my home, where I spent my childhood as a young girl, where my father and mother had had their laughs, their sorrows, their solace, and finally, their burial. And now it is just Silvershore Resort, a mere geographic remark under the tip of my pen since it has been deserted after the Starfall, with no survivors.\n\nMy teammates understand how I feel, and they explore these ruins carefully, showing their respect. I appreciate their understanding, but it's not necessary, since the departed are gone, but the living must live on. I've gathered the firearms and ammunition in my father's safe, and the last few pieces of jewelry left by my mother in her hidden compartment. I love you, Dad and Mom, so I will make good use of these things you've left behind and carry on. \n\n Farewell, my home.\n\n\n\n"
         }
       }
     ]
@@ -4338,61 +4738,6 @@
     ]
   },
   {
-    "type": "regional_records_sutherland_family_orchard",
-    "items": [
-      {
-        "id": "book_201002",
-        "props": {
-          "title": "Sutherland Family Orchard",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "This orchard was once one of the Sutherland family's most important properties and the most \"legitimate\" part of their business. Anne Sutherland - the woman who ran the place - was an elegant lady, widely admired by those who knew her. She had been widowed not long into her marriage, leaving her with two young children to raise alone. She managed the orchard and all the surrounding farmland herself.\n\nI was a teenager when I first came to the orchard with some of my older relatives. In between all the wine drinking, I paid a visit to Ms. Anne and negotiated a few mutually beneficial business deals. I didn't really get to know her well though. So much time has passed that I can't even really remember her face too clearly. But I do remember how much I admired her at that time.\n\nThe Sutherland Family Orchard is just as quiet as I remember it. In the moonlight, the outline of the ruined buildings makes me think of a pale woman lying on a couch. There is no doubt that a large number of Deviants still lurk among those walls.\n\nThe urge to revisit the site and go deeper into the orchard to find out what happened to Ms. Anne and her family was almost overwhelming. I ordered the expedition to camp as far away from that sad, dangerous site as possible. We would plot a route around it the next morning.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201105",
-        "props": {
-          "title": "Saving One Bullet",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "John O'Sullivan: Is it time to retreat?\n\nJoan Sutherland: You go ahead...\n\nJohn O'Sullivan: You aren't coming? You saw how they fired on that crowd on the bridge. You can't get back onto the island now, even if your last name is Sutherland. \n\nJoan Sutherland: I know that. I'm not staying because I want to try and sneak back onto Mola Island.\n\nJohn O'Sullivan: So, what? Are you trying to repent? Redeem yourself for causing all this?\n\nJoan Sutherland: Terrible mistakes were made, and there's nothing I can do to undo them. I don't want to run. I'm ready to die.\n\nJohn O'Sullivan: Suit yourself. Remember to leave the last bullet for yourself.\n\nJoan Sutherland: I know. Goodbye, John.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201106",
-        "props": {
-          "title": "It Can't Be!",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Joan Sutherland: This isn't possible... \n\nGeorge Hearst: I used to think so too.\n\nJoan Sutherland: How long? \n\nGeorge Hearst: I don't... I don't know how long it's been.\n\nJoan Sutherland: Finally...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201107",
-        "props": {
-          "title": "Dark Dealings in the Wine Cellar",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Nelson Sutherland: Rosetta will send a negotiator over next week to tell us about these \"Monolith\" things, and discuss the future of Nalcott Island, and the family.\n\nAnne Sutherland: Does the old man... know about this?\n\nJesse Sutherland: He's still sick and needs rest, so we didn't tell him.\n\nNelson Sutherland: That's right. But everyone who matters is already here. We all know the deal, right?\n\nEli Sutherland: And no one objects.\n\nJoan Sutherland: Why would we object? I've been saying it for weeks. This is a great opportunity for the family.\n\nJesse Sutherland: Well then, my brothers and sisters, here's to everything going smoothly.\n\nEveryone: Cheers!\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201108",
-        "props": {
-          "title": "On the Balcony",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Anne Sutherland: We can't just pretend all this shit isn't happening! Mr. Rick Handel and the others say the grapes have got this freaky blue glow now too... I'm sure it's related to that hideous Monolith out west.\n\nEli Sutherland: Alright, alright. We'll dispose of all the bad fruit. It'll cost us, but we've been doing well, thanks to Rosetta. We can afford to take this hit.\n\nAnne Sutherland: Eli, you're missing the point.\nEli Sutherland: I know what you meant, baby. You don't think we should've ever let Rosetta build that Monolith in the first place. But what can we do? It's already up.\n\nEli Sutherland: Don't worry. They have Monoliths in almost every country on Earth, now. They are the future—they provide limitless energy ...\n\nAnne Sutherland: And limitless money... How did it come to this? How did we sink so low?\n\nEli Sutherland: Because we're humans, babe. Humans always succumb to temptation.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_glower_harbor",
     "items": [
       {
@@ -4478,21 +4823,6 @@
           "title2": "Breezy Shores Resort, North Iron River",
           "title3": "April 3, ██30",
           "content": "S0016 Squad approached along the coastline. The survivors who originally occupied Clifton, a group of bandits and Marauders, took the initiative to attack our forces. Ridiculous. Even if Rosetta security forces returned to the surface short of supplies, it would be unthinkable for us to lose a face-to-face battle against such forces. The S0016 Squad only took 40 minutes to subjugate and execute all enemy forces. Only one member was injured: Oswald Ⅰ-S1020.\n\nAlright, look, I know there were only four guys on the other side, and S0016 Squad had the standard 20. And I know a security force led by Sergeant Major Burgess really shouldn't take so long. But those four guys were cunning and they'd spent the past decade adapting to the wilderness. Meanwhile we'd had it easy for a decade, waiting it out underground. Those underground training sessions really aren't the same, you know?\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_rotten_saddle",
-    "items": [
-      {
-        "id": "Book_204004",
-        "props": {
-          "title": "Rotten Saddle",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Rotten Saddle, where the \"cancer\" first began to spread — the Vultures, if I must — they are this crazed and ruthless gang that casts a shadow of death over Chalk Peak.\n\nThe residents of Tall Grass have confirmed this to us. Vultures were active here in the early days under the guise of prophets, healers, and philosophers. It also allowed Vulture leaders to recruit their first followers, who were also the earliest members of the gang. They gradually corrupted more residents until the entire sanctuary fell, and all the righteous people who refused to abandon their consciences were killed. The remaining scumbags... turned this place into a total bandit lair.\n\nBut then, they left too. Perhaps it was due to the intensification of Stardust contamination, causing Deviants to group up and invade this place? Or maybe it was because there were no more settlements nearby for them to plunder and they needed to go to new \"hunting grounds\" to find more prey.\n\nI will try my best to record the information about this place to warn future generations. If one day the Vultures become the enemy of the Union (which is bound to happen as long as they exist), we need to learn our enemy's origins.\n\n\n\n"
         }
       }
     ]
@@ -4609,61 +4939,6 @@
           "title2": "Clifton, North Iron River",
           "title3": "December 23, ██25",
           "content": "Everyone who said Brewster's riches were hidden here can go screw themselves! There's not even a turd left in Clifton, just a few wandering Deviations. Everyone else must be jealous I could so quickly understand the mysteries of the True God, so they tricked me into wasting my time here.\n\nIt's a pity that they can't understand the True God. All those with jealousy, hypocrisy, and hatred in their hearts should be washed away with blood, same for those with the weaknesses of pity and sympathy...\n\nI hope they enjoy this Christmas, because when I get back to camp, they'll discover it's their last.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_citrus_county",
-    "items": [
-      {
-        "id": "book_201006",
-        "props": {
-          "title": "Citrus County",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "\"We hold dear this native land, whether we once called it home or journeyed far from its embrace.\n\nMay 8, 1965 – July 7, 2026\"\n\nAt the time of writing this, it is July 2, 2031 AD. It has been nearly five years since this sanctuary \"passed away.\"\n\nI do not know the names of those who once lived here. Prior to the Starfall, neither I nor any other members of the expedition had visited this town, nor did we have any ties here. But what I do know is that those people must have deeply cherished the land beneath their feet, for I have witnessed: the fields that had been meticulously tilled, the walls of living rooms decorated with stickers, vibrant lights, love, and patience, the verses carved by guards on the door frames during damp or chilling nights, and the small tombstone dedicated to this town.\n\nAll of this has slowly faded and become indiscernible amidst the encroaching erosion of Stardust. It is truly a shame that we never crossed paths with these people. Had we arrived when it was still a town in flames, the Union would have surely gained another dependable ally in the south of Nalcott Island.\n\nWhere did these people go? Are they dead or still alive? Might we still chance upon each other in our unknown journeys ahead?\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_alkirk",
-    "items": [
-      {
-        "id": "book_203004",
-        "props": {
-          "title": "Alkirk",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Alkirk must have been a bustling little town at one point. Its fate was sealed the day that Monolith rose from the ground. I can almost imagine the blue and purple Stardust spilling out from the Monolith on the day of the Starfall. The town, swallowed up by wave after wave... Most of Alkirk's residents would have simply perished in their sleep.\n\n...Our previous records are wrong. Upon entering the town, we discovered that the plague of Stardust had been tormenting Alkirk's residents even BEFORE the Starfall. The residents had seen the early warning signs. They didn't understand them, but they were scared, that much was clear. Rosetta had the town by the neck by the time they built their Monolith. It seems that the townsfolk were forbidden from telling the outside world about the Monolith, or any of the Deviations they were starting to experience.\n\nThat was all 10 years ago, and the Stardust has mostly dissipated now, but the inhabitants of Alkirk have been irrevocably transformed. We had to wipe out some of these 'inhabitants' when we first arrived, for the safety of the camp. Our expedition party is a highly experienced, highly skilled bunch, and yet, picking off a few of the roaming Deviants who came too close to our camp was the best we could manage. We prevented a full-scale onslaught, but the place remains infested with Deviants.\n\nWe've just set out from Blackfell. We haven't encountered any survivors so far, but this is absolutely to be expected. As I keep telling my troops - no reason to be discouraged. None at all... We're heading south right now. I refuse to believe that humanity has been completely swallowed up by Stardust here. There must be someone out here, still clinging to life.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_sutherland_chemical_plant",
-    "items": [
-      {
-        "id": "book_202006",
-        "props": {
-          "title": "Sutherland Chemical Plant",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Ms. Han told me in detail the story of the Sutherland Chemical Plant. She worked there as a warehouse supervisor when the Starfall hit and somehow managed to survive the initial attack by the Rift Entity, along with several colleagues. But what happened after that... isn't easy to write.\n\nThe plant workers were desperate and scared. They blamed the factory owners for the attack - not that there's anything they could've done to prevent it, of course. The Sutherland family were the ones who first brokered Rosetta's entry to the island. Driven to madness by their fear, the workers themselves dealt with the plant's managers, brothers Nelson and Donald Sutherland. Then, they turned their uncontrollable anger on the rest of the Sutherland family. Men, women, children, no one was spared... \n\nIt's been more than ten years, and Ms. Han was still on the verge of tears as she told me this story. She said that after witnessing all that destruction, she left the plant alone and headed out into the wilderness on foot. Somehow, despite the Stardust and the circling Rift Entities, she managed to survive. Ms. Han has since never set foot in the chemical plant again, nor does she know what happened to the other workers.\n\nThere's no trace of life at the plant now, but from what they left behind, it seems Ms. Han was right. A group of humans used this place as a shelter after the Starfall. It looks like they managed to hold on for two years, one year, maybe even less. And it's easy to see why. There wasn't much in the way of food stores, and the land around the plant is completely barren even now. The poison of Stardust runs deep.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202101",
-        "props": {
-          "title": "Request",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Han Fei: Please get out of the way. \n\nDakota Leto: Won't you reconsider? Donald, Nelson, and those good-for-nothing Sutherland kids got what they deserve. What this place needs right now is a leader. \n\nHan Fei: Do it yourself. Or Martin, Winona, Emily Ferguson - any of them would make a good leader. \n\nDakota Leto: But... Ms. Han, you were the one who closed that door at the crucial moment, and led the charge to beat back those monsters. Only you can command the respect of-\n\nHan Fei: I did nothing to stop you from killing those women and children! Yes, they were Sutherlands, but that doesn't mean they deserved to be slaughtered like that! \n\nHan Fei: You're all damned, and so am I. Goodbye.\n\n\n\n"
         }
       }
     ]
@@ -5144,21 +5419,6 @@
     ]
   },
   {
-    "type": "regional_records_refinery_pollution_point",
-    "items": [
-      {
-        "id": "book_203002",
-        "props": {
-          "title": "Refinery Pollution Point",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Before the Starfall, this place was full of young people putting in their hours and chasing their dreams. There used to be a fleet of trucks working around the clock, taking finished goods to customers, and bringing in raw materials for smelting in the factory. It was only a medium-sized refinery at best, but it did good business and paid its workers a fair wage. I imagine all this must seem very strange to the younger generation. The Union has done its best to maintain some semblance of social order, but still. The world is so unimaginably different now...\n\nBut what's the use in dwelling on the past? The refinery was abandoned after the Starfall, and now it stands empty. Some survivors must have taken refuge in there at some point though - I saw the remains of a campfire, and some small tents. It was late at night when Stardust first spread to the refinery, and there were only a few kids on guard duty at the time. They didn't stand a chance. Some of them probably still wander the halls of the refinery even now, in a new, twisted form...\n\nThat last bit is just conjecture.\n\nThe facts of our exploration are as follows: we cleared out a few monsters, then conducted a detailed search of the location. It was practically deserted, and we found almost nothing of value, just some metals. No food whatsoever. We're running dangerously low on rations at the moment. If we don't find food in the next week, the expedition... No. We've still got some time. It's not over yet.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_tab6a_camp",
     "items": [
       {
@@ -5339,81 +5599,6 @@
     ]
   },
   {
-    "type": "regional_records_chalk_peak_area",
-    "items": [
-      {
-        "id": "book_204101",
-        "props": {
-          "title": "Old Woman",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Old Woman: ...Marlo? Is that you? You've finally come to visit me! \n\nCaregiver: No, no, I think you're confusing me for... Uh, actually, yes, you're right! It's me, Marlo, your husband. \nOld Woman: You're so late, Marlo. It's been so long...\n\nCaregiver: Yes... but I'm here now. Do you remember where we're going?\n\nOld Woman: A birthday... party?\n\nCaregiver: That's right. Your birthday party! Your children will come to celebrate with you.\n\nOld Woman: Oh, that's wonderful. Quick, my... my coat... where is it?\n\nCaregiver: It's just there, to your left. Just turn your head and you'll see it.\n\nOld Woman: That's odd... Where is it? Why... can't I find it...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_204102",
-        "props": {
-          "title": "Uncle",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Man: Who is it?! Who, who are you?\n\nCaregiver: Calm down, it's me. I look after you. Do you remember?\n\nMan: Ah, ah, the nurse! Of course I remember!\n\nMan: You, you scared me! I thought a stranger had broken in here...\n\nCaregiver: It's okay... There's nothing worth taking from here anymore anyway. Are you hungry?\n\nMan: A little... Also, my diaper needs to be changed... Can you help me?\n\nCaregiver: Wait a minute and I'll help you with that. By the way, I also found a little food: some candy. Would you like it?\n\nMan: Candy?! Oh wow! You've made an old man very happy today!\n\nCaregiver: Then close your eyes. Just close your eyes and you can have the candy.\n\nMan: Sure, sure!\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_204103",
-        "props": {
-          "title": "Auntie",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Caretaker: Are you doing okay? Do you feel comfortable today?\nLady: Oh, don't worry. I'm doing fine. Come, help me try on this new scarf!\n\nCaretaker: You did such a great job. Is this for him?\n\nLady: Oh, I wouldn't make anything for that old toad. This is for you, dear!\n\nCaretaker: For me?\n\nLady: You're so good to us, looking after us after everyone else has left.\n\nLady: I wish I had a daughter like you, you know that?\n\nCaretaker: That's very kind...\n\nLady: Here, can you help me find the light blue yarn? I think it fell by the trash over there...\n\nCaretaker: Hold on a sec. Ah, I... I found it...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_204104",
-        "props": {
-          "title": "Old Man",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Old Man: Come here, kiddo. When you're as old as me, you're allowed to stay up as late as you like. \n\nNurse: ...Grandpa, I...\n\nOld Man: No need to say anything. Please, just take my hand. \n\nOld Man: I know, how much you've done. Old sinners like us, we don't deserve it. Thank you. \n\nNurse: I haven't... I shouldn't... Grandpa, I don't want... I don't want...\n\nOld Man: *Sigh*, I wish I could've been the one to help you. But I'm not as strong as I once was...\n\nOld Man: Just hold my hand. \n\nOld Man: For the last time, goodnight, kiddo.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_204105",
-        "props": {
-          "title": "Ahhh!",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Unknown Victim: No! I can still work! I'm still useful, I tell you!\n\nUnknown Victim: Stay back! Stay away from me! No, don't do this!!\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_204106",
-        "props": {
-          "title": "Devotion",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Unknown Victim: Oh... yes... I feel incredibly honored... to sacrifice myself for the greater good...\n\nUnknown Victim: My blood... my flesh... can bring divine forgiveness to this sinful land. Even if it's only for a moment, that's enough...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_204107",
-        "props": {
-          "title": "Come to Mommy",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Unknown Victim: Amelie...? Is that you?\n\nUnknown Victim: They told me you'd be here. Come on out baby... Mommy won't mind.\n\nUnknown Victim: Even if you don't remember Mommy anymore... I'll still... Stay with you...\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_food_factory",
     "items": [
       {
@@ -5474,71 +5659,6 @@
           "title2": "Found at Mousseville Sweet Factory, Onyx Tundra",
           "title3": "May 6, ██27",
           "content": "*phew* There's plenty of supplies here, but it's all been contaminated by Stardust. What a shame. But Burke wasn't lying: the Starfall must have killed most people here instantly, and the survivors probably didn't last for more than a few days. They didn't even manage to seal the kitchen and the warehouse. If they had, these reserves would have lasted them quite some time.\n\nThere's nothing left for us here. The machinery in the factory's still usable, but way too heavy to transport. We can come back and dismantle them when we're desperate for spare parts.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_treant",
-    "items": [
-      {
-        "id": "book_202108",
-        "props": {
-          "title": "Word of Comfort",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Breanna Meyer: Wait! Sir, you forgot your book.\n\nDavid Clark: I didn't forget. It's a gift, for you... and the baby in your belly. Thank you for sharing your food with an old bum like me.\n\nBreanna: *Smiling* You're very welcome, but there's no need to do this. Besides, I can't read whatever language that book is written in.\n\nDavid: That doesn't matter. Just pick it up and flip through the pages whenever you feel tired, or lonely. It'll give you strength—courage to carry on.\n\nDavid: The loss of your husband must have been difficult, Breanna. Rest assured, your child will grow up safe and strong, like a banyan tree.\n\nBreanna: ... How did you know?\n\nDavid: There are some mysterious and mighty beings in this world. They told me of your sorrow, and they asked me to come... and talk to you.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202109",
-        "props": {
-          "title": "A Magical Book",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Breanna: There's something magical about that book... \n\nBreanna: I've never felt so peaceful. Not since Paul left... \n\nBreanna: But, I know what that thing is... I shouldn't... I shouldn't have touched it... \n\nBreanna: But I just couldn't resist... I thought I'd never find peace again.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202110",
-        "props": {
-          "title": "Take Care",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Maxie: I've left some canned corn, instant oats and goat's cheese in the pantry. If you find yourself in trouble, call for help. The neighbors will be able to hear you.\n\nBreanna: Thank you, Maxie.\n\nMaxie: Huh. You've changed. So respectful all of a sudden...\n\nBreanna: Really? My bad. Shouldn't you be getting along? I'm sure you're very busy...\n\nMaxie: ...Nancy is worried about you, and so is Benjamin. You should consider moving back in with them. That way, things will be easier after the baby is born.\n\nBreanna: Tell them thank you. But I'm staying here. I can look after myself and my child.\n\nMaxie: Breanna.\n\nBreanna: Yes?\n\nMaxie: You're like a daughter to me, a sister. Can you at least promise me one thing? Promise me, if you ever find yourself in trouble, you'll come find me.\n\nBreanna: ...alright.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202111",
-        "props": {
-          "title": "Banish Them!",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Brad (Lito): Exile her!! We've long agreed, no followers of Stardust in Meyer's Market!\n\nNancy (Russell): Shut it, you maniac! You don't run things here. Breanna, say something!\n\nBreanna: ...\n\nThomas (Grint): The texts in her drawer... and those shady dealings... those are all solid evidence.\n\nNancy (Russell): So, you're going to exile a pregnant woman?! You might as well kill her and her unborn child!\n\nBenjamin (Miller): She's right... but it's a vow we all swore to uphold—including herself.\n\n(Oscar) Old Pierre: The votes are in. Well then, Mayor...\n\nMaxie: Sorry... Breanna...\n\nMaxie: You have to leave this place.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202112",
-        "props": {
-          "title": "The Final Confession",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Breanna: ... I questioned you, because I was worried about losing...\n\nBreanna: Now my weak and dying body is all I have...and the little one I'm carrying is no different...\n\nBreanna: You promised me peace, immortality... You promised to let my child grow up healthy, like a banyan tree...\n\nBreanna: I regret what I did.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_301133",
-        "props": {
-          "title": "Investigation Report: Northern Region",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "As per the ongoing plan, we've completed a survey of the area in a 50-kilometer radius from the target point.\nHere's a brief summary: Facing the northern region's extreme cold, residents use advanced technology with high-energy fuel to regulate the temperature to the bare minimum required to survive.\nTo better utilize this fuel more effectively, they have built massive Thermal Towers and rely on these in order to live.\nWe need further investigation to fully understand the underlying technology and potential of these towers.\n\n\n\n"
         }
       }
     ]
@@ -5609,126 +5729,6 @@
     ]
   },
   {
-    "type": "regional_records_rotten_manor",
-    "items": [
-      {
-        "id": "book_201101",
-        "props": {
-          "title": "The Trial of Keefer",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Keefer Sutherland: How are you doing Uncle? You didn't have to come here yourself.\n\nOld Man: There are some things that I have to take care of.\n\nKeefer Sutherland: Whatever you need, I can take care of it for you.\n\nOld Man: You've done enough, kid. I know... the blame doesn't lie entirely with you.\n\nOld Man: Even without you, Rosetta would've found some other chink in our armor, and stuck her tentacles in... We were never really able to resist.\n\nOld Man: But, you did make things worse.\n\nKeefer Sutherland: So, can you forgive me?\n\nOld Man: Sure. Ragazzo Sei stato perdonato.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201102",
-        "props": {
-          "title": "Losing Control",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Nelson Sutherland: Hey, Jesse... Do you... have a moment?\n\nJesse Sutherland: Of course! I'll always make time for our accountant! What's up?\n\nNelson Sutherland: I've been going over the accounts for the last quarter, and the numbers are a bit... off. There are a lot of expenses... seems like they were never properly recorded.\n\nJesse Sutherland: Well, I can explain that. I dipped into the accounts to buy a couple of personal items. I'll pay it all back soon.\n\nNelson Sutherland: Right... Jesse, you have to be careful. The Old Man has been asking about the accounts lately... if too much has gone missing, he's sure to notice...\n\nJesse Sutherland: Well, why don't you just remind the Old Man that we belong to Rosetta now! It was YOU who oversaw the whole deal, wasn't it Nelson?\n\nJesse Sutherland: At least you got a good deal when you sold out the whole family, eh? Go on, why don't you tell the Old Man the truth?! Why don't you tell him and his outdated sense of honor to go to hell?!\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201103",
-        "props": {
-          "title": "Monolith Revealed",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Jesse Sutherland: You've been doing a good job. Rosetta is happy with what we've been able to supply. We'll start to see some income soon enough, thanks to those Monoliths.\n\nJesse Sutherland: Why the long face, Eli? Is something wrong?\n\nEli Sutherland: Oh nothing, nothing. It's just, Annie was talking to me about the Orchard. She says the fruit is giving off this strange glow, and the texture is... off.  \n\nEli Sutherland: Are we absolutely sure there's nothing wrong with those Monoliths? There are rumors, you know. More and more people are starting to think that there might be some kind of a connection—  \n\nJesse Sutherland: So?! You just let people spout that kind of bullshit? Or do you actually believe it, too?  \n\nJesse Sutherland: You want us to back out of the Rosetta contract? You want to let the whole family go broke? Is that it? You disappoint me, man.\n\nJesse Sutherland: It's your job to stamp out these rumors, and the people spreading them. We can't show them any weakness. You get that?  \n\n\n\n"
-        }
-      },
-      {
-        "id": "book_201104",
-        "props": {
-          "title": "Escape in Style",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Jesse Sutherland: Hey baby, where are you going with all those bags? \n\nAnnette Collins: Oh! Mr Sutherland! I'm sorry, I couldn't find you earlier. I want to go back home for a visit. My dad and brother, they both... They both... \n\nJesse Sutherland: Sounds tough, whatever it is. But why are you shaking? Here, let me help you.\n\nAnnette Collins: No need Mr Sutherland! You really don't have to... \n\nJesse Sutherland: Alright. Well, I guess this is goodbye, huh?  \n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_holt_town",
-    "items": [
-      {
-        "id": "Book_204002",
-        "props": {
-          "title": "Holt Town",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "As its name suggested, this is the ancestral home of the Holt family and the place Ted had long missed. Before I set out, Ted told me about the terrain of the place, the locations of important buildings and stores, and, of course, the physical characteristics of his family members, although he had emphasized that he had no hope that they would survive.\n\nUnfortunately, reality did not give Ted any hope but only despair—Holt Town had long been a dead town. But from the traces left behind, it was evident that the residents put up a resilient struggle. *Sigh* Regardless of age, they all held on until the last moment in the confrontation with despair... They did not give in. \n\n The survivors at the Tall Grass also confirmed to us the harsh truth: no one survived. We took the necessary supplies (some of them were at the places where Ted had told me they would be), and before we left, I picked a few strawflowers from the side of the road and let them drift in the breeze blowing in the direction of the town of Brookham. For the loved ones of Ted Holt, we couldn't give them a proper burial, but at least, let me offer them a token of remembrance.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_dayton_hospital",
-    "items": [
-      {
-        "id": "book_201005",
-        "props": {
-          "title": "Dayton Hospital",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "The Dayton Hospital, built by Rosetta to support the Monolith construction project, is located right next to the Monolith itself. No one could set foot in there without a Rosetta name badge. The doctors and nurses, the sick and wounded patients, and even the security guards were all Rosetta personnel. Even the outer buffer zone was out of bounds to locals (unless you were one of the lucky few with a special \"connection\"). \n\nThere is one thing that I just can't get my head around, though. Trent Palmieri claimed that he had worked here before the catastrophe. He provided a lot of information about the Monolith and Stardust Infection to a local contact with the aim of exposing Rosetta's dastardly deeds (ultimately it didn't make much of a difference). I believe what he said is true, but, well, it's hard for me to imagine how someone as frail and dorky-looking as Trent could pull off espionage like that in the heavily guarded Rosetta Hospital. For starters, how did he manage to slip past Rosetta's tight security?\n\nAnyway, things are different now. No one from Rosetta is still active around here. The place has become pretty heavily polluted by Stardust, and thanks to the Monolith, it's likely to stay that way. As for us, we performed a simple search to gather supplies, then cleared out as quickly as we could.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_arachsiam",
-    "items": [
-      {
-        "id": "book_203102",
-        "props": {
-          "title": "Sleep Well",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Mom: Sleep well, child. Sleep well...\n\nMom: You are safe here. The monsters can't get in, and no one can... hurt you.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203103",
-        "props": {
-          "title": "Produce food",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Chef: We found a van full of food! I couldn't believe my eyes! Looks like we won't be starving any time soon!\n\nChef: We've got enough supplies for the next few months... Rest up. There will be plenty to eat when you wake up...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203104",
-        "props": {
-          "title": "A New Cure",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Doctor: Yes, what you heard is true. Our latest experimental drug is highly effective at curing Stardust infection.\n\nDoctor: I'll schedule you for an injection right away. It may make you a little sleepy, but rest assured, that's an entirely normal reaction...\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_303137",
-        "props": {
-          "title": "Investigation Report: About Vultures",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "From the gathered Vulture manuals, we found that unlike the eastern region, the north isn't a desolate wasteland. The Vulture presence is strong here—they're like a fanatical army with excellent equipment and cohesion. It's rumored their mysterious leader refines entropy elements for expansion. Our survey near the snow mountains faced major interference from the Vulture forces. Therefore, we request Additional manpower.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "remnants_aiden",
     "items": [
       {
@@ -5794,21 +5794,6 @@
           "title2": "Depleted Oil Well",
           "title3": "September 3, ██31",
           "content": "Both the upstream and downstream bridges fit the description, but I'd recommend the downstream bridge. According to Captain Denise Cooper's records, the oil well is across the bridge, while this side likely hosts a small survivor settlement. It's been five months since the letter was received. I hope the settlement still exists. The downstream area has some larger buildings that look more suitable for a settlement. Let's meet the charismatic leader Captain Cooper mentioned.\n\nWe are the second group sent from the Union to restart the oil wells. Sadly, Eli sacrificed his life for the Union and humanity. Despite reports that Eli ceased all operations after discovering the contamination, we need to verify this; after all, extracting contaminated oil would only increase the concentration of Stardust.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_rippleby",
-    "items": [
-      {
-        "id": "book_203007",
-        "props": {
-          "title": "Rippleby",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "On our third loop of the island, the expedition was finally able to go deeper into the legendary town of Rippleby. Thomas is from Rippleby - I heard that from someone else, mind you, not the man himself. The last time we passed through here, the place was teeming with Deviants. It was out of consideration for Thomas that we waited this long to venture into the town. As it turns out, Thomas has been to Nalcott before, as part of one of the earliest geographical research teams. He'd probably make a much better expedition leader than me...\n\nIt seems that the Deviants have been cleared out since the last time we were here, although it's not clear whether this was the work of Rosetta, or those bandits. There's not much here anymore - just some empty factories, run-down homes and a trashed supermarket. The old Rippleby is long gone, that's for sure. The Union has a few members from Rippleby, and according to them, this town used to be the most beautiful town on the lower reaches of the Iron River. Then, the town's mayor came to an arrangement with Rosetta. Rippleby's factories, market and bustling fishing port all benefited from Rosetta's deep pockets, and the town began to grow rapidly.\n\nStanding here now, though, it's hard to believe that this place had ever really been prosperous. Tonight the expedition will camp out inside one of the town's old houses. It's been a long time since I slept in a real bed. Unfortunately, it seems that the last group to pass through here (it's unclear whether they were human survivors, Rosetta soldiers, or bandits) have already picked the place clean. We searched through every home, but it seems there isn't a scrap of food left in the whole town.\n\n\n\n"
         }
       }
     ]
@@ -6183,31 +6168,6 @@
           "title2": "",
           "title3": "",
           "content": "Attention: Please obey traffic rules.\n\nThose who fail to comply will be compelled to return to the starting point.\n\nThank you for your cooperation.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_greywater_industrial_zone",
-    "items": [
-      {
-        "id": "book_202106",
-        "props": {
-          "title": "Good Teacher, Bad Teacher",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "Maxie Rodriguez: Here are your shoes, your gun, and all the bottles and jars in your bag. \n\nTrent Palmieri: Those are medicines, for emergencies. You take them. \n\nMaxie Rodriguez: You take them. You need them more than I do. \n\nTrent Palmieri: It's not safe for you and the kids to stay here. Won't you just come with me? Come with me to Sandbank. \n\nMaxie Rodriguez: Hmph! I didn't save your skin because I wanted to cozy up to those people. I can't stand the sight of them, and they think the same of me. \n\nTrent Palmieri: I know. But that doesn't stop you from coming as my student? \n\nMaxie Rodriguez: Stu... Student? \n\nTrent Palmieri: I've been to Sunbury Middle School. I've seen the shadows of your past ... Miss Kia Armas. She wouldn't want you to stay, mixed up in all this. \n\nMaxie Rodriguez: Are you looking to get a bullet through the head?\n\nTrent Palmieri: Maybe I am. But I'm also a good teacher—though maybe not quite as good as Miss Kia. Come with me. And bring the other kids with you. There's so much I can teach you.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_203003",
-        "props": {
-          "title": "Greywater Industrial Zone",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "In the old days, before the Starfall, this place would have been regarded as a remote settlement. Nowhere to go and nothing to do, and the heavy clanking of machinery 24 hours a day was enough to give anyone a headache. Even maintenance crews didn't hang around long. Who'd have thought that after the Starfall, this place would become such a prime piece of real estate! Somehow, the oil wells managed to survive relatively intact.\n\nWe also found some canned goods - tuna, luncheon meat and so on. Maybe a maintenance crew left them? This place had no restaurant, after all. It was so delicious, I got to thinking - when was the last time I ate canned tuna? 5 years ago, at the Union? No, it was 3 years ago, in the storeroom of that old fast food joint in the Dayton Wetlands.\n\nAnyway, we scoped out the area and didn't find any signs of a bandit presence. We stayed for several days, and didn't see anyone from Rosetta, either. Before we showed up, this place was Nalcott Deviant territory. Maybe the Deviants will come back as soon as we leave, or maybe some poor human survivors will pass through. Either way, I don't expect this place to become a major Stronghold for any faction in the near future. It's a safe distance from Rosetta - unlike the East Blackfell Junction - and resources are more plentiful. It's Melanie's for the taking, in my opinion.\n\nI haven't seen Melanie in such a long time. If only we weren't so busy exploring Nalcott...\n\n\n\n"
         }
       }
     ]
@@ -7083,46 +7043,6 @@
     ]
   },
   {
-    "type": "regional_records_high_banks",
-    "items": [
-      {
-        "id": "book_202001",
-        "props": {
-          "title": "High Banks",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "This town serves as yet another example of how human civilization was utterly and completely destroyed. Like the memorials constructed to commemorate world wars in the old times, this town is like a single giant tomb, commemorating the countless dead.\n\nIt is clear from the wreckage that High Banks was annihilated not long after Starfall. The residents were clearly taken by surprise and did little to protect themselves when the assault began. Large numbers of Rift Entities, it seems, poured into the town and simply began to feast.\n\nWhat a pity... This place used to be one of the most important settlements on the southern coast. I had hoped that there might be some survivors hiding out in a hidden bunker somewhere, waiting for rescue. But so far, we've found the Wetlands devoid of anything but the undead and Stardust. And the expedition to the Broken Delta is... not off to a good start.\n\nWe found exactly zero habitable or reclaimed land in the entire High Banks region. The area will have to remain off-limits for humans for some time yet.\n\n\n\n"
-        }
-      },
-      {
-        "id": "book_202113",
-        "props": {
-          "title": "An Interview",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "George Hearst: I should go... I've got to get an early night... I've got to drive out west tomorrow morning. I've got an interview.\n\nJeremy Logan: For Rosetta?\n\nGeorge Hearst: Yes. My uncles arranged it for me. They say it's a good opportunity, a good company... But to be honest, I'm not sure about the idea.\n\nJeremy Logan: I dunno man. It sounds like a pretty sweet gig to me. You'll never be able to make any money if you stay on this crappy island. Ever since Rosetta came, they've had people lining up to fill out a job application.\n\nGeorge Hearst: That's what everyone's been saying... But...\n\nJeremy Logan: Look man, if you won't do it for yourself, do it for Joan. She's so busy over at Harborside. If you don't take this chance, the two of you will only grow further and further apart.\n\nGeorge Hearst: Ok, ok... I'm gonna head out. See you later.\n\nJeremy Logan: See you later, bro. Knock 'em dead.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_harborside",
-    "items": [
-      {
-        "id": "book_202003",
-        "props": {
-          "title": "Harborside",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "It's been more than six months, and the gloom that has been hanging over the expedition team's heads has finally lifted. Having spent so long searching, finding a group of survivors has really lifted the group's spirits.\n\nWere the survivors somehow able to discover that the sandbar in the river was still unpolluted by Stardust? It all seems so unlikely, even thinking about it now. The survivors were just a bunch of regular people. Healthy, but not exceptionally skilled. We had a lot in common. We established an especially good relationship with their leader - Simon Meyer. Simon is a really charismatic guy. He gave us a lot of useful information about the surrounding area, and even volunteered to serve as our guide. He showed us the way to some important yet remote sites, like Harborside.\n\nSimon's theory about what happened to this town seems very reasonable to me. Simon believes that Harborside was ransacked by a Rift Entity early on. Even if anyone managed to escape this attack, they must've perished sometime during the subsequent decade of hardship. The way things currently stand, there is no possibility of settling here. The land and air are both still thick with Stardust - even the sea off the dock is covered in a thick blue-black residue.\n\nBut there was still value in coming here. With the information we've gathered, we'll be able to chart a more accurate map of Nalcott Island. Which places are safe, which places are worth investigating in more depth, and so on.\n\nMy hope is that one day, this information will motivate us... the Union... all of humanity... to take back this world for ourselves.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
     "type": "echoes_of_stardust_crazy_hayden",
     "items": [
       {
@@ -7175,71 +7095,6 @@
             5036,
             -4862
           ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_junkyard",
-    "items": [
-      {
-        "id": "book_202009",
-        "props": {
-          "title": "Junkyard",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "Unexpectedly, a Rosetta official reached out to us, a woman calling herself Hannah. She said she was the commander of this depot, overseeing the security and logistics supplies here. \n\nShe walked into our camp, unarmed and alone, but she seemed to give off elegance with every movement. She gladly accepted my lunch invitation and openly scrutinized the coffee, oatcakes, cheese, bacon, and everything else on the table. She frowned slightly, sizing up my expedition team and the Union behind us. The Union's entire supply system - production, distribution, and scale - must be crystal clear to her now.\n\nNot that I can really blame her for doing this. I've been spending a lot of time trying to size up Rosetta, after all. Ms. Hannah's visit cost us at least half of a week's worth of food (of course we had to send her off with decent goodbye gifts to show our goodwill). We'll have to tighten our belts for a few days now. Other than that, I think our luncheon went pretty smoothly, even \"flawlessly\". We didn't give away the Union's secret, after all.\n\nAmelia and Larry came back later after Ms. Hannah left. Just as we guessed, this depot had been set up to fortify the south coast. Its previous residents, if there were any, were ejected or kindly \"re-settled\" long ago by Rosetta.\n\nNot a good place to linger. We'd better get out of here.\n\n\n\n"
-        }
-      },
-      {
-        "id": "Book_302158",
-        "props": {
-          "title": "A Burnt Letter",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "My love, I'm afraid I won't be able to make it for your birthday. The search and rescue operation is far more complicated than expected. We've discovered traces of the Vultures near the Monolith—those freaks have come all the way here from the Snowy Realm. Once we resolve this crisis, I'll have to head north. The Vultures are out of control, and Roland will need our help. Of course, you are just as dear to me as he is. I swear it!\n\n\n\n"
-        }
-      },
-      {
-        "id": "Book_302159",
-        "props": {
-          "title": "Snowy Realm Scenery",
-          "title1": "",
-          "title2": "",
-          "title3": "",
-          "content": "\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_ricci_securement_point",
-    "items": [
-      {
-        "id": "book_203006",
-        "props": {
-          "title": "Ricci Securement Point",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "This is no place for us. We're just a small expedition team. We have no hope against Rosetta troops, armed to the teeth with state-of-the-art gear... One thing is clear - Rosetta is just as strong now as they were 10 years ago. They've just been biding their time...\n\nWe managed to hide from the patrol squads, and bedded down for the night in an abandoned camp, in the beast's shadow. It was a well-protected military encampment, with zero signs of Stardust erosion. There was also a two-story concrete building that looked like a command post or research center of some kind. Rosetta really got busy here before Starfall...\n\nAnyway, this Rosetta stronghold seems to be in a period of temporary activity. They won't stay here permanently though, I'm sure of it. They'll keep expanding into the rest of Nalcott. I still can't get my head round it. Rosetta are human! Why do they seem to be on the side of the Stardust? Pushing Nalcott closer and closer to the brink... The Starfall and Rosetta are intimately connected - I'm sure of it. We have no idea what new horrors they're working on. But for as long as the Union is working to bring humankind together, you can be sure that Rosetta will stand in our way.\n\nI've made a comprehensive assessment of the expedition's current strength, and determined that we won't be able to get away with a 5-man patrol. So, we made plans to leave under the cover of darkness instead. There's too much at stake. Can't be reckless.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_gaia_military_base",
-    "items": [
-      {
-        "id": "Book_204001",
-        "props": {
-          "title": "Gaia Military Base",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "This is a place of ugliness and darkness, and its shiny exterior can't hide its sordid nature.\n\nThis place is actually a Rosetta slave market, or as they call it, a \"recruitment center\". Whether through violence or deception, Rosetta brought in as many Survivors as they could control, and then, no one knows where they were taken to.\n\nThere have always been rumors that huge underground facilities were built underneath Nalcott Island. After the Starfall, Rosetta established a strictly stratified society there, one similar to the slavery state of Ancient Rome. No one can verify these rumors' validity, but no one can deny them either, including Rosetta themselves. In any case, Rosetta has been scouring the wilderness for Survivors, and even if they aren't being used for such an unproductive purpose of \"slavery\", it's certainly not for anything good.\n\nSomeday, when the Union has built up enough power, we should destroy this place and rid it of all its wrongdoing.\n\n\n\n"
         }
       }
     ]
@@ -7942,21 +7797,6 @@
           "title2": "Saddlefront Camp, South Chalk Peak",
           "title3": "May 9, ██33",
           "content": "Mom didn't sleep well last night. Even though she tried to smile and talk to me in the morning, I knew that the disease was crushing her. The other herbs are completely useless, so if mom asks again... I'll go collect some hemlock leaves. \n\nI've kept her going for four years in this wilderness, four more years than she might have had otherwise. I don't regret the choice I made. Tall Grass? Bah, I'm never going back there again, not even if mom's gone. They are all inhumane bastards. I can go west. There are shelters on the other side of the mountains. I'm sure I'll find a use for my archery skills there.\n\n\n\n"
-        }
-      }
-    ]
-  },
-  {
-    "type": "regional_records_overlook_town",
-    "items": [
-      {
-        "id": "book_201001",
-        "props": {
-          "title": "Overlook Town",
-          "title1": "Excerpt from Rediscovered",
-          "title2": "By Denise Cooper",
-          "title3": "",
-          "content": "At one time, the Dayton Wetlands was under the complete control of one family - the Sutherlands. The Sutherland family had been investing heavily in Overlook Town, with the grand aim of making it into a thriving new settlement.\n\nI passed through the town once around this time, and when I saw it, the entire place was one big construction site. Row upon row of unfinished houses, the freshly-poured foundations for luxury beach-side villas... Even a movie theater, although it was only half-finished (they never did finish it, in the end).\n\nOf course, most of the town's real estate, the motel, the supermarkets, and most of the other commercial properties all belonged to one certain member of the Sutherland family. I only stayed in that town for as long as it took me to pay for a tank of overpriced gas. Something about the place gave me the creeps.\n\nAnd then there was the Starfall. Overlook Town will never get built now. All that luxury - the beautiful furniture, the expensive appliances - is still just sitting there gathering dust. The whole town stands like a monument to the people who perished trying to construct it.\n\nThe place was silent as a tomb when we arrived. From a distance, the old site looked almost completely intact. No signs of the Marauders. Keith and Amelia were both strongly in favor of exploring, but I decided not to take the risk. There are dark forces lurking in that place, I'm sure of it. Otherwise, the place would've been stripped clean of valuables long ago.\n\n\n\n"
         }
       }
     ]

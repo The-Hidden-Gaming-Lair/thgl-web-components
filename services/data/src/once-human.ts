@@ -24,6 +24,7 @@ import {
   BattleFieldData,
   BigMapItemData,
   BigWorldCollectableNotesData,
+  BookCollectAreaEnterClientData,
   BookCollectModelData,
   BookCollectSeriesData,
   CollectNewTagData,
@@ -1999,7 +2000,10 @@ const database = initDatabase();
   const bookCollectSeriesData = await readJSON<BookCollectSeriesData>(
     CONTENT_DIR + "/game_common/data/book_collect_series_data.json",
   );
-  bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map;
+  const bookCollectAreaEnterClientData =
+    await readJSON<BookCollectAreaEnterClientData>(
+      CONTENT_DIR + "/client_data/book_collect_area_enter_client_data.json",
+    );
   const LOCATIONS_BY_NAME: Record<string, [number, number]> = {
     "A Securement Mission": [5639, -4621],
     "A Promising Start": [3966, -6348],
@@ -2024,6 +2028,65 @@ const database = initDatabase();
     "Everything Going Wrong": [6021, -4524],
   };
 
+  for (const [collectionId, seriesIds] of Object.entries(
+    bookCollectSeriesData.extra_info.super_no2series_no_map,
+  )) {
+    if (!collectionId.startsWith("area_")) {
+      continue;
+    }
+    const area = bookCollectAreaEnterClientData[collectionId];
+    if (!area) {
+      console.warn("No area for", collectionId);
+      continue;
+    }
+    const baseType = "regional_records_";
+    const name = area.area_name;
+    const type =
+      baseType +
+      name
+        .replaceAll(" ", "_")
+        .replace(/[^a-zA-Z0-9_]/g, "")
+        .toLowerCase();
+    enDict[type] = name;
+    if (!database.some((i) => i.type === type)) {
+      database.push({
+        type,
+        items: [],
+      });
+    }
+    const items = database.find((i) => i.type === type)!;
+
+    for (const seriesId of seriesIds) {
+      const seriesData = bookCollectSeriesData[seriesId];
+      // ToDo: add subtitle of seriesData name
+      const bookIds =
+        bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map[
+          seriesId
+        ];
+      if (!bookIds) {
+        console.warn("No book ids for", collectionId);
+        continue;
+      }
+      for (const bookId of bookIds) {
+        const book = bigWorldCollectableNotesData[bookId];
+        const item: (typeof database)[number]["items"][number] = {
+          id: bookId,
+          props: {
+            title: book.title,
+            title1: book.title1,
+            title2: book.title2,
+            title3: book.title3,
+            content: book.content_lst.join("\n\n"),
+            location: LOCATIONS_BY_NAME[book.title],
+            // sortPriority: book.sort_priority,
+          },
+        };
+
+        items.items.push(item);
+      }
+    }
+  }
+
   for (const [seriesId, bookIds] of Object.entries(
     bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map,
   )) {
@@ -2033,31 +2096,43 @@ const database = initDatabase();
       continue;
     }
 
+    let type;
+    let name;
     let baseType;
     if (seriesData.corr_super_no.startsWith("area_")) {
-      baseType = "regional_records_";
+      continue;
     } else if (seriesData.corr_super_no === "collection_1") {
       baseType = "echoes_of_stardust_";
+      name = seriesData.series_name
+        .replace(/<[^>]*>/g, "")
+        .replaceAll("\b", "")
+        .trim();
+      type =
+        baseType +
+        name
+          .replaceAll(" ", "_")
+          .replace(/[^a-zA-Z0-9_]/g, "")
+          .toLowerCase();
     } else if (
       seriesData.corr_super_no === "collection_3" ||
       seriesData.corr_super_no === "colleciton_3"
     ) {
       baseType = "remnants_";
+      name = seriesData.series_name
+        .replace(/<[^>]*>/g, "")
+        .replaceAll("\b", "")
+        .trim();
+      type =
+        baseType +
+        name
+          .replaceAll(" ", "_")
+          .replace(/[^a-zA-Z0-9_]/g, "")
+          .toLowerCase();
     } else {
       console.warn("Unknown series", seriesData.corr_super_no);
       continue;
     }
 
-    const name = seriesData.series_name
-      .replace(/<[^>]*>/g, "")
-      .replaceAll("\b", "")
-      .trim();
-    const type =
-      baseType +
-      name
-        .replaceAll(" ", "_")
-        .replace(/[^a-zA-Z0-9_]/g, "")
-        .toLowerCase();
     enDict[type] = name;
     if (!database.some((i) => i.type === type)) {
       database.push({
