@@ -27,29 +27,17 @@ export default function Layout({
         key: item.type,
         value: enDict[item.type],
       },
-      items: item.items
-        .sort(
-          (a, b) =>
-            ("sortPriority" in b.props &&
-            typeof b.props.sortPriority === "number"
-              ? b.props.sortPriority
-              : 0) -
-            ("sortPriority" in a.props &&
-            typeof a.props.sortPriority === "number"
-              ? a.props.sortPriority
-              : 0),
-        )
-        .map((subitem) => ({
-          key: subitem.id,
-          value: (
-            <Link
-              href={`/echoes-of-stardust/${subitem.id}`}
-              title={subitem.props.title}
-            >
-              {subitem.props.title}
-            </Link>
-          ),
-        })),
+      items: item.items.map((subitem) => ({
+        key: subitem.id,
+        value: (
+          <Link
+            href={`/echoes-of-stardust/${subitem.id}`}
+            title={subitem.props.title}
+          >
+            {subitem.props.title}
+          </Link>
+        ),
+      })),
     };
   });
 

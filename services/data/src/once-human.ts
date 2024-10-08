@@ -1999,16 +1999,13 @@ const database = initDatabase();
   const bookCollectSeriesData = await readJSON<BookCollectSeriesData>(
     CONTENT_DIR + "/game_common/data/book_collect_series_data.json",
   );
-
-  for (const [key, value] of Object.entries(bigWorldCollectableNotesData)) {
-    if (!value.content_lst) {
-      console.warn("No content for", key);
-      continue;
-    }
-
-    const seriesData = bookCollectSeriesData[value.corr_series_id];
+  bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map;
+  for (const [seriesId, bookIds] of Object.entries(
+    bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map,
+  )) {
+    const seriesData = bookCollectSeriesData[seriesId];
     if (!seriesData) {
-      console.warn("No series data for", key);
+      console.warn("No series data for", seriesId);
       continue;
     }
 
@@ -2026,34 +2023,38 @@ const database = initDatabase();
       console.warn("Unknown series", seriesData.corr_super_no);
       continue;
     }
-    const type =
-      baseType +
-      value.sub_type_name
-        .replaceAll(" ", "_")
-        .replace(/[^a-zA-Z0-9_]/g, "")
-        .toLowerCase();
-    enDict[type] = value.sub_type_name;
-    if (!database.some((i) => i.type === type)) {
-      database.push({
-        type,
-        items: [],
-      });
+
+    for (const bookId of bookIds) {
+      const book = bigWorldCollectableNotesData[bookId];
+      const type =
+        baseType +
+        book.sub_type_name
+          .replaceAll(" ", "_")
+          .replace(/[^a-zA-Z0-9_]/g, "")
+          .toLowerCase();
+      enDict[type] = book.sub_type_name;
+      if (!database.some((i) => i.type === type)) {
+        database.push({
+          type,
+          items: [],
+        });
+      }
+      const items = database.find((i) => i.type === type)!;
+
+      const item: (typeof database)[number]["items"][number] = {
+        id: bookId,
+        props: {
+          title: book.title,
+          title1: book.title1,
+          title2: book.title2,
+          title3: book.title3,
+          content: book.content_lst.join("\n\n"),
+          // sortPriority: book.sort_priority,
+        },
+      };
+
+      items.items.push(item);
     }
-    const items = database.find((i) => i.type === type)!;
-
-    const item: (typeof database)[number]["items"][number] = {
-      id: key,
-      props: {
-        title: value.title,
-        title1: value.title1,
-        title2: value.title2,
-        title3: value.title3,
-        content: value.content_lst.join("\n\n"),
-        sortPriority: value.sort_priority,
-      },
-    };
-
-    items.items.push(item);
   }
 }
 

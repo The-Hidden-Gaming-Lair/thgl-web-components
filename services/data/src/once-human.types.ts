@@ -582,7 +582,11 @@ export type BigWorldCollectableNotesData = Record<
     audio_path: string;
     video_path: string;
   }
->;
+> & {
+  extra_info: {
+    corr_series_id2text_no_map: Record<string, string[]>;
+  };
+};
 
 export type BookCollectSeriesData = Record<
   string,
