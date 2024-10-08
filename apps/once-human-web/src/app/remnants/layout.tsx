@@ -56,9 +56,9 @@ export default function Layout({
         id="once-human"
         header={
           <>
-            <h2 className="text-2xl">All Remenants Records</h2>
+            <h2 className="text-2xl">All Remnants Records</h2>
             <p className="text-sm my-2">
-              A comprehensive list of remenants records for Once Human.
+              A comprehensive list of remnants records for Once Human.
             </p>
           </>
         }
