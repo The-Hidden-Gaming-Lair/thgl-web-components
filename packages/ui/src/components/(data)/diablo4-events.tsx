@@ -49,7 +49,7 @@ function formatTimeLeft(timeLeft: number) {
 
 type Helltide = {
   e: "Helltide";
-  z: string;
+  z: string | null;
 };
 type WorldBoss = {
   e: "World Boss";
@@ -118,7 +118,8 @@ export function Diablo4Events({ portal }: { portal?: boolean }) {
       .filter(
         (s) =>
           s.id &&
-          (t(s.id) === helltide.z || helltide.z.toLowerCase().startsWith(s.id)),
+          (t(s.id) === helltide.z ||
+            helltide.z?.toLowerCase().startsWith(s.id)),
       )
       .map((s) => `${s.id}@${s.p[0]}:${s.p[1]}`);
     addHighlightSpawnIDs(spawnIds);
