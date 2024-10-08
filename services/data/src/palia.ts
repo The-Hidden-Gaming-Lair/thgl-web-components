@@ -471,7 +471,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       if (isStarQuality) {
         iconProps.badgeIcon =
           TEXTURE_DIR +
-          "/Palia/Content/UI/Assets_Shared/Icons/Icon_Star_01.png";
+          "/Palia/Content/UI/Crafting/Assets/Cooking/Icons/Icon_Cooking_Star_01.png";
       }
       const iconName = await saveIcon(
         "/Palia/Content" +
@@ -889,7 +889,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         ".Magical";
     }
     const isMagical = type.endsWith(".Magical");
-    const size = isMagical ? 1.5 : 1;
+    const size = isMagical ? 1.25 : 1;
 
     const group = isMagical ? "lumberjacking_magical" : "lumberjacking";
     let category = filters.find((f) => f.group === group);
@@ -1394,7 +1394,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 
   const group = "players";
   const type = "other_player";
-  const size = 1;
+  const size = 0.8;
   let category = filters.find((f) => f.group === group);
   if (!category) {
     filters.push({
