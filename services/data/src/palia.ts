@@ -587,7 +587,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
       if (isStarQuality) {
         iconProps.badgeIcon =
           TEXTURE_DIR +
-          "/Palia/Content/UI/Assets_Shared/Icons/Icon_Star_01.png";
+          "/Palia/Content/UI/Crafting/Assets/Cooking/Icons/Icon_Cooking_Star_01.png";
       }
       const iconName = await saveIcon(
         "/Palia/Content" +
