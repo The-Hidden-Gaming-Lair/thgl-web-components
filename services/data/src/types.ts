@@ -35,12 +35,12 @@ export type GlobalFilter = {
   }[];
 };
 
-export type Database = {
+export type Database<T = Record<string, any>> = {
   type: string;
   items: {
     id: string;
     icon?: string;
-    props: Record<string, any>;
+    props: T;
     groupId?: string;
   }[];
 }[];

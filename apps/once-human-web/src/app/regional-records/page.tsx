@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 export default function Remnants(): JSX.Element {
   const category = database.find((item) =>
     item.type.startsWith("regional_records_"),
-  ) as Database[number];
+  ) as Database[number] | undefined;
 
   if (!category) {
     notFound();
   }
-  const item = category.items[0];
+  const item = category.items.at(0);
   if (!item) {
     notFound();
   }
@@ -31,7 +31,9 @@ export default function Remnants(): JSX.Element {
       <p className="text-primary">{item.props.title1}</p>
       <p className="text-primary">{item.props.title2}</p>
       <p className="text-primary">{item.props.title3}</p>
-      <p className="pt-8 text-muted-foreground">{item.props.content}</p>
+      <p className="pt-8 text-muted-foreground whitespace-break-spaces">
+        {item.props.content}
+      </p>
     </div>
   );
 }

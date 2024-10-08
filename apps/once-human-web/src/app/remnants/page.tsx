@@ -30,7 +30,9 @@ export default function Remnants(): JSX.Element {
       <p className="text-primary">{item.props.title1}</p>
       <p className="text-primary">{item.props.title2}</p>
       <p className="text-primary">{item.props.title3}</p>
-      <p className="pt-8 text-muted-foreground">{item.props.content}</p>
+      <p className="pt-8 text-muted-foreground whitespace-break-spaces">
+        {item.props.content}
+      </p>
     </div>
   );
 }
