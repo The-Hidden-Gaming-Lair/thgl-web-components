@@ -2000,6 +2000,30 @@ const database = initDatabase();
     CONTENT_DIR + "/game_common/data/book_collect_series_data.json",
   );
   bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map;
+  const LOCATIONS_BY_NAME: Record<string, [number, number]> = {
+    "A Securement Mission": [5639, -4621],
+    "A Promising Start": [3966, -6348],
+    "Temporary Notice": [6594, -3393],
+    "Star-0427": [7151, -2590],
+    Targetless: [298, -7148],
+    "Is a Symbiosis Possible?": [2996, -6646],
+    "Denise Cooper's Journal": [6580, -6954],
+    "Expedition Memo": [4635, -3035],
+    "Unfamiliar Homeland": [2236, -4931],
+    Roadblock: [1244, -4990],
+    "Rogue Brother": [6250, -2536],
+    "Choosing to Leave": [6301, -2500],
+    "Steady Flow": [5036, -4862],
+    "Caged Bird": [6061, -6154],
+    Gravestone: [5567, -6304],
+    "So Much Has Changed": [5661, -6332],
+    "Covert Operation": [3989, -5707],
+    "Over the Threshold": [7350, -4729],
+    "A New Start": [7092, -4564],
+    "The Rise of Bloodbeak": [5516, -4786],
+    "Everything Going Wrong": [6021, -4524],
+  };
+
   for (const [seriesId, bookIds] of Object.entries(
     bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map,
   )) {
@@ -2024,22 +2048,26 @@ const database = initDatabase();
       continue;
     }
 
+    const name = seriesData.series_name
+      .replace(/<[^>]*>/g, "")
+      .replaceAll("\b", "")
+      .trim();
+    const type =
+      baseType +
+      name
+        .replaceAll(" ", "_")
+        .replace(/[^a-zA-Z0-9_]/g, "")
+        .toLowerCase();
+    enDict[type] = name;
+    if (!database.some((i) => i.type === type)) {
+      database.push({
+        type,
+        items: [],
+      });
+    }
+    const items = database.find((i) => i.type === type)!;
     for (const bookId of bookIds) {
       const book = bigWorldCollectableNotesData[bookId];
-      const type =
-        baseType +
-        book.sub_type_name
-          .replaceAll(" ", "_")
-          .replace(/[^a-zA-Z0-9_]/g, "")
-          .toLowerCase();
-      enDict[type] = book.sub_type_name;
-      if (!database.some((i) => i.type === type)) {
-        database.push({
-          type,
-          items: [],
-        });
-      }
-      const items = database.find((i) => i.type === type)!;
 
       const item: (typeof database)[number]["items"][number] = {
         id: bookId,
@@ -2049,6 +2077,7 @@ const database = initDatabase();
           title2: book.title2,
           title3: book.title3,
           content: book.content_lst.join("\n\n"),
+          location: LOCATIONS_BY_NAME[book.title],
           // sortPriority: book.sort_priority,
         },
       };

@@ -45,6 +45,7 @@ export default function RootLayout({
       },
       items: item.items.map((subitem) => ({
         key: subitem.id,
+        text: subitem.props.title,
         value: (
           <Link href={`/${item.type}/${subitem.id}`}>
             {enDictMerged[subitem.id]}

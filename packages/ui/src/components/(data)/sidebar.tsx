@@ -9,6 +9,7 @@ import {
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useEffect, useState } from "react";
+import { ChevronsUpDown } from "lucide-react";
 
 export { CollapsibleTrigger };
 export function Sidebar({
@@ -27,6 +28,7 @@ export function Sidebar({
     };
     items: {
       key: string;
+      text: string;
       value: JSX.Element;
     }[];
   }[];
@@ -106,14 +108,15 @@ export function Sidebar({
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className={cn("xl:hidden")}>
-          <Button variant="link" size="sm" className="px-1">
+          <Button variant="secondary" size="sm">
             {entry?.category.value ?? ""}
             {" - "}
-            {item?.value ?? ""}
+            {item?.text ?? ""}
+            <ChevronsUpDown className="ml-2 w-4 h-4" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <ScrollArea className="h-96">{content} </ScrollArea>
+          <ScrollArea className="h-96">{content}</ScrollArea>
         </PopoverContent>
       </Popover>
       <aside

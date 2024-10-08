@@ -29,6 +29,7 @@ export default function Layout({
       },
       items: item.items.map((subitem) => ({
         key: subitem.id,
+        text: subitem.props.title,
         value: (
           <Link
             href={`/regional-records/${subitem.id}`}

@@ -9,7 +9,7 @@ import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 export type SimpleSpawn = {
   id: string;
   p: [number, number] | [number, number, number];
-  icon?: string;
+  icon?: string | null;
   name: string;
   color?: string;
   description?: string;

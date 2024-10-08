@@ -1,3 +1,4 @@
+import { text } from "node:stream/consumers";
 import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
 import { type Database, type Dict } from "@repo/ui/providers";
@@ -29,6 +30,7 @@ export default function Layout({
       },
       items: item.items.map((subitem) => ({
         key: subitem.id,
+        text: subitem.props.title,
         value: (
           <Link
             href={`/echoes-of-stardust/${subitem.id}`}
