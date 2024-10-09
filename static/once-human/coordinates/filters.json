@@ -2151,6 +2151,63 @@
     ]
   },
   {
+    "group": "notes",
+    "defaultOn": true,
+    "defaultOpen": false,
+    "values": [
+      {
+        "id": "letter",
+        "icon": "letter.webp",
+        "size": 1
+      },
+      {
+        "id": "sticky_note",
+        "icon": "sticky_note.webp",
+        "size": 1
+      },
+      {
+        "id": "bible",
+        "icon": "bible.webp",
+        "size": 1
+      },
+      {
+        "id": "notebook_close",
+        "icon": "notebook_close.webp",
+        "size": 1
+      },
+      {
+        "id": "laptop",
+        "icon": "laptop.webp",
+        "size": 1
+      },
+      {
+        "id": "announcement",
+        "icon": "announcement.webp",
+        "size": 1
+      },
+      {
+        "id": "recording_pen",
+        "icon": "recording_pen.webp",
+        "size": 1
+      },
+      {
+        "id": "newspaper",
+        "icon": "newspaper.webp",
+        "size": 1
+      },
+      {
+        "id": "mobile_phone",
+        "icon": "mobile_phone.webp",
+        "size": 1
+      },
+      {
+        "id": "notebook_open",
+        "icon": "notebook_open.webp",
+        "size": 1
+      }
+    ]
+  },
+  {
     "group": "fishes",
     "values": [
       {

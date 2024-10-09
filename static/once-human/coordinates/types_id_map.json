@@ -411,5 +411,15 @@
   "s_m_01.gim": "sulfur",
   "s_l_01.gim": "sulfur",
   "mossy_l_01.gim": "seaweed_rock",
-  "conch_l_01.gim": "shell_rock"
+  "conch_l_01.gim": "shell_rock",
+  "letter.gim": "letter",
+  "sticky_note.gim": "sticky_note",
+  "bible.gim": "bible",
+  "notebook_close.gim": "notebook_close",
+  "laptop.gim": "laptop",
+  "announcement.gim": "announcement",
+  "recording_pen.gim": "recording_pen",
+  "newspaper.gim": "newspaper",
+  "mobile_phone.gim": "mobile_phone",
+  "notebook_open.gim": "notebook_open"
 }

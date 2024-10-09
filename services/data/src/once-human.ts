@@ -48,6 +48,7 @@ import {
 } from "./lib/regions.js";
 import { initDatabase, writeDatabase } from "./lib/database.js";
 import { Canvas, createCanvas } from "@napi-rs/canvas";
+import { capitalizeWords } from "./lib/utils.js";
 
 initDirs(
   String.raw`C:\dev\OnceHuman\Extracted\Data`,
@@ -59,6 +60,7 @@ let nodes = initNodes();
 const filters = initFilters([
   { group: "items", defaultOn: true, defaultOpen: false, values: [] },
   { group: "recipes", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "notes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: false, values: [] },
   // { group: "plants", defaultOn: true, defaultOpen: false, values: [] },
   { group: "locations", defaultOn: true, defaultOpen: false, values: [] },
@@ -1817,10 +1819,56 @@ const sortPriority = [
   "boss",
   "monster",
   "animal",
+  "notes",
 ];
 
 const items = filters.find((f) => f.group === "items")!;
 const recipes = filters.find((f) => f.group === "recipes")!;
+
+{
+  const group = "notes";
+  const filter = filters.find((f) => f.group === group)!;
+  enDict[group] = "Collectable Notes";
+
+  for (const [key, value] of Object.entries(collectNewTagData)) {
+    if (key.startsWith("collectable_notes_")) {
+      const typeId = value.model_path1.split("/").at(-1);
+      if (!typeId) {
+        console.warn("No type for", key);
+        continue;
+      }
+      const type = typeId.replace(".gim", "");
+      typeIDs[typeId] = type;
+
+      if (!newTypes.includes(type)) {
+        enDict[type] = capitalizeWords(type.replaceAll("_", " "));
+        newTypes.push(type);
+        const icon = await saveIcon(
+          String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\open-book_lorc.webp`,
+          type,
+          {
+            color: uniqolor(type, {
+              lightness: [70, 80],
+            }).color,
+          },
+        );
+        filter.values.push({
+          id: type,
+          icon,
+          size: 1,
+        });
+        if (!nodes.some((n) => n.type === type && n.mapName === "default")) {
+          nodes.push({
+            type: type,
+            spawns: [],
+            mapName: "default",
+            static: true,
+          });
+        }
+      }
+    }
+  }
+}
 
 const filteredNodes = nodes
   .map((n) => {
@@ -1903,6 +1951,7 @@ filteredNodes.sort((a, b) => {
   const bSize = flatFilters.find((f) => f.id === b.type)!.size!;
   return aSize - bSize;
 });
+
 writeNodes(filteredNodes);
 Object.keys(tiles).forEach((mapName) => {
   encodeToFile(
