@@ -36,6 +36,7 @@ export default function Layout({
             title={subitem.props.title}
           >
             {subitem.props.title}
+            <p className="text-xs ">{subitem.props.subtitle}</p>
           </Link>
         ),
       })),

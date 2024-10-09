@@ -88,7 +88,7 @@ export function Sidebar({
                 key={item.key}
                 variant="link"
                 className={cn(
-                  "w-[calc(100%-2.5rem)] justify-start inline-block text-left truncate",
+                  "w-[calc(100%-2.5rem)] h-auto justify-start inline-block text-left truncate",
                   {
                     "text-muted-foreground": item.key !== activeItem,
                   },

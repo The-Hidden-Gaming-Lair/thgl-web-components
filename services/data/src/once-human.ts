@@ -2058,7 +2058,6 @@ const database = initDatabase();
 
     for (const seriesId of seriesIds) {
       const seriesData = bookCollectSeriesData[seriesId];
-      // ToDo: add subtitle of seriesData name
       const bookIds =
         bigWorldCollectableNotesData.extra_info.corr_series_id2text_no_map[
           seriesId
@@ -2073,6 +2072,7 @@ const database = initDatabase();
           id: bookId,
           props: {
             title: book.title,
+            subtitle: seriesData.series_name,
             title1: book.title1,
             title2: book.title2,
             title3: book.title3,

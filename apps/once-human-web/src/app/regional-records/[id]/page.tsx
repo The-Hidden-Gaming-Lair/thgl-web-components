@@ -46,6 +46,9 @@ export default function Item({
   return (
     <div className="py-6 text-left space-y-1">
       <h3 className="uppercase text-4xl">{item.props.title}</h3>
+      <h3 className="text-2xl text-secondary-foreground">
+        {item.props.subtitle}
+      </h3>
       <p className="text-primary">{item.props.title1}</p>
       <p className="text-primary">{item.props.title2}</p>
       <p className="text-primary">{item.props.title3}</p>
