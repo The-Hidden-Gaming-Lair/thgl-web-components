@@ -56,8 +56,8 @@ export default function PileMapClient({
     name: t("kilima_pile"),
     icon: timedLootPilesFilter.values.find((f) => f.id === "kilima_pile")?.icon,
     p: [
-      timedLootPiles.BP_ChapaaPile_C.position[1],
       timedLootPiles.BP_ChapaaPile_C.position[0],
+      timedLootPiles.BP_ChapaaPile_C.position[1],
     ],
   };
   const beachPile: SimpleSpawn = {
@@ -65,8 +65,8 @@ export default function PileMapClient({
     name: t("beach_pile"),
     icon: timedLootPilesFilter.values.find((f) => f.id === "beach_pile")?.icon,
     p: [
-      timedLootPiles.BP_BeachPile_C.position[1],
       timedLootPiles.BP_BeachPile_C.position[0],
+      timedLootPiles.BP_BeachPile_C.position[1],
     ],
   };
 
