@@ -124,9 +124,7 @@ function sendActorsToAPI(actors: Actor[]): void {
     return;
   }
 
-  const staticActors = newActors.map(
-    ({ address, path, hidden, ...actor }) => actor,
-  );
+  const staticActors = newActors.map(({ address, path, ...actor }) => actor);
 
   fetch("https://palia-api.th.gl/nodes", {
     method: "POST",
