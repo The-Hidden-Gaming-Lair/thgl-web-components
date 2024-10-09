@@ -491,8 +491,8 @@
       {
         "id": "cannibal:cannibal_dualwield_phys",
         "p": [
-          -139.29137,
-          69.08499,
+          -139.2847,
+          69.08847,
           0.02213
         ]
       },
@@ -1710,14 +1710,6 @@
       },
       {
         "id": "knight:knight_caster_fire",
-        "p": [
-          -138.00063,
-          68.56767,
-          0
-        ]
-      },
-      {
-        "id": "knight:knight_caster_cold",
         "p": [
           -138.00063,
           68.56767,
@@ -10019,13 +10011,6 @@
       },
       {
         "p": [
-          -137.90625,
-          68.73275,
-          0
-        ]
-      },
-      {
-        "p": [
           -69.14299,
           100.20847,
           70.1176
@@ -11923,14 +11908,6 @@
       },
       {
         "p": [
-          -105.88098,
-          43.60331,
-          13.6018
-        ],
-        "id": "DGN_S02_Kehj_TombofHallows"
-      },
-      {
-        "p": [
           -201.90524,
           53.88523,
           -11.8467
@@ -12210,14 +12187,6 @@
       },
       {
         "p": [
-          -179.93601,
-          38.66991,
-          29.3303
-        ],
-        "id": "CSD_Naha_Lingering_KurastSewers"
-      },
-      {
-        "p": [
           -156.77166,
           68.12739,
           15.1237
@@ -12263,14 +12232,6 @@
           79.8012
         ],
         "id": "CSD_Frac_Epilogue_HoradricVault"
-      },
-      {
-        "p": [
-          -196.39795,
-          39.58381,
-          40.8395
-        ],
-        "id": "CSD_Naha_Teganze01_Cellar"
       },
       {
         "p": [
@@ -13449,9 +13410,9 @@
       },
       {
         "p": [
-          -109.39281,
-          102.51955,
-          71.9249
+          -109.38984,
+          102.50385,
+          71.687
         ],
         "id": "QST_Class_Sorc_Cellar"
       },
@@ -13673,14 +13634,6 @@
       },
       {
         "p": [
-          -148.91263,
-          141.04968,
-          0.63292
-        ],
-        "id": "S01_MDGN_Hawe_B"
-      },
-      {
-        "p": [
           -102.74936,
           79.3753,
           34.5734
@@ -13841,6 +13794,14 @@
       },
       {
         "p": [
+          -179.96016,
+          38.67617,
+          29.5344
+        ],
+        "id": "CSD_Naha_Lingering_KurastSewers"
+      },
+      {
+        "p": [
           -103.62645,
           63.58613,
           38.3726
@@ -13937,9 +13898,9 @@
       },
       {
         "p": [
-          -207.45315,
-          23.38074,
-          5.17455
+          -207.42463,
+          23.37154,
+          5.45363
         ],
         "id": "QST_BloomWhereYouArePlanted_Cellar"
       },
@@ -13950,14 +13911,6 @@
           10.2
         ],
         "id": "QST_ThePitOfAnguish_Cellar"
-      },
-      {
-        "p": [
-          -65.96837,
-          73.20407,
-          17.2503
-        ],
-        "id": "S04_QST_Helltide_NPC_02"
       },
       {
         "p": [
@@ -15903,9 +15856,9 @@
       },
       {
         "p": [
-          -172.02072,
-          17.56953,
-          34.5765
+          -172.04677,
+          17.58126,
+          34.759
         ],
         "id": "Naha_SevenStones_2"
       },
@@ -15943,9 +15896,9 @@
       },
       {
         "p": [
-          -189.93092,
-          33.09675,
-          8.38293
+          -189.92355,
+          32.89187,
+          8.32087
         ],
         "id": "Naha_FiveHills_2"
       },
@@ -15991,9 +15944,9 @@
       },
       {
         "p": [
-          -184.75753,
-          49.52051,
-          32.306
+          -184.80819,
+          49.53175,
+          31.9588
         ],
         "id": "Naha_RestlessCanopy_3"
       },
@@ -16015,9 +15968,9 @@
       },
       {
         "p": [
-          -173.57544,
-          39.3075,
-          17.905
+          -173.62514,
+          39.28342,
+          17.9614
         ],
         "id": "Naha_LingeringHatred_6"
       },
@@ -16063,9 +16016,9 @@
       },
       {
         "p": [
-          -182.99191,
-          76.13302,
-          -0.00924
+          -182.96929,
+          76.14282,
+          0.06594
         ],
         "id": "Naha_FieldOfGiants_Remains_2"
       },
@@ -16285,10 +16238,10 @@
         ]
       },
       {
-        "id": "TWN_Naha_Kichuk_Crafter_Blacksmith@-155.52946,87.00142",
+        "id": "TWN_Naha_Kichuk_Crafter_Blacksmith@-155.53352,87.00515",
         "p": [
-          -155.52946,
-          87.00142,
+          -155.53352,
+          87.00515,
           35.5022
         ]
       },
@@ -18099,6 +18052,30 @@
         ]
       },
       {
+        "id": "campaignQuests:QST_Frac_X1_Prologue_Cathedral_01@-89.47774,125.6448",
+        "p": [
+          -89.47774,
+          125.6448,
+          111.632
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Frac_X1_Prologue_Cathedral_02@-89.47774,125.6448",
+        "p": [
+          -89.47774,
+          125.6448,
+          111.632
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Frac_X1_Prologue_TaigaS_01@-100.8223,115.21909",
+        "p": [
+          -100.8223,
+          115.21909,
+          91.1023
+        ]
+      },
+      {
         "id": "campaignQuests:QST_Hawe_Bog_01@-128.16754,134.34843",
         "p": [
           -128.16754,
@@ -18395,6 +18372,222 @@
         ]
       },
       {
+        "id": "campaignQuests:QST_Kehj_X1_Prologue_GeaKul_01@-149.44039,29.14222",
+        "p": [
+          -149.44039,
+          29.14222,
+          2.5
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Kehj_X1_Prologue_LowDesert_01@-152.2966,35.76475",
+        "p": [
+          -152.2966,
+          35.76475,
+          11.2725
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_Epilogue_Cabin_01@-101.45439,116.16248",
+        "p": [
+          -101.45439,
+          116.16248,
+          90.1659
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_Epilogue_Vault_01@-102.94486,135.43655",
+        "p": [
+          -102.94486,
+          135.43655,
+          72.4108
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FieldOfGiants_01@-185.61007,72.4833",
+        "p": [
+          -185.61007,
+          72.4833,
+          10.5973
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FieldOfGiants_02@-173.30907,68.81906",
+        "p": [
+          -173.30907,
+          68.81906,
+          17.6603
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FieldOfGiants_03@-172.60073,62.23499",
+        "p": [
+          -172.60073,
+          62.23499,
+          34.4348
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FiveHills_01@-186.59149,34.61273",
+        "p": [
+          -186.59149,
+          34.61273,
+          15.2378
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FiveHills_02@-190.45029,16.64043",
+        "p": [
+          -190.45029,
+          16.64043,
+          20.9028
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FiveHills_03@-198.28575,12.97247",
+        "p": [
+          -198.28575,
+          12.97247,
+          10.0263
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FiveHills_04@-196.20027,17.11924",
+        "p": [
+          -196.20027,
+          17.11924,
+          -52.5181
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_FiveHills_05@-207.6713,25.15749",
+        "p": [
+          -207.6713,
+          25.15749,
+          14.74
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_Kurast@-182.76162,35.14951",
+        "p": [
+          -182.76162,
+          35.14951,
+          15.8872
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred2_01@-164.34413,28.92213",
+        "p": [
+          -164.34413,
+          28.92213,
+          16.5695
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred2_02@-168.44797,27.11461",
+        "p": [
+          -168.44797,
+          27.11461,
+          7.29554
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred_01@-157.5983,50.02466",
+        "p": [
+          -157.5983,
+          50.02466,
+          6.2504
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred_01A@-161.86423,53.18883",
+        "p": [
+          -161.86423,
+          53.18883,
+          23.0821
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred_02@-157.02095,22.26103",
+        "p": [
+          -157.02095,
+          22.26103,
+          1.315
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred_02A@-166.73999,20.0002",
+        "p": [
+          -166.73999,
+          20.0002,
+          25.91
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred_03@-167.90701,25.63548",
+        "p": [
+          -167.90701,
+          25.63548,
+          20.0435
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_LingeringHatred_04@-168.25898,27.01578",
+        "p": [
+          -168.25898,
+          27.01578,
+          6.18319
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_MercHideout@-135.09251,68.84507",
+        "p": [
+          -135.09251,
+          68.84507,
+          -6.11538
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_Ormus1_01@-179.77932,41.36965",
+        "p": [
+          -179.77932,
+          41.36965,
+          31.7045
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_Ormus1_02@-180.23395,38.96284",
+        "p": [
+          -180.23395,
+          38.96284,
+          29.0726
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_Ormus2_01@-181.82367,41.64452",
+        "p": [
+          -181.82367,
+          41.64452,
+          29.7371
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_TeganzePlateau_01@-164.97455,78.20424",
+        "p": [
+          -164.97455,
+          78.20424,
+          30.4812
+        ]
+      },
+      {
+        "id": "campaignQuests:QST_Naha_TeganzePlateau_02@-164.97455,78.20424",
+        "p": [
+          -164.97455,
+          78.20424,
+          30.4812
+        ]
+      },
+      {
         "id": "campaignQuests:QST_Prologue_Kyovashad_01@-93.79888,122.89858",
         "p": [
           -93.79888,
@@ -18632,6 +18825,22 @@
     "type": "sideQuests",
     "mapName": "Sanctuary",
     "spawns": [
+      {
+        "id": "sideQuests:EGB_QST_Bucket_01@-101.23735,115.6642",
+        "p": [
+          -101.23735,
+          115.6642,
+          90.2043
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Class_Spiritborn@-147.30802,29.08175",
+        "p": [
+          -147.30802,
+          29.08175,
+          3.77955
+        ]
+      },
       {
         "id": "sideQuests:QST_Craft_Alchemist_01@-94.79128,123.94394",
         "p": [
@@ -18998,6 +19207,14 @@
           -116.30933,
           134.02727,
           -0.2
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Hawe_BountyHunter_Acquisition@-118.32534,144.09604",
+        "p": [
+          -118.32534,
+          144.09604,
+          1.34
         ]
       },
       {
@@ -19721,11 +19938,379 @@
         ]
       },
       {
+        "id": "sideQuests:QST_Naha_AkaratDeath@-197.27561,63.21756",
+        "p": [
+          -197.27561,
+          63.21756,
+          -6.54777
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_AkaratFaith@-176.02749,18.5142",
+        "p": [
+          -176.02749,
+          18.5142,
+          48.5409
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_Akarat_Perseverance@-166.75122,42.27939",
+        "p": [
+          -166.75122,
+          42.27939,
+          21.2919
+        ]
+      },
+      {
         "id": "sideQuests:QST_Naha_BeHumble_01@-158.17726,24.48875",
         "p": [
           -158.17726,
           24.48875,
           0.04665
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_BestialSoulofTeganze_01@-155.43759,76.19155",
+        "p": [
+          -155.43759,
+          76.19155,
+          20.6304
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_BestialSoulofTeganze_02@-155.43759,76.19155",
+        "p": [
+          -155.43759,
+          76.19155,
+          20.6304
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_BestialSoulofTeganze_03@-147.79135,74.42696",
+        "p": [
+          -147.79135,
+          74.42696,
+          23.8969
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_BlessedHunt@-188.07212,40.64535",
+        "p": [
+          -188.07212,
+          40.64535,
+          20.2147
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_BloomWhereYouArePlanted@-192.88438,14.33791",
+        "p": [
+          -192.88438,
+          14.33791,
+          11.4808
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_BridgeCat_01@-154.01664,85.81203",
+        "p": [
+          -154.01664,
+          85.81203,
+          35.0951
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_CatRescue_01@-186.85645,72.90186",
+        "p": [
+          -186.85645,
+          72.90186,
+          6.32169
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_Cowsplosion@-159.0878,24.58379",
+        "p": [
+          -159.0878,
+          24.58379,
+          1.37399
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_CursedChild_Acquisition@-133.85585,67.94198",
+        "p": [
+          -133.85585,
+          67.94198,
+          -0.00001
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_DeathBlooms@-184.44717,36.76778",
+        "p": [
+          -184.44717,
+          36.76778,
+          17.7039
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_FiveHills_MidnightJaguars@-194.49539,30.79138",
+        "p": [
+          -194.49539,
+          30.79138,
+          16.0952
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GardenOfGods@-163.38586,76.45204",
+        "p": [
+          -163.38586,
+          76.45204,
+          11.3769
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GiantBloodHawks@-170.87239,71.07799",
+        "p": [
+          -170.87239,
+          71.07799,
+          18.0568
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GoNative_01@-158.6993,24.97258",
+        "p": [
+          -158.6993,
+          24.97258,
+          1.34547
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GoNative_02@-143.77703,28.87891",
+        "p": [
+          -143.77703,
+          28.87891,
+          6.64229
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GoNative_03@-181.2626,15.54128",
+        "p": [
+          -181.2626,
+          15.54128,
+          37.0772
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GoNative_04@-179.58452,25.72155",
+        "p": [
+          -179.58452,
+          25.72155,
+          36.965
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_GoNative_05@-92.70228,122.88756",
+        "p": [
+          -92.70228,
+          122.88756,
+          101.077
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_HollowLifeCycle@-183.7585,65.0537",
+        "p": [
+          -183.7585,
+          65.0537,
+          18.4489
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_KeeningSpirit@-187.02247,37.61417",
+        "p": [
+          -187.02247,
+          37.61417,
+          13.8091
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_Lacuni_Eye@-197.49283,36.40365",
+        "p": [
+          -197.49283,
+          36.40365,
+          26.5817
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_LakeLife_01@-198.78079,21.39432",
+        "p": [
+          -198.78079,
+          21.39432,
+          5.4298
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_LegacyOfTheEater@-183.54565,43.82813",
+        "p": [
+          -183.54565,
+          43.82813,
+          33.6874
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_LivingDying@-169.52439,63.26769",
+        "p": [
+          -169.52439,
+          63.26769,
+          58.8481
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_RaidIntro_01@-184.28927,36.6886",
+        "p": [
+          -184.28927,
+          36.6886,
+          17.6383
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_RestlessCanopy_ThePitOfAnguish@-185.99171,38.3388",
+        "p": [
+          -185.99171,
+          38.3388,
+          15.7535
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_RestlessCanopy_TheScalesOfHistory@-180.6154,35.75624",
+        "p": [
+          -180.6154,
+          35.75624,
+          18.3636
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_ReturnToDust@-171.89351,35.8105",
+        "p": [
+          -171.89351,
+          35.8105,
+          20.4073
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SaltTheEarth@-176.73208,45.62026",
+        "p": [
+          -176.73208,
+          45.62026,
+          50.8087
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SevenStones_EverythingOld_01@-190.80416,13.02697",
+        "p": [
+          -190.80416,
+          13.02697,
+          14
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SevenStones_EverythingOld_02@-190.80416,13.02697",
+        "p": [
+          -190.80416,
+          13.02697,
+          14
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SevenStones_EverythingOld_03@-190.80416,13.02697",
+        "p": [
+          -190.80416,
+          13.02697,
+          14
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_ShroudofWrath@-161.66296,88.74255",
+        "p": [
+          -161.66296,
+          88.74255,
+          40.9069
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SinProxy_01@-191.24277,71.15127",
+        "p": [
+          -191.24277,
+          71.15127,
+          5.88944
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SinProxy_02@-190.71029,70.86259",
+        "p": [
+          -190.71029,
+          70.86259,
+          6.75232
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SinProxy_03@-190.84003,70.68097",
+        "p": [
+          -190.84003,
+          70.68097,
+          6.81945
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SinProxy_04@-184.87371,69.47338",
+        "p": [
+          -184.87371,
+          69.47338,
+          22.6754
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_SpiritEgg_01@-190.31782,16.82068",
+        "p": [
+          -190.31782,
+          16.82068,
+          20.8188
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_TheGoatEater@-192.81715,43.00239",
+        "p": [
+          -192.81715,
+          43.00239,
+          35.226
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_TheWitness@-157.90805,23.16845",
+        "p": [
+          -157.90805,
+          23.16845,
+          1.31062
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_TorchDreamPlant@-192.22826,13.73474",
+        "p": [
+          -192.22826,
+          13.73474,
+          10.6571
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_TreeMan_01@-194.32025,28.31268",
+        "p": [
+          -194.32025,
+          28.31268,
+          19.2092
+        ]
+      },
+      {
+        "id": "sideQuests:QST_Naha_Treeman_02@-197.45977,25.28723",
+        "p": [
+          -197.45977,
+          25.28723,
+          14.7642
         ]
       },
       {
@@ -20545,166 +21130,6 @@
         ]
       },
       {
-        "id": "sideQuests:S03_Bounty_Culling_Frac_Glacier_Constructs@-89.3709,147.23809",
-        "p": [
-          -89.3709,
-          147.23809,
-          114.885
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Culling_Hawe_Fens_Constructs@-157.93038,119.23262",
-        "p": [
-          -157.93038,
-          119.23262,
-          0.42811
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Culling_Kehj_Ridge_Constructs@-124.09901,80.80683",
-        "p": [
-          -124.09901,
-          80.80683,
-          17.3814
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Culling_Scos_Highlands_Constructs@-69.35537,134.30781",
-        "p": [
-          -69.35537,
-          134.30781,
-          53.5165
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Culling_Step_Volcano_Constructs@-83.33445,87.87158",
-        "p": [
-          -83.33445,
-          87.87158,
-          41.3781
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DefeatWarden_Frac_Glacier@-89.62061,151.23402",
-        "p": [
-          -89.62061,
-          151.23402,
-          113.148
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DefeatWarden_Hawe_Fens@-159.41076,123.09562",
-        "p": [
-          -159.41076,
-          123.09562,
-          0.3528
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DefeatWarden_Kehj_Ridge@-125.26287,84.52169",
-        "p": [
-          -125.26287,
-          84.52169,
-          27.1909
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DefeatWarden_Scos_Highlands@-66.09494,140.9829",
-        "p": [
-          -66.09494,
-          140.9829,
-          45.3369
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DefeatWarden_Step_Volcano@-85.68942,93.66147",
-        "p": [
-          -85.68942,
-          93.66147,
-          58.5594
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DismantleTraps_Frac_Glacier@-92.4141,152.0925",
-        "p": [
-          -92.4141,
-          152.0925,
-          112.825
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DismantleTraps_Hawe_Fens@-157.11577,123.86995",
-        "p": [
-          -157.11577,
-          123.86995,
-          1.13103
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DismantleTraps_Kehj_Ridge@-122.90072,83.53129",
-        "p": [
-          -122.90072,
-          83.53129,
-          23.8524
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DismantleTraps_Scos_Highlands@-67.0558,138.72638",
-        "p": [
-          -67.0558,
-          138.72638,
-          48.0571
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_DismantleTraps_Step_Volcano@-89.40582,95.11298",
-        "p": [
-          -89.40582,
-          95.11298,
-          57.5313
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Vault_Frac_Glacier@-94.97738,153.37412",
-        "p": [
-          -94.97738,
-          153.37412,
-          111.333
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Vault_Hawe_Fens@-159.07693,119.5988",
-        "p": [
-          -159.07693,
-          119.5988,
-          0.35276
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Vault_Scos_Highlands@-67.54377,139.13134",
-        "p": [
-          -67.54377,
-          139.13134,
-          48.3198
-        ]
-      },
-      {
-        "id": "sideQuests:S03_Bounty_Vault_Step_Volcano@-76.20097,92.97359",
-        "p": [
-          -76.20097,
-          92.97359,
-          52.4466
-        ]
-      },
-      {
-        "id": "sideQuests:S03_LBD_Gauntlet_Tutorial@-150.42675,27.54752",
-        "p": [
-          -150.42675,
-          27.54752,
-          2.75277
-        ]
-      },
-      {
         "id": "sideQuests:S05_QST_Rep_Main_01@-143.21191,90.85718",
         "p": [
           -143.21191,
@@ -20761,35 +21186,11 @@
         ]
       },
       {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Frac_Glacier@-86.86684,147.68091",
-        "p": [
-          -86.86684,
-          147.68091,
-          109.5
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Frac_Glacier_01@-80.41877,145.02987",
-        "p": [
-          -80.41877,
-          145.02987,
-          105.28
-        ]
-      },
-      {
         "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Frac_Glacier_02@-90.6668,149.55302",
         "p": [
           -90.6668,
           149.55302,
           110.951
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Hawe_Coast_01@-144.93824,143.84832",
-        "p": [
-          -144.93824,
-          143.84832,
-          3.25641
         ]
       },
       {
@@ -20801,35 +21202,11 @@
         ]
       },
       {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Hawe_Coast_03@-157.94108,138.87749",
-        "p": [
-          -157.94108,
-          138.87749,
-          -0.03737
-        ]
-      },
-      {
         "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Kehj_Ridge_01@-120.30672,76.69745",
         "p": [
           -120.30672,
           76.69745,
           11.0182
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Kehj_Ridge_02@-127.4518,81.36172",
-        "p": [
-          -127.4518,
-          81.36172,
-          21.9648
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Kehj_Ridge_03@-135.97193,70.29566",
-        "p": [
-          -135.97193,
-          70.29566,
-          14.447
         ]
       },
       {
@@ -20841,23 +21218,7 @@
         ]
       },
       {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Naha_RestlessCanopy_01@-192.07134,61.1483",
-        "p": [
-          -192.07134,
-          61.1483,
-          23.0161
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Naha_RestlessCanopy_02@-191.49653,42.22062",
-        "p": [
-          -191.49653,
-          42.22062,
-          30.9978
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_01@-67.54297,132.26283",
+        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_04@-67.54297,132.26283",
         "p": [
           -67.54297,
           132.26283,
@@ -20865,39 +21226,7 @@
         ]
       },
       {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_02@-61.48122,132.92852",
-        "p": [
-          -61.48122,
-          132.92852,
-          45.7717
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_03@-68.36055,138.69794",
-        "p": [
-          -68.36055,
-          138.69794,
-          51.5792
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Step_Eastern_01@-100.65452,84.29851",
-        "p": [
-          -100.65452,
-          84.29851,
-          55.4982
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Step_Eastern_02@-110.8488,86.65551",
-        "p": [
-          -110.8488,
-          86.65551,
-          56.4148
-        ]
-      },
-      {
-        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Step_Eastern_03@-100.65452,84.29851",
+        "id": "sideQuests:S06_Bounty_Hatetide_Realmwalker_Step_Eastern_04@-100.65452,84.29851",
         "p": [
           -100.65452,
           84.29851,
@@ -25455,126 +25784,6 @@
         ]
       },
       {
-        "id": "S03_Bounty_Culling_Hawe_Fens_Constructs",
-        "p": [
-          -157.93038,
-          119.23262,
-          0.42811
-        ]
-      },
-      {
-        "id": "S03_Bounty_DismantleTraps_Hawe_Fens",
-        "p": [
-          -157.11577,
-          123.86995,
-          1.13103
-        ]
-      },
-      {
-        "id": "S03_Bounty_DefeatWarden_Hawe_Fens",
-        "p": [
-          -159.41076,
-          123.09562,
-          0.3528
-        ]
-      },
-      {
-        "id": "S03_Bounty_Culling_Kehj_Ridge_Constructs",
-        "p": [
-          -124.09901,
-          80.80683,
-          17.3814
-        ]
-      },
-      {
-        "id": "S03_Bounty_DismantleTraps_Kehj_Ridge",
-        "p": [
-          -122.90072,
-          83.53129,
-          23.8524
-        ]
-      },
-      {
-        "id": "S03_Bounty_DefeatWarden_Kehj_Ridge",
-        "p": [
-          -125.26287,
-          84.52169,
-          27.1909
-        ]
-      },
-      {
-        "id": "S03_Bounty_Culling_Frac_Glacier_Constructs",
-        "p": [
-          -89.3709,
-          147.23809,
-          114.885
-        ]
-      },
-      {
-        "id": "S03_Bounty_DefeatWarden_Frac_Glacier",
-        "p": [
-          -89.62061,
-          151.23402,
-          113.148
-        ]
-      },
-      {
-        "id": "S03_Bounty_DismantleTraps_Frac_Glacier",
-        "p": [
-          -92.4141,
-          152.0925,
-          112.825
-        ]
-      },
-      {
-        "id": "S03_Bounty_Culling_Step_Volcano_Constructs",
-        "p": [
-          -83.33445,
-          87.87158,
-          41.3781
-        ]
-      },
-      {
-        "id": "S03_Bounty_DefeatWarden_Step_Volcano",
-        "p": [
-          -85.68942,
-          93.66147,
-          58.5594
-        ]
-      },
-      {
-        "id": "S03_Bounty_DismantleTraps_Step_Volcano",
-        "p": [
-          -89.40582,
-          95.11298,
-          57.5313
-        ]
-      },
-      {
-        "id": "S03_Bounty_Culling_Scos_Highlands_Constructs",
-        "p": [
-          -69.35537,
-          134.30781,
-          53.5165
-        ]
-      },
-      {
-        "id": "S03_Bounty_DefeatWarden_Scos_Highlands",
-        "p": [
-          -66.09494,
-          140.9829,
-          45.3369
-        ]
-      },
-      {
-        "id": "S03_Bounty_DismantleTraps_Scos_Highlands",
-        "p": [
-          -67.0558,
-          138.72638,
-          48.0571
-        ]
-      },
-      {
         "id": "Bounty_S3_LNY_Tier1_Step_Central_Shrine",
         "p": [
           -74.90211,
@@ -25863,38 +26072,6 @@
         ]
       },
       {
-        "id": "S03_Bounty_Vault_Scos_Highlands",
-        "p": [
-          -67.54377,
-          139.13134,
-          48.3198
-        ]
-      },
-      {
-        "id": "S03_Bounty_Vault_Step_Volcano",
-        "p": [
-          -76.20097,
-          92.97359,
-          52.4466
-        ]
-      },
-      {
-        "id": "S03_Bounty_Vault_Frac_Glacier",
-        "p": [
-          -94.97738,
-          153.37412,
-          111.333
-        ]
-      },
-      {
-        "id": "S03_Bounty_Vault_Hawe_Fens",
-        "p": [
-          -159.07693,
-          119.5988,
-          0.35276
-        ]
-      },
-      {
         "id": "Bounty_Helltide_Tier1_Frac_TundraS_Doomsayers",
         "p": [
           -82.75669,
@@ -25929,9 +26106,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Frac_TundraS_Harbingers",
         "p": [
-          -86.03242,
-          120.48918,
-          106.423
+          -82.75669,
+          119.70877,
+          102.893
         ]
       },
       {
@@ -26017,9 +26194,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Frac_TundraN_Harbingers",
         "p": [
-          -92.80025,
-          133.30461,
-          102.956
+          -87.86283,
+          135.37444,
+          88.0783
         ]
       },
       {
@@ -26105,9 +26282,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Scos_Coast_Harbingers",
         "p": [
-          -32.53775,
-          95.26536,
-          12.6633
+          -35.48714,
+          96.47796,
+          11.5419
         ]
       },
       {
@@ -26193,9 +26370,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Scos_DeepForest_Harbingers",
         "p": [
-          -55.63472,
-          83.96801,
-          43.2941
+          -52.99674,
+          84.90735,
+          35.1092
         ]
       },
       {
@@ -26265,9 +26442,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Hawe_Verge_Harbingers",
         "p": [
-          -124.8737,
-          117.34667,
-          7.0518
+          -121.80839,
+          118.26909,
+          18.123
         ]
       },
       {
@@ -26353,9 +26530,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Hawe_Wetlands_Harbingers",
         "p": [
-          -141.10129,
-          113.10382,
-          6.48472
+          -138.61973,
+          114.96301,
+          1.24095
         ]
       },
       {
@@ -26449,9 +26626,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Step_Central_Harbingers",
         "p": [
-          -80.15514,
-          77.49282,
-          17.684
+          -82.14529,
+          79.22856,
+          21.7993
         ]
       },
       {
@@ -26537,9 +26714,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Step_South_Harbingers",
         "p": [
-          -107.10166,
-          71.00786,
-          48.9053
+          -104.43405,
+          72.41464,
+          43.5718
         ]
       },
       {
@@ -26625,9 +26802,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Kehj_HighDesert_Harbingers",
         "p": [
-          -118.50461,
-          47.64902,
-          7.21239
+          -115.66351,
+          48.32539,
+          0.11182
         ]
       },
       {
@@ -26713,9 +26890,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Kehj_Oasis_Harbingers",
         "p": [
-          -133.65963,
-          32.41999,
-          16.6103
+          -131.16845,
+          33.51344,
+          12.4428
         ]
       },
       {
@@ -26801,9 +26978,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Kehj_LowDesert_Harbingers",
         "p": [
-          -143.09201,
-          38.85547,
-          9.86838
+          -144.79251,
+          40.25906,
+          9.58332
         ]
       },
       {
@@ -27239,6 +27416,46 @@
         ]
       },
       {
+        "id": "Bounty_OWC_Naha_LingeringHatred_01",
+        "p": [
+          -169.18644,
+          22.73648,
+          13.8157
+        ]
+      },
+      {
+        "id": "Bounty_OWC_Naha_LingeringHatred_02",
+        "p": [
+          -162.40677,
+          16.08417,
+          21.9449
+        ]
+      },
+      {
+        "id": "Bounty_OWC_Naha_LingeringHatred_03",
+        "p": [
+          -157.2552,
+          33.17138,
+          11.162
+        ]
+      },
+      {
+        "id": "Bounty_OWC_Naha_LingeringHatred_04",
+        "p": [
+          -160.00042,
+          54.76317,
+          24.5162
+        ]
+      },
+      {
+        "id": "Bounty_OWC_Naha_LingeringHatred_05",
+        "p": [
+          -177.41373,
+          40.66349,
+          34.7326
+        ]
+      },
+      {
         "id": "Bounty_OWC_Naha_RestlessCanopy_01",
         "p": [
           -172.76757,
@@ -27655,6 +27872,14 @@
         ]
       },
       {
+        "id": "Bounty_ZE_Tier2_Naha_Chakhir",
+        "p": [
+          -177.90285,
+          5.1063,
+          52.473
+        ]
+      },
+      {
         "id": "Bounty_Boss_Tier3_Duriel",
         "p": [
           -154.67833,
@@ -27737,9 +27962,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Naha_LingeringHatred_Harbingers",
         "p": [
-          -164.17024,
-          33.1828,
-          15.4317
+          -168.12378,
+          33.08528,
+          20.9132
         ]
       },
       {
@@ -27825,9 +28050,9 @@
       {
         "id": "Bounty_Helltide_Tier1_Naha_SevenStones_Harbingers",
         "p": [
-          -180.99128,
-          11.50657,
-          43.2534
+          -182.87501,
+          16.05451,
+          39.5425
         ]
       },
       {
@@ -27879,35 +28104,11 @@
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Frac_Glacier",
+        "id": "S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_04",
         "p": [
-          -86.86684,
-          147.68091,
-          109.5
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Frac_Glacier_01",
-        "p": [
-          -80.41877,
-          145.02987,
-          105.28
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Frac_Glacier_02",
-        "p": [
-          -90.6668,
-          149.55302,
-          110.951
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Hawe_Coast_01",
-        "p": [
-          -144.93824,
-          143.84832,
-          3.25641
+          -67.54297,
+          132.26283,
+          46.0892
         ]
       },
       {
@@ -27919,14 +28120,6 @@
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Hawe_Coast_03",
-        "p": [
-          -157.94108,
-          138.87749,
-          -0.03737
-        ]
-      },
-      {
         "id": "S06_Bounty_Hatetide_Realmwalker_Kehj_Ridge_01",
         "p": [
           -120.30672,
@@ -27935,19 +28128,19 @@
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Kehj_Ridge_02",
+        "id": "S06_Bounty_Hatetide_Realmwalker_Frac_Glacier_02",
         "p": [
-          -127.4518,
-          81.36172,
-          21.9648
+          -90.6668,
+          149.55302,
+          110.951
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Kehj_Ridge_03",
+        "id": "S06_Bounty_Hatetide_Realmwalker_Step_Eastern_04",
         "p": [
-          -135.97193,
-          70.29566,
-          14.447
+          -100.65452,
+          84.29851,
+          55.4982
         ]
       },
       {
@@ -27959,67 +28152,35 @@
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Naha_RestlessCanopy_01",
+        "id": "Bounty_Citadel_Tier3_AnyWing",
         "p": [
-          -192.07134,
-          61.1483,
-          23.0161
+          -175.47636,
+          51.95659,
+          75.9554
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Naha_RestlessCanopy_02",
+        "id": "Bounty_Undercity_Tier3_Run",
         "p": [
-          -191.49653,
-          42.22062,
-          30.9978
+          -183.05957,
+          40.149,
+          15.8314
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_01",
+        "id": "Bounty_Pit_Tier3_Complete",
         "p": [
-          -67.54297,
-          132.26283,
-          46.0892
+          -56.55675,
+          105.98619,
+          37.4893
         ]
       },
       {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_02",
+        "id": "Bounty_BSK_Tier3_Complete",
         "p": [
-          -61.48122,
-          132.92852,
-          45.7717
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Scos_Highlands_03",
-        "p": [
-          -68.36055,
-          138.69794,
-          51.5792
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Step_Eastern_01",
-        "p": [
-          -100.65452,
-          84.29851,
-          55.4982
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Step_Eastern_02",
-        "p": [
-          -110.8488,
-          86.65551,
-          56.4148
-        ]
-      },
-      {
-        "id": "S06_Bounty_Hatetide_Realmwalker_Step_Eastern_03",
-        "p": [
-          -100.65452,
-          84.29851,
-          55.4982
+          -122.76064,
+          52.05285,
+          -6.11167
         ]
       }
     ]
@@ -28748,14 +28909,6 @@
       {
         "id": "Stash",
         "p": [
-          -93.17877,
-          124.53407,
-          101.008
-        ]
-      },
-      {
-        "id": "Stash",
-        "p": [
           -92.83391,
           141.46474,
           94.65
@@ -28975,6 +29128,14 @@
           -179.84162,
           37.6395,
           19.6414
+        ]
+      },
+      {
+        "id": "Stash",
+        "p": [
+          -182.68745,
+          39.94434,
+          15.869
         ]
       },
       {

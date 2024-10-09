@@ -20,8 +20,8 @@ import {
 } from "./diablo4.types.js";
 
 initDirs(
-  // String.raw`C:\dev\DiabloIV\d4data\json`,
-  String.raw`C:\dev\DiabloIV\d4data_ptr\json`,
+  String.raw`C:\dev\DiabloIV\d4data\json`,
+  // String.raw`C:\dev\DiabloIV\d4data_ptr\json`,
   String.raw`C:\dev\DiabloIV\d4-texture-extractor\png`,
   String.raw`C:\dev\the-hidden-gaming-lair\static\diablo4`,
 );
@@ -700,6 +700,10 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
     CELLAR_TYPES.includes(actor.snoActor.name)
   ) {
     const stringId = actor.ptData[0].snoSpecifiedWorld!.name!;
+    if (!stringId) {
+      console.warn("Missing snoSpecifiedWorld", actor.snoActor.name);
+      continue;
+    }
     // const groupName = actor.ptData[0].snoSpecifiedWorld!.groupName!;
     const isCellar =
       !stringId.startsWith("DGN_") &&
