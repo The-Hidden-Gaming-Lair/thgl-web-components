@@ -8,17 +8,12 @@ import Link from "next/link";
 import { type SimpleSpawn } from "@repo/ui/interactive-map";
 import { useT } from "@repo/ui/providers";
 import { Skeleton } from "@repo/ui/data";
-import filters from "../coordinates/filters.json" assert { type: "json" };
 import { type TimedLootPiles } from "@/app/rummage-pile/page";
 
 const PileMapDynamic = dynamic(() => import("./pile-map-dynamic"), {
   ssr: false,
   loading: () => <Skeleton className="h-60 md:h-96 mt-4" />,
 });
-
-const timedLootPilesFilter = filters.find(
-  (f) => f.group === "timed_loot_piles",
-)!;
 
 export default function PileMapClient({
   timedLootPiles,
@@ -54,7 +49,7 @@ export default function PileMapClient({
   const chapaaPile: SimpleSpawn = {
     id: "kilima_pile",
     name: t("kilima_pile"),
-    icon: timedLootPilesFilter.values.find((f) => f.id === "kilima_pile")?.icon,
+    icon: "/icons/other_player.webp",
     p: [
       timedLootPiles.BP_ChapaaPile_C.position[0],
       timedLootPiles.BP_ChapaaPile_C.position[1],
@@ -63,7 +58,7 @@ export default function PileMapClient({
   const beachPile: SimpleSpawn = {
     id: "beach_pile",
     name: t("beach_pile"),
-    icon: timedLootPilesFilter.values.find((f) => f.id === "beach_pile")?.icon,
+    icon: "/icons/other_player.webp",
     p: [
       timedLootPiles.BP_BeachPile_C.position[0],
       timedLootPiles.BP_BeachPile_C.position[1],
