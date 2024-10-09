@@ -19,7 +19,7 @@ export default function InteractiveMapDynamic(): JSX.Element {
   return (
     <>
       <InteractiveMap
-        domain="wukong"
+        domain="palia"
         tileOptions={tiles as unknown as TileOptions}
       />
       <Regions />
@@ -27,9 +27,9 @@ export default function InteractiveMapDynamic(): JSX.Element {
       <LivePlayer markerOptions={MARKER_OPTIONS} />
       <TraceLine />
       <Actions>
-        <Whiteboard domain="wukong" />
+        <Whiteboard domain="palia" />
         <StreamingReceiver
-          domain="wukong"
+          domain="palia"
           href="https://www.overwolf.com/app/Leon_Machens-Palia_Map"
         />
         <PrivateNode />

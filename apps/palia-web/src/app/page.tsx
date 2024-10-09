@@ -62,7 +62,7 @@ export default function Home({
             </>
           }
         >
-          <FloatingAds id="wukong" />
+          <FloatingAds id="palia" />
         </MarkersSearch>
         <PaliaGrid />
       </HeaderOffset>
