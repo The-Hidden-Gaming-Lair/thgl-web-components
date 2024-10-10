@@ -32,12 +32,17 @@ export function NitroScript({
     if (state !== "loading" || adRemoval || isOverwolf) {
       return;
     }
-    const timeoutId = setTimeout(() => {
-      setState("error");
-    }, 1499);
+    const now = Date.now();
+    const intervalId = setInterval(() => {
+      if (Date.now() - now > 1500) {
+        console.warn("NitroAds script failed to load");
+        setState("error");
+        clearTimeout(intervalId);
+      }
+    }, 100);
 
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(intervalId);
     };
   }, [state]);
 
