@@ -1,5 +1,4 @@
 import { cn } from "@repo/lib";
-import { ScrollArea } from "../ui/scroll-area";
 import { AdBlocker } from "./ad-blocker";
 import {
   LargeMobileBanner,

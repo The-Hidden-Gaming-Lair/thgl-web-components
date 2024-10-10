@@ -49,6 +49,7 @@ export function NitroScript({
     <>
       <Script
         onError={() => {
+          console.warn("NitroAds script failed to load");
           setState("error");
         }}
         onReady={() => {
@@ -58,6 +59,7 @@ export function NitroScript({
           ) {
             setState("ready");
           } else {
+            console.warn("NitroAds script failed to load");
             setState("error");
           }
         }}

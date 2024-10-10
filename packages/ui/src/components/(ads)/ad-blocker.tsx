@@ -1,3 +1,4 @@
+"use client";
 import { ExternalLink } from "lucide-react";
 import { ExternalAnchor } from "../(header)";
 import {
