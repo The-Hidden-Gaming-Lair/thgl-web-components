@@ -25,7 +25,7 @@ export function MobileBanner({
   return (
     <AdFreeContainer className={className}>
       <div
-        className="rounded h-[50px] bg-zinc-800/30 flex flex-col justify-center text-gray-400"
+        className="rounded h-[50px] bg-zinc-800/30 flex flex-col justify-center text-gray-500"
         id={id}
       />
     </AdFreeContainer>
@@ -39,7 +39,7 @@ export function MobileBannerLoading({
 }): JSX.Element {
   return (
     <AdFreeContainer className={cn("max-[859px]:block hidden", className)}>
-      <div className="rounded h-[50px] bg-zinc-800/30 flex flex-col justify-center text-gray-400">
+      <div className="rounded h-[50px] bg-zinc-800/30 flex flex-col justify-center text-gray-500">
         Loading Ad
       </div>
     </AdFreeContainer>
@@ -53,7 +53,7 @@ export function MobileBannerFallback({
 }): JSX.Element {
   return (
     <AdFreeContainer className={cn("max-[859px]:block hidden", className)}>
-      <div className="rounded h-[50px] bg-zinc-800/30 flex flex-col justify-center text-gray-400">
+      <div className="rounded h-[50px] bg-zinc-800/30 flex flex-col justify-center text-gray-500">
         Please disable your Ad-Blocker
       </div>
     </AdFreeContainer>

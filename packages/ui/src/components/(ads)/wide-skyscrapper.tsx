@@ -37,7 +37,7 @@ export function WideSkyscraper({
       <div className="w-[160px]"></div>
       <AdFreeContainer className="fixed">
         <div
-          className="bg-zinc-800/30 text-gray-400 flex-col justify-center text-center h-[600px] w-[160px]"
+          className="bg-zinc-800/30 text-gray-500 flex-col justify-center text-center h-[600px] w-[160px]"
           id={id}
         />
       </AdFreeContainer>
@@ -54,7 +54,7 @@ export function WideSkyscraperLoading({
     <AdFreeContainer className={cn("min-[1024px]:block hidden", className)}>
       <div
         className={cn(
-          "flex bg-zinc-800/30 text-gray-400 flex-col justify-center text-center h-[600px] w-[160px]",
+          "flex bg-zinc-800/30 text-gray-500 flex-col justify-center text-center h-[600px] w-[160px]",
         )}
       >
         Loading Ad
@@ -72,7 +72,7 @@ export function WideSkyscraperFallback({
     <AdFreeContainer className={cn("min-[1024px]:block hidden", className)}>
       <div
         className={cn(
-          "flex bg-zinc-800/30 text-gray-400 flex-col justify-center text-center h-[600px] w-[160px]",
+          "flex bg-zinc-800/30 text-gray-500 flex-col justify-center text-center h-[600px] w-[160px]",
         )}
       >
         Please disable your Ad-Blocker
