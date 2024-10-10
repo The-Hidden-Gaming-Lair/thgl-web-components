@@ -83,7 +83,7 @@
         "id": "mystical_crate",
         "icon": "mystical_crate.webp",
         "size": 1,
-        "autoDiscover": true
+        "autoDiscover": false
       }
     ]
   },

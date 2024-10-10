@@ -1450,7 +1450,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     id: type,
     icon,
     size: 1,
-    autoDiscover: true,
+    autoDiscover: false,
   });
   enDict[type] = "Mystical Crate";
 
