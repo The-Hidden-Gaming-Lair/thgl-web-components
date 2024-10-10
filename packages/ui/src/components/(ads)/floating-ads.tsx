@@ -1,3 +1,4 @@
+"use client";
 import { AdBlocker } from "./ad-blocker";
 import { FloatingBanner } from "./floating-banner";
 import { FloatingMobileBanner } from "./floating-mobile-banner";

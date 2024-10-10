@@ -7,7 +7,6 @@ import { useUserStore } from "../(providers)";
 import { MarkersSearchResults } from "./markers-search-results";
 import { MarkersFilters } from "./markers-filters";
 import { ScrollArea } from "../ui/scroll-area";
-import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
   FoldVertical,
   Search,

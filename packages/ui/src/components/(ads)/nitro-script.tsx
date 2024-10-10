@@ -57,6 +57,7 @@ export function NitroScript({
             "nitroAds" in window &&
             (window.nitroAds as NitroAds).siteId === 1487
           ) {
+            console.warn("NitroAds script is ready");
             setState("ready");
           } else {
             console.warn("NitroAds script failed to load");
