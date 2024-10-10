@@ -2,14 +2,33 @@ import { ExternalLink } from "lucide-react";
 import { ExternalAnchor } from "../(header)";
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
+import { useEffect, useState } from "react";
 
 export function AdBlocker() {
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      if (timeLeft > 0) {
+        setTimeLeft(timeLeft - 1);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [timeLeft]);
+
   return (
-    <AlertDialog open>
+    <AlertDialog open={open}>
       <AlertDialogContent data-nosnippet>
         <AlertDialogHeader>
           <AlertDialogTitle>⚠️ Ad Blocker Detected</AlertDialogTitle>
@@ -54,6 +73,12 @@ export function AdBlocker() {
         <p className="text-secondary-foreground">
           Thank you for your understanding and support! 🙏
         </p>
+        <AlertDialogCancel
+          disabled={timeLeft > 0}
+          onClick={() => setOpen(false)}
+        >
+          Close{timeLeft > 0 ? ` (${timeLeft})` : ""}
+        </AlertDialogCancel>
       </AlertDialogContent>
     </AlertDialog>
   );

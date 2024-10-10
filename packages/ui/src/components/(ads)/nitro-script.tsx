@@ -52,12 +52,13 @@ export function NitroScript({
           setState("error");
         }}
         onReady={() => {
-          if ("nitroAds" in window) {
-            if ((window.nitroAds as NitroAds).siteId === 1487) {
-              setState("ready");
-            } else {
-              setState("error");
-            }
+          if (
+            "nitroAds" in window &&
+            (window.nitroAds as NitroAds).siteId === 1487
+          ) {
+            setState("ready");
+          } else {
+            setState("error");
           }
         }}
         src="https://s.nitropay.com/ads-1487.js"
