@@ -184,6 +184,7 @@
   "BP_FoliageOnPlot_TreeOak_Medium_C": "Woodcutting.Oak.Medium.Final",
   "BP_FoliageOnPlot_Tree_Oak_Sapling_C": "Woodcutting.Oak.Sapling.Final",
   "BP_FoliageOnPlot_Tree_Oak_Small_C": "Woodcutting.Oak.Small.Final",
+  "BP_ShrubChoppable_Bush_C": "Woodcutting.Bush.Final",
   "BP_TreeChoppable_Birch_Large_C": "Woodcutting.Birch.Large.Final",
   "BP_TreeChoppable_Birch_Medium_C": "Woodcutting.Birch.Medium.Final",
   "BP_TreeChoppable_Birch_Sapling_C": "Woodcutting.Birch.Sapling.Final",

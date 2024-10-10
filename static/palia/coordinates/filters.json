@@ -414,6 +414,11 @@
     "defaultOn": false,
     "values": [
       {
+        "id": "Woodcutting.Bush.Final",
+        "icon": "woodcuttingbushfinal.webp",
+        "size": 1
+      },
+      {
         "id": "Woodcutting.Birch.Large.Final",
         "icon": "woodcuttingbirchlargefinal.webp",
         "size": 1

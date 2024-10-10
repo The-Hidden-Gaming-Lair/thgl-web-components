@@ -372,7 +372,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           (s) => s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
         )
       ) {
-        console.warn("Duplicate spawn", spawn.id);
+        // console.warn("Duplicate spawn", spawn.id);
         continue;
       }
       oldNodes.spawns.push(spawn);
@@ -835,14 +835,19 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   const foliageFiles = readDirRecursive(
     CONTENT_DIR + "/Palia/Content/Gameplay/Housing/Foliage",
   );
-  const allFiles = [...skillFiles, ...foliageFiles];
+  const bushFile =
+    CONTENT_DIR +
+    "\\Palia\\Content\\Gameplay\\Skills\\Lumberjacking\\Bush_Choppable\\BP_ShrubChoppable_Bush.json";
+  const allFiles = [bushFile, ...skillFiles, ...foliageFiles];
   for (const skillFile of allFiles) {
     if (
       (!skillFile.includes("BP_TreeChoppable_") &&
         !skillFile.includes("BP_FoliageOnPlot_Tree") &&
-        !skillFile.includes("BP_Bush_")) ||
+        !skillFile.includes("BP_ShrubChoppable_Bush") &&
+        !skillFile.includes("BP_FoliageOnPlot_Bush")) ||
       skillFile.includes("Legacy") ||
-      skillFile.includes("_Elder_")
+      skillFile.includes("_Elder_") ||
+      skillFile.includes("Shared")
     ) {
       continue;
     }
@@ -905,6 +910,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     }
 
     const descs: string[] = [];
+
     for (const loot of lootBundleConfig.LootBundle) {
       const lootPoolConfig = Object.entries(lootPoolConfigs[0].Rows).find(
         (e) => e[0].toLowerCase() === loot.RowName.toLowerCase(),
@@ -913,6 +919,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         console.warn("No loot pool config", loot.RowName);
         continue;
       }
+      let firstItemType: DA_ItemType | undefined;
       for (const loot of lootPoolConfig![1].LootPool) {
         if (!loot.ItemType) {
           continue;
@@ -926,6 +933,9 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
               .replace(/\.\d+/, "") +
             ".json",
         );
+        if (!firstItemType) {
+          firstItemType = itemType;
+        }
         const rarity =
           itemType[0].Properties.Rarity?.replace("EItemRarity::", "") ??
           "Special";
@@ -957,18 +967,20 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         const gatherableComponent = growableTree.find(
           (s) => s.Type === "GatherableComponent",
         );
-        if (!gatherableComponent) {
+        if (!gatherableComponent && !firstItemType) {
           console.warn("No gatherable component", skillFile);
           continue;
         }
-        const itemType = await readJSON<DA_ItemType>(
-          CONTENT_DIR +
-            "/Palia/Content/" +
-            gatherableComponent
-              .Properties!.ItemType!.ObjectPath.replace("Game/", "")
-              .replace(/\.\d+/, "") +
-            ".json",
-        );
+        const itemType = gatherableComponent
+          ? await readJSON<DA_ItemType>(
+              CONTENT_DIR +
+                "/Palia/Content/" +
+                gatherableComponent
+                  .Properties!.ItemType!.ObjectPath.replace("Game/", "")
+                  .replace(/\.\d+/, "") +
+                ".json",
+            )
+          : firstItemType!;
         let iconPath =
           "/Palia/Content" +
           itemType[0].Properties.ItemIcon.AssetPathName.replace(
@@ -1037,7 +1049,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
 
     const lootComponent = skill.find((s) => s.Type === "LootComponent");
     if (!lootComponent?.Properties?.RewardFinal?.Loot) {
-      console.warn("No loot component", skillFile);
+      // console.warn("No loot component", skillFile);
       continue;
     }
     const lootBundleConfig =
@@ -1353,7 +1365,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         (s) => s.p[0] === spawn.p[0] && s.p[1] === spawn.p[1],
       )
     ) {
-      console.warn("Duplicate spawn", spawn.id);
+      // console.warn("Duplicate spawn", spawn.id);
       continue;
     }
     oldNodes.spawns.push(spawn);
