@@ -42,13 +42,26 @@ namespace Tracker
     {
       overwolf.GetPlayer((player) =>
       {
-        Console.WriteLine(((GameEventsPlugin.Models.Actor)player).x + " : " + ((GameEventsPlugin.Models.Actor)player).y + " : " + ((GameEventsPlugin.Models.Actor)player).z + " : " + ((GameEventsPlugin.Models.Actor)player).path);
+        //Console.WriteLine(((GameEventsPlugin.Models.Actor)player).x + " : " + ((GameEventsPlugin.Models.Actor)player).y + " : " + ((GameEventsPlugin.Models.Actor)player).z + " : " + ((GameEventsPlugin.Models.Actor)player).path);
         Thread.Sleep(50);
         RunOverwolfPlayer();
       }, (error) =>
       {
         Thread.Sleep(200);
         RunOverwolfPlayer();
+      });
+    }
+    static private void RunOverwolfServer()
+    {
+      overwolf.UpdateServer((server) =>
+      {
+        Console.WriteLine(server);
+        Thread.Sleep(50);
+        RunOverwolfServer();
+      }, (error) =>
+      {
+        Thread.Sleep(200);
+        RunOverwolfServer();
       });
     }
 
@@ -91,7 +104,7 @@ namespace Tracker
       // var fileName = @"C:\Wuthering Waves\Wuthering Waves Game\Client\Binaries\Win64\Client-Win64-Shipping.exe"; ;
       // var fileName = @"C:\Wemade\NightCrowsG\Client\MadGlobal.exe"; ;
       
-            
+      
       if (false)
       {
         var startInfo = new ProcessStartInfo
@@ -130,6 +143,10 @@ namespace Tracker
       Task.Run(() =>
       {
         RunOverwolfActors();
+      });
+      Task.Run(() =>
+      {
+        RunOverwolfServer();
       });
       while (Console.ReadKey(true).Key == ConsoleKey.D)
       {

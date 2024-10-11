@@ -74,10 +74,23 @@ namespace NativeGameEvents
       [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
       public string szExePath;
     }
-
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MEMORY_BASIC_INFORMATION64
+    {
+      public nint BaseAddress;
+      public nint AllocationBase;
+      public uint AllocationProtect;
+      public uint __alignment1;
+      public ulong RegionSize;
+      public uint State;
+      public uint Protect;
+      public uint Type;
+      public uint __alignment2;
+    }
     public delegate IntPtr CreateToolhelp32SnapshotDelegate(uint dwFlags, uint th32ProcessID);
     public delegate bool Module32FirstDelegate(IntPtr hSnapshot, ref MODULEENTRY32 lpme);
     public delegate bool Module32NextDelegate(IntPtr hSnapshot, ref MODULEENTRY32 lpme);
+    public delegate bool VirtualQueryExDelegate(IntPtr hProcess, IntPtr lpAddress, out MEMORY_BASIC_INFORMATION64 lpBuffer, uint dwLength);
     public delegate bool Process32FirstDelegate(IntPtr hSnapshot, ref PROCESSENTRY32 lppe);
     public delegate bool Process32NextDelegate(IntPtr hSnapshot, ref PROCESSENTRY32 lppe);
     public delegate IntPtr OpenProcessDelegate(uint dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
@@ -89,6 +102,7 @@ namespace NativeGameEvents
     public static Process32NextDelegate Process32Next;
     public static Module32FirstDelegate Module32First;
     public static Module32NextDelegate Module32Next;
+    public static VirtualQueryExDelegate VirtualQueryEx;
     public static OpenProcessDelegate OpenProcess;
     public static CloseHandleDelegate CloseHandle;
 
@@ -116,6 +130,9 @@ namespace NativeGameEvents
 
       Module32Next = Marshal.GetDelegateForFunctionPointer<Module32NextDelegate>(
           NativeLibrary.GetExport(_kernel32Handle, "Module32Next"));
+
+      VirtualQueryEx = Marshal.GetDelegateForFunctionPointer<VirtualQueryExDelegate>(
+          NativeLibrary.GetExport(_kernel32Handle, "VirtualQueryEx"));
 
       OpenProcess = Marshal.GetDelegateForFunctionPointer<OpenProcessDelegate>(
           NativeLibrary.GetExport(_kernel32Handle, "OpenProcess"));

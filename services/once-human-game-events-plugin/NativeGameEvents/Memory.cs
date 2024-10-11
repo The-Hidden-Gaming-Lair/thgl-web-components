@@ -34,12 +34,12 @@ namespace NativeGameEvents
         }
         public Int32 maxStringLength = 0x100;
 
-        private const int MaxReadSize = 0x1000;
+        private const int MaxReadSize = 0x10000;
 
         public Byte[] ReadProcessMemory(Int64 addr, Int32 length)
         {
             var buffer = new Byte[length];
-            for (var i = 0; i < length / (Single)MaxReadSize; i++)
+            for (var i = 0; i < length / MaxReadSize; i++)
             {
                 var blockSize = (i == (length / MaxReadSize)) ? length % MaxReadSize : MaxReadSize;
                 var buf = new Byte[blockSize];
@@ -96,9 +96,11 @@ namespace NativeGameEvents
         {
             return (T)ReadProcessMemory(typeof(T), addr);
         }
-        public IntPtr FindPattern(byte[] pattern)
+        public IntPtr FindPattern(byte[] pattern, nint addr = 0, int size = 0)
         {
-            var sigScan = new SigScan(Process, BaseAddress, ModuleMemorySize);
+            if (addr == 0) addr = BaseAddress;
+            if (size == 0) size = ModuleMemorySize;
+            var sigScan = new SigScan(Process, addr, size);
             var strMask = String.Join("", pattern.Select(b => b == 0 ? '?' : 'x'));
             return sigScan.FindPattern(pattern, strMask, 0);
         }

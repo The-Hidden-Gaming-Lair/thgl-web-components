@@ -52,6 +52,41 @@ namespace GameEventsPlugin
         error(e.Message);
       }
     }
+    [DllImport("NativeGameEvents.dll")] extern static IntPtr UpdateServer();
+    public void UpdateServer(Action<object> callback, Action<object> error, string processName = null)
+    {
+      Task.Run(() =>
+      {
+        try
+        {
+          if (_lastError != null)
+          {
+            error(_lastError);
+            return;
+          }
+          if (status != 0)
+          {
+            error(_lastError);
+            return;
+          }
+          var a = UpdateServer();
+          if (a != IntPtr.Zero)
+          {
+            var serverName = Marshal.PtrToStringAnsi(a);
+            Marshal.FreeHGlobal(a);
+            callback(serverName);
+          }
+          else
+          {
+            callback(null);
+          }
+        }
+        catch (Exception e)
+        {
+          error(e.Message + "\n" + e.StackTrace);
+        }
+      });
+    }
     [DllImport("NativeGameEvents.dll")] extern static IntPtr GetPlayer();
     public void GetPlayer(Action<object> callback, Action<object> error)
     {

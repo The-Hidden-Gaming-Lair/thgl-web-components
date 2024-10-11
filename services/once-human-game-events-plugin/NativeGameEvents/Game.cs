@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using NativeGameEvents.Models;
+using static NativeGameEvents.NativeProcess;
 
 namespace NativeGameEvents
 {
@@ -129,6 +130,43 @@ namespace NativeGameEvents
         catch (Exception e)
         {
           //Console.WriteLine(e.Message);
+          //error(e.Message + "\n" + e.StackTrace);
+        }
+        return 0;
+      }//);
+    }
+    [UnmanagedCallersOnly(EntryPoint = "UpdateServer")]
+    internal static nint UpdateServer()
+    {
+      //Task.Run(static () =>
+      {
+        if (_sceneOffset == IntPtr.Zero)
+        {
+          return 0;
+        }
+        try
+        {
+          IntPtr address = IntPtr.Zero;
+          var regionCount = 0x10000;
+          while (VirtualQueryEx(_memory.procHandle, address, out MEMORY_BASIC_INFORMATION64 mbi, (uint)Marshal.SizeOf(typeof(MEMORY_BASIC_INFORMATION64))))
+          {
+            if (mbi.State == 0x1000 && mbi.RegionSize > 0x400000) // MEM_COMMIT
+            {
+              var server_name = _memory.FindPattern(new byte[] { 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5F, 0x6E, 0x61, 0x6D, 0x65, 0, 0, 0, 0, 0, 0xB, 0, 0, 0, 0, 0, 0, 0, 0xF, 0, 0, 0, 0, 0, 0, 0 }, mbi.BaseAddress, (int)mbi.RegionSize);
+              if (server_name != IntPtr.Zero)
+              {
+                var serverName = _memory.ReadProcessMemory<string>(server_name + 0x20);
+                return Marshal.StringToCoTaskMemUTF8(serverName);
+              }
+            }
+            if (mbi.RegionSize == 0 || regionCount-- == 0) break;
+            address = IntPtr.Add(mbi.BaseAddress, (int)mbi.RegionSize);
+          }
+          return Marshal.StringToCoTaskMemUTF8("servernotfound");
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e.Message);
           //error(e.Message + "\n" + e.StackTrace);
         }
         return 0;
