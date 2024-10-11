@@ -25,7 +25,7 @@ leaflet.Canvas.include({
     const dy = p.y - radius;
 
     if (icon !== undefined) {
-      if (fillColor || icon === null || layer.imageElement.width === 0) {
+      if (icon === null || layer.imageElement.width === 0) {
         layerContext.beginPath();
         layerContext.arc(p.x, p.y, radius * 0.75, 0, Math.PI * 2);
         layerContext.fillStyle = fillColor || "rgba(255, 255, 255, 0.6)";
@@ -103,6 +103,50 @@ leaflet.Canvas.include({
         context.closePath();
         context.fillStyle = "white";
         context.fill();
+      }
+      if (fillColor) {
+        // Get the image data
+        const imageData = context.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height,
+        );
+        const data = imageData.data;
+
+        // Parse the target color
+        const r = parseInt(fillColor.slice(1, 3), 16);
+        const g = parseInt(fillColor.slice(3, 5), 16);
+        const b = parseInt(fillColor.slice(5, 7), 16);
+        const a = parseInt(fillColor.slice(7, 9), 16);
+
+        // Iterate over each pixel
+        for (let i = 0; i < data.length; i += 4) {
+          const [currentR, currentG, currentB, currentA] = [
+            data[i],
+            data[i + 1],
+            data[i + 2],
+            data[i + 3],
+          ];
+
+          // Calculate the brightness of the current pixel
+          const brightness =
+            0.299 * currentR + 0.587 * currentG + 0.114 * currentB;
+
+          // Check if the brightness is above the threshold
+          if (brightness > 150) {
+            // Apply the target color while preserving the alpha channel
+            data[i] = r;
+            data[i + 1] = g;
+            data[i + 2] = b;
+            if (a) {
+              data[i + 3] = Math.min(currentA, a);
+            }
+          }
+        }
+
+        // Put the modified image data back to the canvas
+        context.putImageData(imageData, 0, 0);
       }
 
       if (!noCache) {
@@ -185,10 +229,13 @@ class CanvasMarker extends CircleMarker {
 
   setIcon(icon: string | null) {
     this.options.icon = icon;
+
     if (icon) {
+      console.log(icon);
       if (!imageElements[icon]) {
         imageElements[icon] = document.createElement("img");
         imageElements[icon].src = icon;
+        this._onImageLoad = undefined;
       }
       this.imageElement = imageElements[icon];
     }
