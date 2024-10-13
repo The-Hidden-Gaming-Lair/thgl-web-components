@@ -66,7 +66,7 @@ const data = (await response.json()) as Record<
 const battleFieldNames = readDirSync(
   CONTENT_DIR + "/game_common/data/battle_field",
 );
-const spiderBoxes: [number, number, number, string][] = [];
+const spiderBoxes: [number, number, number][] = [];
 for (const battleFieldName of battleFieldNames) {
   if (!battleFieldName.endsWith(".json")) {
     continue;
@@ -85,10 +85,10 @@ for (const battleFieldName of battleFieldNames) {
   }
 }
 console.log(`Found ${spiderBoxes.length} spider boxes`);
-const morphicCrates = nodes.filter((n) => n.type === "morphic_crate");
-morphicCrates.forEach((morphicCrate) => {
-  morphicCrate.spawns = [];
-});
+// const morphicCrates = nodes.filter((n) => n.type === "morphic_crate");
+// morphicCrates.forEach((morphicCrate) => {
+//   morphicCrate.spawns = [];
+// });
 
 const items = filters.find((f) => f.group === "items")!;
 Object.entries(data).forEach(([type, spawnNodes]) => {
@@ -165,9 +165,6 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   }
 
   targetSpawnNodes.forEach(([x, y, z, mapName]) => {
-    if (!["default", "raid"].includes(mapName)) {
-      return;
-    }
     let minDistance;
     if (mapName === "raid") {
       minDistance = isItem ? 1 : 3;

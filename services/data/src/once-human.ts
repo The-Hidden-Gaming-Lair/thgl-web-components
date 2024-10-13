@@ -222,14 +222,14 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     center[1] /= borders.length;
 
     const resizedBorders = borders.map(([x, y]) => {
-      const newX = x > center[0] ? x + 0.5 : x - 0.5;
-      const newY = y > center[1] ? y + 0.5 : y - 0.5;
+      const newX = x > center[0] ? x : x;
+      const newY = y > center[1] ? y : y;
       return [newX, newY] as [number, number];
     });
 
     let border = resizedBorders.map(([x, y]) => [
-      -y * 128 + ORTHOGRAPHIC_WIDTH / 2,
-      x * 128 - ORTHOGRAPHIC_WIDTH / 2,
+      (-y * 128) / 16 + ORTHOGRAPHIC_WIDTH / 2,
+      (x * 128) / 16 - ORTHOGRAPHIC_WIDTH / 2,
     ]) as [number, number][];
 
     const resizedCenter = border.reduce(
@@ -256,6 +256,9 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
 }
 writeRegions(regions);
 
+if (1 < 2) {
+  process.exit(0);
+}
 const scenePrefabData = await readJSON<ScenePrefabData>(
   CONTENT_DIR + "/game_common/data/scene_prefab/scene_prefab_data.json",
 );
