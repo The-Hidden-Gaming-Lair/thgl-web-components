@@ -53,7 +53,7 @@ namespace GameEventsPlugin
       }
     }
     [DllImport("NativeGameEvents.dll")] extern static IntPtr UpdateServer();
-    public void UpdateServer(Action<object> callback, Action<object> error, string processName = null)
+    public void GetServerName(Action<object> callback, Action<object> error, string processName = null)
     {
       Task.Run(() =>
       {

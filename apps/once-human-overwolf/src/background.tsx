@@ -1,7 +1,9 @@
 import {
   type Actor,
+  type GameEventsPlugin,
   initBackground,
   initGameEventsPlugin,
+  MESSAGES,
 } from "@repo/lib/overwolf";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
@@ -11,8 +13,16 @@ await initBackground(
   "1271431538675814461",
 );
 
+type OnceHumanPlugin = {
+  GetServerName: (
+    callback: (serverName: string | null) => void,
+    onError: (err: string) => void,
+  ) => void;
+} & GameEventsPlugin;
+
+let prevServerName: string | null = null;
 let lastMapName: string | undefined;
-initGameEventsPlugin(
+const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   "ONCE_HUMAN",
   Object.keys(typesIdMap),
   (actor, playerActor) => {
@@ -22,7 +32,11 @@ initGameEventsPlugin(
       if (actor.path === "Charactor") {
         // return lastMapName;
       } else if (actor.path === "OpenWorld") {
-        mapName = "default";
+        if (prevServerName?.includes("Clash")) {
+          mapName = "east_blackfell_pvp";
+        } else {
+          mapName = "default";
+        }
       } else if (actor.path === "LevelScene_Raid") {
         mapName = "raid";
       } else {
@@ -60,10 +74,25 @@ initGameEventsPlugin(
   sendActorsToAPI,
 );
 
+setInterval(() => {
+  gameEventsPlugin.GetServerName(
+    (serverName) => {
+      if (prevServerName !== serverName) {
+        console.log(`Server changed to ${serverName}`);
+        prevServerName = serverName;
+      }
+      window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
+    },
+    () => {
+      //
+    },
+  );
+}, 5000);
+
 let lastSend = 0;
 let lastActorAddresses: number[] = [];
-async function sendActorsToAPI(actors: Actor[]) {
-  if (Date.now() - lastSend < 10000) {
+async function sendActorsToAPI(actors: Actor[]): Promise<void> {
+  if (!prevServerName || Date.now() - lastSend < 10000) {
     return;
   }
 
@@ -111,7 +140,7 @@ async function sendActorsToAPI(actors: Actor[]) {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-9", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-10", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

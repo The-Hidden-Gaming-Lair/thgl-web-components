@@ -35,6 +35,78 @@
       256
     ]
   },
+  "east_blackfell_pvp": {
+    "url": "/map-tiles/default/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -8200,
+          -8200
+        ],
+        [
+          8200,
+          8200
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        2500,
+        -1200
+      ],
+      [
+        -8200,
+        8200
+      ]
+    ],
+    "transformation": [
+      0.03121951219512195,
+      256,
+      -0.03121951219512195,
+      256
+    ]
+  },
+  "north_snow_pve": {
+    "url": "/map-tiles/default/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 5,
+      "bounds": [
+        [
+          -8200,
+          -8200
+        ],
+        [
+          8200,
+          8200
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        2500,
+        -1200
+      ],
+      [
+        -8200,
+        8200
+      ]
+    ],
+    "transformation": [
+      0.03121951219512195,
+      256,
+      -0.03121951219512195,
+      256
+    ]
+  },
   "raid": {
     "url": "/map-tiles/raid/{z}/{y}/{x}.webp",
     "options": {

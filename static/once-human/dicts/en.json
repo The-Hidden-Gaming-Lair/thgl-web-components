@@ -1,6 +1,8 @@
 {
-  "default": "Open World",
-  "raid": "Dungeons",
+  "default": "Manibus & Evolution's Call",
+  "east_blackfell_pvp": "Prismverse's Clash",
+  "north_snow_pve": "The Way of Winter",
+  "raid": "Raids & Dungeons",
   "locations": "Locations",
   "deviations": "Deviants",
   "boss": "Bosses",

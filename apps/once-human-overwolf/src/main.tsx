@@ -9,10 +9,11 @@ import {
   logVersion,
   listenToGameEvents,
 } from "@repo/lib/overwolf";
-import { decodeFromBuffer } from "@repo/lib";
+import { decodeFromBuffer, useGameState } from "@repo/lib";
 import { type NodesCoordinates } from "@repo/ui/providers";
 import App from "./app";
 import defaultMap from "./coordinates/cbor/default.cbor?url";
+import regions from "./coordinates/regions.json" assert { type: "json" };
 
 logVersion();
 
@@ -41,10 +42,46 @@ if (el) {
 
 listenToGameEvents();
 
+const checkPointInsidePolygon = (
+  point: [number, number],
+  polygon: [number, number][],
+) => {
+  const x = point[0];
+  const y = point[1];
+
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i][0],
+      yi = polygon[i][1];
+    const xj = polygon[j][0],
+      yj = polygon[j][1];
+
+    const intersect =
+      yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
+};
+
 await initDiscordRPC("1271431538675814461", (updatePresence) => {
+  const { player, character } = useGameState.getState();
+
+  if (!player) {
+    return;
+  }
+  const region = regions.find(
+    (region) =>
+      region.mapName === player.mapName &&
+      checkPointInsidePolygon(
+        [player.x, player.y],
+        region.border as [number, number][],
+      ),
+  );
+
   updatePresence([
-    "",
-    "Playing",
+    region?.id ?? "",
+    character?.serverName ?? "Playing",
     "once-human",
     "Once Human",
     "thgl",
