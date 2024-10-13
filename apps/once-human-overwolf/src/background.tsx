@@ -5,6 +5,7 @@ import {
   initGameEventsPlugin,
   MESSAGES,
 } from "@repo/lib/overwolf";
+import { act } from "react";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
 await initBackground(
@@ -58,18 +59,29 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
     if (!id) {
       return false;
     }
-    if (!id.startsWith("deviations_")) {
-      return true;
+    if (id.startsWith("deviations_")) {
+      const balls = actors.filter((a) => a.type === "ball.gim");
+      return balls.some((ball) => {
+        const distance = Math.sqrt(
+          (actor.x - ball.x) ** 2 +
+            (actor.y - ball.y) ** 2 +
+            (actor.z - ball.z) ** 2,
+        );
+        return distance < 1;
+      });
     }
-    const balls = actors.filter((a) => a.type === "ball.gim");
-    return balls.some((ball) => {
-      const distance = Math.sqrt(
-        (actor.x - ball.x) ** 2 +
-          (actor.y - ball.y) ** 2 +
-          (actor.z - ball.z) ** 2,
+    if (actor.type.startsWith("fish_")) {
+      const fishTanks = actors.filter(
+        (a) => a.type === "fish_tank_group_2.gim",
       );
-      return distance < 1;
-    });
+      return !fishTanks.some((fishTank) => {
+        const distance = Math.sqrt(
+          (actor.x - fishTank.x) ** 2 + (actor.y - fishTank.y) ** 2,
+        );
+        return distance < 1;
+      });
+    }
+    return true;
   },
   sendActorsToAPI,
 );
