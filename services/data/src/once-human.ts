@@ -48,7 +48,6 @@ import {
   writeRegions,
 } from "./lib/regions.js";
 import { initDatabase, writeDatabase } from "./lib/database.js";
-import { Canvas, createCanvas } from "@napi-rs/canvas";
 import { capitalizeWords } from "./lib/utils.js";
 
 initDirs(
@@ -134,19 +133,25 @@ const defaultTiles = await generateTiles(
   ],
   [0.03121951219512195, 256, -0.03121951219512195, 256],
 );
-const raidTiles = {
-  ...defaultTiles[DEFAULT_SCENARIO],
-  url: "/map-tiles/raid/{z}/{y}/{x}.webp",
-  fitBounds: [
-    [300, -770],
-    [-450, 530],
-  ] as [[number, number], [number, number]],
-};
+
 const tiles = initTiles({
   [DEFAULT_SCENARIO]: defaultTiles[DEFAULT_SCENARIO],
   [PRISMVERSE_CLASH]: defaultTiles[DEFAULT_SCENARIO],
-  [THE_WAY_OF_WINTER]: defaultTiles[DEFAULT_SCENARIO],
-  [RAIDS_AND_DUNGEONS]: raidTiles,
+  [THE_WAY_OF_WINTER]: {
+    ...defaultTiles[DEFAULT_SCENARIO],
+    fitBounds: [
+      [8000, -8000],
+      [2600, 8000],
+    ] as [[number, number], [number, number]],
+  },
+  [RAIDS_AND_DUNGEONS]: {
+    ...defaultTiles[DEFAULT_SCENARIO],
+    url: "/map-tiles/raid/{z}/{y}/{x}.webp",
+    fitBounds: [
+      [300, -770],
+      [-450, 530],
+    ] as [[number, number], [number, number]],
+  },
 });
 
 writeTiles(tiles);
@@ -159,8 +164,11 @@ await saveIcon(
 const areaMaskDefineData = await readJSON<AreaMaskDefineData>(
   CONTENT_DIR + "/game_common/data/area_mask_define_data.json",
 );
+const areaMaskData = Object.entries(areaMaskDefineData)
+  .filter(([k]) => k !== "area_mask_mapping")
+  .map((a) => a[1]) as Omit<AreaMaskDefineData, "area_mask_mapping">[number][];
 
-const areaMasks = Object.values(areaMaskDefineData).reduce(
+const areaMasks = areaMaskData.reduce(
   (acc, val) => {
     const id = val.area_name;
     if (!acc[id]) {
@@ -259,9 +267,6 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
 }
 writeRegions(regions);
 
-if (1 < 2) {
-  process.exit(0);
-}
 const scenePrefabData = await readJSON<ScenePrefabData>(
   CONTENT_DIR + "/game_common/data/scene_prefab/scene_prefab_data.json",
 );
@@ -498,7 +503,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     newTypes.push(type);
     // Add new filter value
     if (!iconPath) {
-      console.warn("No icon path for", key);
+      // console.warn("No icon path for", key);
       continue;
     }
     try {
@@ -523,59 +528,68 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     }
   }
 
-  let mapName = DEFAULT_SCENARIO;
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
-    nodes.push({
-      type,
-      spawns: [],
-      mapName: mapName,
-    });
-  }
-
-  const node = nodes.find((n) => n.type === type)!;
-  const spawn: Node["spawns"][0] = {
-    p: [value.pos[2], value.pos[0], value.pos[1]],
-  };
-  if (value.stronghold_name !== enDict[type] || value.stronghold_level) {
-    const id = key;
-    enDict[id] = value.stronghold_name;
-    if (value.stronghold_level) {
-      enDict[id + "_desc"] = `Level: ${value.stronghold_level}`;
+  const mapMaskNames = Object.keys(value.mask_level_offset);
+  for (const mapMaskName of mapMaskNames) {
+    const maskFileName =
+      areaMaskDefineData.area_mask_mapping.mapping_datas[mapMaskName];
+    if (!maskFileName || !MASK_TO_SCENARIO[maskFileName]) {
+      console.warn(`No mask file name for ${mapMaskName}`);
+      continue;
     }
-
-    spawn.id = id;
-    if (prefabGroupInfo?.task_name) {
-      if (enDict[id + "_desc"]) {
-        enDict[id + "_desc"] += "<br>";
-      } else {
-        enDict[id + "_desc"] = "";
-      }
-      enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
-      prefabGroupInfo.task_info_list.forEach((info) => {
-        enDict[id + "_desc"] +=
-          "<br/>- " +
-          info[0].replace(
-            "寻找武器箱和装备箱",
-            "Find Weapon and Armor Crates",
-          ) +
-          ": " +
-          info[2];
+    const mapName = MASK_TO_SCENARIO[maskFileName];
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName: mapName,
       });
     }
-  }
 
-  if (
-    node.spawns.some(
-      (s) =>
-        (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
-        s.p[0] === spawn.p[0] &&
-        s.p[1] === spawn.p[1],
-    )
-  ) {
-    console.warn("Duplicate spawn", spawn.id ?? spawn.p);
-    continue;
+    const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    const spawn: Node["spawns"][0] = {
+      p: [value.pos[2], value.pos[0], value.pos[1]],
+    };
+    if (value.stronghold_name !== enDict[type] || value.stronghold_level) {
+      const id = key;
+      enDict[id] = value.stronghold_name;
+      if (value.stronghold_level) {
+        enDict[id + "_desc"] = `Level: ${value.stronghold_level}`;
+      }
+
+      spawn.id = id;
+      if (prefabGroupInfo?.task_name) {
+        if (enDict[id + "_desc"]) {
+          enDict[id + "_desc"] += "<br>";
+        } else {
+          enDict[id + "_desc"] = "";
+        }
+        enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
+        prefabGroupInfo.task_info_list.forEach((info) => {
+          enDict[id + "_desc"] +=
+            "<br/>- " +
+            info[0].replace(
+              "寻找武器箱和装备箱",
+              "Find Weapon and Armor Crates",
+            ) +
+            ": " +
+            info[2];
+        });
+      }
+    }
+
+    if (
+      node.spawns.some(
+        (s) =>
+          (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+          s.p[0] === spawn.p[0] &&
+          s.p[1] === spawn.p[1],
+      )
+    ) {
+      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      continue;
+    }
+    node.spawns.push(spawn);
   }
-  node.spawns.push(spawn);
 }
 
 for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
@@ -645,65 +659,74 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     });
   }
 
-  let mapName = DEFAULT_SCENARIO;
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
-    nodes.push({
-      type,
-      spawns: [],
-      mapName: mapName,
-    });
-  }
-
-  const node = nodes.find((n) => n.type === type)!;
-  const spawn: Node["spawns"][0] = {
-    p: [
-      prefabGroupInfo.prefab_group_pos[2],
-      prefabGroupInfo.prefab_group_pos[0],
-      prefabGroupInfo.prefab_group_pos[1],
-    ],
-  };
-  if (
-    prefabGroupInfo.prefab_group_show_name !== enDict[type] ||
-    prefabGroupInfo.prefab_group_level
-  ) {
-    const id = key;
-    enDict[id] = prefabGroupInfo.prefab_group_show_name;
-    if (prefabGroupInfo.prefab_group_level) {
-      enDict[id + "_desc"] = `Level: ${prefabGroupInfo.prefab_group_level}`;
+  const mapMaskNames = Object.keys(prefabGroupInfo.mask_level_info);
+  for (const mapMaskName of mapMaskNames) {
+    const maskFileName =
+      areaMaskDefineData.area_mask_mapping.mapping_datas[mapMaskName];
+    if (!maskFileName || !MASK_TO_SCENARIO[maskFileName]) {
+      console.warn(`No mask file name for ${mapMaskName}`);
+      continue;
     }
-
-    spawn.id = id;
-    if (prefabGroupInfo?.task_name) {
-      if (enDict[id + "_desc"]) {
-        enDict[id + "_desc"] += "<br>";
-      } else {
-        enDict[id + "_desc"] = "";
-      }
-      enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
-      prefabGroupInfo.task_info_list.forEach((info) => {
-        enDict[id + "_desc"] +=
-          "<br/>- " +
-          info[0].replace(
-            "寻找武器箱和装备箱",
-            "Find Weapon and Armor Crates",
-          ) +
-          ": " +
-          info[2];
+    const mapName = MASK_TO_SCENARIO[maskFileName];
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName: mapName,
       });
     }
+
+    const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    const spawn: Node["spawns"][0] = {
+      p: [
+        prefabGroupInfo.prefab_group_pos[2],
+        prefabGroupInfo.prefab_group_pos[0],
+        prefabGroupInfo.prefab_group_pos[1],
+      ],
+    };
+    if (
+      prefabGroupInfo.prefab_group_show_name !== enDict[type] ||
+      prefabGroupInfo.prefab_group_level
+    ) {
+      const id = key;
+      enDict[id] = prefabGroupInfo.prefab_group_show_name;
+      if (prefabGroupInfo.prefab_group_level) {
+        enDict[id + "_desc"] = `Level: ${prefabGroupInfo.prefab_group_level}`;
+      }
+
+      spawn.id = id;
+      if (prefabGroupInfo?.task_name) {
+        if (enDict[id + "_desc"]) {
+          enDict[id + "_desc"] += "<br>";
+        } else {
+          enDict[id + "_desc"] = "";
+        }
+        enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
+        prefabGroupInfo.task_info_list.forEach((info) => {
+          enDict[id + "_desc"] +=
+            "<br/>- " +
+            info[0].replace(
+              "寻找武器箱和装备箱",
+              "Find Weapon and Armor Crates",
+            ) +
+            ": " +
+            info[2];
+        });
+      }
+    }
+    if (
+      node.spawns.some(
+        (s) =>
+          (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+          s.p[0] === spawn.p[0] &&
+          s.p[1] === spawn.p[1],
+      )
+    ) {
+      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      continue;
+    }
+    node.spawns.push(spawn);
   }
-  if (
-    node.spawns.some(
-      (s) =>
-        (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
-        s.p[0] === spawn.p[0] &&
-        s.p[1] === spawn.p[1],
-    )
-  ) {
-    console.warn("Duplicate spawn", spawn.id ?? spawn.p);
-    continue;
-  }
-  node.spawns.push(spawn);
 }
 
 const isValidModelPath = (modelPath: string) => {
@@ -748,9 +771,9 @@ for (const deviation of Object.values(deviationBaseData)) {
     typeId = modelData.model_path!.replaceAll("/", "\\").split("\\").at(-1)!;
   }
   if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    console.warn(
-      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    );
+    // console.warn(
+    //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    // );
   }
   typeIDs[typeId] = type;
 
@@ -1916,17 +1939,17 @@ const filteredNodes = nodes
     // }
 
     const targetSpawnNodes = n.spawns.filter((s, i) => {
-      if (n.mapName !== "raid") {
-        const isNotOnWorldMap =
-          s.p[0] < -8100 ||
-          s.p[0] > 3050 ||
-          s.p[1] > 8200 ||
-          s.p[1] < -2000 ||
-          (s.p[0] > -600 && s.p[1] < 600);
-        if (isNotOnWorldMap) {
-          return false;
-        }
-      }
+      // if (n.mapName !== "raid") {
+      //   const isNotOnWorldMap =
+      //     s.p[0] < -8100 ||
+      //     s.p[0] > 3050 ||
+      //     s.p[1] > 8200 ||
+      //     s.p[1] < -2000 ||
+      //     (s.p[0] > -600 && s.p[1] < 600);
+      //   if (isNotOnWorldMap) {
+      //     return false;
+      //   }
+      // }
       // const isCloseToOtherSpawn = n.spawns.slice(i + 1).some((other) => {
       //   const distance = Math.sqrt(
       //     (other.p[0] - s.p[0]) ** 2 + (other.p[1] - s.p[1]) ** 2,

@@ -847,8 +847,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_scrounger",
-        "icon": "monster_scrounger.webp",
+        "id": "monster_snatcher",
+        "icon": "monster_snatcher.webp",
         "size": 0.75
       },
       {
@@ -1332,11 +1332,6 @@
         "size": 0.75
       },
       {
-        "id": "monster_snatcher",
-        "icon": "monster_snatcher.webp",
-        "size": 0.75
-      },
-      {
         "id": "monster_claw_machine_teddy",
         "icon": "monster_claw_machine_teddy.webp",
         "size": 0.75
@@ -1532,8 +1527,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_ironed-out_scrounger",
-        "icon": "monster_ironedout_scrounger.webp",
+        "id": "monster_ironed-out_snatcher",
+        "icon": "monster_ironedout_snatcher.webp",
         "size": 0.75
       },
       {
