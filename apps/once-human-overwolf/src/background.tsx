@@ -21,6 +21,9 @@ type OnceHumanPlugin = {
 } & GameEventsPlugin;
 
 let prevServerName: string | null = null;
+let refreshServerNameTimeout: NodeJS.Timeout | null = null;
+let refreshServerNamePromise: Promise<void> | null = null;
+let readyForRefresh = true;
 let lastMapName: string | undefined;
 const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   "ONCE_HUMAN",
@@ -83,28 +86,47 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
     return true;
   },
   sendActorsToAPI,
+  (player) => {
+    if (player !== null) {
+      if (readyForRefresh && !refreshServerNamePromise) {
+        readyForRefresh = false;
+        refreshServerNamePromise = refreshServerName()
+          .then(() => {
+            refreshServerNamePromise = null;
+          })
+          .catch(() => {
+            refreshServerNamePromise = null;
+          });
+      }
+      if (refreshServerNameTimeout) {
+        clearTimeout(refreshServerNameTimeout);
+      }
+      refreshServerNameTimeout = setTimeout(
+        () => {
+          readyForRefresh = true;
+        },
+        prevServerName ? 10000 : 1,
+      );
+    }
+  },
 );
 
-function refreshServerName(): void {
-  gameEventsPlugin.GetServerName(
-    (serverName) => {
-      if (prevServerName !== serverName) {
-        console.log(`Server Name found: ${serverName}`);
-        if (serverName === "servernotfound") {
-          setTimeout(refreshServerName, 15000);
-          return;
+function refreshServerName(): Promise<void> {
+  return new Promise((resolve) => {
+    gameEventsPlugin.GetServerName(
+      (serverName) => {
+        if (prevServerName !== serverName) {
+          prevServerName = serverName;
         }
-        prevServerName = serverName;
-      }
-      window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
-      setTimeout(refreshServerName, 5000);
-    },
-    () => {
-      setTimeout(refreshServerName, 5000);
-    },
-  );
+        window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
+        resolve();
+      },
+      () => {
+        resolve();
+      },
+    );
+  });
 }
-// refreshServerName();
 
 let lastSend = 0;
 let lastActorAddresses: number[] = [];
@@ -157,7 +179,7 @@ async function sendActorsToAPI(actors: Actor[]): Promise<void> {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-10", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-11", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

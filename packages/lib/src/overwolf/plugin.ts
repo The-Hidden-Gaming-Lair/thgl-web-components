@@ -69,6 +69,7 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
   }) => void,
   filterActor?: (actor: Actor, index: number, actors: Actor[]) => boolean,
   onActors?: (actors: Actor[]) => void | Promise<void>,
+  onPlayer?: (player: ActorPlayer | null) => void | Promise<void>,
 ) {
   try {
     window.gameEventBus = new EventBus();
@@ -152,6 +153,7 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
         ) {
           if (!Number.isNaN(player.x) && !Number.isNaN(player.y)) {
             prevPlayer = player;
+            onPlayer && onPlayer(player);
             window.gameEventBus.trigger(MESSAGES.PLAYER, player);
 
             if (prevPlayer.mapName !== player.mapName) {
