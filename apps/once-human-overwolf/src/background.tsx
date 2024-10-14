@@ -89,7 +89,11 @@ function refreshServerName(): void {
   gameEventsPlugin.GetServerName(
     (serverName) => {
       if (prevServerName !== serverName) {
-        console.log(`Server changed to ${serverName}`);
+        console.log(`Server Name found: ${serverName}`);
+        if (serverName === "servernotfound") {
+          setTimeout(refreshServerName, 15000);
+          return;
+        }
         prevServerName = serverName;
       }
       window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
@@ -100,7 +104,7 @@ function refreshServerName(): void {
     },
   );
 }
-refreshServerName();
+// refreshServerName();
 
 let lastSend = 0;
 let lastActorAddresses: number[] = [];
