@@ -85,7 +85,7 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   sendActorsToAPI,
 );
 
-setInterval(() => {
+function refreshServerName(): void {
   gameEventsPlugin.GetServerName(
     (serverName) => {
       if (prevServerName !== serverName) {
@@ -93,12 +93,14 @@ setInterval(() => {
         prevServerName = serverName;
       }
       window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
+      setTimeout(refreshServerName, 5000);
     },
     () => {
-      //
+      setTimeout(refreshServerName, 5000);
     },
   );
-}, 5000);
+}
+refreshServerName();
 
 let lastSend = 0;
 let lastActorAddresses: number[] = [];
