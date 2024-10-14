@@ -528,8 +528,8 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     }
   }
 
-  const mapMaskNames = Object.keys(value.mask_level_offset);
-  for (const mapMaskName of mapMaskNames) {
+  const mapMaskNames = Object.entries(value.mask_level_offset);
+  for (const [mapMaskName, level] of mapMaskNames) {
     const maskFileName =
       areaMaskDefineData.area_mask_mapping.mapping_datas[mapMaskName];
     if (!maskFileName || !MASK_TO_SCENARIO[maskFileName]) {
@@ -549,11 +549,11 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     const spawn: Node["spawns"][0] = {
       p: [value.pos[2], value.pos[0], value.pos[1]],
     };
-    if (value.stronghold_name !== enDict[type] || value.stronghold_level) {
-      const id = key;
+    if (value.stronghold_name !== enDict[type] || level) {
+      const id = key + "_" + mapMaskName;
       enDict[id] = value.stronghold_name;
-      if (value.stronghold_level) {
-        enDict[id + "_desc"] = `Level: ${value.stronghold_level}`;
+      if (level) {
+        enDict[id + "_desc"] = `Level: ${level}`;
       }
 
       spawn.id = id;
@@ -659,8 +659,8 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     });
   }
 
-  const mapMaskNames = Object.keys(prefabGroupInfo.mask_level_info);
-  for (const mapMaskName of mapMaskNames) {
+  const mapMaskNames = Object.entries(prefabGroupInfo.mask_level_info);
+  for (const [mapMaskName, level] of mapMaskNames) {
     const maskFileName =
       areaMaskDefineData.area_mask_mapping.mapping_datas[mapMaskName];
     if (!maskFileName || !MASK_TO_SCENARIO[maskFileName]) {
@@ -684,14 +684,11 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
         prefabGroupInfo.prefab_group_pos[1],
       ],
     };
-    if (
-      prefabGroupInfo.prefab_group_show_name !== enDict[type] ||
-      prefabGroupInfo.prefab_group_level
-    ) {
+    if (prefabGroupInfo.prefab_group_show_name !== enDict[type] || level) {
       const id = key;
       enDict[id] = prefabGroupInfo.prefab_group_show_name;
-      if (prefabGroupInfo.prefab_group_level) {
-        enDict[id + "_desc"] = `Level: ${prefabGroupInfo.prefab_group_level}`;
+      if (level) {
+        enDict[id + "_desc"] = `Level: ${level}`;
       }
 
       spawn.id = id;
