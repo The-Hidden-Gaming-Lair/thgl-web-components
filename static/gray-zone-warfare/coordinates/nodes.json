@@ -1,0 +1,148 @@
+[
+  {
+    "type": "faction_camp",
+    "mapName": "World",
+    "spawns": [
+      {
+        "id": "BP_FactionCamp_C_UAID_F4B3011399C085B501_1719707706",
+        "p": [
+          -320035.01755255205,
+          358538.1709383614,
+          2170.4551368559028
+        ]
+      },
+      {
+        "id": "BP_FactionCamp_C_UAID_408D5C5DDEF0896A01_2046748211",
+        "p": [
+          303099.45325055934,
+          16888.881808786013,
+          2164.922276649246
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "landing_zone",
+    "mapName": "World",
+    "spawns": [
+      {
+        "id": "B_LandingZone_C_UAID_74563CCF4C999CF801_1245879505",
+        "p": [
+          66430.86625991727,
+          -169527.9304352599,
+          2445.0584724877585
+        ]
+      },
+      {
+        "id": "B_LandingZone_C_UAID_F4B3011399C0603101_1098193878",
+        "p": [
+          -250489.79884144745,
+          250911.47900021626,
+          -726.1658980604401
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "loot_box",
+    "mapName": "World",
+    "spawns": [
+      {
+        "id": "BP_LootCrate_UnlockedCashRegister_C_UAID_E0D55E6161B0B8E101_1649707163",
+        "p": [
+          102602.56229776784,
+          -237925.68207533966,
+          -75.90051462889576
+        ]
+      },
+      {
+        "id": "BP_LootCrate_FoodStorage_C_UAID_E0D55E6161B0B8E101_1671134164",
+        "p": [
+          103222.81655814548,
+          -237196.85385772164,
+          -140.6202386896236
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "locked_door",
+    "mapName": "World",
+    "spawns": [
+      {
+        "id": "BP_DoorSingleV2_100_200_10_R_01_Bunker_a_C_UAID_E0D55E6153522DC301_1689619031",
+        "p": [
+          168616.06868973534,
+          -274221.72092387854,
+          1606
+        ]
+      },
+      {
+        "id": "BP_DoorSingleV2_100_200_10_R_01_Bunker_a_C_UAID_E0D55E6153522EC301_1183227211",
+        "p": [
+          168027.6557896941,
+          -277807.50000030536,
+          1966
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "loot_point",
+    "mapName": "World",
+    "spawns": [
+      {
+        "id": "BP_LootPointRepository_C_UAID_74563CCF4C99AD0D02_1795498721",
+        "p": [
+          -159881.12026115178,
+          -324545.3410221566,
+          -1290.0347778265575
+        ]
+      },
+      {
+        "id": "BP_LootPointRepository_C_UAID_E0D55E6153522BD401_2134167613",
+        "p": [
+          -54288,
+          -309520,
+          -401
+        ]
+      }
+    ],
+    "static": true
+  },
+  {
+    "type": "DA_Quest_Main_Quest_1",
+    "mapName": "World",
+    "spawns": [
+      {
+        "id": "DA_Quest_Main_Quest_1_1",
+        "p": [
+          171834,
+          -2717,
+          -816
+        ]
+      },
+      {
+        "id": "DA_Quest_Main_Quest_1_2",
+        "p": [
+          201942.229895,
+          8791.899798,
+          -975.974378
+        ]
+      },
+      {
+        "id": "DA_Quest_Main_Quest_1_3",
+        "p": [
+          219514.832245,
+          -5624.558245,
+          -930.943872
+        ]
+      }
+    ],
+    "static": true
+  }
+]

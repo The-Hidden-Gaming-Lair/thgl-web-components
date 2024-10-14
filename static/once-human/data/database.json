@@ -853,8 +853,8 @@
         }
       },
       {
-        "id": "weapon_90000126",
-        "icon": "weapon_90000126.webp",
+        "id": "weapon_90000127",
+        "icon": "weapon_90000127.webp",
         "props": {
           "name": "SMG Crafting Upgrade",
           "durability": 0,
@@ -863,8 +863,8 @@
         }
       },
       {
-        "id": "weapon_90000134",
-        "icon": "weapon_90000134.webp",
+        "id": "weapon_90000133",
+        "icon": "weapon_90000133.webp",
         "props": {
           "name": "Shotgun Crafting Upgrade",
           "durability": 0,
@@ -873,8 +873,8 @@
         }
       },
       {
-        "id": "weapon_90000138",
-        "icon": "weapon_90000138.webp",
+        "id": "weapon_90000137",
+        "icon": "weapon_90000137.webp",
         "props": {
           "name": "Assault Rifle Crafting Upgrade",
           "durability": 0,
@@ -883,8 +883,8 @@
         }
       },
       {
-        "id": "weapon_90000143",
-        "icon": "weapon_90000143.webp",
+        "id": "weapon_90000145",
+        "icon": "weapon_90000145.webp",
         "props": {
           "name": "Sniper Rifle Crafting Upgrade",
           "durability": 0,
@@ -893,8 +893,8 @@
         }
       },
       {
-        "id": "weapon_90000151",
-        "icon": "weapon_90000151.webp",
+        "id": "weapon_90000150",
+        "icon": "weapon_90000150.webp",
         "props": {
           "name": "LMG Crafting Upgrade",
           "durability": 0,
@@ -907,16 +907,6 @@
         "icon": "weapon_90000160.webp",
         "props": {
           "name": "Baseball Bat",
-          "durability": 0,
-          "quality": 0,
-          "weight": 0
-        }
-      },
-      {
-        "id": "weapon_90000161",
-        "icon": "weapon_90000161.webp",
-        "props": {
-          "name": "DE.50",
           "durability": 0,
           "quality": 0,
           "weight": 0
@@ -943,30 +933,10 @@
         }
       },
       {
-        "id": "weapon_90000167",
-        "icon": "weapon_90000167.webp",
-        "props": {
-          "name": "Flamethrower",
-          "durability": 0,
-          "quality": 0,
-          "weight": 0
-        }
-      },
-      {
         "id": "weapon_90000168",
         "icon": "weapon_90000168.webp",
         "props": {
           "name": "Rocket Launcher",
-          "durability": 0,
-          "quality": 0,
-          "weight": 0
-        }
-      },
-      {
-        "id": "weapon_90000169",
-        "icon": "weapon_90000169.webp",
-        "props": {
-          "name": "MGL",
           "durability": 0,
           "quality": 0,
           "weight": 0

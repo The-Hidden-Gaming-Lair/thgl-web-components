@@ -166,7 +166,7 @@ namespace NativeGameEvents
         }
         catch (Exception e)
         {
-          Console.WriteLine(e.Message);
+          //Console.WriteLine(e.Message);
           //error(e.Message + "\n" + e.StackTrace);
         }
         return 0;

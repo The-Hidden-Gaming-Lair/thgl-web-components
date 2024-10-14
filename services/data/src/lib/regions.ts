@@ -19,9 +19,10 @@ export async function getBorderFromMaskImage(
   const width = image.width;
   const height = image.height;
 
-  const canvas = createCanvas(image.width, image.height);
+  const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
-  ctx.drawImage(image, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(image, 0, 0, width, height);
   const imageData = ctx.getImageData(0, 0, width, height).data;
 
   // Function to get the RGB values of a pixel at (x, y)
@@ -67,12 +68,14 @@ export async function getBorderFromMaskImage(
       [1, 1], // Bottom-left, Bottom-right
     ];
 
+    let prevDx = 0;
+    let prevDy = 0;
     while (stack.length > 0 && !hasReturnedToStart) {
       const [x, y] = stack.pop()!;
       border.push([x, y]);
       const candidates: Record<string, number> = checkNeighbors(x, y);
       // Check all 8 neighbors (including diagonals)
-      const candidate = Object.entries(candidates).sort((a, b) => {
+      const sortedCandidates = Object.entries(candidates).sort((a, b) => {
         const [ax, ay] = a[0].split(",").map(Number);
         const [bx, by] = b[0].split(",").map(Number);
 
@@ -84,20 +87,45 @@ export async function getBorderFromMaskImage(
         const isDiagonalB = Math.abs(bx - x) === 1 && Math.abs(by - y) === 1;
         if (isDiagonalA && !isDiagonalB) return -1;
         if (isDiagonalB && !isDiagonalA) return 1;
+        if (b[1] === a[1]) {
+          const dxA = ax - x;
+          const dyA = ay - y;
+          const dxB = bx - x;
+          const dyB = by - y;
+          const dotA = dxA * prevDx + dyA * prevDy;
+          const dotB = dxB * prevDx + dyB * prevDy;
+          return dotB - dotA;
+        }
         return b[1] - a[1];
-      })[0];
-
+      });
+      const candidate = sortedCandidates[0];
       if (candidate) {
         const [nx, ny] = candidate[0].split(",").map(Number);
         stack.push([nx, ny]);
         visited.add(`${nx},${ny}`);
+        prevDx = nx - x;
+        prevDy = ny - y;
 
         // Check if we've returned to the starting point
         if (nx === startPoint[0] && ny === startPoint[1]) {
           hasReturnedToStart = true;
-          console.log("Returned to start point");
+          // console.log("Returned to start point");
         }
       }
+      if (stack.length === 0 && !hasReturnedToStart) {
+        border.pop();
+        const point = border.pop();
+        if (point) {
+          stack.push(point);
+          visited.add(`${point[0]},${point[1]}`);
+        } else {
+          console.warn("Empty stack", x, y, visited.size);
+          // console.log(visited);
+        }
+      }
+    }
+    if (!hasReturnedToStart) {
+      console.warn("Did not return to start point", fileName, maskValues);
     }
 
     function checkNeighbors(x: number, y: number) {
@@ -109,7 +137,7 @@ export async function getBorderFromMaskImage(
         // Check if we've returned to the starting point
         if (nx === startPoint[0] && ny === startPoint[1] && border.length > 5) {
           hasReturnedToStart = true;
-          console.log("Returned to start point");
+          // console.log("Returned to start point");
           break;
         }
 
@@ -122,6 +150,21 @@ export async function getBorderFromMaskImage(
             const ortho2 = getPixelRGB(nx, ny - dy);
             if (isMaskValue(ortho1) && isMaskValue(ortho2)) {
               continue;
+            }
+          } else {
+            if (dx !== 0) {
+              const ortho1 = getPixelRGB(nx, ny - 1);
+              const ortho2 = getPixelRGB(nx, ny + 1);
+              if (isMaskValue(ortho1) && isMaskValue(ortho2)) {
+                continue;
+              }
+            }
+            if (dy !== 0) {
+              const ortho1 = getPixelRGB(nx - 1, ny);
+              const ortho2 = getPixelRGB(nx + 1, ny);
+              if (isMaskValue(ortho1) && isMaskValue(ortho2)) {
+                continue;
+              }
             }
           }
 

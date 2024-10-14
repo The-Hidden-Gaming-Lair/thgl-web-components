@@ -10,6 +10,7 @@ import {
 import { initFilters, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
+  arrayJoinImages,
   createBlankImage,
   IconProps,
   mergeImages,
@@ -47,7 +48,6 @@ import {
   writeRegions,
 } from "./lib/regions.js";
 import { initDatabase, writeDatabase } from "./lib/database.js";
-import { Canvas, createCanvas } from "@napi-rs/canvas";
 import { capitalizeWords } from "./lib/utils.js";
 
 initDirs(
@@ -69,9 +69,23 @@ const filters = initFilters([
   { group: "monster", defaultOn: false, defaultOpen: false, values: [] },
   { group: "animal", defaultOn: false, defaultOpen: false, values: [] },
 ]);
+
+const DEFAULT_SCENARIO = "default";
+const PRISMVERSE_CLASH = "east_blackfell_pvp";
+const THE_WAY_OF_WINTER = "north_snow_pve";
+const RAIDS_AND_DUNGEONS = "raid";
+
+const MASK_TO_SCENARIO: Record<string, string> = {
+  east_blackfell_pvp_mask: PRISMVERSE_CLASH,
+  north_snow_pve_mask: THE_WAY_OF_WINTER,
+  east_butterflydream_pve_pvp_mask: DEFAULT_SCENARIO,
+};
+
 const enDict = initDict({
-  default: "Open World",
-  raid: "Dungeons",
+  [DEFAULT_SCENARIO]: "Manibus & Evolution's Call",
+  [PRISMVERSE_CLASH]: "Prismverse's Clash",
+  [THE_WAY_OF_WINTER]: "The Way of Winter",
+  [RAIDS_AND_DUNGEONS]: "Raids & Dungeons",
   locations: "Locations",
   deviations: "Deviants",
   boss: "Bosses",
@@ -88,13 +102,12 @@ const typeIDs = initTypesIDs({
   "ball.gim": "deviations_ball",
 });
 
-const mapName = "default";
 if (Bun.argv.includes("--tiles")) {
   const mapTiles = await readDirSync(
     TEXTURE_DIR + "/ui/texpack/bigmap_res/map/1024/",
   ).map((f) => TEXTURE_DIR + `/ui/texpack/bigmap_res/map/1024/${f}`);
   const canvas = await mergeImages(mapTiles, /(-?\d+)_(-?\d+)/);
-  const imagePath = TEMP_DIR + "/" + mapName + ".png";
+  const imagePath = TEMP_DIR + "/" + DEFAULT_SCENARIO + ".png";
   saveImage(imagePath, canvas.toBuffer("image/png"));
 }
 
@@ -105,8 +118,8 @@ const blank = createBlankImage(TILE_SIZE, TILE_SIZE);
 saveImage(TEMP_DIR + "/raid.png", blank.toBuffer("image/png"));
 
 const defaultTiles = await generateTiles(
-  mapName,
-  TEMP_DIR + "/" + mapName + ".png",
+  DEFAULT_SCENARIO,
+  TEMP_DIR + "/" + DEFAULT_SCENARIO + ".png",
   ORTHOGRAPHIC_WIDTH,
   TILE_SIZE,
   [0, 0],
@@ -120,17 +133,25 @@ const defaultTiles = await generateTiles(
   ],
   [0.03121951219512195, 256, -0.03121951219512195, 256],
 );
-const raidTiles = {
-  ...defaultTiles[mapName],
-  url: "/map-tiles/raid/{z}/{y}/{x}.webp",
-  fitBounds: [
-    [300, -770],
-    [-450, 530],
-  ] as [[number, number], [number, number]],
-};
+
 const tiles = initTiles({
-  [mapName]: defaultTiles[mapName],
-  ["raid"]: raidTiles,
+  [DEFAULT_SCENARIO]: defaultTiles[DEFAULT_SCENARIO],
+  [PRISMVERSE_CLASH]: defaultTiles[DEFAULT_SCENARIO],
+  [THE_WAY_OF_WINTER]: {
+    ...defaultTiles[DEFAULT_SCENARIO],
+    fitBounds: [
+      [8000, -8000],
+      [2600, 8000],
+    ] as [[number, number], [number, number]],
+  },
+  [RAIDS_AND_DUNGEONS]: {
+    ...defaultTiles[DEFAULT_SCENARIO],
+    url: "/map-tiles/raid/{z}/{y}/{x}.webp",
+    fitBounds: [
+      [300, -770],
+      [-450, 530],
+    ] as [[number, number], [number, number]],
+  },
 });
 
 writeTiles(tiles);
@@ -143,8 +164,11 @@ await saveIcon(
 const areaMaskDefineData = await readJSON<AreaMaskDefineData>(
   CONTENT_DIR + "/game_common/data/area_mask_define_data.json",
 );
+const areaMaskData = Object.entries(areaMaskDefineData)
+  .filter(([k]) => k !== "area_mask_mapping")
+  .map((a) => a[1]) as Omit<AreaMaskDefineData, "area_mask_mapping">[number][];
 
-const areaMasks = Object.values(areaMaskDefineData).reduce(
+const areaMasks = areaMaskData.reduce(
   (acc, val) => {
     const id = val.area_name;
     if (!acc[id]) {
@@ -168,34 +192,36 @@ const areaMasks = Object.values(areaMaskDefineData).reduce(
     }
   >,
 );
-const borderCanvas: Record<string, Canvas> = {};
 const regions = initRegions();
+const joinedMaskImages: string[] = [];
 for (const [id, areaMask] of Object.entries(areaMasks)) {
   try {
-    // console.log(id, areaMask.maskFilename);
-    if (id === "Rift Space") {
+    if (!areaMask.maskFilename || id === "Rift Space") {
       continue;
     }
 
-    if (!borderCanvas[areaMask.maskFilename]) {
-      borderCanvas[areaMask.maskFilename] = createCanvas(128, 128);
+    const maskImages = await readDirSync(
+      TEXTURE_DIR + "/ui/uncompress_tex/" + areaMask.maskFilename,
+    ).map(
+      (f) => TEXTURE_DIR + `/ui/uncompress_tex/${areaMask.maskFilename}/${f}`,
+    );
+
+    const joinedMaskImagePath = `${TEMP_DIR}/__${areaMask.maskFilename}.png`;
+    if (!joinedMaskImages.includes(joinedMaskImagePath)) {
+      await arrayJoinImages(
+        maskImages,
+        /(-?\d+)_(-?\d+)/,
+        joinedMaskImagePath,
+        true,
+      );
+      joinedMaskImages.push(joinedMaskImagePath);
     }
-    const borderCtx = borderCanvas[areaMask.maskFilename].getContext("2d");
-    borderCtx.fillStyle = "#fff";
 
     const borders = await getBorderFromMaskImage(
-      TEXTURE_DIR + "/ui/uncompress_tex/" + areaMask.maskFilename + ".png",
+      joinedMaskImagePath,
       areaMask.areaMaskIDs,
     );
 
-    // Save the border image
-    for (const [x, y] of borders) {
-      borderCtx.fillRect(x, y, 1, 1);
-    }
-    saveImage(
-      TEMP_DIR + "/" + areaMask.maskFilename + ".png",
-      borderCanvas[areaMask.maskFilename].toBuffer("image/png"),
-    );
     // borders.forEach(([x, y]) => {
     //   console.log(x, y);
     // });
@@ -207,14 +233,14 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     center[1] /= borders.length;
 
     const resizedBorders = borders.map(([x, y]) => {
-      const newX = x > center[0] ? x + 0.5 : x - 0.5;
-      const newY = y > center[1] ? y + 0.5 : y - 0.5;
+      const newX = x > center[0] ? x : x;
+      const newY = y > center[1] ? y : y;
       return [newX, newY] as [number, number];
     });
 
     let border = resizedBorders.map(([x, y]) => [
-      -y * 128 + ORTHOGRAPHIC_WIDTH / 2,
-      x * 128 - ORTHOGRAPHIC_WIDTH / 2,
+      (-y * 128) / 8 + ORTHOGRAPHIC_WIDTH / 2,
+      (x * 128) / 8 - ORTHOGRAPHIC_WIDTH / 2,
     ]) as [number, number][];
 
     const resizedCenter = border.reduce(
@@ -223,14 +249,8 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     );
     resizedCenter[0] /= border.length;
     resizedCenter[1] /= border.length;
-    let mapName;
-    if (areaMask.maskFilename === "east_blackfell_pvp_mask") {
-      mapName = "east_blackfell_pvp"; // Prismverse's Clash
-    } else if (areaMask.maskFilename === "east_butterflydream_pve_pvp_mask") {
-      mapName = "default"; //
-    } else if (areaMask.maskFilename === "north_snow_pve_mask") {
-      mapName = "north_snow_pve";
-    } else {
+    const mapName = MASK_TO_SCENARIO[areaMask.maskFilename];
+    if (!mapName) {
       console.error(`Unknown map name for ${areaMask.maskFilename}`);
       continue;
     }
@@ -242,7 +262,7 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     });
     enDict[id] = id;
   } catch (e) {
-    console.error(`Error processing ${id}`);
+    console.error(`Error processing ${id}`, e);
   }
 }
 writeRegions(regions);
@@ -483,7 +503,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     newTypes.push(type);
     // Add new filter value
     if (!iconPath) {
-      console.warn("No icon path for", key);
+      // console.warn("No icon path for", key);
       continue;
     }
     try {
@@ -508,58 +528,68 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
     }
   }
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
-    nodes.push({
-      type,
-      spawns: [],
-      mapName,
-    });
-  }
-
-  const node = nodes.find((n) => n.type === type)!;
-  const spawn: Node["spawns"][0] = {
-    p: [value.pos[2], value.pos[0], value.pos[1]],
-  };
-  if (value.stronghold_name !== enDict[type] || value.stronghold_level) {
-    const id = key;
-    enDict[id] = value.stronghold_name;
-    if (value.stronghold_level) {
-      enDict[id + "_desc"] = `Level: ${value.stronghold_level}`;
+  const mapMaskNames = Object.entries(value.mask_level_offset);
+  for (const [mapMaskName, level] of mapMaskNames) {
+    const maskFileName =
+      areaMaskDefineData.area_mask_mapping.mapping_datas[mapMaskName];
+    if (!maskFileName || !MASK_TO_SCENARIO[maskFileName]) {
+      console.warn(`No mask file name for ${mapMaskName}`);
+      continue;
     }
-
-    spawn.id = id;
-    if (prefabGroupInfo?.task_name) {
-      if (enDict[id + "_desc"]) {
-        enDict[id + "_desc"] += "<br>";
-      } else {
-        enDict[id + "_desc"] = "";
-      }
-      enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
-      prefabGroupInfo.task_info_list.forEach((info) => {
-        enDict[id + "_desc"] +=
-          "<br/>- " +
-          info[0].replace(
-            "寻找武器箱和装备箱",
-            "Find Weapon and Armor Crates",
-          ) +
-          ": " +
-          info[2];
+    const mapName = MASK_TO_SCENARIO[maskFileName];
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName: mapName,
       });
     }
-  }
 
-  if (
-    node.spawns.some(
-      (s) =>
-        (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
-        s.p[0] === spawn.p[0] &&
-        s.p[1] === spawn.p[1],
-    )
-  ) {
-    console.warn("Duplicate spawn", spawn.id ?? spawn.p);
-    continue;
+    const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    const spawn: Node["spawns"][0] = {
+      p: [value.pos[2], value.pos[0], value.pos[1]],
+    };
+    if (value.stronghold_name !== enDict[type] || level) {
+      const id = key + "_" + mapMaskName;
+      enDict[id] = value.stronghold_name;
+      if (level) {
+        enDict[id + "_desc"] = `Level: ${level}`;
+      }
+
+      spawn.id = id;
+      if (prefabGroupInfo?.task_name) {
+        if (enDict[id + "_desc"]) {
+          enDict[id + "_desc"] += "<br>";
+        } else {
+          enDict[id + "_desc"] = "";
+        }
+        enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
+        prefabGroupInfo.task_info_list.forEach((info) => {
+          enDict[id + "_desc"] +=
+            "<br/>- " +
+            info[0].replace(
+              "寻找武器箱和装备箱",
+              "Find Weapon and Armor Crates",
+            ) +
+            ": " +
+            info[2];
+        });
+      }
+    }
+
+    if (
+      node.spawns.some(
+        (s) =>
+          (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+          s.p[0] === spawn.p[0] &&
+          s.p[1] === spawn.p[1],
+      )
+    ) {
+      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      continue;
+    }
+    node.spawns.push(spawn);
   }
-  node.spawns.push(spawn);
 }
 
 for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
@@ -629,64 +659,71 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     });
   }
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
-    nodes.push({
-      type,
-      spawns: [],
-      mapName,
-    });
-  }
-
-  const node = nodes.find((n) => n.type === type)!;
-  const spawn: Node["spawns"][0] = {
-    p: [
-      prefabGroupInfo.prefab_group_pos[2],
-      prefabGroupInfo.prefab_group_pos[0],
-      prefabGroupInfo.prefab_group_pos[1],
-    ],
-  };
-  if (
-    prefabGroupInfo.prefab_group_show_name !== enDict[type] ||
-    prefabGroupInfo.prefab_group_level
-  ) {
-    const id = key;
-    enDict[id] = prefabGroupInfo.prefab_group_show_name;
-    if (prefabGroupInfo.prefab_group_level) {
-      enDict[id + "_desc"] = `Level: ${prefabGroupInfo.prefab_group_level}`;
+  const mapMaskNames = Object.entries(prefabGroupInfo.mask_level_info);
+  for (const [mapMaskName, level] of mapMaskNames) {
+    const maskFileName =
+      areaMaskDefineData.area_mask_mapping.mapping_datas[mapMaskName];
+    if (!maskFileName || !MASK_TO_SCENARIO[maskFileName]) {
+      console.warn(`No mask file name for ${mapMaskName}`);
+      continue;
     }
-
-    spawn.id = id;
-    if (prefabGroupInfo?.task_name) {
-      if (enDict[id + "_desc"]) {
-        enDict[id + "_desc"] += "<br>";
-      } else {
-        enDict[id + "_desc"] = "";
-      }
-      enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
-      prefabGroupInfo.task_info_list.forEach((info) => {
-        enDict[id + "_desc"] +=
-          "<br/>- " +
-          info[0].replace(
-            "寻找武器箱和装备箱",
-            "Find Weapon and Armor Crates",
-          ) +
-          ": " +
-          info[2];
+    const mapName = MASK_TO_SCENARIO[maskFileName];
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName: mapName,
       });
     }
+
+    const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    const spawn: Node["spawns"][0] = {
+      p: [
+        prefabGroupInfo.prefab_group_pos[2],
+        prefabGroupInfo.prefab_group_pos[0],
+        prefabGroupInfo.prefab_group_pos[1],
+      ],
+    };
+    if (prefabGroupInfo.prefab_group_show_name !== enDict[type] || level) {
+      const id = key;
+      enDict[id] = prefabGroupInfo.prefab_group_show_name;
+      if (level) {
+        enDict[id + "_desc"] = `Level: ${level}`;
+      }
+
+      spawn.id = id;
+      if (prefabGroupInfo?.task_name) {
+        if (enDict[id + "_desc"]) {
+          enDict[id + "_desc"] += "<br>";
+        } else {
+          enDict[id + "_desc"] = "";
+        }
+        enDict[id + "_desc"] += `<b>${prefabGroupInfo.task_name}</b>`;
+        prefabGroupInfo.task_info_list.forEach((info) => {
+          enDict[id + "_desc"] +=
+            "<br/>- " +
+            info[0].replace(
+              "寻找武器箱和装备箱",
+              "Find Weapon and Armor Crates",
+            ) +
+            ": " +
+            info[2];
+        });
+      }
+    }
+    if (
+      node.spawns.some(
+        (s) =>
+          (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
+          s.p[0] === spawn.p[0] &&
+          s.p[1] === spawn.p[1],
+      )
+    ) {
+      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      continue;
+    }
+    node.spawns.push(spawn);
   }
-  if (
-    node.spawns.some(
-      (s) =>
-        (s.id && spawn.id ? enDict[s.id] === enDict[spawn.id] : true) &&
-        s.p[0] === spawn.p[0] &&
-        s.p[1] === spawn.p[1],
-    )
-  ) {
-    console.warn("Duplicate spawn", spawn.id ?? spawn.p);
-    continue;
-  }
-  node.spawns.push(spawn);
 }
 
 const isValidModelPath = (modelPath: string) => {
@@ -731,9 +768,9 @@ for (const deviation of Object.values(deviationBaseData)) {
     typeId = modelData.model_path!.replaceAll("/", "\\").split("\\").at(-1)!;
   }
   if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    console.warn(
-      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    );
+    // console.warn(
+    //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    // );
   }
   typeIDs[typeId] = type;
 
@@ -754,11 +791,11 @@ for (const deviation of Object.values(deviationBaseData)) {
       icon,
       size,
     });
-    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
       nodes.push({
         type,
         spawns: [],
-        mapName,
+        mapName: DEFAULT_SCENARIO,
       });
     }
   }
@@ -798,11 +835,11 @@ for (const fish of Object.values(fishData)) {
       icon,
       size,
     });
-    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
       nodes.push({
         type,
         spawns: [],
-        mapName,
+        mapName: DEFAULT_SCENARIO,
       });
     }
   }
@@ -936,11 +973,13 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
         icon,
         size,
       });
-      if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      if (
+        !nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)
+      ) {
         nodes.push({
           type,
           spawns: [],
-          mapName,
+          mapName: DEFAULT_SCENARIO,
         });
       }
     }
@@ -1073,11 +1112,11 @@ for (const battleFieldName of battleFieldNames) {
       });
     }
 
-    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
       nodes.push({
         type,
         spawns: [],
-        mapName,
+        mapName: DEFAULT_SCENARIO,
       });
     }
 
@@ -1131,11 +1170,11 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Morphic Crate";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1166,15 +1205,17 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Weapon Crate";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
-  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+  const node = nodes.find(
+    (n) => n.type === type && n.mapName === DEFAULT_SCENARIO,
+  )!;
   node.spawns = [];
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Weapon Crate") {
@@ -1204,15 +1245,17 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Gear Crate";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
-  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+  const node = nodes.find(
+    (n) => n.type === type && n.mapName === DEFAULT_SCENARIO,
+  )!;
   node.spawns = [];
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Gear Crate") {
@@ -1242,15 +1285,17 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Storage Crate";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
-  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+  const node = nodes.find(
+    (n) => n.type === type && n.mapName === DEFAULT_SCENARIO,
+  )!;
   node.spawns = [];
 
   for (const [key, value] of Object.entries(interactResData)) {
@@ -1281,15 +1326,17 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   });
   enDict[type] = "Treasure Chest";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
-  const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+  const node = nodes.find(
+    (n) => n.type === type && n.mapName === DEFAULT_SCENARIO,
+  )!;
   node.spawns = [];
 
   for (const [key, value] of Object.entries(interactResData)) {
@@ -1421,11 +1468,11 @@ for (const [key, value] of Object.entries(interactResData)) {
       //   `<b>Drop Items</b><p>${itemNames.sort().join("<br>")}</p>`; // Temporary
     }
   }
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
   const node = nodes.find((n) => n.type === type)!;
@@ -1454,11 +1501,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Mystical Crate";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1485,11 +1532,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Copper Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1513,11 +1560,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Silver Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1540,11 +1587,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Gold Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1568,11 +1615,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Stardust Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1596,11 +1643,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Tungsten Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1624,11 +1671,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Aluminum Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1652,11 +1699,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Iron Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1682,11 +1729,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Tin Ore";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1710,11 +1757,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Sulfur";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1740,11 +1787,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Seaweed Rock";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1768,11 +1815,11 @@ for (const [key, value] of Object.entries(interactResData)) {
   });
   enDict[type] = "Shell Rock";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
     nodes.push({
       type,
       spawns: [],
-      mapName,
+      mapName: DEFAULT_SCENARIO,
     });
   }
 
@@ -1857,11 +1904,13 @@ const recipes = filters.find((f) => f.group === "recipes")!;
           icon,
           size: 1,
         });
-        if (!nodes.some((n) => n.type === type && n.mapName === "default")) {
+        if (
+          !nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)
+        ) {
           nodes.push({
             type: type,
             spawns: [],
-            mapName: "default",
+            mapName: DEFAULT_SCENARIO,
             static: true,
           });
         }
@@ -1887,17 +1936,17 @@ const filteredNodes = nodes
     // }
 
     const targetSpawnNodes = n.spawns.filter((s, i) => {
-      if (n.mapName !== "raid") {
-        const isNotOnWorldMap =
-          s.p[0] < -8100 ||
-          s.p[0] > 3050 ||
-          s.p[1] > 8200 ||
-          s.p[1] < -2000 ||
-          (s.p[0] > -600 && s.p[1] < 600);
-        if (isNotOnWorldMap) {
-          return false;
-        }
-      }
+      // if (n.mapName !== "raid") {
+      //   const isNotOnWorldMap =
+      //     s.p[0] < -8100 ||
+      //     s.p[0] > 3050 ||
+      //     s.p[1] > 8200 ||
+      //     s.p[1] < -2000 ||
+      //     (s.p[0] > -600 && s.p[1] < 600);
+      //   if (isNotOnWorldMap) {
+      //     return false;
+      //   }
+      // }
       // const isCloseToOtherSpawn = n.spawns.slice(i + 1).some((other) => {
       //   const distance = Math.sqrt(
       //     (other.p[0] - s.p[0]) ** 2 + (other.p[1] - s.p[1]) ** 2,
@@ -1909,7 +1958,7 @@ const filteredNodes = nodes
       // }
       return true;
     });
-    console.log(targetSpawnNodes.length, n.spawns.length);
+    //console.log(targetSpawnNodes.length, n.spawns.length);
 
     return {
       ...n,

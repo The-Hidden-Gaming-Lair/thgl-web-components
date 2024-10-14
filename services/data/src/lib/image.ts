@@ -241,6 +241,7 @@ export async function arrayJoinImages(
   paths: string[],
   regExp: RegExp,
   outPath: string,
+  yx: boolean = false,
 ) {
   const coordinates = paths
     .map((path) => {
@@ -267,7 +268,7 @@ export async function arrayJoinImages(
   await $`mkdir -p ${tempFolder}`;
   await $`rm ${tempFolder}/*`.catch(() => null);
 
-  console.log("Cells:", cellsMax, "Rows:", rowsMax);
+  // console.log("Cells:", cellsMax, "Rows:", rowsMax);
   for (let j = 0; j < rowsMax; j++) {
     for (let i = 0; i < cellsMax; i++) {
       if (coordinates.find((c) => c.coords[0] === i && c.coords[1] === j)) {
@@ -286,7 +287,11 @@ export async function arrayJoinImages(
   let i = 0;
   for (const pathCoordinates of coordinates) {
     // copy the image to the temp folder
-    await $`cp ${pathCoordinates.path} ${tempFolder}/${100000 + pathCoordinates.coords[1] * 1000 + pathCoordinates.coords[0]}.png`;
+    if (yx) {
+      await $`cp ${pathCoordinates.path} ${tempFolder}/${100000 + pathCoordinates.coords[0] * 1000 + pathCoordinates.coords[1]}.png`;
+    } else {
+      await $`cp ${pathCoordinates.path} ${tempFolder}/${100000 + pathCoordinates.coords[1] * 1000 + pathCoordinates.coords[0]}.png`;
+    }
     i++;
   }
 

@@ -14,6 +14,7 @@ export type PrefabInfoData = Record<
     pos: Array<number>;
     rot: Array<number>;
     rot_yzx: Array<number>;
+    mask_level_offset: Record<string, number>;
     stronghold_souvenir_tag: Array<any>;
     safe_area_id: number;
     dungeon_id: Array<any>;
@@ -100,6 +101,7 @@ export type SmallMapItemData = Record<
 export type PrefabGroupInfoData = Record<
   string,
   {
+    mask_level_info: Record<string, number>;
     task_award: number;
     prefab_group_level: number;
     prefab_group_bigmap_icon_id: number;
@@ -893,7 +895,12 @@ export type AreaMaskDefineData = Record<
     area_edge_sprite: string;
     area_no: string;
   }
->;
+> & {
+  area_mask_mapping: {
+    mapping_datas: Record<string, string>;
+    mask_area_mapping: Record<string, Record<string, number>>;
+  };
+};
 
 export type BookCollectAreaEnterClientData = Record<
   string,

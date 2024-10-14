@@ -1,0 +1,46 @@
+[
+  {
+    "group": "locations",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "faction_camp",
+        "icon": "faction_camp.webp",
+        "size": 1.5
+      },
+      {
+        "id": "landing_zone",
+        "icon": "landing_zone.webp",
+        "size": 1.5
+      },
+      {
+        "id": "loot_box",
+        "icon": "loot_box.webp",
+        "size": 1.5
+      },
+      {
+        "id": "locked_door",
+        "icon": "locked_door.webp",
+        "size": 1.5
+      },
+      {
+        "id": "loot_point",
+        "icon": "loot_point.webp",
+        "size": 1.5
+      }
+    ]
+  },
+  {
+    "group": "quests",
+    "defaultOpen": true,
+    "defaultOn": true,
+    "values": [
+      {
+        "id": "DA_Quest_Main_Quest_1",
+        "icon": "da_quest_main_quest_1.webp",
+        "size": 1.5
+      }
+    ]
+  }
+]

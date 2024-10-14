@@ -1,0 +1,38 @@
+{
+  "World": {
+    "url": "/map-tiles/World/{z}/{y}/{x}.webp",
+    "options": {
+      "minNativeZoom": 0,
+      "maxNativeZoom": 3,
+      "bounds": [
+        [
+          -499999,
+          -1499999
+        ],
+        [
+          4499999,
+          3499999
+        ]
+      ],
+      "tileSize": 512
+    },
+    "minZoom": -5,
+    "maxZoom": 7,
+    "fitBounds": [
+      [
+        -499999,
+        -1499999
+      ],
+      [
+        4499999,
+        3499999
+      ]
+    ],
+    "transformation": [
+      0.0001024,
+      153.6,
+      0.0001024,
+      51.19999999999999
+    ]
+  }
+}
