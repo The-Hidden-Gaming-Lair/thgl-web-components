@@ -5,7 +5,6 @@ import {
   initGameEventsPlugin,
   MESSAGES,
 } from "@repo/lib/overwolf";
-import { act } from "react";
 import typesIdMap from "./coordinates/types_id_map.json" assert { type: "json" };
 
 await initBackground(

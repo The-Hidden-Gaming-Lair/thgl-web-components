@@ -13,11 +13,14 @@ import { decodeFromBuffer, useGameState } from "@repo/lib";
 import { type NodesCoordinates } from "@repo/ui/providers";
 import App from "./app";
 import defaultMap from "./coordinates/cbor/default.cbor?url";
+import eastBlackfellPVP from "./coordinates/cbor/east_blackfell_pvp.cbor?url";
+import northSnowPVE from "./coordinates/cbor/north_snow_pve.cbor?url";
+import raid from "./coordinates/cbor/raid.cbor?url";
 import regions from "./coordinates/regions.json" assert { type: "json" };
 
 logVersion();
 
-const maps = [defaultMap];
+const maps = [defaultMap, eastBlackfellPVP, northSnowPVE, raid];
 const allNodes = await Promise.all(
   maps.map(async (map) => {
     const response = await fetch(map);
