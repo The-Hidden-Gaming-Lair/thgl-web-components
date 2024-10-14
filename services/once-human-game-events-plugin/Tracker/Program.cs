@@ -53,7 +53,7 @@ namespace Tracker
     }
     static private void RunOverwolfServer()
     {
-      overwolf.UpdateServer((server) =>
+      overwolf.GetServerName((server) =>
       {
         Console.WriteLine(server);
         Thread.Sleep(50);

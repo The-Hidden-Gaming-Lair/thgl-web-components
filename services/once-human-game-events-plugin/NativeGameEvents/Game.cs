@@ -150,7 +150,7 @@ namespace NativeGameEvents
           var regionCount = 0x10000;
           while (VirtualQueryEx(_memory.procHandle, address, out MEMORY_BASIC_INFORMATION64 mbi, (uint)Marshal.SizeOf(typeof(MEMORY_BASIC_INFORMATION64))))
           {
-            if (mbi.State == 0x1000 && mbi.RegionSize >= 0x100000) // MEM_COMMIT
+            if (mbi.State == 0x1000 && mbi.RegionSize >= 0x10000) // MEM_COMMIT
             {
               var server_name = _memory.FindPattern(new byte[] { 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5F, 0x6E, 0x61, 0x6D, 0x65, 0, 0, 0, 0, 0, 0xB, 0, 0, 0, 0, 0, 0, 0, 0xF, 0, 0, 0, 0, 0, 0, 0 }, mbi.BaseAddress, (int)mbi.RegionSize);
               if (server_name != IntPtr.Zero)
