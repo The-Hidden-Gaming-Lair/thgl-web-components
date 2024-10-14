@@ -16,8 +16,8 @@ export async function getBorderFromMaskImage(
   maskValues: [number, number, number][],
 ) {
   const image = await loadImage(fileName);
-  const width = image.width * 16;
-  const height = image.height * 16;
+  const width = image.width;
+  const height = image.height;
 
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
@@ -68,6 +68,8 @@ export async function getBorderFromMaskImage(
       [1, 1], // Bottom-left, Bottom-right
     ];
 
+    let prevDx = 0;
+    let prevDy = 0;
     while (stack.length > 0 && !hasReturnedToStart) {
       const [x, y] = stack.pop()!;
       border.push([x, y]);
@@ -85,14 +87,24 @@ export async function getBorderFromMaskImage(
         const isDiagonalB = Math.abs(bx - x) === 1 && Math.abs(by - y) === 1;
         if (isDiagonalA && !isDiagonalB) return -1;
         if (isDiagonalB && !isDiagonalA) return 1;
+        if (b[1] === a[1]) {
+          const dxA = ax - x;
+          const dyA = ay - y;
+          const dxB = bx - x;
+          const dyB = by - y;
+          const dotA = dxA * prevDx + dyA * prevDy;
+          const dotB = dxB * prevDx + dyB * prevDy;
+          return dotB - dotA;
+        }
         return b[1] - a[1];
       });
-
       const candidate = sortedCandidates[0];
       if (candidate) {
         const [nx, ny] = candidate[0].split(",").map(Number);
         stack.push([nx, ny]);
         visited.add(`${nx},${ny}`);
+        prevDx = nx - x;
+        prevDy = ny - y;
 
         // Check if we've returned to the starting point
         if (nx === startPoint[0] && ny === startPoint[1]) {
@@ -103,12 +115,17 @@ export async function getBorderFromMaskImage(
       if (stack.length === 0 && !hasReturnedToStart) {
         border.pop();
         const point = border.pop();
-        stack.push(point!);
-        visited.add(`${point![0]},${point![1]}`);
+        if (point) {
+          stack.push(point);
+          visited.add(`${point[0]},${point[1]}`);
+        } else {
+          console.warn("Empty stack", x, y, visited.size);
+          // console.log(visited);
+        }
       }
     }
     if (!hasReturnedToStart) {
-      console.warn("Did not return to start point");
+      console.warn("Did not return to start point", fileName, maskValues);
     }
 
     function checkNeighbors(x: number, y: number) {

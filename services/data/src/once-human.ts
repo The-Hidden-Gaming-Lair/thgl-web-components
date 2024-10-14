@@ -10,6 +10,7 @@ import {
 import { initFilters, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
+  arrayJoinImages,
   createBlankImage,
   IconProps,
   mergeImages,
@@ -183,34 +184,36 @@ const areaMasks = Object.values(areaMaskDefineData).reduce(
     }
   >,
 );
-const borderCanvas: Record<string, Canvas> = {};
 const regions = initRegions();
+const joinedMaskImages: string[] = [];
 for (const [id, areaMask] of Object.entries(areaMasks)) {
   try {
-    // console.log(id, areaMask.maskFilename);
-    if (id === "Rift Space") {
+    if (!areaMask.maskFilename || id === "Rift Space") {
       continue;
     }
 
-    if (!borderCanvas[areaMask.maskFilename]) {
-      borderCanvas[areaMask.maskFilename] = createCanvas(128, 128);
+    const maskImages = await readDirSync(
+      TEXTURE_DIR + "/ui/uncompress_tex/" + areaMask.maskFilename,
+    ).map(
+      (f) => TEXTURE_DIR + `/ui/uncompress_tex/${areaMask.maskFilename}/${f}`,
+    );
+
+    const joinedMaskImagePath = `${TEMP_DIR}/__${areaMask.maskFilename}.png`;
+    if (!joinedMaskImages.includes(joinedMaskImagePath)) {
+      await arrayJoinImages(
+        maskImages,
+        /(-?\d+)_(-?\d+)/,
+        joinedMaskImagePath,
+        true,
+      );
+      joinedMaskImages.push(joinedMaskImagePath);
     }
-    const borderCtx = borderCanvas[areaMask.maskFilename].getContext("2d");
-    borderCtx.fillStyle = "#fff";
 
     const borders = await getBorderFromMaskImage(
-      TEXTURE_DIR + "/ui/uncompress_tex/" + areaMask.maskFilename + ".png",
+      joinedMaskImagePath,
       areaMask.areaMaskIDs,
     );
 
-    // Save the border image
-    for (const [x, y] of borders) {
-      borderCtx.fillRect(x, y, 1, 1);
-    }
-    saveImage(
-      TEMP_DIR + "/" + areaMask.maskFilename + ".png",
-      borderCanvas[areaMask.maskFilename].toBuffer("image/png"),
-    );
     // borders.forEach(([x, y]) => {
     //   console.log(x, y);
     // });
@@ -228,8 +231,8 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     });
 
     let border = resizedBorders.map(([x, y]) => [
-      (-y * 128) / 16 + ORTHOGRAPHIC_WIDTH / 2,
-      (x * 128) / 16 - ORTHOGRAPHIC_WIDTH / 2,
+      (-y * 128) / 8 + ORTHOGRAPHIC_WIDTH / 2,
+      (x * 128) / 8 - ORTHOGRAPHIC_WIDTH / 2,
     ]) as [number, number][];
 
     const resizedCenter = border.reduce(
@@ -251,7 +254,7 @@ for (const [id, areaMask] of Object.entries(areaMasks)) {
     });
     enDict[id] = id;
   } catch (e) {
-    console.error(`Error processing ${id}`);
+    console.error(`Error processing ${id}`, e);
   }
 }
 writeRegions(regions);
