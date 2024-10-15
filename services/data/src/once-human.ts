@@ -550,7 +550,10 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
       p: [value.pos[2], value.pos[0], value.pos[1]],
     };
     if (value.stronghold_name !== enDict[type] || level) {
-      const id = key + "_" + mapMaskName;
+      let id = key;
+      if (mapName !== DEFAULT_SCENARIO) {
+        id += "_" + mapMaskName;
+      }
       enDict[id] = value.stronghold_name;
       if (level) {
         enDict[id + "_desc"] = `Level: ${level}`;
@@ -685,7 +688,10 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
       ],
     };
     if (prefabGroupInfo.prefab_group_show_name !== enDict[type] || level) {
-      const id = key;
+      let id = key;
+      if (mapName !== DEFAULT_SCENARIO) {
+        id += "_" + mapMaskName;
+      }
       enDict[id] = prefabGroupInfo.prefab_group_show_name;
       if (level) {
         enDict[id + "_desc"] = `Level: ${level}`;
