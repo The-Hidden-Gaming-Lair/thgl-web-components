@@ -30,6 +30,7 @@ export type Actor = {
   r: number;
   hidden?: boolean;
   path?: string;
+  props?: Record<string, any>;
 };
 export type GameEventsPlugin = {
   UpdateProcess: (

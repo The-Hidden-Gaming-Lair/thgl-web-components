@@ -1603,4 +1603,27 @@ writeRegions(regions);
 writeTypesIDs(typesIDs);
 writeGlobalFilters(globalFilters);
 
+const SKILL_ICONS = {
+  BugCatching: "Icon_Skill_Bug_01.webp",
+  // Combat: "Icon_Skill_Bug_01.webp",
+  Fishing: "Icon_Skill_Fishing_01.webp",
+  Foraging: "Icon_Skill_Forage_01.webp",
+  Hunting: "Icon_Skill_Hunt_01.webp",
+  Mining: "Icon_Skill_Mining_01.webp",
+  // Alchemy:"Icon_Skill_Bug_01.webp",
+  Cooking: "Icon_Skill_Cooking_01.webp",
+  FurnitureMaking: "Icon_Skill_Furniture_01.webp",
+  Gardening: "Icon_Skill_Gardening_01.webp",
+  // AnimalHusbandry:"Icon_Skill_Bug_01.webp",
+  // Blacksmithing:"Icon_Skill_Bug_01.webp",
+  // Master:"Icon_Skill_Bug_01.webp",
+};
+for (const skillIcon of Object.values(SKILL_ICONS)) {
+  await saveIcon(
+    `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/` +
+      skillIcon.replace(".webp", ".png"),
+    skillIcon.replace(".webp", ""),
+  );
+}
+
 console.log("Done");

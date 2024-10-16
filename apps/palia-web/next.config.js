@@ -22,7 +22,7 @@ const nextConfig = {
       },
       {
         source: "/:lang/leaderboard",
-        destination: "/",
+        destination: "/leaderboard",
         permanent: true,
       },
       {
