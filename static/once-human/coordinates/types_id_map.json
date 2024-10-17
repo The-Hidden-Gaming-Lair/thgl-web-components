@@ -401,6 +401,8 @@
   "scatter_car_03.gim": "car_trunk",
   "s_trunk_01.gim": "travel_case",
   "cu_l_01.gim": "copper_ore",
+  "hot_ore_1.gim": "hot_ore",
+  "ice_ore_1.gim": "ice_ore",
   "sn_l_01.gim": "silver_ore",
   "mine_gold_01.gim": "gold_ore",
   "au_l_01.gim": "gold_ore",

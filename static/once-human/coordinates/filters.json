@@ -124,6 +124,18 @@
         "defaultOn": false
       },
       {
+        "id": "hot_ore",
+        "icon": "hot_ore.webp",
+        "size": 1,
+        "defaultOn": true
+      },
+      {
+        "id": "ice_ore",
+        "icon": "ice_ore.webp",
+        "size": 1,
+        "defaultOn": true
+      },
+      {
         "id": "silver_ore",
         "icon": "silver_ore.webp",
         "size": 1,

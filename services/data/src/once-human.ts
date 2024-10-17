@@ -1552,6 +1552,62 @@ for (const [key, value] of Object.entries(interactResData)) {
 }
 {
   const group = "gatherables";
+  const type = "hot_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new_original/icon_xgrs_24.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: true,
+  });
+  enDict[type] = "Hot Rock Ore";
+
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: DEFAULT_SCENARIO,
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["hot_ore_1.gim"] = type;
+}
+{
+  const group = "gatherables";
+  const type = "ice_ore";
+  const icon = await saveIcon(
+    "/ui/dynamic_texpack/all_icon_res/item_icon_new_original/icon_xgrs_23.png",
+    type,
+  );
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size: 1,
+    defaultOn: true,
+  });
+  enDict[type] = "Cold Crystal Ore";
+
+  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: DEFAULT_SCENARIO,
+    });
+  }
+
+  const node = nodes.find((n) => n.type === type)!;
+  node.spawns = [];
+  typeIDs["ice_ore_1.gim"] = type;
+}
+{
+  const group = "gatherables";
   const type = "silver_ore";
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sliver_ore_new.png",
