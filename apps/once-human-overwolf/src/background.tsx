@@ -37,6 +37,8 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
       } else if (actor.path === "OpenWorld") {
         if (prevServerName?.includes("Clash")) {
           mapName = "east_blackfell_pvp";
+        } else if (prevServerName?.includes("Winter")) {
+          mapName = "north_snow_pve";
         } else {
           mapName = "default";
         }
@@ -179,7 +181,7 @@ async function sendActorsToAPI(actors: Actor[]): Promise<void> {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-11", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-12", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
