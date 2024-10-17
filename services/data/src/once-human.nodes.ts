@@ -38,7 +38,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-12", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-13", {
   headers: {
     Authorization: `thgl`,
   },
@@ -96,12 +96,8 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   if (type === "m_spider_box.gim") {
     id = "morphic_crate";
   }
-  if (!id && type !== "m_spider_box.gim") {
+  if (!id) {
     // console.warn("No type for", type);
-    return;
-  }
-  if (!nodes.some((n) => n.type === id)) {
-    // console.log("No filter for", id);
     return;
   }
 
@@ -170,11 +166,6 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
       minDistance = isItem ? 1 : 3;
     } else {
       minDistance = isItem ? (id === "morphic_crate" ? 100 : 5) : 75;
-      const isNotOnWorldMap =
-        x < -8100 || x > 3050 || y > 8200 || y < -2000 || (x > -600 && y < 600);
-      if (isNotOnWorldMap) {
-        return false;
-      }
     }
 
     if (!nodes.some((n) => n.type === id && n.mapName === mapName)) {

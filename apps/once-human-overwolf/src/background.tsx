@@ -150,6 +150,18 @@ async function sendActorsToAPI(actors: Actor[]): Promise<void> {
     if (!id) {
       return false;
     }
+    let mapName;
+    if (prevServerName?.includes("Clash")) {
+      mapName = "east_blackfell_pvp";
+    } else if (prevServerName?.includes("Winter")) {
+      mapName = "north_snow_pve";
+    } else {
+      mapName = "default";
+    }
+
+    if (actor.mapName !== mapName) {
+      return;
+    }
     if (lastActorAddresses.includes(actor.address)) {
       return false;
     }
@@ -181,7 +193,7 @@ async function sendActorsToAPI(actors: Actor[]): Promise<void> {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-12", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-13", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
