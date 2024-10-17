@@ -257,6 +257,11 @@
         "size": 1.5
       },
       {
+        "id": "deviations_ice_pot",
+        "icon": "deviations_ice_pot.webp",
+        "size": 1.5
+      },
+      {
         "id": "deviations_dr._teddy",
         "icon": "deviations_dr_teddy.webp",
         "size": 1.5
@@ -297,8 +302,8 @@
         "size": 1.5
       },
       {
-        "id": "deviations_eternal_sun",
-        "icon": "deviations_eternal_sun.webp",
+        "id": "deviations_invincible_sun",
+        "icon": "deviations_invincible_sun.webp",
         "size": 1.5
       },
       {
@@ -382,8 +387,8 @@
         "size": 1.5
       },
       {
-        "id": "deviations_night_watch_lamp",
-        "icon": "deviations_night_watch_lamp.webp",
+        "id": "deviations_gazocchio",
+        "icon": "deviations_gazocchio.webp",
         "size": 1.5
       },
       {
@@ -457,8 +462,8 @@
         "size": 1.5
       },
       {
-        "id": "deviations_winter_spirit",
-        "icon": "deviations_winter_spirit.webp",
+        "id": "deviations_snowsprite",
+        "icon": "deviations_snowsprite.webp",
         "size": 1.5
       }
     ],
@@ -685,18 +690,23 @@
     "defaultOpen": false,
     "values": [
       {
+        "id": "boss_flame_stone",
+        "icon": "boss_flame_stone.webp",
+        "size": 0.75
+      },
+      {
         "id": "boss_chaosweaver",
         "icon": "boss_chaosweaver.webp",
         "size": 0.75
       },
       {
-        "id": "boss_lava_stone",
-        "icon": "boss_lava_stone.webp",
+        "id": "boss_ores",
+        "icon": "boss_ores.webp",
         "size": 0.75
       },
       {
-        "id": "boss_exterminator",
-        "icon": "boss_exterminator.webp",
+        "id": "boss_lava_stone",
+        "icon": "boss_lava_stone.webp",
         "size": 0.75
       },
       {
@@ -722,6 +732,11 @@
       {
         "id": "boss_jump_over_flower_bud",
         "icon": "boss_jump_over_flower_bud.webp",
+        "size": 0.75
+      },
+      {
+        "id": "boss_treants",
+        "icon": "boss_treants.webp",
         "size": 0.75
       },
       {
@@ -780,6 +795,11 @@
         "size": 0.75
       },
       {
+        "id": "boss_forsaken_giant",
+        "icon": "boss_forsaken_giant.webp",
+        "size": 0.75
+      },
+      {
         "id": "boss_giant",
         "icon": "boss_giant.webp",
         "size": 0.75
@@ -822,8 +842,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_work_permit",
-        "icon": "monster_work_permit.webp",
+        "id": "monster_staff_badges",
+        "icon": "monster_staff_badges.webp",
         "size": 0.75
       },
       {
@@ -857,13 +877,13 @@
         "size": 0.75
       },
       {
-        "id": "monster_ignium_miner",
-        "icon": "monster_ignium_miner.webp",
+        "id": "monster_forge_worker",
+        "icon": "monster_forge_worker.webp",
         "size": 0.75
       },
       {
-        "id": "monster_fire_hydrant_miner",
-        "icon": "monster_fire_hydrant_miner.webp",
+        "id": "monster_flow_regulator",
+        "icon": "monster_flow_regulator.webp",
         "size": 0.75
       },
       {
@@ -872,8 +892,8 @@
         "size": 0.75
       },
       {
-        "id": "monster_iron_bucket_miner",
-        "icon": "monster_iron_bucket_miner.webp",
+        "id": "monster_crucible",
+        "icon": "monster_crucible.webp",
         "size": 0.75
       },
       {
@@ -1072,6 +1092,11 @@
         "size": 0.75
       },
       {
+        "id": "monster_pale_hand",
+        "icon": "monster_pale_hand.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_spider",
         "icon": "monster_spider.webp",
         "size": 0.75
@@ -1129,11 +1154,6 @@
       {
         "id": "monster_nomad",
         "icon": "monster_nomad.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_pale_hand",
-        "icon": "monster_pale_hand.webp",
         "size": 0.75
       },
       {
@@ -1242,33 +1262,23 @@
         "size": 0.75
       },
       {
-        "id": "monster_research_team_member_type_ii",
-        "icon": "monster_research_team_member_type_ii.webp",
+        "id": "monster_researcher",
+        "icon": "monster_researcher.webp",
         "size": 0.75
       },
       {
-        "id": "monster_research_team_member_type_iii",
-        "icon": "monster_research_team_member_type_iii.webp",
+        "id": "monster_scout",
+        "icon": "monster_scout.webp",
         "size": 0.75
       },
       {
-        "id": "monster_radar_head",
-        "icon": "monster_radar_head.webp",
+        "id": "monster_weather_vane",
+        "icon": "monster_weather_vane.webp",
         "size": 0.75
       },
       {
-        "id": "monster_beacon_head",
-        "icon": "monster_beacon_head.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_sweet_factory_female_worker",
-        "icon": "monster_sweet_factory_female_worker.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_research_team_member_type_i",
-        "icon": "monster_research_team_member_type_i.webp",
+        "id": "monster_mousseville_employee",
+        "icon": "monster_mousseville_employee.webp",
         "size": 0.75
       },
       {
@@ -1287,6 +1297,16 @@
         "size": 0.75
       },
       {
+        "id": "monster_luna_moth",
+        "icon": "monster_luna_moth.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_forged_scorcher",
+        "icon": "monster_forged_scorcher.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_the_scorcher",
         "icon": "monster_the_scorcher.webp",
         "size": 0.75
@@ -1297,11 +1317,6 @@
         "size": 0.75
       },
       {
-        "id": "monster_blazing_scorcher",
-        "icon": "monster_blazing_scorcher.webp",
-        "size": 0.75
-      },
-      {
         "id": "monster_fool",
         "icon": "monster_fool.webp",
         "size": 0.75
@@ -1309,11 +1324,6 @@
       {
         "id": "monster_portal",
         "icon": "monster_portal.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_luna_moth",
-        "icon": "monster_luna_moth.webp",
         "size": 0.75
       },
       {
@@ -1382,6 +1392,11 @@
         "size": 0.75
       },
       {
+        "id": "monster_weather_fourecaster",
+        "icon": "monster_weather_fourecaster.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_weather_forecast",
         "icon": "monster_weather_forecast.webp",
         "size": 0.75
@@ -1427,8 +1442,18 @@
         "size": 0.75
       },
       {
+        "id": "monster_tangled_vine_mobility_validation_test",
+        "icon": "monster_tangled_vine_mobility_validation_test.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_altered_corrupted_bull",
         "icon": "monster_altered_corrupted_bull.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_mayhem",
+        "icon": "monster_mayhem.webp",
         "size": 0.75
       },
       {
@@ -1439,11 +1464,6 @@
       {
         "id": "monster_phase__ghoul",
         "icon": "monster_phase__ghoul.webp",
-        "size": 0.75
-      },
-      {
-        "id": "monster_mayhem",
-        "icon": "monster_mayhem.webp",
         "size": 0.75
       },
       {
@@ -1469,6 +1489,36 @@
       {
         "id": "monster_maniac_(melee)",
         "icon": "monster_maniac_melee.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_flare_bulbfly",
+        "icon": "monster_flare_bulbfly.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_research_team_member_type_i",
+        "icon": "monster_research_team_member_type_i.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_radar_head",
+        "icon": "monster_radar_head.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_beacon_head",
+        "icon": "monster_beacon_head.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_research_team_member_type_iii",
+        "icon": "monster_research_team_member_type_iii.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_stinger_bulbfly",
+        "icon": "monster_stinger_bulbfly.webp",
         "size": 0.75
       },
       {
@@ -1682,6 +1732,41 @@
         "size": 0.75
       },
       {
+        "id": "monster_fire_hydrant_miner",
+        "icon": "monster_fire_hydrant_miner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_sinner_sentry",
+        "icon": "monster_sinner_sentry.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_chaosium_miner_type_i",
+        "icon": "monster_chaosium_miner_type_i.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_chaosium_miner_type_iii",
+        "icon": "monster_chaosium_miner_type_iii.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_blaster",
+        "icon": "monster_blaster.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_blazing_scorcher",
+        "icon": "monster_blazing_scorcher.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_chaosium_miner_type_ii",
+        "icon": "monster_chaosium_miner_type_ii.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_disfigured_human_sample",
         "icon": "monster_disfigured_human_sample.webp",
         "size": 0.75
@@ -1702,13 +1787,13 @@
         "size": 0.75
       },
       {
-        "id": "monster_unstable_sample",
-        "icon": "monster_unstable_sample.webp",
+        "id": "monster_polluted_human_sample",
+        "icon": "monster_polluted_human_sample.webp",
         "size": 0.75
       },
       {
-        "id": "monster_polluted_human_sample",
-        "icon": "monster_polluted_human_sample.webp",
+        "id": "monster_unstable_sample",
+        "icon": "monster_unstable_sample.webp",
         "size": 0.75
       },
       {
@@ -1757,6 +1842,21 @@
         "size": 0.75
       },
       {
+        "id": "monster_sweet_factory_female_worker",
+        "icon": "monster_sweet_factory_female_worker.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_iron_bucket_miner",
+        "icon": "monster_iron_bucket_miner.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_the_new_hire",
+        "icon": "monster_the_new_hire.webp",
+        "size": 0.75
+      },
+      {
         "id": "monster_ghost_with_braking_force",
         "icon": "monster_ghost_with_braking_force.webp",
         "size": 0.75
@@ -1792,23 +1892,23 @@
         "size": 0.75
       },
       {
-        "id": "monster_black_lake_shadow",
-        "icon": "monster_black_lake_shadow.webp",
-        "size": 0.75
-      },
-      {
         "id": "monster_black_lake_ghoul",
         "icon": "monster_black_lake_ghoul.webp",
         "size": 0.75
       },
       {
-        "id": "monster_black_lake_monster",
-        "icon": "monster_black_lake_monster.webp",
+        "id": "monster_black_lake_shadow",
+        "icon": "monster_black_lake_shadow.webp",
         "size": 0.75
       },
       {
         "id": "monster_black_lake_heart",
         "icon": "monster_black_lake_heart.webp",
+        "size": 0.75
+      },
+      {
+        "id": "monster_black_lake_monster",
+        "icon": "monster_black_lake_monster.webp",
         "size": 0.75
       },
       {
@@ -2089,8 +2189,8 @@
         "size": 0.75
       },
       {
-        "id": "animal_crocodiles",
-        "icon": "animal_crocodiles.webp",
+        "id": "animal_crocodile",
+        "icon": "animal_crocodile.webp",
         "size": 0.75
       },
       {
@@ -2316,8 +2416,13 @@
         "size": 0.75
       },
       {
-        "id": "fishes_electric_eel",
-        "icon": "fishes_electric_eel.webp",
+        "id": "fishes_flame_essence",
+        "icon": "fishes_flame_essence.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_polar_jelly",
+        "icon": "fishes_polar_jelly.webp",
         "size": 0.75
       },
       {
@@ -2398,6 +2503,11 @@
       {
         "id": "fishes_sardine",
         "icon": "fishes_sardine.webp",
+        "size": 0.75
+      },
+      {
+        "id": "fishes_electric_eel",
+        "icon": "fishes_electric_eel.webp",
         "size": 0.75
       },
       {
