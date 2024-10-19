@@ -233,7 +233,12 @@ namespace NativeGameEvents
               !isMineral &&
               !str.StartsWith("environment\\dynamic_objects\\fortified_point") &&
               !str.StartsWith("environment\\dynamic_objects\\buildingsystem\\furniture") &&
+              !str.StartsWith("environment\\dynamic_objects\\task\\ore") &&
               !str.StartsWith("environment\\dynamic_objects\\interaction"))
+            {
+              continue;
+            }
+            if (str.StartsWith("environment\\dynamic_objects\\buildingsystem\\furniture\\c_monsterpose"))
             {
               continue;
             }

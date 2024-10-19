@@ -1186,6 +1186,9 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
+  // "res_path": "environment/dynamic_objects/buildingsystem/furniture/c_monsterpose/m_spider_box.gim",
+  // "model_path": "character/monster/spider/real/m_spider_box/m_spider_box.gim",
+
   // typeIDs["m_spider_box.gim"] = type;
 }
 
