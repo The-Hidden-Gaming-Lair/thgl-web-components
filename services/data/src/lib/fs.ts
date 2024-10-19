@@ -85,3 +85,13 @@ export function writeJSON(filePath: string, body: any) {
     ),
   );
 }
+
+export function cpFile(src: string, dest: string) {
+  fs.mkdirSync(getDirname(dest), {
+    recursive: true,
+  });
+  return fs.copyFileSync(
+    path.resolve(__dirname, src),
+    path.resolve(__dirname, dest),
+  );
+}

@@ -384,7 +384,7 @@ const switchType = (
     group = "locations";
   } else if (more?.includes("Riddle Spot")) {
     group = "riddles";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\jigsaw-piece_lorc.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
     type =
       more!
         .split("Riddle Spot ")[1]
@@ -402,7 +402,7 @@ const switchType = (
     group = "locations";
     type = "Scattered";
     title = type;
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\damaged-house_quoting.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\damaged-house_quoting.png`;
     iconProps.glowing = true;
     iconProps.color = "black";
     size = 0.65;
@@ -491,7 +491,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   }
 
   if (!iconPath) {
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\plain-circle_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\plain-circle_delapouite.png`;
     iconProps.color = uniqolor(type, {
       lightness: [70, 80],
     }).color;
@@ -630,7 +630,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
   }
 
   if (!iconPath) {
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\plain-circle_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\plain-circle_delapouite.png`;
     iconProps.color = uniqolor(type, {
       lightness: [70, 80],
     }).color;
@@ -891,49 +891,49 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       if (type === "animal_fish") {
         continue;
       } else if (type === "animal_bear") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\bear-head_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\bear-head_delapouite.png`;
       } else if (type === "animal_rabbit") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\rabbit-head_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\rabbit-head_delapouite.png`;
       } else if (type === "animal_small_rabbit") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\rabbit_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\rabbit_delapouite.png`;
       } else if (type === "animal_small_boar") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\boar-ensign_cathelineau.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\boar-ensign_cathelineau.png`;
       } else if (type === "animal_boar") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\boar_caro-asercion.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\boar_caro-asercion.png`;
       } else if (type === "animal_capybara") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\capybara_caro-asercion.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\capybara_caro-asercion.png`;
       } else if (type === "animal_deer") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\deer_caro-asercion.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\deer_caro-asercion.png`;
       } else if (type.endsWith("_crocodile")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\croc-jaws_lorc.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\croc-jaws_lorc.png`;
       } else if (type === "animal_eagle") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\eagle-head_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\eagle-head_delapouite.png`;
       } else if (type.endsWith("_wolf")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\wolf-head_lorc.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\wolf-head_lorc.png`;
       } else if (type === "animal_flamingo") {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\flamingo_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\flamingo_delapouite.png`;
       } else if (type.endsWith("_fox")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\fox_caro-asercion.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\fox_caro-asercion.png`;
       } else if (type.endsWith("_pelican")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\eating-pelican_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\eating-pelican_delapouite.png`;
       } else if (type.endsWith("_raccoon")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\raccoon-head_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\raccoon-head_delapouite.png`;
       } else if (type.endsWith("_turtle")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\sea-turtle_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\sea-turtle_delapouite.png`;
       } else if (type.endsWith("_swan")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\swan_lorc.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\swan_lorc.png`;
       } else if (type.endsWith("_squirrel")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\squirrel_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\squirrel_delapouite.png`;
       } else if (type.endsWith("_raven")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\raven_lorc.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\raven_lorc.png`;
       } else if (type.endsWith("_rat")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\rat_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\rat_delapouite.png`;
       } else if (type.endsWith("_seal")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\juggling-seal_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\juggling-seal_delapouite.png`;
       } else if (type.endsWith("_gull")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\finch_delapouite.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\finch_delapouite.png`;
       } else if (type.endsWith("_lion")) {
-        iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\lion_lorc.webp`;
+        iconPath = String.raw`${TEMP_DIR}\game-icons\lion_lorc.png`;
       } else if (group === "monster") {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
@@ -1375,7 +1375,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   if (value.res_name.endsWith(" Recipe")) {
     group = "recipes";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\full-folder_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\full-folder_delapouite.png`;
     iconProps.color = uniqolor(key, {
       lightness: [70, 80],
     }).color;
@@ -1383,7 +1383,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     size = 0.76;
   } else if (value.res_name === "Fruit & Veggies") {
     group = "items";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\fruit-bowl_skoll.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\fruit-bowl_skoll.png`;
     size = 0.76;
     defaultOn = false;
   } else if (
@@ -1391,29 +1391,29 @@ for (const [key, value] of Object.entries(interactResData)) {
     value.res_name === "Emergency Medkit"
   ) {
     group = "items";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\medical-pack_sbed.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\medical-pack_sbed.png`;
     size = 0.76;
   } else if (value.res_name === "Car Trunk") {
     group = "items";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\city-car_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\city-car_delapouite.png`;
     size = 0.76;
     defaultOn = false;
     // autoDiscover = true;
   } else if (value.res_name === "Vending Machine") {
     group = "items";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\vending-machine_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\vending-machine_delapouite.png`;
     size = 0.76;
     // autoDiscover = true;
     defaultOn = false;
   } else if (value.res_name === "Vending Machine") {
     group = "items";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\vending-machine_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\vending-machine_delapouite.png`;
     size = 0.76;
     // autoDiscover = true;
     defaultOn = false;
   } else if (value.res_name === "Long Table" || value.res_name === "Table") {
     group = "items";
-    iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\table_delapouite.webp`;
+    iconPath = String.raw`${TEMP_DIR}\game-icons\table_delapouite.png`;
     size = 0.76;
     // autoDiscover = true;
     defaultOn = false;
@@ -1491,7 +1491,7 @@ for (const [key, value] of Object.entries(interactResData)) {
   const type = "mystical_crate";
 
   const icon = await saveIcon(
-    String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\locked-box_delapouite.webp`,
+    String.raw`${TEMP_DIR}\game-icons\locked-box_delapouite.png`,
     type,
     {
       color: "#f2be59",
@@ -1953,7 +1953,7 @@ const recipes = filters.find((f) => f.group === "recipes")!;
         enDict[type] = capitalizeWords(type.replaceAll("_", " "));
         newTypes.push(type);
         const icon = await saveIcon(
-          String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\open-book_lorc.webp`,
+          String.raw`${TEMP_DIR}\game-icons\open-book_lorc.png`,
           type,
           {
             color: uniqolor(type, {
@@ -2058,8 +2058,8 @@ const filteredNodes = nodes
 
 const flatFilters = Object.values(filters).flatMap((f) => f.values);
 filteredNodes.sort((a, b) => {
-  const aSize = flatFilters.find((f) => f.id === a.type)!.size!;
-  const bSize = flatFilters.find((f) => f.id === b.type)!.size!;
+  const aSize = flatFilters.find((f) => f.id === a.type)?.size ?? 0;
+  const bSize = flatFilters.find((f) => f.id === b.type)?.size ?? 0;
   return aSize - bSize;
 });
 

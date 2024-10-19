@@ -5,10 +5,10 @@ import TAGS from "./game-icons.tags.json";
 import { TEMP_DIR } from "./lib/dirs.js";
 import yauzl from "yauzl";
 import { createImageSprite, SpritePaths } from "./lib/image.js";
-import { readDirRecursive, saveImage } from "./lib/fs.js";
+import { cpFile, readDirRecursive, saveImage } from "./lib/fs.js";
 
 // 1: Open https://game-icons.net/tags.html
-// 2: copy([...document.querySelectorAll('.parent')].map(a => [...a.children].map(b => ({ tag: b.href.replace('https://game-icons.net/tags/', '').replace('.html', ''), name: b.innerText.split('—')[0].trim() }))))
+// 2: copy([...document.querySelectorAll('li a[href^="/tags"]')].map(b => ({ tag: b.href.replace('https://game-icons.net/tags/', '').replace('.html', ''), name: b.innerText.split('—')[0].trim() })))
 // 3: paste in game-icons.tags.json
 
 const icons: {
@@ -20,82 +20,84 @@ const icons: {
   }[];
 }[][] = [];
 
-for (const tags of TAGS) {
-  const items: {
-    tag: string;
-    icons: {
-      name: string;
-      url: string;
-      author: string;
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    }[];
+const items: {
+  tag: string;
+  icons: {
+    name: string;
+    url: string;
+    author: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }[];
+}[] = [];
+
+for (const tag of TAGS) {
+  await downloadAndUnzip(tag.tag);
+  const itemIcons: {
+    name: string;
+    url: string;
+    author: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
   }[] = [];
-
-  for (const tag of tags) {
-    await downloadAndUnzip(tag.tag);
-    const itemIcons: {
-      name: string;
-      url: string;
-      author: string;
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    }[] = [];
-    const spritePaths: SpritePaths = [];
-    for (const icon of readDirRecursive(`${TEMP_DIR}/icons/${tag.tag}`)) {
-      if (icon.endsWith("license.txt")) {
-        continue;
-      }
-      const matched = icon.match(
-        /icons\\(.+?)\\icons\\ffffff\\transparent\\1x1\\(.+?)\\(.+?)\.png/,
-      );
-      if (!matched) {
-        console.warn("No match for", icon);
-        continue;
-      }
-      const [, , author, name] = matched;
-      spritePaths.push({
-        name: capitalizeString(name),
-        imagePath: icon,
-      });
-
-      itemIcons.push({
-        name: capitalizeString(name),
-        url: `/global_icons/game-icons/${tag.tag}.webp`,
-        author: capitalizeString(author),
-        x: 0,
-        y: 0,
-        width: 64,
-        height: 64,
-      });
-      //   await $`cwebp ${icon} -resize 64 64 -m 6 -o ../../static/global/icons/game-icons/${name}_${author}.webp -quiet`;
+  const spritePaths: SpritePaths = [];
+  for (const icon of readDirRecursive(`${TEMP_DIR}/icons/${tag.tag}`)) {
+    if (icon.endsWith("license.txt")) {
+      continue;
     }
-    const imageSprite = await createImageSprite(spritePaths, 64, 64);
-    const tempFileName = `${TEMP_DIR}/icons/${tag.tag}/sprite.png`;
-    saveImage(tempFileName, imageSprite.canvas.toBuffer("image/png"));
-    const outFilename = `C:\\dev\\the-hidden-gaming-lair\\static\\global\\icons\\game-icons\\${tag.tag}.webp`;
-    await $`cwebp ${tempFileName} -m 6 -o ${outFilename} -quiet`;
-
-    for (const sprite of imageSprite.imageSprite) {
-      const itemIcon = itemIcons.find((icon) => icon.name === sprite.name);
-      if (!itemIcon) {
-        throw new Error("No icon found for " + sprite.name);
-      }
-      itemIcon.x = sprite.x;
-      itemIcon.y = sprite.y;
+    const matched = icon.match(
+      /icons\\(.+?)\\icons\\ffffff\\transparent\\1x1\\(.+?)\\(.+?)\.png/,
+    );
+    if (!matched) {
+      console.warn("No match for", icon);
+      continue;
     }
-    items.push({
-      tag: tag.name,
-      icons: itemIcons,
+    const [, , author, name] = matched;
+    spritePaths.push({
+      name: capitalizeString(name),
+      imagePath: icon,
     });
-    console.log(`${tag.name} processed`);
+
+    // copy this icon to game-icons folder
+    cpFile(icon, `${TEMP_DIR}\\game-icons\\${name}_${author}.png`);
+
+    itemIcons.push({
+      name: capitalizeString(name),
+      url: `/global_icons/game-icons/${tag.tag}.webp`,
+      author: capitalizeString(author),
+      x: 0,
+      y: 0,
+      width: 64,
+      height: 64,
+    });
+    //   await $`cwebp ${icon} -resize 64 64 -m 6 -o ../../static/global/icons/game-icons/${name}_${author}.webp -quiet`;
   }
-  icons.push(items);
+  const imageSprite = await createImageSprite(spritePaths, 64, 64);
+  const tempFileName = `${TEMP_DIR}/icons/${tag.tag}/sprite.png`;
+  saveImage(tempFileName, imageSprite.canvas.toBuffer("image/png"));
+  const outFilename = `C:\\dev\\the-hidden-gaming-lair\\static\\global\\icons\\game-icons\\${tag.tag}.webp`;
+  await $`cwebp ${tempFileName} -m 6 -o ${outFilename} -quiet`;
+
+  for (const sprite of imageSprite.imageSprite) {
+    const itemIcon = itemIcons.find((icon) => icon.name === sprite.name);
+    if (!itemIcon) {
+      throw new Error("No icon found for " + sprite.name);
+    }
+    itemIcon.x = sprite.x;
+    itemIcon.y = sprite.y;
+  }
+  items.push({
+    tag: tag.name,
+    icons: itemIcons,
+  });
+  console.log(`${tag.name} processed`);
 }
+icons.push(items);
+
 await Bun.write(
   `C:\\dev\\the-hidden-gaming-lair\\packages\\ui\\src\\components\\(controls)\\icons.json`,
   JSON.stringify(icons, null, 2),
