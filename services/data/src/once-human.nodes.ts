@@ -161,6 +161,9 @@ Object.entries(data).forEach(([type, spawnNodes]) => {
   }
 
   targetSpawnNodes.forEach(([x, y, z, mapName]) => {
+    // if (mapName !== "north_snow_pve") {
+    //   return;
+    // }
     let minDistance;
     if (mapName === "raid") {
       minDistance = isItem ? 1 : 3;
