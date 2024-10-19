@@ -15,3 +15,4 @@ export * from "../ui/switch";
 export * from "../ui/tooltip";
 export * from "../ui/label";
 export * from "./whiteboard";
+export { default as gameIcons } from "./icons.json";

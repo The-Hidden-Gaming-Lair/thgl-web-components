@@ -45,7 +45,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
   const setFilters = useUserStore((state) => state.setFilters);
   const isEditing = tempPrivateNode !== null;
   const radius = tempPrivateNode?.radius ?? 10;
-  const color = tempPrivateNode?.color ?? "#FFFFFFAA";
+  const color = tempPrivateNode?.color ?? "#FFFFFFCC";
 
   useEffect(() => {
     if (!map) {
@@ -86,7 +86,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     const radius = tempPrivateNode.radius ?? 10;
     const privateNodeMarker = new CanvasMarker(latLng, {
       id: "private-node",
-      icon: tempPrivateNode.icon ? tempPrivateNode.icon.url : null,
+      icon: tempPrivateNode.icon || null,
       baseRadius: 10,
       radius: radius * baseIconSize,
       fillColor: color,
@@ -139,12 +139,22 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       return;
     }
 
-    canvasMarker.current.setIcon(
-      tempPrivateNode.icon ? tempPrivateNode.icon.url : null,
-    );
-    canvasMarker.current.setStyle({ fillColor: color });
-    canvasMarker.current.setRadius(radius * baseIconSize);
-    if (tempPrivateNode.p) {
+    if (canvasMarker.current.options.icon !== tempPrivateNode.icon) {
+      canvasMarker.current.setIcon(tempPrivateNode.icon || null);
+    }
+    if (canvasMarker.current.options.fillColor !== color) {
+      canvasMarker.current.setStyle({ fillColor: color });
+    }
+    const newRadius = radius * baseIconSize;
+    if (canvasMarker.current.options.radius !== newRadius) {
+      canvasMarker.current.setRadius(newRadius);
+    }
+    const latLng = canvasMarker.current.getLatLng();
+    if (
+      tempPrivateNode.p &&
+      (latLng.lat !== tempPrivateNode.p[0] ||
+        latLng.lng !== tempPrivateNode.p[1])
+    ) {
       canvasMarker.current.setLatLng(tempPrivateNode.p);
     }
   }, [color, radius, baseIconSize, tempPrivateNode?.icon, tempPrivateNode?.p]);
@@ -166,7 +176,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
     const radius = sharedTempPrivateNode.radius ?? 10;
     const privateNodeMarker = new CanvasMarker(latLng, {
       id: "shared-private-node",
-      icon: sharedTempPrivateNode.icon ? sharedTempPrivateNode.icon.url : null,
+      icon: sharedTempPrivateNode.icon,
       baseRadius: 10,
       radius: radius * baseIconSize,
       fillColor: sharedTempPrivateNode.color,
@@ -211,9 +221,7 @@ export function PrivateNode({ hidden }: { hidden?: boolean }) {
       name: tempPrivateNode.name,
       description: tempPrivateNode.description,
       color: color,
-      icon: tempPrivateNode.icon
-        ? { name: tempPrivateNode.icon.name, url: tempPrivateNode.icon.url }
-        : null,
+      icon: tempPrivateNode.icon || null,
       radius,
       p: [latLng.lat, latLng.lng] as [number, number],
       mapName,

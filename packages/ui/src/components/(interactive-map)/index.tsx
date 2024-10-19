@@ -1,5 +1,5 @@
 export * from "./canvas-layer";
-export * from "./coordinates-control";
+// export * from "./coordinates-control";
 export * from "./interactive-map";
 export * from "./live-player";
 export * from "./markers";

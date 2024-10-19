@@ -56,6 +56,10 @@ export type Spawns = {
   icon?: {
     name: string;
     url: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
   } | null;
   radius?: number;
   isPrivate?: boolean;

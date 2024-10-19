@@ -1,4 +1,5 @@
 import leaflet, { CircleMarker } from "leaflet";
+import { gameIcons } from "../(controls)";
 
 leaflet.Canvas.include({
   updateCanvasImg(layer: CanvasMarker) {
@@ -23,7 +24,6 @@ leaflet.Canvas.include({
     const p = layer._point.round();
     const dx = p.x - radius;
     const dy = p.y - radius;
-
     if (icon !== undefined) {
       if (icon === null || layer.imageElement.width === 0) {
         layerContext.beginPath();
@@ -33,15 +33,15 @@ leaflet.Canvas.include({
         return;
       }
 
-      const key = `${icon}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`;
+      const key =
+        "width" in icon
+          ? `${icon.url}${icon.x}${icon.y}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`
+          : `${icon.url}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`;
       if (canvasCache[key]) {
         layerContext.drawImage(canvasCache[key], dx, dy);
         return;
       }
 
-      if (icon === null || layer.imageElement.width === 0) {
-        return;
-      }
       const canvas = document.createElement("canvas");
       canvas.width = imageSize;
       canvas.height = imageSize;
@@ -61,13 +61,27 @@ leaflet.Canvas.include({
         context.shadowColor = "white";
         context.shadowBlur = 15;
       }
-      context.drawImage(
-        layer.imageElement,
-        (canvas.width - imageSize) / 2,
-        (canvas.height - imageSize) / 2,
-        imageSize,
-        imageSize,
-      );
+      if ("width" in icon) {
+        context.drawImage(
+          layer.imageElement,
+          icon.x,
+          icon.y,
+          icon.width || imageSize,
+          icon.height || imageSize,
+          (canvas.width - imageSize) / 2,
+          (canvas.height - imageSize) / 2,
+          imageSize,
+          imageSize,
+        );
+      } else {
+        context.drawImage(
+          layer.imageElement,
+          (canvas.width - imageSize) / 2,
+          (canvas.height - imageSize) / 2,
+          imageSize,
+          imageSize,
+        );
+      }
       if (isCluster) {
         context.beginPath();
 
@@ -169,6 +183,19 @@ leaflet.Canvas.include({
   },
 });
 
+export type CanvasMarkerIcon =
+  | {
+      url: string;
+    }
+  | {
+      name: string;
+      url: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+
 export type CanvasMarkerOptions = {
   id: string;
   baseRadius: number;
@@ -177,13 +204,32 @@ export type CanvasMarkerOptions = {
   isDiscovered?: boolean;
   isCluster?: boolean;
   noCache?: boolean;
-  icon?: string | null;
+  icon?: CanvasMarkerIcon | null;
   text?: string;
   zPos?: "top" | "bottom" | null;
 };
 
 const imageElements: Record<string, HTMLImageElement> = {};
 const canvasCache: Record<string, HTMLCanvasElement> = {};
+
+let flatGameIcons:
+  | {
+      name: string;
+      url: string;
+      author: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    }[]
+  | null = null;
+function findIcon(name: string) {
+  if (!flatGameIcons) {
+    flatGameIcons = gameIcons.flat().flatMap((g) => g.icons);
+  }
+  return flatGameIcons.find((icon) => icon.name === name);
+}
+
 class CanvasMarker extends CircleMarker {
   declare options: leaflet.CircleMarkerOptions & CanvasMarkerOptions;
   declare _point: leaflet.Point;
@@ -199,15 +245,23 @@ class CanvasMarker extends CircleMarker {
   ) {
     super(latLng, options);
     if ("icon" in options && options.icon) {
-      if (!imageElements[options.icon]) {
-        imageElements[options.icon] = document.createElement("img");
-        if (!options.icon.startsWith("/")) {
-          imageElements[options.icon].src = `/icons/${options.icon}`;
-        } else {
-          imageElements[options.icon].src = options.icon;
+      let url = options.icon.url;
+      if ("name" in options.icon) {
+        const icon = findIcon(options.icon.name);
+        if (icon) {
+          this.options.icon = icon;
+          url = icon.url;
         }
       }
-      this.imageElement = imageElements[options.icon];
+      if (!imageElements[url]) {
+        imageElements[url] = document.createElement("img");
+        if (!url.startsWith("/")) {
+          imageElements[url].src = `/icons/${options.icon}`;
+        } else {
+          imageElements[url].src = url;
+        }
+      }
+      this.imageElement = imageElements[url];
     }
   }
 
@@ -227,18 +281,26 @@ class CanvasMarker extends CircleMarker {
     this.update();
   }
 
-  setIcon(icon: string | null) {
-    this.options.icon = icon;
+  setIcon(newIcon: CanvasMarkerIcon | null | undefined) {
+    this.options.icon = newIcon;
+    if (newIcon) {
+      let url = newIcon.url;
+      if ("name" in newIcon) {
+        const icon = findIcon(newIcon.name);
+        if (icon) {
+          this.options.icon = icon;
+          url = icon.url;
+        }
+      }
 
-    if (icon) {
-      console.log(icon);
-      if (!imageElements[icon]) {
-        imageElements[icon] = document.createElement("img");
-        imageElements[icon].src = icon;
+      if (!imageElements[url]) {
+        imageElements[url] = document.createElement("img");
+        imageElements[url].src = url;
         this._onImageLoad = undefined;
       }
-      this.imageElement = imageElements[icon];
+      this.imageElement = imageElements[url];
     }
+    this.update();
   }
 
   setHighlight(isHighlighted: boolean) {

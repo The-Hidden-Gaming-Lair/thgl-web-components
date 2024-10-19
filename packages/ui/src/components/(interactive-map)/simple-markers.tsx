@@ -44,7 +44,7 @@ export function SimpleMarkers({
     const markers = spawns.map((spawn) => {
       const marker = new CanvasMarker(spawn.p, {
         id: spawn.id,
-        icon: spawn.icon,
+        icon: spawn.icon ? { url: spawn.icon } : null,
         color: spawn.color,
         baseRadius: baseRadius,
         radius: baseRadius * baseIconSize,

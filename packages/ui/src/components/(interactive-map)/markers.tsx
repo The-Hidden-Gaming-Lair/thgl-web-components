@@ -2,7 +2,7 @@
 import type { LeafletMouseEvent } from "leaflet";
 import { DomEvent } from "leaflet";
 import { useEffect, useRef, useState } from "react";
-import { Spawns, useCoordinates, useT, useUserStore } from "../(providers)";
+import { Spawns, useCoordinates, useT } from "../(providers)";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 import CanvasMarker, { CanvasMarkerOptions } from "./canvas-marker";
 import { useMap } from "./store";
@@ -230,7 +230,7 @@ function MarkersContent({
         markerOptions.radius * (icon?.size ?? 1) * (isCluster ? 1.5 : 1);
       const marker = new CanvasMarker(spawn.p, {
         id,
-        icon: spawn.icon?.url || (icon ? `/icons/${icon.icon}` : null),
+        icon: spawn.icon || (icon ? { url: `/icons/${icon.icon}` } : null),
         fillColor: spawn.color,
         baseRadius,
         radius: baseRadius * baseIconSize,
@@ -345,6 +345,7 @@ function MarkersContent({
         continue;
       }
       existingSpawnIds.current.delete(key);
+
       try {
         marker.remove();
       } catch (e) {}

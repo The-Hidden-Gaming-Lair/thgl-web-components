@@ -645,3 +645,63 @@ export function putImageData(
   const ctx = canvas.getContext("2d");
   ctx.putImageData(imageData, dx, dy);
 }
+
+export type SpritePaths = {
+  name: string;
+  imagePath: string;
+}[];
+export type ImageSprite = {
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}[];
+
+export async function createImageSprite(
+  spritePaths: SpritePaths,
+  cellWidth: number,
+  cellHeight: number,
+): Promise<{
+  canvas: Canvas;
+  imageSprite: ImageSprite;
+  width: number;
+  height: number;
+}> {
+  const images = await Promise.all(
+    spritePaths.map((path) => loadImage(path.imagePath)),
+  );
+  const rows = Math.ceil(Math.sqrt(images.length));
+  const cols = Math.ceil(images.length / rows);
+  // console.log("Rows:", rows, "Cols:", cols);
+  const canvasWidth = rows * cellWidth;
+  const canvasHeight = cols * cellHeight;
+
+  // console.log("Canvas size:", canvasWidth, canvasHeight);
+  const canvas = createCanvas(canvasWidth, canvasHeight);
+  const ctx = canvas.getContext("2d");
+
+  const imageSprite: ImageSprite = [];
+  let x = 0;
+  let y = 0;
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    const spritePath = spritePaths[i];
+    ctx.drawImage(image, x, y, cellWidth, cellHeight);
+    if (i % cols === cols - 1) {
+      x = 0;
+      y += cellHeight;
+    } else {
+      x += cellWidth;
+    }
+    imageSprite.push({
+      name: spritePath.name,
+      x,
+      y,
+      width: image.width,
+      height: image.height,
+    });
+  }
+
+  return { canvas, imageSprite, width: canvasWidth, height: canvasHeight };
+}

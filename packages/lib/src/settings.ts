@@ -10,6 +10,10 @@ export type PrivateNode = {
   icon: {
     name: string;
     url: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
   } | null;
   color?: string;
   radius: number;

@@ -15,6 +15,7 @@ import {
   CommandSeparator,
 } from "../ui/command";
 import { useCoordinates, useT } from "../(providers)";
+import { gameIcons } from ".";
 
 export function IconPicker({
   value,
@@ -24,13 +25,19 @@ export function IconPicker({
   value: {
     name: string;
     url: string;
-    author?: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
   } | null;
   onChange: (
     value: {
       name: string;
       url: string;
-      author?: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
     } | null,
   ) => void;
   className?: string;
@@ -41,6 +48,10 @@ export function IconPicker({
       name: string;
       url: string;
       author?: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
     }[];
   } | null>(null);
   const [icons, setIcons] = useState<
@@ -50,6 +61,10 @@ export function IconPicker({
           name: string;
           url: string;
           author?: string;
+          x: number;
+          y: number;
+          width: number;
+          height: number;
         }[];
       }[][]
     | null
@@ -58,18 +73,20 @@ export function IconPicker({
   const { filters } = useCoordinates();
 
   useEffect(() => {
-    import("./icons.json").then((json) => {
-      const appIcons = {
-        tag: "App Specific",
-        icons: filters.flatMap((filter) => {
-          return filter.values.map((value) => ({
-            name: t(value.id),
-            url: `/icons/${value.icon}`,
-          }));
-        }),
-      };
-      setIcons([[appIcons], ...json.default]);
-    });
+    const appIcons = {
+      tag: "App Specific",
+      icons: filters.flatMap((filter) => {
+        return filter.values.map((value) => ({
+          name: t(value.id),
+          url: `/icons/${value.icon}`,
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0,
+        }));
+      }),
+    };
+    setIcons([[appIcons], ...gameIcons]);
   }, []);
 
   return (
@@ -85,7 +102,26 @@ export function IconPicker({
         >
           <div className="w-full flex items-center gap-2">
             {value ? (
-              <img key={value.url} src={value.url} className="h-4 w-4" />
+              value.width ? (
+                <img
+                  src={value.url}
+                  alt={value.name}
+                  className="object-none"
+                  width={value.width}
+                  height={value.height}
+                  style={{
+                    objectPosition: `-${value.x}px -${value.y}px`,
+                    zoom: 0.3,
+                  }}
+                />
+              ) : (
+                <img
+                  src={value.url}
+                  alt={value.name}
+                  loading="lazy"
+                  className="h-4 w-4"
+                />
+              )
             ) : (
               <Circle className="h-4 w-4" />
             )}
@@ -115,15 +151,30 @@ export function IconPicker({
               <ScrollArea className="max-h-96">
                 {selection.icons.map((icon) => (
                   <button
-                    key={icon.url}
+                    key={`${icon.name}-${icon.author}`}
                     onClick={() => onChange(icon)}
                     title={`${icon.name}${icon.author ? `made by ${icon.author}` : ""}`}
                   >
-                    <img
-                      src={icon.url}
-                      loading="lazy"
-                      className="h-6 w-6 active:scale-105"
-                    />
+                    {icon.width !== 0 ? (
+                      <img
+                        src={icon.url}
+                        alt={icon.name}
+                        className="object-none"
+                        width={icon.width}
+                        height={icon.height}
+                        style={{
+                          objectPosition: `-${icon.x}px -${icon.y}px`,
+                          zoom: 0.5,
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={icon.url}
+                        alt={icon.name}
+                        loading="lazy"
+                        className="h-6 w-6 active:scale-105"
+                      />
+                    )}
                   </button>
                 ))}
               </ScrollArea>
@@ -138,19 +189,19 @@ export function IconPicker({
                 <ScrollArea className="h-full max-h-96">
                   {icons.map((subIcons, index) => (
                     <Fragment key={index}>
-                      {subIcons.map(({ tag, icons }) => (
+                      {subIcons.map(({ tag, icons, ...props }) => (
                         <CommandItem
                           key={tag}
                           value={tag}
                           onSelect={() => {
-                            setSelection({ tag, icons });
+                            setSelection({ tag, icons, ...props });
                           }}
                         >
-                          <img
+                          {/* <img
                             src={icons[0].url}
                             alt=""
                             className="mr-2 h-4 w-4"
-                          />
+                          /> */}
                           <span>
                             {tag} ({icons.length})
                           </span>
