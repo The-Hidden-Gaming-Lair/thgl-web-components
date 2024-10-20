@@ -48,7 +48,9 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
         mapName = actor.path;
       }
       if (lastMapName !== mapName) {
-        console.log(`Map changed to ${mapName}`);
+        console.log(
+          `Map changed to ${mapName} with path ${actor.path} and server ${prevServerName}`,
+        );
       }
       lastMapName = mapName;
     } else if (playerActor.mapName) {
@@ -193,7 +195,7 @@ async function sendActorsToAPI(actors: Actor[]): Promise<void> {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-13", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-14", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
