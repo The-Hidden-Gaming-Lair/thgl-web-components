@@ -119,7 +119,7 @@ function refreshServerName(): Promise<void> {
   return new Promise((resolve) => {
     gameEventsPlugin.GetServerName(
       (serverName) => {
-        if (!serverName) {
+        if (!serverName || serverName === "null") {
           resolve();
           return;
         }
