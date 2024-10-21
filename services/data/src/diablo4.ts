@@ -21,9 +21,9 @@ import {
 
 
 initDirs(
-  String.raw`C:\dev\diablo4\data\json`,
+  String.raw`C:\dev\DiabloIV\d4data\json`,
   // String.raw`C:\dev\DiabloIV\d4data_ptr\json`,
-  String.raw`C:\dev\d4-texture-extractor\png`,
+  String.raw`C:\dev\DiabloIV\d4-texture-extractor\png`,
   String.raw`C:\dev\the-hidden-gaming-lair\static\diablo4`,
 );
 
