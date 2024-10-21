@@ -19,10 +19,11 @@ import {
   TrackedReward,
 } from "./diablo4.types.js";
 
+
 initDirs(
-  String.raw`C:\dev\DiabloIV\d4data\json`,
+  String.raw`C:\dev\diablo4\data\json`,
   // String.raw`C:\dev\DiabloIV\d4data_ptr\json`,
-  String.raw`C:\dev\DiabloIV\d4-texture-extractor\png`,
+  String.raw`C:\dev\d4-texture-extractor\png`,
   String.raw`C:\dev\the-hidden-gaming-lair\static\diablo4`,
 );
 
@@ -218,6 +219,14 @@ const filters = initFilters([
         icon: await saveIcon(
           "/slices/2DUIMinimapIcons/3927157842.png",
           "healers",
+        ),
+        size: 1.5,
+      },      
+      {
+        id: "cursedScrolls",
+        icon: await saveIcon(
+          "/slices/2DUIMinimapIcons/1810968731.png",
+          "cursedScrolls",
         ),
         size: 1.5,
       },
@@ -518,6 +527,7 @@ const enDict = initDict({
   alchemists: "Alchemists",
   blacksmiths: "Blacksmiths",
   healers: "Healers",
+  cursedScrolls: "Cursed Scroll",
   gamblers: "Gamblers",
   jewelers: "Jewelers",
   occultists: "Occultists",
@@ -952,7 +962,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
       const matched = snoName.name.match(
         /TWN_(?<name>.*)_(?<type>.*)_(?<role>.*)/,
       );
-      const role = matched?.groups?.role;
+      let role = matched?.groups?.role;
       if (!role) {
         // console.warn("Unknown type", snoName.name);
         continue;
@@ -970,6 +980,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
           "Silversmith",
           "StableMaster",
           "Weapons",
+          "PvPCursedScroll"
         ].includes(role)
       ) {
         if (!unknownRoles.includes(role)) {
@@ -978,6 +989,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
         }
         continue;
       }
+      role = role.replace("PvP", "");
       type = toCamelCase(role)
         .replace("gamblingTable", "gambling")
         .replace("gamblingBoard", "gambling");

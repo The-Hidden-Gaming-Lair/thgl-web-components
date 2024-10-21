@@ -82,6 +82,11 @@
         "size": 1.5
       },
       {
+        "id": "cursedScrolls",
+        "icon": "cursedscrolls.webp",
+        "size": 1.5
+      },
+      {
         "id": "gamblers",
         "icon": "gamblers.webp",
         "size": 1.5
