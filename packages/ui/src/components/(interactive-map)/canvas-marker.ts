@@ -32,7 +32,6 @@ leaflet.Canvas.include({
         layerContext.fill();
         return;
       }
-
       const key =
         "width" in icon
           ? `${icon.url}${icon.x}${icon.y}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`
@@ -256,7 +255,7 @@ class CanvasMarker extends CircleMarker {
       if (!imageElements[url]) {
         imageElements[url] = document.createElement("img");
         if (!url.startsWith("/")) {
-          imageElements[url].src = `/icons/${options.icon}`;
+          imageElements[url].src = `/icons/${url}`;
         } else {
           imageElements[url].src = url;
         }
