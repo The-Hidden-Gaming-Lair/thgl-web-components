@@ -119,8 +119,13 @@ function refreshServerName(): Promise<void> {
   return new Promise((resolve) => {
     gameEventsPlugin.GetServerName(
       (serverName) => {
+        if (!serverName) {
+          resolve();
+          return;
+        }
         if (prevServerName !== serverName) {
           prevServerName = serverName;
+          console.log(`Server name changed to ${serverName}`);
         }
         window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
         resolve();
