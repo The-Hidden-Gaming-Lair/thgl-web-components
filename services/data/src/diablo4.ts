@@ -19,7 +19,6 @@ import {
   TrackedReward,
 } from "./diablo4.types.js";
 
-
 initDirs(
   String.raw`C:\dev\DiabloIV\d4data\json`,
   // String.raw`C:\dev\DiabloIV\d4data_ptr\json`,
