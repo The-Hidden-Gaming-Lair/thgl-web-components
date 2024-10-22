@@ -110,7 +110,7 @@ export function CollapsibleFilter({
                         height={f.icon.height}
                         style={{
                           objectPosition: `-${f.icon.x}px -${f.icon.y}px`,
-                          zoom: 0.4,
+                          zoom: 0.35,
                         }}
                       />
                     )}
