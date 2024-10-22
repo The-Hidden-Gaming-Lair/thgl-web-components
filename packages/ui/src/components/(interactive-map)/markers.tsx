@@ -164,9 +164,10 @@ function MarkersContent({
     if (!existingSpawnIds.current) {
       existingSpawnIds.current = new Map();
     }
+    let needToAddLayer = false;
     if (!layerGroupRef.current) {
       layerGroupRef.current = layerGroup();
-      layerGroupRef.current.addTo(map);
+      needToAddLayer = true;
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
@@ -375,6 +376,9 @@ function MarkersContent({
         //
       }
     });
+    if (needToAddLayer) {
+      layerGroupRef.current.addTo(map);
+    }
 
     for (const [key, marker] of existingSpawnIds.current.entries()) {
       if (spawnIds.has(key)) {

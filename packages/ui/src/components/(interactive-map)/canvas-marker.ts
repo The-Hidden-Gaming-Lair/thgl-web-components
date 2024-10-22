@@ -317,7 +317,6 @@ class CanvasMarker extends CircleMarker {
     const radius = this.options.radius!;
     this._radius = radius / 2 + radius * 2 * zoomFactor;
     this._point = this._map.latLngToLayerPoint(this._latlng);
-    this._updateBounds();
   }
 
   _updatePath(): void {
