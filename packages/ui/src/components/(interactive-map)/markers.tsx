@@ -152,7 +152,6 @@ function MarkersContent({
   );
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
   const existingSpawnIds = useRef<Map<string | number, CanvasMarker>>();
-  const layerGroupRef = useRef<LayerGroup>();
   const player = useGameState((state) => state.player);
   const throttledPlayer = useThrottle(player, 1000);
   const firstRender = useRef(true);
@@ -163,11 +162,6 @@ function MarkersContent({
     }
     if (!existingSpawnIds.current) {
       existingSpawnIds.current = new Map();
-    }
-    let needToAddLayer = false;
-    if (!layerGroupRef.current) {
-      layerGroupRef.current = layerGroup();
-      needToAddLayer = true;
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
@@ -371,14 +365,11 @@ function MarkersContent({
       });
       existingSpawnIds.current!.set(spawn.address || id, marker);
       try {
-        layerGroupRef.current!.addLayer(marker);
+        marker.addTo(map);
       } catch (e) {
         //
       }
     });
-    if (needToAddLayer) {
-      layerGroupRef.current.addTo(map);
-    }
 
     for (const [key, marker] of existingSpawnIds.current.entries()) {
       if (spawnIds.has(key)) {
@@ -387,7 +378,7 @@ function MarkersContent({
       existingSpawnIds.current.delete(key);
 
       try {
-        layerGroupRef.current!.removeLayer(marker);
+        marker.remove();
       } catch (e) {}
     }
   }, [
