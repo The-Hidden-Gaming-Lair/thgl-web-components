@@ -11,6 +11,7 @@ export type Node = {
     };
     data?: Record<string, string[]>;
   }[];
+  data?: Record<string, string[]>;
 };
 
 export type Icon =
