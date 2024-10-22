@@ -7,7 +7,7 @@ import {
   TEMP_DIR,
   TEXTURE_DIR,
 } from "./lib/dirs.js";
-import { initFilters, writeFilters } from "./lib/filters.js";
+import { initFilters, mergeImageSprite, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
   arrayJoinImages,
@@ -15,6 +15,7 @@ import {
   IconProps,
   mergeImages,
   saveIcon,
+  saveIconSprite,
 } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
@@ -324,7 +325,9 @@ const switchType = (
   let iconPath = initialIconPath;
   let group = initialGroup;
   let size = 1;
-  const iconProps: IconProps = {};
+  const iconProps: IconProps = {
+    imageSprite: true,
+  };
 
   if (type === "juluo") {
     group = "locations";
@@ -642,7 +645,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     newTypes.push(type);
     // Add new filter value
     if (!iconPath) {
-      console.warn("No icon path for", key);
+      // console.warn("No icon path for", key);
       continue;
     }
     const icon = await saveIcon(iconPath, type, iconProps);
@@ -754,6 +757,7 @@ for (const deviation of Object.values(deviationBaseData)) {
   enDict[`${type}_desc`] = deviation.skill_info_lst.join("<br>");
   const size = 1.5;
   const iconProps: IconProps = {
+    imageSprite: true,
     border: true,
     color: "#d1aedd",
   };
@@ -826,7 +830,9 @@ for (const fish of Object.values(fishData)) {
   }
   if (!newTypes.includes(type)) {
     newTypes.push(type);
-    const icon = await saveIcon(iconPath, type, {});
+    const icon = await saveIcon(iconPath, type, {
+      imageSprite: true,
+    });
     if (!filters.some((f) => f.group === group)) {
       filters.push({
         group,
@@ -850,9 +856,9 @@ for (const fish of Object.values(fishData)) {
     }
   }
   if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    console.warn(
-      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    );
+    // console.warn(
+    //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    // );
   }
   typeIDs[typeId] = type;
 }
@@ -877,7 +883,7 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       .replace(/[^a-zA-Z0-9_]/g, "")
       .toLowerCase();
 
-    const iconProps: IconProps = {};
+    const iconProps: IconProps = { imageSprite: true };
     let iconPath;
     let size = 0.75;
     const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
@@ -1077,7 +1083,7 @@ for (const battleFieldName of battleFieldNames) {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
       } else {
-        console.warn("No icon path for", group);
+        // console.warn("No icon path for", group);
         continue;
       }
       iconProps.color = uniqolor(type, {
@@ -1163,6 +1169,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "purple",
       circle: true,
     },
@@ -1200,6 +1207,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "green",
       circle: true,
     },
@@ -1240,6 +1248,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "yellow",
       circle: true,
     },
@@ -1280,6 +1289,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "lightblue",
       circle: true,
     },
@@ -1321,6 +1331,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "#746cd7",
       circle: true,
     },
@@ -1373,7 +1384,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   let iconPath;
   let autoDiscover = false;
   let defaultOn: boolean | undefined;
-  const iconProps: IconProps = {};
+  const iconProps: IconProps = {
+    imageSprite: true,
+  };
   typeIDs[key] = type;
 
   if (value.res_name.endsWith(" Recipe")) {
@@ -1497,6 +1510,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     String.raw`${TEMP_DIR}\game-icons\locked-box_delapouite.png`,
     type,
     {
+      imageSprite: true,
       color: "#f2be59",
     },
   );
@@ -1531,6 +1545,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_copper_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1559,6 +1576,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new_original/icon_xgrs_24.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1587,6 +1607,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new_original/icon_xgrs_23.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1615,6 +1638,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sliver_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1643,6 +1669,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_gold_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1671,6 +1700,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon/icon_crystal_patagium.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1698,6 +1730,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_tungsten_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1726,6 +1761,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_aluminum_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1754,6 +1792,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_iron_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1784,6 +1825,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_stannum_ore_new.png.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1812,6 +1856,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sulfur_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1842,6 +1889,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_kelp_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1870,6 +1920,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_kelp_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1959,6 +2012,7 @@ const recipes = filters.find((f) => f.group === "recipes")!;
           String.raw`${TEMP_DIR}\game-icons\open-book_lorc.png`,
           type,
           {
+            imageSprite: true,
             color: uniqolor(type, {
               lightness: [70, 80],
             }).color,
@@ -2073,6 +2127,8 @@ Object.keys(tiles).forEach((mapName) => {
     filteredNodes.filter((n) => !n.mapName || n.mapName === mapName),
   );
 });
+
+await saveIconSprite(filters);
 
 const sortedFilters = filters
   .map((f) => {

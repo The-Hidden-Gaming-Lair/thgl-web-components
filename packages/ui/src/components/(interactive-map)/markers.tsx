@@ -1,10 +1,13 @@
 "use client";
-import type { LeafletMouseEvent } from "leaflet";
-import { DomEvent } from "leaflet";
+import type { LayerGroup, LeafletMouseEvent } from "leaflet";
+import { DomEvent, layerGroup } from "leaflet";
 import { useEffect, useRef, useState } from "react";
 import { Spawns, useCoordinates, useT } from "../(providers)";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
-import CanvasMarker, { CanvasMarkerOptions } from "./canvas-marker";
+import CanvasMarker, {
+  canvasMarkerImgs,
+  CanvasMarkerOptions,
+} from "./canvas-marker";
 import { useMap } from "./store";
 import {
   MarkerOptions,
@@ -24,6 +27,10 @@ export function Markers({
   const handleMapMouseMoveRef = useRef<((e: LeafletMouseEvent) => void) | null>(
     null,
   );
+  const [isLoadingSprite, setIsLoadingSprite] = useState(
+    markerOptions.imageSprite,
+  );
+
   const [tooltipIsOpen, setTooltipIsOpen] = useState(false);
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -35,6 +42,25 @@ export function Markers({
 
   const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
   const mapContainer = map?.getPane("mapPane");
+
+  useEffect(() => {
+    if (markerOptions.imageSprite && !canvasMarkerImgs["icons.webp"]) {
+      const iconSprite = new Image();
+      iconSprite.src = "/icons/icons.webp";
+      canvasMarkerImgs["icons.webp"] = iconSprite;
+      iconSprite.onload = () => {
+        setIsLoadingSprite(false);
+      };
+      iconSprite.onerror = () => {
+        setIsLoadingSprite(false);
+      };
+    }
+  }, []);
+
+  if (isLoadingSprite) {
+    return <></>;
+  }
+
   return (
     <>
       <MarkersContent
@@ -126,6 +152,7 @@ function MarkersContent({
   );
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
   const existingSpawnIds = useRef<Map<string | number, CanvasMarker>>();
+  const layerGroupRef = useRef<LayerGroup>();
   const player = useGameState((state) => state.player);
   const throttledPlayer = useThrottle(player, 1000);
   const firstRender = useRef(true);
@@ -136,6 +163,10 @@ function MarkersContent({
     }
     if (!existingSpawnIds.current) {
       existingSpawnIds.current = new Map();
+    }
+    if (!layerGroupRef.current) {
+      layerGroupRef.current = layerGroup();
+      layerGroupRef.current.addTo(map);
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
@@ -230,7 +261,12 @@ function MarkersContent({
         markerOptions.radius * (icon?.size ?? 1) * (isCluster ? 1.5 : 1);
       const marker = new CanvasMarker(spawn.p, {
         id,
-        icon: spawn.icon || (icon ? { url: `/icons/${icon.icon}` } : null),
+        icon:
+          spawn.icon ||
+          (typeof icon?.icon === "string"
+            ? { url: `/icons/${icon.icon}` }
+            : icon?.icon) ||
+          null,
         fillColor: spawn.color,
         baseRadius,
         radius: baseRadius * baseIconSize,
@@ -334,7 +370,7 @@ function MarkersContent({
       });
       existingSpawnIds.current!.set(spawn.address || id, marker);
       try {
-        marker.addTo(map);
+        layerGroupRef.current!.addLayer(marker);
       } catch (e) {
         //
       }
@@ -347,7 +383,7 @@ function MarkersContent({
       existingSpawnIds.current.delete(key);
 
       try {
-        marker.remove();
+        layerGroupRef.current!.removeLayer(marker);
       } catch (e) {}
     }
   }, [

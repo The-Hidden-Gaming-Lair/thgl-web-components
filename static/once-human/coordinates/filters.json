@@ -6,82 +6,160 @@
     "values": [
       {
         "id": "morphic_crate",
-        "icon": "morphic_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "weapon_crate",
-        "icon": "weapon_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "autoDiscover": true
       },
       {
         "id": "gear_crate",
-        "icon": "gear_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "autoDiscover": true
       },
       {
         "id": "storage_crate",
-        "icon": "storage_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "autoDiscover": true
       },
       {
         "id": "treasure_chest",
-        "icon": "treasure_chest.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "fruit__veggies",
-        "icon": "fruit__veggies.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false,
         "defaultOn": false
       },
       {
         "id": "vending_machine",
-        "icon": "vending_machine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false,
         "defaultOn": false
       },
       {
         "id": "car_trunk",
-        "icon": "car_trunk.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false,
         "defaultOn": false
       },
       {
         "id": "long_table",
-        "icon": "long_table.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false,
         "defaultOn": false
       },
       {
         "id": "table",
-        "icon": "table.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false,
         "defaultOn": false
       },
       {
         "id": "medkit",
-        "icon": "medkit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false
       },
       {
         "id": "emergency_medkit",
-        "icon": "emergency_medkit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false
       },
       {
         "id": "mystical_crate",
-        "icon": "mystical_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "autoDiscover": false
       }
@@ -94,19 +172,37 @@
     "values": [
       {
         "id": "canning_recipe",
-        "icon": "canning_recipe.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false
       },
       {
         "id": "folk_recipe",
-        "icon": "folk_recipe.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false
       },
       {
         "id": "gourmet_recipe",
-        "icon": "gourmet_recipe.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.76,
         "autoDiscover": false
       }
@@ -119,77 +215,155 @@
     "values": [
       {
         "id": "copper_ore",
-        "icon": "copper_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "hot_ore",
-        "icon": "hot_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": true
       },
       {
         "id": "ice_ore",
-        "icon": "ice_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": true
       },
       {
         "id": "silver_ore",
-        "icon": "silver_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "gold_ore",
-        "icon": "gold_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "stardust_ore",
-        "icon": "stardust_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "tungsten_ore",
-        "icon": "tungsten_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "aluminum_ore",
-        "icon": "aluminum_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "iron_ore",
-        "icon": "iron_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "tin_ore",
-        "icon": "tin_ore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "sulfur",
-        "icon": "sulfur.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "seaweed_rock",
-        "icon": "seaweed_rock.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       },
       {
         "id": "shell_rock",
-        "icon": "shell_rock.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1,
         "defaultOn": false
       }
@@ -200,282 +374,618 @@
     "values": [
       {
         "id": "deviations_berserkosaurus_rex",
-        "icon": "deviations_berserkosaurus_rex.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_radiant_one",
-        "icon": "deviations_radiant_one.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_butterfly's_emissary",
-        "icon": "deviations_butterflys_emissary.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_disco_ball",
-        "icon": "deviations_disco_ball.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_polar_jelly",
-        "icon": "deviations_polar_jelly.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_frog_the_leaper",
-        "icon": "deviations_frog_the_leaper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_electric_eel",
-        "icon": "deviations_electric_eel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_pup_buddy",
-        "icon": "deviations_pup_buddy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_festering_gel",
-        "icon": "deviations_festering_gel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_harveseed",
-        "icon": "deviations_harveseed.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_dreamcatcher",
-        "icon": "deviations_dreamcatcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_lonewolf's_whisper",
-        "icon": "deviations_lonewolfs_whisper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_space_turner",
-        "icon": "deviations_space_turner.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_fetch-a-lot_bunny",
-        "icon": "deviations_fetchalot_bunny.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_ice_pot",
-        "icon": "deviations_ice_pot.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_dr._teddy",
-        "icon": "deviations_dr_teddy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_buzzy_bee",
-        "icon": "deviations_buzzy_bee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_chefosaurus_rex",
-        "icon": "deviations_chefosaurus_rex.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_h37",
-        "icon": "deviations_h37.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_gingerbread_house",
-        "icon": "deviations_gingerbread_house.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_hug-in-a-bowl",
-        "icon": "deviations_huginabowl.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_atomic_lighter",
-        "icon": "deviations_atomic_lighter.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_enchanting_void",
-        "icon": "deviations_enchanting_void.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_invincible_sun",
-        "icon": "deviations_invincible_sun.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_nutcracker",
-        "icon": "deviations_nutcracker.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_logging_beaver",
-        "icon": "deviations_logging_beaver.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_the_digby_boy",
-        "icon": "deviations_the_digby_boy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_pyro_dino",
-        "icon": "deviations_pyro_dino.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_rebecca",
-        "icon": "deviations_rebecca.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_by-the-wind",
-        "icon": "deviations_bythewind.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_masonic_pyramid",
-        "icon": "deviations_masonic_pyramid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_mr._wish",
-        "icon": "deviations_mr_wish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_grumpy_bulb",
-        "icon": "deviations_grumpy_bulb.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_snow_globe",
-        "icon": "deviations_snow_globe.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_growshroom",
-        "icon": "deviations_growshroom.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_zeno-purifier",
-        "icon": "deviations_zenopurifier.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_rain_man",
-        "icon": "deviations_rain_man.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_snapshot",
-        "icon": "deviations_snapshot.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_strange_door",
-        "icon": "deviations_strange_door.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_atomic_snail",
-        "icon": "deviations_atomic_snail.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_gazocchio",
-        "icon": "deviations_gazocchio.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_hydronaut_fish",
-        "icon": "deviations_hydronaut_fish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_party_monkey",
-        "icon": "deviations_party_monkey.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_upper_world_spawn",
-        "icon": "deviations_upper_world_spawn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_voodoo_doll",
-        "icon": "deviations_voodoo_doll.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_flame_essence",
-        "icon": "deviations_flame_essence.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_shattered_maiden",
-        "icon": "deviations_shattered_maiden.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_mini_wonder",
-        "icon": "deviations_mini_wonder.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_extradimensional_cat",
-        "icon": "deviations_extradimensional_cat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_orb_lightning",
-        "icon": "deviations_orb_lightning.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_mini_feaster",
-        "icon": "deviations_mini_feaster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_paper_doll",
-        "icon": "deviations_paper_doll.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_lethal_rabbit",
-        "icon": "deviations_lethal_rabbit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_artisan's_touch",
-        "icon": "deviations_artisans_touch.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_tar_pudding",
-        "icon": "deviations_tar_pudding.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "deviations_snowsprite",
-        "icon": "deviations_snowsprite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ],
@@ -489,112 +999,244 @@
     "values": [
       {
         "id": "juluo",
-        "icon": "juluo.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "yanjiusuo",
-        "icon": "yanjiusuo.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "yingdi",
-        "icon": "yingdi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "scattered",
-        "icon": "scattered.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.65
       },
       {
         "id": "transport",
-        "icon": "transport.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "gongchang",
-        "icon": "gongchang.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "chengzhen",
-        "icon": "chengzhen.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "school",
-        "icon": "school.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "hospital",
-        "icon": "hospital.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "hud_icon_resourse_null",
-        "icon": "hud_icon_resourse_null.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "raidlea",
-        "icon": "raidlea.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "icon_stronghold_borderlands_nml",
-        "icon": "icon_stronghold_borderlands_nml.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "cistern",
-        "icon": "cistern.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "initial_respawn",
-        "icon": "initial_respawn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "juxie",
-        "icon": "juxie.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "zhongliyingdi_kechuansong",
-        "icon": "zhongliyingdi_kechuansong.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "zhongzhiyuan",
-        "icon": "zhongzhiyuan.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "guanniaoyingdi",
-        "icon": "guanniaoyingdi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "securementsilos",
-        "icon": "securementsilos.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "junshijidi",
-        "icon": "junshijidi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "jiaotongshuniu",
-        "icon": "jiaotongshuniu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "gouwuzhongxin",
-        "icon": "gouwuzhongxin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]
@@ -606,92 +1248,200 @@
     "values": [
       {
         "id": "camera",
-        "icon": "camera.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "eyeballoon",
-        "icon": "eyeballoon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "bizarre_rocks",
-        "icon": "bizarre_rocks.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "lotus_leaf",
-        "icon": "lotus_leaf.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "the_creeper",
-        "icon": "the_creeper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "strange_door",
-        "icon": "strange_door.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "treasure_map",
-        "icon": "treasure_map.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "billboard_judgment_district_defense",
-        "icon": "billboard_judgment_district_defense.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "telephone_booth",
-        "icon": "telephone_booth.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "anticonstruction",
-        "icon": "anticonstruction.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "target_practice",
-        "icon": "target_practice.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "painters_cottage",
-        "icon": "painters_cottage.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "abandoned_vehicle",
-        "icon": "abandoned_vehicle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "strange_statues",
-        "icon": "strange_statues.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "creepy_painting_loot_crate_spot_defense",
-        "icon": "creepy_painting_loot_crate_spot_defense.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "billboard",
-        "icon": "billboard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "eyeballoon_ward",
-        "icon": "eyeballoon_ward.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "mountain_rock_defense",
-        "icon": "mountain_rock_defense.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]
@@ -703,122 +1453,266 @@
     "values": [
       {
         "id": "boss_flame_stone",
-        "icon": "boss_flame_stone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_chaosweaver",
-        "icon": "boss_chaosweaver.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_ores",
-        "icon": "boss_ores.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_lava_stone",
-        "icon": "boss_lava_stone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_titans_hand",
-        "icon": "boss_titans_hand.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_the_forsaken_giant",
-        "icon": "boss_the_forsaken_giant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_shadow_hound",
-        "icon": "boss_shadow_hound.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_ferris_wheel",
-        "icon": "boss_ferris_wheel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_jump_over_flower_bud",
-        "icon": "boss_jump_over_flower_bud.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_treants",
-        "icon": "boss_treants.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_treant",
-        "icon": "boss_treant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_spores",
-        "icon": "boss_spores.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_arachsiam",
-        "icon": "boss_arachsiam.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_ravenous_hunter",
-        "icon": "boss_ravenous_hunter.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_secret_servitor",
-        "icon": "boss_secret_servitor.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_secret_servitor_clone",
-        "icon": "boss_secret_servitor_clone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_ravenous_hunter's_doppelganger",
-        "icon": "boss_ravenous_hunters_doppelganger.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_cyst_seed",
-        "icon": "boss_cyst_seed.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_treant's_doppelganger",
-        "icon": "boss_treants_doppelganger.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_arachsiam's_shadow",
-        "icon": "boss_arachsiams_shadow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_shadow_hound's_shadow",
-        "icon": "boss_shadow_hounds_shadow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_forsaken_giant",
-        "icon": "boss_forsaken_giant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_giant",
-        "icon": "boss_giant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "boss_spore",
-        "icon": "boss_spore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       }
     ]
@@ -830,1132 +1724,2488 @@
     "values": [
       {
         "id": "house_monster",
-        "icon": "house_monster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "bus_monster",
-        "icon": "bus_monster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "monster_symbiont",
-        "icon": "monster_symbiont.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_star_walker",
-        "icon": "monster_star_walker.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_customer",
-        "icon": "monster_customer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_staff_badges",
-        "icon": "monster_staff_badges.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ede",
-        "icon": "monster_ede.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_novice_employee",
-        "icon": "monster_novice_employee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_senior_employee",
-        "icon": "monster_senior_employee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_charred_maniac",
-        "icon": "monster_charred_maniac.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_snatcher",
-        "icon": "monster_snatcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_gnawer",
-        "icon": "monster_gnawer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_forge_worker",
-        "icon": "monster_forge_worker.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_flow_regulator",
-        "icon": "monster_flow_regulator.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_chaosium_miner",
-        "icon": "monster_chaosium_miner.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_crucible",
-        "icon": "monster_crucible.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_forged_digger",
-        "icon": "monster_forged_digger.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_watcher",
-        "icon": "monster_watcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_perching_tree",
-        "icon": "monster_perching_tree.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_dance_girl",
-        "icon": "monster_dance_girl.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_voidbringer__novice_employee",
-        "icon": "monster_voidbringer__novice_employee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_toy_box",
-        "icon": "monster_toy_box.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_lady_in_mirror",
-        "icon": "monster_lady_in_mirror.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_new_employee",
-        "icon": "monster_new_employee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_scarecrow",
-        "icon": "monster_scarecrow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_sync__ede",
-        "icon": "monster_sync__ede.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_butcher",
-        "icon": "monster_the_butcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_butchers",
-        "icon": "monster_the_butchers.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_butcher_sennacherib",
-        "icon": "monster_butcher_sennacherib.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_workshop__the_butcher",
-        "icon": "monster_workshop__the_butcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_prime_war__the_butcher",
-        "icon": "monster_the_prime_war__the_butcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_morphic__weapon_crate",
-        "icon": "monster_morphic__weapon_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_morphic__armor_crate",
-        "icon": "monster_morphic__armor_crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_haloed_petroller",
-        "icon": "monster_haloed_petroller.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_vocalis",
-        "icon": "monster_vocalis.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_disciple",
-        "icon": "monster_disciple.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ancient_one_novice_island_corpse",
-        "icon": "monster_ancient_one_novice_island_corpse.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_star_cow",
-        "icon": "monster_star_cow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_gas_canister",
-        "icon": "monster_gas_canister.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_laser_turret",
-        "icon": "monster_laser_turret.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_giant_drummer",
-        "icon": "monster_giant_drummer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_umbrella",
-        "icon": "monster_umbrella.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_void__morphic",
-        "icon": "monster_void__morphic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_phase__morphic",
-        "icon": "monster_phase__morphic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_regen__morphic",
-        "icon": "monster_regen__morphic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_coherence__morphic",
-        "icon": "monster_coherence__morphic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_floating_target",
-        "icon": "monster_floating_target.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_tiny_bear_balloon",
-        "icon": "monster_tiny_bear_balloon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_balloon",
-        "icon": "monster_black_balloon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_blue_balloon",
-        "icon": "monster_blue_balloon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_hydrogen_balloon",
-        "icon": "monster_hydrogen_balloon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_red_balloon",
-        "icon": "monster_red_balloon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_radar",
-        "icon": "monster_radar.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_glutton",
-        "icon": "monster_glutton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_siren",
-        "icon": "monster_siren.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_pale_hand",
-        "icon": "monster_pale_hand.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_spider",
-        "icon": "monster_spider.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_toy_spider",
-        "icon": "monster_toy_spider.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_white_hand",
-        "icon": "monster_white_hand.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_wanderer",
-        "icon": "monster_wanderer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_public_bus__big_white_hand",
-        "icon": "monster_public_bus__big_white_hand.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_morphic__crate",
-        "icon": "monster_morphic__crate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_peeper",
-        "icon": "monster_peeper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_spider_egg",
-        "icon": "monster_spider_egg.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_airplane_ancient_one",
-        "icon": "monster_airplane_ancient_one.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_light",
-        "icon": "monster_light.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_migrant_arm",
-        "icon": "monster_migrant_arm.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_nomad",
-        "icon": "monster_nomad.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_spiderling",
-        "icon": "monster_spiderling.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_angry_harriet",
-        "icon": "monster_angry_harriet.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_swamp_foulbrood",
-        "icon": "monster_swamp_foulbrood.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_seed_of_life",
-        "icon": "monster_seed_of_life.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_flower_of_life",
-        "icon": "monster_flower_of_life.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_spore_tip",
-        "icon": "monster_spore_tip.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_coherence_vessel",
-        "icon": "monster_coherence_vessel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_plunkadoom",
-        "icon": "monster_plunkadoom.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_cogitarid",
-        "icon": "monster_cogitarid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_yellow_light",
-        "icon": "monster_yellow_light.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_swarm",
-        "icon": "monster_swarm.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_missionary_fireball",
-        "icon": "monster_missionary_fireball.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_parasitic_maniac",
-        "icon": "monster_parasitic_maniac.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_shepherd",
-        "icon": "monster_shepherd.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_destroyer",
-        "icon": "monster_destroyer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_firefly",
-        "icon": "monster_firefly.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_budworm",
-        "icon": "monster_budworm.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_morphic__fridge",
-        "icon": "monster_morphic__fridge.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_empty_house",
-        "icon": "monster_empty_house.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_scenic_viewpoint_camera",
-        "icon": "monster_scenic_viewpoint_camera.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_rime_frost",
-        "icon": "monster_rime_frost.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_researcher",
-        "icon": "monster_researcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_scout",
-        "icon": "monster_scout.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_weather_vane",
-        "icon": "monster_weather_vane.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_mousseville_employee",
-        "icon": "monster_mousseville_employee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_arbiter",
-        "icon": "monster_arbiter.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_shockwave__judicator",
-        "icon": "monster_shockwave__judicator.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_agent",
-        "icon": "monster_agent.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_luna_moth",
-        "icon": "monster_luna_moth.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_forged_scorcher",
-        "icon": "monster_forged_scorcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_scorcher",
-        "icon": "monster_the_scorcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_regen__the_scorcher",
-        "icon": "monster_regen__the_scorcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_fool",
-        "icon": "monster_fool.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_portal",
-        "icon": "monster_portal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_rainfall_reaper",
-        "icon": "monster_rainfall_reaper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_mother_of_life",
-        "icon": "monster_mother_of_life.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_df157m6",
-        "icon": "monster_df157m6.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_claw_machine_teddy",
-        "icon": "monster_claw_machine_teddy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_chagas_weevil",
-        "icon": "monster_chagas_weevil.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_gasbag",
-        "icon": "monster_gasbag.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_claw_machine",
-        "icon": "monster_claw_machine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_eclipse",
-        "icon": "monster_eclipse.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_red_green_light",
-        "icon": "monster_red_green_light.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_lost",
-        "icon": "monster_the_lost.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_burrower",
-        "icon": "monster_burrower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_unholy_goanna_",
-        "icon": "monster_unholy_goanna_.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_taxi",
-        "icon": "monster_taxi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_weather_fourecaster",
-        "icon": "monster_weather_fourecaster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_weather_forecast",
-        "icon": "monster_weather_forecast.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_electrocardiogram_headgear_nurse",
-        "icon": "monster_electrocardiogram_headgear_nurse.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_test_nurse__roller_skating_version",
-        "icon": "monster_test_nurse__roller_skating_version.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_tangled_vine",
-        "icon": "monster_tangled_vine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_orderkeeper",
-        "icon": "monster_orderkeeper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_shepherd_tombstone",
-        "icon": "monster_the_shepherd_tombstone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_shepherd_saint_el",
-        "icon": "monster_shepherd_saint_el.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_cervitaur",
-        "icon": "monster_cervitaur.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_believer",
-        "icon": "monster_believer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_tangled_vine_mobility_validation_test",
-        "icon": "monster_tangled_vine_mobility_validation_test.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_altered_corrupted_bull",
-        "icon": "monster_altered_corrupted_bull.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_mayhem",
-        "icon": "monster_mayhem.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ghoul",
-        "icon": "monster_ghoul.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_phase__ghoul",
-        "icon": "monster_phase__ghoul.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_altered_arbiter",
-        "icon": "monster_altered_arbiter.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_mr_ames_soul",
-        "icon": "monster_mr_ames_soul.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_mr._ames'_soul",
-        "icon": "monster_mr_ames_soul.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_maniac_(ranged)",
-        "icon": "monster_maniac_ranged.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_maniac_(melee)",
-        "icon": "monster_maniac_melee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_flare_bulbfly",
-        "icon": "monster_flare_bulbfly.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_research_team_member_type_i",
-        "icon": "monster_research_team_member_type_i.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_radar_head",
-        "icon": "monster_radar_head.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_beacon_head",
-        "icon": "monster_beacon_head.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_research_team_member_type_iii",
-        "icon": "monster_research_team_member_type_iii.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_stinger_bulbfly",
-        "icon": "monster_stinger_bulbfly.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_tangled_vine_claw",
-        "icon": "monster_tangled_vine_claw.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_vine_connector_right",
-        "icon": "monster_vine_connector_right.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_vine_connector_middle",
-        "icon": "monster_vine_connector_middle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_vine_connector_left",
-        "icon": "monster_vine_connector_left.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ancient_one",
-        "icon": "monster_ancient_one.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_charred_madman",
-        "icon": "monster_charred_madman.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_parasitic_madman",
-        "icon": "monster_parasitic_madman.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_hp_flower_cluster",
-        "icon": "monster_hp_flower_cluster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_life_flower_cluster",
-        "icon": "monster_life_flower_cluster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ironed-out_maniac",
-        "icon": "monster_ironedout_maniac.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ironed-out_mayhem",
-        "icon": "monster_ironedout_mayhem.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ironed-out_snatcher",
-        "icon": "monster_ironedout_snatcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_gluttony",
-        "icon": "monster_gluttony.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_eclipse_bull",
-        "icon": "monster_eclipse_bull.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_pawn",
-        "icon": "monster_black_pawn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_queen",
-        "icon": "monster_black_queen.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_bishop",
-        "icon": "monster_black_bishop.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_knight",
-        "icon": "monster_black_knight.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_king",
-        "icon": "monster_black_king.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_spider_eggs",
-        "icon": "monster_spider_eggs.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_mourner",
-        "icon": "monster_mourner.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_roaming_glutton",
-        "icon": "monster_roaming_glutton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_kate",
-        "icon": "monster_kate.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_martin",
-        "icon": "monster_martin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_interior",
-        "icon": "monster_interior.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_corridor",
-        "icon": "monster_corridor.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_windowsill",
-        "icon": "monster_windowsill.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_patient",
-        "icon": "monster_patient.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_doctor",
-        "icon": "monster_doctor.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_nurse_in_white",
-        "icon": "monster_nurse_in_white.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_nurse",
-        "icon": "monster_nurse.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_head_medic",
-        "icon": "monster_head_medic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_patient_in_striped_shirt",
-        "icon": "monster_patient_in_striped_shirt.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_worker_patient",
-        "icon": "monster_worker_patient.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_security_force",
-        "icon": "monster_security_force.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_female_patient",
-        "icon": "monster_female_patient.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_house_monster_t1",
-        "icon": "monster_house_monster_t1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_house_t4",
-        "icon": "monster_house_t4.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_house_t3",
-        "icon": "monster_house_t3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_house_t5",
-        "icon": "monster_house_t5.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_house_t6",
-        "icon": "monster_house_t6.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_house_monster_t2",
-        "icon": "monster_house_monster_t2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_fire_hydrant_miner",
-        "icon": "monster_fire_hydrant_miner.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_sinner_sentry",
-        "icon": "monster_sinner_sentry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_chaosium_miner_type_i",
-        "icon": "monster_chaosium_miner_type_i.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_chaosium_miner_type_iii",
-        "icon": "monster_chaosium_miner_type_iii.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_blaster",
-        "icon": "monster_blaster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_blazing_scorcher",
-        "icon": "monster_blazing_scorcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_chaosium_miner_type_ii",
-        "icon": "monster_chaosium_miner_type_ii.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_disfigured_human_sample",
-        "icon": "monster_disfigured_human_sample.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_frost_erupted_source",
-        "icon": "monster_frost_erupted_source.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_erupted_shock",
-        "icon": "monster_erupted_shock.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_blaze_erupted_source",
-        "icon": "monster_blaze_erupted_source.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_polluted_human_sample",
-        "icon": "monster_polluted_human_sample.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_unstable_sample",
-        "icon": "monster_unstable_sample.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_dr._mannheim",
-        "icon": "monster_dr_mannheim.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_deranged_researcher",
-        "icon": "monster_deranged_researcher.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_scorcher_pale_hand",
-        "icon": "monster_the_scorcher_pale_hand.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_\"portal\"",
-        "icon": "monster_portal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_spider_plush",
-        "icon": "monster_spider_plush.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_gacha_machine",
-        "icon": "monster_gacha_machine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_tombstone",
-        "icon": "monster_tombstone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_saint_el",
-        "icon": "monster_saint_el.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_sennacherib",
-        "icon": "monster_sennacherib.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_sweet_factory_female_worker",
-        "icon": "monster_sweet_factory_female_worker.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_iron_bucket_miner",
-        "icon": "monster_iron_bucket_miner.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_the_new_hire",
-        "icon": "monster_the_new_hire.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ghost_with_braking_force",
-        "icon": "monster_ghost_with_braking_force.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_gatling_symbiont",
-        "icon": "monster_gatling_symbiont.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_ghost_braking_force",
-        "icon": "monster_ghost_braking_force.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_unholy_goanna",
-        "icon": "monster_unholy_goanna.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_bone_thrower—soul_hunter",
-        "icon": "monster_bone_throwersoul_hunter.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_star_walker's_ember",
-        "icon": "monster_star_walkers_ember.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_turret",
-        "icon": "monster_turret.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_lake_ghoul",
-        "icon": "monster_black_lake_ghoul.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_lake_shadow",
-        "icon": "monster_black_lake_shadow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_lake_heart",
-        "icon": "monster_black_lake_heart.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_lake_monster",
-        "icon": "monster_black_lake_monster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_lake_mirage",
-        "icon": "monster_black_lake_mirage.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_black_lake_water_demon",
-        "icon": "monster_black_lake_water_demon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_bone_thrower",
-        "icon": "monster_bone_thrower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_centaurus",
-        "icon": "monster_centaurus.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_manibus",
-        "icon": "monster_manibus.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_star_cattle",
-        "icon": "monster_star_cattle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "monster_right_rdt3",
-        "icon": "monster_right_rdt3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       }
     ]
@@ -1967,292 +4217,640 @@
     "values": [
       {
         "id": "animal_church_afterimage",
-        "icon": "animal_church_afterimage.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse_bear",
-        "icon": "animal_eclipse_bear.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_bear_cub",
-        "icon": "animal_bear_cub.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_corrupted_bear",
-        "icon": "animal_corrupted_bear.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_bear",
-        "icon": "animal_bear.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_wild_horse",
-        "icon": "animal_wild_horse.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_wild_buffalo",
-        "icon": "animal_wild_buffalo.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eagle",
-        "icon": "animal_eagle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_longbilled_gull",
-        "icon": "animal_longbilled_gull.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_swan",
-        "icon": "animal_swan.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_polar_bear",
-        "icon": "animal_polar_bear.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_squirrel",
-        "icon": "animal_squirrel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_flamingo",
-        "icon": "animal_flamingo.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_sea_turtle",
-        "icon": "animal_sea_turtle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_seal",
-        "icon": "animal_seal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_rabbit_kit",
-        "icon": "animal_rabbit_kit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_pelican",
-        "icon": "animal_pelican.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_reindeer",
-        "icon": "animal_reindeer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_snow_fox",
-        "icon": "animal_snow_fox.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_leopard",
-        "icon": "animal_leopard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_capybara",
-        "icon": "animal_capybara.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_little_capybara",
-        "icon": "animal_little_capybara.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_little_leopard",
-        "icon": "animal_little_leopard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_little_flamingo",
-        "icon": "animal_little_flamingo.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_raven",
-        "icon": "animal_raven.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_fox",
-        "icon": "animal_fox.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_rat",
-        "icon": "animal_rat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_rabbit",
-        "icon": "animal_rabbit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_raccoon",
-        "icon": "animal_raccoon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_sheep",
-        "icon": "animal_sheep.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_boar_piglet",
-        "icon": "animal_boar_piglet.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_boar",
-        "icon": "animal_boar.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_wolf",
-        "icon": "animal_wolf.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_corrupted_wolf",
-        "icon": "animal_corrupted_wolf.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_wolf_cub",
-        "icon": "animal_wolf_cub.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_doe",
-        "icon": "animal_doe.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_fawn",
-        "icon": "animal_fawn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_base_npc",
-        "icon": "animal_base_npc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_indicator_unit",
-        "icon": "animal_indicator_unit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_morgan",
-        "icon": "animal_morgan.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_lion",
-        "icon": "animal_lion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse_lion",
-        "icon": "animal_eclipse_lion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_snapping_turtle",
-        "icon": "animal_snapping_turtle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_stag",
-        "icon": "animal_stag.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_crocodile_hatchling",
-        "icon": "animal_crocodile_hatchling.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse_crocodile",
-        "icon": "animal_eclipse_crocodile.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_corrupted_crocodile",
-        "icon": "animal_corrupted_crocodile.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_crocodile",
-        "icon": "animal_crocodile.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse deer",
-        "icon": "animal_eclipsedeer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse wolf",
-        "icon": "animal_eclipsewolf.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse bear",
-        "icon": "animal_eclipsebear.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse_wolf",
-        "icon": "animal_eclipse_wolf.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_black_castle",
-        "icon": "animal_black_castle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_dog's_after-image",
-        "icon": "animal_dogs_afterimage.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_deer",
-        "icon": "animal_deer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_eclipse_deer",
-        "icon": "animal_eclipse_deer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_deviated_giant_crocodile",
-        "icon": "animal_deviated_giant_crocodile.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "animal_fish",
-        "icon": "animal_fish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1280,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       }
     ]
@@ -2264,52 +4862,112 @@
     "values": [
       {
         "id": "letter",
-        "icon": "letter.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "sticky_note",
-        "icon": "sticky_note.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "bible",
-        "icon": "bible.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "notebook_close",
-        "icon": "notebook_close.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "laptop",
-        "icon": "laptop.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "announcement",
-        "icon": "announcement.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "recording_pen",
-        "icon": "recording_pen.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 1344,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "newspaper",
-        "icon": "newspaper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1408,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "mobile_phone",
-        "icon": "mobile_phone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1408,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "notebook_open",
-        "icon": "notebook_open.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1408,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]
@@ -2319,222 +4977,486 @@
     "values": [
       {
         "id": "fishes_koi_fish_(cloud)",
-        "icon": "fishes_koi_fish_cloud.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_barracuda_(aquamarine)",
-        "icon": "fishes_barracuda_aquamarine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_black_bass_(pure_white)",
-        "icon": "fishes_black_bass_pure_white.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_guppy_(peacock)",
-        "icon": "fishes_guppy_peacock.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sardine_(blood_mark)",
-        "icon": "fishes_sardine_blood_mark.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_bighead_carp_(gold_knife)",
-        "icon": "fishes_bighead_carp_gold_knife.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_angelfish_(purple_dawn)",
-        "icon": "fishes_angelfish_purple_dawn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_tilapia_(red_giant)",
-        "icon": "fishes_tilapia_red_giant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_northern_pike_(blood_jade)",
-        "icon": "fishes_northern_pike_blood_jade.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sunfish_(black_rose)",
-        "icon": "fishes_sunfish_black_rose.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_rainbow_trout_(blue_porcelain)",
-        "icon": "fishes_rainbow_trout_blue_porcelain.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sucker_fish_(spotted)",
-        "icon": "fishes_sucker_fish_spotted.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_oscar_fish_(amber)",
-        "icon": "fishes_oscar_fish_amber.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_pompano_(opal)",
-        "icon": "fishes_pompano_opal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_tilapia",
-        "icon": "fishes_tilapia.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_bighead_carp",
-        "icon": "fishes_bighead_carp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sucker_fish",
-        "icon": "fishes_sucker_fish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_pompano",
-        "icon": "fishes_pompano.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_barracuda",
-        "icon": "fishes_barracuda.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_oscar_fish",
-        "icon": "fishes_oscar_fish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_angelfish",
-        "icon": "fishes_angelfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_koi_carp",
-        "icon": "fishes_koi_carp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_flame_essence",
-        "icon": "fishes_flame_essence.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_polar_jelly",
-        "icon": "fishes_polar_jelly.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sunfish",
-        "icon": "fishes_sunfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_large_blue_cichlid",
-        "icon": "fishes_large_blue_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_red_cichlid",
-        "icon": "fishes_red_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_jade-eye_cichlid",
-        "icon": "fishes_jadeeye_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_large_yellow_cichlid",
-        "icon": "fishes_large_yellow_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_white_cichlid",
-        "icon": "fishes_white_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_guppy",
-        "icon": "fishes_guppy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sea_bass",
-        "icon": "fishes_sea_bass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1216,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_golden_cichlid",
-        "icon": "fishes_golden_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1280,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_lionhead_cichlid",
-        "icon": "fishes_lionhead_cichlid.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1344,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_arowana",
-        "icon": "fishes_arowana.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_carp",
-        "icon": "fishes_carp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_mackerel",
-        "icon": "fishes_mackerel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_rainbow_trout",
-        "icon": "fishes_rainbow_trout.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_salmon",
-        "icon": "fishes_salmon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_sardine",
-        "icon": "fishes_sardine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_electric_eel",
-        "icon": "fishes_electric_eel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_longnose_gar",
-        "icon": "fishes_longnose_gar.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_largemouth_black_bass",
-        "icon": "fishes_largemouth_black_bass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       },
       {
         "id": "fishes_northern_pike",
-        "icon": "fishes_northern_pike.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.75
       }
     ],

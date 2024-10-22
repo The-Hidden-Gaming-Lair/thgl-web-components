@@ -93,13 +93,27 @@ export function CollapsibleFilter({
                     }}
                     type="button"
                   >
-                    <img
-                      alt=""
-                      className="h-5 w-5 shrink-0"
-                      height={20}
-                      src={`/icons/${f.icon}`}
-                      width={20}
-                    />
+                    {typeof f.icon === "string" ? (
+                      <img
+                        alt=""
+                        className="h-5 w-5 shrink-0"
+                        height={20}
+                        src={`/icons/${f.icon}`}
+                        width={20}
+                      />
+                    ) : (
+                      <img
+                        alt=""
+                        className="shrink-0 object-none"
+                        src={`/icons/${f.icon.url}`}
+                        width={f.icon.width}
+                        height={f.icon.height}
+                        style={{
+                          objectPosition: `-${f.icon.x}px -${f.icon.y}px`,
+                          zoom: 0.4,
+                        }}
+                      />
+                    )}
                     <span className="truncate">{t(f.id) || f.id}</span>
                   </button>
                 </TooltipTrigger>
