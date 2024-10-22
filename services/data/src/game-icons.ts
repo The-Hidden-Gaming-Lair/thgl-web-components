@@ -46,35 +46,39 @@ for (const tag of TAGS) {
   }[] = [];
   const spritePaths: SpritePaths = [];
   for (const icon of readDirRecursive(`${TEMP_DIR}/icons/${tag.tag}`)) {
-    if (icon.endsWith("license.txt")) {
-      continue;
-    }
-    const matched = icon.match(
-      /icons\\(.+?)\\icons\\ffffff\\transparent\\1x1\\(.+?)\\(.+?)\.png/,
-    );
-    if (!matched) {
-      console.warn("No match for", icon);
-      continue;
-    }
-    const [, , author, name] = matched;
-    spritePaths.push({
-      name: capitalizeString(name),
-      imagePath: icon,
-    });
+    try {
+      if (icon.endsWith("license.txt")) {
+        continue;
+      }
+      const matched = icon.match(
+        /icons\\(.+?)\\icons\\ffffff\\transparent\\1x1\\(.+?)\\(.+?)\.png/,
+      );
+      if (!matched) {
+        console.warn("No match for", icon);
+        continue;
+      }
+      const [, , author, name] = matched;
+      spritePaths.push({
+        name: capitalizeString(name),
+        imagePath: icon,
+      });
 
-    // copy this icon to game-icons folder
-    cpFile(icon, `${TEMP_DIR}\\game-icons\\${name}_${author}.png`);
+      // copy this icon to game-icons folder
+      cpFile(icon, `${TEMP_DIR}\\game-icons\\${name}_${author}.png`);
 
-    itemIcons.push({
-      name: capitalizeString(name),
-      url: `/global_icons/game-icons/${tag.tag}.webp`,
-      author: capitalizeString(author),
-      x: 0,
-      y: 0,
-      width: 64,
-      height: 64,
-    });
-    //   await $`cwebp ${icon} -resize 64 64 -m 6 -o ../../static/global/icons/game-icons/${name}_${author}.webp -quiet`;
+      itemIcons.push({
+        name: capitalizeString(name),
+        url: `/global_icons/game-icons/${tag.tag}.webp`,
+        author: capitalizeString(author),
+        x: 0,
+        y: 0,
+        width: 64,
+        height: 64,
+      });
+      //   await $`cwebp ${icon} -resize 64 64 -m 6 -o ../../static/global/icons/game-icons/${name}_${author}.webp -quiet`;
+    } catch (e) {
+      console.error(icon, e);
+    }
   }
   const imageSprite = await createImageSprite(spritePaths, 64, 64);
   const tempFileName = `${TEMP_DIR}/icons/${tag.tag}/sprite.png`;
