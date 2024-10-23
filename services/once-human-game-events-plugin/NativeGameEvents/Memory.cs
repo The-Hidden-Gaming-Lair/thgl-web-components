@@ -70,7 +70,14 @@ namespace NativeGameEvents
                         if (tempBytes[j] == 0)
                             return (Object)Encoding.UTF8.GetString(bytes.ToArray());
                         if ((tempBytes[j] < 32 || tempBytes[j] > 126) && tempBytes[j] != '\n')
+                        {
+                            if (tempBytes[6] == 0 && tempBytes[7] == 0)
+                            {
+                                var smartPtr = (nint)BitConverter.ToUInt64(tempBytes, 0);
+                                return ReadProcessMemory<string>(smartPtr);
+                            }
                             return (Object)"null";
+                        }
                         bytes.Add(tempBytes[j]);
                         stringLength--;
                     }
