@@ -22,6 +22,7 @@ export default async function RummagePile() {
   const respone = await fetch(
     "https://palia-api.th.gl/nodes?type=timedLootPiles",
     {
+      cache: "force-cache",
       next: { tags: ["rummage-pile"] },
     },
   );

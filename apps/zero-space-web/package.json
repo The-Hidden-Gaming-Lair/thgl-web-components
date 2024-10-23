@@ -15,21 +15,21 @@
   "dependencies": {
     "@repo/lib": "workspace:*",
     "@repo/ui": "workspace:*",
-    "next": "14.2.14",
+    "next": "15.0.1",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "14.2.14",
+    "@next/eslint-plugin-next": "14.2.16",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "22.7.5",
-    "@types/react": "18.3.11",
-    "@types/react-dom": "18.3.0",
+    "@types/node": "22.7.9",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
     "autoprefixer": "10.4.20",
     "postcss": "8.4.47",
-    "tailwindcss": "3.4.13",
-    "typescript": "5.6.2"
+    "tailwindcss": "3.4.14",
+    "typescript": "5.6.3"
   }
 }

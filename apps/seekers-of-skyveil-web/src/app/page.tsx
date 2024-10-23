@@ -21,11 +21,9 @@ export const metadata: Metadata = {
     "Explore Seekers of Skyveil' Interactive Maps featuring Creature Den, Blooming Grove, Grasslands & Heart of the Forest. Discover AirDrop, Altars, Shrines, Chests, Epic Loot, and the tunnels!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider

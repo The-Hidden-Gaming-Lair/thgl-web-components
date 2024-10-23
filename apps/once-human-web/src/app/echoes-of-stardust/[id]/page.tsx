@@ -3,22 +3,24 @@ import { type Metadata } from "next";
 import { type Database } from "@repo/ui/providers";
 import { Button } from "@repo/ui/controls";
 import { ExternalAnchor } from "@repo/ui/header";
-import { SimpleMap } from "@repo/ui/interactive-map";
 import SimpleMapClient from "@/components/simple-map-client";
 import database from "../../../data/database.json" assert { type: "json" };
 
-interface Props {
-  params: { id: string };
-}
+type Params = Promise<{ id: string }>;
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { id } = await params;
   const category = database.find((item) =>
-    item.items.some((i) => i.id === params.id),
-  ) as Database[number];
+    item.items.some((i) => i.id === id),
+  ) as Database[number] | undefined;
   if (!category) {
     return {};
   }
-  const item = category.items.find((i) => i.id === params.id);
+  const item = category.items.find((i) => i.id === id);
   if (!item) {
     return {};
   }
@@ -29,20 +31,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Item({
+export default async function Item({
   params,
 }: {
-  params: {
-    id: string;
-  };
-}): JSX.Element {
+  params: Params;
+}): Promise<JSX.Element> {
+  const { id } = await params;
+
   const category = database.find((item) =>
-    item.items.some((i) => i.id === params.id),
-  ) as Database[number];
+    item.items.some((i) => i.id === id),
+  ) as Database[number] | undefined;
   if (!category) {
     notFound();
   }
-  const item = category.items.find((i) => i.id === params.id);
+  const item = category.items.find((i) => i.id === id);
   if (!item) {
     notFound();
   }

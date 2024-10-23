@@ -28,11 +28,9 @@ export const metadata: Metadata = {
     "Explore Palworld with our interactive map, showcasing spawn locations of adorable Pals. Daily updates, real-time tracking, and more to enhance your Palworld adventure!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider

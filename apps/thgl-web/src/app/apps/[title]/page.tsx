@@ -1,17 +1,20 @@
+import { Fragment } from "react";
+import { notFound } from "next/navigation";
 import DiscordMessage from "@/components/discord-message";
 import PreviewImage from "@/components/preview-image";
 import { Subtitle } from "@/components/subtitle";
 import { apps } from "@/lib/apps";
 import { getInfoMessages } from "@/lib/discord";
-import { Fragment } from "react";
 
-export default async function AppDescription({
-  params,
-}: {
-  params: { title: string };
-}) {
-  const decodedTitle = decodeURIComponent(params.title);
-  const app = apps.find((app) => app.title === decodedTitle)!;
+type Params = Promise<{ title: string }>;
+
+export default async function AppDescription({ params }: { params: Params }) {
+  const { title } = await params;
+  const decodedTitle = decodeURIComponent(title);
+  const app = apps.find((app) => app.title === decodedTitle);
+  if (!app) {
+    notFound();
+  }
   const infoMessages = await getInfoMessages(app);
 
   return (

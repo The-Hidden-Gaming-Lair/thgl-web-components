@@ -28,11 +28,10 @@ export const metadata: Metadata = {
     "Explore Once Human Interactive Maps for The Way Of Winter, Prismverse's Clash, Manibus, and Evolution's Call, featuring Ores, Riddles, Crates, Chests, Strongholds, Teleportant Towers, Monololiths & more locations. Discover Blackheart, Broken Delta, Chalk Peak, Dayton Wetlands, Iron River & Lone Wolf Wastes!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
+
   const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider

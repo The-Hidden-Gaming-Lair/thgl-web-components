@@ -26,11 +26,9 @@ export const metadata: Metadata = {
     "Explore Diablo 4 Vessel of Hatred with this Interactive Map! Discover Tenet of Akarat, Helltide, Legion, Wandering Death, Altars of Lilith, Chests, Bosses, and more with real-time position tracking.",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider

@@ -4,7 +4,8 @@
     "**/.env.*local"
   ],
   "globalEnv": [
-    "PORT"
+    "PORT",
+    "JWT_SECRET"
   ],
   "tasks": {
     "build": {

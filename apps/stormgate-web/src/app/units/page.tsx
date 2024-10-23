@@ -20,11 +20,9 @@ export const metadata: Metadata = {
     "Find details about all Stormgate units for Celestial, Infernal and Vanguard! Check the luminite, therium and supply costs and more stats.",
 };
 
-export default function Item({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Item(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const mode = (searchParams.mode as string) || "1v1";
 
   const category = database.find((item) => item.type === `${mode}_units`);

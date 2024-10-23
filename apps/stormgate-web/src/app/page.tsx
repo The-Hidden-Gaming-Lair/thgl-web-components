@@ -31,11 +31,9 @@ export const metadata: Metadata = {
     "Explore Stormgate with these Interactive Maps! Showcasing secrets, camps, upgrades, and more!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, gIds);
 
   return (
