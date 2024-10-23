@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   REGION_FILTERS,
   useCoordinates,
@@ -21,6 +21,10 @@ export function RegionFilters() {
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
   const toggleFilter = useUserStore((state) => state.toggleFilter);
+  const activeFiltersLength = useMemo(
+    () => REGION_FILTERS.filter((f) => filters.includes(f.id)).length,
+    [filters],
+  );
 
   if (regions.length === 0) {
     return null;
@@ -30,9 +34,7 @@ export function RegionFilters() {
     <Collapsible open={open} onOpenChange={setOpen}>
       <div
         className={cn("flex items-center transition-colors w-full px-1.5", {
-          "text-muted-foreground": !REGION_FILTERS.some((f) =>
-            filters.includes(f.id),
-          ),
+          "text-muted-foreground": !activeFiltersLength,
         })}
       >
         <button
@@ -53,7 +55,10 @@ export function RegionFilters() {
           title={t("drawings")}
           type="button"
         >
-          {t("drawings")}
+          <span className="font-semibold">{t("drawings")}</span>
+          <span className="ml-1 text-xs text-muted-foreground">
+            ({activeFiltersLength}/{REGION_FILTERS.length})
+          </span>
         </button>
         <CollapsibleTrigger asChild>
           <button className="hover:text-primary p-2">

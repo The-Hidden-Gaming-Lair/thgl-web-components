@@ -34,7 +34,7 @@ import {
 import { toast } from "sonner";
 import { useUserStore } from "../(providers)";
 import { RenameFilter } from "./rename-filter";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { DeleteFilter } from "./delete-filter";
 
 export function MyFilters() {
@@ -51,9 +51,13 @@ export function MyFilters() {
     (state) => state.setTempPrivateDrawing,
   );
 
-  const filterNames = myFilters.map((filter) => filter.name);
-  const hasActiveFilters = filterNames.some((filter) =>
-    filters.includes(filter),
+  const filterNames = useMemo(
+    () => myFilters.map((filter) => filter.name),
+    [myFilters],
+  );
+  const activeFiltersLength = useMemo(
+    () => filterNames.filter((filter) => filters.includes(filter)).length,
+    [filters, filterNames],
   );
   if (filterNames.length === 0) {
     return <></>;
@@ -62,18 +66,18 @@ export function MyFilters() {
     <Collapsible defaultOpen>
       <div
         className={cn("flex items-center transition-colors w-full px-1.5", {
-          "text-muted-foreground": !hasActiveFilters,
+          "text-muted-foreground": !activeFiltersLength,
         })}
       >
         <button
           className={cn(
             "text-left transition-colors hover:text-primary p-1 truncate grow",
             {
-              "text-muted-foreground": !hasActiveFilters,
+              "text-muted-foreground": !activeFiltersLength,
             },
           )}
           onClick={() => {
-            const newFilters = hasActiveFilters
+            const newFilters = activeFiltersLength
               ? filters.filter((filter) => !filterNames.includes(filter))
               : [...new Set([...filters, ...filterNames])];
             setFilters(newFilters);
@@ -81,7 +85,10 @@ export function MyFilters() {
           title="My Filters"
           type="button"
         >
-          My Filters
+          <span className="font-semibold">My Filters</span>
+          <span className="ml-1 text-xs text-muted-foreground">
+            ({activeFiltersLength}/{filterNames.length})
+          </span>
         </button>
         <CollapsibleTrigger asChild>
           <button className="transition-colors hover:text-primary p-2">

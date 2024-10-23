@@ -14,6 +14,7 @@ import tiles from "../coordinates/tiles.json" assert { type: "json" };
 const MARKER_OPTIONS: MarkerOptions = {
   radius: 6,
   playerIcon: "player.webp",
+  imageSprite: true,
   zPos: {
     xyMaxDistance: 200,
     zDistance: 3,

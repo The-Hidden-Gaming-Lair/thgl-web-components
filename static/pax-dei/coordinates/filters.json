@@ -6,92 +6,200 @@
     "values": [
       {
         "id": "gateway",
-        "icon": "gateway.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "respawnsite",
-        "icon": "respawnsite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "ringfort_small",
-        "icon": "ringfort_small.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "minicamp",
-        "icon": "minicamp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       },
       {
         "id": "quarry_small",
-        "icon": "quarry_small.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "holysite",
-        "icon": "holysite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "cave",
-        "icon": "cave.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "ringfort",
-        "icon": "ringfort.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "ringfort_large",
-        "icon": "ringfort_large.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "empire",
-        "icon": "empire.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "empire_small",
-        "icon": "empire_small.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "quarry",
-        "icon": "quarry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "empire_dungeon",
-        "icon": "empire_dungeon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "stonecircle",
-        "icon": "stonecircle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "gatewayclosed",
-        "icon": "gatewayclosed.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "windmill",
-        "icon": "windmill.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "empire_large",
-        "icon": "empire_large.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "site",
-        "icon": "site.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ]
@@ -103,412 +211,904 @@
     "values": [
       {
         "id": "clay",
-        "icon": "clay.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_alpine_juniper",
-        "icon": "berry_alpine_juniper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_blackberries",
-        "icon": "berry_blackberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_blueberries",
-        "icon": "berry_blueberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_cloudberry",
-        "icon": "berry_cloudberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_elderberries",
-        "icon": "berry_elderberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_gooseberry",
-        "icon": "berry_gooseberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_grapevines",
-        "icon": "berry_grapevines.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_hawthorne",
-        "icon": "berry_hawthorne.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_pineberry",
-        "icon": "berry_pineberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_raspberries",
-        "icon": "berry_raspberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_red_currant",
-        "icon": "berry_red_currant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_rosehips",
-        "icon": "berry_rosehips.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_strawberry",
-        "icon": "berry_strawberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "bushy_starworth",
-        "icon": "bushy_starworth.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "castor_plant",
-        "icon": "castor_plant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_alfalfa",
-        "icon": "flower_alfalfa.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_batflower",
-        "icon": "flower_batflower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_californianpoppy",
-        "icon": "flower_californianpoppy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_campion",
-        "icon": "flower_campion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_crane",
-        "icon": "flower_crane.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_daisy",
-        "icon": "flower_daisy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_dandelion",
-        "icon": "flower_dandelion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_datura",
-        "icon": "flower_datura.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_deadly_nightshade",
-        "icon": "flower_deadly_nightshade.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_highmallow",
-        "icon": "flower_highmallow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_lavender",
-        "icon": "flower_lavender.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_loios_tears",
-        "icon": "flower_loios_tears.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_pasque",
-        "icon": "flower_pasque.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_periwinkle",
-        "icon": "flower_periwinkle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_plantago",
-        "icon": "flower_plantago.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_rain_lily",
-        "icon": "flower_rain_lily.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_redpoppy",
-        "icon": "flower_redpoppy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_soapwort",
-        "icon": "flower_soapwort.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_tansy",
-        "icon": "flower_tansy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_wolfsbane",
-        "icon": "flower_wolfsbane.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "fruit_apple_red",
-        "icon": "fruit_apple_red.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "fruit_plum",
-        "icon": "fruit_plum.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_barley",
-        "icon": "grass_barley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_cotton",
-        "icon": "grass_cotton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_flax",
-        "icon": "grass_flax.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_oat",
-        "icon": "grass_oat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_reeds",
-        "icon": "grass_reeds.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_rye",
-        "icon": "grass_rye.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_wheat",
-        "icon": "grass_wheat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_angelica",
-        "icon": "herb_angelica.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_chives",
-        "icon": "herb_chives.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_crown_beard",
-        "icon": "herb_crown_beard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_fennel",
-        "icon": "herb_fennel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_garlic",
-        "icon": "herb_garlic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_lemongrass",
-        "icon": "herb_lemongrass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_lily",
-        "icon": "herb_lily.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_meadowsweet",
-        "icon": "herb_meadowsweet.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_mustard",
-        "icon": "herb_mustard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_parsley",
-        "icon": "herb_parsley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_rosemary",
-        "icon": "herb_rosemary.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_sage",
-        "icon": "herb_sage.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_sowthistle",
-        "icon": "herb_sowthistle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_thyme",
-        "icon": "herb_thyme.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_watercress",
-        "icon": "herb_watercress.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "hops",
-        "icon": "hops.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_amanitaregalis",
-        "icon": "mushroom_amanitaregalis.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_berserker",
-        "icon": "mushroom_berserker.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_chanterelle",
-        "icon": "mushroom_chanterelle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_chlorine",
-        "icon": "mushroom_chlorine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_dapperling",
-        "icon": "mushroom_dapperling.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_death_cap",
-        "icon": "mushroom_death_cap.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_divine",
-        "icon": "mushroom_divine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_enoki",
-        "icon": "mushroom_enoki.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_fools_webcap",
-        "icon": "mushroom_fools_webcap.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_morels",
-        "icon": "mushroom_morels.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_oyster_mushrooms",
-        "icon": "mushroom_oyster_mushrooms.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_pennybun",
-        "icon": "mushroom_pennybun.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_porcini",
-        "icon": "mushroom_porcini.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_skullcap",
-        "icon": "mushroom_skullcap.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_stinkhorn",
-        "icon": "mushroom_stinkhorn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_trumpets",
-        "icon": "mushroom_trumpets.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "onion_red",
-        "icon": "onion_red.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.9
       },
       {
         "id": "onion_yellow",
-        "icon": "onion_yellow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.9
       },
       {
         "id": "granite_stones",
-        "icon": "granite_stones.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "lime_stone_stones",
-        "icon": "lime_stone_stones.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "volcanic_rock_stones",
-        "icon": "volcanic_rock_stones.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       }
     ]
@@ -520,35 +1120,83 @@
     "values": [
       {
         "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "gneiss_deposit",
-        "icon": "gneiss_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "granite_deposit",
-        "icon": "granite_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit_impure",
-        "icon": "iron_deposit_impure.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit_pure",
-        "icon": "iron_deposit_pure.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "limestone_deposit",
-        "icon": "limestone_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "tin_deposit",
-        "icon": "tin_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -559,767 +1207,1913 @@
     "values": [
       {
         "id": "PD_NPC_Animal_Badger_T2",
-        "icon": "PD_NPC_Animal_Badger_T2.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T18",
-        "icon": "PD_NPC_Animal_Bear_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T24",
-        "icon": "PD_NPC_Animal_Bear_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T32",
-        "icon": "PD_NPC_Animal_Bear_T32.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T12",
-        "icon": "PD_NPC_Animal_Boar_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T3",
-        "icon": "PD_NPC_Animal_Boar_T3.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T5",
-        "icon": "PD_NPC_Animal_Boar_T5.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Deer_Stag_T3",
-        "icon": "PD_NPC_Animal_Deer_Stag_T3.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Deer_T2",
-        "icon": "PD_NPC_Animal_Deer_T2.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Fox_T1",
-        "icon": "PD_NPC_Animal_Fox_T1.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Rabbit_T1",
-        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T10",
-        "icon": "PD_NPC_Animal_Wolf_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T16",
-        "icon": "PD_NPC_Animal_Wolf_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T6",
-        "icon": "PD_NPC_Animal_Wolf_T6.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
-        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
-        "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
-        "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
-        "icon": "PD_NPC_Animal_Wolf_T18_Luna_Wolf.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
-        "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T16",
-        "icon": "PD_NPC_Cor_Boar_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T30",
-        "icon": "PD_NPC_Cor_Boar_T30.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T42",
-        "icon": "PD_NPC_Cor_Boar_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Wolf_T42",
-        "icon": "PD_NPC_Cor_Wolf_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
-        "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
-        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
-        "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T34_Bott_Carrier",
-        "icon": "PD_NPC_Cor_Boar_T34_Bott_Carrier.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
-        "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T40_Squalor",
-        "icon": "PD_NPC_Cor_Boar_T40_Squalor.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T50_Aper_Magnus",
-        "icon": "PD_NPC_Cor_Boar_T50_Aper_Magnus.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago",
-        "icon": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
-        "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T12",
-        "icon": "PD_NPC_Zeb_Doctor_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T16",
-        "icon": "PD_NPC_Zeb_Doctor_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T21",
-        "icon": "PD_NPC_Zeb_Doctor_T21.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T28",
-        "icon": "PD_NPC_Zeb_Doctor_T28.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T33",
-        "icon": "PD_NPC_Zeb_Doctor_T33.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T40",
-        "icon": "PD_NPC_Zeb_Doctor_T40.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T11",
-        "icon": "PD_NPC_Zeb_Guardian_T11.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T14",
-        "icon": "PD_NPC_Zeb_Guardian_T14.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T19",
-        "icon": "PD_NPC_Zeb_Guardian_T19.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T24",
-        "icon": "PD_NPC_Zeb_Guardian_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T30",
-        "icon": "PD_NPC_Zeb_Guardian_T30.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42",
-        "icon": "PD_NPC_Zeb_Guardian_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T24",
-        "icon": "PD_NPC_Zeb_Overseer_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T38",
-        "icon": "PD_NPC_Zeb_Overseer_T38.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T10",
-        "icon": "PD_NPC_Zeb_Warrior_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T16",
-        "icon": "PD_NPC_Zeb_Warrior_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T18",
-        "icon": "PD_NPC_Zeb_Warrior_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T22",
-        "icon": "PD_NPC_Zeb_Warrior_T22.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T27",
-        "icon": "PD_NPC_Zeb_Warrior_T27.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T31",
-        "icon": "PD_NPC_Zeb_Warrior_T31.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T39",
-        "icon": "PD_NPC_Zeb_Warrior_T39.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller",
-        "icon": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
-        "icon": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Hivetender",
-        "icon": "PD_NPC_Zeb_Guardian_T20_Hivetender.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
-        "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator",
-        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer",
-        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb",
-        "icon": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber",
-        "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall",
-        "icon": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist",
-        "icon": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
-        "icon": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host",
-        "icon": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
-        "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
-        "icon": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger",
-        "icon": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
-        "icon": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder",
-        "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T32_Hallboy",
-        "icon": "PD_NPC_Zeb_Warrior_T32_Hallboy.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
-        "icon": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
-        "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
-        "icon": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette",
-        "icon": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
-        "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants",
-        "icon": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Dispencer",
-        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Dispencer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
-        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T52_Ambolons_Serf",
-        "icon": "PD_NPC_Zeb_Doctor_T52_Ambolons_Serf.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet",
-        "icon": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast",
-        "icon": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Mite",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Roach",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Roach.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
-        "icon": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T46_Kabadas_Craving",
-        "icon": "PD_NPC_Zeb_Guardian_T46_Kabadas_Craving.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T47_Diralisens_Cutler",
-        "icon": "PD_NPC_Zeb_Guardian_T47_Diralisens_Cutler.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy",
-        "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
-        "icon": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
-        "icon": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T50_Supplicant_Andrena",
-        "icon": "PD_NPC_Zeb_Guardian_T50_Supplicant_Andrena.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T50_The_Roach_Tender",
-        "icon": "PD_NPC_Zeb_Guardian_T50_The_Roach_Tender.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy",
-        "icon": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare",
-        "icon": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona",
-        "icon": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T48_Hivetender_Ladonia",
-        "icon": "PD_NPC_Zeb_Overseer_T48_Hivetender_Ladonia.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa",
-        "icon": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master",
-        "icon": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
-        "icon": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila",
-        "icon": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
-        "icon": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan",
-        "icon": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T42_Skinner_Amabelle",
-        "icon": "PD_NPC_Zeb_Warrior_T42_Skinner_Amabelle.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
-        "icon": "PD_NPC_Zeb_Warrior_T42_The_Pickler.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
-        "icon": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
-        "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker",
-        "icon": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
-        "icon": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow",
-        "icon": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag",
-        "icon": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_Master_of_Wax",
-        "icon": "PD_NPC_Zeb_Warrior_T54_Master_of_Wax.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
-        "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T24",
-        "icon": "PD_NPC_Demon_Hellion_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T30",
-        "icon": "PD_NPC_Demon_Hellion_T30.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T42",
-        "icon": "PD_NPC_Demon_Hellion_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T14",
-        "icon": "PD_NPC_Demon_Imp_T14.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T21",
-        "icon": "PD_NPC_Demon_Imp_T21.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T21_summon",
-        "icon": "PD_NPC_Demon_Imp_T21_summon.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T31",
-        "icon": "PD_NPC_Demon_Imp_T31.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T41",
-        "icon": "PD_NPC_Demon_Imp_T41.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
-        "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
-        "icon": "PD_NPC_Demon_Imp_T23_Infested_Apparition.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
-        "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
-        "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia",
-        "icon": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
-        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
-        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Hyperphagix",
-        "icon": "PD_NPC_Demon_Hellion_T52_Hyperphagix.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
-        "icon": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
-        "icon": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T54_The_Lords_Emmissary",
-        "icon": "PD_NPC_Demon_Hellion_T54_The_Lords_Emmissary.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T42_Doraks_Valet",
-        "icon": "PD_NPC_Demon_Imp_T42_Doraks_Valet.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
-        "icon": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Willowisp_T90",
-        "icon": "PD_NPC_Willowisp_T90.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T10",
-        "icon": "PD_NPC_Inq_Captain_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T16",
-        "icon": "PD_NPC_Inq_Captain_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22",
-        "icon": "PD_NPC_Inq_Captain_T22.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T15",
-        "icon": "PD_NPC_Inq_Caster_T15.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T21",
-        "icon": "PD_NPC_Inq_Caster_T21.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T8",
-        "icon": "PD_NPC_Inq_Caster_T8.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T12",
-        "icon": "PD_NPC_Inq_Cleric_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T18",
-        "icon": "PD_NPC_Inq_Cleric_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T7",
-        "icon": "PD_NPC_Inq_Cleric_T7.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T10",
-        "icon": "PD_NPC_Inq_Scout_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T16",
-        "icon": "PD_NPC_Inq_Scout_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T6",
-        "icon": "PD_NPC_Inq_Scout_T6.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T13",
-        "icon": "PD_NPC_Inq_Tank_T13.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T19",
-        "icon": "PD_NPC_Inq_Tank_T19.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T9",
-        "icon": "PD_NPC_Inq_Tank_T9.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T15_Manic_Torturer",
-        "icon": "PD_NPC_Inq_Captain_T15_Manic_Torturer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator",
-        "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
-        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T27_Attentive_Torturer",
-        "icon": "PD_NPC_Inq_Captain_T27_Attentive_Torturer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
-        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
-        "icon": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T18_Candle_Holder",
-        "icon": "PD_NPC_Inq_Caster_T18_Candle_Holder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T18_Canon_Regular",
-        "icon": "PD_NPC_Inq_Caster_T18_Canon_Regular.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T18_Discalced_Cantor",
-        "icon": "PD_NPC_Inq_Caster_T18_Discalced_Cantor.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T27_Lector_illuminare",
-        "icon": "PD_NPC_Inq_Caster_T27_Lector_illuminare.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",
-        "icon": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox",
-        "icon": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo",
-        "icon": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Lector_secretorum",
-        "icon": "PD_NPC_Inq_Cleric_T17_Lector_secretorum.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
-        "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
-        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
-        "icon": "PD_NPC_Inq_Tank_T15_Inquisitor_pura.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
-        "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
-        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
-        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Death.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests",
-        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias",
-        "icon": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin",
-        "icon": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
-        "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T16",
-        "icon": "PD_NPC_LostSoul_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T22",
-        "icon": "PD_NPC_LostSoul_T22.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T32",
-        "icon": "PD_NPC_LostSoul_T32.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
-        "icon": "PD_NPC_LostSoul_T25_Somber_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Dismal_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Gloomy_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Gloomy_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Onerous_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Spiteful_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
-        "icon": "PD_NPC_LostSoul_T27_Dark_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
-        "icon": "PD_NPC_LostSoul_T37_Bleak_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -1330,503 +3124,1253 @@
     "values": [
       {
         "id": "PD_NPC_Animal_Wolf_T16_Bonebreaker",
-        "icon": "PD_NPC_Animal_Wolf_T16_Bonebreaker.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T16_Old_Fang",
-        "icon": "PD_NPC_Animal_Wolf_T16_Old_Fang.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale",
-        "icon": "PD_NPC_Animal_Wolf_T18_Curse_of_the_Vale.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Luna_Wolf",
-        "icon": "PD_NPC_Animal_Wolf_T18_Luna_Wolf.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T18_Wolf_Elder",
-        "icon": "PD_NPC_Animal_Wolf_T18_Wolf_Elder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T23_Infested_Vector",
-        "icon": "PD_NPC_Cor_Boar_T23_Infested_Vector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T25_Fetid_Vector",
-        "icon": "PD_NPC_Cor_Boar_T25_Fetid_Vector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T27_Toxic_Vector",
-        "icon": "PD_NPC_Cor_Boar_T27_Toxic_Vector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T34_Bott_Carrier",
-        "icon": "PD_NPC_Cor_Boar_T34_Bott_Carrier.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T40_Fresh_Meat",
-        "icon": "PD_NPC_Cor_Boar_T40_Fresh_Meat.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T40_Squalor",
-        "icon": "PD_NPC_Cor_Boar_T40_Squalor.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T50_Aper_Magnus",
-        "icon": "PD_NPC_Cor_Boar_T50_Aper_Magnus.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago",
-        "icon": "PD_NPC_Cor_Boar_T50_Shadow_of_Nago.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T52_Aper_Maximus",
-        "icon": "PD_NPC_Cor_Boar_T52_Aper_Maximus.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Distortion_Initiate.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Undeath_Initiate.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate",
-        "icon": "PD_NPC_Zeb_Doctor_T20_Starved_Void_Initiate.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller",
-        "icon": "PD_NPC_Zeb_Doctor_T21_Zebian_Demoncaller.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies",
-        "icon": "PD_NPC_Zeb_Guardian_T20_Counter_of_Flies.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Hivetender",
-        "icon": "PD_NPC_Zeb_Guardian_T20_Hivetender.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader",
-        "icon": "PD_NPC_Zeb_Guardian_T20_Zebian_Camp_Leader.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator",
-        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Blood_Curator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer",
-        "icon": "PD_NPC_Zeb_Guardian_T21_Zebian_Manflayer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb",
-        "icon": "PD_NPC_Zeb_Guardian_T33_Priest_of_Zeb.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber",
-        "icon": "PD_NPC_Zeb_Guardian_T40_Valet_of_the_Chamber.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall",
-        "icon": "PD_NPC_Zeb_Guardian_T40_Warden_of_the_Hall.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist",
-        "icon": "PD_NPC_Zeb_Overseer_T32_Rivulet_Alchemist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb",
-        "icon": "PD_NPC_Zeb_Overseer_T35_Herald_of_Zeb.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host",
-        "icon": "PD_NPC_Zeb_Overseer_T36_Maggotridden_Host.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak",
-        "icon": "PD_NPC_Zeb_Warrior_T20_Culler_of_the_Weak.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer",
-        "icon": "PD_NPC_Zeb_Warrior_T20_Wasp_Whisperer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger",
-        "icon": "PD_NPC_Zeb_Warrior_T22_Zebian_Messenger.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector",
-        "icon": "PD_NPC_Zeb_Warrior_T24_Zebian_Eye_Collector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder",
-        "icon": "PD_NPC_Zeb_Warrior_T27_Frenzied_Feeder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T32_Hallboy",
-        "icon": "PD_NPC_Zeb_Warrior_T32_Hallboy.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier",
-        "icon": "PD_NPC_Zeb_Warrior_T33_Rivulet_Courier.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist",
-        "icon": "PD_NPC_Zeb_Warrior_T36_Hoggish_Cultist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist",
-        "icon": "PD_NPC_Zeb_Warrior_T37_Piggish_Cultist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette",
-        "icon": "PD_NPC_Zeb_Doctor_T42_Assistant_Zanette.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T42_Tick",
-        "icon": "PD_NPC_Zeb_Doctor_T42_Tick.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants",
-        "icon": "PD_NPC_Zeb_Doctor_T45_Leader_of_Chants.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Dispencer",
-        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Dispencer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer",
-        "icon": "PD_NPC_Zeb_Doctor_T49_The_Temple_Larderer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T52_Ambolons_Serf",
-        "icon": "PD_NPC_Zeb_Doctor_T52_Ambolons_Serf.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet",
-        "icon": "PD_NPC_Zeb_Doctor_T52_Namiross_Pet.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast",
-        "icon": "PD_NPC_Zeb_Doctor_T54_The_Mouth_of_Magalast.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Boarmaster_Gan.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Gatekeeper_Montel.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Mite",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Mite.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42_Roach",
-        "icon": "PD_NPC_Zeb_Guardian_T42_Roach.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet",
-        "icon": "PD_NPC_Zeb_Guardian_T45_Pellipis_Pet.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T46_Kabadas_Craving",
-        "icon": "PD_NPC_Zeb_Guardian_T46_Kabadas_Craving.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T47_Diralisens_Cutler",
-        "icon": "PD_NPC_Zeb_Guardian_T47_Diralisens_Cutler.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy",
-        "icon": "PD_NPC_Zeb_Guardian_T47_Plisons_Wetboy.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira",
-        "icon": "PD_NPC_Zeb_Guardian_T49_Webtender_Kaira.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon",
-        "icon": "PD_NPC_Zeb_Guardian_T50_Steward_of_Ambolon.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T50_Supplicant_Andrena",
-        "icon": "PD_NPC_Zeb_Guardian_T50_Supplicant_Andrena.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T50_The_Roach_Tender",
-        "icon": "PD_NPC_Zeb_Guardian_T50_The_Roach_Tender.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy",
-        "icon": "PD_NPC_Zeb_Guardian_T54_Force_Feeder_Jeremy.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare",
-        "icon": "PD_NPC_Zeb_Guardian_T54_Kabadas_Current_Fare.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona",
-        "icon": "PD_NPC_Zeb_Guardian_T54_Supplicant_Trigona.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T48_Hivetender_Ladonia",
-        "icon": "PD_NPC_Zeb_Overseer_T48_Hivetender_Ladonia.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa",
-        "icon": "PD_NPC_Zeb_Overseer_T50_Hivetender_Rhyssa.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master",
-        "icon": "PD_NPC_Zeb_Overseer_T50_The_Feeding_Master.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder",
-        "icon": "PD_NPC_Zeb_Overseer_T50_The_Hellion_Feeder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila",
-        "icon": "PD_NPC_Zeb_Overseer_T52_Webtender_Nephila.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach",
-        "icon": "PD_NPC_Zeb_Overseer_T54_The_Tender_Roach.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan",
-        "icon": "PD_NPC_Zeb_Warrior_T42_Butcher_Jehan.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T42_Skinner_Amabelle",
-        "icon": "PD_NPC_Zeb_Warrior_T42_Skinner_Amabelle.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T42_The_Pickler",
-        "icon": "PD_NPC_Zeb_Warrior_T42_The_Pickler.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator",
-        "icon": "PD_NPC_Zeb_Warrior_T46_Sorosmas_Cremator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight",
-        "icon": "PD_NPC_Zeb_Warrior_T48_Kipokiss_Delight.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker",
-        "icon": "PD_NPC_Zeb_Warrior_T50_The_Ichorlicker.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster",
-        "icon": "PD_NPC_Zeb_Warrior_T50_The_Waspmaster.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow",
-        "icon": "PD_NPC_Zeb_Warrior_T52_Lamalons_Shadow.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag",
-        "icon": "PD_NPC_Zeb_Warrior_T52_Zagalos_Nag.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_Master_of_Wax",
-        "icon": "PD_NPC_Zeb_Warrior_T54_Master_of_Wax.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer",
-        "icon": "PD_NPC_Zeb_Warrior_T54_The_Temple_Cellarer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb",
-        "icon": "PD_NPC_Demon_Hellion_T26_Inspector_of_Zeb.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T23_Infested_Apparition",
-        "icon": "PD_NPC_Demon_Imp_T23_Infested_Apparition.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T24_Excrement_Collector",
-        "icon": "PD_NPC_Demon_Imp_T24_Excrement_Collector.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive",
-        "icon": "PD_NPC_Demon_Imp_T38_Spirit_of_the_Hive.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia",
-        "icon": "PD_NPC_Demon_Hellion_T42_Emmissary_of_Amatia.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand",
-        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Left_Hand.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand",
-        "icon": "PD_NPC_Demon_Hellion_T52_Ambolons_Right_Hand.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_Hyperphagix",
-        "icon": "PD_NPC_Demon_Hellion_T52_Hyperphagix.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony",
-        "icon": "PD_NPC_Demon_Hellion_T52_The_Tint_of_Gluttony.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder",
-        "icon": "PD_NPC_Demon_Hellion_T54_Lamolons_Feeder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T54_The_Lords_Emmissary",
-        "icon": "PD_NPC_Demon_Hellion_T54_The_Lords_Emmissary.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T42_Doraks_Valet",
-        "icon": "PD_NPC_Demon_Imp_T42_Doraks_Valet.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast",
-        "icon": "PD_NPC_Demon_Imp_T50_Sycophant_to_Magalast.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T15_Manic_Torturer",
-        "icon": "PD_NPC_Inq_Captain_T15_Manic_Torturer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator",
-        "icon": "PD_NPC_Inq_Captain_T18_Enraged_Interrogator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs",
-        "icon": "PD_NPC_Inq_Captain_T18_Examiner_of_Signs.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator",
-        "icon": "PD_NPC_Inq_Captain_T18_Watchful_Interrogator.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T27_Attentive_Torturer",
-        "icon": "PD_NPC_Inq_Captain_T27_Attentive_Torturer.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Canoness_Regular",
-        "icon": "PD_NPC_Inq_Caster_T14_Canoness_Regular.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor",
-        "icon": "PD_NPC_Inq_Caster_T14_Exorcist_Cantor.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist",
-        "icon": "PD_NPC_Inq_Caster_T16_Entranced_Exorcist.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T18_Candle_Holder",
-        "icon": "PD_NPC_Inq_Caster_T18_Candle_Holder.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T18_Canon_Regular",
-        "icon": "PD_NPC_Inq_Caster_T18_Canon_Regular.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T18_Discalced_Cantor",
-        "icon": "PD_NPC_Inq_Caster_T18_Discalced_Cantor.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T27_Lector_illuminare",
-        "icon": "PD_NPC_Inq_Caster_T27_Lector_illuminare.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth",
-        "icon": "PD_NPC_Inq_Cleric_T17_Examiner_of_Truth.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox",
-        "icon": "PD_NPC_Inq_Cleric_T17_Inquisitor_ferox.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo",
-        "icon": "PD_NPC_Inq_Cleric_T17_Lector_de_sermo.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T17_Lector_secretorum",
-        "icon": "PD_NPC_Inq_Cleric_T17_Lector_secretorum.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis",
-        "icon": "PD_NPC_Inq_Scout_T15_Inquisitor_Veritatis.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis",
-        "icon": "PD_NPC_Inq_Scout_T25_Inquisitor_fortis.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows",
-        "icon": "PD_NPC_Inq_Scout_T26_Examiner_of_Vows.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Inquisitor_pura",
-        "icon": "PD_NPC_Inq_Tank_T15_Inquisitor_pura.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T15_Wary_Ostiary",
-        "icon": "PD_NPC_Inq_Tank_T15_Wary_Ostiary.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T17_Examiner_of_Life",
-        "icon": "PD_NPC_Inq_Tank_T17_Examiner_of_Life.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Death",
-        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Death.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests",
-        "icon": "PD_NPC_Inq_Tank_T18_Examiner_of_Tests.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias",
-        "icon": "PD_NPC_Inq_Captain_T22_Inquisitor_Peter_de_Salias.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin",
-        "icon": "PD_NPC_Inq_Captain_T22_Ostraciser_Adelin.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric",
-        "icon": "PD_NPC_Inq_Captain_T22_Persecutor_Oldaric.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T25_Somber_Visitant",
-        "icon": "PD_NPC_LostSoul_T25_Somber_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Dismal_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Dismal_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Gloomy_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Gloomy_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Onerous_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Onerous_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T26_Spiteful_Visitant",
-        "icon": "PD_NPC_LostSoul_T26_Spiteful_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T27_Dark_Visitant",
-        "icon": "PD_NPC_LostSoul_T27_Dark_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T37_Bleak_Visitant",
-        "icon": "PD_NPC_LostSoul_T37_Bleak_Visitant.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1216,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -1837,87 +4381,189 @@
     "values": [
       {
         "id": "bushy_starworth",
-        "icon": "bushy_starworth.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "castor_plant",
-        "icon": "castor_plant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_alfalfa",
-        "icon": "flower_alfalfa.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_batflower",
-        "icon": "flower_batflower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_californianpoppy",
-        "icon": "flower_californianpoppy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_campion",
-        "icon": "flower_campion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_crane",
-        "icon": "flower_crane.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_datura",
-        "icon": "flower_datura.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_lavender",
-        "icon": "flower_lavender.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_loios_tears",
-        "icon": "flower_loios_tears.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_pasque",
-        "icon": "flower_pasque.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_redpoppy",
-        "icon": "flower_redpoppy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_soapwort",
-        "icon": "flower_soapwort.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_tansy",
-        "icon": "flower_tansy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_crown_beard",
-        "icon": "herb_crown_beard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_sowthistle",
-        "icon": "herb_sowthistle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -1928,7 +4574,13 @@
     "values": [
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -1939,27 +4591,57 @@
     "values": [
       {
         "id": "grass_barley",
-        "icon": "grass_barley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_oat",
-        "icon": "grass_oat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_rye",
-        "icon": "grass_rye.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_wheat",
-        "icon": "grass_wheat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -1970,37 +4652,85 @@
     "values": [
       {
         "id": "clay",
-        "icon": "clay.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_cotton",
-        "icon": "grass_cotton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "gneiss_deposit",
-        "icon": "gneiss_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit_impure",
-        "icon": "iron_deposit_impure.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit_pure",
-        "icon": "iron_deposit_pure.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "tin_deposit",
-        "icon": "tin_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2011,95 +4741,215 @@
     "values": [
       {
         "id": "clay",
-        "icon": "clay.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "bushy_starworth",
-        "icon": "bushy_starworth.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_batflower",
-        "icon": "flower_batflower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_datura",
-        "icon": "flower_datura.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_periwinkle",
-        "icon": "flower_periwinkle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_rain_lily",
-        "icon": "flower_rain_lily.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_cotton",
-        "icon": "grass_cotton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_flax",
-        "icon": "grass_flax.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_reeds",
-        "icon": "grass_reeds.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_garlic",
-        "icon": "herb_garlic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_lily",
-        "icon": "herb_lily.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_sage",
-        "icon": "herb_sage.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "gneiss_deposit",
-        "icon": "gneiss_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "granite_deposit",
-        "icon": "granite_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "limestone_deposit",
-        "icon": "limestone_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T18",
-        "icon": "PD_NPC_Animal_Bear_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T24",
-        "icon": "PD_NPC_Animal_Bear_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T32",
-        "icon": "PD_NPC_Animal_Bear_T32.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2110,62 +4960,146 @@
     "values": [
       {
         "id": "herb_parsley",
-        "icon": "herb_parsley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_rosemary",
-        "icon": "herb_rosemary.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_thyme",
-        "icon": "herb_thyme.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "PD_NPC_Animal_Bear_T18",
-        "icon": "PD_NPC_Animal_Bear_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T24",
-        "icon": "PD_NPC_Animal_Bear_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T32",
-        "icon": "PD_NPC_Animal_Bear_T32.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T12",
-        "icon": "PD_NPC_Animal_Boar_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T3",
-        "icon": "PD_NPC_Animal_Boar_T3.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T5",
-        "icon": "PD_NPC_Animal_Boar_T5.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Deer_T2",
-        "icon": "PD_NPC_Animal_Deer_T2.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Rabbit_T1",
-        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T10",
-        "icon": "PD_NPC_Animal_Wolf_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T16",
-        "icon": "PD_NPC_Animal_Wolf_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Wolf_T6",
-        "icon": "PD_NPC_Animal_Wolf_T6.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2176,152 +5110,332 @@
     "values": [
       {
         "id": "berry_alpine_juniper",
-        "icon": "berry_alpine_juniper.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_blackberries",
-        "icon": "berry_blackberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_blueberries",
-        "icon": "berry_blueberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_cloudberry",
-        "icon": "berry_cloudberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_elderberries",
-        "icon": "berry_elderberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_gooseberry",
-        "icon": "berry_gooseberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_hawthorne",
-        "icon": "berry_hawthorne.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_pineberry",
-        "icon": "berry_pineberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_raspberries",
-        "icon": "berry_raspberries.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_red_currant",
-        "icon": "berry_red_currant.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_rosehips",
-        "icon": "berry_rosehips.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "berry_strawberry",
-        "icon": "berry_strawberry.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_datura",
-        "icon": "flower_datura.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_deadly_nightshade",
-        "icon": "flower_deadly_nightshade.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "fruit_plum",
-        "icon": "fruit_plum.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_barley",
-        "icon": "grass_barley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_amanitaregalis",
-        "icon": "mushroom_amanitaregalis.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_berserker",
-        "icon": "mushroom_berserker.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_chanterelle",
-        "icon": "mushroom_chanterelle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_chlorine",
-        "icon": "mushroom_chlorine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_dapperling",
-        "icon": "mushroom_dapperling.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_divine",
-        "icon": "mushroom_divine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_enoki",
-        "icon": "mushroom_enoki.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_fools_webcap",
-        "icon": "mushroom_fools_webcap.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_morels",
-        "icon": "mushroom_morels.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_pennybun",
-        "icon": "mushroom_pennybun.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_porcini",
-        "icon": "mushroom_porcini.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_skullcap",
-        "icon": "mushroom_skullcap.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_stinkhorn",
-        "icon": "mushroom_stinkhorn.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_trumpets",
-        "icon": "mushroom_trumpets.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       }
     ]
@@ -2333,80 +5447,182 @@
     "values": [
       {
         "id": "flower_dandelion",
-        "icon": "flower_dandelion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_barley",
-        "icon": "grass_barley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_wheat",
-        "icon": "grass_wheat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_fennel",
-        "icon": "herb_fennel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_garlic",
-        "icon": "herb_garlic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_lemongrass",
-        "icon": "herb_lemongrass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_mustard",
-        "icon": "herb_mustard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_rosemary",
-        "icon": "herb_rosemary.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "onion_yellow",
-        "icon": "onion_yellow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.9
       },
       {
         "id": "PD_NPC_Animal_Bear_T18",
-        "icon": "PD_NPC_Animal_Bear_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T24",
-        "icon": "PD_NPC_Animal_Bear_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Bear_T32",
-        "icon": "PD_NPC_Animal_Bear_T32.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T12",
-        "icon": "PD_NPC_Animal_Boar_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T3",
-        "icon": "PD_NPC_Animal_Boar_T3.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Boar_T5",
-        "icon": "PD_NPC_Animal_Boar_T5.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Deer_T2",
-        "icon": "PD_NPC_Animal_Deer_T2.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Rabbit_T1",
-        "icon": "PD_NPC_Animal_Rabbit_T1.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2417,12 +5633,24 @@
     "values": [
       {
         "id": "grass_reeds",
-        "icon": "grass_reeds.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2433,11 +5661,23 @@
     "values": [
       {
         "id": "copper_deposit",
-        "icon": "copper_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "tin_deposit",
-        "icon": "tin_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2448,7 +5688,13 @@
     "values": [
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2459,12 +5705,24 @@
     "values": [
       {
         "id": "grass_cotton",
-        "icon": "grass_cotton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_flax",
-        "icon": "grass_flax.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       }
     ]
@@ -2476,7 +5734,13 @@
     "values": [
       {
         "id": "iron_deposit",
-        "icon": "iron_deposit.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   },
@@ -2487,22 +5751,46 @@
     "values": [
       {
         "id": "fruit_apple_red",
-        "icon": "fruit_apple_red.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "fruit_plum",
-        "icon": "fruit_plum.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "grass_barley",
-        "icon": "grass_barley.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "hops",
-        "icon": "hops.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       }
     ]
@@ -2514,298 +5802,718 @@
     "values": [
       {
         "id": "berry_grapevines",
-        "icon": "berry_grapevines.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_daisy",
-        "icon": "flower_daisy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_highmallow",
-        "icon": "flower_highmallow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_plantago",
-        "icon": "flower_plantago.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "flower_wolfsbane",
-        "icon": "flower_wolfsbane.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_angelica",
-        "icon": "herb_angelica.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_chives",
-        "icon": "herb_chives.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_meadowsweet",
-        "icon": "herb_meadowsweet.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "herb_watercress",
-        "icon": "herb_watercress.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_death_cap",
-        "icon": "mushroom_death_cap.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "mushroom_oyster_mushrooms",
-        "icon": "mushroom_oyster_mushrooms.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "onion_red",
-        "icon": "onion_red.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.9
       },
       {
         "id": "granite_stones",
-        "icon": "granite_stones.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "lime_stone_stones",
-        "icon": "lime_stone_stones.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "volcanic_rock_stones",
-        "icon": "volcanic_rock_stones.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.15
       },
       {
         "id": "PD_NPC_Animal_Badger_T2",
-        "icon": "PD_NPC_Animal_Badger_T2.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Deer_Stag_T3",
-        "icon": "PD_NPC_Animal_Deer_Stag_T3.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Animal_Fox_T1",
-        "icon": "PD_NPC_Animal_Fox_T1.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T16",
-        "icon": "PD_NPC_Cor_Boar_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T30",
-        "icon": "PD_NPC_Cor_Boar_T30.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Boar_T42",
-        "icon": "PD_NPC_Cor_Boar_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Cor_Wolf_T42",
-        "icon": "PD_NPC_Cor_Wolf_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T12",
-        "icon": "PD_NPC_Zeb_Doctor_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T16",
-        "icon": "PD_NPC_Zeb_Doctor_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T21",
-        "icon": "PD_NPC_Zeb_Doctor_T21.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T28",
-        "icon": "PD_NPC_Zeb_Doctor_T28.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T33",
-        "icon": "PD_NPC_Zeb_Doctor_T33.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Doctor_T40",
-        "icon": "PD_NPC_Zeb_Doctor_T40.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T11",
-        "icon": "PD_NPC_Zeb_Guardian_T11.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T14",
-        "icon": "PD_NPC_Zeb_Guardian_T14.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T19",
-        "icon": "PD_NPC_Zeb_Guardian_T19.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T24",
-        "icon": "PD_NPC_Zeb_Guardian_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T30",
-        "icon": "PD_NPC_Zeb_Guardian_T30.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Guardian_T42",
-        "icon": "PD_NPC_Zeb_Guardian_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T24",
-        "icon": "PD_NPC_Zeb_Overseer_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Overseer_T38",
-        "icon": "PD_NPC_Zeb_Overseer_T38.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T10",
-        "icon": "PD_NPC_Zeb_Warrior_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T16",
-        "icon": "PD_NPC_Zeb_Warrior_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T18",
-        "icon": "PD_NPC_Zeb_Warrior_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T22",
-        "icon": "PD_NPC_Zeb_Warrior_T22.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T27",
-        "icon": "PD_NPC_Zeb_Warrior_T27.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T31",
-        "icon": "PD_NPC_Zeb_Warrior_T31.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Zeb_Warrior_T39",
-        "icon": "PD_NPC_Zeb_Warrior_T39.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T24",
-        "icon": "PD_NPC_Demon_Hellion_T24.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T30",
-        "icon": "PD_NPC_Demon_Hellion_T30.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Hellion_T42",
-        "icon": "PD_NPC_Demon_Hellion_T42.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T14",
-        "icon": "PD_NPC_Demon_Imp_T14.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T21",
-        "icon": "PD_NPC_Demon_Imp_T21.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T21_summon",
-        "icon": "PD_NPC_Demon_Imp_T21_summon.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T31",
-        "icon": "PD_NPC_Demon_Imp_T31.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Demon_Imp_T41",
-        "icon": "PD_NPC_Demon_Imp_T41.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Willowisp_T90",
-        "icon": "PD_NPC_Willowisp_T90.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T10",
-        "icon": "PD_NPC_Inq_Captain_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T16",
-        "icon": "PD_NPC_Inq_Captain_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Captain_T22",
-        "icon": "PD_NPC_Inq_Captain_T22.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T15",
-        "icon": "PD_NPC_Inq_Caster_T15.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T21",
-        "icon": "PD_NPC_Inq_Caster_T21.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Caster_T8",
-        "icon": "PD_NPC_Inq_Caster_T8.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T12",
-        "icon": "PD_NPC_Inq_Cleric_T12.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T18",
-        "icon": "PD_NPC_Inq_Cleric_T18.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Cleric_T7",
-        "icon": "PD_NPC_Inq_Cleric_T7.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T10",
-        "icon": "PD_NPC_Inq_Scout_T10.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T16",
-        "icon": "PD_NPC_Inq_Scout_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Scout_T6",
-        "icon": "PD_NPC_Inq_Scout_T6.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1088,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T13",
-        "icon": "PD_NPC_Inq_Tank_T13.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 1152,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T19",
-        "icon": "PD_NPC_Inq_Tank_T19.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_Inq_Tank_T9",
-        "icon": "PD_NPC_Inq_Tank_T9.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T16",
-        "icon": "PD_NPC_LostSoul_T16.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T22",
-        "icon": "PD_NPC_LostSoul_T22.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       },
       {
         "id": "PD_NPC_LostSoul_T32",
-        "icon": "PD_NPC_LostSoul_T32.webp"
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1152,
+          "width": 64,
+          "height": 64
+        }
       }
     ]
   }

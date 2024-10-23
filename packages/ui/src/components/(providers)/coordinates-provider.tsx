@@ -79,7 +79,16 @@ export type FiltersCoordinates = {
   defaultOn?: boolean;
   values: {
     id: string;
-    icon: string;
+    icon:
+      | string
+      | {
+          name: string;
+          url: string;
+          x: number;
+          y: number;
+          width: number;
+          height: number;
+        };
     size?: number;
     live_only?: boolean;
     autoDiscover?: boolean;
@@ -97,7 +106,16 @@ export type GlobalFiltersCoordinates = {
 
 export type Icons = {
   id: string;
-  icon: string;
+  icon:
+    | string
+    | {
+        name: string;
+        url: string;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
   size?: number;
 }[];
 

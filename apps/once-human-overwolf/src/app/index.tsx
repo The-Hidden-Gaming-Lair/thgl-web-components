@@ -57,6 +57,7 @@ const TITLE = "Once Human Map";
 const MARKER_OPTIONS: MarkerOptions = {
   radius: 6,
   playerIcon: "player.webp",
+  imageSprite: true,
   zPos: {
     xyMaxDistance: 200,
     zDistance: 3,

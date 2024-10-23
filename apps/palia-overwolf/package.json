@@ -2,6 +2,7 @@
   "name": "palia-overwolf",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc && bunx --bun vite build && bun run scripts/copy-overwolf.ts",
     "clean": "rm -rf dist",
