@@ -40,6 +40,9 @@ import {
   ScenePrefabData,
   SmallMapItemData,
   TreasureMonsterDropData,
+  TriggerDataRiddleS04Viewpoint,
+  ViewPointClientData,
+  ViewPointEntranceClientData,
 } from "./once-human.types.js";
 import { Node } from "./types.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
@@ -59,6 +62,7 @@ initDirs(
 
 let nodes = initNodes();
 const filters = initFilters([
+  { group: "fieldGuide", defaultOn: true, defaultOpen: false, values: [] },
   { group: "items", defaultOn: true, defaultOpen: false, values: [] },
   { group: "recipes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "notes", defaultOn: true, defaultOpen: false, values: [] },
@@ -87,6 +91,7 @@ const enDict = initDict({
   [PRISMVERSE_CLASH]: "Prismverse's Clash",
   [THE_WAY_OF_WINTER]: "The Way of Winter",
   [RAIDS_AND_DUNGEONS]: "Raids & Dungeons",
+  fieldGuide: "Field Guide",
   locations: "Locations",
   deviations: "Deviations",
   boss: "Bosses",
@@ -311,6 +316,92 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
   CONTENT_DIR + "/client_data/book_collect_model_data.json",
 );
 
+{
+  // Field Guide
+
+  const group = "fieldGuide";
+  // Landscape Viewpoint
+  const triggerDataRiddleS04Viewpoint =
+    await readJSON<TriggerDataRiddleS04Viewpoint>(
+      CONTENT_DIR +
+        "/game_common/data/task/trigger_data/trigger_data_riddle_s04_viewpoint.json",
+    );
+  const viewPointClientData = await readJSON<ViewPointClientData>(
+    CONTENT_DIR + "/client_data/view_point_client_data.json",
+  );
+  const viewPointEntranceClientData =
+    await readJSON<ViewPointEntranceClientData>(
+      CONTENT_DIR + "/client_data/view_point_entrance_client_data.json",
+    );
+  const type = "landscape_viewpoint_camera";
+  enDict[type] = "Viewpoint";
+  const iconPath = String.raw`${TEMP_DIR}\game-icons\double-diaphragm_lorc.png`;
+  const iconProps: IconProps = {
+    imageSprite: true,
+    border: true,
+    color: "#00ffd0",
+  };
+  const size = 1.5;
+  const icon = await saveIcon(iconPath, type, iconProps);
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size,
+  });
+  if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: THE_WAY_OF_WINTER,
+    });
+  }
+  const spawns = nodes.find(
+    (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+  )!.spawns;
+  const placeNodes = Object.values(
+    triggerDataRiddleS04Viewpoint.place_nodes,
+  ).flatMap((n) => Object.values(n));
+  const triggerNodes = Object.values(
+    triggerDataRiddleS04Viewpoint.trigger_nodes,
+  );
+  for (const nodeData of placeNodes) {
+    if (nodeData.unit_name !== "Scenic Viewpoint") {
+      continue;
+    }
+    const id = `scenic_viewpoint_${nodeData.no}`;
+    const spawn: Node["spawns"][0] = {
+      id,
+      p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+    };
+
+    const triggerNode = triggerNodes.find((triggerNode) => {
+      return triggerNode.next_places.some((nextPlace) => {
+        return nextPlace[0] === nodeData.no && nextPlace[1] === "Destroy";
+      });
+    });
+    if (triggerNode) {
+      const unlockViewPointAction = Object.values(triggerNode.actions).find(
+        (a) => a.action.operate === "unlock_view_point",
+      );
+      if (unlockViewPointAction) {
+        const viewPointId = unlockViewPointAction.action.value;
+        const viewPoint = viewPointClientData[viewPointId.toString()];
+        if (viewPoint) {
+          const viewPointEntrance =
+            viewPointEntranceClientData[viewPoint.area_id.toString()];
+
+          enDict[id] = viewPoint.title;
+          enDict[`${id}_desc`] =
+            `<b>Category:</b> ${viewPointEntrance.area_name}<br>${viewPoint.desc}`;
+          spawns.push(spawn);
+        }
+      }
+    }
+  }
+}
+
 const newTypes: string[] = [];
 
 const switchType = (
@@ -385,6 +476,12 @@ const switchType = (
     title = "Union Stronghold";
   } else if (type === "initial_respawn") {
     group = "locations";
+    // } else if (more?.includes("Riddle Spot Camera")) {
+    //   group = "riddles";
+    //   iconPath = String.raw`${TEMP_DIR}\game-icons\photo-camera_delapouite.png`;
+    //   type = "camera";
+    //   title = "Scenic Viewpoint Camera";
+    //   typeIDs["monster_camera.gim"] = type;
   } else if (more?.includes("Riddle Spot")) {
     group = "riddles";
     iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
@@ -488,7 +585,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   }
 
   if (enDict[type] && enDict[type] !== title) {
-    console.warn(`Type ${type} already exists with name ${enDict[type]}`);
+    // console.warn(`Type ${type} already exists with name ${enDict[type]}`);
   } else {
     enDict[type] = title;
   }
@@ -591,7 +688,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
           s.p[1] === spawn.p[1],
       )
     ) {
-      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      // console.warn("Duplicate spawn", spawn.id ?? spawn.p);
       continue;
     }
     node.spawns.push(spawn);
@@ -728,7 +825,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
           s.p[1] === spawn.p[1],
       )
     ) {
-      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      // console.warn("Duplicate spawn", spawn.id ?? spawn.p);
       continue;
     }
     node.spawns.push(spawn);
@@ -888,6 +985,10 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
     let size = 0.75;
     const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
 
+    if (typeId === "monster_camera.gim") {
+      // This is the camera riddle / scenic viewpoint
+      continue;
+    }
     if (baseNPC.unit_entity_type === "Deviation") {
       continue;
     } else {
@@ -957,9 +1058,9 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       }
     }
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      console.warn(
-        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      );
+      // console.warn(
+      //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      // );
     }
     typeIDs[typeId] = type;
 
@@ -1098,9 +1199,9 @@ for (const battleFieldName of battleFieldNames) {
       .split("\\")
       .at(-1)!;
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      console.warn(
-        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      );
+      // console.warn(
+      //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      // );
     }
     typeIDs[typeId] = type;
     enDict[type] = title;
@@ -1974,6 +2075,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 }
 
 const sortPriority = [
+  "fieldGuide",
   "items",
   "recipes",
   "gatherables",

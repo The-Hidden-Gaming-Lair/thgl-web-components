@@ -913,3 +913,125 @@ export type BookCollectAreaEnterClientData = Record<
     corr_super_no: string;
   }
 >;
+
+export type TriggerDataRiddleS04Viewpoint = {
+  place_nodes: Record<
+    string,
+    Record<
+      string,
+      {
+        pos3: Array<number>;
+        unit_name?: string;
+        is_default_perceived_params: boolean;
+        space_no: number;
+        euler: Array<number>;
+        sfx_scale: Array<number>;
+        stealth_type: number;
+        loop: boolean;
+        stealth_perceptron_shape: number;
+        sub_type: number;
+        is_stealth: boolean;
+        type: number;
+        stealth_perceptron_size: Array<number>;
+        can_stealth: boolean;
+        sfx_path: string;
+        interact_type: number;
+        no: number;
+      }
+    >
+  >;
+  ep_infos: Record<
+    string,
+    {
+      __ep_serialize_field__: {
+        meta: {
+          "3": [string, Array<string>];
+          "2": [string, Array<string>];
+          "1": [string, Array<string>];
+          "0": [string, Array<string>];
+          "7": [string, Array<string>];
+          "6": [string, Array<string>];
+          "5": [string, Array<string>];
+          "17": [string, Array<string>];
+          "16": [string, Array<string>];
+          "15": [string, Array<string>];
+          "14": [string, Array<string>];
+          "13": [string, Array<string>];
+          "12": [string, Array<string>];
+          "11": [string, Array<string>];
+          "10": [string, Array<string>];
+          "19": [string, Array<string>];
+          "18": [string, Array<string>];
+          "4": [string, Array<string>];
+          "8": [string, Array<string>];
+          "9": [string, Array<string>];
+          "26": [string, Array<string>];
+          "27": [string, Array<string>];
+          "24": [string, Array<string>];
+          "25": [string, Array<string>];
+          "22": [string, Array<any>];
+          "23": [string, Array<string>];
+          "20": [string, Array<string>];
+          "21": [string, Array<string>];
+        };
+        data: Array<any>;
+      };
+    }
+  >;
+  trigger_nodes: Record<
+    string,
+    {
+      is_reverse: boolean;
+      can_finish_times: number;
+      next_places: Array<[number, string]>;
+      trigger_type: string;
+      trigger_id: number;
+      time: number;
+      actions: Record<
+        string,
+        {
+          action: {
+            subject: {
+              entity: string;
+            };
+            count: number;
+            operate: string;
+            value: string;
+          };
+          next_actions: {};
+          subType: number;
+          type: number;
+          no: number;
+        }
+      >;
+      sub_type: number;
+      type: number;
+      task_id: number;
+      prev_triggers: Array<number>;
+      conditions: {};
+      next_triggers: Array<any>;
+      node_desc: string;
+    }
+  >;
+  links: Record<string, {}>;
+};
+
+export type ViewPointClientData = Record<
+  string,
+  {
+    area_id: number;
+    desc: string;
+    title: string;
+    unlock_pic: string;
+    lock_pic: string;
+  }
+>;
+
+export type ViewPointEntranceClientData = Record<
+  string,
+  {
+    area_name: string;
+    area_img: string;
+    area_desc: string;
+  }
+>;
