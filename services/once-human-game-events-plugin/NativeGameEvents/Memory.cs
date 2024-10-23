@@ -50,7 +50,7 @@ namespace NativeGameEvents
 
             return buffer;
         }
-        public unsafe Object ReadProcessMemory(Type type, nint addr)
+        public unsafe Object ReadProcessMemory(Type type, nint addr, bool recurse = true)
         {
             if (type == typeof(String))
             {
@@ -71,10 +71,10 @@ namespace NativeGameEvents
                             return (Object)Encoding.UTF8.GetString(bytes.ToArray());
                         if ((tempBytes[j] < 32 || tempBytes[j] > 126) && tempBytes[j] != '\n')
                         {
-                            if (tempBytes[6] == 0 && tempBytes[7] == 0)
+                            if (false && tempBytes[6] == 0 && tempBytes[7] == 0 && recurse)
                             {
                                 var smartPtr = (nint)BitConverter.ToUInt64(tempBytes, 0);
-                                return ReadProcessMemory<string>(smartPtr);
+                                return ReadProcessMemory(typeof(string), smartPtr, false);
                             }
                             return (Object)"null";
                         }
