@@ -79,6 +79,7 @@ const DEFAULT_SCENARIO = "default";
 const PRISMVERSE_CLASH = "east_blackfell_pvp";
 const THE_WAY_OF_WINTER = "north_snow_pve";
 const RAIDS_AND_DUNGEONS = "raid";
+const ETERNALAND = "eternaland";
 
 const MASK_TO_SCENARIO: Record<string, string> = {
   east_blackfell_pvp_mask: PRISMVERSE_CLASH,
@@ -91,6 +92,7 @@ const enDict = initDict({
   [PRISMVERSE_CLASH]: "Prismverse's Clash",
   [THE_WAY_OF_WINTER]: "The Way of Winter",
   [RAIDS_AND_DUNGEONS]: "Raids & Dungeons",
+  [ETERNALAND]: "Eternaland",
   fieldGuide: "Field Guide",
   locations: "Locations",
   deviations: "Deviations",
@@ -139,6 +141,20 @@ const defaultTiles = await generateTiles(
   ],
   [0.03121951219512195, 256, -0.03121951219512195, 256],
 );
+const eternalandTiles = await generateTiles(
+  ETERNALAND,
+  TEXTURE_DIR + "/ui/texpack/bigmap_res/extra_scene_map/scene_neverland.png",
+  8200,
+  TILE_SIZE,
+  [1750, 3110],
+  [
+    [750, -750],
+    [-750, 750],
+  ],
+  undefined,
+  undefined,
+  [1, -1],
+);
 
 const tiles = initTiles({
   [DEFAULT_SCENARIO]: defaultTiles[DEFAULT_SCENARIO],
@@ -158,6 +174,7 @@ const tiles = initTiles({
       [-450, 530],
     ] as [[number, number], [number, number]],
   },
+  [ETERNALAND]: eternalandTiles[ETERNALAND],
 });
 
 writeTiles(tiles);
@@ -389,12 +406,11 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
         const viewPointId = unlockViewPointAction.action.value;
         const viewPoint = viewPointClientData[viewPointId.toString()];
         if (viewPoint) {
-          const viewPointEntrance =
-            viewPointEntranceClientData[viewPoint.area_id.toString()];
+          // const viewPointEntrance =
+          //   viewPointEntranceClientData[viewPoint.area_id.toString()];
 
           enDict[id] = viewPoint.title;
-          enDict[`${id}_desc`] =
-            `<b>Category:</b> ${viewPointEntrance.area_name}<br>${viewPoint.desc}`;
+          enDict[`${id}_desc`] = viewPoint.desc;
           spawns.push(spawn);
         }
       }
