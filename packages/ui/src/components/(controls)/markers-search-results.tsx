@@ -70,13 +70,27 @@ export function MarkersSearchResults({
               type="button"
             >
               {icon ? (
-                <img
-                  alt=""
-                  className="h-5 w-5 shrink-0"
-                  height={20}
-                  src={`/icons/${icon.icon}`}
-                  width={20}
-                />
+                typeof icon.icon === "string" ? (
+                  <img
+                    alt=""
+                    className="h-5 w-5 shrink-0"
+                    height={20}
+                    src={`/icons/${icon.icon}`}
+                    width={20}
+                  />
+                ) : (
+                  <img
+                    alt=""
+                    className="shrink-0 object-none"
+                    src={`/icons/${icon.icon.url}`}
+                    width={icon.icon.width}
+                    height={icon.icon.height}
+                    style={{
+                      objectPosition: `-${icon.icon.x}px -${icon.icon.y}px`,
+                      zoom: 0.35,
+                    }}
+                  />
+                )
               ) : (
                 <MapPin className="h-5 w-5 shrink-0" />
               )}
@@ -89,11 +103,12 @@ export function MarkersSearchResults({
                     </span>
                   )}
                 </div>
-                {mapNames.length > 1 && (
-                  <div className="text-gray-400 text-xs">
-                    {t(groupedMapName) || groupedMapName}
-                  </div>
-                )}
+                <div className="text-gray-400 text-xs">
+                  {t(spawns[0].type)}
+                  {mapNames.length > 1 && (
+                    <span>{` - ${t(groupedMapName) || groupedMapName}`}</span>
+                  )}
+                </div>
               </div>
             </button>
           );
