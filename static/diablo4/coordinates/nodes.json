@@ -17608,7 +17608,7 @@
     ]
   },
   {
-    "type": "cursedScrolls",
+    "type": "pvpCursedScrolls",
     "mapName": "Sanctuary",
     "spawns": [
       {
@@ -17625,6 +17625,72 @@
           -96.55433,
           45.25334,
           27.8552
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpCosmetics",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPCosmetic@-143.29449,51.19854",
+        "p": [
+          -143.29449,
+          51.19854,
+          21.4992
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPCosmetic@-95.56285,44.9819",
+        "p": [
+          -95.56285,
+          44.9819,
+          27.8884
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpGambles",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPGamble@-144.12309,54.8561",
+        "p": [
+          -144.12309,
+          54.8561,
+          22.6692
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPGamble@-97.90021,44.37353",
+        "p": [
+          -97.90021,
+          44.37353,
+          25.4338
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpMounts",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPMount@-144.11764,55.65055",
+        "p": [
+          -144.11764,
+          55.65055,
+          22.6451
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPMount@-96.70686,45.50319",
+        "p": [
+          -96.70686,
+          45.50319,
+          27.6145
         ]
       }
     ]
