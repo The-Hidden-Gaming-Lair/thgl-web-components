@@ -53,6 +53,7 @@ export function Hero(): JSX.Element {
           sizes="100vw"
           src="/hero.webp"
           width={1280}
+          priority
         />
 
         <h1

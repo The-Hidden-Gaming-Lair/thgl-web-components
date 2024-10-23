@@ -7,7 +7,7 @@ import {
   TEMP_DIR,
   TEXTURE_DIR,
 } from "./lib/dirs.js";
-import { initFilters, writeFilters } from "./lib/filters.js";
+import { initFilters, mergeImageSprite, writeFilters } from "./lib/filters.js";
 import { encodeToFile, readDirSync, readJSON, saveImage } from "./lib/fs.js";
 import {
   arrayJoinImages,
@@ -15,6 +15,7 @@ import {
   IconProps,
   mergeImages,
   saveIcon,
+  saveIconSprite,
 } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
@@ -39,6 +40,9 @@ import {
   ScenePrefabData,
   SmallMapItemData,
   TreasureMonsterDropData,
+  TriggerDataRiddleS04Viewpoint,
+  ViewPointClientData,
+  ViewPointEntranceClientData,
 } from "./once-human.types.js";
 import { Node } from "./types.js";
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
@@ -58,6 +62,7 @@ initDirs(
 
 let nodes = initNodes();
 const filters = initFilters([
+  { group: "fieldGuide", defaultOn: true, defaultOpen: false, values: [] },
   { group: "items", defaultOn: true, defaultOpen: false, values: [] },
   { group: "recipes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "notes", defaultOn: true, defaultOpen: false, values: [] },
@@ -74,6 +79,7 @@ const DEFAULT_SCENARIO = "default";
 const PRISMVERSE_CLASH = "east_blackfell_pvp";
 const THE_WAY_OF_WINTER = "north_snow_pve";
 const RAIDS_AND_DUNGEONS = "raid";
+const ETERNALAND = "eternaland";
 
 const MASK_TO_SCENARIO: Record<string, string> = {
   east_blackfell_pvp_mask: PRISMVERSE_CLASH,
@@ -86,10 +92,12 @@ const enDict = initDict({
   [PRISMVERSE_CLASH]: "Prismverse's Clash",
   [THE_WAY_OF_WINTER]: "The Way of Winter",
   [RAIDS_AND_DUNGEONS]: "Raids & Dungeons",
+  [ETERNALAND]: "Eternaland",
+  fieldGuide: "Field Guide",
   locations: "Locations",
-  deviations: "Deviants",
+  deviations: "Deviations",
   boss: "Bosses",
-  monster: "Monsters",
+  monster: "Monsters & Deviants",
   animal: "Animals",
   fishes: "Fishes",
   riddles: "Riddles",
@@ -133,6 +141,20 @@ const defaultTiles = await generateTiles(
   ],
   [0.03121951219512195, 256, -0.03121951219512195, 256],
 );
+const eternalandTiles = await generateTiles(
+  ETERNALAND,
+  TEXTURE_DIR + "/ui/texpack/bigmap_res/extra_scene_map/scene_neverland.png",
+  8200,
+  TILE_SIZE,
+  [1750, 3110],
+  [
+    [750, -750],
+    [-750, 750],
+  ],
+  undefined,
+  undefined,
+  [1, -1],
+);
 
 const tiles = initTiles({
   [DEFAULT_SCENARIO]: defaultTiles[DEFAULT_SCENARIO],
@@ -152,6 +174,7 @@ const tiles = initTiles({
       [-450, 530],
     ] as [[number, number], [number, number]],
   },
+  [ETERNALAND]: eternalandTiles[ETERNALAND],
 });
 
 writeTiles(tiles);
@@ -310,6 +333,91 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
   CONTENT_DIR + "/client_data/book_collect_model_data.json",
 );
 
+{
+  // Field Guide
+
+  const group = "fieldGuide";
+  // Landscape Viewpoint
+  const triggerDataRiddleS04Viewpoint =
+    await readJSON<TriggerDataRiddleS04Viewpoint>(
+      CONTENT_DIR +
+        "/game_common/data/task/trigger_data/trigger_data_riddle_s04_viewpoint.json",
+    );
+  const viewPointClientData = await readJSON<ViewPointClientData>(
+    CONTENT_DIR + "/client_data/view_point_client_data.json",
+  );
+  const viewPointEntranceClientData =
+    await readJSON<ViewPointEntranceClientData>(
+      CONTENT_DIR + "/client_data/view_point_entrance_client_data.json",
+    );
+  const type = "landscape_viewpoint_camera";
+  enDict[type] = "Viewpoint";
+  const iconPath = String.raw`${TEMP_DIR}\game-icons\double-diaphragm_lorc.png`;
+  const iconProps: IconProps = {
+    imageSprite: true,
+    border: true,
+    color: "#00ffd0",
+  };
+  const size = 1.5;
+  const icon = await saveIcon(iconPath, type, iconProps);
+
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size,
+  });
+  if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: THE_WAY_OF_WINTER,
+    });
+  }
+  const spawns = nodes.find(
+    (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+  )!.spawns;
+  const placeNodes = Object.values(
+    triggerDataRiddleS04Viewpoint.place_nodes,
+  ).flatMap((n) => Object.values(n));
+  const triggerNodes = Object.values(
+    triggerDataRiddleS04Viewpoint.trigger_nodes,
+  );
+  for (const nodeData of placeNodes) {
+    if (nodeData.unit_name !== "Scenic Viewpoint") {
+      continue;
+    }
+    const id = `scenic_viewpoint_${nodeData.no}`;
+    const spawn: Node["spawns"][0] = {
+      id,
+      p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+    };
+
+    const triggerNode = triggerNodes.find((triggerNode) => {
+      return triggerNode.next_places.some((nextPlace) => {
+        return nextPlace[0] === nodeData.no && nextPlace[1] === "Destroy";
+      });
+    });
+    if (triggerNode) {
+      const unlockViewPointAction = Object.values(triggerNode.actions).find(
+        (a) => a.action.operate === "unlock_view_point",
+      );
+      if (unlockViewPointAction) {
+        const viewPointId = unlockViewPointAction.action.value;
+        const viewPoint = viewPointClientData[viewPointId.toString()];
+        if (viewPoint) {
+          // const viewPointEntrance =
+          //   viewPointEntranceClientData[viewPoint.area_id.toString()];
+
+          enDict[id] = viewPoint.title;
+          enDict[`${id}_desc`] = viewPoint.desc;
+          spawns.push(spawn);
+        }
+      }
+    }
+  }
+}
+
 const newTypes: string[] = [];
 
 const switchType = (
@@ -324,7 +432,9 @@ const switchType = (
   let iconPath = initialIconPath;
   let group = initialGroup;
   let size = 1;
-  const iconProps: IconProps = {};
+  const iconProps: IconProps = {
+    imageSprite: true,
+  };
 
   if (type === "juluo") {
     group = "locations";
@@ -382,6 +492,12 @@ const switchType = (
     title = "Union Stronghold";
   } else if (type === "initial_respawn") {
     group = "locations";
+    // } else if (more?.includes("Riddle Spot Camera")) {
+    //   group = "riddles";
+    //   iconPath = String.raw`${TEMP_DIR}\game-icons\photo-camera_delapouite.png`;
+    //   type = "camera";
+    //   title = "Scenic Viewpoint Camera";
+    //   typeIDs["monster_camera.gim"] = type;
   } else if (more?.includes("Riddle Spot")) {
     group = "riddles";
     iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
@@ -485,7 +601,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
   }
 
   if (enDict[type] && enDict[type] !== title) {
-    console.warn(`Type ${type} already exists with name ${enDict[type]}`);
+    // console.warn(`Type ${type} already exists with name ${enDict[type]}`);
   } else {
     enDict[type] = title;
   }
@@ -588,7 +704,7 @@ for (const [key, value] of Object.entries(prefabInfoData)) {
           s.p[1] === spawn.p[1],
       )
     ) {
-      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      // console.warn("Duplicate spawn", spawn.id ?? spawn.p);
       continue;
     }
     node.spawns.push(spawn);
@@ -642,7 +758,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
     newTypes.push(type);
     // Add new filter value
     if (!iconPath) {
-      console.warn("No icon path for", key);
+      // console.warn("No icon path for", key);
       continue;
     }
     const icon = await saveIcon(iconPath, type, iconProps);
@@ -725,7 +841,7 @@ for (const [key, prefabGroupInfo] of Object.entries(prefabGroupInfoData)) {
           s.p[1] === spawn.p[1],
       )
     ) {
-      console.warn("Duplicate spawn", spawn.id ?? spawn.p);
+      // console.warn("Duplicate spawn", spawn.id ?? spawn.p);
       continue;
     }
     node.spawns.push(spawn);
@@ -754,6 +870,7 @@ for (const deviation of Object.values(deviationBaseData)) {
   enDict[`${type}_desc`] = deviation.skill_info_lst.join("<br>");
   const size = 1.5;
   const iconProps: IconProps = {
+    imageSprite: true,
     border: true,
     color: "#d1aedd",
   };
@@ -826,7 +943,9 @@ for (const fish of Object.values(fishData)) {
   }
   if (!newTypes.includes(type)) {
     newTypes.push(type);
-    const icon = await saveIcon(iconPath, type, {});
+    const icon = await saveIcon(iconPath, type, {
+      imageSprite: true,
+    });
     if (!filters.some((f) => f.group === group)) {
       filters.push({
         group,
@@ -850,9 +969,9 @@ for (const fish of Object.values(fishData)) {
     }
   }
   if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    console.warn(
-      `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    );
+    // console.warn(
+    //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+    // );
   }
   typeIDs[typeId] = type;
 }
@@ -877,11 +996,15 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       .replace(/[^a-zA-Z0-9_]/g, "")
       .toLowerCase();
 
-    const iconProps: IconProps = {};
+    const iconProps: IconProps = { imageSprite: true };
     let iconPath;
     let size = 0.75;
     const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
 
+    if (typeId === "monster_camera.gim") {
+      // This is the camera riddle / scenic viewpoint
+      continue;
+    }
     if (baseNPC.unit_entity_type === "Deviation") {
       continue;
     } else {
@@ -951,9 +1074,9 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       }
     }
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      console.warn(
-        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      );
+      // console.warn(
+      //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      // );
     }
     typeIDs[typeId] = type;
 
@@ -1077,7 +1200,7 @@ for (const battleFieldName of battleFieldNames) {
         iconPath =
           "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
       } else {
-        console.warn("No icon path for", group);
+        // console.warn("No icon path for", group);
         continue;
       }
       iconProps.color = uniqolor(type, {
@@ -1092,9 +1215,9 @@ for (const battleFieldName of battleFieldNames) {
       .split("\\")
       .at(-1)!;
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      console.warn(
-        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      );
+      // console.warn(
+      //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      // );
     }
     typeIDs[typeId] = type;
     enDict[type] = title;
@@ -1163,6 +1286,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "purple",
       circle: true,
     },
@@ -1200,6 +1324,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "green",
       circle: true,
     },
@@ -1240,6 +1365,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "yellow",
       circle: true,
     },
@@ -1280,6 +1406,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "lightblue",
       circle: true,
     },
@@ -1321,6 +1448,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
     "/ui/dynamic_texpack/hud_main_ui/hub_interaction_ui/planter_icon_cbt2_03.png",
     type,
     {
+      imageSprite: true,
       color: "#746cd7",
       circle: true,
     },
@@ -1373,7 +1501,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   let iconPath;
   let autoDiscover = false;
   let defaultOn: boolean | undefined;
-  const iconProps: IconProps = {};
+  const iconProps: IconProps = {
+    imageSprite: true,
+  };
   typeIDs[key] = type;
 
   if (value.res_name.endsWith(" Recipe")) {
@@ -1497,6 +1627,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     String.raw`${TEMP_DIR}\game-icons\locked-box_delapouite.png`,
     type,
     {
+      imageSprite: true,
       color: "#f2be59",
     },
   );
@@ -1531,6 +1662,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_copper_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1559,6 +1693,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new_original/icon_xgrs_24.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1587,6 +1724,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new_original/icon_xgrs_23.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1615,6 +1755,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sliver_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1643,6 +1786,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_gold_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1671,6 +1817,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon/icon_crystal_patagium.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1698,6 +1847,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_tungsten_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1726,6 +1878,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_aluminum_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1754,6 +1909,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_iron_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1784,6 +1942,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_stannum_ore_new.png.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1812,6 +1973,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_sulfur_ore_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1842,6 +2006,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_kelp_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1870,6 +2037,9 @@ for (const [key, value] of Object.entries(interactResData)) {
   const icon = await saveIcon(
     "/ui/dynamic_texpack/all_icon_res/item_icon_new/icon_kelp_new.png",
     type,
+    {
+      imageSprite: true,
+    },
   );
   const filter = filters.find((f) => f.group === group)!;
   filter.values.push({
@@ -1921,6 +2091,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 }
 
 const sortPriority = [
+  "fieldGuide",
   "items",
   "recipes",
   "gatherables",
@@ -1959,6 +2130,7 @@ const recipes = filters.find((f) => f.group === "recipes")!;
           String.raw`${TEMP_DIR}\game-icons\open-book_lorc.png`,
           type,
           {
+            imageSprite: true,
             color: uniqolor(type, {
               lightness: [70, 80],
             }).color,
@@ -2073,6 +2245,8 @@ Object.keys(tiles).forEach((mapName) => {
     filteredNodes.filter((n) => !n.mapName || n.mapName === mapName),
   );
 });
+
+await saveIconSprite(filters);
 
 const sortedFilters = filters
   .map((f) => {

@@ -3,10 +3,9 @@ import _nodes from "../../../../coordinates/nodes.json" assert { type: "json" };
 
 const nodes = _nodes as NodesCoordinates;
 
-export function GET(
-  _request: Request,
-  { params }: { params: { mapName: string } },
-): Response {
+type Params = Promise<{ mapName: string }>;
+export async function GET(_request: Request, segmentData: { params: Params }) {
+  const params = await segmentData.params;
   const mapNodes = nodes.filter(
     (node) => !node.mapName || node.mapName === params.mapName,
   );

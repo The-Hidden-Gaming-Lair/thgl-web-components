@@ -159,6 +159,24 @@ setInterval(() => {
   gameEventsPlugin.GetValeriaCharacter(
     (valeriaCharacter) => {
       if (valeriaCharacter) {
+        const actor = {
+          type: "BP_ValeriaCharacter_C",
+          mapName: "",
+          x: 0,
+          y: 0,
+          z: 0,
+          r: 0,
+          props: valeriaCharacter,
+        };
+        fetch("https://palia-api.th.gl/nodes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "App-Version": version,
+          },
+          body: JSON.stringify([actor]),
+        }).catch(() => null);
+
         const valeriaCharacterJson = JSON.stringify(valeriaCharacter);
         if (valeriaCharacterJson === prevValeriaCharacterJson) {
           return;
@@ -167,8 +185,6 @@ setInterval(() => {
         window.gameEventBus.trigger(MESSAGES.CHARACTER, valeriaCharacter);
       }
     },
-    () => {
-      //
-    },
+    () => {},
   );
 }, 10000);

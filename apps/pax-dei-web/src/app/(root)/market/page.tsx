@@ -45,6 +45,7 @@ export type MarketData = {
 
 async function fetchMarketData(shard: string): Promise<MarketData> {
   const response = await fetch(`https://paxdei.trade/api/location/${shard}`, {
+    cache: "force-cache",
     next: {
       revalidate: 3600,
     },
@@ -53,11 +54,9 @@ async function fetchMarketData(shard: string): Promise<MarketData> {
   return data;
 }
 
-export default async function Market({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}) {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Market(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const mapName = (searchParams.mapName as string) || Object.keys(tiles)[0];
   const shard = (searchParams.shard as string) || "Cernunnos";
 

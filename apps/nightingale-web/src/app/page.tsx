@@ -24,11 +24,9 @@ export const metadata: Metadata = {
     "Explore the dark and mysterious realm of Nightingale with the Nightingale Interactive Map. Uncover hidden codex, track creatures, and navigate the Gaslamp Fantasy world like never before. Join the adventure today!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, []);
   return (
     <CoordinatesProvider

@@ -32,11 +32,9 @@ export const metadata: Metadata = {
     "Explore Gray Zone Warfare with this Interactive Map! Showcasing all chapters, secrets, items, and more!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, gIds);
 
   return (

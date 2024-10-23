@@ -38,7 +38,7 @@ for (const file of readDirSync(
   }
 }
 
-const response = await fetch("https://actors-api.th.gl/nodes/once-human-13", {
+const response = await fetch("https://actors-api.th.gl/nodes/once-human-14", {
   headers: {
     Authorization: `thgl`,
   },

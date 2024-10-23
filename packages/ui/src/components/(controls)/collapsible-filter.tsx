@@ -7,7 +7,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FilterTooltip } from "./filter-tooltip";
 import { FiltersCoordinates, useT, useUserStore } from "../(providers)";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FoldVertical, UnfoldVertical, X } from "lucide-react";
 
 export function CollapsibleFilter({
@@ -22,26 +22,27 @@ export function CollapsibleFilter({
   const setFilters = useUserStore((state) => state.setFilters);
   const toggleFilter = useUserStore((state) => state.toggleFilter);
 
-  const hasActiveFilters = filter.values.some((filter) =>
-    filters.includes(filter.id),
+  const activeFiltersLength = useMemo(
+    () => filter.values.filter((f) => filters.includes(f.id)).length,
+    [filters, filter],
   );
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
       <div
         className={cn("flex items-center transition-colors w-full px-1.5", {
-          "text-muted-foreground": !hasActiveFilters,
+          "text-muted-foreground": !activeFiltersLength,
         })}
       >
         <button
           className={cn(
             "text-left transition-colors hover:text-primary p-1 truncate grow",
             {
-              "text-muted-foreground": !hasActiveFilters,
+              "text-muted-foreground": !activeFiltersLength,
             },
           )}
           onClick={() => {
-            const newFilters = hasActiveFilters
+            const newFilters = activeFiltersLength
               ? filters.filter(
                   (f) => !filter.values.some((value) => value.id === f),
                 )
@@ -56,7 +57,12 @@ export function CollapsibleFilter({
           title={t(filter.group)}
           type="button"
         >
-          {t(filter.group) || filter.group}
+          <span className="font-semibold">
+            {t(filter.group) || filter.group}
+          </span>
+          <span className="ml-1 text-xs text-muted-foreground">
+            ({activeFiltersLength}/{filter.values.length})
+          </span>
         </button>
         <CollapsibleTrigger asChild>
           <button className="hover:text-primary p-2">
@@ -87,13 +93,27 @@ export function CollapsibleFilter({
                     }}
                     type="button"
                   >
-                    <img
-                      alt=""
-                      className="h-5 w-5 shrink-0"
-                      height={20}
-                      src={`/icons/${f.icon}`}
-                      width={20}
-                    />
+                    {typeof f.icon === "string" ? (
+                      <img
+                        alt=""
+                        className="h-5 w-5 shrink-0"
+                        height={20}
+                        src={`/icons/${f.icon}`}
+                        width={20}
+                      />
+                    ) : (
+                      <img
+                        alt=""
+                        className="shrink-0 object-none"
+                        src={`/icons/${f.icon.url}`}
+                        width={f.icon.width}
+                        height={f.icon.height}
+                        style={{
+                          objectPosition: `-${f.icon.x}px -${f.icon.y}px`,
+                          zoom: 0.35,
+                        }}
+                      />
+                    )}
                     <span className="truncate">{t(f.id) || f.id}</span>
                   </button>
                 </TooltipTrigger>

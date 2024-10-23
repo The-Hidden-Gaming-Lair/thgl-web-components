@@ -24,7 +24,7 @@ export const metadata = {
 };
 
 export default async function SupportMeAccount() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const userId = cookieStore.get("userId");
 
   let content;

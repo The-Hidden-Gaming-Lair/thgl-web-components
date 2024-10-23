@@ -31,6 +31,7 @@ export function createWorld(
       })
     : CRS.Simple;
 
+  const renderer = canvas({ pane: "markerPane" });
   const world = map(element, {
     zoomControl: false,
     markerZoomAnimation: true,
@@ -42,7 +43,7 @@ export function createWorld(
     wheelPxPerZoomLevel: 120,
     crs: worldCRS,
     preferCanvas: true,
-    renderer: canvas({ pane: "markerPane" }),
+    renderer: renderer,
     pmIgnore: false,
   });
 

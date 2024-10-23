@@ -11,7 +11,18 @@ export type Node = {
     };
     data?: Record<string, string[]>;
   }[];
+  data?: Record<string, string[]>;
 };
+
+export type Icon =
+  | string
+  | {
+      url: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
 
 export type Filter = {
   group: string;
@@ -19,7 +30,7 @@ export type Filter = {
   defaultOn?: boolean;
   values: {
     id: string;
-    icon: string;
+    icon: Icon;
     size?: number;
     live_only?: boolean;
     autoDiscover?: boolean;
@@ -39,7 +50,7 @@ export type Database<T = Record<string, any>> = {
   type: string;
   items: {
     id: string;
-    icon?: string;
+    icon?: Icon;
     props: T;
     groupId?: string;
   }[];

@@ -2,10 +2,13 @@ import { $ } from "bun";
 import { loadImage, createCanvas, Canvas, Image } from "@napi-rs/canvas";
 import { OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./dirs.js";
 import { saveImage } from "./fs.js";
+import { Filter, Icon } from "../types.js";
+import { mergeImageSprite } from "./filters.js";
 
 const savedIcons: string[] = [];
 
 export type IconProps = {
+  imageSprite?: boolean;
   border?: boolean;
   color?: string;
   circle?: boolean;
@@ -17,11 +20,13 @@ export type IconProps = {
   badgeIcon?: string;
   noResize?: boolean;
 };
+
+const imageSpritePaths: SpritePaths = [];
 export async function saveIcon(
   assetPath: string,
   name: string,
   props: IconProps = {},
-) {
+): Promise<Icon> {
   let filePath;
   if (
     assetPath.startsWith("/home") ||
@@ -81,7 +86,18 @@ export async function saveIcon(
       const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     }
-    if (!props.noResize) {
+    if (props.imageSprite) {
+      if (!imageSpritePaths.some((p) => p.name === name)) {
+        imageSpritePaths.push({ name, imagePath: tempIconPath });
+      }
+      return {
+        url: name,
+        x: 0,
+        y: 0,
+        width: 64,
+        height: 64,
+      };
+    } else if (!props.noResize) {
       await $`cwebp -resize 64 64 "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
     } else {
       await $`cwebp "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
@@ -92,6 +108,15 @@ export async function saveIcon(
     console.error("Error saving icon", name, assetPath, filePath, props);
     throw e;
   }
+}
+
+export async function saveIconSprite(filters: Filter[]) {
+  const iconSprite = await createImageSprite(imageSpritePaths, 64, 64);
+  mergeImageSprite(filters, iconSprite.imageSprite);
+  const tempFileName = `${TEMP_DIR}/icons.png`;
+  saveImage(tempFileName, iconSprite.canvas.toBuffer("image/png"));
+  const outFilename = `${OUTPUT_DIR}/icons/icons.webp`;
+  await $`cwebp ${tempFileName} -m 6 -o ${outFilename} -quiet`;
 }
 
 export async function drawIconWithBadge(
@@ -688,19 +713,19 @@ export async function createImageSprite(
     const image = images[i];
     const spritePath = spritePaths[i];
     ctx.drawImage(image, x, y, cellWidth, cellHeight);
+    imageSprite.push({
+      name: spritePath.name,
+      x,
+      y,
+      width: cellWidth,
+      height: cellHeight,
+    });
     if (i % cols === cols - 1) {
       x = 0;
       y += cellHeight;
     } else {
       x += cellWidth;
     }
-    imageSprite.push({
-      name: spritePath.name,
-      x,
-      y,
-      width: image.width,
-      height: image.height,
-    });
   }
 
   return { canvas, imageSprite, width: canvasWidth, height: canvasHeight };

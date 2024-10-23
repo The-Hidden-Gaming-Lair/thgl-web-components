@@ -1,34 +1,42 @@
+import { type Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Fragment } from "react";
 import DiscordMessage from "@/components/discord-message";
 import PreviewImage from "@/components/preview-image";
 import { Subtitle } from "@/components/subtitle";
 import { apps } from "@/lib/apps";
 import { getUpdateMessages } from "@/lib/discord";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { Fragment } from "react";
 
-type Props = {
-  params: { title: string };
-};
+type Params = Promise<{ title: string }>;
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const decodedTitle = decodeURIComponent(params.title);
-  const app = apps.find((app) => app.title === decodedTitle);
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { title } = await params;
+  const decodedTitle = decodeURIComponent(title);
+  const app = apps.find((a) => a.title === decodedTitle);
   if (!app) {
     notFound();
   }
 
   return {
-    title: "Release Notes - " + app.title + " - The Hidden Gaming Lair",
+    title: `Release Notes - ${app.title} - The Hidden Gaming Lair`,
     alternates: {
-      canonical: `/apps/${params.title}/release-notes`,
+      canonical: `/apps/${title}/release-notes`,
     },
   };
 }
 
-export default async function AppDescription({ params }: Props) {
-  const decodedTitle = decodeURIComponent(params.title);
-  const app = apps.find((app) => app.title === decodedTitle);
+export default async function AppDescription({
+  params,
+}: {
+  params: Params;
+}): Promise<JSX.Element> {
+  const { title } = await params;
+  const decodedTitle = decodeURIComponent(title);
+  const app = apps.find((a) => a.title === decodedTitle);
   if (!app) {
     notFound();
   }

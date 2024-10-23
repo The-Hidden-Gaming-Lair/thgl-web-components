@@ -39,6 +39,8 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
           mapName = "east_blackfell_pvp";
         } else if (prevServerName?.includes("Winter")) {
           mapName = "north_snow_pve";
+        } else if (prevServerName === "null") {
+          mapName = "eternaland";
         } else {
           mapName = "default";
         }
@@ -109,7 +111,7 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
         () => {
           readyForRefresh = true;
         },
-        prevServerName ? 10000 : 1,
+        prevServerName ? 7000 : 1,
       );
     }
   },
@@ -121,6 +123,7 @@ function refreshServerName(): Promise<void> {
       (serverName) => {
         if (prevServerName !== serverName) {
           prevServerName = serverName;
+          console.log(`Server name changed to ${serverName}`);
         }
         window.gameEventBus.trigger(MESSAGES.CHARACTER, { serverName });
         resolve();

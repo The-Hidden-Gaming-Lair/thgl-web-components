@@ -2,6 +2,7 @@
   "name": "once-human-overwolf",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc && bunx --bun vite build && bun run scripts/copy-overwolf.ts",
     "clean": "rm -rf dist",
@@ -21,14 +22,14 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/react": "18.3.11",
-    "@types/react-dom": "18.3.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react-swc": "3.7.1",
     "autoprefixer": "10.4.20",
     "postcss": "8.4.47",
     "reflect-metadata": "^0.2.2",
-    "tailwindcss": "3.4.13",
-    "typescript": "5.6.2",
-    "vite": "5.4.8"
+    "tailwindcss": "3.4.14",
+    "typescript": "5.6.3",
+    "vite": "5.4.10"
   }
 }

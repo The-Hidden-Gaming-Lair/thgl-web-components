@@ -34,6 +34,7 @@ export default async function Leaderboard() {
   const respone = await fetch(
     "https://palia-api.th.gl/nodes?type=players&limit=100",
     {
+      cache: "force-cache",
       next: { tags: ["leaderboard"] },
     },
   );

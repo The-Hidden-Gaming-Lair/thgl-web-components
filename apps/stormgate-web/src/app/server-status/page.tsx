@@ -48,6 +48,7 @@ interface GameInfo {
 async function fetchServers(): Promise<Servers> {
   try {
     const response = await fetch("https://api.hathora.dev/discovery/v1/ping", {
+      cache: "force-cache",
       next: {
         revalidate: 60 * 60,
       },
@@ -63,6 +64,7 @@ async function fetchGameInfo(): Promise<GameInfo | null> {
     const response = await fetch(
       "https://game.ptr.pegasus.frostgiant.pragmaengine.com/v1/info",
       {
+        cache: "force-cache",
         next: {
           revalidate: 60 * 60,
         },

@@ -31,11 +31,9 @@ export const metadata: Metadata = {
     "Explore Wuthering Waves with this Interactive Map! Showcasing all echoes spawn locations, elite glowing enemies, waveplate activities, and more!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, gIds);
 
   return (

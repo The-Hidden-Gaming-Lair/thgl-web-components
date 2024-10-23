@@ -156,6 +156,11 @@ namespace NativeGameEvents
               if (server_name != IntPtr.Zero)
               {
                 var serverName = _memory.ReadProcessMemory<string>(server_name + 0x20);
+                if (serverName == "null")
+                                {
+                                    server_name = _memory.ReadProcessMemory<nint>(server_name + 0x20);
+                                    serverName = _memory.ReadProcessMemory<string>(server_name);
+                                }
                 return Marshal.StringToCoTaskMemUTF8(serverName);
               }
             }

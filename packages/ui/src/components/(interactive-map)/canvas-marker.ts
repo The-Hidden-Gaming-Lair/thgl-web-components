@@ -32,7 +32,6 @@ leaflet.Canvas.include({
         layerContext.fill();
         return;
       }
-
       const key =
         "width" in icon
           ? `${icon.url}${icon.x}${icon.y}@${radius}:${isHighlighted}:${isDiscovered}:${isCluster}${fillColor}${zPos}`
@@ -41,7 +40,6 @@ leaflet.Canvas.include({
         layerContext.drawImage(canvasCache[key], dx, dy);
         return;
       }
-
       const canvas = document.createElement("canvas");
       canvas.width = imageSize;
       canvas.height = imageSize;
@@ -209,7 +207,8 @@ export type CanvasMarkerOptions = {
   zPos?: "top" | "bottom" | null;
 };
 
-const imageElements: Record<string, HTMLImageElement> = {};
+export const canvasMarkerImgs: Record<string, HTMLImageElement> = {};
+
 const canvasCache: Record<string, HTMLCanvasElement> = {};
 
 let flatGameIcons:
@@ -246,22 +245,22 @@ class CanvasMarker extends CircleMarker {
     super(latLng, options);
     if ("icon" in options && options.icon) {
       let url = options.icon.url;
-      if ("name" in options.icon) {
+      if ("name" in options.icon && !options.icon.x) {
         const icon = findIcon(options.icon.name);
         if (icon) {
           this.options.icon = icon;
           url = icon.url;
         }
       }
-      if (!imageElements[url]) {
-        imageElements[url] = document.createElement("img");
+      if (!canvasMarkerImgs[url]) {
+        canvasMarkerImgs[url] = document.createElement("img");
         if (!url.startsWith("/")) {
-          imageElements[url].src = `/icons/${options.icon}`;
+          canvasMarkerImgs[url].src = `/icons/${url}`;
         } else {
-          imageElements[url].src = url;
+          canvasMarkerImgs[url].src = url;
         }
       }
-      this.imageElement = imageElements[url];
+      this.imageElement = canvasMarkerImgs[url];
     }
   }
 
@@ -293,12 +292,12 @@ class CanvasMarker extends CircleMarker {
         }
       }
 
-      if (!imageElements[url]) {
-        imageElements[url] = document.createElement("img");
-        imageElements[url].src = url;
+      if (!canvasMarkerImgs[url]) {
+        canvasMarkerImgs[url] = document.createElement("img");
+        canvasMarkerImgs[url].src = url;
         this._onImageLoad = undefined;
       }
-      this.imageElement = imageElements[url];
+      this.imageElement = canvasMarkerImgs[url];
     }
     this.update();
   }
@@ -318,7 +317,6 @@ class CanvasMarker extends CircleMarker {
     const radius = this.options.radius!;
     this._radius = radius / 2 + radius * 2 * zoomFactor;
     this._point = this._map.latLngToLayerPoint(this._latlng);
-    this._updateBounds();
   }
 
   _updatePath(): void {
@@ -333,6 +331,7 @@ class CanvasMarker extends CircleMarker {
       this._onImageLoad = () => {
         this.imageElement.removeEventListener("load", this._onImageLoad!);
         this.imageElement.removeEventListener("error", this._onImageLoad!);
+        this._onImageLoad = undefined;
         // @ts-expect-error updateCanvasImg is a custom method
         this._renderer.updateCanvasImg(this);
       };

@@ -31,11 +31,9 @@ export const metadata: Metadata = {
     "Explore Hogwarts Legacy with this Interactive Map! Showcasing all fast travel, sphinx puzzle spawn and other locations in Hogwarts, Hogsmeade and in the Overland!",
 };
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const view = searchParamsToView(searchParams, fIds, gIds);
 
   return (

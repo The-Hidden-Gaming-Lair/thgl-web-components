@@ -1,4 +1,9 @@
-import { type TileOptions, cn, useSettingsStore } from "@repo/lib";
+import {
+  MarkerOptions,
+  type TileOptions,
+  cn,
+  useSettingsStore,
+} from "@repo/lib";
 import { HeaderOffset, PlausibleTracker } from "@repo/ui/header";
 import {
   InteractiveMap,
@@ -51,7 +56,8 @@ const typesIdMap = _typesIdMap as Record<string, string>;
 
 const APP = "Pax Dei";
 const TITLE = "Pax Dei Map";
-const MARKER_OPTIONS = {
+const MARKER_OPTIONS: MarkerOptions = {
+  imageSprite: true,
   radius: 6,
   playerIcon: "player.webp",
 };
