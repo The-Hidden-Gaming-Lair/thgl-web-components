@@ -21,10 +21,13 @@ type OnceHumanPlugin = {
 } & GameEventsPlugin;
 
 let prevServerName: string | null = null;
-let refreshServerNameTimeout: NodeJS.Timeout | null = null;
 let refreshServerNamePromise: Promise<void> | null = null;
-let readyForRefresh = true;
 let lastMapName: string | undefined;
+let lastPlayerPosition: { x: number; y: number; z: number } = {
+  x: 0,
+  y: 0,
+  z: 0,
+};
 const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   "ONCE_HUMAN",
   Object.keys(typesIdMap),
@@ -93,9 +96,17 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   },
   sendActorsToAPI,
   (player) => {
-    if (player !== null) {
-      if (readyForRefresh && !refreshServerNamePromise) {
-        readyForRefresh = false;
+    if (player !== null && !refreshServerNamePromise) {
+      const distance = lastPlayerPosition
+        ? Math.sqrt(
+            (player.x - lastPlayerPosition.x) ** 2 +
+              (player.y - lastPlayerPosition.y) ** 2 +
+              (player.z - lastPlayerPosition.z) ** 2,
+          )
+        : 0;
+      lastPlayerPosition = { x: player.x, y: player.y, z: player.z };
+      if (distance > 10) {
+        console.log(`Player moved ${distance} units -> refreshing server name`);
         refreshServerNamePromise = refreshServerName()
           .then(() => {
             refreshServerNamePromise = null;
@@ -104,15 +115,6 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
             refreshServerNamePromise = null;
           });
       }
-      if (refreshServerNameTimeout) {
-        clearTimeout(refreshServerNameTimeout);
-      }
-      refreshServerNameTimeout = setTimeout(
-        () => {
-          readyForRefresh = true;
-        },
-        prevServerName ? 7000 : 1,
-      );
     }
   },
 );
