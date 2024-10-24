@@ -63,6 +63,7 @@ export function TraceLine() {
     const circle = leaflet.circle(
       [lastPosition.current.x, lastPosition.current.y] as [number, number],
       {
+        pane: "shadowPane",
         radius: 0,
         interactive: false,
         color: traceLineColor,
