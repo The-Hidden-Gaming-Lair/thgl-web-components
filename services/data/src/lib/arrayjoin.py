@@ -1,3 +1,8 @@
+import os
+vipsbin = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'bin', 'vips')
+
+os.environ['PATH'] = vipsbin + ';' + os.environ['PATH']
+
 import sys
 import glob
 import pyvips
