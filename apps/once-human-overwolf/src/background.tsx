@@ -28,6 +28,8 @@ let lastPlayerPosition: { x: number; y: number; z: number } = {
   y: 0,
   z: 0,
 };
+let lastBallUnits: Actor[] = [];
+let lastFishTankUnits: Actor[] = [];
 const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   "ONCE_HUMAN",
   Object.keys(typesIdMap),
@@ -65,14 +67,20 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   },
   undefined,
   undefined,
-  (actor, _index, actors) => {
+  (actor, index, actors) => {
+    if (index === 0) {
+      lastFishTankUnits = actors.filter((a) =>
+        a.type.startsWith("fish_tank_group_"),
+      );
+      lastBallUnits = actors.filter((a) => a.type === "ball.gim");
+    }
     const id = typesIdMap[actor.type as keyof typeof typesIdMap];
     if (!id) {
       return false;
     }
+
     if (id.startsWith("deviations_")) {
-      const balls = actors.filter((a) => a.type === "ball.gim");
-      return balls.some((ball) => {
+      return lastBallUnits.some((ball) => {
         const distance = Math.sqrt(
           (actor.x - ball.x) ** 2 +
             (actor.y - ball.y) ** 2 +
@@ -81,13 +89,11 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
         return distance < 1;
       });
     }
-    if (actor.type.startsWith("fish_")) {
-      const fishTanks = actors.filter(
-        (a) => a.type === "fish_tank_group_2.gim",
-      );
-      return !fishTanks.some((fishTank) => {
+    if (id.startsWith("fish_")) {
+      return !lastFishTankUnits.some((containmentUnit) => {
         const distance = Math.sqrt(
-          (actor.x - fishTank.x) ** 2 + (actor.y - fishTank.y) ** 2,
+          (actor.x - containmentUnit.x) ** 2 +
+            (actor.y - containmentUnit.y) ** 2,
         );
         return distance < 1;
       });
@@ -200,7 +206,7 @@ async function sendActorsToAPI(actors: Actor[]): Promise<void> {
       }),
     );
 
-    await fetch("https://actors-api.th.gl/nodes/once-human-14", {
+    await fetch("https://actors-api.th.gl/nodes/once-human-15", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

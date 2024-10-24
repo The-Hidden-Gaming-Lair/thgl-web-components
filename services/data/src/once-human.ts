@@ -411,10 +411,10 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
 
           enDict[id] = viewPoint.title;
           enDict[`${id}_desc`] = viewPoint.desc;
-          spawns.push(spawn);
         }
       }
     }
+    spawns.push(spawn);
   }
 }
 
@@ -925,6 +925,10 @@ const fishData = await readJSON<FishData>(
 );
 for (const fish of Object.values(fishData)) {
   if (!fish.model_path) {
+    continue;
+  }
+  if (fish.model_path.includes("backpack_sco")) {
+    // It's not a normal fish, it's a deviation
     continue;
   }
   const group = "fishes";
