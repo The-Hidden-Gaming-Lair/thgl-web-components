@@ -139,10 +139,12 @@ interface UserStoreState {
   filters: string[];
   setFilters: (filters: string[]) => void;
   toggleFilter: (filter: string) => void;
-  center: [number, number] | undefined;
-  setCenter: (center: [number, number]) => void;
-  zoom: number | undefined;
-  setZoom: (zoom: number) => void;
+  viewByMap: Record<string, { center?: [number, number]; zoom?: number }>;
+  setViewByMap: (
+    mapName: string,
+    center: [number, number],
+    zoom: number,
+  ) => void;
   globalFilters: string[];
   setGlobalFilters: (filters: string[]) => void;
   toggleGlobalFilter: (filter: string) => void;
@@ -240,15 +242,33 @@ export function CoordinatesProvider({
                   console.warn(`Invalid map name: ${mapName}`);
                   return;
                 }
-                set({ mapName, center, zoom });
+                set((state) => {
+                  const viewByMap = {
+                    ...state.viewByMap,
+                    [mapName]: state.viewByMap[mapName] ?? {},
+                  };
+                  if (center) {
+                    viewByMap[mapName].center = center;
+                  }
+                  if (zoom && !viewByMap[mapName].zoom) {
+                    viewByMap[mapName].zoom = zoom;
+                  }
+                  return { mapName, viewByMap };
+                });
               },
-              center: view.center,
-              setCenter: (center) => {
-                set({ center });
-              },
-              zoom: view.zoom,
-              setZoom: (zoom) => {
-                set({ zoom });
+              viewByMap: view.map
+                ? {
+                    [view.map]: { center: view.center, zoom: view.zoom },
+                  }
+                : {},
+              setViewByMap: (mapName, center, zoom) => {
+                set((state) => {
+                  const viewByMap = {
+                    ...state.viewByMap,
+                    [mapName]: { center, zoom },
+                  };
+                  return { viewByMap };
+                });
               },
               search: "",
               setSearch: (search) => {
@@ -306,14 +326,18 @@ export function CoordinatesProvider({
                   return current;
                 }
                 const result = { ...current, ...persisted };
-                if (view.center) {
-                  result.center = view.center;
-                }
-                if (view.zoom) {
-                  result.zoom = view.zoom;
-                }
                 if (view.map) {
                   result.mapName = view.map;
+                  result.viewByMap = {
+                    ...result.viewByMap,
+                    [result.mapName]: result.viewByMap[result.mapName] ?? {},
+                  };
+                  if (view.center) {
+                    result.viewByMap[result.mapName].center = view.center;
+                  }
+                  if (view.zoom) {
+                    result.viewByMap[result.mapName].zoom = view.zoom;
+                  }
                 }
                 if (view.filters) {
                   result.filters = view.filters;

@@ -8,7 +8,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createCanvasLayer } from "./canvas-layer";
 import { createWorld } from "./world";
 import { useMapStore } from "./store";
-import { useIsHydrated, useUserStore } from "../(providers)";
+import { useCoordinates, useIsHydrated, useUserStore } from "../(providers)";
 import { ContextMenu } from "./context-menu";
 // import { createCoordinatesControl } from "./coordinates-control";
 import leaflet from "leaflet";
@@ -27,10 +27,7 @@ export function InteractiveMap({
   const isHydrated = useIsHydrated();
   const mapFilter = useSettingsStore((state) => state.mapFilter);
   const mapName = useUserStore((state) => state.mapName);
-  const center = useUserStore((state) => state.center);
-  const zoom = useUserStore((state) => state.zoom);
-  const setCenter = useUserStore((state) => state.setCenter);
-  const setZoom = useUserStore((state) => state.setZoom);
+  const { userStore } = useCoordinates();
 
   const mapTileOptions = tileOptions[mapName];
 
@@ -47,9 +44,12 @@ export function InteractiveMap({
     if (!containerRef.current) {
       throw new Error("Map ref is not defined");
     }
+    const { viewByMap, setViewByMap } = userStore.getState();
+    const view = viewByMap[mapName] ?? {};
+
     const world = createWorld(
       containerRef.current,
-      { center, zoom },
+      view,
       mapTileOptions,
       mapName,
     );
@@ -79,17 +79,31 @@ export function InteractiveMap({
         p: [event.latlng.lat, event.latlng.lng],
       });
     });
+    setViewByMap(
+      mapName,
+      [world.getCenter().lat, world.getCenter().lng],
+      world.getZoom(),
+    );
 
-    setCenter([world.getCenter().lat, world.getCenter().lng]);
-    setZoom(world.getZoom());
-
+    let timeoutId: NodeJS.Timeout | null = null;
     world.on("moveend", () => {
-      setCenter([world.getCenter().lat, world.getCenter().lng]);
-      setZoom(world.getZoom());
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        setViewByMap(
+          mapName,
+          [world.getCenter().lat, world.getCenter().lng],
+          world.getZoom(),
+        );
+      }, 3000);
     });
 
     // createCoordinatesControl().addTo(world);
     return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       // setMap(null);
       try {
         world.off();
