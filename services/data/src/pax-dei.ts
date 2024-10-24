@@ -36,6 +36,7 @@ import {
 } from "./lib/dirs.js";
 import { Icon, Node } from "./types.js";
 import { initFilters } from "./lib/filters.js";
+import { cwebp, vipsDzsave } from "./lib/bin.js";
 
 initDirs(
   String.raw`C:\dev\PaxDei\Extracted\Data`,
@@ -242,7 +243,7 @@ for (const mapName of readDirSync(
       const imagePath = TEMP_DIR + "/" + mapName + ".png";
       saveImage(imagePath, canvas.toBuffer("image/png"));
       await $`mkdir -p ${outDir}`;
-      await $`vips dzsave ${imagePath} ${outDir} --tile-size ${TILE_SIZE} --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
+      await vipsDzsave(imagePath, outDir, TILE_SIZE);
 
       for (const file of readDirRecursive(outDir)) {
         if (file.includes("blank")) {
@@ -250,7 +251,10 @@ for (const mapName of readDirSync(
           continue;
         }
         if (file.endsWith(".jpg") || file.endsWith(".png")) {
-          await $`cwebp ${file} -quiet -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")}`;
+          await cwebp(
+            file,
+            file.replace(".jpg", ".webp").replace(".png", ".webp"),
+          );
           await $`rm ${file}`;
         }
       }

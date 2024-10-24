@@ -1,5 +1,6 @@
 import { $ } from "bun";
 import { readDirRecursive } from "./lib/fs.js";
+import { cwebp } from "./lib/bin.js";
 
 const DATA_PATH = "/mnt/c/dev/New World/Data";
 const TEXTURE_DIR = "/mnt/c/dev/New World/Textures";
@@ -13,7 +14,7 @@ for (const file of readDirRecursive(TEXTURE_DIR + "/worldtiles")) {
       const outFile = file
         .replace(TEXTURE_DIR + "/worldtiles", OUTPUT_DIR)
         .replace(".png", ".webp");
-      await $`cwebp "${file}" -m 6 -o "${outFile}" -quiet`;
+      await cwebp(file, outFile);
     }
   } catch (e) {
     console.error(`Failed to convert ${file}`);

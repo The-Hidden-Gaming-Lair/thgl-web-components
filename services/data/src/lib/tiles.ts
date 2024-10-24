@@ -2,6 +2,7 @@ import { $ } from "bun";
 import { Tiles } from "../types.js";
 import { OUTPUT_DIR } from "./dirs.js";
 import { readDirRecursive, readDirSync, writeJSON } from "./fs.js";
+import { cwebp, vipsDzsave } from "./bin.js";
 
 export function initTiles(seed?: Tiles): Tiles {
   return seed ?? {};
@@ -45,7 +46,7 @@ export async function generateTiles(
 
   if (Bun.argv.includes("--tiles")) {
     await $`mkdir -p ${outDir}`;
-    await $`vips dzsave ${imagePath} ${outDir} --tile-size ${tileSize} --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
+    await vipsDzsave(imagePath, outDir, tileSize);
 
     for (const file of readDirRecursive(outDir)) {
       if (file.includes("blank")) {
@@ -53,7 +54,10 @@ export async function generateTiles(
         continue;
       }
       if (file.endsWith(".jpg") || file.endsWith(".png")) {
-        await $`cwebp ${file} -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
+        await cwebp(
+          file,
+          file.replace(".jpg", ".webp").replace(".png", ".webp"),
+        );
         await $`rm ${file}`;
       }
     }

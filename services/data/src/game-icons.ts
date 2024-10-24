@@ -6,6 +6,7 @@ import { TEMP_DIR } from "./lib/dirs.js";
 import yauzl from "yauzl";
 import { createImageSprite, SpritePaths } from "./lib/image.js";
 import { cpFile, readDirRecursive, saveImage } from "./lib/fs.js";
+import { cwebp } from "./lib/bin.js";
 
 // 1: Open https://game-icons.net/tags.html
 // 2: copy([...document.querySelectorAll('li a[href^="/tags"]')].map(b => ({ tag: b.href.replace('https://game-icons.net/tags/', '').replace('.html', ''), name: b.innerText.split('—')[0].trim() })))
@@ -75,7 +76,6 @@ for (const tag of TAGS) {
         width: 64,
         height: 64,
       });
-      //   await $`cwebp ${icon} -resize 64 64 -m 6 -o ../../static/global/icons/game-icons/${name}_${author}.webp -quiet`;
     } catch (e) {
       console.error(icon, e);
     }
@@ -84,7 +84,7 @@ for (const tag of TAGS) {
   const tempFileName = `${TEMP_DIR}/icons/${tag.tag}/sprite.png`;
   saveImage(tempFileName, imageSprite.canvas.toBuffer("image/png"));
   const outFilename = `C:\\dev\\the-hidden-gaming-lair\\static\\global\\icons\\game-icons\\${tag.tag}.webp`;
-  await $`cwebp ${tempFileName} -m 6 -o ${outFilename} -quiet`;
+  await cwebp(tempFileName, outFilename);
 
   for (const sprite of imageSprite.imageSprite) {
     const itemIcon = itemIcons.find((icon) => icon.name === sprite.name);

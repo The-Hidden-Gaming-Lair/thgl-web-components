@@ -4,6 +4,7 @@ import { OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./dirs.js";
 import { saveImage } from "./fs.js";
 import { Filter, Icon } from "../types.js";
 import { mergeImageSprite } from "./filters.js";
+import { cwebp } from "./bin.js";
 
 const savedIcons: string[] = [];
 
@@ -98,9 +99,11 @@ export async function saveIcon(
         height: 64,
       };
     } else if (!props.noResize) {
-      await $`cwebp -resize 64 64 "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+      await cwebp(tempIconPath, `${OUTPUT_DIR}/icons/${filename}.webp`, {
+        resize: true,
+      });
     } else {
-      await $`cwebp "${tempIconPath}" -m 6 -o "${OUTPUT_DIR}/icons/${filename}.webp" -quiet`;
+      await cwebp(tempIconPath, `${OUTPUT_DIR}/icons/${filename}.webp`);
     }
     savedIcons.push(filename);
     return `${filename}.webp`;
@@ -116,7 +119,7 @@ export async function saveIconSprite(filters: Filter[]) {
   const tempFileName = `${TEMP_DIR}/icons.png`;
   saveImage(tempFileName, iconSprite.canvas.toBuffer("image/png"));
   const outFilename = `${OUTPUT_DIR}/icons/icons.webp`;
-  await $`cwebp ${tempFileName} -m 6 -o ${outFilename} -quiet`;
+  await cwebp(tempFileName, outFilename);
 }
 
 export async function drawIconWithBadge(
@@ -493,8 +496,7 @@ export async function extractCanvasFromSprite(
     saveImage(TEMP_DIR + `/${name}.png`, canvasTmp.toBuffer("image/png"));
   }
 
-  await $`cwebp ${TEMP_DIR}/${name}.png -m 6 -o ${OUTPUT_DIR}/icons/${name}.webp -quiet`;
-
+  await cwebp(`${TEMP_DIR}/${name}.png`, `${OUTPUT_DIR}/icons/${name}.webp`);
   return `${name}.webp`;
 }
 
