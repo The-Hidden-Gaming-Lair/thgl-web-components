@@ -2,14 +2,13 @@ import { $ } from "bun";
 import { loadImage, createCanvas, Canvas, Image } from "@napi-rs/canvas";
 import { OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./dirs.js";
 import { saveImage } from "./fs.js";
-import { Filter, Icon } from "../types.js";
+import { Filter, Icon, IconSprite } from "../types.js";
 import { mergeImageSprite } from "./filters.js";
 import { cwebp } from "./bin.js";
 
 const savedIcons: string[] = [];
 
 export type IconProps = {
-  imageSprite?: boolean;
   border?: boolean;
   color?: string;
   circle?: boolean;
@@ -23,11 +22,12 @@ export type IconProps = {
 };
 
 const imageSpritePaths: SpritePaths = [];
-export async function saveIcon(
+async function generateIcon(
+  filename: string,
   assetPath: string,
   name: string,
   props: IconProps = {},
-): Promise<Icon> {
+): Promise<string> {
   let filePath;
   if (
     assetPath.startsWith("/home") ||
@@ -41,14 +41,6 @@ export async function saveIcon(
     filePath = TEXTURE_DIR + "/" + assetPath;
   }
   try {
-    const filename = name
-      .replaceAll(" ", "_")
-      .replace(/[^a-zA-Z0-9_]/g, "")
-      .toLowerCase();
-
-    if (savedIcons.includes(filename)) {
-      return `${filename}.webp`;
-    }
     let tempIconPath = TEMP_DIR + `/${filename}.png`;
     const file = Bun.file(filePath);
     await Bun.write(tempIconPath, file);
@@ -87,30 +79,57 @@ export async function saveIcon(
       const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     }
-    if (props.imageSprite) {
-      if (!imageSpritePaths.some((p) => p.name === name)) {
-        imageSpritePaths.push({ name, imagePath: tempIconPath });
-      }
-      return {
-        url: name,
-        x: 0,
-        y: 0,
-        width: 64,
-        height: 64,
-      };
-    } else if (!props.noResize) {
-      await cwebp(tempIconPath, `${OUTPUT_DIR}/icons/${filename}.webp`, {
-        resize: true,
-      });
-    } else {
-      await cwebp(tempIconPath, `${OUTPUT_DIR}/icons/${filename}.webp`);
-    }
-    savedIcons.push(filename);
-    return `${filename}.webp`;
+    return tempIconPath;
   } catch (e) {
-    console.error("Error saving icon", name, assetPath, filePath, props);
+    console.error("Error generating icon", name, assetPath, filePath, props);
     throw e;
   }
+}
+export async function addToIconSprite(
+  assetPath: string,
+  name: string,
+  props: IconProps = {},
+): Promise<IconSprite> {
+  const filename = name
+    .replaceAll(" ", "_")
+    .replace(/[^a-zA-Z0-9_]/g, "")
+    .toLowerCase();
+
+  const imagePath = await generateIcon(filename, assetPath, name, props);
+  if (!imageSpritePaths.some((p) => p.name === name)) {
+    imageSpritePaths.push({ name, imagePath });
+  }
+  return {
+    url: name,
+    x: 0,
+    y: 0,
+    width: 64,
+    height: 64,
+  };
+}
+
+export async function saveIcon(
+  assetPath: string,
+  name: string,
+  props: IconProps = {},
+): Promise<string> {
+  const filename = name
+    .replaceAll(" ", "_")
+    .replace(/[^a-zA-Z0-9_]/g, "")
+    .toLowerCase();
+  if (savedIcons.includes(filename)) {
+    return `${filename}.webp`;
+  }
+  const imagePath = await generateIcon(filename, assetPath, name, props);
+  if (!props.noResize) {
+    await cwebp(imagePath, `${OUTPUT_DIR}/icons/${filename}.webp`, {
+      resize: true,
+    });
+  } else {
+    await cwebp(imagePath, `${OUTPUT_DIR}/icons/${filename}.webp`);
+  }
+  savedIcons.push(filename);
+  return `${filename}.webp`;
 }
 
 export async function saveIconSprite(filters: Filter[]) {

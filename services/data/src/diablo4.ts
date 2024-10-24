@@ -1,8 +1,8 @@
 import uniqolor from "uniqolor";
 import { CONTENT_DIR, initDirs, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
-import { readDirSync, readJSON, saveImage } from "./lib/fs.js";
-import { arrayJoinImages, mergeImages, saveIcon } from "./lib/image.js";
+import { readDirSync, readJSON } from "./lib/fs.js";
+import { arrayJoinImages, saveIcon } from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initDict, writeDict } from "./lib/dicts.js";
@@ -220,7 +220,7 @@ const filters = initFilters([
           "healers",
         ),
         size: 1.5,
-      },      
+      },
       {
         id: "pvpCursedScrolls",
         icon: await saveIcon(
@@ -252,7 +252,7 @@ const filters = initFilters([
           "pvpCosmetic",
         ),
         size: 1.5,
-      },      
+      },
       {
         id: "gamblers",
         icon: await saveIcon(
@@ -1009,7 +1009,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
           "PvPCursedScroll",
           "PvPGamble",
           "PvPMount",
-          "PvPCosmetic"
+          "PvPCosmetic",
         ].includes(role)
       ) {
         if (!unknownRoles.includes(role)) {

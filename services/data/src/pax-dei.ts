@@ -9,7 +9,12 @@ import {
   saveImage,
   writeJSON,
 } from "./lib/fs.js";
-import { mergeImages, saveIcon, saveIconSprite } from "./lib/image.js";
+import {
+  addToIconSprite,
+  mergeImages,
+  saveIcon,
+  saveIconSprite,
+} from "./lib/image.js";
 import {
   DA_ItemDataAsset,
   PD_Recipes,
@@ -24,8 +29,6 @@ import {
   GlobalFilter,
   PD_Skills,
   PC_Activatable,
-  NPCResources,
-  RootLevel,
 } from "./pax-dei.types.js";
 import {
   CONTENT_DIR,
@@ -339,15 +342,13 @@ for (const mapName of readDirSync(
       }
       if (!icons[mapCellIcon.icon]) {
         const value = mapMarkerTypes[0].Rows[mapCellIcon.icon];
-        icons[mapCellIcon.icon] = await saveIcon(
+        icons[mapCellIcon.icon] = await addToIconSprite(
           value.icon_14_79B580D74A39832FAFDC3AA545CFCB48.AssetPathName.replace(
             "/Game",
             "/PaxDei/Content",
           ).split(".")[0] + ".png",
           mapCellIcon.icon,
-          {
-            imageSprite: true,
-          },
+          {},
         );
         const id = mapCellIcon.icon;
         const size = id === "minicamp" ? 2.5 : 1.5;
@@ -603,8 +604,7 @@ for (const gatherablesPath of gatherablesPaths) {
     if (!filter.values.some((v) => v.id === id)) {
       filter.values.push({
         id,
-        icon: await saveIcon(iconPath, id, {
-          imageSprite: true,
+        icon: await addToIconSprite(iconPath, id, {
           glowing: true,
           color: "#fff",
         }),
@@ -741,8 +741,7 @@ for (const mineablesPath of mineablesPaths) {
     if (!filter.values.some((v) => v.id === id)) {
       filter.values.push({
         id,
-        icon: await saveIcon(iconPath, id, {
-          imageSprite: true,
+        icon: await addToIconSprite(iconPath, id, {
           color: uniqolor(id).color,
         }),
       });
@@ -910,8 +909,7 @@ for (const npcsResourcesPath of readDirRecursive(
     if (!filter.values.some((v) => v.id === id)) {
       filter.values.push({
         id,
-        icon: await saveIcon(iconPath, id, {
-          imageSprite: true,
+        icon: await addToIconSprite(iconPath, id, {
           color: uniqolor(id).color,
         }),
       });

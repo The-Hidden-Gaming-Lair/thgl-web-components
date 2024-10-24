@@ -8,21 +8,25 @@ export type Node = {
     icon?: {
       name: string;
       url: string;
+      x?: number;
+      y?: number;
+      width?: number;
+      height?: number;
     };
     data?: Record<string, string[]>;
   }[];
   data?: Record<string, string[]>;
 };
 
-export type Icon =
-  | string
-  | {
-      url: string;
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    };
+export type IconSprite = {
+  url: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type Icon = string | IconSprite;
 
 export type Filter = {
   group: string;
