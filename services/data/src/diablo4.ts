@@ -220,7 +220,39 @@ const filters = initFilters([
           "healers",
         ),
         size: 1.5,
+      },      
+      {
+        id: "pvpCursedScrolls",
+        icon: await saveIcon(
+          "/slices/2DUIMinimapIcons/1810968731.png",
+          "pvpCursedScrolls",
+        ),
+        size: 1.5,
       },
+      {
+        id: "pvpGambles",
+        icon: await saveIcon(
+          "/slices/2DUIMinimapIcons/1230238589.png",
+          "pvpGambles",
+        ),
+        size: 1.5,
+      },
+      {
+        id: "pvpMounts",
+        icon: await saveIcon(
+          "/slices/2DUIMinimapIcons/829100150.png",
+          "pvpMount",
+        ),
+        size: 1.5,
+      },
+      {
+        id: "pvpCosmetics",
+        icon: await saveIcon(
+          "/slices/2DUIMinimapIcons/4007020429.png",
+          "pvpCosmetic",
+        ),
+        size: 1.5,
+      },      
       {
         id: "gamblers",
         icon: await saveIcon(
@@ -518,6 +550,10 @@ const enDict = initDict({
   alchemists: "Alchemists",
   blacksmiths: "Blacksmiths",
   healers: "Healers",
+  pvpCursedScrolls: "Cursed Scroll",
+  pvpGambles: "Unsavory Oddities",
+  pvpMounts: "Unconventional Steed Armor",
+  pvpCosmetics: "Odds and Ends",
   gamblers: "Gamblers",
   jewelers: "Jewelers",
   occultists: "Occultists",
@@ -952,7 +988,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
       const matched = snoName.name.match(
         /TWN_(?<name>.*)_(?<type>.*)_(?<role>.*)/,
       );
-      const role = matched?.groups?.role;
+      let role = matched?.groups?.role;
       if (!role) {
         // console.warn("Unknown type", snoName.name);
         continue;
@@ -970,6 +1006,10 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
           "Silversmith",
           "StableMaster",
           "Weapons",
+          "PvPCursedScroll",
+          "PvPGamble",
+          "PvPMount",
+          "PvPCosmetic"
         ].includes(role)
       ) {
         if (!unknownRoles.includes(role)) {
@@ -978,6 +1018,7 @@ for (const fileName of readDirSync(CONTENT_DIR + "/base/meta/MarkerSet")) {
         }
         continue;
       }
+      role = role.replace("PvP", "pvp");
       type = toCamelCase(role)
         .replace("gamblingTable", "gambling")
         .replace("gamblingBoard", "gambling");

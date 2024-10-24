@@ -82,6 +82,26 @@
         "size": 1.5
       },
       {
+        "id": "pvpCursedScrolls",
+        "icon": "pvpcursedscrolls.webp",
+        "size": 1.5
+      },
+      {
+        "id": "pvpGambles",
+        "icon": "pvpgambles.webp",
+        "size": 1.5
+      },
+      {
+        "id": "pvpMounts",
+        "icon": "pvpmount.webp",
+        "size": 1.5
+      },
+      {
+        "id": "pvpCosmetics",
+        "icon": "pvpcosmetic.webp",
+        "size": 1.5
+      },
+      {
         "id": "gamblers",
         "icon": "gamblers.webp",
         "size": 1.5

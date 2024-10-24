@@ -13890,14 +13890,6 @@
       },
       {
         "p": [
-          -149.34375,
-          30.90773,
-          1.41288
-        ],
-        "id": "QST_Merc_ShieldBearer_Cellar_01"
-      },
-      {
-        "p": [
           -207.42463,
           23.37154,
           5.45363
@@ -17611,6 +17603,94 @@
           -134.38461,
           68.32966,
           0.04033
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpCursedScrolls",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPCursedScroll@-142.92624,53.25435",
+        "p": [
+          -142.92624,
+          53.25435,
+          22.652
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPCursedScroll@-96.55433,45.25334",
+        "p": [
+          -96.55433,
+          45.25334,
+          27.8552
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpCosmetics",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPCosmetic@-143.29449,51.19854",
+        "p": [
+          -143.29449,
+          51.19854,
+          21.4992
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPCosmetic@-95.56285,44.9819",
+        "p": [
+          -95.56285,
+          44.9819,
+          27.8884
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpGambles",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPGamble@-144.12309,54.8561",
+        "p": [
+          -144.12309,
+          54.8561,
+          22.6692
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPGamble@-97.90021,44.37353",
+        "p": [
+          -97.90021,
+          44.37353,
+          25.4338
+        ]
+      }
+    ]
+  },
+  {
+    "type": "pvpMounts",
+    "mapName": "Sanctuary",
+    "spawns": [
+      {
+        "id": "TWN_Kehj_PvPTown_Vendor_PvPMount@-144.11764,55.65055",
+        "p": [
+          -144.11764,
+          55.65055,
+          22.6451
+        ]
+      },
+      {
+        "id": "TWN_Step_Alzuuda_Vendor_PvPMount@-96.70686,45.50319",
+        "p": [
+          -96.70686,
+          45.50319,
+          27.6145
         ]
       }
     ]
@@ -28527,14 +28607,6 @@
       },
       {
         "p": [
-          -134.36403,
-          68.60388,
-          0.13382
-        ],
-        "id": "LevelArea_X1R_Naha_KeyRoom"
-      },
-      {
-        "p": [
           -135.05123,
           68.42856,
           -4.53835
@@ -29327,7 +29399,7 @@
         "p": [
           -137.51622,
           68.34812,
-          0.27951
+          0
         ]
       },
       {
