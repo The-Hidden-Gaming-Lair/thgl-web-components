@@ -68,7 +68,14 @@ const filters = initFilters([
   { group: "recipes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "notes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: false, values: [] },
-  // { group: "plants", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "plants", defaultOn: true, defaultOpen: false, values: [] },
+  { group: "deviatedPlants", defaultOn: true, defaultOpen: false, values: [] },
+  {
+    group: "contaminatedPlants",
+    defaultOn: true,
+    defaultOpen: false,
+    values: [],
+  },
   { group: "locations", defaultOn: true, defaultOpen: false, values: [] },
   { group: "riddles", defaultOn: true, defaultOpen: false, values: [] },
   { group: "boss", defaultOn: true, defaultOpen: false, values: [] },
@@ -105,7 +112,9 @@ const enDict = initDict({
   items: "Items",
   recipes: "Recipes",
   gatherables: "Gatherables",
-  // plants: "Plants",
+  plants: "Plants",
+  deviatedPlants: "Deviated Plants",
+  contaminatedPlants: "Contaminated Plants",
 });
 const typeIDs = initTypesIDs({
   "ball.gim": "deviations_ball",
@@ -2061,6 +2070,8 @@ const sortPriority = [
   "recipes",
   "gatherables",
   "plants",
+  "deviatedPlants",
+  "contaminatedPlants",
   "deviations",
   "locations",
   "riddles",
@@ -2115,6 +2126,69 @@ const recipes = filters.find((f) => f.group === "recipes")!;
             static: true,
           });
         }
+      }
+    }
+  }
+}
+
+{
+  // Plants and Deviated Plants
+  for (const [key, item] of Object.entries(itemData)) {
+    if (item.gain_path !== "Gather plants") {
+      continue;
+    }
+    const type = `plants_${item.name.toLowerCase().replaceAll(" ", "_")}`;
+
+    const resData = Object.entries(interactResData).find(([key, value]) => {
+      return value.res_name === item.name;
+    });
+    if (!resData) {
+      console.warn("No res data for", item.name);
+      continue;
+    }
+
+    const typeId = resData[0];
+    typeIDs[typeId] = type;
+
+    const isDeviated = item.name.includes("Deviated");
+    const isContaminated = item.name.includes("Contaminated");
+    let group;
+    let title = item.name;
+    if (isDeviated) {
+      group = "deviatedPlants";
+      title = title.replace("Deviated ", "") + " (D)";
+    } else if (isContaminated) {
+      group = "contaminatedPlants";
+      title = title.replace("Contaminated ", "") + " (C)";
+    } else {
+      group = "plants";
+    }
+
+    const filter = filters.find((f) => f.group === group)!;
+    if (!newTypes.includes(type)) {
+      enDict[type] = title;
+      if (item.short_desc) {
+        enDict[`${type}_desc`] = item.short_desc;
+      }
+
+      newTypes.push(type);
+      const iconPath =
+        "ui/dynamic_texpack/" + textureMap[item.icon] + "/" + item.icon;
+
+      const icon = await addToIconSprite(iconPath, item.icon);
+      filter.values.push({
+        id: type,
+        icon,
+        size: 1,
+      });
+      if (
+        !nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)
+      ) {
+        nodes.push({
+          type: type,
+          spawns: [],
+          mapName: DEFAULT_SCENARIO,
+        });
       }
     }
   }

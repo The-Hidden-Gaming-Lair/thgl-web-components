@@ -30,6 +30,11 @@ let lastPlayerPosition: { x: number; y: number; z: number } = {
 };
 let lastBallUnits: Actor[] = [];
 let lastFishTankUnits: Actor[] = [];
+let plantBoxUnits: Actor[] = [];
+const isNearBy = (actor: Actor, unit: Actor) => {
+  const distance = Math.sqrt((actor.x - unit.x) ** 2 + (actor.y - unit.y) ** 2);
+  return distance < 1;
+};
 const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
   "ONCE_HUMAN",
   Object.keys(typesIdMap),
@@ -73,6 +78,7 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
         a.type.startsWith("fish_tank_group_"),
       );
       lastBallUnits = actors.filter((a) => a.type === "ball.gim");
+      plantBoxUnits = actors.filter((a) => a.type === "plantbox.gim");
     }
     const id = typesIdMap[actor.type as keyof typeof typesIdMap];
     if (!id) {
@@ -80,23 +86,13 @@ const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
     }
 
     if (id.startsWith("deviations_")) {
-      return lastBallUnits.some((ball) => {
-        const distance = Math.sqrt(
-          (actor.x - ball.x) ** 2 +
-            (actor.y - ball.y) ** 2 +
-            (actor.z - ball.z) ** 2,
-        );
-        return distance < 1;
-      });
+      return lastBallUnits.some((unit) => isNearBy(actor, unit));
     }
     if (id.startsWith("fish_")) {
-      return !lastFishTankUnits.some((containmentUnit) => {
-        const distance = Math.sqrt(
-          (actor.x - containmentUnit.x) ** 2 +
-            (actor.y - containmentUnit.y) ** 2,
-        );
-        return distance < 1;
-      });
+      return !lastFishTankUnits.some((unit) => isNearBy(actor, unit));
+    }
+    if (id.startsWith("plants_")) {
+      return !plantBoxUnits.some((unit) => isNearBy(actor, unit));
     }
     return true;
   },

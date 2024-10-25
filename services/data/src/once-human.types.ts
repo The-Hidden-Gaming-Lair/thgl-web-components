@@ -760,6 +760,7 @@ export type ItemData = Record<
     item_deliver_type: number;
     icon_female: string;
     icon: string;
+    gain_path?: string;
   }
 >;
 

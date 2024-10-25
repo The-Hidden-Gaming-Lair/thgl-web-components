@@ -235,6 +235,8 @@ namespace NativeGameEvents
               !str.StartsWith("environment\\static_objects\\ue_asset") &&
               !str.StartsWith("environment\\decals\\bridge_school") &&
               !str.StartsWith("environment\\collection") &&
+              !str.StartsWith("environment\\ecosystem\\bush") &&
+              !str.StartsWith("environment\\dynamic_objects\\buildingsystem\\facility\\plantbox") &&
               !isMineral &&
               !str.StartsWith("environment\\dynamic_objects\\fortified_point") &&
               !str.StartsWith("environment\\dynamic_objects\\buildingsystem\\furniture") &&
@@ -249,51 +251,6 @@ namespace NativeGameEvents
             }
 
             //if (
-            //                //str.StartsWith(@"environment\static_objects") ||
-            //                //str.StartsWith(@"environment/static_objects") ||
-            //                //str.StartsWith(@"environment\dynamic_objects") ||
-            //                //str.StartsWith(@"environment/dynamic_objects") ||
-            //                str.StartsWith(@"environment\decals") ||
-            //                str.StartsWith(@"environment/decals") ||
-            //                str.StartsWith(@"environment\ecosystem\decal") ||
-            //                str.StartsWith(@"environment\volume_decal") ||
-            //                str.StartsWith(@"volume_decal") ||
-            //                str.StartsWith(@"environment/volume_decal") ||
-            //                str.StartsWith(@"environment\prefab") ||
-            //                str.StartsWith(@"environment/prefab") ||
-            //                str.StartsWith(@"environment\collection") ||
-            //                str.StartsWith(@"environment\dark_cirrus") ||
-            //                str.StartsWith(@"environment\ecosystem\rock") ||
-            //                str.StartsWith(@"environment\ecosystem\tree") ||
-            //                str.StartsWith(@"environment\ecosystem\grass") ||
-            //                str.StartsWith(@"environment\ecosystem\ivy") ||
-            //                str.StartsWith(@"environment\ecosystem\bush") ||
-            //                str.StartsWith(@"environment\procedure_element") ||
-            //                str.StartsWith(@"environment\procedura_element") ||
-            //                str.StartsWith(@"environment\test") ||
-            //                str.StartsWith(@"environment\temp") ||
-            //                str.StartsWith(@"character\empty") ||
-            //                str.StartsWith(@"character\player") ||
-            //                str.StartsWith(@"character/player") ||
-            //                str.StartsWith(@"character\weapon") ||
-            //                str.StartsWith(@"character/weapon") ||
-            //                str.StartsWith(@"material") ||
-            //                str.StartsWith(@"der") ||
-            //                str.StartsWith(@"ui") ||
-            //                str.StartsWith(@"nt") ||
-            //                str.StartsWith(@"ai_move_anim") ||
-            //                str.StartsWith(@"node") ||
-            //                str.StartsWith(@"VVGI") ||
-            //                str.StartsWith(@"Particle") ||
-            //                str.StartsWith(@"<") ||
-            //                str.StartsWith(@"@") ||
-            //                str.StartsWith(@"__") ||
-            //                !(str.Contains("/") || str.Contains("\\")) ||
-            //                str.StartsWith(@"scene") ||
-            //                str.StartsWith(@"cene") ||
-            //                str.StartsWith("common") ||
-            //                str.StartsWith("effect") ||
-            //                str.StartsWith("shader") ||
             //                str == "null" ||
             //                string.IsNullOrEmpty(str)
             //                )

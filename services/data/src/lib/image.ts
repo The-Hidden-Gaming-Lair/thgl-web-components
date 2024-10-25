@@ -41,7 +41,7 @@ async function generateIcon(
     filePath = TEXTURE_DIR + "/" + assetPath;
   }
   try {
-    let tempIconPath = TEMP_DIR + `/${filename}.png`;
+    const tempIconPath = TEMP_DIR + `/${filename}.png`;
     const file = Bun.file(filePath);
     await Bun.write(tempIconPath, file);
 
@@ -94,7 +94,6 @@ export async function addToIconSprite(
     .replaceAll(" ", "_")
     .replace(/[^a-zA-Z0-9_]/g, "")
     .toLowerCase();
-
   const imagePath = await generateIcon(filename, assetPath, name, props);
   if (!imageSpritePaths.some((p) => p.name === name)) {
     imageSpritePaths.push({ name, imagePath });
