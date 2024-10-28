@@ -342,64 +342,94 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
   CONTENT_DIR + "/client_data/book_collect_model_data.json",
 );
 
-// Riddle Doll?
-// {
-//   const group = "riddles";
-//   const triggerDataRiddleS04Doll =
-//     await readJSON<TriggerDataRiddleS04Viewpoint>(
-//       CONTENT_DIR +
-//         "/game_common/data/task/trigger_data/trigger_data_riddle_s04_doll.json",
-//     );
-//   // const riddleDolls = await readJSON<ViewPointClientData>(
-//   //   CONTENT_DIR + "/client_data/montage/riddle_s04_doll_05.json",
-//   // );
-//   const type = "riddle_doll";
-//   enDict[type] = "Doll";
-//   const iconPath = String.raw`${TEMP_DIR}\game-icons\meeple_delapouite.png`;
-//   const iconProps: IconProps = {
-//     // border: true,
-//     color: "#00ffd0",
-//   };
-//   const size = 1.5;
-//   const icon = await addToIconSprite(iconPath, type, iconProps);
-//   const filter = filters.find((f) => f.group === group)!;
-//   filter.values.push({
-//     id: type,
-//     icon,
-//     size,
-//   });
-//   if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
-//     nodes.push({
-//       type,
-//       spawns: [],
-//       mapName: THE_WAY_OF_WINTER,
-//     });
-//   }
-//   const spawns = nodes.find(
-//     (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
-//   )!.spawns;
-//   const placeNodes = Object.values(
-//     triggerDataRiddleS04Doll.place_nodes,
-//   ).flatMap((n) => Object.values(n));
-//   const triggerNodes = Object.values(triggerDataRiddleS04Doll.trigger_nodes);
+// Riddle Doll
+{
+  const group = "riddles";
+  const triggerDataRiddleS04Doll =
+    await readJSON<TriggerDataRiddleS04Viewpoint>(
+      CONTENT_DIR +
+        "/game_common/data/task/trigger_data/trigger_data_riddle_s04_doll.json",
+    );
+  // const riddleDolls = await readJSON<ViewPointClientData>(
+  //   CONTENT_DIR + "/client_data/montage/riddle_s04_doll_05.json",
+  // );
+  const type = "riddle_doll";
+  enDict[type] = "Doll";
+  const iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
+  const iconProps: IconProps = {
+    // border: true,
+    color: uniqolor(type, {
+      lightness: [70, 80],
+    }).color,
+  };
+  const size = 1.5;
+  const icon = await addToIconSprite(iconPath, type, iconProps);
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size,
+  });
+  if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: THE_WAY_OF_WINTER,
+    });
+  }
+  const spawns = nodes.find(
+    (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+  )!.spawns;
+  const placeNodes = Object.values(
+    triggerDataRiddleS04Doll.place_nodes,
+  ).flatMap((n) => Object.values(n));
+  const triggerNodes = Object.values(triggerDataRiddleS04Doll.trigger_nodes);
 
-//   for (const nodeData of placeNodes) {
-//     if (!("pos3" in nodeData)) {
-//       continue;
-//     }
-//     if (!nodeData.unit_name) {
-//       continue;
-//     }
-//     const id = `riddle_doll_${nodeData.no}`;
-//     const spawn: Node["spawns"][0] = {
-//       id,
-//       p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
-//     };
-//     enDict[id] = nodeData.unit_name;
-//     // enDict[`${id}_desc`] = nodeData.npc_word;
-//     spawns.push(spawn);
-//   }
-// }
+  for (const nodeData of placeNodes) {
+    if (!("pos3" in nodeData)) {
+      continue;
+    }
+    if (!nodeData.unit_name) {
+      continue;
+    }
+    const closestStardustFluidMist = Object.values(placeNodes).reduce(
+      (closest, current) => {
+        if (!("pos3" in current)) {
+          return closest;
+        }
+        if (!current.sfx_path?.endsWith("stardust_fluid_mist_end.pse")) {
+          return closest;
+        }
+        const dist = Math.hypot(
+          current.pos3[0] - nodeData.pos3[0],
+          current.pos3[1] - nodeData.pos3[1],
+        );
+        if (dist < closest.dist) {
+          return { dist, no: current.no, pos3: current.pos3 };
+        }
+        return closest;
+      },
+      { dist: Infinity, no: 0, pos3: [0, 0, 0] },
+    );
+    const id = `riddle_doll_${closestStardustFluidMist.no}`;
+    if (spawns.some((s) => s.id === id)) {
+      enDict[`${id}_desc`] += `<p>${nodeData.unit_name}</p>`;
+      continue;
+    }
+    const spawn: Node["spawns"][0] = {
+      id,
+      p: [
+        closestStardustFluidMist.pos3[2],
+        closestStardustFluidMist.pos3[0],
+        closestStardustFluidMist.pos3[1],
+      ],
+    };
+    // enDict[id] = nodeData.unit_name;
+    enDict[`${id}_desc`] = `<p>${nodeData.unit_name}</p>`;
+    // enDict[`${id}_desc`] = nodeData.npc_word;
+    spawns.push(spawn);
+  }
+}
 
 {
   // Field Guide
