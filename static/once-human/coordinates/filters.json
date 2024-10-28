@@ -31,7 +31,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "weapon_crate",
@@ -42,7 +42,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1,
+        "size": 1.2,
         "autoDiscover": true
       },
       {
@@ -54,7 +54,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1,
+        "size": 1.2,
         "autoDiscover": true
       },
       {
@@ -66,7 +66,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1,
+        "size": 1.2,
         "autoDiscover": true
       },
       {
@@ -78,7 +78,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1
+        "size": 1.2
       },
       {
         "id": "fruit__veggies",

@@ -41,6 +41,7 @@ import {
   ScenePrefabData,
   SmallMapItemData,
   TreasureMonsterDropData,
+  TriggerDataRiddleS04Shadow,
   TriggerDataRiddleS04Viewpoint,
   ViewPointClientData,
   ViewPointEntranceClientData,
@@ -50,6 +51,7 @@ import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import {
   getBorderFromMaskImage,
   initRegions,
+  isPointInsidePolygon,
   writeRegions,
 } from "./lib/regions.js";
 import { initDatabase, writeDatabase } from "./lib/database.js";
@@ -68,14 +70,14 @@ const filters = initFilters([
   { group: "recipes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "notes", defaultOn: true, defaultOpen: false, values: [] },
   { group: "gatherables", defaultOn: true, defaultOpen: false, values: [] },
-  { group: "plants", defaultOn: true, defaultOpen: false, values: [] },
-  { group: "deviatedPlants", defaultOn: true, defaultOpen: false, values: [] },
-  {
-    group: "contaminatedPlants",
-    defaultOn: true,
-    defaultOpen: false,
-    values: [],
-  },
+  // { group: "plants", defaultOn: true, defaultOpen: false, values: [] },
+  // { group: "deviatedPlants", defaultOn: true, defaultOpen: false, values: [] },
+  // {
+  //   group: "contaminatedPlants",
+  //   defaultOn: true,
+  //   defaultOpen: false,
+  //   values: [],
+  // },
   { group: "locations", defaultOn: true, defaultOpen: false, values: [] },
   { group: "riddles", defaultOn: true, defaultOpen: false, values: [] },
   { group: "boss", defaultOn: true, defaultOpen: false, values: [] },
@@ -318,9 +320,6 @@ const smallMapItemData = await readJSON<SmallMapItemData>(
 const prefabGroupInfoData = await readJSON<PrefabGroupInfoData>(
   CONTENT_DIR + "/game_common/data/prefab_group_info_data.json",
 );
-const treasureMonsterDropData = await readJSON<TreasureMonsterDropData>(
-  CONTENT_DIR + "/game_common/data/treasure_monster_drop_data.json",
-);
 const baseNPCData = await readJSON<BaseNPCData>(
   CONTENT_DIR + "/game_common/data/unit_data/base_npc_data.json",
 );
@@ -343,87 +342,212 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
   CONTENT_DIR + "/client_data/book_collect_model_data.json",
 );
 
+// Riddle Doll?
+// {
+//   const group = "riddles";
+//   const triggerDataRiddleS04Doll =
+//     await readJSON<TriggerDataRiddleS04Viewpoint>(
+//       CONTENT_DIR +
+//         "/game_common/data/task/trigger_data/trigger_data_riddle_s04_doll.json",
+//     );
+//   // const riddleDolls = await readJSON<ViewPointClientData>(
+//   //   CONTENT_DIR + "/client_data/montage/riddle_s04_doll_05.json",
+//   // );
+//   const type = "riddle_doll";
+//   enDict[type] = "Doll";
+//   const iconPath = String.raw`${TEMP_DIR}\game-icons\meeple_delapouite.png`;
+//   const iconProps: IconProps = {
+//     // border: true,
+//     color: "#00ffd0",
+//   };
+//   const size = 1.5;
+//   const icon = await addToIconSprite(iconPath, type, iconProps);
+//   const filter = filters.find((f) => f.group === group)!;
+//   filter.values.push({
+//     id: type,
+//     icon,
+//     size,
+//   });
+//   if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
+//     nodes.push({
+//       type,
+//       spawns: [],
+//       mapName: THE_WAY_OF_WINTER,
+//     });
+//   }
+//   const spawns = nodes.find(
+//     (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+//   )!.spawns;
+//   const placeNodes = Object.values(
+//     triggerDataRiddleS04Doll.place_nodes,
+//   ).flatMap((n) => Object.values(n));
+//   const triggerNodes = Object.values(triggerDataRiddleS04Doll.trigger_nodes);
+
+//   for (const nodeData of placeNodes) {
+//     if (!("pos3" in nodeData)) {
+//       continue;
+//     }
+//     if (!nodeData.unit_name) {
+//       continue;
+//     }
+//     const id = `riddle_doll_${nodeData.no}`;
+//     const spawn: Node["spawns"][0] = {
+//       id,
+//       p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+//     };
+//     enDict[id] = nodeData.unit_name;
+//     // enDict[`${id}_desc`] = nodeData.npc_word;
+//     spawns.push(spawn);
+//   }
+// }
+
 {
   // Field Guide
-
   const group = "fieldGuide";
+
+  // Shadow... Personnel Files?
+  // {
+  //   const triggerDataRiddleS04Shadow =
+  //     await readJSON<TriggerDataRiddleS04Shadow>(
+  //       CONTENT_DIR +
+  //         "/game_common/data/task/trigger_data/trigger_data_riddle_s04_shadow.json",
+  //     );
+
+  //   const type = "personell_file";
+  //   enDict[type] = "Personnel Files";
+  //   const iconPath = String.raw`${TEMP_DIR}\game-icons\double-diaphragm_lorc.png`;
+  //   const iconProps: IconProps = {
+  //     border: true,
+  //     color: "#00ffd0",
+  //   };
+  //   const size = 1.5;
+  //   const icon = await addToIconSprite(iconPath, type, iconProps);
+  //   const filter = filters.find((f) => f.group === group)!;
+  //   filter.values.push({
+  //     id: type,
+  //     icon,
+  //     size,
+  //   });
+  //   if (
+  //     !nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)
+  //   ) {
+  //     nodes.push({
+  //       type,
+  //       spawns: [],
+  //       mapName: THE_WAY_OF_WINTER,
+  //     });
+  //   }
+  //   const spawns = nodes.find(
+  //     (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+  //   )!.spawns;
+  //   const placeNodes = Object.values(
+  //     triggerDataRiddleS04Shadow.place_nodes,
+  //   ).flatMap((n) => Object.values(n));
+  //   const triggerNodes = Object.values(
+  //     triggerDataRiddleS04Shadow.trigger_nodes,
+  //   );
+
+  //   for (const nodeData of placeNodes) {
+  //     if (!("pos3" in nodeData)) {
+  //       continue;
+  //     }
+  //     if (
+  //       !("drop_name" in nodeData) ||
+  //       nodeData.drop_name !== "Riddle Spot Loot Crate"
+  //     ) {
+  //       continue;
+  //     }
+  //     const id = `personell_file_${nodeData.no}`;
+  //     const spawn: Node["spawns"][0] = {
+  //       id,
+  //       p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+  //     };
+  //     spawns.push(spawn);
+  //   }
+  // }
+
   // Landscape Viewpoint
-  const triggerDataRiddleS04Viewpoint =
-    await readJSON<TriggerDataRiddleS04Viewpoint>(
-      CONTENT_DIR +
-        "/game_common/data/task/trigger_data/trigger_data_riddle_s04_viewpoint.json",
-    );
-  const viewPointClientData = await readJSON<ViewPointClientData>(
-    CONTENT_DIR + "/client_data/view_point_client_data.json",
-  );
-  const viewPointEntranceClientData =
-    await readJSON<ViewPointEntranceClientData>(
-      CONTENT_DIR + "/client_data/view_point_entrance_client_data.json",
-    );
-  const type = "landscape_viewpoint_camera";
-  enDict[type] = "Viewpoint";
-  const iconPath = String.raw`${TEMP_DIR}\game-icons\double-diaphragm_lorc.png`;
-  const iconProps: IconProps = {
-    border: true,
-    color: "#00ffd0",
-  };
-  const size = 1.5;
-  const icon = await addToIconSprite(iconPath, type, iconProps);
-
-  const filter = filters.find((f) => f.group === group)!;
-  filter.values.push({
-    id: type,
-    icon,
-    size,
-  });
-  if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
-    nodes.push({
-      type,
-      spawns: [],
-      mapName: THE_WAY_OF_WINTER,
-    });
-  }
-  const spawns = nodes.find(
-    (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
-  )!.spawns;
-  const placeNodes = Object.values(
-    triggerDataRiddleS04Viewpoint.place_nodes,
-  ).flatMap((n) => Object.values(n));
-  const triggerNodes = Object.values(
-    triggerDataRiddleS04Viewpoint.trigger_nodes,
-  );
-  for (const nodeData of placeNodes) {
-    if (nodeData.unit_name !== "Scenic Viewpoint") {
-      continue;
-    }
-    const id = `scenic_viewpoint_${nodeData.no}`;
-    const spawn: Node["spawns"][0] = {
-      id,
-      p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
-    };
-
-    const triggerNode = triggerNodes.find((triggerNode) => {
-      return triggerNode.next_places.some((nextPlace) => {
-        return nextPlace[0] === nodeData.no && nextPlace[1] === "Destroy";
-      });
-    });
-    if (triggerNode) {
-      const unlockViewPointAction = Object.values(triggerNode.actions).find(
-        (a) => a.action.operate === "unlock_view_point",
+  {
+    const triggerDataRiddleS04Viewpoint =
+      await readJSON<TriggerDataRiddleS04Viewpoint>(
+        CONTENT_DIR +
+          "/game_common/data/task/trigger_data/trigger_data_riddle_s04_viewpoint.json",
       );
-      if (unlockViewPointAction) {
-        const viewPointId = unlockViewPointAction.action.value;
-        const viewPoint = viewPointClientData[viewPointId.toString()];
-        if (viewPoint) {
-          // const viewPointEntrance =
-          //   viewPointEntranceClientData[viewPoint.area_id.toString()];
 
-          enDict[id] = viewPoint.title;
-          enDict[`${id}_desc`] = viewPoint.desc;
+    const viewPointClientData = await readJSON<ViewPointClientData>(
+      CONTENT_DIR + "/client_data/view_point_client_data.json",
+    );
+    const viewPointEntranceClientData =
+      await readJSON<ViewPointEntranceClientData>(
+        CONTENT_DIR + "/client_data/view_point_entrance_client_data.json",
+      );
+    const type = "landscape_viewpoint_camera";
+    enDict[type] = "Viewpoint";
+    const iconPath = String.raw`${TEMP_DIR}\game-icons\double-diaphragm_lorc.png`;
+    const iconProps: IconProps = {
+      border: true,
+      color: "#00ffd0",
+    };
+    const size = 1.5;
+    const icon = await addToIconSprite(iconPath, type, iconProps);
+
+    const filter = filters.find((f) => f.group === group)!;
+    filter.values.push({
+      id: type,
+      icon,
+      size,
+    });
+    if (
+      !nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)
+    ) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName: THE_WAY_OF_WINTER,
+      });
+    }
+    const spawns = nodes.find(
+      (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+    )!.spawns;
+    const placeNodes = Object.values(
+      triggerDataRiddleS04Viewpoint.place_nodes,
+    ).flatMap((n) => Object.values(n));
+    const triggerNodes = Object.values(
+      triggerDataRiddleS04Viewpoint.trigger_nodes,
+    );
+    for (const nodeData of placeNodes) {
+      if (nodeData.unit_name !== "Scenic Viewpoint") {
+        continue;
+      }
+      const id = `scenic_viewpoint_${nodeData.no}`;
+      const spawn: Node["spawns"][0] = {
+        id,
+        p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+      };
+
+      const triggerNode = triggerNodes.find((triggerNode) => {
+        return triggerNode.next_places.some((nextPlace) => {
+          return nextPlace[0] === nodeData.no && nextPlace[1] === "Destroy";
+        });
+      });
+      if (triggerNode) {
+        const unlockViewPointAction = Object.values(triggerNode.actions).find(
+          (a) => a.action.operate === "unlock_view_point",
+        );
+        if (unlockViewPointAction) {
+          const viewPointId = unlockViewPointAction.action.value;
+          const viewPoint = viewPointClientData[viewPointId.toString()];
+          if (viewPoint) {
+            // const viewPointEntrance =
+            //   viewPointEntranceClientData[viewPoint.area_id.toString()];
+
+            enDict[id] = viewPoint.title;
+            enDict[`${id}_desc`] = viewPoint.desc;
+          }
         }
       }
+      spawns.push(spawn);
     }
-    spawns.push(spawn);
   }
 }
 
@@ -1303,20 +1427,42 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   filter.values.push({
     id: type,
     icon,
-    size: 1,
+    size: 1.2,
   });
   enDict[type] = "Morphic Crate";
 
-  if (!nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)) {
-    nodes.push({
-      type,
-      spawns: [],
-      mapName: DEFAULT_SCENARIO,
-    });
+  const treasureMonsterDropData = await readJSON<TreasureMonsterDropData>(
+    CONTENT_DIR + "/game_common/data/treasure_monster_drop_data.json",
+  );
+
+  for (const mapName of Object.values(MASK_TO_SCENARIO)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
+      nodes.push({
+        type,
+        spawns: [],
+        mapName: mapName,
+      });
+    }
+    const regionBorders = regions
+      .filter((r) => r.mapName === mapName)
+      .map((r) => r.border);
+    const node = nodes.find((n) => n.type === type && n.mapName === mapName)!;
+    node.spawns = [];
+
+    for (const [key, value] of Object.entries(treasureMonsterDropData)) {
+      const spawn: Node["spawns"][0] = {
+        p: [value.pos3[2], value.pos3[0], value.pos3[1]],
+      };
+      const isInBorders = regionBorders.some((border) => {
+        return isPointInsidePolygon(spawn.p, border);
+      });
+      if (!isInBorders) {
+        continue;
+      }
+      node.spawns.push(spawn);
+    }
   }
 
-  const node = nodes.find((n) => n.type === type)!;
-  node.spawns = [];
   // "res_path": "environment/dynamic_objects/buildingsystem/furniture/c_monsterpose/m_spider_box.gim",
   // "model_path": "character/monster/spider/real/m_spider_box/m_spider_box.gim",
 
@@ -1340,7 +1486,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   filter.values.push({
     id: type,
     icon,
-    size: 1,
+    size: 1.2,
     autoDiscover: true,
   });
   enDict[type] = "Weapon Crate";
@@ -1380,7 +1526,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   filter.values.push({
     id: type,
     icon,
-    size: 1,
+    size: 1.2,
     autoDiscover: true,
   });
   enDict[type] = "Gear Crate";
@@ -1420,7 +1566,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   filter.values.push({
     id: type,
     icon,
-    size: 1,
+    size: 1.2,
     autoDiscover: true,
   });
   enDict[type] = "Storage Crate";
@@ -1461,7 +1607,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   filter.values.push({
     id: type,
     icon,
-    size: 1,
+    size: 1.2,
     // autoDiscover: true,
   });
   enDict[type] = "Treasure Chest";
@@ -2041,10 +2187,7 @@ for (const [key, value] of Object.entries(interactResData)) {
     OUTPUT_DIR + "/coordinates/nodes.json",
   );
   for (const node of previousNodes) {
-    if (
-      !Object.values(typeIDs).includes(node.type) &&
-      node.type !== "morphic_crate"
-    ) {
+    if (!Object.values(typeIDs).includes(node.type)) {
       continue;
     }
     let prevNode = nodes.find(
@@ -2133,65 +2276,59 @@ const recipes = filters.find((f) => f.group === "recipes")!;
 
 {
   // Plants and Deviated Plants
-  for (const [key, item] of Object.entries(itemData)) {
-    if (item.gain_path !== "Gather plants") {
-      continue;
-    }
-    const type = `plants_${item.name.toLowerCase().replaceAll(" ", "_")}`;
-
-    const resData = Object.entries(interactResData).find(([key, value]) => {
-      return value.res_name === item.name;
-    });
-    if (!resData) {
-      console.warn("No res data for", item.name);
-      continue;
-    }
-
-    const typeId = resData[0];
-    typeIDs[typeId] = type;
-
-    const isDeviated = item.name.includes("Deviated");
-    const isContaminated = item.name.includes("Contaminated");
-    let group;
-    let title = item.name;
-    if (isDeviated) {
-      group = "deviatedPlants";
-      title = title.replace("Deviated ", "") + " (D)";
-    } else if (isContaminated) {
-      group = "contaminatedPlants";
-      title = title.replace("Contaminated ", "") + " (C)";
-    } else {
-      group = "plants";
-    }
-
-    const filter = filters.find((f) => f.group === group)!;
-    if (!newTypes.includes(type)) {
-      enDict[type] = title;
-      if (item.short_desc) {
-        enDict[`${type}_desc`] = item.short_desc;
-      }
-
-      newTypes.push(type);
-      const iconPath =
-        "ui/dynamic_texpack/" + textureMap[item.icon] + "/" + item.icon;
-
-      const icon = await addToIconSprite(iconPath, item.icon);
-      filter.values.push({
-        id: type,
-        icon,
-        size: 1,
-      });
-      if (
-        !nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)
-      ) {
-        nodes.push({
-          type: type,
-          spawns: [],
-          mapName: DEFAULT_SCENARIO,
-        });
-      }
-    }
-  }
+  // for (const [key, item] of Object.entries(itemData)) {
+  //   if (item.gain_path !== "Gather plants") {
+  //     continue;
+  //   }
+  //   const type = `plants_${item.name.toLowerCase().replaceAll(" ", "_")}`;
+  //   const resData = Object.entries(interactResData).find(([key, value]) => {
+  //     return value.res_name === item.name;
+  //   });
+  //   if (!resData) {
+  //     console.warn("No res data for", item.name);
+  //     continue;
+  //   }
+  //   const typeId = resData[0];
+  //   typeIDs[typeId] = type;
+  //   const isDeviated = item.name.includes("Deviated");
+  //   const isContaminated = item.name.includes("Contaminated");
+  //   let group;
+  //   let title = item.name;
+  //   if (isDeviated) {
+  //     group = "deviatedPlants";
+  //     title = title.replace("Deviated ", "") + " (D)";
+  //   } else if (isContaminated) {
+  //     group = "contaminatedPlants";
+  //     title = title.replace("Contaminated ", "") + " (C)";
+  //   } else {
+  //     group = "plants";
+  //   }
+  //   const filter = filters.find((f) => f.group === group)!;
+  //   if (!newTypes.includes(type)) {
+  //     enDict[type] = title;
+  //     if (item.short_desc) {
+  //       enDict[`${type}_desc`] = item.short_desc;
+  //     }
+  //     newTypes.push(type);
+  //     const iconPath =
+  //       "ui/dynamic_texpack/" + textureMap[item.icon] + "/" + item.icon;
+  //     const icon = await addToIconSprite(iconPath, item.icon);
+  //     filter.values.push({
+  //       id: type,
+  //       icon,
+  //       size: 1,
+  //     });
+  //     if (
+  //       !nodes.some((n) => n.type === type && n.mapName === DEFAULT_SCENARIO)
+  //     ) {
+  //       nodes.push({
+  //         type: type,
+  //         spawns: [],
+  //         mapName: DEFAULT_SCENARIO,
+  //       });
+  //     }
+  //   }
+  // }
 }
 
 const filteredNodes = nodes

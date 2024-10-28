@@ -945,36 +945,7 @@ export type TriggerDataRiddleS04Viewpoint = {
     string,
     {
       __ep_serialize_field__: {
-        meta: {
-          "3": [string, Array<string>];
-          "2": [string, Array<string>];
-          "1": [string, Array<string>];
-          "0": [string, Array<string>];
-          "7": [string, Array<string>];
-          "6": [string, Array<string>];
-          "5": [string, Array<string>];
-          "17": [string, Array<string>];
-          "16": [string, Array<string>];
-          "15": [string, Array<string>];
-          "14": [string, Array<string>];
-          "13": [string, Array<string>];
-          "12": [string, Array<string>];
-          "11": [string, Array<string>];
-          "10": [string, Array<string>];
-          "19": [string, Array<string>];
-          "18": [string, Array<string>];
-          "4": [string, Array<string>];
-          "8": [string, Array<string>];
-          "9": [string, Array<string>];
-          "26": [string, Array<string>];
-          "27": [string, Array<string>];
-          "24": [string, Array<string>];
-          "25": [string, Array<string>];
-          "22": [string, Array<any>];
-          "23": [string, Array<string>];
-          "20": [string, Array<string>];
-          "21": [string, Array<string>];
-        };
+        meta: Record<string, [string, Array<string>]>;
         data: Array<any>;
       };
     }
@@ -1012,6 +983,107 @@ export type TriggerDataRiddleS04Viewpoint = {
       conditions: {};
       next_triggers: Array<any>;
       node_desc: string;
+    }
+  >;
+  links: Record<string, {}>;
+};
+
+export type TriggerDataRiddleS04Shadow = {
+  place_nodes: Record<
+    string,
+    Record<
+      string,
+      | {
+          space_no: number;
+          sub_type: number;
+          type: number;
+          no: number;
+          node_type: string;
+        }
+      | {
+          pos3: Array<number>;
+          is_default_perceived_params: boolean;
+          space_no: number;
+          euler: Array<number>;
+          sfx_scale: Array<number>;
+          stealth_type: number;
+          loop: boolean;
+          stealth_perceptron_shape: number;
+          sub_type: number;
+          is_stealth: boolean;
+          type: number;
+          stealth_perceptron_size: Array<number>;
+          can_stealth: boolean;
+          sfx_path: string;
+          interact_type: number;
+          no: number;
+        }
+    >
+  >;
+  ep_infos: Record<
+    string,
+    {
+      __ep_serialize_field__: {
+        meta: Record<string, [string, Array<string>]>;
+        data: Array<any>;
+      };
+    }
+  >;
+  trigger_nodes: Record<
+    string,
+    {
+      can_finish_times: number;
+      task_name: string;
+      is_riddle_trigger: boolean;
+      is_riddle_pin: boolean;
+      mark_dict: {};
+      enable_ui: boolean;
+      mark_npcs: Array<any>;
+      next_places: Array<any>;
+      remove_npcs: Array<any>;
+      is_patch: boolean;
+      related_timer_id: number;
+      trigger_id: number;
+      actions: {};
+      task_desc: string;
+      sub_type: number;
+      has_trig_finish_fx: number;
+      type: number;
+      add_npcs: Array<any>;
+      task_id: number;
+      task_acceptable_status: boolean;
+      priority: number;
+      trigger_desc_text: string;
+      prev_triggers: Array<number>;
+      conditions: Record<
+        string,
+        {
+          condition: {
+            user_data: {};
+            subject: {
+              attributes: Array<any>;
+              entity: string;
+            };
+            count: number;
+            object: {
+              attributes: Array<any>;
+              entity: string;
+              no: string;
+            };
+            predicate: string;
+            adverbial: string;
+          };
+          progress_desc: string;
+          sub_type: number;
+          type: number;
+          cond_priority: number;
+          unforce: boolean;
+          no: number;
+        }
+      >;
+      next_triggers: Array<number>;
+      node_desc: string;
+      node_type: string;
     }
   >;
   links: Record<string, {}>;
