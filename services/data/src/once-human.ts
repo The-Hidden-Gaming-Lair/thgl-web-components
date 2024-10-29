@@ -411,7 +411,7 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
       },
       { dist: Infinity, no: 0, pos3: [0, 0, 0] },
     );
-    const id = `riddle_doll_${closestStardustFluidMist.no}`;
+    const id = `${type}_${closestStardustFluidMist.no}`;
     if (spawns.some((s) => s.id === id)) {
       enDict[`${id}_desc`] += `<p>${nodeData.unit_name}</p>`;
       continue;
@@ -431,71 +431,69 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
   }
 }
 
+// Shadow Riddle
+{
+  const group = "riddles";
+
+  const triggerDataRiddleS04Shadow = await readJSON<TriggerDataRiddleS04Shadow>(
+    CONTENT_DIR +
+      "/game_common/data/task/trigger_data/trigger_data_riddle_s04_shadow.json",
+  );
+
+  const type = "riddle_shadow";
+  enDict[type] = "Shadow";
+  const iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
+  const iconProps: IconProps = {
+    // border: true,
+    color: uniqolor(type, {
+      lightness: [70, 80],
+    }).color,
+  };
+  const size = 1.5;
+  const icon = await addToIconSprite(iconPath, type, iconProps);
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size,
+  });
+  if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: THE_WAY_OF_WINTER,
+    });
+  }
+  const spawns = nodes.find(
+    (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+  )!.spawns;
+  const placeNodes = Object.values(
+    triggerDataRiddleS04Shadow.place_nodes,
+  ).flatMap((n) => Object.values(n));
+  const triggerNodes = Object.values(triggerDataRiddleS04Shadow.trigger_nodes);
+
+  for (const nodeData of placeNodes) {
+    if (!("pos3" in nodeData)) {
+      continue;
+    }
+    if (
+      !("drop_name" in nodeData) ||
+      nodeData.drop_name !== "Riddle Spot Loot Crate"
+    ) {
+      continue;
+    }
+    const id = `${type}_${nodeData.no}`;
+    const spawn: Node["spawns"][0] = {
+      id,
+      p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+    };
+    spawns.push(spawn);
+  }
+}
+
 {
   // Field Guide
   const group = "fieldGuide";
-
-  // Shadow... Personnel Files?
-  // {
-  //   const triggerDataRiddleS04Shadow =
-  //     await readJSON<TriggerDataRiddleS04Shadow>(
-  //       CONTENT_DIR +
-  //         "/game_common/data/task/trigger_data/trigger_data_riddle_s04_shadow.json",
-  //     );
-
-  //   const type = "personell_file";
-  //   enDict[type] = "Personnel Files";
-  //   const iconPath = String.raw`${TEMP_DIR}\game-icons\double-diaphragm_lorc.png`;
-  //   const iconProps: IconProps = {
-  //     border: true,
-  //     color: "#00ffd0",
-  //   };
-  //   const size = 1.5;
-  //   const icon = await addToIconSprite(iconPath, type, iconProps);
-  //   const filter = filters.find((f) => f.group === group)!;
-  //   filter.values.push({
-  //     id: type,
-  //     icon,
-  //     size,
-  //   });
-  //   if (
-  //     !nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)
-  //   ) {
-  //     nodes.push({
-  //       type,
-  //       spawns: [],
-  //       mapName: THE_WAY_OF_WINTER,
-  //     });
-  //   }
-  //   const spawns = nodes.find(
-  //     (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
-  //   )!.spawns;
-  //   const placeNodes = Object.values(
-  //     triggerDataRiddleS04Shadow.place_nodes,
-  //   ).flatMap((n) => Object.values(n));
-  //   const triggerNodes = Object.values(
-  //     triggerDataRiddleS04Shadow.trigger_nodes,
-  //   );
-
-  //   for (const nodeData of placeNodes) {
-  //     if (!("pos3" in nodeData)) {
-  //       continue;
-  //     }
-  //     if (
-  //       !("drop_name" in nodeData) ||
-  //       nodeData.drop_name !== "Riddle Spot Loot Crate"
-  //     ) {
-  //       continue;
-  //     }
-  //     const id = `personell_file_${nodeData.no}`;
-  //     const spawn: Node["spawns"][0] = {
-  //       id,
-  //       p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
-  //     };
-  //     spawns.push(spawn);
-  //   }
-  // }
-
   // Landscape Viewpoint
   {
     const triggerDataRiddleS04Viewpoint =
