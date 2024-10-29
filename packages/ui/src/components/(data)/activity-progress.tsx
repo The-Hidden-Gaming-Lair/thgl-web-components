@@ -11,7 +11,6 @@ export function ActivityProgress({ title, max, frequently }: Activity) {
 
   const progress = activitiesStore.progress[title] ?? 0;
   const isMax = progress === max;
-  console.log(progress, max);
   return (
     <div className="flex gap-2 items-center">
       <div className="relative grow overflow-hidden">

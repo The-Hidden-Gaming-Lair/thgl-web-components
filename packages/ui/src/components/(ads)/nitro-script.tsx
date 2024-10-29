@@ -35,7 +35,7 @@ export function NitroScript({
     const now = Date.now();
     const intervalId = setInterval(() => {
       if (Date.now() - now > 1500) {
-        console.warn("NitroAds script failed to load");
+        console.log("NitroAds setInterval failed to load");
         setState("error");
         clearTimeout(intervalId);
       }
@@ -54,18 +54,19 @@ export function NitroScript({
     <>
       <Script
         onError={() => {
-          console.warn("NitroAds script failed to load");
+          console.log("NitroAds onError failed to load");
           setState("error");
         }}
+        strategy="lazyOnload"
         onReady={() => {
           if (
             "nitroAds" in window &&
             (window.nitroAds as NitroAds).siteId === 1487
           ) {
-            console.warn("NitroAds script is ready");
+            console.log("NitroAds script is ready");
             setState("ready");
           } else {
-            console.warn("NitroAds script failed to load");
+            console.log("NitroAds onReady failed to load");
             setState("error");
           }
         }}

@@ -1,9 +1,8 @@
 import { ContentLayout } from "@repo/ui/ads";
-import { ActivityReset, CustomActivities, Skeleton } from "@repo/ui/data";
+import { Activities, ActivityReset, CustomActivities } from "@repo/ui/data";
 import { HeaderOffset } from "@repo/ui/header";
 import { ActivitiesProvider, type Activity } from "@repo/ui/providers";
 import { type Metadata } from "next";
-import dynamic from "next/dynamic";
 
 export const metadata: Metadata = {
   alternates: {
@@ -13,25 +12,6 @@ export const metadata: Metadata = {
   description:
     "Track your progress and conquer the challenges of Night Crows with this Activity Tracker. Monitor your achievements, quests, and milestones!",
 };
-
-const Activities = dynamic(() => import("@/components/activities"), {
-  ssr: false,
-  loading: () => (
-    <>
-      <div className="space-y-1">
-        <Skeleton className="h-8 rounded-md w-40" />
-        <Skeleton className="h-8 rounded-md" />
-        <Skeleton className="h-8 rounded-md" />
-      </div>
-      <div className="space-y-1">
-        <Skeleton className="h-8 rounded-md w-40" />
-        <Skeleton className="h-8 rounded-md" />
-        <Skeleton className="h-8 rounded-md" />
-      </div>
-    </>
-  ),
-});
-
 export default function ActivitiesTracker(): JSX.Element {
   return (
     <ActivitiesProvider activities={activities}>
