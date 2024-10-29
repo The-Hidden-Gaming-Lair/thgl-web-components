@@ -671,6 +671,63 @@ const bookCollectModelData = await readJSON<BookCollectModelData>(
   }
 }
 
+// Balloon Riddle
+{
+  const group = "riddles";
+
+  const triggerDataRiddleS04Shadow = await readJSON<TriggerDataRiddleS04Shadow>(
+    CONTENT_DIR +
+      "/game_common/data/task/trigger_data/trigger_data_riddle_s04_balloon.json",
+  );
+
+  const type = "riddle_balloon";
+  enDict[type] = "Balloon";
+  const iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
+  const iconProps: IconProps = {
+    // border: true,
+    color: uniqolor(type, {
+      lightness: [70, 80],
+    }).color,
+  };
+  const size = 1.5;
+  const icon = await addToIconSprite(iconPath, type, iconProps);
+  const filter = filters.find((f) => f.group === group)!;
+  filter.values.push({
+    id: type,
+    icon,
+    size,
+  });
+  if (!nodes.some((n) => n.type === type && n.mapName === THE_WAY_OF_WINTER)) {
+    nodes.push({
+      type,
+      spawns: [],
+      mapName: THE_WAY_OF_WINTER,
+    });
+  }
+  const spawns = nodes.find(
+    (n) => n.type === type && n.mapName === THE_WAY_OF_WINTER,
+  )!.spawns;
+  const placeNodes = Object.values(
+    triggerDataRiddleS04Shadow.place_nodes,
+  ).flatMap((n) => Object.values(n));
+  const triggerNodes = Object.values(triggerDataRiddleS04Shadow.trigger_nodes);
+
+  for (const nodeData of placeNodes) {
+    if (!("pos3" in nodeData)) {
+      continue;
+    }
+    if (!nodeData.sfx_path?.endsWith("stardust_fluid_mist_end.pse")) {
+      continue;
+    }
+    const id = `${type}_${nodeData.no}`;
+    const spawn: Node["spawns"][0] = {
+      id,
+      p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
+    };
+    spawns.push(spawn);
+  }
+}
+
 {
   // Field Guide
   const group = "fieldGuide";
