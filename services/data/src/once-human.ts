@@ -1434,12 +1434,21 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
         .replace("_kit", "")
         .replace("_piglet", "")
         .replace("_hatchling", "");
+      if (!enDict[`${type}_desc`]) {
+        enDict[`${type}_desc`] = "<b>Variants:</b><br>";
+      }
+      if (!enDict[`${type}_desc`].includes(title)) {
+        enDict[`${type}_desc`] += `<p>${title}</p>`;
+      }
     } else {
       if (isCurrupted) {
         title = title.replace("Corrupted ", "") + " (C)";
       }
       if (title === "Sheep") {
         title = "Goat & Sheep";
+      }
+      if (title === "Morgan") {
+        title = "Wolf";
       }
       enDict[type] = title;
       const resData = interactResData[typeId];
