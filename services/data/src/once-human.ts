@@ -1375,14 +1375,16 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
     }
 
     let title = baseNPC.unit_name;
-    let group = baseNPC.model_path.split("/")[1];
-    let desc: string | undefined;
+    let group = baseNPC.unit_entity_type.toLowerCase();
 
     if (title.includes("Little ")) {
       // Skip little animals, because they share the same model as the normal ones
       continue;
     }
     if (title === "base_npc") {
+      continue;
+    }
+    if (baseNPC.unit_entity_type === "Deviation") {
       continue;
     }
 
@@ -1396,89 +1398,139 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       .replace(/[^a-zA-Z0-9_]/g, "")
       .toLowerCase();
 
-    const iconProps: IconProps = {};
     let iconPath;
-    let size = 0.75;
+    let size = 0.85;
     const typeId = baseNPC.model_path.replaceAll("/", "\\").split("\\").at(-1)!;
 
     if (typeId === "monster_camera.gim") {
       // This is the camera riddle / scenic viewpoint
       continue;
     }
-    if (baseNPC.unit_entity_type === "Deviation") {
-      continue;
+    if (type.includes("turtle")) {
+      type = "animal_turtle";
+      title = "Turtle";
+    } else if (
+      type === "animal_fawn" ||
+      type === "animal_doe" ||
+      type === "animal_reindeer" ||
+      type === "animal_stag"
+    ) {
+      type = "animal_deer";
+    } else if (type === "animal_morgan") {
+      type = "animal_wolf";
+    }
+
+    const isCurrupted = title.includes("Corrupted ");
+    if (
+      type.includes("eclipse_") ||
+      type.includes("_cub") ||
+      type.includes("_kit") ||
+      type.includes("_piglet") ||
+      type.includes("_hatchling")
+    ) {
+      type = type
+        .replace("eclipse_", "")
+        .replace("_cub", "")
+        .replace("_kit", "")
+        .replace("_piglet", "")
+        .replace("_hatchling", "");
     } else {
-      iconProps.color = uniqolor(type, {
-        lightness: [70, 80],
-      }).color;
-      if (type === "animal_fish") {
-        continue;
-      } else if (type === "animal_bear") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\bear-head_delapouite.png`;
-      } else if (type === "animal_rabbit") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\rabbit-head_delapouite.png`;
-      } else if (type === "animal_small_rabbit") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\rabbit_delapouite.png`;
-      } else if (type === "animal_small_boar") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\boar-ensign_cathelineau.png`;
-      } else if (type === "animal_boar") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\boar_caro-asercion.png`;
-      } else if (type === "animal_capybara") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\capybara_caro-asercion.png`;
-      } else if (type === "animal_deer") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\deer_caro-asercion.png`;
-      } else if (type.endsWith("_crocodile")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\croc-jaws_lorc.png`;
-      } else if (type === "animal_eagle") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\eagle-head_delapouite.png`;
-      } else if (type.endsWith("_wolf")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\wolf-head_lorc.png`;
-      } else if (type === "animal_flamingo") {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\flamingo_delapouite.png`;
-      } else if (type.endsWith("_fox")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\fox_caro-asercion.png`;
-      } else if (type.endsWith("_pelican")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\eating-pelican_delapouite.png`;
-      } else if (type.endsWith("_raccoon")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\raccoon-head_delapouite.png`;
-      } else if (type.endsWith("_turtle")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\sea-turtle_delapouite.png`;
-      } else if (type.endsWith("_swan")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\swan_lorc.png`;
-      } else if (type.endsWith("_squirrel")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\squirrel_delapouite.png`;
-      } else if (type.endsWith("_raven")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\raven_lorc.png`;
-      } else if (type.endsWith("_rat")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\rat_delapouite.png`;
-      } else if (type.endsWith("_seal")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\juggling-seal_delapouite.png`;
-      } else if (type.endsWith("_gull")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\finch_delapouite.png`;
-      } else if (type.endsWith("_lion")) {
-        iconPath = String.raw`${TEMP_DIR}\game-icons\lion_lorc.png`;
-      } else if (group === "monster") {
-        iconPath =
-          "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
-        iconProps.circle = true;
-      } else if (group === "boss") {
-        iconPath =
-          "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
-        iconProps.circle = true;
-      } else if (group === "animal") {
-        iconPath =
-          "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
-        iconProps.circle = true;
-      } else {
-        continue;
+      if (isCurrupted) {
+        title = title.replace("Corrupted ", "") + " (C)";
+      }
+      if (title === "Sheep") {
+        title = "Goat & Sheep";
+      }
+      enDict[type] = title;
+      const resData = interactResData[typeId];
+      if (resData) {
+        if (!enDict[`${type}_desc`]) {
+          enDict[`${type}_desc`] = "<b>Variants:</b><br>";
+        }
+        if (!enDict[`${type}_desc`].includes(resData.res_name)) {
+          enDict[`${type}_desc`] += `<p>${resData.res_name}</p>`;
+        }
       }
     }
-    setTypeId(typeId, type);
 
-    enDict[type] = title;
-    if (desc) {
-      enDict[type + "_desc"] = desc;
+    const iconProps: IconProps = {
+      color: isCurrupted ? "#d8ffc1" : "#eea64c",
+      outline: true,
+    };
+
+    if (type === "animal_fish") {
+      continue;
+    } else if (type === "animal_sheep") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\goat_skoll.png`;
+    } else if (type.endsWith("_polar_bear")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\polar-bear_cathelineau.png`;
+    } else if (type.endsWith("_bear")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\bear-head_delapouite.png`;
+    } else if (type.endsWith("_leopard")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\tiger_delapouite.png`;
+    } else if (type.endsWith("_horse")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\horse-head_delapouite.png`;
+    } else if (type.endsWith("_buffalo")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\buffalo-head_delapouite.png`;
+    } else if (type === "animal_rabbit") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\rabbit-head_delapouite.png`;
+    } else if (type === "animal_small_rabbit") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\rabbit_delapouite.png`;
+    } else if (type === "animal_small_boar") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\boar-ensign_cathelineau.png`;
+    } else if (type === "animal_boar") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\boar_caro-asercion.png`;
+    } else if (type === "animal_capybara") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\capybara_caro-asercion.png`;
+    } else if (type === "animal_deer") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\deer_caro-asercion.png`;
+    } else if (type.endsWith("_crocodile")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\croc-jaws_lorc.png`;
+    } else if (type === "animal_eagle") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\eagle-head_delapouite.png`;
+    } else if (type.endsWith("_wolf")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\wolf-head_lorc.png`;
+    } else if (type === "animal_flamingo") {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\flamingo_delapouite.png`;
+    } else if (type.endsWith("_fox")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\fox_caro-asercion.png`;
+    } else if (type.endsWith("_pelican")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\eating-pelican_delapouite.png`;
+    } else if (type.endsWith("_raccoon")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\raccoon-head_delapouite.png`;
+    } else if (type.endsWith("_turtle")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\sea-turtle_delapouite.png`;
+    } else if (type.endsWith("_swan")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\swan_lorc.png`;
+    } else if (type.endsWith("_squirrel")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\squirrel_delapouite.png`;
+    } else if (type.endsWith("_raven")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\raven_lorc.png`;
+    } else if (type.endsWith("_rat")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\rat_delapouite.png`;
+    } else if (type.endsWith("_seal")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\juggling-seal_delapouite.png`;
+    } else if (type.endsWith("_gull")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\finch_delapouite.png`;
+    } else if (type.endsWith("_lion")) {
+      iconPath = String.raw`${TEMP_DIR}\game-icons\lion_lorc.png`;
+    } else if (group === "monster") {
+      iconPath =
+        "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_s_littlemonster.png";
+      iconProps.circle = true;
+    } else if (group === "boss") {
+      iconPath =
+        "/ui/dynamic_texpack/all_icon_res/map_icon/big_map_icon/map_icon_boss.png";
+      iconProps.circle = true;
+    } else if (group === "animal") {
+      iconPath =
+        "/ui/dynamic_texpack/all_icon_res/map_icon/small_map_icon/map_icon_enemy.png";
+      iconProps.circle = true;
+    } else {
+      continue;
     }
+
+    setTypeId(typeId, type);
 
     if (!newTypes.includes(type)) {
       newTypes.push(type);
@@ -1551,6 +1603,9 @@ for (const battleFieldName of battleFieldNames) {
     const spawn: Node["spawns"][0] = {
       p: [nodeData.pos3[2], nodeData.pos3[0], nodeData.pos3[1]],
     };
+    if (spawn.p[0] === 0 && spawn.p[1] === 0) {
+      continue;
+    }
 
     let initialGroup = nodeData.model_path.split("/")[1];
     initialType =
@@ -1558,6 +1613,10 @@ for (const battleFieldName of battleFieldNames) {
       nodeData.model_path.split("\\").at(-1)?.split(".")[0] ??
       nodeData.model_path;
     spawn.id = nodeData.unit_id;
+
+    if (initialGroup === "animal") {
+      continue;
+    }
 
     if (!initialTitle) {
       // console.warn("No initialTitle for", nodeData.unit_id);

@@ -19,6 +19,7 @@ export type IconProps = {
   brightness?: number;
   badgeIcon?: string;
   noResize?: boolean;
+  outline?: boolean;
 };
 
 const imageSpritePaths: SpritePaths = [];
@@ -77,6 +78,10 @@ async function generateIcon(
     }
     if (props.badgeIcon) {
       const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    }
+    if (props.outline) {
+      const canvas = await addOutlineToImage(tempIconPath, "#000000");
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     }
     return tempIconPath;
@@ -263,12 +268,13 @@ export async function addOutlineToImage(imagePath: string, color: string) {
   ctx.shadowOffsetX = 0;
   ctx.shadowOffsetY = 0;
   ctx.shadowColor = color;
-  ctx.shadowBlur = image.width / 26;
+  ctx.shadowBlur = image.width / 15;
   for (var i = 0; i < grow; i++) {
     ctx.drawImage(image, 0, 0, image.width, image.height);
   }
   ctx.shadowColor = "#000";
   ctx.shadowBlur = 4;
+  ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
   ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
   ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
 
