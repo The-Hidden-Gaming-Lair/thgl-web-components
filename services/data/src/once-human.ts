@@ -1383,6 +1383,11 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
     let group = baseNPC.model_path.split("/")[1];
     let desc: string | undefined;
 
+    if (title.includes("Little ")) {
+      // Skip little animals, because they share the same model as the normal ones
+      continue;
+    }
+
     let type = group + "_" + title.toLowerCase().replaceAll(" ", "_");
     if (type.match(/[\u3400-\u9FBF]/)) {
       continue;
@@ -1471,9 +1476,9 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       }
     }
     if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      // console.warn(
-      //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      // );
+      console.warn(
+        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
+      );
     }
     typeIDs[typeId] = type;
 
