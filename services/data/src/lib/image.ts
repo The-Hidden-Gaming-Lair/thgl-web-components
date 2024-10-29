@@ -725,8 +725,8 @@ export async function createImageSprite(
   const rows = Math.ceil(Math.sqrt(images.length));
   const cols = Math.ceil(images.length / rows);
   // console.log("Rows:", rows, "Cols:", cols);
-  const canvasWidth = rows * cellWidth;
-  const canvasHeight = cols * cellHeight;
+  const canvasWidth = cols * cellHeight;
+  const canvasHeight = rows * cellWidth;
 
   // console.log("Canvas size:", canvasWidth, canvasHeight);
   const canvas = createCanvas(canvasWidth, canvasHeight);
