@@ -54,11 +54,6 @@
         "size": 0.8
       },
       {
-        "id": "BossMonster",
-        "icon": "ui_texture_icon_minimap_boss.webp",
-        "size": 1.5
-      },
-      {
         "id": "Anggolt",
         "icon": "RGF_01_R1_SzA_ThornSpider_SpElite.webp",
         "size": 1.5
@@ -76,6 +71,11 @@
       {
         "id": "Inferno",
         "icon": "RGF_01_R1_S1_H_GolemFlame_SpElite.webp",
+        "size": 1.5
+      },
+      {
+        "id": "BossMonster",
+        "icon": "ui_texture_icon_minimap_boss.webp",
         "size": 1.5
       }
     ]
@@ -148,6 +148,11 @@
       {
         "id": "NpcCorePartsStore",
         "icon": "ui_gl_texture_icon_npc_corepartsstore.webp",
+        "size": 1.5
+      },
+      {
+        "id": "SoloDungeonStore",
+        "icon": "ui_texture_icon_npc_solodungeon.webp",
         "size": 1.5
       }
     ]

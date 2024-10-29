@@ -26,85 +26,85 @@ import {
   MinimapDataAsset,
   UIDataAsset,
   ZoneMapIconWidget,
-} from "./types.js";
+} from "./night-crows.types.js";
 import { addCircleToImage } from "./lib/image.js";
+import { cwebp, vipsDzsave } from "./lib/bin.js";
 
-const CONTENT_DIR = "/mnt/c/dev/Night Crows/Extracted/Data";
-const TEXTURE_DIR = "/mnt/c/dev/Night Crows/Extracted/Texture";
-const TEMP_DIR =
-  "/home/devleon/the-hidden-gaming-lair/services/night-crows-data/out";
-const OUT_DIR = "/home/devleon/the-hidden-gaming-lair/static/night-crows";
+const CONTENT_DIR = String.raw`C:\dev\Night Crows\Extracted\Data`;
+const TEXTURE_DIR = String.raw`C:\dev\Night Crows\Extracted\Texture`;
+const TEMP_DIR = String.raw`C:\dev\the-hidden-gaming-lair\services\night-crows-data\out`;
+const OUT_DIR = String.raw`C:\dev\the-hidden-gaming-lair\static\night-crows`;
 const savedIcons: string[] = [];
 
-const mSubZoneData = readJSON<MSubZoneData>(
+const mSubZoneData = await readJSON<MSubZoneData>(
   `${CONTENT_DIR}/mad/content/gamedata/msubzonedata.json`,
 );
 const subZoneData = mSubZoneData[0].Rows;
-const mZoneResourceExportData = readJSON<MZoneResourceExportData>(
+const mZoneResourceExportData = await readJSON<MZoneResourceExportData>(
   `${CONTENT_DIR}/mad/content/gamedata/mzoneresourceexportdata.json`,
 );
 const zoneResources = mZoneResourceExportData[0].Rows;
-const mStringData = readJSON<MStringData>(
+const mStringData = await readJSON<MStringData>(
   `${CONTENT_DIR}/mad/content/gamedata/mstringdata.json`,
 );
 const stringData = mStringData[0].Rows;
-const uiDataAsset = readJSON<UIDataAsset>(
+const uiDataAsset = await readJSON<UIDataAsset>(
   `${CONTENT_DIR}/mad/content/uniquedataasset/uidataasset.json`,
 );
 const uiData = uiDataAsset[0];
-const zoneMapIconWidget = readJSON<ZoneMapIconWidget>(
+const zoneMapIconWidget = await readJSON<ZoneMapIconWidget>(
   `${CONTENT_DIR}/mad/content/ui/bp/zonemap/icon/zonemapiconwidget.json`,
 );
-const mZoneResourceData = readJSON<MZoneResourceData>(
+const mZoneResourceData = await readJSON<MZoneResourceData>(
   `${CONTENT_DIR}/mad/content/gamedata/mzoneresourcedata.json`,
 );
 const zoneResourceData = mZoneResourceData[0].Rows;
-const mZonePersistentData = readJSON<MZonePersistentData>(
+const mZonePersistentData = await readJSON<MZonePersistentData>(
   `${CONTENT_DIR}/mad/content/gamedata/mzonepersistentdata.json`,
 );
 const zonePersistentData = mZonePersistentData[0].Rows;
-const mZoneExportData = readJSON<MZoneExportData>(
+const mZoneExportData = await readJSON<MZoneExportData>(
   `${CONTENT_DIR}/mad/content/gamedata/mzoneexportdata.json`,
 );
 const zoneExportData = mZoneExportData[0].Rows;
-const mNpcData = readJSON<MNpcData>(
+const mNpcData = await readJSON<MNpcData>(
   `${CONTENT_DIR}/mad/content/gamedata/mnpcdata.json`,
 );
 const npcData = mNpcData[0].Rows;
 const npcEntries = Object.entries(npcData);
-const mNpcRoleData = readJSON<MNpcRoleData>(
+const mNpcRoleData = await readJSON<MNpcRoleData>(
   `${CONTENT_DIR}/mad/content/gamedata/mnpcroledata.json`,
 );
 const npcRoleData = mNpcRoleData[0].Rows;
-const mNpcSpawnData = readJSON<MNpcSpawnData>(
+const mNpcSpawnData = await readJSON<MNpcSpawnData>(
   `${CONTENT_DIR}/mad/content/gamedata/mnpcspawndata.json`,
 );
 const npcSpawnData = mNpcSpawnData[0].Rows;
-const mPrivateMissionData = readJSON<MPrivateMissionData>(
+const mPrivateMissionData = await readJSON<MPrivateMissionData>(
   `${CONTENT_DIR}/mad/content/gamedata/mprivatemissiondata.json`,
 );
 const privateMissionData = mPrivateMissionData[0].Rows;
-const mAchievementData = readJSON<MAchievementData>(
+const mAchievementData = await readJSON<MAchievementData>(
   `${CONTENT_DIR}/mad/content/gamedata/machievementdata.json`,
 );
 const achievementData = mAchievementData[0].Rows;
-const mMaterialItemData = readJSON<MMaterialItemData>(
+const mMaterialItemData = await readJSON<MMaterialItemData>(
   `${CONTENT_DIR}/mad/content/gamedata/mmaterialitemdata.json`,
 );
 const materialItemData = mMaterialItemData[0].Rows;
-const mEquipmentItemData = readJSON<MEquipmentItemData>(
+const mEquipmentItemData = await readJSON<MEquipmentItemData>(
   `${CONTENT_DIR}/mad/content/gamedata/mequipmentitemdata.json`,
 );
 const equipmentItemData = mEquipmentItemData[0].Rows;
-const mBoxItemData = readJSON<MBoxItemData>(
+const mBoxItemData = await readJSON<MBoxItemData>(
   `${CONTENT_DIR}/mad/content/gamedata/mboxitemdata.json`,
 );
 const boxItemData = mBoxItemData[0].Rows;
-const mDungeonStageData = readJSON<MDungeonStageData>(
+const mDungeonStageData = await readJSON<MDungeonStageData>(
   `${CONTENT_DIR}/mad/content/gamedata/mdungeonstagedata.json`,
 );
 const dungeonStageData = mDungeonStageData[0].Rows;
-const mWorldFieldData = readJSON<MWorldFieldData>(
+const mWorldFieldData = await readJSON<MWorldFieldData>(
   `${CONTENT_DIR}/mad/content/gamedata/mworldfielddata.json`,
 );
 const worldFieldData = mWorldFieldData[0].Rows;
@@ -236,7 +236,10 @@ for (const zone of Object.values(zoneResources)) {
       });
     }
     const mapName =
-      zoneResourceData[zone.ZoneResourceId.StringId].Persistent.StringId;
+      zoneResourceData[zone.ZoneResourceId.StringId]?.Persistent.StringId;
+    if (!mapName) {
+      throw new Error(`Missing map name for ${zone.ZoneResourceId.StringId}`);
+    }
     const zoneMapName = zone.ZoneResourceId.StringId.replace("_Special", "");
     if (!nodes.some((n) => n.type === type && n.mapName === zoneMapName)) {
       nodes.push({
@@ -302,12 +305,17 @@ for (const exportData of Object.values(zoneExportData)) {
 
     let icon = "";
     if (!roleData) {
-      let resource = uiData.Properties[`${role}Brush`];
+      let resource =
+        uiData.Properties[`${role}Brush` as keyof typeof uiData.Properties];
       if (role === "NormalMonster") {
         resource = uiData.Properties["NeutralPcBrush"];
       }
-      if (!resource) {
-        console.warn("Missing brush for", role);
+      if (
+        !resource ||
+        typeof resource !== "object" ||
+        !("ResourceObject" in resource)
+      ) {
+        // console.warn("Missing brush for", role);
         return;
       }
       let color;
@@ -669,6 +677,7 @@ const DUNGEON_PIXEL_PER_CENTIMETER = 0.005;
 const sortedZoneData = Object.entries(zonePersistentData).sort((a, b) => {
   const aMiniature = a[1].MinimapData?.ObjectPath?.includes("miniature");
   const bMiniature = b[1].MinimapData?.ObjectPath?.includes("miniature");
+
   if (aMiniature && bMiniature) {
     return 0;
   }
@@ -678,15 +687,21 @@ const sortedZoneData = Object.entries(zonePersistentData).sort((a, b) => {
   if (bMiniature) {
     return 1;
   }
+
   return 0;
 });
 for (const [mapName, zoneData] of sortedZoneData) {
-  if (zoneData.Disable || !zoneData.MinimapData?.ObjectPath) {
+  if (
+    zoneData.Disable ||
+    !zoneData.MinimapData?.ObjectPath ||
+    mapName.includes("_TW_")
+  ) {
     console.log("Skipping", mapName);
     continue;
   }
   const minimapDataAssetPath = `${CONTENT_DIR}/${zoneData.MinimapData.ObjectPath.replace(".0", ".json")}`;
-  const minimapDataAsset = readJSON<MinimapDataAsset>(minimapDataAssetPath);
+  const minimapDataAsset =
+    await readJSON<MinimapDataAsset>(minimapDataAssetPath);
   const minimapData = minimapDataAsset[0];
   const path =
     TEXTURE_DIR +
@@ -714,14 +729,17 @@ for (const [mapName, zoneData] of sortedZoneData) {
   const OFFSET = [-MAP_BOUNDS[0][0] / MULTIPLE, -MAP_BOUNDS[0][1] / MULTIPLE];
   const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
   if (Bun.argv.includes("--tiles")) {
-    await $`vips dzsave ${path} ${outDir} --tile-size 512 --background 0 --overlap 0 --layout google --suffix .jpg[Q=100]`;
+    await vipsDzsave(path, outDir, 512);
     for (const file of readDirRecursive(outDir)) {
       if (file.includes("blank")) {
         await $`rm ${file}`;
         continue;
       }
       if (file.endsWith(".jpg") || file.endsWith(".png")) {
-        await $`cwebp ${file} -m 6 -o ${file.replace(".jpg", ".webp").replace(".png", ".webp")} -quiet`;
+        await cwebp(
+          file,
+          file.replace(".jpg", ".webp").replace(".png", ".webp"),
+        );
         await $`rm ${file}`;
       }
     }
@@ -917,12 +935,23 @@ const sortedTiles = Object.entries(tiles)
     if (priorityB !== -1) {
       return 1;
     }
+    const aIsTerritoryWar = a[0].includes("_TW_");
+    const bIsTerritoryWar = b[0].includes("_TW_");
+    if (aIsTerritoryWar && !bIsTerritoryWar) {
+      return 1;
+    }
+    if (!aIsTerritoryWar && bIsTerritoryWar) {
+      return -1;
+    }
     return aName.localeCompare(bName);
   })
-  .reduce((acc, [k, v]) => {
-    acc[k] = v;
-    return acc;
-  }, {});
+  .reduce(
+    (acc, [k, v]) => {
+      acc[k] = v;
+      return acc;
+    },
+    {} as typeof tiles,
+  );
 
 const filteredNodes = nodes.filter((n) => {
   return !!tiles[n.mapName];
@@ -945,7 +974,7 @@ async function saveIcon(assetPath: string) {
   const fileName = assetPath.split("/").at(-1)?.split(".")[0]!;
   if (!savedIcons.includes(fileName)) {
     // console.log("Saving icon", fileName, assetPath);
-    await $`cwebp ${assetPath} -m 6 -o ${OUT_DIR}/icons/${fileName}.webp -quiet`;
+    await cwebp(assetPath, `${OUT_DIR}/icons/${fileName}.webp`);
     savedIcons.push(fileName);
   }
   return `${fileName}.webp`;
