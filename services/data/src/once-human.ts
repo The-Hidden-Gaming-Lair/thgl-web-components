@@ -47,7 +47,13 @@ import {
   ViewPointEntranceClientData,
 } from "./once-human.types.js";
 import { Node } from "./types.js";
-import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
+import {
+  getTypeId,
+  includesTypeId,
+  initTypesIDs,
+  setTypeId,
+  writeTypesIDs,
+} from "./lib/types-ids.js";
 import {
   getBorderFromMaskImage,
   initRegions,
@@ -118,7 +124,7 @@ const enDict = initDict({
   deviatedPlants: "Deviated Plants",
   contaminatedPlants: "Contaminated Plants",
 });
-const typeIDs = initTypesIDs({
+initTypesIDs({
   "ball.gim": "deviations_ball",
 });
 
@@ -893,7 +899,7 @@ const switchType = (
     //   iconPath = String.raw`${TEMP_DIR}\game-icons\photo-camera_delapouite.png`;
     //   type = "camera";
     //   title = "Scenic Viewpoint Camera";
-    //   typeIDs["monster_camera.gim"] = type;
+    // setTypeId("monster_camera.gim", type);
   } else if (more?.includes("Riddle Spot")) {
     group = "riddles";
     iconPath = String.raw`${TEMP_DIR}\game-icons\jigsaw-piece_lorc.png`;
@@ -908,8 +914,7 @@ const switchType = (
         .replace("anti-construction", "Anti-Construction") ||
       type.replace(" Riddle Spot", "");
     iconProps.color = uniqolor(type).color;
-
-    // typeIDs[typeId] = "deviation_point_box.gim"
+    // setTypeId("monster_camera.gim", type);
   } else if (more?.includes("_Scattered")) {
     group = "locations";
     type = "Scattered";
@@ -1285,12 +1290,7 @@ for (const deviation of Object.values(deviationBaseData)) {
 
     typeId = modelData.model_path!.replaceAll("/", "\\").split("\\").at(-1)!;
   }
-  if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    // console.warn(
-    //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    // );
-  }
-  typeIDs[typeId] = type;
+  setTypeId(typeId, type);
 
   if (!newTypes.includes(type)) {
     newTypes.push(type);
@@ -1365,12 +1365,7 @@ for (const fish of Object.values(fishData)) {
       });
     }
   }
-  if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-    // console.warn(
-    //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-    // );
-  }
-  typeIDs[typeId] = type;
+  setTypeId(typeId, type);
 }
 
 for (const [key, baseNPC] of Object.entries(baseNPCData)) {
@@ -1478,12 +1473,7 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
         continue;
       }
     }
-    if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      console.warn(
-        `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      );
-    }
-    typeIDs[typeId] = type;
+    setTypeId(typeId, type);
 
     enDict[type] = title;
     if (desc) {
@@ -1619,12 +1609,7 @@ for (const battleFieldName of battleFieldNames) {
       .replaceAll("/", "\\")
       .split("\\")
       .at(-1)!;
-    if (typeIDs[typeId] && typeIDs[typeId] !== type) {
-      // console.warn(
-      //   `Type ID already exists for ${typeId}. ${typeIDs[typeId]} !== ${type}`,
-      // );
-    }
-    typeIDs[typeId] = type;
+    setTypeId(typeId, type);
     enDict[type] = title;
 
     if (!newTypes.includes(type)) {
@@ -1738,8 +1723,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   // "res_path": "environment/dynamic_objects/buildingsystem/furniture/c_monsterpose/m_spider_box.gim",
   // "model_path": "character/monster/spider/real/m_spider_box/m_spider_box.gim",
-
-  // typeIDs["m_spider_box.gim"] = type;
+  // setTypeId("m_spider_box.gim", type);
 }
 
 // Weapon Crate
@@ -1778,7 +1762,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   node.spawns = [];
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Weapon Crate") {
-      typeIDs[key] = type;
+      setTypeId(key, type);
     }
   }
 }
@@ -1818,7 +1802,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
   node.spawns = [];
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Gear Crate") {
-      typeIDs[key] = type;
+      setTypeId(key, type);
     }
   }
 }
@@ -1859,7 +1843,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Storage Crate") {
-      typeIDs[key] = type;
+      setTypeId(key, type);
     }
   }
 }
@@ -1900,7 +1884,7 @@ const achieveCollectData = await readJSON<AchieveCollectData>(
 
   for (const [key, value] of Object.entries(interactResData)) {
     if (value.res_name === "Treasure Chest") {
-      typeIDs[key] = type;
+      setTypeId(key, type);
     }
   }
 }
@@ -1924,7 +1908,7 @@ for (const [key, value] of Object.entries(interactResData)) {
   let autoDiscover = false;
   let defaultOn: boolean | undefined;
   const iconProps: IconProps = {};
-  typeIDs[key] = type;
+  setTypeId(key, type);
 
   if (value.res_name.endsWith(" Recipe")) {
     group = "recipes";
@@ -2070,10 +2054,10 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["invisible_treasure_01.gim"] = type;
-  typeIDs["invisible_treasure_02.gim"] = type;
-  typeIDs["invisible_treasure_03.gim"] = type;
-  typeIDs["invisible_treasure_04.gim"] = type;
+  setTypeId("invisible_treasure_01.gim", type);
+  setTypeId("invisible_treasure_02.gim", type);
+  setTypeId("invisible_treasure_03.gim", type);
+  setTypeId("invisible_treasure_04.gim", type);
 }
 {
   const group = "gatherables";
@@ -2102,7 +2086,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["cu_l_01.gim"] = type;
+  setTypeId("cu_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2131,7 +2115,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["hot_ore_1.gim"] = type;
+  setTypeId("hot_ore_1.gim", type);
 }
 {
   const group = "gatherables";
@@ -2160,7 +2144,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["ice_ore_1.gim"] = type;
+  setTypeId("ice_ore_1.gim", type);
 }
 {
   const group = "gatherables";
@@ -2189,7 +2173,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["sn_l_01.gim"] = type;
+  setTypeId("sn_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2217,8 +2201,8 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["mine_gold_01.gim"] = type;
-  typeIDs["au_l_01.gim"] = type;
+  setTypeId("mine_gold_01.gim", type);
+  setTypeId("au_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2246,7 +2230,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["sd_l_01.gim"] = type;
+  setTypeId("sd_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2275,7 +2259,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["w_l_01.gim"] = type;
+  setTypeId("w_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2304,7 +2288,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["al_l_01.gim"] = type;
+  setTypeId("al_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2333,9 +2317,9 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["fe_s_01.gim"] = type;
-  typeIDs["fe_m_01.gim"] = type;
-  typeIDs["fe_l_01.gim"] = type;
+  setTypeId("fe_s_01.gim", type);
+  setTypeId("fe_m_01.gim", type);
+  setTypeId("fe_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2364,7 +2348,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["ag_l_01.gim"] = type;
+  setTypeId("ag_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2393,9 +2377,9 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["s_s_01.gim"] = type;
-  typeIDs["s_m_01.gim"] = type;
-  typeIDs["s_l_01.gim"] = type;
+  setTypeId("s_s_01.gim", type);
+  setTypeId("s_m_01.gim", type);
+  setTypeId("s_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2424,7 +2408,7 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["mossy_l_01.gim"] = type;
+  setTypeId("mossy_l_01.gim", type);
 }
 {
   const group = "gatherables";
@@ -2453,14 +2437,14 @@ for (const [key, value] of Object.entries(interactResData)) {
 
   const node = nodes.find((n) => n.type === type)!;
   node.spawns = [];
-  typeIDs["conch_l_01.gim"] = type;
+  setTypeId("conch_l_01.gim", type);
 }
 {
   const previousNodes = await readJSON<Node[]>(
     OUTPUT_DIR + "/coordinates/nodes.json",
   );
   for (const node of previousNodes) {
-    if (!Object.values(typeIDs).includes(node.type)) {
+    if (!includesTypeId(node.type)) {
       continue;
     }
     let prevNode = nodes.find(
@@ -2513,7 +2497,7 @@ const recipes = filters.find((f) => f.group === "recipes")!;
         continue;
       }
       const type = typeId.replace(".gim", "");
-      typeIDs[typeId] = type;
+      setTypeId(typeId, type);
 
       if (!newTypes.includes(type)) {
         enDict[type] = capitalizeWords(type.replaceAll("_", " "));
@@ -2562,7 +2546,7 @@ const recipes = filters.find((f) => f.group === "recipes")!;
   //     continue;
   //   }
   //   const typeId = resData[0];
-  //   typeIDs[typeId] = type;
+  //   setTypeId(typeId, type);
   //   const isDeviated = item.name.includes("Deviated");
   //   const isContaminated = item.name.includes("Contaminated");
   //   let group;
@@ -2610,7 +2594,7 @@ const filteredNodes = nodes
       items.values.some((v) => v.id === n.type) ||
       recipes.values.some((v) => v.id === n.type);
 
-    let id = typeIDs[n.type];
+    let id = getTypeId(n.type);
     const isItem = items.values.some((v) => v.id === id);
 
     // let minDistance;
@@ -2647,7 +2631,7 @@ const filteredNodes = nodes
 
     return {
       ...n,
-      static: !Object.values(typeIDs).includes(n.type) || isStatic,
+      static: !includesTypeId(n.type) || isStatic,
       spawns: targetSpawnNodes,
     };
   })
@@ -2949,7 +2933,7 @@ const database = initDatabase();
 
 writeFilters(sortedFilters);
 writeDict(enDict, "en");
-writeTypesIDs(typeIDs);
+writeTypesIDs();
 writeDatabase(database);
 
 console.log("Done!");
