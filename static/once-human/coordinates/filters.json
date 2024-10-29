@@ -26,7 +26,7 @@
         "id": "morphic_crate",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -37,7 +37,7 @@
         "id": "weapon_crate",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -49,7 +49,7 @@
         "id": "gear_crate",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -61,7 +61,7 @@
         "id": "storage_crate",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -73,7 +73,7 @@
         "id": "treasure_chest",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -84,7 +84,7 @@
         "id": "fruit__veggies",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -97,7 +97,7 @@
         "id": "vending_machine",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -110,7 +110,7 @@
         "id": "car_trunk",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -123,7 +123,7 @@
         "id": "long_table",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -136,7 +136,7 @@
         "id": "table",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -149,7 +149,7 @@
         "id": "medkit",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -161,7 +161,7 @@
         "id": "emergency_medkit",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -173,7 +173,7 @@
         "id": "mystical_crate",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -192,7 +192,7 @@
         "id": "canning_recipe",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -204,7 +204,7 @@
         "id": "folk_recipe",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -216,8 +216,8 @@
         "id": "gourmet_recipe",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1344,
+          "x": 1344,
+          "y": 1280,
           "width": 64,
           "height": 64
         },
@@ -235,7 +235,7 @@
         "id": "copper_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -247,7 +247,7 @@
         "id": "hot_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -259,7 +259,7 @@
         "id": "ice_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -271,7 +271,7 @@
         "id": "silver_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -283,7 +283,7 @@
         "id": "gold_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -294,7 +294,7 @@
         "id": "stardust_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -305,7 +305,7 @@
         "id": "tungsten_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -317,7 +317,7 @@
         "id": "aluminum_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -329,7 +329,7 @@
         "id": "iron_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -341,7 +341,7 @@
         "id": "tin_ore",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -353,7 +353,7 @@
         "id": "sulfur",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -365,7 +365,7 @@
         "id": "seaweed_rock",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -377,7 +377,7 @@
         "id": "shell_rock",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -1550,7 +1550,7 @@
         "id": "boss_chaosweaver",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1561,7 +1561,7 @@
         "id": "boss_ores",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1572,7 +1572,7 @@
         "id": "boss_lava_stone",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1583,7 +1583,7 @@
         "id": "boss_titans_hand",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1594,7 +1594,7 @@
         "id": "boss_the_forsaken_giant",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1605,7 +1605,7 @@
         "id": "boss_shadow_hound",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1616,7 +1616,7 @@
         "id": "boss_ferris_wheel",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 832,
           "width": 64,
           "height": 64
@@ -1627,8 +1627,8 @@
         "id": "boss_jump_over_flower_bud",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 896,
+          "x": 1344,
+          "y": 832,
           "width": 64,
           "height": 64
         },
@@ -1638,7 +1638,7 @@
         "id": "boss_treants",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1649,7 +1649,7 @@
         "id": "boss_treant",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1660,7 +1660,7 @@
         "id": "boss_spores",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1671,7 +1671,7 @@
         "id": "boss_arachsiam",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1682,7 +1682,7 @@
         "id": "boss_ravenous_hunter",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1693,7 +1693,7 @@
         "id": "boss_secret_servitor",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1704,7 +1704,7 @@
         "id": "boss_secret_servitor_clone",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 896,
           "width": 64,
           "height": 64
@@ -1715,7 +1715,7 @@
         "id": "boss_ravenous_hunter's_doppelganger",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 960,
           "width": 64,
           "height": 64
@@ -1726,7 +1726,7 @@
         "id": "boss_cyst_seed",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 960,
           "width": 64,
           "height": 64
@@ -1737,7 +1737,7 @@
         "id": "boss_treant's_doppelganger",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 960,
           "width": 64,
           "height": 64
@@ -1748,7 +1748,7 @@
         "id": "boss_arachsiam's_shadow",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 960,
           "width": 64,
           "height": 64
@@ -1759,7 +1759,7 @@
         "id": "boss_shadow_hound's_shadow",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 960,
           "width": 64,
           "height": 64
@@ -1770,7 +1770,7 @@
         "id": "boss_forsaken_giant",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -1781,7 +1781,7 @@
         "id": "boss_giant",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -1792,7 +1792,7 @@
         "id": "boss_spore",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -3031,7 +3031,7 @@
         "id": "monster_burrower",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3042,7 +3042,7 @@
         "id": "monster_unholy_goanna_",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3053,7 +3053,7 @@
         "id": "monster_taxi",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3064,7 +3064,7 @@
         "id": "monster_weather_fourecaster",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3075,7 +3075,7 @@
         "id": "monster_weather_forecast",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3086,7 +3086,7 @@
         "id": "monster_electrocardiogram_headgear_nurse",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3097,7 +3097,7 @@
         "id": "monster_test_nurse__roller_skating_version",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3108,7 +3108,7 @@
         "id": "monster_tangled_vine",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 832,
           "width": 64,
           "height": 64
@@ -3119,7 +3119,7 @@
         "id": "monster_orderkeeper",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3130,7 +3130,7 @@
         "id": "monster_the_shepherd_tombstone",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3141,7 +3141,7 @@
         "id": "monster_shepherd_saint_el",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3152,7 +3152,7 @@
         "id": "monster_cervitaur",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3163,7 +3163,7 @@
         "id": "monster_believer",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3174,7 +3174,7 @@
         "id": "monster_tangled_vine_mobility_validation_test",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3185,7 +3185,7 @@
         "id": "monster_altered_corrupted_bull",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 896,
           "width": 64,
           "height": 64
@@ -3196,7 +3196,7 @@
         "id": "monster_mayhem",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3207,7 +3207,7 @@
         "id": "monster_ghoul",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3218,7 +3218,7 @@
         "id": "monster_phase__ghoul",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3229,7 +3229,7 @@
         "id": "monster_altered_arbiter",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3240,7 +3240,7 @@
         "id": "monster_mr_ames_soul",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3251,7 +3251,7 @@
         "id": "monster_mr._ames'_soul",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3262,7 +3262,7 @@
         "id": "monster_maniac_(ranged)",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3273,7 +3273,7 @@
         "id": "monster_maniac_(melee)",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3284,7 +3284,7 @@
         "id": "monster_flare_bulbfly",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3295,7 +3295,7 @@
         "id": "monster_research_team_member_type_i",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3306,7 +3306,7 @@
         "id": "monster_radar_head",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3317,7 +3317,7 @@
         "id": "monster_beacon_head",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3328,7 +3328,7 @@
         "id": "monster_research_team_member_type_iii",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3339,7 +3339,7 @@
         "id": "monster_stinger_bulbfly",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3350,7 +3350,7 @@
         "id": "monster_tangled_vine_claw",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3361,7 +3361,7 @@
         "id": "monster_vine_connector_right",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 960,
           "width": 64,
           "height": 64
@@ -3372,8 +3372,8 @@
         "id": "monster_vine_connector_middle",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1024,
+          "x": 1344,
+          "y": 960,
           "width": 64,
           "height": 64
         },
@@ -3383,7 +3383,7 @@
         "id": "monster_vine_connector_left",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3394,7 +3394,7 @@
         "id": "monster_ancient_one",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3405,7 +3405,7 @@
         "id": "monster_charred_madman",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3416,7 +3416,7 @@
         "id": "monster_parasitic_madman",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3427,7 +3427,7 @@
         "id": "monster_hp_flower_cluster",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3438,7 +3438,7 @@
         "id": "monster_life_flower_cluster",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3449,7 +3449,7 @@
         "id": "monster_ironed-out_maniac",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3460,7 +3460,7 @@
         "id": "monster_ironed-out_mayhem",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3471,7 +3471,7 @@
         "id": "monster_ironed-out_snatcher",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3482,7 +3482,7 @@
         "id": "monster_gluttony",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3493,7 +3493,7 @@
         "id": "monster_eclipse_bull",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3504,7 +3504,7 @@
         "id": "monster_black_pawn",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3515,7 +3515,7 @@
         "id": "monster_black_queen",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3526,7 +3526,7 @@
         "id": "monster_black_bishop",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3537,7 +3537,7 @@
         "id": "monster_black_knight",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -3548,8 +3548,8 @@
         "id": "monster_black_king",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1088,
+          "x": 1344,
+          "y": 1024,
           "width": 64,
           "height": 64
         },
@@ -3559,7 +3559,7 @@
         "id": "monster_spider_eggs",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3570,7 +3570,7 @@
         "id": "monster_mourner",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3581,7 +3581,7 @@
         "id": "monster_roaming_glutton",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3592,7 +3592,7 @@
         "id": "monster_kate",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3603,7 +3603,7 @@
         "id": "monster_martin",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3614,7 +3614,7 @@
         "id": "monster_interior",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3625,7 +3625,7 @@
         "id": "monster_corridor",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3636,7 +3636,7 @@
         "id": "monster_windowsill",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3647,7 +3647,7 @@
         "id": "monster_patient",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3658,7 +3658,7 @@
         "id": "monster_doctor",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3669,7 +3669,7 @@
         "id": "monster_nurse_in_white",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3680,7 +3680,7 @@
         "id": "monster_nurse",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3691,7 +3691,7 @@
         "id": "monster_head_medic",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3702,7 +3702,7 @@
         "id": "monster_patient_in_striped_shirt",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3713,7 +3713,7 @@
         "id": "monster_worker_patient",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3724,7 +3724,7 @@
         "id": "monster_security_force",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3735,7 +3735,7 @@
         "id": "monster_female_patient",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3746,7 +3746,7 @@
         "id": "monster_house_monster_t1",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3757,7 +3757,7 @@
         "id": "monster_house_t4",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3768,7 +3768,7 @@
         "id": "monster_house_t3",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -3779,8 +3779,8 @@
         "id": "monster_house_t5",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1152,
+          "x": 1344,
+          "y": 1088,
           "width": 64,
           "height": 64
         },
@@ -3790,7 +3790,7 @@
         "id": "monster_house_t6",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3801,7 +3801,7 @@
         "id": "monster_house_monster_t2",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3812,7 +3812,7 @@
         "id": "monster_fire_hydrant_miner",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3823,7 +3823,7 @@
         "id": "monster_sinner_sentry",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3834,7 +3834,7 @@
         "id": "monster_chaosium_miner_type_i",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3845,7 +3845,7 @@
         "id": "monster_chaosium_miner_type_iii",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3856,7 +3856,7 @@
         "id": "monster_blaster",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3867,7 +3867,7 @@
         "id": "monster_blazing_scorcher",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3878,7 +3878,7 @@
         "id": "monster_chaosium_miner_type_ii",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3889,7 +3889,7 @@
         "id": "monster_disfigured_human_sample",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3900,7 +3900,7 @@
         "id": "monster_frost_erupted_source",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3911,7 +3911,7 @@
         "id": "monster_erupted_shock",
         "icon": {
           "url": "icons.webp",
-          "x": 768,
+          "x": 704,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3922,7 +3922,7 @@
         "id": "monster_blaze_erupted_source",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3933,7 +3933,7 @@
         "id": "monster_polluted_human_sample",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3944,7 +3944,7 @@
         "id": "monster_unstable_sample",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3955,7 +3955,7 @@
         "id": "monster_dr._mannheim",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3966,7 +3966,7 @@
         "id": "monster_deranged_researcher",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3977,7 +3977,7 @@
         "id": "monster_the_scorcher_pale_hand",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3988,7 +3988,7 @@
         "id": "monster_\"portal\"",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -3999,7 +3999,7 @@
         "id": "monster_spider_plush",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -4010,7 +4010,7 @@
         "id": "monster_gacha_machine",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 1152,
           "width": 64,
           "height": 64
@@ -4021,8 +4021,8 @@
         "id": "monster_tombstone",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1216,
+          "x": 1344,
+          "y": 1152,
           "width": 64,
           "height": 64
         },
@@ -4032,7 +4032,7 @@
         "id": "monster_saint_el",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4043,7 +4043,7 @@
         "id": "monster_sennacherib",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4054,7 +4054,7 @@
         "id": "monster_sweet_factory_female_worker",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4065,7 +4065,7 @@
         "id": "monster_iron_bucket_miner",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4076,7 +4076,7 @@
         "id": "monster_the_new_hire",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4087,7 +4087,7 @@
         "id": "monster_ghost_with_braking_force",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4098,7 +4098,7 @@
         "id": "monster_gatling_symbiont",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4109,7 +4109,7 @@
         "id": "monster_ghost_braking_force",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4120,7 +4120,7 @@
         "id": "monster_unholy_goanna",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4131,7 +4131,7 @@
         "id": "monster_bone_thrower—soul_hunter",
         "icon": {
           "url": "icons.webp",
-          "x": 640,
+          "x": 576,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4142,7 +4142,7 @@
         "id": "monster_star_walker's_ember",
         "icon": {
           "url": "icons.webp",
-          "x": 704,
+          "x": 640,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4153,7 +4153,7 @@
         "id": "monster_turret",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4164,7 +4164,7 @@
         "id": "monster_black_lake_ghoul",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4175,7 +4175,7 @@
         "id": "monster_black_lake_shadow",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4186,7 +4186,7 @@
         "id": "monster_black_lake_heart",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4197,7 +4197,7 @@
         "id": "monster_black_lake_monster",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4208,7 +4208,7 @@
         "id": "monster_black_lake_mirage",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4219,8 +4219,8 @@
         "id": "monster_black_lake_water_demon",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1280,
+          "x": 1344,
+          "y": 1216,
           "width": 64,
           "height": 64
         },
@@ -4230,7 +4230,7 @@
         "id": "monster_bone_thrower",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4241,7 +4241,7 @@
         "id": "monster_centaurus",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4252,7 +4252,7 @@
         "id": "monster_manibus",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4263,7 +4263,7 @@
         "id": "monster_star_cattle",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4274,7 +4274,7 @@
         "id": "monster_right_rdt3",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4663,21 +4663,10 @@
         "size": 0.75
       },
       {
-        "id": "animal_base_npc",
-        "icon": {
-          "url": "icons.webp",
-          "x": 256,
-          "y": 832,
-          "width": 64,
-          "height": 64
-        },
-        "size": 0.75
-      },
-      {
         "id": "animal_indicator_unit",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 832,
           "width": 64,
           "height": 64
@@ -4688,7 +4677,7 @@
         "id": "animal_morgan",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 832,
           "width": 64,
           "height": 64
@@ -4699,7 +4688,7 @@
         "id": "animal_lion",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4710,7 +4699,7 @@
         "id": "animal_eclipse_lion",
         "icon": {
           "url": "icons.webp",
-          "x": 384,
+          "x": 320,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4721,7 +4710,7 @@
         "id": "animal_snapping_turtle",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4732,7 +4721,7 @@
         "id": "animal_stag",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4743,7 +4732,7 @@
         "id": "animal_crocodile_hatchling",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4754,7 +4743,7 @@
         "id": "animal_eclipse_crocodile",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4765,7 +4754,7 @@
         "id": "animal_corrupted_crocodile",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 896,
           "width": 64,
           "height": 64
@@ -4776,8 +4765,8 @@
         "id": "animal_crocodile",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 960,
+          "x": 1344,
+          "y": 896,
           "width": 64,
           "height": 64
         },
@@ -4787,7 +4776,7 @@
         "id": "animal_eclipse deer",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -4798,7 +4787,7 @@
         "id": "animal_eclipse wolf",
         "icon": {
           "url": "icons.webp",
-          "x": 448,
+          "x": 384,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -4809,7 +4798,7 @@
         "id": "animal_eclipse bear",
         "icon": {
           "url": "icons.webp",
-          "x": 512,
+          "x": 448,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -4820,7 +4809,7 @@
         "id": "animal_eclipse_wolf",
         "icon": {
           "url": "icons.webp",
-          "x": 576,
+          "x": 512,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -4831,7 +4820,7 @@
         "id": "animal_black_castle",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 1024,
           "width": 64,
           "height": 64
@@ -4842,7 +4831,7 @@
         "id": "animal_dog's_after-image",
         "icon": {
           "url": "icons.webp",
-          "x": 192,
+          "x": 128,
           "y": 1088,
           "width": 64,
           "height": 64
@@ -4853,7 +4842,7 @@
         "id": "animal_deer",
         "icon": {
           "url": "icons.webp",
-          "x": 832,
+          "x": 768,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4864,7 +4853,7 @@
         "id": "animal_eclipse_deer",
         "icon": {
           "url": "icons.webp",
-          "x": 896,
+          "x": 832,
           "y": 1216,
           "width": 64,
           "height": 64
@@ -4875,7 +4864,7 @@
         "id": "animal_deviated_giant_crocodile",
         "icon": {
           "url": "icons.webp",
-          "x": 256,
+          "x": 192,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4886,7 +4875,7 @@
         "id": "animal_fish",
         "icon": {
           "url": "icons.webp",
-          "x": 320,
+          "x": 256,
           "y": 1280,
           "width": 64,
           "height": 64
@@ -4904,7 +4893,7 @@
         "id": "letter",
         "icon": {
           "url": "icons.webp",
-          "x": 960,
+          "x": 896,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4915,7 +4904,7 @@
         "id": "sticky_note",
         "icon": {
           "url": "icons.webp",
-          "x": 1024,
+          "x": 960,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4926,7 +4915,7 @@
         "id": "bible",
         "icon": {
           "url": "icons.webp",
-          "x": 1088,
+          "x": 1024,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4937,7 +4926,7 @@
         "id": "notebook_close",
         "icon": {
           "url": "icons.webp",
-          "x": 1152,
+          "x": 1088,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4948,7 +4937,7 @@
         "id": "laptop",
         "icon": {
           "url": "icons.webp",
-          "x": 1216,
+          "x": 1152,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4959,7 +4948,7 @@
         "id": "announcement",
         "icon": {
           "url": "icons.webp",
-          "x": 1280,
+          "x": 1216,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4970,7 +4959,7 @@
         "id": "recording_pen",
         "icon": {
           "url": "icons.webp",
-          "x": 1344,
+          "x": 1280,
           "y": 1344,
           "width": 64,
           "height": 64
@@ -4981,8 +4970,8 @@
         "id": "newspaper",
         "icon": {
           "url": "icons.webp",
-          "x": 0,
-          "y": 1408,
+          "x": 1344,
+          "y": 1344,
           "width": 64,
           "height": 64
         },
@@ -4992,7 +4981,7 @@
         "id": "mobile_phone",
         "icon": {
           "url": "icons.webp",
-          "x": 64,
+          "x": 0,
           "y": 1408,
           "width": 64,
           "height": 64
@@ -5003,7 +4992,7 @@
         "id": "notebook_open",
         "icon": {
           "url": "icons.webp",
-          "x": 128,
+          "x": 64,
           "y": 1408,
           "width": 64,
           "height": 64

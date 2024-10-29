@@ -1387,6 +1387,9 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       // Skip little animals, because they share the same model as the normal ones
       continue;
     }
+    if (title === "base_npc") {
+      continue;
+    }
 
     let type = group + "_" + title.toLowerCase().replaceAll(" ", "_");
     if (type.match(/[\u3400-\u9FBF]/)) {
