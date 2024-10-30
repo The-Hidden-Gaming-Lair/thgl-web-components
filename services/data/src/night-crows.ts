@@ -1,5 +1,6 @@
 import { $ } from "bun";
 import {
+  encodeToFile,
   readDirRecursive,
   readDirSync,
   readJSON,
@@ -967,6 +968,13 @@ const filteredFilters = filters.map((f) => {
 
 writeJSON(OUTPUT_DIR + "/coordinates/tiles.json", sortedTiles);
 writeJSON(OUTPUT_DIR + "/coordinates/nodes.json", filteredNodes);
+Object.keys(tiles).forEach((mapName) => {
+  encodeToFile(
+    OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
+    filteredNodes.filter((n) => !n.mapName || n.mapName === mapName),
+  );
+});
+
 writeJSON(OUTPUT_DIR + "/coordinates/filters.json", filteredFilters);
 writeJSON(OUTPUT_DIR + "/coordinates/zones.json", zones);
 // writeJSON(OUTPUT_DIR + "/coordinates/items.json", items);

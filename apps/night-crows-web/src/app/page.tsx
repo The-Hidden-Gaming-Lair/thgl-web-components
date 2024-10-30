@@ -31,6 +31,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
       mapNames={Object.keys(tiles)}
       regions={[]}
       view={view}
+      useCbor
     >
       <HeaderOffset full>
         <InteractiveMapClient />
