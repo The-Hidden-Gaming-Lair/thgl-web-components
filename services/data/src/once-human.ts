@@ -1416,6 +1416,7 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
       type === "animal_stag"
     ) {
       type = "animal_deer";
+      title = "Deer";
     } else if (type === "animal_morgan") {
       type = "animal_wolf";
     }
