@@ -27,16 +27,30 @@ import {
   UIDataAsset,
   ZoneMapIconWidget,
 } from "./night-crows.types.js";
-import { addCircleToImage } from "./lib/image.js";
+import {
+  addCircleToImage,
+  addToIconSprite,
+  saveIconSprite,
+} from "./lib/image.js";
 import { cwebp, vipsDzsave } from "./lib/bin.js";
 import { initNodes } from "./lib/nodes.js";
 import { initFilters } from "./lib/filters.js";
 import { initTiles } from "./lib/tiles.js";
+import {
+  CONTENT_DIR,
+  initDirs,
+  OUTPUT_DIR,
+  TEMP_DIR,
+  TEXTURE_DIR,
+} from "./lib/dirs.js";
+import { IconSprite } from "./types.js";
 
-const CONTENT_DIR = String.raw`C:\dev\Night Crows\Extracted\Data`;
-const TEXTURE_DIR = String.raw`C:\dev\Night Crows\Extracted\Texture`;
-const TEMP_DIR = String.raw`C:\dev\the-hidden-gaming-lair\services\night-crows-data\out`;
-const OUT_DIR = String.raw`C:\dev\the-hidden-gaming-lair\static\night-crows`;
+initDirs(
+  String.raw`C:\dev\Night Crows\Extracted\Data`,
+  String.raw`C:\dev\Night Crows\Extracted\Texture`,
+  String.raw`C:\dev\the-hidden-gaming-lair\static\night-crows`,
+);
+
 const savedIcons: string[] = [];
 
 const mSubZoneData = await readJSON<MSubZoneData>(
@@ -116,21 +130,23 @@ const zonesIDs = Object.keys(zoneResourceData)
   .map((z) => z.replace("_Special", ""))
   .sort((a, b) => b.length - a.length);
 
-const icons: Record<string, string> = {};
+const icons: Record<string, IconSprite> = {};
 for (const zoneMapIcon of zoneMapIconWidget) {
   if (zoneMapIcon.Type !== "MImage") {
     continue;
   }
-  const path = await saveIcon(
+  const path = await addToIconSprite(
     `${TEXTURE_DIR}/${zoneMapIcon.Properties.Brush!.ResourceObject.ObjectPath.replace(
       ".0",
       ".png",
     )}`,
+    zoneMapIcon.Name,
   );
   icons[zoneMapIcon.Name] = path;
 }
-const bookmarkIconPath = await saveIcon(
+const bookmarkIconPath = await addToIconSprite(
   `${TEXTURE_DIR}/mad/content/ui/tex/icon/ui_texture_icon_bookmark.png`,
+  "Bookmark",
 );
 icons["EPrivateMissionType::Move"] = bookmarkIconPath;
 
@@ -185,14 +201,15 @@ for (const zone of Object.values(zoneResources)) {
     // "Type": "EAreaType::Circle", "Type": "EAreaType::Polygon",
 
     const type = subZone?.Type || privateMission?.Type!;
-    let icon = "";
+    let icon: IconSprite | null = null;
     if (subZone && subZone.Icon.AssetPathName !== "None") {
-      icon = await saveIcon(
+      icon = await addToIconSprite(
         `${TEXTURE_DIR}${
           subZone.Icon.AssetPathName!.toLowerCase()
             .replace("/game", "/mad/content")
             .split(".")[0]
         }.png`,
+        subZone.Icon.AssetPathName,
       );
     } else {
       switch (type) {
@@ -215,6 +232,10 @@ for (const zone of Object.values(zoneResources)) {
           icon = icons["EPrivateMissionType::Move"];
           break;
       }
+    }
+    if (!icon) {
+      console.warn("Missing icon for", type);
+      continue;
     }
     const target = subZone ? locations : missions;
     if (!target.values.some((v) => v.id === type)) {
@@ -286,17 +307,17 @@ for (const exportData of Object.values(zoneExportData)) {
     spawnId: number,
     spawnNum: number,
   ) => {
-    let role: string = npc.NpcRole.StringId;
-    if (role === "None") {
-      role = npc.Type.split("::")[1];
+    let type: string = npc.NpcRole.StringId;
+    if (type === "None") {
+      type = npc.Type.split("::")[1];
     }
-    const roleData = npcRoleData[role];
+    const roleData = npcRoleData[type];
 
-    let icon = "";
+    let icon: IconSprite;
     if (!roleData) {
       let resource =
-        uiData.Properties[`${role}Brush` as keyof typeof uiData.Properties];
-      if (role === "NormalMonster") {
+        uiData.Properties[`${type}Brush` as keyof typeof uiData.Properties];
+      if (type === "NormalMonster") {
         resource = uiData.Properties["NeutralPcBrush"];
       }
       if (
@@ -308,48 +329,52 @@ for (const exportData of Object.values(zoneExportData)) {
         return;
       }
       let color;
-      if (role === "NamedMonster") {
+      if (type === "NamedMonster") {
         if (id.includes("CentaurusKnight")) {
-          role = "Kiaron";
+          type = "Kiaron";
           color = "#0066ff";
         } else if (id.includes("Ork")) {
-          role = "Grish";
+          type = "Grish";
           color = "#cbcb41";
         } else if (id.includes("ThornSpider")) {
-          role = "Anggolt";
+          type = "Anggolt";
           color = "#ffffff";
         } else if (id.includes("GolemFlame")) {
-          role = "Inferno";
+          type = "Inferno";
           color = "#ff0000";
         } else if (id.includes("SkeletonWarrior")) {
-          role = "Skeleton";
+          type = "Skeleton";
           color = "#0000ff";
         } else if (id.includes("KnightsCommander")) {
-          role = "Templar";
+          type = "Templar";
           color = "#00ff00";
         } else {
           throw new Error(`Missing color for ${id}`);
         }
       }
       if (color) {
-        const canvas = await addCircleToImage(
-          `${TEXTURE_DIR}/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`,
-          color,
+        icon = await addToIconSprite(
+          `/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`,
+          type,
+          {
+            circle: true,
+            color,
+          },
         );
-        saveImage(TEMP_DIR + `/${id}.png`, canvas.toBuffer("image/png"));
-        icon = await saveIcon(`${TEMP_DIR}/${id}.png`);
       } else {
-        icon = await saveIcon(
-          `${TEXTURE_DIR}/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`,
+        icon = await addToIconSprite(
+          `/${resource.ResourceObject.ObjectPath.replace(".0", ".png")}`,
+          type,
         );
       }
     } else {
-      icon = await saveIcon(
-        `${TEXTURE_DIR}${
+      icon = await addToIconSprite(
+        `${
           roleData.Icon.AssetPathName!.toLowerCase()
             .replace("/game", "/mad/content")
             .split(".")[0]
         }.png`,
+        type,
       );
     }
     let mapName = "";
@@ -408,44 +433,44 @@ for (const exportData of Object.values(zoneExportData)) {
       }
     }
     let size = 1.5;
-    if (role === "NormalMonster") {
+    if (type === "NormalMonster") {
       size = 0.8;
     }
-    if (role.startsWith("WorldCoinStore")) {
-      role = "WorldCoinStore";
+    if (type.startsWith("WorldCoinStore")) {
+      type = "WorldCoinStore";
     }
 
-    if (!target.values.some((v) => v.id === role)) {
+    if (!target.values.some((v) => v.id === type)) {
       target.values.push({
-        id: role,
+        id: type,
         icon,
         size: size,
       });
     }
 
-    if (!nodes.some((n) => n.type === role && n.mapName === mapName)) {
+    if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
       nodes.push({
-        type: role,
+        type: type,
         mapName,
         spawns: [],
       });
     }
     if (!roleData) {
-      if (role === "NormalMonster") {
-        enDict[role] = "Common";
-      } else if (role === "BossMonster") {
-        enDict[role] = "Boss";
+      if (type === "NormalMonster") {
+        enDict[type] = "Common";
+      } else if (type === "BossMonster") {
+        enDict[type] = "Boss";
       } else {
-        enDict[role] = role
+        enDict[type] = type
           .replace(/([A-Z][a-z])/g, " $1")
           .replace(/(\d)/g, " $1")
           .trim();
       }
     } else {
-      enDict[role] =
+      enDict[type] =
         stringData[roleData.Title.StringId].English.LocalizedString;
     }
-    return { mapName, role };
+    return { mapName, role: type };
   };
   for (const npcSpawnSpot of exportData.NpcSpawnSpots) {
     if (npcSpawnSpot.Name.startsWith("ContentTest")) {
@@ -703,7 +728,7 @@ for (const [mapName, zoneData] of sortedZoneData) {
   const REAL_SIZE = MAP_BOUNDS[1][0] - MAP_BOUNDS[0][0];
   const MULTIPLE = REAL_SIZE / TILE_SIZE;
   const OFFSET = [-MAP_BOUNDS[0][0] / MULTIPLE, -MAP_BOUNDS[0][1] / MULTIPLE];
-  const outDir = `${OUT_DIR}/map-tiles/${mapName}`;
+  const outDir = `${OUTPUT_DIR}/map-tiles/${mapName}`;
   if (Bun.argv.includes("--tiles")) {
     await vipsDzsave(path, outDir, 512);
     for (const file of readDirRecursive(outDir)) {
@@ -932,6 +957,7 @@ const sortedTiles = Object.entries(tiles)
 const filteredNodes = nodes.filter((n) => {
   return n.mapName && !!tiles[n.mapName];
 });
+await saveIconSprite(filters);
 const filteredFilters = filters.map((f) => {
   f.values = f.values.filter((v) => {
     return !!filteredNodes.find((n) => n.type === v.id);
@@ -939,22 +965,12 @@ const filteredFilters = filters.map((f) => {
   return f;
 });
 
-writeJSON(OUT_DIR + "/coordinates/tiles.json", sortedTiles);
-writeJSON(OUT_DIR + "/coordinates/nodes.json", filteredNodes);
-writeJSON(OUT_DIR + "/coordinates/filters.json", filteredFilters);
-writeJSON(OUT_DIR + "/coordinates/zones.json", zones);
-// writeJSON(OUT_DIR + "/coordinates/items.json", items);
-writeJSON(OUT_DIR + "/dicts/en.json", enDict);
-
-async function saveIcon(assetPath: string) {
-  const fileName = assetPath.split("/").at(-1)?.split(".")[0]!;
-  if (!savedIcons.includes(fileName)) {
-    // console.log("Saving icon", fileName, assetPath);
-    await cwebp(assetPath, `${OUT_DIR}/icons/${fileName}.webp`);
-    savedIcons.push(fileName);
-  }
-  return `${fileName}.webp`;
-}
+writeJSON(OUTPUT_DIR + "/coordinates/tiles.json", sortedTiles);
+writeJSON(OUTPUT_DIR + "/coordinates/nodes.json", filteredNodes);
+writeJSON(OUTPUT_DIR + "/coordinates/filters.json", filteredFilters);
+writeJSON(OUTPUT_DIR + "/coordinates/zones.json", zones);
+// writeJSON(OUTPUT_DIR + "/coordinates/items.json", items);
+writeJSON(OUTPUT_DIR + "/dicts/en.json", enDict);
 
 function formatTimer(seconds: number) {
   const hours = Math.floor(seconds / 3600);

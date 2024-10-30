@@ -6,27 +6,57 @@
     "values": [
       {
         "id": "ESubzoneType::Town",
-        "icon": "ui_texture_icon_woldmaptag_01.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       },
       {
         "id": "ESubzoneType::HuntingGround",
-        "icon": "ui_texture_icon_woldmaptag_03.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       },
       {
         "id": "ESubzoneType::Airship",
-        "icon": "ui_texture_icon_woldmaptag_04.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       },
       {
         "id": "ESubzoneType::DungeonEntry",
-        "icon": "ui_texture_icon_woldmaptag_02.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       },
       {
         "id": "ESubzoneType::Invisible",
-        "icon": "ui_texture_icon_woldmaptag_04.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       }
     ]
@@ -38,7 +68,13 @@
     "values": [
       {
         "id": "EPrivateMissionType::Move",
-        "icon": "ui_texture_icon_bookmark.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2.5
       }
     ]
@@ -50,32 +86,68 @@
     "values": [
       {
         "id": "NormalMonster",
-        "icon": "ui_texture_icon_minimap_narmal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.8
       },
       {
         "id": "Anggolt",
-        "icon": "RGF_01_R1_SzA_ThornSpider_SpElite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "Kiaron",
-        "icon": "RGF_01_R1_SzB_CentaurusKnight_SpElite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "Grish",
-        "icon": "RGF_01_R1_SzC_OrkCalvary_SpElite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "Inferno",
-        "icon": "RGF_01_R1_S1_H_GolemFlame_SpElite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "BossMonster",
-        "icon": "ui_texture_icon_minimap_boss.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ]
@@ -87,72 +159,156 @@
     "values": [
       {
         "id": "NpcEtcStore",
-        "icon": "ui_texture_icon_npc_store.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "NpcArtifactStore",
-        "icon": "ui_texture_icon_npc_artifact.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "Warehouse",
-        "icon": "ui_texture_icon_npc_warehouse.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "NpcGuildStore",
-        "icon": "ui_texture_icon_npc_guild.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "NpcEquipmentStore",
-        "icon": "ui_texture_icon_npc_equipment.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "DailyQuestCoinStore",
-        "icon": "ui_texture_icon_npc_dailyquestcoin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "SkillStore",
-        "icon": "ui_texture_icon_npc_skillbook.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "BattlefieldEntrance",
-        "icon": "ui_texture_icon_npc_battlefieldentrance.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "DailyQuestNpc",
-        "icon": "ui_texture_icon_npc_questagency.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "NpcBattleCoinStore",
-        "icon": "ui_texture_icon_npc_battlefield_etc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "BeginnerSkillStore",
-        "icon": "ui_texture_icon_npc_skillbook.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "WorldCoinStore",
-        "icon": "ui_texture_icon_npc_worldfieldcoin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "NpcCorePartsStore",
-        "icon": "ui_gl_texture_icon_npc_corepartsstore.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "SoloDungeonStore",
-        "icon": "ui_texture_icon_npc_solodungeon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ]
