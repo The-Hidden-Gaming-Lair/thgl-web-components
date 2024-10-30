@@ -29,6 +29,9 @@ import {
 } from "./night-crows.types.js";
 import { addCircleToImage } from "./lib/image.js";
 import { cwebp, vipsDzsave } from "./lib/bin.js";
+import { initNodes } from "./lib/nodes.js";
+import { initFilters } from "./lib/filters.js";
+import { initTiles } from "./lib/tiles.js";
 
 const CONTENT_DIR = String.raw`C:\dev\Night Crows\Extracted\Data`;
 const TEXTURE_DIR = String.raw`C:\dev\Night Crows\Extracted\Texture`;
@@ -131,22 +134,8 @@ const bookmarkIconPath = await saveIcon(
 );
 icons["EPrivateMissionType::Move"] = bookmarkIconPath;
 
-const nodes: {
-  type: string;
-  mapName: string;
-  spawns: { id?: string; p: [number, number] }[];
-}[] = [];
-const filters: {
-  group: string;
-  defaultOpen?: boolean;
-  defaultOn?: boolean;
-  values: {
-    id: string;
-    icon: string;
-    size?: number;
-    live_only?: boolean;
-  }[];
-}[] = [];
+const nodes = initNodes();
+const filters = initFilters();
 const locations: (typeof filters)[0] = {
   group: "locations",
   defaultOpen: true,
@@ -259,7 +248,7 @@ for (const zone of Object.values(zoneResources)) {
     }
     const spawn: (typeof nodes)[number]["spawns"][number] = {
       id: area.Key,
-      p: [area.Position.Y, area.Position.X] as [number, number],
+      p: [area.Position.Y, area.Position.X, area.Position.Z],
     };
     category.spawns.push(spawn);
     enDict[area.Key] = zoneTitle;
@@ -491,7 +480,8 @@ for (const exportData of Object.values(zoneExportData)) {
       p: [
         npcSpawnSpot.SpotCommon.Position.Y,
         npcSpawnSpot.SpotCommon.Position.X,
-      ] as [number, number],
+        npcSpawnSpot.SpotCommon.Position.Z,
+      ],
     };
     if (
       category.spawns.some(
@@ -549,7 +539,8 @@ for (const exportData of Object.values(zoneExportData)) {
         p: [
           npcRandomSpawnSpot.SpotCommon.Position.Y + offsetY,
           npcRandomSpawnSpot.SpotCommon.Position.X + offsetX,
-        ] as [number, number],
+          npcRandomSpawnSpot.SpotCommon.Position.Z,
+        ],
       };
       if (
         category.spawns.some(
@@ -591,7 +582,7 @@ for (const exportData of Object.values(zoneExportData)) {
       for (const position of npcRandomSpawnSpotGroup.PositionList) {
         const spawn: (typeof nodes)[number]["spawns"][number] = {
           id,
-          p: [position.Y, position.X] as [number, number],
+          p: [position.Y, position.X, position.Z],
         };
         if (
           category.spawns.some(
@@ -637,7 +628,7 @@ for (const [key, data] of Object.entries(subZoneData)) {
 
     const spawn: (typeof nodes)[number]["spawns"][number] = {
       id,
-      p: [zone.Position.Y, zone.Position.X] as [number, number],
+      p: [zone.Position.Y, zone.Position.X, zone.Position.Z],
     };
     if (
       category.spawns.some(
@@ -654,22 +645,7 @@ for (const [key, data] of Object.entries(subZoneData)) {
 filters.push(monsters);
 filters.push(npcs);
 
-const tiles: Record<
-  string,
-  {
-    url?: string;
-    options?: {
-      minNativeZoom: number;
-      maxNativeZoom: number;
-      bounds: [[number, number], [number, number]];
-      tileSize: number;
-    };
-    minZoom?: number;
-    maxZoom?: number;
-    fitBounds?: [[number, number], [number, number]];
-    transformation?: [number, number, number, number];
-  }
-> = {};
+const tiles = initTiles();
 const TILE_SIZE = 512;
 const DEFAULT_PIXEL_PER_CENTIMETER = 0.040635;
 const DUNGEON_PIXEL_PER_CENTIMETER = 0.005;
@@ -954,7 +930,7 @@ const sortedTiles = Object.entries(tiles)
   );
 
 const filteredNodes = nodes.filter((n) => {
-  return !!tiles[n.mapName];
+  return n.mapName && !!tiles[n.mapName];
 });
 const filteredFilters = filters.map((f) => {
   f.values = f.values.filter((v) => {
