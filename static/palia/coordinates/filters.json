@@ -6,32 +6,68 @@
     "values": [
       {
         "id": "location",
-        "icon": "location.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "stable",
-        "icon": "stable.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "landmark",
-        "icon": "landmark.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "wardrobe",
-        "icon": "wardrobe.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "housingPlot",
-        "icon": "housingplot.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "zone",
-        "icon": "zone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ]
@@ -43,12 +79,24 @@
     "values": [
       {
         "id": "beach_pile",
-        "icon": "rummage_pile.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "kilima_pile",
-        "icon": "rummage_pile.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]
@@ -60,7 +108,13 @@
     "values": [
       {
         "id": "other_player",
-        "icon": "other_player.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1088,
+          "width": 64,
+          "height": 64
+        },
         "size": 0.8
       }
     ]
@@ -204,67 +258,145 @@
     "values": [
       {
         "id": "Mining.Clay.Final",
-        "icon": "miningclayfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Mining.Copper.Large.Final",
-        "icon": "miningcopperlargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Mining.Copper.Final",
-        "icon": "miningcopperfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Mining.Copper.Small.Final",
-        "icon": "miningcoppersmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Mining.Iron.Large.Final",
-        "icon": "miningironlargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Mining.Iron.Final",
-        "icon": "miningironfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Mining.Iron.Small.Final",
-        "icon": "miningironsmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Mining.Palium.Large.Final",
-        "icon": "miningpaliumlargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Mining.Palium.Medium.Final",
-        "icon": "miningpaliummediumfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Mining.Palium.Small.Final",
-        "icon": "miningpaliumsmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Mining.Stone.Large.Final",
-        "icon": "miningstonelargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Mining.Stone.Final",
-        "icon": "miningstonefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Mining.Stone.Small.Final",
-        "icon": "miningstonesmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]
@@ -276,47 +408,101 @@
     "values": [
       {
         "id": "Hunting.Creature.Cearnuk_T1",
-        "icon": "huntingcreaturecearnuk_t1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.Cearnuk_T2",
-        "icon": "huntingcreaturecearnuk_t2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.Cearnuk_T3",
-        "icon": "huntingcreaturecearnuk_t3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.Chapaa_T1",
-        "icon": "huntingcreaturechapaa_t1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.Chapaa_T2",
-        "icon": "huntingcreaturechapaa_t2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.Chapaa_T3",
-        "icon": "huntingcreaturechapaa_t3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.TreeClimber_T1",
-        "icon": "huntingcreaturetreeclimber_t1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.TreeClimber_T2",
-        "icon": "huntingcreaturetreeclimber_t2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "Hunting.Creature.TreeClimber_T3",
-        "icon": "huntingcreaturetreeclimber_t3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       }
     ]
@@ -328,82 +514,178 @@
     "values": [
       {
         "id": "Woodcutting.Birch.Large.Final.Magical",
-        "icon": "woodcuttingbirchlargefinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Birch.Medium.Final.Magical",
-        "icon": "woodcuttingbirchmediumfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Birch.Sapling.Final.Magical",
-        "icon": "woodcuttingbirchsaplingfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Birch.Small.Final.Magical",
-        "icon": "woodcuttingbirchsmallfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Juniper.Large.Final.Magical",
-        "icon": "woodcuttingjuniperlargefinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Juniper.Medium.Final.Magical",
-        "icon": "woodcuttingjunipermediumfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Juniper.Sapling.Final.Magical",
-        "icon": "woodcuttingjunipersaplingfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Juniper.Small.Final.Magical",
-        "icon": "woodcuttingjunipersmallfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Oak.Large.Final.Magical",
-        "icon": "woodcuttingoaklargefinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Oak.Medium.Final.Magical",
-        "icon": "woodcuttingoakmediumfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Oak.Sapling.Final.Magical",
-        "icon": "woodcuttingoaksaplingfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Oak.Small.Final.Magical",
-        "icon": "woodcuttingoaksmallfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Pine.Large.Final.Magical",
-        "icon": "woodcuttingpinelargefinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Pine.Medium.Final.Magical",
-        "icon": "woodcuttingpinemediumfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Pine.Sapling.Final.Magical",
-        "icon": "woodcuttingpinesaplingfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       },
       {
         "id": "Woodcutting.Pine.Small.Final.Magical",
-        "icon": "woodcuttingpinesmallfinalmagical.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 640,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.25
       }
     ]
@@ -415,87 +697,189 @@
     "values": [
       {
         "id": "Woodcutting.Bush.Final",
-        "icon": "woodcuttingbushfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Birch.Large.Final",
-        "icon": "woodcuttingbirchlargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Birch.Medium.Final",
-        "icon": "woodcuttingbirchmediumfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Birch.Sapling.Final",
-        "icon": "woodcuttingbirchsaplingfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Birch.Small.Final",
-        "icon": "woodcuttingbirchsmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 512,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Juniper.Large.Final",
-        "icon": "woodcuttingjuniperlargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Juniper.Medium.Final",
-        "icon": "woodcuttingjunipermediumfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Juniper.Sapling.Final",
-        "icon": "woodcuttingjunipersaplingfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Juniper.Small.Final",
-        "icon": "woodcuttingjunipersmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Oak.Large.Final",
-        "icon": "woodcuttingoaklargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Oak.Medium.Final",
-        "icon": "woodcuttingoakmediumfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Oak.Sapling.Final",
-        "icon": "woodcuttingoaksaplingfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Oak.Small.Final",
-        "icon": "woodcuttingoaksmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Pine.Large.Final",
-        "icon": "woodcuttingpinelargefinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Pine.Medium.Final",
-        "icon": "woodcuttingpinemediumfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Pine.Sapling.Final",
-        "icon": "woodcuttingpinesaplingfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "Woodcutting.Pine.Small.Final",
-        "icon": "woodcuttingpinesmallfinal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 576,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]
@@ -507,25 +891,49 @@
     "values": [
       {
         "id": "bp_bug_beetlee_star",
-        "icon": "bp_bug_beetlee_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflye_star",
-        "icon": "bp_bug_butterflye_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflye_star",
-        "icon": "bp_bug_dragonflye_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantise_star",
-        "icon": "bp_bug_mantise_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -538,25 +946,49 @@
     "values": [
       {
         "id": "bp_bug_beetlee",
-        "icon": "bp_bug_beetlee.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflye",
-        "icon": "bp_bug_butterflye.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflye",
-        "icon": "bp_bug_dragonflye.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantise",
-        "icon": "bp_bug_mantise.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -569,91 +1001,181 @@
     "values": [
       {
         "id": "bp_bug_beer_star",
-        "icon": "bp_bug_beer_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_beetler_star",
-        "icon": "bp_bug_beetler_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflyr_star",
-        "icon": "bp_bug_butterflyr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cicadar_star",
-        "icon": "bp_bug_cicadar_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_crabr_star",
-        "icon": "bp_bug_crabr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cricketr_star",
-        "icon": "bp_bug_cricketr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflyr_star",
-        "icon": "bp_bug_dragonflyr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_glowbugr_star",
-        "icon": "bp_bug_glowbugr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_ladybugr_star",
-        "icon": "bp_bug_ladybugr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantisr1_star",
-        "icon": "bp_bug_mantisr1_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantisr2_star",
-        "icon": "bp_bug_mantisr2_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mothr_star",
-        "icon": "bp_bug_mothr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_peder1_star",
-        "icon": "bp_bug_peder1_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_peder2_star",
-        "icon": "bp_bug_peder2_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_snailr_star",
-        "icon": "bp_bug_snailr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -666,91 +1188,181 @@
     "values": [
       {
         "id": "bp_bug_beer",
-        "icon": "bp_bug_beer.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_beetler",
-        "icon": "bp_bug_beetler.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflyr",
-        "icon": "bp_bug_butterflyr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cicadar",
-        "icon": "bp_bug_cicadar.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_crabr",
-        "icon": "bp_bug_crabr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cricketr",
-        "icon": "bp_bug_cricketr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflyr",
-        "icon": "bp_bug_dragonflyr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_glowbugr",
-        "icon": "bp_bug_glowbugr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_ladybugr",
-        "icon": "bp_bug_ladybugr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantisr1",
-        "icon": "bp_bug_mantisr1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantisr2",
-        "icon": "bp_bug_mantisr2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mothr",
-        "icon": "bp_bug_mothr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_peder1",
-        "icon": "bp_bug_peder1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_peder2",
-        "icon": "bp_bug_peder2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_snailr",
-        "icon": "bp_bug_snailr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -763,73 +1375,145 @@
     "values": [
       {
         "id": "bp_bug_beeu_star",
-        "icon": "bp_bug_beeu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_beetleu_star",
-        "icon": "bp_bug_beetleu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflyu_star",
-        "icon": "bp_bug_butterflyu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cicadau_star",
-        "icon": "bp_bug_cicadau_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_crabu_star",
-        "icon": "bp_bug_crabu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cricketu_star",
-        "icon": "bp_bug_cricketu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflyu_star",
-        "icon": "bp_bug_dragonflyu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_ladybugu_star",
-        "icon": "bp_bug_ladybugu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mantisu_star",
-        "icon": "bp_bug_mantisu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mothu_star",
-        "icon": "bp_bug_mothu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_pedeu_star",
-        "icon": "bp_bug_pedeu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_snailu_star",
-        "icon": "bp_bug_snailu_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -842,73 +1526,145 @@
     "values": [
       {
         "id": "bp_bug_beeu",
-        "icon": "bp_bug_beeu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_beetleu",
-        "icon": "bp_bug_beetleu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflyu",
-        "icon": "bp_bug_butterflyu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cicadau",
-        "icon": "bp_bug_cicadau.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_crabu",
-        "icon": "bp_bug_crabu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cricketu",
-        "icon": "bp_bug_cricketu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflyu",
-        "icon": "bp_bug_dragonflyu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_ladybugu",
-        "icon": "bp_bug_ladybugu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mantisu",
-        "icon": "bp_bug_mantisu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mothu",
-        "icon": "bp_bug_mothu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_pedeu",
-        "icon": "bp_bug_pedeu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_snailu",
-        "icon": "bp_bug_snailu.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -921,49 +1677,97 @@
     "values": [
       {
         "id": "bp_bug_beetlec_star",
-        "icon": "bp_bug_beetlec_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_butterflyc_star",
-        "icon": "bp_bug_butterflyc_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cicadac_star",
-        "icon": "bp_bug_cicadac_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_crabc_star",
-        "icon": "bp_bug_crabc_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_cricketc_star",
-        "icon": "bp_bug_cricketc_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_dragonflyc_star",
-        "icon": "bp_bug_dragonflyc_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_glowbugc_star",
-        "icon": "bp_bug_glowbugc_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_bug_mothc_star",
-        "icon": "bp_bug_mothc_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -976,49 +1780,97 @@
     "values": [
       {
         "id": "bp_bug_beetlec",
-        "icon": "bp_bug_beetlec.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_butterflyc",
-        "icon": "bp_bug_butterflyc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cicadac",
-        "icon": "bp_bug_cicadac.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_crabc",
-        "icon": "bp_bug_crabc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_cricketc",
-        "icon": "bp_bug_cricketc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_dragonflyc",
-        "icon": "bp_bug_dragonflyc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_glowbugc",
-        "icon": "bp_bug_glowbugc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_bug_mothc",
-        "icon": "bp_bug_mothc.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1031,31 +1883,61 @@
     "values": [
       {
         "id": "bp_gatherable_gravesite",
-        "icon": "bp_gatherable_gravesite.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_remembrancegarden",
-        "icon": "bp_gatherable_remembrancegarden.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_questitem_calerilvl3book",
-        "icon": "bp_questitem_calerilvl3book.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_questitem_cookbook_1",
-        "icon": "bp_questitem_cookbook_1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_questitem_cookbook_2",
-        "icon": "bp_questitem_cookbook_2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1068,7 +1950,13 @@
     "values": [
       {
         "id": "bp_heartofmagic",
-        "icon": "bp_heartofmagic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1081,13 +1969,25 @@
     "values": [
       {
         "id": "bp_spice_daricloves_star",
-        "icon": "bp_spice_daricloves_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_heartdroplilly_star",
-        "icon": "bp_heartdroplilly_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -1100,13 +2000,25 @@
     "values": [
       {
         "id": "bp_spice_daricloves",
-        "icon": "bp_spice_daricloves.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_heartdroplilly",
-        "icon": "bp_heartdroplilly.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1119,19 +2031,37 @@
     "values": [
       {
         "id": "bp_gatherable_mushroomblue_star",
-        "icon": "bp_gatherable_mushroomblue_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_spice_heatroot_star",
-        "icon": "bp_spice_heatroot_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_moss_dragonsbeard_star",
-        "icon": "bp_moss_dragonsbeard_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -1144,37 +2074,73 @@
     "values": [
       {
         "id": "bp_gatherable_mushroomblue",
-        "icon": "bp_gatherable_mushroomblue.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_spice_heatroot",
-        "icon": "bp_spice_heatroot.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_lootcrate_parent",
-        "icon": "bp_lootcrate_parent.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_moss_dragonsbeard",
-        "icon": "bp_moss_dragonsbeard.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_firestone",
-        "icon": "bp_firestone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_moonstone",
-        "icon": "bp_moonstone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1187,61 +2153,121 @@
     "values": [
       {
         "id": "bp_honey_star",
-        "icon": "bp_honey_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_coral_star",
-        "icon": "bp_coral_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_gatherable_ginger_star",
-        "icon": "bp_gatherable_ginger_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_gatherable_greenonion_star",
-        "icon": "bp_gatherable_greenonion_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_moss_emeraldcarpet_star",
-        "icon": "bp_moss_emeraldcarpet_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_poisonflower_star",
-        "icon": "bp_poisonflower_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_spiced_sprouts_star",
-        "icon": "bp_spiced_sprouts_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_sweetleaves_star",
-        "icon": "bp_sweetleaves_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_waterflower_star",
-        "icon": "bp_waterflower_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_wildgarlic_star",
-        "icon": "bp_wildgarlic_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -1254,61 +2280,121 @@
     "values": [
       {
         "id": "bp_honey",
-        "icon": "bp_honey.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_coral",
-        "icon": "bp_coral.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_ginger",
-        "icon": "bp_gatherable_ginger.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_greenonion",
-        "icon": "bp_gatherable_greenonion.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_moss_emeraldcarpet",
-        "icon": "bp_moss_emeraldcarpet.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_poisonflower",
-        "icon": "bp_poisonflower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_spiced_sprouts",
-        "icon": "bp_spiced_sprouts.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_sweetleaves",
-        "icon": "bp_sweetleaves.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_waterflower",
-        "icon": "bp_waterflower.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_wildgarlic",
-        "icon": "bp_wildgarlic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1321,19 +2407,37 @@
     "values": [
       {
         "id": "bp_gatherable_mushroomr_star",
-        "icon": "bp_gatherable_mushroomr_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_seashell_star",
-        "icon": "bp_seashell_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       },
       {
         "id": "bp_sundroplillies_star",
-        "icon": "bp_sundroplillies_star.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": true
       }
@@ -1346,31 +2450,61 @@
     "values": [
       {
         "id": "bp_oyster",
-        "icon": "bp_oyster.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_mushroomr",
-        "icon": "bp_gatherable_mushroomr.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_seashell",
-        "icon": "bp_seashell.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 384,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_sundroplillies",
-        "icon": "bp_sundroplillies.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_worm",
-        "icon": "bp_worm.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1383,19 +2517,37 @@
     "values": [
       {
         "id": "bp_gatherable_knapweed",
-        "icon": "bp_gatherable_knapweed.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_stone",
-        "icon": "bp_stone.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       },
       {
         "id": "bp_gatherable_thistle",
-        "icon": "bp_gatherable_thistle.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 448,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1,
         "live_only": false
       }
@@ -1408,32 +2560,68 @@
     "values": [
       {
         "id": "BP_WaterPlane_Fishing_AZ1_Cave_SQ",
-        "icon": "bp_waterplane_fishing_az1_cave_sq.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_LakeVillage_SQ",
-        "icon": "bp_waterplane_fishing_lakevillage_sq.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_OceanAZ1_SQ",
-        "icon": "bp_waterplane_fishing_oceanaz1_sq.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_PondVillage_SQ",
-        "icon": "bp_waterplane_fishing_pondvillage_sq.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_RiverAZ1_SQ",
-        "icon": "bp_waterplane_fishing_riveraz1_sq.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       },
       {
         "id": "BP_WaterPlane_Fishing_RiverVillage_SQ",
-        "icon": "bp_waterplane_fishing_rivervillage_sq.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.1
       }
     ]
@@ -1445,22 +2633,46 @@
     "values": [
       {
         "id": "QuestItem_CloudMinnow1",
-        "icon": "questitem_cloudminnow1.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "QuestItem_CloudMinnow2",
-        "icon": "questitem_cloudminnow2.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "QuestItem_CloudMinnow3",
-        "icon": "questitem_cloudminnow3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "QuestItem_CloudMinnow4",
-        "icon": "questitem_cloudminnow4.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]
@@ -1472,47 +2684,101 @@
     "values": [
       {
         "id": "Fish_UnicornFish",
-        "icon": "fish_unicornfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Giant_Goldfish",
-        "icon": "fish_giant_goldfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Flametongue_Ray",
-        "icon": "fish_flametongue_ray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Swordfin_Eel",
-        "icon": "fish_swordfin_eel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Giant_Kilima_Stingray",
-        "icon": "fish_giant_kilima_stingray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Voidray",
-        "icon": "fish_voidray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Recipe_Cooking_Sushi",
-        "icon": "recipe_cooking_sushi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Jackpot_Makeshift",
-        "icon": "jackpot_makeshift.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_AncientFish",
-        "icon": "fish_ancientfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]
@@ -1524,77 +2790,167 @@
     "values": [
       {
         "id": "Fish_FairyCarp",
-        "icon": "fish_fairycarp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_RadiantSunfish",
-        "icon": "fish_radiantsunfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_BlueMarlin",
-        "icon": "fish_bluemarlin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_ShimmerFin",
-        "icon": "fish_shimmerfin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_MutatedAngler",
-        "icon": "fish_mutatedangler.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Energized_Pirhana",
-        "icon": "fish_energized_pirhana.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Willow_Lamprey",
-        "icon": "fish_willow_lamprey.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Thundering_Eel",
-        "icon": "fish_thundering_eel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Cloudfish",
-        "icon": "fish_cloudfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Kenjis_Carp",
-        "icon": "fish_kenjis_carp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Stormray",
-        "icon": "fish_stormray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Blue_Spotted_Ray",
-        "icon": "fish_blue_spotted_ray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Midnight_Paddlefish",
-        "icon": "fish_midnight_paddlefish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Hypnotic_Moray",
-        "icon": "fish_hypnotic_moray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Recipe_Cooking_FishStew",
-        "icon": "recipe_cooking_fishstew.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]
@@ -1606,127 +2962,277 @@
     "values": [
       {
         "id": "Fish_CantankerousKoi",
-        "icon": "fish_cantankerouskoi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Stickleback",
-        "icon": "fish_stickleback.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_FreshwaterEel",
-        "icon": "fish_freshwatereel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Barracuda",
-        "icon": "fish_barracuda.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_RibbontailRay",
-        "icon": "fish_ribbontailray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_PrismTrout",
-        "icon": "fish_prismtrout.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_StripedSturgeon",
-        "icon": "fish_stripedsturgeon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_UmbranCarp",
-        "icon": "fish_umbrancarp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_BatRay",
-        "icon": "fish_batray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Mirror_Carp",
-        "icon": "fish_mirror_carp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Channel_Catfish",
-        "icon": "fish_channel_catfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Dawnray",
-        "icon": "fish_dawnray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Duskray",
-        "icon": "fish_duskray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Rainbow_Trout",
-        "icon": "fish_rainbow_trout.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Paddlefish",
-        "icon": "fish_paddlefish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Cutthroat_Trout",
-        "icon": "fish_cutthroat_trout.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Stalking_Catfish",
-        "icon": "fish_stalking_catfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Kilima_Grayling",
-        "icon": "fish_kilima_grayling.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Indigo_Lamprey",
-        "icon": "fish_indigo_lamprey.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 704,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Honey_Loach",
-        "icon": "fish_honey_loach.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Chub",
-        "icon": "fish_chub.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Cactus_Moray",
-        "icon": "fish_cactus_moray.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Enchanted_Pupfish",
-        "icon": "fish_enchanted_pupfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Crimson_Fangtooth",
-        "icon": "fish_crimson_fangtooth.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Recipe_Cooking_Sashimi",
-        "icon": "recipe_cooking_sashimi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]
@@ -1738,182 +3244,398 @@
     "values": [
       {
         "id": "Fish_Gillyfin",
-        "icon": "fish_gillyfin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_CalicoKoi",
-        "icon": "fish_calicokoi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_KilimaCatfish",
-        "icon": "fish_kilimacatfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_SpottedBullhead",
-        "icon": "fish_spottedbullhead.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_SilverSalmon",
-        "icon": "fish_silversalmon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_GoldenSalmon",
-        "icon": "fish_goldensalmon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Sardine",
-        "icon": "fish_sardine.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_BahariBream",
-        "icon": "fish_baharibream.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 704,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_SmallmouthBass",
-        "icon": "fish_smallmouthbass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_LargemouthBass",
-        "icon": "fish_largemouthbass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_PaintedPerch",
-        "icon": "fish_paintedperch.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_EyelessMinnow",
-        "icon": "fish_eyelessminnow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_AlbinoEel",
-        "icon": "fish_albinoeel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Mudminnow",
-        "icon": "fish_mudminnow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 1024,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Orange_Bluegill",
-        "icon": "fish_orange_bluegill.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Striped_Dace",
-        "icon": "fish_striped_dace.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Yellow_Perch",
-        "icon": "fish_yellow_perch.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Silvery_Minnow",
-        "icon": "fish_silvery_minnow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Rosy_Bitterling",
-        "icon": "fish_rosy_bitterling.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Red-bellied_Pirhana",
-        "icon": "fish_redbellied_pirhana.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Kilima_Redfin",
-        "icon": "fish_kilima_redfin.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Oily_Anchovy",
-        "icon": "fish_oily_anchovy.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 832,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Codfish",
-        "icon": "fish_codfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Bigeye_Tuna",
-        "icon": "fish_bigeye_tuna.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Scarlet_Koi",
-        "icon": "fish_scarlet_koi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Mottled_Gobi",
-        "icon": "fish_mottled_gobi.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Crucian_Carp",
-        "icon": "fish_crucian_carp.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Platinum_Chad",
-        "icon": "fish_platinum_chad.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 576,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Bahari_Pike",
-        "icon": "fish_bahari_pike.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Fathead_Minnow",
-        "icon": "fish_fathead_minnow.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 896,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Yellowfin_Tuna",
-        "icon": "fish_yellowfin_tuna.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Black_Sea_Bass",
-        "icon": "fish_black_sea_bass.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Beluga_Sturgeon",
-        "icon": "fish_beluga_sturgeon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Alligator_Gar",
-        "icon": "fish_alligator_gar.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 512,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Blobfish",
-        "icon": "fish_blobfish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 768,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Fish_Stonefish",
-        "icon": "fish_stonefish.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 832,
+          "y": 960,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]
@@ -1925,7 +3647,13 @@
     "values": [
       {
         "id": "QuestItem_FT_DoorKey",
-        "icon": "questitem_ft_doorkey.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 640,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]
@@ -1937,17 +3665,35 @@
     "values": [
       {
         "id": "Trash_Wagonwheel",
-        "icon": "trash_wagonwheel.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 896,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Trash_ShipFragments",
-        "icon": "trash_shipfragments.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 960,
+          "y": 768,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       },
       {
         "id": "Trash_WaterloggedBoot",
-        "icon": "trash_waterloggedboot.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 1024,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.2
       }
     ]

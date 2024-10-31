@@ -605,8 +605,8 @@ for (const gatherablesPath of gatherablesPaths) {
       filter.values.push({
         id,
         icon: await addToIconSprite(iconPath, id, {
-          glowing: true,
-          color: "#fff",
+          outline: true,
+          outlineColor: "#fff",
         }),
         size: size,
       });

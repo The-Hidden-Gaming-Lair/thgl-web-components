@@ -1,5 +1,11 @@
 import { initDict, writeDict } from "./lib/dicts.js";
-import { CONTENT_DIR, initDirs, OUTPUT_DIR, TEXTURE_DIR } from "./lib/dirs.js";
+import {
+  CONTENT_DIR,
+  initDirs,
+  OUTPUT_DIR,
+  TEMP_DIR,
+  TEXTURE_DIR,
+} from "./lib/dirs.js";
 import {
   initFilters,
   initGlobalFilters,
@@ -13,7 +19,12 @@ import {
   readJSON,
   writeJSON,
 } from "./lib/fs.js";
-import { IconProps, saveIcon } from "./lib/image.js";
+import {
+  addToIconSprite,
+  IconProps,
+  saveIcon,
+  saveIconSprite,
+} from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
@@ -69,7 +80,9 @@ const levelConfigs = await readJSON<DT_LevelConfigs>(
 
 const tiles = initTiles();
 const filters = initFilters();
-const nodes = await readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json");
+const nodes = initNodes(
+  await readJSON<Node[]>(OUTPUT_DIR + "/coordinates/nodes.json"),
+);
 
 const regions = initRegions();
 const typesIDs = initTypesIDs();
@@ -175,7 +188,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         size = 1.5;
 
         enDict[type] = "Stable";
-        iconName = await saveIcon(
+        iconName = await addToIconSprite(
           `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/Icon_Compass_Stable_01.png`,
           type,
         );
@@ -209,7 +222,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         size = 1.5;
 
         enDict[type] = "Wardrobe";
-        iconName = await saveIcon(
+        iconName = await addToIconSprite(
           `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/WT_Icon_Wardrobe.png`,
           type,
         );
@@ -251,7 +264,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
         size = 1.5;
 
         enDict[type] = "Landmark";
-        iconName = await saveIcon(
+        iconName = await addToIconSprite(
           `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/Icon_Landmark_01.png`,
           type,
         );
@@ -274,7 +287,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           type = "housingPlot";
           enDict[type] = "Housing Plot";
           enDict[id] = tooltipElement.Properties!.Tooltip.LocalizedString;
-          iconName = await saveIcon(
+          iconName = await addToIconSprite(
             `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/Icon_Compass_Home_01.png`,
             type,
           );
@@ -290,7 +303,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           type = "zone";
           enDict[type] = "Zone";
           enDict[id] = tooltipElement.Properties!.Tooltip.LocalizedString;
-          iconName = await saveIcon(
+          iconName = await addToIconSprite(
             `${TEXTURE_DIR}/Palia/Content/UI/Assets_Shared/Icons/WT_Icon_Compass_Zone.png`,
             type,
           );
@@ -301,7 +314,7 @@ for (const [levelKey, levelConfig] of Object.entries(levelConfigs[0].Rows)) {
           if (targetTravelAssetElement) {
             type = "location";
             enDict[type] = "Location";
-            iconName = await saveIcon(
+            iconName = await addToIconSprite(
               `${TEXTURE_DIR}/Palia/Content/UI/WorldMap/Assets/Icon_Map_Marker.png`,
               type,
             );
@@ -467,13 +480,15 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {};
+      const iconProps: IconProps = {
+        outline: true,
+      };
       if (isStarQuality) {
         iconProps.badgeIcon =
           TEXTURE_DIR +
           "/Palia/Content/UI/Crafting/Assets/Cooking/Icons/Icon_Cooking_Star_01.png";
       }
-      const iconName = await saveIcon(
+      const iconName = await addToIconSprite(
         "/Palia/Content" +
           itemType[0].Properties.ItemIcon.AssetPathName.replace(
             "Game/",
@@ -583,13 +598,15 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {};
+      const iconProps: IconProps = {
+        outline: true,
+      };
       if (isStarQuality) {
         iconProps.badgeIcon =
           TEXTURE_DIR +
           "/Palia/Content/UI/Crafting/Assets/Cooking/Icons/Icon_Cooking_Star_01.png";
       }
-      const iconName = await saveIcon(
+      const iconName = await addToIconSprite(
         "/Palia/Content" +
           itemType[0].Properties.ItemIcon.AssetPathName.replace(
             "Game/",
@@ -653,10 +670,10 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     });
     category = filters.find((f) => f.group === group)!;
   }
-  const iconName = await saveIcon(
+  const iconName = await addToIconSprite(
     `/Palia/Content/UI/Icons/Icon_Deco_Chapaa_Nest.png`,
     "rummage_pile",
-    { glowing: true, color: "#fff" },
+    { outline: true, outlineColor: "#fff" },
   );
   if (!category.values.some((v) => v.id === beachType)) {
     category.values.push({
@@ -770,7 +787,9 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         }
       }
       if (!category.values.some((v) => v.id === type)) {
-        const iconProps: IconProps = {};
+        const iconProps: IconProps = {
+          outline: true,
+        };
         const oreType = type.split(".").at(1)!;
         const icons = [
           "Icon_Ore_Clay",
@@ -801,7 +820,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
           size = 1;
         }
 
-        const iconName = await saveIcon(
+        const iconName = await addToIconSprite(
           `/Palia/Content/UI/Icons/${iconPath}.png`,
           type,
           iconProps,
@@ -950,7 +969,9 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         }
       }
       if (!category.values.some((v) => v.id === type)) {
-        const iconProps: IconProps = {};
+        const iconProps: IconProps = {
+          outline: true,
+        };
         const growableTree = await readJSON<GrowableTree>(
           skillFile
             .replace(
@@ -996,8 +1017,8 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         if (isMagical) {
           enDict[type] += "Flow ";
           iconPath = iconPath.replace(".png", "Flow.png");
-          iconProps.glowing = true;
-          iconProps.color = "#8241b5";
+          iconProps.outline = true;
+          iconProps.outlineColor = "#8241b5";
         }
         enDict[type] += type.split(".")[1];
         if (typeId.includes("Large")) {
@@ -1009,7 +1030,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         } else if (typeId.includes("Sapling")) {
           enDict[type] += " (XS)";
         }
-        const iconName = await saveIcon(iconPath, type, iconProps);
+        const iconName = await addToIconSprite(iconPath, type, iconProps);
 
         category.values.push({
           id: type,
@@ -1131,7 +1152,9 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         }
       }
       if (!category.values.some((v) => v.id === type)) {
-        const iconProps: IconProps = {};
+        const iconProps: IconProps = {
+          outline: true,
+        };
 
         if (!iconPath) {
           continue;
@@ -1149,7 +1172,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         };
 
         enDict[type] = creatureNames[typeId];
-        const iconName = await saveIcon(iconPath, type, iconProps);
+        const iconName = await addToIconSprite(iconPath, type, iconProps);
 
         category.values.push({
           id: type,
@@ -1215,8 +1238,10 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {};
-      const iconName = await saveIcon(
+      const iconProps: IconProps = {
+        outline: true,
+      };
+      const iconName = await addToIconSprite(
         "/Palia/Content" +
           itemType[0].Properties.ItemIcon.AssetPathName.replace(
             "Game/",
@@ -1287,7 +1312,9 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {};
+      const iconProps: IconProps = {
+        outline: true,
+      };
 
       let name: string;
       if (baseType.includes("Cave")) {
@@ -1312,8 +1339,8 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
       }
       enDict[type] = name;
 
-      const iconPath = String.raw`C:\dev\the-hidden-gaming-lair\static\global\icons\game-icons\fishing-hook_lorc.webp`;
-      const iconName = await saveIcon(iconPath, type, iconProps);
+      const iconPath = String.raw`${TEMP_DIR}\game-icons\fishing-hook_lorc.png`;
+      const iconName = await addToIconSprite(iconPath, type, iconProps);
 
       category.values.push({
         id: type,
@@ -1420,11 +1447,13 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
   }
 
   if (!category.values.some((v) => v.id === type)) {
-    const iconProps: IconProps = {};
+    const iconProps: IconProps = {
+      outline: true,
+    };
     const iconPath =
       TEXTURE_DIR +
       "/Palia/Content/UI/WorldMap/Assets/Icon_Map_Marker_Player.png";
-    const iconName = await saveIcon(iconPath, type, iconProps);
+    const iconName = await addToIconSprite(iconPath, type, iconProps);
     enDict[type] = "Other Player";
 
     category.values.push({
@@ -1586,6 +1615,7 @@ const sortPriority = [
   "fishing_special",
   "fishing_abundant",
 ];
+await saveIconSprite(filters, nodes);
 const sortedFilters = filters.sort(
   (a, b) => sortPriority.indexOf(a.group) - sortPriority.indexOf(b.group),
 );

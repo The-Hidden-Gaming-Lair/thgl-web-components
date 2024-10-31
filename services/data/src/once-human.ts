@@ -920,7 +920,7 @@ const switchType = (
     type = "Scattered";
     title = type;
     iconPath = String.raw`${TEMP_DIR}\game-icons\damaged-house_quoting.png`;
-    iconProps.glowing = true;
+    iconProps.outline = true;
     iconProps.color = "black";
     size = 0.65;
   } else if (more?.includes("Bus ") || more?.includes("_Bus_")) {
@@ -1464,8 +1464,8 @@ for (const [key, baseNPC] of Object.entries(baseNPCData)) {
     }
 
     const iconProps: IconProps = {
-      color: isCurrupted ? "#d8ffc1" : "#eea64c",
       outline: true,
+      outlineColor: isCurrupted ? "#d8ffc1" : "#eea64c",
     };
 
     if (type === "animal_fish") {

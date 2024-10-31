@@ -14,13 +14,13 @@ export type IconProps = {
   color?: string;
   circle?: boolean;
   threshold?: number;
-  glowing?: boolean;
   rotate?: number;
   contrast?: number;
   brightness?: number;
   badgeIcon?: string;
   noResize?: boolean;
   outline?: boolean;
+  outlineColor?: string;
 };
 
 const imageSpritePaths: SpritePaths = [];
@@ -47,42 +47,47 @@ async function generateIcon(
     const file = Bun.file(filePath);
     await Bun.write(tempIconPath, file);
 
+    if (props.outline) {
+      const canvas = await addOutlineToImage(
+        tempIconPath,
+        props.outlineColor ?? "#000000",
+      );
+      saveImage(tempIconPath, canvas.toBuffer("image/png"));
+    }
+
     if (props.border && props.color) {
-      const canvas = await drawInCircleWithBorderColor(filePath, props.color);
+      const canvas = await drawInCircleWithBorderColor(
+        tempIconPath,
+        props.color,
+      );
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     } else if (props.circle && props.color) {
-      const canvas = await addCircleToImage(filePath, props.color);
-      saveImage(tempIconPath, canvas.toBuffer("image/png"));
-    } else if (props.glowing && props.color) {
-      const canvas = await addOutlineToImage(filePath, props.color);
+      const canvas = await addCircleToImage(tempIconPath, props.color);
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     } else if (props.color) {
       const canvas = await colorizeImage(
-        filePath,
+        tempIconPath,
         props.color,
         props.threshold,
       );
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     } else if (props.rotate) {
-      const canvas = await rotateImage(filePath, props.rotate);
+      const canvas = await rotateImage(tempIconPath, props.rotate);
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     } else if (
       typeof props.brightness !== "undefined" &&
       typeof props.contrast !== "undefined"
     ) {
       const canvas = await adjustBrightnessAndContrast(
-        await loadCanvas(filePath),
+        await loadCanvas(tempIconPath),
         props.brightness,
         props.contrast,
       );
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     }
+
     if (props.badgeIcon) {
       const canvas = await drawIconWithBadge(tempIconPath, props.badgeIcon);
-      saveImage(tempIconPath, canvas.toBuffer("image/png"));
-    }
-    if (props.outline) {
-      const canvas = await addOutlineToImage(tempIconPath, "#000000");
       saveImage(tempIconPath, canvas.toBuffer("image/png"));
     }
     return tempIconPath;
@@ -157,7 +162,20 @@ export async function drawIconWithBadge(
   const ctx = canvas.getContext("2d");
   ctx.drawImage(icon, 0, 0, icon.width, icon.height);
   const badgeSize = icon.width / 3;
-  ctx.drawImage(badgeIcon, icon.width - badgeSize, 0, badgeSize, badgeSize);
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+  ctx.shadowColor = "#000";
+  ctx.shadowBlur = 4;
+
+  for (let i = 0; i < 3; i++) {
+    ctx.drawImage(
+      badgeIcon,
+      icon.width - badgeSize - ctx.shadowBlur / 2,
+      ctx.shadowBlur / 2,
+      badgeSize,
+      badgeSize,
+    );
+  }
   return canvas;
 }
 
@@ -216,6 +234,7 @@ export async function addCircleToImage(imagePath: string, color: string) {
   );
   ctx.fillStyle = color;
   ctx.strokeStyle = "black";
+  ctx.lineWidth = canvas.width / 32;
   ctx.fill();
   ctx.stroke();
   return canvas;
@@ -264,21 +283,58 @@ export async function colorizeImage(
 
 export async function addOutlineToImage(imagePath: string, color: string) {
   const image = await loadImage(imagePath);
-  const canvas = createCanvas(image.width, image.height);
+  const grow = 8; // Fixed outline growth
+  const shadowBlur = image.width / 15; // Shadow blur based on image width
+
+  // Calculate the new canvas size based on the shadow blur
+  const canvasWidth = image.width + grow * 2 + shadowBlur * 2; // Add shadowBlur space on both sides
+  const canvasHeight = image.height + grow * 2 + shadowBlur * 2; // Add shadowBlur space on both sides
+
+  const canvas = createCanvas(canvasWidth, canvasHeight);
   const ctx = canvas.getContext("2d");
-  const grow = 8;
+
   ctx.shadowOffsetX = 0;
   ctx.shadowOffsetY = 0;
   ctx.shadowColor = color;
-  ctx.shadowBlur = image.width / 15;
-  for (var i = 0; i < grow; i++) {
-    ctx.drawImage(image, 0, 0, image.width, image.height);
+  ctx.shadowBlur = shadowBlur; // Use calculated shadow blur
+
+  // Draw the image multiple times to create a thicker shadow
+  for (let i = 0; i < grow; i++) {
+    ctx.drawImage(
+      image,
+      grow + shadowBlur,
+      grow + shadowBlur,
+      image.width,
+      image.height,
+    ); // Adjust position to grow and shadow blur
   }
+
+  // Reset shadow for the image
   ctx.shadowColor = "#000";
-  ctx.shadowBlur = 4;
-  ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
-  ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
-  ctx.drawImage(image, 0, 0, image.width + grow, image.height + grow);
+  ctx.shadowBlur = 4; // Hard shadow
+
+  // Draw the image centered on the canvas
+  ctx.drawImage(
+    image,
+    grow + shadowBlur,
+    grow + shadowBlur,
+    image.width,
+    image.height,
+  ); // Adjust position to grow and shadow blur
+  ctx.drawImage(
+    image,
+    grow + shadowBlur,
+    grow + shadowBlur,
+    image.width,
+    image.height,
+  );
+  ctx.drawImage(
+    image,
+    grow + shadowBlur,
+    grow + shadowBlur,
+    image.width,
+    image.height,
+  );
 
   return canvas;
 }
