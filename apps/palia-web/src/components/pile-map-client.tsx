@@ -6,7 +6,7 @@ import { useCallback, useEffect } from "react";
 import { Button } from "@repo/ui/controls";
 import Link from "next/link";
 import { type SimpleSpawn } from "@repo/ui/interactive-map";
-import { useT } from "@repo/ui/providers";
+import { type FiltersCoordinates, useT } from "@repo/ui/providers";
 import { Skeleton } from "@repo/ui/data";
 import { type TimedLootPiles } from "@/app/rummage-pile/page";
 
@@ -17,8 +17,10 @@ const PileMapDynamic = dynamic(() => import("./pile-map-dynamic"), {
 
 export default function PileMapClient({
   timedLootPiles,
+  icon,
 }: {
   timedLootPiles: TimedLootPiles;
+  icon: FiltersCoordinates[number]["values"][number]["icon"];
 }): JSX.Element {
   const t = useT();
   const searchParams = useSearchParams();
@@ -49,7 +51,7 @@ export default function PileMapClient({
   const chapaaPile: SimpleSpawn = {
     id: "kilima_pile",
     name: t("kilima_pile"),
-    icon: "/icons/other_player.webp",
+    icon,
     p: [
       timedLootPiles.BP_ChapaaPile_C.position[0],
       timedLootPiles.BP_ChapaaPile_C.position[1],
@@ -58,7 +60,7 @@ export default function PileMapClient({
   const beachPile: SimpleSpawn = {
     id: "beach_pile",
     name: t("beach_pile"),
-    icon: "/icons/other_player.webp",
+    icon,
     p: [
       timedLootPiles.BP_BeachPile_C.position[0],
       timedLootPiles.BP_BeachPile_C.position[1],

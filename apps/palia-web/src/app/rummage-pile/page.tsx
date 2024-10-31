@@ -4,10 +4,18 @@ import { ContentLayout } from "@repo/ui/ads";
 import { Button } from "@repo/ui/controls";
 import Image from "next/image";
 import { Suspense } from "react";
+import { type FiltersCoordinates } from "@repo/ui/providers";
 import _enDict from "../../dicts/en.json" assert { type: "json" };
+import _filters from "../../coordinates/filters.json" assert { type: "json" };
 import Filter from "./filter.webp";
 import Map from "./map.webp";
 import PileMapClient from "@/components/pile-map-client";
+
+const filters = _filters as FiltersCoordinates;
+
+const rummagePileIcon = filters
+  .find((f) => f.group === "players")!
+  .values.find((v) => v.id === "other_player")!.icon;
 
 export const metadata: Metadata = {
   alternates: {
@@ -44,7 +52,7 @@ export default async function RummagePile() {
         content={
           <>
             <Suspense>
-              <PileMapClient timedLootPiles={data} />
+              <PileMapClient timedLootPiles={data} icon={rummagePileIcon} />
             </Suspense>
             <div className="flex flex-col gap-2 items-center">
               <h3 className="text-xl font-semibold text-primary mb-4">

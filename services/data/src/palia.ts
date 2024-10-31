@@ -659,7 +659,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
   enDict[villageType] = "Kilima Pile";
   typesIDs["BP_ChapaaPile_C"] = villageType;
 
-  const size = 1;
+  const size = 1.1;
   let category = filters.find((f) => f.group === group);
   if (!category) {
     filters.push({

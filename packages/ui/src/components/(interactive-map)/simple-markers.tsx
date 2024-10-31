@@ -9,7 +9,17 @@ import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 export type SimpleSpawn = {
   id: string;
   p: [number, number] | [number, number, number];
-  icon?: string | null;
+  icon?:
+    | string
+    | {
+        name: string;
+        url: string;
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+      }
+    | null;
   name: string;
   color?: string;
   description?: string;
@@ -44,7 +54,7 @@ export function SimpleMarkers({
     const markers = spawns.map((spawn) => {
       const marker = new CanvasMarker(spawn.p, {
         id: spawn.id,
-        icon: spawn.icon ? { url: spawn.icon } : null,
+        icon: typeof spawn.icon === "string" ? { url: spawn.icon } : spawn.icon,
         color: spawn.color,
         baseRadius: baseRadius,
         radius: baseRadius * baseIconSize,

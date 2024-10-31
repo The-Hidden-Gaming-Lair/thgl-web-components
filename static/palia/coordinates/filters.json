@@ -86,7 +86,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1
+        "size": 1.1
       },
       {
         "id": "kilima_pile",
@@ -97,7 +97,7 @@
           "width": 64,
           "height": 64
         },
-        "size": 1
+        "size": 1.1
       }
     ]
   },
