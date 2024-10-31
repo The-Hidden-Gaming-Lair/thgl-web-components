@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "reference": "rm -r public && mkdir public && cd public && ln -s ../../../static/global/icons global_icons && ln -s ../../../static/diablo4/icons icons && ln -s ../../../static/diablo4/map-tiles map-tiles && cd ..",
+    "reference": "rm -r public && mkdir public && cd public && ln -s ../../../static/global/icons global_icons && ln -s ../../../static/diablo4/icons icons && ln -s ../../../static/diablo4/map-tiles map-tiles && ln -s ../../../static/diablo4/coordinates/cbor nodes && cd ..",
     "dereference": "cp -rL public public_temp && rm -r public && mv public_temp public",
     "build": "bun run reference && bun run dereference && next build",
     "clean": "rm -rf .next",

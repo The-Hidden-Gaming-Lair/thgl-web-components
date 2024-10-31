@@ -41,14 +41,12 @@ import {
 import { Diablo4Events } from "@repo/ui/data";
 import enDictGlobal from "../global_dicts/en.json" assert { type: "json" };
 import enDict from "../dicts/en.json" assert { type: "json" };
-import _nodes from "../coordinates/nodes.json" assert { type: "json" };
 import regions from "../coordinates/regions.json" assert { type: "json" };
 import filters from "../coordinates/filters.json" assert { type: "json" };
 import tiles from "../coordinates/tiles.json" assert { type: "json" };
 import { D4Settings, useD4SettingsStore } from "@/components/d4-settings";
 
 const enDictMerged = { ...enDictGlobal, ...enDict } as unknown as Dict;
-const nodes = _nodes as NodesCoordinates;
 
 const APP = "Diablo IV";
 const TITLE = "Diablo IV Map";
@@ -60,7 +58,7 @@ const MARKER_OPTIONS = {
     zDistance: 2,
   },
 };
-function App(): JSX.Element {
+function App({ nodes }: { nodes: NodesCoordinates }): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);

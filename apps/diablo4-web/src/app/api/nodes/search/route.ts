@@ -1,9 +1,11 @@
+import { brotliCompressSync } from "node:zlib";
 import {
   type NodesCoordinates,
   type Dict,
   type Spawns,
 } from "@repo/ui/providers";
 import Fuse from "fuse.js";
+import { encodeToBuffer } from "@repo/lib";
 import _nodes from "../../../../coordinates/nodes.json" assert { type: "json" };
 import _enDict from "../../../../dicts/en.json" assert { type: "json" };
 
@@ -27,7 +29,7 @@ const fuse = new Fuse<Spawns[number]>(spreadedSpawns, {
     },
     {
       name: "name",
-      getFn: (spawn) => (spawn.id ? enDict[spawn.id] ?? "" : ""),
+      getFn: (spawn) => (spawn.id ? (enDict[spawn.id] ?? "") : ""),
       weight: 2,
     },
     {
@@ -58,10 +60,14 @@ export function GET(request: Request): Response {
   const items = fuse
     .search(query)
     .map((result) => ({ ...result.item, score: result.score }));
-  return Response.json(items, {
+  const buffer = encodeToBuffer(items);
+  const compressed = brotliCompressSync(buffer);
+  return new Response(compressed, {
     status: 200,
     headers: {
+      "Content-Type": "application/octet-stream",
       "Cache-Control": "public, max-age=0, must-revalidate",
+      "Content-Encoding": "br",
       "CDN-Cache-Control": "public, s-maxage=2678400",
     },
   });

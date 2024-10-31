@@ -1,24 +1,39 @@
 import "./styles/globals.css";
 import "@repo/ui/styles/globals.css";
+import Sanctuary from "./coordinates/cbor/Sanctuary.cbor?url";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
 import {
+  brotliDecompress,
   getGameInfo,
   initDiscordRPC,
   listenToGameEvents,
   logVersion,
 } from "@repo/lib/overwolf";
 import App from "./app";
+import { decodeFromBuffer } from "@repo/lib";
+import { NodesCoordinates } from "@repo/ui/providers";
 
 logVersion();
+
+const maps = [Sanctuary];
+const allNodes = await Promise.all(
+  maps.map(async (map) => {
+    const response = await fetch(map);
+    const arrayBuffer = await response.arrayBuffer();
+    const decrompressed = brotliDecompress(arrayBuffer);
+    return decodeFromBuffer<NodesCoordinates>(decrompressed);
+  }),
+);
+const nodes = allNodes.flat();
 
 const el = document.getElementById("root");
 if (el) {
   const root = createRoot(el);
   root.render(
     <React.StrictMode>
-      <App />
+      <App nodes={nodes} />
     </React.StrictMode>,
   );
 } else {

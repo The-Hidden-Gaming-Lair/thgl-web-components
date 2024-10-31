@@ -1,7 +1,13 @@
 import uniqolor from "uniqolor";
-import { CONTENT_DIR, initDirs, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
+import {
+  CONTENT_DIR,
+  initDirs,
+  OUTPUT_DIR,
+  TEMP_DIR,
+  TEXTURE_DIR,
+} from "./lib/dirs.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
-import { readDirSync, readJSON } from "./lib/fs.js";
+import { encodeToFile, readDirSync, readJSON } from "./lib/fs.js";
 import {
   arrayJoinImages,
   addToIconSprite,
@@ -1261,6 +1267,13 @@ nodes.sort((a, b) => {
 });
 
 writeNodes(nodes);
+Object.keys(tiles).forEach((mapName) => {
+  encodeToFile(
+    OUTPUT_DIR + `/coordinates/cbor/${mapName}.cbor`,
+    nodes.filter((n) => !n.mapName || n.mapName === mapName),
+  );
+});
+
 writeFilters(filters);
 writeDict(enDict, "en");
 writeRegions(regions);

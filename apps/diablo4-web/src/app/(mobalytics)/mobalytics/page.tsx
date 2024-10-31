@@ -34,6 +34,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
       mapNames={Object.keys(tiles)}
       regions={regions as RegionsCoordinates}
       view={view}
+      useCbor
     >
       <div className="relative h-dscreen">
         <InteractiveMapClient mobalytics />
