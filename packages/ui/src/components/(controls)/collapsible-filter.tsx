@@ -104,7 +104,7 @@ export function CollapsibleFilter({
                     ) : (
                       <img
                         alt=""
-                        className="shrink-0 object-none"
+                        className="shrink-0 object-none w-[64px] h-[64px]"
                         src={`/icons/${f.icon.url}`}
                         width={f.icon.width}
                         height={f.icon.height}
