@@ -10451,7 +10451,11 @@
         "id": "DGN_Step_Mournfield",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10463,7 +10467,11 @@
         "id": "DGN_Step_OnyxHold",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10475,7 +10483,11 @@
         "id": "DGN_Kehj_CrumblingHekma",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10487,7 +10499,11 @@
         "id": "DGN_Step_SeasideDescent",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10499,7 +10515,11 @@
         "id": "DGN_Kehj_SepulcherOfTheForsworn",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10511,7 +10531,11 @@
         "id": "DGN_Step_DarkRavine",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10523,7 +10547,11 @@
         "id": "DGN_Frac_LightsWatch",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10535,7 +10563,11 @@
         "id": "DGN_Frac_Maulwood",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10547,7 +10579,11 @@
         "id": "DGN_Frac_CalderaGate",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10559,7 +10595,11 @@
         "id": "DGN_Frac_DerelictLodge",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10571,7 +10611,11 @@
         "id": "DGN_Frac_NostravaDeepwood",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10583,7 +10627,11 @@
         "id": "DGN_Frac_MercysReach",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10595,7 +10643,11 @@
         "id": "DGN_Frac_KorDraganBarracks",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10607,7 +10659,11 @@
         "id": "DGN_Frac_ForbiddenCity",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10619,7 +10675,11 @@
         "id": "DGN_Frac_HallowedOssuary",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10631,7 +10691,11 @@
         "id": "DGN_Frac_BlackAsylum",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10643,7 +10707,11 @@
         "id": "DGN_Frac_ForsakenQuarry",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10655,7 +10723,11 @@
         "id": "DGN_Frac_HoarfrostDemise",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10667,7 +10739,11 @@
         "id": "DGN_Frac_Zenith",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10679,7 +10755,11 @@
         "id": "DGN_Frac_DeadMansDredge",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10691,7 +10771,11 @@
         "id": "DGN_Step_GuulrahnCanals",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10703,7 +10787,11 @@
         "id": "DGN_Step_WhisperingVault",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10715,7 +10803,11 @@
         "id": "DGN_Step_ShiftingCity",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10727,7 +10819,11 @@
         "id": "DGN_Step_PallidDelve",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10739,7 +10835,11 @@
         "id": "DGN_Frac_RitualTower",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10751,7 +10851,11 @@
         "id": "DGN_Frac_LostArchives",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10763,7 +10867,11 @@
         "id": "DGN_Frac_DefiledCatacomb",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10775,7 +10883,11 @@
         "id": "DGN_Scos_CalibelsMine",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10787,7 +10899,11 @@
         "id": "DGN_Scos_HowlingWarren",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10799,7 +10915,11 @@
         "id": "DGN_Scos_SunkenRuins",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10811,7 +10931,11 @@
         "id": "DGN_Scos_Oldstones",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10823,7 +10947,11 @@
         "id": "DGN_Scos_SaratsLair",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10835,7 +10963,11 @@
         "id": "DGN_Scos_Hive",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10847,7 +10979,11 @@
         "id": "DGN_Scos_WhisperingPines",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10859,7 +10995,11 @@
         "id": "DGN_Scos_MadduxWatch",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10871,7 +11011,11 @@
         "id": "DGN_Scos_FeralsDen",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10883,7 +11027,11 @@
         "id": "DGN_Scos_TwistedHollow",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10895,7 +11043,11 @@
         "id": "DGN_Hawe_AncientReservoir",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10907,7 +11059,11 @@
         "id": "DGN_Hawe_HauntedRefuge",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10919,7 +11075,11 @@
         "id": "DGN_Hawe_BelfryZakara",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10931,7 +11091,11 @@
         "id": "DGN_Hawe_Witchwater",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10943,7 +11107,11 @@
         "id": "DGN_Hawe_FacelessShrine",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10955,7 +11123,11 @@
         "id": "DGN_Hawe_RuinsofEridu",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10967,7 +11139,11 @@
         "id": "DGN_Hawe_GhoaRuins",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10979,7 +11155,11 @@
         "id": "DGN_Hawe_LeviathansMaw",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -10991,7 +11171,11 @@
         "id": "DGN_Hawe_MaugansWorks",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11003,7 +11187,11 @@
         "id": "DGN_Hawe_BlindBurrows",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11015,7 +11203,11 @@
         "id": "DGN_Kehj_AbandonedMineworks",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11027,7 +11219,11 @@
         "id": "DGN_Kehj_SiroccoCaverns",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11039,7 +11235,11 @@
         "id": "DGN_Kehj_HallsoftheDamned",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11051,7 +11251,11 @@
         "id": "DGN_Kehj_Conclave",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11063,7 +11267,11 @@
         "id": "DGN_Kehj_HakansRefuge",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11075,7 +11283,11 @@
         "id": "DGN_Kehj_ForgottenRuins",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11087,7 +11299,11 @@
         "id": "DGN_Kehj_CorruptedGrotto",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11099,7 +11315,11 @@
         "id": "DGN_Kehj_PutridAquifer",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11111,7 +11331,11 @@
         "id": "DGN_Kehj_UldursCave",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11123,7 +11347,11 @@
         "id": "DGN_Kehj_HereticsAsylum",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11135,7 +11363,11 @@
         "id": "DGN_Kehj_ShivtaRuins",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11147,7 +11379,11 @@
         "id": "DGN_Kehj_Inferno",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11159,7 +11395,11 @@
         "id": "DGN_Kehj_TomboftheSaints",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11171,7 +11411,11 @@
         "id": "DGN_Kehj_SunkenLibrary",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11183,7 +11427,11 @@
         "id": "DGN_Kehj_CollapsedVault",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11195,7 +11443,11 @@
         "id": "DGN_Kehj_DesertedUnderpass",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11207,7 +11459,11 @@
         "id": "DGN_Hawe_EndlessGates",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11219,7 +11475,11 @@
         "id": "DGN_Hawe_BastionOfFaith",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11231,7 +11491,11 @@
         "id": "DGN_Hawe_EarthenWound",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11243,7 +11507,11 @@
         "id": "DGN_Hawe_LostKeep",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11255,7 +11523,11 @@
         "id": "DGN_Hawe_HeathensKeep",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11267,7 +11539,11 @@
         "id": "DGN_Hawe_LightsRefuge",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11279,7 +11555,11 @@
         "id": "DGN_Frac_RimescarCavern",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11291,7 +11571,11 @@
         "id": "DGN_Frac_AnicasClaim",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11303,7 +11587,11 @@
         "id": "DGN_Frac_CultistRefuge",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11315,7 +11603,11 @@
         "id": "DGN_Scos_FloodedDepths",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11327,7 +11619,11 @@
         "id": "DGN_Scos_Underroot",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11339,7 +11635,11 @@
         "id": "DGN_Scos_WretchedDelve",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11351,7 +11651,11 @@
         "id": "DGN_Kehj_YshariSanctum",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11363,7 +11667,11 @@
         "id": "DGN_Kehj_RenegadesRetreat",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11375,7 +11683,11 @@
         "id": "DGN_Kehj_CrusadersCathedral",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11387,7 +11699,11 @@
         "id": "DGN_Kehj_PrisonofCaldeum",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11399,7 +11715,11 @@
         "id": "DGN_Scos_RaethwindWilds",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11411,7 +11731,11 @@
         "id": "DGN_Scos_PenitentCairns",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11423,7 +11747,11 @@
         "id": "DGN_Scos_VaultofTheForsaken",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11435,7 +11763,11 @@
         "id": "DGN_Hawe_SteadfastBarracks",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11447,7 +11779,11 @@
         "id": "DGN_Hawe_AkkhansGrasp",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11459,7 +11795,11 @@
         "id": "DGN_Hawe_IronHold",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11471,7 +11811,11 @@
         "id": "DGN_Hawe_Oblivion",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11483,7 +11827,11 @@
         "id": "DGN_Scos_GaranHold",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11495,7 +11843,11 @@
         "id": "DGN_Scos_LubansRest",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11507,7 +11859,11 @@
         "id": "DGN_Scos_DomhainneTunnels",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11519,7 +11875,11 @@
         "id": "DGN_Scos_MarinersRefuge",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11531,7 +11891,11 @@
         "id": "DGN_Frac_KorValarRamparts",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11543,7 +11907,11 @@
         "id": "DGN_Scos_Aldurwood",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11555,7 +11923,11 @@
         "id": "DGN_Scos_JalalsVigil",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11567,7 +11939,11 @@
         "id": "DGN_Hawe_SerpentsLair",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11579,7 +11955,11 @@
         "id": "DGN_Hawe_ShadowedPlunge",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11591,7 +11971,11 @@
         "id": "DGN_Scos_DemonsWake",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11603,7 +11987,11 @@
         "id": "DGN_Scos_BrokenBulwark",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11615,7 +12003,11 @@
         "id": "DGN_Hawe_FetidMausoleum",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11627,7 +12019,11 @@
         "id": "DGN_Step_BuriedHalls",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11639,7 +12035,11 @@
         "id": "DGN_Step_PathoftheBlind",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11651,7 +12051,11 @@
         "id": "DGN_Step_GrinningLabyrinth",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11663,7 +12067,11 @@
         "id": "DGN_Step_BetrayersRow",
         "icon": {
           "name": "dungeons_Necromancer",
-          "url": "dungeons_necromancer.webp"
+          "url": "icons.webp",
+          "x": 128,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11675,7 +12083,11 @@
         "id": "DGN_Scos_Stockades",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11687,7 +12099,11 @@
         "id": "DGN_Step_CarrionFields",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11699,7 +12115,11 @@
         "id": "DGN_Step_KomdorTemple",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11711,7 +12131,11 @@
         "id": "DGN_Step_AncientsLament",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11723,7 +12147,11 @@
         "id": "DGN_Step_ChampionsDemise",
         "icon": {
           "name": "dungeons_Generic",
-          "url": "dungeons_generic.webp"
+          "url": "icons.webp",
+          "x": 192,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11735,7 +12163,11 @@
         "id": "DGN_Step_SealedArchives",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11747,7 +12179,11 @@
         "id": "DGN_Step_BloodsoakedCrag",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11759,7 +12195,11 @@
         "id": "DGN_Step_CharnelHouse",
         "icon": {
           "name": "dungeons_Barbarian",
-          "url": "dungeons_barbarian.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 320,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11771,7 +12211,11 @@
         "id": "DGN_Kehj_FadingEcho",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11783,7 +12227,11 @@
         "id": "DGN_Frac_SanguineChapel",
         "icon": {
           "name": "dungeons_Rogue",
-          "url": "dungeons_rogue.webp"
+          "url": "icons.webp",
+          "x": 256,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11795,7 +12243,11 @@
         "id": "DGN_Frac_ImmortalEmanation",
         "icon": {
           "name": "dungeons_Druid",
-          "url": "dungeons_druid.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -11807,7 +12259,11 @@
         "id": "DGN_Step_ForgottenDepths",
         "icon": {
           "name": "dungeons_Sorcerer",
-          "url": "dungeons_sorcerer.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -13928,7 +14384,11 @@
         "id": "Kehj_CaldeumOverlook",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -13940,7 +14400,11 @@
         "id": "Kehj_Caldeum_Bazaar",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -13952,7 +14416,11 @@
         "id": "Kehj_Caldeum_City",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -13964,7 +14432,11 @@
         "id": "Kehj_LowDesert_Central_Plateau",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -13976,7 +14448,11 @@
         "id": "Kehj_LowDesert_Eastern_Basin",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -13988,7 +14464,11 @@
         "id": "Kehj_LowDesert_Oasis",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14000,7 +14480,11 @@
         "id": "Kehj_LowDesert_Central_Plateau",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14012,7 +14496,11 @@
         "id": "Kehj_LowDesert_Central_Plateau",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14024,7 +14512,11 @@
         "id": "Kehj_Oasis_ShipwreckCave",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14036,7 +14528,11 @@
         "id": "Kehj_Oasis_Coast_South",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14048,7 +14544,11 @@
         "id": "Kehj_Oasis",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14060,7 +14560,11 @@
         "id": "Kehj_Oasis_Coast",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14072,7 +14576,11 @@
         "id": "Kehj_Oasis_Dahlgur",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14084,7 +14592,11 @@
         "id": "Kehj_CMP_Omaths_Fortress",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14096,7 +14608,11 @@
         "id": "Kehj_PvP_Oasis",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14108,7 +14624,11 @@
         "id": "Kehj_PvP_Oasis",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14120,7 +14640,11 @@
         "id": "Kehj_Riverfront",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14132,7 +14656,11 @@
         "id": "Scos_AbandonedLodge",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14144,7 +14672,11 @@
         "id": "Scos_Coast",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14156,7 +14688,11 @@
         "id": "Scos_Coast_MarinersRefuge",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14168,7 +14704,11 @@
         "id": "Scos_Coast_Brook",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14180,7 +14720,11 @@
         "id": "Scos_Coast",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14192,7 +14736,11 @@
         "id": "Scos_Deep_Forest",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14204,7 +14752,11 @@
         "id": "Scos_Deep_Forest",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14216,7 +14768,11 @@
         "id": "Scos_Deep_Forest",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14228,7 +14784,11 @@
         "id": "Scos_Downs_Wraithstead",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14240,7 +14800,11 @@
         "id": "Scos_Downs_Unhallowed_Pit",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14252,7 +14816,11 @@
         "id": "Scos_Downs_Wealaf_Rise",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14264,7 +14832,11 @@
         "id": "Scos_High_Forest_Point",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14276,7 +14848,11 @@
         "id": "Scos_High_Forest_Shadow_Wood",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14288,7 +14864,11 @@
         "id": "Scos_High_Forest_Meadows",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14300,7 +14880,11 @@
         "id": "Scos_Hills_WailingHills",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14312,7 +14896,11 @@
         "id": "Scos_Hills_Coast",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14324,7 +14912,11 @@
         "id": "Scos_Hills_BronaghExpanse",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14336,7 +14928,11 @@
         "id": "Scos_Lighthouse",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14348,7 +14944,11 @@
         "id": "Scos_Jagged_Shoals",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14360,7 +14960,11 @@
         "id": "Scos_Fiabre",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14372,7 +14976,11 @@
         "id": "Scos_Loch_Raeth_Highlands_West",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14384,7 +14992,11 @@
         "id": "Scos_Lowlands_Grove",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14396,7 +15008,11 @@
         "id": "Scos_Lowlands_Wolds",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14408,7 +15024,11 @@
         "id": "Scos_Lowlands",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14420,7 +15040,11 @@
         "id": "Scos_Moors_Loch",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14432,7 +15056,11 @@
         "id": "Scos_Moors_BloodVale",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14444,7 +15072,11 @@
         "id": "Scos_Moors",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14456,7 +15088,11 @@
         "id": "Scos_Highlands_Dead_Forest",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14468,7 +15104,11 @@
         "id": "Scos_Highlands_Watch",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14480,7 +15120,11 @@
         "id": "Scos_Highlands_Dead_Forest",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14492,7 +15136,11 @@
         "id": "Scos_Highlands_Withered_Scrubs",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14504,7 +15152,11 @@
         "id": "Scos_Highlands_Woods",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14516,7 +15168,11 @@
         "id": "Scos_Highlands_Plains",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14528,7 +15184,11 @@
         "id": "Frac_GaleValley",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14540,7 +15200,11 @@
         "id": "Frac_GaleValley_BigLake",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14552,7 +15216,11 @@
         "id": "Frac_GaleValley_SecretCamp1",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14564,7 +15232,11 @@
         "id": "Frac_Camp_03_Center",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14576,7 +15248,11 @@
         "id": "Frac_Tundra_N_EasternForest1",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14588,7 +15264,11 @@
         "id": "Frac_Tundra_N_EasternForest1",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14600,7 +15280,11 @@
         "id": "Frac_Tundra_N",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14612,7 +15296,11 @@
         "id": "Frac_Tundra_N_WestField",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14624,7 +15312,11 @@
         "id": "Frac_Tundra_N",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14636,7 +15328,11 @@
         "id": "Frac_KorDragan_Courtyard",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14648,7 +15344,11 @@
         "id": "Frac_Taiga_E_SETunnelAreaCaves1",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14660,7 +15360,11 @@
         "id": "Frac_Taiga_E_MargraveBypass",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14672,7 +15376,11 @@
         "id": "Frac_Taiga_E",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14684,7 +15392,11 @@
         "id": "Frac_Taiga_W_NWHill",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14696,7 +15408,11 @@
         "id": "Frac_Taiga_W",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14708,7 +15424,11 @@
         "id": "Frac_Taiga_W",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14720,7 +15440,11 @@
         "id": "Frac_Nostrava",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14732,7 +15456,11 @@
         "id": "Frac_Taiga_S_Crossroad",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14744,7 +15472,11 @@
         "id": "Frac_Taiga_S_Crags",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14756,7 +15488,11 @@
         "id": "Frac_Taiga_S_Prologue_Woods",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14768,7 +15504,11 @@
         "id": "Step_Basin_West",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14780,7 +15520,11 @@
         "id": "Step_Basin_East",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14792,7 +15536,11 @@
         "id": "Step_Basin_West",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14804,7 +15552,11 @@
         "id": "Step_Central_South",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14816,7 +15568,11 @@
         "id": "Step_Central_North_01",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14828,7 +15584,11 @@
         "id": "Step_Central_West",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14840,7 +15600,11 @@
         "id": "Step_Central_North_02",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14852,7 +15616,11 @@
         "id": "Step_CentralCanyon",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14864,7 +15632,11 @@
         "id": "Step_CentralCanyon",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14876,7 +15648,11 @@
         "id": "Step_Eastlands_North_01",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14888,7 +15664,11 @@
         "id": "Step_Eastlands_North_01",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14900,7 +15680,11 @@
         "id": "Step_OnyxWatchtower",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14912,7 +15696,11 @@
         "id": "Step_QaraYisu",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14924,7 +15712,11 @@
         "id": "Step_South_South_01",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14936,7 +15728,11 @@
         "id": "Step_South_Center",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14948,7 +15744,11 @@
         "id": "Step_South_CraneTribe",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14960,7 +15760,11 @@
         "id": "Step_South_East_01",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14980,7 +15784,11 @@
         "id": "Step_Volcano_East",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -14992,7 +15800,11 @@
         "id": "Step_Volcano_Central",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15012,7 +15824,11 @@
         "id": "Step_WesternFlats",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15032,7 +15848,11 @@
         "id": "Step_WesternFlats_North_01",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15044,7 +15864,11 @@
         "id": "Step_Coast_North_01",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15056,7 +15880,11 @@
         "id": "Step_Coast_South_01",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15068,7 +15896,11 @@
         "id": "Step_Coast_South_02",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15080,7 +15912,11 @@
         "id": "Step_Coast_Central_01",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15092,7 +15928,11 @@
         "id": "Step_Grassland_Mid_02",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15104,7 +15944,11 @@
         "id": "Step_Grassland_Mid_02",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15116,7 +15960,11 @@
         "id": "Step_Grassland_Shore",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15128,7 +15976,11 @@
         "id": "Step_Grassland_Mid_01",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15148,7 +16000,11 @@
         "id": "Hawe_Bog_East",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15160,7 +16016,11 @@
         "id": "Hawe_Bog_West",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15172,7 +16032,11 @@
         "id": "Hawe_BogCentral",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15184,7 +16048,11 @@
         "id": "Hawe_BogSouth",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15196,7 +16064,11 @@
         "id": "Hawe_CoastShipwreck",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15208,7 +16080,11 @@
         "id": "Hawe_Coast",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15220,7 +16096,11 @@
         "id": "Hawe_CoastWest",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15232,7 +16112,11 @@
         "id": "Hawe_CrosswayNorth",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15244,7 +16128,11 @@
         "id": "Hawe_Crossway",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15256,7 +16144,11 @@
         "id": "Hawe_CrosswayEast",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15268,7 +16160,11 @@
         "id": "Hawe_CrosswaySouth",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15280,7 +16176,11 @@
         "id": "Hawe_DeltaShore",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15292,7 +16192,11 @@
         "id": "Hawe_DeltaWest_HauntedPOI",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15304,7 +16208,11 @@
         "id": "Hawe_DeltaShore",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15316,7 +16224,11 @@
         "id": "Hawe_Fens",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15328,7 +16240,11 @@
         "id": "Hawe_FensEast",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15340,7 +16256,11 @@
         "id": "Hawe_FensEast",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15352,7 +16272,11 @@
         "id": "Hawe_Fens_South",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15364,7 +16288,11 @@
         "id": "Hawe_Camp_KeironsPyre",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15376,7 +16304,11 @@
         "id": "Hawe_MarshNorth",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15388,7 +16320,11 @@
         "id": "Hawe_MarshNorth",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15400,7 +16336,11 @@
         "id": "Hawe_MarshSouth",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15412,7 +16352,11 @@
         "id": "Hawe_SnakePeople_Village",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15424,7 +16368,11 @@
         "id": "Hawe_Camp_SnakeCultists_Temple",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15436,7 +16384,11 @@
         "id": "Hawe_Verge_FesteringSwamp",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15448,7 +16400,11 @@
         "id": "Hawe_Verge_FoothillsEast",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15460,7 +16416,11 @@
         "id": "Hawe_Verge_FoothillsNorth",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15472,7 +16432,11 @@
         "id": "Hawe_Verge_Foothills",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15484,7 +16448,11 @@
         "id": "Hawe_WetlandNorth",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15496,7 +16464,11 @@
         "id": "Hawe_WetlandSouth",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15508,7 +16480,11 @@
         "id": "Hawe_Wetland_Center",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15520,7 +16496,11 @@
         "id": "Hawe_WetlandSouth",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15532,7 +16512,11 @@
         "id": "Hawe_Zakarum_Keep",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15544,7 +16528,11 @@
         "id": "Hawe_Camp_CrusadeMonument",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15556,7 +16544,11 @@
         "id": "CAMP_Kehj_Alcarnus",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15568,7 +16560,11 @@
         "id": "Kehj_Camp_ChurchOfKaramat",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15580,7 +16576,11 @@
         "id": "Kehj_HighDesert_Central",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15592,7 +16592,11 @@
         "id": "Kehj_HighDesert_Road_to_Alcarnus",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15604,7 +16608,11 @@
         "id": "Kehj_HighDesert_Coast",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15616,7 +16624,11 @@
         "id": "Kehj_HighDesert_Tarpits",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15628,7 +16640,11 @@
         "id": "Kehj_HighDesert_Dunes",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15640,7 +16656,11 @@
         "id": "EH_Kehj_SandRuins",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15652,7 +16672,11 @@
         "id": "Kehj_Ridge_Excavation",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15664,7 +16688,11 @@
         "id": "Kehj_Ridge_Badlands",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15676,7 +16704,11 @@
         "id": "Kehj_Ridge_Northern",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15688,7 +16720,11 @@
         "id": "Kehj_Ridge_Ruins",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15700,7 +16736,11 @@
         "id": "Kehj_Ridge_Northern",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15712,7 +16752,11 @@
         "id": "Kehj_Ridge",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15724,7 +16768,11 @@
         "id": "Scos_TurDulra_EasternRuins",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15736,7 +16784,11 @@
         "id": "Frac_Glacier_Center",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15748,7 +16800,11 @@
         "id": "Frac_Glacier_West",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15760,7 +16816,11 @@
         "id": "Frac_Glacier",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15772,7 +16832,11 @@
         "id": "Frac_Tundra_S",
         "icon": {
           "name": "altarsOfLilith_Willpower",
-          "url": "altarsoflilith_willpower.webp"
+          "url": "icons.webp",
+          "x": 0,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15784,7 +16848,11 @@
         "id": "Frac_Tundra_S_WestPass2",
         "icon": {
           "name": "altarsOfLilith_Obol_Cap",
-          "url": "altarsoflilith_obol_cap.webp"
+          "url": "icons.webp",
+          "x": 320,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15796,7 +16864,11 @@
         "id": "Frac_Tundra_S_NorthEdge1",
         "icon": {
           "name": "altarsOfLilith_Intelligence",
-          "url": "altarsoflilith_intelligence.webp"
+          "url": "icons.webp",
+          "x": 64,
+          "y": 448,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15808,7 +16880,11 @@
         "id": "Frac_Tundra_S_WestPass2",
         "icon": {
           "name": "altarsOfLilith_Strength",
-          "url": "altarsoflilith_strength.webp"
+          "url": "icons.webp",
+          "x": 448,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       },
       {
@@ -15820,7 +16896,11 @@
         "id": "Frac_Taiga_S_Prologue_Town_Outskirts",
         "icon": {
           "name": "altarsOfLilith_Dexterity",
-          "url": "altarsoflilith_dexterity.webp"
+          "url": "icons.webp",
+          "x": 384,
+          "y": 384,
+          "width": 64,
+          "height": 64
         }
       }
     ],

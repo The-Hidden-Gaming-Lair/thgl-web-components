@@ -2,9 +2,10 @@ import { $ } from "bun";
 import { loadImage, createCanvas, Canvas, Image } from "@napi-rs/canvas";
 import { OUTPUT_DIR, TEMP_DIR, TEXTURE_DIR } from "./dirs.js";
 import { saveImage } from "./fs.js";
-import { Filter, Icon, IconSprite } from "../types.js";
-import { mergeImageSprite } from "./filters.js";
+import { Filter, Icon, IconSprite, Node } from "../types.js";
+import { mergeFiltersImageSprite } from "./filters.js";
 import { cwebp } from "./bin.js";
+import { mergeNodesImageSprite } from "./nodes.js";
 
 const savedIcons: string[] = [];
 
@@ -136,9 +137,10 @@ export async function saveIcon(
   return `${filename}.webp`;
 }
 
-export async function saveIconSprite(filters: Filter[]) {
+export async function saveIconSprite(filters: Filter[], nodes: Node[] = []) {
   const iconSprite = await createImageSprite(imageSpritePaths, 64, 64);
-  mergeImageSprite(filters, iconSprite.imageSprite);
+  mergeFiltersImageSprite(filters, iconSprite.imageSprite);
+  mergeNodesImageSprite(nodes, iconSprite.imageSprite);
   const tempFileName = `${TEMP_DIR}/icons.png`;
   saveImage(tempFileName, iconSprite.canvas.toBuffer("image/png"));
   const outFilename = `${OUTPUT_DIR}/icons/icons.webp`;

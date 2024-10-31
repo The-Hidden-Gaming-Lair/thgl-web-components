@@ -1,6 +1,7 @@
 import { Node } from "../types.js";
 import { CONTENT_DIR, OUTPUT_DIR } from "./dirs.js";
 import { readDirRecursive, readJSON, writeJSON } from "./fs.js";
+import { ImageSprite } from "./image.js";
 
 export function initNodes(seed?: Node[]): Node[] {
   return seed ?? [];
@@ -58,4 +59,28 @@ export function calculateDistance(c1: [number, number], c2: [number, number]) {
   const dx = c1[0] - c2[0];
   const dy = c1[1] - c2[1];
   return Math.sqrt(dx * dx + dy * dy);
+}
+
+export function mergeNodesImageSprite(
+  nodes: Node[],
+  imageSprite: ImageSprite,
+  name = "icons.webp",
+) {
+  for (const node of nodes) {
+    for (const spawn of node.spawns) {
+      if (!spawn.icon) {
+        continue;
+      }
+      const url = spawn.icon.url;
+      const icon = imageSprite.find((i) => i.name === url);
+      if (!icon) {
+        continue;
+      }
+      spawn.icon.url = name;
+      spawn.icon.height = icon.height;
+      spawn.icon.width = icon.width;
+      spawn.icon.x = icon.x;
+      spawn.icon.y = icon.y;
+    }
+  }
 }

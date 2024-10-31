@@ -19,7 +19,7 @@ export function writeGlobalFilters(globalFilters: GlobalFilter[]) {
   writeJSON(OUTPUT_DIR + "/coordinates/global-filters.json", globalFilters);
 }
 
-export function mergeImageSprite(
+export function mergeFiltersImageSprite(
   filters: Filter[],
   imageSprite: ImageSprite,
   name = "icons.webp",

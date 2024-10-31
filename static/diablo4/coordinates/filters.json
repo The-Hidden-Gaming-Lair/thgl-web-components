@@ -6,57 +6,123 @@
     "values": [
       {
         "id": "altarsOfLilith",
-        "icon": "altarsoflilith.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "tenetOfAkarat",
-        "icon": "tenetofakarat.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "cellars",
-        "icon": "cellars.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "dungeons",
-        "icon": "dungeons.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "sideQuestDungeons",
-        "icon": "sidequestdungeons.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "campaignDungeons",
-        "icon": "campaigndungeons.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "stash",
-        "icon": "stash.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       },
       {
         "id": "strongholds",
-        "icon": "strongholds.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       },
       {
         "id": "waypoints",
-        "icon": "waypoints.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       },
       {
         "id": "wardrobes",
-        "icon": "wardrobes.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       },
       {
         "id": "worldTierStatue",
-        "icon": "worldtierstatue.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       }
     ]
@@ -68,67 +134,145 @@
     "values": [
       {
         "id": "alchemists",
-        "icon": "alchemists.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "blacksmiths",
-        "icon": "blacksmiths.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "healers",
-        "icon": "healers.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "pvpCursedScrolls",
-        "icon": "pvpcursedscrolls.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "pvpGambles",
-        "icon": "pvpgambles.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "pvpMounts",
-        "icon": "pvpmount.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "pvpCosmetics",
-        "icon": "pvpcosmetic.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "gamblers",
-        "icon": "gamblers.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "jewelers",
-        "icon": "jewelers.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "occultists",
-        "icon": "occultists.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "silversmiths",
-        "icon": "silversmiths.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "stableMasters",
-        "icon": "stablemasters.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "weapons",
-        "icon": "weapons.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ]
@@ -140,17 +284,35 @@
     "values": [
       {
         "id": "sideQuests",
-        "icon": "sidequests.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "campaignQuests",
-        "icon": "campaignquests.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       },
       {
         "id": "events",
-        "icon": "events.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1.5
       }
     ]
@@ -162,12 +324,24 @@
     "values": [
       {
         "id": "chestGuardian",
-        "icon": "chestguardian.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       },
       {
         "id": "chestT3",
-        "icon": "chestt3.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       }
     ]
@@ -179,12 +353,24 @@
     "values": [
       {
         "id": "boss",
-        "icon": "boss.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       },
       {
         "id": "unique",
-        "icon": "unique.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 2
       }
     ]
@@ -196,82 +382,178 @@
     "values": [
       {
         "id": "bandit",
-        "icon": "bandit.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "cannibal",
-        "icon": "cannibal.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "cultist",
-        "icon": "cultist.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "demon",
-        "icon": "demon.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "drown",
-        "icon": "drown.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "fallen",
-        "icon": "fallen.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "ghost",
-        "icon": "ghost.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "goatman",
-        "icon": "goatman.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "knight",
-        "icon": "knight.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 448,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "skeleton",
-        "icon": "skeleton.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "snake",
-        "icon": "snake.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "spider",
-        "icon": "spider.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "vampire",
-        "icon": "vampire.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "werewolf",
-        "icon": "werewolf.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "wildlife",
-        "icon": "wildlife.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       },
       {
         "id": "zombie",
-        "icon": "zombie.webp",
+        "icon": {
+          "url": "icons.webp",
+          "x": 384,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
         "size": 1
       }
     ]

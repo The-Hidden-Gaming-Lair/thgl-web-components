@@ -2,7 +2,12 @@ import uniqolor from "uniqolor";
 import { CONTENT_DIR, initDirs, TEMP_DIR, TEXTURE_DIR } from "./lib/dirs.js";
 import { initFilters, writeFilters } from "./lib/filters.js";
 import { readDirSync, readJSON } from "./lib/fs.js";
-import { arrayJoinImages, saveIcon } from "./lib/image.js";
+import {
+  arrayJoinImages,
+  addToIconSprite,
+  saveIcon,
+  saveIconSprite,
+} from "./lib/image.js";
 import { initNodes, writeNodes } from "./lib/nodes.js";
 import { generateTiles, initTiles, writeTiles } from "./lib/tiles.js";
 import { initDict, writeDict } from "./lib/dicts.js";
@@ -107,7 +112,7 @@ const filters = initFilters([
     values: [
       {
         id: "altarsOfLilith",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/4194820567.png",
           "altarsOfLilith",
         ),
@@ -115,7 +120,7 @@ const filters = initFilters([
       },
       {
         id: "tenetOfAkarat",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3548354396.png",
           "tenetOfAkarat",
         ),
@@ -123,7 +128,7 @@ const filters = initFilters([
       },
       {
         id: "cellars",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1573024828.png",
           "cellars",
         ),
@@ -131,7 +136,7 @@ const filters = initFilters([
       },
       {
         id: "dungeons",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1741287201.png",
           "dungeons",
         ),
@@ -139,7 +144,7 @@ const filters = initFilters([
       },
       {
         id: "sideQuestDungeons",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1287872359.png",
           "sideQuestDungeons",
         ),
@@ -147,7 +152,7 @@ const filters = initFilters([
       },
       {
         id: "campaignDungeons",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3566347010.png",
           "campaignDungeons",
         ),
@@ -155,12 +160,15 @@ const filters = initFilters([
       },
       {
         id: "stash",
-        icon: await saveIcon("/slices/2DUIMinimapIcons/523040772.png", "stash"),
+        icon: await addToIconSprite(
+          "/slices/2DUIMinimapIcons/523040772.png",
+          "stash",
+        ),
         size: 2,
       },
       {
         id: "strongholds",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3122276994.png",
           "strongholds",
         ),
@@ -168,7 +176,7 @@ const filters = initFilters([
       },
       {
         id: "waypoints",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/889034296.png",
           "waypoints",
         ),
@@ -176,7 +184,7 @@ const filters = initFilters([
       },
       {
         id: "wardrobes",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/2294324951.png",
           "wardrobes",
         ),
@@ -184,7 +192,7 @@ const filters = initFilters([
       },
       {
         id: "worldTierStatue",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1601625104.png",
           "worldTierStatue",
         ),
@@ -199,7 +207,7 @@ const filters = initFilters([
     values: [
       {
         id: "alchemists",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/828137185.png",
           "alchemists",
         ),
@@ -207,7 +215,7 @@ const filters = initFilters([
       },
       {
         id: "blacksmiths",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1518318179.png",
           "blacksmiths",
         ),
@@ -215,7 +223,7 @@ const filters = initFilters([
       },
       {
         id: "healers",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3927157842.png",
           "healers",
         ),
@@ -223,7 +231,7 @@ const filters = initFilters([
       },
       {
         id: "pvpCursedScrolls",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1810968731.png",
           "pvpCursedScrolls",
         ),
@@ -231,7 +239,7 @@ const filters = initFilters([
       },
       {
         id: "pvpGambles",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1230238589.png",
           "pvpGambles",
         ),
@@ -239,7 +247,7 @@ const filters = initFilters([
       },
       {
         id: "pvpMounts",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/829100150.png",
           "pvpMount",
         ),
@@ -247,7 +255,7 @@ const filters = initFilters([
       },
       {
         id: "pvpCosmetics",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/4007020429.png",
           "pvpCosmetic",
         ),
@@ -255,7 +263,7 @@ const filters = initFilters([
       },
       {
         id: "gamblers",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3905225007.png",
           "gamblers",
         ),
@@ -263,7 +271,7 @@ const filters = initFilters([
       },
       {
         id: "jewelers",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1557137717.png",
           "jewelers",
         ),
@@ -271,7 +279,7 @@ const filters = initFilters([
       },
       {
         id: "occultists",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1736753223.png",
           "occultists",
         ),
@@ -279,7 +287,7 @@ const filters = initFilters([
       },
       {
         id: "silversmiths",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3510500336.png",
           "silversmiths",
         ),
@@ -287,7 +295,7 @@ const filters = initFilters([
       },
       {
         id: "stableMasters",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1126344873.png",
           "stableMasters",
         ),
@@ -295,7 +303,7 @@ const filters = initFilters([
       },
       {
         id: "weapons",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1265112984.png",
           "weapons",
         ),
@@ -310,7 +318,7 @@ const filters = initFilters([
     values: [
       {
         id: "sideQuests",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/360808697.png",
           "sideQuests",
         ),
@@ -318,7 +326,7 @@ const filters = initFilters([
       },
       {
         id: "campaignQuests",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/3837410649.png",
           "campaignQuests",
         ),
@@ -326,7 +334,7 @@ const filters = initFilters([
       },
       {
         id: "events",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/503808014.png",
           "events",
         ),
@@ -341,7 +349,7 @@ const filters = initFilters([
     values: [
       {
         id: "chestGuardian",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/43109186.png",
           "chestGuardian",
           { color: "#c4a4f6", circle: false, threshold: 100 },
@@ -350,7 +358,7 @@ const filters = initFilters([
       },
       {
         id: "chestT3",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/43109186.png",
           "chestT3",
         ),
@@ -365,12 +373,18 @@ const filters = initFilters([
     values: [
       {
         id: "boss",
-        icon: await saveIcon("/slices/2DUIMinimapIcons/3438342714.png", "boss"),
+        icon: await addToIconSprite(
+          "/slices/2DUIMinimapIcons/3438342714.png",
+          "boss",
+        ),
         size: 2,
       },
       {
         id: "unique",
-        icon: await saveIcon("/slices/2DUIMinimapIcons/83908665.png", "unique"),
+        icon: await addToIconSprite(
+          "/slices/2DUIMinimapIcons/83908665.png",
+          "unique",
+        ),
         size: 2,
       },
     ],
@@ -382,7 +396,7 @@ const filters = initFilters([
     values: [
       {
         id: "bandit",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "bandit",
           { color: uniqolor("bandit").color },
@@ -391,7 +405,7 @@ const filters = initFilters([
       },
       {
         id: "cannibal",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "cannibal",
           { color: uniqolor("cannibal").color },
@@ -400,7 +414,7 @@ const filters = initFilters([
       },
       {
         id: "cultist",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "cultist",
           { color: uniqolor("cultist").color },
@@ -409,7 +423,7 @@ const filters = initFilters([
       },
       {
         id: "demon",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "demon",
           { color: uniqolor("demon").color },
@@ -418,7 +432,7 @@ const filters = initFilters([
       },
       {
         id: "drown",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "drown",
           { color: uniqolor("drown").color },
@@ -427,7 +441,7 @@ const filters = initFilters([
       },
       {
         id: "fallen",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "fallen",
           { color: uniqolor("fallen").color },
@@ -436,7 +450,7 @@ const filters = initFilters([
       },
       {
         id: "ghost",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "ghost",
           { color: uniqolor("ghost").color },
@@ -445,7 +459,7 @@ const filters = initFilters([
       },
       {
         id: "goatman",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "goatman",
           { color: uniqolor("goatman").color },
@@ -454,7 +468,7 @@ const filters = initFilters([
       },
       {
         id: "knight",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "knight",
           { color: uniqolor("knight").color },
@@ -463,7 +477,7 @@ const filters = initFilters([
       },
       {
         id: "skeleton",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "skeleton",
           { color: uniqolor("skeleton").color },
@@ -472,7 +486,7 @@ const filters = initFilters([
       },
       {
         id: "snake",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "snake",
           { color: uniqolor("snake").color },
@@ -481,7 +495,7 @@ const filters = initFilters([
       },
       {
         id: "spider",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "spider",
           { color: uniqolor("spider").color },
@@ -490,7 +504,7 @@ const filters = initFilters([
       },
       {
         id: "vampire",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "vampire",
           { color: uniqolor("vampire").color },
@@ -499,7 +513,7 @@ const filters = initFilters([
       },
       {
         id: "werewolf",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "werewolf",
           { color: uniqolor("werewolf").color },
@@ -508,7 +522,7 @@ const filters = initFilters([
       },
       {
         id: "wildlife",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "wildlife",
           { color: uniqolor("wildlife").color },
@@ -517,7 +531,7 @@ const filters = initFilters([
       },
       {
         id: "zombie",
-        icon: await saveIcon(
+        icon: await addToIconSprite(
           "/slices/2DUIMinimapIcons/1393108954.png",
           "zombie",
           { color: uniqolor("zombie").color },
@@ -832,14 +846,14 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
       if (color) {
         spawn.icon = {
           name: iconName,
-          url: await saveIcon(
+          ...(await addToIconSprite(
             "/slices/2DUIMinimapIcons/1741287201.png",
             iconName,
             {
               color,
               circle: true,
             },
-          ),
+          )),
         };
       }
     }
@@ -908,11 +922,11 @@ for (const actor of globalMarkers.ptContent[0].arGlobalMarkerActors) {
       const iconName = `altarsOfLilith_${attribute}`;
       spawn.icon = {
         name: iconName,
-        url: await saveIcon(
+        ...(await addToIconSprite(
           "/slices/2DUIMinimapIcons/4194820567.png",
           iconName,
           { color, circle: true },
-        ),
+        )),
       };
     }
   } else {
@@ -1236,6 +1250,8 @@ for (const bountyZone of [
     category.spawns.push(spawn);
   }
 }
+
+await saveIconSprite(filters, nodes);
 
 const flatFilters = Object.values(filters).flatMap((f) => f.values);
 nodes.sort((a, b) => {
