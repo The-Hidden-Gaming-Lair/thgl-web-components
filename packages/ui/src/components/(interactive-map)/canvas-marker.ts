@@ -88,6 +88,10 @@ leaflet.Canvas.include({
         const length = canvas.width / 6;
         context.lineWidth = 2.5;
         context.strokeStyle = "white";
+        context.shadowOffsetX = 0;
+        context.shadowOffsetY = 0;
+        context.shadowColor = "#000";
+        context.shadowBlur = 2;
         context.moveTo(startX + length, startY);
         context.lineTo(startX - length, startY);
         context.moveTo(startX, startY + length);
