@@ -68,7 +68,7 @@ let lastSend = 0;
 let lastActorAddresses: number[] = [];
 
 const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
-  "",
+  {},
   Object.keys(typesIdMap),
   (actor) => {
     if (!actor.path) {

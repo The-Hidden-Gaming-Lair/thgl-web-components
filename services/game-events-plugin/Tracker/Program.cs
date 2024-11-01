@@ -13,7 +13,7 @@ namespace Tracker
     private static Config? _config = null;
     private static Overwolf overwolf = new Overwolf();
 
-    static private void RunOverwolfProcess(string? processName)
+    static private void RunOverwolfProcess(string? processName, string[]? moduleNames)
     {
       overwolf.UpdateProcess((success) =>
       {
@@ -21,7 +21,7 @@ namespace Tracker
       }, (error) =>
       {
         Console.WriteLine("Error: " + error);
-      }, processName);
+      }, processName, moduleNames);
     }
     static private void RunOverwolfPlayer()
     {
@@ -56,6 +56,7 @@ namespace Tracker
         LoadConfig(configFilePath);
         Console.WriteLine("Loaded config: " + configFilePath);
         Console.WriteLine("ProcessName: " + _config.ProcessName);
+        Console.WriteLine("ModuleName: " + string.Join(", ", _config.ModuleNames)); 
         Console.WriteLine("ActorNames: " + string.Join(", ", _config.ActorNames));
       }
 
@@ -66,14 +67,14 @@ namespace Tracker
         if (key == ConsoleKey.F1)
         {
 
-          RunOverwolfProcess(_config?.ProcessName);
+          RunOverwolfProcess(_config?.ProcessName, _config?.ModuleNames);
 
         }
         if (key == ConsoleKey.F2)
         {
           RunOverwolfPlayer();
         }
-        if (key == ConsoleKey.F2)
+        if (key == ConsoleKey.F3)
         {
           RunOverwolfActors(_config?.ActorNames);
         }

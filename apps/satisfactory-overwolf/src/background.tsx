@@ -7,4 +7,21 @@ initBackground(
   "1181323945866178560",
 );
 
-await initGameEventsPlugin("", Object.keys(typesIdMap));
+await initGameEventsPlugin(
+  {
+    processName: "FactoryGameSteam-Win64-Shipping",
+    moduleNames: [
+      "FactoryGameSteam-Core-Win64-Shipping.dll",
+      "FactoryGameSteam-Engine-Win64-Shipping.dll",
+    ],
+  },
+  Object.keys(typesIdMap),
+  undefined,
+  undefined,
+  (actor) => {
+    const x = actor.x;
+    const y = actor.y;
+    actor.x = y;
+    actor.y = x;
+  },
+);

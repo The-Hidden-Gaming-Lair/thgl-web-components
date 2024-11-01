@@ -6,11 +6,19 @@ import {
   searchPatternInMemoryDump,
 } from "./lib/dumps";
 
-const processName = "ONCE_HUMAN.exe";
+// const processName = "ONCE_HUMAN.exe";
+// const processName = "FactoryGameSteam-Win64-Shipping.exe";
+const processName = "PaliaClientSteam-Win64-Shipping.exe";
 // const memoryDumpPath = await createMemoryDump(processName);
 const memoryDumpPath = `.\\dumps\\${processName}.dmp`;
 // searchInMemoryDump(memoryDumpPath, "ag_l_01.gim");
 const DUMP_MEMORY_OFFSET = "4D 5A 90";
+
+console.log(
+  searchInMemoryDump(memoryDumpPath, String.raw`FlushLevelStreaming`)
+    .map((address) => "0x" + address.toString(16))
+    .join("\n"),
+);
 
 // const dumpMemoryOffset = searchPatternInMemoryDump(
 //   memoryDumpPath,
@@ -32,25 +40,25 @@ const SCENE_BASE_PATTERN =
 //   return pointer - memoryOffset;
 // }
 
-const actorAddresses = searchInMemoryDump(
-  memoryDumpPath,
-  String.raw`environment\ecosystem\mineral\ag\ag_l_01.gim`,
-);
-actorAddresses.forEach((address, index) => {
-  console.log("Found match at:", "0x" + address.toString(16));
-  let sharedStrPtr = (address - 8).toString(16);
-  if (sharedStrPtr.length % 2 !== 0) {
-    sharedStrPtr = "0" + sharedStrPtr;
-  }
+// const actorAddresses = searchInMemoryDump(
+//   memoryDumpPath,
+//   String.raw`environment\ecosystem\mineral\ag\ag_l_01.gim`,
+// );
+// actorAddresses.forEach((address, index) => {
+//   console.log("Found match at:", "0x" + address.toString(16));
+//   let sharedStrPtr = (address - 8).toString(16);
+//   if (sharedStrPtr.length % 2 !== 0) {
+//     sharedStrPtr = "0" + sharedStrPtr;
+//   }
 
-  const sharedStrPtrPattern = sharedStrPtr.replace(/(.{2})/g, "$1 ").trim();
-  console.log(sharedStrPtr, sharedStrPtrPattern);
-  const dumpMemoryOffset = searchPatternInMemoryDump(
-    memoryDumpPath,
-    sharedStrPtrPattern,
-  );
-  console.log(dumpMemoryOffset);
-});
+//   const sharedStrPtrPattern = sharedStrPtr.replace(/(.{2})/g, "$1 ").trim();
+//   console.log(sharedStrPtr, sharedStrPtrPattern);
+//   const dumpMemoryOffset = searchPatternInMemoryDump(
+//     memoryDumpPath,
+//     sharedStrPtrPattern,
+//   );
+//   console.log(dumpMemoryOffset);
+// });
 
 // const playerAddresses = searchPatternInMemoryDump(
 //   memoryDumpPath,

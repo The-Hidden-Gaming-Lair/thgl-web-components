@@ -36,7 +36,7 @@ const isNearBy = (actor: Actor, unit: Actor) => {
   return distance < 1;
 };
 const gameEventsPlugin = await initGameEventsPlugin<OnceHumanPlugin>(
-  "ONCE_HUMAN",
+  { processName: "ONCE_HUMAN" },
   Object.keys(typesIdMap),
   (actor, playerActor) => {
     let mapName = lastMapName;

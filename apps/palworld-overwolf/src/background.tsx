@@ -7,4 +7,4 @@ initBackground(
   "1199636411821854730",
 );
 
-initGameEventsPlugin(undefined, Object.keys(typesIdMap));
+initGameEventsPlugin({}, Object.keys(typesIdMap));

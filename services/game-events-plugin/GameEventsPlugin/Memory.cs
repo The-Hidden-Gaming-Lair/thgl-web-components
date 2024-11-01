@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -17,14 +18,26 @@ namespace GameEventsPlugin
 
     public IntPtr procHandle = IntPtr.Zero;
     public Process Process { get; private set; }
-    public IntPtr BaseAddress { get { return Process.MainModule.BaseAddress; } }
+    public List<ProcessModule> Modules { get; private set; }
 
-    public Memory(Process proc)
+    public Memory(Process proc, string[] moduleNames)
     {
-      //r result = NtOpenProcess(ref hProcess, 0x001F0FFF, ref oa, ref ci);
-      //var handle = NativeLibrary.Load("kernel32.dll");
-      //ReadProcMemInternal = (delegate* unmanaged[Stdcall]<IntPtr, UInt64, Byte[], Int32, out Int32, Int32>)NativeLibrary.GetExport(handle, "ReadProcessMemory");
+      ProcessModule targetModule = null;
+      Modules = new List<ProcessModule>();
+      if (moduleNames == null)
+      {
+        Modules.Add(proc.MainModule);
+      }
+      foreach (ProcessModule module in proc.Modules)
+      {
+        if (moduleNames.Contains(module.ModuleName))
+        {
+          Modules.Add(module);
+        }
+      }
+
       Process = proc;
+
       if (Process == null) return;
       OpenProcessById(Process.Id);
     }
@@ -102,26 +115,40 @@ namespace GameEventsPlugin
 
     public IntPtr FindPattern(String pattern)
     {
-      return FindPattern(pattern, Process.MainModule.BaseAddress, Process.MainModule.ModuleMemorySize);
+      foreach (ProcessModule module in Modules)
+      {
+        //Console.WriteLine($"Module: {module.ModuleName}");
+        var res = FindPattern(pattern, module.BaseAddress, module.ModuleMemorySize);
+        if (res != IntPtr.Zero)
+        {
+          Console.WriteLine($"  Found at: {res} with module {module.ModuleName}");
+          return res;
+        }
+      }
+      return IntPtr.Zero;
     }
     public IntPtr FindStringRef(String str)
     {
       var stringAddr = FindPattern(BitConverter.ToString(Encoding.Unicode.GetBytes(str)).Replace("-", " "));
-      var sigScan = new SigScan(Process, Process.MainModule.BaseAddress, Process.MainModule.ModuleMemorySize);
-      sigScan.DumpMemory();
-      for (var i = 0; i < sigScan.Size; i++)
+
+      foreach (ProcessModule module in Modules)
       {
-        if ((sigScan.m_vDumpedRegion[i] == 0x48 || sigScan.m_vDumpedRegion[i] == 0x4c) && sigScan.m_vDumpedRegion[i + 1] == 0x8d)
+        var sigScan = new SigScan(Process, module.BaseAddress, module.ModuleMemorySize);
+        sigScan.DumpMemory();
+        for (var i = 0; i < sigScan.Size; i++)
         {
-          var jmpTo = BitConverter.ToInt32(sigScan.m_vDumpedRegion, i + 3);
-          var addr = sigScan.Address + i + jmpTo + 7;
-          if (addr == stringAddr)
+          if ((sigScan.m_vDumpedRegion[i] == 0x48 || sigScan.m_vDumpedRegion[i] == 0x4c) && sigScan.m_vDumpedRegion[i + 1] == 0x8d)
           {
-            return Process.MainModule.BaseAddress + i;
+            var jmpTo = BitConverter.ToInt32(sigScan.m_vDumpedRegion, i + 3);
+            var addr = sigScan.Address + i + jmpTo + 7;
+            if (addr == stringAddr)
+            {
+              return module.BaseAddress + i;
+            }
           }
         }
       }
-      return (IntPtr)0;
+      return IntPtr.Zero;
     }
     public IntPtr FindPattern(String pattern, IntPtr start, Int32 length)
     {

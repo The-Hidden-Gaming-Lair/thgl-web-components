@@ -17,7 +17,7 @@ namespace GameEventsPlugin
     public void UpdateAddresses()
     {
       {
-        GNamesPattern = Memory.FindPattern("74 09 48 8D  15 ? ? ? ? EB 16");
+        GNamesPattern = Memory.FindPattern("74 09 48 8D 15 ? ? ? ? EB 16");
         var offset = Memory.ReadProcessMemory<int>(GNamesPattern + 5);
         GNames = GNamesPattern + offset + 9;
         if (UEObject.GetName(3) != "ByteProperty") throw new Exception("bad GNames");

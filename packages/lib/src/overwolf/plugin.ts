@@ -37,6 +37,7 @@ export type GameEventsPlugin = {
     callback: (success: boolean) => void,
     onError: (err: string) => void,
     processName?: string | null,
+    moduleNames?: string[] | null,
   ) => void;
   GetPlayer: (
     callback: (data: ActorPlayer | null) => void,
@@ -59,7 +60,10 @@ export async function loadPlugin<T>(name: string): Promise<T> {
 }
 
 export async function initGameEventsPlugin<T extends GameEventsPlugin>(
-  processName?: string,
+  {
+    processName,
+    moduleNames,
+  }: { processName?: string; moduleNames?: string[] },
   types?: string[],
   actorToMapName?: (actor: Actor, player: ActorPlayer) => string | undefined,
   actorProcessName?: string,
@@ -79,11 +83,20 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
     console.log("Game Events Plugin loaded");
 
     const refreshProcess = () => {
-      gameEventsPlugin.UpdateProcess(
-        handleRefreshProcessCallback,
-        handleRefreshProcessError,
-        processName,
-      );
+      if (moduleNames) {
+        gameEventsPlugin.UpdateProcess(
+          handleRefreshProcessCallback,
+          handleRefreshProcessError,
+          processName,
+          moduleNames,
+        );
+      } else {
+        gameEventsPlugin.UpdateProcess(
+          handleRefreshProcessCallback,
+          handleRefreshProcessError,
+          processName,
+        );
+      }
     };
 
     let status = "";

@@ -26,7 +26,7 @@ namespace GameEventsPlugin
       }
     }
 
-    public void UpdateProcess(Action<object> callback, Action<object> error, string processName = null)
+    public void UpdateProcess(Action<object> callback, Action<object> error, string processName = null, string[] moduleNames = null)
     {
       try
       {
@@ -65,8 +65,8 @@ namespace GameEventsPlugin
               throw new Exception("Can not find UnrealWindow");
             }
           }
-          Console.WriteLine("Found Process " + _process.ProcessName );
-          _memory = new Memory(_process);
+          Console.WriteLine("Found Process " + _process.ProcessName);
+          _memory = new Memory(_process, moduleNames);
           var unrealEngine = new UnrealEngine(_memory);
           unrealEngine.UpdateAddresses();
           Console.WriteLine("Updated Addresses");
@@ -86,7 +86,7 @@ namespace GameEventsPlugin
         if (levels == null)
         {
           UEObject.Reset();
-          var unrealEngine = new UnrealEngine(new Memory(_process));
+          var unrealEngine = new UnrealEngine(new Memory(_process, moduleNames));
           unrealEngine.UpdateAddresses();
           throw new Exception("Can not find levels");
         }
