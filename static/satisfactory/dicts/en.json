@@ -1,6 +1,7 @@
 {
-  "resources": "Resources",
+  "collectible": "Collectibles",
   "DropPod": "Hard Drive",
+  "ressource": "Ressources",
   "LiquidOil": "Crude Oil",
   "SAM_RP_Inpure": "S.A.M. ORE (C)",
   "SAM_RP_Inpure_desc": "Impure",
@@ -52,6 +53,7 @@
   "OreUranium": "Uranium Ore",
   "Sulfur_RP_Pure": "Sulfur (P)",
   "Sulfur_RP_Pure_desc": "Pure",
+  "artifact": "Artifacts",
   "MercerShrine": "Mercer Sphere",
   "SomerSloopShrine": "Somersloop"
 }

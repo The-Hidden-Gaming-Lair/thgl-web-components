@@ -74,7 +74,7 @@ export type StreamingActor = {
 export type ScanningActor = {
   Type: "BP_WorldScannableDataGenerator_C",
   Properties: {
-    mItemPickups: {
+    mDropPods: {
       ActorGuid: string,
       ActorClass: string,
       ActorLocation: Location
@@ -84,6 +84,9 @@ export type ScanningActor = {
 
 export type Actor = ScanningActor |StreamingActor | RelevantActors;
 export type PersistentLevel = Actor[];
+
+export type SatisfactoryGroup = "ressource" | "artifact" | "collectible"
+export type SatisfactoryDefinition = { group: SatisfactoryGroup} & Record<any,any>
 
 export type IconLibrary = Array<{
   Type: string;
