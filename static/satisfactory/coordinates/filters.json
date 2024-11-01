@@ -1,0 +1,42 @@
+[
+  {
+    "group": "resources",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": [
+      {
+        "id": "OreIron",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreIron_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreIron_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      }
+    ]
+  }
+]

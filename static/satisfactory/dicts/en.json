@@ -1,0 +1,8 @@
+{
+  "resources": "Resources",
+  "OreIron": "Iron Ore",
+  "OreIron_RP_Pure": "Iron Ore (P)",
+  "OreIron_RP_Pure_desc": "Pure",
+  "OreIron_RP_Inpure": "Iron Ore (C)",
+  "OreIron_RP_Inpure_desc": "Impure"
+}

@@ -1,0 +1,36 @@
+{
+  "name": "satisfactory-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "reference": "rm -r public && mkdir public && cd public && ln -s ../../../static/global/icons global_icons && ln -s ../../../static/satisfactory/icons icons && ln -s ../../../static/satisfactory/map-tiles map-tiles && ln -s ../../../static/satisfactory/coordinates/cbor nodes && cd ..",
+    "dereference": "cp -rL public public_temp && rm -r public && mv public_temp public",
+    "build": "bun run reference && bun run dereference && next build",
+    "clean": "rm -rf .next",
+    "dev": "next dev -p 17001",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@repo/lib": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "fuse.js": "7.0.0",
+    "next": "15.0.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "14.2.16",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "22.7.9",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.14",
+    "typescript": "5.6.3"
+  }
+}
