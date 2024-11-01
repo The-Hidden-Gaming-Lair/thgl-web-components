@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   title: "Satisfactory Interactive Map – The Hidden Gaming Lair",
   description:
-    "Explore Satisfactory with this Interactive Map! Showcasing all chapters, secrets, items, and more!",
+    "Explore Satisfactory with this Interactive Map! Showcasing all resources, collectibles, artifacts, and more!",
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

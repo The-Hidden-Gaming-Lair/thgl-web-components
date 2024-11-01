@@ -14,7 +14,6 @@ namespace GameEventsPlugin
     public static IntPtr GWorldPtr;
     public static Memory Memory;
     public UnrealEngine(Memory mem) { Memory = mem; Instance = this; }
-    public static bool IsReady = false;
     public void UpdateAddresses()
     {
       {
@@ -32,7 +31,7 @@ namespace GameEventsPlugin
         GWorldPtr = GWorldPtrPattern + offset + 7;
         UpdateUEObject();
       }
-      IsReady = true;
+
     }
     public void UpdateUEObject()
     {
@@ -176,23 +175,6 @@ namespace GameEventsPlugin
         if (!foundNextField) throw new Exception("bad field class offset");
       }
       {
-        var foundFieldOffset = false;
-        var classPtr = Memory.ReadProcessMemory<IntPtr>(world + UEObject.classOffset);
-        var fieldPtr = Memory.ReadProcessMemory<IntPtr>(classPtr + UEObject.childPropertiesOffset);
-        for (var c = 0x0; c < 0x80 && !foundFieldOffset; c += 0x4)
-        {
-          var fieldOffset = Memory.ReadProcessMemory<IntPtr>(fieldPtr + c);
-          var nextFieldPtr = Memory.ReadProcessMemory<IntPtr>(fieldPtr + UEObject.fieldNextOffset);
-          var fieldOffsetPlus8 = Memory.ReadProcessMemory<IntPtr>(nextFieldPtr + c);
-          if ((fieldOffset + 8) == fieldOffsetPlus8)
-          {
-            UEObject.fieldOffset = c;
-            foundFieldOffset = true;
-          }
-        }
-        // if (!foundFieldOffset) throw new Exception("bad field offset");
-      }
-      {
         var World = new UEObject(world);
         var field = World.GetFieldAddr("StreamingLevelsToConsider");
         var foundPropertySize = false;
@@ -315,10 +297,8 @@ namespace GameEventsPlugin
       return result;
     }
 
-    String _name;
     public String GetName()
     {
-      if (_name != null) return _name;
       var classPtr = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(Address + classOffset);
       if (ClassToName.ContainsKey(classPtr))
       {
@@ -348,8 +328,6 @@ namespace GameEventsPlugin
         parentName = tempName + "." + parentName;
       }
       name += " " + parentName;
-      /*var nameIndex = UnrealEngine.Memory.ReadProcessMemory<int>(Address + nameOffset);
-      name += GetName(nameIndex);*/
       AddrNameToFullName[key] = name;
       return name;
     }

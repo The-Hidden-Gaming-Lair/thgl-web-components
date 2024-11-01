@@ -8,7 +8,7 @@ initBackground(
 );
 
 initGameEventsPlugin(
-  "Client-Win64-Shipping",
+  { processName: "Client-Win64-Shipping" },
   Object.keys(typesIdMap),
   (actor) => {
     const parts = actor.path?.split("/");
