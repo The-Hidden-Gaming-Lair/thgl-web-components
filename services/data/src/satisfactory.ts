@@ -65,28 +65,16 @@ const generatedFileHandles = readDirSync(
   CONTENT_DIR + "/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_",
 );
 
-
-// satisfactory uses streaming file to load additional data
-const relevantActors = ["SomerSloopShrine", "MercerShrine"]
-console.log(`Loading ${generatedFileHandles.length} generated files`)
-// patch all generated files together, map down onto keys
+// patch all generated files together
 console.time("Generated file load")
 const generatedFiles = await Promise.all(generatedFileHandles.map((fileName) => readJSON<PersistentLevel>(
   CONTENT_DIR + `/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_/${fileName}`,
 )))
 console.timeEnd("Generated file load")
-// append all relevant actors to persistentlevel
+
 generatedFiles.forEach((level) => {
   level.forEach((actor) => {
-    if (actor.Type === "BP_MercerShrine_C") {
-      persistentLevel.push(actor);
-    }
-
-    if (actor.Type === "BP_SomerSloopShrine_C") {
-      persistentLevel.push(actor);
-    }
-
-    if (actor.Type === "BP_DropPod_C") {
+    if(RelevantActors.includes(actor.Type as ActorType)) {
       persistentLevel.push(actor);
     }
   })
@@ -104,6 +92,7 @@ if (!newSceneCaptureComponent2D) {
   throw new Error("NewSceneCaptureComponent2D not found");
 }
 
+// got everything to create tilemap
 const actorLookupMap = new Map(worldscanner.Properties.mDropPods.map((actor) => [actor.ActorGuid, actor]));
 const orthoWidth = newSceneCaptureComponent2D.Properties.OrthoWidth; // 750000
 const TILE_WIDTH = 512;
@@ -112,6 +101,7 @@ tiles[mapName] = (
   await generateTiles(mapName, tmpMapPath, orthoWidth, TILE_WIDTH, [50000, 0])
 )[mapName];
 
+// setup extraction
 const matchRessources = new RegExp("(?<=Desc_)[^.]+");
 const matchShrines = new RegExp("(?<=BP_)[^.]+");
 
@@ -245,12 +235,9 @@ for (const actor of persistentLevel) {
   }
   const filter = filters.find((f) => f.group === group)!;
   if (!filter.values.some((v) => v.id === type)) {
-    if (!iconPath) {
-      filter.values.push({ id: type, icon: { height: 20, url: "", width: 20, x: 0, y: 0 }, size })
-    } else {
       const icon = await addToIconSprite(iconPath, type, iconProps);
       filter.values.push({ id: type, icon, size });
-    }
+    
   }
 
   if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
