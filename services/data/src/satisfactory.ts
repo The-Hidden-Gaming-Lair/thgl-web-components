@@ -1,4 +1,4 @@
-import { write } from "bun";
+import { spawn, write } from "bun";
 import {
   CONTENT_DIR,
   initDirs,
@@ -24,7 +24,17 @@ import {
 import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
-import { IconLibrary, PersistentLevel } from "./satisfactory.types.js";
+import {
+  Actor,
+  ActorType,
+  IconLibrary,
+  PersistentLevel,
+  RelevantActors,
+  RessourceActor,
+  SatisfactoryDefinition,
+  SatisfactoryGroup,
+  ShrineActor,
+} from "./satisfactory.types.js";
 import { Node } from "./types.js";
 
 initDirs(
@@ -61,13 +71,48 @@ const persistentLevel = await readJSON<PersistentLevel>(
   CONTENT_DIR + "/FactoryGame/Map/GameLevel01/Persistent_Level.json",
 );
 
+const generatedFileHandles = readDirSync(
+  CONTENT_DIR + "/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_",
+);
+
+// patch all generated files together
+console.time("Generated file load");
+const generatedFiles = await Promise.all(
+  generatedFileHandles.map((fileName) =>
+    readJSON<PersistentLevel>(
+      CONTENT_DIR +
+        `/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_/${fileName}`,
+    ),
+  ),
+);
+console.timeEnd("Generated file load");
+
+generatedFiles.forEach((level) => {
+  level.forEach((actor) => {
+    if (RelevantActors.includes(actor.Type as ActorType)) {
+      persistentLevel.push(actor);
+    }
+  });
+});
+
+const worldscanner = persistentLevel.find(
+  (l) => l.Type === "BP_WorldScannableDataGenerator_C",
+);
 const newSceneCaptureComponent2D = persistentLevel.find(
   (l) => l.Name === "NewSceneCaptureComponent2D",
 );
+
+if (!worldscanner) {
+  throw new Error("BP_WorldScannableDataGenerator_C not found");
+}
 if (!newSceneCaptureComponent2D) {
   throw new Error("NewSceneCaptureComponent2D not found");
 }
 
+// got everything to create tilemap
+const actorLookupMap = new Map(
+  worldscanner.Properties.mDropPods.map((actor) => [actor.ActorGuid, actor]),
+);
 const orthoWidth = newSceneCaptureComponent2D.Properties.OrthoWidth; // 750000
 const TILE_WIDTH = 512;
 const tiles = initTiles();
@@ -75,78 +120,148 @@ tiles[mapName] = (
   await generateTiles(mapName, tmpMapPath, orthoWidth, TILE_WIDTH, [50000, 0])
 )[mapName];
 
-const matchRessource = new RegExp("(?<=Desc_)[^.]+");
-const ressourceDefinition = [
-  { key: "OreIron", title: "Iron Ore" },
-  { key: "Stone", title: "Stone" },
-  { key: "OreCopper", title: "wip" },
-  { key: "OreGold", title: "wip" },
-  { key: "LiquidOil", title: "wip" },
-  { key: "SAM", title: "wip" },
-  { key: "Coal", title: "wip" },
-  { key: "RawQuartz", title: "wip" },
-  { key: "OreBauxite", title: "wip" },
-  { key: "Sulfur", title: "wip" },
-  { key: "NitrogenGas", title: "wip" },
-  { key: "Water", title: "wip" },
-  { key: "OreCaterium", title: "wip" },
-];
+// setup extraction
+const matchRessources = new RegExp("(?<=Desc_)[^.]+");
+const matchShrines = new RegExp("(?<=BP_)[^.]+");
 
-const isRessourceObjectPath = (s: string) => {
-  const match = matchRessource.exec(s);
-  if (!match) return;
-  return ressourceDefinition.map((def) => def.key).includes(match[0]);
+const i18n: Record<SatisfactoryGroup, string> = {
+  ressource: "Ressources",
+  artifact: "Artifacts",
+  collectible: "Collectibles",
 };
 
+const ressourceDefinition: SatisfactoryDefinition[] = [
+  { key: "OreIron", title: "Iron Ore", group: "ressource" },
+  { key: "Stone", title: "Limestone", group: "ressource" },
+  { key: "OreCopper", title: "Copper Ore", group: "ressource" },
+  { key: "OreGold", title: "Gold Ore", group: "ressource" },
+  { key: "OreUranium", title: "Uranium Ore", group: "ressource" },
+  { key: "LiquidOil", title: "Crude Oil", group: "ressource" },
+  { key: "SAM", title: "S.A.M. ORE", group: "ressource" },
+  { key: "Coal", title: "Coal", group: "ressource" },
+  { key: "RawQuartz", title: "Quartz", group: "ressource" },
+  { key: "OreBauxite", title: "Bauxite Ore", group: "ressource" },
+  { key: "Sulfur", title: "Sulfur", group: "ressource" },
+  { key: "NitrogenGas", title: "Nitrogen", group: "ressource" },
+  { key: "Water", title: "Water", group: "ressource" },
+  { key: "OreCaterium", title: "Caterium Ore", group: "ressource" },
+  {
+    key: "SomerSloopShrine",
+    title: "Somersloop",
+    iconId: 817,
+    group: "artifact",
+  },
+  {
+    key: "MercerShrine",
+    title: "Mercer Sphere",
+    iconId: 816,
+    group: "artifact",
+  },
+  {
+    key: "DropPod",
+    title: "Hard Drive",
+    iconPath:
+      "/Game/FactoryGame/Resource/Environment/CrashSites/UI/HardDrive_256.0",
+    group: "collectible",
+  },
+];
+
+const getRessourceObjectDefinition = (s: string) => {
+  const match = matchRessources.exec(s) ?? matchShrines.exec(s);
+  if (!match) return;
+  return ressourceDefinition.find((def) => def.key === match[0]);
+};
+
+const getAssetPath = (actor: RelevantActors) => {
+  switch (actor.Type) {
+    case "BP_ResourceNode_C":
+      return actor.Properties.mResourceClass.ObjectPath;
+    case "BP_DropPod_C":
+    case "BP_MercerShrine_C":
+    case "BP_SomerSloopShrine_C":
+      return actor.Template.ObjectPath;
+  }
+};
+
+const getPosition = (actor: RelevantActors) => {
+  switch (actor.Type) {
+    case "BP_ResourceNode_C":
+      const boxIndex =
+        actor.Properties.mBoxComponent.ObjectPath.split(".").pop();
+      const boxActor = persistentLevel[boxIndex];
+      return boxActor.Properties.RelativeLocation;
+    case "BP_MercerShrine_C":
+    case "BP_DropPod_C":
+    case "BP_SomerSloopShrine_C": {
+      if (actor.Properties.CachedActorTransform)
+        return actor.Properties.CachedActorTransform.Translation;
+      else {
+        return actorLookupMap.get(actor.Properties.mDropPodGuid)?.ActorLocation;
+      }
+    }
+  }
+};
+
+const isRelevantActor = (actor: Actor): actor is RelevantActors => {
+  return RelevantActors.includes(actor.Type as ActorType);
+};
+
+console.time("Extraction");
 for (const actor of persistentLevel) {
-  let type;
-  let group;
-  let iconPath;
   const iconProps: IconProps = {
     outline: true,
   };
+  let type;
+  let group;
+  let iconPath;
   let title;
   let desc;
   let typeId;
   let size = 1.1;
 
-  if (actor.Type === "BP_ResourceNode_C") {
-    const assetPath = actor.Properties.mResourceClass.ObjectPath.split(".")[0];
-    typeId = assetPath.split("/").pop();
-
-    group = "resources";
-    enDict[group] = "Resources";
-    if (actor.Properties.mResourceClass.ObjectPath.includes("OreIron")) {
-      type = "OreIron";
-      title = "Iron Ore";
-      iconProps.circle = true;
-      iconProps.color = "#ddd";
-
-      const icon = iconLibrary[0].Properties.mIconData.find((i) =>
-        i.ItemDescriptor.AssetPathName.startsWith(assetPath),
-      );
-      if (!icon) {
-        throw new Error("Icon not found");
-      }
-      iconPath =
-        icon.Texture.AssetPathName.replace("/Game", "").split(".")[0] + ".png";
-    } else {
-      continue;
-    }
-    if (actor.Properties.mPurity) {
-      type += "_" + actor.Properties.mPurity;
-      if (actor.Properties.mPurity === "RP_Pure") {
-        title += " (P)";
-        desc = "Pure";
-        iconProps.color = "#54c59f";
-      } else if (actor.Properties.mPurity === "RP_Inpure") {
-        title += " (C)";
-        desc = "Impure";
-        iconProps.color = "#c79250";
-      }
-    }
-  } else {
+  if (!isRelevantActor(actor)) {
     continue;
+  }
+
+  const basePath = getAssetPath(actor);
+  const assetPath = basePath.split(".")[0];
+  typeId = assetPath.split("/").pop();
+
+  const definition = getRessourceObjectDefinition(basePath);
+  if (definition) {
+    group = definition.group;
+    enDict[group] = i18n[definition.group];
+    type = definition.key;
+    title = definition.title;
+
+    const icon =
+      iconLibrary[0].Properties.mIconData.find(
+        (i) =>
+          i.ItemDescriptor.AssetPathName.startsWith(assetPath) ||
+          i.ID === definition.iconId,
+      )?.Texture.AssetPathName ?? definition.iconPath;
+
+    iconPath = icon?.replace("/Game", "").split(".")[0] + ".png";
+  } else {
+    console.log("Unhandled definition", actor.Type);
+    continue;
+  }
+
+  if (actor.Properties.mPurity) {
+    type += "_" + actor.Properties.mPurity;
+    if (actor.Properties.mPurity === "RP_Pure") {
+      title += " (P)";
+      desc = "Pure";
+      iconProps.circle = true;
+
+      iconProps.color = "#54c59f";
+    } else if (actor.Properties.mPurity === "RP_Inpure") {
+      title += " (C)";
+      desc = "Impure";
+      iconProps.circle = true;
+
+      iconProps.color = "#c79250";
+    }
   }
 
   enDict[type] = title;
@@ -173,18 +288,15 @@ for (const actor of persistentLevel) {
     (n) => n.type === type && n.mapName === mapName,
   )!.spawns;
 
-  const boxIndex = actor.Properties.mBoxComponent.ObjectPath.split(".").pop();
-  const boxActor = persistentLevel[boxIndex];
-
+  const location = getPosition(actor);
+  if (!location) continue;
   const spawn: Node["spawns"][number] = {
-    p: [
-      boxActor.Properties.RelativeLocation.Y,
-      boxActor.Properties.RelativeLocation.X,
-      boxActor.Properties.RelativeLocation.Z,
-    ],
+    p: [location.Y, location.X, location.Z],
   };
   spawns.push(spawn);
 }
+
+console.timeEnd("Extraction");
 
 await saveIconSprite(filters, nodes);
 writeTiles(tiles);
@@ -200,4 +312,5 @@ Object.keys(tiles).forEach((mapName) => {
   );
 });
 writeRegions(regions);
+
 console.log("Done!");

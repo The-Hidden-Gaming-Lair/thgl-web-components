@@ -1,11 +1,11 @@
 [
   {
-    "group": "resources",
+    "group": "collectible",
     "defaultOn": true,
     "defaultOpen": true,
     "values": [
       {
-        "id": "OreIron",
+        "id": "DropPod",
         "icon": {
           "url": "icons.webp",
           "x": 0,
@@ -14,9 +14,16 @@
           "height": 64
         },
         "size": 1.1
-      },
+      }
+    ]
+  },
+  {
+    "group": "ressource",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": [
       {
-        "id": "OreIron_RP_Pure",
+        "id": "LiquidOil",
         "icon": {
           "url": "icons.webp",
           "x": 64,
@@ -27,11 +34,359 @@
         "size": 1.1
       },
       {
-        "id": "OreIron_RP_Inpure",
+        "id": "SAM_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "SAM_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Stone",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreIron",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 0,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Stone_RP_Pure",
         "icon": {
           "url": "icons.webp",
           "x": 0,
           "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreCopper",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreIron_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreCopper_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreGold_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreGold",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 64,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Coal",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Coal_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreIron_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreCopper_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "SAM",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "RawQuartz_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 128,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "RawQuartz_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "RawQuartz",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "LiquidOil_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "LiquidOil_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Sulfur_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Stone_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 192,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Sulfur",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreBauxite",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreBauxite_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreBauxite_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreUranium_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 256,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Coal_RP_Inpure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 320,
+          "y": 256,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "OreUranium",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "Sulfur_RP_Pure",
+        "icon": {
+          "url": "icons.webp",
+          "x": 64,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      }
+    ]
+  },
+  {
+    "group": "artifact",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": [
+      {
+        "id": "MercerShrine",
+        "icon": {
+          "url": "icons.webp",
+          "x": 128,
+          "y": 320,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      },
+      {
+        "id": "SomerSloopShrine",
+        "icon": {
+          "url": "icons.webp",
+          "x": 192,
+          "y": 320,
           "width": 64,
           "height": 64
         },
