@@ -480,9 +480,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {
-        outline: true,
-      };
+      const iconProps: IconProps = {};
       if (isStarQuality) {
         iconProps.badgeIcon =
           TEXTURE_DIR +
@@ -598,9 +596,7 @@ const spawnRarityConfigs = await readJSON<DT_SpawnRarityConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {
-        outline: true,
-      };
+      const iconProps: IconProps = {};
       if (isStarQuality) {
         iconProps.badgeIcon =
           TEXTURE_DIR +
@@ -969,9 +965,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         }
       }
       if (!category.values.some((v) => v.id === type)) {
-        const iconProps: IconProps = {
-          outline: true,
-        };
+        const iconProps: IconProps = {};
         const growableTree = await readJSON<GrowableTree>(
           skillFile
             .replace(
@@ -1152,9 +1146,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
         }
       }
       if (!category.values.some((v) => v.id === type)) {
-        const iconProps: IconProps = {
-          outline: true,
-        };
+        const iconProps: IconProps = {};
 
         if (!iconPath) {
           continue;
@@ -1238,9 +1230,7 @@ const lootPoolConfigs = await readJSON<DT_LootPoolConfigs>(
     }
 
     if (!category.values.some((v) => v.id === type)) {
-      const iconProps: IconProps = {
-        outline: true,
-      };
+      const iconProps: IconProps = {};
       const iconName = await addToIconSprite(
         "/Palia/Content" +
           itemType[0].Properties.ItemIcon.AssetPathName.replace(
