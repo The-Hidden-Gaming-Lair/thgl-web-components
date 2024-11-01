@@ -14,10 +14,10 @@ namespace GameEventsPlugin
     [DllImport("kernel32")] static extern Int32 ReadProcessMemory(IntPtr hProcess, Int64 lpBaseAddress, [In, Out] Byte[] buffer, Int32 size, out Int32 lpNumberOfBytesRead);
     [DllImport("user32")] public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, String lpszClass, String lpszWindow);
     [DllImport("user32")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out Int32 lpdwProcessId);
+
     public IntPtr procHandle = IntPtr.Zero;
     public Process Process { get; private set; }
-    public IntPtr BaseAddress = IntPtr.Zero;
-    public int ModuleMemorySize = 0;
+    public IntPtr BaseAddress { get { return Process.MainModule.BaseAddress; } }
 
     public Memory(Process proc)
     {
@@ -27,8 +27,6 @@ namespace GameEventsPlugin
       Process = proc;
       if (Process == null) return;
       OpenProcessById(Process.Id);
-      BaseAddress= Process.MainModule.BaseAddress;
-      ModuleMemorySize = Process.MainModule.ModuleMemorySize;
     }
 
     public void OpenProcessById(Int32 procId)
@@ -62,7 +60,6 @@ namespace GameEventsPlugin
         return new Byte[0];
       }
     }
-
     public unsafe Object ReadProcessMemory(Type type, Int64 addr)
     {
       if (type == typeof(String))
@@ -105,12 +102,12 @@ namespace GameEventsPlugin
 
     public IntPtr FindPattern(String pattern)
     {
-      return FindPattern(pattern, BaseAddress, ModuleMemorySize);
+      return FindPattern(pattern, Process.MainModule.BaseAddress, Process.MainModule.ModuleMemorySize);
     }
     public IntPtr FindStringRef(String str)
     {
       var stringAddr = FindPattern(BitConverter.ToString(Encoding.Unicode.GetBytes(str)).Replace("-", " "));
-      var sigScan = new SigScan(Process, BaseAddress, ModuleMemorySize);
+      var sigScan = new SigScan(Process, Process.MainModule.BaseAddress, Process.MainModule.ModuleMemorySize);
       sigScan.DumpMemory();
       for (var i = 0; i < sigScan.Size; i++)
       {
@@ -120,7 +117,7 @@ namespace GameEventsPlugin
           var addr = sigScan.Address + i + jmpTo + 7;
           if (addr == stringAddr)
           {
-            return BaseAddress + i;
+            return Process.MainModule.BaseAddress + i;
           }
         }
       }
