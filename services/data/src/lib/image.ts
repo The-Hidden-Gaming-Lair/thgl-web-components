@@ -283,8 +283,8 @@ export async function colorizeImage(
 
 export async function addOutlineToImage(imagePath: string, color: string) {
   const image = await loadImage(imagePath);
-  const grow = 8; // Fixed outline growth
-  const shadowBlur = image.width / 15; // Shadow blur based on image width
+  const grow = 6; // Fixed outline growth
+  const shadowBlur = image.width / 20; // Shadow blur based on image width
 
   // Calculate the new canvas size based on the shadow blur
   const canvasWidth = image.width + grow * 2 + shadowBlur * 2; // Add shadowBlur space on both sides

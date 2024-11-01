@@ -49,6 +49,9 @@ Object.entries(data).forEach(([type, mapSpawnNodes]) => {
     } else if (deprecatedMapName === "housing") {
       mapName = "HousingPlot";
     } else {
+      mapName = deprecatedMapName;
+    }
+    if (tiles[mapName] === undefined) {
       console.warn("No map name for", deprecatedMapName);
       return;
     }
@@ -60,7 +63,7 @@ Object.entries(data).forEach(([type, mapSpawnNodes]) => {
       });
     }
     const oldNodes = nodes.find((n) => n.type === id && n.mapName === mapName)!;
-    spawnNodes.forEach(([y, x, z]) => {
+    spawnNodes.forEach(([x, y, z]) => {
       if (mapName === "VillageWorld") {
         if (y > 60000 || x > 41000 || y < -56000 || x < -45000) {
           return;
