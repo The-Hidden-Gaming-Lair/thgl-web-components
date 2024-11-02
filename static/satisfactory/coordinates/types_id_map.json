@@ -1,1 +1,16 @@
-{}
+{
+  "BP_DropPod": "DropPod",
+  "Desc_LiquidOil": "LiquidOil_RP_Pure",
+  "Desc_SAM": "SAM",
+  "Desc_Stone": "Stone_RP_Inpure",
+  "Desc_OreIron": "OreIron_RP_Inpure",
+  "Desc_OreCopper": "OreCopper_RP_Inpure",
+  "Desc_OreGold": "OreGold",
+  "Desc_Coal": "Coal_RP_Inpure",
+  "Desc_RawQuartz": "RawQuartz",
+  "Desc_Sulfur": "Sulfur_RP_Pure",
+  "Desc_OreBauxite": "OreBauxite_RP_Pure",
+  "Desc_OreUranium": "OreUranium",
+  "BP_MercerShrine": "MercerShrine",
+  "BP_SomerSloopShrine": "SomerSloopShrine"
+}

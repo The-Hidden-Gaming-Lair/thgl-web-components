@@ -1,10 +1,6 @@
 ﻿
-using System.Diagnostics;
 using Newtonsoft.Json;
 using GameEventsPlugin;
-using System.ComponentModel.Design;
-using System.Security.Cryptography;
-using GameEventsPlugin.Actions;
 namespace Tracker
 {
 
@@ -38,7 +34,7 @@ namespace Tracker
     {
       overwolf.GetActors(ids, (actors) =>
       {
-        Console.WriteLine("Actors: " + JsonConvert.SerializeObject(actors));
+        //Console.WriteLine("Actors: " + JsonConvert.SerializeObject(actors));
       }, (error) =>
       {
         Console.WriteLine("Error: " + error);
@@ -49,6 +45,10 @@ namespace Tracker
     static async Task Main(string[] args)
     {
       Console.WriteLine("Hi!");
+      Console.WriteLine("F1: Refresh Process Addresses");
+      Console.WriteLine("F2: Get Player");
+      Console.WriteLine("F3: Get Actors");
+      Console.WriteLine("F4: Dump to file");
 
       var configFilePath = args.Length > 0 ? args[0] : "Config.json";
       if (File.Exists(configFilePath))
@@ -77,6 +77,19 @@ namespace Tracker
         if (key == ConsoleKey.F3)
         {
           RunOverwolfActors(_config?.ActorNames);
+        }
+        if (key == ConsoleKey.F4)
+        {
+          Console.WriteLine("Saving Dump");
+          overwolf.Debug(list =>
+          {
+            string[] l = (string[])list;
+            File.WriteAllLines("dump.txt", l);
+            Console.WriteLine("Saved Dump");
+          }, error =>
+          {
+            Console.WriteLine($"Error: {error}");
+          });
         }
       }
     }

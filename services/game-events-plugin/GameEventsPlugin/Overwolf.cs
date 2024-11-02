@@ -160,5 +160,72 @@ namespace GameEventsPlugin
         }
       });
     }
+
+    public void Debug(Action<object> callback, Action<object> error)
+    {
+      Task.Run(() =>
+      {
+        try
+        {
+          UEObject.Reset();
+          var result = new List<string>();
+          if (_owningWorld == null)
+          {
+            callback(result.ToArray());
+            return;
+          }
+          var visited = new List<IntPtr>();
+          var worldFieldNames = _owningWorld.GetFieldNames(_owningWorld.ClassAddr, visited, "");
+          result.Add("OWNING WORLD FIELD NAMES");
+          foreach (var field in worldFieldNames)
+          {
+            result.Add(" " + field);
+          }
+
+          result.Add("");
+          var owningGameInstance = _owningWorld["OwningGameInstance"];
+          var localPlayers = owningGameInstance["LocalPlayers"];
+          var localPlayer = localPlayers[0];
+          var localPlayerFieldNames = localPlayer.GetFieldNames(localPlayer.ClassAddr, visited, ""); ;
+          result.Add("LOCAL PLAYER FIELD NAMES");
+          foreach (var field in localPlayerFieldNames)
+          {
+            result.Add(" " + field);
+          }
+
+          for (var l = 0; l < _levels.Num; l++)
+          {
+            var level = _levels[l];
+            var actorsAddress = level.Address + (l == 0 ? 0xA8 : 0x98);
+            var actors = new UEObject(actorsAddress);
+            var actorsNum = actors.Num;
+            if (actorsNum < 65536)
+            {
+              for (var i = 0; i < actorsNum; i++)
+              {
+                var actor = actors[i];
+                /*if (visited.Contains(actor.ClassAddr))
+                {
+                  continue;
+                }*/
+                var actorFieldNames = actor.GetFieldNames(actor.ClassAddr, visited, ""); ;
+                result.Add("");
+                result.Add("ACTOR " + actor.GetName() + " FIELD NAMES");
+                foreach (var field in actorFieldNames)
+                {
+                  result.Add(" " + field);
+                }
+              }
+
+            }
+          }
+          callback(result.ToArray());
+        }
+        catch (Exception e)
+        {
+          error(e.Message + "\n" + e.StackTrace);
+        }
+      });
+    }
   }
 }

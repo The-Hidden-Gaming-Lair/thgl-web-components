@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
 using static GameEventsPlugin.Extensions;
 
 namespace GameEventsPlugin.Actions
@@ -40,14 +42,6 @@ namespace GameEventsPlugin.Actions
       var rotation = UnrealEngine.Memory.ReadProcessMemory<Rotator>(relativeRotation.Address);
       var r = rotation.Yaw;
       var hidden = false;
-      if (type == "BP_CodexActor_C")
-      {
-        var bHasBeenGranted = actor["bHasBeenGranted"];
-        if (bHasBeenGranted.Flag)
-        {
-          hidden = true;
-        }
-      }
 
       return new Actor()
       {
@@ -80,15 +74,13 @@ namespace GameEventsPlugin.Actions
             try
             {
               var actor = Actors[i];
-              string type;
-              var staticMesh = actor["InstancedStaticMeshComponent"]?["StaticMesh"];
-              if (staticMesh != null)
+              string type = actor.GetName();
+              if (type == "BP_ResourceDeposit_C")
               {
-                type = staticMesh.ClassName.Split('/').Last().Split('.').First();
-              }
-              else
-              {
-                type = actor.GetName();
+                var resource = actor["mResourceClass"];
+                type = resource.ClassName.Split('/').Last().Split('.').First();
+                //var purity = actor["mPurity"];
+                //var amount = actor["mAmount"];
               }
 
               if (types.Length == 0 || types.Contains(type))
@@ -97,7 +89,6 @@ namespace GameEventsPlugin.Actions
                 if (foundActor != null)
                 {
                   actors.Add((Actor)foundActor);
-
                 }
               }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 
 namespace GameEventsPlugin
@@ -328,6 +329,8 @@ namespace GameEventsPlugin
         parentName = tempName + "." + parentName;
       }
       name += " " + parentName;
+      var nameIndex = UnrealEngine.Memory.ReadProcessMemory<int>(Address + nameOffset);
+      name += GetName(nameIndex);
       AddrNameToFullName[key] = name;
       return name;
     }
@@ -399,6 +402,144 @@ namespace GameEventsPlugin
       }
     }
 
+    public List<string> GetFieldNames()
+    {
+      var list = new List<string>();
+      var tempEntity = ClassAddr;
+
+      while (true)
+      {
+        var classNameIndex = UnrealEngine.Memory.ReadProcessMemory<Int32>(tempEntity + UEObject.nameOffset);
+        var name = UEObject.GetName(classNameIndex);
+
+        list.Add(name);
+        var field = tempEntity + UEObject.childPropertiesOffset - UEObject.fieldNextOffset;
+        while ((Int64)(field = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(field + UEObject.fieldNextOffset)) > 0)
+        {
+          var fName = UEObject.GetName(UnrealEngine.Memory.ReadProcessMemory<Int32>(field + UEObject.fieldNameOffset));
+          var fType = GetFieldType(field);
+          var fValue = "(" + field.ToString() + ")";
+          var offset = GetFieldOffset(field);
+          if (fType == "BoolProperty")
+          {
+            fType = "Boolean";
+            fValue = this[fName].Flag.ToString();
+          }
+          else if (fType == "FloatProperty")
+          {
+            fType = "Single";
+            fValue = BitConverter.ToSingle(BitConverter.GetBytes(this[fName].Value), 0).ToString();
+          }
+          else if (fType == "IntProperty")
+          {
+            fType = "Int32";
+            fValue = this[fName].Value.ToString();
+          }
+          else if (fType == "ObjectProperty" || fType == "StructProperty" || fType == "ClassProperty")
+          {
+            var structFieldIndex = UnrealEngine.Memory.ReadProcessMemory<int>(UnrealEngine.Memory.ReadProcessMemory<IntPtr>(field + UEObject.propertySize) + UEObject.nameOffset);
+            fType = UEObject.GetName(structFieldIndex);
+          }
+          else if (fType == "ByteProperty" || fType == "Int8Property")
+          {
+            fType = "byte";
+          }
+          list.Add("  " + fType + " " + fName + " = " + fValue);
+        }
+
+
+        tempEntity = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(tempEntity + UEObject.structSuperOffset);
+        if ((Int64)tempEntity == 0) break;
+      }
+
+      return list;
+
+    }
+
+    public List<string> GetFieldNames(IntPtr addr, List<IntPtr> visited, string pad)
+    {
+      pad += "  ";
+      var list = new List<string>();
+      var tempEntity = addr;
+
+      while (true)
+      {
+        var classNameIndex = UnrealEngine.Memory.ReadProcessMemory<Int32>(tempEntity + UEObject.nameOffset);
+        var name = UEObject.GetName(classNameIndex);
+
+        list.Add(name);
+        var field = tempEntity + UEObject.childPropertiesOffset - UEObject.fieldNextOffset;
+
+        tempEntity = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(tempEntity + UEObject.structSuperOffset);
+
+        if (visited.Contains(field))
+        {
+          break;
+        }
+        visited.Add(field);
+        while ((Int64)(field = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(field + UEObject.fieldNextOffset)) > 0)
+        {
+          var fName = UEObject.GetName(UnrealEngine.Memory.ReadProcessMemory<Int32>(field + UEObject.fieldNameOffset));
+          var fType = GetFieldType(field);
+          var fValue = "(" + field.ToString() + ")";
+          var obj = this[fName];
+          List<string> more = new List<string>();
+
+          if (fType == "BoolProperty")
+          {
+            fType = "Boolean";
+            if (obj != null)
+            {
+              fValue = obj.Flag.ToString();
+            }
+          }
+          else if (fType == "FloatProperty")
+          {
+            fType = "Single";
+            if (obj != null)
+            {
+              fValue = BitConverter.ToSingle(BitConverter.GetBytes(obj.Value), 0).ToString();
+            }
+          }
+          else if (fType == "IntProperty")
+          {
+            fType = "Int32";
+            if (obj != null)
+            {
+              fValue = obj.Value.ToString();
+            }
+          }
+          else if (fType == "ObjectProperty" || fType == "StructProperty" || fType == "ClassProperty")
+          {
+            var structFieldIndex = UnrealEngine.Memory.ReadProcessMemory<int>(UnrealEngine.Memory.ReadProcessMemory<IntPtr>(field + UEObject.propertySize) + UEObject.nameOffset);
+            fType = UEObject.GetName(structFieldIndex);
+            if (obj != null)
+            {
+              var newClassAddr = obj.ClassAddr;
+              more = obj.GetFieldNames(newClassAddr, visited, pad);
+            }
+          }
+          else if (fType == "ByteProperty" || fType == "Int8Property")
+          {
+            fType = "byte";
+          }
+          else
+          {
+            //
+          }
+          list.Add("  " + fType + " " + fName + " = " + fValue);
+          more.ForEach(i =>
+          {
+            list.Add("  " + pad + i);
+          });
+        }
+
+
+        if ((Int64)tempEntity == 0) break;
+      }
+      return list;
+    }
+
     public IntPtr Address;
     public UEObject this[String key]
     {
@@ -412,7 +553,7 @@ namespace GameEventsPlugin
         var fieldType = GetFieldType(fieldAddr);
         var offset = GetFieldOffset(fieldAddr);
         UEObject obj;
-        if (fieldType == "ObjectProperty" || fieldType == "ScriptStruct")
+        if (fieldType == "ObjectProperty" || fieldType == "ScriptStruct" || fieldType == "ClassProperty")
         {
           obj = new UEObject(UnrealEngine.Memory.ReadProcessMemory<IntPtr>(Address + offset));
         }
@@ -432,7 +573,7 @@ namespace GameEventsPlugin
         {
           obj = new UEObject(Address + offset);
           obj._classAddr = UnrealEngine.Memory.ReadProcessMemory<IntPtr>(fieldAddr + propertySize);
-        }
+        } 
         else
         {
           obj = new UEObject(Address + offset);

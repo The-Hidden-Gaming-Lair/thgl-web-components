@@ -21,7 +21,7 @@ import {
   writeFilters,
   writeGlobalFilters,
 } from "./lib/filters.js";
-import { initTypesIDs, writeTypesIDs } from "./lib/types-ids.js";
+import { initTypesIDs, setTypeId, writeTypesIDs } from "./lib/types-ids.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import {
@@ -46,7 +46,6 @@ initDirs(
 const nodes = initNodes();
 const filters = initFilters();
 const enDict = initDict();
-const typeIds = initTypesIDs();
 const regions = initRegions();
 const globalFilters = initGlobalFilters();
 
@@ -216,7 +215,6 @@ for (const actor of persistentLevel) {
   let iconPath;
   let title;
   let desc;
-  let typeId;
   let size = 1.1;
 
   if (!isRelevantActor(actor)) {
@@ -225,7 +223,7 @@ for (const actor of persistentLevel) {
 
   const basePath = getAssetPath(actor);
   const assetPath = basePath.split(".")[0];
-  typeId = assetPath.split("/").pop();
+  const typeId = assetPath.split("/").pop();
 
   const definition = getRessourceObjectDefinition(basePath);
   if (definition) {
@@ -275,6 +273,9 @@ for (const actor of persistentLevel) {
   if (!filter.values.some((v) => v.id === type)) {
     const icon = await addToIconSprite(iconPath, type, iconProps);
     filter.values.push({ id: type, icon, size });
+    if (typeId) {
+      setTypeId(typeId, type);
+    }
   }
 
   if (!nodes.some((n) => n.type === type && n.mapName === mapName)) {
@@ -300,7 +301,7 @@ console.timeEnd("Extraction");
 
 await saveIconSprite(filters, nodes);
 writeTiles(tiles);
-writeTypesIDs(typeIds);
+writeTypesIDs();
 writeDict(enDict, "en");
 writeNodes(nodes);
 writeFilters(filters);
