@@ -9,46 +9,13 @@ import {
   NavMenu,
   HeaderLink,
 } from "@repo/ui/header";
-import { ExternalLink, Gift, MapPin, Trophy } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 export function Links(): JSX.Element {
   const pathname = usePathname();
 
   const links = [
-    { href: "/", content: <InteractiveMapLink active={pathname === "/"} /> },
-    {
-      href: "/weekly-wants",
-      content: (
-        <HeaderLink active={pathname === "/mod-locations"}>
-          <div>
-            <Gift className="w-4 h-4" />
-            <span>Weekly Wants</span>
-          </div>
-        </HeaderLink>
-      ),
-    },
-    {
-      href: "/rummage-pile",
-      content: (
-        <HeaderLink active={pathname === "/rummage-pile"}>
-          <div>
-            <MapPin className="w-4 h-4" />
-            <span>Rummage Pile</span>
-          </div>
-        </HeaderLink>
-      ),
-    },
-    {
-      href: "/leaderboard",
-      content: (
-        <HeaderLink active={pathname === "/leaderboard"}>
-          <div>
-            <Trophy className="w-4 h-4" />
-            <span>Leaderboard</span>
-          </div>
-        </HeaderLink>
-      ),
-    },
+    { href: "/", content: <InteractiveMapLink active={pathname === "/"} /> } 
   ];
   const active = links.find((link) => link.href === pathname) ?? links[0];
 
@@ -59,7 +26,7 @@ export function Links(): JSX.Element {
         <>
           <ExternalAnchor
             className="flex gap-1 hover:text-primary transition-colors"
-            href="https://www.overwolf.com/app/Leon_Machens-Palia_Map"
+            href="https://www.overwolf.com/app/Leon_Machens-Palia_Map" // TODO SATISFACTORY-1!
           >
             <span>In-Game App</span>
             <ExternalLink className="w-3 h-3" />

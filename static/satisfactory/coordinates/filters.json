@@ -1,23 +1,5 @@
 [
   {
-    "group": "collectible",
-    "defaultOn": true,
-    "defaultOpen": true,
-    "values": [
-      {
-        "id": "DropPod",
-        "icon": {
-          "url": "icons.webp",
-          "x": 0,
-          "y": 0,
-          "width": 64,
-          "height": 64
-        },
-        "size": 1.1
-      }
-    ]
-  },
-  {
     "group": "ressource",
     "defaultOn": true,
     "defaultOpen": true,
@@ -387,6 +369,24 @@
           "url": "icons.webp",
           "x": 192,
           "y": 320,
+          "width": 64,
+          "height": 64
+        },
+        "size": 1.1
+      }
+    ]
+  },
+  {
+    "group": "collectible",
+    "defaultOn": true,
+    "defaultOpen": true,
+    "values": [
+      {
+        "id": "DropPod",
+        "icon": {
+          "url": "icons.webp",
+          "x": 0,
+          "y": 0,
           "width": 64,
           "height": 64
         },

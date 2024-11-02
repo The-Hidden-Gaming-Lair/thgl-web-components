@@ -23,6 +23,19 @@ export type Location = {
   Z: number
 }
 
+export type UnlockCostItem = {
+  CostType: "EFGDropPodUnlockCostType::Item"
+  ItemCost: {
+    ItemClass: Template,
+    Amount: number
+  },
+}
+
+export type UnlockCostPower = {
+  CostType: "EFGDropPodUnlockCostType::Power" 
+  PowerConsumption: number
+}
+
 export type RessourceActor = {
   Type: "BP_ResourceNode_C";
   Properties: { mPurity?: "RP_PURE" | "RP_Inpure", mResourceClass: Template, RelativeLocation: Location };
@@ -35,13 +48,7 @@ export type DriveActor = {
     CachedActorTransform: {
       Translation: Location;
     },
-    mUnlockCost: {
-      CostType: "EFGDropPodUnlockCostType::Item" | "EFGDropPodUnlockCostType::Power",
-      ItemCost: {
-        ItemClass: Template,
-        Amount: number
-      }
-    },
+    mUnlockCost: UnlockCostPower | UnlockCostItem,
     mPowerConnectionComponent: Template,
     mPowerInfoComponent: Template,
     mInventoryComponent: Template,

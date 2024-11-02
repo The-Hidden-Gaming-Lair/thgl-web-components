@@ -21,19 +21,19 @@ import {
   writeFilters,
   writeGlobalFilters,
 } from "./lib/filters.js";
-import { initTypesIDs, setTypeId, writeTypesIDs } from "./lib/types-ids.js";
+import { setTypeId, writeTypesIDs } from "./lib/types-ids.js";
 import { initDict, writeDict } from "./lib/dicts.js";
 import { initRegions, writeRegions } from "./lib/regions.js";
 import {
   Actor,
   ActorType,
+  DriveActor,
   IconLibrary,
   PersistentLevel,
   RelevantActors,
-  RessourceActor,
   SatisfactoryDefinition,
   SatisfactoryGroup,
-  ShrineActor,
+  Template,
 } from "./satisfactory.types.js";
 import { Node } from "./types.js";
 
@@ -74,13 +74,19 @@ const generatedFileHandles = readDirSync(
   CONTENT_DIR + "/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_",
 );
 
+// get the translations
+const translations = await readJSON<Record<string,string>>(
+  CONTENT_DIR + "/Localization/AllStringTables/en-US/AllStringTables.json",
+);
+
+
 // patch all generated files together
 console.time("Generated file load");
 const generatedFiles = await Promise.all(
   generatedFileHandles.map((fileName) =>
     readJSON<PersistentLevel>(
       CONTENT_DIR +
-        `/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_/${fileName}`,
+      `/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_/${fileName}`,
     ),
   ),
 );
@@ -165,6 +171,8 @@ const ressourceDefinition: SatisfactoryDefinition[] = [
   },
 ];
 
+const order: SatisfactoryGroup[] = ["ressource", "artifact", "collectible"]
+
 const getRessourceObjectDefinition = (s: string) => {
   const match = matchRessources.exec(s) ?? matchShrines.exec(s);
   if (!match) return;
@@ -201,6 +209,40 @@ const getPosition = (actor: RelevantActors) => {
   }
 };
 
+const extractItemDescription = async (template: Template) => {
+  // get the description file
+  const objectpath = template.ObjectPath.split(".").shift()?.replace("Game", "");
+  const classNameMatcher = /BlueprintGeneratedClass'([^']+)'/;
+  const objectType = classNameMatcher.exec(template.ObjectName);
+  const match = objectType?.[1];
+  if (!match) {
+    console.log("Failed to extract item description:", template.ObjectName)
+    return;
+  };
+
+  const itemDescription = await readJSON<PersistentLevel>(
+    CONTENT_DIR + objectpath + ".json"
+  );
+  
+  const displayName = itemDescription.find((value) => value.Type === match)?.Properties.mDisplayName.Key;
+
+  return translations[`Items_Data.${displayName}`]
+}
+
+const extractDroppodDescription = async (actor: DriveActor) => {
+  // extract power information
+  const unlockCost = actor?.Properties?.mUnlockCost ?? actorLookupMap.get(actor.Properties.mDropPodGuid);
+  if (!unlockCost) return;
+  switch (unlockCost.CostType) {
+    case "EFGDropPodUnlockCostType::Item":
+      const itemName = await extractItemDescription(unlockCost.ItemCost.ItemClass)
+      return `Requires ${unlockCost.ItemCost.Amount}x${itemName} to unlock.`
+    case "EFGDropPodUnlockCostType::Power":
+      return `Requires ${unlockCost.PowerConsumption} MW to unlock.`
+  }
+
+}
+
 const isRelevantActor = (actor: Actor): actor is RelevantActors => {
   return RelevantActors.includes(actor.Type as ActorType);
 };
@@ -211,11 +253,12 @@ for (const actor of persistentLevel) {
     outline: true,
   };
   let type;
-  let group;
+  let group: SatisfactoryGroup | undefined;
   let iconPath;
   let title;
   let desc;
   let size = 1.1;
+  let spawnId;
 
   if (!isRelevantActor(actor)) {
     continue;
@@ -225,12 +268,19 @@ for (const actor of persistentLevel) {
   const assetPath = basePath.split(".")[0];
   const typeId = assetPath.split("/").pop();
 
-  const definition = getRessourceObjectDefinition(basePath);
+  const definition = getRessourceObjectDefinition(basePath); 
+
   if (definition) {
     group = definition.group;
     enDict[group] = i18n[definition.group];
     type = definition.key;
     title = definition.title;
+
+
+    if (actor.Type === "BP_DropPod_C") {
+      spawnId = actor.Name;
+      desc = await extractDroppodDescription(actor)     
+    }
 
     const icon =
       iconLibrary[0].Properties.mIconData.find(
@@ -254,7 +304,7 @@ for (const actor of persistentLevel) {
 
       iconProps.color = "#54c59f";
     } else if (actor.Properties.mPurity === "RP_Inpure") {
-      title += " (C)";
+      title += " (I)";
       desc = "Impure";
       iconProps.circle = true;
 
@@ -262,9 +312,9 @@ for (const actor of persistentLevel) {
     }
   }
 
-  enDict[type] = title;
+  enDict[spawnId ?? type] = title;
   if (desc) {
-    enDict[type + "_desc"] = desc;
+    enDict[(spawnId ?? type) + "_desc"] = desc;
   }
   if (!filters.some((f) => f.group === group)) {
     filters.push({ group, defaultOn: true, defaultOpen: true, values: [] });
@@ -292,10 +342,14 @@ for (const actor of persistentLevel) {
   const location = getPosition(actor);
   if (!location) continue;
   const spawn: Node["spawns"][number] = {
+    id: spawnId,
     p: [location.Y, location.X, location.Z],
   };
   spawns.push(spawn);
 }
+
+// sort filters by order
+filters.sort((a, b) => order.indexOf(a.group as SatisfactoryGroup) - order.indexOf(b.group as SatisfactoryGroup))
 
 console.timeEnd("Extraction");
 
