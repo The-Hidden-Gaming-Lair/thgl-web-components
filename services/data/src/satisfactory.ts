@@ -75,10 +75,9 @@ const generatedFileHandles = readDirSync(
 );
 
 // get the translations
-const translations = await readJSON<Record<string,string>>(
+const translations = await readJSON<Record<string, string>>(
   CONTENT_DIR + "/Localization/AllStringTables/en-US/AllStringTables.json",
 );
-
 
 // patch all generated files together
 console.time("Generated file load");
@@ -86,7 +85,7 @@ const generatedFiles = await Promise.all(
   generatedFileHandles.map((fileName) =>
     readJSON<PersistentLevel>(
       CONTENT_DIR +
-      `/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_/${fileName}`,
+        `/FactoryGame/Map/GameLevel01/Persistent_Level/_Generated_/${fileName}`,
     ),
   ),
 );
@@ -171,7 +170,7 @@ const ressourceDefinition: SatisfactoryDefinition[] = [
   },
 ];
 
-const order: SatisfactoryGroup[] = ["ressource", "artifact", "collectible"]
+const order: SatisfactoryGroup[] = ["ressource", "artifact", "collectible"];
 
 const getRessourceObjectDefinition = (s: string) => {
   const match = matchRessources.exec(s) ?? matchShrines.exec(s);
@@ -211,37 +210,43 @@ const getPosition = (actor: RelevantActors) => {
 
 const extractItemDescription = async (template: Template) => {
   // get the description file
-  const objectpath = template.ObjectPath.split(".").shift()?.replace("Game", "");
+  const objectpath = template.ObjectPath.split(".")
+    .shift()
+    ?.replace("Game", "");
   const classNameMatcher = /BlueprintGeneratedClass'([^']+)'/;
   const objectType = classNameMatcher.exec(template.ObjectName);
   const match = objectType?.[1];
   if (!match) {
-    console.log("Failed to extract item description:", template.ObjectName)
+    console.log("Failed to extract item description:", template.ObjectName);
     return;
-  };
+  }
 
   const itemDescription = await readJSON<PersistentLevel>(
-    CONTENT_DIR + objectpath + ".json"
+    CONTENT_DIR + objectpath + ".json",
   );
-  
-  const displayName = itemDescription.find((value) => value.Type === match)?.Properties.mDisplayName.Key;
 
-  return translations[`Items_Data.${displayName}`]
-}
+  const displayName = itemDescription.find((value) => value.Type === match)
+    ?.Properties.mDisplayName.Key;
+
+  return translations[`Items_Data.${displayName}`];
+};
 
 const extractDroppodDescription = async (actor: DriveActor) => {
   // extract power information
-  const unlockCost = actor?.Properties?.mUnlockCost ?? actorLookupMap.get(actor.Properties.mDropPodGuid);
+  const unlockCost =
+    actor?.Properties?.mUnlockCost ??
+    actorLookupMap.get(actor.Properties.mDropPodGuid);
   if (!unlockCost) return;
   switch (unlockCost.CostType) {
     case "EFGDropPodUnlockCostType::Item":
-      const itemName = await extractItemDescription(unlockCost.ItemCost.ItemClass)
-      return `Requires ${unlockCost.ItemCost.Amount}x${itemName} to unlock.`
+      const itemName = await extractItemDescription(
+        unlockCost.ItemCost.ItemClass,
+      );
+      return `Requires ${unlockCost.ItemCost.Amount}x ${itemName} to unlock.`;
     case "EFGDropPodUnlockCostType::Power":
-      return `Requires ${unlockCost.PowerConsumption} MW to unlock.`
+      return `Requires ${unlockCost.PowerConsumption} MW to unlock.`;
   }
-
-}
+};
 
 const isRelevantActor = (actor: Actor): actor is RelevantActors => {
   return RelevantActors.includes(actor.Type as ActorType);
@@ -259,6 +264,7 @@ for (const actor of persistentLevel) {
   let desc;
   let size = 1.1;
   let spawnId;
+  let spawnDesc;
 
   if (!isRelevantActor(actor)) {
     continue;
@@ -268,7 +274,7 @@ for (const actor of persistentLevel) {
   const assetPath = basePath.split(".")[0];
   const typeId = assetPath.split("/").pop();
 
-  const definition = getRessourceObjectDefinition(basePath); 
+  const definition = getRessourceObjectDefinition(basePath);
 
   if (definition) {
     group = definition.group;
@@ -276,10 +282,9 @@ for (const actor of persistentLevel) {
     type = definition.key;
     title = definition.title;
 
-
     if (actor.Type === "BP_DropPod_C") {
       spawnId = actor.Name;
-      desc = await extractDroppodDescription(actor)     
+      spawnDesc = await extractDroppodDescription(actor);
     }
 
     const icon =
@@ -312,9 +317,12 @@ for (const actor of persistentLevel) {
     }
   }
 
-  enDict[spawnId ?? type] = title;
+  enDict[type] = title;
   if (desc) {
-    enDict[(spawnId ?? type) + "_desc"] = desc;
+    enDict[type + "_desc"] = desc;
+  }
+  if (spawnDesc) {
+    enDict[spawnId + "_desc"] = spawnDesc;
   }
   if (!filters.some((f) => f.group === group)) {
     filters.push({ group, defaultOn: true, defaultOpen: true, values: [] });
@@ -349,7 +357,11 @@ for (const actor of persistentLevel) {
 }
 
 // sort filters by order
-filters.sort((a, b) => order.indexOf(a.group as SatisfactoryGroup) - order.indexOf(b.group as SatisfactoryGroup))
+filters.sort(
+  (a, b) =>
+    order.indexOf(a.group as SatisfactoryGroup) -
+    order.indexOf(b.group as SatisfactoryGroup),
+);
 
 console.timeEnd("Extraction");
 
