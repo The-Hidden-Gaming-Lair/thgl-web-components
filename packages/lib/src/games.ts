@@ -9,6 +9,14 @@ export const DEFAULT_PATREON_TIER_IDS = [
 
 export const games: Array<Game> = [
   {
+    id: "chrono-odyssey",
+    discordId: "chrono-odyssey",
+    title: "Chrono Odyssey",
+    logo: "https://www.th.gl/global_icons/chrono-odyssey.webp",
+    web: "https://duneawakening.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "dune-awakening",
     discordId: "dune-awakening",
     title: "Dune Awakening",

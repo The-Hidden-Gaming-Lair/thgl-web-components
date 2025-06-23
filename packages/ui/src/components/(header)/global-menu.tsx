@@ -19,6 +19,12 @@ import { NitroScript } from "../(ads)";
 
 const APPS = [
   {
+    title: "Chrono Odyssey",
+    url: "https://chronoodyssey.th.gl",
+    icon: "https://www.th.gl/global_icons/chrono-odyssey.webp",
+    tags: ["interactive_map"],
+  },
+  {
     title: "Dune: Awakening",
     url: "https://duneawakening.th.gl",
     icon: "https://www.th.gl/global_icons/dune.webp",
