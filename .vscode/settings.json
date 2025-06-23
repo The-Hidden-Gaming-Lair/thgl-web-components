@@ -1,0 +1,18 @@
+{
+  "eslint.workingDirectories": [
+    "./apps/once-human-overwolf",
+    "./apps/once-human-web",
+    "./apps/palworld-overwolf",
+    "./apps/palworld-web",
+    "./apps/thgl-overwolf",
+    "./apps/thgl-web",
+    "./apps/zero-space-web",
+    "./packages/config-eslint",
+    "./packages/config-tailwind",
+    "./packages/config-typescript",
+    "./packages/jest-presets",
+    "./packages/lib",
+    "./packages/ui"
+  ],
+  "dotnet.defaultSolution": "disable"
+}

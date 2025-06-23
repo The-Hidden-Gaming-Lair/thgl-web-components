@@ -1,0 +1,40 @@
+import { ContentLayout } from "@repo/ui/ads";
+import { HeaderOffset } from "@repo/ui/header";
+import type { Metadata } from "next";
+import { NavGrid, ReleaseNotes, Subtitle } from "@repo/ui/content";
+import { getUpdateMessages } from "@repo/lib";
+import { APP_CONFIG } from "@/config";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+  title: `${APP_CONFIG.title} Interactive Maps & Locations – The Hidden Gaming Lair`,
+  description: `Explore Elderwood Map, Kilima Village, Bahari Bay and Fairgrounds Map in Palia. Stay updated with the latest map updates and guides!`,
+};
+export default async function Home() {
+  const updateMessages = await getUpdateMessages(APP_CONFIG.name);
+
+  return (
+    <HeaderOffset full>
+      <ContentLayout
+        id={APP_CONFIG.name}
+        header={
+          <section className="space-y-4">
+            <Subtitle title={`${APP_CONFIG.title} Interactive Maps & Tools`} />
+            <p className="text-muted-foreground">
+              Explore Elderwood Map, Kilima Village, Bahari Bay and Fairgrounds
+              Map in Palia brought you by{" "}
+              <span className="text-nowrap">The Hidden Gaming Lair</span>!
+            </p>
+
+            {APP_CONFIG.internalLinks ? (
+              <NavGrid cards={APP_CONFIG.internalLinks} />
+            ) : null}
+          </section>
+        }
+        content={<ReleaseNotes updateMessages={updateMessages} />}
+      />
+    </HeaderOffset>
+  );
+}

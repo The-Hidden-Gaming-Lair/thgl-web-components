@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "outputs": [
+        "dist/**"
+      ],
+      "cache": false
+    },
+    "release": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false,
+      "env": [
+        "OW_CLI_EMAIL",
+        "OW_CLI_API_KEY",
+        "PREVIEW_ACCESS_CHANNEL_ID"
+      ]
+    }
+  }
+}

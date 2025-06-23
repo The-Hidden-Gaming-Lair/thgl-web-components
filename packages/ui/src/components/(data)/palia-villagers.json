@@ -1,0 +1,177 @@
+[
+  {
+    "villagerCoreId": 13337,
+    "persistId": 6,
+    "type": "theinnkeeper",
+    "typeId": "BP_VillagerTheInnKeeper_C",
+    "icon": "theinnkeeper.webp"
+  },
+  {
+    "villagerCoreId": 19327,
+    "persistId": 3,
+    "type": "deliveryboy",
+    "typeId": "BP_VillagerDeliveryBoy_C",
+    "icon": "deliveryboy.webp"
+  },
+  {
+    "villagerCoreId": 8663,
+    "persistId": 19928,
+    "type": "thefarmer",
+    "typeId": "BP_Villager_Farmer_C",
+    "icon": "thefarmer.webp"
+  },
+  {
+    "villagerCoreId": 20124,
+    "persistId": 26350,
+    "type": "thelibrarian",
+    "typeId": "BP_Villager_TheLibrarian_C",
+    "icon": "thelibrarian.webp"
+  },
+  {
+    "villagerCoreId": 20862,
+    "persistId": 5901,
+    "type": "thehealer",
+    "typeId": "BP_Villager_Healer_C",
+    "icon": "thehealer.webp"
+  },
+  {
+    "villagerCoreId": 19151,
+    "persistId": 15729,
+    "type": "therancher",
+    "typeId": "BP_Villager_Rancher_C",
+    "icon": "therancher.webp"
+  },
+  {
+    "villagerCoreId": 3801,
+    "persistId": 2,
+    "type": "fisherman",
+    "typeId": "BP_VillagerFisherman_C",
+    "icon": "fisherman.webp"
+  },
+  {
+    "villagerCoreId": 1897,
+    "persistId": 30389,
+    "type": "thecurator",
+    "typeId": "BP_Villager_Elouisa_C",
+    "icon": "thecurator.webp"
+  },
+  {
+    "villagerCoreId": 1142,
+    "persistId": 9,
+    "type": "themagistrate",
+    "typeId": "BP_Villager_TheMagistrate_C",
+    "icon": "themagistrate.webp"
+  },
+  {
+    "villagerCoreId": 14351,
+    "persistId": 7,
+    "type": "thehunter",
+    "typeId": "BP_VillagerTheHunter_C",
+    "icon": "thehunter.webp"
+  },
+  {
+    "villagerCoreId": 6515,
+    "persistId": 21218,
+    "type": "thenanny",
+    "typeId": "BP_Villager_Hekla_C",
+    "icon": "thenanny.webp"
+  },
+  {
+    "villagerCoreId": 1419,
+    "persistId": 8806,
+    "type": "theminer",
+    "typeId": "BP_Villager_Miner_C",
+    "icon": "theminer.webp"
+  },
+  {
+    "villagerCoreId": 10502,
+    "persistId": 475,
+    "type": "thetailor",
+    "typeId": "BP_Villager_Jel_C",
+    "icon": "thetailor.webp"
+  },
+  {
+    "villagerCoreId": 8919,
+    "persistId": 8,
+    "type": "thearcheologist",
+    "typeId": "BP_VillagerTheArchaeologist_C",
+    "icon": "thearcheologist.webp"
+  },
+  {
+    "villagerCoreId": 30076,
+    "persistId": 12390,
+    "type": "themayor",
+    "typeId": "BP_Villager_Mayor_C",
+    "icon": "themayor.webp"
+  },
+  {
+    "villagerCoreId": 21224,
+    "persistId": 11742,
+    "type": "themayorsdaughter",
+    "typeId": "BP_Villager_Kenyatta_C",
+    "icon": "themayorsdaughter.webp"
+  },
+  {
+    "villagerCoreId": 5802,
+    "persistId": 26988,
+    "type": "thefarmboy",
+    "typeId": "BP_Villager_Farmboy_C",
+    "icon": "thefarmboy.webp"
+  },
+  {
+    "villagerCoreId": 21355,
+    "persistId": 5,
+    "type": "thedemolitionist",
+    "typeId": "BP_VillagerTheDemolitionist_C",
+    "icon": "thedemolitionist.webp"
+  },
+  {
+    "villagerCoreId": 10215,
+    "persistId": 10,
+    "type": "thecook",
+    "typeId": "BP_Villager_Cook_C",
+    "icon": "thecook.webp"
+  },
+  {
+    "villagerCoreId": 4701,
+    "persistId": 11471,
+    "type": "theblacksmith",
+    "typeId": "BP_Villager_Blacksmith_C",
+    "icon": "theblacksmith.webp"
+  },
+  {
+    "villagerCoreId": 5586,
+    "persistId": 4,
+    "type": "thewatcher",
+    "typeId": "BP_VillagerTheWatcher_C",
+    "icon": "thewatcher.webp"
+  },
+  {
+    "villagerCoreId": 13260,
+    "persistId": 15354,
+    "type": "thealchemist",
+    "typeId": "BP_Villager_Tamala_C",
+    "icon": "thealchemist.webp"
+  },
+  {
+    "villagerCoreId": 500,
+    "persistId": 500,
+    "type": "theplumehound",
+    "typeId": "BP_Villager_Tau_C",
+    "icon": "theplumehound.webp"
+  },
+  {
+    "villagerCoreId": 19881,
+    "persistId": 12,
+    "type": "thecarpenter",
+    "typeId": "BP_Villager_Tish_C",
+    "icon": "thecarpenter.webp"
+  },
+  {
+    "villagerCoreId": 6680,
+    "persistId": 11,
+    "type": "thesalesman",
+    "typeId": "BP_Villager_Zeki_C",
+    "icon": "thesalesman.webp"
+  }
+]
