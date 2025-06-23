@@ -2,7 +2,12 @@
 
 This is the multi-app frontend monorepo for [The Hidden Gaming Lair](https://www.th.gl), containing apps, websites, and shared UI components.
 
-Here's a section you can add to your `README.md` under a new heading — listing all related repositories for **The Hidden Gaming Lair** ecosystem:
+## ⚠️ License & Usage
+
+This project is not open source.
+You are not permitted to use or repurpose this code for your own projects.
+
+All rights reserved © The Hidden Gaming Lair.
 
 ## 🧩 Related Repositories
 
@@ -24,6 +29,12 @@ This repo is part of a larger ecosystem of tools and services powering The Hidde
 - **Frameworks:** Next.js / Vite (React-based)
 - **Languages:** TypeScript
 - **Shared packages:** in `packages/ui` (UI components), `packages/lib` (utilities, logic)
+
+## 🤝 Contributing
+
+- Run and explore any app (`bunx turbo run dev --filter=...`)
+- Follow the code style and structure already in use
+- PRs welcome — especially UI tweaks, content improvements, or bugfixes
 
 ## 🚀 Getting Started
 
@@ -100,19 +111,6 @@ Each app contains a `src/config.ts` file for routing and game-specific setup.
 
 ## 🧠 Need Help?
 
-Ask in the #contributions channel (invite only) on Discord: <https://th.gl/discord>
+Ask in coding channels on my Discord: <https://th.gl/discord>
 
 Open issues and suggestions in #suggestions-issues channel
-
-## 🤝 Contributing
-
-- Run and explore any app (`bunx turbo run dev --filter=...`)
-- Follow the code style and structure already in use
-- PRs welcome — especially UI tweaks, content improvements, or bugfixes
-
-## ⚠️ License & Usage
-
-This project is not open source.
-You are not permitted to use or repurpose this code for your own projects.
-
-All rights reserved © The Hidden Gaming Lair.
