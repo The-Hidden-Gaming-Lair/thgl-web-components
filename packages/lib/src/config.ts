@@ -91,8 +91,8 @@ export type Version = {
 export const TH_GL_URL = "https://www.th.gl";
 export const API_FORGE_URL = "https://api-forge.th.gl";
 // export const TH_GL_URL = "http://localhost:3006";
-// export const DATA_FORGE_URL = "https://data.th.gl";
-export const DATA_FORGE_URL = "http://localhost:3000";
+export const DATA_FORGE_URL = "https://data.th.gl";
+// export const DATA_FORGE_URL = "http://localhost:3000";
 
 export function getAppUrl(appName: string, path: string): string {
   return `${DATA_FORGE_URL}/${appName}${path}`;
