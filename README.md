@@ -2,6 +2,21 @@
 
 This is the multi-app frontend monorepo for [The Hidden Gaming Lair](https://www.th.gl), containing apps, websites, and shared UI components.
 
+Here's a section you can add to your `README.md` under a new heading — listing all related repositories for **The Hidden Gaming Lair** ecosystem:
+
+## 🧩 Related Repositories
+
+This repo is part of a larger ecosystem of tools and services powering The Hidden Gaming Lair. Some of these repositories are private and not open source:
+
+| Repository                                                                            | Description                                                                                 |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [`thgl-data-forge`](https://github.com/The-Hidden-Gaming-Lair/thgl-data-forge)        | Data mining and API project for serving static game data (locations, filters, icons, etc.). |
+| [`thgl-api-forge`](https://github.com/The-Hidden-Gaming-Lair/thgl-api-forge)          | Dynamic API + database layer (starting with comments, more to come).                        |
+| [`thgl-memory-access`](https://github.com/The-Hidden-Gaming-Lair/thgl-memory-access)  | Game-specific memory reading projects for real-time data extraction.                        |
+| [`thgl-companion-app`](https://github.com/The-Hidden-Gaming-Lair/thgl-companion-app)  | Windows companion app with in-game overlay and position tracking.                           |
+| [`thgl-discord-bot`](https://github.com/The-Hidden-Gaming-Lair/thgl-discord-bot)      | Discord bot exposing update & info channels via API (used for release notes on apps/web).   |
+| [`thgl-web-components`](https://github.com/The-Hidden-Gaming-Lair/thgl-companion-app) | Multi-app frontend monorepo containing apps, websites, and shared UI components.            |
+
 ## 🧱 Tech Stack
 
 - **Monorepo:** TurboRepo
