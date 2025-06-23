@@ -39,11 +39,12 @@ export function Controller({
 
   const { fullDesktopUrl, fullOverlayUrl } = useMemo(
     () => ({
-      fullDesktopUrl: desktopURL.startsWith("http")
-        ? desktopURL
-        : location.origin + desktopURL,
+      fullDesktopUrl:
+        typeof location === "undefined" || desktopURL.startsWith("http")
+          ? desktopURL
+          : location.origin + desktopURL,
       fullOverlayUrl: overlayURL
-        ? overlayURL.startsWith("http")
+        ? typeof location === "undefined" || overlayURL.startsWith("http")
           ? overlayURL
           : location.origin + overlayURL
         : "",
