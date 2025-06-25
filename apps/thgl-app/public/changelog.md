@@ -1,3 +1,8 @@
+# 1.18.0
+
+- Feat: Update Palworld support to the latest game version
+- Fix: Item search respects all locations
+
 # 1.17.4
 
 - Fix: Another attempt to fix position detection
