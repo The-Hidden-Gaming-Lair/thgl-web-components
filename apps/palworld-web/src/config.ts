@@ -14,4 +14,16 @@ export const APP_CONFIG: AppConfig = {
       zDistance: 400,
     },
   },
+  internalLinks: [
+    {
+      href: "/maps/Palpagos%20Island",
+      title: "Palpagos Island Map",
+      description: "Navigate Palpagos Island with our interactive maps.",
+      iconName: "Map",
+      bgImage: "https://data.th.gl/palworld/map-tiles/default/preview.webp",
+      linkText: "Explore the Palpagos Island Map",
+    },
+  ],
+  externalLinks: [],
+  keywords: ["Tides of Terraria", "Feybreak", "Predator & Alpha Pals"],
 };

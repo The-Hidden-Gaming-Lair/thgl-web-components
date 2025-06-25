@@ -1,49 +1,41 @@
-import { MarkersSearch } from "@repo/ui/controls";
-import { FloatingAds } from "@repo/ui/ads";
-import { CoordinatesProvider } from "@repo/ui/providers";
-import { HeaderOffset } from "@repo/ui/header";
 import type { Metadata } from "next";
-import { fetchVersion } from "@repo/lib";
-import { FullMapDynamic } from "@repo/ui/full-map-dynamic";
+import { HeaderOffset } from "@repo/ui/header";
+import { ContentLayout } from "@repo/ui/ads";
+import { NavGrid, ReleaseNotes, Subtitle } from "@repo/ui/content";
 import { APP_CONFIG } from "@/config";
+import { getUpdateMessages } from "@repo/lib";
 
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  title: `${APP_CONFIG.title} Interactive Map – The Hidden Gaming Lair`,
-  description: `Explore ${APP_CONFIG.title}' Interactive Maps featuring Feybreak, Predator Pals, Alpha Pals, real-time tracking, and more to enhance your Palworld adventure!`,
+  title: `${APP_CONFIG.title} Interactive Maps & Locations – The Hidden Gaming Lair`,
+  description: `Explore ${APP_CONFIG.title} interactive maps for Setera, featuring ${APP_CONFIG.keywords!.join(", ")}, and more locations. Stay updated with the latest map updates!`,
 };
 
 export default async function Home() {
-  const version = await fetchVersion(APP_CONFIG.name);
+  const updateMessages = await getUpdateMessages(APP_CONFIG.name);
 
   return (
-    <CoordinatesProvider
-      appName={APP_CONFIG.name}
-      staticDrawings={version.data.drawings}
-      filters={version.data.filters}
-      mapNames={Object.keys(version.data.tiles)}
-      useCbor
-      regions={version.data.regions}
-      typesIdMap={version.data.typesIdMap}
-      nodesPaths={version.more.nodes}
-    >
-      <HeaderOffset full>
-        <FullMapDynamic
-          appConfig={APP_CONFIG}
-          tilesConfig={version.data.tiles}
-          iconsPath={version.more.icons}
-        />
-        <MarkersSearch
-          lastMapUpdate={version.createdAt}
-          tileOptions={version.data.tiles}
-          appName={APP_CONFIG.name}
-          iconsPath={version.more.icons}
-        >
-          <FloatingAds id={APP_CONFIG.name} />
-        </MarkersSearch>
-      </HeaderOffset>
-    </CoordinatesProvider>
+    <HeaderOffset full>
+      <ContentLayout
+        id={APP_CONFIG.name}
+        header={
+          <section className="space-y-4">
+            <Subtitle title={`${APP_CONFIG.title} Interactive Maps`} />
+            <p className="text-muted-foreground">
+              Explore Palpagos Island in Palworld with{" "}
+              {APP_CONFIG.keywords!.join(", ")}, plus more locations brought you
+              by <span className="text-nowrap">The Hidden Gaming Lair</span>!
+            </p>
+
+            {APP_CONFIG.internalLinks ? (
+              <NavGrid cards={APP_CONFIG.internalLinks} />
+            ) : null}
+          </section>
+        }
+        content={<ReleaseNotes updateMessages={updateMessages} />}
+      />
+    </HeaderOffset>
   );
 }

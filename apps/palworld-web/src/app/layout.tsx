@@ -7,7 +7,7 @@ import type { Metadata, Viewport } from "next";
 import { Account, Brand, Header, PlausibleTracker } from "@repo/ui/header";
 import type { Dict } from "@repo/ui/providers";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
-import { Links, SettingsDialogContent, Toaster } from "@repo/ui/controls";
+import { SettingsDialogContent, Toaster, Links } from "@repo/ui/controls";
 import Link from "next/link";
 import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
 import { APP_CONFIG } from "@/config";
