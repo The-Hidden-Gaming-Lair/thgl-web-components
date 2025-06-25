@@ -32,18 +32,11 @@ export async function generateMetadata({
     description += "locations, points of interest, and more.";
   }
 
-  const result: Metadata = {
+  return {
     title,
     description,
+    alternates: { canonical: `/maps/${map}` },
   };
-
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    const baseUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-    const canonicalUrl = `${baseUrl}/maps/${map}`;
-    result.alternates = { canonical: canonicalUrl };
-  }
-
-  return result;
 }
 
 export default async function Map({ params }: PageProps) {
