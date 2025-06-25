@@ -1,7 +1,7 @@
 import { MarkersSearch } from "@repo/ui/controls";
 import { FloatingAds } from "@repo/ui/ads";
 import { CoordinatesProvider } from "@repo/ui/providers";
-import { HeaderOffset } from "@repo/ui/header";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import type { Metadata } from "next";
 import {
   fetchDrawings,
@@ -37,6 +37,7 @@ export default async function Home() {
       regions={regions}
     >
       <HeaderOffset full>
+        <PageTitle title={`${APP_CONFIG.title} Interactive Map`} />
         <FullMapDynamic appConfig={APP_CONFIG} tilesConfig={tiles} />
         <MarkersSearch tileOptions={tiles} appName={APP_CONFIG.name}>
           <FloatingAds id={APP_CONFIG.name} />

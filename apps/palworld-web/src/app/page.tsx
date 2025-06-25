@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { HeaderOffset } from "@repo/ui/header";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
 import { NavGrid, ReleaseNotes, Subtitle } from "@repo/ui/content";
 import { APP_CONFIG } from "@/config";
@@ -18,6 +18,7 @@ export default async function Home() {
 
   return (
     <HeaderOffset full>
+      <PageTitle title={`${APP_CONFIG.title} Interactive Maps & Locations`} />
       <ContentLayout
         id={APP_CONFIG.name}
         header={

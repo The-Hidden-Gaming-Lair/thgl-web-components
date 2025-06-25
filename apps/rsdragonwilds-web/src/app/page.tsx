@@ -1,5 +1,5 @@
 import { ContentLayout } from "@repo/ui/ads";
-import { HeaderOffset } from "@repo/ui/header";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import type { Metadata } from "next";
 import {
   type NavCardProps,
@@ -35,6 +35,7 @@ export default async function Home() {
 
   return (
     <HeaderOffset full>
+      <PageTitle title={`${APP_CONFIG.title} Interactive Maps & Locations`} />
       <ContentLayout
         id={APP_CONFIG.name}
         header={

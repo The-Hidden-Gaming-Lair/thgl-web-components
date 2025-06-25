@@ -4,6 +4,7 @@ export * from "./external-anchor";
 export * from "./interactive-map-link";
 export * from "./lock-window-button";
 export * from "./nav-menu";
+export * from "./page-title";
 export * from "./brand";
 export * from "./header";
 export * from "./header-link";

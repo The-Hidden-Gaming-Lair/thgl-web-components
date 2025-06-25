@@ -8,7 +8,7 @@ export function Brand({
   className?: string;
 }): JSX.Element {
   return (
-    <h1
+    <div
       className={cn(
         "text-lg md:text-2xl md:leading-6 font-extrabold tracking-tight whitespace-nowrap",
         className,
@@ -18,6 +18,6 @@ export function Brand({
       <span className={cn("text-xs text-gray-400 hidden min-[410px]:inline")}>
         .TH.GL
       </span>
-    </h1>
+    </div>
   );
 }

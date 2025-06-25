@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { fetchVersion, getMapNameFromVersion } from "@repo/lib";
 import { CoordinatesProvider } from "@repo/ui/providers";
-import { HeaderOffset } from "@repo/ui/header";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import { FullMapDynamic } from "@repo/ui/full-map-dynamic";
 import { MarkersSearch } from "@repo/ui/controls";
 import { FloatingAds } from "@repo/ui/ads";
@@ -59,6 +59,9 @@ export default async function Map({ params }: PageProps) {
       map={mapName}
     >
       <HeaderOffset full>
+        <PageTitle
+          title={`${decodeURIComponent(map)} – ${APP_CONFIG.title} Interactive Map`}
+        />
         <FullMapDynamic
           appConfig={APP_CONFIG}
           tilesConfig={version.data.tiles}

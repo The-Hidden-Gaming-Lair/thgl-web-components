@@ -1,7 +1,7 @@
 import { MarkersSearch } from "@repo/ui/controls";
 import { FloatingAds } from "@repo/ui/ads";
 import { CoordinatesProvider } from "@repo/ui/providers";
-import { HeaderOffset } from "@repo/ui/header";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import type { Metadata } from "next";
 import {
   type GlobalFiltersConfig,
@@ -36,6 +36,7 @@ export default function Home() {
       globalFilters={globalFilters}
     >
       <HeaderOffset full>
+        <PageTitle title={`Stormgate Interactive Map`} />
         <InteractiveMapClient />
         <MarkersSearch tileOptions={tiles as unknown as TilesConfig}>
           <FloatingAds id="stormgate" />
