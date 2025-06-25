@@ -218,7 +218,7 @@ const APPS = [
       },
       {
         title: "Palworld Server Hosting",
-        url: "https://www.nitrado-aff.com/4B2XBP3/D42TT/",
+        url: "https://www.nitrado-aff.com/4B2XBP3/D42TT/?uid=60",
         icon: "https://www.th.gl/global_icons/nitrado.webp",
       },
     ],
