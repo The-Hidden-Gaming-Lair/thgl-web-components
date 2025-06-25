@@ -40,6 +40,11 @@ const APPS = [
         url: "https://www.reddit.com/r/duneawakening",
         icon: "https://www.th.gl/global_icons/reddit.webp",
       },
+      {
+        title: "Private Server Hosting",
+        url: "https://www.nitrado-aff.com/4B2XBP3/D42TT/?uid=59",
+        icon: "https://www.th.gl/global_icons/nitrado.webp",
+      },
     ],
   },
   {
@@ -213,8 +218,8 @@ const APPS = [
       },
       {
         title: "Palworld Server Hosting",
-        url: "https://billing.skynode.pro/aff.php?aff=1043",
-        icon: "https://www.th.gl/global_icons/skynode.webp",
+        url: "https://www.nitrado-aff.com/4B2XBP3/D42TT/",
+        icon: "https://www.th.gl/global_icons/nitrado.webp",
       },
     ],
   },
