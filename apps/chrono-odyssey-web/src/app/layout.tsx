@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import "@repo/ui/styles/globals.css";
 
-import { cn, fetchDict, fetchVersion } from "@repo/lib";
+import { cn, fetchVersion } from "@repo/lib";
 import { Inter as FontSans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { Account, Brand, Header, PlausibleTracker } from "@repo/ui/header";
