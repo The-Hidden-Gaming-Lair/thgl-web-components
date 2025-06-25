@@ -345,7 +345,7 @@ export function GlobalMenu({
                   href={app.url}
                 >
                   <img
-                    alt=""
+                    alt={app.title}
                     className={cn(
                       "bg-background h-9 w-9 border-2 border-secondary rounded-full overflow-hidden transition-colors group-focus-visible:outline-none group-focus-visible:ring-1 group-focus-visible:ring-ring",
                       app.title === activeApp
