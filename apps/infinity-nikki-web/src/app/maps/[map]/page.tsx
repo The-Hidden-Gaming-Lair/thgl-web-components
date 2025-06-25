@@ -36,8 +36,8 @@ export async function generateMetadata({
     description,
   };
 
-  if (process.env.VERCEL_URL) {
-    const baseUrl = `https://${process.env.VERCEL_URL}`;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    const baseUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
     const canonicalUrl = `${baseUrl}/maps/${map}`;
     result.alternates = { canonical: canonicalUrl };
   }
