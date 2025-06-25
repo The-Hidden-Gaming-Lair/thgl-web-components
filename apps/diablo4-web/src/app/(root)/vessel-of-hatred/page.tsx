@@ -6,13 +6,16 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "/",
+    canonical: "/vessel-of-hatred",
   },
   title: "Vessel of Hatred - Diablo IV - The Hidden Gaming Lair",
   description:
     "Prepare for the Vessel of Hatred expansion in Diablo IV with this interactive map and in-game app featuring real-time player position tracking. Find Tenet of Akarat, Helltide, Legion events, Altars of Lilith, and more!",
   keywords:
     "Vessel of Hatred, Diablo IV, Diablo 4, expansion, interactive map, real-time position tracking, Tenet of Akarat, Helltide, Legion, Altars of Lilith, in-game app, Diablo map, bosses, chests",
+  openGraph: {
+    url: `/vessel-of-hatred`,
+  },
 };
 
 export default function VesselIOfHatred(): JSX.Element {

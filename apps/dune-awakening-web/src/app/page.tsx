@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   },
   title: `${APP_CONFIG.title} Interactive Maps & Locations – The Hidden Gaming Lair`,
   description: `Explore ${APP_CONFIG.title} interactive maps for Hagga Basin, Arrakeen, Harko Village, featuring ${APP_CONFIG.keywords!.join(", ")}, and more locations. Stay updated with the latest map updates!`,
+  openGraph: {
+    url: `/`,
+  },
 };
 
 export default async function Home() {

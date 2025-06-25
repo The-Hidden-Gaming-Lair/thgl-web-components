@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: `${APP_CONFIG.title} Interactive Map – The Hidden Gaming Lair`,
   description:
     "Explore Hogwarts Legacy with this Interactive Map! Showcasing all fast travel, sphinx puzzle spawn and other locations in Hogwarts, Hogsmeade and in the Overland!",
+  openGraph: {
+    url: `/`,
+  },
 };
 
 export default async function Home() {

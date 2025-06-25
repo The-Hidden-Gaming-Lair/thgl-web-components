@@ -7,6 +7,9 @@ export const metadata = {
   description:
     "Find answers to common questions about TH.GL, the Companion App, ads, subscriptions, and more.",
   alternates: { canonical: "/faq" },
+  openGraph: {
+    url: `/faq`,
+  },
 };
 
 export default function FAQIndexPage() {

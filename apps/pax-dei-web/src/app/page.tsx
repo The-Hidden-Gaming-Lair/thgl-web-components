@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   },
   title: `${APP_CONFIG.title} Interactive Map – The Hidden Gaming Lair`,
   description: `Explore  ${APP_CONFIG.title}' Interactive Maps featuring Merrie, Kerys, Inis Gallia, Lyonesse & Ancien. Discover locations of Edible Plants, Mushrooms, Plants, Cooking Ingredients, Textile Materials, and Grains!`,
+  openGraph: {
+    url: `/`,
+  },
 };
 export default async function Home() {
   const [drawings, filters, regions, tiles] = await Promise.all([

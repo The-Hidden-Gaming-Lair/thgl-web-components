@@ -16,6 +16,9 @@ export async function generateMetadata({
     title: `${entry.question} | FAQ – TH.GL`,
     description: `Answer to: ${entry.question}`,
     alternates: { canonical: `/faq/${entry.id}` },
+    openGraph: {
+      url: `/faq/${entry.id}`,
+    },
   };
 }
 

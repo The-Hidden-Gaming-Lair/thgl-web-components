@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   },
   title: `${APP_CONFIG.title} Interactive Map – The Hidden Gaming Lair`,
   description: `Explore ${APP_CONFIG.title}' Interactive Maps featuring Whimstar, Dew of Inspiration, crates, lost notebooks, and more!`,
+  openGraph: {
+    url: `/`,
+  },
 };
 export default async function Home() {
   const version = await fetchVersion(APP_CONFIG.name);

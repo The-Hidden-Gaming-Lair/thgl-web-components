@@ -16,6 +16,9 @@ export async function generateMetadata({
     title: `${entry.title} | Blog – TH.GL`,
     description: entry.description,
     alternates: { canonical: `/blog/${entry.id}` },
+    openGraph: {
+      url: `/blog/${entry.id}`,
+    },
   };
 }
 

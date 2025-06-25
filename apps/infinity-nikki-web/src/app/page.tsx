@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   },
   title: `${APP_CONFIG.title} Interactive Maps & Locations – The Hidden Gaming Lair`,
   description: `Explore ${APP_CONFIG.title} interactive maps for Miraland, Firework Isles, Serenty Island and Sea of Stars, featuring ${APP_CONFIG.keywords!.join(", ")}. Stay updated with the latest map updates and guides!`,
+  openGraph: {
+    url: `/`,
+  },
 };
 export default async function Home() {
   const updateMessages = await getUpdateMessages(APP_CONFIG.name);

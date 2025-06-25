@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   },
   title: `${APP_CONFIG.title} Interactive Map – The Hidden Gaming Lair`,
   description: `Explore ${APP_CONFIG.title}' Interactive Maps featuring Avilius, Bastium, Celano, & Kildebat. Discover Taylor's Crow locations, Monsters, NPC's, secrets, and dungeons like Land Of Prosperity!`,
+  openGraph: {
+    url: `/`,
+  },
 };
 export default async function Home() {
   const version = await fetchVersion(APP_CONFIG.name);

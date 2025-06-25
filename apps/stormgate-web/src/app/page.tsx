@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   title: "Stormgate Interactive Map – The Hidden Gaming Lair",
   description:
     "Explore Stormgate with these Interactive Maps! Showcasing secrets, camps, upgrades, and more!",
+  openGraph: {
+    url: `/`,
+  },
 };
 
 export default function Home() {

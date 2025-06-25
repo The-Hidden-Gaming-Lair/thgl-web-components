@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Satisfactory Interactive Map – The Hidden Gaming Lair",
   description:
     "Explore Satisfactory 1.0 with this Interactive Map! Showcasing all resources, collectibles, artifacts, and more!",
+  openGraph: {
+    url: `/`,
+  },
 };
 
 export default async function Home() {

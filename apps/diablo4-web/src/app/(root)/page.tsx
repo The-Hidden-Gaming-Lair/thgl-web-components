@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: `${APP_CONFIG.title} Interactive Map – The Hidden Gaming Lair`,
   description:
     "Explore Diablo 4 Vessel of Hatred with this Interactive Map! Discover Tenet of Akarat, Helltide, Legion, Wandering Death, Altars of Lilith, Chests, Bosses, and more with real-time position tracking.",
+  openGraph: {
+    url: `/`,
+  },
 };
 export default async function Home() {
   const version = await fetchVersion(APP_CONFIG.name);

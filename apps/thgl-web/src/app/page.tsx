@@ -12,6 +12,9 @@ export const metadata = {
   description:
     "Smarter tools for gamers. Use real-time overlays, second-screen maps, and web tools to enhance your play across supported games.",
   alternates: { canonical: "/" },
+  openGraph: {
+    url: `/}`,
+  },
 };
 
 export default function HomePage() {
