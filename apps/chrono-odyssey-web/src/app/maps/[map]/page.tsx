@@ -16,25 +16,34 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  let map = (await params).map;
-  map = decodeURIComponent(map);
-  if (!map.endsWith(" Map")) {
-    map += " Map";
+  const map = (await params).map;
+  let decodedMap = decodeURIComponent(map);
+  if (!decodedMap.endsWith(" Map")) {
+    decodedMap += " Map";
   }
 
-  const title = `${map} – ${APP_CONFIG.title} Interactive Map`;
+  const title = `${decodedMap} – ${APP_CONFIG.title} Interactive Map`;
 
-  let description = `Explore ${map} in ${APP_CONFIG.title} with `;
+  let description = `Explore ${decodedMap} in ${APP_CONFIG.title} with `;
   if (APP_CONFIG.keywords) {
     description += `${APP_CONFIG.keywords.join(", ")}, plus more locations.`;
   } else {
     description += "locations, points of interest, and more.";
   }
 
-  return {
+  const result: Metadata = {
     title,
     description,
   };
+
+  if (process.env.VERCEL_URL) {
+    const baseUrl = `https://${process.env.VERCEL_URL}`;
+    const canonicalUrl = `${baseUrl}/maps/${map}`;
+
+    result.alternates = { canonical: canonicalUrl };
+  }
+
+  return result;
 }
 
 export default async function Map({ params }: PageProps) {
