@@ -28,7 +28,6 @@ export default function PileMapDynamic({
   );
   center[0] /= pileSpawns.length;
   center[1] /= pileSpawns.length;
-  console.log("centers", center, pileSpawns[0].p, pileSpawns.length);
   return (
     <div className="h-64 md:h-96 mt-4">
       <SimpleMap
