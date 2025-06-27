@@ -17,6 +17,7 @@ export * from "../ui/command";
 export * from "../ui/dialog";
 export * from "../ui/hover-card";
 export * from "../ui/input";
+export * from "../ui/progress";
 export * from "../ui/scroll-area";
 export * from "../ui/select";
 export * from "../ui/switch";

@@ -120,6 +120,24 @@ export function getMapNameFromVersion(
   return mapName;
 }
 
+export function getTypeFromVersion(
+  version: Version,
+  type: string,
+): string | null {
+  const decodedType = decodeURIComponent(type);
+  const filterName = Object.entries(version.data.enDict).filter(
+    ([, v]) => v === decodedType,
+  );
+  const typeName = filterName.find(([k]) =>
+    version.data.filters.some((f) => f.values.find((v) => v.id === k)),
+  )?.[0];
+
+  if (!typeName) {
+    return null;
+  }
+  return typeName;
+}
+
 export function getIconsUrl(
   appName: string,
   icon: string,

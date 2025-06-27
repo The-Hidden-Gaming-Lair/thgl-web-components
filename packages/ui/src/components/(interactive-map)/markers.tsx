@@ -2,7 +2,7 @@
 import type { LeafletMouseEvent } from "leaflet";
 import { DomEvent } from "leaflet";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Spawn, Spawns, useCoordinates } from "../(providers)";
+import { Spawns, useCoordinates } from "../(providers)";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 import CanvasMarker, {
   canvasMarkerImgs,
@@ -12,7 +12,9 @@ import CanvasMarker, {
 import { useMap } from "./store";
 import {
   getIconsUrl,
+  getNodeId,
   MarkerOptions,
+  Spawn,
   useConnectionStore,
   useGameState,
   useSettingsStore,
@@ -208,11 +210,6 @@ function MarkersContent({
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
-
-    const getNodeId = (spawn: Spawn) =>
-      spawn.id?.includes("@")
-        ? spawn.id
-        : `${spawn.id || spawn.type}@${spawn.p[0]}:${spawn.p[1]}`;
 
     const handleSpawn = (spawn: Spawn) => {
       if (spawn.mapName && spawn.mapName !== map.mapName) {

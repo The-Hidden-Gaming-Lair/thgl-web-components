@@ -26,3 +26,55 @@ export const isPointInsidePolygon = (
 
   return inside;
 };
+
+export type Spawn = {
+  id: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  address?: number;
+  p: [number, number] | [number, number, number];
+  type: string;
+  cluster?: Omit<Spawn, "cluster">[];
+  mapName?: string;
+  color?: string;
+  icon?: {
+    name: string;
+    url: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+  } | null;
+  radius?: number;
+  isPrivate?: boolean;
+  data?: Record<string, string[]>;
+};
+
+export type SimpleSpawn = {
+  id: string;
+  p: [number, number] | [number, number, number];
+  icon?:
+    | string
+    | {
+        name: string;
+        url: string;
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+      }
+    | null;
+  name: string;
+  color?: string;
+  description?: string;
+};
+
+export const getNodeId = (spawn: Spawn | SimpleSpawn) => {
+  if (spawn.id?.includes("@")) {
+    return spawn.id;
+  }
+  if ("type" in spawn) {
+    return `${spawn.id || spawn.type}@${spawn.p[0]}:${spawn.p[1]}`;
+  }
+  return `${spawn.id}@${spawn.p[0]}:${spawn.p[1]}`;
+};

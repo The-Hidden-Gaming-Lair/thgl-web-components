@@ -23,32 +23,10 @@ import {
   UserStoreState,
   searchParamsToView,
   GlobalFiltersConfig,
+  Spawn,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
 import useSWRImmutable from "swr/immutable";
-
-export type Spawn = {
-  id: string;
-  name?: string | undefined;
-  description?: string | undefined;
-  address?: number;
-  p: [number, number] | [number, number, number];
-  type: string;
-  cluster?: Omit<Spawns[number], "cluster">[];
-  mapName?: string;
-  color?: string;
-  icon?: {
-    name: string;
-    url: string;
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-  } | null;
-  radius?: number;
-  isPrivate?: boolean;
-  data?: Record<string, string[]>;
-};
 
 export type NodesCoordinates = {
   type: string;

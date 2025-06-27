@@ -1,44 +1,33 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useMap } from "./store";
 import CanvasMarker, { canvasMarkerImgs } from "./canvas-marker";
-import { getIconsUrl, useSettingsStore, Version } from "@repo/lib";
+import {
+  getIconsUrl,
+  getNodeId,
+  useSettingsStore,
+  type SimpleSpawn,
+} from "@repo/lib";
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
-import { LeafletMouseEvent } from "leaflet";
+import { DomEvent, LeafletMouseEvent } from "leaflet";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
 
-export type SimpleSpawn = {
-  id: string;
-  p: [number, number] | [number, number, number];
-  icon?:
-    | string
-    | {
-        name: string;
-        url: string;
-        x?: number;
-        y?: number;
-        width?: number;
-        height?: number;
-      }
-    | null;
-  name: string;
-  color?: string;
-  description?: string;
-};
 export function SimpleMarkers({
   appName,
   spawns,
   onClick,
   imageSprite,
-  highlightedMarkerId,
+  highlightedIds = [],
   iconsPath,
+  withoutDiscoveredNodes = false,
 }: {
   appName?: string;
   spawns: SimpleSpawn[];
   onClick?: (spawn: SimpleSpawn) => void;
   imageSprite?: boolean;
-  highlightedMarkerId?: string;
+  highlightedIds?: string[];
   iconsPath?: string;
+  withoutDiscoveredNodes?: boolean;
 }) {
   const map = useMap();
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
@@ -55,6 +44,15 @@ export function SimpleMarkers({
   } | null>(null);
   const [isLoadingSprite, setIsLoadingSprite] = useState(
     imageSprite && !canvasMarkerImgs["icons.webp"],
+  );
+  const hideDiscoveredNodes = useSettingsStore(
+    (state) => state.hideDiscoveredNodes,
+  );
+  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
+  const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
+  const discoveredSet = useMemo(
+    () => new Set(discoveredNodes),
+    [discoveredNodes],
   );
 
   useEffect(() => {
@@ -82,13 +80,31 @@ export function SimpleMarkers({
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
     const baseRadius = 12;
     const markers = spawns.map((spawn) => {
+      let isDiscovered: boolean;
+      if (!withoutDiscoveredNodes) {
+        const nodeId = getNodeId(spawn);
+        if (nodeId.includes("@")) {
+          const [baseId] = nodeId.split("@");
+          isDiscovered = discoveredSet.has(nodeId) || discoveredSet.has(baseId);
+        } else {
+          isDiscovered = discoveredSet.has(nodeId);
+        }
+
+        if (isDiscovered && hideDiscoveredNodes) {
+          return;
+        }
+      } else {
+        isDiscovered = false;
+      }
+
       const marker = new CanvasMarker(spawn.p, {
         id: spawn.id,
         icon: typeof spawn.icon === "string" ? { url: spawn.icon } : spawn.icon,
         color: spawn.color,
         baseRadius: baseRadius,
         radius: baseRadius * baseIconSize,
-        isHighlighted: spawn.id === highlightedMarkerId,
+        isHighlighted: highlightedIds.includes(spawn.id),
+        isDiscovered,
       });
       marker.on({
         mouseover: (event) => {
@@ -135,6 +151,15 @@ export function SimpleMarkers({
           };
           map.on("mousemove", handleMapMouseMoveRef.current);
         },
+        contextmenu: (event) => {
+          if (withoutDiscoveredNodes) {
+            return;
+          }
+          DomEvent.stopPropagation(event);
+          isDiscovered = !isDiscovered;
+          const nodeId = getNodeId(spawn);
+          setDiscoverNode(nodeId, isDiscovered);
+        },
         click: () => {
           if (onClick) {
             onClick(spawn);
@@ -149,11 +174,11 @@ export function SimpleMarkers({
     return () => {
       markers.forEach((marker) => {
         try {
-          marker.remove();
+          marker?.remove();
         } catch (e) {}
       });
     };
-  }, [map, spawns, isLoadingSprite]);
+  }, [map, spawns, isLoadingSprite, highlightedIds, discoveredSet]);
 
   const mapContainer = map?.getPane("mapPane");
 
