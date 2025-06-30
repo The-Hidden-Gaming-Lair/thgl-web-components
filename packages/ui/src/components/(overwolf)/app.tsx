@@ -1,5 +1,6 @@
 import {
   cn,
+  DrawingsConfig,
   FiltersConfig,
   GlobalFiltersConfig,
   OverwolfAppConfig,
@@ -53,6 +54,8 @@ export function App({
   globalFilters,
   moreSettings,
   version,
+  hideAds = false,
+  drawings,
 }: {
   appConfig: OverwolfAppConfig;
   dict: Dict;
@@ -66,6 +69,8 @@ export function App({
   additionalFilters?: React.ReactNode;
   moreSettings?: React.ReactNode;
   version?: Version;
+  hideAds?: boolean;
+  drawings?: DrawingsConfig;
 }): JSX.Element {
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
@@ -86,6 +91,7 @@ export function App({
           <CoordinatesProvider
             appName={appConfig.name}
             filters={filters}
+            staticDrawings={drawings}
             mapNames={Object.keys(tiles)}
             regions={regions}
             typesIdMap={typesIdMap}
@@ -152,14 +158,16 @@ export function App({
         </TooltipProvider>
       </I18NProvider>
       <ResizeBorders />
-      <AdsScript fallback={<AdsFallback title={appConfig.title} />}>
-        <Ads160x600Desktop title={appConfig.title} />
-        <Ads728x90Desktop title={appConfig.title} />
-        <Ads300x250Overlay title={appConfig.title} />
-        <Ads400x300Overlay title={appConfig.title} />
-        <Ads400x600Desktop title={appConfig.title} />
-        <Ads400x900Desktop title={appConfig.title} />
-      </AdsScript>
+      {!hideAds && (
+        <AdsScript fallback={<AdsFallback title={appConfig.title} />}>
+          <Ads160x600Desktop title={appConfig.title} />
+          <Ads728x90Desktop title={appConfig.title} />
+          <Ads300x250Overlay title={appConfig.title} />
+          <Ads400x300Overlay title={appConfig.title} />
+          <Ads400x600Desktop title={appConfig.title} />
+          <Ads400x900Desktop title={appConfig.title} />
+        </AdsScript>
+      )}
       <Toaster />
       <PlausibleTracker
         apiHost="https://metrics.th.gl"
