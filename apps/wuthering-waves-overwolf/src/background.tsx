@@ -1,8 +1,9 @@
 import { initBackground, initGameEventsPlugin } from "@repo/lib/overwolf";
 import { APP_CONFIG } from "./config";
-import { fetchTypesIdMap } from "@repo/lib";
+import { fetchVersion } from "@repo/lib";
 
-const typesIdMap = await fetchTypesIdMap(APP_CONFIG.name);
+const version = await fetchVersion(APP_CONFIG.name);
+const typesIdMap = version.data.typesIdMap;
 initGameEventsPlugin(
   { processName: "Client-Win64-Shipping" },
   Object.keys(typesIdMap),

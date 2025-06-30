@@ -170,41 +170,13 @@ export async function fetchDatabase(appName: string): Promise<DatabaseConfig> {
   return res.json();
 }
 
-export async function fetchDrawings(appName: string): Promise<DrawingsConfig> {
-  const res = await fetch(`${DATA_FORGE_URL}/${appName}/config/drawings.json`);
-  return res.json();
-}
-
 export async function fetchFilters(appName: string): Promise<FiltersConfig> {
   const res = await fetch(`${DATA_FORGE_URL}/${appName}/config/filters.json`);
   return res.json();
 }
 
-export async function fetchRegions(appName: string): Promise<RegionsConfig> {
-  const res = await fetch(`${DATA_FORGE_URL}/${appName}/config/regions.json`);
-  return res.json();
-}
-
 export async function fetchTiles(appName: string): Promise<TilesConfig> {
   const res = await fetch(`${DATA_FORGE_URL}/${appName}/config/tiles.json`);
-  return res.json();
-}
-
-export async function fetchGlobalFilters(
-  appName: string,
-): Promise<GlobalFiltersConfig> {
-  const res = await fetch(
-    `${DATA_FORGE_URL}/${appName}/config/global-filters.json`,
-  );
-  return res.json();
-}
-
-export async function fetchTypesIdMap(
-  appName: string,
-): Promise<Record<string, string>> {
-  const res = await fetch(
-    `${DATA_FORGE_URL}/${appName}/config/types_id_map.json`,
-  );
   return res.json();
 }
 

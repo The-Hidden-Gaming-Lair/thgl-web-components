@@ -13,7 +13,7 @@ export const games: Array<Game> = [
     discordId: "chrono-odyssey",
     title: "Chrono Odyssey",
     logo: "https://www.th.gl/global_icons/chrono-odyssey.webp",
-    web: "https://duneawakening.th.gl",
+    web: "https://chronoodyssey.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
