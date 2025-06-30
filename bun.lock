@@ -138,31 +138,6 @@
         "typescript": "5.8.3",
       },
     },
-    "apps/dune-awakening-overwolf": {
-      "name": "dune-awakening-overwolf",
-      "version": "0.0.0",
-      "dependencies": {
-        "@repo/lib": "workspace:*",
-        "@repo/ui": "workspace:*",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
-      },
-      "devDependencies": {
-        "@overwolf/ow-cli": "0.1.2",
-        "@repo/eslint-config": "workspace:*",
-        "@repo/tailwind-config": "workspace:*",
-        "@repo/typescript-config": "workspace:*",
-        "@types/react": "18.3.12",
-        "@types/react-dom": "18.3.1",
-        "@vitejs/plugin-react-swc": "3.7.1",
-        "autoprefixer": "10.4.20",
-        "postcss": "8.4.47",
-        "reflect-metadata": "^0.2.2",
-        "tailwindcss": "3.4.14",
-        "typescript": "5.8.3",
-        "vite": "5.4.10",
-      },
-    },
     "apps/dune-awakening-web": {
       "name": "dune-awakening-web",
       "version": "0.0.0",
@@ -845,7 +820,7 @@
         "jdenticon": "^3.3.0",
         "js-cookie": "3.0.5",
         "leaflet": "1.9.4",
-        "lucide-react": "0.453.0",
+        "lucide-react": "0.525.0",
         "markdown-to-jsx": "^7.7.3",
         "next": "15.0.1",
         "next-themes": "0.3.0",
@@ -1846,8 +1821,6 @@
 
     "dunder-proto": ["dunder-proto@1.0.1", "", { "dependencies": { "call-bind-apply-helpers": "^1.0.1", "es-errors": "^1.3.0", "gopd": "^1.2.0" } }, "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A=="],
 
-    "dune-awakening-overwolf": ["dune-awakening-overwolf@workspace:apps/dune-awakening-overwolf"],
-
     "dune-awakening-web": ["dune-awakening-web@workspace:apps/dune-awakening-web"],
 
     "eastasianwidth": ["eastasianwidth@0.2.0", "", {}, "sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA=="],
@@ -2364,7 +2337,7 @@
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
 
-    "lucide-react": ["lucide-react@0.453.0", "", { "peerDependencies": { "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc" } }, "sha512-kL+RGZCcJi9BvJtzg2kshO192Ddy9hv3ij+cPrVPWSRzgCWCVazoQJxOjAwgK53NomL07HB7GPHW120FimjNhQ=="],
+    "lucide-react": ["lucide-react@0.525.0", "", { "peerDependencies": { "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-Tm1txJ2OkymCGkvwoHt33Y2JpN5xucVq1slHcgE6Lk0WjDfjgKWor5CdVER8U6DvcfMwh4M8XxmpTiyzfmfDYQ=="],
 
     "make-dir": ["make-dir@4.0.0", "", { "dependencies": { "semver": "^7.5.3" } }, "sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw=="],
 

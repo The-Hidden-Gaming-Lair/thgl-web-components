@@ -7,12 +7,12 @@ import {
   CardTitle,
 } from "../ui/card";
 import { NavIcon } from "./nav-icon";
-import { IconName } from "@repo/lib";
+import { cn, IconName } from "@repo/lib";
 import Image from "next/image";
 
 export type NavCardProps = {
   title: string;
-  description: string;
+  description?: string;
   href?: string;
   linkText?: string;
   bgImage?: string;
@@ -28,7 +28,7 @@ export function NavCard({
   iconName,
 }: NavCardProps) {
   return (
-    <Link href={href} className="block min-h-[200px]">
+    <Link href={href} className={cn("block", { "min-h-[200px]": bgImage })}>
       <Card className="h-full w-full hover:border-primary transition-colors relative text-left overflow-hidden flex flex-col bg-gradient-to-b from-muted/50 to-black">
         <CardHeader className="relative z-10 grow p-0">
           <CardTitle className="bg-black/75 border-black px-2 py-2 flex justify-center items-center uppercase truncate text-md">
@@ -38,7 +38,7 @@ export function NavCard({
             />
             <span>{title}</span>
           </CardTitle>
-          {bgImage ? (
+          {bgImage && (
             <CardDescription className="grow  h-[220px] w-[330px]">
               <Image
                 src={bgImage}
@@ -48,7 +48,8 @@ export function NavCard({
                 className="object-contain h-full w-full"
               />
             </CardDescription>
-          ) : (
+          )}
+          {!bgImage && description && (
             <CardDescription className="p-2 text-secondary-foreground text-md ">
               {description}
             </CardDescription>

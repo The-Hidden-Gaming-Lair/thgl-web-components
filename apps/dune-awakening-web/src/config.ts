@@ -51,6 +51,30 @@ export const APP_CONFIG: AppConfig = {
       bgImage: "/private-servers-tile.webp",
       linkText: "Get Your Private Server",
     },
+    {
+      href: "/guides",
+      title: "All Guides",
+      iconName: "BookOpen",
+      linkText: "Discover all Locations",
+    },
+    {
+      href: "/guides/Intel%20Point",
+      title: "Intel Point Guide",
+      iconName: "BookOpen",
+      linkText: "Discover all Intel Points",
+    },
+    {
+      href: "/guides/Buggy",
+      title: "Buggy Guide",
+      iconName: "BookOpen",
+      linkText: "Discover all Buggy Locations",
+    },
+    {
+      href: "/guides/Trial",
+      title: "Trial Guide",
+      iconName: "BookOpen",
+      linkText: "Discover all Trial Locations",
+    },
   ],
   externalLinks: [
     {

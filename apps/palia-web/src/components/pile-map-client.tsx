@@ -5,10 +5,9 @@ import { notFound, useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { Button } from "@repo/ui/controls";
 import Link from "next/link";
-import { type SimpleSpawn } from "@repo/ui/interactive-map";
 import { type Spawns, useT } from "@repo/ui/providers";
 import { Skeleton } from "@repo/ui/data";
-import { type TilesConfig, type FiltersConfig } from "@repo/lib";
+import { type TilesConfig, type FiltersConfig, SimpleSpawn } from "@repo/lib";
 import { type TimedLootPiles } from "@/app/rummage-pile/page";
 
 const PileMapDynamic = dynamic(() => import("./pile-map-dynamic"), {
@@ -38,7 +37,7 @@ export default function PileMapClient({
 
   useEffect(() => {
     if (!mapParam) {
-      history.pushState(
+      history.replaceState(
         null,
         "",
         `${window.location.pathname}?map=kilima-valley`,

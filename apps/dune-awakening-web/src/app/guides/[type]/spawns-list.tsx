@@ -2,7 +2,7 @@
 import { type SimpleSpawn, useSettingsStore } from "@repo/lib";
 import { Button, Progress } from "@repo/ui/controls";
 import { useT } from "@repo/ui/providers";
-import { Check, Eye, EyeClosed, X } from "lucide-react";
+import { Check, ImageUpscale, X } from "lucide-react";
 
 export function SpawnsList({
   spawns,
@@ -20,7 +20,7 @@ export function SpawnsList({
 
   const groupById = spawns.reduce(
     (acc, spawn) => {
-      const name = t(spawn.id);
+      const name = t(spawn.id, false, spawn.type);
       if (!acc[name]) {
         acc[name] = [];
       }
@@ -85,10 +85,10 @@ export function SpawnsList({
               size="icon"
               onClick={() => onShowClick(isHighlighted ? [] : groupSpawnIds)}
               className="shrink-0"
-              variant="secondary"
+              variant={isHighlighted ? "secondary" : "ghost"}
               title="Highlight on Map"
             >
-              {isHighlighted ? <EyeClosed /> : <Eye />}
+              <ImageUpscale />
             </Button>
           </div>
         );

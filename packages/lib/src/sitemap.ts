@@ -29,6 +29,26 @@ export function createSitemap(appConfig: AppConfig) {
         })
         .filter((a) => !maps.some((map) => map.url === a.url)) || [];
 
+    let guides: MetadataRoute.Sitemap = [];
+    if (appConfig.internalLinks?.some((link) => link.href === "/guides")) {
+      guides = version.data.filters.flatMap<MetadataRoute.Sitemap[number]>(
+        (filter) =>
+          filter.values.flatMap((v) => {
+            const url = `${baseUrl}/guides/${encodeURIComponent(version.data.enDict[v.id])}`;
+            if (internalLinks.some((g) => g.url === url)) {
+              return [];
+            }
+
+            return {
+              url,
+              lastModified: new Date(),
+              changeFrequency: "weekly",
+              priority: 0.5,
+            };
+          }),
+      );
+    }
+
     return [
       {
         url: baseUrl,
@@ -38,6 +58,7 @@ export function createSitemap(appConfig: AppConfig) {
       },
       ...maps,
       ...internalLinks,
+      ...guides,
     ];
   };
 }

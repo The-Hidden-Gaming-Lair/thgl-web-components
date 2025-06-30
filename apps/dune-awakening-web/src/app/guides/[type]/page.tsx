@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import {
   decodeFromBuffer,
   fetchVersion,
-  getAppUrl,
   getTypeFromVersion,
+  SimpleSpawn,
 } from "@repo/lib";
-import { NodesCoordinates, Spawns } from "@repo/ui/providers";
+import { Spawns } from "@repo/ui/providers";
 import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
 import { APP_CONFIG } from "@/config";
 import { notFound } from "next/navigation";
 import { Subtitle } from "@repo/ui/content";
 import Head from "next/head";
-import MapProgress from "./map-progress";
+import MapGuides from "./map-guides";
 
 interface PageProps {
   params: Promise<{ type: string }>;
@@ -60,15 +60,21 @@ export default async function GuidePage({ params }: PageProps) {
     ?.values.find((v) => v.id === typeName)?.icon;
   if (!icon) notFound();
 
-  const maps = spawns.reduce((acc, n) => {
-    const mapName = n.mapName || "default";
-    if (!acc.includes(mapName)) {
-      acc.push(mapName);
-    }
-    return acc;
-  }, [] as string[]);
+  const maps = spawns
+    .reduce((acc, n) => {
+      const mapName = n.mapName || "default";
+      if (!acc.includes(mapName)) {
+        acc.push(mapName);
+      }
+      return acc;
+    }, [] as string[])
+    .sort(
+      (a, b) =>
+        Object.keys(version.data.tiles).indexOf(a) -
+        Object.keys(version.data.tiles).indexOf(b),
+    );
 
-  const simpleSpawns = spawns.map((s) => ({
+  const simpleSpawns = spawns.map<SimpleSpawn>((s) => ({
     id: s.id || s.type,
     p: s.p,
     mapName: s.mapName,
@@ -152,19 +158,11 @@ export default async function GuidePage({ params }: PageProps) {
             </>
           }
           content={
-            <>
-              {maps.map((map) => {
-                const mapSpawns = simpleSpawns.filter((s) => s.mapName === map);
-                return (
-                  <MapProgress
-                    key={map}
-                    spawns={mapSpawns}
-                    map={map}
-                    tiles={version.data.tiles}
-                  />
-                );
-              })}
-            </>
+            <MapGuides
+              simpleSpawns={simpleSpawns}
+              maps={maps}
+              tiles={version.data.tiles}
+            />
           }
         />
       </HeaderOffset>

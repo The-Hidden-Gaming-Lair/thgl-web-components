@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  SimpleMap,
-  SimpleMarkers,
-  type SimpleSpawn,
-} from "@repo/ui/interactive-map";
-import { type TilesConfig } from "@repo/lib";
+import { SimpleMap, SimpleMarkers } from "@repo/ui/interactive-map";
+import { SimpleSpawn, type TilesConfig } from "@repo/lib";
 
 export default function SimpleMapDynamic({
   mapName,

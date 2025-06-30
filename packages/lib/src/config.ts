@@ -36,7 +36,7 @@ export type AppConfig = {
   withoutLiveMode?: boolean;
   internalLinks?: {
     title: string;
-    description: string;
+    description?: string;
     href: string;
     linkText?: string;
     bgImage?: string;

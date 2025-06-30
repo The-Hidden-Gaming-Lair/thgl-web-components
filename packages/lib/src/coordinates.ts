@@ -53,6 +53,8 @@ export type Spawn = {
 export type SimpleSpawn = {
   id: string;
   p: [number, number] | [number, number, number];
+  mapName?: string;
+  type?: string;
   icon?:
     | string
     | {
