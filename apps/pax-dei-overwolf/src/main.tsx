@@ -32,6 +32,7 @@ if (el) {
         regions={version.data.regions}
         tiles={version.data.tiles}
         typesIdMap={version.data.typesIdMap}
+        version={version}
         hideAds
       />
     </React.StrictMode>,

@@ -8,14 +8,7 @@ import {
   logVersion,
   listenToGameEvents,
 } from "@repo/lib/overwolf";
-import {
-  fetchDict,
-  fetchFilters,
-  fetchGlobalFilters,
-  fetchRegions,
-  fetchTiles,
-  fetchTypesIdMap,
-} from "@repo/lib";
+import { fetchVersion } from "@repo/lib";
 import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
 import { APP_CONFIG } from "./config";
 import { Dict } from "@repo/ui/providers";
@@ -23,16 +16,8 @@ import { App } from "@repo/ui/overwolf";
 
 logVersion();
 
-const [enDict, filters, regions, tiles, typesIdMap, globalFilters] =
-  await Promise.all([
-    fetchDict(APP_CONFIG.name),
-    fetchFilters(APP_CONFIG.name),
-    fetchRegions(APP_CONFIG.name),
-    fetchTiles(APP_CONFIG.name),
-    fetchTypesIdMap(APP_CONFIG.name),
-    fetchGlobalFilters(APP_CONFIG.name),
-  ]);
-const enDictMerged = { ...enDictGlobal, ...enDict } as Dict;
+const version = await fetchVersion(APP_CONFIG.name);
+const enDictMerged = { ...enDictGlobal, ...version.data.enDict } as Dict;
 
 const el = document.getElementById("root");
 if (el) {
@@ -42,11 +27,12 @@ if (el) {
       <App
         appConfig={APP_CONFIG}
         dict={enDictMerged}
-        filters={filters}
-        regions={regions}
-        tiles={tiles}
-        typesIdMap={typesIdMap}
-        globalFilters={globalFilters}
+        filters={version.data.filters}
+        regions={version.data.regions}
+        tiles={version.data.tiles}
+        typesIdMap={version.data.typesIdMap}
+        globalFilters={version.data.globalFilters}
+        version={version}
       />
     </React.StrictMode>,
   );
