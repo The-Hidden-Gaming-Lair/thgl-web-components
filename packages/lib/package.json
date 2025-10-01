@@ -18,6 +18,10 @@
     "./thgl-app": {
       "types": "./dist/thgl-app/index.d.ts",
       "import": "./dist/thgl-app/index.js"
+    },
+    "./web-map": {
+      "types": "./dist/web-map/index.d.ts",
+      "import": "./dist/web-map/index.js"
     }
   },
   "scripts": {

@@ -1,5 +1,6 @@
 import { ActorPlayer } from "@repo/lib/overwolf";
-import leaflet from "leaflet";
+import WebMapMarker, { type WebMapMarkerOptions } from "./webmap-marker";
+import type { InteractiveMap } from "./store";
 
 const SCALE = 0.083492;
 const DEG_45 = Math.PI / 4; // 45 degrees in radians
@@ -27,16 +28,16 @@ export const normalizePoint = ({
   };
 };
 
-export class PlayerMarker extends leaflet.Marker {
-  declare options: leaflet.MarkerOptions & {
+export class PlayerMarker extends WebMapMarker {
+  declare options: WebMapMarkerOptions & {
     rotation: number;
     rotationOffset?: number;
   };
   private _icon: HTMLElement | undefined = undefined;
 
   constructor(
-    latLng: leaflet.LatLngExpression,
-    options: leaflet.MarkerOptions & {
+    latLng: [number, number],
+    options: WebMapMarkerOptions & {
       rotation: number;
       rotationOffset?: number;
     },
@@ -44,23 +45,20 @@ export class PlayerMarker extends leaflet.Marker {
     super(latLng, options);
   }
 
-  _setPos(pos: leaflet.Point): void {
-    if (!this._icon) {
-      return;
-    }
-    if (this._icon.style.transform) {
-      this._icon.style.transition = "transform 0.1s linear";
-    }
-
-    this._icon.style.transformOrigin = "center";
-    this._icon.style.transform = `translate3d(${pos.x}px,${pos.y}px,0) rotate(${this.options.rotation}deg)`;
+  // WebMap handles position and rotation through IconMarkerLayer
+  // This method is kept for compatibility but WebMap manages positioning differently
+  _setPos(pos: { x: number; y: number }): void {
+    // WebMap handles positioning internally through the IconMarkerLayer
+    // We update the marker's internal position for tooltip compatibility
+    this._point = pos;
     return;
   }
 
   updatePosition({ x, y, r }: ActorPlayer) {
     const latLng = this.getLatLng();
-    const newLatLng = [x, y] as leaflet.LatLngTuple;
-    if (!latLng.equals(newLatLng)) {
+    const newLatLng = [x, y] as [number, number];
+    // Simple array comparison since WebMap doesn't have equals method
+    if (latLng[0] !== newLatLng[0] || latLng[1] !== newLatLng[1]) {
       let playerRotation = r;
 
       const oldRotation = this.options.rotation || playerRotation;
@@ -84,5 +82,24 @@ export class PlayerMarker extends leaflet.Marker {
       this.options.rotation = playerRotation;
       this.setLatLng(newLatLng);
     }
+  }
+
+  // Compatibility methods for tooltip binding (WebMap handles tooltips differently)
+  bindTooltip(content: string): this {
+    // WebMap tooltips are handled at the component level
+    return this;
+  }
+
+  unbindTooltip(): this {
+    // WebMap tooltips are handled at the component level
+    return this;
+  }
+
+  remove(): this {
+    // Delegate to removeFrom with current map
+    if (this._map) {
+      this.removeFrom(this._map);
+    }
+    return this;
   }
 }

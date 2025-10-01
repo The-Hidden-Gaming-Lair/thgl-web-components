@@ -23,22 +23,24 @@ import { trackEvent } from "../(header)";
 import { useCoordinates } from "../(providers)";
 import { Separator } from "../ui/separator";
 import { Slider } from "../ui/slider";
-import leaflet, {
-  Circle,
-  FeatureGroup,
-  LatLng,
-  LayerGroup,
-  Marker,
-  Polygon,
-  Polyline,
-  Rectangle,
-  circle,
-  marker,
-  polygon,
-  polyline,
-  rectangle,
-  Util,
-} from "leaflet";
+import type { GeomanCompatibleLayer } from "./webmap-drawing-adapter";
+
+// Temporary placeholders for Leaflet types during migration
+type LayerGroup = any;
+type FeatureGroup = any;
+type Polyline = any;
+type Rectangle = any;
+type Polygon = any;
+type Circle = any;
+type Marker = any;
+
+const polyline = (coords: any, options: any) => ({ getLatLngs: () => coords, options, on: () => {}, addTo: () => {} });
+const rectangle = (coords: any, options: any) => ({ getLatLngs: () => [coords], options, on: () => {}, addTo: () => {} });
+const polygon = (coords: any, options: any) => ({ getLatLngs: () => [coords], options, on: () => {}, addTo: () => {} });
+const circle = (center: any, options: any) => ({ getLatLng: () => center, getRadius: () => options.radius, options, on: () => {}, addTo: () => {} });
+const marker = (pos: any, options: any) => ({ getLatLng: () => pos, options, on: () => {}, addTo: () => {}, pm: { getElement: () => ({ classList: { add: () => {} }, style: {}, children: [] }) } });
+const LayerGroup = function() { return { addTo: () => {}, setZIndex: () => {}, remove: () => {} }; };
+const FeatureGroup = LayerGroup;
 import { FilterSelect } from "../(controls)/filter-select";
 import {
   HoverCard,
@@ -47,6 +49,7 @@ import {
 } from "../ui/hover-card";
 import { AddSharedFilter } from "./add-shared-filter";
 import { UploadFilter } from "./upload-filter";
+import { setWebMapPortalPointerEvents } from "./webmap-portal-container";
 
 export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const map = useMap();
@@ -74,7 +77,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const setFilters = useUserStore((state) => state.setFilters);
   const isEditing = tempPrivateDrawing !== null;
   const setPolylines = useCallback(
-    (polylineLayers: Polyline[], mapName: string) => {
+    (polylineLayers: GeomanCompatibleLayer[], mapName: string) => {
       const tempPrivateDrawing = useSettingsStore.getState().tempPrivateDrawing;
       if (!tempPrivateDrawing) {
         return;
@@ -82,11 +85,11 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
       const polylines: Drawing["polylines"] = [];
       polylineLayers.forEach((polylineLayer) => {
-        const latLngs = polylineLayer.getLatLngs() as LatLng[];
+        const latLngs = polylineLayer.getLatLngs();
         if (latLngs.length === 0) {
           return;
         }
-        const layerPositions = latLngs.map((latLng) => {
+        const layerPositions = latLngs.map((latLng: any) => {
           return [latLng.lat, latLng.lng] as [number, number];
         });
         polylines.push({
@@ -111,22 +114,17 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     if (!map || !isEditing) {
       return;
     }
-    const tooltipPane = map.getPane("tooltipPane");
-    if (tooltipPane) {
-      tooltipPane.style.pointerEvents = "none";
+    // Use WebMap portal container management for drawing mode
+    try {
+      setWebMapPortalPointerEvents(map, false); // Disable pointer events during drawing
+
+      return () => {
+        setWebMapPortalPointerEvents(map, true); // Re-enable pointer events
+      };
+    } catch (error) {
+      console.warn("WebMap portal container not available for drawing mode");
+      return () => {};
     }
-    const popupPane = map.getPane("popupPane");
-    if (popupPane) {
-      popupPane.style.pointerEvents = "none";
-    }
-    return () => {
-      if (tooltipPane) {
-        tooltipPane.style.pointerEvents = "auto";
-      }
-      if (popupPane) {
-        popupPane.style.pointerEvents = "auto";
-      }
-    };
   }, [isEditing, map]);
 
   useEffect(() => {
@@ -151,7 +149,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   }, [map]);
 
   const setRectangles = useCallback(
-    (rectangleLayers: Rectangle[], mapName: string) => {
+    (rectangleLayers: GeomanCompatibleLayer[], mapName: string) => {
       const tempPrivateDrawing = useSettingsStore.getState().tempPrivateDrawing;
       if (!tempPrivateDrawing) {
         return;
@@ -159,11 +157,11 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
       const rectangles: Drawing["rectangles"] = [];
       rectangleLayers.forEach((rectangleLayer) => {
-        const latLngs = rectangleLayer.getLatLngs() as LatLng[][];
+        const latLngs = rectangleLayer.getLatLngs();
         if (latLngs.length === 0) {
           return;
         }
-        const layerPositions = latLngs[0].map((latLng) => {
+        const layerPositions = latLngs.map((latLng: any) => {
           return [latLng.lat, latLng.lng] as [number, number];
         });
         rectangles.push({
@@ -185,7 +183,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   );
 
   const setPolygons = useCallback(
-    (polygonLayers: Polygon[], mapName: string) => {
+    (polygonLayers: GeomanCompatibleLayer[], mapName: string) => {
       const tempPrivateDrawing = useSettingsStore.getState().tempPrivateDrawing;
       if (!tempPrivateDrawing) {
         return;
@@ -193,11 +191,11 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
       const polygons: Drawing["polygons"] = [];
       polygonLayers.forEach((polygonLayer) => {
-        const latLngs = polygonLayer.getLatLngs() as LatLng[][];
+        const latLngs = polygonLayer.getLatLngs();
         if (latLngs.length === 0) {
           return;
         }
-        const layerPositions = latLngs[0].map((latLng) => {
+        const layerPositions = latLngs.map((latLng: any) => {
           return [latLng.lat, latLng.lng] as [number, number];
         });
         polygons.push({
@@ -218,7 +216,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     [],
   );
 
-  const setCircles = useCallback((circleLayers: Circle[], mapName: string) => {
+  const setCircles = useCallback((circleLayers: GeomanCompatibleLayer[], mapName: string) => {
     const tempPrivateDrawing = useSettingsStore.getState().tempPrivateDrawing;
     if (!tempPrivateDrawing) {
       return;
@@ -226,16 +224,18 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
     const circles: Drawing["circles"] = [];
     circleLayers.forEach((circleLayer) => {
-      const center = circleLayer.getLatLng();
-      const radius = circleLayer.getRadius();
+      const center = circleLayer.getLatLng?.();
+      const radius = circleLayer.getRadius?.();
 
-      circles.push({
-        center: [center.lat, center.lng] as [number, number],
-        radius: radius,
-        size: circleLayer.options.weight!,
-        color: circleLayer.options.color!,
-        mapName: mapName,
-      });
+      if (center && radius) {
+        circles.push({
+          center: [center.lat, center.lng] as [number, number],
+          radius: radius,
+          size: circleLayer.options.weight!,
+          color: circleLayer.options.color!,
+          mapName: mapName,
+        });
+      }
     });
     const existingCircles =
       tempPrivateDrawing.circles?.filter(
@@ -246,7 +246,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     });
   }, []);
 
-  const setTexts = useCallback((textLayers: Marker[], mapName: string) => {
+  const setTexts = useCallback((textLayers: GeomanCompatibleLayer[], mapName: string) => {
     const tempPrivateDrawing = useSettingsStore.getState().tempPrivateDrawing;
     if (!tempPrivateDrawing) {
       return;
@@ -254,14 +254,16 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
 
     const texts: Drawing["texts"] = [];
     textLayers.forEach((textLayer) => {
-      const latLngs = textLayer.getLatLng();
-      texts.push({
-        position: [latLngs.lat, latLngs.lng] as [number, number],
-        text: textLayer.pm.getText(),
-        color: textLayer.pm.getElement().style.color,
-        size: parseInt(textLayer.pm.getElement().style.fontSize),
-        mapName: mapName,
-      });
+      const latLngs = textLayer.getLatLng?.();
+      if (latLngs) {
+        texts.push({
+          position: [latLngs.lat, latLngs.lng] as [number, number],
+          text: "Text", // TODO: Extract text from WebMap text layers
+          color: textLayer.options.color || textColor,
+          size: textLayer.options.weight || textSize,
+          mapName: mapName,
+        });
+      }
     });
     const existingTexts =
       tempPrivateDrawing.texts?.filter(
@@ -273,7 +275,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   }, []);
 
   useEffect(() => {
-    if (!map) {
+    if (!map || !map.pm) {
       return;
     }
     const activeShape = map.pm.Draw.getActiveShape();
@@ -293,7 +295,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         dashArray: [5, 5],
       },
     });
-    setGlobalMode(activeShape);
+    setGlobalMode(activeShape || "none");
   }, [map, drawingColor, drawingSize]);
 
   const sharedTempPrivateDrawing = useConnectionStore(
@@ -301,130 +303,117 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   );
   const sharedMyFilters = useConnectionStore((state) => state.myFilters);
   useEffect(() => {
-    if (!map) {
+    if (!map || !map.pm) {
       return;
     }
-    const layerGroup = new LayerGroup();
-    try {
-      layerGroup.addTo(map);
-      layerGroup.setZIndex(1000);
-    } catch (e) {}
+
+    // Clear existing shapes
+    map.pm?.clearShapes();
+
     const sharedPrivateDrawings = sharedMyFilters
       .map((myFilter) => myFilter.drawing)
       .filter(Boolean) as Drawing[];
     const drawings = sharedTempPrivateDrawing
       ? [sharedTempPrivateDrawing, ...sharedPrivateDrawings]
       : sharedPrivateDrawings;
+
     drawings.forEach((drawing) => {
       const { polylines, rectangles, polygons, circles, texts } = drawing;
+
       polylines?.forEach((polylineData) => {
         if (polylineData.mapName !== mapName) {
           return;
         }
-        const polylineLayer = polyline(polylineData.positions, {
-          pmIgnore: false,
-          stroke: true,
+        map.pm?.addShape({
+          id: `polyline_${Date.now()}_${Math.random()}`,
+          type: 'line',
+          positions: polylineData.positions,
           color: polylineData.color,
-          weight: polylineData.size,
+          size: polylineData.size,
+          mapName: polylineData.mapName,
         });
-
-        try {
-          polylineLayer.addTo(layerGroup);
-        } catch (e) {}
       });
+
       rectangles?.forEach((rectangleData) => {
         if (rectangleData.mapName !== mapName) {
           return;
         }
-        const rectangleLayer = rectangle(rectangleData.positions, {
-          pmIgnore: false,
-          stroke: true,
+        map.pm?.addShape({
+          id: `rectangle_${Date.now()}_${Math.random()}`,
+          type: 'rectangle',
+          positions: rectangleData.positions,
           color: rectangleData.color,
-          weight: rectangleData.size,
+          size: rectangleData.size,
+          mapName: rectangleData.mapName,
         });
-
-        try {
-          rectangleLayer.addTo(layerGroup);
-        } catch (e) {}
       });
+
       polygons?.forEach((polygonData) => {
         if (polygonData.mapName !== mapName) {
           return;
         }
-        const polygonLayer = polygon(polygonData.positions, {
-          pmIgnore: false,
-          stroke: true,
+        map.pm?.addShape({
+          id: `polygon_${Date.now()}_${Math.random()}`,
+          type: 'polygon',
+          positions: polygonData.positions,
           color: polygonData.color,
-          weight: polygonData.size,
+          size: polygonData.size,
+          mapName: polygonData.mapName,
         });
-
-        try {
-          polygonLayer.addTo(layerGroup);
-        } catch (e) {}
       });
+
       circles?.forEach((circleData) => {
         if (circleData.mapName !== mapName) {
           return;
         }
-        const circleLayer = circle(circleData.center, {
-          pmIgnore: false,
-          stroke: true,
-          color: circleData.color,
-          weight: circleData.size,
+        map.pm?.addShape({
+          id: `circle_${Date.now()}_${Math.random()}`,
+          type: 'circle',
+          center: circleData.center,
           radius: circleData.radius,
+          color: circleData.color,
+          size: circleData.size,
+          mapName: circleData.mapName,
         });
-
-        try {
-          circleLayer.addTo(layerGroup);
-        } catch (e) {}
       });
-      texts?.forEach((textPositions) => {
-        if (textPositions.mapName !== mapName) {
+
+      texts?.forEach((textData) => {
+        if (textData.mapName !== mapName) {
           return;
         }
-        const textLayer = marker(textPositions.position, {
-          pmIgnore: false,
-          interactive: false,
-          textMarker: true,
-          text: textPositions.text,
+        map.pm?.addShape({
+          id: `text_${Date.now()}_${Math.random()}`,
+          type: 'text',
+          center: textData.position,
+          text: textData.text,
+          color: textData.color,
+          size: textData.size,
+          mapName: textData.mapName,
         });
-        try {
-          textLayer.addTo(layerGroup);
-        } catch (e) {}
-        const element = textLayer.pm.getElement() as HTMLTextAreaElement;
-        element.classList.add("protected-text");
-        element.style.setProperty("color", textPositions.color, "important");
-        element.style.fontSize = `${textPositions.size}px`;
-        element.style.width = `100vw`;
-        element.style.height = `fit-content`;
-        element.autocomplete = "off";
-        element.autocapitalize = "off";
-        element.spellcheck = false;
       });
     });
+
     return () => {
-      try {
-        layerGroup.remove();
-      } catch (e) {}
+      // Cleanup handled by WebMap DrawingManager
     };
   }, [map, mapName, sharedTempPrivateDrawing, sharedMyFilters]);
 
   useEffect(() => {
-    if (!isEditing || !map) {
+    if (!isEditing || !map || !map.pm) {
       return;
     }
 
-    const polylines: Polyline[] = [];
-    const rectangles: Rectangle[] = [];
-    const polygons: Polygon[] = [];
-    const circles: Circle[] = [];
-    const texts: Marker[] = [];
-    const layerGroup = new LayerGroup();
-    try {
-      layerGroup.addTo(map);
-      layerGroup.setZIndex(1100);
-    } catch (e) {}
+    const polylines: GeomanCompatibleLayer[] = [];
+    const rectangles: GeomanCompatibleLayer[] = [];
+    const polygons: GeomanCompatibleLayer[] = [];
+    const circles: GeomanCompatibleLayer[] = [];
+    const texts: GeomanCompatibleLayer[] = [];
 
+    // TODO: Replace with WebMap drawing layer management
+    // Temporarily disabled until full WebMap migration is complete
+
+    /*
+    // TODO: Migrate this complex drawing editing logic to WebMap
     tempPrivateDrawing.polylines?.forEach((polylineData) => {
       if (polylineData.mapName !== mapName) {
         return;
@@ -432,7 +421,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       if (polylineData.positions.length < 2) {
         return;
       }
-      const polylineLayer = polyline(polylineData.positions, {
+      // TODO: Replace polyline creation with WebMap equivalent
         pmIgnore: false,
         stroke: true,
         color: polylineData.color,
@@ -710,27 +699,20 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         });
       }
     });
+    */
 
     map.pm.enableDraw("Line");
     updateGlobalMode();
 
     return () => {
-      try {
-        map.pm.disableDraw();
-        map.pm.disableGlobalEditMode();
-        map.off("pm:drawstart");
-        map.off("pm:create");
-        map.pm.getGeomanLayers().forEach((layer) => {
-          if (layer instanceof Marker) {
-            const element = layer.getElement();
-            if (element?.children[0]?.classList.contains("protected-text")) {
-              return;
-            }
-          }
-          layer.remove();
-        });
-        layerGroup.remove();
-      } catch (e) {}
+      if (map.pm) {
+        try {
+          map.pm.disableDraw();
+          map.pm.disableGlobalEditMode();
+          // Note: WebMap events are different from Leaflet pm events
+          // TODO: Update to use WebMap event system
+        } catch (e) {}
+      }
     };
   }, [isEditing, map, tempPrivateDrawing?.id]);
 
@@ -746,7 +728,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       setGlobalMode("Drag");
     } else {
       const activeShape = map.pm.Draw.getActiveShape();
-      setGlobalMode(activeShape);
+      setGlobalMode(activeShape || "none");
     }
   }, [map]);
 

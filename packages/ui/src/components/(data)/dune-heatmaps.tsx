@@ -33,7 +33,7 @@ const RESOURCE_HEATMAPS = [
 export function DuneHeatmaps() {
   const t = useT();
   const [open, setOpen] = useState(false);
-  const { map, leaflet } = useMapStore();
+  const { map } = useMapStore();
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
   const resourceFilterNames = useMemo(
@@ -47,7 +47,7 @@ export function DuneHeatmaps() {
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
 
   useEffect(() => {
-    if (!map || !leaflet) {
+    if (!map) {
       return;
     }
     if (map.mapName !== "survival_1") {
@@ -63,15 +63,11 @@ export function DuneHeatmaps() {
       return;
     }
 
-    const imageOverlay = leaflet.imageOverlay(resourceHeatmap.url, map.bounds);
-    imageOverlay.addTo(map);
+    // TODO: Implement image overlay support in WebMap
+    console.log("Image overlay not yet supported in WebMap:", resourceHeatmap.url);
 
     return () => {
-      try {
-        imageOverlay.removeFrom(map);
-      } catch (e) {
-        //
-      }
+      // TODO: Cleanup image overlay when WebMap supports it
     };
   }, [map, activeResourceFilter]);
 

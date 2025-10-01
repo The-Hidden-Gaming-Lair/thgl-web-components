@@ -24,7 +24,8 @@ export function ContextMenu({
 }) {
   const [openShowMapView, setOpenShowMapView] = useState(false);
   const map = useMap();
-  const mapContainer = map?.getPane("mapPane");
+  // WebMap uses canvas, so we'll use the canvas container or body for portals
+  const mapContainer = map ? document.body : null;
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );

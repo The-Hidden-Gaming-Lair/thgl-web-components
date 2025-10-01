@@ -6,6 +6,7 @@ export * from "./icon-sizes";
 export * from "./links";
 export * from "./locale-switcher";
 export * from "./markers-search";
+export * from "./map-controls";
 export * from "./settings-dialog-content";
 export * from "./streaming-receiver";
 export * from "./toaster";

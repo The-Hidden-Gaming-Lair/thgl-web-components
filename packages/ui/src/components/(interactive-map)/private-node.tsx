@@ -10,8 +10,13 @@ import {
   putSharedFilters,
   useUserStore,
 } from "@repo/lib";
-import CanvasMarker from "./canvas-marker";
-import type { LeafletMouseEvent } from "leaflet";
+import WebMapMarker from "./webmap-marker";
+// WebMap-compatible event types
+type WebMapMouseEvent = {
+  layerPoint: { x: number; y: number };
+  latlng: [number, number];
+  originalEvent: MouseEvent;
+};
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -46,7 +51,7 @@ export function PrivateNode({
   iconsPath: string;
 }) {
   const map = useMap();
-  const canvasMarker = useRef<CanvasMarker | null>(null);
+  const webMapMarker = useRef<WebMapMarker | null>(null);
   const mapName = useUserStore((state) => state.mapName);
   const myFilters = useSettingsStore((state) => state.myFilters);
   const setMyFilters = useSettingsStore((state) => state.setMyFilters);
@@ -81,11 +86,10 @@ export function PrivateNode({
       latLng = tempPrivateNode.p;
     }
     const radius = tempPrivateNode.radius ?? 10;
-    const privateNodeMarker = new CanvasMarker(latLng, {
+    const privateNodeMarker = new WebMapMarker(latLng as [number, number], {
       id: "private-node",
       icon: tempPrivateNode.icon || null,
-      baseRadius: 10,
-      radius: radius * baseIconSize,
+      baseRadius: radius * baseIconSize,
       fillColor: color,
       colorBlindMode,
       colorBlindSeverity,
@@ -97,7 +101,7 @@ export function PrivateNode({
       event.originalEvent.stopPropagation();
       isDragging = true;
     });
-    const handleMouseMove = (event: LeafletMouseEvent) => {
+    const handleMouseMove = (event: WebMapMouseEvent) => {
       if (!isDragging) {
         return;
       }
@@ -106,7 +110,7 @@ export function PrivateNode({
       setTempPrivateNode({ p: [lat, lng] });
     };
     map.on("mousemove", handleMouseMove);
-    const handleClick = (event: LeafletMouseEvent) => {
+    const handleClick = (event: WebMapMouseEvent) => {
       isDragging = false;
       const { lat, lng } = event.latlng;
       privateNodeMarker.setLatLng([lat, lng]);
@@ -122,7 +126,7 @@ export function PrivateNode({
     try {
       privateNodeMarker.addTo(map);
     } catch (err) {}
-    canvasMarker.current = privateNodeMarker;
+    webMapMarker.current = privateNodeMarker;
     return () => {
       map.off("mousemove", handleMouseMove);
       map.off("click", handleClick);
@@ -134,35 +138,35 @@ export function PrivateNode({
   }, [isEditing, map]);
 
   useEffect(() => {
-    if (!isEditing || !canvasMarker.current) {
+    if (!isEditing || !webMapMarker.current) {
       return;
     }
 
-    if (canvasMarker.current.options.icon !== tempPrivateNode.icon) {
-      canvasMarker.current.setIcon(tempPrivateNode.icon || null);
+    if (webMapMarker.current.options.icon !== tempPrivateNode.icon) {
+      webMapMarker.current.setIcon(tempPrivateNode.icon || null);
     }
-    if (canvasMarker.current.options.fillColor !== color) {
-      canvasMarker.current.setStyle({ fillColor: color });
+    if (webMapMarker.current.options.fillColor !== color) {
+      webMapMarker.current.setStyle({ fillColor: color });
     }
     const newRadius = radius * baseIconSize;
-    if (canvasMarker.current.options.radius !== newRadius) {
-      canvasMarker.current.setRadius(newRadius);
+    if (webMapMarker.current.options.radius !== newRadius) {
+      webMapMarker.current.setRadius(newRadius);
     }
-    const latLng = canvasMarker.current.getLatLng();
+    const latLng = webMapMarker.current.getLatLng();
     if (
       tempPrivateNode.p &&
       (latLng.lat !== tempPrivateNode.p[0] ||
         latLng.lng !== tempPrivateNode.p[1])
     ) {
-      canvasMarker.current.setLatLng(tempPrivateNode.p);
+      webMapMarker.current.setLatLng(tempPrivateNode.p);
     }
   }, [color, radius, baseIconSize, tempPrivateNode?.icon, tempPrivateNode?.p]);
 
   // Re-render preview marker when color blind mode changes
   useEffect(() => {
-    if (!isEditing || !canvasMarker.current) return;
+    if (!isEditing || !webMapMarker.current) return;
     try {
-      canvasMarker.current.update();
+      webMapMarker.current.update();
     } catch (e) {}
   }, [colorBlindMode, isEditing]);
 
@@ -181,11 +185,10 @@ export function PrivateNode({
       return;
     }
     const radius = sharedTempPrivateNode.radius ?? 10;
-    const privateNodeMarker = new CanvasMarker(latLng, {
+    const privateNodeMarker = new WebMapMarker(latLng as [number, number], {
       id: "shared-private-node",
       icon: sharedTempPrivateNode.icon,
-      baseRadius: 10,
-      radius: radius * baseIconSize,
+      baseRadius: radius * baseIconSize,
       fillColor: sharedTempPrivateNode.color,
       colorBlindMode,
       colorBlindSeverity,
@@ -219,11 +222,11 @@ export function PrivateNode({
       return;
     }
 
-    if (!canvasMarker.current) {
+    if (!webMapMarker.current) {
       return;
     }
 
-    const latLng = canvasMarker.current.getLatLng();
+    const latLng = webMapMarker.current.getLatLng();
     const id = `${tempPrivateNode.filter}_${Date.now()}`;
     const marker: PrivateNode = {
       id,
@@ -407,7 +410,7 @@ export function PrivateNode({
                         !Number.isNaN(tempPrivateNode?.p?.[0] ?? 0) &&
                         !Number.isNaN(+e.target.value)
                       ) {
-                        canvasMarker.current?.setLatLng([
+                        webMapMarker.current?.setLatLng([
                           tempPrivateNode?.p?.[0] ?? 0,
                           +e.target.value,
                         ]);
@@ -426,7 +429,7 @@ export function PrivateNode({
                         !Number.isNaN(tempPrivateNode?.p?.[1] ?? 0) &&
                         !Number.isNaN(+e.target.value)
                       ) {
-                        canvasMarker.current?.setLatLng([
+                        webMapMarker.current?.setLatLng([
                           +e.target.value,
                           tempPrivateNode?.p?.[1] ?? 0,
                         ]);

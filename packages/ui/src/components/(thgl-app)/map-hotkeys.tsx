@@ -20,11 +20,13 @@ export function MapHotkeys() {
       if (message.type === "broadcast") {
         if (message.data.action === "hotkey") {
           if (message.data.payload.key === hotkeys[HOTKEYS.ZOOM_IN_APP]) {
-            map.zoomIn();
+            const currentZoom = map.getZoom();
+            map.setZoom(currentZoom + 0.5);
           } else if (
             message.data.payload.key === hotkeys[HOTKEYS.ZOOM_OUT_APP]
           ) {
-            map.zoomOut();
+            const currentZoom = map.getZoom();
+            map.setZoom(currentZoom - 0.5);
           } else if (
             message.data.payload.key ===
             hotkeys[HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]

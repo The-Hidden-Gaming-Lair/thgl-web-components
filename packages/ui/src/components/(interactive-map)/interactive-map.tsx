@@ -1,16 +1,12 @@
 "use client";
-import "leaflet/dist/leaflet.css";
-import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 
 import type { TilesConfig } from "@repo/lib";
 import { cn, getAppUrl, useSettingsStore, useUserStore } from "@repo/lib";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createCanvasLayer } from "./canvas-layer";
 import { createWorld } from "./world";
 import { useMapStore } from "./store";
 import { ContextMenu } from "./context-menu";
 // import { createCoordinatesControl } from "./coordinates-control";
-import leaflet from "leaflet";
 import { useT } from "../(providers)";
 
 export function InteractiveMap({
@@ -27,7 +23,7 @@ export function InteractiveMap({
   domain: string;
 }): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { map, setMap, setLeaflet } = useMapStore();
+  const { map, setMap } = useMapStore();
   const isHydrated = useUserStore((state) => state._hasHydrated);
   const mapFilter = useSettingsStore((state) => state.mapFilter);
   const mapName = useUserStore((state) => state.mapName);
@@ -63,50 +59,56 @@ export function InteractiveMap({
       view,
       mapTileOptions,
       mapName,
+      appName,
     );
     world.mapName = mapName;
-    setLeaflet(leaflet);
-    world.whenReady(() => {
-      setMap(world);
-    });
 
-    world.on("mousedown", () => {
-      document
-        .querySelector(".leaflet-map-pane")
-        ?.classList.remove(
-          "transition-transform",
-          "ease-linear",
-          "duration-1000",
-        );
-    });
+    // WebMap is ready immediately, no need for whenReady
+    setMap(world);
 
-    world.on("contextmenu", (event) => {
-      if (location.href.includes("embed")) {
-        return;
-      }
-      setContextMenuData({
-        x: event.layerPoint.x,
-        y: event.layerPoint.y,
-        p: [event.latlng.lat, event.latlng.lng],
-      });
-    });
-    setViewByMap(
-      mapName,
-      [world.getCenter().lat, world.getCenter().lng],
-      world.getZoom(),
+    // Set up context menu handler
+    world.on(
+      "contextmenu" as any,
+      (event: { latlng: [number, number]; originalEvent: MouseEvent }) => {
+        if (location.href.includes("embed")) {
+          return;
+        }
+        // Get screen coordinates from mouse event
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (rect) {
+          setContextMenuData({
+            x: event.originalEvent.clientX - rect.left,
+            y: event.originalEvent.clientY - rect.top,
+            p: event.latlng,
+          });
+        }
+      },
     );
 
+    // Set initial view in store
+    const centerData = world.getCenter();
+    const center: [number, number] = Array.isArray(centerData)
+      ? [centerData[0], centerData[1]]
+      : [
+          (centerData as any).lat ?? (centerData as any)[0],
+          (centerData as any).lng ?? (centerData as any)[1],
+        ];
+    setViewByMap(mapName, center, world.getZoom());
+
     let timeoutId: NodeJS.Timeout | null = null;
-    world.on("moveend", () => {
+    world.on("moveend" as any, () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
       timeoutId = setTimeout(() => {
-        setViewByMap(
-          mapName,
-          [world.getCenter().lat, world.getCenter().lng],
-          world.getZoom(),
-        );
+        const centerData = world.getCenter();
+        const center: [number, number] = Array.isArray(centerData)
+          ? [centerData[0], centerData[1]]
+          : [
+              (centerData as any).lat ?? (centerData as any)[0],
+              (centerData as any).lng ?? (centerData as any)[1],
+            ];
+        setViewByMap(mapName, center, world.getZoom());
       }, 3000);
     });
 
@@ -115,44 +117,26 @@ export function InteractiveMap({
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-      // setMap(null);
+      setMap(null);
       try {
-        world.off();
-        world.remove();
+        world.destroy();
       } catch (e) {}
     };
   }, [isHydrated, mapTileOptions]);
 
+  // WebMap handles tiles internally with color-blind support
   useEffect(() => {
-    if ((isOverlay && mapFilter === "full") || !map || !mapTileOptions?.url) {
-      return;
-    }
-    try {
-      const url = getAppUrl(appName, mapTileOptions.url);
-      const canvasLayer = createCanvasLayer(url, {
-        minZoom: map.getMinZoom(),
-        maxZoom: map.getMaxZoom(),
-        filter: isOverlay ? mapFilter : "none",
-        colorBlindMode,
-        colorBlindSeverity,
-        ...mapTileOptions.options,
-      });
-      canvasLayer.addTo(map);
+    if (!map) return;
 
-      return () => {
-        canvasLayer.removeFrom(map);
-      };
-    } catch (e) {
-      //
-    }
-  }, [
-    mapFilter,
-    colorBlindMode,
-    colorBlindSeverity,
-    map,
-    isOverlay,
-    mapTileOptions,
-  ]);
+    // Apply color-blind settings to existing tile layers
+    const layers = (map as any).getLayers?.() || [];
+    layers.forEach((layer: any) => {
+      if (layer.setColorBlindMode && layer.setColorBlindSeverity) {
+        layer.setColorBlindMode(colorBlindMode);
+        layer.setColorBlindSeverity(colorBlindSeverity);
+      }
+    });
+  }, [map, colorBlindMode, colorBlindSeverity]);
 
   return (
     <>

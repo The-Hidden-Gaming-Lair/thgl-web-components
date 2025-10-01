@@ -92,10 +92,10 @@ export function MapContainer({
     });
   }, [mapTransform, _hasHydrated]);
 
-  // Invalidate map size when toggling fullscreen to force a resize
+  // WebMap automatically handles canvas resizing, no need for invalidateSize
   useEffect(() => {
     if (!isOverlay || !_hasHydrated) return;
-    map?.invalidateSize();
+    // WebMap handles resize automatically
   }, [overlayFullscreen]);
 
   if (!isOverlay) {
@@ -316,7 +316,7 @@ export function MapContainer({
               width: e.target.style.width,
               height: e.target.style.height,
             });
-            map?.invalidateSize();
+            // WebMap handles resize automatically
           }}
         />
       )}

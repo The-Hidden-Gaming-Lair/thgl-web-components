@@ -49,7 +49,7 @@ export function AppMap({
       <Markers
         markerOptions={appConfig.markerOptions}
         appName={appConfig.name}
-        iconsPath={version?.more.icons}
+        iconsPath={version.more.icons}
         additionalTooltip={additionalTooltip}
       />
       <div className="fixed top-[40px] right-2 mt-[1px] z-[500] flex gap-2 flex-col sm:flex-row">

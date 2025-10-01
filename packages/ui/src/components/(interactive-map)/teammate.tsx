@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useMap } from "./store";
 import { PlayerMarker } from "./player-marker";
-import leaflet from "leaflet";
+import type { WebMapMarkerIcon } from "./webmap-marker";
 import { getIconsUrl, MarkerOptions, TilesConfig } from "@repo/lib";
 import { useSettingsStore } from "@repo/lib";
 import { applyColorBlindTransform } from "./color-blind";
@@ -40,22 +40,14 @@ export function Teammate({
     size: number[],
     mode: ColorBlindMode,
     severity: number,
-  ) {
+  ): Promise<WebMapMarkerIcon> {
     const cacheKey = `${iconUrl}@${size[0]}x${size[1]}:${mode}:${severity.toFixed(2)}`;
     const cached = iconCache.current.get(cacheKey);
     if (cached) {
-      return leaflet.icon({
-        iconUrl: cached,
-        className: "player",
-        iconSize: size as any,
-      });
+      return { url: cached };
     }
     if (mode === "none" || severity <= 0) {
-      return leaflet.icon({
-        iconUrl,
-        className: "player",
-        iconSize: size as any,
-      });
+      return { url: iconUrl };
     }
     try {
       await new Promise<void>((resolve, reject) => {
@@ -83,18 +75,10 @@ export function Teammate({
       ctx.putImageData(imageData, 0, 0);
       const dataUrl = canvas.toDataURL();
       iconCache.current.set(cacheKey, dataUrl);
-      return leaflet.icon({
-        iconUrl: dataUrl,
-        className: "player",
-        iconSize: size as any,
-      });
+      return { url: dataUrl };
     } catch (e) {
       // Fallback to unprocessed icon on error
-      return leaflet.icon({
-        iconUrl,
-        className: "player",
-        iconSize: size as any,
-      });
+      return { url: iconUrl };
     }
   }
 

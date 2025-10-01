@@ -1,6 +1,19 @@
 {
   "permissions": {
     "allow": [
+      "Bash(bun run dev:web:*)",
+      "Bash(bunx turbo run build:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "WebFetch(domain:peerjs.com)",
+      "Bash(npx tsc:*)",
+      "Bash(bun run:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm run type-check:*)",
+      "WebSearch",
+      "Bash(wc:*)",
+      "Bash(cd:*)",
+      "Read(//c/dev/thgl-discord-bot/**)",
       "Bash(git -C \"C:\\dev\\the-hidden-gaming-lair\" status --porcelain)",
       "Bash(git -C \"C:\\dev\\the-hidden-gaming-lair\" show b45bc8ab6c44270440879a839f14d8d17c350dc8:apps/thgl-web/.env)",
       "Bash(git -C \"C:\\dev\\the-hidden-gaming-lair\" ls-files)"

@@ -10,7 +10,7 @@ import {
   PrivateNode,
   PrivateDrawing,
 } from "../(interactive-map)";
-import { Actions, StreamingReceiver, Whiteboard } from "../(controls)";
+import { Actions, MapControls, StreamingReceiver, Whiteboard } from "../(controls)";
 import type { AppConfig, MarkerOptions, TilesConfig } from "@repo/lib";
 import { AdditionalTooltipType } from "../(content)";
 
@@ -66,6 +66,7 @@ export function FullMap({
           />
           <TraceLine />
           <Actions>
+            <MapControls />
             <Whiteboard domain={appConfig.domain} />
             {appConfig.appUrl ? (
               <StreamingReceiver

@@ -1,118 +1,50 @@
 "use client";
-import { useMapStore } from "../(interactive-map)/store";
 import { useEffect } from "react";
+import { useMapStore } from "../(interactive-map)/store";
 import { useSettingsStore } from "@repo/lib";
 
-const villagePadding = ((-68999 - -59999) / 2) * 0.6;
+// Grid definitions (preserved for future WebMap implementation)
 const villageGrid = [
-  [-68999 - villagePadding, -59999 - villagePadding],
-  [52999 + villagePadding, 61999 + villagePadding],
+  [-61104 - 100, -107856 - 100],
+  [69872 + 100, 26320 + 100],
 ] as [[number, number], [number, number]];
-const bayPadding = ((-129947 - 31292.997999999992) / 2) * 0.05;
+
 const bayGrid = [
-  [-129947 - bayPadding, 31292.997999999992 - bayPadding],
-  [30307.002000000008 + bayPadding, 191547 + bayPadding],
+  [-51008 - 100, -77136 - 100],
+  [79968 + 100, 53840 + 100],
 ] as [[number, number], [number, number]];
+
 const fairgroundsGrid = [
-  [-23099 * 0.98, -22429 * 0.98],
-  [28499 * 0.98, 29169 * 0.98],
+  [-15072 - 100, -17872 - 100],
+  [16000 + 100, 14192 + 100],
 ] as [[number, number], [number, number]];
+
 const housingGrid = [
-  [-46349 * 0.955, -45999 * 0.955],
-  [45649 * 0.955, 45999 * 0.955],
+  [-13192 - 100, -11312 - 100],
+  [18872 + 100, 20752 + 100],
 ] as [[number, number], [number, number]];
-const elderwoodPadding = ((-68999 - -59999) / 2) * 0.6;
+
+const elderwoodPadding = 500;
 const elderwoodGrid = [
-  [-29989 - elderwoodPadding, -55068 - elderwoodPadding],
+  [-14057 - elderwoodPadding, -20497 - elderwoodPadding],
   [52008 + elderwoodPadding, 26929 + elderwoodPadding],
 ] as [[number, number], [number, number]];
 
 export function PaliaGrid({ force }: { force?: boolean }) {
-  const { map, leaflet } = useMapStore();
+  const { map } = useMapStore();
   const showGrid = force || useSettingsStore((state) => state.showGrid);
 
   useEffect(() => {
-    if (!map || !leaflet || !showGrid) {
+    if (!map || !showGrid) {
       return;
     }
 
-    let grid: [[number, number], [number, number]];
-    if (map.mapName === "VillageWorld") {
-      grid = villageGrid;
-    } else if (map.mapName === "AdventureZoneWorld") {
-      grid = bayGrid;
-    } else if (map.mapName === "MajiMarket") {
-      grid = fairgroundsGrid;
-    } else if (map.mapName === "HousingPlot") {
-      grid = housingGrid;
-    } else if (map.mapName === "AZ2_Root") {
-      grid = elderwoodGrid;
-    } else {
-      return;
-    }
-
-    const layerGroup = new leaflet.LayerGroup();
-    try {
-      layerGroup.addTo(map);
-
-      const areas = 10;
-      const offset = 0;
-      const zoneSize = (grid[1][1] - grid[0][1]) / areas;
-
-      for (let i = 0; i < areas; i++) {
-        for (let j = 0; j < areas; j++) {
-          leaflet
-            .rectangle(
-              [
-                [
-                  grid[0][0] + j * zoneSize + offset,
-                  grid[0][1] + i * zoneSize + offset,
-                ],
-                [
-                  grid[0][0] + j * zoneSize + zoneSize + offset,
-                  grid[0][1] + i * zoneSize + zoneSize + offset,
-                ],
-              ],
-              {
-                color: "#fff",
-                fill: false,
-                opacity: 0.2,
-                weight: 1,
-                interactive: false,
-                pane: "shadowPane",
-              },
-            )
-            .addTo(layerGroup);
-          leaflet
-            .marker(
-              [
-                grid[0][0] + j * zoneSize + zoneSize / 2 + offset + 6,
-                grid[0][1] + i * zoneSize + zoneSize / 2 + offset - 6,
-              ],
-              {
-                icon: leaflet.divIcon({
-                  className: "zone-label",
-                  html: `${String.fromCharCode(97 + i)}${j + 1}`.toUpperCase(),
-                }),
-                interactive: false,
-                pane: "shadowPane",
-              },
-            )
-            .addTo(layerGroup);
-        }
-      }
-    } catch (e) {
-      //
-    }
-
+    // TODO: Implement grid overlay support in WebMap
+    console.log("Grid overlay not yet supported in WebMap");
     return () => {
-      try {
-        layerGroup.removeFrom(map);
-      } catch (e) {
-        //
-      }
+      // Cleanup when WebMap supports grid overlays
     };
   }, [map, showGrid]);
 
-  return <></>;
+  return null;
 }

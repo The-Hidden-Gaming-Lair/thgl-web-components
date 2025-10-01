@@ -17,9 +17,11 @@ export function MapHotkeys() {
 
     const handleHotkey = (event: overwolf.settings.hotkeys.OnPressedEvent) => {
       if (event.name === HOTKEYS.ZOOM_IN_APP) {
-        map.zoomIn();
+        const currentZoom = map.getZoom();
+        map.setZoom(currentZoom + 0.5);
       } else if (event.name === HOTKEYS.ZOOM_OUT_APP) {
-        map.zoomOut();
+        const currentZoom = map.getZoom();
+        map.setZoom(currentZoom - 0.5);
       } else if (event.name === HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN) {
         useSettingsStore.getState().toggleOverlayFullscreen();
       }

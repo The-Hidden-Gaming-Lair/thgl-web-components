@@ -69,11 +69,17 @@ export function MarkersSearchResults({
                   }
                 } else {
                   const bounds = spawns.map((spawn) => spawn.p);
-                  map?.fitBounds(bounds, {
-                    duration: 1,
-                    maxZoom: 4,
-                    padding: [50, 50],
-                  });
+                  // Calculate center and zoom to fit bounds
+                  if (bounds.length > 0 && map) {
+                    const lats = bounds.map(b => b[0]);
+                    const lngs = bounds.map(b => b[1]);
+                    const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
+                    const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+                    map.setCenter([centerLat, centerLng]);
+                    // Set zoom to 4 or current zoom, whichever is smaller
+                    const targetZoom = Math.min(4, map.getZoom());
+                    map.setZoom(targetZoom);
+                  }
                 }
               }}
               title={key}

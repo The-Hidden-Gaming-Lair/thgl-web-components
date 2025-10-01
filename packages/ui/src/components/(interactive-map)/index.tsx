@@ -4,6 +4,8 @@ export * from "./discovery";
 export * from "./interactive-map";
 export * from "./live-player";
 export * from "./markers";
+export * from "./simple-webmap-markers";
+export * from "./webmap-portal-container";
 export * from "./player-marker";
 export * from "./player";
 export * from "./private-node";

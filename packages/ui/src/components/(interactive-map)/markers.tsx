@@ -1,14 +1,27 @@
 "use client";
-import type { LeafletMouseEvent } from "leaflet";
-import { DomEvent } from "leaflet";
+// WebMap-compatible event types
+type WebMapMouseEvent = {
+  layerPoint: { x: number; y: number };
+  latlng: [number, number];
+  originalEvent: MouseEvent;
+};
+const DomEvent = {
+  stopPropagation: (e: any) => {
+    if (e && e.originalEvent) {
+      e.originalEvent.stopPropagation?.();
+      e.originalEvent.preventDefault?.();
+    }
+  },
+};
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Spawns, useCoordinates } from "../(providers)";
 import { HoverCard, HoverCardContent, HoverCardPortal } from "../ui/hover-card";
-import CanvasMarker, {
-  canvasMarkerImgs,
-  CanvasMarkerOptions,
-  clearCanvasCache,
-} from "./canvas-marker";
+import WebMapMarker, {
+  webMapMarkerImgs,
+  DEFAULT_Z_NORMALIZATION,
+  type WebMapMarkerOptions,
+} from "./webmap-marker";
+import { IconMarkerLayer } from "@repo/lib/web-map";
 import { useMap } from "./store";
 import {
   getAppUrl,
@@ -24,6 +37,7 @@ import {
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
 import { useThrottle } from "@uidotdev/usehooks";
 import { AdditionalTooltipType } from "../(content)";
+import { getWebMapTooltipContainer } from "./webmap-portal-container";
 
 export function Markers({
   appName,
@@ -39,11 +53,11 @@ export function Markers({
   additionalTooltip?: AdditionalTooltipType;
 }): JSX.Element {
   const map = useMap();
-  const handleMapMouseMoveRef = useRef<((e: LeafletMouseEvent) => void) | null>(
+  const handleMapMouseMoveRef = useRef<((e: WebMapMouseEvent) => void) | null>(
     null,
   );
   const [isLoadingSprite, setIsLoadingSprite] = useState(
-    markerOptions.imageSprite && !canvasMarkerImgs["icons.webp"],
+    markerOptions.imageSprite && !webMapMarkerImgs["icons.webp"],
   );
 
   const [tooltipIsOpen, setTooltipIsOpen] = useState(false);
@@ -57,17 +71,29 @@ export function Markers({
   const isDrawing = useSettingsStore((state) => !!state.tempPrivateDrawing);
   const setSelectedNodeId = useUserStore((state) => state.setSelectedNodeId);
 
-  const mapContainer = map?.getPane("mapPane");
+  // Use WebMap-compatible portal container for proper z-index layering
+  const mapContainer = map
+    ? (() => {
+        try {
+          return getWebMapTooltipContainer(map);
+        } catch (error) {
+          console.warn(
+            "WebMap portal container not available, falling back to body",
+          );
+          return document.body;
+        }
+      })()
+    : null;
 
   const isHoverCardVisible = tooltipIsOpen && !isDrawing;
 
   useEffect(() => {
-    if (markerOptions.imageSprite && !canvasMarkerImgs["icons.webp"]) {
+    if (markerOptions.imageSprite && !webMapMarkerImgs["icons.webp"]) {
       const iconSprite = new Image();
       iconSprite.src = getAppUrl(appName, iconsPath);
       iconSprite.crossOrigin = "anonymous";
-      canvasMarkerImgs["icons.webp"] = iconSprite;
-      canvasMarkerImgs["/icons/icons.webp"] = iconSprite;
+      webMapMarkerImgs["icons.webp"] = iconSprite;
+      webMapMarkerImgs["/icons/icons.webp"] = iconSprite;
       iconSprite.onload = () => {
         setIsLoadingSprite(false);
       };
@@ -131,7 +157,11 @@ export function Markers({
                 }
               }}
               style={{
-                transform: `translate3d(calc(${tooltipData.x}px - 50%), calc(${tooltipData.y}px + 100% - ${tooltipData.radius}px - 2px), 0px)`,
+                position: "absolute",
+                left: `${tooltipData.x}px`,
+                top: `${tooltipData.y}px`,
+                transform: `translate(-50%, -100%)`,
+                marginTop: `-${tooltipData.radius + 8}px`,
               }}
             >
               <MarkerTooltip
@@ -171,7 +201,7 @@ function MarkersContent({
   }) => void;
   onTooltipOpen: (open: boolean) => void;
   handleMapMouseMoveRef: React.MutableRefObject<
-    ((e: LeafletMouseEvent) => void) | null
+    ((e: WebMapMouseEvent) => void) | null
   >;
   onClick: (id: string) => void;
   appName: string;
@@ -186,6 +216,9 @@ function MarkersContent({
     () => new Set(discoveredNodes),
     [discoveredNodes],
   );
+
+  // Track hidden marker IDs for bulk visibility control
+  const hiddenMarkerIds = useRef<Set<string>>(new Set());
   const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const iconSizeByGroup = useSettingsStore((state) => state.iconSizeByGroup);
@@ -212,17 +245,63 @@ function MarkersContent({
     (state) => state.tempPrivateNode?.id,
   );
   const highlightSpawnIDs = useGameState((state) => state.highlightSpawnIDs);
-  const existingSpawnIds = useRef<Map<string | number, CanvasMarker>>();
+  const fallbackNormalization = useMemo(() => {
+    const distance = markerOptions.zPos?.zDistance;
+    if (typeof distance === "number" && distance > 0) {
+      return Math.max(1, distance * 2);
+    }
+    return DEFAULT_Z_NORMALIZATION;
+  }, [markerOptions.zPos?.zDistance]);
+
+  const zRange = useMemo(() => {
+    let min = Number.POSITIVE_INFINITY;
+    let max = Number.NEGATIVE_INFINITY;
+    for (const spawn of spawns) {
+      if (spawn.p.length > 2) {
+        const raw = Number(spawn.p[2]);
+        if (Number.isFinite(raw)) {
+          if (raw < min) min = raw;
+          if (raw > max) max = raw;
+        }
+      }
+    }
+    if (!Number.isFinite(min) || !Number.isFinite(max) || max - min <= 0) {
+      return undefined;
+    }
+    return { min, max } as const;
+  }, [spawns]);
+
+  const existingSpawnIds = useRef<Map<string | number, WebMapMarker>>();
   const player = useGameState((state) => state.player);
   const throttledPlayer = useThrottle(player, 1000);
   const firstRender = useRef(true);
 
   useEffect(() => {
-    if (!map || !map._mapPane) {
+    if (!map) {
       return;
     }
     if (!existingSpawnIds.current) {
       existingSpawnIds.current = new Map();
+    }
+
+    // Initialize IconMarkerLayer for WebMap compatibility
+    const layers = (map as any).layers || [];
+    let iconLayer = layers.find(
+      (layerEntry: any) => layerEntry.layer instanceof IconMarkerLayer,
+    )?.layer as IconMarkerLayer;
+
+    if (!iconLayer) {
+      iconLayer = new IconMarkerLayer();
+      map.addLayer(iconLayer, { zIndex: 12 });
+
+      iconLayer
+        .loadFilterIconMap(
+          getAppUrl(appName, "/config/filters.json"),
+          getAppUrl(appName, "/icons/"),
+        )
+        .catch((error) => {
+          console.warn("Failed to load filter icon map:", error);
+        });
     }
 
     let tooltipDelayTimeout: NodeJS.Timeout | undefined;
@@ -235,6 +314,21 @@ function MarkersContent({
         return;
       }
       const isCluster = Boolean(spawn.cluster && spawn.cluster.length > 0);
+
+      const spawnCoords = spawn.p as number[];
+      const spawnLatLng = [spawnCoords[0], spawnCoords[1]] as [number, number];
+      const rawZ = spawnCoords.length > 2 ? Number(spawnCoords[2]) : undefined;
+      const spawnZ =
+        rawZ !== undefined && Number.isFinite(rawZ) ? rawZ : undefined;
+      const spawnZMag =
+        spawnZ !== undefined
+          ? zRange && zRange.max - zRange.min > 0
+            ? Math.min(
+                1,
+                Math.max(0, (spawnZ - zRange.min) / (zRange.max - zRange.min)),
+              )
+            : Math.min(1, Math.abs(spawnZ) / fallbackNormalization)
+          : undefined;
 
       const nodeId = getNodeId(spawn);
       let isDiscovered: boolean;
@@ -266,22 +360,29 @@ function MarkersContent({
         highlightSpawnIDs.includes(nodeId) || selectedNodeId === nodeId;
       const existingMarker = existingSpawnIds.current!.get(spawn.address || id);
       if (existingMarker) {
+        // Handle visibility through hidden set instead of removeFrom
         if (isDiscovered && hideDiscoveredNodes) {
-          existingMarker.remove();
-          existingSpawnIds.current!.delete(spawn.address || id);
-        } else if (existingMarker.options.isDiscovered !== isDiscovered) {
+          hiddenMarkerIds.current.add(existingMarker.options.id);
+        } else {
+          hiddenMarkerIds.current.delete(existingMarker.options.id);
+        }
+
+        if (existingMarker.options.isDiscovered !== isDiscovered) {
           existingMarker.toggleDiscovered();
         }
-        if (spawn.address && !existingMarker.getLatLng().equals(spawn.p)) {
-          existingMarker.setLatLng(spawn.p);
+        const [lat, lng] = existingMarker.getLatLng();
+        if (lat !== spawnLatLng[0] || lng !== spawnLatLng[1]) {
+          existingMarker.setLatLng(spawnLatLng);
         }
+        existingMarker.setZ(spawnZ, zRange ?? null, fallbackNormalization);
         if (existingMarker.options.isHighlighted !== isHighlighted) {
           existingMarker.setHighlight(isHighlighted);
         }
         return;
       }
       if (isDiscovered && hideDiscoveredNodes) {
-        return;
+        // Don't skip creation, just mark as hidden
+        hiddenMarkerIds.current.add(id);
       }
       const icon = icons.get(spawn.type);
       const baseRadius =
@@ -301,19 +402,22 @@ function MarkersContent({
       const groupMultiplier = groupId ? (iconSizeByGroup[groupId] ?? 1) : 1;
       const typeMultiplier = iconSizeByFilter[spawn.type] ?? 1;
 
-      const marker = new CanvasMarker(spawn.p, {
+      const marker = new WebMapMarker(spawnLatLng, {
         id,
         typeId: spawn.type,
         icon: markerIcon,
         fillColor: spawn.color,
-        baseRadius,
-        radius: baseRadius * baseIconSize * groupMultiplier * typeMultiplier,
+        baseRadius:
+          baseRadius * baseIconSize * groupMultiplier * typeMultiplier,
         isDiscovered,
         isCluster,
         isHighlighted,
         colorBlindMode,
         colorBlindSeverity,
-        pane: "tooltipPane",
+        z: spawnZ,
+        zMag: spawnZMag,
+        zRange,
+        zNormalization: fallbackNormalization,
       });
       const getItems = () => {
         const filter = filters.find((filter) =>
@@ -364,9 +468,11 @@ function MarkersContent({
 
           clearTimeout(tooltipDelayTimeout);
           tooltipDelayTimeout = setTimeout(() => {
+            const pointX = event.sourceTarget._point.x;
+            const pointY = event.sourceTarget._point.y;
             onTooltipData({
-              x: event.sourceTarget._point.x,
-              y: event.sourceTarget._point.y,
+              x: pointX,
+              y: pointY,
               radius: marker.getRadius(),
               items: getItems(),
               latLng: spawn.p,
@@ -378,7 +484,7 @@ function MarkersContent({
           DomEvent.stopPropagation(event);
 
           clearTimeout(tooltipDelayTimeout);
-          handleMapMouseMoveRef.current = (e: LeafletMouseEvent) => {
+          handleMapMouseMoveRef.current = (e: WebMapMouseEvent) => {
             const distanceFromMarker = Math.sqrt(
               Math.pow(e.layerPoint.x - marker._point.x, 2) +
                 Math.pow(e.layerPoint.y - marker._point.y, 2),
@@ -421,6 +527,9 @@ function MarkersContent({
       }
     };
     const spawnIds = new Set<string | number>();
+    // Clear hidden set at the start of processing
+    hiddenMarkerIds.current.clear();
+
     spawns.forEach(handleSpawn);
 
     const sharedPrivateSpawns = sharedMyFilters.flatMap<Spawns[number]>(
@@ -445,6 +554,13 @@ function MarkersContent({
     );
     sharedPrivateSpawns.forEach(handleSpawn);
 
+    // Apply bulk visibility update to IconMarkerLayer
+    if (iconLayer) {
+      iconLayer.setHiddenById(
+        hiddenMarkerIds.current.size > 0 ? hiddenMarkerIds.current : undefined,
+      );
+    }
+
     for (const [key, marker] of existingSpawnIds.current.entries()) {
       if (spawnIds.has(key)) {
         continue;
@@ -453,7 +569,7 @@ function MarkersContent({
 
       try {
         marker.off();
-        marker.remove();
+        marker.removeFrom(map);
       } catch (e) {}
     }
   }, [
@@ -465,16 +581,35 @@ function MarkersContent({
     tempPrivateNodeId,
     selectedNodeId,
     highlightSpawnIDs,
+    fallbackNormalization,
+    zRange?.min,
+    zRange?.max,
   ]);
 
   useEffect(() => {
-    if (!markerOptions.zPos || !throttledPlayer || !existingSpawnIds.current)
+    if (!markerOptions.zPos || !existingSpawnIds.current) return;
+
+    // If no player position, clear all zPos arrows
+    if (!throttledPlayer) {
+      for (const marker of existingSpawnIds.current.values()) {
+        if (marker.options.zPos !== null) {
+          marker.setZPos(null);
+        }
+      }
       return;
+    }
+
+    // If player is on different map, clear all zPos arrows
     if (
       throttledPlayer?.mapName &&
-      throttledPlayer?.mapName &&
-      player?.mapName !== map?.mapName
+      player?.mapName &&
+      player.mapName !== map?.mapName
     ) {
+      for (const marker of existingSpawnIds.current.values()) {
+        if (marker.options.zPos !== null) {
+          marker.setZPos(null);
+        }
+      }
       return;
     }
 
@@ -487,7 +622,7 @@ function MarkersContent({
       const dy = throttledPlayer.y - spawnP[1];
       const xyDistSq = dx * dx + dy * dy;
 
-      let newZPos: CanvasMarkerOptions["zPos"] = null;
+      let newZPos: WebMapMarkerOptions["zPos"] = null;
       const maxDistSq =
         markerOptions.zPos.xyMaxDistance * markerOptions.zPos.xyMaxDistance;
       if (xyDistSq <= maxDistSq) {
@@ -504,32 +639,9 @@ function MarkersContent({
         marker.setZPos(newZPos);
       }
     }
-  }, [throttledPlayer, markerOptions.zPos]);
+  }, [throttledPlayer, markerOptions.zPos, player?.mapName, map?.mapName]);
 
   useEffect(() => {
-    if (!map) {
-      return;
-    }
-
-    const handleZoomEnd = () => {
-      clearCanvasCache();
-    };
-    map.on("zoomend", handleZoomEnd);
-    return () => {
-      map.off("zoomend", handleZoomEnd);
-      clearCanvasCache();
-      existingSpawnIds.current?.forEach((marker) => {
-        try {
-          marker.off();
-          marker.remove();
-        } catch (e) {}
-      });
-      existingSpawnIds.current?.clear();
-    };
-  }, [map]);
-
-  useEffect(() => {
-    clearCanvasCache();
     existingSpawnIds.current?.forEach((marker) => {
       const typeId = (marker.options as any).typeId as string | undefined;
       const filterSize = typeId ? (iconSizeByFilter[typeId] ?? 1) : 1;
@@ -550,9 +662,18 @@ function MarkersContent({
     });
   }, [highlightSpawnIDs]);
 
+  useEffect(() => {
+    existingSpawnIds.current?.forEach((marker) => {
+      marker.setZ(
+        marker.options.z ?? null,
+        zRange ?? null,
+        fallbackNormalization,
+      );
+    });
+  }, [zRange?.min, zRange?.max, fallbackNormalization]);
+
   // Update markers when color blind mode changes
   useEffect(() => {
-    clearCanvasCache();
     existingSpawnIds.current?.forEach((marker) => {
       try {
         marker.setColorBlindMode(colorBlindMode);
@@ -562,7 +683,6 @@ function MarkersContent({
 
   // Update markers when color blind severity changes
   useEffect(() => {
-    clearCanvasCache();
     existingSpawnIds.current?.forEach((marker) => {
       try {
         marker.setColorBlindSeverity(colorBlindSeverity);

@@ -1,11 +1,11 @@
 "use client";
-import "leaflet/dist/leaflet.css";
+// WebMap doesn't need leaflet CSS
 import { cn, getAppUrl, TilesConfig, useSettingsStore } from "@repo/lib";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { createWorld } from "./world";
 import { createCanvasLayer } from "./canvas-layer";
 import { useMapStore } from "./store";
-import leaflet from "leaflet";
+// WebMap doesn't need leaflet
 
 export function SimpleMap({
   appName,
@@ -22,7 +22,7 @@ export function SimpleMap({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapTileOptions = tileOptions?.[mapName];
-  const { map, setMap, setLeaflet } = useMapStore();
+  const { map, setMap } = useMapStore();
   const colorBlindMode = useSettingsStore((state) => state.colorBlindMode);
 
   useLayoutEffect(() => {
@@ -36,22 +36,15 @@ export function SimpleMap({
       mapName,
     );
     world.mapName = mapName;
-    setLeaflet(leaflet);
-    world.whenReady(() => {
-      setMap(world);
+    // WebMap is ready immediately
+    setMap(world);
+
+    // WebMap events - remove leaflet-specific DOM manipulation
+    world.on("mousedown" as any, () => {
+      // WebMap handles transitions internally
     });
 
-    world.on("mousedown", () => {
-      document
-        .querySelector(".leaflet-map-pane")
-        ?.classList.remove(
-          "transition-transform",
-          "ease-linear",
-          "duration-1000",
-        );
-    });
-
-    world.on("contextmenu", () => {
+    world.on("contextmenu" as any, () => {
       return;
     });
 
