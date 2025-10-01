@@ -1,0 +1,52 @@
+{
+  "name": "the-hidden-gaming-lair",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:palworld-overwolf": "turbo run build --filter=palworld-overwolf...",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter='*-web'",
+    "dev:overwolf": "turbo run dev --filter='*-overwolf'",
+    "dev:core": "turbo run dev --filter='thgl-*'",
+    "dev:avowed": "turbo run dev --filter='avowed-*'",
+    "dev:chrono-odyssey": "turbo run dev --filter='chrono-odyssey-*'",
+    "dev:diablo4": "turbo run dev --filter='diablo4-*'",
+    "dev:dune-awakening": "turbo run dev --filter='dune-awakening-*'",
+    "dev:grounded2": "turbo run dev --filter='grounded2-*'",
+    "dev:hogwarts-legacy": "turbo run dev --filter='hogwarts-legacy-*'",
+    "dev:infinity-nikki": "turbo run dev --filter='infinity-nikki-*'",
+    "dev:night-crows": "turbo run dev --filter='night-crows-*'",
+    "dev:once-human": "turbo run dev --filter='once-human-*'",
+    "dev:palia": "turbo run dev --filter='palia-*'",
+    "dev:palworld": "turbo run dev --filter='palworld-*'",
+    "dev:pax-dei": "turbo run dev --filter='pax-dei-*'",
+    "dev:pillars-of-eternity": "turbo run dev --filter='pillars-of-eternity-*'",
+    "dev:rsdragonwilds": "turbo run dev --filter='rsdragonwilds-*'",
+    "dev:satisfactory": "turbo run dev --filter='satisfactory-*'",
+    "dev:soulframe": "turbo run dev --filter='soulframe-*'",
+    "dev:wuthering-waves": "turbo run dev --filter='wuthering-waves-*'",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "update-deps": "bunx npm-check-updates -u -ws --root",
+    "release:palworld-overwolf": "turbo run release --filter=palworld-overwolf"
+  },
+  "devDependencies": {
+    "prettier": "3.3.3",
+    "turbo": "^2.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "bun@1.1.32",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "clsx": "2.1.1",
+    "tailwind-merge": "2.5.4"
+  }
+}

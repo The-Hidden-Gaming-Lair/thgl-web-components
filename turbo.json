@@ -1,0 +1,68 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
+  "globalEnv": [
+    "PORT",
+    "JWT_SECRET",
+    "PATREON_CLIENT_ID",
+    "PATREON_CLIENT_SECRET_V2",
+    "PATREON_REDIRECT_URL",
+    "DISCORD_WEBHOOK_COMMENTS"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "dist/**",
+        "build/**"
+      ],
+      "inputs": [
+        "src/**",
+        "public/**",
+        "*.json",
+        "*.js",
+        "*.ts",
+        "*.tsx",
+        "*.config.*",
+        "*.html"
+      ]
+    },
+    "test": {
+      "outputs": [
+        "coverage/**"
+      ],
+      "dependsOn": []
+    },
+    "lint": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "typecheck": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "dev": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "clean": {
+      "cache": false
+    },
+    "release": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false
+    }
+  }
+}

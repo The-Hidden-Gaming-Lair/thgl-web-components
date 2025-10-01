@@ -1,0 +1,75 @@
+import { Button, Label } from "../(controls)";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { useState } from "react";
+import { Input } from "../ui/input";
+import {
+  type DrawingsAndNodes,
+  useSettingsStore,
+  useUserStore,
+} from "@repo/lib";
+
+export function RenameFilter({
+  myFilter,
+  onClose,
+}: {
+  myFilter: DrawingsAndNodes | null;
+  onClose: () => void;
+}) {
+  const [name, setName] = useState("");
+  const setMyFilter = useSettingsStore((state) => state.setMyFilter);
+  const filters = useUserStore((state) => state.filters);
+  const setFilters = useUserStore((state) => state.setFilters);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!myFilter) {
+      return;
+    }
+    event.preventDefault();
+    const filterName = `my_${Date.now()}_${name}`;
+    const wasActive = filters.includes(myFilter.name);
+    const newFilters = filters.filter((f) => f !== myFilter.name);
+    setMyFilter(myFilter.name, { name: filterName });
+    onClose();
+    if (wasActive) {
+      newFilters.push(filterName);
+    }
+    setFilters(newFilters);
+  };
+
+  return (
+    <Dialog
+      open={!!myFilter}
+      onOpenChange={(open) => {
+        if (!open) {
+          onClose();
+        }
+      }}
+    >
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>
+            Rename {myFilter?.name.replace(/my_\d+_/, "")}
+          </DialogTitle>
+        </DialogHeader>
+        <section className="space-y-4 overflow-hidden">
+          <form className="space-y-2" onSubmit={handleSubmit}>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+                placeholder="Enter new name"
+              />
+            </div>
+            <Button type="submit" disabled={!name} className="w-full">
+              Rename Filter
+            </Button>
+          </form>
+        </section>
+      </DialogContent>
+    </Dialog>
+  );
+}

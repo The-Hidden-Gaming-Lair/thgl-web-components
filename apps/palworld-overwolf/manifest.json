@@ -1,0 +1,168 @@
+{
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+    "name": "Palworld-DEV",
+    "author": "Leon Machens",
+    "version": "2.11.2",
+    "minimum-overwolf-version": "0.241.0",
+    "minimum-gep-version": "242.0",
+    "description": "Palworld Interactive Map – The Hidden Gaming Lair",
+    "dock_button_title": "Palworld Map",
+    "author_display": "DevLeon",
+    "icon": "icons/icon.png",
+    "icon_gray": "icons/icon_gray.png",
+    "launcher_icon": "icons/launcher_icon.ico"
+  },
+  "permissions": [
+    "Hotkeys",
+    "FileSystem",
+    "DesktopStreaming",
+    "Clipboard",
+    "Extensions",
+    "Streaming",
+    "Profile",
+    "GameInfo"
+  ],
+  "data": {
+    "start_window": "background",
+    "windows": {
+      "background": {
+        "file": "background.html",
+        "debug_url": "http://localhost:3004/background.html",
+        "block_top_window_navigation": false,
+        "is_background_page": true
+      },
+      "desktop": {
+        "file": "index.html",
+        "debug_url": "http://localhost:3004/index.html",
+        "block_top_window_navigation": false,
+        "resizable": true,
+        "override_on_update": true,
+        "desktop_only": true,
+        "transparent": true,
+        "native_window": true,
+        "size": {
+          "width": 1200,
+          "height": 800
+        },
+        "min_size": {
+          "width": 768,
+          "height": 420
+        },
+        "allow_local_file_access": true,
+        "popup_blocker": true,
+        "mute": true,
+        "keep_window_location": true,
+        "disable_restore_animation": true,
+        "disable_hardware_acceleration": false
+      },
+      "overlay": {
+        "file": "index.html",
+        "debug_url": "http://localhost:3004/index.html",
+        "block_top_window_navigation": false,
+        "desktop_only": false,
+        "in_game_only": true,
+        "resizable": true,
+        "override_on_update": true,
+        "transparent": true,
+        "focus_game_takeover": "ReleaseOnLostFocus",
+        "focus_game_takeover_release_hotkey": "toggle_app",
+        "size": {
+          "width": 1200,
+          "height": 800
+        },
+        "min_size": {
+          "width": 768,
+          "height": 420
+        },
+        "allow_local_file_access": true,
+        "popup_blocker": true,
+        "mute": true,
+        "disable_restore_animation": true,
+        "restrict_to_game_bounds": true,
+        "disable_hardware_acceleration": false
+      }
+    },
+    "game_targeting": {
+      "type": "dedicated",
+      "game_ids": [
+        23944
+      ]
+    },
+    "launch_events": [
+      {
+        "event": "GameLaunch",
+        "event_data": {
+          "game_ids": [
+            23944
+          ]
+        },
+        "start_minimized": false
+      }
+    ],
+    "hotkeys": {
+      "toggle_app": {
+        "title": "Show/Hide App",
+        "action-type": "custom",
+        "default": "F6"
+      },
+      "zoom_in_app": {
+        "title": "Zoom in",
+        "action-type": "custom",
+        "default": "F7"
+      },
+      "zoom_out_app": {
+        "title": "Zoom out",
+        "action-type": "custom",
+        "default": "F8"
+      },
+      "toggle_lock_app": {
+        "title": "Lock/Unlock App",
+        "action-type": "custom",
+        "default": "F9"
+      },
+      "discover_node": {
+        "title": "Discover Node",
+        "action-type": "custom",
+        "passthrough": true,
+        "default": "F10"
+      },
+      "toggle_live_mode": {
+        "title": "Toggle Live Mode",
+        "action-type": "custom",
+        "default": "F5"
+      },
+      "toggle_overlay_fullscreen": {
+        "title": "Toggle Overlay Fullscreen",
+        "action-type": "custom",
+        "default": "SHIFT+F9"
+      }
+    },
+    "protocol_override_domains": {
+      "googlesyndication": "http"
+    },
+    "force_browser": "user",
+    "externally_connectable": {
+      "matches": [
+        "https://www.th.gl",
+        "https://palworld.th.gl",
+        "http://localhost:3000",
+        "http://localhost:3004"
+      ]
+    },
+    "url_protocol": {
+      "scheme": "thgl-palworld"
+    },
+    "extra-objects": {
+      "game-events": {
+        "file": "plugins/Palworld.dll",
+        "class": "Palworld.Overwolf"
+      },
+      "discord": {
+        "file": "plugins/DiscordRPCPlugin.dll",
+        "class": "overwolf.plugins.DiscordRPCPlugin"
+      }
+    }
+  }
+}

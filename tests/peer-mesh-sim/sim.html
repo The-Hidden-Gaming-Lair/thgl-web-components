@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Peer Mesh Simulator</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <style>
+      body {
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        margin: 24px;
+        background: #1a1a1a;
+        color: #e5e5e5;
+      }
+      fieldset {
+        border: 1px solid #444;
+        padding: 12px;
+        border-radius: 8px;
+        background: #222;
+      }
+      legend {
+        font-weight: 600;
+        color: #fff;
+      }
+      label {
+        display: inline-block;
+        min-width: 120px;
+        color: #e5e5e5;
+      }
+      input {
+        padding: 6px 8px;
+        background: #333;
+        border: 1px solid #555;
+        border-radius: 4px;
+        color: #fff;
+      }
+      input:focus {
+        outline: none;
+        border-color: #666;
+        background: #3a3a3a;
+      }
+      input[type="radio"] {
+        accent-color: #0ea5e9;
+      }
+      input[type="checkbox"] {
+        accent-color: #0ea5e9;
+      }
+      button {
+        padding: 8px 12px;
+        margin-right: 8px;
+        background: #0ea5e9;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0284c7;
+      }
+      .row {
+        margin: 6px 0;
+      }
+      #log {
+        width: 100%;
+        height: 320px;
+        white-space: pre-wrap;
+        border: 1px solid #444;
+        padding: 8px;
+        border-radius: 6px;
+        overflow: auto;
+        background: #0a0a0a;
+        color: #e5e5e5;
+        font-family: 'Courier New', monospace;
+      }
+      .muted {
+        color: #888;
+      }
+      h1, h3 {
+        color: #fff;
+      }
+      #sendersList {
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 6px;
+        background: #222;
+      }
+      #sendersList h4 {
+        margin: 0 0 8px 0;
+        color: #fff;
+      }
+      .sender-item {
+        padding: 6px;
+        margin: 4px 0;
+        border-radius: 4px;
+        background: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .sender-item.selected {
+        background: #0a4f7a;
+        border: 1px solid #0ea5e9;
+      }
+      .sender-item button {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Peer Mesh Simulator (Browser)</h1>
+    <fieldset>
+      <legend>Config</legend>
+      <div class="row">
+        <label>Role</label>
+        <label
+          ><input type="radio" name="role" value="sender" checked />
+          Sender</label
+        >
+        <label
+          ><input type="radio" name="role" value="receiver" /> Receiver</label
+        >
+      </div>
+      <div class="row">
+        <label for="domain">Domain</label>
+        <input
+          id="domain"
+          placeholder="e.g. duneawakening"
+          value="duneawakening"
+        />
+      </div>
+      <div class="row">
+        <label for="peerCode">Peer Code</label>
+        <input id="peerCode" placeholder="e.g. raid" value="raid" />
+      </div>
+      <div class="row">
+        <label for="mapName">Map Name</label>
+        <input id="mapName" placeholder="e.g. survival_1" value="survival_1" />
+      </div>
+      <div class="row">
+        <label for="usePrefix">Use domain prefix</label>
+        <input id="usePrefix" type="checkbox" checked />
+      </div>
+      <div class="row">
+        <label for="rootIdOverride">Root ID override</label>
+        <input id="rootIdOverride" placeholder="optional exact root id" />
+      </div>
+      <div class="row">
+        <label for="count">Count</label>
+        <input id="count" type="number" min="1" value="2" />
+      </div>
+      <div class="row">
+        <label for="interval">Interval (ms)</label>
+        <input id="interval" type="number" min="50" value="750" />
+        <span class="muted">Senders only</span>
+      </div>
+      <div class="row">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="clear">Clear Log</button>
+      </div>
+    </fieldset>
+
+    <div id="sendersList" style="display: none;">
+      <h4>Connected Senders</h4>
+      <div id="sendersContainer"></div>
+    </div>
+
+    <h3>Log</h3>
+    <div id="log"></div>
+
+    <script>
+      const logEl = document.getElementById("log");
+      function log(...args) {
+        const line = args
+          .map((a) => (typeof a === "string" ? a : JSON.stringify(a)))
+          .join(" ");
+        const div = document.createElement("div");
+        div.textContent = `[${new Date().toLocaleTimeString()}] ${line}`;
+        logEl.appendChild(div);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      class SimClient {
+        constructor(idx, role, team, domain, interval, mapName) {
+          this.idx = idx;
+          this.role = role;
+          this.team = team;
+          this.domain = domain;
+          this.interval = interval;
+          this.mapName = mapName;
+          this.controlPeer = null;
+          this.dataPeer = null;
+          this.dataConns = {};
+          this.timer = null;
+          this.name = SimClient.randomName(idx);
+          this.connectedSenders = {}; // Track sender IDs and names
+          this.selectedMeSender = null; // Track which sender is selected as "Me"
+        }
+
+        static randomName(idx) {
+          const adjectives = [
+            "Swift",
+            "Brave",
+            "Sly",
+            "Nimble",
+            "Fierce",
+            "Mighty",
+            "Witty",
+            "Clever",
+            "Silent",
+            "Lucky",
+          ];
+          const creatures = [
+            "Fox",
+            "Wolf",
+            "Hawk",
+            "Tiger",
+            "Eagle",
+            "Panther",
+            "Otter",
+            "Lynx",
+            "Falcon",
+            "Bear",
+          ];
+          const a = adjectives[Math.floor(Math.random() * adjectives.length)];
+          const c = creatures[Math.floor(Math.random() * creatures.length)];
+          return `${a}${c}-${idx}`;
+        }
+
+        async start() {
+          await this.ensureDataPeer();
+          await this.joinPeer();
+          if (this.role === "sender") {
+            this.startBroadcastLoop();
+          }
+        }
+
+        stop() {
+          try {
+            this.controlPeer && this.controlPeer.destroy();
+          } catch {}
+          try {
+            this.dataPeer && this.dataPeer.destroy();
+          } catch {}
+          Object.values(this.dataConns).forEach((c) => {
+            try {
+              c.close();
+            } catch {}
+          });
+          this.dataConns = {};
+          this.connectedSenders = {};
+          this.selectedMeSender = null;
+          if (this.timer) clearInterval(this.timer);
+          this.timer = null;
+          // Clear UI if receiver
+          if (this.role === "receiver") {
+            document.getElementById("sendersList").style.display = "none";
+          }
+        }
+
+        ensureDataPeer() {
+          return new Promise((resolve, reject) => {
+            try {
+              const p = new Peer(undefined, { debug: 0 });
+              this.dataPeer = p;
+              p.on("open", (id) => {
+                log(`${this.role}#${this.idx} data peer open`, id);
+                resolve();
+              });
+              p.on("error", (e) => {
+                log(
+                  `${this.role}#${this.idx} data peer error`,
+                  e?.message || e,
+                );
+                reject(e);
+              });
+              p.on("connection", (conn) => {
+                this.setupDataConn(conn);
+              });
+            } catch (e) {
+              reject(e);
+            }
+          });
+        }
+
+        setupDataConn(conn) {
+          const pid = conn.peer;
+          this.dataConns[pid] = conn;
+          conn.on("open", () => {
+            log(`${this.role}#${this.idx} data conn open`, pid);
+            // If this is a receiver and this sender is selected as "Me", send set-me
+            if (this.role === "receiver" && this.selectedMeSender === pid) {
+              conn.send({ type: "set-me" });
+              log(`${this.role}#${this.idx} sent set-me to`, pid);
+            }
+          });
+          conn.on("close", () => {
+            log(`${this.role}#${this.idx} data conn close`, pid);
+            delete this.dataConns[pid];
+            // Remove from connected senders list if receiver
+            if (this.role === "receiver") {
+              delete this.connectedSenders[pid];
+              this.updateSendersUI();
+            }
+          });
+          conn.on("error", (e) =>
+            log(
+              `${this.role}#${this.idx} data conn error`,
+              pid,
+              e?.message || e,
+            ),
+          );
+          conn.on("data", (d) => {
+            // For senders, log set-me/unset-me messages
+            if (this.role === "sender" && d && d.type) {
+              if (d.type === "set-me") {
+                log(`${this.role}#${this.idx} received set-me from`, pid);
+              } else if (d.type === "unset-me") {
+                log(`${this.role}#${this.idx} received unset-me from`, pid);
+              } else {
+                log(`${this.role}#${this.idx} data<-`, pid, d);
+              }
+            } else {
+              log(`${this.role}#${this.idx} data<-`, pid, d);
+            }
+          });
+        }
+
+        joinPeer() {
+          const override = document
+            .getElementById("rootIdOverride")
+            .value.trim();
+          const usePrefix = document.getElementById("usePrefix").checked;
+          const rootId = override
+            ? override
+            : usePrefix
+              ? `${this.domain}-th-gl-peer-${this.team}`
+              : `th-gl-peer-${this.team}`;
+          log(`${this.role}#${this.idx} join peer`, rootId);
+          return new Promise((resolve) => {
+            try {
+              const leader = new Peer(rootId, { debug: 0 });
+              this.controlPeer = leader;
+              const receiverConns = new Map();
+              const senderIds = new Set();
+              const senderNames = {};
+              if (this.role === "sender" && this.dataPeer?.id) {
+                senderIds.add(this.dataPeer.id);
+                senderNames[this.dataPeer.id] = this.name;
+              }
+
+              leader.on("open", () => {
+                log(`${this.role}#${this.idx} leader open (control)`);
+                resolve();
+              });
+              leader.on("connection", (conn) => {
+                conn.on("data", (msg) => {
+                  if (msg && msg.type === "hello") {
+                    if (msg.role === "receiver") {
+                      receiverConns.set(conn.peer, conn);
+                      log(
+                        `${this.role}#${this.idx} receiver connected (${receiverConns.size} total)`,
+                      );
+                      conn.send({
+                        type: "peer-list",
+                        senders: Array.from(senderIds),
+                        names: senderNames,
+                      });
+                    } else if (msg.role === "sender") {
+                      if (!senderIds.has(msg.id)) {
+                        senderIds.add(msg.id);
+                        if (msg.name) senderNames[msg.id] = msg.name;
+                        receiverConns.forEach(
+                          (rc) =>
+                            rc.open &&
+                            rc.send({
+                              type: "peer-joined",
+                              role: "sender",
+                              id: msg.id,
+                              name: senderNames[msg.id],
+                            }),
+                        );
+                      }
+                    }
+                  }
+                });
+                conn.on("close", () => {
+                  receiverConns.delete(conn.peer);
+                  log(
+                    `${this.role}#${this.idx} receiver disconnected (${receiverConns.size} remaining)`,
+                  );
+                });
+              });
+              leader.on("error", (e) => {
+                if (e?.type === "unavailable-id") {
+                  this.becomeMember(rootId).then(resolve);
+                } else {
+                  log(
+                    `${this.role}#${this.idx} control leader error`,
+                    e?.message || e,
+                  );
+                }
+              });
+            } catch (e) {
+              this.becomeMember(rootId).then(resolve);
+            }
+          });
+        }
+
+        becomeMember(rootId) {
+          return new Promise((resolve) => {
+            const member = new Peer(undefined, { debug: 0 });
+            this.controlPeer = member;
+            member.on("open", () => {
+              const conn = member.connect(rootId);
+              conn.on("open", () => {
+                log(`${this.role}#${this.idx} control connected to leader`);
+                conn.send({
+                  type: "hello",
+                  role: this.role,
+                  id: this.dataPeer.id,
+                  name: this.role === "sender" ? this.name : undefined,
+                });
+                resolve();
+              });
+              conn.on("data", (msg) => {
+                if (!msg || typeof msg !== "object") return;
+                if (this.role === "receiver") {
+                  if (msg.type === "peer-list") {
+                    // Store sender names if provided
+                    if (msg.names) {
+                      Object.assign(this.connectedSenders, msg.names);
+                    }
+                    msg.senders.forEach((sid) => {
+                      if (!this.connectedSenders[sid]) {
+                        this.connectedSenders[sid] = sid; // Use ID as fallback name
+                      }
+                      this.connectToSender(sid);
+                    });
+                    this.updateSendersUI();
+                  } else if (
+                    msg.type === "peer-joined" &&
+                    msg.role === "sender"
+                  ) {
+                    this.connectedSenders[msg.id] = msg.name || msg.id;
+                    this.connectToSender(msg.id);
+                    this.updateSendersUI();
+                  } else if (msg.type === "peer-left") {
+                    delete this.connectedSenders[msg.id];
+                    if (this.selectedMeSender === msg.id) {
+                      this.selectedMeSender = null;
+                    }
+                    this.updateSendersUI();
+                  }
+                }
+              });
+            });
+            member.on("error", (e) =>
+              log(
+                `${this.role}#${this.idx} control member error`,
+                e?.message || e,
+              ),
+            );
+          });
+        }
+
+        connectToSender(senderId) {
+          if (!this.dataPeer) return;
+          if (this.dataConns[senderId]) return;
+          const c = this.dataPeer.connect(senderId);
+          this.setupDataConn(c);
+        }
+
+        selectMeSender(senderId) {
+          // Send unset-me to previous sender if there was one
+          if (this.selectedMeSender && this.selectedMeSender !== senderId) {
+            const prevConn = this.dataConns[this.selectedMeSender];
+            if (prevConn && prevConn.open) {
+              prevConn.send({ type: "unset-me" });
+              log(`${this.role}#${this.idx} sent unset-me to`, this.selectedMeSender);
+            }
+          }
+
+          // Update selection
+          this.selectedMeSender = senderId;
+
+          // Send set-me to new sender if selected
+          if (senderId) {
+            const conn = this.dataConns[senderId];
+            if (conn && conn.open) {
+              conn.send({ type: "set-me" });
+              log(`${this.role}#${this.idx} sent set-me to`, senderId);
+            }
+          }
+
+          this.updateSendersUI();
+        }
+
+        updateSendersUI() {
+          if (this.role !== "receiver") return;
+          
+          const container = document.getElementById("sendersContainer");
+          const sendersList = document.getElementById("sendersList");
+          
+          if (Object.keys(this.connectedSenders).length === 0) {
+            sendersList.style.display = "none";
+            return;
+          }
+          
+          sendersList.style.display = "block";
+          container.innerHTML = "";
+          
+          Object.entries(this.connectedSenders).forEach(([id, name]) => {
+            const div = document.createElement("div");
+            div.className = "sender-item";
+            if (this.selectedMeSender === id) {
+              div.className += " selected";
+            }
+            
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = name;
+            div.appendChild(nameSpan);
+            
+            const button = document.createElement("button");
+            if (this.selectedMeSender === id) {
+              button.textContent = "Clear";
+              button.onclick = () => this.selectMeSender(null);
+            } else {
+              button.textContent = "Set as Me";
+              button.onclick = () => this.selectMeSender(id);
+            }
+            div.appendChild(button);
+            
+            container.appendChild(div);
+          });
+        }
+
+        startBroadcastLoop() {
+          if (!this.dataPeer) return;
+          let lastX = null;
+          let lastY = null;
+
+          // Random direction (clockwise or counter-clockwise)
+          const direction = Math.random() > 0.5 ? 1 : -1;
+          // Random speed variation
+          const speedMultiplier = 0.5 + Math.random() * 1.0; // 0.5x to 1.5x speed
+          // Random ellipse shape
+          const ellipseRatio = 0.6 + Math.random() * 0.8; // Make some paths more elliptical
+          // Random figure-8 pattern chance
+          const figure8 = Math.random() > 0.7;
+
+          this.timer = setInterval(() => {
+            const now = Date.now();
+            // Slower base speed with more variation
+            const speed =
+              0.00008 * speedMultiplier * (1 + this.idx * 0.15) * direction;
+            const angle =
+              (now * speed + this.idx * Math.PI * 0.7) % (2 * Math.PI);
+
+            // Variable radius with figure-8 option
+            let radiusX = 12000 + 8000 * Math.sin(this.idx * 0.7);
+            let radiusY = radiusX * ellipseRatio;
+
+            // Random wandering center point
+            const wanderSpeed = 0.00001;
+            const centerX =
+              50000 +
+              Math.sin(this.idx * 1.3) * 15000 +
+              Math.sin(now * wanderSpeed * (1 + this.idx * 0.2)) * 5000;
+            const centerY =
+              50000 +
+              Math.cos(this.idx * 1.7) * 15000 +
+              Math.cos(now * wanderSpeed * (1 + this.idx * 0.3)) * 5000;
+
+            // Calculate position with possible figure-8
+            let x, y;
+            if (figure8) {
+              // Figure-8 pattern
+              x = centerX + radiusX * Math.cos(angle);
+              y = centerY + radiusY * Math.sin(angle * 2);
+            } else {
+              // Elliptical pattern
+              x = centerX + radiusX * Math.cos(angle);
+              y = centerY + radiusY * Math.sin(angle);
+            }
+
+            const z = 100 + Math.sin(now * 0.0008 + this.idx) * 30;
+
+            // Calculate rotation based on movement direction
+            let r = 0;
+            if (lastX !== null && lastY !== null) {
+              const dx = x - lastX;
+              const dy = y - lastY;
+              // Calculate angle from movement vector
+              // atan2 returns angle from positive x-axis, we need to adjust for game coordinate system
+              r = ((Math.atan2(dy, dx) * 180) / Math.PI) % 360;
+              if (r < 0) r += 360;
+            }
+            lastX = x;
+            lastY = y;
+
+            const frame = {
+              player: {
+                x,
+                y,
+                z,
+                r,
+                mapName: this.mapName,
+                id: `${this.dataPeer.id}`,
+                name: this.name,
+              },
+            };
+            Object.values(this.dataConns).forEach(
+              (c) => c.open && c.send(frame),
+            );
+          }, this.interval);
+        }
+      }
+
+      let clients = [];
+      function start() {
+        const role = document.querySelector('input[name="role"]:checked').value;
+        const domain = document.getElementById("domain").value.trim();
+        const team = document.getElementById("peerCode").value.trim();
+        const mapName =
+          document.getElementById("mapName").value.trim() || "survival_1";
+        const count = parseInt(document.getElementById("count").value, 10) || 1;
+        const interval =
+          parseInt(document.getElementById("interval").value, 10) || 1000;
+        if (!domain || !team) {
+          log("Please provide domain and peer code");
+          return;
+        }
+        clients = [];
+        for (let i = 0; i < count; i++) {
+          const c = new SimClient(i + 1, role, team, domain, interval, mapName);
+          clients.push(c);
+        }
+        Promise.all(clients.map((c) => c.start())).then(() =>
+          log("All clients started"),
+        );
+      }
+      function stop() {
+        clients.forEach((c) => c.stop());
+        clients = [];
+        log("Stopped");
+      }
+      function clearLog() {
+        logEl.innerHTML = "";
+      }
+
+      document.getElementById("start").addEventListener("click", start);
+      document.getElementById("stop").addEventListener("click", stop);
+      document.getElementById("clear").addEventListener("click", clearLog);
+    </script>
+  </body>
+</html>

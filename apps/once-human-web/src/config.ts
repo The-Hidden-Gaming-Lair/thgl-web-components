@@ -1,0 +1,122 @@
+import { type AppConfig } from "@repo/lib";
+
+export const APP_CONFIG: AppConfig = {
+  name: "once-human",
+  title: "Once Human",
+  domain: "oncehuman",
+  supportedLocales: ["en"],
+  appUrl: "https://www.overwolf.com/app/Leon_Machens-Once_Human_Map",
+  internalLinks: [
+    {
+      href: "/maps/Deviation%20Secure",
+      title: "Deviation Secure Map",
+      description: "Navigate Deviation Secure with our interactive maps.",
+      iconName: "Map",
+      bgImage: "https://data.th.gl/once-human/map-tiles/default/preview.webp",
+      linkText: "Explore the Deviation Secure Map",
+    },
+    {
+      href: "/maps/Manibus%20&%20Evolution's%20Call",
+      title: "Manibus Evolution's Call Map",
+      description:
+        "Navigate Manibus Evolution's Call with our interactive maps.",
+      iconName: "Map",
+      bgImage: "https://data.th.gl/once-human/map-tiles/default/preview.webp",
+      linkText: "Explore the Manibus Evolution's Call Map",
+    },
+    {
+      href: "/maps/Prismverse's%20Clash",
+      title: "Prismverse's Clash Map",
+      description: "Navigate Prismverse's Clash with our interactive maps.",
+      iconName: "Map",
+      bgImage: "https://data.th.gl/once-human/map-tiles/default/preview.webp",
+      linkText: "Explore the Prismverse's Clash  Map",
+    },
+    {
+      href: "/maps/The%20Way%20of%20Winter",
+      title: "The Way of Winter Map",
+      description: "Navigate The Way of Winter with our interactive maps.",
+      iconName: "Map",
+      bgImage: "https://data.th.gl/once-human/map-tiles/default/preview.webp",
+      linkText: "Explore the The Way of Winter Map",
+    },
+    {
+      href: "/maps/Endless%20Dream",
+      title: "Endless Dream Map",
+      description: "Navigate Endless Dream with our interactive maps.",
+      iconName: "Map",
+      bgImage: "https://data.th.gl/once-human/map-tiles/default/preview.webp",
+      linkText: "Explore the Endless Dream Map",
+    },
+    {
+      href: "/mod-locations",
+      title: "Mod Locations",
+      iconName: "ArrowUp",
+      linkText: "View Mod Locations",
+    },
+    {
+      href: "/deviant-locations",
+      title: "Deviant Locations",
+      iconName: "Bug",
+      linkText: "View Deviant Locations",
+    },
+    {
+      href: "/remnants",
+      title: "Remnants",
+      iconName: "NotepadText",
+      linkText: "View Remnants",
+    },
+    {
+      href: "/regional-records",
+      title: "Regional Records",
+      iconName: "NotepadText",
+      linkText: "View Regional Records",
+    },
+    {
+      href: "/echoes-of-stardust",
+      title: "Echoes Of Stardust",
+      iconName: "NotepadText",
+      linkText: "View Echoes Of Stardust",
+    },
+    {
+      href: "/weapons",
+      title: "Weapons",
+      iconName: "Axe",
+      linkText: "View Weapons",
+    },
+    {
+      href: "/guides/Mystical%20Crate",
+      title: "Mystical Crate Guide",
+      iconName: "BookOpen",
+      linkText: "Discover all Mystical Crates",
+    },
+    {
+      href: "/guides/Viewpoint",
+      title: "Viewpoint Guide",
+      iconName: "BookOpen",
+      linkText: "Discover all Viewpoint Locations",
+    },
+    {
+      href: "/guides/Hoard%20Crate",
+      title: "Hoard Crate Guide",
+      iconName: "BookOpen",
+      linkText: "Discover all Hoard Crate Locations",
+    },
+    {
+      href: "/guides",
+      title: "All Guides",
+      iconName: "BookOpen",
+      linkText: "Discover all Locations",
+    },
+  ],
+  markerOptions: {
+    radius: 6,
+    playerIcon: "player.webp",
+    imageSprite: true,
+    zPos: {
+      xyMaxDistance: 200,
+      zDistance: 3,
+    },
+  },
+  keywords: ["Ores", "Resources", "Riddles", "Deviants"],
+};

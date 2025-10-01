@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "lib": ["dom", "dom.iterable", "ES2021"],
+    "target": "ES2021",
+    "outDir": "./dist",
+    "types": ["jest", "node", "@overwolf/types"]
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

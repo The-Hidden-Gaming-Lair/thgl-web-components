@@ -1,0 +1,35 @@
+{
+  "name": "dune-awakening-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "clean": "rm -rf .next node_modules",
+    "dev": "next dev -p 18001 --turbopack",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@repo/lib": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "fuse.js": "7.0.0",
+    "next": "15.3.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "15.3.1",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/next-config": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "22.7.9",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.5.6",
+    "tailwindcss": "3.4.14",
+    "typescript": "5.8.3"
+  }
+}

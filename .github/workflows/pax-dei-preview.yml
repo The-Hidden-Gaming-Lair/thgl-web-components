@@ -1,0 +1,23 @@
+name: Pax Dei Preview
+
+on:
+  push:
+    paths:
+      - "apps/pax-dei-overwolf/manifest.json"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - name: Build Overwolf app
+        run: bunx turbo run build --filter=pax-dei-overwolf...
+      - name: Release Overwolf app
+        env:
+          OW_CLI_EMAIL: ${{ secrets.OW_CLI_EMAIL }}
+          OW_CLI_API_KEY: ${{ secrets.OW_CLI_API_KEY }}
+          PREVIEW_ACCESS_CHANNEL_ID: 879
+        run: bunx turbo run release --filter=pax-dei-overwolf...
