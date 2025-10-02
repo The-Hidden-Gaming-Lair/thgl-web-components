@@ -53,3 +53,6 @@ This is a TurboRepo monorepo for The Hidden Gaming Lair, containing game-specifi
 - Follow existing code patterns and conventions in the codebase
 - Web apps auto-deploy to Vercel, Overwolf apps require manual updates
 - No direct pushes to main - all changes via PR
+- Use `.env.example` files for environment variable templates (never commit `.env` files)
+- Repository is source-available but NOT open source - code cannot be reused for other projects
+- Format code with Prettier, ensure ESLint passes before committing

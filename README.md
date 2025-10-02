@@ -36,6 +36,7 @@ This repo is part of a larger ecosystem of tools and services powering The Hidde
 - Run and explore any app (`bunx turbo run dev --filter=...`)
 - Follow the code style and structure already in use
 - PRs welcome — especially UI tweaks, content improvements, or bugfixes
+- **Using Claude Code?** See `CLAUDE.md` for AI-specific development guidance
 
 ## 🚀 Getting Started
 
