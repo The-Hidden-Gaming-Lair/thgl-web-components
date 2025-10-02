@@ -12,6 +12,150 @@ export type BlogContentReference = string;
 
 export const blogEntries: BlogEntry[] = [
   {
+    id: "web-code-now-public",
+    headline: "The Web Code Is Now Public",
+    title: "The Code Is Now Public — Here's Why",
+    description:
+      "After years of building TH.GL solo, the web components source code is now available on GitHub. Here's what's open, what's not, and how you can contribute — especially with AI tools like Claude Code.",
+    date: "2025-10-02",
+    content: `
+Over the past few years, I've been asked countless times: **"How does the map work?"**, **"Can I see the code?"**, or **"How do you handle X feature?"**
+
+Today, I'm happy to share that the answer is now: **Yes — go look for yourself!**
+
+## 🔓 The Code Is Now Public
+
+The **TH.GL web components** monorepo is now available on GitHub:
+
+👉 [**github.com/The-Hidden-Gaming-Lair/thgl-web-components**](https://github.com/The-Hidden-Gaming-Lair/thgl-web-components)
+
+This includes:
+- 🌐 All game-specific **web apps** (palworld.th.gl, duneawakening.th.gl, etc.)
+- 🎮 All **Overwolf apps** (in-game overlays)
+- 📦 Shared **UI components** and **libraries**
+- ⚙️ Build configs, CI/CD workflows, and tooling
+
+It's the full frontend codebase — everything that powers the maps, filters, overlays, and interactive features you use every day.
+
+## 🤔 Why Now?
+
+I've been building TH.GL solo for years, and it's grown way beyond what I imagined.
+
+But I've reached a point where **I can't handle all the requests and suggestions on my own anymore**.
+
+There are dozens of feature requests, bug reports, and small improvements sitting on the [**suggestions-issues page**](https://www.th.gl/suggestions-issues) — many of which I'd love to implement, but simply don't have the time for.
+
+By opening the code, I'm hoping the community can help out. Whether it's fixing a bug, adding a feature, improving documentation, or even translating the UI — **all contributions are welcome**.
+
+## 📖 What's Open (and What's Not)
+
+### ✅ What's Public:
+- **thgl-web-components** — all web apps, Overwolf apps, shared UI/libraries
+- Full access to the codebase, issues, pull requests, and discussions
+
+### 🔒 What's Still Private:
+- **Data mining tools** (extracting game data from files)
+- **Memory reading tools** (real-time position tracking)
+- **Companion app internals** (Windows desktop app)
+
+These stay private for security, anti-cheat, and licensing reasons.
+
+## ⚖️ The License: What You Can (and Can't) Do
+
+The code is **source-available, but NOT open source**.
+
+**You CAN:**
+- ✅ Read and explore the code
+- ✅ Submit pull requests with improvements
+- ✅ Learn from the code and use it as a reference
+- ✅ Report issues and suggest features
+
+**You CANNOT:**
+- ❌ Deploy your own version of TH.GL (with or without ads)
+- ❌ Reuse the code for your own projects
+- ❌ Fork it to build competing services
+
+Think of it as **"view and contribute only"** — not a free-for-all.
+
+All rights remain reserved. If you're interested in forking or licensing the code for something else, reach out to me directly.
+
+## 🤖 Contributing with AI — It's Easier Than Ever
+
+Here's the thing: contributing to open codebases used to require deep familiarity with the project.
+
+But now, with **AI tools like Claude Code**, you can jump in much faster.
+
+I've included a **[CLAUDE.md](https://github.com/The-Hidden-Gaming-Lair/thgl-web-components/blob/main/CLAUDE.md)** file in the repo that provides context for AI assistants — so if you're using Claude Code (or similar tools), it can help you:
+- Understand the project structure
+- Navigate the monorepo
+- Suggest fixes or improvements
+- Write code that matches the existing style
+
+Even if you're not an expert in React, Next.js, or TurboRepo — AI can help bridge the gap.
+
+**Want to try?** Check out the [**README.md**](https://github.com/The-Hidden-Gaming-Lair/thgl-web-components/blob/main/README.md), let Claude (or your AI tool of choice) read the [**CLAUDE.md**](https://github.com/The-Hidden-Gaming-Lair/thgl-web-components/blob/main/CLAUDE.md), and start exploring.
+
+## 🛠️ A Few Technical Notes
+
+### The Monorepo
+The codebase is organized as a **TurboRepo monorepo** — each game has its own web app and Overwolf app, with shared packages for UI components and logic.
+
+It's grown organically over the years, and honestly, **I wouldn't structure it this way if I started fresh today**. But it works, and it's what we have.
+
+### High-Performance Maps
+The current maps are built on **Leaflet** and optimized for performance — even with thousands of markers.
+
+But I'm also working on a **modern replacement with WebGL2 support** (check out the **feat/thgl-map** branch if you're curious). The new renderer will support:
+- 🔄 **Map rotation**
+- 🎯 **Perspective changes**
+- ✨ **Smoother controls and interactions**
+
+It's still experimental, but it's coming.
+
+![Experimental Map Preview](/images/thgl-map-experimental.png)
+
+## 💬 Where to Contribute
+
+Not sure where to start? Here are some ideas:
+
+1. **Check the [suggestions-issues page](https://www.th.gl/suggestions-issues)** — these are community requests pulled from Discord
+2. **Improve documentation** — add comments, write guides, clarify configs
+3. **Fix bugs** — test the apps and submit fixes
+4. **Add translations** — help localize the UI for other languages
+
+If you want to discuss contributions or get help, join the [**Discord**](https://th.gl/discord) — I'm active there and happy to guide new contributors.
+
+## 🙏 Thank You
+
+Building TH.GL has been an incredible journey, and I'm excited to see what happens now that the code is open.
+
+If you've ever wanted to peek under the hood, contribute a feature, or just see how something works — **now's your chance**.
+
+And if you'd like to support the project financially (and unlock Pro perks like ad removal), check out the [**Support Me**](https://www.th.gl/support-me) page.
+
+Thanks for being part of this journey.
+
+— DevLeon
+`.trim(),
+    contentReference: [
+      "GitHub",
+      "thgl-web-components",
+      "monorepo",
+      "TurboRepo",
+      "Overwolf",
+      "Leaflet",
+      "WebGL2",
+      "Claude Code",
+      "CLAUDE.md",
+      "suggestions-issues",
+      "Discord",
+      "open source",
+      "source-available",
+      "contributions",
+      "pull requests",
+    ],
+  },
+  {
     id: "overlay-input-freeze-fix",
     headline: "Overlay Input Freeze Fix",
     title: "How We Fixed the Overlay Input Freeze in the THGL Companion App",

@@ -116,21 +116,20 @@ export default function HomePage() {
       {/* Blog Teaser */}
       <div className="space-y-4 text-center">
         <Subtitle title="From the Blog" />
-        <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
-          <Card className="p-4 w-full max-w-sm text-left">
-            <Link
-              href={`/blog/${blogEntries[0].id}`}
-              className="space-y-2 block"
-            >
-              <h3 className="text-lg font-semibold text-brand">
-                {blogEntries[0].title}
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                {blogEntries[0].description}
-              </p>
-              <span className="text-sm underline text-brand">Read more →</span>
-            </Link>
-          </Card>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+          {blogEntries.slice(0, 3).map((entry) => (
+            <Card key={entry.id} className="p-4 text-left">
+              <Link href={`/blog/${entry.id}`} className="space-y-2 block">
+                <h3 className="text-lg font-semibold text-brand">
+                  {entry.title}
+                </h3>
+                <p className="text-muted-foreground text-sm">
+                  {entry.description}
+                </p>
+                <span className="text-sm underline text-brand">Read more →</span>
+              </Link>
+            </Card>
+          ))}
         </div>
         <div className="pt-2">
           <Link
@@ -154,6 +153,18 @@ export default function HomePage() {
         </Button>
         <p className="text-xs text-muted-foreground pt-2 italic">
           Built and maintained by a solo developer — thank you for your support!
+        </p>
+        <p className="text-xs text-muted-foreground pt-4">
+          Want to contribute?{" "}
+          <Link
+            href="https://github.com/The-Hidden-Gaming-Lair"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-white"
+          >
+            View the source code on GitHub
+          </Link>{" "}
+          and submit a pull request.
         </p>
       </div>
     </section>
