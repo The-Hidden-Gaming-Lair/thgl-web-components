@@ -261,36 +261,6 @@ export const games: Array<Game> = [
     discordId: "avowed",
     title: "Avowed",
     logo: "https://www.th.gl/global_icons/avowed.webp",
-    // companion: {
-    //   baseURL: "/apps/avowed",
-    //   controllerURL: "/apps/avowed/controller",
-    //   desktopURL: "/apps/avowed",
-    //   overlayURL: "/apps/avowed/overlay",
-    //   markerOptions: {
-    //     radius: 6,
-    //     playerIcon: "player.webp",
-    //     imageSprite: true,
-    //     zPos: {
-    //       xyMaxDistance: 15000,
-    //       zDistance: 400,
-    //     },
-    //   },
-    // games: [
-    //   {
-    //     title: "Avowed",
-    //     processNames: ["Avowed-Win64-Shipping.exe"],
-    //   },
-    // ],
-    //   defaultHotkeys: {
-    //     [HOTKEYS.TOGGLE_APP]: "F6",
-    //     [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
-    //     [HOTKEYS.ZOOM_IN_APP]: "F7",
-    //     [HOTKEYS.ZOOM_OUT_APP]: "F8",
-    //     [HOTKEYS.DISCOVER_NODE]: "F10",
-    //     [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
-    //[HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
-    //   },
-    // },
     web: "https://avowed.th.gl",
     overwolf: {
       id: "dfmnobmlhpkjnodhlabbmihmgocgpklofeklfmod",
@@ -301,42 +271,6 @@ export const games: Array<Game> = [
     },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
-  // {
-  //   id: "oblivion-remastered",
-  //   title: "Oblivion Remastered",
-  //   logo: "https://www.th.gl/global_icons/oblivion-remastered.webp",
-  //   companion: {
-  //     baseURL: "/apps/oblivion-remastered",
-  //     controllerURL: "/apps/oblivion-remastered/controller",
-  //     desktopURL: "/apps/oblivion-remastered",
-  //     overlayURL: "/apps/oblivion-remastered/overlay",
-  //     markerOptions: {
-  //       radius: 6,
-  //       playerIcon: "player.webp",
-  //       imageSprite: true,
-  //       zPos: {
-  //         xyMaxDistance: 15000,
-  //         zDistance: 400,
-  //       },
-  //     },
-  // games: [
-  //   {
-  //     title: "The Elder Scrolls IV: Oblivion Remastered",
-  //     processNames: ["OblivionRemastered-Win64-Shipping.exe"],
-  //   },
-  // ],
-  //     defaultHotkeys: {
-  //       [HOTKEYS.TOGGLE_APP]: "F6",
-  //       [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
-  //       [HOTKEYS.ZOOM_IN_APP]: "F7",
-  //       [HOTKEYS.ZOOM_OUT_APP]: "F8",
-  //       [HOTKEYS.DISCOVER_NODE]: "F10",
-  //       [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
-  //       [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
-  //     },
-  //   },
-  //   patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
-  // },
   {
     id: "satisfactory",
     discordId: "satisfactory",

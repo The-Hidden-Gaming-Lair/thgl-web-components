@@ -132,8 +132,6 @@
     "sonner": "1.5.0",
     "swr": "2.2.5",
     "tailwindcss-animate": "1.0.7",
-    "vaul": "^1.1.0",
-    "yod": "^1.0.0-alpha.4",
     "zod": "^3.23.8",
     "zustand": "5.0.4"
   }
