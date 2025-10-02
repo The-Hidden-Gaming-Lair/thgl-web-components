@@ -28,5 +28,6 @@ Thanks for your interest in contributing!
 
 ## ❓ Questions or Feedback
 
-Ask in the #contributions or #suggestions-issues channels on Discord:
-👉 [https://th.gl/discord](https://th.gl/discord) (invite only)
+Ask in the **❕・suggestions-issues** channel on Discord or check the suggestions page:
+- 💬 Discord: [https://th.gl/discord](https://th.gl/discord)
+- 🌐 Web: [https://www.th.gl/suggestions-issues](https://www.th.gl/suggestions-issues)
