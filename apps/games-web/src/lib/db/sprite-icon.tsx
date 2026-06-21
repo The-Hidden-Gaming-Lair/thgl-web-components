@@ -34,9 +34,11 @@ export function SpriteIcon({
   className?: string;
   iconsHash?: string;
 }) {
-  // Scale by the cell's own width so any sprite-sheet cell size renders at
-  // `size` px (most games use 64; SoC uses 128 for sharper unit icons).
-  const zoom = size / (icon.width || 64);
+  // Scale by the icon's own native width, capped at 1× — never upscale past the
+  // source resolution (stretching a small sprite just blurs it). So the icon
+  // renders at min(size, nativeWidth): downscales for big sources, shows small
+  // ones at native size instead of a blurry stretch.
+  const zoom = Math.min(size / (icon.width || 64), 1);
   // If icon.url is already an absolute URL (some upstream callers resolve it
   // ahead of time, e.g. the detail sidebar), pass it through unchanged.
   // Otherwise build the CDN URL with optional version-busting hash.
@@ -53,6 +55,12 @@ export function SpriteIcon({
       width={icon.width}
       height={icon.height}
       style={{
+        // Force width+height in CSS — the global preflight `img { height: auto }`
+        // overrides the width/height attributes and would recompute height from
+        // the full sheet's aspect ratio, clipping the wrong region (neighbour
+        // bleed) when the packed sheet isn't square.
+        width: icon.width,
+        height: icon.height,
         objectPosition: `-${icon.x}px -${icon.y}px`,
         zoom,
       }}

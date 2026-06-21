@@ -231,8 +231,8 @@ export function DbSearch({
                       height={entry.icon.height}
                       style={{
                         objectPosition: `-${entry.icon.x}px -${entry.icon.y}px`,
-                        // fit the cell into the 32px box (SoC uses 128px cells)
-                        zoom: 32 / (entry.icon.width || 64),
+                        // fit into the 32px box, never upscale past the source
+                        zoom: Math.min(32 / (entry.icon.width || 64), 1),
                       }}
                     />
                   )}

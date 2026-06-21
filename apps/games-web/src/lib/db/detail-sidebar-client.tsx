@@ -107,9 +107,13 @@ export function DetailSidebarClient({
                       width={item.icon.width}
                       height={item.icon.height}
                       style={{
+                        // force width+height in CSS (global `img{height:auto}`
+                        // would recompute height from the sheet ratio → bleed)
+                        width: item.icon.width,
+                        height: item.icon.height,
                         objectPosition: `-${item.icon.x}px -${item.icon.y}px`,
-                        // scale by the cell's own width (SoC uses 128px cells)
-                        zoom: 20 / (item.icon.width || 64),
+                        // scale by native width, never upscale past the source
+                        zoom: Math.min(20 / (item.icon.width || 64), 1),
                       }}
                     />
                   )}
