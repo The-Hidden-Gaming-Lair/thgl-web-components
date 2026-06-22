@@ -369,6 +369,27 @@ export function getAppUrl(appName: string, path: string): string {
   return `${DATA_FORGE_CDN_URL}/${appName}${path}`;
 }
 
+/**
+ * Cache-bust lever for map tiles. Tile URLs are content-hashed and served with
+ * `Cache-Control: immutable`, so a poisoned browser entry (e.g. a 404 cached
+ * during a tile outage) never revalidates and sticks for up to a year. Bumping
+ * this appends a new `?v=` to every tile request, so clients fetch a fresh URL
+ * and bypass the stale entry WITHOUT re-tiling — the CDN serves the same files
+ * under the new query. Only the visible tiles re-download per session.
+ *
+ * Bumping busts tiles for ALL games/users once. Set to 0 to disable the param.
+ * (2026-06-22: introduced at v=1 to recover clients poisoned by the Crimson
+ * Desert tile outage.)
+ */
+export const TILE_CACHE_VERSION = 1;
+
+/** Full CDN tile-layer URL with the cache-bust version appended. */
+export function getTileLayerUrl(appName: string, tilePath: string): string {
+  const url = getAppUrl(appName, tilePath);
+  if (!TILE_CACHE_VERSION) return url;
+  return `${url}${url.includes("?") ? "&" : "?"}v=${TILE_CACHE_VERSION}`;
+}
+
 export function getApiUrl(appName: string, searchParams: string): string {
   return `${DATA_FORGE_URL}/api/${appName}/search?${searchParams}`;
 }

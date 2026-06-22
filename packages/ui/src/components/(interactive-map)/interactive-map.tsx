@@ -2,7 +2,7 @@
 
 import type { TilesConfig } from "@repo/lib";
 import { useUserStore, useUserStoreApi } from "../(providers)";
-import { cn, getAppUrl, useSettingsStore } from "@repo/lib";
+import { cn, getTileLayerUrl, useSettingsStore } from "@repo/lib";
 import {
   WebMap,
   TileLayer,
@@ -307,7 +307,7 @@ export function InteractiveMap({
       mapRefsRef.current.tileLayer = null;
     }
 
-    const url = getAppUrl(appName, mapTileOptions.url);
+    const url = getTileLayerUrl(appName, mapTileOptions.url);
 
     const tileLayer = new TileLayer({
       url,

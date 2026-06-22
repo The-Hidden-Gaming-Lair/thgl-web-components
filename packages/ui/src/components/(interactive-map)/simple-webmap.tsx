@@ -1,5 +1,5 @@
 "use client";
-import { cn, getAppUrl, TilesConfig, useSettingsStore } from "@repo/lib";
+import { cn, getTileLayerUrl, TilesConfig, useSettingsStore } from "@repo/lib";
 import {
   WebMap,
   TileLayer,
@@ -201,7 +201,7 @@ export function SimpleWebMap({
       webmap.removeLayer(tileLayerRef.current);
     }
 
-    const url = getAppUrl(appName, mapTileOptions.url);
+    const url = getTileLayerUrl(appName, mapTileOptions.url);
 
     const tileLayer = new TileLayer({
       url,
