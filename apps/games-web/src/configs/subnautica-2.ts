@@ -26,17 +26,41 @@ export const subnautica2 = resolveAppConfig({
       linkText: "Explore the Crater Map",
     },
     {
-      title: "Item Database",
+      title: "Items",
       description:
-        "Browse every Subnautica 2 resource, tool, piece of equipment and upgrade with descriptions in 11 languages.",
+        "Every Subnautica 2 resource, tool, piece of equipment and upgrade, with descriptions in 11 languages.",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Item Database",
+      linkText: "Browse Items",
+    },
+    {
+      title: "Blueprints",
+      description:
+        "Crafting recipes grouped by station — Fabricator, Habitat Builder, Processor and more — with every ingredient.",
+      href: "/db/blueprints",
+      iconName: "NotepadText",
+      linkText: "Browse Blueprints",
+    },
+    {
+      title: "Creatures",
+      description:
+        "The scannable fauna and flora of the Crater, organised by family with full databank lore.",
+      href: "/db/lifeforms",
+      iconName: "Bug",
+      linkText: "Browse Creatures",
+    },
+    {
+      title: "Biomods",
+      description:
+        "Active and passive bio-modifications you can install, with their abilities and descriptions.",
+      href: "/db/biomods",
+      iconName: "Heart",
+      linkText: "Browse Biomods",
     },
     {
       title: "Databank",
       description:
-        "Read the in-game PDA databank: scanned creatures, flora, ruins and lore from across the Crater.",
+        "The in-game PDA databank: ruins, points of interest, colonist logs and lore from across the Crater.",
       href: "/db/databank",
       iconName: "BookOpen",
       linkText: "Browse the Databank",
@@ -48,11 +72,11 @@ export const subnautica2 = resolveAppConfig({
   topFilters: ["resource_titanium", "resource_quartz", "poi"],
   db: {
     heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, creatures, flora, lore…",
-    // Section slugs are tenant-resolved by the generic /db/[section] route. They must
-    // avoid the game-specific static folders (items, creatures, …) which 404 other
-    // tenants — "inventory" + "databank" have none.
+    searchPlaceholder: "Search items, blueprints, creatures, lore…",
     sectionsInNav: true,
+    // Section slugs are tenant-resolved by the generic /db/[section] route, so they must
+    // avoid the game-specific static folders (items, creatures, …) that 404 other tenants —
+    // hence "inventory"/"lifeforms" rather than "items"/"creatures".
     homeSections: [
       {
         href: "/db/inventory",
@@ -62,13 +86,40 @@ export const subnautica2 = resolveAppConfig({
         description: "Resources, tools, equipment and upgrades.",
       },
       {
+        href: "/db/blueprints",
+        type: "blueprints",
+        titleFallback: "Blueprints",
+        icon: "📋",
+        description: "Crafting recipes by station, with ingredients.",
+      },
+      {
+        href: "/db/lifeforms",
+        type: "lifeforms",
+        titleFallback: "Creatures",
+        icon: "🐟",
+        description: "Scannable fauna and flora, by family.",
+      },
+      {
+        href: "/db/biomods",
+        type: "biomods",
+        titleFallback: "Biomods",
+        icon: "🧬",
+        description: "Active and passive bio-modifications.",
+      },
+      {
         href: "/db/databank",
         type: "databank",
         titleFallback: "Databank",
         icon: "📖",
-        description: "Scanned creatures, flora, ruins and lore from the PDA.",
+        description: "Ruins, points of interest, colonist logs and lore.",
       },
     ],
-    typeLabels: { inventory: "Items", databank: "Databank" },
+    typeLabels: {
+      inventory: "Items",
+      blueprints: "Blueprints",
+      lifeforms: "Creatures",
+      biomods: "Biomods",
+      databank: "Databank",
+    },
   },
 });
