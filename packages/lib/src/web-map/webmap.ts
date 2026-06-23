@@ -244,6 +244,11 @@ export class WebMap {
       "wheel",
       (e) => {
         if (this.interactionsDisabled) return;
+        // Ignore wheel zoom while a drag is in progress: zooming would change
+        // this.zoom underneath the drag, which unprojects against
+        // dragStartCenterPx (captured at the drag's start zoom), causing the
+        // map to flicker/jump.
+        if (this.dragging || this.rotationPivot) return;
 
         e.preventDefault();
         const rect = this.canvas.getBoundingClientRect();
@@ -405,12 +410,25 @@ export class WebMap {
         // Capture starting screen position and center (for stable pan while zoom animates)
         this.dragStartScreen = { x: e.clientX, y: e.clientY };
         this.dragStartCenterPx = this.projectAt(this.center, this.zoom);
-        // If a zoom animation is active, cancel it when user starts dragging
-        // This prevents the zoom animation from fighting with the drag position
+        // If a zoom animation is active, cancel it when user starts dragging.
+        // Freeze targetZoom at the current zoom so the per-frame zoom
+        // interpolation (which runs independently of zoomAnim) stops too —
+        // otherwise this.zoom keeps changing while the drag unprojects
+        // against dragStartCenterPx (captured at the current zoom), causing
+        // the map to flicker/jump back.
         if (this.zoomAnim) {
-          // Finalize zoom to current state before drag starts
           this.zoomAnim = undefined;
         }
+        // Cancel any pending wheel-zoom: the debounce timer (or accumulated
+        // delta) would otherwise fire after the drag has started and restart
+        // the zoom animation mid-drag.
+        if (this.wheelTimer) {
+          clearTimeout(this.wheelTimer);
+          this.wheelTimer = undefined;
+        }
+        this.wheelAccum = 0;
+        this.wheelAnchor = undefined;
+        this.targetZoom = this.zoom;
         // Cancel any existing inertia and pan animation when user starts dragging
         this.panAnim = undefined;
         this.targetCenter = null;
