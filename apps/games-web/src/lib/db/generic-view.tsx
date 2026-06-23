@@ -145,6 +145,8 @@ export function GenericEntityView({
   const sells = asDbRefList(props?.sells);
   const drops = asDbRefList(props?.drops); // creature → item drops
   const droppedBy = asDbRefList(props?.droppedBy); // item → creatures
+  const ingredients = asDbRefList(props?.ingredients); // crafted item → its ingredients
+  const usedToCraft = asDbRefList(props?.usedToCraft); // ingredient → items it crafts
   // Rarity/value-tier pill, rendered next to the name.
   const rarity = isRarity(props?.rarity) ? props.rarity : undefined;
   // "Craftable at <station>" provenance line.
@@ -165,7 +167,9 @@ export function GenericEntityView({
       k !== "rarity" &&
       k !== "craftable" &&
       k !== "drops" &&
-      k !== "droppedBy",
+      k !== "droppedBy" &&
+      k !== "ingredients" &&
+      k !== "usedToCraft",
   );
   // Split into prominent stat cards vs. the raw details table.
   const statProps = remaining.filter(([, v]) => isStatValue(v));
@@ -369,6 +373,24 @@ export function GenericEntityView({
           <span className="inline-flex items-center rounded border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-amber-300">
             {craftable.station}
           </span>
+        </div>
+      )}
+
+      {ingredients && ingredients.length > 0 && (
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Crafted from
+          </div>
+          {refLinks(ingredients)}
+        </div>
+      )}
+
+      {usedToCraft && usedToCraft.length > 0 && (
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Used to craft
+          </div>
+          {refLinks(usedToCraft)}
         </div>
       )}
 
