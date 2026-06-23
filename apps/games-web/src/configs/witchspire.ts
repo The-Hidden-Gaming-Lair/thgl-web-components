@@ -1,0 +1,117 @@
+import { resolveAppConfig } from "@repo/lib";
+
+export const witchspire = resolveAppConfig({
+  name: "witchspire",
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pt",
+    "ru",
+    "uk",
+    "zh-CN",
+  ],
+  appUrl: null,
+  internalLinks: [
+    {
+      title: "Flying Islands Map",
+      description:
+        "Find resource nodes, mineral deposits, treasure chests, dungeon portals, familiars and points of interest across Witchspire's open world with our interactive map.",
+      href: "/maps/Flying%20Islands",
+      iconName: "Map",
+      linkText: "Explore the Map",
+    },
+    {
+      title: "Items",
+      description:
+        "Browse every Witchspire item by category — wands, potions, food, tools, rings and resources — with rarity, descriptions and crafting recipes.",
+      href: "/db/inventory",
+      iconName: "Gift",
+      linkText: "Open the Items database",
+    },
+    {
+      title: "Recipes",
+      description:
+        "Every crafting recipe in Witchspire, grouped by station — ingredients, amounts and refine time, cross-linked to each item.",
+      href: "/db/recipes",
+      iconName: "BookOpen",
+      linkText: "Browse Recipes",
+    },
+    {
+      title: "Familiars",
+      description:
+        "Every catchable familiar in Witchspire, with portraits — the creatures you bond with and grow.",
+      href: "/db/familiars",
+      iconName: "Bug",
+      linkText: "Browse Familiars",
+    },
+    {
+      title: "Enemies",
+      description:
+        "Froblins, Ancients and bosses you'll face across the Flying Islands.",
+      href: "/db/enemies",
+      iconName: "Axe",
+      linkText: "Browse Enemies",
+    },
+  ],
+  promoLinks: [],
+  externalLinks: [],
+  keywords: [
+    "Familiars",
+    "Resource Nodes",
+    "Treasure Chests",
+    "Dungeon Portals",
+    "Flight Pillars",
+  ],
+  topFilters: [
+    "dungeon_portal",
+    "flight_pillar",
+    "chest_basic",
+    "mineral_copper",
+  ],
+  db: {
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search items…",
+    sectionsInNav: true,
+    homeSections: [
+      {
+        href: "/db/inventory",
+        type: "inventory",
+        titleFallback: "Items",
+        icon: "🧪",
+        description: "Resources, equipment, wands, amulets and consumables.",
+      },
+      {
+        href: "/db/recipes",
+        type: "recipes",
+        titleFallback: "Recipes",
+        icon: "📜",
+        description: "Crafting recipes by station, with ingredients and time.",
+      },
+      {
+        href: "/db/familiars",
+        type: "familiars",
+        titleFallback: "Familiars",
+        icon: "🐾",
+        description: "Catchable creatures you bond with and grow.",
+      },
+      {
+        href: "/db/enemies",
+        type: "enemies",
+        titleFallback: "Enemies",
+        icon: "⚔️",
+        description: "Froblins, Ancients and bosses across the islands.",
+      },
+    ],
+    typeLabels: {
+      inventory: "Items",
+      recipes: "Recipe",
+      familiars: "Familiars",
+      enemies: "Enemies",
+    },
+  },
+});

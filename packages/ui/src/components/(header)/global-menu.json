@@ -4,9 +4,9 @@
     "url": "https://grounded2.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 0,
-      "y": 0,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 2,
       "width": 32,
       "height": 32
     }
@@ -16,9 +16,9 @@
     "url": "https://gothic1remake.th.gl",
     "tags": ["interactive_map", "database"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 32,
-      "y": 0,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 36,
+      "y": 2,
       "width": 32,
       "height": 32
     }
@@ -28,9 +28,9 @@
     "url": "https://duetnightabyss.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 64,
-      "y": 0,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 70,
+      "y": 2,
       "width": 32,
       "height": 32
     }
@@ -44,18 +44,18 @@
         "title": "Blue Protocol Timer",
         "url": "https://bptimer.com",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 0,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 2,
+          "y": 2,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 96,
-      "y": 0,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 104,
+      "y": 2,
       "width": 32,
       "height": 32
     }
@@ -65,9 +65,9 @@
     "url": "https://starsandisland.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 128,
-      "y": 0,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 138,
+      "y": 2,
       "width": 32,
       "height": 32
     }
@@ -81,18 +81,18 @@
         "title": "Database",
         "url": "https://soulmask.gaming.tools/",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 2,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 0,
-      "y": 32,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 36,
       "width": 32,
       "height": 32
     }
@@ -102,9 +102,9 @@
     "url": "https://soulframe.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 32,
-      "y": 32,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 36,
+      "y": 36,
       "width": 32,
       "height": 32
     }
@@ -114,9 +114,21 @@
     "url": "https://subnautica2.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 64,
-      "y": 32,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 70,
+      "y": 36,
+      "width": 32,
+      "height": 32
+    }
+  },
+  {
+    "title": "Witchspire",
+    "url": "https://witchspire.th.gl",
+    "tags": ["interactive_map", "database"],
+    "sprite": {
+      "fileName": "games-15704975442663007728.webp",
+      "x": 104,
+      "y": 36,
       "width": 32,
       "height": 32
     }
@@ -126,9 +138,9 @@
     "url": "https://conanexiles.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 96,
-      "y": 32,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 138,
+      "y": 36,
       "width": 32,
       "height": 32
     }
@@ -138,9 +150,9 @@
     "url": "https://chronoodyssey.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 128,
-      "y": 32,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 70,
       "width": 32,
       "height": 32
     }
@@ -154,9 +166,9 @@
         "title": "Database",
         "url": "https://dune.gaming.tools/",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 2,
           "width": 24,
           "height": 24
         }
@@ -165,18 +177,18 @@
         "title": "r/duneawakening",
         "url": "https://www.reddit.com/r/duneawakening",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 48,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 54,
+          "y": 2,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 0,
-      "y": 64,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 36,
+      "y": 70,
       "width": 32,
       "height": 32
     }
@@ -186,9 +198,9 @@
     "url": "https://dragonwilds.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 32,
-      "y": 64,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 70,
+      "y": 70,
       "width": 32,
       "height": 32
     }
@@ -198,9 +210,9 @@
     "url": "https://avowed.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 64,
-      "y": 64,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 104,
+      "y": 70,
       "width": 32,
       "height": 32
     }
@@ -210,9 +222,9 @@
     "url": "https://infinitynikki.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 96,
-      "y": 64,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 138,
+      "y": 70,
       "width": 32,
       "height": 32
     }
@@ -222,9 +234,9 @@
     "url": "https://satisfactory.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 128,
-      "y": 64,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 104,
       "width": 32,
       "height": 32
     }
@@ -234,9 +246,9 @@
     "url": "https://wuthering.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 0,
-      "y": 96,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 36,
+      "y": 104,
       "width": 32,
       "height": 32
     }
@@ -250,9 +262,9 @@
         "title": "Database",
         "url": "https://paxdei.gaming.tools?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 2,
           "width": 24,
           "height": 24
         }
@@ -261,9 +273,9 @@
         "title": "r/PaxDei",
         "url": "https://www.reddit.com/r/PaxDei",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 48,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 54,
+          "y": 2,
           "width": 24,
           "height": 24
         }
@@ -272,18 +284,18 @@
         "title": "Tools",
         "url": "https://pax-dei-tools.com/?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 0,
-          "y": 24,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 2,
+          "y": 28,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 32,
-      "y": 96,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 70,
+      "y": 104,
       "width": 32,
       "height": 32
     }
@@ -297,18 +309,18 @@
         "title": "Database",
         "url": "https://nightcrows.gaming.tools?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 2,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 64,
-      "y": 96,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 104,
+      "y": 104,
       "width": 32,
       "height": 32
     }
@@ -318,9 +330,9 @@
     "url": "https://aeternum-map.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 96,
-      "y": 96,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 138,
+      "y": 104,
       "width": 32,
       "height": 32
     }
@@ -330,9 +342,9 @@
     "url": "https://aeternum-tracker.th.gl",
     "tags": ["activity_tracker"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 128,
-      "y": 96,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 138,
       "width": 32,
       "height": 32
     }
@@ -346,18 +358,18 @@
         "title": "Diablo IV Companion",
         "url": "https://github.com/josdemmers/Diablo4Companion?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 24,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 28,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 0,
-      "y": 128,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 36,
+      "y": 138,
       "width": 32,
       "height": 32
     }
@@ -367,9 +379,9 @@
     "url": "https://hogwarts.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 32,
-      "y": 128,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 70,
+      "y": 138,
       "width": 32,
       "height": 32
     }
@@ -379,9 +391,9 @@
     "url": "https://lol.th.gl",
     "tags": ["challenges"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 64,
-      "y": 128,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 104,
+      "y": 138,
       "width": 32,
       "height": 32
     }
@@ -391,9 +403,9 @@
     "url": "https://oncehuman.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 96,
-      "y": 128,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 138,
+      "y": 138,
       "width": 32,
       "height": 32
     }
@@ -407,9 +419,9 @@
         "title": "Paliapedia",
         "url": "https://paliapedia.com?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 2,
           "width": 24,
           "height": 24
         }
@@ -418,9 +430,9 @@
         "title": "Palia Tracker",
         "url": "https://paliatracker.com?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 48,
-          "y": 24,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 54,
+          "y": 28,
           "width": 24,
           "height": 24
         }
@@ -429,18 +441,18 @@
         "title": "Palia Party",
         "url": "https://paliaparty.app?ref=thgl",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 0,
-          "y": 48,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 2,
+          "y": 54,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 128,
-      "y": 128,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 172,
       "width": 32,
       "height": 32
     }
@@ -454,9 +466,9 @@
         "title": "Palworld Soundboard",
         "url": "https://www.voicy.network/official-soundboards/games/palworld",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 48,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 54,
           "width": 24,
           "height": 24
         }
@@ -465,9 +477,9 @@
         "title": "r/Palworld",
         "url": "https://www.reddit.com/r/palworld",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 48,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 54,
+          "y": 2,
           "width": 24,
           "height": 24
         }
@@ -476,9 +488,9 @@
         "title": "The Palworld Wiki",
         "url": "https://palworld.wiki.gg",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 48,
-          "y": 48,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 54,
+          "y": 54,
           "width": 24,
           "height": 24
         }
@@ -487,18 +499,18 @@
         "title": "Palworld Server Hosting",
         "url": "https://www.nitrado-aff.com/4B2XBP3/D42TT/?uid=60",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 0,
-          "y": 72,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 2,
+          "y": 80,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 0,
-      "y": 160,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 36,
+      "y": 172,
       "width": 32,
       "height": 32
     }
@@ -508,9 +520,9 @@
     "url": "https://soc.th.gl",
     "tags": ["database"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 32,
-      "y": 160,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 70,
+      "y": 172,
       "width": 32,
       "height": 32
     }
@@ -520,9 +532,9 @@
     "url": "https://sotf.th.gl",
     "tags": ["interactive_map"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 64,
-      "y": 160,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 104,
+      "y": 172,
       "width": 32,
       "height": 32
     }
@@ -536,18 +548,18 @@
         "title": "Database",
         "url": "https://crimsondesert.gaming.tools/",
         "sprite": {
-          "fileName": "partners-7904063841950230077.webp",
-          "x": 24,
-          "y": 0,
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 28,
+          "y": 2,
           "width": 24,
           "height": 24
         }
       }
     ],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 96,
-      "y": 160,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 138,
+      "y": 172,
       "width": 32,
       "height": 32
     }
@@ -557,9 +569,9 @@
     "url": "https://oldenera.th.gl",
     "tags": ["database"],
     "sprite": {
-      "fileName": "games-7904063841950230077.webp",
-      "x": 128,
-      "y": 160,
+      "fileName": "games-15704975442663007728.webp",
+      "x": 2,
+      "y": 206,
       "width": 32,
       "height": 32
     }
