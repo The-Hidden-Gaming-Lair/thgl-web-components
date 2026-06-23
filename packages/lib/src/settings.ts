@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { useAccountStore } from "./account";
-import { normalizeNodeCoords } from "./coordinates";
+import { normalizeNodeCoords, type DiscoverMode } from "./coordinates";
 import { withStorageDOMEvents } from "./dom";
 import {
   apiDeleteFilter,
@@ -235,6 +235,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   audioAlertByFilter: {},
   labelModeByFilter: {},
   liveModeByFilter: {},
+  discoverModeByFilter: {},
   labelTextSize: 1,
   showLabelsHotkey: "l",
   displayDiscordActivityStatus: true,
@@ -327,6 +328,12 @@ export type ProfileSettings = {
    * showing others live-only (e.g. bugs/mining). See {@link resolveLiveModeForType}.
    */
   liveModeByFilter: Record<string, LiveMode>;
+  /**
+   * Per-filter override for the "Discover Nearest Node" hotkey. Absent key =
+   * inherit the static-flag-derived default (fixed types `enabled`, live/dynamic
+   * types `predicted`). See {@link resolveDiscoverMode}.
+   */
+  discoverModeByFilter: Record<string, DiscoverMode>;
   labelTextSize: number;
   showLabelsHotkey: string;
   displayDiscordActivityStatus: boolean;
@@ -415,6 +422,16 @@ export interface ProfileActions {
   setLiveModeByFilters: (
     filterIds: string[],
     mode: LiveMode | "default",
+  ) => void;
+  // Per-filter Discover-Nearest override. `"default"` clears the override so the
+  // filter inherits the static-flag-derived default (see resolveDiscoverMode).
+  setDiscoverModeByFilter: (
+    filterId: string,
+    mode: DiscoverMode | "default",
+  ) => void;
+  setDiscoverModeByFilters: (
+    filterIds: string[],
+    mode: DiscoverMode | "default",
   ) => void;
   setLabelTextSize: (size: number) => void;
   setShowLabelsHotkey: (key: string) => void;
@@ -936,6 +953,7 @@ export const useSettingsStore = create(
               // Labels
               labelModeByFilter: {},
               liveModeByFilter: {},
+              discoverModeByFilter: {},
               labelTextSize: 1,
               // Map behavior
               fitBoundsOnChange: false,
@@ -1182,6 +1200,30 @@ export const useSettingsStore = create(
             // global mute (audioAlertsMuted), which only silences without
             // changing the per-filter toggles.
             updateSettings({ audioAlertByFilter: {} });
+          },
+
+          setDiscoverModeByFilter: (filterId, mode) => {
+            const state = get();
+            const next = { ...state.discoverModeByFilter };
+            if (mode === "default") {
+              delete next[filterId];
+            } else {
+              next[filterId] = mode;
+            }
+            updateSettings({ discoverModeByFilter: next });
+          },
+
+          setDiscoverModeByFilters: (filterIds, mode) => {
+            const state = get();
+            const next = { ...state.discoverModeByFilter };
+            for (const id of filterIds) {
+              if (mode === "default") {
+                delete next[id];
+              } else {
+                next[id] = mode;
+              }
+            }
+            updateSettings({ discoverModeByFilter: next });
           },
 
           setLabelModeByFilter: (filterId: string, mode: LabelMode) => {

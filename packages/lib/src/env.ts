@@ -10,3 +10,19 @@ export const isOverwolf =
   typeof window !== "undefined" &&
   // @ts-expect-error
   typeof window.___overwolf___ !== "undefined";
+
+// THGLApp runs the UI in a WebView2 host, which injects `window.chrome.webview`.
+// Normal browsers (the public website) never expose it. Cast locally rather
+// than rely on the `window.chrome` global augmentation (it lives in
+// thgl-app/webview.ts and isn't visible to the isolated dts build).
+export const isThglApp =
+  typeof window !== "undefined" &&
+  typeof (window as unknown as { chrome?: { webview?: unknown } }).chrome
+    ?.webview !== "undefined";
+
+/**
+ * Running inside an in-game overlay app (Overwolf or THGLApp) rather than the
+ * public website. Gates features that only make sense with a live player
+ * position / hotkeys (e.g. "Discover Nearest Node").
+ */
+export const isApp = isOverwolf || isThglApp;

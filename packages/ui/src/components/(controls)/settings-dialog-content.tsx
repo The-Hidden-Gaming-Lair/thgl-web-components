@@ -218,7 +218,8 @@ export function SettingsDialogContent({
                     } else {
                       writeFileOverwolf(
                         JSON.stringify(settingsStore.myFilters),
-                        overwolf.io.paths.documents + "\\the-hidden-gaming-lair",
+                        overwolf.io.paths.documents +
+                          "\\the-hidden-gaming-lair",
                         fileName,
                       );
                     }
@@ -475,9 +476,7 @@ export function SettingsDialogContent({
                       <Select
                         value={profileSettings.traceLineStyle}
                         onValueChange={(v) =>
-                          settingsStore.setTraceLineStyle(
-                            v as "dots" | "line",
-                          )
+                          settingsStore.setTraceLineStyle(v as "dots" | "line")
                         }
                       >
                         <SelectTrigger className="w-24" id="trace-line-style">
@@ -496,7 +495,7 @@ export function SettingsDialogContent({
               {/* Proximity Range */}
               <Section
                 title="Proximity Range"
-                description='Used by audio alerts and "In Range" labels. Configure per-filter using the settings icon next to each filter.'
+                description='Used by audio alerts, "In Range" labels, and "Discover Nearest Node". Configure per-filter using the settings icon next to each filter.'
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 justify-between">

@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useMap } from "../(interactive-map)/store";
 import {
   getNodeId,
+  getPositionedDiscoverTypes,
+  resolveDiscoverMode,
   type Spawn,
   useSettingsStore,
   useGameState,
@@ -13,7 +15,7 @@ import { HOTKEYS, onWebviewMessage } from "@repo/lib/thgl-app";
 
 export function MapHotkeys() {
   const map = useMap();
-  const { nodes, typesIdMap } = useCoordinates();
+  const { nodes, searchableNodes, typesIdMap } = useCoordinates();
   const userStoreApi = useUserStoreApi();
   const t = useT();
 
@@ -68,14 +70,35 @@ export function MapHotkeys() {
           if (!player) {
             return;
           }
-          const { isDiscoveredNode, setDiscoverNode, hideDiscoveredNodes } =
-            useSettingsStore.getState();
+          const {
+            isDiscoveredNode,
+            setDiscoverNode,
+            hideDiscoveredNodes,
+            discoverModeByFilter,
+            audioAlertRange,
+          } = useSettingsStore.getState();
+          // Per-type Discover-Nearest mode (user override, else positioned-type
+          // default). `disabled` drops the type entirely; `predicted` keeps
+          // static spawns but drops live memory detections below — so a roaming
+          // NPC/player on top of you can't steal the closest-node discovery.
+          // Positioned types come from the full static set, so live-resolved
+          // predictions still count as fixed (discoverable) in live mode.
+          const positionedTypes = getPositionedDiscoverTypes(searchableNodes);
           const nodeSpawns = nodes
             .filter((node) => {
               if (node.mapName && node.mapName !== player.mapName) {
                 return false;
               }
               if (!filters.includes(node.type)) {
+                return false;
+              }
+              if (
+                resolveDiscoverMode(
+                  node.type,
+                  positionedTypes,
+                  discoverModeByFilter,
+                ) === "disabled"
+              ) {
                 return false;
               }
               return true;
@@ -89,6 +112,17 @@ export function MapHotkeys() {
               const displayType = typesIdMap[actor.type];
               if (!displayType) continue;
               if (!filters.includes(displayType)) continue;
+              // Live memory detection: only discoverable when the type resolves
+              // to `enabled` (positioned types like chests, or a user override).
+              if (
+                resolveDiscoverMode(
+                  displayType,
+                  positionedTypes,
+                  discoverModeByFilter,
+                ) !== "enabled"
+              ) {
+                continue;
+              }
               if (actor.mapName && actor.mapName !== player.mapName) continue;
               nodeSpawns.push({
                 // Match the live-marker pipeline's id format (markers.tsx keys
@@ -104,7 +138,7 @@ export function MapHotkeys() {
               });
             }
           }
-          const { spawns } = nodeSpawns.reduce(
+          const { spawns, distance } = nodeSpawns.reduce(
             (nearest, spawn) => {
               if (
                 hideDiscoveredNodes &&
@@ -129,14 +163,24 @@ export function MapHotkeys() {
               spawns: typeof nodeSpawns;
             },
           );
+          // Cap discovery to the shared Proximity Range (also used by audio
+          // alerts and in-range labels). Beyond it — or with no candidate at
+          // all (distance stays Infinity) — report nothing nearby instead of
+          // discovering a node across the map.
+          if (distance > audioAlertRange) {
+            toast("No nearby node found", { duration: 2000 });
+            return;
+          }
           spawns.forEach((spawn) => {
             const nodeId = getNodeId(spawn as Spawn);
             const isDiscovered = isDiscoveredNode(nodeId);
             setDiscoverNode(nodeId, !isDiscovered);
-            toast(
-              (!isDiscovered ? "Discovered " : "Undiscovered ") + t(spawn.type),
-              { duration: 2000 },
-            );
+            // Prefer the spawn's own name (e.g. "Chayne's Room"); fall back to
+            // the filter-type label ("Location") for anonymous/live spawns.
+            const label = t(spawn.id ?? spawn.type, { fallback: spawn.type });
+            toast((!isDiscovered ? "Discovered " : "Undiscovered ") + label, {
+              duration: 2000,
+            });
           });
         }
       }
@@ -145,7 +189,7 @@ export function MapHotkeys() {
     return () => {
       cleanup();
     };
-  }, [nodes, typesIdMap]);
+  }, [nodes, searchableNodes, typesIdMap]);
 
   return <></>;
 }

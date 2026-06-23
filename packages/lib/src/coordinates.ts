@@ -105,6 +105,51 @@ export const getNodeId = (spawn: Spawn | SimpleSpawn) => {
 };
 
 /**
+ * How a filter type participates in the "Discover Nearest Node" hotkey:
+ * - `enabled`   — both predicted (static) spawns and live memory detections are
+ *                 discoverable.
+ * - `predicted` — only predicted/static spawns; live detections (moving memory
+ *                 reads with an `address`) are skipped, so a roaming NPC/player
+ *                 standing on the player can't steal the closest-node discovery.
+ * - `disabled`  — the type is never targeted by the hotkey.
+ */
+export type DiscoverMode = "enabled" | "predicted" | "disabled";
+
+/**
+ * Filter types that have at least one *known position* in the static dataset —
+ * permanent landmarks (`static: true`) and dynamic-but-predicted spawns
+ * (`static: false`, e.g. resource nodes with predicted spots). Used to derive
+ * the default {@link DiscoverMode}: positioned types default to `enabled` so a
+ * live detection that confirms a known spot is discoverable, while purely-live
+ * actor types (players, roaming NPCs with no static entry at all) default to
+ * `predicted` so their *moving* detections aren't auto-discovered.
+ *
+ * Pass the FULL static set (e.g. `searchableNodes`), NOT the live-mode-filtered
+ * render list — in live mode a `live`-resolved type's predictions are dropped
+ * from the rendered nodes, but it's still a positioned (fixed) type.
+ */
+export const getPositionedDiscoverTypes = (
+  nodes: { type: string }[],
+): Set<string> => {
+  const positioned = new Set<string>();
+  for (const node of nodes) positioned.add(node.type);
+  return positioned;
+};
+
+/**
+ * Resolve the effective Discover-Nearest mode for a filter type. An explicit
+ * per-filter user override always wins; otherwise the default follows whether
+ * the type has a known position (see {@link getPositionedDiscoverTypes}). No
+ * game-specific config — the existing static dataset carries the signal.
+ */
+export const resolveDiscoverMode = (
+  type: string,
+  positionedTypes: Set<string>,
+  overrides: Record<string, DiscoverMode>,
+): DiscoverMode =>
+  overrides[type] ?? (positionedTypes.has(type) ? "enabled" : "predicted");
+
+/**
  * Round a node-id coordinate string ("x:y", optionally with extra components)
  * to 2-decimal precision. The same physical node can be addressed at different
  * precisions depending on mode: the live-actor marker pipeline keys actors at

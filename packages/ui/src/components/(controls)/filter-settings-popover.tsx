@@ -8,9 +8,11 @@ import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import {
+  isApp,
   PREVIEW_LIVE_MODES,
   useAccountStore,
   useSettingsStore,
+  type DiscoverMode,
   type LabelMode,
   type LiveMode,
 } from "@repo/lib";
@@ -19,6 +21,7 @@ import { useMemo, useState } from "react";
 import { useCoordinates } from "../(providers)";
 import { FilterTooltip } from "./filter-tooltip";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import {
   Select,
   SelectContent,
@@ -117,9 +120,14 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
   const liveModeByFilter = useSettingsStore((s) => s.liveModeByFilter);
   const setLiveModeByFilter = useSettingsStore((s) => s.setLiveModeByFilter);
   const setLiveModeByFilters = useSettingsStore((s) => s.setLiveModeByFilters);
-  const hasPreviewAccess = useAccountStore(
-    (s) => s.perks.previewReleaseAccess,
+  const discoverModeByFilter = useSettingsStore((s) => s.discoverModeByFilter);
+  const setDiscoverModeByFilter = useSettingsStore(
+    (s) => s.setDiscoverModeByFilter,
   );
+  const setDiscoverModeByFilters = useSettingsStore(
+    (s) => s.setDiscoverModeByFilters,
+  );
+  const hasPreviewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
 
   // The per-filter live-mode override only applies to live-trackable types
   // (those mapped in typesIdMap). Hide the control for everything else — and
@@ -147,12 +155,7 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
     return ids.every((id) => (liveModeByFilter[id] ?? "default") === first)
       ? first
       : "mixed";
-  }, [
-    isGroup,
-    isGroup ? props.filterIds : null,
-    liveModeByFilter,
-    typesIdMap,
-  ]);
+  }, [isGroup, isGroup ? props.filterIds : null, liveModeByFilter, typesIdMap]);
 
   const liveModeValue: LiveMode | "default" = isGroup
     ? groupLiveMode === "mixed"
@@ -218,6 +221,33 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
   const audioEnabled = isGroup
     ? groupAudioState === "all"
     : (audioAlertByFilter[props.filterId] ?? false);
+
+  // Group Discover-mode state: collapse to a single value only if every filter
+  // agrees, else "mixed". Absent override = "default" (inherit the static-flag
+  // default).
+  const groupDiscoverMode = useMemo<DiscoverMode | "default" | "mixed">(() => {
+    if (!isGroup) return "default";
+    const ids = props.filterIds;
+    if (ids.length === 0) return "default";
+    const first = discoverModeByFilter[ids[0]] ?? "default";
+    return ids.every((id) => (discoverModeByFilter[id] ?? "default") === first)
+      ? first
+      : "mixed";
+  }, [isGroup, isGroup ? props.filterIds : null, discoverModeByFilter]);
+
+  const discoverModeValue: DiscoverMode | "default" = isGroup
+    ? groupDiscoverMode === "mixed"
+      ? "default"
+      : groupDiscoverMode
+    : (discoverModeByFilter[props.filterId] ?? "default");
+
+  const handleDiscoverModeChange = (value: DiscoverMode | "default") => {
+    if (isGroup) {
+      setDiscoverModeByFilters(props.filterIds, value);
+    } else {
+      setDiscoverModeByFilter(props.filterId, value);
+    }
+  };
 
   const handleIconSizeChange = (value: number[]) => {
     if (isGroup) {
@@ -364,6 +394,64 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
           </p>
         )}
 
+        {/* Discover Nearest Node is an in-game-app hotkey (needs live player
+            position), so this control is hidden on the public website. */}
+        {isApp && (
+          <>
+            <Separator />
+
+            <div className="flex items-center justify-between">
+              <Label className="text-xs">Discover {isGroup && "(All)"}</Label>
+              <Select
+                value={
+                  isGroup && groupDiscoverMode === "mixed"
+                    ? ""
+                    : discoverModeValue
+                }
+                onValueChange={(value: DiscoverMode | "default") =>
+                  handleDiscoverModeChange(value)
+                }
+              >
+                <SelectTrigger className="w-32 h-7 text-xs">
+                  <SelectValue
+                    placeholder={
+                      isGroup && groupDiscoverMode === "mixed"
+                        ? "Mixed"
+                        : undefined
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="default">Default</SelectItem>
+                  <SelectItem value="enabled">Enabled</SelectItem>
+                  <SelectItem value="predicted">Only Predicted</SelectItem>
+                  <SelectItem value="disabled">Disabled</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Tooltip delayDuration={200} disableHoverableContent>
+              <TooltipTrigger asChild>
+                <span className="text-xs text-muted-foreground underline cursor-help">
+                  What is this?
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[300px]">
+                The “Discover Nearest Node” hotkey marks the closest node within
+                the Proximity Range. Default discovers placed nodes and their
+                live confirmations but skips purely-moving actors (players,
+                NPCs). Enabled always includes live detections; Only Predicted
+                ignores live (moving) ones; Disabled turns it off.
+              </TooltipContent>
+            </Tooltip>
+
+            {isGroup && groupDiscoverMode === "mixed" && (
+              <p className="text-xs text-muted-foreground">
+                Filters have different discover settings.
+              </p>
+            )}
+          </>
+        )}
+
         {liveTrackable && (
           <>
             <Separator />
@@ -399,11 +487,18 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
                 </SelectContent>
               </Select>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Override the global live mode for{" "}
-              {isGroup ? "these filters" : "this filter"}. Predicted = spawn
-              guesses only; Live = confirmed spawns only.
-            </p>
+            <Tooltip delayDuration={200} disableHoverableContent>
+              <TooltipTrigger asChild>
+                <span className="text-xs text-muted-foreground underline cursor-help">
+                  What is this?
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[300px]">
+                Override the global live mode for{" "}
+                {isGroup ? "these filters" : "this filter"}. Predicted = spawn
+                guesses only; Live = confirmed spawns only.
+              </TooltipContent>
+            </Tooltip>
             {isGroup && groupLiveMode === "mixed" && (
               <p className="text-xs text-muted-foreground">
                 Filters have different live-mode settings.

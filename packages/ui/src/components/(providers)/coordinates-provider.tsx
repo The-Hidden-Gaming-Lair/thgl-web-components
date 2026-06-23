@@ -79,6 +79,13 @@ export type Icons = Map<
 interface ContextValue {
   isHydrated: boolean;
   nodes: NodesCoordinates;
+  /**
+   * The full static node set (custom + all static spawns), independent of the
+   * live-mode filtering applied to `nodes`. Use this to know which types have a
+   * known position (e.g. the "Discover Nearest Node" default classification),
+   * since `nodes` drops live-resolved predictions.
+   */
+  searchableNodes: NodesCoordinates;
   staticDrawings?: DrawingsAndNodes[];
   regions: Region[];
   filters: FiltersConfig;
@@ -816,6 +823,7 @@ export function CoordinatesProvider({
         value={{
           isHydrated,
           nodes,
+          searchableNodes,
           staticDrawings,
           regions,
           allFilters,
