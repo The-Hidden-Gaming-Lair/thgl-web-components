@@ -2,7 +2,19 @@ import { resolveAppConfig } from "@repo/lib";
 
 export const subnautica2 = resolveAppConfig({
   name: "subnautica-2",
-  supportedLocales: ["en"],
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pt",
+    "ru",
+    "uk",
+    "zh-CN",
+  ],
   appUrl: null,
   internalLinks: [
     {
