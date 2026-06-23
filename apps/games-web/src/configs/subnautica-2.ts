@@ -50,6 +50,14 @@ export const subnautica2 = resolveAppConfig({
       linkText: "Browse Creatures",
     },
     {
+      title: "Farming",
+      description:
+        "Plants you can grow in a growbed, and what each is cultivated from.",
+      href: "/db/farming",
+      iconName: "Trophy",
+      linkText: "Browse Farming",
+    },
+    {
       title: "Biomods",
       description:
         "Active and passive bio-modifications you can install, with their abilities and descriptions.",
@@ -100,6 +108,13 @@ export const subnautica2 = resolveAppConfig({
         description: "Scannable fauna and flora, by family.",
       },
       {
+        href: "/db/farming",
+        type: "farming",
+        titleFallback: "Farming",
+        icon: "🌱",
+        description: "Growable plants and what they're grown from.",
+      },
+      {
         href: "/db/biomods",
         type: "biomods",
         titleFallback: "Biomods",
@@ -118,6 +133,7 @@ export const subnautica2 = resolveAppConfig({
       inventory: "Items",
       blueprints: "Blueprints",
       lifeforms: "Creatures",
+      farming: "Farming",
       biomods: "Biomods",
       databank: "Databank",
     },
