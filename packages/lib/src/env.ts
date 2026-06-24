@@ -26,3 +26,10 @@ export const isThglApp =
  * position / hotkeys (e.g. "Discover Nearest Node").
  */
 export const isApp = isOverwolf || isThglApp;
+
+// Base URL of the main THGL site (www.th.gl), overridable on dev via
+// NEXT_PUBLIC_TH_GL_URL (e.g. a localhost origin) so global icons / links load
+// locally. Lives here (a leaf module) rather than config.ts so `games.ts` can use
+// it for logo URLs without a config<->games circular import.
+export const TH_GL_URL =
+  process.env.NEXT_PUBLIC_TH_GL_URL ?? "https://www.th.gl";

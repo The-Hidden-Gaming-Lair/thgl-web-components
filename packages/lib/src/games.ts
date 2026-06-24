@@ -1,4 +1,4 @@
-import { isOverwolf } from "./env";
+import { isOverwolf, TH_GL_URL } from "./env";
 import { HOTKEYS } from "./thgl-app/hotkeys";
 import type { MarkerOptions } from "./types";
 
@@ -14,7 +14,7 @@ export const games: Array<Game> = [
     id: "crimson-desert",
     discordId: "crimson-desert",
     title: "Crimson Desert",
-    logo: "https://www.th.gl/global_icons/crimson-desert.webp",
+    logo: `${TH_GL_URL}/global_icons/crimson-desert.webp`,
     additionalFilters: ["CrimsonDesertZones", "CrimsonDesertSaveImport"],
     companion: {
       baseURL: "/apps/crimson-desert",
@@ -54,7 +54,7 @@ export const games: Array<Game> = [
     id: "starsand-island",
     discordId: "starsand-island",
     title: "Starsand Island",
-    logo: "https://www.th.gl/global_icons/starsand-island.webp",
+    logo: `${TH_GL_URL}/global_icons/starsand-island.webp`,
     companion: {
       baseURL: "/apps/starsand-island",
       controllerURL: "/apps/starsand-island/controller",
@@ -92,7 +92,7 @@ export const games: Array<Game> = [
     id: "soulmask",
     discordId: "soulmask",
     title: "Soulmask",
-    logo: "https://www.th.gl/global_icons/soulmask.webp",
+    logo: `${TH_GL_URL}/global_icons/soulmask.webp`,
     companion: {
       baseURL: "/apps/soulmask",
       controllerURL: "/apps/soulmask/controller",
@@ -130,7 +130,7 @@ export const games: Array<Game> = [
     id: "soulframe",
     discordId: "soulframe",
     title: "Soulframe",
-    logo: "https://www.th.gl/global_icons/soulframe.webp",
+    logo: `${TH_GL_URL}/global_icons/soulframe.webp`,
     web: "https://soulframe.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -138,7 +138,38 @@ export const games: Array<Game> = [
     id: "subnautica-2",
     discordId: "subnautica-2",
     title: "Subnautica 2",
-    logo: "https://www.th.gl/global_icons/subnautica-2.webp",
+    logo: `${TH_GL_URL}/global_icons/subnautica-2.webp`,
+    companion: {
+      baseURL: "/apps/subnautica-2",
+      controllerURL: "/apps/subnautica-2/controller",
+      desktopURL: "/apps/subnautica-2",
+      overlayURL: "/apps/subnautica-2/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        // Underwater: large vertical range, so fade markers by depth.
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "Subnautica 2",
+          processNames: ["Subnautica2-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://subnautica2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -146,7 +177,7 @@ export const games: Array<Game> = [
     id: "witchspire",
     discordId: "witchspire",
     title: "Witchspire",
-    logo: "https://www.th.gl/global_icons/witchspire.webp",
+    logo: `${TH_GL_URL}/global_icons/witchspire.webp`,
     companion: {
       baseURL: "/apps/witchspire",
       controllerURL: "/apps/witchspire/controller",
@@ -184,7 +215,7 @@ export const games: Array<Game> = [
     id: "conan-exiles",
     discordId: "conan-exiles",
     title: "Conan Exiles Enhanced",
-    logo: "https://www.th.gl/global_icons/conan-exiles.webp",
+    logo: `${TH_GL_URL}/global_icons/conan-exiles.webp`,
     companion: {
       baseURL: "/apps/conan-exiles",
       controllerURL: "/apps/conan-exiles/controller",
@@ -222,7 +253,7 @@ export const games: Array<Game> = [
     id: "gothic-1-remake",
     discordId: "gothic-1-remake",
     title: "Gothic 1 Remake",
-    logo: "https://www.th.gl/global_icons/gothic-1-remake.webp",
+    logo: `${TH_GL_URL}/global_icons/gothic-1-remake.webp`,
     companion: {
       baseURL: "/apps/gothic-1-remake",
       controllerURL: "/apps/gothic-1-remake/controller",
@@ -261,7 +292,7 @@ export const games: Array<Game> = [
     id: "duet-night-abyss",
     discordId: "duet-night-abyss",
     title: "Duet Night Abyss",
-    logo: "https://www.th.gl/global_icons/duetnightabyss.webp",
+    logo: `${TH_GL_URL}/global_icons/duetnightabyss.webp`,
     companion: {
       baseURL: "/apps/duet-night-abyss",
       controllerURL: "/apps/duet-night-abyss/controller",
@@ -299,7 +330,7 @@ export const games: Array<Game> = [
     id: "blue-protocol-star-resonance",
     discordId: "blue-protocol-star-resonance",
     title: "Blue Protocol: Star Resonance",
-    logo: "https://www.th.gl/global_icons/starresonance.webp",
+    logo: `${TH_GL_URL}/global_icons/starresonance.webp`,
     companion: {
       baseURL: "/apps/blue-protocol-star-resonance",
       controllerURL: "/apps/blue-protocol-star-resonance/controller",
@@ -345,7 +376,7 @@ export const games: Array<Game> = [
     id: "chrono-odyssey",
     discordId: "chrono-odyssey",
     title: "Chrono Odyssey",
-    logo: "https://www.th.gl/global_icons/chrono-odyssey.webp",
+    logo: `${TH_GL_URL}/global_icons/chrono-odyssey.webp`,
     web: "https://chronoodyssey.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -353,7 +384,7 @@ export const games: Array<Game> = [
     id: "dune-awakening",
     discordId: "dune-awakening",
     title: "Dune: Awakening",
-    logo: "https://www.th.gl/global_icons/dune.webp",
+    logo: `${TH_GL_URL}/global_icons/dune.webp`,
     lockedWindowComponents: ["DuneDeepDesertGrid", "DuneHeatmaps"],
     additionalFilters: ["DuneDeepDesertGrid", "DuneHeatmaps"],
     additionalTooltip: ["DuneAltitude"],
@@ -397,7 +428,7 @@ export const games: Array<Game> = [
     lockedWindowComponents: ["PaliaTime"],
     additionalComponents: ["PaliaGrid"],
     additionalFilters: ["PaliaWeeklyWants", "PaliaTime", "PaliaGridToggle"],
-    logo: "https://www.th.gl/global_icons/palia.webp",
+    logo: `${TH_GL_URL}/global_icons/palia.webp`,
     companion: {
       baseURL: "/apps/palia",
       controllerURL: "/apps/palia/controller",
@@ -456,7 +487,7 @@ export const games: Array<Game> = [
     id: "grounded2",
     discordId: "grounded2",
     title: "Grounded 2",
-    logo: "https://www.th.gl/global_icons/grounded2.webp",
+    logo: `${TH_GL_URL}/global_icons/grounded2.webp`,
     web: "https://grounded2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -464,7 +495,7 @@ export const games: Array<Game> = [
     id: "palworld",
     discordId: "palworld",
     title: "Palworld",
-    logo: "https://www.th.gl/global_icons/palworld.webp",
+    logo: `${TH_GL_URL}/global_icons/palworld.webp`,
     additionalTooltip: ["PalworldCoordinates"],
     companion: {
       baseURL: "/apps/palworld",
@@ -514,7 +545,7 @@ export const games: Array<Game> = [
     discordId: "once-human",
     title: "Once Human",
     additionalFilters: ["PlayerDetails"],
-    logo: "https://www.th.gl/global_icons/once-human.webp",
+    logo: `${TH_GL_URL}/global_icons/once-human.webp`,
     companion: {
       baseURL: "/apps/once-human",
       controllerURL: "/apps/once-human/controller",
@@ -560,7 +591,7 @@ export const games: Array<Game> = [
     id: "infinity-nikki",
     discordId: "infinity-nikki",
     title: "Infinity Nikki",
-    logo: "https://www.th.gl/global_icons/infinity-nikki.webp",
+    logo: `${TH_GL_URL}/global_icons/infinity-nikki.webp`,
     web: "https://infinitynikki.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -568,7 +599,7 @@ export const games: Array<Game> = [
     id: "rsdragonwilds",
     discordId: "rsdragonwilds",
     title: "RuneScape: Dragonwilds",
-    logo: "https://www.th.gl/global_icons/rsdragonwilds.webp",
+    logo: `${TH_GL_URL}/global_icons/rsdragonwilds.webp`,
     companion: {
       baseURL: "/apps/rsdragonwilds",
       controllerURL: "/apps/rsdragonwilds/controller",
@@ -606,7 +637,7 @@ export const games: Array<Game> = [
     id: "avowed",
     discordId: "avowed",
     title: "Avowed",
-    logo: "https://www.th.gl/global_icons/avowed.webp",
+    logo: `${TH_GL_URL}/global_icons/avowed.webp`,
     companion: {
       baseURL: "/apps/avowed",
       controllerURL: "/apps/avowed/controller",
@@ -644,7 +675,7 @@ export const games: Array<Game> = [
     id: "satisfactory",
     discordId: "satisfactory",
     title: "Satisfactory",
-    logo: "https://www.th.gl/global_icons/satisfactory.webp",
+    logo: `${TH_GL_URL}/global_icons/satisfactory.webp`,
     web: "https://satisfactory.th.gl",
     companion: {
       baseURL: "/apps/satisfactory",
@@ -692,7 +723,7 @@ export const games: Array<Game> = [
     id: "wuthering-waves",
     discordId: "wuthering-waves",
     title: "Wuthering Waves",
-    logo: "https://www.th.gl/global_icons/wuthering-waves.webp",
+    logo: `${TH_GL_URL}/global_icons/wuthering-waves.webp`,
     companion: {
       baseURL: "/apps/wuthering-waves",
       controllerURL: "/apps/wuthering-waves/controller",
@@ -738,7 +769,7 @@ export const games: Array<Game> = [
     id: "diablo4",
     discordId: "diablo4",
     title: "Diablo IV",
-    logo: "https://www.th.gl/global_icons/diablo4.webp",
+    logo: `${TH_GL_URL}/global_icons/diablo4.webp`,
     web: "https://diablo4.th.gl",
     markerOptions: {
       radius: 6,
@@ -772,7 +803,7 @@ export const games: Array<Game> = [
     id: "new-world",
     discordId: "aeternum-map",
     title: "New World",
-    logo: "https://www.th.gl/global_icons/aeternum-map.png",
+    logo: `${TH_GL_URL}/global_icons/aeternum-map.png`,
     web: "https://aeternum-map.th.gl",
     overwolf: {
       id: "bemfloapmmjpmdmjfjgegnacdlgeapmkcmcmceei",
@@ -799,7 +830,7 @@ export const games: Array<Game> = [
     id: "sons-of-the-forest",
     discordId: "sons-of-the-forest-map",
     title: "Sons Of The Forest",
-    logo: "https://www.th.gl/global_icons/sons-of-the-forest.webp",
+    logo: `${TH_GL_URL}/global_icons/sons-of-the-forest.webp`,
     web: "https://sotf.th.gl",
     overwolf: {
       id: "kkgfkggfpkmndnadgkegoheijamdjkeagojfbbfn",
@@ -813,7 +844,7 @@ export const games: Array<Game> = [
     id: "pax-dei",
     discordId: "pax-dei",
     title: "Pax Dei",
-    logo: "https://www.th.gl/global_icons/pax-dei.webp",
+    logo: `${TH_GL_URL}/global_icons/pax-dei.webp`,
     web: "https://paxdei.th.gl",
     markerOptions: {
       radius: 6,
@@ -826,7 +857,7 @@ export const games: Array<Game> = [
     id: "hogwarts-legacy",
     discordId: "hogwarts-legacy-map",
     title: "Hogwarts Legacy",
-    logo: "https://www.th.gl/global_icons/hogwarts-legacy.webp",
+    logo: `${TH_GL_URL}/global_icons/hogwarts-legacy.webp`,
     web: "https://hogwarts.th.gl",
     markerOptions: {
       radius: 6,
@@ -843,7 +874,7 @@ export const games: Array<Game> = [
     id: "night-crows",
     discordId: "night-crows",
     title: "Night Crows",
-    logo: "https://www.th.gl/global_icons/night-crows.webp",
+    logo: `${TH_GL_URL}/global_icons/night-crows.webp`,
     web: "https://nightcrows.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -851,7 +882,7 @@ export const games: Array<Game> = [
     id: "songs-of-conquest",
     discordId: "songs-of-conquest",
     title: "Songs of Conquest",
-    logo: "https://www.th.gl/global_icons/songs-of-conquest.webp",
+    logo: `${TH_GL_URL}/global_icons/songs-of-conquest.webp`,
     web: "https://soc.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -859,7 +890,7 @@ export const games: Array<Game> = [
     id: "homm-olden-era",
     discordId: "homm-olden-era",
     title: "Heroes of Might & Magic: Olden Era",
-    logo: "https://www.th.gl/global_icons/homm-olden-era.webp",
+    logo: `${TH_GL_URL}/global_icons/homm-olden-era.webp`,
     web: "https://oldenera.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },

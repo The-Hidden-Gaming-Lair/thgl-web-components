@@ -247,8 +247,9 @@ export type Version = {
  * vite.config.ts must register thglEnvDefine() from @repo/lib/vite-define
  * or this module throws "process is not defined" at startup.
  */
-export const TH_GL_URL =
-  process.env.NEXT_PUBLIC_TH_GL_URL ?? "https://www.th.gl";
+// TH_GL_URL is defined in the leaf env.ts (so games.ts can use it for logo URLs
+// without a config<->games circular import); re-exported here for back-compat.
+export { TH_GL_URL } from "./env";
 export const API_FORGE_URL =
   process.env.NEXT_PUBLIC_API_FORGE_URL ?? "https://api-forge.th.gl";
 
