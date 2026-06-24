@@ -171,16 +171,27 @@ export function MapHotkeys() {
             toast("No nearby node found", { duration: 2000 });
             return;
           }
+          // Overlapping spawns can share coordinates, and discovery state is
+          // coordinate-keyed: toggling each independently makes the first
+          // discover flip the next one's read to "discovered", so it gets
+          // undiscovered — and the coord-match removal then wipes both, leaving
+          // nothing discovered. Decide ONE target state for the whole batch up
+          // front and apply it uniformly (single-node case is still a toggle).
+          const targetDiscovered = !spawns.every((spawn) =>
+            isDiscoveredNode(getNodeId(spawn as Spawn)),
+          );
           spawns.forEach((spawn) => {
             const nodeId = getNodeId(spawn as Spawn);
-            const isDiscovered = isDiscoveredNode(nodeId);
-            setDiscoverNode(nodeId, !isDiscovered);
+            setDiscoverNode(nodeId, targetDiscovered);
             // Prefer the spawn's own name (e.g. "Chayne's Room"); fall back to
             // the filter-type label ("Location") for anonymous/live spawns.
             const label = t(spawn.id ?? spawn.type, { fallback: spawn.type });
-            toast((!isDiscovered ? "Discovered " : "Undiscovered ") + label, {
-              duration: 2000,
-            });
+            toast(
+              (targetDiscovered ? "Discovered " : "Undiscovered ") + label,
+              {
+                duration: 2000,
+              },
+            );
           });
         }
       }
