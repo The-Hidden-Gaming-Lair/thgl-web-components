@@ -22,10 +22,6 @@ const ICON_BASE_URL = isOverwolf
 
 type AppEntry = (typeof apps)[number];
 
-// Compute sprite sheet dimensions from sprite data
-const SHEET_WIDTH = Math.max(...apps.map((a) => a.sprite.x + a.sprite.width));
-const SHEET_HEIGHT = Math.max(...apps.map((a) => a.sprite.y + a.sprite.height));
-
 function GameIcon({
   app,
   size = 36,
@@ -36,20 +32,27 @@ function GameIcon({
   className?: string;
 }) {
   const scale = size / app.sprite.width;
+  // Use the real sprite-sheet canvas size emitted by createImageSprite. The shelf
+  // packer leaves trailing slack, so max(x+width) under-reports the canvas and CSS
+  // would squish the sheet, misaligning every icon. Fall back to the coord-derived
+  // bound for JSON generated before sheetWidth/sheetHeight were added.
+  const sheetWidth =
+    app.sprite.sheetWidth ??
+    Math.max(...apps.map((a) => a.sprite.x + a.sprite.width));
+  const sheetHeight =
+    app.sprite.sheetHeight ??
+    Math.max(...apps.map((a) => a.sprite.y + a.sprite.height));
   return (
     <div
       role="img"
       aria-label={app.title}
-      className={cn(
-        "bg-background shrink-0 rounded-full",
-        className,
-      )}
+      className={cn("bg-background shrink-0 rounded-full", className)}
       style={{
         width: size,
         height: size,
         backgroundImage: `url(${ICON_BASE_URL}${app.sprite.fileName})`,
         backgroundPosition: `-${app.sprite.x * scale}px -${app.sprite.y * scale}px`,
-        backgroundSize: `${SHEET_WIDTH * scale}px ${SHEET_HEIGHT * scale}px`,
+        backgroundSize: `${sheetWidth * scale}px ${sheetHeight * scale}px`,
         backgroundRepeat: "no-repeat",
         backgroundOrigin: "border-box",
       }}
@@ -57,7 +60,13 @@ function GameIcon({
   );
 }
 
-export function GameSwitcher({ activeApp, compact }: { activeApp: string; compact?: boolean }) {
+export function GameSwitcher({
+  activeApp,
+  compact,
+}: {
+  activeApp: string;
+  compact?: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   const { activeAppData, otherApps } = useMemo(() => {
@@ -89,10 +98,18 @@ export function GameSwitcher({ activeApp, compact }: { activeApp: string; compac
             <GameIcon
               app={activeAppData}
               size={compact ? 22 : 32}
-              className={compact ? "border border-primary" : "border-2 border-primary"}
+              className={
+                compact ? "border border-primary" : "border-2 border-primary"
+              }
             />
           ) : (
-            <div className={compact ? "w-[22px] h-[22px] rounded-full bg-muted" : "w-8 h-8 rounded-full bg-muted"} />
+            <div
+              className={
+                compact
+                  ? "w-[22px] h-[22px] rounded-full bg-muted"
+                  : "w-8 h-8 rounded-full bg-muted"
+              }
+            />
           )}
           <ChevronDown
             className={cn(
