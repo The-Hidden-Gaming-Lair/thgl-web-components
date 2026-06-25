@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { localizePath, type TilesConfig } from "@repo/lib";
+import { type TilesConfig } from "@repo/lib";
 import { GenericEntityView } from "@/lib/db/generic-view";
-import { SpriteIcon } from "@/lib/db/sprite-icon";
-import { EntityTooltip } from "@/lib/db/entity-tooltip";
 import { resolveDict } from "@/lib/db/resolve-dict";
+import { SectionsRenderer } from "@/lib/db/sections-renderer";
 import { TownPlanner } from "@/games/songs-of-conquest/town-planner";
 import {
   ResearchList,
@@ -105,100 +103,15 @@ export function SocEntityView(props: {
           statIcons={SOC_STAT_ICONS}
         />
       )}
-      {sections.map((sec) => (
-        <div key={sec.title} className="mb-6 max-w-3xl">
-          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            {sec.title}
-          </div>
-          {sec.kind === "links" ? (
-            <div className="flex flex-wrap gap-2">
-              {sec.links.map((l) => {
-                const ic = icons?.[l.id];
-                return (
-                  <EntityTooltip
-                    key={`${l.section}/${l.id}`}
-                    entityId={l.id}
-                    locale={locale}
-                  >
-                    <Link
-                      href={localizePath(`/db/${l.section}/${l.id}`, locale)}
-                      prefetch={false}
-                      className="inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-xs hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
-                      style={{ paddingLeft: ic ? 4 : 10 }}
-                    >
-                      {ic && (
-                        <SpriteIcon
-                          icon={ic}
-                          appName={appName}
-                          size={20}
-                          iconsHash={iconsHash}
-                        />
-                      )}
-                      <span className="text-slate-200">{linkName(l)}</span>
-                      {l.sub && (
-                        <span className="font-mono text-muted-foreground">
-                          {l.sub}
-                        </span>
-                      )}
-                    </Link>
-                  </EntityTooltip>
-                );
-              })}
-            </div>
-          ) : sec.kind === "list" ? (
-            <ul className="space-y-1">
-              {sec.items.map((it, i) => (
-                <li key={i} className="flex items-start gap-1.5 text-sm">
-                  <span className="text-amber-500 mt-1 shrink-0">&#x25C6;</span>
-                  <span>{it}</span>
-                </li>
-              ))}
-            </ul>
-          ) : sec.kind === "chips" ? (
-            <div className="flex flex-wrap gap-2">
-              {sec.chips.map((c, i) => {
-                const ic = c.iconId ? icons?.[c.iconId] : undefined;
-                return (
-                  <span
-                    key={i}
-                    title={c.title}
-                    className="inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-sm font-medium text-slate-100"
-                    style={{ paddingLeft: ic ? 4 : 10 }}
-                  >
-                    {ic && (
-                      <SpriteIcon
-                        icon={ic}
-                        appName={appName}
-                        size={20}
-                        iconsHash={iconsHash}
-                      />
-                    )}
-                    {c.label}
-                  </span>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="border border-slate-800 rounded">
-              <table className="w-full text-sm">
-                <tbody>
-                  {sec.rows.map((r) => (
-                    <tr
-                      key={r.label}
-                      className="border-t border-slate-800/50 first:border-t-0"
-                    >
-                      <td className="px-3 py-1.5 text-muted-foreground text-xs w-1/3 align-top">
-                        {r.label}
-                      </td>
-                      <td className="px-3 py-1.5 text-xs">{r.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      ))}
+      <SectionsRenderer
+        sections={sections}
+        icons={icons}
+        dict={dict}
+        appName={appName}
+        locale={locale}
+        iconsHash={iconsHash}
+        resolveLinkName={linkName}
+      />
       {research?.length ? (
         <ResearchList
           research={research}
