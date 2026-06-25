@@ -5,15 +5,13 @@ export const rsdragonwilds = resolveAppConfig({
   // Production URL is dragonwilds.th.gl (NOT rsdragonwilds.th.gl)
   supportedLocales: ["en", "de", "es", "fr", "it", "ja", "ko", "pt", "zh-CN"],
   appUrl: "https://www.th.gl/companion-app",
+  // No manual "/maps/..." internalLink: the home page auto-generates a richer
+  // map card (with the preview.webp image + live location count) for each map,
+  // and that auto-card is suppressed when an internalLink already targets the
+  // same /maps/<name> href. A hand-written map link here would shadow the
+  // preview card (and the old "/maps/worldMap" href 404'd — the route uses the
+  // localized map title, e.g. /maps/Ashenfall).
   internalLinks: [
-    {
-      title: "Ashenfall Map",
-      description:
-        "Find resource nodes, ores, chests, dungeons and lodestones across Ashenfall with our interactive map.",
-      href: "/maps/worldMap",
-      iconName: "Map",
-      linkText: "Explore the Map",
-    },
     {
       title: "Items",
       description:

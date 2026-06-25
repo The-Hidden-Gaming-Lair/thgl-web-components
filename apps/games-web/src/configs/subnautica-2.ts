@@ -16,15 +16,10 @@ export const subnautica2 = resolveAppConfig({
     "zh-CN",
   ],
   appUrl: null,
+  // No manual "/maps/..." internalLink: the home page auto-generates a richer
+  // map card (preview image + live location count) per map, and that auto-card
+  // is suppressed when an internalLink already targets the same /maps/<name>.
   internalLinks: [
-    {
-      title: "The Crater Map",
-      description:
-        "Find resource deposits, wrecks, and points of interest across Subnautica 2's Crater with our interactive map.",
-      href: "/maps/The%20Crater",
-      iconName: "Map",
-      linkText: "Explore the Crater Map",
-    },
     {
       title: "Items",
       description:

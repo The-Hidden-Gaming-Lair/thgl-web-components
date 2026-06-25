@@ -16,15 +16,10 @@ export const witchspire = resolveAppConfig({
     "zh-CN",
   ],
   appUrl: null,
+  // No manual "/maps/..." internalLink: the home page auto-generates a richer
+  // map card (preview image + live location count) per map, and that auto-card
+  // is suppressed when an internalLink already targets the same /maps/<name>.
   internalLinks: [
-    {
-      title: "Flying Islands Map",
-      description:
-        "Find resource nodes, mineral deposits, treasure chests, dungeon portals, familiars and points of interest across Witchspire's open world with our interactive map.",
-      href: "/maps/Flying%20Islands",
-      iconName: "Map",
-      linkText: "Explore the Map",
-    },
     {
       title: "Items",
       description:
