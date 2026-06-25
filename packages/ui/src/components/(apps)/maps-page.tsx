@@ -10,6 +10,7 @@ import {
   getPreviewImageUrl,
   getT,
   localizePath,
+  resolveForgeUrl,
   translate,
 } from "@repo/lib";
 import { HeaderOffset, PageTitle } from "../(header)";
@@ -80,21 +81,27 @@ export function createMapsPage(appConfig: AppConfig) {
 
     const countsByMap = version.counts?.byMap;
 
-    const maps = mapNames.map((map) => {
-      const mapName = t(map);
-      const enName = translate(enDict, map);
-      const tileUrl = version.data.tiles[map]?.url ?? "";
-      const tileBase = getTileBase(tileUrl);
-      return {
-        key: map,
-        name: mapName,
-        href: `/maps/${encodeURIComponent(enName)}`,
-        bgImage: tileBase
-          ? getPreviewImageUrl(appConfig.name, tileBase)
-          : undefined,
-        locationCount: countsByMap?.[map] ?? 0,
-      };
-    });
+    const maps = await Promise.all(
+      mapNames.map(async (map) => {
+        const mapName = t(map);
+        const enName = translate(enDict, map);
+        const tileUrl = version.data.tiles[map]?.url ?? "";
+        const tileBase = getTileBase(tileUrl);
+        return {
+          key: map,
+          name: mapName,
+          href: `/maps/${encodeURIComponent(enName)}`,
+          // Host-aware resolve so next/image's optimizer fetches the local
+          // data-forge on *-dev hosts and the CDN otherwise (see home-page).
+          bgImage: tileBase
+            ? await resolveForgeUrl(
+                getPreviewImageUrl(appConfig.name, tileBase),
+              )
+            : undefined,
+          locationCount: countsByMap?.[map] ?? 0,
+        };
+      }),
+    );
 
     return (
       <>
@@ -137,7 +144,9 @@ export function createMapsPage(appConfig: AppConfig) {
             header={
               <>
                 <PageTitle
-                  title={t("maps.pageTitle", { vars: { title: appConfig.title } })}
+                  title={t("maps.pageTitle", {
+                    vars: { title: appConfig.title },
+                  })}
                 />
                 <nav
                   aria-label="Breadcrumb"
@@ -221,13 +230,15 @@ export function createMapsPage(appConfig: AppConfig) {
                     </p>
                   )}
                   {mapsWithImage.length > 0 && (
-                    <ul className={`grid gap-4 ${
-                      mapsWithImage.length === 1
-                        ? "grid-cols-1 max-w-md mx-auto"
-                        : mapsWithImage.length === 2
-                          ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
-                          : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                    }`}>
+                    <ul
+                      className={`grid gap-4 ${
+                        mapsWithImage.length === 1
+                          ? "grid-cols-1 max-w-md mx-auto"
+                          : mapsWithImage.length === 2
+                            ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+                            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                      }`}
+                    >
                       {mapsWithImage.map(renderMapCard)}
                     </ul>
                   )}

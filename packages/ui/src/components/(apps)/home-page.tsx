@@ -16,6 +16,7 @@ import {
   getUpdateMessages,
   type IconSprite,
   localizePath,
+  resolveForgeUrl,
 } from "@repo/lib";
 import type { NavCardProps } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
@@ -125,36 +126,45 @@ export function createHomePage(appConfig: AppConfig) {
       appConfig.internalLinks?.map((link) => link.href) ?? [],
     );
     const mapNames = Object.keys(version.data.tiles);
-    const mapCards: NavCardProps[] = mapNames
-      .filter((map) => {
-        const mapName = t(map);
-        const href = `/maps/${encodeURIComponent(mapName)}`;
-        return !internalLinkHrefs.has(href);
-      })
-      .map((map) => {
-        const mapName = t(map);
-        const tileUrl = version.data.tiles[map]?.url ?? "";
-        // Extract tile base path from URL like "/map-tiles/0305_Forest-b12cd6b0/{z}/{y}/{x}.webp"
-        const tileBase = tileUrl
-          .replace(/^\/map-tiles\//, "")
-          .replace(/\/\{z\}.*$/, "")
-          .replace(/-[0-9a-f]{16,}$/, "");
-        const mapLocCount = version.counts?.byMap?.[map] || 0;
-        const desc =
-          mapLocCount > 0
-            ? `${mapLocCount.toLocaleString()} locations`
-            : `Navigate ${mapName} with our interactive maps.`;
-        return {
-          title: `${mapName} Map`,
-          description: desc,
-          href: `/maps/${encodeURIComponent(mapName)}`,
-          iconName: "Map" as NavCardProps["iconName"],
-          bgImage: tileBase
-            ? getPreviewImageUrl(appConfig.name, tileBase)
-            : undefined,
-          linkText: `Explore the ${mapName}`,
-        };
-      });
+    const mapCards: NavCardProps[] = await Promise.all(
+      mapNames
+        .filter((map) => {
+          const mapName = t(map);
+          const href = `/maps/${encodeURIComponent(mapName)}`;
+          return !internalLinkHrefs.has(href);
+        })
+        .map(async (map) => {
+          const mapName = t(map);
+          const tileUrl = version.data.tiles[map]?.url ?? "";
+          // Extract tile base path from URL like "/map-tiles/0305_Forest-b12cd6b0/{z}/{y}/{x}.webp"
+          const tileBase = tileUrl
+            .replace(/^\/map-tiles\//, "")
+            .replace(/\/\{z\}.*$/, "")
+            .replace(/-[0-9a-f]{16,}$/, "");
+          const mapLocCount = version.counts?.byMap?.[map] || 0;
+          const desc =
+            mapLocCount > 0
+              ? `${mapLocCount.toLocaleString()} locations`
+              : `Navigate ${mapName} with our interactive maps.`;
+          return {
+            title: `${mapName} Map`,
+            description: desc,
+            href: `/maps/${encodeURIComponent(mapName)}`,
+            iconName: "Map" as NavCardProps["iconName"],
+            // Resolve through the host-aware forge proxy so next/image's
+            // server-side optimizer fetches the correct origin: the local
+            // data-forge on *-dev hosts, the CDN otherwise. Without this the
+            // optimizer resolves the relative /__forge-cdn path against
+            // localhost:3100 (not the -dev tenant) and always hits prod.
+            bgImage: tileBase
+              ? await resolveForgeUrl(
+                  getPreviewImageUrl(appConfig.name, tileBase),
+                )
+              : undefined,
+            linkText: `Explore the ${mapName}`,
+          };
+        }),
+    );
 
     const hasCompanionApp =
       appConfig.appUrl && appConfig.appUrl.includes("companion-app");
