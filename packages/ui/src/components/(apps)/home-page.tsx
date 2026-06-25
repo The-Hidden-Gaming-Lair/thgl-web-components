@@ -7,6 +7,7 @@ import { NavGrid, ReleaseNotes, Subtitle } from "../(content)";
 import {
   AppConfig,
   DEFAULT_LOCALE,
+  fetchDatabaseIndex,
   fetchVersion,
   getIconsUrl,
   getMetadataAlternates,
@@ -78,13 +79,39 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
 export function createHomePage(appConfig: AppConfig) {
   return async function Home({ params }: PageProps) {
     const { locale = DEFAULT_LOCALE } = await params;
-    const [dict, updateMessages, version] = await Promise.all([
+    // Hybrid games (maps + a database, e.g. Subnautica 2 / Witchspire) render the
+    // database sections as the same polished card grid the DB-only home uses, instead
+    // of plain feature rows. Fetch the index only when there are sections to count.
+    const dbSections = appConfig.db?.homeSections ?? [];
+    const [dict, updateMessages, version, database] = await Promise.all([
       getFullDictionary(appConfig.name, locale),
       getUpdateMessages(appConfig.name),
       fetchVersion(appConfig.name),
+      dbSections.length
+        ? fetchDatabaseIndex(appConfig.name).catch(() => [])
+        : Promise.resolve([]),
     ]);
 
     const t = getT(dict);
+
+    // Resolve a dict value, following @-pointers, falling back to the raw string
+    // (mirrors the DB home's resolveDict so plain-string titles/descriptions pass through).
+    const resolveDbText = (key: string): string => {
+      const v = dict[key];
+      if (!v) return key;
+      return v[0] === "@" ? (dict[v] ?? v) : v;
+    };
+
+    // Entity counts per database type, for the section cards.
+    const dbCounts = new Map<string, number>();
+    for (const entry of database) {
+      if (entry.type.startsWith("_")) continue;
+      dbCounts.set(
+        entry.type,
+        (dbCounts.get(entry.type) ?? 0) + entry.items.length,
+      );
+    }
+    const dbHrefs = new Set(dbSections.map((s) => s.href));
 
     const features =
       appConfig.internalLinks
@@ -154,11 +181,15 @@ export function createHomePage(appConfig: AppConfig) {
               : link.description,
           };
         }) ?? [];
-    // Feature cards: non-map, non-guide links (e.g. "Weapons", "Deviant Locations")
+    // Feature cards: non-map, non-guide links (e.g. "Weapons", "Deviant Locations").
+    // Exclude any that are also DB sections — those render as the card grid below, so
+    // they must not also appear as plain feature rows.
     const featureCards =
       appConfig.internalLinks?.filter(
         (link) =>
-          !link.href?.startsWith("/maps/") && !link.href?.startsWith("/guides"),
+          !link.href?.startsWith("/maps/") &&
+          !link.href?.startsWith("/guides") &&
+          !dbHrefs.has(link.href),
       ) ?? [];
 
     const allMapCards = [...internalMapCards, ...mapCards];
@@ -445,7 +476,61 @@ export function createHomePage(appConfig: AppConfig) {
                   </Link>
                 )}
 
-                {/* 3. Feature cards (non-map, non-guide internal links) */}
+                {/* 3. Database sections (hybrid map + DB games) — the same polished
+                    card grid the DB-only home uses, driven by appConfig.db.homeSections. */}
+                {dbSections.length > 0 && (
+                  <div className="space-y-2">
+                    <h2 className="text-xs uppercase tracking-wider text-muted-foreground">
+                      Database
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
+                      {dbSections.map((section) => {
+                        const count =
+                          (dbCounts.get(section.type) ?? 0) +
+                          (section.extraTypes ?? []).reduce(
+                            (sum, ty) => sum + (dbCounts.get(ty) ?? 0),
+                            0,
+                          );
+                        const title = section.titleKey
+                          ? resolveDbText(section.titleKey)
+                          : (section.titleFallback ?? section.type);
+                        const desc = section.description
+                          ? resolveDbText(section.description)
+                          : undefined;
+                        return (
+                          <Link
+                            key={section.href}
+                            href={localizePath(section.href, locale)}
+                            className="group relative border border-slate-800 hover:border-amber-800/50 rounded-lg p-5 transition-all hover:bg-slate-900/50"
+                          >
+                            <div className="flex items-start gap-3">
+                              <span className="text-2xl mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity">
+                                {section.icon}
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between">
+                                  <h3 className="text-lg font-semibold group-hover:text-amber-400 transition-colors">
+                                    {title}
+                                  </h3>
+                                  <span className="text-xs text-muted-foreground tabular-nums">
+                                    {count}
+                                  </span>
+                                </div>
+                                {desc && (
+                                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                    {desc}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. Feature cards (non-map, non-guide internal links) */}
                 {featureCards.length > 0 && <NavGrid cards={featureCards} />}
 
                 {/* 4. Highlighted filters / guides */}
