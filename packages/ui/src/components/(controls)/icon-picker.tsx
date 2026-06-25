@@ -131,8 +131,12 @@ export function IconPicker({
                   width={value.width}
                   height={value.height}
                   style={{
+                    width: value.width,
+                    height: value.height,
                     objectPosition: `-${value.x}px -${value.y}px`,
-                    zoom: 0.3,
+                    // adaptive: uniform ~19px box by the icon's own width (cells
+                    // are packed at native size now, not a fixed 64px).
+                    zoom: 19 / (value.width || 64),
                   }}
                 />
               ) : (
@@ -189,8 +193,12 @@ export function IconPicker({
                       width={icon.width}
                       height={icon.height}
                       style={{
+                        width: icon.width,
+                        height: icon.height,
                         objectPosition: `-${icon.x}px -${icon.y}px`,
-                        zoom: 0.5,
+                        // adaptive: uniform ~32px box by the icon's own width
+                        // (cells are packed at native size now, not a fixed 64px).
+                        zoom: 32 / (icon.width || 64),
                       }}
                     />
                   ) : (

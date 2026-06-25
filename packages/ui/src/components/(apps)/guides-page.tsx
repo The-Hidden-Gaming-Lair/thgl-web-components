@@ -199,7 +199,9 @@ export function createGuidesPage(appConfig: AppConfig) {
             header={
               <>
                 <PageTitle
-                  title={t("guides.pageTitle", { vars: { title: appConfig.title } })}
+                  title={t("guides.pageTitle", {
+                    vars: { title: appConfig.title },
+                  })}
                 />
                 <nav
                   aria-label="Breadcrumb"
@@ -245,7 +247,7 @@ export function createGuidesPage(appConfig: AppConfig) {
                           <img
                             alt=""
                             role="presentation"
-                            className="shrink-0 object-none w-[64px] h-[64px] mt-0.5"
+                            className="shrink-0 object-none mt-0.5"
                             src={getIconsUrl(
                               appConfig.name,
                               guide.icon.url,
@@ -254,8 +256,14 @@ export function createGuidesPage(appConfig: AppConfig) {
                             width={guide.icon.width}
                             height={guide.icon.height}
                             style={{
+                              // width/height in CSS so the `img { height: auto }`
+                              // preflight can't reclip the wrong cell; adaptive zoom
+                              // so small-source icons match 64px ones (cells are now
+                              // packed at native size, not a fixed 64px).
+                              width: guide.icon.width,
+                              height: guide.icon.height,
                               objectPosition: `-${guide.icon.x}px -${guide.icon.y}px`,
-                              zoom: 0.35,
+                              zoom: 22 / (guide.icon.width || 64),
                             }}
                           />
                         )}

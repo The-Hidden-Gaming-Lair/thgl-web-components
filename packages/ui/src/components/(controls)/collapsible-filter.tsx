@@ -155,13 +155,24 @@ export function CollapsibleFilter({
                     ) : (
                       <img
                         alt=""
-                        className="shrink-0 object-none w-[64px] h-[64px]"
+                        role="presentation"
+                        className="shrink-0 object-none"
                         src={getIconsUrl(appName, f.icon.url, iconsPath)}
                         width={f.icon.width}
                         height={f.icon.height}
                         style={{
+                          // width/height in CSS (not just attrs) so the global
+                          // `img { height: auto }` preflight can't recompute the
+                          // box from the full sheet and clip the wrong cell.
+                          width: f.icon.width,
+                          height: f.icon.height,
                           objectPosition: `-${f.icon.x}px -${f.icon.y}px`,
-                          zoom: 0.35,
+                          // Sprite cells are packed at native size now (a cap, not
+                          // a fixed 64px), so a fixed zoom rendered small-source
+                          // icons (e.g. Lifmunk Effigy, 35px) smaller than their
+                          // 64px neighbours. Scale each icon to a uniform ~22px box
+                          // by its own width instead.
+                          zoom: 22 / (f.icon.width || 64),
                         }}
                       />
                     )}

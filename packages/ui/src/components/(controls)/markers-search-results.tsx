@@ -92,13 +92,20 @@ export function MarkersSearchResults({
                 ) : (
                   <img
                     alt=""
-                    className="shrink-0 object-none w-[64px] h-[64px]"
+                    role="presentation"
+                    className="shrink-0 object-none"
                     src={getIconsUrl(appName, icon.icon.url, iconsPath)}
                     width={icon.icon.width}
                     height={icon.icon.height}
                     style={{
+                      // width/height in CSS so the `img { height: auto }` preflight
+                      // can't reclip the wrong cell; adaptive zoom so small-source
+                      // icons render at the same ~22px box as 64px ones (cells are
+                      // packed at native size now, not a fixed 64px).
+                      width: icon.icon.width,
+                      height: icon.icon.height,
                       objectPosition: `-${icon.icon.x}px -${icon.icon.y}px`,
-                      zoom: 0.35,
+                      zoom: 22 / (icon.icon.width || 64),
                     }}
                   />
                 )
