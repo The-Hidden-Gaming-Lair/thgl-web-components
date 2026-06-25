@@ -3,7 +3,7 @@ import { useMapStore } from "../(interactive-map)/store";
 import { useEffect, useRef } from "react";
 import { useT } from "../(providers)";
 import { useSettingsStore } from "@repo/lib";
-import { GridLayer, DrawingLayer } from "@repo/lib/web-map";
+import { GridLayer } from "@repo/lib/web-map";
 
 const deepDesertPadding = 0;
 const deepDesertGrid = [
@@ -16,7 +16,6 @@ export function DuneDeepDesertGrid() {
   const map = useMapStore((state) => state.map);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
   const gridLayerRef = useRef<GridLayer | null>(null);
-  const pvpLayerRef = useRef<DrawingLayer | null>(null);
 
   useEffect(() => {
     if (!map) {
