@@ -22,6 +22,73 @@ const ICON_BASE_URL = isOverwolf
 
 type AppEntry = (typeof apps)[number];
 
+type Sprite = {
+  fileName: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  sheetWidth?: number;
+  sheetHeight?: number;
+};
+
+// Legacy fallback only (partner sprites now carry sheetWidth/sheetHeight): the
+// partner sheet's coord-derived bounds, used if an icon predates those fields.
+const partnerSprites = apps.flatMap((a) =>
+  ("partners" in a ? (a.partners ?? []) : []).map((p) => p.sprite),
+);
+const PARTNER_SHEET_FALLBACK_W = Math.max(
+  0,
+  ...partnerSprites.map((s) => s.x + s.width),
+);
+const PARTNER_SHEET_FALLBACK_H = Math.max(
+  0,
+  ...partnerSprites.map((s) => s.y + s.height),
+);
+
+// Renders one icon out of a packed sprite sheet, scaled to `size`. Cells are
+// packed at their native size (a MAX cap, not a fixed cell), so the sheet MUST
+// be scaled by the icon's own width — cropping a fixed-size box would clip any
+// source that isn't exactly `size` px. Uses the real sheet canvas size emitted
+// by createImageSprite; the shelf packer leaves trailing slack so a
+// coord-derived bound (the legacy fallback) under-reports it and CSS would
+// squish the sheet, misaligning every icon.
+function SpriteIcon({
+  sprite,
+  label,
+  size,
+  sheetFallbackWidth,
+  sheetFallbackHeight,
+  className,
+}: {
+  sprite: Sprite;
+  label: string;
+  size: number;
+  sheetFallbackWidth: number;
+  sheetFallbackHeight: number;
+  className?: string;
+}) {
+  const scale = size / sprite.width;
+  const sheetWidth = sprite.sheetWidth ?? sheetFallbackWidth;
+  const sheetHeight = sprite.sheetHeight ?? sheetFallbackHeight;
+  return (
+    <div
+      role="img"
+      aria-label={label}
+      className={cn("bg-background shrink-0 rounded-full", className)}
+      style={{
+        width: size,
+        height: size,
+        backgroundImage: `url(${ICON_BASE_URL}${sprite.fileName})`,
+        backgroundPosition: `-${sprite.x * scale}px -${sprite.y * scale}px`,
+        backgroundSize: `${sheetWidth * scale}px ${sheetHeight * scale}px`,
+        backgroundRepeat: "no-repeat",
+        backgroundOrigin: "border-box",
+      }}
+    />
+  );
+}
+
 function GameIcon({
   app,
   size = 36,
@@ -31,31 +98,18 @@ function GameIcon({
   size?: number;
   className?: string;
 }) {
-  const scale = size / app.sprite.width;
-  // Use the real sprite-sheet canvas size emitted by createImageSprite. The shelf
-  // packer leaves trailing slack, so max(x+width) under-reports the canvas and CSS
-  // would squish the sheet, misaligning every icon. Fall back to the coord-derived
-  // bound for JSON generated before sheetWidth/sheetHeight were added.
-  const sheetWidth =
-    app.sprite.sheetWidth ??
-    Math.max(...apps.map((a) => a.sprite.x + a.sprite.width));
-  const sheetHeight =
-    app.sprite.sheetHeight ??
-    Math.max(...apps.map((a) => a.sprite.y + a.sprite.height));
   return (
-    <div
-      role="img"
-      aria-label={app.title}
-      className={cn("bg-background shrink-0 rounded-full", className)}
-      style={{
-        width: size,
-        height: size,
-        backgroundImage: `url(${ICON_BASE_URL}${app.sprite.fileName})`,
-        backgroundPosition: `-${app.sprite.x * scale}px -${app.sprite.y * scale}px`,
-        backgroundSize: `${sheetWidth * scale}px ${sheetHeight * scale}px`,
-        backgroundRepeat: "no-repeat",
-        backgroundOrigin: "border-box",
-      }}
+    <SpriteIcon
+      sprite={app.sprite}
+      label={app.title}
+      size={size}
+      sheetFallbackWidth={Math.max(
+        ...apps.map((a) => a.sprite.x + a.sprite.width),
+      )}
+      sheetFallbackHeight={Math.max(
+        ...apps.map((a) => a.sprite.y + a.sprite.height),
+      )}
+      className={className}
     />
   );
 }
@@ -151,15 +205,12 @@ export function GameSwitcher({
                       className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-foreground px-2 py-1 rounded-md bg-muted/40 hover:bg-muted transition-colors"
                     >
                       {partner.sprite && (
-                        <img
-                          alt=""
-                          className="h-3.5 w-3.5 rounded-full object-none bg-background"
-                          src={`${ICON_BASE_URL}${partner.sprite.fileName}`}
-                          width={partner.sprite.width}
-                          height={partner.sprite.height}
-                          style={{
-                            objectPosition: `-${partner.sprite.x}px -${partner.sprite.y}px`,
-                          }}
+                        <SpriteIcon
+                          sprite={partner.sprite}
+                          label={partner.title}
+                          size={14}
+                          sheetFallbackWidth={PARTNER_SHEET_FALLBACK_W}
+                          sheetFallbackHeight={PARTNER_SHEET_FALLBACK_H}
                         />
                       )}
                       {partner.title}
