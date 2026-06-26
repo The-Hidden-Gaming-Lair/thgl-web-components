@@ -127,6 +127,19 @@
     "title": "Subnautica 2",
     "url": "https://subnautica2.th.gl",
     "tags": ["interactive_map"],
+    "partners": [
+      {
+        "title": "Game Checklists",
+        "url": "https://game-checklists.com/?ref=thgl",
+        "sprite": {
+          "fileName": "partners-15704975442663007728.webp",
+          "x": 54,
+          "y": 2,
+          "width": 24,
+          "height": 24
+        }
+      }
+    ],
     "sprite": {
       "fileName": "games-15704975442663007728.webp",
       "x": 70,
@@ -200,8 +213,8 @@
         "url": "https://www.reddit.com/r/duneawakening",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 54,
-          "y": 2,
+          "x": 2,
+          "y": 28,
           "width": 24,
           "height": 24
         }
@@ -308,8 +321,8 @@
         "url": "https://www.reddit.com/r/PaxDei",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 54,
-          "y": 2,
+          "x": 2,
+          "y": 28,
           "width": 24,
           "height": 24
         }
@@ -319,7 +332,7 @@
         "url": "https://pax-dei-tools.com/?ref=thgl",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 2,
+          "x": 28,
           "y": 28,
           "width": 24,
           "height": 24
@@ -401,7 +414,7 @@
         "url": "https://github.com/josdemmers/Diablo4Companion?ref=thgl",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 28,
+          "x": 54,
           "y": 28,
           "width": 24,
           "height": 24
@@ -481,8 +494,8 @@
         "url": "https://paliatracker.com?ref=thgl",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 54,
-          "y": 28,
+          "x": 2,
+          "y": 54,
           "width": 24,
           "height": 24
         }
@@ -492,7 +505,7 @@
         "url": "https://paliaparty.app?ref=thgl",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 2,
+          "x": 28,
           "y": 54,
           "width": 24,
           "height": 24
@@ -519,7 +532,7 @@
         "url": "https://www.voicy.network/official-soundboards/games/palworld",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 28,
+          "x": 54,
           "y": 54,
           "width": 24,
           "height": 24
@@ -530,8 +543,8 @@
         "url": "https://www.reddit.com/r/palworld",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 54,
-          "y": 2,
+          "x": 2,
+          "y": 28,
           "width": 24,
           "height": 24
         }
@@ -541,8 +554,8 @@
         "url": "https://palworld.wiki.gg",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 54,
-          "y": 54,
+          "x": 2,
+          "y": 80,
           "width": 24,
           "height": 24
         }
@@ -552,7 +565,7 @@
         "url": "https://www.nitrado-aff.com/4B2XBP3/D42TT/?uid=60",
         "sprite": {
           "fileName": "partners-15704975442663007728.webp",
-          "x": 2,
+          "x": 28,
           "y": 80,
           "width": 24,
           "height": 24
