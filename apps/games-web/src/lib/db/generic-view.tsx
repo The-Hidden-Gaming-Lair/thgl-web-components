@@ -46,13 +46,15 @@ function isDbRefArray(v: unknown): v is DbRef[] {
   );
 }
 function asDbRefList(v: unknown): DbRef[] | undefined {
-  if (isDbRefArray(v)) return v;
-  if (
-    typeof v === "object" &&
-    v !== null &&
-    isDbRefArray((v as { list?: unknown }).list)
-  ) {
-    return (v as { list: DbRef[] }).list;
+  if (isDbRefArray(v))
+    return (v as DbRef[]).length > 0 ? (v as DbRef[]) : undefined;
+  if (typeof v === "object" && v !== null && !Array.isArray(v)) {
+    const o = v as { id?: unknown; section?: unknown; list?: unknown };
+    // A single DbRef object (e.g. a recipe's required `Tool`).
+    if (typeof o.id === "string" && typeof o.section === "string") {
+      return [o as DbRef];
+    }
+    if (isDbRefArray(o.list)) return o.list as DbRef[];
   }
   return undefined;
 }
@@ -171,11 +173,24 @@ export function GenericEntityView({
       k !== "ingredients" &&
       k !== "usedToCraft",
   );
+  // Any remaining prop whose value is a DbRef (single or array) — e.g. a recipe's
+  // `Tool` or a codex entry's `documents` — renders as a labeled link section, not
+  // JSON in the details table. (Generic so per-game custom cross-link keys work.)
+  const refProps = remaining
+    .map(([k, v]) => [k, asDbRefList(v)] as const)
+    .filter((e): e is readonly [string, DbRef[]] => !!e[1]);
+  const refKeys = new Set(refProps.map(([k]) => k));
+  const nonRef = remaining.filter(([k]) => !refKeys.has(k));
   // Split into prominent stat cards vs. the raw details table.
-  const statProps = remaining.filter(([, v]) => isStatValue(v));
+  const statProps = nonRef.filter(([, v]) => isStatValue(v));
   const tableProps = Object.fromEntries(
-    remaining.filter(([, v]) => !isStatValue(v)),
+    nonRef.filter(([, v]) => !isStatValue(v)),
   );
+  const humanizeKey = (k: string) =>
+    k
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/[_-]+/g, " ")
+      .replace(/^./, (c) => c.toUpperCase());
 
   const refLinks = (refs: DbRef[]) => (
     <div className="flex flex-wrap gap-2">
@@ -411,6 +426,15 @@ export function GenericEntityView({
           {refLinks(droppedBy)}
         </div>
       )}
+
+      {refProps.map(([k, refs]) => (
+        <div key={k} className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            {humanizeKey(k)}
+          </div>
+          {refLinks(refs)}
+        </div>
+      ))}
 
       {Object.keys(tableProps).length > 0 && (
         <div className="border border-slate-800 rounded max-w-3xl">
