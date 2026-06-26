@@ -501,12 +501,20 @@ export function createHomePage(appConfig: AppConfig) {
                       {dbSections
                         .slice(0, MAX_HOME_MAP_CARDS)
                         .map((section) => {
-                          const count =
-                            (dbCounts.get(section.type) ?? 0) +
-                            (section.extraTypes ?? []).reduce(
-                              (sum, ty) => sum + (dbCounts.get(ty) ?? 0),
-                              0,
-                            );
+                          // Count by exact type, extraTypes, AND typePrefix
+                          // (BPSR groups dictionary_*/reading_books_*/story_episode_*
+                          // under prefix sections) — mirrors the /db/[section] filter.
+                          const count = [...dbCounts].reduce(
+                            (sum, [ty, c]) =>
+                              ty === section.type ||
+                              (section.extraTypes ?? []).includes(ty) ||
+                              (section.typePrefix
+                                ? ty.startsWith(section.typePrefix)
+                                : false)
+                                ? sum + c
+                                : sum,
+                            0,
+                          );
                           const title = section.titleKey
                             ? resolveDbText(section.titleKey)
                             : (section.titleFallback ?? section.type);

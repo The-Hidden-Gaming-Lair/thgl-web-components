@@ -149,6 +149,8 @@ export const blueProtocolStarResonance = resolveAppConfig({
         typePrefix: "dictionary_",
         icon: "📚",
         titleFallback: "Lore Dictionary",
+        description:
+          "In-world encyclopedia entries — historical events, settings, concepts and circumstances from across the world.",
       },
       {
         href: "/db/reading-books",
@@ -156,6 +158,8 @@ export const blueProtocolStarResonance = resolveAppConfig({
         typePrefix: "reading_books_",
         icon: "📖",
         titleFallback: "Reading Books",
+        description:
+          "Collectible books, letters, notices and records you find throughout the game.",
       },
       {
         href: "/db/story",
@@ -163,6 +167,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         typePrefix: "story_episode_",
         icon: "✦",
         titleFallback: "Story Episodes",
+        description: "The main story, episode by episode.",
       },
     ],
     typeLabels: {

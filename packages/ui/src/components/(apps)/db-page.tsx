@@ -89,12 +89,16 @@ export function createDbPage(appConfig: AppConfig) {
     }
 
     const sections = db.homeSections.map((section) => {
-      const count =
-        (counts.get(section.type) ?? 0) +
-        (section.extraTypes ?? []).reduce(
-          (sum, ty) => sum + (counts.get(ty) ?? 0),
-          0,
-        );
+      // Count by exact type, extraTypes, AND typePrefix (mirrors /db/[section]).
+      const count = [...counts].reduce(
+        (sum, [ty, c]) =>
+          ty === section.type ||
+          (section.extraTypes ?? []).includes(ty) ||
+          (section.typePrefix ? ty.startsWith(section.typePrefix) : false)
+            ? sum + c
+            : sum,
+        0,
+      );
       const title = section.titleKey
         ? resolveDbText(section.titleKey)
         : (section.titleFallback ?? section.type);

@@ -679,6 +679,9 @@ export async function fetchDatabaseIndex(
     ),
     { next: { revalidate: 60 } },
   );
+  // Games that ship a single monolith database.json (no split index, e.g. BPSR)
+  // fall back to it so the home/db section counts and listings still work.
+  if (!res.ok) return fetchDatabase(appName);
   return res.json();
 }
 
