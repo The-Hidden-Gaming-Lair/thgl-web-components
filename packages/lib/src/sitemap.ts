@@ -200,9 +200,7 @@ async function collectNamedMarkers(
       if (!response.ok) continue;
 
       const buffer = await response.arrayBuffer();
-      const nodes = decodeFromBuffer<NodesCoordinates>(
-        new Uint8Array(buffer),
-      );
+      const nodes = decodeFromBuffer<NodesCoordinates>(new Uint8Array(buffer));
       const mapTitle = translate(enDict, mapName);
 
       // Deduplicate by display name per type
@@ -258,9 +256,11 @@ export function createSitemapIndex(appConfig: AppConfig) {
     ]);
 
     const guideCount = countGuideEntries(version, enDict);
-    const guideChunks = guideCount > 0 ? Math.ceil(guideCount / ENTRIES_PER_CHUNK) : 0;
+    const guideChunks =
+      guideCount > 0 ? Math.ceil(guideCount / ENTRIES_PER_CHUNK) : 0;
     const markers = await collectNamedMarkers(appConfig, version, enDict);
-    const markerChunks = markers.length > 0 ? Math.ceil(markers.length / ENTRIES_PER_CHUNK) : 0;
+    const markerChunks =
+      markers.length > 0 ? Math.ceil(markers.length / ENTRIES_PER_CHUNK) : 0;
 
     let dbChunks = 0;
     if (appConfig.db) {
@@ -269,9 +269,10 @@ export function createSitemapIndex(appConfig: AppConfig) {
       );
       const resolveSection = buildSectionResolver(appConfig);
       const dbEntries = collectDbEntries(database, resolveSection);
-      dbChunks = dbEntries.length > 0
-        ? Math.ceil(dbEntries.length / ENTRIES_PER_CHUNK)
-        : 0;
+      dbChunks =
+        dbEntries.length > 0
+          ? Math.ceil(dbEntries.length / ENTRIES_PER_CHUNK)
+          : 0;
     }
 
     const totalSitemaps = 1 + guideChunks + markerChunks + dbChunks;
@@ -280,8 +281,10 @@ export function createSitemapIndex(appConfig: AppConfig) {
     const xml = [
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-      ...Array.from({ length: totalSitemaps }, (_, i) =>
-        `  <sitemap>\n    <loc>${baseUrl}/sitemap/${i}.xml</loc>\n    <lastmod>${now}</lastmod>\n  </sitemap>`,
+      ...Array.from(
+        { length: totalSitemaps },
+        (_, i) =>
+          `  <sitemap>\n    <loc>${baseUrl}/sitemap/${i}.xml</loc>\n    <lastmod>${now}</lastmod>\n  </sitemap>`,
       ),
       "</sitemapindex>",
     ].join("\n");
@@ -405,9 +408,11 @@ export function createGenerateSitemaps(appConfig: AppConfig) {
     ]);
 
     const guideCount = countGuideEntries(version, enDict);
-    const guideChunks = guideCount > 0 ? Math.ceil(guideCount / ENTRIES_PER_CHUNK) : 0;
+    const guideChunks =
+      guideCount > 0 ? Math.ceil(guideCount / ENTRIES_PER_CHUNK) : 0;
     const markers = await collectNamedMarkers(appConfig, version, enDict);
-    const markerChunks = markers.length > 0 ? Math.ceil(markers.length / ENTRIES_PER_CHUNK) : 0;
+    const markerChunks =
+      markers.length > 0 ? Math.ceil(markers.length / ENTRIES_PER_CHUNK) : 0;
 
     let dbChunks = 0;
     if (appConfig.db) {
@@ -416,9 +421,10 @@ export function createGenerateSitemaps(appConfig: AppConfig) {
       );
       const resolveSection = buildSectionResolver(appConfig);
       const dbEntries = collectDbEntries(database, resolveSection);
-      dbChunks = dbEntries.length > 0
-        ? Math.ceil(dbEntries.length / ENTRIES_PER_CHUNK)
-        : 0;
+      dbChunks =
+        dbEntries.length > 0
+          ? Math.ceil(dbEntries.length / ENTRIES_PER_CHUNK)
+          : 0;
     }
 
     // id 0 = core pages (home, maps, links, db group pages),
@@ -451,7 +457,8 @@ export function createSitemap(appConfig: AppConfig) {
 
     // Determine chunk boundaries
     const guideCount = countGuideEntries(version, enDict);
-    const guideChunks = guideCount > 0 ? Math.ceil(guideCount / ENTRIES_PER_CHUNK) : 0;
+    const guideChunks =
+      guideCount > 0 ? Math.ceil(guideCount / ENTRIES_PER_CHUNK) : 0;
     const markerStartId = 1 + guideChunks;
     // Marker count drives the offset for DB chunks
     const markersForCount = await collectNamedMarkers(
@@ -459,9 +466,10 @@ export function createSitemap(appConfig: AppConfig) {
       version,
       enDict,
     );
-    const markerChunks = markersForCount.length > 0
-      ? Math.ceil(markersForCount.length / ENTRIES_PER_CHUNK)
-      : 0;
+    const markerChunks =
+      markersForCount.length > 0
+        ? Math.ceil(markersForCount.length / ENTRIES_PER_CHUNK)
+        : 0;
     const dbStartId = markerStartId + markerChunks;
     const resolveSection = appConfig.db
       ? buildSectionResolver(appConfig)
@@ -511,6 +519,19 @@ export function createSitemap(appConfig: AppConfig) {
       // item-sets landing page. Detail pages live in the dedicated
       // dbChunks range below.
       if (appConfig.db) {
+        // The /db landing and each /db/<section> listing. Driven by
+        // db.homeSections so hybrid games that don't repeat sections in
+        // internalLinks still get them (addEntry dedups against internalLinks).
+        addEntry(entries, "/db", {
+          changeFrequency: "weekly",
+          priority: 0.8,
+        });
+        for (const section of appConfig.db.homeSections) {
+          addEntry(entries, section.href, {
+            changeFrequency: "weekly",
+            priority: 0.7,
+          });
+        }
         const database = await fetchDatabaseForSitemap(appConfig.name).catch(
           () => [] as DatabaseConfig,
         );
@@ -561,7 +582,10 @@ export function createSitemap(appConfig: AppConfig) {
               priority: 0.6,
               localizedPathFn: (locale) => {
                 const title = translateForLocale(
-                  allDicts, enDict, locale, filter.group,
+                  allDicts,
+                  enDict,
+                  locale,
+                  filter.group,
                 );
                 return `/guides/${encodeURIComponent(title)}`;
               },
@@ -577,7 +601,10 @@ export function createSitemap(appConfig: AppConfig) {
                 priority: 0.5,
                 localizedPathFn: (locale) => {
                   const title = translateForLocale(
-                    allDicts, enDict, locale, value.id,
+                    allDicts,
+                    enDict,
+                    locale,
+                    value.id,
                   );
                   return `/guides/${encodeURIComponent(title)}`;
                 },
@@ -626,13 +653,22 @@ export function createSitemap(appConfig: AppConfig) {
             mapKey && typeKey && nameKey
               ? (locale) => {
                   const lMap = translateForLocale(
-                    allDicts, enDict, locale, mapKey,
+                    allDicts,
+                    enDict,
+                    locale,
+                    mapKey,
                   );
                   const lType = translateForLocale(
-                    allDicts, enDict, locale, typeKey,
+                    allDicts,
+                    enDict,
+                    locale,
+                    typeKey,
                   );
                   const lName = translateForLocale(
-                    allDicts, enDict, locale, nameKey,
+                    allDicts,
+                    enDict,
+                    locale,
+                    nameKey,
                   );
                   return `/maps/${encodeURIComponent(lMap)}/${encodeURIComponent(lType)}/${encodeURIComponent(lName)}?id=${encodeURIComponent(nodeId)}`;
                 }
