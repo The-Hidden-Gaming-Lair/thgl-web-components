@@ -12,8 +12,7 @@ export const starsandIsland = resolveAppConfig({
       href: "/maps/Starsand%20Island",
       iconName: "Map",
       // Inlined getPreviewImageUrl("starsand-island", "StarSandIsland")
-      bgImage:
-        `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/StarSandIsland/preview.webp`,
+      bgImage: `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/StarSandIsland/preview.webp`,
       linkText: "Explore the Island Map",
     },
     {
@@ -23,8 +22,7 @@ export const starsandIsland = resolveAppConfig({
       href: "/maps/Moonlit%20Forest",
       iconName: "Map",
       // Inlined getPreviewImageUrl("starsand-island", "MineCave_MainLand")
-      bgImage:
-        `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/MineCave_MainLand/preview.webp`,
+      bgImage: `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/MineCave_MainLand/preview.webp`,
       linkText: "Explore the Moonlit Forest Map",
     },
   ],
@@ -40,4 +38,40 @@ export const starsandIsland = resolveAppConfig({
     "Moonlit Forest",
   ],
   topFilters: ["chest_island", "campsite", "elf_stone"],
+  db: {
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search items, recipes…",
+    sectionsInNav: true,
+    homeSections: [
+      {
+        href: "/db/inventory",
+        type: "inventory",
+        titleFallback: "Items",
+        icon: "🎒",
+        description:
+          "Every item by category — collectibles, food, fish, seeds, clothing, furniture and materials.",
+      },
+      {
+        href: "/db/recipes",
+        type: "recipes",
+        titleFallback: "Recipes",
+        icon: "🍳",
+        description:
+          "Crafting and cooking formulas, with ingredients and station, cross-linked to each item.",
+      },
+      {
+        href: "/db/codex",
+        type: "codex",
+        titleFallback: "Codex",
+        icon: "📖",
+        description:
+          "The in-game encyclopedia — fish, sea creatures, animals and collectibles you discover.",
+      },
+    ],
+    typeLabels: {
+      inventory: "Items",
+      recipes: "Recipe",
+      codex: "Codex",
+    },
+  },
 });
