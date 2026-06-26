@@ -117,6 +117,13 @@ export function createHomePage(appConfig: AppConfig) {
       );
     }
     const dbHrefs = new Set(dbSections.map((s) => s.href));
+    const dbTotal = dbSections.reduce(
+      (sum, s) =>
+        sum +
+        (dbCounts.get(s.type) ?? 0) +
+        (s.extraTypes ?? []).reduce((a, t) => a + (dbCounts.get(t) ?? 0), 0),
+      0,
+    );
 
     const features =
       appConfig.internalLinks
@@ -541,6 +548,16 @@ export function createHomePage(appConfig: AppConfig) {
                         );
                       })}
                     </div>
+                    <Link
+                      href={localizePath("/db", locale)}
+                      className="inline-flex items-center gap-2 rounded-md border border-muted/50 px-4 py-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
+                    >
+                      {t("db.viewAll", {
+                        vars: { count: dbTotal.toLocaleString() },
+                        fallback: `View all ${dbTotal.toLocaleString()} database entries`,
+                      })}{" "}
+                      →
+                    </Link>
                   </div>
                 )}
 
