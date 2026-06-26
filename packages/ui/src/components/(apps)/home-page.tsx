@@ -117,13 +117,6 @@ export function createHomePage(appConfig: AppConfig) {
       );
     }
     const dbHrefs = new Set(dbSections.map((s) => s.href));
-    const dbTotal = dbSections.reduce(
-      (sum, s) =>
-        sum +
-        (dbCounts.get(s.type) ?? 0) +
-        (s.extraTypes ?? []).reduce((a, t) => a + (dbCounts.get(t) ?? 0), 0),
-      0,
-    );
 
     const features =
       appConfig.internalLinks
@@ -505,58 +498,56 @@ export function createHomePage(appConfig: AppConfig) {
                       Database
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
-                      {dbSections.map((section) => {
-                        const count =
-                          (dbCounts.get(section.type) ?? 0) +
-                          (section.extraTypes ?? []).reduce(
-                            (sum, ty) => sum + (dbCounts.get(ty) ?? 0),
-                            0,
-                          );
-                        const title = section.titleKey
-                          ? resolveDbText(section.titleKey)
-                          : (section.titleFallback ?? section.type);
-                        const desc = section.description
-                          ? resolveDbText(section.description)
-                          : undefined;
-                        return (
-                          <Link
-                            key={section.href}
-                            href={localizePath(section.href, locale)}
-                            className="group relative border border-slate-800 hover:border-amber-800/50 rounded-lg p-5 transition-all hover:bg-slate-900/50"
-                          >
-                            <div className="flex items-start gap-3">
-                              <span className="text-2xl mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity">
-                                {section.icon}
-                              </span>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between">
-                                  <h3 className="text-lg font-semibold group-hover:text-amber-400 transition-colors">
-                                    {title}
-                                  </h3>
-                                  <span className="text-xs text-muted-foreground tabular-nums">
-                                    {count}
-                                  </span>
+                      {dbSections
+                        .slice(0, MAX_HOME_MAP_CARDS)
+                        .map((section) => {
+                          const count =
+                            (dbCounts.get(section.type) ?? 0) +
+                            (section.extraTypes ?? []).reduce(
+                              (sum, ty) => sum + (dbCounts.get(ty) ?? 0),
+                              0,
+                            );
+                          const title = section.titleKey
+                            ? resolveDbText(section.titleKey)
+                            : (section.titleFallback ?? section.type);
+                          const desc = section.description
+                            ? resolveDbText(section.description)
+                            : undefined;
+                          return (
+                            <Link
+                              key={section.href}
+                              href={localizePath(section.href, locale)}
+                              className="group relative border border-slate-800 hover:border-amber-800/50 rounded-lg p-5 transition-all hover:bg-slate-900/50"
+                            >
+                              <div className="flex items-start gap-3">
+                                <span className="text-2xl mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity">
+                                  {section.icon}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-semibold group-hover:text-amber-400 transition-colors">
+                                      {title}
+                                    </h3>
+                                    <span className="text-xs text-muted-foreground tabular-nums">
+                                      {count}
+                                    </span>
+                                  </div>
+                                  {desc && (
+                                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                      {desc}
+                                    </p>
+                                  )}
                                 </div>
-                                {desc && (
-                                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                                    {desc}
-                                  </p>
-                                )}
                               </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                            </Link>
+                          );
+                        })}
                     </div>
                     <Link
                       href={localizePath("/db", locale)}
                       className="inline-flex items-center gap-2 rounded-md border border-muted/50 px-4 py-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
                     >
-                      {t("db.viewAll", {
-                        vars: { count: dbTotal.toLocaleString() },
-                        fallback: `View all ${dbTotal.toLocaleString()} database entries`,
-                      })}{" "}
-                      →
+                      {t("db.viewAll", { fallback: "View all database" })} →
                     </Link>
                   </div>
                 )}
