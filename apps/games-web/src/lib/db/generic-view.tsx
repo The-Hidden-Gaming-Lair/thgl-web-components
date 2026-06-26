@@ -89,6 +89,23 @@ function isCraftable(v: unknown): v is Craftable {
   );
 }
 
+/** A labelled icon variant (e.g. a familiar's skin recolours), produced by data-forge. */
+type Variant = { label: string; icon: IconSprite };
+function isVariantArray(v: unknown): v is Variant[] {
+  return (
+    Array.isArray(v) &&
+    v.length > 0 &&
+    v.every(
+      (e) =>
+        typeof e === "object" &&
+        e !== null &&
+        typeof (e as Variant).label === "string" &&
+        typeof (e as Variant).icon === "object" &&
+        (e as Variant).icon !== null,
+    )
+  );
+}
+
 /**
  * Universal detail view for a generic database entry — used by the tenant-
  * resolved `/db/[section]/[id]` route (Gothic, etc.) and Drakantos.
@@ -149,6 +166,8 @@ export function GenericEntityView({
   const droppedBy = asDbRefList(props?.droppedBy); // item → creatures
   const ingredients = asDbRefList(props?.ingredients); // crafted item → its ingredients
   const usedToCraft = asDbRefList(props?.usedToCraft); // ingredient → items it crafts
+  // Labelled icon variants (e.g. a familiar's skin recolours) → own gallery section.
+  const variants = isVariantArray(props?.variants) ? props.variants : undefined;
   // Rarity/value-tier pill, rendered next to the name.
   const rarity = isRarity(props?.rarity) ? props.rarity : undefined;
   // "Craftable at <station>" provenance line.
@@ -171,7 +190,8 @@ export function GenericEntityView({
       k !== "drops" &&
       k !== "droppedBy" &&
       k !== "ingredients" &&
-      k !== "usedToCraft",
+      k !== "usedToCraft" &&
+      k !== "variants",
   );
   // Any remaining prop whose value is a DbRef (single or array) — e.g. a recipe's
   // `Tool` or a codex entry's `documents` — renders as a labeled link section, not
@@ -277,6 +297,29 @@ export function GenericEntityView({
       {hasDesc && (
         <div className="mb-6 text-sm leading-relaxed whitespace-pre-line max-w-3xl">
           {desc}
+        </div>
+      )}
+
+      {variants && (
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Variants
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {variants.map((v) => (
+              <div key={v.label} className="flex flex-col items-center gap-1">
+                <div className="p-2 border border-slate-700 rounded bg-slate-900/60">
+                  <SpriteIcon
+                    icon={v.icon}
+                    appName={appName}
+                    size={56}
+                    iconsHash={iconsHash}
+                  />
+                </div>
+                <span className="text-[11px] text-slate-300">{v.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
