@@ -543,12 +543,14 @@ export function createHomePage(appConfig: AppConfig) {
                           );
                         })}
                     </div>
-                    <Link
-                      href={localizePath("/db", locale)}
-                      className="inline-flex items-center gap-2 rounded-md border border-muted/50 px-4 py-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
-                    >
-                      {t("db.viewAll", { fallback: "View all database" })} →
-                    </Link>
+                    {dbSections.length > MAX_HOME_MAP_CARDS && (
+                      <Link
+                        href={localizePath("/db", locale)}
+                        className="inline-flex items-center gap-2 rounded-md border border-muted/50 px-4 py-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
+                      >
+                        {t("db.viewAll", { fallback: "View all database" })} →
+                      </Link>
+                    )}
                   </div>
                 )}
 
