@@ -157,7 +157,10 @@ export const games: Array<Game> = [
       games: [
         {
           title: "Subnautica 2",
-          processNames: ["Subnautica2-Win64-Shipping.exe"],
+          processNames: [
+            "Subnautica2-Win64-Shipping.exe",
+            "Subnautica2-WinGDK-Shipping.exe",
+          ],
         },
       ],
       defaultHotkeys: {
