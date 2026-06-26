@@ -253,7 +253,10 @@ export async function DatabaseEntryContent({
           id: i.id,
           icon: i.icon,
           groupId: i.groupId,
-          props: { bonuses: (specFull?.props as any)?.bonuses ?? [] },
+          props: {
+            bonuses: (specFull?.props as any)?.bonuses ?? [],
+            descParams: (specFull?.props as any)?.descParams,
+          },
         };
       }
       return {

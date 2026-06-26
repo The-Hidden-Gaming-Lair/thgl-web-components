@@ -43,6 +43,9 @@ type FactionProps = {
       activationLevel?: number;
     }[];
   }[];
+  /** For specializations: authoritative `{N}` values resolved from the
+   *  tooltip-script args (preferred over the bonus-param scan when present). */
+  descParams?: number[];
 };
 
 type IconSprite = {
@@ -56,7 +59,17 @@ type IconSprite = {
 function substituteTemplate(
   text: string,
   bonuses?: FactionProps["bonuses"],
+  descParams?: number[],
 ): string {
+  // Authoritative pre-resolved values (specializations) win over the heuristic
+  // bonus-param scan — the latter can't see script literals / level steps.
+  if (descParams && descParams.length > 0) {
+    let result = text;
+    for (let i = 0; i < descParams.length; i++) {
+      result = result.replace(`{${i}}`, String(descParams[i]));
+    }
+    return result.replace(/\{(\d+)\}/g, "");
+  }
   if (!bonuses || bonuses.length === 0) return text;
   const values: string[] = [];
   for (const bonus of bonuses) {
@@ -124,7 +137,9 @@ export function FactionView({
   const isFaction = !!props.biome;
   const isSpecialization = !isFaction && !isFactionLaw;
   const resolvedDesc =
-    desc !== name ? substituteTemplate(desc, props.bonuses) : "";
+    desc !== name
+      ? substituteTemplate(desc, props.bonuses, props.descParams)
+      : "";
 
   if (isSpecialization) {
     return (

@@ -437,35 +437,50 @@ export async function GET(request: Request) {
           const specEntry = specsCat.items.find(
             (i: any) => i.id === p.specialization,
           );
-          const specBonuses = ((specEntry?.props as any)?.bonuses ?? []) as {
-            params?: (string | number)[];
-            upgrade?: { increment: number; levelStep?: number };
-          }[];
+          // Prefer the authoritative tooltip-script values resolved at
+          // extraction time (level steps / script literals the bonus-param
+          // scan can't see — otherwise Dhüvri reads "every 1 hero level").
+          const specPre = (specEntry?.props as any)?.descParams as
+            | number[]
+            | undefined;
           const values: string[] = [];
-          for (const b of specBonuses) {
-            for (const param of b.params ?? []) {
-              const n = parseFloat(String(param));
-              if (
-                !isNaN(n) &&
-                n !== 0 &&
-                String(param) !== "true" &&
-                String(param) !== "false"
-              ) {
-                const abs = Math.abs(n);
-                values.push(
-                  abs > 0 && abs < 1 ? `${Math.round(abs * 100)}` : String(abs),
-                );
+          if (Array.isArray(specPre) && specPre.length > 0) {
+            values.push(...specPre.map((n) => String(n)));
+          } else {
+            const specBonuses = ((specEntry?.props as any)?.bonuses ?? []) as {
+              params?: (string | number)[];
+              upgrade?: { increment: number; levelStep?: number };
+            }[];
+            for (const b of specBonuses) {
+              for (const param of b.params ?? []) {
+                const n = parseFloat(String(param));
+                if (
+                  !isNaN(n) &&
+                  n !== 0 &&
+                  String(param) !== "true" &&
+                  String(param) !== "false"
+                ) {
+                  const abs = Math.abs(n);
+                  values.push(
+                    abs > 0 && abs < 1
+                      ? `${Math.round(abs * 100)}`
+                      : String(abs),
+                  );
+                }
               }
-            }
-            if (b.upgrade) {
-              const inc = b.upgrade.increment;
-              if (inc !== 0) {
-                const abs = Math.abs(inc);
-                values.push(
-                  abs > 0 && abs < 1 ? `${Math.round(abs * 100)}` : String(abs),
-                );
+              if (b.upgrade) {
+                const inc = b.upgrade.increment;
+                if (inc !== 0) {
+                  const abs = Math.abs(inc);
+                  values.push(
+                    abs > 0 && abs < 1
+                      ? `${Math.round(abs * 100)}`
+                      : String(abs),
+                  );
+                }
+                if (b.upgrade.levelStep)
+                  values.push(String(b.upgrade.levelStep));
               }
-              if (b.upgrade.levelStep) values.push(String(b.upgrade.levelStep));
             }
           }
           const filled = stripHtml(rawSpecDesc).replace(

@@ -42,22 +42,43 @@ type SpecBonus = {
   upgrade?: { increment: number; levelStep?: number };
 };
 
-function substituteSpecTemplate(text: string, bonuses?: SpecBonus[]): string {
+function substituteSpecTemplate(
+  text: string,
+  bonuses?: SpecBonus[],
+  descParams?: number[],
+): string {
+  // Authoritative tooltip-script values win over the heuristic param scan.
+  if (descParams && descParams.length > 0) {
+    let result = text;
+    for (let i = 0; i < descParams.length; i++) {
+      result = result.replace(`{${i}}`, String(descParams[i]));
+    }
+    return result.replace(/\{(\d+)\}/g, "");
+  }
   if (!bonuses || bonuses.length === 0) return text.replace(/\{(\d+)\}/g, "");
   const values: string[] = [];
   for (const bonus of bonuses) {
     for (const p of bonus.params) {
       const num = parseFloat(String(p));
-      if (!isNaN(num) && num !== 0 && String(p) !== "true" && String(p) !== "false") {
+      if (
+        !isNaN(num) &&
+        num !== 0 &&
+        String(p) !== "true" &&
+        String(p) !== "false"
+      ) {
         const abs = Math.abs(num);
-        values.push(abs > 0 && abs < 1 ? String(Math.round(abs * 100)) : String(abs));
+        values.push(
+          abs > 0 && abs < 1 ? String(Math.round(abs * 100)) : String(abs),
+        );
       }
     }
     if (bonus.upgrade) {
       const inc = bonus.upgrade.increment;
       if (inc !== 0) {
         const abs = Math.abs(inc);
-        values.push(abs > 0 && abs < 1 ? String(Math.round(abs * 100)) : String(abs));
+        values.push(
+          abs > 0 && abs < 1 ? String(Math.round(abs * 100)) : String(abs),
+        );
       }
       if (bonus.upgrade.levelStep) values.push(String(bonus.upgrade.levelStep));
     }
@@ -90,7 +111,10 @@ export function HeroView({
 }) {
   const resourceIcons = buildResourceIconLookup(database);
   const specName = props.specialization
-    ? resolveDict(dict, `${props.specialization.replace("_specialization", "")}_spec`)
+    ? resolveDict(
+        dict,
+        `${props.specialization.replace("_specialization", "")}_spec`,
+      )
     : undefined;
   // Prefer the full `<id>_specialization_desc` over the shorter `_spec_desc`.
   // The two can disagree (e.g. Merry Elias's short description says
@@ -105,20 +129,34 @@ export function HeroView({
         return resolveDict(dict, `${baseId}_spec_desc`);
       })()
     : undefined;
-  const specBonuses = props.specialization
+  const specProps = props.specialization
     ? ((database
         .find((c: any) => c.type === "specializations")
-        ?.items?.find((i: any) => i.id === props.specialization)?.props as any)
-        ?.bonuses as { params: (string | number)[]; upgrade?: { increment: number; levelStep?: number } }[] | undefined)
+        ?.items?.find((i: any) => i.id === props.specialization)
+        ?.props as any) ?? undefined)
     : undefined;
+  const specBonuses = specProps?.bonuses as
+    | {
+        params: (string | number)[];
+        upgrade?: { increment: number; levelStep?: number };
+      }[]
+    | undefined;
+  const specDescParams = specProps?.descParams as number[] | undefined;
   const specDesc = rawSpecDesc
-    ? substituteSpecTemplate(rawSpecDesc, specBonuses)
+    ? substituteSpecTemplate(rawSpecDesc, specBonuses, specDescParams)
     : undefined;
 
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-4">
-        {icon && <SpriteIcon icon={icon} appName={APP_NAME} size={64} iconsHash={iconsHash} />}
+        {icon && (
+          <SpriteIcon
+            icon={icon}
+            appName={APP_NAME}
+            size={64}
+            iconsHash={iconsHash}
+          />
+        )}
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -129,9 +167,12 @@ export function HeroView({
                   : "bg-indigo-900/40 text-indigo-400 border-indigo-800/50"
               }`}
             >
-              {props.classType === "might" ? resolveDict(dict, "ui.might") : resolveDict(dict, "ui.magic_class")}
+              {props.classType === "might"
+                ? resolveDict(dict, "ui.might")
+                : resolveDict(dict, "ui.magic_class")}
             </span>
-            <Link prefetch={false}
+            <Link
+              prefetch={false}
               href={localizePath(`/db/factions/${props.faction}`, locale)}
               className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
             >
@@ -156,10 +197,34 @@ export function HeroView({
       )}
 
       <div className="grid grid-cols-4 gap-1">
-        <StatBox label={resolveDict(dict, "ui.offence")} value={props.offence} color="text-red-400" mechanicKey="offence" locale={locale} />
-        <StatBox label={resolveDict(dict, "ui.def")} value={props.defence} color="text-blue-400" mechanicKey="defence" locale={locale} />
-        <StatBox label={resolveDict(dict, "ui.spell_power")} value={props.spellPower} color="text-purple-400" mechanicKey="spellpower" locale={locale} />
-        <StatBox label={resolveDict(dict, "ui.intelligence")} value={props.intelligence} color="text-cyan-400" mechanicKey="intelligence" locale={locale} />
+        <StatBox
+          label={resolveDict(dict, "ui.offence")}
+          value={props.offence}
+          color="text-red-400"
+          mechanicKey="offence"
+          locale={locale}
+        />
+        <StatBox
+          label={resolveDict(dict, "ui.def")}
+          value={props.defence}
+          color="text-blue-400"
+          mechanicKey="defence"
+          locale={locale}
+        />
+        <StatBox
+          label={resolveDict(dict, "ui.spell_power")}
+          value={props.spellPower}
+          color="text-purple-400"
+          mechanicKey="spellpower"
+          locale={locale}
+        />
+        <StatBox
+          label={resolveDict(dict, "ui.intelligence")}
+          value={props.intelligence}
+          color="text-cyan-400"
+          mechanicKey="intelligence"
+          locale={locale}
+        />
       </div>
 
       {specName && specName !== props.specialization && (
@@ -169,8 +234,12 @@ export function HeroView({
               {resolveDict(dict, "ui.specialization")}
             </h2>
             {props.specialization && (
-              <Link prefetch={false}
-                href={localizePath(`/db/factions/${props.specialization}`, locale)}
+              <Link
+                prefetch={false}
+                href={localizePath(
+                  `/db/factions/${props.specialization}`,
+                  locale,
+                )}
                 className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
               >
                 {resolveDict(dict, "ui.view_details")}
@@ -235,10 +304,7 @@ export function HeroView({
               const maxWeight = props.skillWeights![0].weight;
               const barWidth = (sw.weight / maxWeight) * 100;
               return (
-                <div
-                  key={sw.skill}
-                  className="flex items-center gap-2 text-sm"
-                >
+                <div key={sw.skill} className="flex items-center gap-2 text-sm">
                   <div className="w-36 shrink-0">
                     <EntityLink
                       itemId={sw.skill}
@@ -285,25 +351,44 @@ export function HeroView({
                   for (const b of ult.bonuses ?? []) {
                     for (const p of b.params ?? []) {
                       const n = parseFloat(String(p));
-                      if (!isNaN(n) && n !== 0 && String(p) !== "true" && String(p) !== "false") {
+                      if (
+                        !isNaN(n) &&
+                        n !== 0 &&
+                        String(p) !== "true" &&
+                        String(p) !== "false"
+                      ) {
                         const abs = Math.abs(n);
-                        vals.push(abs > 0 && abs < 1 ? `${Math.round(abs * 100)}%` : String(abs));
+                        vals.push(
+                          abs > 0 && abs < 1
+                            ? `${Math.round(abs * 100)}%`
+                            : String(abs),
+                        );
                       }
                     }
                   }
-                  ultDesc = ultDesc.replace(/\{(\d+)\}/g, (_, idx) => vals[parseInt(idx)] ?? "");
+                  ultDesc = ultDesc.replace(
+                    /\{(\d+)\}/g,
+                    (_, idx) => vals[parseInt(idx)] ?? "",
+                  );
                 }
                 return (
-                  <div key={ult.id} className="border border-slate-800/60 rounded-lg bg-slate-900/20 p-3 space-y-1.5">
+                  <div
+                    key={ult.id}
+                    className="border border-slate-800/60 rounded-lg bg-slate-900/20 p-3 space-y-1.5"
+                  >
                     <div className="font-medium">{ultName}</div>
                     {hasDesc && (
                       <p className="text-xs text-muted-foreground">{ultDesc}</p>
                     )}
                     <div className="flex items-center gap-1 flex-wrap">
-                      <span className="text-xs text-muted-foreground shrink-0">Requires:</span>
+                      <span className="text-xs text-muted-foreground shrink-0">
+                        Requires:
+                      </span>
                       {ult.requiredSkills.map((req: any, ri: number) => (
                         <span key={ri} className="inline-flex items-center">
-                          {ri > 0 && <span className="text-slate-600 mx-0.5">·</span>}
+                          {ri > 0 && (
+                            <span className="text-slate-600 mx-0.5">·</span>
+                          )}
                           <EntityLink
                             itemId={req.skill}
                             database={database}
@@ -315,7 +400,9 @@ export function HeroView({
                           />
                         </span>
                       ))}
-                      <span className="text-xs text-muted-foreground">(all Lv.{ult.requiredSkills[0]?.level})</span>
+                      <span className="text-xs text-muted-foreground">
+                        (all Lv.{ult.requiredSkills[0]?.level})
+                      </span>
                     </div>
                   </div>
                 );
@@ -345,7 +432,9 @@ function StatBox({
     <div className="bg-slate-900/50 border border-slate-800 rounded px-3 py-2 text-center">
       <div className="text-xs uppercase tracking-wider text-muted-foreground">
         {mechanicKey ? (
-          <MechanicTerm termKey={mechanicKey} locale={locale}>{label}</MechanicTerm>
+          <MechanicTerm termKey={mechanicKey} locale={locale}>
+            {label}
+          </MechanicTerm>
         ) : (
           label
         )}
