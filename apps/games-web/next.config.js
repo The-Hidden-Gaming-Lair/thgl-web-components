@@ -105,7 +105,24 @@ const nextConfig = (phase) => ({
         value: "public, s-maxage=60, stale-while-revalidate=300",
       },
     ];
+    // Baseline security headers applied to every response. Deliberately
+    // conservative: HSTS + nosniff + a private-friendly Referrer-Policy are
+    // safe network-wide. We intentionally OMIT a Content-Security-Policy and
+    // X-Frame-Options here — a strict CSP would break the Nitropay/GPT ad
+    // stack (dozens of third-party origins) and X-Frame-Options would break
+    // the desktop/overlay WebView that embeds tenant pages in an iframe.
+    // includeSubDomains is safe (every *.th.gl host is already HTTPS); we
+    // skip `preload` to avoid the irreversible preload-list commitment.
+    const securityHeaders = [
+      {
+        key: "Strict-Transport-Security",
+        value: "max-age=63072000; includeSubDomains",
+      },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    ];
     const rules = [
+      { source: "/:path*", headers: securityHeaders },
       { source: "/:path*", headers: pageCache },
       { source: "/dashboard/:path*", headers: shortCache },
       { source: "/:locale/dashboard/:path*", headers: shortCache },

@@ -33,7 +33,9 @@ export function Header() {
           />
           TH.GL
         </Link>
-        <Links appConfig={appConfig} hasMap={false} />
+        {/* Marketing site has no /maps or /guides routes — hide both nav
+            links so they don't 404 (the "All Guides" link defaults on). */}
+        <Links appConfig={appConfig} hasMap={false} hasGuides={false} />
         <div className="flex shrink-0">
           <GlobalSearch blogMeta={blogSearchMeta} faqMeta={faqSearchMeta} />
         </div>

@@ -5,7 +5,9 @@ export const hogwartsLegacy: AppConfig = {
   title: "Hogwarts Legacy",
   domain: "hogwarts",
   supportedLocales: ["en"],
-  appUrl: "https://www.overwolf.com/app/Leon_Machens-Hogwarts.gg",
+  // The Hogwarts Legacy Overwolf app was deprecated; the game is now supported
+  // via the THGL Companion App (same as Avowed). The old Overwolf URL 404s.
+  appUrl: "https://www.th.gl/companion-app",
   markerOptions: {
     radius: 6,
     playerIcon: "player.webp",

@@ -2,6 +2,7 @@ import { Game } from "@repo/lib";
 import { Badge, Card } from "@repo/ui/controls";
 import Image from "next/image";
 import Link from "next/link";
+import { GamePreviewImage } from "./game-preview-image";
 
 export function GameCard({ game }: { game: Game }) {
   const previewImageUrl = game.web ? `${game.web}/opengraph-image.jpg` : null;
@@ -16,12 +17,10 @@ export function GameCard({ game }: { game: Game }) {
         {/* Preview Image with Overlapping Metadata */}
         <div className="relative aspect-1200/700 w-full bg-muted overflow-hidden">
           {previewImageUrl ? (
-            <Image
-              src={previewImageUrl}
-              alt={`${game.title} map preview`}
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 33vw, 450px"
+            <GamePreviewImage
+              previewUrl={previewImageUrl}
+              logo={game.logo}
+              title={game.title}
             />
           ) : (
             /* Fallback to logo-only when no preview */

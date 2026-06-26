@@ -30,11 +30,14 @@ export function createGuidesPageGenerateMetadata(appConfig: AppConfig) {
     const dict = await getStaticDictionary(appConfig.name, locale);
     const t = getT(dict);
 
-    const features =
-      appConfig.internalLinks
-        ?.slice(0, 3)
-        .map((link) => t(link.title))
-        .join(", ") ?? "";
+    // "…including {{features}}, and more." Prefer curated internalLinks; fall
+    // back to the game's keywords so the list is never empty ("…including ,
+    // and more.") for games without internalLinks.
+    const featureSource =
+      appConfig.internalLinks && appConfig.internalLinks.length > 0
+        ? appConfig.internalLinks.slice(0, 3).map((link) => t(link.title))
+        : appConfig.keywords.slice(0, 3).map((k) => t(k));
+    const features = featureSource.join(", ");
 
     const title = t("guides.pageTitle", { vars: { title: appConfig.title } });
     const description = t("guides.intro", {

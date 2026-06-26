@@ -36,11 +36,15 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
     const dict = await getStaticDictionary(appConfig.name, locale);
     const t = getT(dict);
 
-    const features =
-      appConfig.internalLinks
-        ?.slice(0, 3)
-        .map((link) => t(link.title))
-        .join(", ") ?? "";
+    // Featured sections for the "Explore {{features}} in {{title}}…" meta
+    // description. Prefer curated internalLinks; fall back to the game's
+    // keywords so games without internalLinks (e.g. Avowed, Satisfactory)
+    // never render an empty slot ("Explore  in {{title}}…").
+    const featureSource =
+      appConfig.internalLinks && appConfig.internalLinks.length > 0
+        ? appConfig.internalLinks.slice(0, 3).map((link) => t(link.title))
+        : appConfig.keywords.slice(0, 3).map((k) => t(k));
+    const features = featureSource.join(", ");
 
     const keywords =
       appConfig.keywords
