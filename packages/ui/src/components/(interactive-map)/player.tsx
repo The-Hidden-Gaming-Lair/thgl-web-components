@@ -121,12 +121,49 @@ export function Player({
       return;
     }
 
+    // This effect re-runs on map/player mapName changes and `run()` is async
+    // (it awaits the icon image load), so guard against a stale in-flight run
+    // mutating the marker after this effect has been cleaned up / superseded.
+    let cancelled = false;
+
     const run = async () => {
-      const iconImage = await buildIconImage(
-        iconUrl,
-        colorBlindMode,
-        colorBlindSeverity,
-      );
+      // Load the player icon. Previously this `await` could reject (image
+      // `onerror` — a transient network failure, a cached 404, or a CORS-tainted
+      // cached response since the image uses crossOrigin) and `run()` rejected
+      // UNHANDLED — so the marker was never created and the player icon silently
+      // failed to appear (intermittently, on restart). Catch it, log it, and
+      // retry once with a cache-busted URL to bypass a poisoned cache entry.
+      let iconImage: HTMLImageElement;
+      try {
+        iconImage = await buildIconImage(
+          iconUrl,
+          colorBlindMode,
+          colorBlindSeverity,
+        );
+      } catch (err) {
+        if (cancelled) return;
+        const retryUrl =
+          iconUrl + (iconUrl.includes("?") ? "&" : "?") + "r=" + Date.now();
+        console.warn(
+          `[player] icon load failed for ${iconUrl}; retrying with ${retryUrl}`,
+          err,
+        );
+        try {
+          iconImage = await buildIconImage(
+            retryUrl,
+            colorBlindMode,
+            colorBlindSeverity,
+          );
+        } catch (err2) {
+          console.error(
+            `[player] icon load failed again for ${iconUrl}; player marker not drawn`,
+            err2,
+          );
+          return;
+        }
+      }
+
+      if (cancelled) return;
 
       const tile = tilesConfig[map.mapName];
       const rotationOffset = tile?.rotation?.angle;
@@ -173,6 +210,7 @@ export function Player({
     run();
 
     return () => {
+      cancelled = true;
       marker.current?.remove();
       marker.current = null;
     };
@@ -182,11 +220,17 @@ export function Player({
   useEffect(() => {
     if (!marker.current) return;
     const run = async () => {
-      const iconImage = await buildIconImage(
-        iconUrl,
-        colorBlindMode,
-        colorBlindSeverity,
-      );
+      let iconImage: HTMLImageElement;
+      try {
+        iconImage = await buildIconImage(
+          iconUrl,
+          colorBlindMode,
+          colorBlindSeverity,
+        );
+      } catch (err) {
+        console.warn(`[player] icon reload failed for ${iconUrl}`, err);
+        return; // keep the existing icon rather than rejecting unhandled
+      }
       marker.current?.setIcon(iconImage);
       const size = Math.max(10, Math.round(iconSize[0]));
       marker.current?.setSize(size);
