@@ -769,6 +769,19 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "neverness-to-everness",
+    discordId: "neverness-to-everness",
+    title: "Neverness To Everness",
+    logo: `${TH_GL_URL}/global_icons/neverness-to-everness.webp`,
+    web: "https://nte.th.gl",
+    markerOptions: {
+      radius: 6,
+      playerIcon: "player.webp",
+      imageSprite: true,
+    },
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "diablo4",
     discordId: "diablo4",
     title: "Diablo IV",

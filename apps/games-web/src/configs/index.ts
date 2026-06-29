@@ -13,6 +13,7 @@ import { grounded2 } from "./grounded2";
 import { hogwartsLegacy } from "./hogwarts-legacy";
 import { hommOldenEra } from "./homm-olden-era";
 import { infinityNikki } from "./infinity-nikki";
+import { nevernessToEverness } from "./neverness-to-everness";
 import { nightCrows } from "./night-crows";
 import { onceHuman } from "./once-human";
 import { palia } from "./palia";
@@ -49,6 +50,7 @@ const ALL_CONFIGS: AppConfig[] = [
   hogwartsLegacy,
   hommOldenEra,
   infinityNikki,
+  nevernessToEverness,
   nightCrows,
   onceHuman,
   palia,
