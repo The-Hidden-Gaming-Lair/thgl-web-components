@@ -150,8 +150,8 @@ export function MarkersFilters({
           className={cn(
             "relative flex items-center h-7 rounded-sm border transition-colors",
             isFiltering
-              ? "border-primary/50 bg-background"
-              : "border-input/40 bg-background/40 focus-within:border-ring focus-within:bg-background",
+              ? "border-primary/50 bg-input/30"
+              : "border-input/40 bg-input/30 focus-within:border-ring",
           )}
         >
           <ListFilter
