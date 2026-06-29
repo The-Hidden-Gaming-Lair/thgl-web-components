@@ -1,5 +1,5 @@
 import { REGION_FILTERS, useCoordinates } from "../(providers)";
-import { useUserStore } from "../(providers)";
+import { useUserStore, useT } from "../(providers)";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -8,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Checkbox } from "../ui/checkbox";
 import {
   ChevronRight,
   RotateCw,
@@ -18,9 +17,13 @@ import {
   Share2,
   Upload,
   GripVertical,
+  Filter,
+  Maximize2,
+  Bell,
 } from "lucide-react";
 import { Input } from "../ui/input";
 import {
+  cn,
   useSettingsStore,
   openFileOrFiles,
   type FilterPreset,
@@ -58,6 +61,7 @@ const sizeMapEq = (a: Map<string, number>, b: Map<string, number>) => {
 };
 
 export function Presets(): JSX.Element {
+  const t = useT();
   const coordinates = useCoordinates();
   const { setFilters, filters, globalFilters, setGlobalFilters } =
     useUserStore();
@@ -106,6 +110,45 @@ export function Presets(): JSX.Element {
   const currentActive = useMemo(
     () => new Set([...filters, ...globalFilters]),
     [filters, globalFilters],
+  );
+
+  // The "Default" filter set, hoisted so the toolbar can both apply it and
+  // detect when it's the active selection.
+  const defaultFilters = useMemo(
+    () => [
+      ...coordinates.filters.flatMap((filter) =>
+        filter.defaultOn
+          ? filter.values
+              .filter((value) => value.defaultOn !== false)
+              .map((value) => value.id)
+          : [],
+      ),
+      ...REGION_FILTERS.map((filter) => filter.id),
+    ],
+    [coordinates.filters],
+  );
+
+  // Which of the All / None / Default presets matches the current selection,
+  // so the toolbar can highlight it (mirrors how saved presets show "active").
+  const isAllActive = useMemo(
+    () =>
+      setEq(
+        currentActive,
+        new Set([...coordinates.allFilters, ...allGlobalFilters]),
+      ),
+    [currentActive, coordinates.allFilters, allGlobalFilters],
+  );
+  const isNoneActive = useMemo(
+    () => setEq(currentActive, new Set(defaultGlobalFilters)),
+    [currentActive, defaultGlobalFilters],
+  );
+  const isDefaultActive = useMemo(
+    () =>
+      setEq(
+        currentActive,
+        new Set([...defaultFilters, ...defaultGlobalFilters]),
+      ),
+    [currentActive, defaultFilters, defaultGlobalFilters],
   );
 
   const splitFilters = (ids: string[]) => {
@@ -242,9 +285,11 @@ export function Presets(): JSX.Element {
   const presetSummary = (preset: string[] | FilterPreset) => {
     const normalized = normalize(preset);
     const parts: string[] = [];
-    if (normalized.filters) parts.push("Filters");
-    if (normalized.iconSizeByGroup !== undefined) parts.push("Sizes");
-    if (normalized.audioAlertByFilter !== undefined) parts.push("Alerts");
+    if (normalized.filters) parts.push(t("presets.cat.filters"));
+    if (normalized.iconSizeByGroup !== undefined)
+      parts.push(t("presets.cat.sizes"));
+    if (normalized.audioAlertByFilter !== undefined)
+      parts.push(t("presets.cat.alerts"));
     return parts.join(" · ");
   };
 
@@ -290,14 +335,15 @@ export function Presets(): JSX.Element {
               "audioAlertByFilter",
             ].some((key) => key in raw));
         if (!isPresetShape) {
-          toast.error("That file isn't a preset");
+          toast.error(t("presets.toast.notPreset"));
           return;
         }
         const preset: FilterPreset = Array.isArray(raw)
           ? { filters: raw }
           : raw;
-        let name = String(data?.name ?? "Imported preset").trim();
-        if (!name) name = "Imported preset";
+        const defaultName = t("presets.importedName");
+        let name = String(data?.name ?? defaultName).trim();
+        if (!name) name = defaultName;
         // Don't clobber an existing preset of the same name — suffix instead.
         if (Object.prototype.hasOwnProperty.call(presets, name)) {
           let suffix = 2;
@@ -309,10 +355,10 @@ export function Presets(): JSX.Element {
           name = `${name} (${suffix})`;
         }
         addPreset(name, preset);
-        toast(`Imported preset: ${name}`);
+        toast(t("presets.toast.imported", { vars: { name } }));
       } catch (error) {
         console.error(error);
-        toast.error("Invalid preset file");
+        toast.error(t("presets.toast.invalid"));
       }
     });
     reader.readAsText(file);
@@ -346,47 +392,54 @@ export function Presets(): JSX.Element {
   return (
     <div className="flex items-center px-1.5 py-0.5 gap-0.5">
       <button
-        className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-1 transition-colors uppercase tracking-wide"
+        className={cn(
+          "text-[10px] px-2 py-1.5 rounded-sm transition-colors uppercase tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+          isAllActive
+            ? "text-primary"
+            : "text-muted-foreground hover:text-primary",
+        )}
+        aria-pressed={isAllActive}
         onClick={() => {
           setFilters(coordinates.allFilters);
           setGlobalFilters(allGlobalFilters);
         }}
         type="button"
       >
-        All
+        {t("presets.all")}
       </button>
       <div className="w-px h-3 bg-border/50" />
       <button
-        className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-1 transition-colors uppercase tracking-wide"
+        className={cn(
+          "text-[10px] px-2 py-1.5 rounded-sm transition-colors uppercase tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+          isNoneActive
+            ? "text-primary"
+            : "text-muted-foreground hover:text-primary",
+        )}
+        aria-pressed={isNoneActive}
         onClick={() => {
           setFilters([]);
           setGlobalFilters(defaultGlobalFilters);
         }}
         type="button"
       >
-        None
+        {t("presets.none")}
       </button>
       <div className="w-px h-3 bg-border/50" />
       <button
-        className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-1 transition-colors uppercase tracking-wide"
+        className={cn(
+          "text-[10px] px-2 py-1.5 rounded-sm transition-colors uppercase tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+          isDefaultActive
+            ? "text-primary"
+            : "text-muted-foreground hover:text-primary",
+        )}
+        aria-pressed={isDefaultActive}
         onClick={() => {
           setGlobalFilters(defaultGlobalFilters);
-
-          const defaultFilters = [
-            ...coordinates.filters.flatMap((filter) =>
-              filter.defaultOn
-                ? filter.values
-                    .filter((value) => value.defaultOn !== false)
-                    .map((value) => value.id)
-                : [],
-            ),
-            ...REGION_FILTERS.map((filter) => filter.id),
-          ];
           setFilters(defaultFilters);
         }}
         type="button"
       >
-        Default
+        {t("presets.default")}
       </button>
       <div className="grow" />
       <DropdownMenu
@@ -396,10 +449,10 @@ export function Presets(): JSX.Element {
       >
         <DropdownMenuTrigger asChild>
           <button
-            className="flex items-center text-[10px] text-muted-foreground hover:text-primary px-1.5 py-1 transition-colors uppercase tracking-wide"
+            className="flex items-center text-[10px] text-muted-foreground hover:text-primary px-2 py-1.5 rounded-sm transition-colors uppercase tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             type="button"
           >
-            Presets
+            {t("presets.title")}
             <ChevronRight className="ml-0.5 h-2.5 w-2.5 shrink-0" />
           </button>
         </DropdownMenuTrigger>
@@ -436,13 +489,16 @@ export function Presets(): JSX.Element {
                   onDragEnd={clearDrag}
                   onPointerDown={(event) => event.stopPropagation()}
                   className="shrink-0 cursor-grab px-0.5 text-muted-foreground hover:text-foreground"
-                  title="Drag to reorder"
-                  aria-label="Drag to reorder"
+                  title={t("presets.tooltip.drag")}
+                  aria-label={t("presets.tooltip.drag")}
                 >
                   <GripVertical className="h-4 w-4" />
                 </span>
                 <DropdownMenuItem
-                  onClick={() => applyPreset(preset)}
+                  onClick={() => {
+                    applyPreset(preset);
+                    toast(t("presets.applied", { vars: { name } }));
+                  }}
                   className="grow gap-2 min-w-0"
                 >
                   <span
@@ -458,7 +514,7 @@ export function Presets(): JSX.Element {
                       {name}
                     </span>
                     <span className="truncate text-[10px] text-muted-foreground uppercase tracking-wide">
-                      {presetSummary(preset) || "Empty"}
+                      {presetSummary(preset) || t("presets.cat.empty")}
                     </span>
                   </span>
                 </DropdownMenuItem>
@@ -468,7 +524,8 @@ export function Presets(): JSX.Element {
                       className="shrink-0 text-destructive hover:text-destructive"
                       variant="ghost"
                       size="icon"
-                      title="Confirm delete"
+                      title={t("presets.tooltip.confirmDelete")}
+                      aria-label={t("presets.tooltip.confirmDelete")}
                       onClick={() => {
                         removePreset(name);
                         setPendingDelete(null);
@@ -481,7 +538,8 @@ export function Presets(): JSX.Element {
                       className="shrink-0"
                       variant="ghost"
                       size="icon"
-                      title="Cancel"
+                      title={t("presets.tooltip.cancel")}
+                      aria-label={t("presets.tooltip.cancel")}
                       onClick={() => setPendingDelete(null)}
                       type="button"
                     >
@@ -494,7 +552,8 @@ export function Presets(): JSX.Element {
                       className="shrink-0 text-muted-foreground hover:text-primary"
                       variant="ghost"
                       size="icon"
-                      title="Export preset to file (share)"
+                      title={t("presets.tooltip.export")}
+                      aria-label={t("presets.tooltip.export")}
                       onClick={() => exportPreset(name, preset)}
                       type="button"
                     >
@@ -504,7 +563,8 @@ export function Presets(): JSX.Element {
                       className="shrink-0 text-muted-foreground hover:text-primary"
                       variant="ghost"
                       size="icon"
-                      title="Update preset to current setup"
+                      title={t("presets.tooltip.update")}
+                      aria-label={t("presets.tooltip.update")}
                       onClick={() => updatePreset(name, preset)}
                       type="button"
                     >
@@ -514,7 +574,8 @@ export function Presets(): JSX.Element {
                       className="shrink-0 text-muted-foreground hover:text-destructive"
                       variant="ghost"
                       size="icon"
-                      title="Delete preset"
+                      title={t("presets.tooltip.delete")}
+                      aria-label={t("presets.tooltip.delete")}
                       onClick={() => setPendingDelete(name)}
                       type="button"
                     >
@@ -526,46 +587,63 @@ export function Presets(): JSX.Element {
             );
           })}
           {Object.keys(presets).length === 0 && (
-            <DropdownMenuItem disabled>No presets saved</DropdownMenuItem>
+            <div className="px-2 py-3 text-center">
+              <p className="text-xs text-muted-foreground">
+                {t("presets.emptyList")}
+              </p>
+              <p className="mt-1 text-[10px] leading-snug text-muted-foreground/70">
+                {t("presets.emptyHint")}
+              </p>
+            </div>
           )}
           <DropdownMenuSeparator />
           <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit}>
             <p className="text-[10px] text-muted-foreground leading-snug px-0.5">
-              Choose what this preset captures. Applying it restores only the
-              checked categories.
+              {t("presets.captureHint")}
             </p>
-            <div className="flex items-center gap-3 px-0.5">
-              <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none">
-                <Checkbox
-                  checked={captureFilters}
-                  onCheckedChange={(checked) =>
-                    setCaptureFilters(checked === true)
-                  }
-                />
-                Filters
-              </label>
-              <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none">
-                <Checkbox
-                  checked={captureSizes}
-                  onCheckedChange={(checked) =>
-                    setCaptureSizes(checked === true)
-                  }
-                />
-                Sizes
-              </label>
-              <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none">
-                <Checkbox
-                  checked={captureAlerts}
-                  onCheckedChange={(checked) =>
-                    setCaptureAlerts(checked === true)
-                  }
-                />
-                Alerts
-              </label>
+            <div className="flex items-center gap-1.5 px-0.5">
+              {(
+                [
+                  {
+                    on: captureFilters,
+                    toggle: () => setCaptureFilters((v) => !v),
+                    icon: Filter,
+                    label: t("presets.cat.filters"),
+                  },
+                  {
+                    on: captureSizes,
+                    toggle: () => setCaptureSizes((v) => !v),
+                    icon: Maximize2,
+                    label: t("presets.cat.sizes"),
+                  },
+                  {
+                    on: captureAlerts,
+                    toggle: () => setCaptureAlerts((v) => !v),
+                    icon: Bell,
+                    label: t("presets.cat.alerts"),
+                  },
+                ] as const
+              ).map(({ on, toggle, icon: Icon, label }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={toggle}
+                  aria-pressed={on}
+                  className={cn(
+                    "flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                    on
+                      ? "border-primary/40 bg-primary/15 text-primary"
+                      : "border-border bg-transparent text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  <Icon className="h-3 w-3" />
+                  {label}
+                </button>
+              ))}
             </div>
             <Input
               type="text"
-              placeholder="Preset name"
+              placeholder={t("presets.namePlaceholder")}
               value={presetName}
               onChange={(event) => {
                 setPresetName(event.target.value);
@@ -581,8 +659,15 @@ export function Presets(): JSX.Element {
               type="submit"
               disabled={!trimmedName || nothingCaptured}
             >
-              {nameExists ? "Update Preset" : "Save Preset"}
+              {nameExists ? t("presets.update") : t("presets.save")}
             </Button>
+            {(!trimmedName || nothingCaptured) && (
+              <p className="px-0.5 text-[10px] text-muted-foreground">
+                {nothingCaptured
+                  ? t("presets.hint.category")
+                  : t("presets.hint.name")}
+              </p>
+            )}
           </form>
           <DropdownMenuSeparator />
           <div className="p-1">
@@ -594,7 +679,7 @@ export function Presets(): JSX.Element {
               onClick={importPreset}
             >
               <Upload className="h-4 w-4 mr-2" />
-              Import preset from file
+              {t("presets.import")}
             </Button>
           </div>
         </DropdownMenuContent>

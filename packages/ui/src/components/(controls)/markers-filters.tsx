@@ -151,7 +151,7 @@ export function MarkersFilters({
             "relative flex items-center h-7 rounded-sm border transition-colors",
             isFiltering
               ? "border-primary/50 bg-background"
-              : "border-input/40 bg-background/40 focus-within:border-primary/60 focus-within:bg-background",
+              : "border-input/40 bg-background/40 focus-within:border-ring focus-within:bg-background",
           )}
         >
           <ListFilter

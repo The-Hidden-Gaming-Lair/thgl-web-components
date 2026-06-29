@@ -864,6 +864,7 @@ export function PrivateNode({
                 <Input
                   id="name"
                   className="col-span-2 h-8"
+                  placeholder="Optional name…"
                   value={tempPrivateNode?.name ?? ""}
                   onChange={(e) => setTempPrivateNode({ name: e.target.value })}
                 />
@@ -878,6 +879,7 @@ export function PrivateNode({
                 <Textarea
                   id="description"
                   className="col-span-2 resize-none"
+                  placeholder="Optional notes or description…"
                   value={tempPrivateNode?.description ?? ""}
                   onChange={(e) =>
                     setTempPrivateNode({ description: e.target.value })

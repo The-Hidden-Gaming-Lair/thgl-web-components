@@ -8,6 +8,7 @@ import { MarkersSearchResults } from "./markers-search-results";
 import { MarkersFilters } from "./markers-filters";
 import { ScrollArea } from "../ui/scroll-area";
 import {
+  Loader2,
   PanelLeftClose,
   Search,
   SlidersHorizontal,
@@ -96,9 +97,10 @@ export function MarkersSearch({
         )}
         onClick={toggleShowFilters}
         type="button"
+        aria-label={t("markers.filters.toggleShow")}
       >
         <SlidersHorizontal className="h-3.5 w-3.5" />
-        Filters
+        {t("markers.filters.label")}
       </button>
 
       <div
@@ -112,12 +114,26 @@ export function MarkersSearch({
         )}
       >
         <div className="relative flex w-full pointer-events-auto bg-card border rounded-md">
+          {/* Leading search icon, swaps to a spinner while a query is in flight */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-muted-foreground">
+            {isLoading && internalSearch.length >= 3 ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Search className="h-4 w-4" />
+            )}
+          </div>
           <Input
             autoComplete="off"
             autoCorrect="off"
-            className=" placeholder:text-gray-400"
+            className="pl-8 pr-16"
             onChange={(event) => {
               setInternalSearch(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                setInternalSearch("");
+                event.currentTarget.blur();
+              }
             }}
             placeholder={t("markers.search.placeholder")}
             type="text"
@@ -125,50 +141,30 @@ export function MarkersSearch({
           />
           {internalSearch ? (
             <button
-              className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400 hover:text-gray-200"
+              aria-label={t("markers.search.clear")}
+              className="flex absolute inset-y-0 right-10 items-center px-1 text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => {
                 setInternalSearch("");
               }}
               type="button"
             >
-              <svg
-                className="block w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-                <path d="M18 6l-12 12" />
-                <path d="M6 6l12 12" />
-              </svg>
-              <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
+              <X className="h-4 w-4" />
             </button>
-          ) : (
-            <div className="flex absolute inset-y-0 right-6 items-center pr-2 text-gray-400">
-              <svg
-                className="block w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                />
-              </svg>
-              <div className="h-3/6 w-px bg-gray-600 mx-1.5" />
-            </div>
-          )}
+          ) : null}
+          <div
+            className="absolute inset-y-2 right-9 w-px bg-border"
+            aria-hidden
+          />
           <button
             aria-expanded={showFilters}
             aria-haspopup="menu"
-            aria-label={showFilters ? "Close filters" : "Open filters"}
+            aria-label={
+              showFilters
+                ? t("markers.filters.toggleHide")
+                : t("markers.filters.toggleShow")
+            }
             className={cn(
-              `flex absolute inset-y-0 right-1 items-center pr-2 text-gray-400 hover:text-gray-200 md:text-white`,
+              `flex absolute inset-y-0 right-1 items-center px-2 text-muted-foreground hover:text-foreground transition-colors`,
             )}
             onClick={toggleShowFilters}
             type="button"
