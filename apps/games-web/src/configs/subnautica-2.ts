@@ -15,7 +15,7 @@ export const subnautica2 = resolveAppConfig({
     "uk",
     "zh-CN",
   ],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   // No manual "/maps/..." internalLink: the home page auto-generates a richer
   // map card (preview image + live location count) per map, and that auto-card
   // is suppressed when an internalLink already targets the same /maps/<name>.

@@ -5,7 +5,7 @@ export const nevernessToEverness = resolveAppConfig({
   // Map markers use English category labels; the database/codex below is localized
   // across all 8 locales the game ships (dicts/*.json).
   supportedLocales: ["en", "de", "es", "fr", "ja", "ko", "ru", "zh-CN"],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
       title: "Characters",
