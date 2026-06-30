@@ -27,7 +27,13 @@ export type IconName =
   | "MessageSquare"
   | "HelpCircle"
   | "FileText"
-  | "ShieldCheck";
+  | "ShieldCheck"
+  | "Fish"
+  | "Bird"
+  | "ChefHat"
+  | "Flower"
+  | "PawPrint"
+  | "Users";
 
 export type AppConfig = {
   name: string;

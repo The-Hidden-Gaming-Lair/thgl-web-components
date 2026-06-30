@@ -24,6 +24,12 @@ import {
   HelpCircle,
   FileText,
   ShieldCheck,
+  Fish,
+  Bird,
+  ChefHat,
+  Flower,
+  PawPrint,
+  Users,
 } from "lucide-react";
 
 const ICONS = {
@@ -51,6 +57,12 @@ const ICONS = {
   HelpCircle: HelpCircle,
   FileText: FileText,
   ShieldCheck: ShieldCheck,
+  Fish: Fish,
+  Bird: Bird,
+  ChefHat: ChefHat,
+  Flower: Flower,
+  PawPrint: PawPrint,
+  Users: Users,
 } as const;
 
 export function NavIcon({
