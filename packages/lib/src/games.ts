@@ -782,6 +782,10 @@ export const games: Array<Game> = [
         radius: 6,
         playerIcon: "player.webp",
         imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 1000,
+        },
       },
       games: [
         {
