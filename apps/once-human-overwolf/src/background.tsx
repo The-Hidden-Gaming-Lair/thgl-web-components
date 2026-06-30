@@ -117,8 +117,10 @@ function refreshServerName(): Promise<void> {
 }
 
 let isSending = false;
-let lastBusMonsterPositions: Map<number, { x: number; y: number; z: number }> =
-  new Map();
+const lastBusMonsterPositions: Map<
+  number,
+  { x: number; y: number; z: number }
+> = new Map();
 // Only report static actors that have stayed visible for >= 5s, to drop
 // transient memory-read / loading-state blinks that would otherwise become
 // false spawns. Bus monsters are exempt — they are live, moving entities
