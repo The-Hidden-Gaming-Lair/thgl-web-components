@@ -55,10 +55,20 @@ const ENTRIES_PER_CHUNK = 150;
 export function createRobots(appConfig: AppConfig) {
   return function (): MetadataRoute.Robots {
     return {
-      rules: {
-        userAgent: "*",
-        disallow: "/nodes/",
-      },
+      rules: [
+        {
+          userAgent: "*",
+          disallow: "/nodes/",
+        },
+        {
+          // Bulk AI training crawlers — zero search-referral value, hammer
+          // SSR/_next/image as cache MISS and saturate the origin. Disallow the
+          // training crawlers only; on-demand fetch agents (Claude-User,
+          // ChatGPT-User) and search indexers (OAI-SearchBot) are unaffected.
+          userAgent: ["ClaudeBot", "GPTBot"],
+          disallow: "/",
+        },
+      ],
       sitemap: `https://${appConfig.domain}.th.gl/sitemap.xml`,
     };
   };

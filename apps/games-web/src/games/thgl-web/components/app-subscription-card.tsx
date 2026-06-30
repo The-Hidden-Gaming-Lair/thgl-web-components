@@ -24,6 +24,7 @@ export function AppSubscriptionCard({
         <div className="space-y-3">
           <Image
             src={game.logo}
+            unoptimized
             alt={`${game.title} logo`}
             width={64}
             height={64}
@@ -74,10 +75,9 @@ export function AppSubscriptionCard({
               )}
               {game.overwolf?.supportsCopySecret && (
                 <p className="text-xs text-muted-foreground">
-                  <strong>Unlock App</strong>{" "}
-                  opens the app directly. If it doesn&apos;t open, use{" "}
-                  <strong>Copy Secret</strong>{" "}
-                  and paste it in the app&apos;s account window.
+                  <strong>Unlock App</strong> opens the app directly. If it
+                  doesn&apos;t open, use <strong>Copy Secret</strong> and paste
+                  it in the app&apos;s account window.
                 </p>
               )}
             </>

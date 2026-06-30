@@ -65,10 +65,7 @@ export default async function GameDetailPage({
       <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
         <ol className="flex items-center gap-1">
           <li>
-            <Link
-              href="/"
-              className="hover:text-foreground transition-colors"
-            >
+            <Link href="/" className="hover:text-foreground transition-colors">
               Home
             </Link>
           </li>
@@ -90,6 +87,7 @@ export default async function GameDetailPage({
         <div className="flex items-center justify-center gap-4">
           <Image
             src={game.logo}
+            unoptimized
             alt={`${game.title} logo`}
             width={64}
             height={64}

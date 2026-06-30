@@ -27,6 +27,7 @@ export function GameCard({ game }: { game: Game }) {
             <div className="absolute inset-0 flex items-center justify-center">
               <Image
                 src={game.logo}
+                unoptimized
                 alt={`${game.title} logo`}
                 width={80}
                 height={80}
@@ -42,6 +43,7 @@ export function GameCard({ game }: { game: Game }) {
             <div className="flex items-center gap-2">
               <Image
                 src={game.logo}
+                unoptimized
                 alt={`${game.title} logo`}
                 width={32}
                 height={32}

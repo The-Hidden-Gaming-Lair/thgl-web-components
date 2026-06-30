@@ -1,12 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button, Switch } from "../(controls)";
 import {
   closeWebViews,
@@ -22,9 +17,7 @@ import { useState } from "react";
 export function AppCard({ game }: { game: Game }) {
   const [showDebug, setShowDebug] = useState(false);
   const disabledApps = useTHGLAppState((state) => state.disabledApps);
-  const toggleDisabledApp = useTHGLAppState(
-    (state) => state.toggleDisabledApp,
-  );
+  const toggleDisabledApp = useTHGLAppState((state) => state.toggleDisabledApp);
   const connectedClients = useLiveState((state) => state.connectedClients);
   const isDisabled = disabledApps.includes(game.id);
   const companion = game.companion;
@@ -36,16 +29,21 @@ export function AppCard({ game }: { game: Game }) {
     ? companion.baseURL
     : location.origin + companion.baseURL;
 
-  const openClients = connectedClients?.filter(
-    (connectedClient) =>
-      connectedClient.role === "client" &&
-      connectedClient.href.startsWith(fullBaseURL),
-  ) ?? [];
+  const openClients =
+    connectedClients?.filter(
+      (connectedClient) =>
+        connectedClient.role === "client" &&
+        connectedClient.href.startsWith(fullBaseURL),
+    ) ?? [];
 
   const appsOpenURLs = openClients.map((client) => client.href);
   const isRunning = appsOpenURLs.length > 0;
-  const hasOverlayOpen = openClients.some((client) => client.href.includes("/overlay"));
-  const hasDesktopOpen = openClients.some((client) => !client.href.includes("/overlay"));
+  const hasOverlayOpen = openClients.some((client) =>
+    client.href.includes("/overlay"),
+  );
+  const hasDesktopOpen = openClients.some(
+    (client) => !client.href.includes("/overlay"),
+  );
 
   return (
     <Card className="overflow-hidden hover:border-primary/50 transition-colors">
@@ -54,6 +52,7 @@ export function AppCard({ game }: { game: Game }) {
           <div className="relative">
             <Image
               src={game.logo}
+              unoptimized
               alt=""
               width={48}
               height={48}

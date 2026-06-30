@@ -357,6 +357,7 @@ export default async function CompanionAppPage() {
               <div className="relative w-20 h-20 rounded-lg overflow-hidden">
                 <Image
                   src={game.logo}
+                  unoptimized
                   alt={`${game.title} logo`}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform"

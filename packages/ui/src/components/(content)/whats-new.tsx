@@ -156,6 +156,7 @@ export function WhatsNew({
                   <div className="flex items-center gap-2">
                     <Image
                       src={update.game.logo}
+                      unoptimized
                       alt={update.game.title}
                       width={20}
                       height={20}
@@ -190,6 +191,7 @@ export function WhatsNew({
                   <div className="flex items-center gap-2">
                     <Image
                       src="https://www.th.gl/global_icons/thgl.png"
+                      unoptimized
                       alt="THGL"
                       width={16}
                       height={16}
@@ -245,6 +247,7 @@ export function ChangelogList({
         <div className="flex items-center gap-2 mb-3">
           <Image
             src="https://www.th.gl/global_icons/thgl.png"
+            unoptimized
             alt="THGL"
             width={20}
             height={20}
@@ -261,6 +264,7 @@ export function ChangelogList({
                 <div className="flex items-center gap-2">
                   <Image
                     src="https://www.th.gl/global_icons/thgl.png"
+                    unoptimized
                     alt="THGL"
                     width={16}
                     height={16}

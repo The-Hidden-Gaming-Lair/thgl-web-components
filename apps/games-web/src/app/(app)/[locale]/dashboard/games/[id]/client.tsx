@@ -13,12 +13,7 @@ import { ScrollArea } from "@repo/ui/controls";
 import { DiscordMessage, PreviewImage, Subtitle } from "@repo/ui/content";
 import { Badge } from "@repo/ui/controls";
 import { Button, Switch, Label } from "@repo/ui/controls";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@repo/ui/controls";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/controls";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -85,22 +80,30 @@ export function GamePageClient({
   );
 
   // Filter sessions for this game
-  const gameSessionsForGame = gameSessions.filter(
-    (s) => s.gameId === game.id,
-  );
+  const gameSessionsForGame = gameSessions.filter((s) => s.gameId === game.id);
 
   const connectedClients = useLiveState((state) => state.connectedClients);
 
   // Check what windows are currently open for this game
   const baseURL = game.companion?.baseURL ?? "";
-  const fullBaseURL = baseURL.startsWith("http") ? baseURL : (typeof location !== "undefined" ? location.origin + baseURL : baseURL);
+  const fullBaseURL = baseURL.startsWith("http")
+    ? baseURL
+    : typeof location !== "undefined"
+      ? location.origin + baseURL
+      : baseURL;
 
-  const openClients = connectedClients?.filter(
-    (client) => client.role === "client" && client.href.startsWith(fullBaseURL)
-  ) ?? [];
+  const openClients =
+    connectedClients?.filter(
+      (client) =>
+        client.role === "client" && client.href.startsWith(fullBaseURL),
+    ) ?? [];
 
-  const hasOverlayOpen = openClients.some((client) => client.href.includes("/overlay"));
-  const hasDesktopOpen = openClients.some((client) => !client.href.includes("/overlay"));
+  const hasOverlayOpen = openClients.some((client) =>
+    client.href.includes("/overlay"),
+  );
+  const hasDesktopOpen = openClients.some(
+    (client) => !client.href.includes("/overlay"),
+  );
 
   const handleOpenOverlay = () => {
     // C++ handler shows the overlay and updates window mode automatically
@@ -110,7 +113,10 @@ export function GamePageClient({
   const handleOpenDesktop = () => {
     if (!game.companion?.desktopURL) return;
     // C++ handler updates window mode automatically
-    openDesktopWebView(localizePath(game.companion.desktopURL, locale), `${game.title} Desktop`);
+    openDesktopWebView(
+      localizePath(game.companion.desktopURL, locale),
+      `${game.title} Desktop`,
+    );
   };
 
   return (
@@ -120,6 +126,7 @@ export function GamePageClient({
         <div className="flex items-start gap-4">
           <Image
             src={game.logo}
+            unoptimized
             alt={game.title}
             width={64}
             height={64}
@@ -267,7 +274,11 @@ export function GamePageClient({
                               <span>{formatTime(session.endedAt)}</span>
                             </>
                           )}
-                          <span>({formatDuration(session.startedAt, session.endedAt)})</span>
+                          <span>
+                            (
+                            {formatDuration(session.startedAt, session.endedAt)}
+                            )
+                          </span>
                         </div>
                       </div>
                     </div>

@@ -63,6 +63,7 @@ export function HeroBackground(): JSX.Element {
             >
               <Image
                 src={game.logo}
+                unoptimized
                 alt=""
                 fill
                 className="object-contain"

@@ -107,6 +107,7 @@ export function HomePageClient({
                     >
                       <Image
                         src={game.logo}
+                        unoptimized
                         alt={game.title}
                         width={16}
                         height={16}

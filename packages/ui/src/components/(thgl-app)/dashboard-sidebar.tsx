@@ -152,6 +152,7 @@ export function DashboardSidebar() {
                   <div className="relative">
                     <Image
                       src={game.logo}
+                      unoptimized
                       alt={game.title}
                       width={20}
                       height={20}
@@ -192,6 +193,7 @@ export function DashboardSidebar() {
                       <div className="relative">
                         <Image
                           src={game.logo}
+                          unoptimized
                           alt={game.title}
                           width={20}
                           height={20}
