@@ -963,6 +963,14 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "heartopia",
+    discordId: "heartopia",
+    title: "Heartopia",
+    logo: `${TH_GL_URL}/global_icons/heartopia.webp`,
+    web: "https://heartopia.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "homm-olden-era",
     discordId: "homm-olden-era",
     title: "Heroes of Might & Magic: Olden Era",

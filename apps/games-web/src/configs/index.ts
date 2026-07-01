@@ -10,6 +10,7 @@ import { duetNightAbyss } from "./duet-night-abyss";
 import { duneAwakening } from "./dune-awakening";
 import { gothic1Remake } from "./gothic-1-remake";
 import { grounded2 } from "./grounded2";
+import { heartopia } from "./heartopia";
 import { hogwartsLegacy } from "./hogwarts-legacy";
 import { hommOldenEra } from "./homm-olden-era";
 import { infinityNikki } from "./infinity-nikki";
@@ -47,6 +48,7 @@ const ALL_CONFIGS: AppConfig[] = [
   duneAwakening,
   gothic1Remake,
   grounded2,
+  heartopia,
   hogwartsLegacy,
   hommOldenEra,
   infinityNikki,
