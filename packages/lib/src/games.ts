@@ -967,6 +967,36 @@ export const games: Array<Game> = [
     discordId: "heartopia",
     title: "Heartopia",
     logo: `${TH_GL_URL}/global_icons/heartopia.webp`,
+    companion: {
+      baseURL: "/apps/heartopia",
+      controllerURL: "/apps/heartopia/controller",
+      desktopURL: "/apps/heartopia",
+      overlayURL: "/apps/heartopia/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 100,
+          zDistance: 5,
+        },
+      },
+      games: [
+        {
+          title: "Heartopia",
+          processNames: ["xdt.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://heartopia.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },

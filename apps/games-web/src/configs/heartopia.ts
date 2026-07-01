@@ -25,7 +25,7 @@ export const heartopia = resolveAppConfig({
     "ru",
     "id",
   ],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
       href: "/db/fish",
