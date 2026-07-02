@@ -9,6 +9,7 @@ import {
   PaliaGridToggle,
   PaliaTime,
   PaliaWeeklyWants,
+  SatisfactorySeed,
 } from "../(data)";
 
 import type { JSX } from "react";
@@ -23,6 +24,7 @@ const ADDITIONAL_CONTENT = {
   DuneHeatmaps: DuneHeatmaps,
   CrimsonDesertZones: CrimsonDesertZones,
   CrimsonDesertSaveImport: CrimsonDesertSaveImport,
+  SatisfactorySeed: SatisfactorySeed,
 } as const;
 
 export type AdditionalContentType = ({

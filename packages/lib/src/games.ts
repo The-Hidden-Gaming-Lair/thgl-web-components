@@ -680,6 +680,7 @@ export const games: Array<Game> = [
     title: "Satisfactory",
     logo: `${TH_GL_URL}/global_icons/satisfactory.webp`,
     web: "https://satisfactory.th.gl",
+    additionalFilters: ["SatisfactorySeed"],
     companion: {
       baseURL: "/apps/satisfactory",
       controllerURL: "/apps/satisfactory/controller",
@@ -1027,7 +1028,8 @@ export type AdditionalContent =
   | "DuneDeepDesertGrid"
   | "DuneHeatmaps"
   | "CrimsonDesertZones"
-  | "CrimsonDesertSaveImport";
+  | "CrimsonDesertSaveImport"
+  | "SatisfactorySeed";
 
 export type AdditionalTooltip = "PalworldCoordinates" | "DuneAltitude";
 

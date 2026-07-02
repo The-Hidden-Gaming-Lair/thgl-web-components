@@ -35,6 +35,7 @@ import {
 import { CaseSensitive, Hexagon } from "lucide-react";
 import { useStore } from "zustand";
 import { UserStoreContext } from "./user-store";
+import { useStaticNodesTransformStore } from "./static-nodes-transform-store";
 import useSWRImmutable from "swr/immutable";
 import { toast } from "sonner";
 
@@ -284,9 +285,19 @@ export function CoordinatesProvider({
     },
   );
 
-  const staticNodes =
+  const rawStaticNodes =
     (mapName && staticNodesByMap?.[mapName]) ||
     (emptyArray as NodesCoordinates);
+  // Optional per-game rewrite of the fetched nodes (e.g. the Satisfactory
+  // world-seed panel swapping resource markers). Null for every other game.
+  const staticNodesTransform = useStaticNodesTransformStore((s) => s.transform);
+  const staticNodes = useMemo(
+    () =>
+      staticNodesTransform
+        ? staticNodesTransform(rawStaticNodes)
+        : rawStaticNodes,
+    [rawStaticNodes, staticNodesTransform],
+  );
 
   const {
     data: publicSearchSpawnsByKeyword,
