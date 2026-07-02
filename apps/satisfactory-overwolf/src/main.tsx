@@ -8,8 +8,9 @@ import {
   listenToGameEvents,
   logVersion,
 } from "@repo/lib/overwolf";
-import { Dict, fetchDict, fetchVersion } from "@repo/lib";
+import { Dict, fetchDict, fetchVersion, games } from "@repo/lib";
 import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
+import { AdditionalContent } from "@repo/ui/content";
 import { APP_CONFIG } from "./config";
 import { App } from "@repo/ui/overwolf";
 
@@ -20,6 +21,9 @@ const [version, enDict] = await Promise.all([
   fetchDict(APP_CONFIG.name),
 ]);
 const enDictMerged = { ...enDictGlobal, ...enDict } as Dict;
+
+// Per-game side-panel widgets (e.g. the World Seed selector) from the registry.
+const game = games.find((g) => g.id === APP_CONFIG.name);
 
 const el = document.getElementById("root");
 if (el) {
@@ -34,6 +38,11 @@ if (el) {
         tiles={version.data.tiles}
         typesIdMap={version.data.typesIdMap}
         version={version}
+        additionalFilters={
+          game?.additionalFilters ? (
+            <AdditionalContent items={game.additionalFilters} />
+          ) : undefined
+        }
       />
     </React.StrictMode>,
   );
