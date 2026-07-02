@@ -170,14 +170,38 @@ export function setWindowMode(mode: WindowMode) {
 }
 
 let initialized = false;
-let prevPlayer: { x: number; y: number; z: number; r: number | null; mapName?: string } | null = null;
-let prevActors: { address: number; x: number; y: number; z: number; hidden?: boolean }[] = [];
+let prevPlayer: {
+  x: number;
+  y: number;
+  z: number;
+  r: number | null;
+  mapName?: string;
+} | null = null;
+let prevActors: {
+  address: number;
+  x: number;
+  y: number;
+  z: number;
+  hidden?: boolean;
+}[] = [];
 let lastActorUpdateTime = 0;
 const ACTOR_THROTTLE_MS = 200;
 
 function actorsChanged(
-  prev: { address: number; x: number; y: number; z: number; hidden?: boolean }[],
-  next: { address: number; x: number; y: number; z: number; hidden?: boolean }[],
+  prev: {
+    address: number;
+    x: number;
+    y: number;
+    z: number;
+    hidden?: boolean;
+  }[],
+  next: {
+    address: number;
+    x: number;
+    y: number;
+    z: number;
+    hidden?: boolean;
+  }[],
 ): boolean {
   if (prev.length !== next.length) return true;
   for (let i = 0; i < prev.length; i++) {
@@ -209,7 +233,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
   if (typeof window !== "undefined" && window.chrome?.webview) {
     window.chrome.webview.addEventListener("message", (event: MessageEvent) => {
       try {
-        const message = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        const message =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
         if (typeof message === "object" && typeof message.action === "string") {
           // Client (Overlay/Desktop) specific handlers
           if (role === "client") {
@@ -247,6 +272,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               liveState.setWindowMode(message.payload);
             } else if (message.action === "alwaysRunAsAdminChanged") {
               liveState.setAlwaysRunAsAdmin(message.payload);
+            } else if (message.action === "exclusiveFullscreenChanged") {
+              liveState.setExclusiveFullscreen(message.payload);
             }
           }
           // Dashboard specific handlers - receive directly from C++
@@ -270,6 +297,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               liveState.setAlwaysRunAsAdmin(message.payload);
             } else if (message.action === "closeActionChanged") {
               liveState.setCloseAction(message.payload);
+            } else if (message.action === "exclusiveFullscreenChanged") {
+              liveState.setExclusiveFullscreen(message.payload);
             }
           }
           // Client (Overlay/Desktop) handlers for DevTools and close requests
@@ -300,7 +329,10 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
 
   // For dashboard role, request initial state from C++ when ready
   if (role === "dashboard") {
-    const fetchInitialState = async (retries = 3, delay = 500): Promise<void> => {
+    const fetchInitialState = async (
+      retries = 3,
+      delay = 500,
+    ): Promise<void> => {
       for (let attempt = 1; attempt <= retries; attempt++) {
         try {
           const res = await getInitialStateFromWebview();
@@ -314,6 +346,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           liveState.setGpuFlag(data.gpuFlag);
           liveState.setIsRunningAsAdmin(data.isRunningAsAdmin ?? false);
           liveState.setAlwaysRunAsAdmin(data.alwaysRunAsAdmin ?? false);
+          liveState.setExclusiveFullscreen(data.exclusiveFullscreen ?? false);
           liveState.setCloseAction(data.closeAction ?? "ask");
           liveState.setLocale(data.locale ?? "en");
           if (data.connectedClients) {
@@ -327,7 +360,10 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           useTHGLAppState.getState().cleanupStaleSessions(activePids);
           return; // Success, exit
         } catch (e) {
-          console.warn(`Failed to get initial state (attempt ${attempt}/${retries}):`, e);
+          console.warn(
+            `Failed to get initial state (attempt ${attempt}/${retries}):`,
+            e,
+          );
           if (attempt < retries) {
             await new Promise((resolve) => setTimeout(resolve, delay));
           }
@@ -349,6 +385,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
     getInitialStateFromWebview()
       .then((res) => {
         liveState.setCloseAction(res.data.closeAction ?? "ask");
+        liveState.setExclusiveFullscreen(res.data.exclusiveFullscreen ?? false);
       })
       .catch(console.error);
 

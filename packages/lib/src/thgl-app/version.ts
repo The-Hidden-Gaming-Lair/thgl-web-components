@@ -19,6 +19,7 @@ export type InitialState = {
   gpuFlag: GpuFlag;
   isRunningAsAdmin: boolean;
   alwaysRunAsAdmin: boolean;
+  exclusiveFullscreen?: boolean;
   closeAction: CloseAction;
   locale: string;
   connectedClients?: ConnectedClient[];
@@ -69,11 +70,17 @@ export function setGpuFlag(flag: GpuFlag) {
 }
 
 export function setAlwaysRunAsAdmin(always: boolean) {
-  return postWebviewMessage({ action: "setAlwaysRunAsAdmin", payload: { always } });
+  return postWebviewMessage({
+    action: "setAlwaysRunAsAdmin",
+    payload: { always },
+  });
 }
 
 export function setCloseAction(closeAction: CloseAction) {
-  return postWebviewMessage({ action: "setCloseAction", payload: { closeAction } });
+  return postWebviewMessage({
+    action: "setCloseAction",
+    payload: { closeAction },
+  });
 }
 
 export function setLocaleOnNative(locale: string) {

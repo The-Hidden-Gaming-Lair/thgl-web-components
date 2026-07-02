@@ -1,6 +1,7 @@
 import {
   AppHeader,
   AppVersion,
+  ExclusiveFullscreenWarning,
   InitializeApp,
   ResizeBorders,
   DashboardSidebar,
@@ -36,7 +37,12 @@ export default function DashboardLayout({
         </AppHeader>
         <div className="flex flex-1 overflow-hidden pt-[32px]">
           <DashboardSidebar />
-          <div className="flex-1 min-w-0 overflow-auto">{children}</div>
+          <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
+            <ExclusiveFullscreenWarning />
+            <div className="flex-1 min-h-0 min-w-0 overflow-auto">
+              {children}
+            </div>
+          </div>
           <THGLDashboardAds className="w-[360px] flex-none border-l overflow-y-auto" />
         </div>
       </div>

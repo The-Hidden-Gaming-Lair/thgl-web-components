@@ -34,6 +34,7 @@ import {
 } from "../(controls)";
 import { MarkersSearch } from "../(controls)/markers-search";
 import { AppHeader } from "./app-header";
+import { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
 import { OverlayInputEvents } from "./overlay-input-events";
 import { AppMapDynamic } from "./app-map-dynamic";
 import { InitializeApp } from "./initialize-app";
@@ -210,13 +211,16 @@ export function App({
                   </TooltipTrigger>
                   <TooltipContent className="w-64" side="bottom">
                     <p>
-                      <strong>Overlay:</strong> Shows map overlay on top of the game.
+                      <strong>Overlay:</strong> Shows map overlay on top of the
+                      game.
                     </p>
                     <p className="mt-1">
-                      <strong>Desktop:</strong> Opens in a separate window (2nd screen).
+                      <strong>Desktop:</strong> Opens in a separate window (2nd
+                      screen).
                     </p>
                     <p className="mt-1">
-                      <strong>Both:</strong> Opens both overlay and desktop window.
+                      <strong>Both:</strong> Opens both overlay and desktop
+                      window.
                     </p>
                     {appConfig.withoutOverlayMode && (
                       <p className="text-red-500 mt-1">
@@ -271,10 +275,7 @@ export function App({
                     iconsPath={version?.more.icons}
                     className="top-[40px] md:ml-0"
                     mapEnTitles={Object.fromEntries(
-                      Object.keys(tiles).map((k) => [
-                        k,
-                        translate(dict, k),
-                      ]),
+                      Object.keys(tiles).map((k) => [k, translate(dict, k)]),
                     )}
                   />
                 )}
@@ -285,7 +286,9 @@ export function App({
                     <MarkerPanel
                       appName={appConfig.name}
                       additionalTooltip={additionalTooltip}
-                      coordinateCopyFormat={appConfig.markerOptions.coordinateCopyFormat}
+                      coordinateCopyFormat={
+                        appConfig.markerOptions.coordinateCopyFormat
+                      }
                       headerOffset="32px"
                     />
                     <ZoneDetailsPanel appName={appConfig.name} />
@@ -295,6 +298,7 @@ export function App({
             </div>
             <MapHotkeys />
             {isOverlay && <OverlayInputEvents />}
+            {isOverlay && <ExclusiveFullscreenDialog />}
           </CoordinatesProvider>
         </TooltipProvider>
       </I18NProvider>

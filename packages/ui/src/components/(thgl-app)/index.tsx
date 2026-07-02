@@ -11,5 +11,7 @@ export { InitializeApp } from "./initialize-app";
 export { ResizeBorders } from "./resize-borders";
 export { SidebarNav } from "./sidebar-nav";
 export { DashboardSidebar } from "./dashboard-sidebar";
+export { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
+export { ExclusiveFullscreenWarning } from "./exclusive-fullscreen-warning";
 export { NavigationButtons } from "./navigation-buttons";
 export { Status } from "./status";

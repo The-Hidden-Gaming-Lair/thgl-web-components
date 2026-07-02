@@ -44,6 +44,9 @@ export const useLiveState = create<{
   setAlwaysRunAsAdmin: (always: boolean) => void;
   locale: string;
   setLocale: (locale: string) => void;
+  // Game runs in exclusive fullscreen - the overlay can't render over it
+  exclusiveFullscreen: boolean;
+  setExclusiveFullscreen: (exclusive: boolean) => void;
 }>((set) => ({
   isTaskInstalled: null,
   setIsTaskInstalled: (isTaskInstalled) => set({ isTaskInstalled }),
@@ -65,6 +68,9 @@ export const useLiveState = create<{
   setAlwaysRunAsAdmin: (always) => set({ alwaysRunAsAdmin: always }),
   locale: "en",
   setLocale: (locale) => set({ locale }),
+  exclusiveFullscreen: false,
+  setExclusiveFullscreen: (exclusive) =>
+    set({ exclusiveFullscreen: exclusive }),
 }));
 
 export const useTHGLAppState = create(
@@ -121,14 +127,20 @@ export const useTHGLAppState = create(
           }),
         clearClosedSessions: () =>
           set((state) => ({
-            gameSessions: state.gameSessions.filter((s) => s.status !== "closed"),
+            gameSessions: state.gameSessions.filter(
+              (s) => s.status !== "closed",
+            ),
           })),
         cleanupStaleSessions: (activePids) =>
           set((state) => ({
             gameSessions: state.gameSessions.map((s) => {
               // If session is not closed and its PID is not in active list, mark as closed
               if (s.status !== "closed" && !activePids.includes(s.pid)) {
-                return { ...s, status: "closed", endedAt: s.endedAt ?? Date.now() };
+                return {
+                  ...s,
+                  status: "closed",
+                  endedAt: s.endedAt ?? Date.now(),
+                };
               }
               return s;
             }),

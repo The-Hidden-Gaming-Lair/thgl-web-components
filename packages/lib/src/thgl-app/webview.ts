@@ -103,6 +103,10 @@ export type WEBVIEW_RECEIVE_MESSAGE =
   | {
       action: "closeActionChanged";
       payload: CloseAction;
+    }
+  | {
+      action: "exclusiveFullscreenChanged";
+      payload: boolean;
     };
 
 export type WEBVIEW_RESPONSE_MESSAGE<T = undefined> = {
