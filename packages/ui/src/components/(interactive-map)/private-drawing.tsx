@@ -45,7 +45,8 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const [globalMode, setGlobalMode] = useState<DrawingMode>("none");
   const myFilters = useSettingsStore((state) => state.myFilters);
   const mapName = useUserStore((state) => state.mapName);
-  const setMyFilters = useSettingsStore((state) => state.setMyFilters);
+  const setMyFilter = useSettingsStore((state) => state.setMyFilter);
+  const addMyFilter = useSettingsStore((state) => state.addMyFilter);
   const tempPrivateDrawing = useSettingsStore(
     (state) => state.tempPrivateDrawing,
   );
@@ -626,23 +627,24 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       return;
     }
 
-    const newMyFilters = [...myFilters];
-    const myFilter = newMyFilters.find(
+    const existing = myFilters.find(
       (filter) => filter.name === tempPrivateDrawing.name,
     );
 
-    if (myFilter) {
-      // Update existing filter
-      myFilter.drawing = tempPrivateDrawing as Drawing;
+    // Go through the syncing store actions (setMyFilter / addMyFilter) rather
+    // than setMyFilters (plural), which is local-only. Otherwise the drawing
+    // stays unsynced and hydrateFiltersFromServer overwrites it with the
+    // drawing-less server copy on the next reload.
+    if (existing) {
+      setMyFilter(tempPrivateDrawing.name, {
+        drawing: tempPrivateDrawing as Drawing,
+      });
     } else {
-      // Create new filter with drawing
-      newMyFilters.push({
+      void addMyFilter({
         name: tempPrivateDrawing.name,
         drawing: tempPrivateDrawing as Drawing,
       });
     }
-
-    setMyFilters(newMyFilters);
     setFilters([
       ...filters.filter((f) => f !== tempPrivateDrawing.name),
       tempPrivateDrawing.name,

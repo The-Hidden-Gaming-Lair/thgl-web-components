@@ -1535,9 +1535,24 @@ export const useSettingsStore = create(
             );
             const merged: DrawingsAndNodes[] = [];
             const seenIds = new Set<string>();
+            const hasData = (f: DrawingsAndNodes) =>
+              (f.nodes?.length ?? 0) > 0 || !!f.drawing;
             for (const local of state.myFilters) {
               if (local.id && serverById.has(local.id)) {
-                merged.push(serverById.get(local.id)!);
+                const server = serverById.get(local.id)!;
+                // Guard against destroying local markers/drawings that never
+                // finished uploading (e.g. an edit made just before reload, or
+                // data from before node edits were synced): if the server copy
+                // is empty but the local one has content, keep local and push
+                // it back up so the two converge. Trade-off: a filter genuinely
+                // emptied on another device won't clear here, but preserving
+                // the user's data is preferable to silently losing it.
+                if (hasData(local) && !hasData(server)) {
+                  merged.push(local);
+                  scheduleFilterSync(local);
+                } else {
+                  merged.push(server);
+                }
                 seenIds.add(local.id);
               } else {
                 merged.push(local);

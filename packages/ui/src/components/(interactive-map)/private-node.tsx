@@ -72,7 +72,7 @@ export function PrivateNode({
   const map = useMap();
   const mapName = useUserStore((state) => state.mapName);
   const myFilters = useSettingsStore((state) => state.myFilters);
-  const setMyFilters = useSettingsStore((state) => state.setMyFilters);
+  const setMyFilter = useSettingsStore((state) => state.setMyFilter);
   const tempPrivateNode = useSettingsStore((state) => state.tempPrivateNode);
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
@@ -685,19 +685,24 @@ export function PrivateNode({
       mapName,
     };
 
-    const newMyFilters = [...myFilters];
-    const myFilter = newMyFilters.find(
+    const myFilter = myFilters.find(
       (filter) => filter.name === tempPrivateNode.filter,
     );
     if (!myFilter) {
       return;
     }
-    myFilter.nodes =
-      myFilter.nodes?.filter((marker) => marker.id !== tempPrivateNode.id) ??
-      [];
-    myFilter.nodes.push(marker);
-
-    setMyFilters(newMyFilters);
+    // Build a fresh nodes array instead of mutating the existing one in place,
+    // and go through setMyFilter (singular) so the change is pushed to the
+    // cloud. setMyFilters (plural) is local-only and would leave the node
+    // unsynced — on the next reload hydrateFiltersFromServer would then
+    // overwrite it with the node-less server copy.
+    const newNodes = [
+      ...(myFilter.nodes?.filter(
+        (marker) => marker.id !== tempPrivateNode.id,
+      ) ?? []),
+      marker,
+    ];
+    setMyFilter(tempPrivateNode.filter, { nodes: newNodes });
     setFilters([
       ...filters.filter((f) => f !== tempPrivateNode.filter),
       tempPrivateNode.filter,
