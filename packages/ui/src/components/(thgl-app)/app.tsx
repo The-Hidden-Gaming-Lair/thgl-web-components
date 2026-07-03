@@ -34,6 +34,8 @@ import {
 } from "../(controls)";
 import { MarkersSearch } from "../(controls)/markers-search";
 import { AppHeader } from "./app-header";
+import { PreviewReleaseGate } from "./preview-release-gate";
+import { GameSwitcher } from "../(header)/game-switcher";
 import { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
 import { OverlayInputEvents } from "./overlay-input-events";
 import { AppMapDynamic } from "./app-map-dynamic";
@@ -48,6 +50,13 @@ import { AdditionalTooltipType } from "../(content)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
 import { useMemo } from "react";
+
+/**
+ * Games whose in-game companion is an Elite Supporter preview: the App locks to
+ * an upsell for accounts without `perks.previewReleaseAccess`. Web DB/map pages
+ * are unaffected (this gate lives only in the in-game App component).
+ */
+const PREVIEW_ONLY_APPS = new Set(["heartopia"]);
 
 export function App({
   appConfig,
@@ -100,6 +109,12 @@ export function App({
     [fullTypesIdMap],
   );
 
+  // Elite Supporter preview gate for preview-only games without Preview Release
+  // Access: the full app shell + header stay (window mode, live mode, settings,
+  // window controls) — only the map CONTENT below is replaced by the upsell.
+  const isPreviewLocked =
+    PREVIEW_ONLY_APPS.has(appConfig.name) && !hasPreviewAccess;
+
   return (
     <div
       className={cn(
@@ -131,14 +146,7 @@ export function App({
             ) : (
               <AppHeader
                 isOverlay={isOverlay}
-                title={
-                  <h1 className="text-lg md:leading-6 font-extrabold tracking-tight whitespace-nowrap">
-                    <span className="uppercase">{appConfig.domain}</span>
-                    <span className="text-xs text-gray-400 hidden min-[410px]:inline">
-                      .TH.GL
-                    </span>
-                  </h1>
-                }
+                title={<GameSwitcher activeApp={appConfig.title} compact />}
                 settingsDialogContent={
                   <THGLAppSettingsDialogContent
                     appConfig={appConfig}
@@ -257,41 +265,56 @@ export function App({
               })}
             >
               <ErrorBoundary>
-                <AppMapDynamic
-                  appConfig={appConfig}
-                  version={version}
-                  isOverlay={Boolean(isOverlay)}
-                  tileOptions={tiles}
-                  lockedWindow={lockedWindow}
-                  additionalTooltip={additionalTooltip}
-                  withoutLiveMode={withoutLiveMode}
-                />
-                {!lockedWindow && (
-                  <MarkersSearch
-                    lastMapUpdate={version.createdAt}
-                    tileOptions={tiles}
-                    appName={appConfig.name}
-                    additionalFilters={additionalFilters}
-                    iconsPath={version?.more.icons}
-                    className="top-[40px] md:ml-0"
-                    mapEnTitles={Object.fromEntries(
-                      Object.keys(tiles).map((k) => [k, translate(dict, k)]),
-                    )}
+                {isPreviewLocked ? (
+                  // Content-only lock: the header above stays fully functional.
+                  // Desktop fills the content with the upsell; the transparent
+                  // overlay opens it as an alert dialog (no markers leak).
+                  <PreviewReleaseGate
+                    title={appConfig.title}
+                    isOverlay={Boolean(isOverlay)}
                   />
-                )}
-                {lockedWindow ? lockedWindowComponents : null}
-                {additionalComponents}
-                {!lockedWindow && (
+                ) : (
                   <>
-                    <MarkerPanel
-                      appName={appConfig.name}
+                    <AppMapDynamic
+                      appConfig={appConfig}
+                      version={version}
+                      isOverlay={Boolean(isOverlay)}
+                      tileOptions={tiles}
+                      lockedWindow={lockedWindow}
                       additionalTooltip={additionalTooltip}
-                      coordinateCopyFormat={
-                        appConfig.markerOptions.coordinateCopyFormat
-                      }
-                      headerOffset="32px"
+                      withoutLiveMode={withoutLiveMode}
                     />
-                    <ZoneDetailsPanel appName={appConfig.name} />
+                    {!lockedWindow && (
+                      <MarkersSearch
+                        lastMapUpdate={version.createdAt}
+                        tileOptions={tiles}
+                        appName={appConfig.name}
+                        additionalFilters={additionalFilters}
+                        iconsPath={version?.more.icons}
+                        className="top-[40px] md:ml-0"
+                        mapEnTitles={Object.fromEntries(
+                          Object.keys(tiles).map((k) => [
+                            k,
+                            translate(dict, k),
+                          ]),
+                        )}
+                      />
+                    )}
+                    {lockedWindow ? lockedWindowComponents : null}
+                    {additionalComponents}
+                    {!lockedWindow && (
+                      <>
+                        <MarkerPanel
+                          appName={appConfig.name}
+                          additionalTooltip={additionalTooltip}
+                          coordinateCopyFormat={
+                            appConfig.markerOptions.coordinateCopyFormat
+                          }
+                          headerOffset="32px"
+                        />
+                        <ZoneDetailsPanel appName={appConfig.name} />
+                      </>
+                    )}
                   </>
                 )}
               </ErrorBoundary>
