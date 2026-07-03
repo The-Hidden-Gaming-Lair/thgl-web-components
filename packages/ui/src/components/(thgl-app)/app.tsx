@@ -265,60 +265,53 @@ export function App({
               })}
             >
               <ErrorBoundary>
-                {isPreviewLocked ? (
-                  // Content-only lock: the header above stays fully functional.
-                  // Desktop fills the content with the upsell; the transparent
-                  // overlay opens it as an alert dialog (no markers leak).
-                  <PreviewReleaseGate
-                    title={appConfig.title}
-                    isOverlay={Boolean(isOverlay)}
+                <AppMapDynamic
+                  appConfig={appConfig}
+                  version={version}
+                  isOverlay={Boolean(isOverlay)}
+                  tileOptions={tiles}
+                  lockedWindow={lockedWindow}
+                  additionalTooltip={additionalTooltip}
+                  withoutLiveMode={withoutLiveMode}
+                />
+                {!lockedWindow && (
+                  <MarkersSearch
+                    lastMapUpdate={version.createdAt}
+                    tileOptions={tiles}
+                    appName={appConfig.name}
+                    additionalFilters={additionalFilters}
+                    iconsPath={version?.more.icons}
+                    className="top-[40px] md:ml-0"
+                    mapEnTitles={Object.fromEntries(
+                      Object.keys(tiles).map((k) => [k, translate(dict, k)]),
+                    )}
                   />
-                ) : (
+                )}
+                {lockedWindow ? lockedWindowComponents : null}
+                {additionalComponents}
+                {!lockedWindow && (
                   <>
-                    <AppMapDynamic
-                      appConfig={appConfig}
-                      version={version}
-                      isOverlay={Boolean(isOverlay)}
-                      tileOptions={tiles}
-                      lockedWindow={lockedWindow}
+                    <MarkerPanel
+                      appName={appConfig.name}
                       additionalTooltip={additionalTooltip}
-                      withoutLiveMode={withoutLiveMode}
+                      coordinateCopyFormat={
+                        appConfig.markerOptions.coordinateCopyFormat
+                      }
+                      headerOffset="32px"
                     />
-                    {!lockedWindow && (
-                      <MarkersSearch
-                        lastMapUpdate={version.createdAt}
-                        tileOptions={tiles}
-                        appName={appConfig.name}
-                        additionalFilters={additionalFilters}
-                        iconsPath={version?.more.icons}
-                        className="top-[40px] md:ml-0"
-                        mapEnTitles={Object.fromEntries(
-                          Object.keys(tiles).map((k) => [
-                            k,
-                            translate(dict, k),
-                          ]),
-                        )}
-                      />
-                    )}
-                    {lockedWindow ? lockedWindowComponents : null}
-                    {additionalComponents}
-                    {!lockedWindow && (
-                      <>
-                        <MarkerPanel
-                          appName={appConfig.name}
-                          additionalTooltip={additionalTooltip}
-                          coordinateCopyFormat={
-                            appConfig.markerOptions.coordinateCopyFormat
-                          }
-                          headerOffset="32px"
-                        />
-                        <ZoneDetailsPanel appName={appConfig.name} />
-                      </>
-                    )}
+                    <ZoneDetailsPanel appName={appConfig.name} />
                   </>
                 )}
               </ErrorBoundary>
             </div>
+            {/* Elite Supporter paywall over the full app — non-modal so the
+                header, hotkeys and the window-unlock button stay functional. */}
+            {isPreviewLocked && (
+              <PreviewReleaseGate
+                title={appConfig.title}
+                isOverlay={Boolean(isOverlay)}
+              />
+            )}
             <MapHotkeys />
             {isOverlay && <OverlayInputEvents />}
             {isOverlay && <ExclusiveFullscreenDialog />}

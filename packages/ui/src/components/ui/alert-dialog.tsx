@@ -29,15 +29,10 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> & {
-    // Override the backdrop inline — e.g. transparent background + a custom
-    // z-index for a game overlay (the custom z-index utilities don't tw-merge,
-    // so this must be a style, not a class).
-    overlayStyle?: React.CSSProperties;
-  }
->(({ className, overlayStyle, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
+>(({ className, ...props }, ref) => (
   <AlertDialogPortal>
-    <AlertDialogOverlay style={overlayStyle} />
+    <AlertDialogOverlay />
     <AlertDialogPrimitive.Content
       ref={ref}
       className={cn(
