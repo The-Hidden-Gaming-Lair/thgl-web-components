@@ -90,6 +90,8 @@ export type ForumPostReply = {
   createdAt: string;
 };
 
+export type ForumPostCategory = "bug" | "suggestion" | "question";
+
 export type ForumPost = {
   id: string;
   name: string;
@@ -97,6 +99,8 @@ export type ForumPost = {
   images: string[];
   createdAt: string;
   tags: ForumTag[];
+  games: string[];
+  category: ForumPostCategory | null;
   messageCount: number;
   recentReplies: ForumPostReply[];
   author: {
@@ -150,6 +154,8 @@ type SuggestionsIssuesApiPost = {
   author: SuggestionsIssuesApiAuthor;
   createdAt: number;
   tags: SuggestionsIssuesApiTag[];
+  games?: string[] | null;
+  category?: ForumPostCategory | null;
   archived: boolean;
   locked: boolean;
   messageCount: number;
@@ -212,6 +218,8 @@ function normalizePost(
     images: post.content?.images ?? [],
     createdAt: new Date(post.createdAt).toISOString(),
     tags: (post.tags ?? []).map(normalizeTag),
+    games: post.games ?? [],
+    category: post.category ?? null,
     messageCount: post.messageCount ?? 0,
     recentReplies,
     author: normalizeAuthor(post.author),

@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ForumPost, ForumPostDetail, ForumTag } from "@repo/lib";
+import {
+  ForumPost,
+  ForumPostCategory,
+  ForumPostDetail,
+  ForumTag,
+  games as allGames,
+} from "@repo/lib";
 import { useMemo, useState } from "react";
 import type { ChangeEvent } from "react";
 import {
@@ -12,6 +18,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@repo/ui/controls";
 import { ExternalAnchor } from "@repo/ui/header";
 import {
@@ -86,6 +97,27 @@ function TagBadgeContent({ tag }: { tag: ForumTag }) {
   );
 }
 
+const ALL_GAMES_VALUE = "__all__";
+const CODING_VALUE = "__coding__";
+
+const CATEGORY_OPTIONS: { value: ForumPostCategory; label: string }[] = [
+  { value: "bug", label: "Bug" },
+  { value: "suggestion", label: "Suggestion" },
+  { value: "question", label: "Question" },
+];
+
+function prettifySlug(slug: string) {
+  return slug
+    .split("-")
+    .map((part) => (part ? part[0]!.toUpperCase() + part.slice(1) : part))
+    .join(" ");
+}
+
+function gameLabelForSlug(slug: string) {
+  const game = allGames.find((game) => game.discordId === slug);
+  return game?.title ?? prettifySlug(slug);
+}
+
 export function SuggestionsIssuesList({
   posts,
   initialLimit = 10,
@@ -95,32 +127,43 @@ export function SuggestionsIssuesList({
 }) {
   const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set());
   const [displayLimit, setDisplayLimit] = useState(initialLimit);
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+  const [selectedGame, setSelectedGame] = useState(ALL_GAMES_VALUE);
+  const [selectedCategories, setSelectedCategories] = useState<
+    ForumPostCategory[]
+  >([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const allTags = useMemo(() => {
-    const unique = new Map<string, ForumTag>();
+  const gameOptions = useMemo(() => {
+    const slugs = new Set<string>();
     posts.forEach((post) => {
-      post.tags.forEach((tag) => {
-        if (!unique.has(tag.id)) {
-          unique.set(tag.id, tag);
-        }
+      post.games.forEach((slug) => {
+        slugs.add(slug);
       });
     });
-    return Array.from(unique.values()).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    );
+    return Array.from(slugs)
+      .map((slug) => ({ value: slug, label: gameLabelForSlug(slug) }))
+      .sort((a, b) => a.label.localeCompare(b.label));
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
     return posts.filter((post) => {
-      const matchesTags =
-        selectedTagIds.length === 0 ||
-        post.tags.some((tag) => selectedTagIds.includes(tag.id));
+      const matchesGame =
+        selectedGame === ALL_GAMES_VALUE ||
+        (selectedGame === CODING_VALUE
+          ? post.tags.some((tag) => tag.name === "Coding")
+          : post.games.includes(selectedGame));
 
-      if (!matchesTags) {
+      if (!matchesGame) {
+        return false;
+      }
+
+      const matchesCategory =
+        selectedCategories.length === 0 ||
+        (post.category !== null && selectedCategories.includes(post.category));
+
+      if (!matchesCategory) {
         return false;
       }
 
@@ -133,7 +176,7 @@ export function SuggestionsIssuesList({
         (post.content?.toLowerCase() ?? "").includes(normalizedQuery)
       );
     });
-  }, [posts, searchQuery, selectedTagIds]);
+  }, [posts, searchQuery, selectedGame, selectedCategories]);
 
   const toggleExpanded = (postId: string) => {
     setExpandedPosts((prev) => {
@@ -147,21 +190,25 @@ export function SuggestionsIssuesList({
     });
   };
 
-  const toggleTag = (tagId: string) => {
-    setSelectedTagIds((prev) => {
-      const hasTag = prev.includes(tagId);
-      const next = hasTag
-        ? prev.filter((id) => id !== tagId)
-        : [...prev, tagId];
+  const handleGameChange = (value: string) => {
+    setSelectedGame(value);
+    setDisplayLimit(initialLimit);
+    setExpandedPosts(new Set());
+  };
 
-      return next;
-    });
+  const toggleCategory = (category: ForumPostCategory) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((value) => value !== category)
+        : [...prev, category],
+    );
     setDisplayLimit(initialLimit);
     setExpandedPosts(new Set());
   };
 
   const clearFilters = () => {
-    setSelectedTagIds([]);
+    setSelectedGame(ALL_GAMES_VALUE);
+    setSelectedCategories([]);
     setSearchQuery("");
     setDisplayLimit(initialLimit);
     setExpandedPosts(new Set());
@@ -177,7 +224,9 @@ export function SuggestionsIssuesList({
   const hasMore = filteredPosts.length > displayLimit;
 
   const hasActiveFilters =
-    selectedTagIds.length > 0 || searchQuery.trim().length > 0;
+    selectedGame !== ALL_GAMES_VALUE ||
+    selectedCategories.length > 0 ||
+    searchQuery.trim().length > 0;
 
   return (
     <div className="space-y-8">
@@ -192,42 +241,58 @@ export function SuggestionsIssuesList({
           className="w-full rounded-md border border-border bg-background px-4 py-2 text-sm shadow-xs outline-hidden ring-primary/20 focus:border-primary focus:ring-2"
         />
 
-        {allTags.length > 0 && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold">Filter by Tag</h3>
-              {hasActiveFilters && (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="text-sm text-primary hover:underline"
-                >
-                  Clear filters
-                </button>
-              )}
-            </div>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold">Filters</h3>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="text-sm text-primary hover:underline"
+              >
+                Clear filters
+              </button>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Select value={selectedGame} onValueChange={handleGameChange}>
+              <SelectTrigger className="w-56" aria-label="Filter by game">
+                <SelectValue placeholder="All games" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={ALL_GAMES_VALUE}>All games</SelectItem>
+                {gameOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+                <SelectItem value={CODING_VALUE}>Coding</SelectItem>
+              </SelectContent>
+            </Select>
 
             <div className="flex flex-wrap gap-2">
-              {allTags.map((tag) => {
-                const isSelected = selectedTagIds.includes(tag.id);
+              {CATEGORY_OPTIONS.map((option) => {
+                const isSelected = selectedCategories.includes(option.value);
                 return (
                   <button
-                    key={tag.id}
+                    key={option.value}
                     type="button"
-                    onClick={() => toggleTag(tag.id)}
+                    onClick={() => toggleCategory(option.value)}
+                    aria-pressed={isSelected}
                     className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                       isSelected
                         ? "border-primary bg-primary/10 text-primary"
                         : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
                     }`}
                   >
-                    <TagBadgeContent tag={tag} />
+                    {option.label}
                   </button>
                 );
               })}
             </div>
           </div>
-        )}
+        </div>
 
         {hasActiveFilters && (
           <div className="text-sm text-muted-foreground text-center">
