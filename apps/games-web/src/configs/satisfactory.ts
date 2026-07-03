@@ -26,6 +26,9 @@ export const satisfactory = resolveAppConfig({
   ],
   appUrl: "https://www.th.gl/companion-app",
   keywords: ["Mercer Spheres", "Resource Nodes", "Power Slugs", "Hard Drives"],
+  // List EVERY db section here (in homeSections order): the header renders
+  // internalLinks before "All Guides" and appends any homeSections not linked
+  // yet after it — a partial list splits the database links around "All Guides".
   internalLinks: [
     {
       title: "Items",
@@ -36,6 +39,14 @@ export const satisfactory = resolveAppConfig({
       linkText: "Open the Items database",
     },
     {
+      title: "Buildings",
+      description:
+        "All buildable structures — production machines, power generators, logistics and architecture — with power stats and build costs.",
+      href: "/db/structures",
+      iconName: "House",
+      linkText: "Browse Buildings",
+    },
+    {
       title: "Recipes",
       description:
         "Every machine and workshop recipe, grouped by building — ingredients, products, crafting time and output per minute.",
@@ -44,12 +55,20 @@ export const satisfactory = resolveAppConfig({
       linkText: "Browse Recipes",
     },
     {
-      title: "Buildings",
+      title: "Schematics",
       description:
-        "All buildable structures — production machines, power generators, logistics and architecture — with power stats and build costs.",
-      href: "/db/structures",
-      iconName: "House",
-      linkText: "Browse Buildings",
+        "Milestones, MAM research, alternate recipes and the AWESOME Shop — costs and everything they unlock.",
+      href: "/db/schematics",
+      iconName: "ScrollText",
+      linkText: "Browse Schematics",
+    },
+    {
+      title: "Creatures",
+      description:
+        "The fauna of MASSAGE-2(A-B)b — health, damage, gas resistance and drops.",
+      href: "/db/fauna",
+      iconName: "PawPrint",
+      linkText: "Browse Creatures",
     },
   ],
   db: {
