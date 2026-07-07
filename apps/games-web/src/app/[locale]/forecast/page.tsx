@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   DATA_FORGE_CDN_URL,
@@ -6,9 +7,9 @@ import {
   getMetadataAlternates,
   DEFAULT_LOCALE,
 } from "@repo/lib";
-import { getFullDictionary } from "@repo/ui/dicts";
+import { ContentLayout } from "@repo/ui/ads";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import { getAppConfig } from "@/lib/get-app-config";
-import { Breadcrumb } from "@/lib/db/breadcrumb";
 import {
   WeatherForecast,
   type WeatherData,
@@ -17,7 +18,8 @@ import {
 /**
  * Weather forecast — for tenants that ship a deterministic weather calendar at
  * `config/weather.json` (currently Heartopia). The link only appears where the
- * tenant config lists it, and non-weather games 404 here.
+ * tenant config lists it, and non-weather games 404 here. Uses the shared
+ * HeaderOffset + ContentLayout (header gap, container width, ad slots) like /guides.
  */
 type PageProps = { params: Promise<{ locale?: string }> };
 
@@ -62,31 +64,53 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { locale = DEFAULT_LOCALE } = await params;
   const appConfig = await getAppConfig();
-
-  const [data, dict] = await Promise.all([
-    fetchWeather(appConfig.name),
-    getFullDictionary(appConfig.name, locale),
-  ]);
+  const data = await fetchWeather(appConfig.name);
   if (!data) notFound();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
-      <Breadcrumb crumbs={[{ label: TITLE }]} locale={locale} dict={dict} />
-      <h1 className="text-2xl font-bold mb-1">{TITLE}</h1>
-      <p className="text-sm text-muted-foreground mb-6">
-        {appConfig.title}&apos;s weather runs on a fixed calendar — certain
-        fish, bugs and ores only appear in specific weather and time of day.
-      </p>
-      <WeatherForecast
-        data={data}
-        locale={locale}
-        labels={{
-          title: TITLE,
-          hourly: "Hourly forecast",
-          special: "Special weather",
-          find: "Find next special weather",
-        }}
+    <HeaderOffset full>
+      <PageTitle title={TITLE} />
+      <nav
+        aria-label="Breadcrumb"
+        className="text-xs text-muted-foreground px-4 py-2"
+      >
+        <ol className="flex items-center gap-1">
+          <li>
+            <Link href="/" className="hover:text-foreground transition-colors">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{TITLE}</li>
+        </ol>
+      </nav>
+      <ContentLayout
+        id={appConfig.name}
+        header={
+          <>
+            <h2 className="text-2xl">{TITLE}</h2>
+            <p className="text-sm">
+              {appConfig.title}&apos;s weather runs on a fixed calendar —
+              certain fish, bugs and ores only appear in specific weather and
+              time of day.
+            </p>
+          </>
+        }
+        content={
+          <div className="text-left">
+            <WeatherForecast
+              data={data}
+              locale={locale}
+              labels={{
+                title: TITLE,
+                hourly: "Hourly forecast",
+                special: "Special weather",
+                find: "Find next special weather",
+              }}
+            />
+          </div>
+        }
       />
-    </div>
+    </HeaderOffset>
   );
 }
