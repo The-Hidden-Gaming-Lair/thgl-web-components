@@ -28,6 +28,14 @@ export const heartopia = resolveAppConfig({
   appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
+      href: "/forecast",
+      title: "Weather Forecast",
+      linkText: "View forecast",
+      iconName: "CloudSun",
+      description:
+        "Hour-by-hour weather — plan around meteor showers, rainbows and storms.",
+    },
+    {
       href: "/db/fish",
       title: "Fish",
       linkText: "Browse fish",

@@ -30,6 +30,7 @@ import {
   Flower,
   PawPrint,
   Users,
+  CloudSun,
 } from "lucide-react";
 
 const ICONS = {
@@ -63,6 +64,7 @@ const ICONS = {
   Flower: Flower,
   PawPrint: PawPrint,
   Users: Users,
+  CloudSun: CloudSun,
 } as const;
 
 export function NavIcon({

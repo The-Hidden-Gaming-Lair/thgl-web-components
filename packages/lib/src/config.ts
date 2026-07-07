@@ -33,7 +33,8 @@ export type IconName =
   | "ChefHat"
   | "Flower"
   | "PawPrint"
-  | "Users";
+  | "Users"
+  | "CloudSun";
 
 export type AppConfig = {
   name: string;
