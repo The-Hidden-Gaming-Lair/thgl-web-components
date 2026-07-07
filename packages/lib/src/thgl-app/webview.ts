@@ -72,6 +72,14 @@ export type WEBVIEW_RECEIVE_MESSAGE =
       payload: Array<Actor>;
     }
   | {
+      action: "staticActors";
+      payload: Array<Actor>;
+    }
+  | {
+      action: "staticActorsDelta";
+      payload: { added: Array<Actor>; removed: Array<string> };
+    }
+  | {
       action: "characterData";
       game: string;
       processName: string;

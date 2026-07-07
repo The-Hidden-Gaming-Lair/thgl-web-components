@@ -126,7 +126,6 @@ export function App({
       )}
     >
       <InitializeApp />
-      <ActorTypeFilter typesIdMap={fullTypesIdMap} />
       <I18NProvider dict={dict}>
         <TooltipProvider>
           <CoordinatesProvider
@@ -141,6 +140,9 @@ export function App({
             staticDrawings={version.data.drawings}
             clusterPrecision={appConfig.markerOptions.clusterPrecision}
           >
+            {/* Inside CoordinatesProvider: reads the user's enabled filters so the
+                native reader only scans/serializes the types actually in use. */}
+            <ActorTypeFilter typesIdMap={fullTypesIdMap} />
             {lockedWindow ? (
               <UnlockButton onClick={toggleLockedWindow} />
             ) : (

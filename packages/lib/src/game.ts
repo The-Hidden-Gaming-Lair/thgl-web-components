@@ -11,6 +11,15 @@ import type { ActorPlayer, Actor } from "./overwolf/plugin";
 const THROTTLED_PLAYER_MS = 1000;
 let _lastThrottledPlayerAt = 0;
 
+// The native app broadcasts movers ("actors", per poll) and fixed-position
+// actors ("staticActors", full replace only when their content changes —
+// e.g. tens of thousands of foliage resource nodes) as separate messages so
+// the big static set isn't re-serialized every tick. `actors` stays the
+// combined array, so consumers are unaffected. Sources without the split
+// (Overwolf, Peer Link) just never call setStaticActors.
+let _mobileActors: Actor[] = [];
+let _staticActors: Actor[] = [];
+
 export const useGameState = create(
   subscribeWithSelector<{
     player: ActorPlayer | null;
@@ -19,8 +28,14 @@ export const useGameState = create(
     setPlayer: (player: ActorPlayer | null) => void;
     character: Record<string, any> | null;
     setCharacter: (character: Record<string, any> | null) => void;
+    /** Combined view: movers (per-poll) + static actors (on-change). */
     actors: Actor[];
+    /** Sets the mover subset (or the full list for sources without the split). */
     setActors: (actors: Actor[]) => void;
+    /** Sets the fixed-position subset (foliage resource nodes etc.). */
+    setStaticActors: (actors: Actor[]) => void;
+    /** Applies an incremental change to the fixed-position subset. */
+    applyStaticActorsDelta: (added: Actor[], removed: string[]) => void;
     error: string | null;
     setError: (error: string | null) => void;
     highlightSpawnIDs: string[];
@@ -58,7 +73,28 @@ export const useGameState = create(
     character: null,
     setCharacter: (character) => set({ character }),
     actors: [],
-    setActors: (actors) => set({ actors }),
+    setActors: (actors) => {
+      _mobileActors = actors;
+      set({
+        actors: _staticActors.length
+          ? [..._mobileActors, ..._staticActors]
+          : actors,
+      });
+    },
+    setStaticActors: (actors) => {
+      _staticActors = actors;
+      set({ actors: [..._mobileActors, ..._staticActors] });
+    },
+    applyStaticActorsDelta: (added, removed) => {
+      if (removed.length > 0) {
+        const rm = new Set(removed);
+        _staticActors = _staticActors.filter((a) => !rm.has(String(a.address)));
+      }
+      if (added.length > 0) {
+        _staticActors = _staticActors.concat(added);
+      }
+      set({ actors: [..._mobileActors, ..._staticActors] });
+    },
     error: null,
     setError: (error) => set({ error }),
     highlightSpawnIDs: [],

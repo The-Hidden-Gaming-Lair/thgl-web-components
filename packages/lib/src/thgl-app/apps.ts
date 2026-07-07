@@ -184,8 +184,19 @@ let prevActors: {
   z: number;
   hidden?: boolean;
 }[] = [];
+let prevStaticActors: {
+  address: number;
+  x: number;
+  y: number;
+  z: number;
+  hidden?: boolean;
+}[] = [];
 let lastActorUpdateTime = 0;
-const ACTOR_THROTTLE_MS = 200;
+// Matches the native actor poll (100 ms). The old 200 ms throttle protected
+// React from re-processing huge combined actor arrays; since the immobile
+// subset moved to the change-gated "staticActors" channel, the per-poll
+// "actors" payload is movers-only and small, so no extra delay is needed.
+const ACTOR_THROTTLE_MS = 100;
 
 function actorsChanged(
   prev: {
@@ -265,6 +276,21 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 prevActors = actors;
                 lastActorUpdateTime = now;
                 gameState.setActors(actors);
+              }
+            } else if (message.action === "staticActorsDelta") {
+              // Incremental update: a harvest is one removed address, a respawn
+              // wave a few added actors — no full-payload parse or re-render.
+              const { added, removed } = message.payload;
+              prevStaticActors = []; // full-payload guard no longer representative
+              gameState.applyStaticActorsDelta(added ?? [], removed ?? []);
+            } else if (message.action === "staticActors") {
+              // Fixed-position actors (foliage resource nodes etc.) — sent on
+              // change plus a periodic catch-up re-send; skip identical payloads
+              // so the re-send doesn't trigger pointless re-renders.
+              const staticActors = message.payload;
+              if (actorsChanged(prevStaticActors, staticActors)) {
+                prevStaticActors = staticActors;
+                gameState.setStaticActors(staticActors);
               }
             } else if (message.action === "characterData") {
               gameState.setCharacter(message.payload);

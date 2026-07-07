@@ -10,7 +10,11 @@ import {
 import type { ActorPlayer, Actor } from "@repo/lib/overwolf";
 import Peer, { DataConnection } from "peerjs";
 import { RemotePlayer, usePeersStore } from "../(providers)/peers-store";
-import { PeerMeshUtils, peerServerOptions, type ControlMsg } from "../(providers)/peer-mesh-utils";
+import {
+  PeerMeshUtils,
+  peerServerOptions,
+  type ControlMsg,
+} from "../(providers)/peer-mesh-utils";
 import { useEffect, useRef, useState } from "react";
 
 // PeerJS's "close" event isn't always fired when a tab is hard-killed,
@@ -36,7 +40,11 @@ function attachConnectionStateWatcher(conn: DataConnection) {
   };
   const killIfOpen = () => {
     if (conn.open) {
-      try { conn.close(); } catch { /* already closing */ }
+      try {
+        conn.close();
+      } catch {
+        /* already closing */
+      }
     }
   };
   pc.addEventListener("connectionstatechange", () => {
@@ -122,6 +130,7 @@ export function StreamingReceiver({
   const controlConnectionRef = useRef<DataConnection | null>(null);
   const setPlayer = useGameState((state) => state.setPlayer);
   const setActors = useGameState((state) => state.setActors);
+  const setStaticActors = useGameState((state) => state.setStaticActors);
   const setPeerLiveConnected = useGameState(
     (state) => state.setPeerLiveConnected,
   );
@@ -207,6 +216,7 @@ export function StreamingReceiver({
         // No "Me" selected - clear player state
         setPlayer(null);
         setActors([]);
+        setStaticActors([]);
       }
 
       // Update previous sender reference
@@ -260,11 +270,8 @@ export function StreamingReceiver({
 
     const shouldBeLive = Boolean(inPeer && meSenderId);
     if (shouldBeLive !== liveActive) {
-      const hasPreview =
-        useAccountStore.getState().perks.previewReleaseAccess;
-      setLiveMode(
-        shouldBeLive ? (hasPreview ? "combined" : "live") : "static",
-      );
+      const hasPreview = useAccountStore.getState().perks.previewReleaseAccess;
+      setLiveMode(shouldBeLive ? (hasPreview ? "combined" : "live") : "static");
     }
   }, [
     inPeer,
@@ -285,9 +292,7 @@ export function StreamingReceiver({
   }, [inPeer, meSenderId, setPeerLiveConnected]);
   useEffect(() => () => setPeerLiveConnected(false), [setPeerLiveConnected]);
 
-  function getConnectionType(
-    stats: RTCStatsReport,
-  ): "relay" | "direct" {
+  function getConnectionType(stats: RTCStatsReport): "relay" | "direct" {
     let result: "relay" | "direct" = "direct";
     stats.forEach((report: any) => {
       if (result === "relay") return;
@@ -306,10 +311,7 @@ export function StreamingReceiver({
     return result;
   }
 
-  function detectConnectionType(
-    conn: DataConnection,
-    peerId: string,
-  ) {
+  function detectConnectionType(conn: DataConnection, peerId: string) {
     try {
       const pc = conn.peerConnection;
       if (!pc) return;
@@ -345,14 +347,18 @@ export function StreamingReceiver({
       // Direct attempt timed out, keep relay
       console.log("Direct upgrade timed out for", peerId, "keeping relay");
       directConn.removeAllListeners();
-      try { directConn.close(); } catch {}
+      try {
+        directConn.close();
+      } catch {}
     }, 8000);
 
     directConn.on("open", () => {
       const pc = directConn.peerConnection;
       if (!pc) {
         clearTimeout(upgradeTimeout);
-        try { directConn.close(); } catch {}
+        try {
+          directConn.close();
+        } catch {}
         return;
       }
       // Wait a moment for ICE to settle, then check if it's direct
@@ -364,7 +370,9 @@ export function StreamingReceiver({
             console.log("Direct upgrade succeeded for", peerId);
             // Swap: set up the new direct connection and close the old relay
             relayConn.removeAllListeners();
-            try { relayConn.close(); } catch {}
+            try {
+              relayConn.close();
+            } catch {}
             // Re-initialize with the direct connection
             connectionsRef.current[peerId] = directConn;
             setDataConnStatus((prev) => ({ ...prev, [peerId]: "direct" }));
@@ -397,7 +405,9 @@ export function StreamingReceiver({
             // Still relay, keep the original
             console.log("Direct upgrade failed for", peerId, "keeping relay");
             directConn.removeAllListeners();
-            try { directConn.close(); } catch {}
+            try {
+              directConn.close();
+            } catch {}
           }
         });
       }, 1000);
@@ -717,11 +727,19 @@ export function StreamingReceiver({
                   if (msg.role === "sender") {
                     // Evict stale sender with same name (e.g. app restarted)
                     const evicted = PeerMeshUtils.evictStaleSenderByName(
-                      senderIds, senderNames, senderConnMap, msg.id, msg.name,
+                      senderIds,
+                      senderNames,
+                      senderConnMap,
+                      msg.id,
+                      msg.name,
                     );
                     if (evicted) {
                       receiverConns.forEach((rc) => {
-                        if (rc.open) rc.send({ type: "peer-left", id: evicted } as ControlMsg);
+                        if (rc.open)
+                          rc.send({
+                            type: "peer-left",
+                            id: evicted,
+                          } as ControlMsg);
                       });
                     }
                     if (!senderIds.has(msg.id)) {
@@ -876,11 +894,19 @@ export function StreamingReceiver({
                   if (msg.role === "sender") {
                     // Evict stale sender with same name (e.g. app restarted)
                     const evicted = PeerMeshUtils.evictStaleSenderByName(
-                      senderIds, senderNames, senderConnMap, msg.id, msg.name,
+                      senderIds,
+                      senderNames,
+                      senderConnMap,
+                      msg.id,
+                      msg.name,
                     );
                     if (evicted) {
                       receiverConns.forEach((rc) => {
-                        if (rc.open) rc.send({ type: "peer-left", id: evicted } as ControlMsg);
+                        if (rc.open)
+                          rc.send({
+                            type: "peer-left",
+                            id: evicted,
+                          } as ControlMsg);
                       });
                     }
                     if (!senderIds.has(msg.id)) {
@@ -1028,11 +1054,19 @@ export function StreamingReceiver({
                 if (msg.role === "sender") {
                   // Evict stale sender with same name (e.g. app restarted)
                   const evicted = PeerMeshUtils.evictStaleSenderByName(
-                    senderIds, senderNames, senderConnMap, msg.id, msg.name,
+                    senderIds,
+                    senderNames,
+                    senderConnMap,
+                    msg.id,
+                    msg.name,
                   );
                   if (evicted) {
                     receiverConns.forEach((rc) => {
-                      if (rc.open) rc.send({ type: "peer-left", id: evicted } as ControlMsg);
+                      if (rc.open)
+                        rc.send({
+                          type: "peer-left",
+                          id: evicted,
+                        } as ControlMsg);
                     });
                   }
                   if (!senderIds.has(msg.id)) {
@@ -1120,6 +1154,7 @@ export function StreamingReceiver({
                   setMeSenderId(null);
                   setPlayer(null);
                   setActors([]);
+                  setStaticActors([]);
                 }
               } else if (wasReceiver) {
                 receiverConns.forEach((rc) => {
@@ -1233,6 +1268,7 @@ export function StreamingReceiver({
             setMeSenderId(null);
             setPlayer(null);
             setActors([]);
+            setStaticActors([]);
           }
         }
       });
@@ -1470,10 +1506,22 @@ export function StreamingReceiver({
             </div>
             {inPeer && peerSenderIds.length > 0 && (
               <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-muted-foreground">
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-green-400 rounded-full" />direct</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-blue-400 rounded-full" />relay</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-yellow-400 rounded-full" />connecting</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-400 rounded-full" />failed</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+                  direct
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
+                  relay
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full" />
+                  connecting
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full" />
+                  failed
+                </span>
               </div>
             )}
             {inPeer && (
