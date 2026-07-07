@@ -54,9 +54,10 @@ import { useMemo } from "react";
 /**
  * Games whose in-game companion is an Elite Supporter preview: the App locks to
  * an upsell for accounts without `perks.previewReleaseAccess`. Web DB/map pages
- * are unaffected (this gate lives only in the in-game App component).
+ * are unaffected (this gate lives only in the in-game App component). Add a game
+ * id here to gate its in-game app; empty = every supported game is open to all.
  */
-const PREVIEW_ONLY_APPS = new Set(["heartopia"]);
+const PREVIEW_ONLY_APPS = new Set<string>([]);
 
 export function App({
   appConfig,
