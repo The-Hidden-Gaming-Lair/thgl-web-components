@@ -470,7 +470,12 @@ export async function fetchJsonWithMemoryCache<T>(
 }
 
 export async function fetchVersion(appName: string): Promise<Version> {
-  return fetchJsonWithMemoryCache<Version>(getAppUrl(appName, "/version.json"));
+  return fetchJsonWithMemoryCache<Version>(
+    getAppUrl(appName, "/version.json"),
+    {
+      ttlMs: process.env.NODE_ENV === "development" ? 0 : MEMORY_FETCH_TTL_MS,
+    },
+  );
 }
 
 // Cache for version lookup maps to avoid recreating them on each call
