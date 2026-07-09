@@ -18,6 +18,22 @@ export const diablo4 = resolveAppConfig({
       linkText: "Explore the Map",
       bgImage: preview("Sanctuary"),
     },
+    {
+      title: "Aspects",
+      description:
+        "Browse all 600+ Legendary Aspects from the Codex of Power — filterable by class and type.",
+      href: "/db/aspects",
+      iconName: "BookOpen",
+      linkText: "Browse Aspects",
+    },
+    {
+      title: "Unique Items",
+      description:
+        "Every Unique item in Diablo IV with class restrictions, item type, and unique power descriptions.",
+      href: "/db/uniques",
+      iconName: "Gift",
+      linkText: "Browse Unique Items",
+    },
   ],
   externalLinks: [],
   keywords: ["Dungeons", "World Events", "Strongholds", "Nightmare Dungeons"],
@@ -31,4 +47,70 @@ export const diablo4 = resolveAppConfig({
     "cellars",
     "sideQuests",
   ],
+  db: {
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search aspects, gems, runes…",
+    sectionsInNav: true,
+    homeSections: [
+      {
+        href: "/db/aspects",
+        type: "aspects",
+        titleFallback: "Aspects",
+        icon: "📖",
+        description:
+          "Legendary Aspects from the Codex of Power, by class and type.",
+      },
+      {
+        href: "/db/uniques",
+        type: "uniques",
+        titleFallback: "Unique Items",
+        icon: "💎",
+        description: "Every Unique item with class, slot, and unique power.",
+      },
+      {
+        href: "/db/gems",
+        type: "gems",
+        titleFallback: "Gems",
+        icon: "💠",
+        description: "All gems by type and quality tier.",
+      },
+      {
+        href: "/db/runes",
+        type: "runes",
+        titleFallback: "Runes",
+        icon: "🔮",
+        description: "Condition and Invocation runes with power values.",
+      },
+      {
+        href: "/db/glyphs",
+        type: "glyphs",
+        titleFallback: "Paragon Glyphs",
+        icon: "⭐",
+        description: "Paragon Glyphs by attribute and bonus effect.",
+      },
+      {
+        href: "/db/temper_manuals",
+        type: "temper_manuals",
+        titleFallback: "Temper Manuals",
+        icon: "📜",
+        description: "Tempering recipes by class and category.",
+      },
+      {
+        href: "/db/seals",
+        type: "seals",
+        titleFallback: "Horadric Seals",
+        icon: "🔰",
+        description: "Horadric Seals by quality tier.",
+      },
+    ],
+    typeLabels: {
+      aspects: "Aspect",
+      uniques: "Unique Item",
+      gems: "Gem",
+      runes: "Rune",
+      glyphs: "Paragon Glyph",
+      temper_manuals: "Temper Manual",
+      seals: "Horadric Seal",
+    },
+  },
 });
