@@ -88,7 +88,8 @@ export function Links({
     );
     const after = hasGuides ? [...NAV_AFTER] : [];
 
-    const allLinks = [...before, ...appLinks, ...after];
+    // DB sections come before guides so "All Guides" is always last
+    const allLinks = [...before, ...appLinks];
 
     const items = allLinks.map((l): MeasuredItem => {
       const href = localizePath(l.href, locale);
@@ -105,7 +106,7 @@ export function Links({
     // above (de-duped by href). Keeps the nav in sync with `db.homeSections`
     // without hand-curating each one in `internalLinks`.
     if (appConfig.db?.sectionsInNav) {
-      const seen = new Set(allLinks.map((l) => l.href));
+      const seen = new Set([...allLinks, ...after].map((l) => l.href));
       for (const section of appConfig.db.homeSections) {
         if (seen.has(section.href)) continue;
         seen.add(section.href);
@@ -121,6 +122,16 @@ export function Links({
           isActive: false,
         });
       }
+    }
+
+    // Guides always last
+    for (const l of after) {
+      items.push({
+        key: localizePath(l.href, locale),
+        href: localizePath(l.href, locale),
+        label: t(l.title),
+        isActive: false,
+      });
     }
 
     return items;
