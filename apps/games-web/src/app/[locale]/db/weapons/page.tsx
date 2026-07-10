@@ -1,21 +1,40 @@
 import { type Metadata } from "next";
 import Link from "next/link";
-import { DEFAULT_LOCALE, fetchDatabase, getMetadataAlternates } from "@repo/lib";
+import {
+  DEFAULT_LOCALE,
+  fetchDatabase,
+  getMetadataAlternates,
+} from "@repo/lib";
 import { JSONLDScript } from "@repo/ui/apps";
 import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
-import { requireApp } from "@/lib/get-app-config";
+import { getAppConfig } from "@/lib/get-app-config";
 import { WeaponsGrid, type WeaponItem } from "@/games/once-human/weapons-grid";
 import { onceHuman } from "@/configs/once-human";
+import GenericSectionPage, {
+  generateMetadata as genericSectionMetadata,
+} from "../[section]/page";
 
+// This static /db/weapons route exists for Once Human's bespoke weapons grid,
+// but `weapons` is also a normal db-section slug for other games (e.g. Wuthering
+// Waves). For any non–Once-Human app we delegate to the generic [section] page,
+// which renders the section if the app defines it and 404s otherwise.
 type PageProps = { params: Promise<{ locale?: string }> };
 
 const TITLE = "All Weapons – The Hidden Gaming Lair";
 const DESCRIPTION =
   "Browse all weapons in Once Human with stats, types, and rarities. Find the best weapons for your build and optimize your loadout.";
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  await requireApp("once-human");
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const app = await getAppConfig();
+  if (app.name !== "once-human") {
+    const p = await params;
+    return genericSectionMetadata({
+      params: Promise.resolve({ ...p, section: "weapons" }),
+    });
+  }
   const { locale = DEFAULT_LOCALE } = await params;
   const { canonical, languageAlternates } = getMetadataAlternates(
     "/db/weapons",
@@ -30,8 +49,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function WeaponsPage() {
-  await requireApp("once-human");
+export default async function WeaponsPage({ params }: PageProps) {
+  const app = await getAppConfig();
+  if (app.name !== "once-human") {
+    const p = await params;
+    return GenericSectionPage({
+      params: Promise.resolve({ ...p, section: "weapons" }),
+    });
+  }
   const database = await fetchDatabase("once-human");
   const cat = database.find((c) => c.type === "weapon");
   const weapons: WeaponItem[] = (cat?.items ?? []).map((item) => ({
@@ -39,9 +64,7 @@ export default async function WeaponsPage() {
     icon: typeof item.icon === "string" ? item.icon : "",
     name: (item.props as { name?: string }).name ?? item.id,
     quality: Number((item.props as { quality?: number }).quality ?? 1),
-    durability: Number(
-      (item.props as { durability?: number }).durability ?? 0,
-    ),
+    durability: Number((item.props as { durability?: number }).durability ?? 0),
     weight: Number((item.props as { weight?: number }).weight ?? 0),
   }));
 
