@@ -292,11 +292,17 @@ export class WebMap {
         const dpr = state.devicePixelRatio;
         const screen = { x: localX * dpr, y: localY * dpr };
         let handledByMarker = false;
+        // Stop at the FIRST layer that handles the right-click. A positioned
+        // type in live/combined mode renders both a (faded) static prediction
+        // marker AND its live-actor marker at ~the same spot; letting BOTH
+        // contextmenu handlers fire made their discovery writes cancel — the
+        // static write discovers the node, then the live write reads it back as
+        // discovered (via coord tolerance) and un-discovers it. One visual
+        // marker click = one discovery action.
         for (const { layer } of this.layers) {
-          if ((layer as any).handleContextMenu) {
-            if ((layer as any).handleContextMenu(state, screen)) {
-              handledByMarker = true;
-            }
+          if ((layer as any).handleContextMenu?.(state, screen)) {
+            handledByMarker = true;
+            break;
           }
         }
 

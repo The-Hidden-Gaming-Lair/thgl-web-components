@@ -15,6 +15,7 @@ import { rotateCoordinate } from "./rotation";
 import {
   buildDiscoveryLookup,
   checkNodeDiscovered,
+  getPositionedDiscoverTypes,
   getAppUrl,
   getEffectiveLiveMode,
   getIconsUrl,
@@ -395,7 +396,8 @@ function MarkersContent({
 }) {
   const map = useMap();
   const t = useT();
-  const { spawns, icons, filters, typesIdMap } = useCoordinates();
+  const { spawns, searchableNodes, icons, filters, typesIdMap } =
+    useCoordinates();
   // Group settings into logical selectors to minimize re-render triggers
   const {
     hideDiscoveredNodes,
@@ -463,6 +465,18 @@ function MarkersContent({
     () => buildDiscoveryLookup(discoveredNodes),
     [discoveredNodes],
   );
+  // Types that have a fixed static position (effigies, chests, …). A live
+  // detection of a positioned type is a *confirmation* of that fixed spawn, so
+  // we treat its marker as the predicted spawn (discoverable) rather than a
+  // live-only actor. Live-only/moving types (other players) stay non-positioned
+  // and therefore never become discoverable. Built from the FULL static set,
+  // not the live-mode render list (which drops live-resolved predictions).
+  const positionedTypes = useMemo(
+    () => getPositionedDiscoverTypes(searchableNodes),
+    [searchableNodes],
+  );
+  const positionedTypesRef = useRef(positionedTypes);
+  positionedTypesRef.current = positionedTypes;
   const sharedMyFilters = useConnectionStore((state) => state.myFilters);
   const selectedNodeId = useUserStore((state) => state.selectedNodeId);
   const userStoreApi = useUserStoreApi();
@@ -1558,7 +1572,10 @@ function MarkersContent({
           type: s.type,
           group,
           isPrivate: s.isPrivate,
-          isLive: Boolean(s.address),
+          // A live detection of a positioned (fixed) type IS its predicted
+          // spawn — treat it as non-live so it stays discoverable. Roaming
+          // live-only actors (no static position) remain live.
+          isLive: Boolean(s.address) && !positionedTypesRef.current.has(s.type),
           data: s.data,
           p: s.p,
         },
@@ -1582,7 +1599,9 @@ function MarkersContent({
               type: stackedSpawn.type,
               group: stackedGroup,
               isPrivate: stackedSpawn.isPrivate,
-              isLive: Boolean(stackedSpawn.address),
+              isLive:
+                Boolean(stackedSpawn.address) &&
+                !positionedTypesRef.current.has(stackedSpawn.type),
               data: stackedSpawn.data,
               p: stackedSpawn.p,
             };
@@ -2236,10 +2255,16 @@ function MarkersContent({
     );
     // Re-process when a node gets marked discovered/undiscovered so the
     // existing live marker reflects the new state immediately (right-click
-    // contextmenu fix).
+    // contextmenu fix). Rebuild the lookup HERE — the zustand subscription
+    // fires before React re-renders discoveryLookupRef, so processActors would
+    // otherwise recompute against the stale (pre-toggle) lookup and the marker
+    // wouldn't greyscale until the next actor tick.
     const unsubDiscovered = useSettingsStore.subscribe(
       (s) => s.discoveredNodes,
-      processActors,
+      (discoveredNodes) => {
+        discoveryLookupRef.current = buildDiscoveryLookup(discoveredNodes);
+        processActors();
+      },
     );
     // Re-process on icon-size changes so the sliders resize live markers in
     // place. Without these the static (predicted) markers resize via the
