@@ -191,6 +191,23 @@ export function SettingsDialogContent({
                 onCheckedChange={settingsStore.toggleHideDiscoveredNodes}
               />
             </div>
+            <div className="flex items-center justify-between">
+              <div className="pr-2">
+                <Label htmlFor="auto-discover-collected">
+                  Auto-discover collected items
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Mark items you already collected in-game (e.g. effigies) as
+                  discovered automatically. Turning this off restores the ones
+                  it added.
+                </p>
+              </div>
+              <Switch
+                id="auto-discover-collected"
+                checked={settingsStore.autoDiscoverCollected}
+                onCheckedChange={settingsStore.setAutoDiscoverCollected}
+              />
+            </div>
           </Section>
 
           {/* My Filters */}

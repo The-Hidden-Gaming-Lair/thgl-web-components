@@ -45,6 +45,9 @@ export type Actor = {
   hidden: boolean;
   path: string;
   mapName?: string;
+  // Memory reader flags this actor as already collected (e.g. a picked-up
+  // Palworld effigy). The frontend permanently marks the node discovered.
+  discovered?: boolean;
 };
 
 export type GameSessionUpdate = {

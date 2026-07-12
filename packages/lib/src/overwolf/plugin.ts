@@ -54,6 +54,9 @@ export type Actor = {
   hidden?: boolean;
   path?: string;
   props?: Record<string, any>;
+  // Memory reader flagged this actor as already collected (e.g. a picked-up
+  // effigy). The frontend permanently marks the node discovered.
+  discovered?: boolean;
 };
 export type GameEventsPlugin = {
   UpdateProcess?: (
@@ -260,10 +263,12 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
     refreshPlayerState();
 
     let liveMode =
-      !withoutLiveMode && isLiveReadingActive(useSettingsStore.getState().liveMode);
+      !withoutLiveMode &&
+      isLiveReadingActive(useSettingsStore.getState().liveMode);
     let actorsPollingRate = useSettingsStore.getState().actorsPollingRate;
     useSettingsStore.subscribe((settings) => {
-      const nextLive = !withoutLiveMode && isLiveReadingActive(settings.liveMode);
+      const nextLive =
+        !withoutLiveMode && isLiveReadingActive(settings.liveMode);
       if (!liveMode && nextLive) {
         refreshActorsState();
       }

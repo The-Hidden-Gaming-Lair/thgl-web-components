@@ -224,6 +224,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   windowOpacity: 1,
   discoveredNodes: [],
   hideDiscoveredNodes: false,
+  autoDiscoveredNodes: [],
+  autoDiscoverCollected: true,
   actorsPollingRate: 100,
   showTraceLine: true,
   followPlayer: true,
@@ -312,6 +314,12 @@ export type ProfileSettings = {
   windowOpacity: number;
   discoveredNodes: string[];
   hideDiscoveredNodes: boolean;
+  // Nodes auto-marked discovered from live memory (a subset of discoveredNodes),
+  // tracked separately so the UI can flag them as auto-discovered and so opting
+  // out can undo exactly those without touching manually-discovered nodes.
+  autoDiscoveredNodes: string[];
+  // User opt-out for memory-driven auto-discovery of collected items.
+  autoDiscoverCollected: boolean;
   actorsPollingRate: number;
   showTraceLine: boolean;
   followPlayer: boolean;
@@ -400,10 +408,16 @@ export interface ProfileActions {
   resetTransform: () => void;
   resetInterface: () => void;
   isDiscoveredNode: (nodeId: string) => boolean;
+  // True if the node was auto-discovered from live memory (vs manually marked).
+  isAutoDiscoveredNode: (nodeId: string) => boolean;
   toggleDiscoveredNode: (nodeId: string) => void;
   setDiscoverNode: (nodeId: string, discovered: boolean) => void;
   toggleHideDiscoveredNodes: () => void;
   setDiscoveredNodes: (discoveredNodes: string[]) => void;
+  // Mark nodes discovered from live memory — adds to BOTH discoveredNodes (so all
+  // discovery logic applies) and autoDiscoveredNodes (so the UI can flag them).
+  markAutoDiscovered: (nodeIds: string[]) => void;
+  setAutoDiscoverCollected: (enabled: boolean) => void;
   setActorsPollingRate: (actorsPollingRate: number) => void;
   toggleShowTraceLine: () => void;
   toggleFollowPlayer: () => void;
@@ -660,6 +674,10 @@ function fireFilterDelete(id: string) {
 let discoveredCache: Map<string, boolean> | null = null;
 let discoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
 let cachedDiscoveredNodes: string[] | null = null;
+// Parallel cache for isAutoDiscoveredNode (auto-discovered-from-memory subset).
+let autoDiscoveredCache: Map<string, boolean> | null = null;
+let autoDiscoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
+let cachedAutoDiscoveredNodes: string[] | null = null;
 
 export const useSettingsStore = create(
   subscribeWithSelector(
@@ -989,6 +1007,22 @@ export const useSettingsStore = create(
             return result;
           },
 
+          isAutoDiscoveredNode: (nodeId) => {
+            const state = get();
+            const autoDiscoveredNodes = state.autoDiscoveredNodes;
+            if (autoDiscoveredNodes.length === 0) return false;
+            if (cachedAutoDiscoveredNodes !== autoDiscoveredNodes) {
+              cachedAutoDiscoveredNodes = autoDiscoveredNodes;
+              autoDiscoveredCache = new Map();
+              autoDiscoveryLookup = buildDiscoveryLookup(autoDiscoveredNodes);
+            }
+            const cached = autoDiscoveredCache!.get(nodeId);
+            if (cached !== undefined) return cached;
+            const result = checkNodeDiscovered(nodeId, autoDiscoveryLookup!);
+            autoDiscoveredCache!.set(nodeId, result);
+            return result;
+          },
+
           toggleDiscoveredNode: (nodeId: string) => {
             const state = get();
             const discoveredNodes = state.discoveredNodes;
@@ -1068,6 +1102,37 @@ export const useSettingsStore = create(
 
           setDiscoveredNodes: (discoveredNodes: string[]) => {
             updateSettings({ discoveredNodes });
+          },
+
+          markAutoDiscovered: (nodeIds: string[]) => {
+            const state = get();
+            updateSettings({
+              discoveredNodes: [
+                ...new Set([...state.discoveredNodes, ...nodeIds]),
+              ],
+              autoDiscoveredNodes: [
+                ...new Set([...state.autoDiscoveredNodes, ...nodeIds]),
+              ],
+            });
+          },
+
+          setAutoDiscoverCollected: (enabled: boolean) => {
+            const state = get();
+            if (enabled) {
+              updateSettings({ autoDiscoverCollected: true });
+              return;
+            }
+            // Opting out un-discovers exactly what auto-discovery added (tracked in
+            // autoDiscoveredNodes) so those nodes reappear, and clears the tag set.
+            // Manually-discovered nodes are untouched.
+            const auto = new Set(state.autoDiscoveredNodes);
+            updateSettings({
+              autoDiscoverCollected: false,
+              discoveredNodes: state.discoveredNodes.filter(
+                (id) => !auto.has(id),
+              ),
+              autoDiscoveredNodes: [],
+            });
           },
 
           setActorsPollingRate: (actorsPollingRate: number) => {

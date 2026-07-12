@@ -10,6 +10,7 @@ import {
   MessageCircle,
   Navigation,
   Pencil,
+  Sparkles,
   Trash2,
 } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
@@ -108,51 +109,82 @@ function DiscoveryToggle({
   /** Custom toggle handler (for "discover all" button) */
   onToggle?: () => void;
 }) {
-  // Subscribe to discoveredNodes changes so the toggle updates reactively
+  // Subscribe to discovery state changes so the toggle updates reactively
   useSettingsStore((state) => state.discoveredNodes);
+  useSettingsStore((state) => state.autoDiscoveredNodes);
   const storeIsDiscovered = useSettingsStore((state) => state.isDiscoveredNode)(
     id,
   );
   const storeToggle = useSettingsStore((state) => state.toggleDiscoveredNode);
+  const isAutoDiscoveredNode = useSettingsStore(
+    (state) => state.isAutoDiscoveredNode,
+  );
   const isDiscovered = overrideState ?? storeIsDiscovered;
+  // Auto-discovered = marked from live memory (collected in-game) rather than by
+  // the user. Only meaningful when there's no override (the discover-all button).
+  const isAutoDiscovered =
+    overrideState === undefined && isDiscovered && isAutoDiscoveredNode(id);
   const handleToggle = onToggle ?? (() => storeToggle(id));
 
   return (
-    <Tooltip delayDuration={400}>
-      <TooltipTrigger asChild>
-        <button
-          type="button"
-          className={cn(
-            "shrink-0 rounded transition-colors",
-            compact ? "h-5 w-5 p-0.5" : "h-6 w-6 p-1",
-            isDiscovered
-              ? "bg-primary/20 text-primary hover:bg-primary/30"
-              : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground",
-          )}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleToggle();
-          }}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleToggle();
-          }}
-        >
-          {isDiscovered ? (
-            <Eye className="w-full h-full" />
+    <span className="relative inline-flex shrink-0">
+      <Tooltip delayDuration={400}>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className={cn(
+              "shrink-0 rounded transition-colors",
+              compact ? "h-5 w-5 p-0.5" : "h-6 w-6 p-1",
+              isDiscovered
+                ? "bg-primary/20 text-primary hover:bg-primary/30"
+                : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground",
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggle();
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleToggle();
+            }}
+          >
+            {isDiscovered ? (
+              <Eye className="w-full h-full" />
+            ) : (
+              <EyeOff className="w-full h-full" />
+            )}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="max-w-[200px] text-xs">
+          {isAutoDiscovered ? (
+            <>
+              <p>Auto-discovered — collected in-game</p>
+              <p className="text-muted-foreground mt-0.5">
+                Detected from game memory. Right-click to override, or turn off
+                auto-discovery in settings.
+              </p>
+            </>
           ) : (
-            <EyeOff className="w-full h-full" />
+            <>
+              <p>
+                {isDiscovered ? "Mark as undiscovered" : "Mark as discovered"}
+              </p>
+              <p className="text-muted-foreground mt-0.5">
+                Right-click to toggle. Discovered nodes can be hidden in
+                settings.
+              </p>
+            </>
           )}
-        </button>
-      </TooltipTrigger>
-      <TooltipContent side="bottom" className="max-w-[200px] text-xs">
-        <p>{isDiscovered ? "Mark as undiscovered" : "Mark as discovered"}</p>
-        <p className="text-muted-foreground mt-0.5">
-          Right-click to toggle. Discovered nodes can be hidden in settings.
-        </p>
-      </TooltipContent>
-    </Tooltip>
+        </TooltipContent>
+      </Tooltip>
+      {isAutoDiscovered && (
+        <Sparkles
+          className="pointer-events-none absolute -right-1 -top-1 h-3 w-3 text-primary"
+          aria-label="Auto-discovered"
+        />
+      )}
+    </span>
   );
 }
 
