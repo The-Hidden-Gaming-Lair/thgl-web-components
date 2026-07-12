@@ -6,9 +6,13 @@ import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
+
+// Persisted flag so the user can permanently suppress the warning
+const DONT_SHOW_KEY = "thgl-exclusive-fullscreen-dismissed";
 
 // Shown in the overlay window while the game runs in Exclusive Fullscreen -
 // the game bypasses desktop composition, so the overlay flickers, disappears,
@@ -20,6 +24,12 @@ export function ExclusiveFullscreenDialog() {
     (state) => state.exclusiveFullscreen,
   );
   const [dismissed, setDismissed] = useState(false);
+  // Permanently suppressed via "Don't show again" - read once on mount
+  const [suppressed, setSuppressed] = useState(true);
+
+  useEffect(() => {
+    setSuppressed(localStorage.getItem(DONT_SHOW_KEY) === "true");
+  }, []);
 
   // Re-arm the dialog once the game leaves exclusive fullscreen, so it shows
   // again if the user switches back later
@@ -29,7 +39,12 @@ export function ExclusiveFullscreenDialog() {
     }
   }, [exclusiveFullscreen]);
 
-  if (!exclusiveFullscreen || dismissed) {
+  const handleDontShowAgain = () => {
+    localStorage.setItem(DONT_SHOW_KEY, "true");
+    setSuppressed(true);
+  };
+
+  if (!exclusiveFullscreen || dismissed || suppressed) {
     return null;
   }
 
@@ -53,9 +68,14 @@ export function ExclusiveFullscreenDialog() {
           for a stable overlay.
         </p>
 
-        <AlertDialogCancel onClick={() => setDismissed(true)}>
-          Got it
-        </AlertDialogCancel>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={handleDontShowAgain}>
+            Don&apos;t show again
+          </AlertDialogCancel>
+          <AlertDialogCancel onClick={() => setDismissed(true)}>
+            Got it
+          </AlertDialogCancel>
+        </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
