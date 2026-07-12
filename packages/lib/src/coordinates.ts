@@ -177,9 +177,36 @@ export const normalizeNodeCoords = (coords: string): string => {
  *   when type IDs change but coordinates remain the same
  * - splitCache: Map to cache nodeId.split("@") results to avoid repeated string ops
  */
+/**
+ * World-unit tolerance for matching a node's coordinate against a discovered
+ * one. The SAME physical node can be addressed by two slightly different floats
+ * — a live memory read vs the extracted static value — that differ by the float
+ * round-trip / precision noise (e.g. ~0.03 at Palworld's ±1M magnitudes, from
+ * float32 ulp). Those can round to different `toFixed(2)` strings when they
+ * straddle a rounding boundary, which broke exact/normalized string matching.
+ * Matching within 1 unit bridges that noise; distinct game objects are always
+ * many units apart, so this never merges different nodes.
+ */
+export const COORD_MATCH_TOLERANCE = 1;
+
+// Bucket key for the spatial grid; bucket size == tolerance so any point within
+// tolerance of a query is in the query's cell or one of its 8 neighbours.
+const coordBucketKey = (x: number, y: number): string =>
+  `${Math.floor(x / COORD_MATCH_TOLERANCE)}:${Math.floor(y / COORD_MATCH_TOLERANCE)}`;
+
 export const buildDiscoveryLookup = (discoveredNodes: string[]) => {
   const discoveredSet = new Set(discoveredNodes);
   const discoveredCoords = new Set<string>();
+  // Spatial grid of discovered points for the tolerance match (see
+  // COORD_MATCH_TOLERANCE). Keeps the check O(1) via a 3x3 bucket scan.
+  const discoveredGrid = new Map<string, Array<[number, number]>>();
+  const addPoint = (x: number, y: number) => {
+    if (isNaN(x) || isNaN(y)) return;
+    const key = coordBucketKey(x, y);
+    const bucket = discoveredGrid.get(key);
+    if (bucket) bucket.push([x, y]);
+    else discoveredGrid.set(key, [[x, y]]);
+  };
 
   for (const id of discoveredNodes) {
     if (id.includes("@")) {
@@ -191,23 +218,23 @@ export const buildDiscoveryLookup = (discoveredNodes: string[]) => {
       // addressed at another (e.g. its full-precision static/predicted id).
       discoveredCoords.add(normalizeNodeCoords(coords));
 
-      // Backward compatibility: old node IDs used raw float precision in z:x
-      // order (from getNodeId fallback), while current extraction uses
-      // .toFixed(2) in x:z order. Detect old-format IDs (>2 decimal places)
-      // and also index the swapped+rounded coordinates so they match.
       const parts = coords.split(":");
       if (parts.length === 2) {
+        const a = parseFloat(parts[0]);
+        const b = parseFloat(parts[1]);
+        addPoint(a, b);
+
+        // Backward compatibility: old node IDs used raw float precision in z:x
+        // order (from getNodeId fallback), while current extraction uses
+        // .toFixed(2) in x:z order. Detect old-format IDs (>2 decimal places)
+        // and also index the swapped coordinates so they match.
         const hasExcessPrecision = parts.some((p) => {
           const dot = p.indexOf(".");
           return dot !== -1 && p.length - dot - 1 > 2;
         });
-        if (hasExcessPrecision) {
-          const a = parseFloat(parts[0]);
-          const b = parseFloat(parts[1]);
-          if (!isNaN(a) && !isNaN(b)) {
-            // Add swapped+rounded: old z:x → new x:z with .toFixed(2)
-            discoveredCoords.add(`${b.toFixed(2)}:${a.toFixed(2)}`);
-          }
+        if (hasExcessPrecision && !isNaN(a) && !isNaN(b)) {
+          discoveredCoords.add(`${b.toFixed(2)}:${a.toFixed(2)}`);
+          addPoint(b, a);
         }
       }
     }
@@ -216,8 +243,31 @@ export const buildDiscoveryLookup = (discoveredNodes: string[]) => {
   return {
     discoveredSet,
     discoveredCoords,
+    discoveredGrid,
     splitCache: new Map<string, [string, string]>(),
   };
+};
+
+/**
+ * True if two "x:y" coordinate strings address the same physical node — exact,
+ * precision-normalized, or within {@link COORD_MATCH_TOLERANCE}. Use this for
+ * one-off coordinate comparisons (e.g. removing a discovered id); the hot render
+ * path uses {@link buildDiscoveryLookup}/{@link checkNodeDiscovered} instead.
+ */
+export const coordsMatch = (a: string, b: string): boolean => {
+  if (a === b) return true;
+  if (normalizeNodeCoords(a) === normalizeNodeCoords(b)) return true;
+  const pa = a.split(":");
+  const pb = b.split(":");
+  if (pa.length < 2 || pb.length < 2) return false;
+  const ax = parseFloat(pa[0]);
+  const ay = parseFloat(pa[1]);
+  const bx = parseFloat(pb[0]);
+  const by = parseFloat(pb[1]);
+  if (isNaN(ax) || isNaN(ay) || isNaN(bx) || isNaN(by)) return false;
+  const dx = ax - bx;
+  const dy = ay - by;
+  return dx * dx + dy * dy <= COORD_MATCH_TOLERANCE * COORD_MATCH_TOLERANCE;
 };
 
 /**
@@ -225,13 +275,14 @@ export const buildDiscoveryLookup = (discoveredNodes: string[]) => {
  * Matches by:
  * 1. Exact ID match
  * 2. Base ID match (type without coordinates)
- * 3. Coordinate match (for backward compatibility when type IDs change)
+ * 3. Coordinate match (backward compat + tolerance for float/precision drift)
  */
 export const checkNodeDiscovered = (
   nodeId: string,
   lookup: ReturnType<typeof buildDiscoveryLookup>,
 ): boolean => {
-  const { discoveredSet, discoveredCoords, splitCache } = lookup;
+  const { discoveredSet, discoveredCoords, discoveredGrid, splitCache } =
+    lookup;
 
   // Fast path: no @ means simple ID
   if (!nodeId.includes("@")) {
@@ -258,5 +309,36 @@ export const checkNodeDiscovered = (
   // normalized form so cross-mode (live toFixed(2) vs static full-precision)
   // ids for the same node match.
   if (discoveredCoords.has(coords)) return true;
-  return discoveredCoords.has(normalizeNodeCoords(coords));
+  if (discoveredCoords.has(normalizeNodeCoords(coords))) return true;
+
+  // Tolerance match: the same physical node can be addressed by slightly
+  // different floats (live memory read vs extracted static value) that round to
+  // different strings — see COORD_MATCH_TOLERANCE. Treat as discovered if any
+  // discovered point lies within tolerance. Bucket size == tolerance, so the
+  // 3x3 neighbourhood scan is exhaustive and O(1).
+  if (discoveredGrid.size > 0) {
+    const parts = coords.split(":");
+    if (parts.length >= 2) {
+      const x = parseFloat(parts[0]);
+      const y = parseFloat(parts[1]);
+      if (!isNaN(x) && !isNaN(y)) {
+        const bx = Math.floor(x / COORD_MATCH_TOLERANCE);
+        const by = Math.floor(y / COORD_MATCH_TOLERANCE);
+        const tolSq = COORD_MATCH_TOLERANCE * COORD_MATCH_TOLERANCE;
+        for (let gx = bx - 1; gx <= bx + 1; gx++) {
+          for (let gy = by - 1; gy <= by + 1; gy++) {
+            const bucket = discoveredGrid.get(`${gx}:${gy}`);
+            if (!bucket) continue;
+            for (const [px, py] of bucket) {
+              const dx = px - x;
+              const dy = py - y;
+              if (dx * dx + dy * dy <= tolSq) return true;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return false;
 };

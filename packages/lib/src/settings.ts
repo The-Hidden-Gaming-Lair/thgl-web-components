@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { useAccountStore } from "./account";
-import { normalizeNodeCoords, type DiscoverMode } from "./coordinates";
+import {
+  buildDiscoveryLookup,
+  checkNodeDiscovered,
+  coordsMatch,
+  type DiscoverMode,
+} from "./coordinates";
 import { withStorageDOMEvents } from "./dom";
 import {
   apiDeleteFilter,
@@ -653,8 +658,7 @@ function fireFilterDelete(id: string) {
 
 // Cache for isDiscoveredNode results - invalidated when discoveredNodes changes
 let discoveredCache: Map<string, boolean> | null = null;
-let discoveredSet: Set<string> | null = null;
-let discoveredCoordsSet: Set<string> | null = null;
+let discoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
 let cachedDiscoveredNodes: string[] | null = null;
 
 export const useSettingsStore = create(
@@ -964,22 +968,14 @@ export const useSettingsStore = create(
             const state = get();
             const discoveredNodes = state.discoveredNodes;
 
-            // Invalidate cache and rebuild sets if discoveredNodes changed
+            // Invalidate cache and rebuild the shared lookup if discoveredNodes
+            // changed. Matching (exact / base-id / coordinate-with-tolerance)
+            // lives in coordinates.ts so this selector, the marker render path,
+            // and the discover/undiscover writes all agree.
             if (cachedDiscoveredNodes !== discoveredNodes) {
               cachedDiscoveredNodes = discoveredNodes;
               discoveredCache = new Map();
-              discoveredSet = new Set(discoveredNodes);
-              discoveredCoordsSet = new Set();
-              for (const id of discoveredNodes) {
-                if (id.includes("@")) {
-                  const coords = id.slice(id.indexOf("@") + 1);
-                  discoveredCoordsSet.add(coords);
-                  // Also index the precision-normalized form so a node
-                  // discovered at one precision (live toFixed(2)) matches the
-                  // same node addressed at another (static full-precision).
-                  discoveredCoordsSet.add(normalizeNodeCoords(coords));
-                }
-              }
+              discoveryLookup = buildDiscoveryLookup(discoveredNodes);
             }
 
             // Return cached result if available
@@ -988,30 +984,7 @@ export const useSettingsStore = create(
               return cached;
             }
 
-            // Calculate result - all lookups are O(1)
-            let result: boolean;
-
-            // Fast path: no @ means simple ID
-            if (!nodeId.includes("@")) {
-              result = discoveredSet!.has(nodeId);
-            } else if (discoveredSet!.has(nodeId)) {
-              // Exact match
-              result = true;
-            } else {
-              // Parse nodeId once
-              const atIndex = nodeId.indexOf("@");
-              const baseId = nodeId.slice(0, atIndex);
-              const coords = nodeId.slice(atIndex + 1);
-
-              // Check base ID match or coordinate match (all O(1)), including
-              // the precision-normalized coords for cross-mode matching.
-              result =
-                discoveredSet!.has(baseId) ||
-                discoveredCoordsSet!.has(coords) ||
-                discoveredCoordsSet!.has(normalizeNodeCoords(coords));
-            }
-
-            // Cache and return
+            const result = checkNodeDiscovered(nodeId, discoveryLookup!);
             discoveredCache!.set(nodeId, result);
             return result;
           },
@@ -1036,16 +1009,12 @@ export const useSettingsStore = create(
                   if (nodeId.includes("@") && nodeId.split("@")[0] === id) {
                     return false;
                   }
-                  // Coordinate match (for backward compatibility), precision-
-                  // tolerant so undiscovering matches a node stored at a
-                  // different precision (live toFixed(2) vs static full coords).
+                  // Coordinate match (backward compat + tolerance) so
+                  // undiscovering matches a node stored at a slightly different
+                  // float (live memory read vs static extracted coords).
                   if (nodeCoords && id.includes("@")) {
                     const idCoords = id.slice(id.indexOf("@") + 1);
-                    if (
-                      idCoords === nodeCoords ||
-                      normalizeNodeCoords(idCoords) ===
-                        normalizeNodeCoords(nodeCoords)
-                    ) {
+                    if (coordsMatch(idCoords, nodeCoords)) {
                       return false;
                     }
                   }
@@ -1076,16 +1045,12 @@ export const useSettingsStore = create(
                     if (nodeId.includes("@") && nodeId.split("@")[0] === id) {
                       return false;
                     }
-                    // Coordinate match (for backward compatibility), precision-
-                    // tolerant so undiscovering matches a node stored at a
-                    // different precision (live toFixed(2) vs static full coords).
+                    // Coordinate match (backward compat + tolerance) so
+                    // undiscovering matches a node stored at a slightly
+                    // different float (live memory read vs static coords).
                     if (nodeCoords && id.includes("@")) {
                       const idCoords = id.slice(id.indexOf("@") + 1);
-                      if (
-                        idCoords === nodeCoords ||
-                        normalizeNodeCoords(idCoords) ===
-                          normalizeNodeCoords(nodeCoords)
-                      ) {
+                      if (coordsMatch(idCoords, nodeCoords)) {
                         return false;
                       }
                     }
