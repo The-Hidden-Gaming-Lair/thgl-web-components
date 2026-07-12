@@ -776,6 +776,9 @@ export type FiltersConfig = {
         };
     size?: number;
     sort?: number;
+    /** No plotted map markers for this type (only shown via the in-app live overlay). */
+    no_map_markers?: boolean;
+    /** @deprecated Renamed to `no_map_markers`. Still read for back-compat. */
     live_only?: boolean;
     autoDiscover?: boolean;
     defaultOn?: boolean;

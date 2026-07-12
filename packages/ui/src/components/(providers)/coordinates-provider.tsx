@@ -71,6 +71,8 @@ export type Icons = Map<
           height: number;
         };
     size?: number;
+    no_map_markers?: boolean;
+    /** @deprecated Renamed to `no_map_markers`. Still read for back-compat. */
     live_only?: boolean;
     autoDiscover?: boolean;
     defaultOn?: boolean;

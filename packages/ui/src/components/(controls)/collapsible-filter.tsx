@@ -185,7 +185,7 @@ export function CollapsibleFilter({
               <FilterSettingsPopover
                 filterId={f.id}
                 filterLabel={t(f.id) || f.id}
-                liveOnly={f.live_only}
+                liveOnly={f.no_map_markers ?? f.live_only}
               />
             </div>
           ))}
