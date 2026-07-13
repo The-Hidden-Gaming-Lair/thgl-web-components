@@ -1,4 +1,5 @@
 import { useGameState } from "../game";
+import type { Actor } from "../overwolf/plugin";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
 import { useLiveState, useTHGLAppState } from "./states";
@@ -192,6 +193,14 @@ let prevStaticActors: {
   hidden?: boolean;
 }[] = [];
 let lastActorUpdateTime = 0;
+// Trailing-edge throttle state: the native side broadcasts the "actors" payload
+// only when it CHANGES (edge-triggered). A leading-edge-only throttle would drop
+// a change that lands inside the window and never see it again (the native side
+// won't re-send an unchanged payload), leaving the map stuck on the previous set
+// — e.g. select NONE then Pickups and the pickups never appear. Remember the last
+// throttled payload and flush it when the window elapses so no edge is ever lost.
+let pendingActors: Actor[] | null = null;
+let pendingActorTimer: ReturnType<typeof setTimeout> | null = null;
 // Matches the native actor poll (100 ms). The old 200 ms throttle protected
 // React from re-processing huge combined actor arrays; since the immobile
 // subset moved to the change-gated "staticActors" channel, the per-poll
@@ -269,13 +278,35 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
             } else if (message.action === "actors") {
               const now = performance.now();
               const actors = message.payload;
-              if (
-                now - lastActorUpdateTime >= ACTOR_THROTTLE_MS &&
-                actorsChanged(prevActors, actors)
-              ) {
-                prevActors = actors;
-                lastActorUpdateTime = now;
-                gameState.setActors(actors);
+              if (actorsChanged(prevActors, actors)) {
+                const elapsed = now - lastActorUpdateTime;
+                if (elapsed >= ACTOR_THROTTLE_MS) {
+                  // Leading edge: apply immediately and cancel any pending flush.
+                  if (pendingActorTimer !== null) {
+                    clearTimeout(pendingActorTimer);
+                    pendingActorTimer = null;
+                    pendingActors = null;
+                  }
+                  prevActors = actors;
+                  lastActorUpdateTime = now;
+                  gameState.setActors(actors);
+                } else {
+                  // Inside the throttle window: keep the latest payload and flush it
+                  // when the window elapses, so an edge-triggered change is never lost.
+                  pendingActors = actors;
+                  if (pendingActorTimer === null) {
+                    pendingActorTimer = setTimeout(() => {
+                      pendingActorTimer = null;
+                      const flush = pendingActors;
+                      pendingActors = null;
+                      if (flush && actorsChanged(prevActors, flush)) {
+                        prevActors = flush;
+                        lastActorUpdateTime = performance.now();
+                        gameState.setActors(flush);
+                      }
+                    }, ACTOR_THROTTLE_MS - elapsed);
+                  }
+                }
               }
             } else if (message.action === "staticActorsDelta") {
               // Incremental update: a harvest is one removed address, a respawn
