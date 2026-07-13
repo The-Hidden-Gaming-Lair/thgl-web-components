@@ -1,4 +1,5 @@
 import { useGameState } from "../game";
+import type { Actor } from "../overwolf/plugin";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
 import { useLiveState, useTHGLAppState } from "./states";
@@ -198,9 +199,7 @@ let lastActorUpdateTime = 0;
 // won't re-send an unchanged payload), leaving the map stuck on the previous set
 // — e.g. select NONE then Pickups and the pickups never appear. Remember the last
 // throttled payload and flush it when the window elapses so no edge is ever lost.
-let pendingActors:
-  | { address: number; x: number; y: number; z: number; hidden?: boolean }[]
-  | null = null;
+let pendingActors: Actor[] | null = null;
 let pendingActorTimer: ReturnType<typeof setTimeout> | null = null;
 // Matches the native actor poll (100 ms). The old 200 ms throttle protected
 // React from re-processing huge combined actor arrays; since the immobile
