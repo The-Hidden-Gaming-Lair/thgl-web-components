@@ -73,11 +73,81 @@ let lastActorAddresses: number[] = [];
 // memory-read / loading-state blinks that would otherwise become false spawns.
 const dwellTracker = createDwellTracker();
 
+// Honey Lures (base Honey Lure, Honeybee Lure, Jack O' Lantern Lure) spawn bugs
+// where they never naturally occur — bees anywhere, and the zone's default bug
+// table in unnatural spots. Those lured bugs are real right now, so we keep
+// showing them on the LIVE map, but they must NOT be saved to the actors-api or
+// they become permanent false spawn locations. We read the lure actors (they
+// stay invisible on the map — they aren't in typesIdMap) and drop any bug
+// sighting near an active/recent lure before reporting.
+// Crab Wars event lures are intentionally NOT included: their crabs spawn on the
+// beach where crabs legitimately live.
+const LURE_CLASSES = [
+  "BP_HoneyLure_C",
+  "BP_HoneyLure_Bee_C",
+  "BP_HoneyLure_JackOLantern_C",
+];
+// The base lure's MaxSpawnRadius is 1500 units; use ~2x so lured bugs that
+// wander before we sample them are still covered.
+const LURE_EXCLUSION_RADIUS = 3000;
+// Keep a lure "active" a while after it was last seen, since lured bugs linger
+// after the lure ends.
+const LURE_TTL_MS = 3 * 60 * 1000;
+const recentLures: { x: number; y: number; mapName?: string; t: number }[] = [];
+
+// Record lure positions every frame (before the report throttle) so a lure seen
+// only briefly still shields nearby bugs for LURE_TTL_MS. Same-spot re-sightings
+// refresh an existing entry instead of piling up.
+function trackLures(actors: Actor[]): void {
+  const now = Date.now();
+  for (const actor of actors) {
+    if (!LURE_CLASSES.includes(actor.type)) {
+      continue;
+    }
+    const existing = recentLures.find(
+      (l) =>
+        l.mapName === actor.mapName &&
+        Math.hypot(l.x - actor.x, l.y - actor.y) < LURE_EXCLUSION_RADIUS,
+    );
+    if (existing) {
+      existing.x = actor.x;
+      existing.y = actor.y;
+      existing.t = now;
+    } else {
+      recentLures.push({
+        x: actor.x,
+        y: actor.y,
+        mapName: actor.mapName,
+        t: now,
+      });
+    }
+  }
+  for (let i = recentLures.length - 1; i >= 0; i--) {
+    if (now - recentLures[i].t > LURE_TTL_MS) {
+      recentLures.splice(i, 1);
+    }
+  }
+}
+
+function isNearActiveLure(
+  mapName: string | undefined,
+  x: number,
+  y: number,
+): boolean {
+  return recentLures.some(
+    (l) =>
+      l.mapName === mapName &&
+      Math.hypot(l.x - x, l.y - y) <= LURE_EXCLUSION_RADIUS,
+  );
+}
+
 const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
   {
     onActors: sendActorsToAPI,
   },
-  Object.keys(typesIdMap),
+  // Read the lure classes too so trackLures can see them (they never render —
+  // they aren't in typesIdMap, so the map skips them).
+  [...Object.keys(typesIdMap), ...LURE_CLASSES],
   (actor) => {
     if (!actor.path) {
       return;
@@ -119,6 +189,7 @@ const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
 function sendActorsToAPI(actors: Actor[]): void {
   // Observe every frame, before the send throttle, so dwell accrues continuously.
   dwellTracker.observe(actors);
+  trackLures(actors);
   if (Date.now() - lastSend < 10000) {
     return;
   }
@@ -135,6 +206,18 @@ function sendActorsToAPI(actors: Actor[]): void {
     }
     if (!dwellTracker.isStable(actor.address)) {
       return false;
+    }
+    // Drop bugs spawned by a Honey Lure: they appear where the bug never
+    // naturally spawns and would pollute the historical spawn data. Check the
+    // reported (first-seen) position — where the bug was lured — against nearby
+    // active/recent lures.
+    if (actor.type.startsWith("BP_Bug_")) {
+      const firstPos = dwellTracker.getFirstPosition(actor.address);
+      const px = firstPos ? firstPos.x : actor.x;
+      const py = firstPos ? firstPos.y : actor.y;
+      if (isNearActiveLure(actor.mapName, px, py)) {
+        return false;
+      }
     }
     return true;
   });
