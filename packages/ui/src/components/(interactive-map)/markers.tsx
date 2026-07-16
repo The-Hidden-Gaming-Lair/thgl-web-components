@@ -1844,6 +1844,40 @@ function MarkersContent({
       // which is handled by the static effect.)
       const isLiveActive = settingsState.liveMode !== "static";
 
+      // Auto-discovery runs in EVERY mode incl. Predicted ('static') — marking a
+      // node collected is independent of whether we render live markers; it only
+      // needs the app to be feeding live actors. So it sits ABOVE the render-mode
+      // early-return below. The memory reader can flag an actor as already collected
+      // (e.g. a picked-up Palworld effigy — bPickedInClient stays true and the actor
+      // persists in memory); permanently mark its node discovered. Only positioned
+      // (fixed) types — a roaming/live-only actor is never auto-discovered.
+      // Independent of active filters and the discovered-hide toggle. Collect the
+      // newly-collected ids and write them in ONE store update: a per-node
+      // setDiscoverNode would fire the discoveredNodes subscription (which re-runs
+      // this pass) synchronously each call — O(n^2) reentrancy on a first load where
+      // many effigies are already collected.
+      if (settingsState.autoDiscoverCollected) {
+        const newlyCollected: string[] = [];
+        for (const actor of actorsList) {
+          if (!actor.discovered || !actor.address) {
+            continue;
+          }
+          const displayType = typesIdMap[actor.type];
+          if (!displayType || !positionedTypesRef.current.has(displayType)) {
+            continue;
+          }
+          const autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
+          if (!checkNodeDiscovered(autoId, discoveryLookupRef.current)) {
+            newlyCollected.push(autoId);
+          }
+        }
+        if (newlyCollected.length > 0) {
+          // Adds to discoveredNodes (all discovery logic applies) AND
+          // autoDiscoveredNodes (so the tooltip can flag it as auto-discovered).
+          useSettingsStore.getState().markAutoDiscovered(newlyCollected);
+        }
+      }
+
       if (!isLiveActive) {
         if (liveSpawnMapRef.current.size > 0) {
           const ids = Array.from(liveSpawnMapRef.current.keys());
@@ -1913,38 +1947,6 @@ function MarkersContent({
       // imperative live pipeline otherwise skipped.
       const clusterPrecision = markerOptions.clusterPrecision ?? 0;
       type LiveActor = (typeof actorsList)[number];
-
-      // Auto-discovery: the memory reader can flag an actor as already collected
-      // (e.g. a picked-up Palworld effigy — bPickedInClient stays true and the
-      // actor persists in memory). Permanently mark its node discovered. Only for
-      // positioned (fixed) types — a roaming/live-only actor is never
-      // auto-discovered. Independent of active filters and the discovered-hide
-      // toggle: a collected node stays collected even with its filter hidden.
-      // Collect the newly-collected ids first and write them in ONE store update:
-      // a per-node setDiscoverNode would fire the discoveredNodes subscription
-      // (which re-runs this pass) synchronously each call — O(n^2) reentrancy on a
-      // first load where many effigies are already collected.
-      if (settingsState.autoDiscoverCollected) {
-        const newlyCollected: string[] = [];
-        for (const actor of actorsList) {
-          if (!actor.discovered || !actor.address) {
-            continue;
-          }
-          const displayType = typesIdMap[actor.type];
-          if (!displayType || !positionedTypesRef.current.has(displayType)) {
-            continue;
-          }
-          const autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
-          if (!checkNodeDiscovered(autoId, discoveryLookupRef.current)) {
-            newlyCollected.push(autoId);
-          }
-        }
-        if (newlyCollected.length > 0) {
-          // Adds to discoveredNodes (all discovery logic applies) AND
-          // autoDiscoveredNodes (so the tooltip can flag it as auto-discovered).
-          useSettingsStore.getState().markAutoDiscovered(newlyCollected);
-        }
-      }
 
       const visible: { actor: LiveActor; displayType: string }[] = [];
       for (const actor of actorsList) {
