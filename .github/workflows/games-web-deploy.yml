@@ -177,3 +177,16 @@ jobs:
           sleep 60
           purge
           echo "Edge cache purged"
+
+          # Build-skew straggler: even after the two purges above, an edge can
+          # (re)cache the OLD build's HTML while the previous container instance
+          # is still draining. That HTML references _next/static/chunks/* hashes
+          # the NEW image no longer has, and its s-maxage=900 lets that edge serve
+          # it (fresh, no revalidation) for ~15 min -> 404s / "MIME text/plain"
+          # errors for everyone on that edge until it expires. The old instance
+          # has normally fully drained within a couple of minutes of the new one
+          # being healthy, so a delayed third purge evicts that late straggler.
+          echo "Waiting for old container instance to drain, then final purge..."
+          sleep 180
+          purge
+          echo "Drain-window purge done"
