@@ -105,6 +105,22 @@ const nextConfig = (phase) => ({
         value: "public, s-maxage=60, stale-while-revalidate=300",
       },
     ];
+    // The companion-app auto-update gate: version.txt + THGL_Installer.exe. These MUST NOT ride
+    // the 15-min page cache. A stale version.txt makes clients keep polling the old version; worse,
+    // if version.txt goes fresh while the installer edge copy is still the old build (or vice
+    // versa), clients see a version the installer can't deliver and get stuck in an update loop.
+    // Very short + tiny SWR so a release propagates in ~30s and the two files always flip together
+    // (both served from the same container). No `stale-while-revalidate` sprawl here on purpose.
+    const updateGateCache = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=0, s-maxage=30, stale-while-revalidate=30",
+      },
+      {
+        key: "CDN-Cache-Control",
+        value: "public, s-maxage=30, stale-while-revalidate=30",
+      },
+    ];
     // Baseline security headers applied to every response. Deliberately
     // conservative: HSTS + nosniff + a private-friendly Referrer-Policy are
     // safe network-wide. We intentionally OMIT a Content-Security-Policy and
@@ -124,6 +140,16 @@ const nextConfig = (phase) => ({
     const rules = [
       { source: "/:path*", headers: securityHeaders },
       { source: "/:path*", headers: pageCache },
+      // Auto-update gate — must come AFTER the pageCache /:path* rule so it overrides s-maxage.
+      // app.th.gl serves these at the root (/version.txt); the middleware also rewrites to
+      // /games/thgl-app/*, so cover both the incoming and rewritten paths.
+      { source: "/version.txt", headers: updateGateCache },
+      { source: "/THGL_Installer.exe", headers: updateGateCache },
+      { source: "/games/thgl-app/version.txt", headers: updateGateCache },
+      {
+        source: "/games/thgl-app/THGL_Installer.exe",
+        headers: updateGateCache,
+      },
       { source: "/dashboard/:path*", headers: shortCache },
       { source: "/:locale/dashboard/:path*", headers: shortCache },
       {
