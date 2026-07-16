@@ -3,6 +3,7 @@ import { THGLAppConfig, TilesConfig, Version } from "@repo/lib";
 import { MapContainer, StreamingSender } from "../(desktop)";
 import {
   InteractiveMap,
+  LiveNavmesh,
   LivePlayer,
   LiveTeammates,
   Markers,
@@ -78,6 +79,7 @@ export function AppMap({
         iconsPath={version?.more.icons}
         tilesConfig={tileOptions}
       />
+      <LiveNavmesh />
       <LiveTeammates
         markerOptions={appConfig.markerOptions}
         appName={appConfig.name}

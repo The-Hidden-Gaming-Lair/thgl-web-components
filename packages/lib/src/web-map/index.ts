@@ -7,9 +7,17 @@ export {
   DEFAULT_CIRCLE_SHEET,
 } from "./layers/icon-markers";
 export { GridLayer, type GridLayerOptions } from "./layers/grid";
-export { DrawingLayer, type DrawingShape, type DrawingLayerOptions } from "./layers/drawing";
-export { ImageOverlayLayer, type ImageOverlayOptions } from "./layers/image-overlay";
+export {
+  DrawingLayer,
+  type DrawingShape,
+  type DrawingLayerOptions,
+} from "./layers/drawing";
+export {
+  ImageOverlayLayer,
+  type ImageOverlayOptions,
+} from "./layers/image-overlay";
 export { ZoneOverlayLayer } from "./layers/zone-overlay";
+export { NavmeshLayer } from "./layers/navmesh";
 export {
   DrawingManager,
   type DrawingMode,

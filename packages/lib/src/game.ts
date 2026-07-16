@@ -2,6 +2,18 @@ import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import type { ActorPlayer, Actor } from "./overwolf/plugin";
 
+/**
+ * A live-read dungeon floor plan: the walkable navmesh polygons (fan-triangulated
+ * by the companion app) in the map's marker frame, ready to fill in WebGL. Scoped
+ * to `mapName` so it only renders on the dungeon it was read from.
+ */
+export interface DungeonNavmesh {
+  mapName: string;
+  /** Flat x,y triangle vertices (already in the marker frame the player/actors use). */
+  verts: number[];
+  triangles: number;
+}
+
 // `player` updates at the memory-read rate (~16×/s while moving), so any
 // component that subscribes to it re-renders that often. Most consumers only
 // need a coarse position (audio alerts, height arrows, follow-recentre): they
@@ -54,6 +66,13 @@ export const useGameState = create(
      */
     peerLiveConnected: boolean;
     setPeerLiveConnected: (peerLiveConnected: boolean) => void;
+    /**
+     * The live-read dungeon floor plan for the current dungeon, or null when not in
+     * a dungeon / not yet read. Cleared on dungeon exit (player.mapName leaves the
+     * navmesh's map). Consumed by the interactive map's NavmeshLayer.
+     */
+    dungeonNavmesh: DungeonNavmesh | null;
+    setDungeonNavmesh: (navmesh: DungeonNavmesh | null) => void;
   }>((set) => ({
     windowInfo: null,
     isOverlay: null,
@@ -116,5 +135,7 @@ export const useGameState = create(
     setShowLabelsActive: (active) => set({ showLabelsActive: active }),
     peerLiveConnected: false,
     setPeerLiveConnected: (peerLiveConnected) => set({ peerLiveConnected }),
+    dungeonNavmesh: null,
+    setDungeonNavmesh: (dungeonNavmesh) => set({ dungeonNavmesh }),
   })),
 );

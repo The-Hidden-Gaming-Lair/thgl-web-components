@@ -192,6 +192,10 @@ let prevStaticActors: {
   z: number;
   hidden?: boolean;
 }[] = [];
+// The native side re-broadcasts the dungeon floor plan on a slow cadence (to beat
+// webview load races), so skip an identical resend — mapName + triangle count is a
+// sufficient signature since the buffer is read once per dungeon entry.
+let prevNavmesh: { mapName: string; triangles: number } | null = null;
 let lastActorUpdateTime = 0;
 // Trailing-edge throttle state: the native side broadcasts the "actors" payload
 // only when it CHANGES (edge-triggered). A leading-edge-only throttle would drop
@@ -325,6 +329,20 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               }
             } else if (message.action === "characterData") {
               gameState.setCharacter(message.payload);
+            } else if (message.action === "dungeonNavmesh") {
+              // Floor plan for the dungeon the player is in, re-sent on a slow cadence.
+              // Skip identical resends; apply only when the dungeon (or its triangle
+              // count) changes. The NavmeshLayer scopes it to payload.mapName and clears
+              // when the player leaves that map (see interactive-map / LiveNavmesh).
+              const nm = message.payload;
+              if (
+                !prevNavmesh ||
+                prevNavmesh.mapName !== nm.mapName ||
+                prevNavmesh.triangles !== nm.triangles
+              ) {
+                prevNavmesh = { mapName: nm.mapName, triangles: nm.triangles };
+                gameState.setDungeonNavmesh(nm);
+              }
             } else if (message.action === "windowModeChanged") {
               liveState.setWindowMode(message.payload);
             } else if (message.action === "alwaysRunAsAdminChanged") {

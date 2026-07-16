@@ -93,6 +93,16 @@ export type WEBVIEW_RECEIVE_MESSAGE =
       payload: any;
     }
   | {
+      action: "dungeonNavmesh";
+      payload: {
+        mapName: string;
+        // Flat x,y triangle vertices in the marker frame (same frame as player/actors),
+        // ready to project + fill as the walkable dungeon floor plan.
+        verts: number[];
+        triangles: number;
+      };
+    }
+  | {
       action: "hotkey";
       payload: {
         key: string;

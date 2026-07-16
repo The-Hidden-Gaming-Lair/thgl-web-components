@@ -3,6 +3,7 @@ export { DebugPanel } from "./debug-panel";
 export { Discovery } from "./discovery";
 export { InteractiveMap } from "./interactive-map";
 export { LivePlayer } from "./live-player";
+export { LiveNavmesh } from "./live-navmesh";
 export { Markers } from "./markers";
 export { PlayerMarker } from "./player-marker";
 export { Player } from "./player";
