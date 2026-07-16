@@ -827,6 +827,36 @@ export const games: Array<Game> = [
         zDistance: 2,
       },
     },
+    companion: {
+      baseURL: "/apps/diablo4",
+      controllerURL: "/apps/diablo4/controller",
+      desktopURL: "/apps/diablo4",
+      overlayURL: "/apps/diablo4/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10,
+          zDistance: 2,
+        },
+      },
+      games: [
+        {
+          title: "Diablo IV",
+          processNames: ["Diablo IV.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     overwolf: {
       id: "olbbpfjombddiijdbjeeegeclifleaifdeonllfd",
       title: "Diablo 4 Map",

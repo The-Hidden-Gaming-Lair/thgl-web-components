@@ -91,7 +91,11 @@ listenToGEP(
       prevPlayer.x = player.x;
       prevPlayer.y = player.y;
       const isWorldTerritory = map.territory !== -1;
-      prevPlayer.mapName = isWorldTerritory ? "Sanctuary" : map.area.toString();
+      // Instanced worlds (territory -1) all share the blank "Dungeon" map
+      // (registered by data-forge diablo4/index.ts) — same as the THGLApp detector.
+      // Must be set on the RETURNED player: the old code assigned prevPlayer.mapName,
+      // which is never read, so dungeons silently reported "Sanctuary".
+      player.mapName = isWorldTerritory ? "Sanctuary" : "Dungeon";
       lastTerritory = map.territory;
       return player;
     }

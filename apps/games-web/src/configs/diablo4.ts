@@ -6,7 +6,7 @@ const preview = (mapId: string) =>
 export const diablo4 = resolveAppConfig({
   name: "diablo4",
   supportedLocales: ["en"],
-  appUrl: "https://www.overwolf.com/app/Leon_Machens-Diablo_4_Map",
+  appUrl: "https://www.th.gl/companion-app",
   withoutLiveMode: true,
   internalLinks: [
     {
