@@ -1949,11 +1949,6 @@ function MarkersContent({
       // size-slider change re-applies to already-rendered live markers (the
       // static rebuild reacts to these settings via deps; the imperative live
       // pipeline must recompute them itself).
-      // Source "icons" sprite sheet for CPU-side icon processing (shared with the static
-      // pipeline). Present once the sheet image has loaded; gates the padding compensation.
-      const spriteSheetSource = getSourceImage(
-        getIconsUrl(appName, "icons.webp", iconsPath),
-      );
       const computeMarkerSize = (displayType: string) => {
         const icon = icons.get(displayType);
         const iconBaseSize = icon?.size ?? 1;
@@ -1967,29 +1962,14 @@ function MarkersContent({
           : 1;
         const typeMultiplier = iconSizeByFilterNow[displayType] ?? 1;
         const spawnRadius = markerOptions.radius * iconBaseSize;
-        let size =
+        return (
           (spawnRadius * 4 - 1) *
           baseIconSizeNow *
           categoryMultiplier *
           groupMultiplier *
           typeMultiplier *
-          dpr;
-        // Match the static pipeline: sprite-sheet ("icons") icons render from a padded
-        // processed canvas (resolveProcessedSpriteIcon), so scale the quad up by the same
-        // padding ratio to keep the visible icon the right size and let the chevron clear it.
-        // Gated on the source being loaded — the same condition the create path uses — so the
-        // create and in-place-update sizes stay consistent.
-        const mi = icon && typeof icon.icon !== "string" ? icon.icon : null;
-        if (
-          spriteSheetSource &&
-          mi &&
-          "x" in mi &&
-          typeof mi.width === "number" &&
-          mi.width > 0
-        ) {
-          size *= (mi.width + ICON_PADDING * 2) / mi.width;
-        }
-        return size;
+          dpr
+        );
       };
 
       // Collect actors that should render (after visibility filters), then group
@@ -2226,20 +2206,6 @@ function MarkersContent({
           rect = { x: 0, y: 0, width: px, height: px };
         }
 
-        // Match the static pipeline: process "icons" sprites into the padded canvas so the
-        // icon insets and the chevron clears it (computeMarkerSize applies the matching size
-        // padding, so the size isn't scaled again here).
-        const proc = resolveProcessedSpriteIcon(
-          liveMarkerLayer,
-          sheet,
-          rect,
-          spriteSheetSource,
-        );
-        if (proc) {
-          sheet = proc.sheet;
-          rect = proc.rect;
-        }
-
         const size = computeMarkerSize(displayType);
 
         const instance: IconMarkerInstance = {
@@ -2423,9 +2389,6 @@ function MarkersContent({
     iconsPath,
     typeToGroup,
     typeToCategory,
-    // Recreate live markers when the sprite sheet finishes loading so they pick up the
-    // padded/processed icons (same trigger the static pipeline uses).
-    iconLoadVersion,
   ]);
 
   // Update high contrast uniforms without rebuilding markers
