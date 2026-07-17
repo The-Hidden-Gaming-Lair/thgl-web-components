@@ -16,6 +16,7 @@ import {
   buildDiscoveryLookup,
   checkNodeDiscovered,
   getPositionedDiscoverTypes,
+  getPermanentTypes,
   getAppUrl,
   getEffectiveLiveMode,
   getIconsUrl,
@@ -477,6 +478,16 @@ function MarkersContent({
   );
   const positionedTypesRef = useRef(positionedTypes);
   positionedTypesRef.current = positionedTypes;
+  // Types with a permanent (static:true) node — effigies, chests. These always
+  // render from the static set (realStaticNodes) in every mode, so the imperative
+  // live pipeline must NOT draw a live twin on top (that's the double-marker +
+  // doubled-discovered-alpha bug). See getPermanentTypes / coordinates-provider.
+  const permanentTypes = useMemo(
+    () => getPermanentTypes(searchableNodes),
+    [searchableNodes],
+  );
+  const permanentTypesRef = useRef(permanentTypes);
+  permanentTypesRef.current = permanentTypes;
   const sharedMyFilters = useConnectionStore((state) => state.myFilters);
   const selectedNodeId = useUserStore((state) => state.selectedNodeId);
   const userStoreApi = useUserStoreApi();
@@ -720,6 +731,45 @@ function MarkersContent({
     );
 
     return { canvas, logicalWidth: logicalW, logicalHeight: logicalH };
+  };
+
+  // Pre-process a sprite-sheet ("icons") icon into a padded, shadowed INDIVIDUAL canvas so it's
+  // isolated in the atlas AND inset within its quad — the ICON_PADDING is exactly what lets the
+  // relative-Z chevron/arrow clear the icon. Shared by BOTH the static and live pipelines so the
+  // SAME marker looks identical whether it's drawn from its predicted spawn (Predicted) or its
+  // live actor (Live). Without this the live pipeline used the raw sheet edge-to-edge, so e.g.
+  // treasure chests showed the chevron ON the icon in Live but gapped in Predicted. Returns null
+  // (caller keeps the raw sheet/rect/size) when it's not an "icons" sprite or the source sheet
+  // isn't loaded yet. The size multiplier keeps the visible icon the right size despite the pad.
+  const resolveProcessedSpriteIcon = (
+    layer: IconMarkerLayer,
+    sheet: string,
+    rect: { x: number; y: number; width: number; height: number },
+    spriteSheetSource: HTMLImageElement | null | undefined,
+  ): {
+    sheet: string;
+    rect: { x: number; y: number; width: number; height: number };
+    sizeMul: number;
+  } | null => {
+    if (sheet !== "icons" || !spriteSheetSource || rect.width <= 0) return null;
+    const dpr = window.devicePixelRatio || 1;
+    const processedKey = `__processed_icon_${rect.x}_${rect.y}_${rect.width}_${rect.height}_${dpr}__`;
+    let cached = processedIconCache.current.get(processedKey);
+    if (!cached) {
+      cached = processSheetIcon(spriteSheetSource, rect);
+      processedIconCache.current.set(processedKey, cached);
+    }
+    layer.setSheet(processedKey, cached.canvas);
+    return {
+      sheet: processedKey,
+      rect: {
+        x: 0,
+        y: 0,
+        width: cached.canvas.width,
+        height: cached.canvas.height,
+      },
+      sizeMul: cached.logicalWidth / rect.width,
+    };
   };
 
   // Helper to create a colored circle image for private nodes
@@ -1122,38 +1172,20 @@ function MarkersContent({
         rect = { x: 0, y: 0, width: defaultCirclePx, height: defaultCirclePx };
       }
 
-      // Pre-process sprite sheet icons using canvas 2D.
-      // This isolates each icon from the atlas (preventing cross-icon bleeding
-      // in WebGL bilinear filtering) and applies a subtle shadow.
-      if (sheet === "icons" && !useProcessedIcon && spriteSheetSource) {
-        const processedKey = `__processed_icon_${rect.x}_${rect.y}_${rect.width}_${rect.height}_${dpr}__`;
-        const cached = processedIconCache.current.get(processedKey);
-        if (cached) {
-          // Scale size up to compensate for padding so icon appears at correct visual size
-          size *= cached.logicalWidth / rect.width;
-          sheet = processedKey;
-          markerLayer.setSheet(sheet, cached.canvas);
-          // Use physical pixel dimensions for UV mapping (canvas.width matches texture size)
-          rect = {
-            x: 0,
-            y: 0,
-            width: cached.canvas.width,
-            height: cached.canvas.height,
-          };
-        } else {
-          const processed = processSheetIcon(spriteSheetSource, rect);
-          processedIconCache.current.set(processedKey, processed);
-          // Scale size up to compensate for padding so icon appears at correct visual size
-          size *= processed.logicalWidth / rect.width;
-          sheet = processedKey;
-          markerLayer.setSheet(sheet, processed.canvas);
-          // Use physical pixel dimensions for UV mapping (canvas.width matches texture size)
-          rect = {
-            x: 0,
-            y: 0,
-            width: processed.canvas.width,
-            height: processed.canvas.height,
-          };
+      // Pre-process sprite-sheet icons into a padded, isolated canvas (prevents atlas
+      // bleeding, adds a subtle shadow, and insets the icon so the z-chevron clears it).
+      // Shared with the live pipeline via resolveProcessedSpriteIcon so both look identical.
+      if (!useProcessedIcon) {
+        const proc = resolveProcessedSpriteIcon(
+          markerLayer,
+          sheet,
+          rect,
+          spriteSheetSource,
+        );
+        if (proc) {
+          sheet = proc.sheet;
+          rect = proc.rect;
+          size *= proc.sizeMul; // compensate for padding so the icon stays the right size
         }
       }
 
@@ -1917,6 +1949,11 @@ function MarkersContent({
       // size-slider change re-applies to already-rendered live markers (the
       // static rebuild reacts to these settings via deps; the imperative live
       // pipeline must recompute them itself).
+      // Source "icons" sprite sheet for CPU-side icon processing (shared with the static
+      // pipeline). Present once the sheet image has loaded; gates the padding compensation.
+      const spriteSheetSource = getSourceImage(
+        getIconsUrl(appName, "icons.webp", iconsPath),
+      );
       const computeMarkerSize = (displayType: string) => {
         const icon = icons.get(displayType);
         const iconBaseSize = icon?.size ?? 1;
@@ -1930,14 +1967,29 @@ function MarkersContent({
           : 1;
         const typeMultiplier = iconSizeByFilterNow[displayType] ?? 1;
         const spawnRadius = markerOptions.radius * iconBaseSize;
-        return (
+        let size =
           (spawnRadius * 4 - 1) *
           baseIconSizeNow *
           categoryMultiplier *
           groupMultiplier *
           typeMultiplier *
-          dpr
-        );
+          dpr;
+        // Match the static pipeline: sprite-sheet ("icons") icons render from a padded
+        // processed canvas (resolveProcessedSpriteIcon), so scale the quad up by the same
+        // padding ratio to keep the visible icon the right size and let the chevron clear it.
+        // Gated on the source being loaded — the same condition the create path uses — so the
+        // create and in-place-update sizes stay consistent.
+        const mi = icon && typeof icon.icon !== "string" ? icon.icon : null;
+        if (
+          spriteSheetSource &&
+          mi &&
+          "x" in mi &&
+          typeof mi.width === "number" &&
+          mi.width > 0
+        ) {
+          size *= (mi.width + ICON_PADDING * 2) / mi.width;
+        }
+        return size;
       };
 
       // Collect actors that should render (after visibility filters), then group
@@ -1959,6 +2011,12 @@ function MarkersContent({
         const displayType = typesIdMap[actor.type];
         if (!displayType) continue;
         if (!activeFilters.has(displayType)) continue;
+        // Merge/replace: a live actor for a PERMANENT (static:true) type is already
+        // represented by its always-rendered static marker (realStaticNodes) at the
+        // same fixed position — don't draw a live twin on top (double marker +
+        // doubled discovered alpha). Auto-discovery already ran above over ALL
+        // actors, so collection still registers; we just suppress the duplicate.
+        if (permanentTypesRef.current.has(displayType)) continue;
         // Skip live actors for filters the user pinned to Predicted-only.
         if (
           resolveLiveModeForType(
@@ -2168,6 +2226,20 @@ function MarkersContent({
           rect = { x: 0, y: 0, width: px, height: px };
         }
 
+        // Match the static pipeline: process "icons" sprites into the padded canvas so the
+        // icon insets and the chevron clears it (computeMarkerSize applies the matching size
+        // padding, so the size isn't scaled again here).
+        const proc = resolveProcessedSpriteIcon(
+          liveMarkerLayer,
+          sheet,
+          rect,
+          spriteSheetSource,
+        );
+        if (proc) {
+          sheet = proc.sheet;
+          rect = proc.rect;
+        }
+
         const size = computeMarkerSize(displayType);
 
         const instance: IconMarkerInstance = {
@@ -2351,6 +2423,9 @@ function MarkersContent({
     iconsPath,
     typeToGroup,
     typeToCategory,
+    // Recreate live markers when the sprite sheet finishes loading so they pick up the
+    // padded/processed icons (same trigger the static pipeline uses).
+    iconLoadVersion,
   ]);
 
   // Update high contrast uniforms without rebuilding markers

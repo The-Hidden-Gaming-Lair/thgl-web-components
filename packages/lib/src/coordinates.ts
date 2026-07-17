@@ -137,6 +137,26 @@ export const getPositionedDiscoverTypes = (
 };
 
 /**
+ * Types with at least one PERMANENT (`static: true`) node — fixed landmarks like
+ * effigies / chests. These are ALWAYS rendered from the static set
+ * (`realStaticNodes`) in every live mode: the coordinates-provider dedup that
+ * drops a predicted spawn in favour of its live actor explicitly EXEMPTS
+ * permanent nodes (they're meant to always show). So the imperative live pipeline
+ * must NOT also render a live twin for them, or the marker is drawn twice (and its
+ * discovered alpha doubles). A live detection of a permanent type only
+ * confirms/auto-discovers it — the static marker already represents its (fixed,
+ * identical) position. Dynamic-static predicted types (`static: false`) are
+ * excluded: they correctly hand their prediction off to the live marker.
+ */
+export const getPermanentTypes = (
+  nodes: { type: string; static?: boolean }[],
+): Set<string> => {
+  const permanent = new Set<string>();
+  for (const node of nodes) if (node.static) permanent.add(node.type);
+  return permanent;
+};
+
+/**
  * Resolve the effective Discover-Nearest mode for a filter type. An explicit
  * per-filter user override always wins; otherwise the default follows whether
  * the type has a known position (see {@link getPositionedDiscoverTypes}). No
