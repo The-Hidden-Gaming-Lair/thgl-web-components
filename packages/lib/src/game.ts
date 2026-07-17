@@ -12,6 +12,12 @@ export interface DungeonNavmesh {
   /** Flat x,y triangle vertices (already in the marker frame the player/actors use). */
   verts: number[];
   triangles: number;
+  /**
+   * Rendering hint. "mesh" = a StaticMeshActor footprint (overlapping box scatter) that the
+   * layer fuses into a smooth connected silhouette (blur + threshold). "navmesh" (default) =
+   * crisp edge-to-edge floor polys, filled as-is.
+   */
+  style?: "mesh" | "navmesh";
 }
 
 // `player` updates at the memory-read rate (~16×/s while moving), so any

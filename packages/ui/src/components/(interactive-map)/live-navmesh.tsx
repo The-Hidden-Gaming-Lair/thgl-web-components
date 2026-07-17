@@ -57,10 +57,16 @@ export function LiveNavmesh(): JSX.Element {
     }
 
     if (!layerRef.current) {
-      layerRef.current = new NavmeshLayer({ verts: out });
+      // A "mesh" footprint is an overlapping box scatter — smooth it into a connected
+      // silhouette. A real "navmesh" tiles edge-to-edge and stays crisp.
+      layerRef.current = new NavmeshLayer({
+        verts: out,
+        smooth: navmesh.style === "mesh",
+      });
       // Above the (blank) dungeon tile, below zone overlays (20) and the markers.
       map.addLayer(layerRef.current, { zIndex: 5 });
     } else {
+      layerRef.current.setSmooth(navmesh.style === "mesh");
       layerRef.current.setVerts(out);
     }
 
