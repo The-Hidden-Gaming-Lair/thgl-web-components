@@ -18,8 +18,20 @@ type SpellProps = {
   descriptionLevels?: string[];
   bonusDescriptions?: { level: number; description: string }[];
   levelParams?: number[][];
+  /** Authoritative per-mastery `{N}` values from the tooltip-script args
+   *  (index i aligns with `descriptionLevels[i]`). `null` where the value is
+   *  computed/runtime — fall back to the `levelParams` heuristic there. */
+  descParamsByLevel?: (number[] | null)[];
   spellPowerScaling?: { threshold: number; increment: number };
 };
+
+/** Fill `{N}` directly from an ordered, authoritative value list (index N). */
+function fillFromDescParams(text: string, params: number[]): string {
+  return text.replace(/\{(\d+)\}/g, (_, idx) => {
+    const v = params[parseInt(idx, 10)];
+    return v != null ? String(v) : "?";
+  });
+}
 
 /**
  * Substitute `{N}` placeholders in a per-mastery spell description.
@@ -124,7 +136,10 @@ export function SpellView({
     for (let i = 0; i < props.descriptionLevels.length; i++) {
       const raw = resolveDict(dict, props.descriptionLevels[i]);
       if (raw === props.descriptionLevels[i]) continue;
-      const text = fillPlaceholders(raw, props.levelParams?.[i]);
+      const authoritative = props.descParamsByLevel?.[i];
+      const text = authoritative
+        ? fillFromDescParams(raw, authoritative)
+        : fillPlaceholders(raw, props.levelParams?.[i]);
       if (text === prevText) continue;
       masteryLevels.push({ mastery: i, text });
       prevText = text;
@@ -149,7 +164,14 @@ export function SpellView({
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-4">
-        {icon && <SpriteIcon icon={icon} appName={APP_NAME} size={64} iconsHash={iconsHash} />}
+        {icon && (
+          <SpriteIcon
+            icon={icon}
+            appName={APP_NAME}
+            size={64}
+            iconsHash={iconsHash}
+          />
+        )}
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
           <div className="flex items-center gap-2 mt-1 flex-wrap">

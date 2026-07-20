@@ -26,6 +26,7 @@ type HeroProps = {
   specialization: string;
   startingArmy?: { unit: string; min: number; max: number }[];
   startSkills?: string[];
+  startSpells?: string[];
   skillWeights?: { skill: string; weight: number; pct: number }[];
 };
 
@@ -287,6 +288,23 @@ export function HeroView({
               <EntityLinkCard
                 key={skill}
                 itemId={skill}
+                database={database}
+                locale={locale}
+                dict={dict}
+                iconsHash={iconsHash}
+              />
+            ))}
+          </div>
+        </RelatedSection>
+      )}
+
+      {props.startSpells && props.startSpells.length > 0 && (
+        <RelatedSection title={resolveDict(dict, "ui.starting_spell")}>
+          <div className="flex flex-wrap gap-2">
+            {props.startSpells.map((spell) => (
+              <EntityLinkCard
+                key={spell}
+                itemId={spell}
                 database={database}
                 locale={locale}
                 dict={dict}

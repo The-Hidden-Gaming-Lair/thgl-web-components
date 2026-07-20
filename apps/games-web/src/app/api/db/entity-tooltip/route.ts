@@ -244,7 +244,12 @@ export async function GET(request: Request) {
     // "single representative value" convention.
     let alreadySubstituted = false;
     let numericValues: string[] = [];
-    const pre = (item.props as any)?.descParams;
+    // Spells resolve authoritative per-mastery values in `descParamsByLevel`
+    // (index-aligned to `{N}`); prefer level 0 for the tooltip, same as the
+    // generic `descParams` path. Falls through when that level is unresolved.
+    const pre =
+      (item.props as any)?.descParams ??
+      (item.props as any)?.descParamsByLevel?.[0];
     const spellLevelParams = (item.props as any)?.levelParams?.[0];
     // Map objects ship the description's `{N}` values directly under
     // `templateValues` (e.g. `pile_of_books` has `templateValues: [25]`
