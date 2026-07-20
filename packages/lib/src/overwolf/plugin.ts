@@ -2,6 +2,7 @@ import { isLiveReadingActive, useSettingsStore } from "../settings";
 import { isDebug } from "../env";
 import { promisifyOverwolf } from "./promisify";
 import { EventBus, MESSAGES } from "./event-bus";
+import { type DungeonNavmesh } from "../game";
 
 declare global {
   interface Window {
@@ -73,6 +74,11 @@ export type GameEventsPlugin = {
   GetActors: (
     types: string[],
     callback: (data: Actor[] | null) => void,
+    onError: (err: string) => void,
+  ) => void;
+  // Live dungeon floor plan (Palworld). Optional — only games with a dungeon reader implement it.
+  GetDungeonFloorPlan?: (
+    callback: (data: DungeonNavmesh | null) => void,
     onError: (err: string) => void,
   ) => void;
 };
@@ -271,6 +277,7 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
         !withoutLiveMode && isLiveReadingActive(settings.liveMode);
       if (!liveMode && nextLive) {
         refreshActorsState();
+        refreshDungeonFloorPlan();
       }
       liveMode = nextLive;
       actorsPollingRate = settings.actorsPollingRate;
@@ -353,6 +360,55 @@ export async function initGameEventsPlugin<T extends GameEventsPlugin>(
     }
     if (liveMode) {
       refreshActorsState();
+    }
+
+    // Live dungeon floor plan (Palworld): the plugin reads the StaticMeshActor footprint once per
+    // dungeon entry and caches it, so a slow poll is enough — it only needs to catch entering/
+    // leaving a dungeon and the initial mesh-load. A null result clears the layer (overworld).
+    const DUNGEON_FLOOR_MS = 1500;
+    let prevFloorKey = "";
+    function refreshDungeonFloorPlan() {
+      if (!gameEventsPlugin.GetDungeonFloorPlan) {
+        return;
+      }
+      gameEventsPlugin.GetDungeonFloorPlan(
+        (plan) => {
+          try {
+            console.log(
+              "[DungeonFloor] plan",
+              plan
+                ? {
+                    mapName: plan.mapName,
+                    triangles: plan.triangles,
+                    style: plan.style,
+                    verts: plan.verts?.length,
+                  }
+                : null,
+            );
+            // Dedupe: the plugin caches + returns the same footprint each poll, so only push to
+            // the store when it actually changes (enter/exit a dungeon, or the meshes finish
+            // streaming). Otherwise the layer would re-bake the silhouette every poll.
+            const key = plan ? `${plan.mapName}:${plan.triangles}` : "";
+            if (key !== prevFloorKey) {
+              prevFloorKey = key;
+              // This poll runs in the main/background window; broadcast on the shared bus so the
+              // map/overlay window's game-events listener applies it to ITS store (per-window
+              // zustand). Calling setDungeonNavmesh here would only update this window's store.
+              window.gameEventBus.trigger(MESSAGES.DUNGEON_NAVMESH, plan);
+            }
+          } catch (e) {
+            console.error("[DungeonFloor] handler error", e);
+          }
+          if (liveMode) setTimeout(refreshDungeonFloorPlan, DUNGEON_FLOOR_MS);
+        },
+        (err) => {
+          console.error("[DungeonFloor] plugin error", err);
+          if (liveMode) setTimeout(refreshDungeonFloorPlan, DUNGEON_FLOOR_MS);
+        },
+      );
+    }
+    if (liveMode) {
+      refreshDungeonFloorPlan();
     }
 
     _getClosestActors = (filters: string[] = [], limit = 10) => {

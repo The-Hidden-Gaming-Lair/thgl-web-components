@@ -9,6 +9,7 @@ export const MESSAGES = {
   PLAYER_ERROR: "player_error",
   ACTORS: "actors",
   CHARACTER: "character",
+  DUNGEON_NAVMESH: "dungeon_navmesh",
 };
 export class EventBus {
   private _listeners: Array<(eventName: string, eventValue: any) => void>;

@@ -22,6 +22,7 @@ import { HeaderOffset, PlausibleTracker } from "../(header)";
 import { MapContainer, StreamingSender } from "../(desktop)";
 import {
   InteractiveMap,
+  LiveNavmesh,
   LivePlayer,
   LiveTeammates,
   Markers,
@@ -171,6 +172,7 @@ export function App({
                 />
                 <PrivateDrawing hidden={lockedWindow} />
               </Actions>
+              <LiveNavmesh />
               <LivePlayer
                 markerOptions={appConfig.markerOptions}
                 appName={appConfig.name}

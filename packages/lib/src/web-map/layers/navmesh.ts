@@ -372,8 +372,8 @@ export class NavmeshLayer implements Layer {
     // Pass 2/3: separable gaussian blur (coverage -> blur -> coverage). Field ends in texCoverage.
     gl.useProgram(this.blurProgram);
     gl.bindVertexArray(this.quadVao);
-    const stepLoc = gl.getUniformLocation(this.blurProgram, "u_step");
-    gl.uniform1i(gl.getUniformLocation(this.blurProgram, "u_tex"), 0);
+    const stepLoc = gl.getUniformLocation(this.blurProgram!, "u_step");
+    gl.uniform1i(gl.getUniformLocation(this.blurProgram!, "u_tex"), 0);
     gl.activeTexture(gl.TEXTURE0);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fboBlur);
@@ -390,26 +390,26 @@ export class NavmeshLayer implements Layer {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fboBlur);
     gl.useProgram(this.compBakeProgram);
     gl.bindTexture(gl.TEXTURE_2D, this.texCoverage);
-    gl.uniform1i(gl.getUniformLocation(this.compBakeProgram, "u_field"), 0);
+    gl.uniform1i(gl.getUniformLocation(this.compBakeProgram!, "u_field"), 0);
     gl.uniform4f(
-      gl.getUniformLocation(this.compBakeProgram, "u_color"),
+      gl.getUniformLocation(this.compBakeProgram!, "u_color"),
       this.color[0],
       this.color[1],
       this.color[2],
       this.color[3],
     );
     gl.uniform4f(
-      gl.getUniformLocation(this.compBakeProgram, "u_outline"),
+      gl.getUniformLocation(this.compBakeProgram!, "u_outline"),
       this.outline[0],
       this.outline[1],
       this.outline[2],
       this.outline[3],
     );
     gl.uniform1f(
-      gl.getUniformLocation(this.compBakeProgram, "u_threshold"),
+      gl.getUniformLocation(this.compBakeProgram!, "u_threshold"),
       this.threshold,
     );
-    gl.uniform1f(gl.getUniformLocation(this.compBakeProgram, "u_aa"), this.aa);
+    gl.uniform1f(gl.getUniformLocation(this.compBakeProgram!, "u_aa"), this.aa);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     this.bakeResultTex = this.texBlur;
 

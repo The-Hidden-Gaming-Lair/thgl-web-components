@@ -32,7 +32,8 @@ function actorsChanged(prev: Actor[], next: Actor[]): boolean {
 
 export async function listenToGameEvents(): Promise<void> {
   const state = useGameState.getState();
-  const { setPlayer, setActors, setError, setCharacter } = state;
+  const { setPlayer, setActors, setError, setCharacter, setDungeonNavmesh } =
+    state;
   const { gameEventBus } = overwolf.windows.getMainWindow() as {
     gameEventBus: EventBus;
   };
@@ -82,6 +83,11 @@ export async function listenToGameEvents(): Promise<void> {
       }
       case MESSAGES.CHARACTER:
         setCharacter(value);
+        break;
+      case MESSAGES.DUNGEON_NAVMESH:
+        // Dungeon floor plan from the plugin poll (background window) -> this window's store,
+        // so LiveNavmesh (which reads useGameState here) can render it. null clears it.
+        setDungeonNavmesh(value ?? null);
         break;
     }
   });
