@@ -16,7 +16,13 @@ type SpellProps = {
   learnCost?: { name: string; cost: number }[];
   upgradeCost?: number[];
   descriptionLevels?: string[];
-  bonusDescriptions?: { level: number; description: string }[];
+  bonusDescriptions?: {
+    level: number;
+    description: string;
+    /** Authoritative `{N}` values for this upgrade line (index-aligned),
+     *  resolved from the tooltip-script args. Preferred over the diff heuristic. */
+    params?: number[];
+  }[];
   levelParams?: number[][];
   /** Authoritative per-mastery `{N}` values from the tooltip-script args
    *  (index i aligns with `descriptionLevels[i]`). `null` where the value is
@@ -151,6 +157,9 @@ export function SpellView({
       const raw = resolveDict(dict, b.description);
       if (raw === b.description || raw === "") {
         return { level: b.level, text: "" };
+      }
+      if (b.params && b.params.length > 0) {
+        return { level: b.level, text: fillFromDescParams(raw, b.params) };
       }
       const prev = props.levelParams?.[b.level - 2];
       const curr = props.levelParams?.[b.level - 1];
