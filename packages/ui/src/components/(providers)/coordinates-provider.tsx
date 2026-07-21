@@ -235,6 +235,33 @@ export function CoordinatesProvider({
     }
   }, [map]);
 
+  // Keep the selected map in sync with browser Back/Forward. Map switches happen
+  // via history.pushState (map-select.tsx, player.tsx, markers-search-results.tsx)
+  // rather than a Next.js navigation, so popstate changes the URL but does NOT
+  // re-render this provider with a new `map` prop. Without this, the store's
+  // mapName — which drives the map and the map selector — would stay on the
+  // last-selected map while the address bar reverts. Re-derive the map from the
+  // path on popstate, mirroring the init-time URL→map resolution above.
+  useEffect(() => {
+    const syncMapFromLocation = () => {
+      const segments = window.location.pathname.split("/");
+      const mapsIndex = segments.indexOf("maps");
+      if (mapsIndex === -1 || mapsIndex + 1 >= segments.length) return;
+      const mapSegment = decodeURIComponent(segments[mapsIndex + 1]);
+      if (!mapSegment) return;
+      const key = mapNames.find(
+        (k) => k === mapSegment || (dict[k] ?? k) === mapSegment,
+      );
+      if (!key) return;
+      const state = userStore.getState();
+      if (state.mapName !== key) {
+        state.setMapName(key);
+      }
+    };
+    window.addEventListener("popstate", syncMapFromLocation);
+    return () => window.removeEventListener("popstate", syncMapFromLocation);
+  }, [dict, mapNames, userStore]);
+
   const { data: staticNodesByMap } = useSWRImmutable(
     mapName ? ["/api/nodes", mapName] : null,
     async () => {
