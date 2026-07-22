@@ -1,7 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Home, Locate, Minus, Plus, RotateCcw } from "lucide-react";
+import {
+  Box,
+  Home,
+  Locate,
+  MapPin,
+  Minus,
+  MoreHorizontal,
+  Plus,
+  RotateCcw,
+} from "lucide-react";
 import { cn, useGameState, useSettingsStore } from "@repo/lib";
 import type { WebMap } from "@repo/lib/web-map";
 import { useMap } from "../(interactive-map)/store";
@@ -264,17 +273,23 @@ export function MapControls({
   hidden,
   webmap: externalMap,
   alwaysShowFollowPlayer,
+  coordinateCopyFormat,
 }: {
   hidden?: boolean;
   /** When provided, use this WebMap directly instead of the global useMap() store */
   webmap?: WebMap | null;
   /** Always show the follow player toggle (for in-game overlays) */
   alwaysShowFollowPlayer?: boolean;
+  /** Per-game coordinate format (e.g. "({x},{y})"), used for the go-to placeholder */
+  coordinateCopyFormat?: string;
 }) {
   const storeMap = useMap();
   const map = externalMap ?? storeMap;
   const [bearing, setBearing] = useState(0);
   const [pitch, setPitch] = useState(0);
+  const [overflowOpen, setOverflowOpen] = useState(false);
+  const [gotoInput, setGotoInput] = useState("");
+  const [gotoError, setGotoError] = useState(false);
   const rafRef = useRef<number>(0);
 
   const mapRef = useRef(map);
@@ -317,6 +332,36 @@ export function MapControls({
   const handleZoomIn = useCallback(() => map?.zoomIn(), [map]);
   const handleZoomOut = useCallback(() => map?.zoomOut(), [map]);
   const handleResetView = useCallback(() => map?.resetView(), [map]);
+  const handleGoTo = useCallback(
+    (e?: React.FormEvent) => {
+      e?.preventDefault();
+      if (!map) return;
+      // Accept any pasted coordinate string — pull the first two numbers out
+      // ("1240, 583", "(1240,583)", "1240 583 12" all work).
+      const nums = gotoInput.match(/-?\d+(?:\.\d+)?/g);
+      if (!nums || nums.length < 2) {
+        setGotoError(true);
+        return;
+      }
+      const x = Number(nums[0]);
+      const y = Number(nums[1]);
+      // Marker positions are stored as p = [y, x] (formatCoordinates maps
+      // p[1] → {x} and p[0] → {y}), so a displayed (x, y) centers on [y, x].
+      const targetZoom = Math.max(map.getZoom(), map.getMaxZoom() - 2);
+      map.setView([y, x], targetZoom);
+      setGotoError(false);
+      setOverflowOpen(false);
+    },
+    [map, gotoInput],
+  );
+  // Placeholder mirrors the game's own copy format so pasted values line up.
+  const gotoPlaceholder = coordinateCopyFormat
+    ? coordinateCopyFormat
+        .replace("{x}", "1240")
+        .replace("{y}", "583")
+        .replace("{z}", "")
+        .trim()
+    : "1240, 583";
   // Only needs whether a player exists (for the follow button), not the
   // position — selecting the boolean re-renders this on null↔present changes
   // instead of on every ~16Hz position update while moving.
@@ -384,26 +429,6 @@ export function MapControls({
         </Tooltip>
       )}
 
-      {/* 3D toggle */}
-      <Tooltip delayDuration={200} disableHoverableContent>
-        <TooltipTrigger asChild>
-          <button
-            onClick={handleToggle3D}
-            className={cn(
-              "h-8 w-8 flex items-center justify-center cursor-pointer",
-              "text-xs font-bold hover:bg-accent transition-colors",
-              is3D && "text-primary",
-            )}
-            aria-label={is3D ? "Switch to 2D" : "Switch to 3D"}
-          >
-            {is3D ? "2D" : "3D"}
-          </button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">
-          {is3D ? "Switch to 2D" : "Switch to 3D"}
-        </TooltipContent>
-      </Tooltip>
-
       {/* Zoom in */}
       <Tooltip delayDuration={200} disableHoverableContent>
         <TooltipTrigger asChild>
@@ -432,19 +457,93 @@ export function MapControls({
         <TooltipContent side="bottom">Zoom out</TooltipContent>
       </Tooltip>
 
-      {/* Reset view */}
-      <Tooltip delayDuration={200} disableHoverableContent>
-        <TooltipTrigger asChild>
+      {/* Overflow menu: secondary view controls + go-to-coordinate */}
+      <Popover open={overflowOpen} onOpenChange={setOverflowOpen}>
+        <PopoverTrigger asChild>
           <button
-            onClick={handleResetView}
-            className="h-8 w-8 flex items-center justify-center cursor-pointer hover:bg-accent transition-colors"
-            aria-label="Reset view"
+            className={cn(
+              "h-8 w-8 flex items-center justify-center cursor-pointer",
+              "hover:bg-accent transition-colors",
+              (is3D || overflowOpen) && "text-primary",
+            )}
+            aria-label="More map controls"
+            title="More"
           >
-            <Home className="h-3.5 w-3.5" />
+            <MoreHorizontal className="h-3.5 w-3.5" />
           </button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">Reset view</TooltipContent>
-      </Tooltip>
+        </PopoverTrigger>
+        <PopoverContent side="bottom" align="end" className="w-56 p-1">
+          <div className="flex flex-col">
+            {/* 3D toggle */}
+            <button
+              type="button"
+              onClick={handleToggle3D}
+              className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <Box className="h-4 w-4" />
+              {is3D ? "Switch to 2D" : "Switch to 3D"}
+            </button>
+
+            {/* Reset view */}
+            <button
+              type="button"
+              onClick={() => {
+                handleResetView();
+                setOverflowOpen(false);
+              }}
+              className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <Home className="h-4 w-4" />
+              Reset view
+            </button>
+
+            <div className="-mx-1 my-1 h-px bg-muted" />
+
+            {/* Go to coordinate */}
+            <form onSubmit={handleGoTo} className="px-2 py-1.5 space-y-1.5">
+              <label
+                htmlFor="map-goto-coordinate"
+                className="flex items-center gap-2 text-sm"
+              >
+                <MapPin className="h-4 w-4" />
+                Go to coordinate
+              </label>
+              <div className="flex items-center gap-1">
+                <input
+                  id="map-goto-coordinate"
+                  value={gotoInput}
+                  onChange={(e) => {
+                    setGotoInput(e.target.value);
+                    if (gotoError) setGotoError(false);
+                  }}
+                  placeholder={gotoPlaceholder}
+                  className={cn(
+                    "h-8 flex-1 min-w-0 rounded-md border bg-background px-2 text-sm",
+                    "outline-none focus:ring-1 focus:ring-ring",
+                    gotoError ? "border-red-400" : "border-input",
+                  )}
+                />
+                <button
+                  type="submit"
+                  className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-sm hover:bg-primary/90 transition-colors"
+                >
+                  Go
+                </button>
+              </div>
+              <p
+                className={cn(
+                  "text-[10px]",
+                  gotoError ? "text-red-400" : "text-muted-foreground",
+                )}
+              >
+                {gotoError
+                  ? `Enter as ${gotoPlaceholder}`
+                  : "Paste a coordinate to jump there"}
+              </p>
+            </form>
+          </div>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

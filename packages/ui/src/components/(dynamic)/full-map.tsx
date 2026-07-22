@@ -70,7 +70,15 @@ export function FullMap({
             tilesConfig={tilesConfig}
           />
           <TraceLine />
-          <Actions mapControls={<MapControls />}>
+          <Actions
+            mapControls={
+              <MapControls
+                coordinateCopyFormat={
+                  appConfig.markerOptions?.coordinateCopyFormat
+                }
+              />
+            }
+          >
             <Whiteboard domain={appConfig.domain} />
             {appConfig.appUrl ? (
               <StreamingReceiver

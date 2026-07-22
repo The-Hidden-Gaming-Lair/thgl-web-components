@@ -70,7 +70,11 @@ export function AppMap({
           />
           <PrivateDrawing hidden={lockedWindow} />
         </div>
-        <MapControls hidden={lockedWindow} alwaysShowFollowPlayer />
+        <MapControls
+          hidden={lockedWindow}
+          alwaysShowFollowPlayer
+          coordinateCopyFormat={appConfig.markerOptions.coordinateCopyFormat}
+        />
       </div>
 
       <LivePlayer
