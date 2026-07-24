@@ -5,6 +5,7 @@ import { chronoOdyssey } from "./chrono-odyssey";
 import { conanExiles } from "./conan-exiles";
 import { crimsonDesert } from "./crimson-desert";
 import { diablo4 } from "./diablo4";
+import { dragonswordAwakening } from "./dragonsword-awakening";
 import { drakantos } from "./drakantos";
 import { duetNightAbyss } from "./duet-night-abyss";
 import { duneAwakening } from "./dune-awakening";
@@ -43,6 +44,7 @@ const ALL_CONFIGS: AppConfig[] = [
   conanExiles,
   crimsonDesert,
   diablo4,
+  dragonswordAwakening,
   drakantos,
   duetNightAbyss,
   duneAwakening,

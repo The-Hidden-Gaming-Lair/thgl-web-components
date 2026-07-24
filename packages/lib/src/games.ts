@@ -11,6 +11,44 @@ export const DEFAULT_PATREON_TIER_IDS = [
 
 export const games: Array<Game> = [
   {
+    id: "dragonsword-awakening",
+    discordId: "dragonsword-awakening",
+    title: "DragonSword: Awakening",
+    logo: `${TH_GL_URL}/global_icons/dragonsword-awakening.webp`,
+    companion: {
+      baseURL: "/apps/dragonsword-awakening",
+      controllerURL: "/apps/dragonsword-awakening/controller",
+      desktopURL: "/apps/dragonsword-awakening",
+      overlayURL: "/apps/dragonsword-awakening/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "DragonSword: Awakening",
+          processNames: ["DSClient-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://dragonswordawakening.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "crimson-desert",
     discordId: "crimson-desert",
     title: "Crimson Desert",
