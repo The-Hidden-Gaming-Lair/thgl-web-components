@@ -1,6 +1,7 @@
 import { isOverwolf, TH_GL_URL } from "./env";
 import { HOTKEYS } from "./thgl-app/hotkeys";
 import type { MarkerOptions } from "./types";
+import type { InGameCoordinates } from "./coordinates";
 
 export const DEFAULT_PATREON_TIER_IDS = [
   "21470801",
@@ -537,7 +538,13 @@ export const games: Array<Game> = [
     discordId: "palworld",
     title: "Palworld",
     logo: `${TH_GL_URL}/global_icons/palworld.webp`,
-    additionalTooltip: ["PalworldCoordinates"],
+    additionalTooltip: ["InGameCoordinates"],
+    inGameCoordinates: {
+      scale: 459,
+      offsetX: -158000,
+      offsetY: 123888,
+      round: true,
+    },
     companion: {
       baseURL: "/apps/palworld",
       controllerURL: "/apps/palworld/controller",
@@ -766,6 +773,9 @@ export const games: Array<Game> = [
     discordId: "wuthering-waves",
     title: "Wuthering Waves",
     logo: `${TH_GL_URL}/global_icons/wuthering-waves.webp`,
+    additionalTooltip: ["InGameCoordinates"],
+    // Map position p = [worldY/100, worldX/100] (extraction), so in-game ≈ map/100.
+    inGameCoordinates: { scale: 100, round: true },
     companion: {
       baseURL: "/apps/wuthering-waves",
       controllerURL: "/apps/wuthering-waves/controller",
@@ -1099,7 +1109,7 @@ export type AdditionalContent =
   | "CrimsonDesertSaveImport"
   | "SatisfactorySeed";
 
-export type AdditionalTooltip = "PalworldCoordinates" | "DuneAltitude";
+export type AdditionalTooltip = "InGameCoordinates" | "DuneAltitude";
 
 export type Game = {
   id: string;
@@ -1110,6 +1120,12 @@ export type Game = {
   additionalComponents?: Array<AdditionalContent>;
   additionalFilters?: Array<AdditionalContent>;
   additionalTooltip?: Array<AdditionalTooltip>;
+  /**
+   * Per-game map<->in-game coordinate transform. Enables the "In-Game"
+   * coordinate tooltip (with `additionalTooltip: ["InGameCoordinates"]`) and the
+   * map-controls "Go to coordinate" in-game input toggle.
+   */
+  inGameCoordinates?: InGameCoordinates;
   /**
    * Canonical marker render options for this game. For companion games these
    * historically live under `companion.markerOptions`; this top-level field is

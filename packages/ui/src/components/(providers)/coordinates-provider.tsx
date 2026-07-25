@@ -31,6 +31,7 @@ import {
   GlobalFiltersConfig,
   Spawn,
   getApiUrl,
+  type InGameCoordinates,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
 import { useStore } from "zustand";
@@ -108,6 +109,11 @@ interface ContextValue {
    * False on the plain web map, where live/combined mode has no source.
    */
   liveCapable: boolean;
+  /**
+   * Per-game map<->in-game coordinate transform (from `game.inGameCoordinates`).
+   * Consumed by the In-Game coordinate tooltip and the map-controls go-to input.
+   */
+  inGameCoordinates?: InGameCoordinates;
 }
 
 const Context = createContext<ContextValue | null>(null);
@@ -146,6 +152,7 @@ export function CoordinatesProvider({
   nodesPaths,
   map,
   clusterPrecision = 0,
+  inGameCoordinates,
 }: {
   children: React.ReactNode;
   staticNodes?: NodesCoordinates;
@@ -160,6 +167,7 @@ export function CoordinatesProvider({
   nodesPaths: Record<string, string>;
   map?: string;
   clusterPrecision?: number;
+  inGameCoordinates?: InGameCoordinates;
 }): JSX.Element {
   const { t, dict, locale } = useI18n();
   // Create the user store once per provider instance (i.e. per request on
@@ -873,6 +881,7 @@ export function CoordinatesProvider({
           typesIdMap,
           globalFilters,
           liveCapable,
+          inGameCoordinates,
         }}
       >
         {children}

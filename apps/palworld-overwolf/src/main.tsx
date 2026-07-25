@@ -34,7 +34,7 @@ if (el) {
         tiles={version.data.tiles}
         typesIdMap={version.data.typesIdMap}
         version={version}
-        additionalTooltip={["PalworldCoordinates"]}
+        additionalTooltip={["InGameCoordinates"]}
       />
     </React.StrictMode>,
   );

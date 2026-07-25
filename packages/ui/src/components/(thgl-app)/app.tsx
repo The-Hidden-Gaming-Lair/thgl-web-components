@@ -4,6 +4,7 @@ import {
   cn,
   Dict,
   FiltersConfig,
+  games,
   GlobalFiltersConfig,
   RegionsConfig,
   THGLAppConfig,
@@ -140,6 +141,9 @@ export function App({
             nodesPaths={version.more.nodes}
             staticDrawings={version.data.drawings}
             clusterPrecision={appConfig.markerOptions.clusterPrecision}
+            inGameCoordinates={
+              games.find((g) => g.id === appConfig.name)?.inGameCoordinates
+            }
           >
             {/* Inside CoordinatesProvider: reads the user's enabled filters so the
                 native reader only scans/serializes the types actually in use. */}

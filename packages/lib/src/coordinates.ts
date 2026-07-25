@@ -27,6 +27,54 @@ export const isPointInsidePolygon = (
   return inside;
 };
 
+/**
+ * Per-game map<->in-game coordinate transform. A map position `p = [p0, p1]`
+ * (display X = p[1], display Y = p[0]) converts to the coordinates the game
+ * itself shows the player. Reproduces the historical Palworld math exactly
+ * ({ scale: 459, offsetX: -158000, offsetY: 123888, round: true }); WuWa is a
+ * plain `{ scale: 100 }`.
+ *
+ *   in-game.x = (axisX + offsetX) / scale
+ *   in-game.y = (axisY + offsetY) / scale
+ *
+ * where axisX = p[1], axisY = p[0] normally, or swapped when `flip` is set.
+ */
+export type InGameCoordinates = {
+  /** World units per in-game unit (divisor). */
+  scale: number;
+  /** Added to the map axis feeding in-game X (default 0). */
+  offsetX?: number;
+  /** Added to the map axis feeding in-game Y (default 0). */
+  offsetY?: number;
+  /** Swap which map axis feeds in-game X vs Y. */
+  flip?: boolean;
+  /** Emit integer in-game coordinates. */
+  round?: boolean;
+};
+
+/** Map position → the coordinates the game shows the player. */
+export const toInGameCoords = (
+  p: [number, number] | [number, number, number],
+  cfg: InGameCoordinates,
+): { x: number; y: number } => {
+  const axisX = cfg.flip ? p[0] : p[1];
+  const axisY = cfg.flip ? p[1] : p[0];
+  const x = (axisX + (cfg.offsetX ?? 0)) / cfg.scale;
+  const y = (axisY + (cfg.offsetY ?? 0)) / cfg.scale;
+  return cfg.round ? { x: Math.round(x), y: Math.round(y) } : { x, y };
+};
+
+/** In-game (x, y) → the map position `p = [p0, p1]` (inverse of toInGameCoords). */
+export const fromInGameCoords = (
+  x: number,
+  y: number,
+  cfg: InGameCoordinates,
+): [number, number] => {
+  const axisX = x * cfg.scale - (cfg.offsetX ?? 0);
+  const axisY = y * cfg.scale - (cfg.offsetY ?? 0);
+  return cfg.flip ? [axisX, axisY] : [axisY, axisX];
+};
+
 export type SpawnSource = "static" | "live" | "both";
 
 export type Spawn = {

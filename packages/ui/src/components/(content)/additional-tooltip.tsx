@@ -1,8 +1,8 @@
 import { type AdditionalTooltip } from "@repo/lib";
-import { PalworldCoordinates, DuneAltitude } from "../(data)";
+import { InGameCoordinates, DuneAltitude } from "../(data)";
 
 export const ADDITIONAL_TOOLTIP = {
-  PalworldCoordinates: PalworldCoordinates,
+  InGameCoordinates: InGameCoordinates,
   DuneAltitude: DuneAltitude,
 } as const;
 

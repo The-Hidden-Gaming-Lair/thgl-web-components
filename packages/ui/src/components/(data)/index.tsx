@@ -32,7 +32,7 @@ export {
   type API_WEEKLY_WANTS,
   type REWARD_LEVEL,
 } from "./palia-weekly-wants";
-export { PalworldCoordinates } from "./palworld-coordinates";
+export { InGameCoordinates } from "./in-game-coordinates";
 export { Ping } from "./ping";
 export { PremiumAlert } from "./premium-alert";
 export { Sidebar, CollapsibleTrigger } from "./sidebar";

@@ -4,6 +4,7 @@ import {
   DrawingsConfig,
   FiltersConfig,
   GlobalFiltersConfig,
+  games,
   OverwolfAppConfig,
   RegionsConfig,
   TilesConfig,
@@ -109,6 +110,9 @@ export function App({
             useCbor
             nodesPaths={version.more.nodes}
             clusterPrecision={appConfig.markerOptions.clusterPrecision}
+            inGameCoordinates={
+              games.find((g) => g.id === appConfig.name)?.inGameCoordinates
+            }
           >
             <AppHeader
               title={appConfig.title}

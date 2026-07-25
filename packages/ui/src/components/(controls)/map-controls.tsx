@@ -11,9 +11,15 @@ import {
   Plus,
   RotateCcw,
 } from "lucide-react";
-import { cn, useGameState, useSettingsStore } from "@repo/lib";
+import {
+  cn,
+  fromInGameCoords,
+  useGameState,
+  useSettingsStore,
+} from "@repo/lib";
 import type { WebMap } from "@repo/lib/web-map";
 import { useMap } from "../(interactive-map)/store";
+import { useCoordinates } from "../(providers)";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
@@ -292,6 +298,21 @@ export function MapControls({
   const [gotoError, setGotoError] = useState(false);
   const rafRef = useRef<number>(0);
 
+  // Per-game map<->in-game transform (undefined for games without one). When
+  // present, the go-to field offers an "in-game coordinates" toggle (persisted)
+  // that converts the entered in-game coords to a map position before jumping.
+  const { inGameCoordinates } = useCoordinates();
+  const [useInGameGoto, setUseInGameGoto] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("thgl:goto-ingame") === "1";
+  });
+  const toggleInGameGoto = useCallback((checked: boolean) => {
+    setUseInGameGoto(checked);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("thgl:goto-ingame", checked ? "1" : "0");
+    }
+  }, []);
+
   const mapRef = useRef(map);
   mapRef.current = map;
 
@@ -345,23 +366,32 @@ export function MapControls({
       }
       const x = Number(nums[0]);
       const y = Number(nums[1]);
-      // Marker positions are stored as p = [y, x] (formatCoordinates maps
-      // p[1] → {x} and p[0] → {y}), so a displayed (x, y) centers on [y, x].
       const targetZoom = Math.max(map.getZoom(), map.getMaxZoom() - 2);
-      map.setView([y, x], targetZoom);
+      if (inGameCoordinates && useInGameGoto) {
+        // Entered values are in-game coords → convert to a map position [p0, p1].
+        map.setView(fromInGameCoords(x, y, inGameCoordinates), targetZoom);
+      } else {
+        // Marker positions are stored as p = [y, x] (formatCoordinates maps
+        // p[1] → {x} and p[0] → {y}), so a displayed (x, y) centers on [y, x].
+        map.setView([y, x], targetZoom);
+      }
       setGotoError(false);
       setOverflowOpen(false);
     },
-    [map, gotoInput],
+    [map, gotoInput, inGameCoordinates, useInGameGoto],
   );
   // Placeholder mirrors the game's own copy format so pasted values line up.
-  const gotoPlaceholder = coordinateCopyFormat
-    ? coordinateCopyFormat
-        .replace("{x}", "1240")
-        .replace("{y}", "583")
-        .replace("{z}", "")
-        .trim()
-    : "1240, 583";
+  // In in-game mode the entered values are much smaller, so use a plain example.
+  const gotoPlaceholder =
+    inGameCoordinates && useInGameGoto
+      ? "512, 340"
+      : coordinateCopyFormat
+        ? coordinateCopyFormat
+            .replace("{x}", "1240")
+            .replace("{y}", "583")
+            .replace("{z}", "")
+            .trim()
+        : "1240, 583";
   // Only needs whether a player exists (for the follow button), not the
   // position — selecting the boolean re-renders this on null↔present changes
   // instead of on every ~16Hz position update while moving.
@@ -530,6 +560,37 @@ export function MapControls({
                   Go
                 </button>
               </div>
+              {inGameCoordinates && (
+                <div className="flex items-center gap-2 text-xs select-none">
+                  <span className="text-muted-foreground">Coordinates</span>
+                  <div className="flex overflow-hidden rounded-md border border-input">
+                    <button
+                      type="button"
+                      onClick={() => toggleInGameGoto(false)}
+                      className={cn(
+                        "px-2 py-0.5 transition-colors",
+                        !useInGameGoto
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-muted",
+                      )}
+                    >
+                      Map
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleInGameGoto(true)}
+                      className={cn(
+                        "px-2 py-0.5 transition-colors border-l border-input",
+                        useInGameGoto
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-muted",
+                      )}
+                    >
+                      In-game
+                    </button>
+                  </div>
+                </div>
+              )}
               <p
                 className={cn(
                   "text-[10px]",
