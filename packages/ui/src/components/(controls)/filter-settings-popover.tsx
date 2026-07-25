@@ -71,13 +71,16 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
       }
     }
     if (!baseType) return null;
-    const ids: string[] = [];
+    // A value can legitimately appear in several groups (e.g. a rarity group
+    // plus a "by quest" group), so dedupe by id — otherwise the same variant
+    // would be counted twice and inflate the sibling set.
+    const ids = new Set<string>();
     for (const g of filters) {
       for (const v of g.values) {
-        if (v.baseType === baseType) ids.push(v.id);
+        if (v.baseType === baseType) ids.add(v.id);
       }
     }
-    return ids.length > 1 ? ids : null;
+    return ids.size > 1 ? [...ids] : null;
   }, [filters, isGroup, isGroup ? null : props.filterId]);
 
   const siblingEnabledCount = useMemo(
