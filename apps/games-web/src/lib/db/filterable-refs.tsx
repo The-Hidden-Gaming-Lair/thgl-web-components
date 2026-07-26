@@ -83,7 +83,8 @@ export function FilterableRefs({
       key={`${r.section}/${r.id}`}
       href={localizePath(`/db/${r.section}/${r.id}`, locale)}
       prefetch={false}
-      className="group/tip relative inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-xs hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
+      data-reftip-anchor={r.tooltip ? "" : undefined}
+      className="relative inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-xs hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
       style={{ paddingLeft: r.icon ? 4 : 10 }}
     >
       {r.icon && (
@@ -99,7 +100,10 @@ export function FilterableRefs({
         <span className="font-mono text-muted-foreground">×{r.count}</span>
       )}
       {r.tooltip && (
-        <span className="pointer-events-none absolute left-0 top-full z-50 mt-1 hidden w-64 max-w-[80vw] whitespace-normal rounded border border-slate-600 bg-slate-950 px-2.5 py-1.5 text-[11px] font-normal normal-case leading-snug text-slate-200 shadow-xl group-hover/tip:block">
+        <span
+          data-reftip
+          className="pointer-events-none absolute left-0 top-full z-50 mt-1 w-64 max-w-[80vw] whitespace-normal rounded border border-slate-600 bg-slate-950 px-2.5 py-1.5 text-[11px] font-normal normal-case leading-snug text-slate-200 shadow-xl"
+        >
           {r.tooltip}
         </span>
       )}
