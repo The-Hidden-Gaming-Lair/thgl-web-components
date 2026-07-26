@@ -2,6 +2,10 @@ import Link from "next/link";
 import { localizePath, type TilesConfig } from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { DbLocationMap } from "@/lib/db/db-location-map";
+import {
+  FilterableRefs,
+  type IconSprite as RefIconSprite,
+} from "@/lib/db/filterable-refs";
 
 type IconSprite = {
   url: string;
@@ -252,6 +256,23 @@ export function GenericEntityView({
     );
   };
 
+  // Large sections (e.g. a boss's ~30 drops) get a client-side text + group
+  // filter; small ones stay a plain static list.
+  const renderRefs = (refs: DbRef[]) =>
+    refs.length > 10 ? (
+      <FilterableRefs
+        items={refs.map((r) => ({
+          ...r,
+          icon: (icons?.[r.id] as RefIconSprite) ?? null,
+        }))}
+        appName={appName}
+        iconsHash={iconsHash}
+        locale={locale}
+      />
+    ) : (
+      refLinks(refs)
+    );
+
   const refLinks = (refs: DbRef[]) => {
     // No group field → flat list (existing behavior for all other games).
     if (!refs.some((r) => r.group)) {
@@ -494,7 +515,7 @@ export function GenericEntityView({
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
             Drops
           </div>
-          {refLinks(drops)}
+          {renderRefs(drops)}
         </div>
       )}
 
@@ -512,7 +533,7 @@ export function GenericEntityView({
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
             {humanizeKey(k)}
           </div>
-          {refLinks(refs)}
+          {renderRefs(refs)}
         </div>
       ))}
 
