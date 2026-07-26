@@ -30,8 +30,17 @@ function isLocationsProp(v: unknown): v is LocationsProp {
   );
 }
 
-/** A cross-link to another DB entry (item↔trader), produced by data-forge. */
-type DbRef = { id: string; section: string; name: string; count?: number };
+/** A cross-link to another DB entry (item↔trader), produced by data-forge.
+ *  `group` buckets refs under a sub-heading (e.g. a boss's drops by class);
+ *  `tooltip` shows extra detail (e.g. the item's power) on hover. */
+type DbRef = {
+  id: string;
+  section: string;
+  name: string;
+  count?: number;
+  group?: string;
+  tooltip?: string;
+};
 
 function isDbRefArray(v: unknown): v is DbRef[] {
   return (
@@ -212,37 +221,65 @@ export function GenericEntityView({
       .replace(/[_-]+/g, " ")
       .replace(/^./, (c) => c.toUpperCase());
 
-  const refLinks = (refs: DbRef[]) => (
-    <div className="flex flex-wrap gap-2">
-      {refs.map((r) => {
-        const ic = icons?.[r.id];
-        return (
-          <Link
-            key={`${r.section}/${r.id}`}
-            href={localizePath(`/db/${r.section}/${r.id}`, locale)}
-            prefetch={false}
-            className="inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-xs hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
-            style={{ paddingLeft: ic ? 4 : 10 }}
-          >
-            {ic && (
-              <SpriteIcon
-                icon={ic}
-                appName={appName}
-                size={20}
-                iconsHash={iconsHash}
-              />
+  const refPill = (r: DbRef) => {
+    const ic = icons?.[r.id];
+    return (
+      <Link
+        key={`${r.section}/${r.id}`}
+        href={localizePath(`/db/${r.section}/${r.id}`, locale)}
+        prefetch={false}
+        className="group/tip relative inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-xs hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
+        style={{ paddingLeft: ic ? 4 : 10 }}
+      >
+        {ic && (
+          <SpriteIcon
+            icon={ic}
+            appName={appName}
+            size={20}
+            iconsHash={iconsHash}
+          />
+        )}
+        <span className="text-slate-200">{r.name}</span>
+        {typeof r.count === "number" && r.count > 1 && (
+          <span className="font-mono text-muted-foreground">×{r.count}</span>
+        )}
+        {r.tooltip && (
+          <span className="pointer-events-none absolute left-0 top-full z-50 mt-1 hidden w-64 max-w-[80vw] whitespace-normal rounded border border-slate-600 bg-slate-950 px-2.5 py-1.5 text-[11px] font-normal normal-case leading-snug text-slate-200 shadow-xl group-hover/tip:block">
+            {r.tooltip}
+          </span>
+        )}
+      </Link>
+    );
+  };
+
+  const refLinks = (refs: DbRef[]) => {
+    // No group field → flat list (existing behavior for all other games).
+    if (!refs.some((r) => r.group)) {
+      return <div className="flex flex-wrap gap-2">{refs.map(refPill)}</div>;
+    }
+    // Bucket under sub-headings, preserving first-seen group order.
+    const groups: { label: string; items: DbRef[] }[] = [];
+    for (const r of refs) {
+      const label = r.group ?? "";
+      let g = groups.find((x) => x.label === label);
+      if (!g) groups.push((g = { label, items: [] }));
+      g.items.push(r);
+    }
+    return (
+      <div className="space-y-3">
+        {groups.map((g) => (
+          <div key={g.label}>
+            {g.label && (
+              <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-amber-500/80">
+                {g.label}
+              </div>
             )}
-            <span className="text-slate-200">{r.name}</span>
-            {typeof r.count === "number" && r.count > 1 && (
-              <span className="font-mono text-muted-foreground">
-                ×{r.count}
-              </span>
-            )}
-          </Link>
-        );
-      })}
-    </div>
-  );
+            <div className="flex flex-wrap gap-2">{g.items.map(refPill)}</div>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="py-4">
