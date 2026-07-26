@@ -10,10 +10,10 @@ import {
 import { getFullDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
-import { resolveDict } from "@/lib/db/resolve-dict";
+import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
 import { collectionPageJsonLd } from "@/lib/db/json-ld";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
-import { EntityGrid } from "@/lib/db/entity-grid";
+import { FilterableEntityGrid } from "@/lib/db/filterable-entity-grid";
 
 /**
  * Generic DB section listing. Works for any tenant that defines `db` in its
@@ -128,10 +128,21 @@ export default async function Page({ params }: PageProps) {
         </p>
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-6">
-        <EntityGrid
-          entries={data}
+        <FilterableEntityGrid
+          items={data.flatMap((cat) =>
+            cat.items.map((i) => ({
+              id: i.id,
+              icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+              groupId: i.groupId ?? "other",
+              name: resolveDict(dict, i.id),
+              groupLabel: resolveDictWithFallback(
+                dict,
+                i.groupId ?? "other",
+                i.groupId ?? "other",
+              ),
+            })),
+          )}
           section={section}
-          dict={dict}
           locale={locale}
           iconsHash={iconsHash}
           appName={appConfig.name}

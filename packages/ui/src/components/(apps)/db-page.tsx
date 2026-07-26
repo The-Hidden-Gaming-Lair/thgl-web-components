@@ -15,6 +15,7 @@ import { ContentLayout } from "../(ads)";
 import { Subtitle } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
 import { JSONLDScript } from "./json-ld-script";
+import { DbGlobalSearch } from "./db-global-search";
 
 /**
  * `/db` database landing — the section-overview hub for any tenant with a `db`
@@ -108,6 +109,28 @@ export function createDbPage(appConfig: AppConfig) {
       return { ...section, title, desc, count };
     });
 
+    // Flat search index across every section for the global DB search box.
+    const sectionForType = (type: string) =>
+      sections.find(
+        (s) =>
+          s.type === type ||
+          (s.extraTypes ?? []).includes(type) ||
+          (s.typePrefix ? type.startsWith(s.typePrefix) : false),
+      );
+    const searchItems = database
+      .filter((e) => !e.type.startsWith("_"))
+      .flatMap((entry) => {
+        const sec = sectionForType(entry.type);
+        if (!sec) return [];
+        const slug = sec.href.replace(/^\/db\//, "");
+        return entry.items.map((i) => ({
+          id: i.id,
+          name: resolveDbText(i.id),
+          section: slug,
+          sectionLabel: sec.title,
+        }));
+      });
+
     return (
       <>
         <JSONLDScript
@@ -186,6 +209,7 @@ export function createDbPage(appConfig: AppConfig) {
                     fallback: `Browse all ${sections.length} database categories for ${appConfig.title}.`,
                   })}
                 </p>
+                <DbGlobalSearch items={searchItems} locale={locale} />
               </>
             }
             content={
