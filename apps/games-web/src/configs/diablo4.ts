@@ -68,6 +68,14 @@ export const diablo4 = resolveAppConfig({
         description: "Every Unique item with class, slot, and unique power.",
       },
       {
+        href: "/db/bosses",
+        type: "bosses",
+        titleFallback: "Boss Loot Tables",
+        icon: "☠️",
+        description:
+          "Endgame & Uber bosses and the unique items they target-drop.",
+      },
+      {
         href: "/db/gems",
         type: "gems",
         titleFallback: "Gems",
@@ -106,6 +114,7 @@ export const diablo4 = resolveAppConfig({
     typeLabels: {
       aspects: "Aspect",
       uniques: "Unique Item",
+      bosses: "Boss",
       gems: "Gem",
       runes: "Rune",
       glyphs: "Paragon Glyph",
