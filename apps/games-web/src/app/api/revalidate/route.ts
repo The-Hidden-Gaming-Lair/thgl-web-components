@@ -1,28 +1,33 @@
 import { revalidateTag } from "next/cache";
+import { games } from "@repo/lib";
 import { palia } from "@/configs/palia";
 
 /**
- * On-demand revalidation endpoint. Currently only Palia uses this — it
- * gets pinged when the upstream palia-api updates leaderboard,
- * rummage-pile, or weekly-wants data and we want the next page render
- * to bust the `force-cache` / tagged data fetches.
+ * On-demand revalidation endpoint. Two callers:
  *
- * Secret-gated; no per-tenant routing needed because revalidateTag is
- * a global Next cache primitive and only palia routes set these tags.
+ *   1. **Game-data updates** (`{ game: "<id>" }`) — data-forge's
+ *      `sync:bunny` pings this after mirroring a game's data to the CDN,
+ *      so that game's tenant pages re-render with the new data
+ *      immediately instead of waiting out their (now long) s-maxage.
+ *      The content pages are dynamic (they fetch `version.json` with
+ *      `cache: "no-store"`), so the next render always picks up fresh
+ *      data on its own — we only need the Bunny EDGE purge, no
+ *      `revalidateTag`. This is what lets us cache pages long and stay
+ *      fresh: revalidate ONLY the tenant whose data actually changed.
  *
- * Two cache layers are invalidated:
+ *   2. **Palia live data** (`{ tag: "leaderboard" | ... }`) — the
+ *      upstream palia-api pings this on leaderboard / rummage-pile /
+ *      weekly-wants updates; those pages use tagged `force-cache`
+ *      fetches, so they need `revalidateTag` AND the edge purge.
  *
- *   1. Next.js Data Cache (`revalidateTag`) — refreshes the upstream
- *      fetch on the next render. Works natively on the Bunny container.
- *   2. Bunny CDN edge cache (`purgeBunny`) — the container has fresh
- *      data after step 1, but Bunny still serves the prior 60s-cached
- *      HTML until the s-maxage expires. Purge explicitly so end users
- *      see the update within seconds instead of up to a minute.
+ * Secret-gated (Authorization: Bearer <PALIA_REVALIDATE_SECRET>).
  *
  * Bunny purge uses `async=false` — wildcard purges submitted with
  * `async=true` were observed to take >15s (or fail silently) to take
  * effect. The synchronous variant returns once Bunny has confirmed the
- * purge, which is fast enough (~1-2s for 10 URLs in parallel).
+ * purge, which is fast enough (~1-2s for a few URLs in parallel).
+ * Bunny rate-limits wildcard purges to ~5/second per account (HTTP 429),
+ * so we purge at most one wildcard per tenant per call.
  */
 
 // Map upstream tag → palia path. Tags we don't know about still get
@@ -126,9 +131,40 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
+
+  // --- Mode 1: game-data update -> purge that tenant's pages (edge only) ---
+  if (typeof body.game === "string") {
+    const game = games.find((g) => g.id === body.game);
+    if (!game) {
+      return Response.json(
+        { message: `Unknown game: ${body.game}` },
+        { status: 404 },
+      );
+    }
+    if (!game.web) {
+      return Response.json(
+        { message: `Game ${body.game} has no tenant web URL` },
+        { status: 400 },
+      );
+    }
+    // One wildcard covers every path + locale + query variant for the tenant.
+    // Pages are dynamic (no-store version.json) -> the re-render is fresh; no revalidateTag.
+    const purgeResult = await purgeBunny([`${game.web}/*`]);
+    return Response.json({
+      revalidated: true,
+      game: game.id,
+      purge: purgeResult,
+      now: Date.now(),
+    });
+  }
+
+  // --- Mode 2: palia live-data tag revalidation (existing) ---
   const tag = body.tag;
   if (typeof tag !== "string") {
-    return Response.json({ message: "Invalid tag" }, { status: 400 });
+    return Response.json(
+      { message: "Provide `game` (id) or `tag`" },
+      { status: 400 },
+    );
   }
 
   // Next.js 16 requires a cacheLife profile as the second argument.

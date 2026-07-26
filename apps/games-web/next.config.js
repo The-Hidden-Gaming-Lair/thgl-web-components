@@ -60,8 +60,9 @@ const nextConfig = (phase) => ({
   // routes — Bunny respects `private` and refuses to cache. Override:
   //
   //   max-age=0:                browser always revalidates with edge
-  //   s-maxage=900:             shared caches (Bunny) keep response 15min
-  //   stale-while-revalidate:   serve stale up to 1h while refreshing
+  //   s-maxage=86400:           shared caches (Bunny) keep response up to 1 day
+  //                             (freshness comes from the per-tenant purge, below)
+  //   stale-while-revalidate:   serve stale while refreshing in the background
   //
   // We avoid `must-revalidate` — it forces Bunny to recheck origin on every
   // request, defeating s-maxage. CDN-Cache-Control duplicates s-maxage so
@@ -82,14 +83,21 @@ const nextConfig = (phase) => ({
   // part of the Bunny cache key. Caching RSC matters: prefetches fire one
   // request per visible link, which used to be 100% origin traffic.
   headers: async () => {
+    // s-maxage=86400 (1 day): freshness no longer rides the TTL — data-forge's
+    // sync:bunny purges each updated tenant's pages via /api/revalidate the moment
+    // its data goes live (see the endpoint), so pages render once and stay cached
+    // until the data actually changes. The 1-day ceiling only bounds staleness if a
+    // purge is ever missed; Bunny's stale-while-revalidate + UseStaleWhileUpdating
+    // serve the cached copy while a background re-render runs.
     const pageCache = [
       {
         key: "Cache-Control",
-        value: "public, max-age=0, s-maxage=900, stale-while-revalidate=3600",
+        value:
+          "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400",
       },
       {
         key: "CDN-Cache-Control",
-        value: "public, s-maxage=900, stale-while-revalidate=3600",
+        value: "public, s-maxage=86400, stale-while-revalidate=86400",
       },
     ];
     // User-specific (dashboard, cookie-varied) and palia-api-driven pages
