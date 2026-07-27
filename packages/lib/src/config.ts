@@ -455,7 +455,15 @@ export async function fetchJsonWithMemoryCache<T>(
     if (!res.ok) {
       if (res.status === 404 && options?.onNotFound) {
         const fallback = options.onNotFound();
-        if (fallback !== undefined) return fallback;
+        if (fallback !== undefined) {
+          // Cache the fallback like a normal result — otherwise every call
+          // for a missing resource re-fetches the 404 from the CDN.
+          memoryFetchCache.set(url, {
+            data: fallback,
+            expiresAt: Date.now() + ttl,
+          });
+          return fallback;
+        }
       }
       throw new Error(`Failed to fetch ${url}: ${res.status}`);
     }

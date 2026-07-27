@@ -62,12 +62,15 @@ export async function handle(fn: () => Promise<Response>): Promise<Response> {
     if (err instanceof BadRequestError) return errorJson(err.message, 400);
     if (err instanceof PayloadTooLargeError) return errorJson(err.message, 413);
     const msg = err instanceof Error ? err.message : String(err);
-    // Client closed the connection mid-request (or an upstream fetch was
-    // aborted with it) — not a server fault, don't log it as an error.
+    // Aborted request: usually the client closed the connection mid-request,
+    // but server-side timeouts surface identically (libsql aborts hung Bunny-DB
+    // queries after 5s via AbortController). Not error-level noise, but keep a
+    // warn line so a degrading upstream stays visible in the logs.
     if (
       (err instanceof Error && err.name === "AbortError") ||
       msg === "This operation was aborted"
     ) {
+      console.warn(`[api] aborted: ${msg}`);
       return errorJson("Client closed request", 499);
     }
     console.error(`[api] unhandled: ${msg}`);
