@@ -19,7 +19,7 @@ import {
 } from "@repo/lib";
 import type { WebMap } from "@repo/lib/web-map";
 import { useMap } from "../(interactive-map)/store";
-import { useCoordinates } from "../(providers)";
+import { useCoordinatesOptional } from "../(providers)";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
@@ -301,7 +301,10 @@ export function MapControls({
   // Per-game map<->in-game transform (undefined for games without one). When
   // present, the go-to field offers an "in-game coordinates" toggle (persisted)
   // that converts the entered in-game coords to a map position before jumping.
-  const { inGameCoordinates } = useCoordinates();
+  // Optional: MapControls also renders on the guide-page mini-map (SimpleWebMap)
+  // where there is no CoordinatesProvider. Without a provider the in-game go-to
+  // toggle simply doesn't appear.
+  const inGameCoordinates = useCoordinatesOptional()?.inGameCoordinates;
   const [useInGameGoto, setUseInGameGoto] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem("thgl:goto-ingame") === "1";

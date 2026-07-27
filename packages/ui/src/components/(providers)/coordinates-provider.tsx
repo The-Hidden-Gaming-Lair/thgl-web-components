@@ -899,3 +899,12 @@ export const useCoordinates = (): ContextValue => {
 
   return value;
 };
+
+/**
+ * Non-throwing variant for components that CAN render outside a
+ * CoordinatesProvider (e.g. MapControls on the guide-page mini-map via
+ * SimpleWebMap). Returns null when there is no provider so the consumer can
+ * degrade gracefully instead of crashing.
+ */
+export const useCoordinatesOptional = (): ContextValue | null =>
+  useContext(Context);

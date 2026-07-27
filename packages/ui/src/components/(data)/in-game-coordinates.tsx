@@ -1,5 +1,5 @@
 import { toInGameCoords } from "@repo/lib";
-import { useCoordinates } from "../(providers)";
+import { useCoordinatesOptional } from "../(providers)";
 
 /**
  * Tooltip line showing the coordinates the game itself displays for a marker,
@@ -11,7 +11,9 @@ export function InGameCoordinates({
 }: {
   latLng: [number, number] | [number, number, number];
 }) {
-  const { inGameCoordinates } = useCoordinates();
+  // Optional: this tooltip line also renders on the guide-page mini-map, which
+  // has no CoordinatesProvider. Without one, we simply omit the in-game line.
+  const inGameCoordinates = useCoordinatesOptional()?.inGameCoordinates;
   if (!inGameCoordinates) return null;
   const { x, y } = toInGameCoords(latLng, inGameCoordinates);
   return (

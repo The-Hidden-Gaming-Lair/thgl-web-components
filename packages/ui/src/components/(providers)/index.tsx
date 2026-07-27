@@ -11,6 +11,7 @@ export {
 export {
   CoordinatesProvider,
   useCoordinates,
+  useCoordinatesOptional,
   REGION_FILTERS,
   type NodesCoordinates,
   type Spawns,
