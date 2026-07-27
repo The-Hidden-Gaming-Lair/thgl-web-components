@@ -660,9 +660,18 @@ export async function fetchDict(
   appName: string,
   locale: string = "en",
 ): Promise<Record<string, string>> {
-  return fetchJsonWithMemoryCache<Record<string, string>>(
+  const dict = await fetchJsonWithMemoryCache<Record<string, string> | null>(
     `${DATA_FORGE_CDN_URL}/${appName}/dicts/${locale}.json`,
+    { onNotFound: () => null },
   );
+  if (dict !== null) return dict;
+  // A locale without a dict on the CDN (tenant advertises more locales than the
+  // data pipeline emits, or a crawler-cased URL like /zh-cn/) must not 500 the
+  // render — fall back to English, matching getAppDictionary's behavior.
+  if (locale === "en") {
+    throw new Error(`Missing en dict for ${appName}`);
+  }
+  return fetchDict(appName, "en");
 }
 
 export async function fetchDatabase(appName: string): Promise<DatabaseConfig> {

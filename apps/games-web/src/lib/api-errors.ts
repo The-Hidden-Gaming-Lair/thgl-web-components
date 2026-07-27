@@ -62,6 +62,14 @@ export async function handle(fn: () => Promise<Response>): Promise<Response> {
     if (err instanceof BadRequestError) return errorJson(err.message, 400);
     if (err instanceof PayloadTooLargeError) return errorJson(err.message, 413);
     const msg = err instanceof Error ? err.message : String(err);
+    // Client closed the connection mid-request (or an upstream fetch was
+    // aborted with it) — not a server fault, don't log it as an error.
+    if (
+      (err instanceof Error && err.name === "AbortError") ||
+      msg === "This operation was aborted"
+    ) {
+      return errorJson("Client closed request", 499);
+    }
     console.error(`[api] unhandled: ${msg}`);
     return errorJson("Internal Server Error", 500);
   }

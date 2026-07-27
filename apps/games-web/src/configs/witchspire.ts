@@ -2,19 +2,11 @@ import { resolveAppConfig } from "@repo/lib";
 
 export const witchspire = resolveAppConfig({
   name: "witchspire",
-  supportedLocales: [
-    "en",
-    "de",
-    "es",
-    "fr",
-    "it",
-    "ja",
-    "ko",
-    "pt",
-    "ru",
-    "uk",
-    "zh-CN",
-  ],
+  // Only `en` — the data pipeline emits no other dicts for Witchspire yet (the
+  // extractor doesn't pull Localization/*.locres). Advertising more locales
+  // produced hreflang alternates + locale-switcher entries whose dict fetches
+  // 404'd on the CDN. Re-add locales once dicts/<locale>.json actually ship.
+  supportedLocales: ["en"],
   appUrl: "https://www.th.gl/companion-app",
   // No manual "/maps/..." internalLink: the home page auto-generates a richer
   // map card (preview image + live location count) per map, and that auto-card
