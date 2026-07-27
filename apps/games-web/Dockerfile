@@ -9,6 +9,12 @@
 FROM oven/bun:1.3.11 AS builder
 WORKDIR /repo
 
+# Build identity: the deploying git SHA, inlined into the client bundle as
+# NEXT_PUBLIC_BUILD_SHA (must also be in turbo.json globalEnv) and served by
+# /api/build. Powers the new-version toast + the deploy drain probe.
+ARG GIT_SHA=dev
+ENV NEXT_PUBLIC_BUILD_SHA=$GIT_SHA
+
 # Copy whole monorepo (filtered by .dockerignore to skip node_modules / .next / dist).
 # Workspaces force us to install everything together, but turbo prune could optimize this later.
 COPY . .
@@ -29,6 +35,8 @@ RUN bunx turbo run build --filter=games-web
 FROM node:22-alpine AS runner
 WORKDIR /app
 
+ARG GIT_SHA=dev
+ENV NEXT_PUBLIC_BUILD_SHA=$GIT_SHA
 ENV NODE_ENV=production
 ENV PORT=3100
 ENV HOSTNAME=0.0.0.0

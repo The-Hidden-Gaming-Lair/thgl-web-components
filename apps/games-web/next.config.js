@@ -148,6 +148,16 @@ const nextConfig = (phase) => ({
     const rules = [
       { source: "/:path*", headers: securityHeaders },
       { source: "/:path*", headers: pageCache },
+      // Build-identity probe (NewVersionWatcher polling + the deploy workflow's
+      // drain detection). Must reflect the LIVE container on every request, so
+      // it must come AFTER the pageCache /:path* rule to override s-maxage.
+      {
+        source: "/api/build",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
       // Auto-update gate — must come AFTER the pageCache /:path* rule so it overrides s-maxage.
       // app.th.gl serves these at the root (/version.txt); the middleware also rewrites to
       // /games/thgl-app/*, so cover both the incoming and rewritten paths.
@@ -180,11 +190,15 @@ const nextConfig = (phase) => ({
       rules.push(
         // Hashed build assets are content-addressed (the hash is in the
         // filename), so a given URL's bytes never change. Cache them
-        // immutably. Critical for container deploys: when a new image
-        // replaces the old one, the old chunks vanish from origin — a
-        // user still on the old HTML relies on the edge having kept
-        // them. Without this they'd inherit the 60s s-maxage, get
-        // evicted, then 404 into Bunny's HTML → "Unexpected token '<'".
+        // immutably. NOTE: edge retention is NOT the durability story —
+        // any Bunny purge (deploy purge, per-tenant /api/revalidate) can
+        // evict these. The durable origin is the thgl-games-web-static
+        // storage zone: the deploy workflow uploads .next/static there
+        // BEFORE flipping the container, and a Bunny edge rule routes
+        // */_next/static/* to it, so old builds' chunks keep resolving
+        // for open tabs / stale HTML no matter what was purged. These
+        // headers still apply to the container's own copy (dev fallback
+        // and belt-and-suspenders if the edge rule is ever removed).
         {
           source: "/_next/static/:path*",
           headers: [

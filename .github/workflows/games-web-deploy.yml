@@ -57,8 +57,64 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LC }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LC }}:${{ github.sha }}
           platforms: linux/amd64
+          build-args: |
+            GIT_SHA=${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # ------------------------------------------------------------------
+      # Assets-first: upload this build's /_next/static to the persistent
+      # storage zone BEFORE flipping the container. A Bunny edge rule on the
+      # pull zone routes */_next/static/* to this storage (via the
+      # thgl-games-web-static pull zone), which ACCUMULATES builds — so:
+      #   - old builds' chunks keep resolving for open tabs and any edge
+      #     still serving older HTML (purges can no longer 404 them: purge
+      #     only evicts the edge; the storage origin still has the file);
+      #   - the new build's chunks exist before any new HTML references
+      #     them (no mid-rollout "new HTML, old origin" 404s).
+      # Old builds are pruned after 60 days (well past the 1-day HTML TTL)
+      # in the cleanup step at the end.
+      # ------------------------------------------------------------------
+      - name: Upload static assets to persistent storage (assets-first)
+        if: vars.BUNNY_GAMES_WEB_APP_ID != ''
+        env:
+          API_KEY: ${{ secrets.BUNNY_ACCOUNT_API_KEY }}
+          STORAGE_ZONE_ID: ${{ vars.BUNNY_GAMES_WEB_STATIC_STORAGE_ID || '1692632' }}
+          STORAGE_ZONE_NAME: thgl-games-web-static
+          IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LC }}:${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          # Extract the exact static output from the image we just pushed.
+          docker pull -q "$IMAGE"
+          CID=$(docker create "$IMAGE")
+          docker cp "$CID:/app/apps/games-web/.next/static" ./static-out
+          docker rm "$CID" >/dev/null
+
+          # Storage password comes from the account API (no extra secret).
+          STORAGE_PW=$(curl -fsS -H "AccessKey: $API_KEY" \
+            "https://api.bunny.net/storagezone/$STORAGE_ZONE_ID" | jq -r '.Password')
+
+          cd static-out
+          find . -type f | sed 's|^\./||' > /tmp/static-files.txt
+          TOTAL=$(wc -l < /tmp/static-files.txt)
+          echo "Uploading $TOTAL static files to $STORAGE_ZONE_NAME..."
+
+          upload_one() {
+            local f="$1"
+            curl -fsS -o /dev/null --retry 3 --retry-delay 2 -X PUT \
+              -H "AccessKey: $STORAGE_PW" \
+              --data-binary "@$f" \
+              "https://storage.bunnycdn.com/$STORAGE_ZONE_NAME/_next/static/$f"
+          }
+          export -f upload_one
+          export STORAGE_PW STORAGE_ZONE_NAME
+
+          # Parallel upload; fail the deploy if any file can't be uploaded —
+          # flipping the container without complete assets would reintroduce
+          # the 404 class this exists to prevent.
+          xargs -P 12 -I{} bash -c 'upload_one "$@"' _ {} < /tmp/static-files.txt
+          echo "Static upload complete ($TOTAL files)"
 
       # Bunny's official BunnyWay/actions/container-update-image@main is a
       # single-shot fetch that throws an UnhandledPromiseRejection on 5xx
@@ -180,13 +236,84 @@ jobs:
 
           # Build-skew straggler: even after the two purges above, an edge can
           # (re)cache the OLD build's HTML while the previous container instance
-          # is still draining. That HTML references _next/static/chunks/* hashes
-          # the NEW image no longer has, and its s-maxage=900 lets that edge serve
-          # it (fresh, no revalidation) for ~15 min -> 404s / "MIME text/plain"
-          # errors for everyone on that edge until it expires. The old instance
-          # has normally fully drained within a couple of minutes of the new one
-          # being healthy, so a delayed third purge evicts that late straggler.
-          echo "Waiting for old container instance to drain, then final purge..."
-          sleep 180
+          # is still draining. Pages carry s-maxage=86400, so a straggler cached
+          # after our last purge would stick for a DAY. (Old-build chunks keep
+          # resolving thanks to the persistent static storage, so a straggler is
+          # "old but working" — this purge is about freshness, not breakage.)
+          # Instead of guessing a drain window, probe /api/build (no-store, so
+          # every request reaches an origin instance) until only the new SHA
+          # answers — 6 consecutive hits ≈ the old instance is gone — then purge.
+          echo "Waiting for old container instance to drain (probing /api/build)..."
+          consec=0
+          drained=0
+          for i in $(seq 1 60); do
+            sha=$(curl -fsS --max-time 10 "${PROBE_URL}api/build?drain=${GITHUB_RUN_ID}-${i}" 2>/dev/null | jq -r '.sha // empty' 2>/dev/null || true)
+            if [ "$sha" = "$GITHUB_SHA" ]; then
+              consec=$((consec + 1))
+              if [ "$consec" -ge 6 ]; then drained=1; break; fi
+            else
+              consec=0
+            fi
+            sleep 5
+          done
+          if [ "$drained" = "1" ]; then
+            echo "Old instance drained (poll $i)"
+          else
+            echo "::warning::Drain not confirmed within ~5min (old build may still serve); purging anyway"
+          fi
           purge
           echo "Drain-window purge done"
+
+      # Retention: drop static files from builds that stopped being current
+      # >60 days ago. Safe ordering: the upload step re-PUT every file of the
+      # NEW build minutes ago (fresh LastChanged), and the deploy above
+      # succeeded, so anything still older than 60d belongs to long-dead
+      # builds — far past the 1-day page TTL any HTML could reference it from.
+      # Best-effort: a prune failure must not fail the deploy.
+      - name: Prune old static builds from storage
+        if: vars.BUNNY_GAMES_WEB_APP_ID != ''
+        continue-on-error: true
+        env:
+          API_KEY: ${{ secrets.BUNNY_ACCOUNT_API_KEY }}
+          STORAGE_ZONE_ID: ${{ vars.BUNNY_GAMES_WEB_STATIC_STORAGE_ID || '1692632' }}
+          STORAGE_ZONE_NAME: thgl-games-web-static
+          MAX_AGE_DAYS: "60"
+        run: |
+          set -uo pipefail
+          STORAGE_PW=$(curl -fsS -H "AccessKey: $API_KEY" \
+            "https://api.bunny.net/storagezone/$STORAGE_ZONE_ID" | jq -r '.Password')
+          export STORAGE_PW
+          python3 - <<'EOF'
+          import json, os, urllib.request
+          from datetime import datetime, timedelta, timezone
+
+          zone = os.environ["STORAGE_ZONE_NAME"]
+          pw = os.environ["STORAGE_PW"]
+          cutoff = datetime.now(timezone.utc) - timedelta(days=int(os.environ["MAX_AGE_DAYS"]))
+          base = f"https://storage.bunnycdn.com/{zone}/"
+          deleted = kept = 0
+
+          def req(url, method="GET"):
+              r = urllib.request.Request(url, method=method, headers={"AccessKey": pw})
+              with urllib.request.urlopen(r, timeout=30) as resp:
+                  return resp.read()
+
+          def walk(path):
+              global deleted, kept
+              for e in json.loads(req(base + path)):
+                  full = path + e["ObjectName"]
+                  if e["IsDirectory"]:
+                      walk(full + "/")
+                      continue
+                  # Bunny returns .NET-style timestamps (possibly 7-digit
+                  # fractional seconds) — truncate to seconds for fromisoformat.
+                  changed = datetime.fromisoformat(e["LastChanged"][:19]).replace(tzinfo=timezone.utc)
+                  if changed < cutoff:
+                      req(base + full, method="DELETE")
+                      deleted += 1
+                  else:
+                      kept += 1
+
+          walk("_next/static/")
+          print(f"pruned {deleted} stale files, kept {kept}")
+          EOF

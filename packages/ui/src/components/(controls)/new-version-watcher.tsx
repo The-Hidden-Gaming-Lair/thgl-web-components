@@ -1,0 +1,105 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { toast } from "sonner";
+
+// Baked into the client bundle at build time (Docker build-arg GIT_SHA →
+// NEXT_PUBLIC_BUILD_SHA). Empty/undefined in `next dev`, which disables the
+// watcher entirely.
+const CLIENT_BUILD_SHA = process.env.NEXT_PUBLIC_BUILD_SHA;
+
+const POLL_INTERVAL_MS = 5 * 60 * 1000;
+const MIN_CHECK_GAP_MS = 60 * 1000;
+
+/**
+ * Detects that the deployed build no longer matches the one this tab is
+ * running and offers a click-to-reload toast. Deliberately NEVER reloads
+ * automatically — an automatic reload could loop if the mismatch persists
+ * (e.g. an edge still serving old HTML after a deploy).
+ *
+ * Two triggers:
+ *  1. Polling `/api/build` (no-store) while the tab is visible, plus an
+ *     immediate check when the tab regains visibility.
+ *  2. A ChunkLoadError anywhere (window `error` / `unhandledrejection`) —
+ *     the running build tried to lazy-load a chunk that no longer resolves,
+ *     so navigation is broken until the user reloads.
+ */
+export function NewVersionWatcher() {
+  const notifiedRef = useRef(false);
+  const lastCheckRef = useRef(0);
+
+  useEffect(() => {
+    if (!CLIENT_BUILD_SHA) return;
+
+    const notify = (broken: boolean) => {
+      if (notifiedRef.current) return;
+      notifiedRef.current = true;
+      toast.info("A new version is available", {
+        description: broken
+          ? "This page needs a reload to keep working."
+          : "Reload to get the latest version.",
+        duration: Infinity,
+        action: {
+          label: "Reload",
+          onClick: () => window.location.reload(),
+        },
+      });
+    };
+
+    const check = async () => {
+      if (notifiedRef.current) return;
+      const now = Date.now();
+      if (now - lastCheckRef.current < MIN_CHECK_GAP_MS) return;
+      lastCheckRef.current = now;
+      try {
+        const res = await fetch("/api/build", { cache: "no-store" });
+        if (!res.ok) return;
+        const { sha } = (await res.json()) as { sha?: string };
+        if (sha && sha !== CLIENT_BUILD_SHA) notify(false);
+      } catch {
+        // Network hiccup — next poll retries.
+      }
+    };
+
+    const isChunkLoadMessage = (msg: unknown) =>
+      typeof msg === "string" &&
+      (msg.includes("ChunkLoadError") || msg.includes("Failed to load chunk"));
+
+    const onError = (event: ErrorEvent) => {
+      if (
+        (event.error as Error | undefined)?.name === "ChunkLoadError" ||
+        isChunkLoadMessage(event.message)
+      ) {
+        notify(true);
+      }
+    };
+    const onRejection = (event: PromiseRejectionEvent) => {
+      const reason = event.reason as Error | undefined;
+      if (
+        reason?.name === "ChunkLoadError" ||
+        isChunkLoadMessage(reason?.message)
+      ) {
+        notify(true);
+      }
+    };
+    const onVisible = () => {
+      if (document.visibilityState === "visible") void check();
+    };
+
+    window.addEventListener("error", onError);
+    window.addEventListener("unhandledrejection", onRejection);
+    document.addEventListener("visibilitychange", onVisible);
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") void check();
+    }, POLL_INTERVAL_MS);
+
+    return () => {
+      window.removeEventListener("error", onError);
+      window.removeEventListener("unhandledrejection", onRejection);
+      document.removeEventListener("visibilitychange", onVisible);
+      clearInterval(interval);
+    };
+  }, []);
+
+  return null;
+}

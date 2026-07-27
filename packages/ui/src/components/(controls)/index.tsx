@@ -4,6 +4,7 @@ export { Links } from "./links";
 export { ErrorBoundary } from "./error-boundary";
 export { LocaleSwitcher, LocaleSwitcherInline } from "./locale-switcher";
 export { Toaster } from "./toaster";
+export { NewVersionWatcher } from "./new-version-watcher";
 export { ColorPicker } from "./color-picker";
 export { IconPicker } from "./icon-picker";
 export { IconSizes } from "./icon-sizes";

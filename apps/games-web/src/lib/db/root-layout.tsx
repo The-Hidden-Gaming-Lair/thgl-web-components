@@ -11,6 +11,7 @@ import {
   Links,
   LocaleSwitcher,
   LocaleSwitcherInline,
+  NewVersionWatcher,
   Toaster,
 } from "@repo/ui/controls";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
@@ -172,6 +173,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
             locale={locale}
           />
           <Toaster />
+          <NewVersionWatcher />
         </body>
       </html>
     );

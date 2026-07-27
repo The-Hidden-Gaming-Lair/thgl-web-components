@@ -6,6 +6,7 @@ import { I18NProvider, TooltipProvider } from "../(providers)";
 import {
   SettingsDialogContent,
   Toaster,
+  NewVersionWatcher,
   Links,
   LocaleSwitcher,
 } from "../(controls)";
@@ -137,6 +138,7 @@ export function createRootLayout(appConfig: AppConfig) {
             locale={locale}
           />
           <Toaster />
+          <NewVersionWatcher />
         </body>
       </html>
     );
