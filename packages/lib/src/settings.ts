@@ -15,6 +15,7 @@ import {
   FiltersApiError,
   serverFilterToLocal,
 } from "./filters-api";
+import { mergeHydratedFilters } from "./filters-sync";
 import { getCurrentGameId } from "./games";
 
 export type LiveMode = "static" | "live" | "combined";
@@ -171,6 +172,12 @@ export type DrawingsAndNodes = {
   voteCount?: number;
   commentCount?: number;
   updatedAt?: number;
+  // True once this filter's `id` has been *confirmed* to exist on the server
+  // (a successful PUT, or the id appearing in a hydrate response). Lets hydrate
+  // tell "deleted on another device" (synced + now absent → drop) apart from
+  // "first upload never landed" (not synced + absent → keep). See
+  // {@link mergeHydratedFilters}. Never sent to the server; local bookkeeping only.
+  synced?: boolean;
   // Legacy fields kept so existing localStorage data renders. New code
   // doesn't read them — they're inert after the shared-filters rework.
   isShared?: boolean;
@@ -590,6 +597,15 @@ const getStorageName = () => {
 
 const SYNC_DEBOUNCE_MS = 1000;
 const syncTimers = new Map<string, ReturnType<typeof setTimeout>>();
+// Ids whose PUT has fired and not yet resolved. Together with the queued
+// `syncTimers` keys these form the "pending" set that hydrate must not clobber
+// (a re-hydrate on focus could otherwise overwrite an edit mid-upload).
+const inFlightSyncIds = new Set<string>();
+
+/** Ids with a queued (debounced) or in-flight PUT. */
+export function getPendingSyncIds(): Set<string> {
+  return new Set<string>([...syncTimers.keys(), ...inFlightSyncIds]);
+}
 
 function isSignedIn(): boolean {
   return !!useAccountStore.getState().decryptedUserId;
@@ -616,38 +632,56 @@ function scheduleFilterSync(filter: DrawingsAndNodes) {
         console.error("[filter sync] no game id, skipping put", id);
         return;
       }
+      inFlightSyncIds.add(id);
       void apiPutFilter(id, {
         game,
         name: filter.name,
         payload: { nodes: filter.nodes, drawing: filter.drawing },
         visibility: filter.visibility ?? "private",
-      }).catch((err) => {
-        // Account switched on this device (or somehow we have a stale
-        // server id we don't own). Strip the local id so the filter
-        // visibly drops back to local-only and the user can choose
-        // to re-save it under their current account.
-        if (err instanceof FiltersApiError && err.status === 403) {
+      })
+        .then(() => {
+          // Confirm the id now exists on the server so hydrate can safely
+          // drop it if it later disappears (deleted elsewhere) instead of
+          // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
           const state = useSettingsStore.getState();
-          const updatedFilters = state.myFilters.map((f) =>
-            f.id === id
-              ? {
-                  ...f,
-                  id: undefined,
-                  visibility: undefined,
-                  shareCode: undefined,
-                  voteCount: undefined,
-                  commentCount: undefined,
-                }
-              : f,
-          );
-          state.setMyFilters(updatedFilters);
-          console.warn(
-            `[filter sync] ${id} owned by another account; demoting to local-only`,
-          );
-          return;
-        }
-        console.error("[filter sync] put failed", id, err);
-      });
+          if (state.myFilters.some((f) => f.id === id && !f.synced)) {
+            state.setMyFilters(
+              state.myFilters.map((f) =>
+                f.id === id ? { ...f, synced: true } : f,
+              ),
+            );
+          }
+        })
+        .catch((err) => {
+          // Account switched on this device (or somehow we have a stale
+          // server id we don't own). Strip the local id so the filter
+          // visibly drops back to local-only and the user can choose
+          // to re-save it under their current account.
+          if (err instanceof FiltersApiError && err.status === 403) {
+            const state = useSettingsStore.getState();
+            const updatedFilters = state.myFilters.map((f) =>
+              f.id === id
+                ? {
+                    ...f,
+                    id: undefined,
+                    visibility: undefined,
+                    shareCode: undefined,
+                    voteCount: undefined,
+                    commentCount: undefined,
+                  }
+                : f,
+            );
+            state.setMyFilters(updatedFilters);
+            console.warn(
+              `[filter sync] ${id} owned by another account; demoting to local-only`,
+            );
+            return;
+          }
+          console.error("[filter sync] put failed", id, err);
+        })
+        .finally(() => {
+          inFlightSyncIds.delete(id);
+        });
     }, SYNC_DEBOUNCE_MS),
   );
 }
@@ -1492,6 +1526,11 @@ export const useSettingsStore = create(
           },
 
           addMyFilter: async (myFilter) => {
+            // A freshly added/imported/adopted filter is not yet confirmed on
+            // the server (its PUT hasn't succeeded), so it must not carry a
+            // stale `synced` flag — otherwise a racing hydrate could treat it
+            // as "deleted elsewhere" and drop it. The PUT success sets it true.
+            if (myFilter.synced) myFilter = { ...myFilter, synced: false };
             // For signed-in users without a server id yet, assign one
             // locally so subsequent edits can sync. The first PUT will
             // create the row server-side via the upsert.
@@ -1557,42 +1596,22 @@ export const useSettingsStore = create(
               return;
             }
             const state = get();
-            // Keep local filters that aren't on the server (anonymous /
-            // local-only / wrong game) untouched. Replace any that have a
-            // server `id` with the server's view.
-            const serverById = new Map(
-              serverFilters.map((f) => [f.id, serverFilterToLocal(f)]),
+            // Reconcile local vs server. Filters deleted on another device
+            // (previously synced, now absent) are dropped so the deletion
+            // sticks instead of being resurrected; anonymous / not-yet-uploaded
+            // filters are preserved. See {@link mergeHydratedFilters}.
+            const { merged, resyncIds } = mergeHydratedFilters(
+              state.myFilters,
+              serverFilters.map(serverFilterToLocal),
+              getPendingSyncIds(),
             );
-            const merged: DrawingsAndNodes[] = [];
-            const seenIds = new Set<string>();
-            const hasData = (f: DrawingsAndNodes) =>
-              (f.nodes?.length ?? 0) > 0 || !!f.drawing;
-            for (const local of state.myFilters) {
-              if (local.id && serverById.has(local.id)) {
-                const server = serverById.get(local.id)!;
-                // Guard against destroying local markers/drawings that never
-                // finished uploading (e.g. an edit made just before reload, or
-                // data from before node edits were synced): if the server copy
-                // is empty but the local one has content, keep local and push
-                // it back up so the two converge. Trade-off: a filter genuinely
-                // emptied on another device won't clear here, but preserving
-                // the user's data is preferable to silently losing it.
-                if (hasData(local) && !hasData(server)) {
-                  merged.push(local);
-                  scheduleFilterSync(local);
-                } else {
-                  merged.push(server);
-                }
-                seenIds.add(local.id);
-              } else {
-                merged.push(local);
-              }
-            }
-            // Append server-only filters (created on another device).
-            for (const [id, filter] of serverById) {
-              if (!seenIds.has(id)) merged.push(filter);
-            }
             updateSettings({ myFilters: merged });
+            // Re-push filters whose server copy was empty but local had data.
+            const mergedById = new Map(merged.map((f) => [f.id, f]));
+            for (const id of resyncIds) {
+              const filter = mergedById.get(id);
+              if (filter) scheduleFilterSync(filter);
+            }
           },
 
           toggleShowGrid: () => {

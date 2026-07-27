@@ -51,12 +51,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DeleteFilter } from "./delete-filter";
 
 /**
- * Module-level memo of which (game) we've already hydrated from the
- * server during this page load. Prevents a hydrate-on-every-render
- * loop without storing the flag in zustand (which would persist to
- * localStorage and survive too long).
+ * Module-level memo of when we last hydrated each (game) from the server,
+ * used to throttle re-hydrates. Kept out of zustand so it doesn't persist to
+ * localStorage and survive too long.
  */
-const hydratedGames = new Set<string>();
+const lastHydratedAt = new Map<string, number>();
+// Minimum gap between hydrates for the same game. Bounds the network cost of
+// re-hydrating on window focus / tab-visibility while still letting a stale
+// surface (a second browser, or the Overwolf overlay) reconcile deletes made
+// elsewhere without a full reload.
+const HYDRATE_TTL_MS = 30_000;
 
 export function MyFilters() {
   const [open, setOpen] = useState(false);
@@ -74,15 +78,34 @@ export function MyFilters() {
     null,
   );
 
-  // Hydrate filters from server once per (game, page load) for
-  // signed-in users. Filters synced from other devices land in
-  // myFilters; local-only filters (no server id) survive untouched.
+  // Hydrate filters from the server for signed-in users: once on mount, then
+  // again on window focus / tab-visibility (throttled to HYDRATE_TTL_MS per
+  // game). The focus re-hydrate is what lets a stale surface — a second
+  // browser, or the Overwolf overlay — pick up filters deleted elsewhere
+  // instead of resurrecting them on its next edit. Filters synced from other
+  // devices land in myFilters; local-only / in-flight filters survive untouched
+  // (see mergeHydratedFilters + getPendingSyncIds).
   useEffect(() => {
     if (!isSignedIn) return;
-    const game = getCurrentGameId();
-    if (!game || hydratedGames.has(game)) return;
-    hydratedGames.add(game);
-    void hydrate(game);
+    const runHydrate = () => {
+      const game = getCurrentGameId();
+      if (!game) return;
+      const last = lastHydratedAt.get(game) ?? 0;
+      if (Date.now() - last < HYDRATE_TTL_MS) return;
+      lastHydratedAt.set(game, Date.now());
+      void hydrate(game);
+    };
+    runHydrate();
+    const onFocus = () => runHydrate();
+    const onVisible = () => {
+      if (document.visibilityState === "visible") runHydrate();
+    };
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [isSignedIn, hydrate]);
 
   const isDrawingEditing = useSettingsStore(
@@ -312,6 +335,9 @@ function FilterRow({
         voteCount: updated.voteCount,
         commentCount: updated.commentCount,
         updatedAt: updated.updatedAt,
+        // Now confirmed on the server, so hydrate won't treat it as
+        // never-uploaded (and re-push) or as deleted.
+        synced: true,
         // Drop legacy fields — vestigial after the rework.
         url: undefined,
         isShared: undefined,
