@@ -240,14 +240,14 @@ jobs:
           # after our last purge would stick for a DAY. (Old-build chunks keep
           # resolving thanks to the persistent static storage, so a straggler is
           # "old but working" — this purge is about freshness, not breakage.)
-          # Instead of guessing a drain window, probe /api/build (no-store, so
+          # Instead of guessing a drain window, probe /api/build-id (no-store, so
           # every request reaches an origin instance) until only the new SHA
           # answers — 6 consecutive hits ≈ the old instance is gone — then purge.
-          echo "Waiting for old container instance to drain (probing /api/build)..."
+          echo "Waiting for old container instance to drain (probing /api/build-id)..."
           consec=0
           drained=0
           for i in $(seq 1 60); do
-            sha=$(curl -fsS --max-time 10 "${PROBE_URL}api/build?drain=${GITHUB_RUN_ID}-${i}" 2>/dev/null | jq -r '.sha // empty' 2>/dev/null || true)
+            sha=$(curl -fsS --max-time 10 "${PROBE_URL}api/build-id?drain=${GITHUB_RUN_ID}-${i}" 2>/dev/null | jq -r '.sha // empty' 2>/dev/null || true)
             if [ "$sha" = "$GITHUB_SHA" ]; then
               consec=$((consec + 1))
               if [ "$consec" -ge 6 ]; then drained=1; break; fi

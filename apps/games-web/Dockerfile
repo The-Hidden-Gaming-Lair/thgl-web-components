@@ -11,7 +11,7 @@ WORKDIR /repo
 
 # Build identity: the deploying git SHA, inlined into the client bundle as
 # NEXT_PUBLIC_BUILD_SHA (must also be in turbo.json globalEnv) and served by
-# /api/build. Powers the new-version toast + the deploy drain probe.
+# /api/build-id. Powers the new-version toast + the deploy drain probe.
 ARG GIT_SHA=dev
 ENV NEXT_PUBLIC_BUILD_SHA=$GIT_SHA
 

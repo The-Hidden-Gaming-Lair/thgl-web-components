@@ -152,7 +152,7 @@ const nextConfig = (phase) => ({
       // drain detection). Must reflect the LIVE container on every request, so
       // it must come AFTER the pageCache /:path* rule to override s-maxage.
       {
-        source: "/api/build",
+        source: "/api/build-id",
         headers: [
           { key: "Cache-Control", value: "no-store" },
           { key: "CDN-Cache-Control", value: "no-store" },

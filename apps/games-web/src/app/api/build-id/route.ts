@@ -6,9 +6,14 @@
 //  2. games-web-deploy.yml: probes this (with a cache-busting query) to detect
 //     when the old container instance has fully drained before purging pages.
 //
-// Must NEVER be cached: next.config.js pins /api/build to no-store (the
+// Must NEVER be cached: next.config.js pins /api/build-id to no-store (the
 // generic /:path* pageCache rule would otherwise give it s-maxage=86400),
 // and we set the same header here for defense in depth.
+//
+// NOTE the route is build-id, NOT build: .dockerignore excludes `**/build`
+// (build-output hygiene), so a folder named src/app/api/build is silently
+// dropped from the Docker build context — the route then 404s in production
+// while working locally.
 export const dynamic = "force-dynamic";
 
 export function GET(): Response {

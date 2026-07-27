@@ -18,7 +18,7 @@ const MIN_CHECK_GAP_MS = 60 * 1000;
  * (e.g. an edge still serving old HTML after a deploy).
  *
  * Two triggers:
- *  1. Polling `/api/build` (no-store) while the tab is visible, plus an
+ *  1. Polling `/api/build-id` (no-store) while the tab is visible, plus an
  *     immediate check when the tab regains visibility.
  *  2. A ChunkLoadError anywhere (window `error` / `unhandledrejection`) —
  *     the running build tried to lazy-load a chunk that no longer resolves,
@@ -52,7 +52,7 @@ export function NewVersionWatcher() {
       if (now - lastCheckRef.current < MIN_CHECK_GAP_MS) return;
       lastCheckRef.current = now;
       try {
-        const res = await fetch("/api/build", { cache: "no-store" });
+        const res = await fetch("/api/build-id", { cache: "no-store" });
         if (!res.ok) return;
         const { sha } = (await res.json()) as { sha?: string };
         if (sha && sha !== CLIENT_BUILD_SHA) notify(false);
