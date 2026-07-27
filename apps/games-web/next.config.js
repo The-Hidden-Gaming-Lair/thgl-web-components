@@ -65,6 +65,12 @@ const nextConfig = (phase) => ({
         hostname: "localhost",
       },
       {
+        // Release-notes images (Discord bot API) are optimized through
+        // next/image. Discord attachment URLs carry a ~24h signed expiry, so
+        // "upstream image response failed ... 404" for cdn.discordapp.com is
+        // EXPECTED transient noise: the URL refreshes on the next bot-API
+        // fetch and the image recovers. Don't remove this pattern because of
+        // those logs.
         protocol: "https",
         hostname: "cdn.discordapp.com",
         port: "",
