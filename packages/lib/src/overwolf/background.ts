@@ -143,6 +143,7 @@ async function refreshSubscriberStatus(
         expiresIn: number;
         decryptedUserId: string;
         email: string;
+        secret?: string;
       } & Perks;
       if (!response.ok) {
         console.warn(body, appId, userId);
@@ -168,7 +169,10 @@ async function refreshSubscriberStatus(
       } else {
         console.log(`Patreon successfully activated`, body);
         accountStore.setAccount({
-          userId,
+          // Prefer the server-minted enriched secret (carries the
+          // rotated Patreon token) so unlocking survives token-store
+          // outages. Falls back to the secret we sent.
+          userId: body.secret ?? userId,
           decryptedUserId: body.decryptedUserId,
           email: body.email,
           perks: {

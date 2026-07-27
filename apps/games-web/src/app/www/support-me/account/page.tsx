@@ -1,5 +1,9 @@
 import { getToken } from "@/lib/tokens";
-import { TOKEN_COOKIE_NAME, parseTokenCookie } from "@/lib/token-cookie";
+import {
+  TOKEN_COOKIE_NAME,
+  parseTokenCookie,
+  signTokenCookie,
+} from "@/lib/token-cookie";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -37,6 +41,12 @@ export default async function SupportMeAccount() {
 
   let content;
   let entitledTierIDs: string[] = [];
+  // Secret handed to Overwolf apps (Unlock App deep link / Copy
+  // Secret). When the Patreon token is available we mint an ENRICHED
+  // secret carrying it ({u, t} — same shape as the patreonToken
+  // cookie), so the OW flow keeps working when the token store is
+  // unreachable. Falls back to the plain signed userId.
+  let owSecret = userId?.value;
 
   if (userId?.value) {
     try {
@@ -51,6 +61,7 @@ export default async function SupportMeAccount() {
         })) ?? parseTokenCookie(cookieStore.get(TOKEN_COOKIE_NAME)?.value, id);
 
       if (patreonToken) {
+        owSecret = signTokenCookie(id, patreonToken);
         const currentUserResponse = await getCurrentUser(patreonToken);
         const currentUserResult = (await currentUserResponse.json()) as
           | PatreonUser
@@ -291,7 +302,7 @@ export default async function SupportMeAccount() {
               <AppSubscriptionCard
                 key={game.title}
                 game={game}
-                userId={userId?.value}
+                userId={owSecret}
                 hasTier={game.patreonTierIDs?.some((tierId) =>
                   entitledTierIDs.includes(tierId),
                 )}

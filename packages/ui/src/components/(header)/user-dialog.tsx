@@ -209,6 +209,7 @@ function UnauthenticatedView() {
         expiresIn: number;
         decryptedUserId: string;
         email: string;
+        secret?: string;
       } & Perks;
       if (!response.ok) {
         if (response.status === 403) {
@@ -236,7 +237,10 @@ function UnauthenticatedView() {
         }
       } else {
         account.setAccount({
-          userId,
+          // Prefer the server-minted enriched secret (carries the
+          // rotated Patreon token) — keeps unlocking working when the
+          // token store is unreachable.
+          userId: body.secret ?? userId,
           decryptedUserId: body.decryptedUserId,
           email: body.email,
           perks: {
@@ -262,8 +266,7 @@ function UnauthenticatedView() {
   // actually applies to whatever subdomain the user was browsing.
   // The /authenticate middleware handler is open to any tenant in dev
   // (see middleware.ts).
-  const returnTo =
-    typeof window !== "undefined" ? window.location.href : "";
+  const returnTo = typeof window !== "undefined" ? window.location.href : "";
   const authUrl =
     process.env.NODE_ENV === "development" && typeof window !== "undefined"
       ? `/authenticate?return_to=${encodeURIComponent(returnTo)}`

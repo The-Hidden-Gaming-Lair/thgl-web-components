@@ -45,6 +45,33 @@ export function parseTokenCookie(
   }
 }
 
+/**
+ * Decode an Overwolf secret / userId credential. Two wire formats:
+ *  - legacy: JWT whose payload IS the Patreon user id (plain string)
+ *  - enriched: JWT payload { u: userId, t: PatreonToken } — same shape
+ *    as the patreonToken cookie, minted by /support-me/account so the
+ *    Overwolf flow can survive a token-store outage (OW sends no
+ *    cookies; the token rides inside the secret instead).
+ */
+export function decodeUserSecret(
+  value: string,
+): { userId: string; token: PatreonToken | null } | null {
+  if (!process.env.JWT_SECRET) return null;
+  try {
+    const decoded = verify(value, process.env.JWT_SECRET);
+    if (typeof decoded === "string") {
+      return { userId: decoded, token: null };
+    }
+    const obj = decoded as { u?: unknown; t?: PatreonToken };
+    if (typeof obj.u === "string") {
+      return { userId: obj.u, token: obj.t ?? null };
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function cookieDomain(): string {
   return process.env.COOKIE_DOMAIN
     ? `; domain=${process.env.COOKIE_DOMAIN}`

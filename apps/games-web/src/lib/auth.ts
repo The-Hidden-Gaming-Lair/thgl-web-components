@@ -47,7 +47,12 @@ export async function getUserIdFromRequest(): Promise<string | null> {
     return null;
   }
   try {
-    return verify(raw, secret) as string;
+    const decoded = verify(raw, secret);
+    if (typeof decoded === "string") return decoded;
+    // Enriched Overwolf secrets carry { u: userId, t: patreonToken } —
+    // see lib/token-cookie.ts decodeUserSecret.
+    const u = (decoded as { u?: unknown }).u;
+    return typeof u === "string" ? u : null;
   } catch {
     return null;
   }
