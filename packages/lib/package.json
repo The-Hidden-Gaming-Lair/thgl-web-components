@@ -9,24 +9,19 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./src/index.ts"
     },
     "./server": {
-      "types": "./dist/server/index.d.ts",
-      "import": "./dist/server/index.js"
+      "import": "./src/server/index.ts"
     },
     "./overwolf": {
-      "types": "./dist/overwolf/index.d.ts",
-      "import": "./dist/overwolf/index.js"
+      "import": "./src/overwolf/index.ts"
     },
     "./thgl-app": {
-      "types": "./dist/thgl-app/index.d.ts",
-      "import": "./dist/thgl-app/index.js"
+      "import": "./src/thgl-app/index.ts"
     },
     "./web-map": {
-      "types": "./dist/web-map/index.d.ts",
-      "import": "./dist/web-map/index.js"
+      "import": "./src/web-map/index.ts"
     },
     "./vite-define": {
       "types": "./vite-define.d.mts",
@@ -36,7 +31,7 @@
   "scripts": {
     "build": "node ../../scripts/guard-no-dev-server.mjs && tsup --format esm",
     "clean": "rimraf dist node_modules",
-    "dev": "tsup --format esm --watch --dts",
+    "dev": "tsc --noEmit --watch --preserveWatchOutput",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests"
