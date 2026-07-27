@@ -4,6 +4,22 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 const nextConfig = (phase) => ({
   // Standalone output for Docker container deployment
   output: "standalone",
+  // Serve hashed build assets from the persistent static host instead of the
+  // container. static.th.gl fronts the thgl-games-web-static storage zone,
+  // which the deploy workflow populates assets-first (uploads .next/static
+  // BEFORE flipping the Magic Container) and which ACCUMULATES builds (60-day
+  // retention). Why: chunks that live only in the container image vanish on
+  // redeploy, so any open tab or edge-cached older HTML 404'd its chunks
+  // after a deploy + purge ("MIME text/plain" / ChunkLoadError — for up to
+  // the 1-day page TTL). With the storage origin, old builds' chunks keep
+  // resolving no matter what gets purged. A transparent same-origin edge
+  // rule was verified NOT to work: Bunny Magic-Container pull zones ignore
+  // OriginUrl-override edge rules (tested 2026-07-27; works instantly on
+  // URL-origin zones), hence the separate hostname. The static PZ sets
+  // immutable Cache-Control + Access-Control-Allow-Origin (fonts need CORS
+  // cross-origin) via edge rules. Phase-gated: `next dev` serves same-origin.
+  assetPrefix:
+    phase === PHASE_DEVELOPMENT_SERVER ? undefined : "https://static.th.gl",
   env: {
     // Dev-only forge proxy: forge URLs become same-origin paths that
     // src/proxy.ts forwards per request — *-dev.localhost tenants (e.g.
@@ -190,15 +206,12 @@ const nextConfig = (phase) => ({
       rules.push(
         // Hashed build assets are content-addressed (the hash is in the
         // filename), so a given URL's bytes never change. Cache them
-        // immutably. NOTE: edge retention is NOT the durability story —
-        // any Bunny purge (deploy purge, per-tenant /api/revalidate) can
-        // evict these. The durable origin is the thgl-games-web-static
-        // storage zone: the deploy workflow uploads .next/static there
-        // BEFORE flipping the container, and a Bunny edge rule routes
-        // */_next/static/* to it, so old builds' chunks keep resolving
-        // for open tabs / stale HTML no matter what was purged. These
-        // headers still apply to the container's own copy (dev fallback
-        // and belt-and-suspenders if the edge rule is ever removed).
+        // immutably. NOTE: in production these are normally served from
+        // static.th.gl via assetPrefix (see top of config) — the durable
+        // storage origin that survives redeploys and purges. This header
+        // rule covers the container's own copy: same-origin /_next/static
+        // requests from pre-assetPrefix HTML still in edge caches, and
+        // as a fallback if assetPrefix is ever removed.
         {
           source: "/_next/static/:path*",
           headers: [

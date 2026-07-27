@@ -208,6 +208,8 @@ export function proxy(req: NextRequest) {
     path !== "/favicon.ico" && // Shared root favicon (app/favicon.ico); a
     // nested app/www/favicon.ico is not a served route, so rewriting here 404s.
     !path.startsWith("/api/filters") && // Global API, lives at app/api/filters
+    path !== "/api/build-id" && // Global build-identity probe (deploy drain
+    // detection + NewVersionWatcher) — must answer on every host incl. www.
     path !== "/api/patreon" // Global perks-refresh route (exact match).
     // /api/patreon/authorize, /api/patreon/overwolf, and
     // /api/patreon/redirect still rewrite to /www/ — those handlers

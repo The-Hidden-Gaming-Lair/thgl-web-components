@@ -64,9 +64,10 @@ jobs:
 
       # ------------------------------------------------------------------
       # Assets-first: upload this build's /_next/static to the persistent
-      # storage zone BEFORE flipping the container. A Bunny edge rule on the
-      # pull zone routes */_next/static/* to this storage (via the
-      # thgl-games-web-static pull zone), which ACCUMULATES builds — so:
+      # storage zone BEFORE flipping the container. next.config `assetPrefix`
+      # points browsers at static.th.gl (fronting this storage zone; Magic-
+      # Container pull zones ignore OriginUrl-override edge rules, so a
+      # same-origin route was not possible), which ACCUMULATES builds — so:
       #   - old builds' chunks keep resolving for open tabs and any edge
       #     still serving older HTML (purges can no longer 404 them: purge
       #     only evicts the edge; the storage origin still has the file);
