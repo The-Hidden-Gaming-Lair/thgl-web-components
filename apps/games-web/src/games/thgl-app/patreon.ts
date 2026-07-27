@@ -287,9 +287,11 @@ export async function getAccount(): Promise<THGLAccount | null> {
     console.error(`[getAccount] token fetch failed for ${id}: ${msg}`);
     return null;
   });
-  const patreonToken =
-    storedToken ??
-    parseTokenCookie(cookieStore.get(TOKEN_COOKIE_NAME)?.value, id);
+  const cookieToken = parseTokenCookie(
+    cookieStore.get(TOKEN_COOKIE_NAME)?.value,
+    id,
+  );
+  const patreonToken = storedToken ?? cookieToken;
   if (!patreonToken) {
     if (storeUnavailable) {
       console.error(
@@ -304,10 +306,28 @@ export async function getAccount(): Promise<THGLAccount | null> {
   }
 
   try {
-    const currentUserResponse = await getCurrentUser(patreonToken);
-    const currentUserResult = (await currentUserResponse.json()) as
+    let currentUserResponse = await getCurrentUser(patreonToken);
+    let currentUserResult = (await currentUserResponse.json()) as
       | PatreonUser
       | PatreonError;
+    if (
+      ("error" in currentUserResult || "errors" in currentUserResult) &&
+      currentUserResponse.status < 500 &&
+      cookieToken &&
+      patreonToken !== cookieToken &&
+      cookieToken.access_token !== patreonToken.access_token
+    ) {
+      // The stored token can be stale after a store outage (newest copy
+      // lives in the cookie — Patreon rotates tokens on refresh). Retry
+      // with the cookie before treating the session as dead.
+      console.warn(
+        `[getAccount] stored token rejected (${currentUserResponse.status}) for ${id} — retrying with cookie token`,
+      );
+      currentUserResponse = await getCurrentUser(cookieToken);
+      currentUserResult = (await currentUserResponse.json()) as
+        | PatreonUser
+        | PatreonError;
+    }
     if ("error" in currentUserResult || "errors" in currentUserResult) {
       console.error(
         `[getAccount] patreon /identity failed (status=${currentUserResponse.status}): ${JSON.stringify(currentUserResult).slice(0, 300)}`,

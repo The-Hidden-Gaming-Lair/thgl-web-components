@@ -84,9 +84,11 @@ export async function GET(request: NextRequest) {
       const msg = err instanceof Error ? err.message : String(err);
       console.error(`[api/patreon] getToken failed for ${userId}: ${msg}`);
     }
-    const patreonToken =
-      storedToken ??
-      parseTokenCookie(request.cookies.get(TOKEN_COOKIE_NAME)?.value, userId);
+    const cookieToken = parseTokenCookie(
+      request.cookies.get(TOKEN_COOKIE_NAME)?.value,
+      userId,
+    );
+    const patreonToken = storedToken ?? cookieToken;
     if (!patreonToken) {
       if (storeUnavailable) {
         // 503, NOT 404 — clients sign the user out on 404. This is a
@@ -102,12 +104,30 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const refreshTokenResponse = await postRefreshToken(
+    let refreshTokenResponse = await postRefreshToken(
       patreonToken.refresh_token,
     );
 
-    const refreshTokenResult =
+    let refreshTokenResult =
       (await refreshTokenResponse.json()) as PatreonToken;
+    if (
+      !refreshTokenResponse.ok &&
+      refreshTokenResponse.status < 500 &&
+      cookieToken &&
+      patreonToken !== cookieToken &&
+      cookieToken.refresh_token !== patreonToken.refresh_token
+    ) {
+      // Patreon ROTATES refresh tokens, so the stored copy can go stale
+      // while a store outage kept writes from landing (the newest token
+      // then lives only in the cookie). Retry with the cookie before
+      // treating the session as dead — otherwise exactly the users who
+      // signed in during an outage get kicked once it ends.
+      console.warn(
+        `[api/patreon] stored refresh token rejected (${refreshTokenResponse.status}) for ${userId} — retrying with cookie token`,
+      );
+      refreshTokenResponse = await postRefreshToken(cookieToken.refresh_token);
+      refreshTokenResult = (await refreshTokenResponse.json()) as PatreonToken;
+    }
     if (!refreshTokenResponse.ok) {
       return Response.json(refreshTokenResult, {
         status: refreshTokenResponse.status,
