@@ -9,7 +9,7 @@ export function AuthRedirect({
   account,
 }: {
   isSuccess: boolean;
-  account: THGLAccount;
+  account: THGLAccount | null;
 }) {
   return (
     <div

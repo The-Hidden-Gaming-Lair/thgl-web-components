@@ -1,4 +1,8 @@
-import { setToken } from "@/lib/tokens";
+import {
+  setTokenBestEffort,
+  signTokenCookie,
+  toTokenCookieString,
+} from "@/lib/token-cookie";
 import { sign } from "jsonwebtoken";
 import {
   type PatreonToken,
@@ -113,19 +117,15 @@ export async function GET(request: Request) {
     signed = sign(currentUser.data.id, process.env.JWT_SECRET!);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error(`${LOG} jwt sign failed for id=${currentUser.data.id}: ${msg}`);
+    console.error(
+      `${LOG} jwt sign failed for id=${currentUser.data.id}: ${msg}`,
+    );
     return Response.json({ error: "Sign failed" }, { status: 500 });
   }
 
-  try {
-    await setToken(currentUser.data.id, patreonToken);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.error(
-      `${LOG} setToken failed for id=${currentUser.data.id}: ${msg}`,
-    );
-    return Response.json({ error: "Token store failed" }, { status: 502 });
-  }
+  // Best-effort: a token-store outage must not block sign-in — the
+  // httpOnly cookie set below carries the token until the store heals.
+  await setTokenBestEffort(LOG, currentUser.data.id, patreonToken);
 
   // Honor the return_to encoded in OAuth `state` so the user lands
   // back where they triggered /authenticate. Restrict to same-host to
@@ -149,12 +149,17 @@ export async function GET(request: Request) {
     }
   }
 
-  console.log(`${LOG} ok id=${currentUser.data.id} setting cookie + redirecting`);
+  console.log(
+    `${LOG} ok id=${currentUser.data.id} setting cookie + redirecting`,
+  );
+  const responseHeaders = new Headers({ location });
+  responseHeaders.append("Set-Cookie", toCookieString(signed, 2678400));
+  responseHeaders.append(
+    "Set-Cookie",
+    toTokenCookieString(signTokenCookie(currentUser.data.id, patreonToken)),
+  );
   return new Response(null, {
     status: 302,
-    headers: {
-      "Set-Cookie": toCookieString(signed, 2678400),
-      location,
-    },
+    headers: responseHeaders,
   });
 }

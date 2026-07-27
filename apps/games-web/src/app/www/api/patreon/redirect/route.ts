@@ -1,4 +1,8 @@
-import { setToken } from "@/lib/tokens";
+import {
+  setTokenBestEffort,
+  signTokenCookie,
+  toTokenCookieString,
+} from "@/lib/token-cookie";
 import { sign } from "jsonwebtoken";
 import {
   type PatreonToken,
@@ -54,7 +58,10 @@ export async function GET(request: Request) {
   // Must match the redirect_uri used in the authorize step. Derived
   // from this request's host so app.th.gl and www.th.gl each
   // round-trip to themselves.
-  const tokenResponse = await postToken(code, getRedirectUriFromRequest(request));
+  const tokenResponse = await postToken(
+    code,
+    getRedirectUriFromRequest(request),
+  );
   const tokenResult = (await tokenResponse.json()) as
     | PatreonToken
     | { error: string };
@@ -77,13 +84,22 @@ export async function GET(request: Request) {
   const currentUser = currentUserResult as PatreonUser;
 
   const signed = sign(currentUser.data.id, process.env.JWT_SECRET!);
-  await setToken(currentUser.data.id, patreonToken);
+  // Best-effort: a token-store outage must not block sign-in — the
+  // httpOnly cookie set below carries the token until the store heals.
+  await setTokenBestEffort(
+    "[www/patreon/redirect]",
+    currentUser.data.id,
+    patreonToken,
+  );
 
+  const responseHeaders = new Headers({ location: returnTo });
+  responseHeaders.append("Set-Cookie", toCookieString(signed, 2678400));
+  responseHeaders.append(
+    "Set-Cookie",
+    toTokenCookieString(signTokenCookie(currentUser.data.id, patreonToken)),
+  );
   return new Response(null, {
     status: 302,
-    headers: {
-      "Set-Cookie": toCookieString(signed, 2678400),
-      location: returnTo,
-    },
+    headers: responseHeaders,
   });
 }

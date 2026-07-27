@@ -1,4 +1,5 @@
-import { getToken, setToken } from "@/lib/tokens";
+import { getToken } from "@/lib/tokens";
+import { setTokenBestEffort } from "@/lib/token-cookie";
 import { verify } from "jsonwebtoken";
 import { type NextRequest } from "next/server";
 import {
@@ -44,12 +45,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const patreonToken = await getToken(userId);
+    // Overwolf has no cookie fallback (it POSTs just the signed
+    // userId), but a token-store outage must still not sign the user
+    // out — the client only clears the session on 404, so surface
+    // store failures as 503 instead of crashing to 500/404.
+    let patreonToken = null;
+    let storeUnavailable = false;
+    try {
+      patreonToken = await getToken(userId);
+    } catch (err) {
+      storeUnavailable = true;
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`[patreon/overwolf] getToken failed for ${userId}: ${msg}`);
+    }
     if (!patreonToken) {
       return Response.json(
-        { error: "Token not found" },
         {
-          status: 404,
+          error: storeUnavailable
+            ? "Token store unavailable"
+            : "Token not found",
+        },
+        {
+          status: storeUnavailable ? 503 : 404,
           headers: CORS_HEADERS,
         },
       );
@@ -67,7 +84,7 @@ export async function POST(request: NextRequest) {
         headers: CORS_HEADERS,
       });
     }
-    await setToken(userId, refreshTokenResult);
+    await setTokenBestEffort("[patreon/overwolf]", userId, refreshTokenResult);
 
     const patreonTokenRefreshed = refreshTokenResult;
 

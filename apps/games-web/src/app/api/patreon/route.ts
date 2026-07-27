@@ -1,4 +1,12 @@
-import { getToken, setToken } from "@/lib/tokens";
+import { getToken } from "@/lib/tokens";
+import {
+  TOKEN_COOKIE_NAME,
+  parseTokenCookie,
+  setTokenBestEffort,
+  signTokenCookie,
+  toTokenCookieString,
+  toTokenCookieStringEmpty,
+} from "@/lib/token-cookie";
 import { sign, verify } from "jsonwebtoken";
 import { type NextRequest } from "next/server";
 import {
@@ -65,8 +73,29 @@ export async function GET(request: NextRequest) {
       process.env.JWT_SECRET!,
     ) as string;
 
-    const patreonToken = await getToken(userId);
+    // Primary: token store; fallback: the signed httpOnly cookie set
+    // at login. A store outage must not sign the user out.
+    let storedToken = null;
+    let storeUnavailable = false;
+    try {
+      storedToken = await getToken(userId);
+    } catch (err) {
+      storeUnavailable = true;
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`[api/patreon] getToken failed for ${userId}: ${msg}`);
+    }
+    const patreonToken =
+      storedToken ??
+      parseTokenCookie(request.cookies.get(TOKEN_COOKIE_NAME)?.value, userId);
     if (!patreonToken) {
+      if (storeUnavailable) {
+        // 503, NOT 404 — clients sign the user out on 404. This is a
+        // transient store outage, so tell them to keep the session.
+        return Response.json(
+          { error: "Token store unavailable" },
+          { status: 503, headers },
+        );
+      }
       return Response.json(
         { error: "Token not found" },
         { status: 404, headers },
@@ -86,12 +115,14 @@ export async function GET(request: NextRequest) {
       });
     }
     const signed = sign(userId, process.env.JWT_SECRET!);
-    await setToken(userId, refreshTokenResult);
+    await setTokenBestEffort("[api/patreon]", userId, refreshTokenResult);
 
-    const responseHeaders = {
-      "Set-Cookie": toCookieString(signed, 2678400),
-      ...headers,
-    };
+    const responseHeaders = new Headers(headers);
+    responseHeaders.append("Set-Cookie", toCookieString(signed, 2678400));
+    responseHeaders.append(
+      "Set-Cookie",
+      toTokenCookieString(signTokenCookie(userId, refreshTokenResult)),
+    );
     const currentUserResponse = await getCurrentUser(refreshTokenResult);
     const currentUserResult = (await currentUserResponse.json()) as PatreonUser;
     if (!currentUserResponse.ok) {
@@ -131,9 +162,9 @@ export async function GET(request: NextRequest) {
 }
 
 export function DELETE(request: NextRequest) {
-  const headers = corsHeaders(request, {
-    "Set-Cookie": toCookieStringEmpty(),
-  });
+  const headers = new Headers(corsHeaders(request));
+  headers.append("Set-Cookie", toCookieStringEmpty());
+  headers.append("Set-Cookie", toTokenCookieStringEmpty());
   return Response.json({}, { headers });
 }
 

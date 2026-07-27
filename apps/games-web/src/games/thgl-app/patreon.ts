@@ -2,6 +2,7 @@ import { type THGLAccount } from "@repo/lib";
 import { cookies } from "next/headers";
 import { verify } from "jsonwebtoken";
 import { getToken } from "@/lib/tokens";
+import { TOKEN_COOKIE_NAME, parseTokenCookie } from "@/lib/token-cookie";
 import { tiers } from "./tiers";
 
 interface App {
@@ -235,7 +236,15 @@ export function toCookieStringEmpty() {
   return `userId=; path=/; Max-Age=0${domain}; SameSite=Lax;`;
 }
 
-export async function getAccount() {
+/**
+ * Resolve the account server-side for the app shell.
+ *
+ * Returns `null` when the state is UNKNOWN (token store or Patreon
+ * unreachable) — consumers must then keep the client's last persisted
+ * account state instead of signing the user out. A signed-out user is
+ * always a non-null account with `userId: null`.
+ */
+export async function getAccount(): Promise<THGLAccount | null> {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId");
 
@@ -253,49 +262,72 @@ export async function getAccount() {
     avatarUrl: null,
   };
 
-  if (userId?.value) {
-    try {
-      if (!process.env.JWT_SECRET) {
-        console.error("[getAccount] JWT_SECRET is not set");
-        return account;
-      }
-      let id: string;
-      try {
-        id = verify(userId.value, process.env.JWT_SECRET) as string;
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
-        console.error(`[getAccount] jwt verify failed: ${msg}`);
-        return account;
-      }
-      const patreonToken = await getToken(id).catch((err) => {
-        const msg = err instanceof Error ? err.message : String(err);
-        console.error(`[getAccount] token fetch failed for ${id}: ${msg}`);
-        return null;
-      });
-      if (!patreonToken) {
-        console.error(
-          `[getAccount] no token available for id=${id} (storage error or expired)`,
-        );
-        return account;
-      }
-      const currentUserResponse = await getCurrentUser(patreonToken);
-      const currentUserResult = (await currentUserResponse.json()) as
-        | PatreonUser
-        | PatreonError;
-      if ("error" in currentUserResult || "errors" in currentUserResult) {
-        console.error(
-          `[getAccount] patreon /identity failed (status=${currentUserResponse.status}): ${JSON.stringify(currentUserResult).slice(0, 300)}`,
-        );
-        return account;
-      }
-      account.userId = userId.value;
-      account.decryptedUserId = id;
-      account.email = currentUserResult.data.attributes.email;
-      account.perks = getPerks(currentUserResult);
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      console.error(`[getAccount] unexpected: ${msg}`);
+  if (!userId?.value) {
+    return account;
+  }
+  if (!process.env.JWT_SECRET) {
+    console.error("[getAccount] JWT_SECRET is not set");
+    return account;
+  }
+  let id: string;
+  try {
+    id = verify(userId.value, process.env.JWT_SECRET) as string;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`[getAccount] jwt verify failed: ${msg}`);
+    return account;
+  }
+
+  // Primary: token store; fallback: the signed httpOnly cookie set at
+  // login. A store outage must not sign the user out.
+  let storeUnavailable = false;
+  const storedToken = await getToken(id).catch((err) => {
+    storeUnavailable = true;
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`[getAccount] token fetch failed for ${id}: ${msg}`);
+    return null;
+  });
+  const patreonToken =
+    storedToken ??
+    parseTokenCookie(cookieStore.get(TOKEN_COOKIE_NAME)?.value, id);
+  if (!patreonToken) {
+    if (storeUnavailable) {
+      console.error(
+        `[getAccount] token store unavailable and no cookie fallback for id=${id} — account state unknown`,
+      );
+      return null;
     }
+    console.error(
+      `[getAccount] no token available for id=${id} (expired or signed out)`,
+    );
+    return account;
+  }
+
+  try {
+    const currentUserResponse = await getCurrentUser(patreonToken);
+    const currentUserResult = (await currentUserResponse.json()) as
+      | PatreonUser
+      | PatreonError;
+    if ("error" in currentUserResult || "errors" in currentUserResult) {
+      console.error(
+        `[getAccount] patreon /identity failed (status=${currentUserResponse.status}): ${JSON.stringify(currentUserResult).slice(0, 300)}`,
+      );
+      // 5xx = Patreon down; a 4xx on the fallback token during a store
+      // outage may just be a stale access token — both are UNKNOWN, not
+      // proof the user signed out.
+      if (currentUserResponse.status >= 500 || storeUnavailable) {
+        return null;
+      }
+      return account;
+    }
+    account.userId = userId.value;
+    account.decryptedUserId = id;
+    account.email = currentUserResult.data.attributes.email;
+    account.perks = getPerks(currentUserResult);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error(`[getAccount] unexpected: ${msg}`);
+    return null;
   }
   return account;
 }

@@ -1,4 +1,5 @@
 import { getToken } from "@/lib/tokens";
+import { TOKEN_COOKIE_NAME, parseTokenCookie } from "@/lib/token-cookie";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -40,7 +41,14 @@ export default async function SupportMeAccount() {
   if (userId?.value) {
     try {
       const id = verify(userId.value, process.env.JWT_SECRET!) as string;
-      const patreonToken = await getToken(id);
+      // Cookie fallback keeps this page working when the token store
+      // is unreachable — see lib/token-cookie.ts.
+      const patreonToken =
+        (await getToken(id).catch((err) => {
+          const msg = err instanceof Error ? err.message : String(err);
+          console.error(`[support-me/account] getToken failed: ${msg}`);
+          return null;
+        })) ?? parseTokenCookie(cookieStore.get(TOKEN_COOKIE_NAME)?.value, id);
 
       if (patreonToken) {
         const currentUserResponse = await getCurrentUser(patreonToken);
@@ -84,9 +92,7 @@ export default async function SupportMeAccount() {
             <>
               <InitializeAccount account={account} />
               <div className="bg-muted/30 rounded-lg p-8 max-w-3xl mx-auto">
-                <h2 className="text-2xl font-bold mb-6 text-center">
-                  Account
-                </h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">Account</h2>
 
                 {/* User Info */}
                 <div className="space-y-4 mb-6">
@@ -140,10 +146,26 @@ export default async function SupportMeAccount() {
                     <div className="grid grid-cols-2 gap-2 max-w-sm mx-auto">
                       {(
                         [
-                          { label: "Comments", active: perks.comments, tier: "Enthusiast+" },
-                          { label: "Ad-Free", active: perks.adRemoval, tier: "Pro+" },
-                          { label: "Premium", active: perks.premiumFeatures, tier: "Pro+" },
-                          { label: "Preview Access", active: perks.previewReleaseAccess, tier: "Elite" },
+                          {
+                            label: "Comments",
+                            active: perks.comments,
+                            tier: "Enthusiast+",
+                          },
+                          {
+                            label: "Ad-Free",
+                            active: perks.adRemoval,
+                            tier: "Pro+",
+                          },
+                          {
+                            label: "Premium",
+                            active: perks.premiumFeatures,
+                            tier: "Pro+",
+                          },
+                          {
+                            label: "Preview Access",
+                            active: perks.previewReleaseAccess,
+                            tier: "Elite",
+                          },
                         ] as const
                       ).map((perk) => (
                         <div
@@ -254,11 +276,11 @@ export default async function SupportMeAccount() {
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold">Unlock Overwolf Apps</h2>
           <p className="text-sm text-muted-foreground">
-            For each app you support, click <strong>Unlock App</strong>{" "}
-            to open and unlock it directly. If it doesn&apos;t open, click{" "}
-            <strong>Copy Secret</strong>{" "}
-            and paste it into the app&apos;s account window. (The Companion App
-            and website don&apos;t need a secret — just sign in with Patreon.)
+            For each app you support, click <strong>Unlock App</strong> to open
+            and unlock it directly. If it doesn&apos;t open, click{" "}
+            <strong>Copy Secret</strong> and paste it into the app&apos;s
+            account window. (The Companion App and website don&apos;t need a
+            secret — just sign in with Patreon.)
           </p>
         </div>
 
