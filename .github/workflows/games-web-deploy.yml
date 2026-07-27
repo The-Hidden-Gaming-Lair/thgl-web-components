@@ -34,6 +34,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Hard gate: the repo-tracked installer must carry an Authenticode
+      # signature from our EV cert before it ships inside the image (it is
+      # served live at /THGL_Installer.exe). Signing is a separate post-build
+      # step (THGLApp scripts/build-and-sign-installer.ps1) that a raw Inno
+      # build silently skips — an unsigned installer went live 2026-07-16.
+      # Full chain trust can't be checked on Linux (no Windows trust store);
+      # this gates the actual incident class: unsigned or wrong publisher.
+      - name: Verify installer is signed
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq osslsigncode
+          FILE=apps/games-web/public/games/thgl-app/THGL_Installer.exe
+          OUT=$(osslsigncode verify -in "$FILE" 2>&1 || true)
+          echo "$OUT"
+          if echo "$OUT" | grep -q "No signature found"; then
+            echo "::error::$FILE is UNSIGNED — run THGLApp scripts/build-and-sign-installer.ps1 and commit the signed exe."
+            exit 1
+          fi
+          if ! echo "$OUT" | grep -q "The Hidden Gaming Lair"; then
+            echo "::error::$FILE signature is not from 'The Hidden Gaming Lair' — wrong or missing publisher cert."
+            exit 1
+          fi
+          echo "Installer signature present (publisher: The Hidden Gaming Lair)"
+
       - name: Set image name lowercase
         run: echo "IMAGE_NAME_LC=${IMAGE_NAME,,}" >> $GITHUB_ENV
 

@@ -38,6 +38,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Git hooks** (auto-installed via `prepare` → `core.hooksPath=.githooks`):
   `pre-commit` formats staged files with Prettier; `pre-push` runs
   `bun run verify`. Bypass in a pinch with `--no-verify`.
+- **Before committing, confirm `git branch --show-current`** — the checkout is shared
+  across parallel Claude sessions; another session may have switched to a WIP branch
+  between your turns (a 2026-07-27 commit landed on a stray branch this way).
 
 ### Testing
 
