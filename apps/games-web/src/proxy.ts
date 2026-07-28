@@ -37,19 +37,22 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  // status.th.gl is a host alias for the thgl-web tenant's /status page
-  // (spec: docs/superpowers/specs/2026-07-28-status-page-design.md in
-  // data-forge). Global /api/status* routes pass through untouched;
-  // every page path renders the status page.
+  // status.th.gl: the CANONICAL page is www.th.gl/status (a rewrite-based
+  // host alias trapped navigation — header links kept resolving back to
+  // the status page). The subdomain stays alive as a convenience redirect,
+  // and /api/status* is still SERVED here directly (not redirected) so
+  // the mia cron and any clients holding the old API URL keep working
+  // without following redirects.
   if (host === "status.th.gl" || host.startsWith("status.localhost")) {
-    const headers = new Headers(req.headers);
-    headers.set("x-thgl-app", "thgl-web");
-    if (!req.nextUrl.pathname.startsWith("/api/")) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/www/status";
-      return NextResponse.rewrite(url, { request: { headers } });
+    if (req.nextUrl.pathname.startsWith("/api/")) {
+      const headers = new Headers(req.headers);
+      headers.set("x-thgl-app", "thgl-web");
+      return NextResponse.next({ request: { headers } });
     }
-    return NextResponse.next({ request: { headers } });
+    const base = host.startsWith("status.localhost")
+      ? "http://www.localhost:3100"
+      : "https://www.th.gl";
+    return NextResponse.redirect(`${base}/status`, 308);
   }
 
   // Dev-only forge proxy. In `next dev` the forge URL constants are
@@ -170,9 +173,6 @@ export function proxy(req: NextRequest) {
   // for the same reason as /authenticate — `has: { type: "host" }`
   // does exact-string matching and breaks `www.localhost:3100` in dev.
   if (config.name === "thgl-web") {
-    if (path === "/status" && process.env.NODE_ENV !== "development") {
-      return NextResponse.redirect("https://status.th.gl/", 308);
-    }
     if (path === "/support-me/patreon") {
       url.pathname = "/api/patreon/authorize";
       return NextResponse.redirect(url, 302);
@@ -226,6 +226,9 @@ export function proxy(req: NextRequest) {
     path !== "/favicon.ico" && // Shared root favicon (app/favicon.ico); a
     // nested app/www/favicon.ico is not a served route, so rewriting here 404s.
     !path.startsWith("/api/filters") && // Global API, lives at app/api/filters
+    !path.startsWith("/api/status") && // Global status API + admin routes —
+    // the canonical status page (www.th.gl/status) and its banners fetch
+    // these same-origin.
     path !== "/api/build-id" && // Global build-identity probe (deploy drain
     // detection + NewVersionWatcher) — must answer on every host incl. www.
     path !== "/api/patreon" // Global perks-refresh route (exact match).

@@ -10,7 +10,7 @@ import {
 const STATUS_URL =
   process.env.NODE_ENV === "development"
     ? "/api/status"
-    : "https://status.th.gl/api/status";
+    : "https://www.th.gl/api/status";
 const POLL_MS = 5 * 60 * 1000;
 // Components every web/app surface depends on.
 const SURFACE_COMPONENTS = ["auth", "database", "cdn", "search", "api-forge"];
@@ -123,7 +123,7 @@ export function StatusBanner({
       <span className="grow">
         {banner.text}{" "}
         <a
-          href="https://status.th.gl"
+          href="https://www.th.gl/status"
           target="_blank"
           rel="noreferrer"
           className="underline"

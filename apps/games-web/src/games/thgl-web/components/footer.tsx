@@ -5,9 +5,7 @@ export function Footer() {
         <p>&copy; {new Date().getFullYear()} The Hidden Gaming Lair</p>
         <p className="text-sm">
           <a
-            href="https://status.th.gl"
-            target="_blank"
-            rel="noreferrer"
+            href="/status"
             className="text-gray-400 hover:text-gray-200 hover:underline"
           >
             Service Status
