@@ -12,6 +12,7 @@ import {
   pruneOldChecks,
   resolveIncident,
 } from "@/lib/status-db";
+import { purgeStatusCache } from "@/lib/status-purge";
 
 const LOG = "[status/run]";
 
@@ -102,9 +103,14 @@ export async function GET(request: Request) {
   }
 
   if (transitions.length > 0) {
-    await notifyDiscord(
-      `🛰️ THGL status change:\n${transitions.join("\n")}\nhttps://status.th.gl`,
-    );
+    await Promise.all([
+      notifyDiscord(
+        `🛰️ THGL status change:\n${transitions.join("\n")}\nhttps://www.th.gl/status`,
+      ),
+      // Evict the cached page/API so the transition is visible
+      // immediately, not after the 60s TTL.
+      purgeStatusCache(),
+    ]);
   }
 
   return Response.json({

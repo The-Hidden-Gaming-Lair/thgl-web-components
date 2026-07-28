@@ -1,5 +1,6 @@
 import { requireStatusAdmin } from "@/lib/status-admin";
 import { openIncident, resolveIncident } from "@/lib/status-db";
+import { purgeStatusCache } from "@/lib/status-purge";
 
 export async function POST(request: Request) {
   if (!(await requireStatusAdmin())) {
@@ -29,6 +30,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "id required" }, { status: 400 });
     }
     await resolveIncident(body.id);
+    await purgeStatusCache();
     return Response.json({ ok: true });
   }
   if (!body.title || !["degraded", "outage"].includes(body.severity ?? "")) {
@@ -45,5 +47,6 @@ export async function POST(request: Request) {
     affects: body.affects?.length ? body.affects : ["all"],
     source: "manual",
   });
+  await purgeStatusCache();
   return Response.json({ ok: true });
 }

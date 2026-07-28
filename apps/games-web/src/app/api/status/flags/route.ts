@@ -1,5 +1,6 @@
 import { requireStatusAdmin } from "@/lib/status-admin";
 import { setGameFlag } from "@/lib/status-db";
+import { purgeStatusCache } from "@/lib/status-purge";
 
 export async function POST(request: Request) {
   if (!(await requireStatusAdmin())) {
@@ -25,5 +26,6 @@ export async function POST(request: Request) {
     body.state as "operational" | "degraded" | "outage",
     body.note?.trim() || null,
   );
+  await purgeStatusCache();
   return Response.json({ ok: true });
 }
