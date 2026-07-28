@@ -20,7 +20,7 @@ import {
 } from "../(providers)";
 import { useOverwolfState } from "@repo/lib/overwolf";
 import { AppHeader } from "./app-header";
-import { HeaderOffset, PlausibleTracker } from "../(header)";
+import { HeaderOffset, PlausibleTracker, StatusBanner } from "../(header)";
 import { MapContainer, StreamingSender } from "../(desktop)";
 import {
   InteractiveMap,
@@ -131,6 +131,12 @@ export function App({
               moreSettings={moreSettings}
               filters={filters}
             />
+            {!isOverlay && (
+              <StatusBanner
+                game={appConfig.name}
+                className="fixed top-[32px] inset-x-0 z-999997"
+              />
+            )}
             <HeaderOffset
               bypass={Boolean(isOverlay) || lockedWindow}
               full

@@ -1,7 +1,13 @@
 import { AppConfig, cn, DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
 import { Inter as FontSans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
-import { Account, Brand, Header, PlausibleTracker } from "../(header)";
+import {
+  Account,
+  Brand,
+  Header,
+  PlausibleTracker,
+  StatusBanner,
+} from "../(header)";
 import { I18NProvider, TooltipProvider } from "../(providers)";
 import {
   SettingsDialogContent,
@@ -125,6 +131,11 @@ export function createRootLayout(appConfig: AppConfig) {
 
               <Account />
             </Header>
+
+            <StatusBanner
+              game={appConfig.name}
+              className="fixed top-[54px] inset-x-0 z-99989"
+            />
 
             <TooltipProvider>
               <main>{children}</main>

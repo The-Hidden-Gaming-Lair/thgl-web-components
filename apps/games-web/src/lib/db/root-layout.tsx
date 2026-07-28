@@ -6,7 +6,13 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Inter as FontSans } from "next/font/google";
 import { AppConfig, cn, DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
-import { Header, Brand, Account, PlausibleTracker } from "@repo/ui/header";
+import {
+  Header,
+  Brand,
+  Account,
+  PlausibleTracker,
+  StatusBanner,
+} from "@repo/ui/header";
 import {
   Links,
   LocaleSwitcher,
@@ -159,6 +165,11 @@ export function createDbRootLayout(appConfig: AppConfig) {
 
               <Account />
             </Header>
+
+            <StatusBanner
+              game={appConfig.name}
+              className="fixed top-[54px] inset-x-0 z-99989"
+            />
 
             <TooltipProvider>
               <main>{children}</main>

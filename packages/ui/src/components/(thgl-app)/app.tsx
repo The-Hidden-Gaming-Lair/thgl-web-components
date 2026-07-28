@@ -39,6 +39,7 @@ import { MarkersSearch } from "../(controls)/markers-search";
 import { AppHeader } from "./app-header";
 import { PreviewReleaseGate } from "./preview-release-gate";
 import { GameSwitcher } from "../(header)/game-switcher";
+import { StatusBanner } from "../(header)/status-banner";
 import { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
 import { OverlayInputEvents } from "./overlay-input-events";
 import { AppMapDynamic } from "./app-map-dynamic";
@@ -270,6 +271,15 @@ export function App({
                   </TooltipContent>
                 </Tooltip>
               </AppHeader>
+            )}
+            {/* Companion-app webview surface — the 2026-07-27 outage hit
+                exactly these users with zero in-app signal. Overlaid below
+                the 32px header so the map never shifts; suppressed in
+                overlay mode (screen real estate over the game). */}
+            {!isOverlay && !lockedWindow && (
+              <div className="absolute top-[32px] inset-x-0 z-[500]">
+                <StatusBanner game={appConfig.name} />
+              </div>
             )}
             <div
               className={cn("relative h-dscreen lock", {
