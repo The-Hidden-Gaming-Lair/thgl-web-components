@@ -126,6 +126,21 @@ export async function openIncident(incident: {
   ]);
 }
 
+/** Open MANUAL incident with this exact title, if any — the admin form
+ *  re-submitting a title updates that incident instead of stacking a
+ *  duplicate. */
+export async function findOpenManualIncidentId(
+  title: string,
+): Promise<string | null> {
+  const [result] = await libsql([
+    {
+      sql: "SELECT id FROM status_incidents WHERE resolved_at IS NULL AND source = 'manual' AND title = ?",
+      args: [arg.text(title)],
+    },
+  ]);
+  return result.rows[0]?.[0].value ?? null;
+}
+
 export async function resolveIncident(id: string): Promise<void> {
   await libsql([
     {

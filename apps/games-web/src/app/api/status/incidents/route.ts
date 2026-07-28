@@ -1,5 +1,9 @@
 import { requireStatusAdmin } from "@/lib/status-admin";
-import { openIncident, resolveIncident } from "@/lib/status-db";
+import {
+  findOpenManualIncidentId,
+  openIncident,
+  resolveIncident,
+} from "@/lib/status-db";
 import { purgeStatusCache } from "@/lib/status-purge";
 
 export async function POST(request: Request) {
@@ -39,8 +43,11 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  // Same open title → override that incident (openIncident is an
+  // id-upsert) instead of stacking a duplicate.
+  const existingId = await findOpenManualIncidentId(body.title);
   await openIncident({
-    id: crypto.randomUUID(),
+    id: existingId ?? crypto.randomUUID(),
     title: body.title,
     body: body.body?.trim() || null,
     severity: body.severity!,

@@ -25,7 +25,11 @@ interface Banner {
   text: string;
 }
 
+// Session-scope fallback when localStorage is unavailable.
+const sessionDismissed = new Set<string>();
+
 function dismissed(id: string): boolean {
+  if (sessionDismissed.has(id)) return true;
   try {
     const raw = localStorage.getItem(`status-dismiss-${id}`);
     return (
@@ -36,7 +40,11 @@ function dismissed(id: string): boolean {
   }
 }
 
-function toBanner(doc: StatusDocument, game: string | null): Banner | null {
+/** All applicable, non-dismissed messages for this surface, worst/most
+ *  specific first. The banner renders the first and a "+N more" link;
+ *  dismissing the first reveals the next. */
+function toBanners(doc: StatusDocument, game: string | null): Banner[] {
+  const banners: Banner[] = [];
   const surface = { components: SURFACE_COMPONENTS, game };
   // Open incidents (manual AND auto) matching this surface. Dismissal is
   // per MESSAGE, not per topic: the key includes createdAt, so a
@@ -55,13 +63,13 @@ function toBanner(doc: StatusDocument, game: string | null): Banner | null {
   for (const incident of incidents) {
     const key = `${incident.id}:${incident.createdAt}`;
     if (dismissed(key)) continue;
-    return {
+    banners.push({
       id: key,
       severity: incident.severity,
       text: incident.body
         ? `${incident.title} — ${incident.body}`
         : incident.title,
-    };
+    });
   }
   // Synthesized fallback for hard outages with NO readable incident row —
   // exactly the case where the DB itself is down and the incidents list
@@ -71,11 +79,11 @@ function toBanner(doc: StatusDocument, game: string | null): Banner | null {
     (c) => AUTO_COMPONENTS.includes(c.id) && c.state === "outage",
   );
   if (hardOutage && incidents.length === 0 && !dismissed(AUTO_ID)) {
-    return {
+    banners.push({
       id: AUTO_ID,
       severity: "outage",
       text: "Some features are temporarily degraded due to a service outage.",
-    };
+    });
   }
   // Game-scoped live-mode flag (shown only on that game's surface). Key
   // includes the flag's updatedAt: editing the note or state counts as a
@@ -86,15 +94,18 @@ function toBanner(doc: StatusDocument, game: string | null): Banner | null {
   if (gameFlag?.liveMode) {
     const key = `flag-${gameFlag.id}:${gameFlag.liveMode.updatedAt}`;
     if (!dismissed(key)) {
-      return {
+      const flagBanner: Banner = {
         id: key,
         severity: gameFlag.liveMode.state === "outage" ? "outage" : "degraded",
         text:
           gameFlag.liveMode.note ?? `${gameFlag.label} live mode is degraded.`,
       };
+      // The game-scoped message is the most relevant one on its own
+      // surface — show it first.
+      banners.unshift(flagBanner);
     }
   }
-  return null;
+  return banners;
 }
 
 export function StatusBanner({
@@ -106,7 +117,10 @@ export function StatusBanner({
    *  below their header (it must not hide behind `fixed top-0` bars). */
   className?: string;
 }) {
-  const [banner, setBanner] = useState<Banner | null>(null);
+  const [doc, setDoc] = useState<StatusDocument | null>(null);
+  // Bumped on dismiss so the banner list re-derives (localStorage isn't
+  // reactive).
+  const [, setDismissTick] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -114,8 +128,8 @@ export function StatusBanner({
       try {
         const res = await fetch(STATUS_URL);
         if (!res.ok) return;
-        const doc = (await res.json()) as StatusDocument;
-        if (!cancelled) setBanner(toBanner(doc, game));
+        const nextDoc = (await res.json()) as StatusDocument;
+        if (!cancelled) setDoc(nextDoc);
       } catch {
         // Status API unreachable — show nothing rather than guess.
       }
@@ -133,34 +147,51 @@ export function StatusBanner({
     };
   }, [game]);
 
+  const banners = doc ? toBanners(doc, game) : [];
+  const banner = banners[0];
   if (!banner) return null;
+  const more = banners.length - 1;
   return (
     <div
       className={`flex items-center gap-2 px-4 py-1.5 text-sm backdrop-blur-xl ${banner.severity === "outage" ? "bg-red-500/15 text-red-200" : "bg-amber-500/15 text-amber-200"} ${className ?? ""}`}
     >
       <span className="grow">
         {banner.text}{" "}
-        <a
-          href="https://www.th.gl/status"
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
-          Status page
-        </a>
+        {more > 0 && (
+          <a
+            href="https://www.th.gl/status"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            …and {more} more
+          </a>
+        )}
+        {more === 0 && (
+          <a
+            href="https://www.th.gl/status"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Status page
+          </a>
+        )}
       </span>
       <button
         aria-label="Dismiss"
         onClick={() => {
+          sessionDismissed.add(banner.id);
           try {
             localStorage.setItem(
               `status-dismiss-${banner.id}`,
               String(Date.now()),
             );
           } catch {
-            // localStorage unavailable — dismiss for this render only.
+            // localStorage unavailable — sessionDismissed covers this tab.
           }
-          setBanner(null);
+          // Reveals the next message (if any) instead of hiding the bar.
+          setDismissTick((t) => t + 1);
         }}
         className="opacity-70 hover:opacity-100"
       >
