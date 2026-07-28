@@ -23,7 +23,11 @@ export function StatusAdminPanel({ doc }: { doc: StatusDocument }) {
         body: JSON.stringify(payload),
       });
       if (res.ok) {
-        location.reload();
+        // NOT location.reload(): the page is edge-cached (60s +
+        // stale-while-revalidate), so a plain reload serves the stale
+        // copy and the admin change looks like a no-op. A unique query
+        // param forces a cache miss and a fresh server render.
+        location.assign(`${location.pathname}?updated=${Date.now()}`);
       } else {
         const text = await res.text().catch(() => `HTTP ${res.status}`);
         alert(`Error: ${text}`);
