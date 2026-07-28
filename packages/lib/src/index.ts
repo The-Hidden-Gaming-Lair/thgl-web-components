@@ -12,6 +12,7 @@ export * from "./games";
 export * from "./hooks";
 export * from "./i18n";
 export * from "./metadata";
+export * from "./overlay-map-hide";
 export * from "./search-params";
 export * from "./settings";
 export * from "./filters-api";

@@ -5,6 +5,7 @@ import { useMap } from "../(interactive-map)/store";
 import {
   getNodeId,
   getPositionedDiscoverTypes,
+  handleOverlayFullscreenHotkey,
   resolveDiscoverMode,
   type Spawn,
   useGameState,
@@ -29,8 +30,6 @@ export function MapHotkeys() {
         map.zoomIn();
       } else if (event.name === HOTKEYS.ZOOM_OUT_APP) {
         map.zoomOut();
-      } else if (event.name === HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN) {
-        useSettingsStore.getState().toggleOverlayFullscreen();
       } else if (event.name === HOTKEYS.SHOW_LABELS) {
         // Toggle show labels state
         const current = useGameState.getState().showLabelsActive;
@@ -43,6 +42,21 @@ export function MapHotkeys() {
       overwolf.settings.hotkeys.onPressed.removeListener(handleHotkey);
     };
   }, [map]);
+
+  // NOT map-gated: must keep working while the overlay map is auto-hidden
+  // (the map is unmounted then). Flagged map → temporary override toggle;
+  // else the normal fullscreen toggle.
+  useEffect(() => {
+    const handleHotkey = (event: overwolf.settings.hotkeys.OnPressedEvent) => {
+      if (event.name === HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN) {
+        handleOverlayFullscreenHotkey();
+      }
+    };
+    overwolf.settings.hotkeys.onPressed.addListener(handleHotkey);
+    return () => {
+      overwolf.settings.hotkeys.onPressed.removeListener(handleHotkey);
+    };
+  }, []);
 
   useEffect(() => {
     let lastDiscoverTime = 0;

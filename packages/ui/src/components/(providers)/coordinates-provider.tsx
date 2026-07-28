@@ -95,6 +95,8 @@ interface ContextValue {
   filters: FiltersConfig;
   globalFilters: GlobalFiltersConfig;
   allFilters: string[];
+  /** The game's map keys (tiles config), e.g. for per-map settings UI. */
+  mapNames: string[];
   /**
    * Filtered static spawns rendered on the static marker layer.
    * Live actors flow imperatively into the renderer via useGameState
@@ -875,6 +877,7 @@ export function CoordinatesProvider({
           staticDrawings,
           regions,
           allFilters,
+          mapNames,
           filters,
           spawns,
           icons,

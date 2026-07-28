@@ -9,6 +9,7 @@ import {
   RegionsConfig,
   TilesConfig,
   translate,
+  useOverlayMapHidden,
   useSettingsStore,
   Version,
 } from "@repo/lib";
@@ -32,7 +33,13 @@ import {
   Regions,
   TraceLine,
 } from "../(interactive-map)";
-import { Actions, MapControls, Toaster } from "../(controls)";
+import {
+  Actions,
+  HideOverlayOnMapButton,
+  MapControls,
+  OverlayMapHiddenPill,
+  Toaster,
+} from "../(controls)";
 import { MarkersSearch } from "../(controls)/markers-search";
 import { Whiteboard } from "../(peer)";
 import { MapHotkeys } from "./map-hotkeys";
@@ -86,6 +93,9 @@ export function App({
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  // Per-map overlay auto-hide — the hook must stay mounted even while hidden
+  // (it tracks player.mapName and feeds the hotkey override).
+  const { hidden: overlayMapHidden } = useOverlayMapHidden();
 
   return (
     <div
@@ -126,79 +136,94 @@ export function App({
               full
               className={!isOverlay && !lockedWindow ? "pt-[32px]" : undefined}
             >
-              <MapContainer isOverlay={Boolean(isOverlay)}>
-                <InteractiveMap
-                  appTitle={appConfig.title}
-                  domain={appConfig.domain}
-                  isOverlay={Boolean(isOverlay)}
-                  tileOptions={tiles}
-                  appName={appConfig.name}
-                />
-              </MapContainer>
-              <Regions />
-              <Markers
-                markerOptions={appConfig.markerOptions}
-                appName={appConfig.name}
-                iconsPath={version?.more.icons}
-                additionalTooltip={additionalTooltip}
-              />
-              {!lockedWindow && (
-                <MarkersSearch
-                  lastMapUpdate={version?.createdAt}
-                  tileOptions={tiles}
-                  appName={appConfig.name}
-                  additionalFilters={additionalFilters}
-                  iconsPath={version?.more.icons}
-                  className="top-[40px]"
-                  mapEnTitles={Object.fromEntries(
-                    Object.keys(tiles).map((k) => [k, translate(dict, k)]),
+              {isOverlay && overlayMapHidden ? (
+                <OverlayMapHiddenPill />
+              ) : (
+                <>
+                  <MapContainer isOverlay={Boolean(isOverlay)}>
+                    <InteractiveMap
+                      appTitle={appConfig.title}
+                      domain={appConfig.domain}
+                      isOverlay={Boolean(isOverlay)}
+                      tileOptions={tiles}
+                      appName={appConfig.name}
+                    />
+                  </MapContainer>
+                  <Regions />
+                  <Markers
+                    markerOptions={appConfig.markerOptions}
+                    appName={appConfig.name}
+                    iconsPath={version?.more.icons}
+                    additionalTooltip={additionalTooltip}
+                  />
+                  {!lockedWindow && (
+                    <MarkersSearch
+                      lastMapUpdate={version?.createdAt}
+                      tileOptions={tiles}
+                      appName={appConfig.name}
+                      additionalFilters={additionalFilters}
+                      iconsPath={version?.more.icons}
+                      className="top-[40px]"
+                      mapEnTitles={Object.fromEntries(
+                        Object.keys(tiles).map((k) => [k, translate(dict, k)]),
+                      )}
+                    />
                   )}
-                />
-              )}
-              {lockedWindow ? lockedWindowComponents : null}
-              {additionalComponents}
-              <Actions
-                mapControls={
-                  <MapControls hidden={lockedWindow} alwaysShowFollowPlayer />
-                }
-                className="top-[40px]"
-              >
-                <Whiteboard domain={appConfig.domain} hidden={lockedWindow} />
-                <StreamingSender
-                  domain={appConfig.domain}
-                  hidden={lockedWindow}
-                  withoutLiveMode={appConfig.withoutLiveMode}
-                />
-                <PrivateNode
-                  appName={appConfig.name}
-                  hidden={lockedWindow}
-                  iconsPath={version?.more.icons}
-                />
-                <PrivateDrawing hidden={lockedWindow} />
-              </Actions>
-              <LiveNavmesh />
-              <LivePlayer
-                markerOptions={appConfig.markerOptions}
-                appName={appConfig.name}
-                iconsPath={version?.more.icons}
-                tilesConfig={tiles}
-              />
-              <LiveTeammates
-                markerOptions={appConfig.markerOptions}
-                appName={appConfig.name}
-                iconsPath={version?.more.icons}
-                tilesConfig={tiles}
-              />
-              <TraceLine />
-              {!lockedWindow && (
-                <MarkerPanel
-                  appName={appConfig.name}
-                  additionalTooltip={additionalTooltip}
-                  coordinateCopyFormat={
-                    appConfig.markerOptions.coordinateCopyFormat
-                  }
-                  headerOffset="32px"
-                />
+                  {lockedWindow ? lockedWindowComponents : null}
+                  {additionalComponents}
+                  <Actions
+                    mapControls={
+                      <MapControls
+                        hidden={lockedWindow}
+                        alwaysShowFollowPlayer
+                      />
+                    }
+                    className="top-[40px]"
+                  >
+                    {Boolean(isOverlay) && (
+                      <HideOverlayOnMapButton hidden={lockedWindow} />
+                    )}
+                    <Whiteboard
+                      domain={appConfig.domain}
+                      hidden={lockedWindow}
+                    />
+                    <StreamingSender
+                      domain={appConfig.domain}
+                      hidden={lockedWindow}
+                      withoutLiveMode={appConfig.withoutLiveMode}
+                    />
+                    <PrivateNode
+                      appName={appConfig.name}
+                      hidden={lockedWindow}
+                      iconsPath={version?.more.icons}
+                    />
+                    <PrivateDrawing hidden={lockedWindow} />
+                  </Actions>
+                  <LiveNavmesh />
+                  <LivePlayer
+                    markerOptions={appConfig.markerOptions}
+                    appName={appConfig.name}
+                    iconsPath={version?.more.icons}
+                    tilesConfig={tiles}
+                  />
+                  <LiveTeammates
+                    markerOptions={appConfig.markerOptions}
+                    appName={appConfig.name}
+                    iconsPath={version?.more.icons}
+                    tilesConfig={tiles}
+                  />
+                  <TraceLine />
+                  {!lockedWindow && (
+                    <MarkerPanel
+                      appName={appConfig.name}
+                      additionalTooltip={additionalTooltip}
+                      coordinateCopyFormat={
+                        appConfig.markerOptions.coordinateCopyFormat
+                      }
+                      headerOffset="32px"
+                    />
+                  )}
+                </>
               )}
             </HeaderOffset>
             <MapHotkeys />

@@ -250,6 +250,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   labelModeByFilter: {},
   liveModeByFilter: {},
   discoverModeByFilter: {},
+  hideOverlayByMap: {},
   labelTextSize: 1,
   showLabelsHotkey: "l",
   displayDiscordActivityStatus: true,
@@ -354,6 +355,12 @@ export type ProfileSettings = {
    * types `predicted`). See {@link resolveDiscoverMode}.
    */
   discoverModeByFilter: Record<string, DiscoverMode>;
+  /**
+   * Maps on which the overlay auto-hides while the PLAYER is on them (key =
+   * mapName, only `true` entries stored). Hides the overlay map/filters only —
+   * the ad container and header are untouched. See useOverlayMapHidden().
+   */
+  hideOverlayByMap: Record<string, boolean>;
   labelTextSize: number;
   showLabelsHotkey: string;
   displayDiscordActivityStatus: boolean;
@@ -459,6 +466,8 @@ export interface ProfileActions {
     filterIds: string[],
     mode: DiscoverMode | "default",
   ) => void;
+  // Flag/unflag a map for overlay auto-hide. `false` deletes the key.
+  setHideOverlayOnMap: (mapName: string, hide: boolean) => void;
   setLabelTextSize: (size: number) => void;
   setShowLabelsHotkey: (key: string) => void;
   setDisplayDiscordActivityStatus: (
@@ -1336,6 +1345,18 @@ export const useSettingsStore = create(
               }
             }
             updateSettings({ liveModeByFilter: next });
+          },
+
+          setHideOverlayOnMap: (mapName, hide) => {
+            const state = get();
+            // `?? {}` guards profiles persisted before this field existed.
+            const next = { ...(state.hideOverlayByMap ?? {}) };
+            if (hide) {
+              next[mapName] = true;
+            } else {
+              delete next[mapName];
+            }
+            updateSettings({ hideOverlayByMap: next });
           },
 
           setLabelTextSize: (size: number) => {

@@ -97,6 +97,7 @@ export function createRootLayout(appConfig: AppConfig) {
                 <SettingsDialogContent
                   activeApp={appConfig.name}
                   filters={version.data.filters}
+                  mapNames={Object.keys(version.data.tiles ?? {})}
                 />
               }
               settingsTitle={dict["settings"]}

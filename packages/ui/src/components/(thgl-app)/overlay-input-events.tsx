@@ -1,5 +1,5 @@
 "use client";
-import { useSettingsStore } from "@repo/lib";
+import { isThglApp, useSettingsStore } from "@repo/lib";
 import { postWebviewMessage } from "@repo/lib/thgl-app";
 import { useEffect, useRef } from "react";
 
@@ -147,6 +147,9 @@ export function OverlayInputEvents() {
   }, [lockedWindow]);
 
   useEffect(() => {
+    // In a plain browser (dev testing) there is no webview bridge — the raw
+    // window.chrome.webview.addEventListener below would crash the tree.
+    if (!isThglApp) return;
     const handleFocusIn = (event: FocusEvent) => {
       const isTextInput =
         (event.target as HTMLElement).tagName === "INPUT" ||

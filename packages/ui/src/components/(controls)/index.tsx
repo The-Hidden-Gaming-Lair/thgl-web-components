@@ -10,7 +10,12 @@ export { IconPicker } from "./icon-picker";
 export { IconSizes } from "./icon-sizes";
 export { SettingsDialogContent } from "./settings-dialog-content";
 export { FilterSettingsPopover } from "./filter-settings-popover";
+export { MapSettingsPopover } from "./map-settings-popover";
 export { MapControls } from "./map-controls";
+export {
+  OverlayMapHiddenPill,
+  HideOverlayOnMapButton,
+} from "./overlay-map-hide";
 export { LiveModeControl } from "./live-mode-control";
 export { playAlertSound, ALERT_SOUND_OPTIONS } from "./audio-alert";
 export type { AudioAlertSound } from "./audio-alert";

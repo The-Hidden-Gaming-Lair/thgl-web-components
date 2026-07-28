@@ -11,6 +11,7 @@ import {
   TilesConfig,
   translate,
   useAccountStore,
+  useOverlayMapHidden,
   useSettingsStore,
   Version,
 } from "@repo/lib";
@@ -28,6 +29,7 @@ import {
   Button,
   ErrorBoundary,
   LiveModeControl,
+  OverlayMapHiddenPill,
   Toaster,
   Tooltip,
   TooltipContent,
@@ -95,6 +97,9 @@ export function App({
   );
   const windowMode = useLiveState((state) => state.windowMode);
   const setWindowMode = useLiveState((state) => state.setWindowMode);
+  // Per-map overlay auto-hide — the hook must stay mounted even while hidden
+  // (it tracks player.mapName and feeds the hotkey override).
+  const { hidden: overlayMapHidden } = useOverlayMapHidden();
   const hasPreviewAccess = useAccountStore(
     (state) => state.perks.previewReleaseAccess,
   );
@@ -272,41 +277,50 @@ export function App({
               })}
             >
               <ErrorBoundary>
-                <AppMapDynamic
-                  appConfig={appConfig}
-                  version={version}
-                  isOverlay={Boolean(isOverlay)}
-                  tileOptions={tiles}
-                  lockedWindow={lockedWindow}
-                  additionalTooltip={additionalTooltip}
-                  withoutLiveMode={withoutLiveMode}
-                />
-                {!lockedWindow && (
-                  <MarkersSearch
-                    lastMapUpdate={version.createdAt}
-                    tileOptions={tiles}
-                    appName={appConfig.name}
-                    additionalFilters={additionalFilters}
-                    iconsPath={version?.more.icons}
-                    className="top-[40px] md:ml-0"
-                    mapEnTitles={Object.fromEntries(
-                      Object.keys(tiles).map((k) => [k, translate(dict, k)]),
-                    )}
-                  />
-                )}
-                {lockedWindow ? lockedWindowComponents : null}
-                {additionalComponents}
-                {!lockedWindow && (
+                {isOverlay && overlayMapHidden ? (
+                  <OverlayMapHiddenPill />
+                ) : (
                   <>
-                    <MarkerPanel
-                      appName={appConfig.name}
+                    <AppMapDynamic
+                      appConfig={appConfig}
+                      version={version}
+                      isOverlay={Boolean(isOverlay)}
+                      tileOptions={tiles}
+                      lockedWindow={lockedWindow}
                       additionalTooltip={additionalTooltip}
-                      coordinateCopyFormat={
-                        appConfig.markerOptions.coordinateCopyFormat
-                      }
-                      headerOffset="32px"
+                      withoutLiveMode={withoutLiveMode}
                     />
-                    <ZoneDetailsPanel appName={appConfig.name} />
+                    {!lockedWindow && (
+                      <MarkersSearch
+                        lastMapUpdate={version.createdAt}
+                        tileOptions={tiles}
+                        appName={appConfig.name}
+                        additionalFilters={additionalFilters}
+                        iconsPath={version?.more.icons}
+                        className="top-[40px] md:ml-0"
+                        mapEnTitles={Object.fromEntries(
+                          Object.keys(tiles).map((k) => [
+                            k,
+                            translate(dict, k),
+                          ]),
+                        )}
+                      />
+                    )}
+                    {lockedWindow ? lockedWindowComponents : null}
+                    {additionalComponents}
+                    {!lockedWindow && (
+                      <>
+                        <MarkerPanel
+                          appName={appConfig.name}
+                          additionalTooltip={additionalTooltip}
+                          coordinateCopyFormat={
+                            appConfig.markerOptions.coordinateCopyFormat
+                          }
+                          headerOffset="32px"
+                        />
+                        <ZoneDetailsPanel appName={appConfig.name} />
+                      </>
+                    )}
                   </>
                 )}
               </ErrorBoundary>

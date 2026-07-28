@@ -4,6 +4,8 @@ import { useMap } from "../(interactive-map)/store";
 import {
   getNodeId,
   getPositionedDiscoverTypes,
+  handleOverlayFullscreenHotkey,
+  isThglApp,
   resolveDiscoverMode,
   type Spawn,
   useSettingsStore,
@@ -20,7 +22,10 @@ export function MapHotkeys() {
   const t = useT();
 
   useEffect(() => {
-    if (!map) {
+    // isThglApp guard: onWebviewMessage dereferences window.chrome.webview,
+    // which doesn't exist in a plain browser (dev testing) and would crash
+    // the whole tree.
+    if (!map || !isThglApp) {
       return;
     }
 
@@ -32,8 +37,6 @@ export function MapHotkeys() {
           map.zoomIn();
         } else if (hotkeyAction === HOTKEYS.ZOOM_OUT_APP) {
           map.zoomOut();
-        } else if (hotkeyAction === HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN) {
-          useSettingsStore.getState().toggleOverlayFullscreen();
         } else if (hotkeyAction === HOTKEYS.TOGGLE_LOCK_APP) {
           useSettingsStore.getState().toggleLockedWindow();
         } else if (hotkeyAction === HOTKEYS.TOGGLE_LIVE_MODE) {
@@ -51,7 +54,29 @@ export function MapHotkeys() {
     };
   }, [map]);
 
+  // NOT map-gated: TOGGLE_OVERLAY_FULLSCREEN must keep working while the
+  // overlay map is auto-hidden (the map is unmounted then, and this hotkey is
+  // the way back). On a flagged map it toggles the temporary override; else
+  // the normal fullscreen toggle. The isThglApp guard matters because this
+  // effect runs on mount (unlike the map-gated ones): onWebviewMessage
+  // dereferences window.chrome.webview, which doesn't exist in a plain
+  // browser (dev testing) and would crash the whole tree.
   useEffect(() => {
+    if (!isThglApp) return;
+    return onWebviewMessage((message) => {
+      if (
+        message.action === "hotkey" &&
+        message.payload.action === HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN
+      ) {
+        handleOverlayFullscreenHotkey();
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!isThglApp) {
+      return;
+    }
     let lastDiscoverTime = 0;
     const DISCOVER_COOLDOWN = 500;
 

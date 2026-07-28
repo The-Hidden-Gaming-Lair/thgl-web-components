@@ -34,28 +34,8 @@ import { Slider } from "../ui/slider";
 import { ProfileManager } from "./profile-manager";
 import { Play, RotateCcw, X } from "lucide-react";
 import { playAlertSound, ALERT_SOUND_OPTIONS } from "./audio-alert";
-
-function Section({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="space-y-2.5 rounded-md bg-muted/20 p-3">
-      <div>
-        <h4 className="text-sm font-semibold tracking-tight">{title}</h4>
-        {description && (
-          <p className="text-muted-foreground text-xs mt-0.5">{description}</p>
-        )}
-      </div>
-      {children}
-    </div>
-  );
-}
+import { Section } from "./section";
+import { MapsSettingsSection } from "./maps-settings";
 
 export function SettingsDialogContent({
   activeApp,
@@ -64,6 +44,7 @@ export function SettingsDialogContent({
   hideAppSettings,
   withoutTraceLines = false,
   filters,
+  mapNames,
 }: {
   activeApp: string;
   more?: ReactNode;
@@ -71,6 +52,12 @@ export function SettingsDialogContent({
   hideAppSettings?: boolean;
   withoutTraceLines?: boolean;
   filters: FiltersConfig;
+  /**
+   * The game's map keys for the per-map settings section. Only needed when
+   * this dialog is mounted OUTSIDE a CoordinatesProvider (e.g. the web
+   * root-layout header) — inside one, the section reads them from context.
+   */
+  mapNames?: string[];
 }) {
   const settingsStore = useSettingsStore();
   const profileSettings = useSettingsStore((state) => state);
@@ -424,6 +411,9 @@ export function SettingsDialogContent({
                   />
                 </div>
               </Section>
+
+              {/* Per-Map Settings (all surfaces; null for single-map games) */}
+              <MapsSettingsSection mapNames={mapNames} />
 
               {/* Trace Line */}
               <Section
