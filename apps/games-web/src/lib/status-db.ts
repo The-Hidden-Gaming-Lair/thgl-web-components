@@ -47,7 +47,10 @@ export async function pruneOldChecks(): Promise<void> {
   ]);
 }
 
-/** operational-percentage per component over a window (seconds). */
+/** AVAILABILITY percentage per component over a window (seconds).
+ *  Degraded counts as up — it means impaired-but-serving (e.g. the DB
+ *  running via the relay while the direct route is down); only outage
+ *  is downtime. The current state dot + detail carry the impairment. */
 export async function getUptime(
   components: string[],
   windowSeconds: number,
@@ -55,7 +58,7 @@ export async function getUptime(
   const since = Math.floor(Date.now() / 1000) - windowSeconds;
   const results = await libsql(
     components.map((c) => ({
-      sql: "SELECT COUNT(*), SUM(CASE WHEN state = 'operational' THEN 1 ELSE 0 END) FROM status_checks WHERE component = ? AND checked_at > ?",
+      sql: "SELECT COUNT(*), SUM(CASE WHEN state != 'outage' THEN 1 ELSE 0 END) FROM status_checks WHERE component = ? AND checked_at > ?",
       args: [arg.text(c), arg.int(since)],
     })),
   );
