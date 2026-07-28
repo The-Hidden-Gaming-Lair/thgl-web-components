@@ -17,6 +17,7 @@ export * from "./search-params";
 export * from "./settings";
 export * from "./filters-api";
 export * from "./sitemap";
+export * from "./status";
 export * from "./tailwind";
 export * from "./testimonials";
 export * from "./types";

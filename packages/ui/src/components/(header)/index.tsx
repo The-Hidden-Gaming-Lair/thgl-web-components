@@ -20,4 +20,5 @@ export {
 } from "./plausible-tracker";
 export { ReleaseNotesLink } from "./release-notes-link";
 export { DiscordIcon, GitHubIcon, RedditIcon } from "./social-icons";
+export { StatusBanner } from "./status-banner";
 export { WindowControlSymbols } from "./window-controls";

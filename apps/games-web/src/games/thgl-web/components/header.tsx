@@ -1,6 +1,7 @@
 import { Links } from "@repo/ui/controls";
 import Image from "next/image";
 import Link from "next/link";
+import { AccountLink } from "./account-link";
 import { GlobalSearch } from "./global-search";
 import { appConfig } from "@/games/thgl-web/lib/config";
 import { blogEntries } from "@/games/thgl-web/lib/blog-entries";
@@ -36,8 +37,9 @@ export function Header() {
         {/* Marketing site has no /maps or /guides routes — hide both nav
             links so they don't 404 (the "All Guides" link defaults on). */}
         <Links appConfig={appConfig} hasMap={false} hasGuides={false} />
-        <div className="flex shrink-0">
+        <div className="flex shrink-0 items-center gap-3">
           <GlobalSearch blogMeta={blogSearchMeta} faqMeta={faqSearchMeta} />
+          <AccountLink />
         </div>
       </nav>
     </header>

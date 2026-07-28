@@ -3,6 +3,16 @@ export function Footer() {
     <footer className="w-full px-6 py-4 text-gray-300 from-inherit">
       <div className="block text-center">
         <p>&copy; {new Date().getFullYear()} The Hidden Gaming Lair</p>
+        <p className="text-sm">
+          <a
+            href="https://status.th.gl"
+            target="_blank"
+            rel="noreferrer"
+            className="text-gray-400 hover:text-gray-200 hover:underline"
+          >
+            Service Status
+          </a>
+        </p>
         <p className="text-xs text-gray-400">
           The apps and developers featured on this site are not affiliated with
           the respective game companies. The apps are independently developed to

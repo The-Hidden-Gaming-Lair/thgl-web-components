@@ -37,6 +37,21 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
+  // status.th.gl is a host alias for the thgl-web tenant's /status page
+  // (spec: docs/superpowers/specs/2026-07-28-status-page-design.md in
+  // data-forge). Global /api/status* routes pass through untouched;
+  // every page path renders the status page.
+  if (host === "status.th.gl" || host.startsWith("status.localhost")) {
+    const headers = new Headers(req.headers);
+    headers.set("x-thgl-app", "thgl-web");
+    if (!req.nextUrl.pathname.startsWith("/api/")) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/www/status";
+      return NextResponse.rewrite(url, { request: { headers } });
+    }
+    return NextResponse.next({ request: { headers } });
+  }
+
   // Dev-only forge proxy. In `next dev` the forge URL constants are
   // same-origin paths (see FORGE_DEV_PROXY in @repo/lib). Forward them
   // per request: *-dev.localhost tenants (palia-dev.localhost:3100) to
@@ -155,6 +170,9 @@ export function proxy(req: NextRequest) {
   // for the same reason as /authenticate — `has: { type: "host" }`
   // does exact-string matching and breaks `www.localhost:3100` in dev.
   if (config.name === "thgl-web") {
+    if (path === "/status" && process.env.NODE_ENV !== "development") {
+      return NextResponse.redirect("https://status.th.gl/", 308);
+    }
     if (path === "/support-me/patreon") {
       url.pathname = "/api/patreon/authorize";
       return NextResponse.redirect(url, 302);

@@ -3,7 +3,7 @@ import "@repo/ui/styles/globals.css";
 
 import type { Viewport } from "next";
 import type { ReactNode } from "react";
-import { PlausibleTracker } from "@repo/ui/header";
+import { Account, PlausibleTracker, StatusBanner } from "@repo/ui/header";
 import { I18NProvider } from "@repo/ui/providers";
 import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
 import { Footer } from "@/games/thgl-web/components/footer";
@@ -43,15 +43,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           locale="en"
         />
       </head>
-      <body
-        className={cn(
-          exo2.className,
-          "dark text-slate-50 min-h-screen",
-        )}
-      >
+      <body className={cn(exo2.className, "dark text-slate-50 min-h-screen")}>
         <I18NProvider dict={enDictGlobal}>
+          {/* Refreshes the persisted account store (perks + profile) so
+              the header account icon reflects the real sign-in state. */}
+          <Account />
           <Header />
           <div className="flex flex-col container px-0 pt-[54px] min-h-dvh">
+            {/* Inside the pt-[54px] container so it sits below the fixed
+                header instead of hiding behind it. */}
+            <StatusBanner game={null} />
             <ErrorBoundary>
               <HeroBackground />
               <main className="grow md:px-10">{children}</main>

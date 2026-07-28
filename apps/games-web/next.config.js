@@ -180,6 +180,32 @@ const nextConfig = (phase) => ({
           { key: "CDN-Cache-Control", value: "no-store" },
         ],
       },
+      // Status API — the status page + in-app banners poll this, so it must
+      // reflect reality within a minute (spec: 60s CDN cache). Comes AFTER
+      // the pageCache /:path* rule to override the 1-day s-maxage.
+      { source: "/api/status", headers: shortCache },
+      // The status PAGE must not ride the 1-day page cache either — a
+      // stale "all operational" during an incident defeats its purpose.
+      // status.th.gl requests arrive as "/" (host alias, rewritten to
+      // /www/status by the proxy), so a host-scoped rule covers them;
+      // the path rules cover www.th.gl/status (dev/direct) + the
+      // rewritten internal path.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "status.th.gl" }],
+        headers: shortCache,
+      },
+      { source: "/status", headers: shortCache },
+      { source: "/www/status", headers: shortCache },
+      // The cron-triggered runner has side effects and an Authorization
+      // gate — a cached 401/response would wedge the whole checker.
+      {
+        source: "/api/status/run",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
       // Auto-update gate — must come AFTER the pageCache /:path* rule so it overrides s-maxage.
       // app.th.gl serves these at the root (/version.txt); the middleware also rewrites to
       // /games/thgl-app/*, so cover both the incoming and rewritten paths.
