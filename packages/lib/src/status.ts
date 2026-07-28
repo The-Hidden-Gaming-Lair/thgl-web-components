@@ -20,7 +20,13 @@ export interface StatusGame {
   /** Overwolf GEP feed state — only for games whose OW app uses GEP
    *  (Diablo IV, Sons of the Forest, New World); null otherwise. */
   owEvents: StatusState | null;
-  liveMode: { state: StatusState; note: string | null } | null;
+  liveMode: {
+    state: StatusState;
+    note: string | null;
+    /** Flag's last-change time — part of the banner dismiss key, so an
+     *  updated flag re-shows even if a prior version was dismissed. */
+    updatedAt: number;
+  } | null;
 }
 
 export interface StatusIncident {

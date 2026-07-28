@@ -38,43 +38,61 @@ function dismissed(id: string): boolean {
 
 function toBanner(doc: StatusDocument, game: string | null): Banner | null {
   const surface = { components: SURFACE_COMPONENTS, game };
-  // Manual incidents first — Leon's own words beat generic auto text.
-  const incident: StatusIncident | undefined = doc.incidents
-    .filter((i) => i.resolvedAt === null && i.source === "manual")
+  // Open incidents (manual AND auto) matching this surface. Dismissal is
+  // per MESSAGE, not per topic: the key includes createdAt, so a
+  // re-opened incident that reuses a stable id (auto-<component>) or a
+  // brand-new incident always re-shows. The 6h dismiss expiry is the
+  // additional never-hidden-forever backstop for ongoing incidents.
+  const incidents: StatusIncident[] = doc.incidents
+    .filter((i) => i.resolvedAt === null)
     .filter((i) => incidentMatchesSurface(i, surface))
-    .sort((a, b) =>
-      a.severity === b.severity ? 0 : a.severity === "outage" ? -1 : 1,
-    )[0];
-  if (incident && !dismissed(incident.id)) {
+    .sort(
+      (a, b) =>
+        (a.severity === b.severity ? 0 : a.severity === "outage" ? -1 : 1) ||
+        // Same severity: Leon's own words beat generic auto text.
+        (a.source === b.source ? 0 : a.source === "manual" ? -1 : 1),
+    );
+  for (const incident of incidents) {
+    const key = `${incident.id}:${incident.createdAt}`;
+    if (dismissed(key)) continue;
     return {
-      id: incident.id,
+      id: key,
       severity: incident.severity,
       text: incident.body
         ? `${incident.title} — ${incident.body}`
         : incident.title,
     };
   }
+  // Synthesized fallback for hard outages with NO readable incident row —
+  // exactly the case where the DB itself is down and the incidents list
+  // arrives empty. No timestamp available, so the coarse id + 6h expiry
+  // governs re-showing.
   const hardOutage = doc.components.some(
     (c) => AUTO_COMPONENTS.includes(c.id) && c.state === "outage",
   );
-  if (hardOutage && !dismissed(AUTO_ID)) {
+  if (hardOutage && incidents.length === 0 && !dismissed(AUTO_ID)) {
     return {
       id: AUTO_ID,
       severity: "outage",
       text: "Some features are temporarily degraded due to a service outage.",
     };
   }
-  // Game-scoped live-mode flag (shown only on that game's surface).
+  // Game-scoped live-mode flag (shown only on that game's surface). Key
+  // includes the flag's updatedAt: editing the note or state counts as a
+  // new message and re-shows immediately.
   const gameFlag = game
     ? doc.games.find((g) => g.id === game && g.liveMode !== null)
     : undefined;
-  if (gameFlag?.liveMode && !dismissed(`flag-${gameFlag.id}`)) {
-    return {
-      id: `flag-${gameFlag.id}`,
-      severity: gameFlag.liveMode.state === "outage" ? "outage" : "degraded",
-      text:
-        gameFlag.liveMode.note ?? `${gameFlag.label} live mode is degraded.`,
-    };
+  if (gameFlag?.liveMode) {
+    const key = `flag-${gameFlag.id}:${gameFlag.liveMode.updatedAt}`;
+    if (!dismissed(key)) {
+      return {
+        id: key,
+        severity: gameFlag.liveMode.state === "outage" ? "outage" : "degraded",
+        text:
+          gameFlag.liveMode.note ?? `${gameFlag.label} live mode is degraded.`,
+      };
+    }
   }
   return null;
 }

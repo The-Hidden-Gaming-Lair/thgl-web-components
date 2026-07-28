@@ -35,7 +35,12 @@ export interface StatusDocumentResult {
 
 function buildGames(
   ow: Record<string, StatusState | null> | null,
-  flags: { game: string; state: StatusState; note: string | null }[],
+  flags: {
+    game: string;
+    state: StatusState;
+    note: string | null;
+    updatedAt: number;
+  }[],
 ): StatusGame[] {
   const flagged = new Map(flags.map((f) => [f.game, f]));
   const owById = new Map(OW_EVENT_GAMES.map((g) => [g.id, g]));
@@ -55,7 +60,7 @@ function buildGames(
       owEvents: owGame ? (ow?.[g.id] ?? null) : null,
       liveMode:
         flag && flag.state !== "operational"
-          ? { state: flag.state, note: flag.note }
+          ? { state: flag.state, note: flag.note, updatedAt: flag.updatedAt }
           : null,
     };
   });
