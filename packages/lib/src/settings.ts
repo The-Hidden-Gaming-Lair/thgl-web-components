@@ -251,6 +251,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   liveModeByFilter: {},
   discoverModeByFilter: {},
   hideOverlayByMap: {},
+  hideOverlayWithoutMap: true,
   labelTextSize: 1,
   showLabelsHotkey: "l",
   displayDiscordActivityStatus: true,
@@ -361,6 +362,12 @@ export type ProfileSettings = {
    * the ad container and header are untouched. See useOverlayMapHidden().
    */
   hideOverlayByMap: Record<string, boolean>;
+  /**
+   * Auto-hide the overlay while NO map is detected (main menu, character
+   * select). Default ON. The "Show Map" pill / fullscreen hotkey shows it
+   * temporarily until a map is detected. See useOverlayMapHidden().
+   */
+  hideOverlayWithoutMap: boolean;
   labelTextSize: number;
   showLabelsHotkey: string;
   displayDiscordActivityStatus: boolean;
@@ -468,6 +475,7 @@ export interface ProfileActions {
   ) => void;
   // Flag/unflag a map for overlay auto-hide. `false` deletes the key.
   setHideOverlayOnMap: (mapName: string, hide: boolean) => void;
+  setHideOverlayWithoutMap: (hide: boolean) => void;
   setLabelTextSize: (size: number) => void;
   setShowLabelsHotkey: (key: string) => void;
   setDisplayDiscordActivityStatus: (
@@ -1357,6 +1365,10 @@ export const useSettingsStore = create(
               delete next[mapName];
             }
             updateSettings({ hideOverlayByMap: next });
+          },
+
+          setHideOverlayWithoutMap: (hide) => {
+            updateSettings({ hideOverlayWithoutMap: hide });
           },
 
           setLabelTextSize: (size: number) => {

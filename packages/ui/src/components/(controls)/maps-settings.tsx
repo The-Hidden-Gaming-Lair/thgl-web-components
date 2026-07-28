@@ -31,6 +31,12 @@ export function MapsSettingsSection({ mapNames }: { mapNames?: string[] }) {
     (s) => s.hideOverlayByMap ?? EMPTY_HIDE_BY_MAP,
   );
   const setHideOverlayOnMap = useSettingsStore((s) => s.setHideOverlayOnMap);
+  const hideOverlayWithoutMap = useSettingsStore(
+    (s) => s.hideOverlayWithoutMap ?? true,
+  );
+  const setHideOverlayWithoutMap = useSettingsStore(
+    (s) => s.setHideOverlayWithoutMap,
+  );
   const t = useT();
 
   const gameMaps = mapNames ?? coords?.mapNames ?? [];
@@ -39,7 +45,9 @@ export function MapsSettingsSection({ mapNames }: { mapNames?: string[] }) {
   const allMaps = Array.from(
     new Set([...gameMaps, ...Object.keys(hideOverlayByMap)]),
   );
-  if (allMaps.length <= 1) return null;
+  // No maps at all (database-only games): nothing to configure. A single-map
+  // game still gets the section for the no-map option below.
+  if (allMaps.length === 0) return null;
 
   const flaggedMaps = allMaps.filter((mapName) => hideOverlayByMap[mapName]);
   const visibleMaps = showAll ? allMaps : flaggedMaps;
@@ -62,38 +70,57 @@ export function MapsSettingsSection({ mapNames }: { mapNames?: string[] }) {
       title="Maps"
       description="Hide the in-game overlay while you are on specific maps (e.g. your housing plot). It returns when you leave; a small pill (or the fullscreen hotkey) shows it temporarily."
     >
-      {visibleMaps.length === 0 ? (
-        <p className="text-muted-foreground text-xs">
-          No maps hidden. Expand the list below, or use the gear next to a map
-          in the map selector.
-        </p>
-      ) : (
-        // Native overflow scroll — same pattern as the Active Alerts list:
-        // Radix ScrollArea needs a definite height, a max-height-only list
-        // wouldn't scroll.
-        <div className="max-h-48 space-y-2 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
-          {visibleMaps.map(row)}
-        </div>
+      <div className="flex items-center justify-between gap-2">
+        <Label htmlFor="hide-overlay-without-map">
+          Hide overlay when no map is detected
+          <span className="block text-muted-foreground text-xs font-normal">
+            e.g. in the main menu — a &quot;Show Map&quot; pill brings it back.
+          </span>
+        </Label>
+        <Switch
+          id="hide-overlay-without-map"
+          checked={hideOverlayWithoutMap}
+          onCheckedChange={setHideOverlayWithoutMap}
+        />
+      </div>
+      {/* Per-map list only for multi-map games — flagging a game's ONLY map
+          would just hide the overlay permanently. */}
+      {allMaps.length > 1 && (
+        <>
+          {visibleMaps.length === 0 ? (
+            <p className="text-muted-foreground text-xs">
+              No maps hidden. Expand the list below, or use the gear next to a
+              map in the map selector.
+            </p>
+          ) : (
+            // Native overflow scroll — same pattern as the Active Alerts list:
+            // Radix ScrollArea needs a definite height, a max-height-only list
+            // wouldn't scroll.
+            <div className="max-h-48 space-y-2 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
+              {visibleMaps.map(row)}
+            </div>
+          )}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full h-7 text-xs gap-1"
+            onClick={() => setShowAll((v) => !v)}
+          >
+            {showAll ? (
+              <>
+                <ChevronUp className="h-3 w-3" />
+                Show hidden maps only ({flaggedMaps.length})
+              </>
+            ) : (
+              <>
+                <ChevronDown className="h-3 w-3" />
+                Show all maps ({allMaps.length})
+              </>
+            )}
+          </Button>
+        </>
       )}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="w-full h-7 text-xs gap-1"
-        onClick={() => setShowAll((v) => !v)}
-      >
-        {showAll ? (
-          <>
-            <ChevronUp className="h-3 w-3" />
-            Show hidden maps only ({flaggedMaps.length})
-          </>
-        ) : (
-          <>
-            <ChevronDown className="h-3 w-3" />
-            Show all maps ({allMaps.length})
-          </>
-        )}
-      </Button>
     </Section>
   );
 }

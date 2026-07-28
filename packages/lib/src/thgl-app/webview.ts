@@ -322,32 +322,46 @@ export function postWebviewMessage<T>(
   message: WEBVIEW_SEND_MESSAGE,
   timeout = 5000,
 ) {
-  return new Promise<WEBVIEW_RESPONSE_MESSAGE<T>>((resolve, reject) => {
-    const requestId = generateUniqueId();
-    // Message event handler to capture the response.
-    const handler = (event: WebviewEvent) => {
-      // Check if the response matches the request ID.
-      if (event.data && event.data.responseId === requestId) {
+  let promise: Promise<WEBVIEW_RESPONSE_MESSAGE<T>>;
+  if (typeof window === "undefined" || !window.chrome?.webview) {
+    // No host bridge (plain-browser dev, SSR) — fail fast instead of
+    // dereferencing the missing bridge / waiting out the timeout.
+    promise = Promise.reject(
+      new Error(`${message.action} unavailable outside THGLApp`),
+    );
+  } else {
+    promise = new Promise<WEBVIEW_RESPONSE_MESSAGE<T>>((resolve, reject) => {
+      const requestId = generateUniqueId();
+      const timer = setTimeout(() => {
         window.chrome.webview.removeEventListener("message", handler);
-        if (event.data.status === "error") {
-          reject(new Error(event.data.message));
+        reject(new Error(`${message.action} timed out`));
+      }, timeout);
+      // Message event handler to capture the response.
+      const handler = (event: WebviewEvent) => {
+        // Check if the response matches the request ID.
+        if (event.data && event.data.responseId === requestId) {
+          clearTimeout(timer);
+          window.chrome.webview.removeEventListener("message", handler);
+          if (event.data.status === "error") {
+            reject(new Error(event.data.message));
+          }
+          resolve(event.data);
         }
-        resolve(event.data);
-      }
-    };
+      };
 
-    window.chrome.webview.addEventListener("message", handler);
+      window.chrome.webview.addEventListener("message", handler);
 
-    // Attach unique ID to the request
-    const payload = { ...message, requestId };
+      // Attach unique ID to the request
+      const payload = { ...message, requestId };
 
-    // Send the message to the host.
-    window.chrome.webview.postMessage(payload);
-
-    // Optionally, set a timeout to reject if no response arrives.
-    setTimeout(() => {
-      window.chrome.webview.removeEventListener("message", handler);
-      reject(new Error(`${message.action} timed out`));
-    }, timeout);
-  });
+      // Send the message to the host.
+      window.chrome.webview.postMessage(payload);
+    });
+  }
+  // IPC failures (no bridge, host timeout) are expected operational noise for
+  // the many fire-and-forget senders (clickthrough toggles, hotkey sync):
+  // mark the rejection handled so they don't spam unhandledRejection. Callers
+  // that care still receive it via their own await/.catch.
+  promise.catch(() => {});
+  return promise;
 }
