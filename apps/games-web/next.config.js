@@ -111,11 +111,21 @@ const nextConfig = (phase) => ({
     // until the data actually changes. The 1-day ceiling only bounds staleness if a
     // purge is ever missed; Bunny's stale-while-revalidate + UseStaleWhileUpdating
     // serve the cached copy while a background re-render runs.
+    //
+    // BROWSER staleness is bounded SEPARATELY and much tighter (SWR=60, not 86400).
+    // The server-rendered HTML embeds content-hashed asset URLs (e.g. the icon
+    // sprite icons.<hash>.webp). When data-forge ships a new sprite it PRUNES the
+    // old hash from the CDN, so a browser that keeps day-old HTML would request a
+    // hash that now 404s → invisible icons (and a hard refresh doesn't reliably
+    // bust a `stale-while-revalidate` entry, so real users get stuck). The edge is
+    // purged the moment data goes live, so the browser gains nothing from a 24h
+    // stale window — cap it at 60s (same budget as version.json / the config JSONs)
+    // so a data update always reaches the browser within a minute. The edge keeps
+    // its day-cache + SWR (CDN-Cache-Control below) for origin protection.
     const pageCache = [
       {
         key: "Cache-Control",
-        value:
-          "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400",
+        value: "public, max-age=0, s-maxage=86400, stale-while-revalidate=60",
       },
       {
         key: "CDN-Cache-Control",
@@ -175,6 +185,36 @@ const nextConfig = (phase) => ({
       // it must come AFTER the pageCache /:path* rule to override s-maxage.
       {
         source: "/api/build-id",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      // Patreon perks/auth family — per-user AND credentialed: these routes read
+      // cookies and return account data (email/perks) + Set-Cookie, with a
+      // per-Origin ACAO header. They MUST NOT be edge-cached. The generic
+      // pageCache /:path* rule (s-maxage=86400, no Vary) would otherwise cache a
+      // SINGLE response and serve it to every origin/user for a day — that both
+      // breaks CORS (a cached `*`/wrong-origin ACAO is rejected by credentialed
+      // fetches, e.g. account.tsx's `credentials: "include"` call) and leaks one
+      // user's perks/email to the next. Comes AFTER the pageCache rule to override
+      // s-maxage; covers the exact path and the OAuth sub-routes (redirect/etc.).
+      {
+        source: "/api/patreon",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/api/patreon/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/www/api/patreon/:path*",
         headers: [
           { key: "Cache-Control", value: "no-store" },
           { key: "CDN-Cache-Control", value: "no-store" },
