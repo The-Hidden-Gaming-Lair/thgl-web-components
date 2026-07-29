@@ -8,6 +8,7 @@ import { diablo4 } from "./diablo4";
 import { dragonswordAwakening } from "./dragonsword-awakening";
 import { drakantos } from "./drakantos";
 import { duetNightAbyss } from "./duet-night-abyss";
+import { enshrouded } from "./enshrouded";
 import { duneAwakening } from "./dune-awakening";
 import { gothic1Remake } from "./gothic-1-remake";
 import { grounded2 } from "./grounded2";
@@ -48,6 +49,7 @@ const ALL_CONFIGS: AppConfig[] = [
   drakantos,
   duetNightAbyss,
   duneAwakening,
+  enshrouded,
   gothic1Remake,
   grounded2,
   heartopia,

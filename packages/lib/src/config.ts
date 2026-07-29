@@ -44,6 +44,12 @@ export type AppConfig = {
   keywords: string[];
   appUrl: string | null;
   withoutLiveMode?: boolean;
+  /**
+   * Gate the whole tenant behind an "In Development" placeholder in production.
+   * The real site still renders on the local dev server (NODE_ENV !== "production")
+   * so the game can be worked on before it's ready to ship publicly.
+   */
+  inDevelopment?: boolean;
   internalLinks?: {
     title: string;
     description?: string;
