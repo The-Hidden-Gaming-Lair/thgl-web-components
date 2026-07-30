@@ -3,10 +3,14 @@
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// Baked into the client bundle at build time (Docker build-arg GIT_SHA →
-// NEXT_PUBLIC_BUILD_SHA). Empty/undefined in `next dev`, which disables the
-// watcher entirely.
-const CLIENT_BUILD_SHA = process.env.NEXT_PUBLIC_BUILD_SHA;
+// Baked into the client bundle at build time (Docker build-arg CLIENT_SHA →
+// NEXT_PUBLIC_CLIENT_SHA). Deliberately NOT the per-deploy git SHA: this
+// hashes only the client-relevant source trees (games-web-deploy.yml
+// "Compute client build identity"), so deploys that only ship public/
+// payloads (THGLApp installer, OG images) keep the same value and don't
+// prompt every open tab to reload an unchanged web app. Empty/undefined in
+// `next dev`, which disables the watcher entirely.
+const CLIENT_BUILD_SHA = process.env.NEXT_PUBLIC_CLIENT_SHA;
 
 const POLL_INTERVAL_MS = 5 * 60 * 1000;
 const MIN_CHECK_GAP_MS = 60 * 1000;
@@ -54,8 +58,8 @@ export function NewVersionWatcher() {
       try {
         const res = await fetch("/api/build-id", { cache: "no-store" });
         if (!res.ok) return;
-        const { sha } = (await res.json()) as { sha?: string };
-        if (sha && sha !== CLIENT_BUILD_SHA) notify(false);
+        const { clientSha } = (await res.json()) as { clientSha?: string };
+        if (clientSha && clientSha !== CLIENT_BUILD_SHA) notify(false);
       } catch {
         // Network hiccup — next poll retries.
       }

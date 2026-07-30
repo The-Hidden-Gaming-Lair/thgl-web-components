@@ -18,7 +18,17 @@ export const dynamic = "force-dynamic";
 
 export function GET(): Response {
   return Response.json(
-    { sha: process.env.NEXT_PUBLIC_BUILD_SHA ?? "dev" },
+    {
+      // Per-deploy identity (git commit) — consumed by the deploy workflow's
+      // drain probe, which must distinguish container instances even when the
+      // web app itself is unchanged.
+      sha: process.env.NEXT_PUBLIC_BUILD_SHA ?? "dev",
+      // Client-bundle identity — consumed by NewVersionWatcher. Hashes only
+      // the client-relevant source trees (workflow "Compute client build
+      // identity"), so installer/OG-image-only deploys keep the same value
+      // and open tabs aren't prompted to reload an unchanged web app.
+      clientSha: process.env.NEXT_PUBLIC_CLIENT_SHA ?? "dev",
+    },
     {
       headers: {
         "Cache-Control": "no-store",

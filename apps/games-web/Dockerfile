@@ -11,9 +11,15 @@ WORKDIR /repo
 
 # Build identity: the deploying git SHA, inlined into the client bundle as
 # NEXT_PUBLIC_BUILD_SHA (must also be in turbo.json globalEnv) and served by
-# /api/build-id. Powers the new-version toast + the deploy drain probe.
+# /api/build-id. Powers the deploy drain probe.
 ARG GIT_SHA=dev
 ENV NEXT_PUBLIC_BUILD_SHA=$GIT_SHA
+# Client-bundle identity: hash of the client-relevant source trees only (see
+# games-web-deploy.yml "Compute client build identity"). Drives the
+# NewVersionWatcher toast INSTEAD of GIT_SHA, so deploys that only ship
+# public/ payloads (THGLApp installer, OG images) don't prompt reloads.
+ARG CLIENT_SHA=dev
+ENV NEXT_PUBLIC_CLIENT_SHA=$CLIENT_SHA
 
 # Copy whole monorepo (filtered by .dockerignore to skip node_modules / .next / dist).
 # Workspaces force us to install everything together, but turbo prune could optimize this later.
@@ -37,6 +43,8 @@ WORKDIR /app
 
 ARG GIT_SHA=dev
 ENV NEXT_PUBLIC_BUILD_SHA=$GIT_SHA
+ARG CLIENT_SHA=dev
+ENV NEXT_PUBLIC_CLIENT_SHA=$CLIENT_SHA
 ENV NODE_ENV=production
 ENV PORT=3100
 ENV HOSTNAME=0.0.0.0
