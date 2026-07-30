@@ -149,6 +149,7 @@ export function createMapPage(
   appConfig: AppConfig,
   additionalFilters?: ReactNode,
   additionalTooltip?: AdditionalTooltipType,
+  additionalComponents?: ReactNode,
 ) {
   return async function Map({ params }: MapPageProps) {
     const {
@@ -309,6 +310,7 @@ export function createMapPage(
                 iconsPath={version.more.icons}
                 additionalTooltip={additionalTooltip}
               />
+              {additionalComponents}
               <MarkersSearch
                 lastMapUpdate={version.createdAt}
                 tileOptions={version.data.tiles}

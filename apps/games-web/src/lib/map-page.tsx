@@ -15,8 +15,16 @@ function getMapExtras(appConfig: AppConfig) {
     game?.additionalFilters && game.additionalFilters.length > 0 ? (
       <AdditionalContent items={game.additionalFilters} />
     ) : undefined;
+  // Invisible map-layer components (e.g. PaliaGrid). The old per-game *-web
+  // apps mounted these inline; the consolidated page must wire them too, or
+  // toggles like Palia's "Show Grid" render but control nothing.
+  const additionalComponents =
+    game?.additionalComponents && game.additionalComponents.length > 0 ? (
+      <AdditionalContent items={game.additionalComponents} />
+    ) : undefined;
   return {
     additionalFilters,
+    additionalComponents,
     additionalTooltip: game?.additionalTooltip,
   };
 }
@@ -34,8 +42,14 @@ type MapPageProps = Parameters<ReturnType<typeof createMapPage>>[0];
 export function multiTenantMapPage() {
   return async (props: MapPageProps) => {
     const config = await getAppConfig();
-    const { additionalFilters, additionalTooltip } = getMapExtras(config);
-    const Page = createMapPage(config, additionalFilters, additionalTooltip);
+    const { additionalFilters, additionalComponents, additionalTooltip } =
+      getMapExtras(config);
+    const Page = createMapPage(
+      config,
+      additionalFilters,
+      additionalTooltip,
+      additionalComponents,
+    );
     return Page(props);
   };
 }
