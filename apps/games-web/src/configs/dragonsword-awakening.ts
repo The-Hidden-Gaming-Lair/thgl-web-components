@@ -75,6 +75,22 @@ export const dragonswordAwakening = resolveAppConfig({
         description: "Every hero and named character, with portraits.",
       },
       {
+        href: "/db/monsters",
+        type: "monsters",
+        titleFallback: "Bestiary",
+        icon: "🐉",
+        description:
+          "Every boss, elite and named monster with combat stats, resistances, loot and locations.",
+      },
+      {
+        href: "/db/npcs",
+        type: "npcs",
+        titleFallback: "NPCs",
+        icon: "🗣️",
+        description:
+          "Merchants, quest-givers and named NPCs with their roles and locations.",
+      },
+      {
         href: "/db/mounts",
         type: "mounts",
         titleFallback: "Mounts & Familiars",
@@ -119,6 +135,8 @@ export const dragonswordAwakening = resolveAppConfig({
     ],
     typeLabels: {
       characters: "Characters",
+      monsters: "Monster",
+      npcs: "NPC",
       mounts: "Mounts",
       recipes: "Recipe",
       ingredients_db: "Ingredients",

@@ -3,6 +3,7 @@ import { PlayerDetails } from "./player-details";
 import {
   CrimsonDesertZones,
   CrimsonDesertSaveImport,
+  DragonSwordSaveImport,
   DuneDeepDesertGrid,
   DuneHeatmaps,
   PaliaGrid,
@@ -24,6 +25,7 @@ const ADDITIONAL_CONTENT = {
   DuneHeatmaps: DuneHeatmaps,
   CrimsonDesertZones: CrimsonDesertZones,
   CrimsonDesertSaveImport: CrimsonDesertSaveImport,
+  DragonSwordSaveImport: DragonSwordSaveImport,
   SatisfactorySeed: SatisfactorySeed,
 } as const;
 

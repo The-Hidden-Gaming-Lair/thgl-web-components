@@ -16,6 +16,7 @@ export const games: Array<Game> = [
     discordId: "dragonsword-awakening",
     title: "DragonSword: Awakening",
     logo: `${TH_GL_URL}/global_icons/dragonsword-awakening.webp`,
+    additionalFilters: ["DragonSwordSaveImport"],
     companion: {
       baseURL: "/apps/dragonsword-awakening",
       controllerURL: "/apps/dragonsword-awakening/controller",
@@ -1107,6 +1108,7 @@ export type AdditionalContent =
   | "DuneHeatmaps"
   | "CrimsonDesertZones"
   | "CrimsonDesertSaveImport"
+  | "DragonSwordSaveImport"
   | "SatisfactorySeed";
 
 export type AdditionalTooltip = "InGameCoordinates" | "DuneAltitude";
