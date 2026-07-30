@@ -247,8 +247,8 @@ Use the same browser you browse *.th.gl in. Ads disappear once you're signed in.
 ### Overwolf apps
 Overwolf apps can't sign in directly, so you unlock them with a one-time **secret**:
 1. Become a **Pro/Elite** supporter on [Patreon](https://www.patreon.com/devleon).
-2. Open the [account page](/support-me/account) and **Authenticate with Patreon**.
-3. Find your game's card and click **Unlock App** (one click). If the app doesn't open, click **Copy Secret** instead.
+2. Open the [account page](/support-me/account). If a big **Authenticate with Patreon** button shows, click it and sign in. Already signed in? The page shows your account details instead — no button, nothing to do here.
+3. Scroll down to the **Unlock Overwolf Apps** section, find your game's card, and click **Unlock App** (one click). If the app doesn't open, click **Copy Secret** instead.
 4. In the app, open the account window (profile/heart icon), **paste the secret**, and click **Unlock**.
 
 Still stuck? Patreon occasionally has brief connection issues — wait a few minutes and try again.
@@ -896,6 +896,30 @@ Simply release the ALT key first. The overlay will become interactive again and 
 This ensures smooth gameplay without cursor visibility issues.
     `.trim(),
     labels: ["Companion App", "Technical"],
+  },
+  {
+    id: "overlay-not-visible-fullscreen",
+    headline: "Overlay not visible in exclusive fullscreen",
+    question:
+      "Why doesn't the map overlay show while my game runs in fullscreen?",
+    answer: `
+Windows does not allow other windows to draw on top of a game running in **exclusive fullscreen** — the same mechanism that makes your screen flash when you Alt-Tab out of a fullscreen game. This blocks the Companion App overlay and can also break Overwolf overlays.
+
+## Fix: switch to borderless fullscreen
+
+1. Open the game's graphics/display settings.
+2. Change **Display Mode** from *Fullscreen* to *Borderless* (also called *Windowed Fullscreen*).
+
+The game still fills the whole screen at your monitor's resolution — on most setups there is no visible difference — and the overlay shows immediately.
+
+## Prefer to keep exclusive fullscreen?
+
+- **2nd screen mode** — show the map on a second monitor.
+- **Peer Link** — use a phone or tablet as a live minimap.
+
+**Related:** [Performance issues](/faq/fps-drops).
+    `.trim(),
+    labels: ["Companion App", "Overwolf", "Technical"],
   },
   {
     id: "webview2-permission-error",
