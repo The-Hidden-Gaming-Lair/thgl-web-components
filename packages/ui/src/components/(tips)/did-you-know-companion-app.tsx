@@ -5,7 +5,6 @@ import {
   getTipState,
   isApp,
   recordVisitDay,
-  TH_GL_URL,
   updateTipState,
   type AppConfig,
 } from "@repo/lib";
@@ -41,6 +40,8 @@ export function DidYouKnowCompanionApp({
     const state = getTipState(TIP_ID);
     const force = new URLSearchParams(location.search).get("tip") === TIP_ID;
     if (!force) {
+      // The app is Windows-only — don't pitch it to mobile/Mac/Linux visitors.
+      if (!/Windows/.test(navigator.userAgent)) return;
       if (state.clickedAt || state.shownCount >= MAX_SHOWS) return;
       if (state.dismissedAt && Date.now() - state.dismissedAt < SNOOZE_MS)
         return;
@@ -101,7 +102,11 @@ export function DidYouKnowCompanionApp({
   if (!visible) return null;
 
   return (
-    <aside className="fixed bottom-4 right-4 z-9998 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-border bg-card/95 shadow-xl backdrop-blur">
+    // Top-right, below the fixed header: the bottom-right corner belongs to
+    // the floating ad (fixed bottom-2 right-2) and the mobile ad banner.
+    // z sits above the movable ad containers (z-12000) but below the status
+    // banner (z-99989).
+    <aside className="fixed top-16 right-2 z-12001 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-border bg-card/95 shadow-xl backdrop-blur">
       <button
         aria-label="Dismiss"
         onClick={() => {
@@ -124,11 +129,14 @@ export function DidYouKnowCompanionApp({
         }}
         className="block"
       >
-        <img
-          src={`${TH_GL_URL}/games/thgl-web/images/overlay-dune-awakening.webp`}
-          alt=""
-          loading="lazy"
-          className="h-32 w-full object-cover object-top"
+        <video
+          className="aspect-video w-full"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/games/thgl-web/videos/companion-app-hero-poster.webp"
+          src="/games/thgl-web/videos/companion-app-hero.mp4"
         />
         <div className="space-y-1.5 p-3">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
