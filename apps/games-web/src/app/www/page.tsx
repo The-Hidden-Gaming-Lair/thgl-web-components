@@ -4,6 +4,7 @@ import {
   games,
   testimonials,
   getUpdateMessages,
+  hasReleasedCompanion,
   mergeUpdates,
   Game,
   DiscordMessageData,
@@ -25,7 +26,7 @@ import {
 import { BlogPostCard } from "@/games/thgl-web/components/blog-post-card";
 
 const featuredGames = games.slice(0, 6);
-const companionGames = games.filter((g) => g.companion);
+const companionGames = games.filter(hasReleasedCompanion);
 
 async function getWhatsNewUpdates() {
   const gameUpdates: Array<{ game: Game; message: DiscordMessageData }> = [];

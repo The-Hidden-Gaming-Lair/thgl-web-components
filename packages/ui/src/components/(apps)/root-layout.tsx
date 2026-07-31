@@ -24,6 +24,7 @@ import {
 } from "../../dicts";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { DidYouKnowCompanionApp } from "../(tips)";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -140,6 +141,8 @@ export function createRootLayout(appConfig: AppConfig) {
             <TooltipProvider>
               <main>{children}</main>
             </TooltipProvider>
+
+            <DidYouKnowCompanionApp appConfig={appConfig} />
           </I18NProvider>
 
           <PlausibleTracker

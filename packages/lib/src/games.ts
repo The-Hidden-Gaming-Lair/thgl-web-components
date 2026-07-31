@@ -1088,6 +1088,48 @@ export const games: Array<Game> = [
     web: "https://oldenera.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
+  {
+    id: "enshrouded",
+    discordId: "enshrouded",
+    title: "Enshrouded",
+    logo: `${TH_GL_URL}/global_icons/enshrouded.webp`,
+    companion: {
+      // Live mode still WIP (ECS World pointer) — not announced as supported.
+      inDevelopment: true,
+      baseURL: "/apps/enshrouded",
+      controllerURL: "/apps/enshrouded/controller",
+      desktopURL: "/apps/enshrouded",
+      overlayURL: "/apps/enshrouded/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          // Placeholder values — update once sint64→float coordinate scale
+          // is confirmed (likely mm→m: divide by 1000) and tested in-game.
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "Enshrouded",
+          processNames: ["enshrouded.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://enshrouded.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
 ];
 
 export type PartnerApp = {
@@ -1137,6 +1179,13 @@ export type Game = {
    */
   markerOptions?: MarkerOptions;
   companion?: {
+    /**
+     * Companion integration exists but isn't released yet: excluded from
+     * "supported games" lists, counts, and badges (companion-app page, www
+     * home, game cards, OG image). Direct routing (/apps/<id>, process
+     * detection) stays live so the integration can be tested.
+     */
+    inDevelopment?: boolean;
     baseURL: string;
     controllerURL: string;
     desktopURL: string;
@@ -1170,6 +1219,15 @@ export type Game = {
   premiumFeatures?: string[];
   partnerApps?: PartnerApp[];
 };
+
+/**
+ * True when the game's companion integration is RELEASED — use for
+ * "supported games" lists, counts, and badges. Games with
+ * `companion.inDevelopment` keep their routing/config but aren't advertised.
+ */
+export function hasReleasedCompanion(game: Game): boolean {
+  return !!game.companion && !game.companion.inDevelopment;
+}
 
 /** The web subdomain for a game (e.g. "starresonance"), derived from `web`. */
 export function getAppDomain(game: Game): string {

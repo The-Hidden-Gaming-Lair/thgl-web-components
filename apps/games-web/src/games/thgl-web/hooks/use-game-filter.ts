@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { type Game } from "@repo/lib";
+import { hasReleasedCompanion, type Game } from "@repo/lib";
 
 export type GameFilterType = "all" | "companion" | "overwolf" | "web";
 
@@ -27,7 +27,7 @@ export function useGameFilter({
       // Platform filter
       switch (activeFilter) {
         case "companion":
-          return !!game.companion;
+          return hasReleasedCompanion(game);
         case "overwolf":
           return !!game.overwolf;
         case "web":

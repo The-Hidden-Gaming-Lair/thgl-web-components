@@ -1,4 +1,4 @@
-import { Game } from "@repo/lib";
+import { Game, hasReleasedCompanion } from "@repo/lib";
 import { Badge, Card } from "@repo/ui/controls";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,7 +55,7 @@ export function GameCard({ game }: { game: Game }) {
 
             {/* Platform Badges */}
             <div className="flex flex-wrap gap-1 text-xs">
-              {game.companion && (
+              {hasReleasedCompanion(game) && (
                 <Badge
                   variant="default"
                   className="hover:bg-primary pointer-events-none"

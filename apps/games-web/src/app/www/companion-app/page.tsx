@@ -1,4 +1,9 @@
-import { games, getUpdateMessages, ChangelogEntry } from "@repo/lib";
+import {
+  games,
+  getUpdateMessages,
+  hasReleasedCompanion,
+  ChangelogEntry,
+} from "@repo/lib";
 import { ChangelogList } from "@repo/ui/content";
 import {
   Button,
@@ -11,9 +16,11 @@ import {
   CarouselPrevious,
 } from "@repo/ui/controls";
 import {
+  ChevronDown,
   Download,
   Gamepad2,
   Shield,
+  ShieldCheck,
   Zap,
   Monitor,
   Eye,
@@ -34,10 +41,19 @@ import { BlogPostCard } from "@/games/thgl-web/components/blog-post-card";
 import { blogEntries } from "@/games/thgl-web/lib/blog-entries";
 import { faqEntries } from "@/games/thgl-web/lib/faq-entries";
 
+const supportedGames = games.filter(hasReleasedCompanion);
+const totalGamesCount = supportedGames.length;
+
+// 36s muted loop cycling the overlay across six games (6s captioned segments,
+// 720p30 H264 ~2 Mbps). Regenerate from raw recordings with ffmpeg (cut
+// gameplay-only windows, drawtext game caption, concat) — see the memory topic
+// companion-app-discoverability. Set to null to fall back to the carousel.
+const heroVideoSrc: string | null =
+  "/games/thgl-web/videos/companion-app-hero.mp4";
+
 export const metadata = {
   title: "TH.GL Companion App – Gaming Overlays & Interactive Maps for Windows",
-  description:
-    "Download the TH.GL Companion App: lightweight Windows app with in-game overlays, real-time position tracking, and maps for 10+ games. Free, no account required.",
+  description: `Download the TH.GL Companion App: lightweight Windows app with in-game overlays, real-time position tracking, and maps for ${totalGamesCount}+ games. Free, no account required.`,
   keywords:
     "gaming overlay app, in-game map overlay, companion app, palworld overlay, dune awakening map, game tracker, overwolf alternative, position tracking",
   alternates: {
@@ -45,8 +61,7 @@ export const metadata = {
   },
   openGraph: {
     title: "TH.GL Companion App – In-Game Overlays & Live Maps",
-    description:
-      "Lightweight gaming companion app (7MB) with overlays, live tracking, and interactive maps. Supports 10+ games. No additional platform required.",
+    description: `Lightweight gaming companion app (7MB) with overlays, live tracking, and interactive maps. Supports ${totalGamesCount}+ games. No additional platform required.`,
     url: "/companion-app",
     type: "website",
     images: [
@@ -54,14 +69,11 @@ export const metadata = {
         url: "/games/thgl-web/images/companion-app-og.jpg",
         width: 1200,
         height: 630,
-        alt: "TH.GL Companion App — in-game overlays & live maps for 25+ games",
+        alt: `TH.GL Companion App — in-game overlays & live maps for ${totalGamesCount}+ games`,
       },
     ],
   },
 };
-
-const supportedGames = games.filter((game) => game.companion);
-const totalGamesCount = supportedGames.length;
 
 export default async function CompanionAppPage() {
   // Get app changelog from Discord API
@@ -169,94 +181,75 @@ export default async function CompanionAppPage() {
             variant: "outline",
           },
         ]}
-        metaInfo="Windows 10/11 • Free Download • ~7MB • No Overwolf Required"
+        metaInfo="Windows 10/11 • Free with ads • ~7MB • No account required"
       />
 
-      {/* Screenshot Carousel */}
-      <div>
-        <Carousel className="w-full max-w-5xl mx-auto">
-          <CarouselContent>
-            <CarouselItem>
-              <div className="relative">
-                <Image
-                  src="/games/thgl-web/images/overlay-dune-awakening.webp"
-                  alt="Dune Awakening overlay with live map showing player position and nearby points of interest"
-                  width={1200}
-                  height={675}
-                  className="rounded-lg object-cover"
-                  priority
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
-                />
-                <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
-                  <p className="text-sm font-semibold">
-                    Dune Awakening - In-Game Overlay
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Live position tracking with interactive map
-                  </p>
-                </div>
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="relative">
-                <Image
-                  src="/games/thgl-web/images/overlay-palworld.webp"
-                  alt="Palworld overlay showing minimap with nearby Pals and resource locations"
-                  width={1200}
-                  height={675}
-                  className="rounded-lg object-cover"
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
-                />
-                <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
-                  <p className="text-sm font-semibold">
-                    Palworld - Real-time Tracking
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    See nearby Pals and resources in real-time
-                  </p>
-                </div>
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="relative">
-                <Image
-                  src="/games/thgl-web/images/second-screen.webp"
-                  alt="Second screen mode showing full interactive map on external monitor"
-                  width={1200}
-                  height={675}
-                  className="rounded-lg object-cover"
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
-                />
-                <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
-                  <p className="text-sm font-semibold">Second Screen Mode</p>
-                  <p className="text-xs text-muted-foreground">
-                    Use a separate display for full map view
-                  </p>
-                </div>
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="relative">
-                <Image
-                  src="/games/thgl-web/images/app-launcher.webp"
-                  alt="TH.GL Companion App launcher showing all supported games"
-                  width={1200}
-                  height={675}
-                  className="rounded-lg object-cover"
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
-                />
-                <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
-                  <p className="text-sm font-semibold">Game Launcher</p>
-                  <p className="text-xs text-muted-foreground">
-                    Manage all supported games from one place
-                  </p>
-                </div>
-              </div>
-            </CarouselItem>
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+      {/* Social proof + supported-games logo strip */}
+      <div className="space-y-5 -mt-6">
+        <p className="text-sm text-muted-foreground text-center max-w-2xl mx-auto">
+          <ShieldCheck className="inline h-4 w-4 mr-1.5 text-primary align-text-bottom" />
+          Officially approved by the developers of Dune: Awakening, Once Human
+          &amp; Palia — used by thousands of players every day.
+        </p>
+        <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+          {supportedGames.map((game) => (
+            <Link
+              key={game.id}
+              href={game.web || "#"}
+              title={game.title}
+              className="block h-9 w-9 rounded-md overflow-hidden border border-border/60 hover:border-primary/60 hover:scale-110 transition-all"
+            >
+              <Image
+                src={game.logo}
+                unoptimized
+                alt={`${game.title} logo`}
+                width={36}
+                height={36}
+                className="h-full w-full object-cover"
+              />
+            </Link>
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground text-center">
+          {`One app for all ${totalGamesCount} supported games — it auto-detects what you're playing.`}
+        </p>
+      </div>
+
+      {/* Hero media: muted video loop once recorded, screenshot carousel until then */}
+      {heroVideoSrc ? (
+        <video
+          className="w-full max-w-5xl mx-auto rounded-lg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/games/thgl-web/videos/companion-app-hero-poster.webp"
+          src={heroVideoSrc}
+        />
+      ) : (
+        <ScreenshotCarousel />
+      )}
+
+      {/* Ban-safety Q&A — answer the #1 download objection up front */}
+      <div className="max-w-3xl mx-auto rounded-lg border border-primary/30 bg-primary/5 p-6 md:p-8 space-y-3">
+        <h2 className="text-xl md:text-2xl font-semibold flex items-center gap-2">
+          <ShieldCheck className="h-6 w-6 text-primary shrink-0" />
+          Is this allowed? Will I get banned?
+        </h2>
+        <p className="text-muted-foreground">
+          No bans have been reported across supported games. The app is
+          read-only — it never modifies the game or injects anything. Several
+          studios have officially confirmed it&apos;s allowed: Funcom (Dune:
+          Awakening), Starry Studio (Once Human), and Singularity 6 (Palia).
+        </p>
+        <p className="text-sm">
+          <Link
+            href="/faq/apps-bannable"
+            className="underline text-primary hover:text-primary/80"
+          >
+            Read the full answer with the official confirmations →
+          </Link>
+        </p>
       </div>
 
       {/* Key Features Grid */}
@@ -281,7 +274,7 @@ export default async function CompanionAppPage() {
           <FeatureCard
             icon={Eye}
             title="Real-Time Tracking"
-            description="See your exact position on the map in real-time as you move in-game. Track nearby collectibles, NPCs, enemies, and resources that are actually spawned right now."
+            description="See your exact position on the map in real-time as you move in-game. Track nearby collectibles, NPCs, enemies, and resources that are actually spawned right now — like nearby Pals in Palworld."
             variant="bordered"
           />
           <FeatureCard
@@ -341,35 +334,53 @@ export default async function CompanionAppPage() {
         </div>
       </div>
 
+      {/* Screenshot carousel keeps the second-screen + launcher shots visible
+          when the hero shows the video loop */}
+      {heroVideoSrc && (
+        <div>
+          <SectionHeader
+            title="Screenshots"
+            description="Second-screen mode, the app launcher, and the overlay in more games"
+          />
+          <ScreenshotCarousel />
+        </div>
+      )}
+
       {/* Supported Games Section */}
       <div id="supported-games">
         <SectionHeader
           title={`${totalGamesCount} Supported Games`}
-          description="Live position tracking, overlays, and interactive maps"
+          description="One download covers every game below — live position tracking, overlays, and interactive maps"
         />
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {supportedGames.map((game) => (
-            <Link
-              key={game.id}
-              href={game.web || "#"}
-              className="group flex flex-col items-center space-y-3 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-all"
-            >
-              <div className="relative w-20 h-20 rounded-lg overflow-hidden">
-                <Image
-                  src={game.logo}
-                  unoptimized
-                  alt={`${game.title} logo`}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform"
-                  sizes="80px"
-                />
-              </div>
-              <p className="text-sm font-medium text-center group-hover:text-primary transition-colors">
-                {game.title}
-              </p>
-            </Link>
-          ))}
-        </div>
+        <details className="group text-center">
+          <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">
+            Show all {totalGamesCount} games
+            <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+          </summary>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-8 text-left">
+            {supportedGames.map((game) => (
+              <Link
+                key={game.id}
+                href={game.web || "#"}
+                className="group flex flex-col items-center space-y-3 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-all"
+              >
+                <div className="relative w-20 h-20 rounded-lg overflow-hidden">
+                  <Image
+                    src={game.logo}
+                    unoptimized
+                    alt={`${game.title} logo`}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform"
+                    sizes="80px"
+                  />
+                </div>
+                <p className="text-sm font-medium text-center group-hover:text-primary transition-colors">
+                  {game.title}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </details>
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">
             More games coming soon! Request support in our{" "}
@@ -474,7 +485,7 @@ export default async function CompanionAppPage() {
         </h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Join thousands of players using TH.GL Companion App every day. Free
-          download, no account required.
+          with ads — supporters remove them completely. No account required.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" className="text-lg" asChild>
@@ -518,5 +529,94 @@ export default async function CompanionAppPage() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ScreenshotCarousel() {
+  return (
+    <div>
+      <Carousel className="w-full max-w-5xl mx-auto">
+        <CarouselContent>
+          <CarouselItem>
+            <div className="relative">
+              <Image
+                src="/games/thgl-web/images/overlay-dune-awakening.webp"
+                alt="Dune Awakening overlay with live map showing player position and nearby points of interest"
+                width={1200}
+                height={675}
+                className="rounded-lg object-cover"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
+              />
+              <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
+                <p className="text-sm font-semibold">
+                  Dune Awakening - In-Game Overlay
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Live position tracking with interactive map
+                </p>
+              </div>
+            </div>
+          </CarouselItem>
+          <CarouselItem>
+            <div className="relative">
+              <Image
+                src="/games/thgl-web/images/overlay-palworld.webp"
+                alt="Palworld overlay showing minimap with nearby Pals and resource locations"
+                width={1200}
+                height={675}
+                className="rounded-lg object-cover"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
+              />
+              <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
+                <p className="text-sm font-semibold">
+                  Palworld - Real-time Tracking
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  See nearby Pals and resources in real-time
+                </p>
+              </div>
+            </div>
+          </CarouselItem>
+          <CarouselItem>
+            <div className="relative">
+              <Image
+                src="/games/thgl-web/images/second-screen.webp"
+                alt="Second screen mode showing full interactive map on external monitor"
+                width={1200}
+                height={675}
+                className="rounded-lg object-cover"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
+              />
+              <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
+                <p className="text-sm font-semibold">Second Screen Mode</p>
+                <p className="text-xs text-muted-foreground">
+                  Use a separate display for full map view
+                </p>
+              </div>
+            </div>
+          </CarouselItem>
+          <CarouselItem>
+            <div className="relative">
+              <Image
+                src="/games/thgl-web/images/app-launcher.webp"
+                alt="TH.GL Companion App launcher showing all supported games"
+                width={1200}
+                height={675}
+                className="rounded-lg object-cover"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
+              />
+              <div className="absolute bottom-4 left-4 bg-black/80 px-4 py-2 rounded-lg">
+                <p className="text-sm font-semibold">Game Launcher</p>
+                <p className="text-xs text-muted-foreground">
+                  Manage all supported games from one place
+                </p>
+              </div>
+            </div>
+          </CarouselItem>
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+    </div>
   );
 }

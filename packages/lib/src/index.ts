@@ -20,6 +20,7 @@ export * from "./sitemap";
 export * from "./status";
 export * from "./tailwind";
 export * from "./testimonials";
+export * from "./tips";
 export * from "./types";
 export * from "./user";
 export * from "./whiteboard";

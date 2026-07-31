@@ -22,6 +22,7 @@ import {
 } from "@repo/ui/controls";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
 import { SettingsDialogContent } from "@repo/ui/controls";
+import { DidYouKnowCompanionApp } from "@repo/ui/tips";
 import {
   getFullDictionary,
   getStaticDictionary,
@@ -174,6 +175,8 @@ export function createDbRootLayout(appConfig: AppConfig) {
             <TooltipProvider>
               <main>{children}</main>
             </TooltipProvider>
+
+            <DidYouKnowCompanionApp appConfig={appConfig} />
           </I18NProvider>
 
           <PlausibleTracker

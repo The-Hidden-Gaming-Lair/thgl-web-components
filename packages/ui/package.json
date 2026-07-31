@@ -52,6 +52,9 @@
     "./thgl-app": {
       "import": "./src/components/(thgl-app)/index.tsx"
     },
+    "./tips": {
+      "import": "./src/components/(tips)/index.tsx"
+    },
     "./styles/globals.css": "./dist/index.css",
     "./dicts/en.json": "./src/dicts/en.json",
     "./dicts/de.json": "./src/dicts/de.json",
