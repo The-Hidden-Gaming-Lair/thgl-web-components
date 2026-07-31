@@ -410,3 +410,45 @@ export const checkNodeDiscovered = (
 
   return false;
 };
+
+/**
+ * Discovery id for one spawn of a filter-type node — the SAME derivation the
+ * FilterTooltip discovered-count uses, extracted so counts and bulk
+ * discover/undiscover actions can never disagree.
+ */
+export const getSpawnDiscoveryId = (
+  nodeType: string,
+  spawn: {
+    id?: string;
+    isPrivate?: boolean;
+    p: [number, number] | [number, number, number];
+  },
+): string =>
+  spawn.isPrivate && spawn.id
+    ? spawn.id
+    : `${spawn.id ?? nodeType}@${spawn.p[0]}:${spawn.p[1]}`;
+
+/**
+ * One-pass bulk removal for "Undiscover all": drops every discovered entry that
+ * addresses one of the target ids — exact, legacy-format, or within
+ * {@link COORD_MATCH_TOLERANCE} — plus bare base-id entries of the targeted
+ * types (a stored bare `iron_ore` marks all iron_ore discovered). Mirrors the
+ * per-id removal in settings.ts setDiscoverNode, but O(existing + targets)
+ * instead of one filter pass per target. Returns the input array unchanged if
+ * nothing matches.
+ */
+export const removeDiscoveredMatches = (
+  discoveredNodes: string[],
+  targetIds: string[],
+): string[] => {
+  const lookup = buildDiscoveryLookup(targetIds);
+  const baseIds = new Set<string>();
+  for (const id of targetIds) {
+    const atIndex = id.indexOf("@");
+    if (atIndex !== -1) baseIds.add(id.slice(0, atIndex));
+  }
+  const kept = discoveredNodes.filter(
+    (id) => !baseIds.has(id) && !checkNodeDiscovered(id, lookup),
+  );
+  return kept.length === discoveredNodes.length ? discoveredNodes : kept;
+};

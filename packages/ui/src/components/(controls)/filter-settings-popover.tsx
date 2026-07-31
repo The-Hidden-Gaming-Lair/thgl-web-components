@@ -20,6 +20,7 @@ import { Lock } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useCoordinates } from "../(providers)";
 import { FilterTooltip } from "./filter-tooltip";
+import { DiscoverAllButton } from "./discover-all-button";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import {
@@ -296,12 +297,16 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
               </p>
             )}
             <FilterTooltip id={props.filterId} />
+            <DiscoverAllButton filterIds={[props.filterId]} />
             <Separator />
           </>
         )}
 
         {isGroup && (
-          <div className="font-medium text-sm truncate">{filterLabel}</div>
+          <>
+            <div className="font-medium text-sm truncate">{filterLabel}</div>
+            <DiscoverAllButton filterIds={props.filterIds} />
+          </>
         )}
 
         {siblingIds && (

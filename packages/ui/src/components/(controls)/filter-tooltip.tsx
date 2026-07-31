@@ -1,7 +1,7 @@
 import Markdown from "markdown-to-jsx";
 import { useCoordinates, useT } from "../(providers)";
 import { useMemo } from "react";
-import { useSettingsStore } from "@repo/lib";
+import { getSpawnDiscoveryId, useSettingsStore } from "@repo/lib";
 import { Badge } from "../ui/badge";
 
 export function FilterTooltip({ id }: { id: string }) {
@@ -16,13 +16,9 @@ export function FilterTooltip({ id }: { id: string }) {
   );
   const discoveredSpawns = useMemo(
     () =>
-      filterNode?.spawns.filter((spawn) => {
-        const nodeId = spawn.isPrivate
-          ? spawn.id!
-          : `${spawn.id ?? filterNode.type}@${spawn.p[0]}:${spawn.p[1]}`;
-
-        return isDiscoveredNode(nodeId);
-      }) || [],
+      filterNode?.spawns.filter((spawn) =>
+        isDiscoveredNode(getSpawnDiscoveryId(filterNode.type, spawn)),
+      ) || [],
     [discoveredNodes, filterNode],
   );
 

@@ -5,6 +5,7 @@ import {
   buildDiscoveryLookup,
   checkNodeDiscovered,
   coordsMatch,
+  removeDiscoveredMatches,
   type DiscoverMode,
 } from "./coordinates";
 import { withStorageDOMEvents } from "./dom";
@@ -435,6 +436,11 @@ export interface ProfileActions {
   setDiscoverNode: (nodeId: string, discovered: boolean) => void;
   toggleHideDiscoveredNodes: () => void;
   setDiscoveredNodes: (discoveredNodes: string[]) => void;
+  // Bulk discover/undiscover (the per-filter "Discover all" button). One store
+  // update + persist regardless of count; undiscover uses tolerant matching so
+  // legacy-format entries are removed too, and prunes autoDiscoveredNodes to
+  // keep it a subset of discoveredNodes.
+  setDiscoveredNodesBulk: (nodeIds: string[], discovered: boolean) => void;
   // Mark nodes discovered from live memory — adds to BOTH discoveredNodes (so all
   // discovery logic applies) and autoDiscoveredNodes (so the UI can flag them).
   markAutoDiscovered: (nodeIds: string[]) => void;
@@ -1153,6 +1159,28 @@ export const useSettingsStore = create(
 
           setDiscoveredNodes: (discoveredNodes: string[]) => {
             updateSettings({ discoveredNodes });
+          },
+
+          setDiscoveredNodesBulk: (nodeIds: string[], discovered: boolean) => {
+            const state = get();
+            if (discovered) {
+              updateSettings({
+                discoveredNodes: [
+                  ...new Set([...state.discoveredNodes, ...nodeIds]),
+                ],
+              });
+              return;
+            }
+            updateSettings({
+              discoveredNodes: removeDiscoveredMatches(
+                state.discoveredNodes,
+                nodeIds,
+              ),
+              autoDiscoveredNodes: removeDiscoveredMatches(
+                state.autoDiscoveredNodes,
+                nodeIds,
+              ),
+            });
           },
 
           markAutoDiscovered: (nodeIds: string[]) => {
