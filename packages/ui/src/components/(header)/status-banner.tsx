@@ -74,10 +74,15 @@ function toBanners(doc: StatusDocument, game: string | null): Banner[] {
   // Synthesized fallback for hard outages with NO readable incident row —
   // exactly the case where the DB itself is down and the incidents list
   // arrives empty. No timestamp available, so the coarse id + 6h expiry
-  // governs re-showing.
-  const hardOutage = doc.components.some(
-    (c) => AUTO_COMPONENTS.includes(c.id) && c.state === "outage",
-  );
+  // governs re-showing. Provisional docs (on-demand fallback: single
+  // un-suppressed probes) are excluded — one 5s probe timeout there used
+  // to read as a site-wide outage, a recurring false positive right after
+  // PC wake when the tab refetches immediately.
+  const hardOutage =
+    !doc.provisional &&
+    doc.components.some(
+      (c) => AUTO_COMPONENTS.includes(c.id) && c.state === "outage",
+    );
   if (hardOutage && incidents.length === 0 && !dismissed(AUTO_ID)) {
     banners.push({
       id: AUTO_ID,
@@ -124,7 +129,12 @@ export function StatusBanner({
 
   useEffect(() => {
     let cancelled = false;
+    let visibleTimeout: ReturnType<typeof setTimeout> | null = null;
     const refresh = async () => {
+      // Offline (e.g. right after PC wake, before the network is back):
+      // the fetch can only fail or return junk — keep the last known doc.
+      if (typeof navigator !== "undefined" && navigator.onLine === false)
+        return;
       try {
         const res = await fetch(STATUS_URL);
         if (!res.ok) return;
@@ -137,12 +147,16 @@ export function StatusBanner({
     refresh();
     const interval = setInterval(refresh, POLL_MS);
     const onVisible = () => {
-      if (document.visibilityState === "visible") refresh();
+      if (document.visibilityState !== "visible") return;
+      // Small delay so a just-woken machine's network can settle first.
+      if (visibleTimeout) clearTimeout(visibleTimeout);
+      visibleTimeout = setTimeout(refresh, 2000);
     };
     document.addEventListener("visibilitychange", onVisible);
     return () => {
       cancelled = true;
       clearInterval(interval);
+      if (visibleTimeout) clearTimeout(visibleTimeout);
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, [game]);

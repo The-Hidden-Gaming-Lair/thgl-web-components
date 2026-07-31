@@ -46,6 +46,13 @@ export interface StatusDocument {
   components: StatusComponent[];
   games: StatusGame[];
   incidents: StatusIncident[];
+  /**
+   * True when the document was built by the on-demand fallback (status DB
+   * unreachable): component states are single un-suppressed probes and the
+   * incident list is empty. Too weak as evidence for user-facing alarm —
+   * consumers must not synthesize outage banners from a provisional doc.
+   */
+  provisional?: boolean;
 }
 
 const RANK: Record<StatusState, number> = {

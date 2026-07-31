@@ -158,6 +158,7 @@ export async function buildStatusDocument(): Promise<StatusDocumentResult> {
       components,
       games,
       incidents: [],
+      provisional: true,
     };
     return { doc, degradedMode: true };
   }
