@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { DATA_FORGE_URL, useSettingsStore, useAccountStore } from "@repo/lib";
-import { PremiumAlert } from "./premium-alert";
+import { DATA_FORGE_URL, useSettingsStore } from "@repo/lib";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -22,7 +21,6 @@ import {
   Package,
   Gamepad2,
   Landmark,
-  Lock,
 } from "lucide-react";
 
 const API_URL = DATA_FORGE_URL + "/api/dragonsword-awakening/save";
@@ -137,12 +135,6 @@ export function DragonSwordSaveImport() {
     useState<Set<GroupKey>>(DEFAULT_SELECTION);
   const setDiscoveredNodes = useSettingsStore((s) => s.setDiscoveredNodes);
   const discoveredNodes = useSettingsStore((s) => s.discoveredNodes);
-  // Save-file import is an Elite Supporter (Preview Release Access) feature. The trigger stays
-  // visible so everyone discovers it, but the importer itself is gated behind an upsell.
-  // Dev mode bypasses the gate so the feature is testable locally without an Elite account.
-  const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
-  const hasPreviewAccess =
-    previewAccess || process.env.NODE_ENV === "development";
 
   const groupStats = useMemo(
     () => (state.step === "result" ? computeGroupStats(state.data) : null),
@@ -158,8 +150,6 @@ export function DragonSwordSaveImport() {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".db";
-
-    if (!hasPreviewAccess) return; // gated: Elite Supporter only
 
     input.onchange = async () => {
       const file = input.files?.[0];
@@ -190,7 +180,7 @@ export function DragonSwordSaveImport() {
     };
 
     input.click();
-  }, [hasPreviewAccess]);
+  }, []);
 
   const toggleGroup = useCallback((key: GroupKey) => {
     setSelectedGroups((prev) => {
@@ -242,9 +232,6 @@ export function DragonSwordSaveImport() {
       >
         <Upload className="h-3.5 w-3.5" />
         Import Save File
-        {!hasPreviewAccess && (
-          <Lock className="h-3 w-3 ml-auto text-amber-400" />
-        )}
       </Button>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -259,197 +246,181 @@ export function DragonSwordSaveImport() {
             </DialogDescription>
           </DialogHeader>
 
-          {!hasPreviewAccess ? (
-            <div className="px-5 pb-5 space-y-3">
-              <div className="flex items-center gap-2 text-sm">
-                <Lock className="h-4 w-4 text-amber-400 shrink-0" />
-                <span className="font-medium">Elite Supporter feature</span>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Importing your save file to auto-mark every discovered chest,
-                minigame and Statue of Organa piece on the map is available
-                early to Elite Supporters with Preview Release Access.
-              </p>
-              <PremiumAlert />
+          <div className="px-5 pb-5 space-y-3">
+            <p className="text-xs text-muted-foreground">
+              Your save is inside the game&apos;s Steam folder. In Steam,
+              right-click{" "}
+              <span className="text-foreground">DragonSword: Awakening</span> →{" "}
+              <span className="text-foreground">
+                Manage → Browse local files
+              </span>
+              , then open:
+            </p>
+            <div className="text-xs text-muted-foreground border rounded-md p-2.5 bg-muted/30 flex items-center gap-2">
+              <span className="font-mono text-[11px] leading-relaxed select-all flex-1 break-all">
+                {SAVE_PATH}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 shrink-0"
+                onClick={() => {
+                  navigator.clipboard.writeText(SAVE_PATH);
+                  toast.success("Path copied");
+                }}
+              >
+                <Copy className="h-3 w-3" />
+              </Button>
             </div>
-          ) : (
-            <div className="px-5 pb-5 space-y-3">
-              <p className="text-xs text-muted-foreground">
-                Your save is inside the game&apos;s Steam folder. In Steam,
-                right-click{" "}
-                <span className="text-foreground">DragonSword: Awakening</span>{" "}
-                →{" "}
-                <span className="text-foreground">
-                  Manage → Browse local files
-                </span>
-                , then open:
-              </p>
-              <div className="text-xs text-muted-foreground border rounded-md p-2.5 bg-muted/30 flex items-center gap-2">
-                <span className="font-mono text-[11px] leading-relaxed select-all flex-1 break-all">
-                  {SAVE_PATH}
-                </span>
+
+            {state.step === "idle" && (
+              <Button className="w-full gap-2" onClick={handleFile}>
+                <Upload className="h-4 w-4" />
+                Select Save File
+              </Button>
+            )}
+
+            {state.step === "uploading" && (
+              <Button className="w-full gap-2" disabled>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Parsing save file...
+              </Button>
+            )}
+
+            {state.step === "error" && (
+              <div className="space-y-3">
+                <div className="flex items-start gap-2 text-sm text-destructive border border-destructive/30 rounded-md p-3 bg-destructive/5">
+                  <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
+                  {state.message}
+                </div>
+                <Button
+                  variant="outline"
+                  className="w-full gap-2"
+                  onClick={handleFile}
+                >
+                  Try Again
+                </Button>
+              </div>
+            )}
+
+            {state.step === "result" && groupStats && (
+              <div className="space-y-3">
+                {/* Header with summary */}
+                <div className="flex items-center gap-2 text-sm">
+                  <FileCheck className="h-4 w-4 text-green-500 shrink-0" />
+                  <span className="font-medium">
+                    {state.data.discoveredNodeIds.length.toLocaleString()}{" "}
+                    {state.data.discoveredNodeIds.length === 1
+                      ? "location found"
+                      : "locations found"}
+                  </span>
+                  <span className="text-muted-foreground text-xs ml-auto">
+                    Select what to mark
+                  </span>
+                </div>
+
+                {/* Group selection */}
+                <div className="border rounded-md overflow-hidden divide-y">
+                  {GROUP_KEYS.map((key) => {
+                    const group = SAVE_GROUPS[key];
+                    const stat = groupStats[key];
+                    const checked = selectedGroups.has(key);
+                    const Icon = group.icon;
+
+                    if (stat.found === 0) return null;
+
+                    return (
+                      <label
+                        key={key}
+                        className={`flex items-center gap-3 px-3 py-2 cursor-pointer transition-colors hover:bg-muted/40 ${
+                          checked ? "bg-muted/20" : "opacity-60"
+                        }`}
+                      >
+                        <Checkbox
+                          checked={checked}
+                          onCheckedChange={() => toggleGroup(key)}
+                          className="shrink-0"
+                        />
+                        <Icon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex justify-between text-sm">
+                            <span
+                              className={
+                                checked
+                                  ? "text-foreground"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              {group.label}
+                            </span>
+                            <span className="font-medium tabular-nums text-xs">
+                              {stat.found.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+
+                {/* Selected count + note */}
+                <div className="flex items-baseline justify-between text-xs text-muted-foreground">
+                  <span>
+                    <span className="text-foreground font-medium tabular-nums">
+                      {filteredCount.toLocaleString()}
+                    </span>{" "}
+                    locations will be marked
+                  </span>
+                  <button
+                    type="button"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors underline-offset-2 hover:underline"
+                    onClick={() => {
+                      const allSelected = GROUP_KEYS.every((k) =>
+                        selectedGroups.has(k),
+                      );
+                      setSelectedGroups(
+                        allSelected
+                          ? new Set(DEFAULT_SELECTION)
+                          : new Set(GROUP_KEYS),
+                      );
+                    }}
+                  >
+                    {GROUP_KEYS.every((k) => selectedGroups.has(k))
+                      ? "Reset"
+                      : "Select all"}
+                  </button>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-2 pt-1">
+                  <Button
+                    className="flex-1"
+                    onClick={() => applyToMap(true)}
+                    disabled={filteredCount === 0}
+                  >
+                    Merge with existing
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="flex-1"
+                    onClick={() => applyToMap(false)}
+                    disabled={filteredCount === 0}
+                  >
+                    Replace all
+                  </Button>
+                </div>
+
                 <Button
                   variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 shrink-0"
-                  onClick={() => {
-                    navigator.clipboard.writeText(SAVE_PATH);
-                    toast.success("Path copied");
-                  }}
+                  size="sm"
+                  className="w-full text-xs"
+                  onClick={handleFile}
                 >
-                  <Copy className="h-3 w-3" />
+                  Select a different file
                 </Button>
               </div>
-
-              {state.step === "idle" && (
-                <Button className="w-full gap-2" onClick={handleFile}>
-                  <Upload className="h-4 w-4" />
-                  Select Save File
-                </Button>
-              )}
-
-              {state.step === "uploading" && (
-                <Button className="w-full gap-2" disabled>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Parsing save file...
-                </Button>
-              )}
-
-              {state.step === "error" && (
-                <div className="space-y-3">
-                  <div className="flex items-start gap-2 text-sm text-destructive border border-destructive/30 rounded-md p-3 bg-destructive/5">
-                    <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
-                    {state.message}
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="w-full gap-2"
-                    onClick={handleFile}
-                  >
-                    Try Again
-                  </Button>
-                </div>
-              )}
-
-              {state.step === "result" && groupStats && (
-                <div className="space-y-3">
-                  {/* Header with summary */}
-                  <div className="flex items-center gap-2 text-sm">
-                    <FileCheck className="h-4 w-4 text-green-500 shrink-0" />
-                    <span className="font-medium">
-                      {state.data.discoveredNodeIds.length.toLocaleString()}{" "}
-                      {state.data.discoveredNodeIds.length === 1
-                        ? "location found"
-                        : "locations found"}
-                    </span>
-                    <span className="text-muted-foreground text-xs ml-auto">
-                      Select what to mark
-                    </span>
-                  </div>
-
-                  {/* Group selection */}
-                  <div className="border rounded-md overflow-hidden divide-y">
-                    {GROUP_KEYS.map((key) => {
-                      const group = SAVE_GROUPS[key];
-                      const stat = groupStats[key];
-                      const checked = selectedGroups.has(key);
-                      const Icon = group.icon;
-
-                      if (stat.found === 0) return null;
-
-                      return (
-                        <label
-                          key={key}
-                          className={`flex items-center gap-3 px-3 py-2 cursor-pointer transition-colors hover:bg-muted/40 ${
-                            checked ? "bg-muted/20" : "opacity-60"
-                          }`}
-                        >
-                          <Checkbox
-                            checked={checked}
-                            onCheckedChange={() => toggleGroup(key)}
-                            className="shrink-0"
-                          />
-                          <Icon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                          <div className="flex-1 min-w-0">
-                            <div className="flex justify-between text-sm">
-                              <span
-                                className={
-                                  checked
-                                    ? "text-foreground"
-                                    : "text-muted-foreground"
-                                }
-                              >
-                                {group.label}
-                              </span>
-                              <span className="font-medium tabular-nums text-xs">
-                                {stat.found.toLocaleString()}
-                              </span>
-                            </div>
-                          </div>
-                        </label>
-                      );
-                    })}
-                  </div>
-
-                  {/* Selected count + note */}
-                  <div className="flex items-baseline justify-between text-xs text-muted-foreground">
-                    <span>
-                      <span className="text-foreground font-medium tabular-nums">
-                        {filteredCount.toLocaleString()}
-                      </span>{" "}
-                      locations will be marked
-                    </span>
-                    <button
-                      type="button"
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors underline-offset-2 hover:underline"
-                      onClick={() => {
-                        const allSelected = GROUP_KEYS.every((k) =>
-                          selectedGroups.has(k),
-                        );
-                        setSelectedGroups(
-                          allSelected
-                            ? new Set(DEFAULT_SELECTION)
-                            : new Set(GROUP_KEYS),
-                        );
-                      }}
-                    >
-                      {GROUP_KEYS.every((k) => selectedGroups.has(k))
-                        ? "Reset"
-                        : "Select all"}
-                    </button>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex gap-2 pt-1">
-                    <Button
-                      className="flex-1"
-                      onClick={() => applyToMap(true)}
-                      disabled={filteredCount === 0}
-                    >
-                      Merge with existing
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      className="flex-1"
-                      onClick={() => applyToMap(false)}
-                      disabled={filteredCount === 0}
-                    >
-                      Replace all
-                    </Button>
-                  </div>
-
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-xs"
-                    onClick={handleFile}
-                  >
-                    Select a different file
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </>
