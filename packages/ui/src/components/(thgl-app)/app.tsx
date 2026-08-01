@@ -277,7 +277,9 @@ export function App({
                 the 32px header so the map never shifts; suppressed in
                 overlay mode (screen real estate over the game). */}
             {!isOverlay && !lockedWindow && (
-              <div className="absolute top-[32px] inset-x-0 z-[500]">
+              // z-600: above the map controls (filters/actions are z-500)
+              // which otherwise paint over the banner (later in DOM).
+              <div className="absolute top-[32px] inset-x-0 z-600">
                 <StatusBanner game={appConfig.name} />
               </div>
             )}
