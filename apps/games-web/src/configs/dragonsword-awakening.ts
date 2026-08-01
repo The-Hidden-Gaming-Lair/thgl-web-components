@@ -91,6 +91,14 @@ export const dragonswordAwakening = resolveAppConfig({
           "Merchants, quest-givers and named NPCs with their roles and locations.",
       },
       {
+        href: "/db/quests",
+        type: "quests",
+        titleFallback: "Quests",
+        icon: "📜",
+        description:
+          "Every story quest with objectives, rewards and the quest chain — all the info to solve them.",
+      },
+      {
         href: "/db/mounts",
         type: "mounts",
         titleFallback: "Mounts & Familiars",
@@ -137,6 +145,7 @@ export const dragonswordAwakening = resolveAppConfig({
       characters: "Characters",
       monsters: "Monster",
       npcs: "NPC",
+      quests: "Quest",
       mounts: "Mounts",
       recipes: "Recipe",
       ingredients_db: "Ingredients",

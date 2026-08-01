@@ -21,6 +21,7 @@ import {
   Package,
   Gamepad2,
   Landmark,
+  ScrollText,
 } from "lucide-react";
 
 const API_URL = DATA_FORGE_URL + "/api/dragonsword-awakening/save";
@@ -63,6 +64,14 @@ const SAVE_GROUPS = {
     icon: Landmark,
     defaultOn: true,
     prefix: "organa_",
+  },
+  // Completed area quests (errands): both the giver (area_quests) and errand-step
+  // (area_quests_step) markers share the "area_quests" prefix.
+  errands: {
+    label: "Area Quests (errands)",
+    icon: ScrollText,
+    defaultOn: true,
+    prefix: "area_quests",
   },
 } as const;
 
