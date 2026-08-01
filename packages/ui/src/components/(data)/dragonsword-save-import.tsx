@@ -22,6 +22,9 @@ import {
   Gamepad2,
   Landmark,
   ScrollText,
+  BookOpen,
+  Castle,
+  Trophy,
 } from "lucide-react";
 
 const API_URL = DATA_FORGE_URL + "/api/dragonsword-awakening/save";
@@ -72,6 +75,24 @@ const SAVE_GROUPS = {
     icon: ScrollText,
     defaultOn: true,
     prefix: "area_quests",
+  },
+  storyQuests: {
+    label: "Story Quests",
+    icon: BookOpen,
+    defaultOn: true,
+    prefix: "story_quests",
+  },
+  dungeons: {
+    label: "Dungeons",
+    icon: Castle,
+    defaultOn: true,
+    prefix: "dungeon_entrance",
+  },
+  trials: {
+    label: "Trial Towers",
+    icon: Trophy,
+    defaultOn: true,
+    prefix: "trial_tower",
   },
 } as const;
 
