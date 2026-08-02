@@ -14,6 +14,7 @@ import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
 import { collectionPageJsonLd } from "@/lib/db/json-ld";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { FilterableEntityGrid } from "@/lib/db/filterable-entity-grid";
+import { fetchFullPropsCategory, flattenPropsText } from "@/lib/db/props-text";
 
 /**
  * Generic DB section listing. Works for any tenant that defines `db` in its
@@ -101,6 +102,20 @@ export default async function Page({ params }: PageProps) {
   );
   if (!data.length) notFound();
 
+  // Flattened effect text per item id, so the grid's filter can match effects
+  // ("Ranged Offence") and not just names. The slim index drops props — pull
+  // them from the per-type files.
+  const textById = new Map<string, string>();
+  await Promise.all(
+    data.map(async (cat) => {
+      const full = await fetchFullPropsCategory(appConfig.name, cat);
+      for (const item of full.items) {
+        const text = flattenPropsText(item.props);
+        if (text) textById.set(item.id, text);
+      }
+    }),
+  );
+
   const label = getSectionLabel(appConfig, dict, secCfg.type, section);
   const iconsHash = version.more.icons;
   const totalCount = data.reduce((sum, cat) => sum + cat.items.length, 0);
@@ -140,6 +155,7 @@ export default async function Page({ params }: PageProps) {
                 i.groupId ?? "other",
                 i.groupId ?? "other",
               ),
+              text: textById.get(i.id),
             })),
           )}
           section={section}
