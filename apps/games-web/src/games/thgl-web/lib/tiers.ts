@@ -66,7 +66,7 @@ export const tiers: Tier[] = [
     title: "Enthusiast",
     price: 2,
     perks: ["comments", "supporter-role"],
-    gift: { url: "https://www.patreon.com/devleon/redeem/3B1DA", months: 3 },
+    gift: { url: "https://www.patreon.com/devleon/redeem/14FE4", months: 3 },
   },
   {
     id: "21470797",
