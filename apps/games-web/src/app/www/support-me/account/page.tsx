@@ -159,8 +159,9 @@ export default async function SupportMeAccount() {
                         [
                           {
                             label: "Comments",
-                            active: perks.comments,
-                            tier: "Enthusiast+",
+                            // Free for every signed-in account
+                            active: true,
+                            tier: "Free",
                           },
                           {
                             label: "Ad-Free",

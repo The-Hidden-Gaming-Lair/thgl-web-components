@@ -12,14 +12,7 @@ import {
 } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import {
-  Eye,
-  ExternalLink,
-  MessageCircle,
-  Shield,
-  Star,
-  Zap,
-} from "lucide-react";
+import { Eye, ExternalLink, Shield, Star, Zap } from "lucide-react";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -28,12 +21,6 @@ const PERK_CONFIG = [
     label: "Premium",
     icon: Zap,
     tier: "Pro+",
-  },
-  {
-    key: "comments" as const,
-    label: "Comments",
-    icon: MessageCircle,
-    tier: "Enthusiast+",
   },
   {
     key: "previewReleaseAccess" as const,

@@ -39,8 +39,8 @@ const ROWS: { feature: string; from: RowTier; note?: string }[] = [
   },
   {
     feature: "Comments on map markers",
-    from: "enthusiast",
-    note: "Requires a sign-in",
+    from: "account",
+    note: "Free — requires a sign-in",
   },
   { feature: "Discord supporter role", from: "enthusiast" },
   { feature: "Ad-free across every TH.GL app", from: "pro" },

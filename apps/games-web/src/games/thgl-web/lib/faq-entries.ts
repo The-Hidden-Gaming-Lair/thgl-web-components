@@ -30,12 +30,11 @@ export const faqEntries: FAQEntry[] = [
     answer: `
 The map itself is **free** — interactive maps, every filter, live tracking, and **Peer Link** (mirror the map to a phone or second screen) need no account at all.
 
-A **free account** (just sign in) adds **cloud-synced, shareable filters**.
+A **free account** (just sign in) adds **cloud-synced, shareable filters** and **comments on map markers**.
 
 Supporting on [Patreon](https://www.patreon.com/devleon) unlocks the rest. Tiers are **cumulative** — each includes everything below it:
 
 ### Enthusiast — $2/mo
-- Comments on map markers
 - Discord supporter role
 
 ### Pro — $5/mo
@@ -46,7 +45,7 @@ Supporting on [Patreon](https://www.patreon.com/devleon) unlocks the rest. Tiers
 - Everything in Pro
 - Early access to preview features (new features land here first before public release)
 
-**A note on "Premium Features":** these are game-specific extras that only a few older apps (like New World) bundle. Newer maps such as **Palia** don't have separate premium features — supporting Palia gets you the perks above (ad removal, comments, preview access).
+**A note on "Premium Features":** these are game-specific extras that only a few older apps (like New World) bundle. Newer maps such as **Palia** don't have separate premium features — supporting Palia gets you the perks above (ad removal, preview access).
 
 You can subscribe on the [Support page](/support-me). Here's the full breakdown:
     `.trim(),

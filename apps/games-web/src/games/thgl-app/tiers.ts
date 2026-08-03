@@ -16,11 +16,10 @@ export interface Perk {
   title: string;
 }
 
+// "comments" is intentionally NOT in this display list — commenting is free
+// for every signed-in account. It stays in the tier data below because
+// getPerks() still derives the Enthusiast+ tier signal from it.
 export const perks: Perk[] = [
-  {
-    id: "comments",
-    title: "Full Comments Access",
-  },
   {
     id: "supporter-role",
     title: "Discord Supporter Role",

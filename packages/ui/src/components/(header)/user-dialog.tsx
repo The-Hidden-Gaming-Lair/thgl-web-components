@@ -20,15 +20,7 @@ import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
 import { Input } from "../ui/input";
 import { useMemo, useState } from "react";
-import {
-  ExternalLink,
-  LogOut,
-  Shield,
-  Star,
-  MessageCircle,
-  Eye,
-  Zap,
-} from "lucide-react";
+import { ExternalLink, LogOut, Shield, Star, Eye, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { toSvg } from "jdenticon";
 
@@ -44,12 +36,6 @@ const PERK_CONFIG = [
     label: "Premium",
     icon: Zap,
     tier: "Pro+",
-  },
-  {
-    key: "comments" as const,
-    label: "Comments",
-    icon: MessageCircle,
-    tier: "Enthusiast+",
   },
   {
     key: "previewReleaseAccess" as const,

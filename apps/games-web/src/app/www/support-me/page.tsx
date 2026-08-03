@@ -85,7 +85,8 @@ export default function SupportMe() {
             >
               Join for free
             </Link>{" "}
-            to create an account and sync your filters across devices.
+            to create an account, sync your filters across devices, and comment
+            on map markers.
           </p>
         </div>
 
