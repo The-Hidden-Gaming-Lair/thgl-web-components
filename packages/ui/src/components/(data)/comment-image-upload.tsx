@@ -16,6 +16,45 @@ const ACCEPTED_TYPES = new Set([
   "image/gif",
 ]);
 
+/**
+ * Validates incoming files against the comment image constraints (type
+ * whitelist, 2MB size limit, max count, dedup) and returns the new image
+ * list. Rejections surface as toasts — silent drops made users think the
+ * upload worked when the server would later reject it.
+ */
+export function appendCommentImages(
+  current: File[],
+  incoming: FileList | File[],
+  existingCount = 0,
+): File[] {
+  const remaining = MAX_FILES - current.length - existingCount;
+  const seen = new Set(current.map((f) => `${f.name}:${f.size}`));
+  const valid: File[] = [];
+  for (const file of Array.from(incoming)) {
+    if (!ACCEPTED_TYPES.has(file.type)) {
+      toast.error(
+        `${file.name || "Image"}: unsupported type. Use PNG, JPEG, WebP or GIF.`,
+      );
+      continue;
+    }
+    if (file.size > MAX_SIZE) {
+      toast.error(
+        `${file.name || "Image"} is too large (${(file.size / 1024 / 1024).toFixed(1)}MB, max 2MB).`,
+      );
+      continue;
+    }
+    const key = `${file.name}:${file.size}`;
+    if (seen.has(key)) continue;
+    if (valid.length >= remaining) {
+      toast.error(`Maximum ${MAX_FILES} images per comment.`);
+      break;
+    }
+    seen.add(key);
+    valid.push(file);
+  }
+  return valid.length > 0 ? [...current, ...valid] : current;
+}
+
 export function CommentImageUpload({
   images,
   onImagesChange,
@@ -38,25 +77,13 @@ export function CommentImageUpload({
 
   const validateAndAdd = useCallback(
     (files: FileList | File[]) => {
-      const currentTotal = images.length + (existingImages?.length ?? 0);
-      const remaining = MAX_FILES - currentTotal;
-      if (remaining <= 0) return;
-
-      const existingKeys = new Set(
-        images.map((f) => `${f.name}:${f.size}`),
+      const next = appendCommentImages(
+        images,
+        files,
+        existingImages?.length ?? 0,
       );
-      const valid: File[] = [];
-      for (const file of Array.from(files)) {
-        if (valid.length >= remaining) break;
-        if (!ACCEPTED_TYPES.has(file.type)) continue;
-        if (file.size > MAX_SIZE) continue;
-        const key = `${file.name}:${file.size}`;
-        if (existingKeys.has(key)) continue;
-        existingKeys.add(key);
-        valid.push(file);
-      }
-      if (valid.length > 0) {
-        onImagesChange([...images, ...valid]);
+      if (next !== images) {
+        onImagesChange(next);
       }
     },
     [images, existingImages, onImagesChange],
@@ -77,11 +104,14 @@ export function CommentImageUpload({
   const handlePaste = useCallback(
     (e: React.ClipboardEvent) => {
       const files = Array.from(e.clipboardData.items)
-        .filter((item) => item.kind === "file" && ACCEPTED_TYPES.has(item.type))
+        .filter((item) => item.kind === "file" && /^image\//.test(item.type))
         .map((item) => item.getAsFile())
         .filter((f): f is File => f !== null);
       if (files.length > 0) {
         e.preventDefault();
+        // Don't let the paste bubble to the surrounding comment form's
+        // onPaste — it would add the same files a second time.
+        e.stopPropagation();
         validateAndAdd(files);
       }
     },
@@ -117,10 +147,7 @@ export function CommentImageUpload({
   const hasAny = totalCount > 0;
 
   return (
-    <div
-      className="relative"
-      onPaste={handlePaste}
-    >
+    <div className="relative" onPaste={handlePaste}>
       <input
         ref={inputRef}
         type="file"

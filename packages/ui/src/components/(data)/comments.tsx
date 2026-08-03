@@ -26,8 +26,13 @@ import { API_FORGE_URL, useAccountStore } from "@repo/lib";
 import { type Comment, SingleComment } from "./comment";
 import { ScrollArea } from "../ui/scroll-area";
 import { AuthAlert } from "./auth-alert";
-import { CommentImageUpload } from "./comment-image-upload";
+import {
+  CommentImageUpload,
+  appendCommentImages,
+} from "./comment-image-upload";
 import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import { errorFromResponse } from "./comment-utils";
 
 const formSchema = z.object({
   text: z.string().min(2).max(500),
@@ -46,7 +51,9 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
       .filter((f): f is File => f !== null);
     if (files.length > 0) {
       e.preventDefault();
-      setPendingImages((prev) => [...prev, ...files].slice(0, 3));
+      // Same validation as the dropzone — an unchecked paste used to send
+      // oversized images the server rejects with a silent 400.
+      setPendingImages((prev) => appendCommentImages(prev, files));
     }
   }, []);
 
@@ -67,7 +74,11 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
     );
   });
 
-  const { trigger, isMutating } = useSWRMutation(
+  const {
+    trigger,
+    isMutating,
+    error: submitError,
+  } = useSWRMutation(
     `/comments/${id}`,
     async (
       _,
@@ -96,7 +107,7 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
         body: formData,
       });
       if (!res.ok) {
-        throw new Error("Failed to post comment");
+        throw await errorFromResponse(res, "Failed to post comment");
       }
       return (await res.json()) as { comment: Comment };
     },
@@ -114,15 +125,23 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!userId) return;
 
-    await trigger({
-      appId: appName,
-      nodeId: id,
-      text: values.text,
-      userId,
-      images: pendingImages,
-    });
-    form.reset();
-    setPendingImages([]);
+    try {
+      await trigger({
+        appId: appName,
+        nodeId: id,
+        text: values.text,
+        userId,
+        images: pendingImages,
+      });
+      // Only clear on success — a failed post keeps the draft so the user
+      // can retry without retyping.
+      form.reset();
+      setPendingImages([]);
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : "Failed to post comment",
+      );
+    }
   };
 
   return (
@@ -223,6 +242,12 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
                   {watchText?.length ?? 0}/500
                 </span>
               </div>
+
+              {submitError instanceof Error && !isMutating && (
+                <p className="text-xs text-destructive">
+                  {submitError.message}
+                </p>
+              )}
 
               <Button
                 type="submit"

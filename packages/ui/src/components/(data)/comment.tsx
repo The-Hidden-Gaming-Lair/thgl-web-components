@@ -9,8 +9,10 @@ import { createPortal } from "react-dom";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import Markdown from "markdown-to-jsx";
+import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import { CommentImageUpload } from "./comment-image-upload";
+import { errorFromResponse } from "./comment-utils";
 
 export type CommentImage = {
   id: number;
@@ -78,10 +80,15 @@ export function SingleComment({
         method: "PUT",
         body: JSON.stringify({ voteType: arg, userId }),
       });
-      if (!res.ok) throw new Error("Failed to vote");
+      if (!res.ok) throw await errorFromResponse(res, "Failed to vote");
       return await res.json();
     },
-    { onSuccess: () => mutate(`/comments/${nodeId}`) },
+    {
+      onSuccess: () => mutate(`/comments/${nodeId}`),
+      onError: (err) =>
+        toast.error(err instanceof Error ? err.message : "Failed to vote"),
+      throwOnError: false,
+    },
   );
 
   // Edit mutation
@@ -111,7 +118,7 @@ export function SingleComment({
         method: "PUT",
         body: formData,
       });
-      if (!res.ok) throw new Error("Failed to edit");
+      if (!res.ok) throw await errorFromResponse(res, "Failed to edit comment");
       return await res.json();
     },
     {
@@ -119,17 +126,31 @@ export function SingleComment({
         mutate(`/comments/${nodeId}`);
         setEditing(false);
       },
+      onError: (err) =>
+        toast.error(
+          err instanceof Error ? err.message : "Failed to edit comment",
+        ),
+      throwOnError: false,
     },
   );
 
   // Delete handler
   const handleDelete = useCallback(async () => {
     if (!userId) return;
-    await fetch(`${API_FORGE_URL}/comments/${comment.id}`, {
-      method: "DELETE",
-      body: JSON.stringify({ userId }),
-    });
-    mutate(`/comments/${nodeId}`);
+    try {
+      const res = await fetch(`${API_FORGE_URL}/comments/${comment.id}`, {
+        method: "DELETE",
+        body: JSON.stringify({ userId }),
+      });
+      if (!res.ok) {
+        throw await errorFromResponse(res, "Failed to delete comment");
+      }
+      mutate(`/comments/${nodeId}`);
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : "Failed to delete comment",
+      );
+    }
   }, [userId, comment.id, nodeId, mutate]);
 
   const startEdit = () => {
