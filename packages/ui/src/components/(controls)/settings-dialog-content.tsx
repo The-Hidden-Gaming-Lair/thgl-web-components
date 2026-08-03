@@ -36,6 +36,7 @@ import { Play, RotateCcw, X } from "lucide-react";
 import { playAlertSound, ALERT_SOUND_OPTIONS } from "./audio-alert";
 import { Section } from "./section";
 import { MapsSettingsSection } from "./maps-settings";
+import { SiteImport } from "../(data)/site-import";
 
 export function SettingsDialogContent({
   activeApp,
@@ -168,6 +169,9 @@ export function SettingsDialogContent({
                 Reset
               </Button>
             </div>
+            {/* Import discovered markers from a third-party map site (renders
+                only when a source covers this game). */}
+            <SiteImport activeApp={activeApp} />
             <div className="flex items-center justify-between">
               <Label htmlFor="hide-discovered-nodes">
                 Hide Discovered Nodes

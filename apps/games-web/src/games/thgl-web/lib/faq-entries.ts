@@ -98,6 +98,34 @@ Sharing is built in — sign in with a free account so your filter syncs, then o
     labels: ["General"],
   },
   {
+    id: "import-progress-from-another-map-site",
+    headline: "Import your progress from another map site",
+    question:
+      "I already tracked chests and collectibles on another interactive map (like appsample). Can I import that progress into TH.GL?",
+    answer: `
+Yes — for supported games you can bring your found markers over in a one-time copy. It matches the other site's markers to the same locations on our map and marks them as **discovered** here.
+
+> Supported today: **appsample → Wuthering Waves**. More sites/games will follow.
+
+## How to import
+1. On the TH.GL map, open **Settings → Discovered Nodes** and click **Import from another site**.
+2. Follow the on-screen steps to export from the other site (see below), then paste the result into the box.
+3. Review the matched groups and choose **Merge** (keep what you already have) or **Replace all**.
+
+## Exporting from appsample (desktop only)
+The other site stores your progress in your signed-in account, so the export has to run in a desktop browser (mobile browsers have no developer console):
+1. Open the appsample map on a **computer** and sign in with the same Google account.
+2. Press **F12** → **Console** tab.
+3. Paste the snippet shown in the TH.GL import dialog and press **Enter**. (If the browser blocks the paste, type **allow pasting** first.)
+4. It copies your found markers to the clipboard — paste them back into the TH.GL import box.
+
+## Good to know
+- Only marker types we have on our map can be matched (e.g. chests, tidal heritages, sonance caskets). Anything we don't track, or areas not yet supported, is skipped — the dialog tells you how many.
+- Discovered markers are stored **per device** (they aren't cloud-synced), so import on each device you use, or use **Backup/Restore** in the same settings section to copy them across.
+    `.trim(),
+    labels: ["General"],
+  },
+  {
     id: "ticley-watch-scam",
     headline: "Unexpected charges from THGL.APP (NOT The Hidden Gaming Lair)",
     question:

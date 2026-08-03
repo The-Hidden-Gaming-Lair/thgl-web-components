@@ -155,3 +155,26 @@
 .sidebar-scroll::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+/* Global thin, themed scrollbars so every scrollable surface (code blocks,
+   textareas, overflow panels, dialogs) matches without per-element utilities.
+   Kept UNLAYERED (like .sidebar-scroll above) — Chrome does not reliably apply
+   ::-webkit-scrollbar pseudo-elements from inside a cascade @layer. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--ring) / 0.5) transparent;
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background-color: hsl(var(--ring) / 0.5);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--ring) / 0.7);
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
