@@ -16,6 +16,8 @@ export const COMPONENT_LABELS: Record<string, string> = {
   database: "Database (accounts & filters)",
   "api-forge": "Comments & Profiles",
   "actors-api": "Live tracking",
+  "palia-api": "Palia community data",
+  peer: "Peer Link",
   cdn: "Map data CDN",
   search: "Search API",
 };
@@ -215,6 +217,15 @@ export async function runAllChecks(): Promise<RawCheck[]> {
     ),
     // actors-api: /health returns 200 when the service is up
     checkSimple("actors-api", "https://actors-api.th.gl/health"),
+    // palia-api has no /health; an unauthenticated /nodes answers 401 when
+    // the service is up (any other status = nginx default page or down)
+    checkSimple(
+      "palia-api",
+      "https://palia-api.th.gl/nodes?type=spawnNodes",
+      (r) => r.status === 401,
+    ),
+    // PeerJS signaling server root returns its JSON banner with 200
+    checkSimple("peer", "https://peer.th.gl/"),
     checkSimple(
       "cdn",
       // Cache-buster rotates once per minute: fresh enough to catch an
