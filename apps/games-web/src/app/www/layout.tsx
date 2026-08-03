@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="flex flex-col container px-0 pt-[54px] min-h-dvh">
             {/* Inside the pt-[54px] container so it sits below the fixed
                 header instead of hiding behind it. */}
-            <StatusBanner game={null} />
+            <StatusBanner game={null} surface="web" />
             <ErrorBoundary>
               <HeroBackground />
               <main className="grow md:px-10">{children}</main>

@@ -280,7 +280,7 @@ export function App({
               // z-600: above the map controls (filters/actions are z-500)
               // which otherwise paint over the banner (later in DOM).
               <div className="absolute top-[32px] inset-x-0 z-600">
-                <StatusBanner game={appConfig.name} />
+                <StatusBanner game={appConfig.name} surface="thgl-app" />
               </div>
             )}
             <div

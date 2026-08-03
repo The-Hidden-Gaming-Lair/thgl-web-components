@@ -134,6 +134,7 @@ export function App({
             {!isOverlay && (
               <StatusBanner
                 game={appConfig.name}
+                surface="overwolf"
                 className="fixed top-[32px] inset-x-0 z-999997"
               />
             )}

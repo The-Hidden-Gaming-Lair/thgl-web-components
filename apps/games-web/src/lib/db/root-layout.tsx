@@ -169,6 +169,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
 
             <StatusBanner
               game={appConfig.name}
+              surface="web"
               className="fixed top-[54px] inset-x-0 z-99989"
             />
 
