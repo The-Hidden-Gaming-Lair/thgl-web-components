@@ -2,7 +2,7 @@
 
 import { ThumbsDown, ThumbsUp, Trash2, Pencil, X, Check } from "lucide-react";
 import { Button } from "../(controls)";
-import { API_FORGE_URL, useAccountStore } from "@repo/lib";
+import { API_FORGE_URL, resilientFetch, useAccountStore } from "@repo/lib";
 import { toSvg } from "jdenticon";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -76,10 +76,13 @@ export function SingleComment({
     `/comments/${nodeId}/votes`,
     async (_, { arg }: { arg: "upvote" | "downvote" }) => {
       if (!userId) throw new Error("Not logged in");
-      const res = await fetch(`${API_FORGE_URL}/comments/${comment.id}/votes`, {
-        method: "PUT",
-        body: JSON.stringify({ voteType: arg, userId }),
-      });
+      const res = await resilientFetch(
+        `${API_FORGE_URL}/comments/${comment.id}/votes`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ voteType: arg, userId }),
+        },
+      );
       if (!res.ok) throw await errorFromResponse(res, "Failed to vote");
       return await res.json();
     },
@@ -114,10 +117,13 @@ export function SingleComment({
       for (const img of arg.newImages) {
         formData.append("images", img);
       }
-      const res = await fetch(`${API_FORGE_URL}/comments/${comment.id}`, {
-        method: "PUT",
-        body: formData,
-      });
+      const res = await resilientFetch(
+        `${API_FORGE_URL}/comments/${comment.id}`,
+        {
+          method: "PUT",
+          body: formData,
+        },
+      );
       if (!res.ok) throw await errorFromResponse(res, "Failed to edit comment");
       return await res.json();
     },
@@ -138,10 +144,13 @@ export function SingleComment({
   const handleDelete = useCallback(async () => {
     if (!userId) return;
     try {
-      const res = await fetch(`${API_FORGE_URL}/comments/${comment.id}`, {
-        method: "DELETE",
-        body: JSON.stringify({ userId }),
-      });
+      const res = await resilientFetch(
+        `${API_FORGE_URL}/comments/${comment.id}`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({ userId }),
+        },
+      );
       if (!res.ok) {
         throw await errorFromResponse(res, "Failed to delete comment");
       }

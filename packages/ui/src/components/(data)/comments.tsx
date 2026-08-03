@@ -22,13 +22,14 @@ import { Textarea } from "../ui/textarea";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { Skeleton } from "../ui/skeleton";
-import { API_FORGE_URL, useAccountStore } from "@repo/lib";
+import { API_FORGE_URL, resilientFetch, useAccountStore } from "@repo/lib";
 import { type Comment, SingleComment } from "./comment";
 import { ScrollArea } from "../ui/scroll-area";
 import { AuthAlert } from "./auth-alert";
 import {
   CommentImageUpload,
   appendCommentImages,
+  prepareCommentImages,
 } from "./comment-image-upload";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -40,7 +41,6 @@ const formSchema = z.object({
 
 export function Comments({ id, appName }: { id: string; appName: string }) {
   const userId = useAccountStore((state) => state.userId);
-  const commentsPerk = useAccountStore((state) => state.perks.comments);
   const [pendingImages, setPendingImages] = useState<File[]>([]);
   const isThglApp = typeof window !== "undefined" && !!window.chrome?.webview;
 
@@ -51,9 +51,14 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
       .filter((f): f is File => f !== null);
     if (files.length > 0) {
       e.preventDefault();
-      // Same validation as the dropzone — an unchecked paste used to send
-      // oversized images the server rejects with a silent 400.
-      setPendingImages((prev) => appendCommentImages(prev, files));
+      // Same pipeline as the dropzone — an unchecked paste used to send
+      // oversized images the server rejects with a silent 400. Oversized
+      // screenshots get re-encoded to WebP instead of rejected.
+      void prepareCommentImages(files).then((prepared) => {
+        if (prepared.length > 0) {
+          setPendingImages((prev) => appendCommentImages(prev, prepared));
+        }
+      });
     }
   }, []);
 
@@ -62,7 +67,7 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
     isLoading,
     error,
   } = useSWR(`/comments/${id}`, async () => {
-    const res = await fetch(
+    const res = await resilientFetch(
       `${API_FORGE_URL}/comments?node_id=${id}&app_id=${appName}`,
     );
     if (!res.ok) {
@@ -102,7 +107,7 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
       for (const img of arg.images) {
         formData.append("images", img);
       }
-      const res = await fetch(`${API_FORGE_URL}/comments`, {
+      const res = await resilientFetch(`${API_FORGE_URL}/comments`, {
         method: "POST",
         body: formData,
       });
@@ -202,7 +207,7 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
           </div>
         </div>
 
-        {!commentsPerk ? (
+        {!userId ? (
           <AuthAlert />
         ) : (
           <Form {...form}>

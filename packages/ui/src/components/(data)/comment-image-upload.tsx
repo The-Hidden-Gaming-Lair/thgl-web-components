@@ -16,6 +16,79 @@ const ACCEPTED_TYPES = new Set([
   "image/gif",
 ]);
 
+/** Longest-side cap for re-encoded images — plenty for map screenshots. */
+const COMPRESS_MAX_DIM = 2560;
+
+/**
+ * Re-encode an image to WebP under the size limit (dimension cap + stepped
+ * quality). Returns null when it can't get under MAX_SIZE or decoding fails.
+ */
+async function compressImage(file: File): Promise<File | null> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(
+      1,
+      COMPRESS_MAX_DIM / Math.max(bitmap.width, bitmap.height),
+    );
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    for (const quality of [0.85, 0.7, 0.55]) {
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, "image/webp", quality),
+      );
+      if (blob && blob.size <= MAX_SIZE) {
+        const baseName = file.name.replace(/\.[^.]*$/, "") || "image";
+        return new File([blob], `${baseName}.webp`, { type: "image/webp" });
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Normalizes raw user files before validation: images that are oversized or
+ * in a non-whitelisted format (e.g. BMP) are re-encoded to WebP instead of
+ * being rejected — screenshots are the primary use case and should just
+ * work. Only unfixable files toast. GIFs are never re-encoded (it would
+ * drop the animation), so an oversized GIF still rejects.
+ */
+export async function prepareCommentImages(files: File[]): Promise<File[]> {
+  const prepared: File[] = [];
+  for (const file of files) {
+    const whitelisted = ACCEPTED_TYPES.has(file.type);
+    if (whitelisted && file.size <= MAX_SIZE) {
+      prepared.push(file);
+      continue;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast.error(
+        `${file.name || "File"}: unsupported type. Use PNG, JPEG, WebP or GIF.`,
+      );
+      continue;
+    }
+    if (file.type === "image/gif") {
+      toast.error(
+        `${file.name || "Image"} is too large (${(file.size / 1024 / 1024).toFixed(1)}MB, max 2MB) — GIFs can't be compressed.`,
+      );
+      continue;
+    }
+    const compressed = await compressImage(file);
+    if (compressed) {
+      prepared.push(compressed);
+    } else {
+      toast.error(`${file.name || "Image"} couldn't be compressed under 2MB.`);
+    }
+  }
+  return prepared;
+}
+
 /**
  * Validates incoming files against the comment image constraints (type
  * whitelist, 2MB size limit, max count, dedup) and returns the new image
@@ -77,14 +150,17 @@ export function CommentImageUpload({
 
   const validateAndAdd = useCallback(
     (files: FileList | File[]) => {
-      const next = appendCommentImages(
-        images,
-        files,
-        existingImages?.length ?? 0,
-      );
-      if (next !== images) {
-        onImagesChange(next);
-      }
+      void prepareCommentImages(Array.from(files)).then((prepared) => {
+        if (prepared.length === 0) return;
+        const next = appendCommentImages(
+          images,
+          prepared,
+          existingImages?.length ?? 0,
+        );
+        if (next !== images) {
+          onImagesChange(next);
+        }
+      });
     },
     [images, existingImages, onImagesChange],
   );

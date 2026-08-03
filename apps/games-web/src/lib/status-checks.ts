@@ -1,3 +1,4 @@
+import { connect } from "node:tls";
 import { sign } from "jsonwebtoken";
 import { type StatusState } from "@repo/lib";
 
@@ -20,6 +21,7 @@ export const COMPONENT_LABELS: Record<string, string> = {
   peer: "Peer Link",
   cdn: "Map data CDN",
   search: "Search API",
+  certificates: "TLS certificates",
 };
 
 /** Games with an Overwolf-GEP dependency shown on the status page.
@@ -168,6 +170,133 @@ async function checkSimple(
 }
 
 /**
+ * Dual-path probe for the Bunny-fronted self-hosted APIs: users reach them
+ * via the edge hostname, but the `*-direct` origin hostname stays published
+ * (also the browser fallback path in resilientFetch). Probing both makes an
+ * incident self-diagnosing: edge down + origin up = Bunny route problem;
+ * both down = the origin box itself.
+ */
+async function checkDualPath(
+  component: string,
+  edgeUrl: string,
+  directUrl: string,
+  expect: (res: Response) => boolean = (r) => r.ok,
+): Promise<RawCheck> {
+  const probe = async (url: string) => {
+    const { res, ms, err } = await timedFetch(url);
+    const ok = res !== null && expect(res);
+    return { ok, ms, err: ok ? null : (err ?? `HTTP ${res?.status}`) };
+  };
+  const [edge, direct] = await Promise.all([probe(edgeUrl), probe(directUrl)]);
+  if (edge.ok && direct.ok)
+    return {
+      component,
+      state: "operational",
+      latencyMs: edge.ms,
+      detail: null,
+    };
+  if (edge.ok)
+    return {
+      component,
+      state: "degraded",
+      latencyMs: edge.ms,
+      detail: `origin direct path down (edge serving) — ${direct.err}`,
+    };
+  if (direct.ok)
+    return {
+      component,
+      state: "degraded",
+      latencyMs: direct.ms,
+      detail: `edge route down — origin healthy (${edge.err})`,
+    };
+  return { component, state: "outage", latencyMs: edge.ms, detail: edge.err };
+}
+
+/** Hostnames whose TLS certs we watch. Bunny renews the edge certs, the
+ *  acme-companions renew the box certs — either failing silently would
+ *  otherwise only surface when a cert expires. metrics.th.gl shares one
+ *  cert order with a.th.gl (whose HTTP-01 now travels through the edge). */
+const CERT_HOSTS = [
+  "www.th.gl",
+  "cdn.th.gl",
+  "metrics.th.gl",
+  "peer.th.gl",
+  "api-forge-direct.th.gl",
+  "actors-api-direct.th.gl",
+  "palia-api-direct.th.gl",
+];
+
+function certDaysLeft(host: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const socket = connect(
+      // rejectUnauthorized false: an EXPIRED cert must still be readable —
+      // reporting "expired 3 days ago" is the whole point of this check.
+      { host, port: 443, servername: host, rejectUnauthorized: false },
+      () => {
+        const cert = socket.getPeerCertificate();
+        socket.end();
+        if (!cert?.valid_to) {
+          reject(new Error("no certificate"));
+          return;
+        }
+        resolve((new Date(cert.valid_to).getTime() - Date.now()) / 86_400_000);
+      },
+    );
+    socket.setTimeout(TIMEOUT_MS, () => {
+      socket.destroy();
+      reject(new Error("timeout"));
+    });
+    socket.on("error", reject);
+  });
+}
+
+async function checkCertificates(): Promise<RawCheck> {
+  const results = await Promise.all(
+    CERT_HOSTS.map(async (host) => {
+      try {
+        return { host, days: await certDaysLeft(host), err: null };
+      } catch (e) {
+        return {
+          host,
+          days: null,
+          err: e instanceof Error ? e.message : String(e),
+        };
+      }
+    }),
+  );
+  const expired = results.filter((r) => r.days !== null && r.days < 3);
+  const expiringSoon = results.filter(
+    (r) => r.days !== null && r.days >= 3 && r.days < 21,
+  );
+  const unreachable = results.filter((r) => r.days === null);
+  if (expired.length > 0)
+    return {
+      component: "certificates",
+      state: "outage",
+      latencyMs: null,
+      detail: expired
+        .map((r) => `${r.host}: ${Math.floor(r.days!)}d left`)
+        .join(", "),
+    };
+  if (expiringSoon.length > 0 || unreachable.length > 0)
+    return {
+      component: "certificates",
+      state: "degraded",
+      latencyMs: null,
+      detail: [
+        ...expiringSoon.map((r) => `${r.host}: ${Math.floor(r.days!)}d left`),
+        ...unreachable.map((r) => `${r.host}: ${r.err}`),
+      ].join(", "),
+    };
+  return {
+    component: "certificates",
+    state: "operational",
+    latencyMs: null,
+    detail: null,
+  };
+}
+
+/**
  * Overwolf public game-events health feed → per-game states.
  *
  * Feed shape: array of { game_id: number, name: string, state: number, ... }
@@ -211,21 +340,28 @@ export async function runAllChecks(): Promise<RawCheck[]> {
     checkAuth(),
     checkDatabase(),
     // api-forge: /comments with a dummy node returns 200 with empty array — no auth needed
-    checkSimple(
+    checkDualPath(
       "api-forge",
       "https://api-forge.th.gl/comments?app_id=palworld&node_id=test%400%3A0",
+      "https://api-forge-direct.th.gl/comments?app_id=palworld&node_id=test%400%3A0",
     ),
     // actors-api: /health returns 200 when the service is up
-    checkSimple("actors-api", "https://actors-api.th.gl/health"),
+    checkDualPath(
+      "actors-api",
+      "https://actors-api.th.gl/health",
+      "https://actors-api-direct.th.gl/health",
+    ),
     // palia-api has no /health; an unauthenticated /nodes answers 401 when
     // the service is up (any other status = nginx default page or down)
-    checkSimple(
+    checkDualPath(
       "palia-api",
       "https://palia-api.th.gl/nodes?type=spawnNodes",
+      "https://palia-api-direct.th.gl/nodes?type=spawnNodes",
       (r) => r.status === 401,
     ),
     // PeerJS signaling server root returns its JSON banner with 200
     checkSimple("peer", "https://peer.th.gl/"),
+    checkCertificates(),
     checkSimple(
       "cdn",
       // Cache-buster rotates once per minute: fresh enough to catch an
