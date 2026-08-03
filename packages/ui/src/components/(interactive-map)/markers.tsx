@@ -2075,7 +2075,11 @@ function MarkersContent({
       } else {
         for (const { actor, displayType } of visible) {
           units.push({
-            id: String(actor.address),
+            // Key by type + address (not address alone): the same entity address
+            // can change species in place (e.g. Heartopia re-types pooled fish on
+            // time-period rollover), and the in-place update path never refreshes
+            // the icon — a new id forces remove + recreate with the correct icon.
+            id: `${displayType}@${actor.address}`,
             displayType,
             members: [actor],
             cx: actor.x,
