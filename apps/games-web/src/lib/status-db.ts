@@ -159,6 +159,40 @@ export function autoIncidentId(component: string): string {
   return `auto-${component}`;
 }
 
+/** Incident mirroring a game live-mode flag episode — gives flags a
+ *  history in the status page's incident lists (set → open, clear →
+ *  resolved into "Recent Incidents"). The `flag-` prefix is load-bearing:
+ *  the status banner skips these so the message stays scoped to the
+ *  in-game apps via the flag itself, not re-leaked through incidents. */
+export function flagIncidentId(game: string): string {
+  return `flag-${game}`;
+}
+
+export async function upsertFlagIncident(flag: {
+  game: string;
+  label: string;
+  severity: "degraded" | "outage";
+  note: string | null;
+}): Promise<void> {
+  // Unlike openIncident, an EDIT to a still-open episode (note/severity
+  // tweak) must keep the original created_at — only a new episode after
+  // a resolution restarts the clock.
+  await libsql([
+    {
+      sql: "INSERT INTO status_incidents (id, title, body, severity, affects, source, created_at) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET title = excluded.title, body = excluded.body, severity = excluded.severity, affects = excluded.affects, created_at = CASE WHEN status_incidents.resolved_at IS NULL THEN status_incidents.created_at ELSE excluded.created_at END, resolved_at = NULL",
+      args: [
+        arg.text(flagIncidentId(flag.game)),
+        arg.text(`${flag.label} live mode ${flag.severity}`),
+        flag.note === null ? arg.null() : arg.text(flag.note),
+        arg.text(flag.severity),
+        arg.text(JSON.stringify([flag.game])),
+        arg.text("auto"),
+        arg.int(Math.floor(Date.now() / 1000)),
+      ],
+    },
+  ]);
+}
+
 export interface GameFlag {
   game: string;
   state: StatusState;

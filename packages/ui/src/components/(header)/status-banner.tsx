@@ -66,6 +66,11 @@ function toBanners(
   // additional never-hidden-forever backstop for ongoing incidents.
   const incidents: StatusIncident[] = doc.incidents
     .filter((i) => i.resolvedAt === null)
+    // `flag-*` incidents mirror the game live-mode flag for status-page
+    // history only — the flag itself (liveMode below) is the banner
+    // source, scoped to the in-game apps. Without this, the mirror would
+    // re-leak the message onto the website via the game-id match.
+    .filter((i) => !i.id.startsWith("flag-"))
     .filter((i) => incidentMatchesSurface(i, incidentScope))
     .sort(
       (a, b) =>

@@ -1,5 +1,11 @@
+import { games } from "@repo/lib";
 import { requireStatusAdmin } from "@/lib/status-admin";
-import { setGameFlag } from "@/lib/status-db";
+import {
+  flagIncidentId,
+  resolveIncident,
+  setGameFlag,
+  upsertFlagIncident,
+} from "@/lib/status-db";
 import { purgeStatusCache } from "@/lib/status-purge";
 
 export async function POST(request: Request) {
@@ -21,11 +27,21 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  await setGameFlag(
-    body.game,
-    body.state as "operational" | "degraded" | "outage",
-    body.note?.trim() || null,
-  );
+  const state = body.state as "operational" | "degraded" | "outage";
+  const note = body.note?.trim() || null;
+  await setGameFlag(body.game, state, note);
+  // Mirror the flag lifecycle into the incidents table so live-mode
+  // episodes show up in the status page's incident history once cleared.
+  if (state === "operational") {
+    await resolveIncident(flagIncidentId(body.game));
+  } else {
+    await upsertFlagIncident({
+      game: body.game,
+      label: games.find((g) => g.id === body.game)?.title ?? body.game,
+      severity: state,
+      note,
+    });
+  }
   await purgeStatusCache();
   return Response.json({ ok: true });
 }
