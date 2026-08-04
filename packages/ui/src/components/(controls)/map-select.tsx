@@ -11,23 +11,30 @@ import {
   CommandList,
 } from "../ui/command";
 import { useState, type JSX } from "react";
-import { cn, localizePath } from "@repo/lib";
+import { cn, localizePath, type TilesConfig } from "@repo/lib";
 import { ScrollArea } from "../ui/scroll-area";
 import { MapSettingsPopover } from "./map-settings-popover";
 
 export function MapSelect({
   mapNames,
+  tileOptions,
 }: {
   mapNames: {
     name: string;
     defaultTitle: string;
   }[];
+  tileOptions?: TilesConfig;
 }): JSX.Element {
   const [open, setOpen] = useState(false);
   const mapName = useUserStore((state) => state.mapName);
   const setMapName = useUserStore((state) => state.setMapName);
   const t = useT();
   const locale = useLocale();
+
+  // When a layered interior is active, the MAIN selector still reflects the
+  // parent surface (e.g. "Overworld") — the interior is chosen in the separate
+  // Layered Map picker, not here.
+  const selectedTopMap = tileOptions?.[mapName]?.layer?.parent ?? mapName;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -50,7 +57,7 @@ export function MapSelect({
                 value is the correct one, so suppress the expected text-only
                 hydration mismatch here rather than flashing a placeholder. */}
             <span className="truncate font-medium" suppressHydrationWarning>
-              {t(mapName) || mapName}
+              {t(selectedTopMap) || selectedTopMap}
             </span>
             <ChevronDown
               className={cn(
@@ -61,8 +68,8 @@ export function MapSelect({
           </button>
         </PopoverTrigger>
         <MapSettingsPopover
-          mapName={mapName}
-          mapLabel={t(mapName) || mapName}
+          mapName={selectedTopMap}
+          mapLabel={t(selectedTopMap) || selectedTopMap}
         />
       </div>
       <PopoverContent className="p-0 w-full">
@@ -96,7 +103,7 @@ export function MapSelect({
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        mapName === name ? "opacity-100" : "opacity-0",
+                        selectedTopMap === name ? "opacity-100" : "opacity-0",
                       )}
                     />
                     <span className="truncate">{t(name)}</span>

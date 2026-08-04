@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { MapSelect } from "./map-select";
+import { LayerSelect } from "./layer-select";
 import { Presets } from "./presets";
 import { GlobalFilters } from "./global-filters";
 import { useT } from "../(providers)";
@@ -51,10 +52,15 @@ export function MarkersSearch({
     (state) => state.toggleShowFilters,
   );
 
-  const mapNames = Object.entries(tileOptions).map(([k, v]) => ({
-    name: k,
-    defaultTitle: v.defaultTitle || mapEnTitles?.[k] || t(k),
-  }));
+  // Only TOP-LEVEL maps in the main selector — interior floors (tagged with
+  // `layer`) are chosen in the separate Layered Map picker instead.
+  const mapNames = Object.entries(tileOptions)
+    .filter(([, v]) => !v.layer)
+    .map(([k, v]) => ({
+      name: k,
+      defaultTitle: v.defaultTitle || mapEnTitles?.[k] || t(k),
+    }));
+  const hasLayers = Object.values(tileOptions).some((v) => v.layer);
 
   useEffect(() => {
     if (_hasHydrated) {
@@ -202,9 +208,15 @@ export function MarkersSearch({
               <Separator />
             </div>
           )}
-          {mapNames.length > 1 && (
+          {(mapNames.length > 1 || hasLayers) && (
             <div className="shrink-0">
-              <MapSelect mapNames={mapNames} />
+              <div className="flex items-center">
+                <div className="flex-1 min-w-0">
+                  <MapSelect mapNames={mapNames} tileOptions={tileOptions} />
+                </div>
+                {/* Layered Map picker — only appears where interiors exist. */}
+                <LayerSelect tileOptions={tileOptions} />
+              </div>
               <Separator />
             </div>
           )}

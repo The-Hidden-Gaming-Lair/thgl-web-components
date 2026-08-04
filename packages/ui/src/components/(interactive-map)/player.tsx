@@ -13,6 +13,63 @@ import { applyColorBlindTransform } from "./color-blind";
 import type { ColorBlindMode } from "@repo/lib";
 import { DrawingLayer } from "@repo/lib/web-map";
 
+/**
+ * Refine the native-provided base map to the LAYERED interior the player is
+ * physically inside, so live mode follows the player into interiors/floors.
+ * Uses each interior's `layer.footprint` (tight XY world bounds) for containment
+ * and `layer.zRange` (height band) to pick the floor. Returns the base map when
+ * the player is not inside any interior of it.
+ */
+function resolveLiveMap(
+  baseMap: string,
+  px: number | undefined,
+  py: number | undefined,
+  pz: number | undefined,
+  tiles: TilesConfig,
+): string {
+  if (typeof px !== "number" || typeof py !== "number") return baseMap;
+  // Interior GROUP whose footprint contains the player (tightest wins on overlap).
+  let group: string | null = null;
+  let groupArea = Infinity;
+  for (const cfg of Object.values(tiles)) {
+    const L = cfg.layer;
+    if (!L?.footprint || L.parent !== baseMap) continue;
+    const [[minLat, minLng], [maxLat, maxLng]] = L.footprint;
+    if (px < minLat || px > maxLat || py < minLng || py > maxLng) continue;
+    const area = (maxLat - minLat) * (maxLng - minLng);
+    if (area < groupArea) {
+      groupArea = area;
+      group = L.group;
+    }
+  }
+  if (!group) return baseMap;
+  // Floors of that group — pick by height band, else nearest band, else lowest.
+  const floors: { id: string; z?: [number, number]; floor: number }[] = [];
+  for (const [id, cfg] of Object.entries(tiles)) {
+    const L = cfg.layer;
+    if (L?.group === group && L.parent === baseMap) {
+      floors.push({ id, z: L.zRange, floor: L.floor });
+    }
+  }
+  if (floors.length === 1 || typeof pz !== "number") {
+    floors.sort((a, b) => a.floor - b.floor);
+    return floors[0]!.id;
+  }
+  const inBand = floors.find((f) => f.z && pz >= f.z[0] && pz <= f.z[1]);
+  if (inBand) return inBand.id;
+  let best = floors[0]!;
+  let bestD = Infinity;
+  for (const f of floors) {
+    if (!f.z) continue;
+    const d = Math.abs(pz - (f.z[0] + f.z[1]) / 2);
+    if (d < bestD) {
+      bestD = d;
+      best = f;
+    }
+  }
+  return best.id;
+}
+
 export function Player({
   appName,
   player,
@@ -279,22 +336,31 @@ export function Player({
     }
   }, [map?.mapName, px, py, pz, pMap, followPlayerPosition]);
 
+  // Live map-follow: switch to the map the player is on — refined to the layered
+  // interior (and floor) the player is physically inside. Edge-triggered on the
+  // RESOLVED target so a manual floor pick isn't overridden until the player next
+  // crosses a boundary (auto-follow, without fighting manual browsing).
+  const lastAutoMapRef = useRef<string | null>(null);
   useEffect(() => {
     if (!player?.mapName || !map) {
       return;
     }
-    // Use 'in' operator for efficient object property check instead of Object.keys
     if (!(player.mapName in tilesConfig)) {
       return;
     }
-    if (player.mapName !== map.mapName) {
-      console.log("Setting map name", player.mapName);
-      setMapName(player.mapName, [player.x, player.y], map.getZoom());
+    const target = resolveLiveMap(player.mapName, px, py, pz, tilesConfig);
+    if (target === lastAutoMapRef.current) {
+      return;
+    }
+    lastAutoMapRef.current = target;
+    if (target !== map.mapName) {
+      setMapName(target, [player.x, player.y], map.getZoom());
       if (location.pathname.includes("/maps/")) {
-        window.history.pushState({}, "", `/maps/${t(player.mapName)}`);
+        const title = tilesConfig[target]?.defaultTitle ?? t(target);
+        window.history.pushState({}, "", `/maps/${title}`);
       }
     }
-  }, [!!map, player?.mapName]);
+  }, [!!map, player?.mapName, px, py, pz, tilesConfig]);
 
   // Audio alert range circle
   const showAudioAlertRange = useSettingsStore(

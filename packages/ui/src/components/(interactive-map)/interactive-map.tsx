@@ -1,23 +1,42 @@
 "use client";
 
+import { ArrowLeft } from "lucide-react";
 import type { TilesConfig } from "@repo/lib";
 import { useUserStore, useUserStoreApi } from "../(providers)";
-import { cn, getTileLayerUrl, useSettingsStore } from "@repo/lib";
+import { cn, getTileLayerUrl, localizePath, useSettingsStore } from "@repo/lib";
 import {
   WebMap,
   TileLayer,
   createAffineProjection,
   IconMarkerLayer,
+  ImageOverlayLayer,
+  InteriorShapesLayer,
+  BackdropExitLayer,
+  type InteriorArea,
 } from "@repo/lib/web-map";
-import { useEffect, useLayoutEffect, useRef, useState, type JSX } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type JSX,
+} from "react";
 import { useMapStore, type GameMap } from "./store";
 import { ContextMenu } from "./context-menu";
-import { useT } from "../(providers)";
+import { InteriorLabels } from "./interior-labels";
+import { useLocale, useT } from "../(providers)";
 
 // Extended ref to hold WebMap layers
 interface MapRefs {
   webmap: WebMap | null;
   tileLayer: TileLayer | null;
+  // Interior floor image drawn over a dimmed backdrop for layered maps.
+  overlayLayer: ImageOverlayLayer | null;
+  // Dimmed, clickable interior footprints drawn on the parent (surface) map.
+  interiorShapes: InteriorShapesLayer | null;
+  // On an interior map: click the backdrop (off the footprint) to exit.
+  backdropExit: BackdropExitLayer | null;
   markerLayer: IconMarkerLayer | null;
   canvas: HTMLCanvasElement | null;
 }
@@ -39,13 +58,26 @@ export function InteractiveMap({
   const mapRefsRef = useRef<MapRefs>({
     webmap: null,
     tileLayer: null,
+    overlayLayer: null,
+    interiorShapes: null,
+    backdropExit: null,
     markerLayer: null,
     canvas: null,
   });
+  // Preserve the camera when switching between maps that share tiles (a surface
+  // and its interior layers) so focusing/leaving an interior never moves the
+  // view. Refs so the map-init effect reads the live view without re-subscribing.
+  const prevUrlRef = useRef<string | undefined>(undefined);
+  const currentViewRef = useRef<{
+    center: [number, number];
+    zoom: number;
+  } | null>(null);
   const { map, setMap } = useMapStore();
   const isHydrated = useUserStore((state) => state._hasHydrated);
   const mapFilter = useSettingsStore((state) => state.mapFilter);
   const mapName = useUserStore((state) => state.mapName);
+  const setMapName = useUserStore((state) => state.setMapName);
+  const locale = useLocale();
   const userStoreApi = useUserStoreApi();
   const colorBlindMode = useSettingsStore((state) => state.colorBlindMode);
   const colorBlindSeverity = useSettingsStore(
@@ -54,6 +86,27 @@ export function InteractiveMap({
   const t = useT();
 
   const mapTileOptions = tileOptions[mapName];
+
+  // Descend into an interior layer (shared by the on-map shapes + their labels).
+  const enterLayer = useCallback(
+    (target: string) => {
+      setMapName(target);
+      if (location.pathname.includes("/maps/")) {
+        const title = tileOptions[target]?.defaultTitle ?? t(target) ?? target;
+        window.history.pushState(
+          {},
+          "",
+          localizePath(`/maps/${title}`, locale),
+        );
+      }
+    },
+    [setMapName, tileOptions, locale, t],
+  );
+  const getInteriorShapes = useCallback(
+    () => mapRefsRef.current.interiorShapes,
+    [],
+  );
+  const getMapCanvas = useCallback(() => mapRefsRef.current.canvas, []);
 
   const [contextMenuData, setContextMenuData] = useState<{
     x: number;
@@ -142,8 +195,17 @@ export function InteractiveMap({
       return Math.max(minZoom, Math.min(maxZoom, calculatedZoom));
     };
 
-    // Determine initial view
-    if (view.center) {
+    // Determine initial view. Switching between maps that SHARE the same tiles
+    // (a surface ↔ its interior layers) keeps the exact current camera, so
+    // focusing/leaving an interior never moves the view.
+    const keepView =
+      prevUrlRef.current !== undefined &&
+      prevUrlRef.current === mapTileOptions.url &&
+      currentViewRef.current;
+    if (keepView && currentViewRef.current) {
+      center = currentViewRef.current.center;
+      zoom = currentViewRef.current.zoom;
+    } else if (view.center) {
       center = view.center;
       zoom = view.zoom ?? zoom;
     } else if (mapTileOptions.fitBounds) {
@@ -234,9 +296,14 @@ export function InteractiveMap({
     // Set map in store
     setMap(gameMap);
 
-    // Save initial view
+    // Save initial view + seed the live-view refs used for tile-sharing switches.
     const mapCenter = webmap.getCenter();
     setViewByMap(mapName, [mapCenter.lat, mapCenter.lng], webmap.getZoom());
+    currentViewRef.current = {
+      center: [mapCenter.lat, mapCenter.lng],
+      zoom: webmap.getZoom(),
+    };
+    prevUrlRef.current = mapTileOptions.url;
 
     // Handle context menu
     webmap.on("contextmenu", (event) => {
@@ -260,12 +327,23 @@ export function InteractiveMap({
     // Save view on move (debounced)
     let timeoutId: NodeJS.Timeout | null = null;
     webmap.on("moveend", () => {
+      // Keep the live-view ref current immediately (used for tile-sharing
+      // switches); persist to the store debounced.
+      const cNow = webmap.getCenter();
+      currentViewRef.current = {
+        center: [cNow.lat, cNow.lng],
+        zoom: webmap.getZoom(),
+      };
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
       timeoutId = setTimeout(() => {
         const c = webmap.getCenter();
-        setViewByMap(mapName, [c.lat, c.lng], webmap.getZoom());
+        setViewByMap(
+          userStoreApi.getState().mapName,
+          [c.lat, c.lng],
+          webmap.getZoom(),
+        );
       }, 3000);
     });
 
@@ -275,7 +353,11 @@ export function InteractiveMap({
       }
       // Save current view immediately on cleanup (navigation, unmount)
       const c = webmap.getCenter();
-      setViewByMap(mapName, [c.lat, c.lng], webmap.getZoom());
+      setViewByMap(
+        userStoreApi.getState().mapName,
+        [c.lat, c.lng],
+        webmap.getZoom(),
+      );
       setMap(null);
       webmap.destroy();
       if (containerRef.current && canvas.parentNode === containerRef.current) {
@@ -284,11 +366,41 @@ export function InteractiveMap({
       mapRefsRef.current = {
         webmap: null,
         tileLayer: null,
+        overlayLayer: null,
         markerLayer: null,
         canvas: null,
       };
     };
-  }, [isHydrated, mapTileOptions?.url, mapName]);
+    // NB: deliberately NOT keyed on `mapName` — switching between maps that
+    // share tiles (a surface ↔ its interior layers) reuses this WebMap instead
+    // of tearing it down, so those switches are instant. `map.mapName` is kept
+    // in sync by the store subscription below; the tile/overlay/marker/shape
+    // effects update the reused map in place.
+  }, [isHydrated, mapTileOptions?.url]);
+
+  // Keep the live map's mapName in sync when the WebMap is reused across a
+  // tile-sharing switch (runs synchronously on store change, before consumers
+  // that read `map.mapName` re-render).
+  useEffect(
+    () =>
+      userStoreApi.subscribe((state, prev) => {
+        if (state.mapName !== prev.mapName) {
+          const wm = mapRefsRef.current.webmap as GameMap | null;
+          if (wm) wm.mapName = state.mapName;
+        }
+      }),
+    [userStoreApi],
+  );
+
+  // Update the document title on map change (handled by map-init on a rebuild,
+  // but that no longer runs for tile-sharing switches).
+  useEffect(() => {
+    if (!userStoreApi.getState().selectedNodeId) {
+      document.title = t("map.pageTitle", {
+        vars: { title: appTitle, map: t(mapName) },
+      });
+    }
+  }, [mapName, appTitle, t, userStoreApi]);
 
   // Add/update tile layer
   useEffect(() => {
@@ -301,36 +413,54 @@ export function InteractiveMap({
       return;
     }
 
-    // Remove existing tile layer if any
-    if (mapRefsRef.current.tileLayer) {
-      webmap.removeLayer(mapRefsRef.current.tileLayer);
-      mapRefsRef.current.tileLayer = null;
+    const url = getTileLayerUrl(appName, mapTileOptions.url);
+    const opacity = mapTileOptions.backdrop ? 0.4 : 1;
+
+    // Reuse the tile layer when the TILES are the same (a surface ↔ its interior
+    // layers share tiles) — just re-dim it in place, so switching a layer never
+    // reloads/flickers the tiles. Only rebuild when the actual tile URL changes.
+    const existing = mapRefsRef.current.tileLayer;
+    if (existing && existing.url === url) {
+      existing.setOpacity(opacity);
+      existing.setColorBlindMode(colorBlindMode);
+      existing.setColorBlindSeverity(colorBlindSeverity);
+    } else {
+      if (existing) webmap.removeLayer(existing);
+      const tileLayer = new TileLayer({
+        url,
+        tileSize: mapTileOptions.options?.tileSize ?? 256,
+        minNativeZoom: mapTileOptions.options?.minNativeZoom,
+        maxNativeZoom: mapTileOptions.options?.maxNativeZoom,
+        bounds: mapTileOptions.options?.bounds,
+        transformation: mapTileOptions.transformation,
+        // On a layered map, dim the (reused parent) tiles so the interior
+        // overlay reads as the active floor — the Kuro-style backdrop.
+        opacity,
+        colorBlind:
+          colorBlindMode !== "none"
+            ? { mode: colorBlindMode, severity: colorBlindSeverity }
+            : null,
+      });
+      webmap.addLayer(tileLayer, { zIndex: 0 });
+      mapRefsRef.current.tileLayer = tileLayer;
     }
 
-    const url = getTileLayerUrl(appName, mapTileOptions.url);
-
-    const tileLayer = new TileLayer({
-      url,
-      tileSize: mapTileOptions.options?.tileSize ?? 256,
-      minNativeZoom: mapTileOptions.options?.minNativeZoom,
-      maxNativeZoom: mapTileOptions.options?.maxNativeZoom,
-      bounds: mapTileOptions.options?.bounds,
-      transformation: mapTileOptions.transformation,
-      colorBlind:
-        colorBlindMode !== "none"
-          ? { mode: colorBlindMode, severity: colorBlindSeverity }
-          : null,
-    });
-
-    webmap.addLayer(tileLayer, { zIndex: 0 });
-    mapRefsRef.current.tileLayer = tileLayer;
-
-    return () => {
-      if (mapRefsRef.current.webmap && mapRefsRef.current.tileLayer) {
-        mapRefsRef.current.webmap.removeLayer(mapRefsRef.current.tileLayer);
-        mapRefsRef.current.tileLayer = null;
-      }
-    };
+    // Swap the interior floor overlay (drawn over the dimmed backdrop).
+    if (mapRefsRef.current.overlayLayer) {
+      webmap.removeLayer(mapRefsRef.current.overlayLayer);
+      mapRefsRef.current.overlayLayer = null;
+    }
+    const overlay = mapTileOptions.overlay;
+    if (overlay?.url) {
+      const overlayLayer = new ImageOverlayLayer({
+        url: getTileLayerUrl(appName, overlay.url),
+        bounds: overlay.bounds,
+        opacity: overlay.opacity ?? 1,
+      });
+      webmap.addLayer(overlayLayer, { zIndex: 1 });
+      mapRefsRef.current.overlayLayer = overlayLayer;
+    }
+    webmap.requestRedraw();
   }, [
     map,
     mapTileOptions,
@@ -339,6 +469,90 @@ export function InteractiveMap({
     isOverlay,
     mapFilter,
   ]);
+
+  // Interior "layered map" shapes: on a surface map, draw each interior's plan
+  // dimmed at its true location so you can SEE the interiors and click one to
+  // descend into it (the 分层地图 entrance model, drawn in place on the world).
+  useEffect(() => {
+    const webmap = mapRefsRef.current.webmap;
+    if (!webmap) return;
+    if (mapRefsRef.current.interiorShapes) {
+      webmap.removeLayer(mapRefsRef.current.interiorShapes);
+      mapRefsRef.current.interiorShapes = null;
+    }
+    // Only on a surface (non-layer) map; never in the transparent in-game overlay
+    // (no tiles there — the game world IS the map, so a drawn plan makes no sense).
+    if (mapTileOptions?.layer || (isOverlay && mapFilter === "full")) return;
+    // One shape per AREA (group); entering lands on its lowest floor.
+    const byGroup = new Map<string, InteriorArea & { floor: number }>();
+    for (const [name, cfg] of Object.entries(tileOptions)) {
+      const layer = cfg.layer;
+      if (!layer || layer.parent !== mapName || !cfg.overlay) continue;
+      const existing = byGroup.get(layer.group);
+      if (!existing || layer.floor < existing.floor) {
+        byGroup.set(layer.group, {
+          mapName: name,
+          label: layer.label || t(name) || name,
+          bounds: cfg.overlay.bounds,
+          url: getTileLayerUrl(appName, cfg.overlay.url),
+          floor: layer.floor,
+        });
+      }
+    }
+    const areas = [...byGroup.values()];
+    if (!areas.length) return;
+    const shapes = new InteriorShapesLayer(areas, { opacity: 0.4 });
+    webmap.addLayer(shapes, { zIndex: 2 });
+    mapRefsRef.current.interiorShapes = shapes;
+    return () => {
+      const refs = mapRefsRef.current;
+      if (refs.webmap && refs.interiorShapes) {
+        refs.webmap.removeLayer(refs.interiorShapes);
+        refs.interiorShapes = null;
+      }
+    };
+  }, [
+    map,
+    mapName,
+    mapTileOptions,
+    tileOptions,
+    appName,
+    t,
+    enterLayer,
+    isOverlay,
+    mapFilter,
+  ]);
+
+  // On an interior map, a click on the dimmed backdrop (off the footprint)
+  // returns to the surface — an invisible pick-only layer below the markers so
+  // marker clicks are handled first and only genuine backdrop clicks exit.
+  useEffect(() => {
+    const webmap = mapRefsRef.current.webmap;
+    if (!webmap) return;
+    if (mapRefsRef.current.backdropExit) {
+      webmap.removeLayer(mapRefsRef.current.backdropExit);
+      mapRefsRef.current.backdropExit = null;
+    }
+    const layer = mapTileOptions?.layer;
+    const overlay = mapTileOptions?.overlay;
+    // No backdrop to click in the transparent in-game overlay (no tiles drawn).
+    if (!layer || !overlay?.url || (isOverlay && mapFilter === "full")) return;
+    const parent = layer.parent;
+    const be = new BackdropExitLayer({
+      bounds: overlay.bounds,
+      url: getTileLayerUrl(appName, overlay.url),
+      onExit: () => enterLayer(parent),
+    });
+    webmap.addLayer(be, { zIndex: 0.5 });
+    mapRefsRef.current.backdropExit = be;
+    return () => {
+      const refs = mapRefsRef.current;
+      if (refs.webmap && refs.backdropExit) {
+        refs.webmap.removeLayer(refs.backdropExit);
+        refs.backdropExit = null;
+      }
+    };
+  }, [map, mapName, mapTileOptions, appName, enterLayer, isOverlay, mapFilter]);
 
   // Update color blind mode on marker layers
   useEffect(() => {
@@ -354,10 +568,29 @@ export function InteractiveMap({
 
   return (
     <>
-      <div
-        className={cn(`h-full bg-inherit! outline-none relative select-none`)}
-        ref={containerRef}
-      />
+      <div className="h-full relative">
+        <div
+          className={cn(`h-full bg-inherit! outline-none select-none`)}
+          ref={containerRef}
+        />
+        <InteriorLabels
+          getLayer={getInteriorShapes}
+          getCanvas={getMapCanvas}
+          onEnter={enterLayer}
+        />
+        {/* On an interior layer, an explicit way back to the surface (the camera
+            is preserved by the tile-sharing keep-view logic). */}
+        {mapTileOptions?.layer?.parent ? (
+          <button
+            type="button"
+            onClick={() => enterLayer(mapTileOptions.layer!.parent)}
+            className="absolute left-1/2 top-2 z-500 flex -translate-x-1/2 cursor-pointer items-center gap-1.5 rounded-md border border-input bg-background/90 px-3 py-1.5 text-sm font-medium shadow-sm backdrop-blur-sm transition-colors hover:bg-accent"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {t(mapTileOptions.layer.parent) || "World Map"}
+          </button>
+        ) : null}
+      </div>
       <ContextMenu
         domain={domain}
         contextMenuData={contextMenuData}

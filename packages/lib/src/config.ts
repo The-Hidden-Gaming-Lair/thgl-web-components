@@ -835,5 +835,44 @@ export type TileLayer = {
     center: [number, number];
     angle: number;
   };
+  /**
+   * Marks this map as a FLOOR of a layered/hierarchical area (multi-floor
+   * towers, underground, interiors). Floors of the same `group` are shown
+   * together in the LayerSelect control and switched between like any map.
+   * A layer map typically REUSES its parent's `url`/`options` (so the parent
+   * tiles render as spatial context) and draws its own `overlay` on top.
+   */
+  layer?: {
+    /** The map this is a floor of (whose tiles provide the backdrop). */
+    parent: string;
+    /** Area id grouping all floors together (e.g. the interior's name). */
+    group: string;
+    /** Sort order within the group; lower = higher floor (0 = surface). */
+    floor: number;
+    /** Display label for this floor (falls back to `defaultTitle`). */
+    label?: string;
+    /**
+     * Tight XY world footprint of the interior (shared by all floors of the
+     * group). In live mode the apps auto-switch to this interior when the
+     * player's position falls inside it. [[minLat,minLng],[maxLat,maxLng]].
+     */
+    footprint?: [[number, number], [number, number]];
+    /**
+     * This floor's height (Z) band [min,max] — used in live mode to pick which
+     * floor of a multi-floor interior the player is on.
+     */
+    zRange?: [number, number];
+  };
+  /**
+   * An interior image drawn over the tiles (the floor plan of a layered area),
+   * positioned at `bounds` in map coordinates. Rendered via ImageOverlayLayer.
+   */
+  overlay?: {
+    url: string;
+    bounds: [[number, number], [number, number]];
+    opacity?: number;
+  };
+  /** Dim the underlying tiles so the `overlay` reads as the active floor. */
+  backdrop?: boolean;
 };
 export type TilesConfig = Record<string, TileLayer>;
