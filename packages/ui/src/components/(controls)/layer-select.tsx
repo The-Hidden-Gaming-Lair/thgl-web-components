@@ -84,7 +84,11 @@ export function LayerSelect({
     if (target === mapName) return;
     setMapName(target);
     if (location.pathname.includes("/maps/")) {
-      const title = tileOptions[target]?.defaultTitle ?? target;
+      // Slug = the map's title (resolved back via its dict term). A defaultTitle
+      // equal to the map id isn't a real title (the generated Underground layer
+      // map) — fall back to the localized dict term so the route stays valid.
+      const dt = tileOptions[target]?.defaultTitle;
+      const title = (dt && dt !== target ? dt : t(target)) || target;
       window.history.pushState({}, "", localizePath(`/maps/${title}`, locale));
     }
   };

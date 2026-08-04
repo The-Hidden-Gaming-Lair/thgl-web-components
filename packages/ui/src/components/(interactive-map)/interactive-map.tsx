@@ -31,8 +31,9 @@ import { useLocale, useT } from "../(providers)";
 interface MapRefs {
   webmap: WebMap | null;
   tileLayer: TileLayer | null;
-  // Interior floor image drawn over a dimmed backdrop for layered maps.
-  overlayLayer: ImageOverlayLayer | null;
+  // Interior floor image(s) drawn over a dimmed backdrop — the Underground map
+  // draws every interior's plan at once, so this is a list.
+  overlayLayers: ImageOverlayLayer[];
   // Dimmed, clickable interior footprints drawn on the parent (surface) map.
   interiorShapes: InteriorShapesLayer | null;
   // On an interior map: click the backdrop (off the footprint) to exit.
@@ -58,7 +59,7 @@ export function InteractiveMap({
   const mapRefsRef = useRef<MapRefs>({
     webmap: null,
     tileLayer: null,
-    overlayLayer: null,
+    overlayLayers: [],
     interiorShapes: null,
     backdropExit: null,
     markerLayer: null,
@@ -92,7 +93,12 @@ export function InteractiveMap({
     (target: string) => {
       setMapName(target);
       if (location.pathname.includes("/maps/")) {
-        const title = tileOptions[target]?.defaultTitle ?? t(target) ?? target;
+        // The URL slug is the map's title, resolved back to the map by its dict
+        // term (getMapNameFromVersion). A defaultTitle equal to the map id is not
+        // a real title (e.g. the generated "Underground" layer map) — fall back
+        // to the localized dict term so the route stays valid.
+        const dt = tileOptions[target]?.defaultTitle;
+        const title = (dt && dt !== target ? dt : t(target)) || target;
         window.history.pushState(
           {},
           "",
@@ -366,7 +372,9 @@ export function InteractiveMap({
       mapRefsRef.current = {
         webmap: null,
         tileLayer: null,
-        overlayLayer: null,
+        overlayLayers: [],
+        interiorShapes: null,
+        backdropExit: null,
         markerLayer: null,
         canvas: null,
       };
@@ -445,20 +453,21 @@ export function InteractiveMap({
       mapRefsRef.current.tileLayer = tileLayer;
     }
 
-    // Swap the interior floor overlay (drawn over the dimmed backdrop).
-    if (mapRefsRef.current.overlayLayer) {
-      webmap.removeLayer(mapRefsRef.current.overlayLayer);
-      mapRefsRef.current.overlayLayer = null;
-    }
-    const overlay = mapTileOptions.overlay;
-    if (overlay?.url) {
+    // Swap the interior floor overlay(s) — the Underground map draws every
+    // interior's plan at once; a legacy single `overlay` still works.
+    for (const ol of mapRefsRef.current.overlayLayers) webmap.removeLayer(ol);
+    mapRefsRef.current.overlayLayers = [];
+    const overlayList =
+      mapTileOptions.overlays ??
+      (mapTileOptions.overlay ? [mapTileOptions.overlay] : []);
+    for (const ol of overlayList) {
       const overlayLayer = new ImageOverlayLayer({
-        url: getTileLayerUrl(appName, overlay.url),
-        bounds: overlay.bounds,
-        opacity: overlay.opacity ?? 1,
+        url: getTileLayerUrl(appName, ol.url),
+        bounds: ol.bounds,
+        opacity: (ol as { opacity?: number }).opacity ?? 1,
       });
       webmap.addLayer(overlayLayer, { zIndex: 1 });
-      mapRefsRef.current.overlayLayer = overlayLayer;
+      mapRefsRef.current.overlayLayers.push(overlayLayer);
     }
     webmap.requestRedraw();
   }, [
@@ -483,25 +492,20 @@ export function InteractiveMap({
     // Only on a surface (non-layer) map; never in the transparent in-game overlay
     // (no tiles there — the game world IS the map, so a drawn plan makes no sense).
     if (mapTileOptions?.layer || (isOverlay && mapFilter === "full")) return;
-    // One shape per AREA (group); entering lands on its lowest floor.
-    const byGroup = new Map<string, InteriorArea & { floor: number }>();
-    for (const [name, cfg] of Object.entries(tileOptions)) {
-      const layer = cfg.layer;
-      if (!layer || layer.parent !== mapName || !cfg.overlay) continue;
-      const existing = byGroup.get(layer.group);
-      if (!existing || layer.floor < existing.floor) {
-        byGroup.set(layer.group, {
-          mapName: name,
-          label: layer.label || t(name) || name,
-          bounds: cfg.overlay.bounds,
-          url: getTileLayerUrl(appName, cfg.overlay.url),
-          floor: layer.floor,
-        });
-      }
-    }
-    const areas = [...byGroup.values()];
+    // Faint context: draw every interior plan from this surface's Underground map,
+    // each with its name button — clicking any enters the single Underground.
+    const ugEntry = Object.entries(tileOptions).find(
+      ([, c]) => c.layer?.parent === mapName && !!c.overlays?.length,
+    );
+    const ugId = ugEntry?.[0];
+    const areas: InteriorArea[] = (ugEntry?.[1].overlays ?? []).map((o) => ({
+      mapName: ugId!,
+      label: o.label ?? "",
+      bounds: o.bounds,
+      url: getTileLayerUrl(appName, o.url),
+    }));
     if (!areas.length) return;
-    const shapes = new InteriorShapesLayer(areas, { opacity: 0.4 });
+    const shapes = new InteriorShapesLayer(areas, { opacity: 0.28 });
     webmap.addLayer(shapes, { zIndex: 2 });
     mapRefsRef.current.interiorShapes = shapes;
     return () => {
@@ -534,13 +538,20 @@ export function InteractiveMap({
       mapRefsRef.current.backdropExit = null;
     }
     const layer = mapTileOptions?.layer;
-    const overlay = mapTileOptions?.overlay;
+    // The single "Underground" map stacks every interior overlay; fall back to a
+    // lone `overlay` for legacy per-interior maps.
+    const overlays =
+      mapTileOptions?.overlays ??
+      (mapTileOptions?.overlay ? [mapTileOptions.overlay] : []);
     // No backdrop to click in the transparent in-game overlay (no tiles drawn).
-    if (!layer || !overlay?.url || (isOverlay && mapFilter === "full")) return;
+    if (!layer || overlays.length === 0 || (isOverlay && mapFilter === "full"))
+      return;
     const parent = layer.parent;
     const be = new BackdropExitLayer({
-      bounds: overlay.bounds,
-      url: getTileLayerUrl(appName, overlay.url),
+      areas: overlays.map((o) => ({
+        bounds: o.bounds,
+        url: getTileLayerUrl(appName, o.url),
+      })),
       onExit: () => enterLayer(parent),
     });
     webmap.addLayer(be, { zIndex: 0.5 });
@@ -573,6 +584,7 @@ export function InteractiveMap({
           className={cn(`h-full bg-inherit! outline-none select-none`)}
           ref={containerRef}
         />
+        {/* Interior name buttons on the surface — click any to enter Underground. */}
         <InteriorLabels
           getLayer={getInteriorShapes}
           getCanvas={getMapCanvas}

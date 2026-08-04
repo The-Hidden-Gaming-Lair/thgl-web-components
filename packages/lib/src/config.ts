@@ -872,7 +872,23 @@ export type TileLayer = {
     bounds: [[number, number], [number, number]];
     opacity?: number;
   };
-  /** Dim the underlying tiles so the `overlay` reads as the active floor. */
+  /**
+   * Multiple interior overlays drawn at once — the single "Underground" map
+   * renders every interior's floor plan, and the overworld draws them faint as
+   * context. Each is placed at its own `bounds`.
+   */
+  overlays?: {
+    url: string;
+    bounds: [[number, number], [number, number]];
+    /** Interior name — shown as an on-map "Underground" entrance button. */
+    label?: string;
+  }[];
+  /**
+   * Per-interior footprints (tight XY world bounds). Live mode auto-switches to
+   * the Underground when the player falls inside ANY of these.
+   */
+  footprints?: [[number, number], [number, number]][];
+  /** Dim the underlying tiles so the `overlay`(s) read as the active floor. */
   backdrop?: boolean;
 };
 export type TilesConfig = Record<string, TileLayer>;

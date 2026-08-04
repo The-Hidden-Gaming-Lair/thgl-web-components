@@ -156,9 +156,10 @@ export function App({
                       appName={appConfig.name}
                     />
                   </MapContainer>
-                  <Regions />
+                  <Regions tilesConfig={tiles} />
                   <Markers
                     markerOptions={appConfig.markerOptions}
+                    tilesConfig={tiles}
                     appName={appConfig.name}
                     iconsPath={version?.more.icons}
                     additionalTooltip={additionalTooltip}

@@ -263,7 +263,7 @@ export class InteriorShapesLayer implements Layer {
         this.buildQuad(a, state.projection);
         a.lastZoom = state.zoom;
       }
-      const hot = a.area.mapName === this.highlighted;
+      const hot = a.area.url === this.highlighted;
       gl.uniform1f(this.uOpacity, hot ? 0.95 : this.opacity);
       gl.uniform1f(this.uTint, hot ? 0.04 : 0.28);
       gl.bindBuffer(gl.ARRAY_BUFFER, a.vertexBuffer);
@@ -278,34 +278,44 @@ export class InteriorShapesLayer implements Layer {
     };
     // Draw the hovered footprint last so it sits on top of its neighbours.
     for (const a of this.areas)
-      if (a.area.mapName !== this.highlighted) drawArea(a);
+      if (a.area.url !== this.highlighted) drawArea(a);
     for (const a of this.areas)
-      if (a.area.mapName === this.highlighted) drawArea(a);
+      if (a.area.url === this.highlighted) drawArea(a);
     gl.bindVertexArray(null);
   }
 
-  /** Highlight (light up) one interior's footprint — driven by label hover. */
-  setHighlighted(mapName: string | null): void {
-    if (this.highlighted === mapName) return;
-    this.highlighted = mapName;
+  /**
+   * Highlight (light up) one interior's footprint — keyed by the overlay `url`
+   * (unique per interior; the `mapName` is shared now that all lead to the one
+   * Underground map). Driven by label hover.
+   */
+  setHighlighted(url: string | null): void {
+    if (this.highlighted === url) return;
+    this.highlighted = url;
     this.onTileLoad?.(); // request a redraw
   }
 
   // No pick()/handleClick(): the footprint itself is NOT a click target — you
-  // enter an interior via its name button (label) or the Layered Map picker.
+  // enter via its name button (label) or the Layered Map picker.
 
-  /**
-   * Project each area's footprint centroid to screen (DPR px) for DOM labels.
-   * Returns null-safe list of loaded areas only.
-   */
   /** Label anchors (CSS px) from the last rendered frame — for DOM labels. */
-  getLabels(): { mapName: string; label: string; x: number; y: number }[] {
+  getLabels(): {
+    id: string;
+    mapName: string;
+    label: string;
+    x: number;
+    y: number;
+  }[] {
     return this.lastState ? this.labelAnchors(this.lastState) : [];
   }
 
-  labelAnchors(
-    state: RenderState,
-  ): { mapName: string; label: string; x: number; y: number }[] {
+  labelAnchors(state: RenderState): {
+    id: string;
+    mapName: string;
+    label: string;
+    x: number;
+    y: number;
+  }[] {
     const view = state.viewMatrix;
     if (!view) return [];
     const a0 = view[0],
@@ -314,9 +324,15 @@ export class InteriorShapesLayer implements Layer {
       d0 = view[4],
       tx = view[6],
       ty = view[7];
-    const out: { mapName: string; label: string; x: number; y: number }[] = [];
+    const out: {
+      id: string;
+      mapName: string;
+      label: string;
+      x: number;
+      y: number;
+    }[] = [];
     for (const a of this.areas) {
-      if (!a.loaded) continue;
+      if (!a.loaded || !a.area.label) continue;
       const [[minLat, minLng], [maxLat, maxLng]] = a.area.bounds;
       // centroid UV → latlng (U=lng fraction, V=0 at maxLat)
       const lng = minLng + a.cu * (maxLng - minLng);
@@ -325,6 +341,7 @@ export class InteriorShapesLayer implements Layer {
       const cx = a0 * p.x + c0 * p.y + tx;
       const cy = b0 * p.x + d0 * p.y + ty;
       out.push({
+        id: a.area.url,
         mapName: a.area.mapName,
         label: a.area.label,
         x: (cx * 0.5 + 0.5) * (state.width / state.devicePixelRatio),

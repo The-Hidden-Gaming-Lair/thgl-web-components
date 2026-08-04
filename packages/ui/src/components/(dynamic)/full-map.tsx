@@ -47,10 +47,11 @@ export function FullMap({
         isOverlay={isOverlay}
       />
       <DebugPanel />
-      <Regions />
+      <Regions tilesConfig={tilesConfig} />
       <Markers
         appName={appConfig.name}
         markerOptions={appConfig.markerOptions ?? MARKER_OPTIONS}
+        tilesConfig={tilesConfig}
         hideComments={simple}
         iconsPath={iconsPath}
         additionalTooltip={additionalTooltip}

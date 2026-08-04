@@ -21,9 +21,9 @@ export function InteriorLabels({
   getCanvas: () => HTMLCanvasElement | null;
   onEnter: (mapName: string) => void;
 }): JSX.Element {
-  const [labels, setLabels] = useState<{ mapName: string; label: string }[]>(
-    [],
-  );
+  const [labels, setLabels] = useState<
+    { id: string; mapName: string; label: string }[]
+  >([]);
   const elRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   useEffect(() => {
@@ -32,15 +32,21 @@ export function InteriorLabels({
     const loop = () => {
       const anchors = getLayer()?.getLabels() ?? [];
       const key = anchors
-        .map((a) => a.mapName)
+        .map((a) => a.id)
         .sort()
         .join("|");
       if (key !== prevKey) {
         prevKey = key;
-        setLabels(anchors.map((a) => ({ mapName: a.mapName, label: a.label })));
+        setLabels(
+          anchors.map((a) => ({
+            id: a.id,
+            mapName: a.mapName,
+            label: a.label,
+          })),
+        );
       }
       for (const a of anchors) {
-        const el = elRefs.current.get(a.mapName);
+        const el = elRefs.current.get(a.id);
         if (el) {
           el.style.transform = `translate(-50%, -50%) translate(${a.x}px, ${a.y}px)`;
           el.style.display = "";
@@ -56,16 +62,16 @@ export function InteriorLabels({
     <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
       {labels.map((l) => (
         <button
-          key={l.mapName}
+          key={l.id}
           ref={(el) => {
-            if (el) elRefs.current.set(l.mapName, el);
-            else elRefs.current.delete(l.mapName);
+            if (el) elRefs.current.set(l.id, el);
+            else elRefs.current.delete(l.id);
           }}
           type="button"
           onClick={() => onEnter(l.mapName)}
-          onMouseEnter={() => getLayer()?.setHighlighted(l.mapName)}
+          onMouseEnter={() => getLayer()?.setHighlighted(l.id)}
           onMouseLeave={() => getLayer()?.setHighlighted(null)}
-          onFocus={() => getLayer()?.setHighlighted(l.mapName)}
+          onFocus={() => getLayer()?.setHighlighted(l.id)}
           onBlur={() => getLayer()?.setHighlighted(null)}
           // The label is interactive (click + hover), which otherwise swallows
           // wheel-zoom over it — forward the wheel to the map canvas so hovering

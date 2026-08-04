@@ -4,7 +4,7 @@ import { useEffect, useRef, type JSX } from "react";
 import { useUserStore } from "../(providers)";
 import { useMap } from "./store";
 import { rotateCoordinate } from "./rotation";
-import { useSettingsStore } from "@repo/lib";
+import { useSettingsStore, type TilesConfig } from "@repo/lib";
 import { REGION_FILTERS, useCoordinates, useT } from "../(providers)";
 import { DrawingLayer } from "@repo/lib/web-map";
 
@@ -22,7 +22,11 @@ function hslToHex(h: number, s: number, l: number): string {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
-export function Regions(): JSX.Element {
+export function Regions({
+  tilesConfig,
+}: {
+  tilesConfig: TilesConfig;
+}): JSX.Element {
   const map = useMap();
   const t = useT();
   const { regions } = useCoordinates();
@@ -69,8 +73,14 @@ export function Regions(): JSX.Element {
       return point;
     };
 
+    // On a layer map (e.g. the Underground), show the PARENT surface's regions —
+    // the layer reuses the parent's world space, and its own id has no regions.
+    const parentMapName = tilesConfig[map.mapName]?.layer?.parent;
     const filteredRegions = regions.filter(
-      (r) => !r.mapName || r.mapName === map.mapName,
+      (r) =>
+        !r.mapName ||
+        r.mapName === map.mapName ||
+        (!!parentMapName && r.mapName === parentMapName),
     );
 
     for (let i = 0; i < filteredRegions.length; i++) {
@@ -110,7 +120,7 @@ export function Regions(): JSX.Element {
         layerRef.current = null;
       }
     };
-  }, [map, regions, showBorders, showNames, baseIconSize, t]);
+  }, [map, regions, showBorders, showNames, baseIconSize, t, tilesConfig]);
 
   // Sync dynamic size factor to region drawing layer
   useEffect(() => {

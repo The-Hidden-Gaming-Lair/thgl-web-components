@@ -25,6 +25,7 @@ import {
   MarkerOptions,
   resolveLiveModeForType,
   Spawn,
+  TilesConfig,
   useAccountStore,
   useConnectionStore,
   useEffectiveLiveMode,
@@ -91,12 +92,14 @@ function computeRelativeZPos(
 export function Markers({
   appName,
   markerOptions,
+  tilesConfig,
   hideComments,
   iconsPath,
   additionalTooltip,
 }: {
   appName: string;
   markerOptions: MarkerOptions;
+  tilesConfig: TilesConfig;
   hideComments?: boolean;
   iconsPath: string;
   additionalTooltip?: AdditionalTooltipType;
@@ -258,6 +261,7 @@ export function Markers({
       <MarkersContent
         appName={appName}
         markerOptions={markerOptions}
+        tilesConfig={tilesConfig}
         iconsPath={iconsPath}
         onTooltipData={setTooltipData}
         onTooltipOpen={setTooltipIsOpen}
@@ -377,6 +381,7 @@ const TooltipPositioner = React.forwardRef<
 function MarkersContent({
   appName,
   markerOptions,
+  tilesConfig,
   iconsPath,
   onTooltipData,
   onTooltipOpen,
@@ -384,6 +389,7 @@ function MarkersContent({
 }: {
   appName: string;
   markerOptions: MarkerOptions;
+  tilesConfig: TilesConfig;
   iconsPath: string;
   onTooltipData: (data: {
     x: number;
@@ -943,6 +949,10 @@ function MarkersContent({
 
     const baseRadius = 12;
     const dpr = window.devicePixelRatio || 1;
+    // The layer badge only makes sense on the overworld, where layered spawns
+    // are mixed with surface ones. On a layer map (e.g. "Underground") every
+    // spawn is layered, so a badge on all of them is just noise — suppress it.
+    const onLayerMap = !!tilesConfig[map.mapName]?.layer?.parent;
     const markerInstances: IconMarkerInstance[] = [];
     const newSpawnMap = new Map<string, Spawn>();
     // Track raw Z values for height visualization without player
@@ -1253,6 +1263,9 @@ function MarkersContent({
             ? spawn.color
             : undefined,
         isStacked,
+        // Show a layer badge on the overworld for spawns that live inside a
+        // layered interior (they are also mirrored into the "Underground" map).
+        layered: !onLayerMap && !!spawn.layer,
         spiderOffsetX,
         spiderOffsetY,
       };

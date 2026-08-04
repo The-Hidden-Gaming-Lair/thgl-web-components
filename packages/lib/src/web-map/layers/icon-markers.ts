@@ -194,6 +194,7 @@ export interface IconMarkerInstance {
   keepUpright?: boolean; // do not rotate with map bearing
   tint?: string; // optional color tint (hex string like "#FF0000" or "#FF0000CC")
   isStacked?: boolean; // show indicator for multiple spawns at same location
+  layered?: boolean; // spawn belongs to a layered interior — show a layer badge
   spiderOffsetX?: number; // screen-space X offset in device px for spiderfied clusters
   spiderOffsetY?: number; // screen-space Y offset in device px for spiderfied clusters
 }
@@ -211,6 +212,7 @@ in vec4 a_uv;       // uv origin (xy) and size (zw)
 in float a_disc;    // per-instance state: 0 normal, 0.5 muted, 1.0 discovered
 in vec2 a_flags;    // x: normalized height, y: zpos(-1/0/1)
 in float a_count;   // 1=single, 2=stacked (multiple spawns at same location)
+in float a_layered; // 1=spawn is inside a layered interior (show layer badge)
 in float a_angle;   // rotation in radians
 in float a_renderMode; // 0=icon, 1=height stem
 in float a_keepUpright; // 1=billboard mode, 0=use own rotation
@@ -234,6 +236,7 @@ out vec2 v_uvMax;    // UV max bounds for atlas sub-rect
 out float v_disc;
 out vec2 v_flags;
 out float v_count;
+out float v_layered;
 out float v_renderMode;
 out vec4 v_tint;
 void main(){
@@ -329,6 +332,7 @@ void main(){
   v_disc = a_disc;
   v_flags = a_flags;
   v_count = a_count;
+  v_layered = a_layered;
   v_tint = a_tint;
 }
 `;
@@ -348,6 +352,7 @@ in vec2 v_uvMax;    // UV max bounds for atlas sub-rect
 in float v_disc;
 in vec2 v_flags;
 in float v_count;
+in float v_layered;
 in float v_renderMode;
 in vec4 v_tint;
 out vec4 outColor;
@@ -392,6 +397,22 @@ float sdSegment(vec2 p, vec2 a, vec2 b){
   vec2 pa = p - a, ba = b - a;
   float h = clamp(dot(pa,ba)/dot(ba,ba), 0.0, 1.0);
   return length(pa - ba*h);
+}
+// Lucide "Layers" glyph (filled diamond over a chevron), used for the per-marker
+// layer badge so it matches the "Layered Map" selector icon. c = center in quad
+// UV (0..1, +y down), s = half-extent. Returns coverage alpha in [0,1].
+float layersBadge(vec2 uv, vec2 c, float s){
+  vec2 p = (uv - c) / s;               // local coords, +y down
+  float aa = (fwidth(p.x) + fwidth(p.y)) * 0.9 + 0.03;
+  // Top: filled diamond.
+  float dTop = abs(p.x) + abs(p.y + 0.34) - 0.55;
+  float top = 1.0 - smoothstep(-aa, aa, dTop);
+  // Bottom: a chevron (V) echoing the diamond's lower edges = the "stack".
+  float w = 0.14;
+  float dL = sdSegment(p, vec2(-0.55, 0.30), vec2(0.0, 0.85));
+  float dR = sdSegment(p, vec2( 0.55, 0.30), vec2(0.0, 0.85));
+  float chev = 1.0 - smoothstep(w - aa, w + aa, min(dL, dR));
+  return clamp(max(top, chev), 0.0, 1.0);
 }
 
 vec3 simulateCB(vec3 rgb, int mode){
@@ -574,6 +595,20 @@ void main(){
     overlayAlpha = max(overlayAlpha, cross);
   }
 
+  // Layer badge (bottom-right corner) — marks spawns that live inside a layered
+  // interior. Uses the lucide "Layers" glyph so it matches the "Layered Map"
+  // selector icon, tinted cyan to stay distinct from the top-left count cross.
+  if (v_layered > 0.5) {
+    vec2 bc = vec2(0.77, 0.76);
+    float bs = 0.20;
+    float sh = layersBadge(uv - vec2(0.024, 0.024), bc, bs); // drop shadow
+    draw = mix(draw, vec3(0.0), sh * 0.75);
+    overlayAlpha = max(overlayAlpha, sh * 0.75);
+    float g = layersBadge(uv, bc, bs);
+    draw = mix(draw, vec3(0.62, 0.85, 1.0), g);
+    overlayAlpha = max(overlayAlpha, g);
+  }
+
   // Apply color-blind simulation (skip discovered icons to avoid double-greyscale; muted is fine)
   if(u_cb_mode != 0 && v_disc < 0.75){
     vec3 sim = simulateCB(draw, u_cb_mode);
@@ -639,6 +674,7 @@ export class IconMarkerLayer implements Layer {
     discs?: Float32Array;
     flags?: Float32Array;
     counts?: Float32Array;
+    layered?: Float32Array;
     angles?: Float32Array;
     keepUprights?: Float32Array;
     stemModes?: Float32Array;
@@ -656,6 +692,7 @@ export class IconMarkerLayer implements Layer {
   private discs!: WebGLBuffer;
   private angles!: WebGLBuffer;
   private counts!: WebGLBuffer;
+  private layeredBuf!: WebGLBuffer;
   private renderModes!: WebGLBuffer;
   private keepUprights!: WebGLBuffer;
   private tints!: WebGLBuffer;
@@ -1035,6 +1072,13 @@ export class IconMarkerLayer implements Layer {
     gl.vertexAttribPointer(a_count, 1, gl.FLOAT, false, 0, 0);
     gl.vertexAttribDivisor(a_count, 1);
 
+    this.layeredBuf = gl.createBuffer()!;
+    const a_layered = gl.getAttribLocation(this.program!, "a_layered");
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.layeredBuf);
+    gl.enableVertexAttribArray(a_layered);
+    gl.vertexAttribPointer(a_layered, 1, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribDivisor(a_layered, 1);
+
     // Render mode attribute (0=icon, 1=height stem)
     this.renderModes = gl.createBuffer()!;
     const a_renderMode = gl.getAttribLocation(this.program!, "a_renderMode");
@@ -1144,6 +1188,11 @@ export class IconMarkerLayer implements Layer {
       if (this.counts) {
         try {
           gl.deleteBuffer(this.counts);
+        } catch {}
+      }
+      if (this.layeredBuf) {
+        try {
+          gl.deleteBuffer(this.layeredBuf);
         } catch {}
       }
       if (this.renderModes) {
@@ -1462,6 +1511,7 @@ export class IconMarkerLayer implements Layer {
           discs: new Float32Array(newCap),
           flags: new Float32Array(newCap * 2),
           counts: new Float32Array(newCap),
+          layered: new Float32Array(newCap),
           angles: new Float32Array(newCap),
           keepUprights: new Float32Array(newCap),
           stemModes: new Float32Array(newCap),
@@ -1478,6 +1528,7 @@ export class IconMarkerLayer implements Layer {
       const discs = this.preallocatedBuffers.discs!;
       const flags = this.preallocatedBuffers.flags!;
       const counts = this.preallocatedBuffers.counts!;
+      const layered = this.preallocatedBuffers.layered!;
       const angles = this.preallocatedBuffers.angles!;
       const keepUprights = this.preallocatedBuffers.keepUprights!;
       const tints = this.preallocatedBuffers.tints!;
@@ -1572,6 +1623,7 @@ export class IconMarkerLayer implements Layer {
         flags[visCount * 2 + 0] = normalizedHeight;
         flags[visCount * 2 + 1] = direction;
         counts[visCount] = m.isStacked ? 2 : 1;
+        layered[visCount] = m.layered ? 1 : 0;
         const angle = m.rotation ?? 0;
         angles[visCount] = angle;
         keepUprights[visCount] = m.keepUpright !== false ? 1.0 : 0.0;
@@ -1653,6 +1705,12 @@ export class IconMarkerLayer implements Layer {
       gl.bufferData(
         gl.ARRAY_BUFFER,
         counts.subarray(0, count),
+        gl.DYNAMIC_DRAW,
+      );
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.layeredBuf);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        layered.subarray(0, count),
         gl.DYNAMIC_DRAW,
       );
       gl.bindBuffer(gl.ARRAY_BUFFER, this.angles);

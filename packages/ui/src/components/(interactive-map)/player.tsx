@@ -24,50 +24,20 @@ function resolveLiveMap(
   baseMap: string,
   px: number | undefined,
   py: number | undefined,
-  pz: number | undefined,
+  _pz: number | undefined,
   tiles: TilesConfig,
 ): string {
   if (typeof px !== "number" || typeof py !== "number") return baseMap;
-  // Interior GROUP whose footprint contains the player (tightest wins on overlap).
-  let group: string | null = null;
-  let groupArea = Infinity;
-  for (const cfg of Object.values(tiles)) {
-    const L = cfg.layer;
-    if (!L?.footprint || L.parent !== baseMap) continue;
-    const [[minLat, minLng], [maxLat, maxLng]] = L.footprint;
-    if (px < minLat || px > maxLat || py < minLng || py > maxLng) continue;
-    const area = (maxLat - minLat) * (maxLng - minLng);
-    if (area < groupArea) {
-      groupArea = area;
-      group = L.group;
-    }
-  }
-  if (!group) return baseMap;
-  // Floors of that group — pick by height band, else nearest band, else lowest.
-  const floors: { id: string; z?: [number, number]; floor: number }[] = [];
+  // The surface's single "Underground" map lists every interior footprint. If the
+  // player falls inside ANY of them, switch to Underground; otherwise stay above.
   for (const [id, cfg] of Object.entries(tiles)) {
-    const L = cfg.layer;
-    if (L?.group === group && L.parent === baseMap) {
-      floors.push({ id, z: L.zRange, floor: L.floor });
+    if (cfg.layer?.parent !== baseMap || !cfg.footprints?.length) continue;
+    for (const [[minLat, minLng], [maxLat, maxLng]] of cfg.footprints) {
+      if (px >= minLat && px <= maxLat && py >= minLng && py <= maxLng)
+        return id;
     }
   }
-  if (floors.length === 1 || typeof pz !== "number") {
-    floors.sort((a, b) => a.floor - b.floor);
-    return floors[0]!.id;
-  }
-  const inBand = floors.find((f) => f.z && pz >= f.z[0] && pz <= f.z[1]);
-  if (inBand) return inBand.id;
-  let best = floors[0]!;
-  let bestD = Infinity;
-  for (const f of floors) {
-    if (!f.z) continue;
-    const d = Math.abs(pz - (f.z[0] + f.z[1]) / 2);
-    if (d < bestD) {
-      bestD = d;
-      best = f;
-    }
-  }
-  return best.id;
+  return baseMap;
 }
 
 export function Player({
