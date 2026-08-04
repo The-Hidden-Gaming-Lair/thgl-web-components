@@ -1,6 +1,7 @@
 import { API_FORGE_URL, useGameState, useSettingsStore, cn } from "@repo/lib";
 import { useMemo } from "react";
 import { useT } from "../(providers)";
+import { DescriptionMarkdown } from "./description-markdown";
 import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Comment } from "../(data)";
 import {
@@ -16,7 +17,6 @@ import {
 import { ScrollArea } from "../ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../(controls)";
-import Markdown from "markdown-to-jsx";
 import useSWR from "swr";
 import { toast } from "sonner";
 
@@ -197,7 +197,7 @@ function Description({ desc }: { desc: string }) {
         scrollbarColor: "hsl(var(--ring) / 0.5) transparent",
       }}
     >
-      <Markdown options={{ forceBlock: false }}>{desc}</Markdown>
+      <DescriptionMarkdown>{desc}</DescriptionMarkdown>
     </div>
   );
 }
@@ -492,7 +492,7 @@ function ClusterTooltip({
       {/* Description (shared across same-type cluster) */}
       {desc && desc !== items[0].type && (
         <div className="text-xs text-popover-foreground/90 leading-snug line-clamp-2">
-          <Markdown options={{ forceBlock: false }}>{desc}</Markdown>
+          <DescriptionMarkdown>{desc}</DescriptionMarkdown>
         </div>
       )}
 

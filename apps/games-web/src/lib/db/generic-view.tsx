@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { localizePath, type TilesConfig } from "@repo/lib";
+import { localizePath, type TilesConfig, type FiltersConfig } from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { DbLocationMap } from "@/lib/db/db-location-map";
 import {
@@ -139,6 +139,7 @@ export function GenericEntityView({
   locale = "en",
   icons,
   tiles,
+  filters,
   statIcons,
   monoDetails = true,
   badges,
@@ -159,6 +160,9 @@ export function GenericEntityView({
   icons?: Record<string, IconSprite>;
   /** Map tile config — when present, `locations` render as an embedded map. */
   tiles?: TilesConfig;
+  /** Filters config (from version.json) — used to resolve each location's real sprite icon
+   *  on the embedded map instead of the plain white-circle fallback. */
+  filters?: FiltersConfig;
   /** Optional stat-label → icon-id map; renders the icon on matching stat cards
    *  (the view stays generic — the caller supplies the game-specific mapping). */
   statIcons?: Record<string, string>;
@@ -427,6 +431,7 @@ export function GenericEntityView({
               mapName={locations.list[0].map}
               tiles={tiles}
               appName={appName}
+              filters={filters}
             />
           ) : (
             // Fallback (no tiles): a flat list of coordinate links.

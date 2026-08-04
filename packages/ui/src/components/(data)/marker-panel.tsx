@@ -11,7 +11,7 @@ import { useMarkerUrlSync } from "./use-marker-url-sync";
 import { Copy, Eye, EyeOff, Navigation, Pencil, Trash2, X } from "lucide-react";
 import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Comments } from "./comments";
-import Markdown from "markdown-to-jsx";
+import { DescriptionMarkdown } from "../(interactive-map)/description-markdown";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
@@ -343,7 +343,7 @@ export function MarkerPanel({
               <>
                 <Separator />
                 <div className="text-sm leading-relaxed">
-                  <Markdown options={{ forceBlock: false }}>{desc}</Markdown>
+                  <DescriptionMarkdown>{desc}</DescriptionMarkdown>
                 </div>
               </>
             )}

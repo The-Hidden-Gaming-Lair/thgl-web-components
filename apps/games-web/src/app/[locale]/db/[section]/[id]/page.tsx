@@ -281,6 +281,7 @@ export default async function Page({ params }: { params: Params }) {
               locale={locale}
               icons={icons}
               tiles={tiles}
+              filters={version.data.filters}
               dict={dict}
             />
           );
