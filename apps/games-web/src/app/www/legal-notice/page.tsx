@@ -94,6 +94,16 @@ export default function LegalNotice(): JSX.Element {
         </div>
       </section>
       <hr className="border-border" />
+      {/* VAT Section */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">VAT ID</h2>
+        <p className="text-muted-foreground">
+          VAT identification number according to § 27a Umsatzsteuergesetz
+          (German VAT Act):{" "}
+          <span className="text-foreground select-all">DE330174479</span>
+        </p>
+      </section>
+      <hr className="border-border" />
       {/* Editorial Responsibility Section */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Editorial Responsibility</h2>
