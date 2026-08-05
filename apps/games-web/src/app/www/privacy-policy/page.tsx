@@ -143,6 +143,17 @@ export default function PrivacyPolicy(): JSX.Element {
               devleon
             </a>
           </p>
+          <p>
+            Website:{" "}
+            <a
+              href="https://leon-machens.dev"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              leon-machens.dev
+            </a>
+          </p>
         </div>
       </section>
       <hr className="border-border" />

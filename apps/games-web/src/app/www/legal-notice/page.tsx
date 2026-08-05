@@ -51,7 +51,16 @@ export default function LegalNotice(): JSX.Element {
       {/* Website Owner Section */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Website Owner</h2>
-        <p className="text-muted-foreground">Leon Machens</p>
+        <p className="text-muted-foreground">
+          <a
+            href="https://leon-machens.dev"
+            className="text-primary hover:underline font-medium"
+            target="_blank"
+            rel="noopener"
+          >
+            Leon Machens
+          </a>
+        </p>
       </section>
       <hr className="border-border" />
       {/* Contact Section */}

@@ -11,6 +11,17 @@ export function Footer() {
             Service Status
           </a>
         </p>
+        <p className="text-sm text-gray-400">
+          Built by{" "}
+          <a
+            href="https://leon-machens.dev"
+            target="_blank"
+            rel="noopener"
+            className="hover:text-gray-200 underline"
+          >
+            Leon Machens
+          </a>
+        </p>
         <p className="text-xs text-gray-400">
           The apps and developers featured on this site are not affiliated with
           the respective game companies. The apps are independently developed to
