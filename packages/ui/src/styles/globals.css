@@ -98,12 +98,20 @@
   @apply pointer-events-none;
 }
 
-.locked .lock-opacity {
-  @apply opacity-10 transition-opacity;
+/* Locked ("Hide Controls") overlay map: block hit testing on the container
+   AND every descendant, so hovers/clicks always pass to the game — map
+   internals that set pointer-events explicitly would otherwise override an
+   inherited `none` and let marker tooltips fire mid-game. */
+.lock-block-input,
+.lock-block-input * {
+  pointer-events: none !important;
 }
 
-.locked .lock-opacity > * {
-  @apply pointer-events-none;
+/* Fade the locked map while hovered so the game behind stays visible —
+   applied from a document-level mousemove (the container itself is
+   click-through and gets no mouse events). */
+.locked .lock-opacity {
+  @apply opacity-10 transition-opacity;
 }
 
 .h-dscreen {
