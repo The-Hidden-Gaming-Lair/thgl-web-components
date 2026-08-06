@@ -44,6 +44,10 @@ export function MarkersSearchLiveResults({
   const { icons, typesIdMap, liveCapable } = useCoordinates();
   const t = useT();
   const mapName = useUserStore((state) => state.mapName);
+  const selectedResult = useUserStore((state) => state.selectedSearchResult);
+  const setSelectedResult = useUserStore(
+    (state) => state.setSelectedSearchResult,
+  );
   const jumpToResult = useSearchResultJump();
   const actors = useLiveActorsSnapshot();
 
@@ -106,6 +110,11 @@ export function MarkersSearchLiveResults({
       {groupedActors.map(([displayType, byMap]) =>
         Array.from(byMap.entries()).map(([groupedMapName, members]) => {
           const name = t(displayType, { fallback: displayType });
+          // Live rows are identified by their type id — processActors renders
+          // the selected type's actors even when its filter is off.
+          const isSelected =
+            selectedResult?.name === displayType &&
+            selectedResult.mapName === groupedMapName;
           return (
             <SearchResultRow
               key={`${displayType}-${groupedMapName}`}
@@ -123,9 +132,17 @@ export function MarkersSearchLiveResults({
                   )}
                 </>
               }
+              selected={isSelected}
               onClick={() => {
+                if (isSelected) {
+                  setSelectedResult(null);
+                  return;
+                }
+                setSelectedResult({
+                  name: displayType,
+                  mapName: groupedMapName,
+                });
                 jumpToResult(
-                  displayType,
                   groupedMapName,
                   members.map((actor) => [actor.x, actor.y]),
                 );

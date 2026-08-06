@@ -1947,6 +1947,10 @@ function MarkersContent({
       );
 
       const activeFilters = new Set(userState.filters);
+      // A selected live search result row renders its type's actors even when
+      // the filter is off (row identity = type id; see markers-search-live-
+      // results.tsx). Deselecting removes them again.
+      const selectedSearchType = userState.selectedSearchResult?.name;
       const currentMapName = userState.mapName;
       const selectedNodeIdNow = userState.selectedNodeId;
       const highlightSpawnIDsNow = useGameState.getState().highlightSpawnIDs;
@@ -2003,7 +2007,11 @@ function MarkersContent({
         if (actor.hidden) continue;
         const displayType = typesIdMap[actor.type];
         if (!displayType) continue;
-        if (!activeFilters.has(displayType)) continue;
+        if (
+          !activeFilters.has(displayType) &&
+          displayType !== selectedSearchType
+        )
+          continue;
         // Merge/replace: a live actor for a PERMANENT (static:true) type is already
         // represented by its always-rendered static marker (realStaticNodes) at the
         // same fixed position — don't draw a live twin on top (double marker +
@@ -2152,6 +2160,11 @@ function MarkersContent({
         const newIsHighlighted =
           highlightSpawnIDsNow.includes(nodeId) || selectedNodeIdNow === nodeId;
         const newIsSelected = selectedNodeIdNow === nodeId;
+        // While a search result is selected, actors of other types fade like
+        // predicted spawns in combined mode — only the selection stays full.
+        const liveMuted =
+          selectedSearchType !== undefined &&
+          displayType !== selectedSearchType;
 
         const { zPos, zValue } = computeRelativeZPos(
           spawn.p[2],
@@ -2175,6 +2188,7 @@ function MarkersContent({
             !!existing.isDiscovered !== isDiscoveredFlag ||
             !!existing.isHighlighted !== newIsHighlighted ||
             !!existing.isSelected !== newIsSelected ||
+            !!existing.isMuted !== liveMuted ||
             !!existing.isStacked !== isStacked ||
             (existing.spiderOffsetX ?? 0) !== unit.spiderOffsetX ||
             (existing.spiderOffsetY ?? 0) !== unit.spiderOffsetY ||
@@ -2188,6 +2202,7 @@ function MarkersContent({
               isDiscovered: isDiscoveredFlag,
               isHighlighted: newIsHighlighted,
               isSelected: newIsSelected,
+              isMuted: liveMuted,
               isStacked,
               spiderOffsetX: unit.spiderOffsetX,
               spiderOffsetY: unit.spiderOffsetY,
@@ -2234,7 +2249,7 @@ function MarkersContent({
           key: displayType,
           isHighlighted: newIsHighlighted,
           isDiscovered: isDiscoveredFlag,
-          isMuted: false,
+          isMuted: liveMuted,
           isSelected: newIsSelected,
           isStacked,
           spiderOffsetX: unit.spiderOffsetX,
@@ -2325,6 +2340,10 @@ function MarkersContent({
       (s) => s.selectedNodeId,
       processActors,
     );
+    const unsubSelectedSearch = userStoreApi.subscribe(
+      (s) => s.selectedSearchResult,
+      processActors,
+    );
     const unsubLiveMode = useSettingsStore.subscribe(
       (s) => s.liveMode,
       processActors,
@@ -2381,6 +2400,7 @@ function MarkersContent({
       unsubFilters();
       unsubMapName();
       unsubSelected();
+      unsubSelectedSearch();
       unsubLiveMode();
       unsubLiveModeByFilter();
       unsubPreviewAccess();

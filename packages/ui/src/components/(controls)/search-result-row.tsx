@@ -1,5 +1,5 @@
 "use client";
-import { getIconsUrl } from "@repo/lib";
+import { cn, getIconsUrl } from "@repo/lib";
 import { MapPin } from "lucide-react";
 import type { JSX, ReactNode } from "react";
 import { useMap } from "../(interactive-map)/store";
@@ -10,12 +10,10 @@ type IconEntry = NonNullable<ReturnType<Icons["get"]>>;
 type SpawnPosition = [number, number] | [number, number, number];
 
 /**
- * Click behavior shared by the historical and live search result rows:
- * enable the clicked type's filter (the map only renders active filters —
- * search doesn't override it), then switch map or fit the result bounds.
+ * Jump behavior shared by the historical and live search result rows:
+ * switch to the result's map, or fit the result bounds when already on it.
  */
 export function useSearchResultJump(): (
-  type: string,
   targetMapName: string,
   positions: SpawnPosition[],
 ) => void {
@@ -23,9 +21,7 @@ export function useSearchResultJump(): (
   const t = useT();
   const mapName = useUserStore((state) => state.mapName);
   const setMapName = useUserStore((state) => state.setMapName);
-  const enableFilter = useUserStore((state) => state.enableFilter);
-  return (type, targetMapName, positions) => {
-    enableFilter(type);
+  return (targetMapName, positions) => {
     if (targetMapName !== mapName) {
       setMapName(targetMapName);
       if (location.pathname.includes("/maps/")) {
@@ -49,6 +45,7 @@ export function SearchResultRow({
   count,
   subtitle,
   title,
+  selected,
   onClick,
 }: {
   appName: string;
@@ -59,11 +56,17 @@ export function SearchResultRow({
   count?: string;
   subtitle: ReactNode;
   title: string;
+  /** Row is the selected result (its spawns are overlaid on the map). */
+  selected?: boolean;
   onClick: () => void;
 }): JSX.Element {
   return (
     <button
-      className="flex gap-2 items-center hover:text-primary p-2 truncate w-full"
+      aria-pressed={selected}
+      className={cn(
+        "flex gap-2 items-center hover:text-primary p-2 truncate w-full",
+        selected && "bg-accent/50 text-primary",
+      )}
       onClick={onClick}
       title={title}
       type="button"

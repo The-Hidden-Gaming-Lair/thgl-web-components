@@ -15,6 +15,16 @@ export type SearchScope = "historical" | "live";
 // sidebar (which renders the "type more characters" hint) so they can't drift.
 export const MIN_SEARCH_QUERY_LENGTH = 3;
 
+// A selected sidebar search result row. Selecting a row overlays exactly that
+// result's spawns on the map (without touching the user's filters); clicking
+// it again, clicking another row, or clearing the search deselects. `name` is
+// the row identity: the translated group name for historical rows, the filter
+// type id for live rows.
+export type SelectedSearchResult = {
+  name: string;
+  mapName: string;
+};
+
 export interface UserStoreState {
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
@@ -36,11 +46,11 @@ export interface UserStoreState {
   setSearchIsLoading: (state: boolean) => void;
   searchScope: SearchScope;
   setSearchScope: (scope: SearchScope) => void;
+  selectedSearchResult: SelectedSearchResult | null;
+  setSelectedSearchResult: (result: SelectedSearchResult | null) => void;
   filters: string[];
   setFilters: (filters: string[]) => void;
   toggleFilter: (filter: string) => void;
-  /** Idempotent "switch this filter on" — no-op when already active. */
-  enableFilter: (filter: string) => void;
   viewByMap: Record<string, { center?: [number, number]; zoom?: number }>;
   setViewByMap: (
     mapName: string,
@@ -134,7 +144,8 @@ export function createUserStore(
             },
             search: "",
             setSearch: (search) => {
-              set({ search });
+              // Clearing the search also deselects the selected result row.
+              set(search ? { search } : { search, selectedSearchResult: null });
             },
             searchIsLoading: false,
             setSearchIsLoading: (state) => {
@@ -143,6 +154,10 @@ export function createUserStore(
             searchScope: "historical",
             setSearchScope: (searchScope) => {
               set({ searchScope });
+            },
+            selectedSearchResult: null,
+            setSelectedSearchResult: (selectedSearchResult) => {
+              set({ selectedSearchResult });
             },
             filters: view.filters ?? [
               ...filters.flatMap((filter) =>
@@ -163,13 +178,6 @@ export function createUserStore(
                   : [...state.filters, filter];
                 return { filters };
               });
-            },
-            enableFilter: (filter) => {
-              set((state) =>
-                state.filters.includes(filter)
-                  ? state
-                  : { filters: [...state.filters, filter] },
-              );
             },
             globalFilters:
               view.globalFilters ??

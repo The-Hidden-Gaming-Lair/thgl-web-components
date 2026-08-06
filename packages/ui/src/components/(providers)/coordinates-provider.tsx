@@ -685,8 +685,77 @@ export function CoordinatesProvider({
     [filters],
   );
 
-  const [spawns, setSpawns] = useState<Spawns>([]);
+  const [filteredMapSpawns, setFilteredMapSpawns] = useState<Spawns>([]);
   const [searchResults, setSearchResults] = useState<Spawns>([]);
+  const selectedSearchResult = useStore(
+    userStore,
+    (state) => state.selectedSearchResult,
+  );
+
+  // The map spawn set: the filter-driven spawns, plus — while a search result
+  // row is selected — that row's matching search spawns overlaid (deduped),
+  // so a selected result shows on the map without touching the filters.
+  const spawns = useMemo(() => {
+    if (!selectedSearchResult) {
+      return filteredMapSpawns;
+    }
+    if (
+      selectedSearchResult.mapName !== mapName &&
+      selectedSearchResult.mapName !== "default"
+    ) {
+      return filteredMapSpawns;
+    }
+    // Mirrors the row grouping in markers-search-results.tsx: rows are keyed
+    // by translated name + map, cluster members counted under their own key.
+    const matchesRow = (
+      id: string | undefined,
+      type: string,
+      spawnMapName: string | undefined,
+    ) =>
+      t(id ?? type, { fallback: type }) === selectedSearchResult.name &&
+      (spawnMapName ?? "default") === selectedSearchResult.mapName;
+    const matched: Spawns = [];
+    for (const spawn of searchResults) {
+      if (matchesRow(spawn.id, spawn.type, spawn.mapName)) {
+        matched.push(spawn);
+        continue;
+      }
+      spawn.cluster?.forEach((member) => {
+        if (matchesRow(member.id, member.type, member.mapName)) {
+          matched.push({ ...member, cluster: [] });
+        }
+      });
+    }
+    // Types considered "part of the selection": the matched row's types, plus
+    // the selection name itself when it IS a filter type id (live result rows
+    // are keyed by type id). Their spawns keep full opacity below.
+    const selectedTypes = new Set(matched.map((s) => s.type));
+    if (allFilters.includes(selectedSearchResult.name)) {
+      selectedTypes.add(selectedSearchResult.name);
+    }
+    if (matched.length === 0 && selectedTypes.size === 0) {
+      return filteredMapSpawns;
+    }
+    const spawnKey = (s: Spawn) => `${s.type}:${s.p[0]}:${s.p[1]}`;
+    const matchedKeys = new Set(matched.map(spawnKey));
+    // Focus the selection: everything that isn't part of it fades exactly
+    // like predicted spawns in combined mode (the muted render path).
+    const dimmed = filteredMapSpawns.map((s) =>
+      matchedKeys.has(spawnKey(s)) || selectedTypes.has(s.type) || s.muted
+        ? s
+        : { ...s, muted: true },
+    );
+    const existing = new Set(filteredMapSpawns.map(spawnKey));
+    const additions = matched.filter((s) => !existing.has(spawnKey(s)));
+    return additions.length ? dimmed.concat(additions) : dimmed;
+  }, [
+    filteredMapSpawns,
+    searchResults,
+    selectedSearchResult,
+    mapName,
+    allFilters,
+    t,
+  ]);
 
   // Ref lets refreshSpawns read the latest node list without being recreated
   // on every change — the callback's identity stays stable across renders.
@@ -814,7 +883,7 @@ export function CoordinatesProvider({
   //    active filters. Recomputed on search changes only.
   const refreshMapSpawns = useCallback(
     (state: UserStoreState) => {
-      setSpawns(processNodes(nodesRef.current, state));
+      setFilteredMapSpawns(processNodes(nodesRef.current, state));
     },
     [processNodes],
   );

@@ -1764,7 +1764,11 @@ export class IconMarkerLayer implements Layer {
       gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
     };
 
-    // Reusable arrays to avoid per-frame allocations
+    // Reusable arrays to avoid per-frame allocations. Muted markers (faded
+    // context, e.g. predicted spawns in combined mode or non-selected types
+    // while a search result is selected) draw BEFORE normal ones per sheet,
+    // so a faded marker never covers a full-opacity one.
+    const mutedList: IconMarkerInstance[] = [];
     const normalList: IconMarkerInstance[] = [];
     const onTopEntries: {
       s: { w: number; h: number; tex: WebGLTexture };
@@ -1783,16 +1787,20 @@ export class IconMarkerLayer implements Layer {
     if (circleGroup) {
       const s = this.ensureSheet(gl, DEFAULT_CIRCLE_SHEET);
       if (s) {
+        mutedList.length = 0;
         normalList.length = 0;
         let onTopList: IconMarkerInstance[] | null = null;
         for (const m of circleGroup) {
           if (m.isSelected || m.alwaysOnTop) {
             if (!onTopList) onTopList = [];
             onTopList.push(m);
+          } else if (m.isMuted && !m.isDiscovered) {
+            mutedList.push(m);
           } else {
             normalList.push(m);
           }
         }
+        if (mutedList.length > 0) drawList(s, mutedList);
         drawList(s, normalList);
         if (onTopList) onTopEntries.push({ s, items: onTopList });
       }
@@ -1802,16 +1810,20 @@ export class IconMarkerLayer implements Layer {
       if (sheet === DEFAULT_CIRCLE_SHEET) continue;
       const s = this.ensureSheet(gl, sheet);
       if (!s) continue;
+      mutedList.length = 0;
       normalList.length = 0;
       let onTopList: IconMarkerInstance[] | null = null;
       for (const m of items) {
         if (m.isSelected || m.alwaysOnTop) {
           if (!onTopList) onTopList = [];
           onTopList.push(m);
+        } else if (m.isMuted && !m.isDiscovered) {
+          mutedList.push(m);
         } else {
           normalList.push(m);
         }
       }
+      if (mutedList.length > 0) drawList(s, mutedList);
       drawList(s, normalList);
       if (onTopList) onTopEntries.push({ s, items: onTopList });
     }

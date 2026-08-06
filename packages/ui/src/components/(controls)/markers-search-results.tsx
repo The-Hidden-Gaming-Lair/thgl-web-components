@@ -21,6 +21,10 @@ export function MarkersSearchResults({
   const { icons, searchResults: spawns } = useCoordinates();
   const t = useT();
   const mapName = useUserStore((state) => state.mapName);
+  const selectedResult = useUserStore((state) => state.selectedSearchResult);
+  const setSelectedResult = useUserStore(
+    (state) => state.setSelectedSearchResult,
+  );
   const jumpToResult = useSearchResultJump();
   const [showAll, setShowAll] = useState(false);
   const flatResults = useMemo(() => {
@@ -72,36 +76,48 @@ export function MarkersSearchResults({
           Nothing found
         </div>
       )}
-      {visibleResults.map(([key, groupedMapName, spawns]) => (
-        <SearchResultRow
-          key={`${key}-${groupedMapName}`}
-          appName={appName}
-          iconsPath={iconsPath}
-          icon={icons.get(spawns[0].type)}
-          title={key}
-          label={
-            spawns[0].isPrivate && spawns[0].name
-              ? t(spawns[0].name, { fallback: spawns[0].name })
-              : key
-          }
-          count={spawns.length > 1 ? `${spawns.length} times` : undefined}
-          subtitle={
-            <>
-              {t(spawns[0].type, { fallback: spawns[0].type })}
-              {hasMultipleMaps && (
-                <span>{` - ${t(groupedMapName) || groupedMapName}`}</span>
-              )}
-            </>
-          }
-          onClick={() => {
-            jumpToResult(
-              spawns[0].type,
-              groupedMapName,
-              spawns.map((spawn) => spawn.p),
-            );
-          }}
-        />
-      ))}
+      {visibleResults.map(([key, groupedMapName, spawns]) => {
+        const isSelected =
+          selectedResult?.name === key &&
+          selectedResult.mapName === groupedMapName;
+        return (
+          <SearchResultRow
+            key={`${key}-${groupedMapName}`}
+            appName={appName}
+            iconsPath={iconsPath}
+            icon={icons.get(spawns[0].type)}
+            title={key}
+            label={
+              spawns[0].isPrivate && spawns[0].name
+                ? t(spawns[0].name, { fallback: spawns[0].name })
+                : key
+            }
+            count={spawns.length > 1 ? `${spawns.length} times` : undefined}
+            subtitle={
+              <>
+                {t(spawns[0].type, { fallback: spawns[0].type })}
+                {hasMultipleMaps && (
+                  <span>{` - ${t(groupedMapName) || groupedMapName}`}</span>
+                )}
+              </>
+            }
+            selected={isSelected}
+            onClick={() => {
+              // Toggle: re-clicking the selected row deselects it; clicking
+              // another row moves the selection (and the map overlay) there.
+              if (isSelected) {
+                setSelectedResult(null);
+                return;
+              }
+              setSelectedResult({ name: key, mapName: groupedMapName });
+              jumpToResult(
+                groupedMapName,
+                spawns.map((spawn) => spawn.p),
+              );
+            }}
+          />
+        );
+      })}
       {flatResults.length > COLLAPSED_RESULT_LIMIT && (
         <button
           className="flex w-full items-center justify-center gap-1 p-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
