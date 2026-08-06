@@ -8,6 +8,7 @@ import { rotateCoordinate } from "./rotation";
 import type { ActorPlayer } from "@repo/lib/overwolf";
 import { getIconsUrl, MarkerOptions, TilesConfig } from "@repo/lib";
 import { useSettingsStore } from "@repo/lib";
+import { useT } from "../(providers)";
 import { applyColorBlindTransform } from "./color-blind";
 import type { ColorBlindMode } from "@repo/lib";
 import { DrawingLayer } from "@repo/lib/web-map";
@@ -53,6 +54,8 @@ export function Player({
 }): JSX.Element {
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
+  const setMapName = useUserStore((state) => state.setMapName);
+  const t = useT();
   const followPlayerPosition = useSettingsStore((state) => state.followPlayer);
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const playerIconSize = useSettingsStore((state) => state.playerIconSize);
@@ -301,6 +304,33 @@ export function Player({
       map.panTo(playerPosition);
     }
   }, [map?.mapName, px, py, pMap, followPlayerPosition, tilesConfig]);
+
+  // Live map-follow: when the player crosses to a DIFFERENT map (game map / instance),
+  // switch the viewed map to theirs. Edge-triggered on the player's map so it doesn't
+  // fight manual browsing. It does NOT follow the player into a layered interior: the
+  // `sameWorld` guard keeps a manual layer pick (e.g. viewing the parent's Underground)
+  // from being yanked back to the surface, since the player's position already shows
+  // on both.
+  const lastPlayerMapRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!pMap || !map || !(pMap in tilesConfig)) {
+      return;
+    }
+    if (pMap === lastPlayerMapRef.current) {
+      return;
+    }
+    lastPlayerMapRef.current = pMap;
+    if (sameWorld(pMap, map.mapName, tilesConfig)) {
+      return;
+    }
+    setMapName(pMap, [player.x, player.y], map.getZoom());
+    if (location.pathname.includes("/maps/")) {
+      // Slug = dict term; a defaultTitle equal to the map id isn't a real title.
+      const dt = tilesConfig[pMap]?.defaultTitle;
+      const title = (dt && dt !== pMap ? dt : t(pMap)) || pMap;
+      window.history.pushState({}, "", `/maps/${title}`);
+    }
+  }, [!!map, pMap, tilesConfig]);
 
   // Audio alert range circle
   const showAudioAlertRange = useSettingsStore(
