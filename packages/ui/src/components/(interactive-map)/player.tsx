@@ -8,36 +8,34 @@ import { rotateCoordinate } from "./rotation";
 import type { ActorPlayer } from "@repo/lib/overwolf";
 import { getIconsUrl, MarkerOptions, TilesConfig } from "@repo/lib";
 import { useSettingsStore } from "@repo/lib";
-import { useT } from "../(providers)";
 import { applyColorBlindTransform } from "./color-blind";
 import type { ColorBlindMode } from "@repo/lib";
 import { DrawingLayer } from "@repo/lib/web-map";
 
 /**
- * Refine the native-provided base map to the LAYERED interior the player is
- * physically inside, so live mode follows the player into interiors/floors.
- * Uses each interior's `layer.footprint` (tight XY world bounds) for containment
- * and `layer.zRange` (height band) to pick the floor. Returns the base map when
- * the player is not inside any interior of it.
+ * Whether the player (on map `playerMap`) should be shown on the currently-viewed
+ * map `viewMap`. True when they're the same map OR share the same world — a layer
+ * map (e.g. the "Underground") reuses its parent surface's world transform, so the
+ * player's position projects to the same spot on both. We do NOT auto-switch the
+ * map to follow the player into a layer; the user picks the layer manually and the
+ * player marker just stays visible on whichever of the world's maps is open.
  */
-function resolveLiveMap(
-  baseMap: string,
-  px: number | undefined,
-  py: number | undefined,
-  _pz: number | undefined,
+function sameWorld(
+  playerMap: string,
+  viewMap: string,
   tiles: TilesConfig,
-): string {
-  if (typeof px !== "number" || typeof py !== "number") return baseMap;
-  // The surface's single "Underground" map lists every interior footprint. If the
-  // player falls inside ANY of them, switch to Underground; otherwise stay above.
-  for (const [id, cfg] of Object.entries(tiles)) {
-    if (cfg.layer?.parent !== baseMap || !cfg.footprints?.length) continue;
-    for (const [[minLat, minLng], [maxLat, maxLng]] of cfg.footprints) {
-      if (px >= minLat && px <= maxLat && py >= minLng && py <= maxLng)
-        return id;
-    }
-  }
-  return baseMap;
+): boolean {
+  if (playerMap === viewMap) return true;
+  const pParent = tiles[playerMap]?.layer?.parent;
+  const vParent = tiles[viewMap]?.layer?.parent;
+  // A layer of the other, or two layers of the SAME parent. `!!pParent` guards
+  // the sibling check: without it, two ordinary maps (both parent === undefined)
+  // would read as "same world" and cross-show the player in non-layered games.
+  return (
+    pParent === viewMap ||
+    vParent === playerMap ||
+    (!!pParent && pParent === vParent)
+  );
 }
 
 export function Player({
@@ -56,8 +54,6 @@ export function Player({
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
   const followPlayerPosition = useSettingsStore((state) => state.followPlayer);
-  const setMapName = useUserStore((state) => state.setMapName);
-  const t = useT();
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const playerIconSize = useSettingsStore((state) => state.playerIconSize);
   const colorBlindMode = useSettingsStore((state) => state.colorBlindMode);
@@ -143,7 +139,8 @@ export function Player({
       return;
     }
 
-    const isOnMap = !player.mapName || player.mapName === map.mapName;
+    const isOnMap =
+      !player.mapName || sameWorld(player.mapName, map.mapName, tilesConfig);
     if (!isOnMap) {
       return;
     }
@@ -269,7 +266,6 @@ export function Player({
   // player position actually changes, not on every game state emission.
   const px = player?.x;
   const py = player?.y;
-  const pz = player?.z;
   const pMap = player?.mapName;
 
   useEffect(() => {
@@ -296,7 +292,7 @@ export function Player({
       y: playerPosition[1],
     });
 
-    const isOnMap = !pMap || pMap === map.mapName;
+    const isOnMap = !pMap || sameWorld(pMap, map.mapName, tilesConfig);
     if (!isOnMap) {
       return;
     }
@@ -304,33 +300,7 @@ export function Player({
     if (followPlayerPosition) {
       map.panTo(playerPosition);
     }
-  }, [map?.mapName, px, py, pz, pMap, followPlayerPosition]);
-
-  // Live map-follow: switch to the map the player is on — refined to the layered
-  // interior (and floor) the player is physically inside. Edge-triggered on the
-  // RESOLVED target so a manual floor pick isn't overridden until the player next
-  // crosses a boundary (auto-follow, without fighting manual browsing).
-  const lastAutoMapRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (!player?.mapName || !map) {
-      return;
-    }
-    if (!(player.mapName in tilesConfig)) {
-      return;
-    }
-    const target = resolveLiveMap(player.mapName, px, py, pz, tilesConfig);
-    if (target === lastAutoMapRef.current) {
-      return;
-    }
-    lastAutoMapRef.current = target;
-    if (target !== map.mapName) {
-      setMapName(target, [player.x, player.y], map.getZoom());
-      if (location.pathname.includes("/maps/")) {
-        const title = tilesConfig[target]?.defaultTitle ?? t(target);
-        window.history.pushState({}, "", `/maps/${title}`);
-      }
-    }
-  }, [!!map, player?.mapName, px, py, pz, tilesConfig]);
+  }, [map?.mapName, px, py, pMap, followPlayerPosition, tilesConfig]);
 
   // Audio alert range circle
   const showAudioAlertRange = useSettingsStore(
