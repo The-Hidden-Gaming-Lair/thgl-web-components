@@ -1,12 +1,11 @@
 "use client";
-import { useMemo, useState, type JSX } from "react";
-import { cn, FiltersConfig } from "@repo/lib";
+import { useMemo, type JSX } from "react";
+import { FiltersConfig } from "@repo/lib";
 import { useCoordinates, useT } from "../(providers)";
 import { MyFilters } from "./my-filters";
 import { CollapsibleFilter } from "./collapsible-filter";
 import { CollapsibleCategory } from "./collapsible-category";
 import { RegionFilters } from "./region-filters";
-import { ListFilter, X } from "lucide-react";
 
 type FilterEntry =
   | { type: "filter"; filter: FiltersConfig[number] }
@@ -20,13 +19,18 @@ type FilteredEntry = {
 export function MarkersFilters({
   appName,
   iconsPath,
+  query,
 }: {
   appName: string;
   iconsPath?: string;
+  /**
+   * Filter query from the unified sidebar search bar (owned by MarkersSearch,
+   * un-debounced so the list filters instantly while typing).
+   */
+  query: string;
 }): JSX.Element {
   const { filters: filterDetails } = useCoordinates();
   const t = useT();
-  const [query, setQuery] = useState("");
   const trimmedQuery = query.trim().toLowerCase();
 
   const entries = useMemo(() => {
@@ -145,62 +149,20 @@ export function MarkersFilters({
 
   return (
     <>
-      <div className="sticky top-0 z-10 bg-card/95 backdrop-blur-sm border-b border-border/40 px-1.5 pt-1.5 pb-1">
-        <div
-          className={cn(
-            "relative flex items-center h-7 rounded-sm border transition-colors",
-            isFiltering
-              ? "border-primary/50 bg-input/30"
-              : "border-input/40 bg-input/30 focus-within:border-ring",
-          )}
-        >
-          <ListFilter
-            className={cn(
-              "h-3.5 w-3.5 ml-2 shrink-0 transition-colors",
-              isFiltering ? "text-primary" : "text-muted-foreground",
-            )}
-          />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={t("markers.filters.find")}
-            className="grow bg-transparent px-2 text-xs outline-none placeholder:text-muted-foreground/60"
-            autoComplete="off"
-            autoCorrect="off"
-          />
-          {query && (
-            <button
-              onClick={() => setQuery("")}
-              type="button"
-              className="mr-1 p-1 text-muted-foreground hover:text-primary transition-colors"
-              aria-label={t("markers.filters.clear")}
-            >
-              <X className="h-3 w-3" />
-            </button>
-          )}
+      {isFiltering && (
+        <div className="border-b border-border/40 px-2 py-1 text-[10px] uppercase tracking-wider tabular-nums text-muted-foreground/60">
+          {visibleGroups === 0
+            ? t("markers.filters.noMatch", { vars: { query } })
+            : t.rich("markers.filters.matchCount", {
+                components: {
+                  visible: (
+                    <span className="text-primary/80">{visibleGroups}</span>
+                  ),
+                  total: <>{totalGroups}</>,
+                },
+              })}
         </div>
-        {isFiltering && (
-          <div className="mt-1 px-0.5 text-[10px] uppercase tracking-wider tabular-nums text-muted-foreground/80">
-            {visibleGroups === 0 ? (
-              <span className="text-muted-foreground/60">
-                {t("markers.filters.noMatch", { vars: { query } })}
-              </span>
-            ) : (
-              <span className="text-muted-foreground/60">
-                {t.rich("markers.filters.matchCount", {
-                  components: {
-                    visible: (
-                      <span className="text-primary/80">{visibleGroups}</span>
-                    ),
-                    total: <>{totalGroups}</>,
-                  },
-                })}
-              </span>
-            )}
-          </div>
-        )}
-      </div>
+      )}
 
       {!isFiltering && (
         <>

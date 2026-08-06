@@ -31,6 +31,7 @@ import {
   GlobalFiltersConfig,
   Spawn,
   getApiUrl,
+  MIN_SEARCH_QUERY_LENGTH,
   type InGameCoordinates,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
@@ -103,6 +104,13 @@ interface ContextValue {
    * subscriptions and are NOT included here.
    */
   spawns: Spawns;
+  /**
+   * Spawns matching the active search query (Fuse index + /search API),
+   * independent of the active filters — the sidebar results list consumes
+   * these. Empty when no query (< 3 chars). The map is NOT driven by this:
+   * `spawns` stays filter-driven even while searching.
+   */
+  searchResults: Spawns;
   icons: Icons;
   typesIdMap?: Record<string, string>;
   /**
@@ -111,6 +119,12 @@ interface ContextValue {
    * False on the plain web map, where live/combined mode has no source.
    */
   liveCapable: boolean;
+  /**
+   * Whether this GAME can ever have live-tracked actors (a non-empty typeIDs
+   * bridge exists). Orthogonal to `liveCapable`: gates live-related UI that
+   * should show even on the plain web (e.g. the search Live scope switch).
+   */
+  gameSupportsLive: boolean;
   /**
    * Per-game map<->in-game coordinate transform (from `game.inGameCoordinates`).
    * Consumed by the In-Game coordinate tooltip and the map-controls go-to input.
@@ -349,7 +363,7 @@ export function CoordinatesProvider({
         !userStoreHasHydrated ||
         !search ||
         initialStaticNodes ||
-        search.length < 3
+        search.length < MIN_SEARCH_QUERY_LENGTH
       ) {
         return { [search]: emptyArray as Spawns };
       }
@@ -592,10 +606,14 @@ export function CoordinatesProvider({
     [customNodes, staticNodes],
   );
 
-  // Only rebuild Fuse.js search index when user is actively searching.
-  // Depends on searchableNodes (stable) not nodes (includes actors).
+  // Only build the Fuse.js search index when user is actively searching.
+  // Depends on searchableNodes (stable) not nodes (includes actors), and on
+  // search TRUTHINESS, not the query text — the index doesn't depend on the
+  // query, so it's built once per search session instead of per keystroke
+  // (which would also churn refreshSearchResults' identity every keystroke).
+  const hasSearchQuery = !!search;
   const searchIndex = useMemo(() => {
-    if (!search) {
+    if (!hasSearchQuery) {
       return null;
     }
     const nodeSpawns = searchableNodes.flatMap((node) =>
@@ -655,7 +673,7 @@ export function CoordinatesProvider({
       includeScore: true,
       threshold: 0.3,
     });
-  }, [search, searchableNodes, initialStaticNodes, mapName, t]);
+  }, [hasSearchQuery, searchableNodes, initialStaticNodes, mapName, t]);
 
   const icons = useMemo(
     () =>
@@ -668,6 +686,7 @@ export function CoordinatesProvider({
   );
 
   const [spawns, setSpawns] = useState<Spawns>([]);
+  const [searchResults, setSearchResults] = useState<Spawns>([]);
 
   // Ref lets refreshSpawns read the latest node list without being recreated
   // on every change — the callback's identity stays stable across renders.
@@ -786,86 +805,102 @@ export function CoordinatesProvider({
     [clusterKey, globalFilters],
   );
 
-  // Refresh: iterates static nodes (and search results when search is active).
-  // Runs on filter/search/mapName/data changes. Live actors are NOT included
-  // — they're rendered imperatively in markers.tsx and don't flow through here.
-  const refreshSpawns = useCallback(
+  // Two independent refresh pipelines (live actors are in neither — they're
+  // rendered imperatively in markers.tsx):
+  //  • Map spawns are ALWAYS filter-driven — searching must not override the
+  //    filter toggles. Recomputed on filter/mapName/data changes only, so
+  //    typing a query never rebuilds the (potentially huge) marker layer.
+  //  • Search results feed the sidebar results list, independent of the
+  //    active filters. Recomputed on search changes only.
+  const refreshMapSpawns = useCallback(
     (state: UserStoreState) => {
-      if (state.search) {
-        if (state.search.length < 3 || !searchIndex) {
-          setSpawns([]);
-          return;
-        }
-        const spawnsByCoordinate = new Map<string, Spawn>();
-        const results: (Spawn & { score?: number })[] = searchIndex
-          .search(state.search)
-          .map((r) => ({ ...r.item, score: r.score }));
-        const privateMapName = results[0]?.mapName;
-        if (publicSearchSpawns) {
-          results.push(
-            ...publicSearchSpawns
-              .filter((n) => n.mapName !== privateMapName)
-              .map((spawn) => ({
-                ...spawn,
-                id: spawn.id ?? spawn.type,
-                mapName: spawn.mapName,
-                type: spawn.type,
-              })),
-          );
-        }
-        results.forEach((spawn) => {
-          const key = clusterKey(spawn.p);
-          if (!spawnsByCoordinate.has(key)) {
-            spawnsByCoordinate.set(key, { ...spawn, cluster: [] });
-          } else {
-            spawnsByCoordinate.get(key)!.cluster!.push(spawn);
-          }
-        });
-        const sorted = Array.from(spawnsByCoordinate.values()).sort((a, b) => {
-          const aScore = (a as Spawn & { score?: number }).score;
-          const bScore = (b as Spawn & { score?: number }).score;
-          if (aScore !== undefined && bScore !== undefined) {
-            const scoreDiff = aScore - bScore;
-            if (scoreDiff !== 0) return scoreDiff;
-          }
-          if (a.mapName && b.mapName) return b.mapName.localeCompare(a.mapName);
-          return 0;
-        });
-        setSpawns(sorted);
-        return;
-      }
       setSpawns(processNodes(nodesRef.current, state));
     },
-    [processNodes, searchIndex, publicSearchSpawns, clusterKey],
+    [processNodes],
+  );
+
+  const refreshSearchResults = useCallback(
+    (state: UserStoreState) => {
+      if (
+        !state.search ||
+        state.search.length < MIN_SEARCH_QUERY_LENGTH ||
+        !searchIndex
+      ) {
+        setSearchResults(emptyArray as Spawns);
+        return;
+      }
+      const spawnsByCoordinate = new Map<string, Spawn>();
+      const results: (Spawn & { score?: number })[] = searchIndex
+        .search(state.search)
+        .map((r) => ({ ...r.item, score: r.score }));
+      const privateMapName = results[0]?.mapName;
+      if (publicSearchSpawns) {
+        results.push(
+          ...publicSearchSpawns
+            .filter((n) => n.mapName !== privateMapName)
+            .map((spawn) => ({
+              ...spawn,
+              id: spawn.id ?? spawn.type,
+              mapName: spawn.mapName,
+              type: spawn.type,
+            })),
+        );
+      }
+      results.forEach((spawn) => {
+        const key = clusterKey(spawn.p);
+        if (!spawnsByCoordinate.has(key)) {
+          spawnsByCoordinate.set(key, { ...spawn, cluster: [] });
+        } else {
+          spawnsByCoordinate.get(key)!.cluster!.push(spawn);
+        }
+      });
+      const sorted = Array.from(spawnsByCoordinate.values()).sort((a, b) => {
+        const aScore = (a as Spawn & { score?: number }).score;
+        const bScore = (b as Spawn & { score?: number }).score;
+        if (aScore !== undefined && bScore !== undefined) {
+          const scoreDiff = aScore - bScore;
+          if (scoreDiff !== 0) return scoreDiff;
+        }
+        if (a.mapName && b.mapName) return b.mapName.localeCompare(a.mapName);
+        return 0;
+      });
+      setSearchResults(sorted);
+    },
+    [searchIndex, publicSearchSpawns, clusterKey],
   );
 
   useEffect(() => {
     if (!isHydrated) return;
-    refreshSpawns(userStore.getState());
+    refreshMapSpawns(userStore.getState());
     const unsubs = [
       userStore.subscribe(
         (s) => s.filters,
-        () => refreshSpawns(userStore.getState()),
-      ),
-      userStore.subscribe(
-        (s) => s.search,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
       userStore.subscribe(
         (s) => s.globalFilters,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
       userStore.subscribe(
         (s) => s.mapName,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
       userStore.subscribe(
         (s) => s.selectedNodeId,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
     ];
     return () => unsubs.forEach((u) => u());
-  }, [isHydrated, refreshSpawns, mapName, nodesFingerprint, userStore]);
+  }, [isHydrated, refreshMapSpawns, mapName, nodesFingerprint, userStore]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    refreshSearchResults(userStore.getState());
+    return userStore.subscribe(
+      (s) => s.search,
+      () => refreshSearchResults(userStore.getState()),
+    );
+  }, [isHydrated, refreshSearchResults, userStore]);
 
   return (
     <UserStoreContext.Provider value={userStore}>
@@ -880,10 +915,12 @@ export function CoordinatesProvider({
           mapNames,
           filters,
           spawns,
+          searchResults,
           icons,
           typesIdMap,
           globalFilters,
           liveCapable,
+          gameSupportsLive: !!typesIdMap && Object.keys(typesIdMap).length > 0,
           inGameCoordinates,
         }}
       >

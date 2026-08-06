@@ -1,9 +1,13 @@
-import { cn, getIconsUrl } from "@repo/lib";
 import { useUserStore } from "../(providers)";
-import { useMap } from "../(interactive-map)/store";
 import { useCoordinates, useT } from "../(providers)";
-import { useMemo, type JSX } from "react";
-import { MapPin } from "lucide-react";
+import { useEffect, useMemo, useState, type JSX } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { SearchResultRow, useSearchResultJump } from "./search-result-row";
+
+// The results share the panel with the filtered filter list now (they no
+// longer replace it), so a broad query mustn't bury the filters — show the
+// closest matches and put the rest behind an expander.
+const COLLAPSED_RESULT_LIMIT = 6;
 
 export function MarkersSearchResults({
   appName,
@@ -14,12 +18,12 @@ export function MarkersSearchResults({
   hasMultipleMaps: boolean;
   iconsPath: string;
 }): JSX.Element {
-  const { icons, spawns } = useCoordinates();
-  const map = useMap();
+  const { icons, searchResults: spawns } = useCoordinates();
   const t = useT();
   const mapName = useUserStore((state) => state.mapName);
-  const setMapName = useUserStore((state) => state.setMapName);
-  const groupedSpawns = useMemo(() => {
+  const jumpToResult = useSearchResultJump();
+  const [showAll, setShowAll] = useState(false);
+  const flatResults = useMemo(() => {
     const reduced = spawns.reduce(
       (acc, spawn) => {
         spawn.cluster?.forEach((cluster) => {
@@ -38,8 +42,27 @@ export function MarkersSearchResults({
       },
       {} as Record<string, Record<string, typeof spawns>>,
     );
-    return Object.entries(reduced);
+    // One row per (name, map), current map's matches first so the collapsed
+    // view surfaces the results the user can jump to without a map switch.
+    const flat = Object.entries(reduced).flatMap(([key, typeSpawns]) =>
+      Object.entries(typeSpawns).map(
+        ([groupedMapName, groupedSpawns]) =>
+          [key, groupedMapName, groupedSpawns] as const,
+      ),
+    );
+    const offMap = (m: string) => m !== mapName && m !== "default";
+    flat.sort((a, b) => Number(offMap(a[1])) - Number(offMap(b[1])));
+    return flat;
+  }, [spawns, mapName]);
+
+  // A new result set (new query) starts collapsed again.
+  useEffect(() => {
+    setShowAll(false);
   }, [spawns]);
+
+  const visibleResults = showAll
+    ? flatResults
+    : flatResults.slice(0, COLLAPSED_RESULT_LIMIT);
 
   return (
     <>
@@ -49,90 +72,58 @@ export function MarkersSearchResults({
           Nothing found
         </div>
       )}
-      {groupedSpawns.map(([key, typeSpawns]) =>
-        Object.entries(typeSpawns).map(([groupedMapName, spawns]) => {
-          const icon = icons.get(spawns[0].type);
-          return (
-            <button
-              className={cn(
-                "flex gap-2 items-center hover:text-primary p-2 truncate w-full",
+      {visibleResults.map(([key, groupedMapName, spawns]) => (
+        <SearchResultRow
+          key={`${key}-${groupedMapName}`}
+          appName={appName}
+          iconsPath={iconsPath}
+          icon={icons.get(spawns[0].type)}
+          title={key}
+          label={
+            spawns[0].isPrivate && spawns[0].name
+              ? t(spawns[0].name, { fallback: spawns[0].name })
+              : key
+          }
+          count={spawns.length > 1 ? `${spawns.length} times` : undefined}
+          subtitle={
+            <>
+              {t(spawns[0].type, { fallback: spawns[0].type })}
+              {hasMultipleMaps && (
+                <span>{` - ${t(groupedMapName) || groupedMapName}`}</span>
               )}
-              key={`${key}-${groupedMapName}`}
-              onClick={() => {
-                if (groupedMapName !== mapName) {
-                  setMapName(groupedMapName);
-                  if (location.pathname.includes("/maps/")) {
-                    window.history.pushState(
-                      {},
-                      "",
-                      `/maps/${t(groupedMapName)}`,
-                    );
-                  }
-                } else {
-                  const bounds = spawns.map((spawn) => spawn.p);
-                  map?.fitBounds(bounds, {
-                    duration: 1,
-                    maxZoom: 4,
-                    padding: [50, 50],
-                  });
-                }
-              }}
-              title={key}
-              type="button"
-            >
-              {icon ? (
-                typeof icon.icon === "string" ? (
-                  <img
-                    alt=""
-                    className="h-5 w-5 shrink-0"
-                    height={20}
-                    src={getIconsUrl(appName, icon.icon, iconsPath)}
-                    width={20}
-                  />
-                ) : (
-                  <img
-                    alt=""
-                    role="presentation"
-                    className="shrink-0 object-none"
-                    src={getIconsUrl(appName, icon.icon.url, iconsPath)}
-                    width={icon.icon.width}
-                    height={icon.icon.height}
-                    style={{
-                      // width/height in CSS so the `img { height: auto }` preflight
-                      // can't reclip the wrong cell; adaptive zoom so small-source
-                      // icons render at the same ~22px box as 64px ones (cells are
-                      // packed at native size now, not a fixed 64px).
-                      width: icon.icon.width,
-                      height: icon.icon.height,
-                      objectPosition: `-${icon.icon.x}px -${icon.icon.y}px`,
-                      zoom: 22 / (icon.icon.width || 64),
-                    }}
-                  />
-                )
-              ) : (
-                <MapPin className="h-5 w-5 shrink-0" />
-              )}
-              <div className="text-left">
-                <div className="truncate">
-                  {spawns[0].isPrivate && spawns[0].name
-                    ? t(spawns[0].name, { fallback: spawns[0].name })
-                    : key}
-                  {spawns.length > 1 && (
-                    <span className="ml-1 text-gray-400 text-xs">
-                      {spawns.length} times
-                    </span>
-                  )}
-                </div>
-                <div className="text-gray-400 text-xs">
-                  {t(spawns[0].type, { fallback: spawns[0].type })}
-                  {hasMultipleMaps && (
-                    <span>{` - ${t(groupedMapName) || groupedMapName}`}</span>
-                  )}
-                </div>
-              </div>
-            </button>
-          );
-        }),
+            </>
+          }
+          onClick={() => {
+            jumpToResult(
+              spawns[0].type,
+              groupedMapName,
+              spawns.map((spawn) => spawn.p),
+            );
+          }}
+        />
+      ))}
+      {flatResults.length > COLLAPSED_RESULT_LIMIT && (
+        <button
+          className="flex w-full items-center justify-center gap-1 p-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+          onClick={() => {
+            setShowAll((prev) => !prev);
+          }}
+          type="button"
+        >
+          {showAll ? (
+            <>
+              <ChevronUp className="h-3.5 w-3.5" />
+              {t("markers.search.showFewer")}
+            </>
+          ) : (
+            <>
+              <ChevronDown className="h-3.5 w-3.5" />
+              {t("markers.search.showAll", {
+                vars: { count: String(flatResults.length) },
+              })}
+            </>
+          )}
+        </button>
       )}
     </>
   );

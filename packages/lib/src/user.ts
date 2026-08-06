@@ -4,6 +4,17 @@ import { View } from "./search-params";
 import { FiltersConfig, GlobalFiltersConfig } from "./config";
 import { DrawingsAndNodes } from "./settings";
 
+// Which data source the sidebar search results read from: "historical" =
+// the static/accumulated spawn locations, "live" = currently tracked live
+// actors (companion app / Peer Link). The filter-list filtering is scope-
+// independent — this only switches the results section.
+export type SearchScope = "historical" | "live";
+
+// Minimum query length before marker search results are computed/fetched.
+// Shared by the coordinates provider (which empties results below it) and the
+// sidebar (which renders the "type more characters" hint) so they can't drift.
+export const MIN_SEARCH_QUERY_LENGTH = 3;
+
 export interface UserStoreState {
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
@@ -23,9 +34,13 @@ export interface UserStoreState {
   setSearch: (search: string) => void;
   searchIsLoading: boolean;
   setSearchIsLoading: (state: boolean) => void;
+  searchScope: SearchScope;
+  setSearchScope: (scope: SearchScope) => void;
   filters: string[];
   setFilters: (filters: string[]) => void;
   toggleFilter: (filter: string) => void;
+  /** Idempotent "switch this filter on" — no-op when already active. */
+  enableFilter: (filter: string) => void;
   viewByMap: Record<string, { center?: [number, number]; zoom?: number }>;
   setViewByMap: (
     mapName: string,
@@ -125,6 +140,10 @@ export function createUserStore(
             setSearchIsLoading: (state) => {
               set({ searchIsLoading: state });
             },
+            searchScope: "historical",
+            setSearchScope: (searchScope) => {
+              set({ searchScope });
+            },
             filters: view.filters ?? [
               ...filters.flatMap((filter) =>
                 filter.values
@@ -144,6 +163,13 @@ export function createUserStore(
                   : [...state.filters, filter];
                 return { filters };
               });
+            },
+            enableFilter: (filter) => {
+              set((state) =>
+                state.filters.includes(filter)
+                  ? state
+                  : { filters: [...state.filters, filter] },
+              );
             },
             globalFilters:
               view.globalFilters ??
