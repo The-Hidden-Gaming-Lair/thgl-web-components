@@ -726,6 +726,44 @@ The companion app is Windows-only. However, you can use our web versions (e.g., 
     labels: ["Companion App", "Linux", "General"],
   },
   {
+    id: "how-to-update-apps",
+    headline: "How to update the apps (Overwolf & Companion App)",
+    question:
+      "How do I update the Overwolf apps or the TH.GL Companion App to the latest version?",
+    answer: `
+Both app types **update automatically** — there is no manual update button and you don't need to reinstall for new versions.
+
+**The universal fix:** fully **exit** the app (system tray icon → Exit, not just the \`X\`) and start it again — or restart your PC. Both apps check for updates on startup.
+
+## TH.GL Companion App
+
+The app checks for a new version:
+- shortly after it starts,
+- every 30 minutes while it runs,
+- right after you close your game.
+
+**Updates are never installed while a game is running** — that's the most common reason the app seems "stuck" on an old version. Close the game and the update installs silently within a few seconds; the app restarts itself on the new version.
+
+**Still on an old version?** If an update attempt failed (e.g. a permission problem), the app waits a few hours before retrying the same version — this prevents endless permission-prompt loops. The fastest fix: download the latest installer and run it over your existing installation. Your settings are kept.
+
+[Download the latest Companion App](https://app.th.gl/THGL_Installer.exe)
+
+## Overwolf apps
+
+Overwolf downloads updates for itself and its apps silently in the background and applies them the next time Overwolf starts. To force an update:
+
+1. **Fully exit Overwolf** via the system tray icon (not just \`X\`) and start it again — pending updates are applied on launch.
+2. Or update from inside the app: open the app's **Settings** — the **Status** section shows your version and checks for updates. If a new version is ready, click **Update Now!**, then **Restart Now!** once it's installed.
+
+To update the Overwolf client itself, see the official guide: [How to update Overwolf](https://support.overwolf.com/en/support/solutions/articles/9000176831-what-is-my-overwolf-version-and-how-to-update-it-)
+
+## Still having trouble?
+
+Reach out on Discord at [th.gl/discord](https://th.gl/discord).
+    `.trim(),
+    labels: ["General", "Overwolf", "Companion App", "Technical"],
+  },
+  {
     id: "admin-rights-error",
     headline: "Overwolf asks for admin rights",
     question:
