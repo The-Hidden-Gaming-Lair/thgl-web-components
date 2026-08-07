@@ -234,7 +234,7 @@ export function App({
                 </>
               )}
             </HeaderOffset>
-            <MapHotkeys />
+            <MapHotkeys tilesConfig={tiles} />
           </CoordinatesProvider>
         </TooltipProvider>
       </I18NProvider>

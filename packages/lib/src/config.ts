@@ -892,3 +892,23 @@ export type TileLayer = {
   backdrop?: boolean;
 };
 export type TilesConfig = Record<string, TileLayer>;
+
+/**
+ * Whether two maps share the same world — the same map, a layer of the other
+ * (e.g. an "Underground" whose `layer.parent` is the surface), or two layers of
+ * the same parent. Layer maps reuse the parent's world transform, so a position
+ * on one projects to the same spot on the other. `!!aParent` guards the sibling
+ * check so two ordinary maps (both `parent === undefined`) are NOT treated as the
+ * same world in games without layered maps.
+ */
+export function isSameWorld(
+  a: string,
+  b: string | undefined,
+  tiles: TilesConfig,
+): boolean {
+  if (a === b) return true;
+  if (!b) return false;
+  const aParent = tiles[a]?.layer?.parent;
+  const bParent = tiles[b]?.layer?.parent;
+  return aParent === b || bParent === a || (!!aParent && aParent === bParent);
+}

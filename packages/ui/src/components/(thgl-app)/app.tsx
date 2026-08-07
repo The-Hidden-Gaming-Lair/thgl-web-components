@@ -345,7 +345,7 @@ export function App({
                 isOverlay={Boolean(isOverlay)}
               />
             )}
-            <MapHotkeys />
+            <MapHotkeys tilesConfig={tiles} />
             {isOverlay && <OverlayInputEvents />}
             {isOverlay && <ExclusiveFullscreenDialog />}
           </CoordinatesProvider>

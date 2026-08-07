@@ -6,38 +6,17 @@ import { useMap } from "./store";
 import { PlayerMarker } from "./player-marker";
 import { rotateCoordinate } from "./rotation";
 import type { ActorPlayer } from "@repo/lib/overwolf";
-import { getIconsUrl, MarkerOptions, TilesConfig } from "@repo/lib";
+import {
+  getIconsUrl,
+  isSameWorld,
+  MarkerOptions,
+  TilesConfig,
+} from "@repo/lib";
 import { useSettingsStore } from "@repo/lib";
 import { useT } from "../(providers)";
 import { applyColorBlindTransform } from "./color-blind";
 import type { ColorBlindMode } from "@repo/lib";
 import { DrawingLayer } from "@repo/lib/web-map";
-
-/**
- * Whether the player (on map `playerMap`) should be shown on the currently-viewed
- * map `viewMap`. True when they're the same map OR share the same world — a layer
- * map (e.g. the "Underground") reuses its parent surface's world transform, so the
- * player's position projects to the same spot on both. We do NOT auto-switch the
- * map to follow the player into a layer; the user picks the layer manually and the
- * player marker just stays visible on whichever of the world's maps is open.
- */
-function sameWorld(
-  playerMap: string,
-  viewMap: string,
-  tiles: TilesConfig,
-): boolean {
-  if (playerMap === viewMap) return true;
-  const pParent = tiles[playerMap]?.layer?.parent;
-  const vParent = tiles[viewMap]?.layer?.parent;
-  // A layer of the other, or two layers of the SAME parent. `!!pParent` guards
-  // the sibling check: without it, two ordinary maps (both parent === undefined)
-  // would read as "same world" and cross-show the player in non-layered games.
-  return (
-    pParent === viewMap ||
-    vParent === playerMap ||
-    (!!pParent && pParent === vParent)
-  );
-}
 
 export function Player({
   appName,
@@ -143,7 +122,7 @@ export function Player({
     }
 
     const isOnMap =
-      !player.mapName || sameWorld(player.mapName, map.mapName, tilesConfig);
+      !player.mapName || isSameWorld(player.mapName, map.mapName, tilesConfig);
     if (!isOnMap) {
       return;
     }
@@ -295,7 +274,7 @@ export function Player({
       y: playerPosition[1],
     });
 
-    const isOnMap = !pMap || sameWorld(pMap, map.mapName, tilesConfig);
+    const isOnMap = !pMap || isSameWorld(pMap, map.mapName, tilesConfig);
     if (!isOnMap) {
       return;
     }
@@ -320,7 +299,7 @@ export function Player({
       return;
     }
     lastPlayerMapRef.current = pMap;
-    if (sameWorld(pMap, map.mapName, tilesConfig)) {
+    if (isSameWorld(pMap, map.mapName, tilesConfig)) {
       return;
     }
     setMapName(pMap, [player.x, player.y], map.getZoom());
