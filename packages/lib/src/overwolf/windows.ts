@@ -1,5 +1,5 @@
 import { promisifyOverwolf } from "./promisify";
-import { useSettingsStore } from "../settings";
+import { OverlayWindowMode, useSettingsStore } from "../settings";
 import { getRunningGameInfo } from "./games";
 
 export const WINDOWS = {
@@ -26,17 +26,39 @@ export function getMonitors() {
   return promisifyOverwolf(overwolf.utils.getMonitorsList)();
 }
 
-export async function getPreferedWindowName(): Promise<string> {
-  const { overlayMode, setOverlayMode } = useSettingsStore.getState();
-  if (overlayMode !== null) {
-    return overlayMode ? WINDOWS.OVERLAY : WINDOWS.DESKTOP;
+// Resolve the effective window mode, auto-detecting (and persisting) on first
+// run. The new tri-state `windowMode` wins; falls back to the legacy
+// `overlayMode` boolean for older profiles; else picks by the monitor count.
+export async function resolveWindowMode(): Promise<OverlayWindowMode> {
+  const state = useSettingsStore.getState();
+  if (state.windowMode) {
+    return state.windowMode;
+  }
+  if (state.overlayMode !== null) {
+    const mode: OverlayWindowMode = state.overlayMode ? "overlay" : "desktop";
+    state.setWindowMode(mode);
+    return mode;
   }
 
   const monitors = await getMonitors();
   const hasSecondScreen = monitors.displays.length > 1;
-  const newOverlayMode = hasSecondScreen ? WINDOWS.DESKTOP : WINDOWS.OVERLAY;
-  setOverlayMode(newOverlayMode === WINDOWS.OVERLAY);
-  return newOverlayMode;
+  const mode: OverlayWindowMode = hasSecondScreen ? "desktop" : "overlay";
+  state.setWindowMode(mode);
+  return mode;
+}
+
+// The declared windows that should be open for a given mode.
+export function windowsForMode(mode: OverlayWindowMode): string[] {
+  if (mode === "both") {
+    return [WINDOWS.OVERLAY, WINDOWS.DESKTOP];
+  }
+  return mode === "overlay" ? [WINDOWS.OVERLAY] : [WINDOWS.DESKTOP];
+}
+
+// The primary window to focus / toggle / move. `both` favors the overlay.
+export async function getPreferedWindowName(): Promise<string> {
+  const mode = await resolveWindowMode();
+  return mode === "desktop" ? WINDOWS.DESKTOP : WINDOWS.OVERLAY;
 }
 
 export async function restoreWindow(windowName: string): Promise<string> {
@@ -104,19 +126,37 @@ export function closeMainWindow() {
   return closeWindow(WINDOWS.BACKGROUND);
 }
 
-export async function togglePreferedWindow(gameClassId: number) {
-  const preferedWindowName = await getPreferedWindowName();
-  const overlayMode = preferedWindowName === WINDOWS.OVERLAY;
-  useSettingsStore.getState().setOverlayMode(overlayMode);
-  if (overlayMode) {
-    const runningGameInfo = await getRunningGameInfo(gameClassId);
-    if (runningGameInfo) {
-      await restoreWindow(WINDOWS.OVERLAY);
-      await closeWindow(WINDOWS.DESKTOP);
+// Open exactly the windows the current mode calls for and close the rest.
+// The overlay window is `in_game_only`, so it's only opened while the game is
+// running; the desktop window can always show. Call after changing the mode.
+export async function applyWindowMode(gameClassId: number) {
+  const mode = await resolveWindowMode();
+  const runningGameInfo = await getRunningGameInfo(gameClassId);
+  const wanted = windowsForMode(mode);
+
+  const toOpen = wanted.filter(
+    (name) => name !== WINDOWS.OVERLAY || Boolean(runningGameInfo),
+  );
+  const toClose = [WINDOWS.OVERLAY, WINDOWS.DESKTOP].filter(
+    (name) => !toOpen.includes(name),
+  );
+
+  for (const name of toOpen) {
+    const windowId = await restoreWindow(name);
+    if (name === WINDOWS.DESKTOP && runningGameInfo) {
+      await moveToOtherScreen(windowId, runningGameInfo.monitorHandle.value);
     }
-  } else {
-    await restoreWindow(WINDOWS.DESKTOP);
-    await closeWindow(WINDOWS.OVERLAY);
+  }
+  for (const name of toClose) {
+    await closeWindow(name).catch(() => {});
+  }
+}
+
+// Show/hide every window for the current mode (the TOGGLE_APP hotkey).
+export async function toggleActiveWindows() {
+  const mode = await resolveWindowMode();
+  for (const name of windowsForMode(mode)) {
+    await toggleWindow(name);
   }
 }
 

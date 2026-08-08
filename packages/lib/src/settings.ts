@@ -219,6 +219,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   // users anyway, so this keeps the out-of-box experience consistent.
   liveMode: "live",
   overlayMode: null,
+  windowMode: null,
   overlayFullscreen: false,
   lockedWindow: false,
   colorBlindMode: "none",
@@ -306,11 +307,21 @@ export type FilterPreset = {
   audioAlertByFilter?: Record<string, boolean>;
 };
 
+// Which app window(s) to show in the Overwolf apps. Mirrors the THGLApp
+// window mode (thgl-app/apps.ts). `both` keeps the in-game overlay AND the
+// desktop (2nd screen) window open at once. `null` = auto-detect on first run.
+export type OverlayWindowMode = "overlay" | "desktop" | "both";
+
 export type ProfileSettings = {
   hotkeys: Record<string, string>;
   groupName: string;
   liveMode: LiveMode;
+  // Legacy binary preference, kept as a mirror of `windowMode` for backward
+  // compat and cosmetic consumers (overlay bg transparency, clock position).
   overlayMode: boolean | null;
+  // Source of truth for which window(s) to open. Falls back to `overlayMode`
+  // when unset (older profiles), then to monitor-count auto-detection.
+  windowMode: OverlayWindowMode | null;
   overlayFullscreen: boolean;
   lockedWindow: boolean;
   colorBlindMode: ColorBlindMode;
@@ -416,6 +427,7 @@ export interface ProfileActions {
   setLiveMode: (liveMode: LiveMode) => void;
   cycleLiveMode: () => void;
   setOverlayMode: (overlayMode: boolean) => void;
+  setWindowMode: (windowMode: OverlayWindowMode) => void;
   toggleOverlayFullscreen: () => void;
   toggleLockedWindow: () => void;
   setColorBlindMode: (mode: ColorBlindMode) => void;
@@ -918,7 +930,20 @@ export const useSettingsStore = create(
           },
 
           setOverlayMode: (overlayMode) => {
-            updateSettings({ overlayMode });
+            updateSettings({
+              overlayMode,
+              windowMode: overlayMode ? "overlay" : "desktop",
+            });
+          },
+
+          setWindowMode: (windowMode) => {
+            updateSettings({
+              windowMode,
+              // Mirror to the legacy boolean so cosmetic consumers (overlay bg
+              // transparency, clock position) stay correct. `both` styles the
+              // overlay window as an overlay, so it maps to true.
+              overlayMode: windowMode === "desktop" ? false : true,
+            });
           },
 
           toggleOverlayFullscreen: () => {
