@@ -10,9 +10,10 @@ export interface RawCheck {
 }
 
 /** Components whose OUTAGE auto-opens an incident + triggers the auto banner. */
-export const HARD_COMPONENTS = ["auth", "database", "cdn"];
+export const HARD_COMPONENTS = ["auth", "database", "cdn", "web"];
 
 export const COMPONENT_LABELS: Record<string, string> = {
+  web: "Website (maps & guides)",
   auth: "Auth & Sign-in",
   database: "Database (accounts & filters)",
   "api-forge": "Comments & Profiles",
@@ -335,8 +336,78 @@ export async function checkOwEvents(): Promise<
   return out;
 }
 
+/**
+ * Games-web page-origin health. Probes key root pages with a per-minute
+ * cache-buster so we hit the Magic Container ORIGIN — a cached 200 would
+ * otherwise hide a 504 (the AI-crawler overload pattern where the origin
+ * 504s across all tenants while the edge still serves cached pages). Catches
+ * two failure modes: origin down/overloaded (all roots 5xx/slow/timeout) and
+ * a single root that stops being accessible (e.g. a bad tenant/locale config
+ * → 404). All roots share one Magic Container, so a small representative set
+ * is enough to detect an origin-wide outage.
+ */
+const WEB_ROOTS = [
+  "https://www.th.gl/",
+  "https://palworld.th.gl/",
+  "https://satisfactory.th.gl/",
+];
+// A 200 that takes this long signals origin overload (early warning before a
+// full 504) — surfaced as "degraded" so it pings without declaring an outage.
+const WEB_SLOW_MS = 3000;
+
+async function checkWeb(): Promise<RawCheck> {
+  const bust = Math.floor(Date.now() / 60000);
+  const results = await Promise.all(
+    WEB_ROOTS.map(async (base) => {
+      const { res, ms, err } = await timedFetch(`${base}?status=${bust}`);
+      return {
+        host: new URL(base).host,
+        ok: res?.ok ?? false,
+        status: res?.status ?? null,
+        ms,
+        err,
+      };
+    }),
+  );
+  const down = results.filter((r) => !r.ok);
+  const slowest = Math.max(...results.map((r) => r.ms));
+
+  if (down.length === 0) {
+    if (slowest > WEB_SLOW_MS) {
+      const slow = results
+        .filter((r) => r.ms > WEB_SLOW_MS)
+        .map((r) => `${r.host} ${r.ms}ms`);
+      return {
+        component: "web",
+        state: "degraded",
+        latencyMs: slowest,
+        detail: `slow origin — ${slow.join(", ")}`,
+      };
+    }
+    return {
+      component: "web",
+      state: "operational",
+      latencyMs: slowest,
+      detail: null,
+    };
+  }
+
+  const detail = down
+    .map((r) => `${r.host}: ${r.err ?? `HTTP ${r.status}`}`)
+    .join("; ");
+  // All roots down = origin-wide outage (auto-incident); a subset = one root
+  // broken while the origin is otherwise up = degraded.
+  return {
+    component: "web",
+    state: down.length === results.length ? "outage" : "degraded",
+    latencyMs: down[0].ms,
+    detail,
+  };
+}
+
 export async function runAllChecks(): Promise<RawCheck[]> {
   return Promise.all([
+    checkWeb(),
     checkAuth(),
     checkDatabase(),
     // api-forge: /comments with a dummy node returns 200 with empty array — no auth needed
