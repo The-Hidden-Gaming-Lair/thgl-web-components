@@ -584,6 +584,70 @@ export function getMapNameFromVersion(
   return null;
 }
 
+/**
+ * Resolve a map URL segment to BOTH its tile key and its canonical display
+ * name, tolerating '+'-as-space and wrong CASE. Used to 301/308-canonicalize
+ * non-canonical map URLs (e.g. `/maps/palpagos%20island` or a legacy
+ * `+`-encoded form) to the proper-cased `%20` URL that the sitemap emits.
+ *
+ * `name` is the canonical display name for the resolved tile in THIS dict
+ * (locale) — encode it with encodeURIComponent to build the canonical path.
+ * Returns null when the segment doesn't resolve to a real map (→ caller 404s).
+ */
+export function getCanonicalMapName(
+  version: Version,
+  map: string,
+  dict: Record<string, string>,
+): { key: string; name: string } | null {
+  // Mirror getMapNameFromVersion's decode, but also treat '+' as a space so a
+  // legacy `/maps/Foo+Bar` still resolves (proxy normally 301s it first).
+  const decodedMap = decodeURIComponent(map.replace(/\+/g, " "));
+  const { tileKeys } = getVersionLookupCache(version);
+  const reverseDictMap = getReverseDictMap(dict);
+
+  // Given a display name, resolve to the first tile key it maps to (handles
+  // pointer values, identical to getMapNameFromVersion).
+  const resolveTileKey = (displayName: string): string | null => {
+    const possibleKeys = reverseDictMap.get(displayName);
+    if (!possibleKeys) return null;
+    for (const key of possibleKeys) {
+      if (key[0] === "@") {
+        const resolvedKeys = reverseDictMap.get(key);
+        if (!resolvedKeys) continue;
+        for (const resolvedKey of resolvedKeys) {
+          if (tileKeys.has(resolvedKey)) return resolvedKey;
+        }
+      } else if (tileKeys.has(key)) {
+        return key;
+      }
+    }
+    return null;
+  };
+
+  // 1) Exact match (the common, already-canonical case).
+  let key = resolveTileKey(decodedMap);
+  // 2) Case-insensitive fallback for wrong-cased URLs (crawlers/old links).
+  if (!key) {
+    const lower = decodedMap.toLowerCase();
+    for (const [displayName] of reverseDictMap) {
+      if (displayName.toLowerCase() === lower) {
+        const resolved = resolveTileKey(displayName);
+        if (resolved) {
+          key = resolved;
+          break;
+        }
+      }
+    }
+  }
+  if (!key) return null;
+
+  // Canonical display name = the tile key's own dict term (pointer-resolved),
+  // falling back to the key when it has no term.
+  const raw = dict[key];
+  const name = raw && raw[0] === "@" ? (dict[raw] ?? key) : (raw ?? key);
+  return { key, name };
+}
+
 export function getTypeFromVersion(
   version: Version,
   type: string,

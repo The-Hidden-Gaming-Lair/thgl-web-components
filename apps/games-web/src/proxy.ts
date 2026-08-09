@@ -85,6 +85,18 @@ export function proxy(req: NextRequest) {
   const url = req.nextUrl;
   const path = url.pathname;
 
+  // Canonicalize '+'-as-space in name-bearing page paths (/maps, /guides, /db)
+  // to the %20 form. Crawlers and old indexed links often render an encoded
+  // space as '+', but in a URL PATH '+' is a literal plus (only query strings
+  // decode '+' to space) — so `/maps/Palpagos+Island` never matches the map
+  // "Palpagos Island" and 404s. 301 to the canonical %20 form (the version the
+  // sitemap emits and Google should index). Query string is untouched. Runs for
+  // any locale prefix (/maps/, /de/maps/, /zh-CN/maps/, …).
+  if (path.includes("+") && /(^|\/)(maps|guides|db)\//.test(path)) {
+    url.pathname = path.replace(/\+/g, "%20");
+    return NextResponse.redirect(url, 301);
+  }
+
   // Rewrite per-game OG images (favicon is shared, served from app/favicon.ico)
   if (
     path === "/opengraph-image.jpg" ||
