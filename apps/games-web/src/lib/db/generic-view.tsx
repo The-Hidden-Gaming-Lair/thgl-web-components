@@ -24,7 +24,15 @@ type ItemLocation = {
   y: number;
   label: string;
 };
-type LocationsProp = { total: number; list: ItemLocation[] };
+type LocationsProp = {
+  total: number;
+  list: ItemLocation[];
+  /** Singular/plural noun for the "Found at N …" heading (e.g. "deposit"/"deposits",
+   *  "chest"/"chests"). Defaults to "location"/"locations" — set by data-forge per
+   *  game so the wording fits (ore deposits ≠ chests ≠ POIs). */
+  noun?: string;
+  nounPlural?: string;
+};
 
 function isLocationsProp(v: unknown): v is LocationsProp {
   return (
@@ -407,7 +415,7 @@ export function GenericEntityView({
                       iconsHash={iconsHash}
                     />
                   )}
-                  {k}
+                  {humanizeKey(k)}
                 </div>
                 <div className="text-sm font-medium text-slate-100">
                   {String(v)}
@@ -421,8 +429,10 @@ export function GenericEntityView({
       {locations && locations.list.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Found in {locations.total}{" "}
-            {locations.total === 1 ? "chest" : "chests"}
+            Found at {locations.total}{" "}
+            {locations.total === 1
+              ? (locations.noun ?? "location")
+              : (locations.nounPlural ?? "locations")}
           </div>
           {tiles ? (
             // Embedded interactive map pinning every location.

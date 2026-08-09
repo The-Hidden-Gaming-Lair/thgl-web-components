@@ -175,6 +175,14 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "starrupture",
+    discordId: "starrupture",
+    title: "Star Rupture",
+    logo: `${TH_GL_URL}/global_icons/starrupture.webp`,
+    web: "https://starrupture.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "subnautica-2",
     discordId: "subnautica-2",
     title: "Subnautica 2",

@@ -27,6 +27,7 @@ import { satisfactory } from "./satisfactory";
 import { songsOfConquest } from "./songs-of-conquest";
 import { soulframe } from "./soulframe";
 import { soulmask } from "./soulmask";
+import { starrupture } from "./starrupture";
 import { starsandIsland } from "./starsand-island";
 import { subnautica2 } from "./subnautica-2";
 import { thglApp } from "./thgl-app";
@@ -67,6 +68,7 @@ const ALL_CONFIGS: AppConfig[] = [
   songsOfConquest,
   soulframe,
   soulmask,
+  starrupture,
   starsandIsland,
   subnautica2,
   thglApp,
