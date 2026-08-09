@@ -17,7 +17,7 @@ export const COMPONENT_LABELS: Record<string, string> = {
   auth: "Auth & Sign-in",
   database: "Database (accounts & filters)",
   "api-forge": "Comments & Profiles",
-  "actors-api": "Live tracking",
+  "actors-api": "Actors API",
   "palia-api": "Palia community data",
   peer: "Peer Link",
   cdn: "Map data CDN",
