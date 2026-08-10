@@ -60,6 +60,22 @@ export const palworld = resolveAppConfig({
       iconName: "Grid",
       linkText: "Browse Technology",
     },
+    {
+      title: "Base Invaders",
+      description:
+        "Every base raid — the raiders (Syndicate, cultists, wild Pals…) that attack your base by biome and security grade, with waves and rosters.",
+      href: "/db/invaders",
+      iconName: "Axe",
+      linkText: "Browse Base Invaders",
+    },
+    {
+      title: "Base Visitors",
+      description:
+        "Traveling merchants and visitors that come to your base — caravans, ambassadors and reward NPCs — by biome and grade.",
+      href: "/db/visitors",
+      iconName: "Users",
+      linkText: "Browse Base Visitors",
+    },
   ],
   externalLinks: [],
   keywords: ["Tides of Terraria", "Feybreak", "Predator & Alpha Pals"],
@@ -106,12 +122,29 @@ export const palworld = resolveAppConfig({
         icon: "🔧",
         description: "The tech tree — tiers, costs and unlocks.",
       },
+      {
+        href: "/db/invaders",
+        type: "invaders",
+        titleFallback: "Base Invaders",
+        icon: "⚔️",
+        description:
+          "Base raids by biome and security grade — waves and rosters.",
+      },
+      {
+        href: "/db/visitors",
+        type: "visitors",
+        titleFallback: "Base Visitors",
+        icon: "🧳",
+        description: "Traveling merchants and visitors to your base.",
+      },
     ],
     typeLabels: {
       paldeck: "Pal",
       inventory: "Items",
       recipes: "Recipe",
       technology: "Technology",
+      invaders: "Raid",
+      visitors: "Visitor",
     },
   },
 });
