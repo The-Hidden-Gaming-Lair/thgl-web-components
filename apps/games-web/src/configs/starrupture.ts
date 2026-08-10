@@ -19,7 +19,7 @@ export const starrupture = resolveAppConfig({
     "zh-Hans",
     "zh-Hant",
   ],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   // No manual "/maps/..." internalLink — the home page auto-generates a richer
   // map card (preview + live location count) for the single map (Arcadia-7 /
   // ChimeraMain), and that auto-card is shadowed by a manual /maps link.
