@@ -32,6 +32,8 @@ export function THGLAppSettingsDialogContent({
           <p className="text-muted-foreground text-xs">
             To set hotkeys using a gamepad, enable Second Screen mode
             temporarily. Overlay mode can't read gamepad input for recording.
+            Non-Xbox controllers (PS5, Steam) must be in Xbox/XInput mode —
+            enable Steam Input for them so they work like an Xbox controller.
           </p>
           <Label className="flex items-center gap-2 justify-between">
             Show/Hide app
