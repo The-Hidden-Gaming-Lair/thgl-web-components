@@ -361,6 +361,22 @@ export function InteractiveMap({
       });
     });
 
+    // The saved view must be keyed on a map sharing THIS webmap's coordinate
+    // space. On a map switch the store's mapName is already the switch TARGET
+    // when cleanup runs (the change is what triggered the teardown) — keying
+    // on it persisted the outgoing camera under the incoming map, which the
+    // bounds check then rejects as out-of-bounds (zoom reset on every
+    // switch). Current mapName is only trusted while it shares this webmap's
+    // tiles (surface ↔ its interior layers); otherwise fall back to the map
+    // this webmap was created for.
+    const createdForMapName = mapName;
+    const persistViewMapName = () => {
+      const current = userStoreApi.getState().mapName;
+      return tileOptions[current]?.url === mapTileOptions.url
+        ? current
+        : createdForMapName;
+    };
+
     // Save view on move (debounced)
     let timeoutId: NodeJS.Timeout | null = null;
     webmap.on("moveend", () => {
@@ -376,11 +392,7 @@ export function InteractiveMap({
       }
       timeoutId = setTimeout(() => {
         const c = webmap.getCenter();
-        setViewByMap(
-          userStoreApi.getState().mapName,
-          [c.lat, c.lng],
-          webmap.getZoom(),
-        );
+        setViewByMap(persistViewMapName(), [c.lat, c.lng], webmap.getZoom());
       }, 3000);
     });
 
@@ -390,11 +402,7 @@ export function InteractiveMap({
       }
       // Save current view immediately on cleanup (navigation, unmount)
       const c = webmap.getCenter();
-      setViewByMap(
-        userStoreApi.getState().mapName,
-        [c.lat, c.lng],
-        webmap.getZoom(),
-      );
+      setViewByMap(persistViewMapName(), [c.lat, c.lng], webmap.getZoom());
       setMap(null);
       webmap.destroy();
       if (containerRef.current && canvas.parentNode === containerRef.current) {
