@@ -62,6 +62,36 @@ export interface UserStoreState {
   toggleGlobalFilter: (filter: string) => void;
 }
 
+// A per-map view is only usable if every component is a finite number — a
+// NaN/Infinity camera JSON-serializes to null and would otherwise persist a
+// permanently black map for that one map (until the user finds Reset
+// Interface). Guard every write and heal persisted state on rehydrate.
+const isValidCenter = (center: unknown): center is [number, number] =>
+  Array.isArray(center) &&
+  center.length === 2 &&
+  Number.isFinite(center[0]) &&
+  Number.isFinite(center[1]);
+
+const sanitizeViewByMap = (
+  viewByMap: UserStoreState["viewByMap"],
+): UserStoreState["viewByMap"] => {
+  const result: UserStoreState["viewByMap"] = {};
+  for (const [mapName, view] of Object.entries(viewByMap ?? {})) {
+    if (!view || typeof view !== "object") {
+      continue;
+    }
+    const sanitized: { center?: [number, number]; zoom?: number } = {};
+    if (isValidCenter(view.center)) {
+      sanitized.center = view.center;
+    }
+    if (Number.isFinite(view.zoom)) {
+      sanitized.zoom = view.zoom;
+    }
+    result[mapName] = sanitized;
+  }
+  return result;
+};
+
 const getStorageName = () => {
   if (typeof window !== "undefined") {
     if (window.location.pathname.startsWith("/apps/")) {
@@ -105,10 +135,10 @@ export function createUserStore(
                   ...state.viewByMap,
                   [mapName]: state.viewByMap[mapName] ?? {},
                 };
-                if (center) {
+                if (isValidCenter(center)) {
                   viewByMap[mapName].center = center;
                 }
-                if (zoom) {
+                if (Number.isFinite(zoom)) {
                   viewByMap[mapName].zoom = zoom;
                 }
                 return { mapName, viewByMap };
@@ -120,6 +150,9 @@ export function createUserStore(
                 }
               : {},
             setViewByMap: (mapName, center, zoom) => {
+              if (!isValidCenter(center) || !Number.isFinite(zoom)) {
+                return;
+              }
               set((state) => {
                 const viewByMap = {
                   ...state.viewByMap,
@@ -226,6 +259,9 @@ export function createUserStore(
               return current;
             }
             const result = { ...current, ...persisted };
+            // Heal corrupted persisted views (e.g. a NaN/Infinity camera that
+            // serialized to null) so an affected map recovers on next load.
+            result.viewByMap = sanitizeViewByMap(result.viewByMap);
             if (view.map) {
               result.mapName = view.map;
               result.viewByMap = {

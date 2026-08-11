@@ -170,18 +170,26 @@ export class WebMap {
 
   constructor(opts: WebMapOptions) {
     this.canvas = opts.canvas;
-    this.center = opts.center;
-    this.zoom = opts.zoom;
-    this.targetZoom = opts.zoom;
-    this.lastZoom = opts.zoom;
+    if (opts.minZoom !== undefined) this.minZoom = opts.minZoom;
+    if (opts.maxZoom !== undefined) this.maxZoom = opts.maxZoom;
+    // Never trust the initial view: a non-finite center or an out-of-range
+    // zoom (persisted corruption, poisoned URL) draws nothing — a black map.
+    this.center =
+      Number.isFinite(opts.center?.[0]) && Number.isFinite(opts.center?.[1])
+        ? opts.center
+        : [0, 0];
+    const zoom = Number.isFinite(opts.zoom)
+      ? clamp(opts.zoom, this.minZoom, this.maxZoom)
+      : this.minZoom;
+    this.zoom = zoom;
+    this.targetZoom = zoom;
+    this.lastZoom = zoom;
     this.bearing = opts.bearing ?? 0;
     if (opts.pitch !== undefined)
       this.pitch = Math.max(0, Math.min(1.4, opts.pitch));
     this.gl = createGL(this.canvas);
     // Detect software rasterization from the REAL on-screen context (logs once).
     this.softwareRender = isContextSoftware(this.gl);
-    if (opts.minZoom !== undefined) this.minZoom = opts.minZoom;
-    if (opts.maxZoom !== undefined) this.maxZoom = opts.maxZoom;
     this.proj = opts.projection ?? defaultWebMercatorProjection;
     // Bind projection method once to avoid closure allocation per frame
     this.projectionBound = this.projection.bind(this);
@@ -905,13 +913,29 @@ export class WebMap {
   }
   /** Smoothly animate to a new center position */
   panTo(center: LatLng) {
+    if (!Number.isFinite(center?.[0]) || !Number.isFinite(center?.[1])) {
+      return;
+    }
     this.targetCenter = center;
   }
   setZoom(zoom: number) {
+    if (!Number.isFinite(zoom)) {
+      return;
+    }
     this.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, zoom));
     this.targetZoom = this.zoom;
   }
   setView(center: LatLng, zoom: number, animate = true) {
+    // Drop non-finite views entirely — a single NaN position (e.g. one bad
+    // live player read) would otherwise wedge the camera into a black map and
+    // get persisted from there.
+    if (
+      !Number.isFinite(center?.[0]) ||
+      !Number.isFinite(center?.[1]) ||
+      !Number.isFinite(zoom)
+    ) {
+      return;
+    }
     this.center = center;
     const clampedZoom = Math.max(this.minZoom, Math.min(this.maxZoom, zoom));
     if (animate) {

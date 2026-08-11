@@ -208,12 +208,43 @@ export function InteractiveMap({
       prevUrlRef.current !== undefined &&
       prevUrlRef.current === mapTileOptions.url &&
       currentViewRef.current;
+    // A saved/URL view is only usable if fully finite — a NaN/Infinity camera
+    // (which persists as null) renders a permanently black map otherwise.
+    // It must also be roughly within the map's bounds: panning off the visual
+    // map in-session is allowed (live spawns in tutorials/dungeons), but a
+    // reload should not START out there staring at a black canvas. The 10%
+    // margin keeps views just past the edge instead of resetting them.
+    const boundsForCheck =
+      mapTileOptions.fitBounds ?? mapTileOptions.options?.bounds;
+    const isWithinBounds = (c: [number, number]) => {
+      if (!boundsForCheck) {
+        return true;
+      }
+      const [[a0, a1], [b0, b1]] = boundsForCheck;
+      const minLat = Math.min(a0, b0);
+      const maxLat = Math.max(a0, b0);
+      const minLng = Math.min(a1, b1);
+      const maxLng = Math.max(a1, b1);
+      const padLat = (maxLat - minLat) * 0.1;
+      const padLng = (maxLng - minLng) * 0.1;
+      return (
+        c[0] >= minLat - padLat &&
+        c[0] <= maxLat + padLat &&
+        c[1] >= minLng - padLng &&
+        c[1] <= maxLng + padLng
+      );
+    };
+    const savedViewValid =
+      Array.isArray(view.center) &&
+      Number.isFinite(view.center[0]) &&
+      Number.isFinite(view.center[1]) &&
+      isWithinBounds(view.center);
     if (keepView && currentViewRef.current) {
       center = currentViewRef.current.center;
       zoom = currentViewRef.current.zoom;
-    } else if (view.center) {
+    } else if (savedViewValid && view.center) {
       center = view.center;
-      zoom = view.zoom ?? zoom;
+      zoom = Number.isFinite(view.zoom) ? view.zoom! : zoom;
     } else if (mapTileOptions.fitBounds) {
       const [[lat1, lng1], [lat2, lng2]] = mapTileOptions.fitBounds;
       center = [(lat1 + lat2) / 2, (lng1 + lng2) / 2];
