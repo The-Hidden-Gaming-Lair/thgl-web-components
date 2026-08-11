@@ -2508,9 +2508,21 @@ function MarkersContent({
       // the store on every call so the subscription below sees current actors.
       if (typesIdMap) {
         const liveActorsList = useGameState.getState().actors || [];
+        // Mirror the live-render visibility gate: an unticked filter's actors
+        // are not on the map, so they must not ding either — the per-filter
+        // alert setting survives the filter being disabled, and without this
+        // gate the alert keeps firing for markers the user can't see. Same
+        // selected-search exception as the renderer (those actors ARE
+        // rendered even with the filter off).
+        const userStateNow = userStoreApi.getState();
+        const enabledFilters = new Set(userStateNow.filters);
+        const searchedType = userStateNow.selectedSearchResult?.name;
         for (const actor of liveActorsList) {
+          if (actor.hidden) continue;
           const displayType = typesIdMap[actor.type];
           if (!displayType || !audioAlertByFilter[displayType]) continue;
+          if (!enabledFilters.has(displayType) && displayType !== searchedType)
+            continue;
           // Same discovered-node skip as static spawns above. Node id matches
           // the live-marker pipeline's format (type@x:y, 2-decimal coords).
           const actorNodeId = `${displayType}@${actor.x.toFixed(
@@ -2582,6 +2594,9 @@ function MarkersContent({
     // Re-run on discovery changes so a newly-discovered in-range node stops
     // alerting immediately (and re-checks with a fresh lookup, not a stale ref).
     discoveryLookup,
+    // Stable store API — read fresh in checkProximity for the enabled-filters
+    // gate. Filter toggles still re-trigger via the `spawns` dep.
+    userStoreApi,
   ]);
 
   // Label rendering using canvas-rendered text as WebGL markers on the main marker layer
