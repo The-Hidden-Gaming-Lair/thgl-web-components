@@ -21,6 +21,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { getFullDictionary } from "../../dicts";
 import { ReactNode } from "react";
 import { JSONLDScript } from "./json-ld-script";
+import { PreviewReleaseGuard } from "./preview-release-guard";
 import { AdditionalTooltipType } from "../(content)";
 
 type MapPageProps = {
@@ -314,57 +315,59 @@ export function createMapPage(
             small. Map markers / filters / search need to translate game IDs
             client-side, so wrap the map subtree with the full dict here. */}
         <I18NProvider dict={dict} locale={locale}>
-          <CoordinatesProvider
-            appName={appConfig.name}
-            staticDrawings={version.data.drawings}
-            filters={version.data.filters}
-            mapNames={Object.keys(version.data.tiles)}
-            useCbor
-            regions={version.data.regions}
-            typesIdMap={
-              appConfig.withoutLiveMode ? {} : version.data.typesIdMap
-            }
-            nodesPaths={version.more.nodes}
-            globalFilters={version.data.globalFilters}
-            map={mapName}
-            clusterPrecision={appConfig.markerOptions?.clusterPrecision}
-            inGameCoordinates={appConfig.game?.inGameCoordinates}
-          >
-            <HeaderOffset full>
-              <PageTitle title={mapTitle} />
-              <FullMapDynamic
-                appConfig={appConfig}
-                tilesConfig={version.data.tiles}
-                iconsPath={version.more.icons}
-                additionalTooltip={additionalTooltip}
-              />
-              {additionalComponents}
-              <MarkersSearch
-                lastMapUpdate={version.createdAt}
-                tileOptions={version.data.tiles}
-                appName={appConfig.name}
-                iconsPath={version.more.icons}
-                additionalFilters={additionalFilters}
-                mapEnTitles={Object.fromEntries(
-                  Object.keys(version.data.tiles).map((k) => [
-                    k,
-                    translate(dict, k),
-                  ]),
-                )}
-              >
-                <FloatingAds id={appConfig.name} />
-              </MarkersSearch>
-              <MarkerPanel
-                appName={appConfig.name}
-                markerSlug={markerId}
-                additionalTooltip={additionalTooltip}
-                coordinateCopyFormat={
-                  appConfig.markerOptions?.coordinateCopyFormat
-                }
-              />
-              <ZoneDetailsPanel appName={appConfig.name} />
-            </HeaderOffset>
-          </CoordinatesProvider>
+          <PreviewReleaseGuard appName={appConfig.name} title={appConfig.title}>
+            <CoordinatesProvider
+              appName={appConfig.name}
+              staticDrawings={version.data.drawings}
+              filters={version.data.filters}
+              mapNames={Object.keys(version.data.tiles)}
+              useCbor
+              regions={version.data.regions}
+              typesIdMap={
+                appConfig.withoutLiveMode ? {} : version.data.typesIdMap
+              }
+              nodesPaths={version.more.nodes}
+              globalFilters={version.data.globalFilters}
+              map={mapName}
+              clusterPrecision={appConfig.markerOptions?.clusterPrecision}
+              inGameCoordinates={appConfig.game?.inGameCoordinates}
+            >
+              <HeaderOffset full>
+                <PageTitle title={mapTitle} />
+                <FullMapDynamic
+                  appConfig={appConfig}
+                  tilesConfig={version.data.tiles}
+                  iconsPath={version.more.icons}
+                  additionalTooltip={additionalTooltip}
+                />
+                {additionalComponents}
+                <MarkersSearch
+                  lastMapUpdate={version.createdAt}
+                  tileOptions={version.data.tiles}
+                  appName={appConfig.name}
+                  iconsPath={version.more.icons}
+                  additionalFilters={additionalFilters}
+                  mapEnTitles={Object.fromEntries(
+                    Object.keys(version.data.tiles).map((k) => [
+                      k,
+                      translate(dict, k),
+                    ]),
+                  )}
+                >
+                  <FloatingAds id={appConfig.name} />
+                </MarkersSearch>
+                <MarkerPanel
+                  appName={appConfig.name}
+                  markerSlug={markerId}
+                  additionalTooltip={additionalTooltip}
+                  coordinateCopyFormat={
+                    appConfig.markerOptions?.coordinateCopyFormat
+                  }
+                />
+                <ZoneDetailsPanel appName={appConfig.name} />
+              </HeaderOffset>
+            </CoordinatesProvider>
+          </PreviewReleaseGuard>
         </I18NProvider>
       </>
     );

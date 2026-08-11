@@ -10,6 +10,7 @@ import {
   THGLAppConfig,
   TilesConfig,
   translate,
+  isPreviewReleaseApp,
   useAccountStore,
   useOverlayMapHidden,
   useSettingsStore,
@@ -55,13 +56,8 @@ import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
 import { useMemo } from "react";
 
-/**
- * Games whose in-game companion is an Elite Supporter preview: the App locks to
- * an upsell for accounts without `perks.previewReleaseAccess`. Web DB/map pages
- * are unaffected (this gate lives only in the in-game App component). Add a game
- * id here to gate its in-game app; empty = every supported game is open to all.
- */
-const PREVIEW_ONLY_APPS = new Set<string>(["planet-crafter"]);
+// Pre-release ("preview") games are Elite-only across the in-game app AND the web
+// map/db pages — the shared list + helper live in @repo/lib (isPreviewReleaseApp).
 
 export function App({
   appConfig,
@@ -121,7 +117,7 @@ export function App({
   // Access: the full app shell + header stay (window mode, live mode, settings,
   // window controls) — only the map CONTENT below is replaced by the upsell.
   const isPreviewLocked =
-    PREVIEW_ONLY_APPS.has(appConfig.name) && !hasPreviewAccess;
+    isPreviewReleaseApp(appConfig.name) && !hasPreviewAccess;
 
   return (
     <div

@@ -15,6 +15,7 @@ import { ContentLayout } from "../(ads)";
 import { Subtitle } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
 import { JSONLDScript } from "./json-ld-script";
+import { PreviewReleaseGuard } from "./preview-release-guard";
 import { DbGlobalSearch } from "./db-global-search";
 
 /**
@@ -166,87 +167,89 @@ export function createDbPage(appConfig: AppConfig) {
           }}
         />
 
-        <HeaderOffset full>
-          <ContentLayout
-            id={appConfig.name}
-            header={
-              <>
-                <PageTitle
-                  title={t("db.pageTitle", {
-                    vars: { title: appConfig.title },
-                    fallback: `${appConfig.title} Database`,
-                  })}
-                />
-                <nav
-                  aria-label="Breadcrumb"
-                  className="text-xs text-muted-foreground py-2"
-                >
-                  <ol className="flex items-center gap-1">
-                    <li>
+        <PreviewReleaseGuard appName={appConfig.name} title={appConfig.title}>
+          <HeaderOffset full>
+            <ContentLayout
+              id={appConfig.name}
+              header={
+                <>
+                  <PageTitle
+                    title={t("db.pageTitle", {
+                      vars: { title: appConfig.title },
+                      fallback: `${appConfig.title} Database`,
+                    })}
+                  />
+                  <nav
+                    aria-label="Breadcrumb"
+                    className="text-xs text-muted-foreground py-2"
+                  >
+                    <ol className="flex items-center gap-1">
+                      <li>
+                        <Link
+                          href={localizePath("/", locale)}
+                          className="hover:text-foreground transition-colors"
+                        >
+                          Home
+                        </Link>
+                      </li>
+                      <li aria-hidden="true">/</li>
+                      <li aria-current="page">Database</li>
+                    </ol>
+                  </nav>
+                  <Subtitle
+                    title={t("db.title", {
+                      vars: { title: appConfig.title },
+                      fallback: `${appConfig.title} Database`,
+                    })}
+                  />
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {t("db.description", {
+                      vars: {
+                        title: appConfig.title,
+                        count: String(sections.length),
+                      },
+                      fallback: `Browse all ${sections.length} database categories for ${appConfig.title}.`,
+                    })}
+                  </p>
+                  <DbGlobalSearch items={searchItems} locale={locale} />
+                </>
+              }
+              content={
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left mt-4">
+                  {sections.map((section) => (
+                    <li key={section.href}>
                       <Link
-                        href={localizePath("/", locale)}
-                        className="hover:text-foreground transition-colors"
+                        href={localizePath(section.href, locale)}
+                        className="group relative block h-full border border-slate-800 hover:border-amber-800/50 rounded-lg p-5 transition-all hover:bg-slate-900/50"
                       >
-                        Home
+                        <div className="flex items-start gap-3">
+                          <span className="text-2xl mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity">
+                            {section.icon}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <h2 className="text-lg font-semibold group-hover:text-amber-400 transition-colors">
+                                {section.title}
+                              </h2>
+                              <span className="text-xs text-muted-foreground tabular-nums">
+                                {section.count.toLocaleString()}
+                              </span>
+                            </div>
+                            {section.desc && (
+                              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                {section.desc}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       </Link>
                     </li>
-                    <li aria-hidden="true">/</li>
-                    <li aria-current="page">Database</li>
-                  </ol>
-                </nav>
-                <Subtitle
-                  title={t("db.title", {
-                    vars: { title: appConfig.title },
-                    fallback: `${appConfig.title} Database`,
-                  })}
-                />
-                <p className="text-sm text-muted-foreground mt-2">
-                  {t("db.description", {
-                    vars: {
-                      title: appConfig.title,
-                      count: String(sections.length),
-                    },
-                    fallback: `Browse all ${sections.length} database categories for ${appConfig.title}.`,
-                  })}
-                </p>
-                <DbGlobalSearch items={searchItems} locale={locale} />
-              </>
-            }
-            content={
-              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left mt-4">
-                {sections.map((section) => (
-                  <li key={section.href}>
-                    <Link
-                      href={localizePath(section.href, locale)}
-                      className="group relative block h-full border border-slate-800 hover:border-amber-800/50 rounded-lg p-5 transition-all hover:bg-slate-900/50"
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="text-2xl mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity">
-                          {section.icon}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <h2 className="text-lg font-semibold group-hover:text-amber-400 transition-colors">
-                              {section.title}
-                            </h2>
-                            <span className="text-xs text-muted-foreground tabular-nums">
-                              {section.count.toLocaleString()}
-                            </span>
-                          </div>
-                          {section.desc && (
-                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                              {section.desc}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            }
-          />
-        </HeaderOffset>
+                  ))}
+                </ul>
+              }
+            />
+          </HeaderOffset>
+        </PreviewReleaseGuard>
       </>
     );
   };
