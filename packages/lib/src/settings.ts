@@ -17,7 +17,7 @@ import {
   serverFilterToLocal,
 } from "./filters-api";
 import { mergeHydratedFilters } from "./filters-sync";
-import { getCurrentGameId } from "./games";
+import { getAppIdFromPathname, getCurrentGameId } from "./games";
 
 export type LiveMode = "static" | "live" | "combined";
 
@@ -622,9 +622,24 @@ export interface SettingsStore extends ProfileSettings, ProfileActions {
 
 const getStorageName = () => {
   if (typeof window !== "undefined") {
-    if (window.location.pathname.startsWith("/apps/")) {
-      const appId = window.location.pathname.split("/")[2];
-      return `thgl-settings-${appId}`;
+    // Locale-aware: /{locale}/apps/<id> must map to the SAME storage as
+    // /apps/<id>, otherwise non-English languages share the generic fallback
+    // while English gets the per-app storage (settings "change" with locale).
+    const appId = getAppIdFromPathname(window.location.pathname);
+    if (appId) {
+      const name = `thgl-settings-${appId}`;
+      // One-time seed: non-English users' settings lived in the generic
+      // fallback storage until the locale fix — adopt them when the per-app
+      // storage doesn't exist yet, so the fix doesn't read as a reset.
+      try {
+        const generic = localStorage.getItem("settings-storage");
+        if (generic !== null && localStorage.getItem(name) === null) {
+          localStorage.setItem(name, generic);
+        }
+      } catch {
+        // Storage access can throw (privacy mode) — per-app name still works.
+      }
+      return name;
     }
   }
   return "settings-storage";

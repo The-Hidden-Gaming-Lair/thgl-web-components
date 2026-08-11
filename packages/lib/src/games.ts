@@ -1291,10 +1291,25 @@ export function getAppDomain(game: Game): string {
  * callers should treat null as "don't render game-scoped UI" rather than
  * guessing.
  */
+/**
+ * Extract the app id from an in-app route (`/apps/<id>`), tolerating a locale
+ * prefix (`/{locale}/apps/<id>` — every locale except the default `en` is
+ * prefixed). Keying off a fixed path position broke all non-English languages:
+ * they fell back to generic behavior/storage while English got the per-app
+ * one, so e.g. settings appeared to change with the selected language.
+ */
+export function getAppIdFromPathname(pathname: string): string | null {
+  const match = pathname.match(
+    /^\/(?:[a-z]{2}(?:-[a-zA-Z0-9]{2,4})?\/)?apps\/([^/?#]+)/,
+  );
+  return match?.[1] ?? null;
+}
+
 export function getCurrentGameId(): string | null {
   if (typeof window === "undefined") return null;
   const path = window.location.pathname;
-  if (path.startsWith("/apps/")) return path.split("/")[2] ?? null;
+  const appId = getAppIdFromPathname(path);
+  if (appId) return appId;
   if (isOverwolf) {
     const ext = window.location.hostname;
     return games.find((g) => g.overwolf?.id === ext)?.id ?? null;

@@ -3,6 +3,7 @@ import { persist, subscribeWithSelector } from "zustand/middleware";
 import { View } from "./search-params";
 import { FiltersConfig, GlobalFiltersConfig } from "./config";
 import { DrawingsAndNodes } from "./settings";
+import { getAppIdFromPathname } from "./games";
 
 // Which data source the sidebar search results read from: "historical" =
 // the static/accumulated spawn locations, "live" = currently tracked live
@@ -94,9 +95,24 @@ const sanitizeViewByMap = (
 
 const getStorageName = () => {
   if (typeof window !== "undefined") {
-    if (window.location.pathname.startsWith("/apps/")) {
-      const appId = window.location.pathname.split("/")[2];
-      return `thgl-coordinates-${appId}`;
+    // Locale-aware: /{locale}/apps/<id> must map to the SAME storage as
+    // /apps/<id>, otherwise non-English languages share the generic fallback
+    // while English gets the per-app storage (state "changes" with locale).
+    const appId = getAppIdFromPathname(window.location.pathname);
+    if (appId) {
+      const name = `thgl-coordinates-${appId}`;
+      // One-time seed: non-English users' state lived in the generic fallback
+      // storage until the locale fix — adopt it when the per-app storage
+      // doesn't exist yet, so the fix doesn't read as a reset.
+      try {
+        const generic = localStorage.getItem("coordinates");
+        if (generic !== null && localStorage.getItem(name) === null) {
+          localStorage.setItem(name, generic);
+        }
+      } catch {
+        // Storage access can throw (privacy mode) — per-app name still works.
+      }
+      return name;
     }
   }
   return "coordinates";
