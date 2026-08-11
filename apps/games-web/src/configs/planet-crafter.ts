@@ -1,0 +1,35 @@
+import { resolveAppConfig } from "@repo/lib";
+
+export const planetCrafter = resolveAppConfig({
+  name: "planet-crafter",
+  supportedLocales: [
+    "en",
+    "fr",
+    "es",
+    "pt",
+    "de",
+    "zh-CN",
+    "zh-TW",
+    "ja",
+    "ko",
+    "pl",
+    "ru",
+    "tr",
+    "it",
+  ],
+  appUrl: null,
+  internalLinks: [],
+  promoLinks: [],
+  externalLinks: [],
+  keywords: [
+    "Silicon",
+    "Aluminum",
+    "Ice",
+    "Iridium",
+    "Super Alloy",
+    "Golden Crates",
+    "Data Logs",
+    "Resources",
+  ],
+  topFilters: ["Iridium", "Aluminium", "golden", "data_log", "fusion_reactor"],
+});

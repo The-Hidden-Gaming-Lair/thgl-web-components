@@ -255,6 +255,44 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "planet-crafter",
+    discordId: "planet-crafter",
+    title: "The Planet Crafter",
+    logo: `${TH_GL_URL}/global_icons/planet-crafter.webp`,
+    companion: {
+      baseURL: "/apps/planet-crafter",
+      controllerURL: "/apps/planet-crafter/controller",
+      desktopURL: "/apps/planet-crafter",
+      overlayURL: "/apps/planet-crafter/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 400,
+          zDistance: 60,
+        },
+      },
+      games: [
+        {
+          title: "The Planet Crafter",
+          processNames: ["Planet Crafter.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://planetcrafter.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "witchspire",
     discordId: "witchspire",
     title: "Witchspire",

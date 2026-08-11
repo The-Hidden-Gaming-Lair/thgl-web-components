@@ -20,6 +20,7 @@ import { nevernessToEverness } from "./neverness-to-everness";
 import { nightCrows } from "./night-crows";
 import { onceHuman } from "./once-human";
 import { palia } from "./palia";
+import { planetCrafter } from "./planet-crafter";
 import { palworld } from "./palworld";
 import { paxDei } from "./pax-dei";
 import { rsdragonwilds } from "./rsdragonwilds";
@@ -40,6 +41,7 @@ import { wutheringWaves } from "./wuthering-waves";
  * Add a new game by importing its config and adding it to this array.
  */
 const ALL_CONFIGS: AppConfig[] = [
+  planetCrafter,
   avowed,
   blueProtocolStarResonance,
   chronoOdyssey,
