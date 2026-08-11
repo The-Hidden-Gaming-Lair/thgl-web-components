@@ -61,7 +61,7 @@ import { useMemo } from "react";
  * are unaffected (this gate lives only in the in-game App component). Add a game
  * id here to gate its in-game app; empty = every supported game is open to all.
  */
-const PREVIEW_ONLY_APPS = new Set<string>([]);
+const PREVIEW_ONLY_APPS = new Set<string>(["planet-crafter"]);
 
 export function App({
   appConfig,
