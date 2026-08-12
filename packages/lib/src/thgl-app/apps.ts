@@ -177,6 +177,7 @@ let prevPlayer: {
   z: number;
   r: number | null;
   mapName?: string;
+  terraformStage?: string;
 } | null = null;
 let prevActors: {
   address: number;
