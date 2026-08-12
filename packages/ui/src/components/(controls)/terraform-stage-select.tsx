@@ -1,8 +1,13 @@
 "use client";
-import { Sprout, ChevronDown, Check } from "lucide-react";
+import { Sprout, ChevronDown, Check, Upload } from "lucide-react";
 import { useEffect, useState, type JSX } from "react";
 import { create } from "zustand";
-import { cn, useGameState, type TilesConfig } from "@repo/lib";
+import {
+  cn,
+  parsePlanetCrafterSave,
+  useGameState,
+  type TilesConfig,
+} from "@repo/lib";
 import { useUserStore } from "../(providers)";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ScrollArea } from "../ui/scroll-area";
@@ -96,6 +101,61 @@ const gameOrderIndex = (id: string): number => {
   if (exact >= 0) return exact;
   return GAME_ORDER.findIndex((g) => g.includes(n) || n.includes(g)); // e.g. water⊆watercycle
 };
+// Capture terraform thresholds per planet+stage (the terraform totals from data-mining
+// stages.json) — for the "load from save" path, where the save gives a terraform TOTAL (a
+// number) rather than a stage id. A save's total maps to the captured stage at-or-below it.
+const STAGE_THRESHOLDS: Record<string, Record<string, number>> = {
+  Prime: {
+    barren: 1e6,
+    water: 1e7,
+    lakes: 1.2e8,
+    moss: 4e8,
+    trees: 5e9,
+    complete: 5e12,
+  },
+  Humble: {
+    barren: 1e6,
+    water: 1e7,
+    lakes: 1.2e8,
+    moss: 4e8,
+    trees: 5e9,
+    complete: 5e12,
+  },
+  Selenea: { barren: 1e6, water: 3e8, plants: 3e9, life: 2e12, complete: 6e12 },
+  Toxicity: {
+    wasteland: 1e5,
+    vegetation: 2e7,
+    plants: 2e9,
+    cleanoceans: 1e10,
+    complete: 7e12,
+  },
+  Aqualis: {
+    flooded: 1e6,
+    corals: 4e8,
+    waterplants: 1.5e10,
+    life: 1.5e12,
+    complete: 8e12,
+  },
+};
+function totalToStage(
+  planet: string,
+  total: number,
+  capturedKeys: string[],
+): string | null {
+  const th = STAGE_THRESHOLDS[planet];
+  if (!th) return null;
+  let best: string | null = null;
+  let bestT = -1;
+  for (const k of capturedKeys) {
+    const t = th[k];
+    if (t != null && t <= total && t > bestT) {
+      bestT = t;
+      best = k;
+    }
+  }
+  return best;
+}
+
 // Live game stage id -> the captured backdrop key at-or-below it (nearest earlier stage).
 function liveStageToCaptured(
   liveId: string,
@@ -166,6 +226,29 @@ export function TerraformStageSelect({
   if (!stages || names.length < 2) return null;
   const current = stageByMap[mapName] ?? defaultStage;
 
+  // "Load from save" (for players without the companion app): parse the uploaded save, read
+  // each planet's terraform total, and select the matching captured backdrop per planet.
+  const loadFromSave = async (file: File) => {
+    try {
+      const parsed = parsePlanetCrafterSave(await file.text());
+      for (const pt of parsed.terraform) {
+        if (!pt.planetId) continue;
+        const sm = (
+          tileOptions?.[pt.planetId] as { stages?: StageMap } | undefined
+        )?.stages;
+        if (!sm) continue;
+        const key = totalToStage(pt.planetId, pt.total, Object.keys(sm));
+        if (key && key in sm) setStage(pt.planetId, key);
+      }
+      // reflect the current map's resulting stage in the URL
+      const cur = useTerraformStage.getState().stageByMap[mapName];
+      if (cur) setMapParam("stage", cur === defaultStage ? null : cur);
+    } catch {
+      /* not a valid Planet Crafter save — ignore */
+    }
+    setOpen(false);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -213,6 +296,23 @@ export function TerraformStageSelect({
             </button>
           ))}
         </ScrollArea>
+        {/* Load the stage from a player's save file (no companion app needed). */}
+        <div className="mt-1 border-t pt-1">
+          <label className="flex w-full cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent">
+            <Upload className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
+            <span className="truncate">Load from save…</span>
+            <input
+              type="file"
+              accept=".json,application/json"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) void loadFromSave(f);
+                e.target.value = "";
+              }}
+            />
+          </label>
+        </div>
       </PopoverContent>
     </Popover>
   );
