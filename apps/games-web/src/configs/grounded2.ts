@@ -1,22 +1,24 @@
-import { resolveAppConfig, DATA_FORGE_CDN_URL } from "@repo/lib";
+import { resolveAppConfig } from "@repo/lib";
 
 export const grounded2 = resolveAppConfig({
   name: "grounded2",
-  supportedLocales: ["en", "de", "es", "es-MX", "fr", "it", "zh-CN"],
-  appUrl: null,
-  internalLinks: [
-    {
-      title: "Brookhollow Park Map",
-      description:
-        "Navigate Grounded 2's Brookhollow Park with our interactive maps.",
-      href: "/maps/Brookhollow%20Park",
-      iconName: "Map",
-      // Inlined getPreviewImageUrl("grounded2", "brookhollow-park")
-      bgImage:
-        `${DATA_FORGE_CDN_URL}/grounded2/map-tiles/brookhollow-park/preview.webp`,
-      linkText: "Explore the Brookhollow Park Map",
-    },
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "es-MX",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pt-BR",
+    "zh-CN",
+    "zh-TW",
   ],
+  appUrl: null,
+  // Map cards (Brookhollow Park + The Abyss) are auto-generated from the map
+  // list — no manual internalLinks map entries (they'd shadow the richer cards).
+  internalLinks: [],
   promoLinks: [],
   externalLinks: [],
   keywords: ["Wonders", "Ominent Facilities", "Resources"],
