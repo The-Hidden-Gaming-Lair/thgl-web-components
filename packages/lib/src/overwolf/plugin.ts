@@ -43,6 +43,9 @@ export type ActorPlayer = {
   r: number;
   path?: string;
   props?: Record<string, any>;
+  // Per-game world-state tag (Planet Crafter: the live terraform stage id) — the map's
+  // terraform-stage selector auto-follows this when present.
+  terraformStage?: string;
 };
 export type Actor = {
   address: number;

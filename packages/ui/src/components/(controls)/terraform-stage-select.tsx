@@ -2,7 +2,7 @@
 import { Sprout, ChevronDown, Check } from "lucide-react";
 import { useEffect, useState, type JSX } from "react";
 import { create } from "zustand";
-import { cn, type TilesConfig } from "@repo/lib";
+import { cn, useGameState, type TilesConfig } from "@repo/lib";
 import { useUserStore } from "../(providers)";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ScrollArea } from "../ui/scroll-area";
@@ -52,6 +52,69 @@ const stageRank = (s: string) => {
 };
 const label = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+// The game's FULL terraform progression (lowercased union across all planets) — for mapping
+// the LIVE stage id emitted by THGLApp (any of the game's ~15 per-planet stages, many of which
+// we didn't capture a backdrop for) to the nearest CAPTURED backdrop, rounding DOWN.
+const GAME_ORDER = [
+  "barren",
+  "toxicwasteland",
+  "flooded",
+  "bluesky",
+  "clouds",
+  "rain",
+  "toxicdust",
+  "acidrains",
+  "toxiceruptions",
+  "water",
+  "watercycle",
+  "seismicactivity",
+  "vegetationrenewal",
+  "vegetation",
+  "lakes",
+  "corals",
+  "seismicshocks",
+  "moss",
+  "herbs",
+  "cleanatmosphere",
+  "cleanwatercycle",
+  "plants",
+  "waterplants",
+  "trees",
+  "insects",
+  "cleanoceans",
+  "clearsky",
+  "breathable",
+  "fish",
+  "amphibians",
+  "mammals",
+  "life",
+  "complete",
+];
+const gameOrderIndex = (id: string): number => {
+  const n = id.toLowerCase();
+  const exact = GAME_ORDER.indexOf(n);
+  if (exact >= 0) return exact;
+  return GAME_ORDER.findIndex((g) => g.includes(n) || n.includes(g)); // e.g. water⊆watercycle
+};
+// Live game stage id -> the captured backdrop key at-or-below it (nearest earlier stage).
+function liveStageToCaptured(
+  liveId: string,
+  capturedKeys: string[],
+): string | null {
+  const liveIdx = gameOrderIndex(liveId);
+  if (liveIdx < 0) return null;
+  let best: string | null = null;
+  let bestIdx = -1;
+  for (const k of capturedKeys) {
+    const ki = gameOrderIndex(k);
+    if (ki >= 0 && ki <= liveIdx && ki > bestIdx) {
+      bestIdx = ki;
+      best = k;
+    }
+  }
+  return best;
+}
+
 type StageMap = Record<string, { url: string }>;
 
 export function TerraformStageSelect({
@@ -86,6 +149,19 @@ export function TerraformStageSelect({
     window.addEventListener("popstate", apply);
     return () => window.removeEventListener("popstate", apply);
   }, [mapName, stages, defaultStage, setStage]);
+
+  // Live auto-follow: when the companion app feeds a terraform stage (THGLApp emits the current
+  // stage id in the player payload), select the nearest captured backdrop for the current map.
+  // Web (no live feed) leaves this undefined, so the URL/manual selection stays authoritative.
+  const liveStage = useGameState((s) => s.player?.terraformStage);
+  useEffect(() => {
+    if (!stages || !liveStage) return;
+    const key = liveStageToCaptured(liveStage, Object.keys(stages));
+    if (key && key in stages) {
+      setStage(mapName, key);
+      setMapParam("stage", key === defaultStage ? null : key);
+    }
+  }, [liveStage, mapName, stages, defaultStage, setStage]);
 
   if (!stages || names.length < 2) return null;
   const current = stageByMap[mapName] ?? defaultStage;

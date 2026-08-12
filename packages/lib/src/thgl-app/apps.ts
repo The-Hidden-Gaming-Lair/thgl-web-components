@@ -270,7 +270,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 p.y !== prevPlayer.y ||
                 p.z !== prevPlayer.z ||
                 p.r !== prevPlayer.r ||
-                p.mapName !== prevPlayer.mapName
+                p.mapName !== prevPlayer.mapName ||
+                p.terraformStage !== prevPlayer.terraformStage
               ) {
                 prevPlayer = p;
                 gameState.setPlayer({

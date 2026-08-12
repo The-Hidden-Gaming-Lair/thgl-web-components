@@ -33,6 +33,10 @@ export type Player = {
   r: number;
   path: string;
   mapName?: string;
+  // Optional per-game world-state tag. The Planet Crafter detector emits the current
+  // terraform stage id ("Barren".."Complete") so the map can auto-select the matching
+  // terraform backdrop. Absent for other games.
+  terraformStage?: string;
 };
 
 export type Actor = {
