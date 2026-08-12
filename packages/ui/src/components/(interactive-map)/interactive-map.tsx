@@ -23,6 +23,7 @@ import {
   type JSX,
 } from "react";
 import { useMapStore, type GameMap } from "./store";
+import { useTerraformStage } from "../(controls)/terraform-stage-select";
 import { ContextMenu } from "./context-menu";
 import { InteriorLabels } from "./interior-labels";
 import { useLocale, useT } from "../(providers)";
@@ -87,6 +88,17 @@ export function InteractiveMap({
   const t = useT();
 
   const mapTileOptions = tileOptions[mapName];
+  // Terraform-stage backdrop swap: if a stage is selected for this map, use that
+  // stage's tile URL instead of the base map's (stages share bounds/transformation,
+  // so only the backdrop image changes — markers stay put). See TerraformStageSelect.
+  const selectedStage = useTerraformStage((s) => s.stageByMap[mapName]);
+  const stageTileUrl = selectedStage
+    ? (
+        mapTileOptions as
+          | { stages?: Record<string, { url: string }> }
+          | undefined
+      )?.stages?.[selectedStage]?.url
+    : undefined;
 
   // Descend into an interior layer (shared by the on-map shapes + their labels).
   const enterLayer = useCallback(
@@ -460,7 +472,7 @@ export function InteractiveMap({
       return;
     }
 
-    const url = getTileLayerUrl(appName, mapTileOptions.url);
+    const url = getTileLayerUrl(appName, stageTileUrl ?? mapTileOptions.url);
     const opacity = mapTileOptions.backdrop ? 0.4 : 1;
 
     // Reuse the tile layer when the TILES are the same (a surface ↔ its interior
@@ -512,6 +524,7 @@ export function InteractiveMap({
   }, [
     map,
     mapTileOptions,
+    stageTileUrl,
     colorBlindMode,
     colorBlindSeverity,
     isOverlay,

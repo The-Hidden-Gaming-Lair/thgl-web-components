@@ -26,6 +26,7 @@ import {
 import { Separator } from "../ui/separator";
 import { MapSelect } from "./map-select";
 import { LayerSelect } from "./layer-select";
+import { TerraformStageSelect } from "./terraform-stage-select";
 import { Presets } from "./presets";
 import { GlobalFilters } from "./global-filters";
 import { useCoordinates, useT } from "../(providers)";
@@ -270,6 +271,8 @@ export function MarkersSearch({
                 </div>
                 {/* Layered Map picker — only appears where interiors exist. */}
                 <LayerSelect tileOptions={tileOptions} />
+                {/* Terraform-stage backdrop picker — only where a map has `.stages`. */}
+                <TerraformStageSelect tileOptions={tileOptions} />
               </div>
               <Separator />
             </div>

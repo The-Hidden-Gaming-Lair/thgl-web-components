@@ -52,6 +52,11 @@ export function PreviewReleaseGuard({
   const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
 
   if (!isPreviewReleaseApp(appName)) return <>{children}</>;
+  // Dev bypass: on the local dev server (NODE_ENV === "development", a build-time
+  // constant so production is unaffected) skip the Elite gate so we can validate
+  // pre-release maps without signing in — same convention as the other dev-only
+  // toggles (e.g. ads). Hooks above stay called unconditionally per build.
+  if (process.env.NODE_ENV === "development") return <>{children}</>;
   if (!hasHydrated) return null;
   if (!previewAccess) return <PreviewReleasePage title={title} />;
   return <>{children}</>;

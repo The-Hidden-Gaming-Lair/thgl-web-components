@@ -1,8 +1,9 @@
 import { Check, ChevronDown, Layers } from "lucide-react";
-import { useMemo, useState, type JSX } from "react";
+import { useEffect, useMemo, useState, type JSX } from "react";
 import { cn, localizePath, type TilesConfig } from "@repo/lib";
 import { useUserStore, useLocale, useT } from "../(providers)";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { getMapParam } from "./map-url-params";
 
 /**
  * "Layered Map" picker for hierarchical/interior areas — the equivalent of the
@@ -71,6 +72,28 @@ export function LayerSelect({
     [tileOptions, parentMap, t],
   );
 
+  // Sync from the URL (`?layer=<interiorMapName>`) → active interior on load and
+  // back/forward, so a shared link opens the right interior/floor (mirrors `?stage=`).
+  // Only reacts to interiors of THIS surface; returns to the surface when the param is
+  // gone. Writing happens in go(). Hook runs every render (before the early return below).
+  useEffect(() => {
+    const apply = () => {
+      const p = getMapParam("layer");
+      if (p && tileOptions[p]?.layer?.parent === parentMap) {
+        if (p !== mapName) setMapName(p);
+      } else if (
+        !p &&
+        mapName !== parentMap &&
+        tileOptions[mapName]?.layer?.parent === parentMap
+      ) {
+        setMapName(parentMap);
+      }
+    };
+    apply();
+    window.addEventListener("popstate", apply);
+    return () => window.removeEventListener("popstate", apply);
+  }, [mapName, parentMap, tileOptions, setMapName]);
+
   if (!areas.length) return null;
 
   const activeLayer = tileOptions[mapName]?.layer;
@@ -84,12 +107,20 @@ export function LayerSelect({
     if (target === mapName) return;
     setMapName(target);
     if (location.pathname.includes("/maps/")) {
-      // Slug = the map's title (resolved back via its dict term). A defaultTitle
-      // equal to the map id isn't a real title (the generated Underground layer
-      // map) — fall back to the localized dict term so the route stays valid.
-      const dt = tileOptions[target]?.defaultTitle;
-      const title = (dt && dt !== target ? dt : t(target)) || target;
-      window.history.pushState({}, "", localizePath(`/maps/${title}`, locale));
+      // Keep the SURFACE in the path and carry the interior/floor as a shareable
+      // `?layer=<mapName>` query (mirrors the terraform `?stage=`). A defaultTitle equal
+      // to the map id isn't a real title — fall back to the dict term so the route stays
+      // valid.
+      const targetLayer = tileOptions[target]?.layer;
+      const surface = targetLayer?.parent ?? target;
+      const dt = tileOptions[surface]?.defaultTitle;
+      const title = (dt && dt !== surface ? dt : t(surface)) || surface;
+      const path = localizePath(`/maps/${title}`, locale);
+      const params = new URLSearchParams(window.location.search);
+      if (targetLayer) params.set("layer", target);
+      else params.delete("layer");
+      const qs = params.toString();
+      window.history.pushState({}, "", qs ? `${path}?${qs}` : path);
     }
   };
 
