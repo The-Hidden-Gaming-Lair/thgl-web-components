@@ -167,6 +167,44 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "legend-of-khiimori",
+    discordId: "legend-of-khiimori",
+    title: "The Legend of Khiimori",
+    logo: `${TH_GL_URL}/global_icons/legend-of-khiimori.webp`,
+    companion: {
+      baseURL: "/apps/legend-of-khiimori",
+      controllerURL: "/apps/legend-of-khiimori/controller",
+      desktopURL: "/apps/legend-of-khiimori",
+      overlayURL: "/apps/legend-of-khiimori/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "The Legend of Khiimori",
+          processNames: ["LegendOfKhiimori-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://khiimori.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "soulframe",
     discordId: "soulframe",
     title: "Soulframe",

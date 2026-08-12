@@ -16,6 +16,7 @@ import { heartopia } from "./heartopia";
 import { hogwartsLegacy } from "./hogwarts-legacy";
 import { hommOldenEra } from "./homm-olden-era";
 import { infinityNikki } from "./infinity-nikki";
+import { legendOfKhiimori } from "./legend-of-khiimori";
 import { nevernessToEverness } from "./neverness-to-everness";
 import { nightCrows } from "./night-crows";
 import { onceHuman } from "./once-human";
@@ -59,6 +60,7 @@ const ALL_CONFIGS: AppConfig[] = [
   hogwartsLegacy,
   hommOldenEra,
   infinityNikki,
+  legendOfKhiimori,
   nevernessToEverness,
   nightCrows,
   onceHuman,
