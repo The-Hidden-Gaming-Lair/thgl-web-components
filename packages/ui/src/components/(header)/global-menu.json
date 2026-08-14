@@ -125,7 +125,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -168,7 +168,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -211,7 +211,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -282,7 +282,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -295,7 +295,20 @@
           "y": 28,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
+          "sheetHeight": 106
+        }
+      },
+      {
+        "title": "Dune Docker",
+        "url": "https://dunedocker.app/",
+        "sprite": {
+          "fileName": "partners-3037172000793672893.webp",
+          "x": 28,
+          "y": 28,
+          "width": 24,
+          "height": 24,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -394,7 +407,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -407,7 +420,7 @@
           "y": 28,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -416,11 +429,11 @@
         "url": "https://pax-dei-tools.com/?ref=thgl",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 28,
+          "x": 54,
           "y": 28,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -449,7 +462,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -502,11 +515,11 @@
         "url": "https://github.com/josdemmers/Diablo4Companion?ref=thgl",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 54,
-          "y": 28,
+          "x": 2,
+          "y": 54,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -577,7 +590,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -586,11 +599,11 @@
         "url": "https://paliatracker.com?ref=thgl",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 2,
+          "x": 28,
           "y": 54,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -599,11 +612,11 @@
         "url": "https://paliaparty.app?ref=thgl",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 28,
+          "x": 54,
           "y": 54,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -628,11 +641,11 @@
         "url": "https://www.voicy.network/official-soundboards/games/palworld",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 54,
-          "y": 54,
+          "x": 2,
+          "y": 80,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -645,7 +658,7 @@
           "y": 28,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -654,11 +667,11 @@
         "url": "https://palworld.wiki.gg",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 2,
+          "x": 28,
           "y": 80,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       },
@@ -667,11 +680,11 @@
         "url": "https://www.nitrado-aff.com/4B2XBP3/D42TT/?uid=60",
         "sprite": {
           "fileName": "partners-3037172000793672893.webp",
-          "x": 28,
+          "x": 54,
           "y": 80,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
@@ -756,7 +769,7 @@
           "y": 2,
           "width": 24,
           "height": 24,
-          "sheetWidth": 87,
+          "sheetWidth": 91,
           "sheetHeight": 106
         }
       }
