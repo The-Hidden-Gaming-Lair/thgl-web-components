@@ -64,8 +64,16 @@ export function createRobots(appConfig: AppConfig) {
           // Bulk AI training crawlers — zero search-referral value, hammer
           // SSR/_next/image as cache MISS and saturate the origin. Disallow the
           // training crawlers only; on-demand fetch agents (Claude-User,
-          // ChatGPT-User) and search indexers (OAI-SearchBot) are unaffected.
-          userAgent: ["ClaudeBot", "GPTBot"],
+          // ChatGPT-User) and AI-search indexers (OAI-SearchBot,
+          // Claude-SearchBot, Amzn-SearchBot) are unaffected. Mirrors the
+          // Bunny edge UA-block rule (the enforcement layer) on PZ 5829962.
+          userAgent: [
+            "ClaudeBot",
+            "GPTBot",
+            "meta-externalagent",
+            "Amazonbot",
+            "cohere-ai",
+          ],
           disallow: "/",
         },
       ],
