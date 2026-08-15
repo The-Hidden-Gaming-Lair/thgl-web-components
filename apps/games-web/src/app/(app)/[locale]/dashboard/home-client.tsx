@@ -1,6 +1,11 @@
 "use client";
 
-import { games, ForumPost, localizePath } from "@repo/lib";
+import {
+  games,
+  ForumPost,
+  hasReleasedCompanion,
+  localizePath,
+} from "@repo/lib";
 import { openInBrowser, useLiveState } from "@repo/lib/thgl-app";
 import { useLocale, useT } from "@repo/ui/providers";
 import { ScrollArea } from "@repo/ui/controls";
@@ -48,7 +53,9 @@ export function HomePageClient({
   const t = useT();
   const runningGames = useLiveState((state) => state.runningGames);
 
-  const companionGames = games.filter((game) => game.companion);
+  // Released companion games only — `inDevelopment` ones (e.g. Enshrouded) are hidden from the
+  // app's game list + running-game detection until launch (direct /apps/<id> route still works).
+  const companionGames = games.filter(hasReleasedCompanion);
 
   const isGameRunning = (gameId: string) => {
     const game = games.find((g) => g.id === gameId);

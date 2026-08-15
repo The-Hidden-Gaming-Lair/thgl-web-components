@@ -2,6 +2,7 @@ import {
   games,
   getUpdateMessages,
   getSuggestionsAndIssues,
+  hasReleasedCompanion,
   mergeUpdates,
   Game,
   DiscordMessageData,
@@ -10,8 +11,8 @@ import {
 import { HomePageClient } from "./home-client";
 
 export default async function DashboardHome() {
-  // Get recent updates from all companion games
-  const companionGames = games.filter((game) => game.companion);
+  // Get recent updates from released companion games (excludes `inDevelopment`, e.g. Enshrouded).
+  const companionGames = games.filter(hasReleasedCompanion);
 
   const gameUpdates: Array<{
     game: Game;
@@ -36,18 +37,22 @@ export default async function DashboardHome() {
   ]);
 
   // Convert app updates to changelog entries
-  const changelogEntries: ChangelogEntry[] = appUpdates.slice(0, 5).map((msg) => {
-    // Extract version from message (e.g., "**3.0.0**" or "# 3.0.0")
-    const versionMatch = msg.text.match(/\*\*(\d+\.\d+\.\d+)\*\*|^#?\s*(\d+\.\d+\.\d+)/m);
-    const version = versionMatch?.[1] || versionMatch?.[2] || "";
+  const changelogEntries: ChangelogEntry[] = appUpdates
+    .slice(0, 5)
+    .map((msg) => {
+      // Extract version from message (e.g., "**3.0.0**" or "# 3.0.0")
+      const versionMatch = msg.text.match(
+        /\*\*(\d+\.\d+\.\d+)\*\*|^#?\s*(\d+\.\d+\.\d+)/m,
+      );
+      const version = versionMatch?.[1] || versionMatch?.[2] || "";
 
-    return {
-      version,
-      date: new Date(msg.timestamp).toISOString().split("T")[0],
-      content: msg.text,
-      timestamp: msg.timestamp,
-    };
-  });
+      return {
+        version,
+        date: new Date(msg.timestamp).toISOString().split("T")[0],
+        content: msg.text,
+        timestamp: msg.timestamp,
+      };
+    });
 
   // Merge game updates and changelog into a single list
   const updates = mergeUpdates(gameUpdates, changelogEntries, 8);

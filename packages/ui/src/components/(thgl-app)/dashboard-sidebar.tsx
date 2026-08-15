@@ -1,6 +1,12 @@
 "use client";
 
-import { cn, games, localizePath, useAccountStore } from "@repo/lib";
+import {
+  cn,
+  games,
+  hasReleasedCompanion,
+  localizePath,
+  useAccountStore,
+} from "@repo/lib";
 import {
   openInBrowser,
   useLiveState,
@@ -37,8 +43,10 @@ export function DashboardSidebar() {
   const runningGames = useLiveState((state) => state.runningGames);
   const t = useT();
 
-  // Separate companion games and web-only games
-  const companionGames = games.filter((game) => game.companion);
+  // Separate companion games and web-only games. `inDevelopment` companions (e.g. Enshrouded)
+  // are hidden from the app entirely until launch — excluded here AND kept out of the web-only
+  // list (they have a companion block, so `!game.companion` already excludes them).
+  const companionGames = games.filter(hasReleasedCompanion);
   const webOnlyGames = games.filter((game) => !game.companion && game.web);
 
   const isGameRunning = (gameId: string) => {
