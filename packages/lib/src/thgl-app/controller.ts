@@ -14,7 +14,7 @@ import {
   triggerUpdate,
 } from "./version";
 import { onWebviewMessage } from "./webview";
-import { games } from "../games";
+import { games, hasReleasedCompanion } from "../games";
 
 let initialized = false;
 let activeGames: string[] = []; // Track running games for update check logic
@@ -141,12 +141,22 @@ export async function initController(currentVersion: CurrentVersion) {
             // Wait for window mode to be loaded from C++ to avoid race condition
             await waitForWindowMode();
 
-            const { disabledApps, autoRunGames } =
-              useTHGLAppState.getState();
-            console.log("Game started:", runningGame, "windowMode:", currentWindowMode);
+            const { disabledApps, autoRunGames } = useTHGLAppState.getState();
+            console.log(
+              "Game started:",
+              runningGame,
+              "windowMode:",
+              currentWindowMode,
+            );
 
             games.forEach((game) => {
               const companion = game.companion;
+              // Skip `inDevelopment` companions (e.g. Enshrouded) — they must not
+              // auto-open the overlay/desktop when their process is detected. The
+              // direct /apps/<id> route still works for manual testing.
+              if (!hasReleasedCompanion(game)) {
+                return;
+              }
               if (
                 companion?.games.some((g) =>
                   g.processNames.includes(runningGame.processName),
@@ -280,7 +290,10 @@ export async function initController(currentVersion: CurrentVersion) {
       console.log("Window mode loaded:", response.data);
     })
     .catch((e) => {
-      console.error("Failed to get window mode, using default:", currentWindowMode);
+      console.error(
+        "Failed to get window mode, using default:",
+        currentWindowMode,
+      );
     });
 
   // Wait for hydration before checking dashboard preference
