@@ -101,14 +101,14 @@ async function checkAuth(): Promise<RawCheck> {
   };
 }
 
-// Deliberately not lib/libsql.ts: that client is pinned to the
-// BUNNY_DATABASE_URL env var, while this ping must target arbitrary
-// URLs (prod path vs direct path). Keep the URL normalization in sync.
+// Deliberately not lib/libsql.ts: this ping measures latency and never
+// throws, and stays independent of that client's error handling. Keep
+// the URL normalization in sync with libsql.ts.
 async function libsqlPing(
   baseUrl: string,
-): Promise<{ ok: boolean; ms: number }> {
+): Promise<{ ok: boolean; ms: number; err: string | null }> {
   const url = `${baseUrl.replace(/^libsql:\/\//, "https://").replace(/\/+$/, "")}/v2/pipeline`;
-  const { res, ms } = await timedFetch(url, {
+  const { res, ms, err } = await timedFetch(url, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.BUNNY_DATABASE_AUTH_TOKEN}`,
@@ -118,40 +118,24 @@ async function libsqlPing(
       requests: [{ type: "execute", stmt: { sql: "SELECT 1" } }],
     }),
   });
-  return { ok: res?.ok ?? false, ms };
+  const ok = res?.ok ?? false;
+  return { ok, ms, err: ok ? null : (err ?? `HTTP ${res?.status}`) };
 }
 
-/** One "database" row: prod path (BUNNY_DATABASE_URL — currently the mia
- *  relay) + the direct bunnydb URL (STATUS_DB_DIRECT_URL). Direct-down but
- *  prod-up = degraded with route detail — and the detail flips to null by
- *  itself when Bunny fixes their route. */
+/** Bunny DB reachability from inside the Magic Container — the exact
+ *  vector of the 2026-07-27 outage. Single path again: the mia relay
+ *  detour was decommissioned 2026-08-17 after Bunny fixed their route
+ *  (and their rate limiting made the relay's single IP unusable anyway). */
 async function checkDatabase(): Promise<RawCheck> {
-  const [prod, direct] = await Promise.all([
-    libsqlPing(process.env.BUNNY_DATABASE_URL!),
-    libsqlPing(
-      process.env.STATUS_DB_DIRECT_URL ?? process.env.BUNNY_DATABASE_URL!,
-    ),
-  ]);
-  if (prod.ok && direct.ok)
+  const { ok, ms, err } = await libsqlPing(process.env.BUNNY_DATABASE_URL!);
+  if (ok)
     return {
       component: "database",
       state: "operational",
-      latencyMs: prod.ms,
+      latencyMs: ms,
       detail: null,
     };
-  if (prod.ok)
-    return {
-      component: "database",
-      state: "degraded",
-      latencyMs: prod.ms,
-      detail: "direct route down — serving via relay",
-    };
-  return {
-    component: "database",
-    state: "outage",
-    latencyMs: prod.ms,
-    detail: direct.ok ? "prod path down (direct up)" : "both paths down",
-  };
+  return { component: "database", state: "outage", latencyMs: ms, detail: err };
 }
 
 async function checkSimple(
