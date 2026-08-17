@@ -128,6 +128,14 @@ export type DbAppConfig = {
    */
   sectionsInNav?: boolean;
   /**
+   * Hide the standalone interactive-map nav link + home map cards even when the
+   * game HAS tiles. For games where the map is better browsed as a DB "Maps"
+   * section (e.g. Soul's Remnant's tiny side-scroller levels) rather than the
+   * leaflet interactive map. The /maps routes still resolve; they're just not
+   * surfaced in the chrome.
+   */
+  hideInteractiveMap?: boolean;
+  /**
    * Number of UI translations to display on the landing page. Defaults to
    * `appConfig.supportedLocales.length` when omitted.
    */

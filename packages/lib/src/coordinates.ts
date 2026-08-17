@@ -144,6 +144,10 @@ export type SimpleSpawn = {
       }
     | null;
   name: string;
+  /** A pre-resolved literal display label. When set, the marker tooltip shows it
+   *  verbatim instead of translating `name` as a dict key — for embeds that ship
+   *  a sliced client dict without the full game terms. */
+  label?: string;
   color?: string;
   description?: string;
   data?: Record<string, string[]>;

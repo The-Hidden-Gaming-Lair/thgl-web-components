@@ -213,6 +213,14 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "souls-remnant",
+    discordId: "souls-remnant",
+    title: "Soul's Remnant",
+    logo: `${TH_GL_URL}/global_icons/souls-remnant.webp`,
+    web: "https://soulsremnant.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "starrupture",
     discordId: "starrupture",
     title: "Star Rupture",

@@ -23,6 +23,8 @@ import { toast } from "sonner";
 export type TooltipItem = {
   id: string;
   termId: string;
+  /** Pre-resolved literal label — shown verbatim instead of translating termId. */
+  label?: string;
   description?: string;
   type: string;
   group?: string;
@@ -289,9 +291,11 @@ function SingleItemTooltip({
   // Private nodes use the user-supplied raw name as termId — don't run it
   // through translation (which would return the filter-name fallback when
   // the user-supplied string isn't a known key).
-  const name = item.isPrivate
-    ? item.termId
-    : t(item.termId, { fallback: item.type }) || item.termId;
+  const name = item.label
+    ? item.label
+    : item.isPrivate
+      ? item.termId
+      : t(item.termId, { fallback: item.type }) || item.termId;
   const typeName = t(item.type, { fallback: item.type });
   const groupName = item.group ? t(item.group, { fallback: item.group }) : null;
   const itemCoords = useMemo(

@@ -129,7 +129,11 @@ export function createHomePage(appConfig: AppConfig) {
     const internalLinkHrefs = new Set(
       appConfig.internalLinks?.map((link) => link.href) ?? [],
     );
-    const mapNames = Object.keys(version.data.tiles);
+    // Tenants that browse maps via the DB "Maps" section (hideInteractiveMap) get
+    // no home map cards — the map tiles still exist, they're just not surfaced.
+    const mapNames = appConfig.db?.hideInteractiveMap
+      ? []
+      : Object.keys(version.data.tiles);
     const mapCards: NavCardProps[] = await Promise.all(
       mapNames
         .filter((map) => {

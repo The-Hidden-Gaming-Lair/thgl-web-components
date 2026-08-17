@@ -255,14 +255,19 @@ export function DbSearch({
                       <img
                         alt=""
                         role="presentation"
-                        className="shrink-0 object-none w-[32px] h-[32px]"
+                        className="shrink-0 object-none"
                         src={iconsUrl}
                         width={entry.icon.width}
                         height={entry.icon.height}
                         style={{
+                          // Size the element to the icon's OWN cell (so object-none
+                          // shows exactly that cell, no bleed from neighbours), then
+                          // zoom to the 32px box — scaling small icons UP too, not
+                          // just clamping large ones down.
+                          width: entry.icon.width,
+                          height: entry.icon.height,
                           objectPosition: `-${entry.icon.x}px -${entry.icon.y}px`,
-                          // fit into the 32px box, never upscale past the source
-                          zoom: Math.min(32 / (entry.icon.width || 64), 1),
+                          zoom: 32 / (entry.icon.width || 64),
                         }}
                       />
                     )}

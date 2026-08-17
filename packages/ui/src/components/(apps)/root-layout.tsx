@@ -118,7 +118,10 @@ export function createRootLayout(appConfig: AppConfig) {
 
               <Links
                 appConfig={appConfig}
-                hasMap={Object.keys(version.data.tiles ?? {}).length > 0}
+                hasMap={
+                  !appConfig.db?.hideInteractiveMap &&
+                  Object.keys(version.data.tiles ?? {}).length > 0
+                }
               >
                 {appConfig.supportedLocales.length > 1 && (
                   <Suspense>

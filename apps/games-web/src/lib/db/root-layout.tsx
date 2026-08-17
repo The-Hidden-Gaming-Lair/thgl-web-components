@@ -140,7 +140,10 @@ export function createDbRootLayout(appConfig: AppConfig) {
                     </Suspense>
                   ) : undefined
                 }
-                hasMap={Object.keys(version.data.tiles ?? {}).length > 0}
+                hasMap={
+                  !appConfig.db?.hideInteractiveMap &&
+                  Object.keys(version.data.tiles ?? {}).length > 0
+                }
                 hasGuides={hasFilters}
               >
                 {appConfig.supportedLocales.length > 1 && (
