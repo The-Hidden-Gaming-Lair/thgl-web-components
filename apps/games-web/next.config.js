@@ -220,6 +220,26 @@ const nextConfig = (phase) => ({
           { key: "CDN-Cache-Control", value: "no-store" },
         ],
       },
+      // The account PAGE renders the signed-in state server-side from
+      // cookies. Edge-caching it (even cookie-varied) can pin a stale
+      // auth state for a day — during the 2026-08-17 DB outage a
+      // "not authenticated" render got cached and kept showing after
+      // recovery (while client-side nav hit the separate fresh RSC
+      // cache entry). Covers the incoming www path + the rewritten form.
+      {
+        source: "/support-me/account",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/www/support-me/account",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
       // Status API — the status page + in-app banners poll this, so it must
       // reflect reality within a minute (spec: 60s CDN cache). Comes AFTER
       // the pageCache /:path* rule to override the 1-day s-maxage.
