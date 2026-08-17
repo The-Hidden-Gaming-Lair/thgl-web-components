@@ -60,9 +60,11 @@ export function DbEmbeddedMap({
     color:
       s.type === "secret_teleporter"
         ? "#c084fc"
-        : s.type === "teleporter"
-          ? "#7dd3fc"
-          : "#fcd34d",
+        : s.type === "fast_travel"
+          ? "#4ade80"
+          : s.type === "teleporter"
+            ? "#7dd3fc"
+            : "#fcd34d",
   }));
   return (
     <SimpleMapDynamic

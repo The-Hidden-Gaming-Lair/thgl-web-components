@@ -55,6 +55,20 @@ function isEmbeddedMapProp(v: unknown): v is EmbeddedMapProp {
   );
 }
 
+/** Rarity tiers an item rolls (per-instance), produced by data-forge. */
+type RarityTier = { label: string; color: string };
+function isRarityTiers(v: unknown): v is RarityTier[] {
+  return (
+    Array.isArray(v) &&
+    v.length > 0 &&
+    v.every(
+      (t) =>
+        typeof (t as RarityTier)?.label === "string" &&
+        typeof (t as RarityTier)?.color === "string",
+    )
+  );
+}
+
 /** A per-level table (e.g. a skill's upgrade cost by level), produced by data-forge. */
 type UpgradeTable = {
   label?: string;
@@ -243,6 +257,10 @@ export function GenericEntityView({
   const upgradeTable = isUpgradeTable(props?.upgradeTable)
     ? props.upgradeTable
     : undefined;
+  // Rarity tiers this item rolls per instance.
+  const rarityTiers = isRarityTiers(props?.rarityTiers)
+    ? props.rarityTiers
+    : undefined;
   // Cross-links to other DB entries, rendered as their own link sections.
   const soldBy = asDbRefList(props?.soldBy);
   const sells = asDbRefList(props?.sells);
@@ -272,6 +290,7 @@ export function GenericEntityView({
       k !== "locations" &&
       k !== "embeddedMap" &&
       k !== "upgradeTable" &&
+      k !== "rarityTiers" &&
       k !== "soldBy" &&
       k !== "sells" &&
       k !== "rarity" &&
@@ -553,6 +572,38 @@ export function GenericEntityView({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {rarityTiers && (
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Rarity
+          </div>
+          <p className="text-xs text-muted-foreground mb-2 max-w-2xl">
+            Rarity is rolled per instance when this item drops or is crafted
+            (like its random bonuses) — shown by the item&apos;s border colour.
+            Higher tiers roll more and stronger bonuses.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {rarityTiers.map((t) => (
+              <span
+                key={t.label}
+                className="inline-flex items-center gap-1.5 rounded border px-2 py-0.5 text-xs font-medium"
+                style={{
+                  color: t.color,
+                  borderColor: `${t.color}66`,
+                  backgroundColor: `${t.color}14`,
+                }}
+              >
+                <span
+                  className="h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: t.color }}
+                />
+                {t.label}
+              </span>
+            ))}
+          </div>
         </div>
       )}
 
