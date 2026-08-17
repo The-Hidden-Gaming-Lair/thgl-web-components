@@ -53,19 +53,43 @@ export default async function SupportMeAccount() {
       const id = verify(userId.value, process.env.JWT_SECRET!) as string;
       // Cookie fallback keeps this page working when the token store
       // is unreachable — see lib/token-cookie.ts.
-      const patreonToken =
-        (await getToken(id).catch((err) => {
-          const msg = err instanceof Error ? err.message : String(err);
-          console.error(`[support-me/account] getToken failed: ${msg}`);
-          return null;
-        })) ?? parseTokenCookie(cookieStore.get(TOKEN_COOKIE_NAME)?.value, id);
+      const storedToken = await getToken(id).catch((err) => {
+        const msg = err instanceof Error ? err.message : String(err);
+        console.error(`[support-me/account] getToken failed: ${msg}`);
+        return null;
+      });
+      const cookieToken = parseTokenCookie(
+        cookieStore.get(TOKEN_COOKIE_NAME)?.value,
+        id,
+      );
+      const patreonToken = storedToken ?? cookieToken;
 
       if (patreonToken) {
         owSecret = signTokenCookie(id, patreonToken);
-        const currentUserResponse = await getCurrentUser(patreonToken);
-        const currentUserResult = (await currentUserResponse.json()) as
+        let currentUserResponse = await getCurrentUser(patreonToken);
+        let currentUserResult = (await currentUserResponse.json()) as
           | PatreonUser
           | PatreonError;
+        if (
+          ("error" in currentUserResult || "errors" in currentUserResult) &&
+          currentUserResponse.status < 500 &&
+          cookieToken &&
+          patreonToken !== cookieToken &&
+          cookieToken.access_token !== patreonToken.access_token
+        ) {
+          // The stored token can be STALE when store writes fail after a
+          // login rotated it (the fresh copy lives only in the cookie) —
+          // without this retry the page shows "not authenticated" right
+          // after a successful sign-in. Mirrors getAccount()/api/patreon.
+          console.warn(
+            `[support-me/account] stored token rejected (${currentUserResponse.status}) for ${id} — retrying with cookie token`,
+          );
+          owSecret = signTokenCookie(id, cookieToken);
+          currentUserResponse = await getCurrentUser(cookieToken);
+          currentUserResult = (await currentUserResponse.json()) as
+            | PatreonUser
+            | PatreonError;
+        }
 
         if (
           !("error" in currentUserResult) &&
