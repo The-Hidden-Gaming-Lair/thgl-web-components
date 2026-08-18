@@ -181,10 +181,11 @@ If you'd like to see this feature return, feel free to contact the game studio a
 
 The app includes a built-in debug snapshot feature that automatically gathers all relevant information:
 
-1. **Open the Dashboard** (double-click system tray icon)
-2. **Click the Bug icon** in the header (next to Discord/User/Info icons)
-3. **Describe your issue** in the text box (e.g., "Ore not showing up on map")
-4. **Click Send** - The app automatically captures and sends:
+1. **Open the Dashboard** (double-click the system tray icon)
+2. **Click the Menu icon** (☰ burger, top-right of the header)
+3. **Click the Bug icon** ("Send Debug Snapshot") — it's in the menu's top row, next to the Discord/GitHub/Reddit icons
+4. **Describe your issue** in the text box (e.g., "Ore not showing up on map")
+5. **Click Send** - The app automatically captures and sends:
    - Last 500 log entries (including debug logs)
    - Current game state (player position, actors, character data)
    - App version and system info
