@@ -120,6 +120,14 @@ export const soulsRemnant = resolveAppConfig({
           "The characters you meet — merchants, quest-givers and guides, and the daily gifts they accept.",
       },
       {
+        href: "/db/dungeons",
+        type: "dungeons",
+        titleFallback: "Dungeons",
+        icon: "🏰",
+        description:
+          "Instanced dungeons like Slime Garden — their difficulty tiers, recommended levels and the passes each one needs.",
+      },
+      {
         href: "/db/game-modes",
         type: "game-modes",
         titleFallback: "Game Modes",
@@ -136,6 +144,7 @@ export const soulsRemnant = resolveAppConfig({
       buffs: "Status Effects",
       maps: "Maps",
       npcs: "NPCs",
+      dungeons: "Dungeons",
       "game-modes": "Game Modes",
     },
   },
