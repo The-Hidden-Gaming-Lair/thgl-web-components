@@ -128,6 +128,13 @@ export const soulsRemnant = resolveAppConfig({
           "Instanced dungeons like Slime Garden — their difficulty tiers, recommended levels and the passes each one needs.",
       },
       {
+        href: "/db/quests",
+        type: "quests",
+        titleFallback: "Quests",
+        icon: "📜",
+        description: "Quests with their objectives, rewards and givers.",
+      },
+      {
         href: "/db/game-modes",
         type: "game-modes",
         titleFallback: "Game Modes",
@@ -145,6 +152,7 @@ export const soulsRemnant = resolveAppConfig({
       maps: "Maps",
       npcs: "NPCs",
       dungeons: "Dungeons",
+      quests: "Quests",
       "game-modes": "Game Modes",
     },
   },
