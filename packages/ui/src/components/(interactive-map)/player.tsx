@@ -302,7 +302,20 @@ export function Player({
     if (isSameWorld(pMap, map.mapName, tilesConfig)) {
       return;
     }
-    setMapName(pMap, [player.x, player.y], map.getZoom());
+    // Carry the current zoom only when both maps share tiles (same coordinate
+    // space). Across different tile spaces the current zoom is meaningless —
+    // and on a transiently misdetected switch (e.g. Once Human reads server
+    // "unknown" while loading into a world and briefly maps to Eternaland)
+    // carrying it would overwrite the target map's remembered zoom with the
+    // wrong map's zoomed-out fit zoom ("Manibus starts fully zoomed out after
+    // a game restart"). Omitting it keeps the target's saved zoom, falling
+    // back to its default fit zoom on a first visit.
+    const sameTiles = tilesConfig[pMap]?.url === tilesConfig[map.mapName]?.url;
+    setMapName(
+      pMap,
+      [player.x, player.y],
+      sameTiles ? map.getZoom() : undefined,
+    );
     if (location.pathname.includes("/maps/")) {
       // Slug = dict term; a defaultTitle equal to the map id isn't a real title.
       const dt = tilesConfig[pMap]?.defaultTitle;

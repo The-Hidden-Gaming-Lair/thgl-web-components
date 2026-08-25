@@ -177,8 +177,6 @@ export function InteractiveMap({
     // Calculate initial view
     const minZoom = mapTileOptions.minZoom ?? 0;
     const maxZoom = mapTileOptions.maxZoom ?? 10;
-    let center: [number, number] = [0, 0];
-    let zoom = minZoom;
 
     // Helper to calculate zoom that fits bounds
     const calculateFitZoom = (
@@ -251,25 +249,39 @@ export function InteractiveMap({
       Number.isFinite(view.center[0]) &&
       Number.isFinite(view.center[1]) &&
       isWithinBounds(view.center);
+    // The map's default view (fitBounds center/zoom, or the configured view):
+    // the fallback when no usable saved view exists, the resetView target, and
+    // the fallback ZOOM for a saved center WITHOUT a saved zoom — a cross-world
+    // map-follow switch seeds only the center; minZoom there would start the
+    // map fully zoomed out.
+    const containerWidth = containerRef.current.clientWidth || 300;
+    const containerHeight = containerRef.current.clientHeight || 200;
+    let hasDefaultView = false;
+    let defaultCenter: [number, number] = [0, 0];
+    let defaultZoom = minZoom;
+    if (mapTileOptions.fitBounds) {
+      const [[lat1, lng1], [lat2, lng2]] = mapTileOptions.fitBounds;
+      defaultCenter = [(lat1 + lat2) / 2, (lng1 + lng2) / 2];
+      defaultZoom = calculateFitZoom(
+        mapTileOptions.fitBounds,
+        containerWidth,
+        containerHeight,
+      );
+      hasDefaultView = true;
+    } else if (mapTileOptions.view?.center) {
+      defaultCenter = mapTileOptions.view.center;
+      defaultZoom = mapTileOptions.view.zoom ?? minZoom;
+      hasDefaultView = true;
+    }
+
+    let center = defaultCenter;
+    let zoom = defaultZoom;
     if (keepView && currentViewRef.current) {
       center = currentViewRef.current.center;
       zoom = currentViewRef.current.zoom;
     } else if (savedViewValid && view.center) {
       center = view.center;
-      zoom = Number.isFinite(view.zoom) ? view.zoom! : zoom;
-    } else if (mapTileOptions.fitBounds) {
-      const [[lat1, lng1], [lat2, lng2]] = mapTileOptions.fitBounds;
-      center = [(lat1 + lat2) / 2, (lng1 + lng2) / 2];
-      const containerWidth = containerRef.current.clientWidth || 300;
-      const containerHeight = containerRef.current.clientHeight || 200;
-      zoom = calculateFitZoom(
-        mapTileOptions.fitBounds,
-        containerWidth,
-        containerHeight,
-      );
-    } else if (mapTileOptions.view?.center) {
-      center = mapTileOptions.view.center;
-      zoom = mapTileOptions.view.zoom ?? zoom;
+      zoom = Number.isFinite(view.zoom) ? view.zoom! : defaultZoom;
     }
 
     // Create WebMap instance
@@ -284,25 +296,8 @@ export function InteractiveMap({
     mapRefsRef.current.webmap = webmap;
 
     // Set default view from tile config so resetView always goes to a valid position
-    if (mapTileOptions.fitBounds) {
-      const [[lat1, lng1], [lat2, lng2]] = mapTileOptions.fitBounds;
-      const defaultCenter: [number, number] = [
-        (lat1 + lat2) / 2,
-        (lng1 + lng2) / 2,
-      ];
-      const containerWidth = containerRef.current.clientWidth || 300;
-      const containerHeight = containerRef.current.clientHeight || 200;
-      const defaultZoom = calculateFitZoom(
-        mapTileOptions.fitBounds,
-        containerWidth,
-        containerHeight,
-      );
+    if (hasDefaultView) {
       webmap.setDefaultView(defaultCenter, defaultZoom);
-    } else if (mapTileOptions.view?.center) {
-      webmap.setDefaultView(
-        mapTileOptions.view.center,
-        mapTileOptions.view.zoom ?? minZoom,
-      );
     }
 
     // Create and add marker layers
