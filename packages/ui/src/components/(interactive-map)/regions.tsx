@@ -31,6 +31,10 @@ export function Regions({
   const t = useT();
   const { regions } = useCoordinates();
   const filters = useUserStore((state) => state.filters);
+  // Map switches between maps sharing a webmap mutate map.mapName in place
+  // (the map reference stays stable), so the store's mapName must trigger the
+  // redraw — without it the previous map's borders stay on screen.
+  const mapName = useUserStore((state) => state.mapName);
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const dynamicIconSize = useSettingsStore((state) => state.dynamicIconSize);
   const dynamicIconSizeFactor = useSettingsStore(
@@ -75,11 +79,11 @@ export function Regions({
 
     // On a layer map (e.g. the Underground), show the PARENT surface's regions —
     // the layer reuses the parent's world space, and its own id has no regions.
-    const parentMapName = tilesConfig[map.mapName]?.layer?.parent;
+    const parentMapName = tilesConfig[mapName]?.layer?.parent;
     const filteredRegions = regions.filter(
       (r) =>
         !r.mapName ||
-        r.mapName === map.mapName ||
+        r.mapName === mapName ||
         (!!parentMapName && r.mapName === parentMapName),
     );
 
@@ -95,7 +99,7 @@ export function Regions({
           positions,
           color: hslToHex(hue, 60, 50),
           size: 3,
-          mapName: map.mapName,
+          mapName,
         });
       }
 
@@ -108,7 +112,7 @@ export function Regions({
           text: t(region.id),
           size: 16 * baseIconSize,
           color: "#e6e5e3",
-          mapName: map.mapName,
+          mapName,
         });
       }
     }
@@ -120,7 +124,16 @@ export function Regions({
         layerRef.current = null;
       }
     };
-  }, [map, regions, showBorders, showNames, baseIconSize, t, tilesConfig]);
+  }, [
+    map,
+    mapName,
+    regions,
+    showBorders,
+    showNames,
+    baseIconSize,
+    t,
+    tilesConfig,
+  ]);
 
   // Sync dynamic size factor to region drawing layer
   useEffect(() => {
