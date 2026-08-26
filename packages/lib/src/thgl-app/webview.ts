@@ -79,6 +79,14 @@ export type WEBVIEW_RECEIVE_MESSAGE =
       payload: Array<Actor>;
     }
   | {
+      // Incremental mover update: only actors that appeared/moved since the last
+      // send (`changed`, upsert by address) plus addresses that disappeared
+      // (`removed`). A full `actors` message is still sent as a periodic/first/resync
+      // keyframe. See SendActorsDeltaToController (THGLApp game_threads.cpp).
+      action: "actorsDelta";
+      payload: { changed: Array<Actor>; removed: Array<string> };
+    }
+  | {
       action: "staticActors";
       payload: Array<Actor>;
     }

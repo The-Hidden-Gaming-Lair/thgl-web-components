@@ -50,6 +50,9 @@ export const useGameState = create(
     actors: Actor[];
     /** Sets the mover subset (or the full list for sources without the split). */
     setActors: (actors: Actor[]) => void;
+    /** Applies an incremental change to the mover subset (upsert `changed` by
+     * address, drop `removed`). Paired with `setActors` keyframes. */
+    applyActorsDelta: (changed: Actor[], removed: string[]) => void;
     /** Sets the fixed-position subset (foliage resource nodes etc.). */
     setStaticActors: (actors: Actor[]) => void;
     /** Applies an incremental change to the fixed-position subset. */
@@ -105,6 +108,20 @@ export const useGameState = create(
           ? [..._mobileActors, ..._staticActors]
           : actors,
       });
+    },
+    applyActorsDelta: (changed, removed) => {
+      // Upsert by address: a moved actor arrives in `changed` and replaces its prior
+      // entry; a new actor is appended; `removed` addresses are dropped. Addresses are
+      // normalized to String to match the mixed number/string wire type.
+      const drop = removed.length > 0 ? new Set(removed.map(String)) : null;
+      const upsert = new Set(changed.map((a) => String(a.address)));
+      _mobileActors = _mobileActors
+        .filter((a) => {
+          const key = String(a.address);
+          return !upsert.has(key) && !(drop && drop.has(key));
+        })
+        .concat(changed);
+      set({ actors: [..._mobileActors, ..._staticActors] });
     },
     setStaticActors: (actors) => {
       _staticActors = actors;
