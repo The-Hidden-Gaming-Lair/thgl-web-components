@@ -8,6 +8,10 @@ import {
   FilterableRefs,
   type IconSprite as RefIconSprite,
 } from "@/lib/db/filterable-refs";
+import {
+  SectionsRenderer,
+  type EntitySection,
+} from "@/lib/db/sections-renderer";
 
 type IconSprite = {
   url: string;
@@ -277,6 +281,15 @@ export function GenericEntityView({
   // Labelled map-area chips (e.g. "Found In" / "Gathered In"), linked where the
   // map is rendered.
   const areas = isAreasProp(props?.areas) ? props.areas : undefined;
+  // Structured `_sections` (the generic cross-link/stat/chip/list contract from
+  // sections-renderer.tsx) — emitted by data-forge, rendered for every game.
+  const extraSections =
+    Array.isArray(props?._sections) &&
+    (props._sections as EntitySection[]).every(
+      (s) => typeof s?.title === "string" && typeof s?.kind === "string",
+    )
+      ? (props._sections as EntitySection[])
+      : undefined;
   // Remaining props, minus everything rendered in a dedicated section above.
   const remaining = Object.entries(props ?? {}).filter(
     ([k]) =>
@@ -731,6 +744,17 @@ export function GenericEntityView({
             </div>
           )}
         </div>
+      )}
+
+      {extraSections && (
+        <SectionsRenderer
+          sections={extraSections}
+          icons={icons}
+          dict={dict}
+          appName={appName}
+          locale={locale}
+          iconsHash={iconsHash}
+        />
       )}
 
       {soldBy && soldBy.length > 0 && (
