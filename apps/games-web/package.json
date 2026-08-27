@@ -4,13 +4,13 @@
   "private": true,
   "type": "module",
   "browserslist": [
-    "chrome >= 91",
-    "edge >= 91",
+    "chrome >= 92",
+    "edge >= 92",
     "firefox >= 90",
-    "safari >= 15",
-    "and_chr >= 91",
+    "safari >= 15.4",
+    "and_chr >= 92",
     "and_ff >= 90",
-    "ios_saf >= 15"
+    "ios_saf >= 15.4"
   ],
   "scripts": {
     "build": "node ../../scripts/guard-no-dev-server.mjs && next build",

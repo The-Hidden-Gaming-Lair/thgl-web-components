@@ -4,6 +4,13 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 const nextConfig = (phase) => ({
   // Standalone output for Docker container deployment
   output: "standalone",
+  // Ship source maps for the client bundle in production. Fixes Lighthouse's
+  // `valid-source-maps` Best-Practices audit (large first-party chunks were
+  // flagged as missing maps). No user-facing cost — browsers only fetch the
+  // .map when devtools is open — and no IP concern: the frontend repo is
+  // public. The remaining BP failures (Topics API / third-party cookies /
+  // cookie issues) are all the NitroPay ad stack, unfixable in our code.
+  productionBrowserSourceMaps: true,
   // Serve hashed build assets from the persistent static host instead of the
   // container. static.th.gl fronts the thgl-games-web-static storage zone,
   // which the deploy workflow populates assets-first (uploads .next/static
