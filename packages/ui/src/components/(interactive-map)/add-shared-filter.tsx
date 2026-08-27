@@ -99,7 +99,7 @@ export function AddSharedFilter({
       type="button"
       title="Import filter by share code"
       aria-label="Import filter by share code"
-      className="p-1 text-muted-foreground hover:text-primary transition-colors"
+      className="flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors"
     >
       <Hash className="h-3.5 w-3.5" />
     </button>
@@ -124,8 +124,8 @@ export function AddSharedFilter({
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className="max-w-[360px]">
                   Paste a share code to import someone else's filter (their
-                  nodes + drawings) as a copy under your account. The
-                  original owner&apos;s edits won&apos;t affect your copy.
+                  nodes + drawings) as a copy under your account. The original
+                  owner&apos;s edits won&apos;t affect your copy.
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

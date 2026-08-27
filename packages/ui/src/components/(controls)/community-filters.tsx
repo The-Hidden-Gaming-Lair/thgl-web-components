@@ -71,7 +71,7 @@ export function CommunityFilters({
       type="button"
       title="Browse community filters"
       aria-label="Browse community filters"
-      className="p-1 text-muted-foreground hover:text-primary transition-colors"
+      className="flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors"
     >
       <Globe className="h-3.5 w-3.5" />
     </button>

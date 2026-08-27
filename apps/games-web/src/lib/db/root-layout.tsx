@@ -123,7 +123,11 @@ export function createDbRootLayout(appConfig: AppConfig) {
             >
               <Link
                 href={locale === DEFAULT_LOCALE ? "/" : `/${locale}`}
-                aria-label="Home"
+                // Accessible name must CONTAIN the visible Brand text (WCAG 2.5.3
+                // Label in Name) — bare "Home" mismatched the "<DOMAIN>.TH.GL" logo
+                // text. Mirror Brand's rendering; still names the link on mobile
+                // where Brand is hidden.
+                aria-label={`${appConfig.domain.replaceAll(" ", "").toUpperCase()}.TH.GL home`}
               >
                 <Brand title={appConfig.domain} />
               </Link>

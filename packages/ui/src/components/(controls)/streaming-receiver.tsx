@@ -1292,6 +1292,7 @@ export function StreamingReceiver({
             <Button
               size="icon"
               variant="outline"
+              aria-label="Peer Link"
               className={cn(
                 className,
                 inPeer

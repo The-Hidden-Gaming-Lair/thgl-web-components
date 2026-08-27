@@ -90,7 +90,7 @@ export function UploadFilter({
         onClick={handleClick}
         title="Upload filter from file"
         aria-label="Upload filter from file"
-        className="p-1 text-muted-foreground hover:text-primary transition-colors"
+        className="flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors"
       >
         <Upload className="h-3.5 w-3.5" />
       </button>
@@ -98,12 +98,7 @@ export function UploadFilter({
   }
 
   return (
-    <Button
-      size="sm"
-      type="button"
-      variant="secondary"
-      onClick={handleClick}
-    >
+    <Button size="sm" type="button" variant="secondary" onClick={handleClick}>
       <Upload className="h-4 w-4 mr-2" />
       Import Filter
     </Button>
