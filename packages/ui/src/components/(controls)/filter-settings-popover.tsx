@@ -38,7 +38,7 @@ type FilterSettingsPopoverProps =
       isGroup?: false;
       groupId?: never;
       filterIds?: never;
-      liveOnly?: boolean;
+      noMapMarkers?: boolean;
     }
   | {
       filterId?: never;
@@ -46,7 +46,7 @@ type FilterSettingsPopoverProps =
       isGroup: true;
       groupId: string;
       filterIds: string[];
-      liveOnly?: never;
+      noMapMarkers?: never;
     };
 
 export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
@@ -290,7 +290,7 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
       >
         {!isGroup && (
           <>
-            {props.liveOnly && (
+            {props.noMapMarkers && (
               <p className="font-bold text-sm text-orange-500">
                 This filter is only available with the live mode of the In-Game
                 app.
