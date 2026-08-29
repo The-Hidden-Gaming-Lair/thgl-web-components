@@ -177,6 +177,58 @@ export default function PrivacyPolicy(): JSX.Element {
         </div>
       </section>
       <hr className="border-border" />
+      {/* Discord Bot Section */}
+      <section id="discord-bot" className="space-y-4">
+        <h2 className="text-2xl font-bold">Discord Community &amp; Bot</h2>
+        <div className="space-y-3 text-muted-foreground">
+          <p>
+            The Hidden Gaming Lair operates a Discord community server with its
+            own bot (&quot;The Hidden Gaming Lair&quot; app). The bot is used
+            only on this one server and processes the following data there:
+          </p>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>
+              <strong className="text-foreground">
+                Announcements &amp; community feedback:
+              </strong>{" "}
+              messages from our public announcement channels (app release notes)
+              and posts in the public suggestions forum are read and republished
+              on www.th.gl so they are accessible outside Discord.
+            </li>
+            <li>
+              <strong className="text-foreground">Support tickets:</strong> when
+              you open a support ticket, your Discord user ID, username, and the
+              content you submit are used to create and manage your private
+              ticket thread on the server. Tickets remain stored as Discord
+              threads until deleted.
+            </li>
+            <li>
+              <strong className="text-foreground">Spam protection:</strong> to
+              protect members, recent message metadata and content are checked
+              against spam patterns and buffered in memory for at most 60
+              seconds; detected spam is removed and offending accounts are
+              banned. No message content is stored permanently for this purpose.
+            </li>
+          </ul>
+          <p>
+            Message content is not sold, shared with third parties, or used for
+            advertising or AI training. Legal basis: Art. 6(1)(f) GDPR
+            (legitimate interest in operating, securing, and moderating the
+            community) and Art. 6(1)(b) GDPR for support tickets you request.
+            Discord itself processes your data under the{" "}
+            <a
+              href="https://discord.com/privacy"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              Discord Privacy Policy
+            </a>
+            .
+          </p>
+        </div>
+      </section>
+      <hr className="border-border" />
       {/* Advertising Section */}
       <section id="advertising" className="space-y-4">
         <h2 className="text-2xl font-bold">

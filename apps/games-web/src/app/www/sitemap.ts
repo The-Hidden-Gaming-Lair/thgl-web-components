@@ -87,6 +87,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.4,
     },
     {
+      url: "https://www.th.gl/terms-of-service",
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
       url: "https://www.th.gl/legal-notice",
       lastModified: now,
       changeFrequency: "yearly",
