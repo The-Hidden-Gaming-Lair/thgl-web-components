@@ -97,4 +97,48 @@ describe("mergeHydratedFilters", () => {
     expect(merged[0].id).toBe("E");
     expect(merged[0].synced).toBe(true);
   });
+
+  it("does not resurrect a tombstoned server filter (hydrate racing a purge)", () => {
+    // The purge-then-they-come-back bug: a hydrate whose fetch started before
+    // the purge still contains the deleted rows. The tombstone predicate must
+    // keep them out of the merged list.
+    const local: DrawingsAndNodes[] = [];
+    const server = [
+      withNodes({ name: "my_1_deleted", id: "H" }),
+      withNodes({ name: "my_1_alive", id: "I" }),
+    ];
+    const { merged } = mergeHydratedFilters(
+      local,
+      server,
+      new Set(),
+      (f) => f.id === "H",
+    );
+    expect(merged).toHaveLength(1);
+    expect(merged[0].id).toBe("I");
+  });
+
+  it("drops a tombstoned local filter even when it has a pending PUT", () => {
+    // Delete intent is newer than any in-flight edit.
+    const local = [withNodes({ name: "my_1_deleted", id: "J", synced: true })];
+    const { merged } = mergeHydratedFilters(
+      local,
+      [withNodes({ name: "my_1_deleted", id: "J" })],
+      new Set(["J"]),
+      (f) => f.id === "J",
+    );
+    expect(merged).toHaveLength(0);
+  });
+
+  it("drops a tombstoned anonymous (no id) local filter by name", () => {
+    // Local-only filters (created signed-out) resurrected by a stale window
+    // are matched by their name tombstone.
+    const local = [withNodes({ name: "my_1_Campsite" })];
+    const { merged } = mergeHydratedFilters(
+      local,
+      [],
+      new Set(),
+      (f) => f.name === "my_1_Campsite",
+    );
+    expect(merged).toHaveLength(0);
+  });
 });

@@ -32,11 +32,19 @@ import type { DrawingsAndNodes } from "./settings";
  *          copy and never dropped — so a re-hydrate triggered while an edit is
  *          still uploading can't clobber it. Matters once hydrate runs on
  *          focus/visibility (not just at mount).
+ *
+ * @param isDeleted deletion-tombstone predicate (see filter-tombstones.ts).
+ *          A matching LOCAL filter is dropped — even one with a pending PUT;
+ *          the delete intent is newer than the edit. A matching SERVER filter
+ *          is not appended: its DELETE is still queued/in-flight (or failed
+ *          and will be retried), so a hydrate racing a purge must not
+ *          resurrect it (the original "purged them all and they came back").
  */
 export function mergeHydratedFilters(
   local: DrawingsAndNodes[],
   server: DrawingsAndNodes[],
   pendingIds: ReadonlySet<string> = new Set(),
+  isDeleted: (f: DrawingsAndNodes) => boolean = () => false,
 ): { merged: DrawingsAndNodes[]; resyncIds: string[] } {
   const serverById = new Map(
     server.filter((f) => f.id).map((f) => [f.id as string, f]),
@@ -49,6 +57,11 @@ export function mergeHydratedFilters(
   const seenIds = new Set<string>();
 
   for (const localFilter of local) {
+    if (isDeleted(localFilter)) {
+      // Tombstoned → the user deleted this filter (possibly in another
+      // window). Drop it, even over a pending PUT.
+      continue;
+    }
     if (localFilter.id && pendingIds.has(localFilter.id)) {
       // An upload for this filter is queued/in-flight → it is the source of
       // truth. Keep the local copy untouched (don't take the stale server copy,
@@ -81,9 +94,11 @@ export function mergeHydratedFilters(
   }
 
   // Append server-only filters (created on another device). They are, by
-  // definition, on the server → synced.
+  // definition, on the server → synced. Tombstoned ones are skipped — their
+  // server row just hasn't been deleted yet.
   for (const [id, filter] of serverById) {
-    if (!seenIds.has(id)) merged.push({ ...filter, synced: true });
+    if (seenIds.has(id) || isDeleted(filter)) continue;
+    merged.push({ ...filter, synced: true });
   }
 
   return { merged, resyncIds };

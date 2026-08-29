@@ -17,6 +17,14 @@ import {
   serverFilterToLocal,
 } from "./filters-api";
 import { mergeHydratedFilters } from "./filters-sync";
+import {
+  clearFilterTombstones,
+  enqueueFilterDelete,
+  filterOutTombstoned,
+  flushFilterDeletes,
+  isFilterTombstoned,
+  recordFilterTombstone,
+} from "./filter-tombstones";
 import { getAppIdFromPathname, getCurrentGameId } from "./games";
 
 export type LiveMode = "static" | "live" | "combined";
@@ -736,22 +744,74 @@ function scheduleFilterSync(filter: DrawingsAndNodes) {
   );
 }
 
-/** Immediate (non-debounced) server delete. Anonymous = no-op. */
+/**
+ * Server delete via the persistent pending-delete queue (see
+ * filter-tombstones.ts). The id is enqueued even when signed out — the flush
+ * skips until a signed-in surface picks it up — so deleting a synced filter
+ * while logged out no longer orphans its server row (which every later
+ * hydrate would resurrect). Failures are retried from hydrate.
+ */
 function fireFilterDelete(id: string) {
-  if (!isSignedIn()) return;
   // Cancel any pending PUT for this id so we don't race the delete.
   const existing = syncTimers.get(id);
   if (existing) {
     clearTimeout(existing);
     syncTimers.delete(id);
   }
-  void apiDeleteFilter(id).catch((err) => {
-    // 404 means it was never on the server (anonymous-created local-only
-    // filter, never synced). That's not an error.
-    if (err && typeof err === "object" && "status" in err && err.status === 404)
-      return;
-    console.error("[filter sync] delete failed", id, err);
+  enqueueFilterDelete(id);
+  void flushQueuedFilterDeletes();
+}
+
+/** Drain the delete queue. 404 = already gone, 403 = not ours: stop retrying. */
+function flushQueuedFilterDeletes(): Promise<void> {
+  return flushFilterDeletes({
+    isSignedIn,
+    deleteFilter: apiDeleteFilter,
+    shouldDiscard: (err) =>
+      err instanceof FiltersApiError &&
+      (err.status === 404 || err.status === 403),
   });
+}
+
+/**
+ * Strip tombstoned filters from every profile snapshot. Applied at the two
+ * persistence choke points (partialize on write, merge on rehydrate) so a
+ * stale window's whole-blob write can't resurrect a filter deleted in another
+ * window — the multi-window last-writer-wins race behind the "custom filters
+ * keep coming back" ticket. Returns untouched inputs when no tombstones match
+ * (partialize runs on every store write).
+ */
+/**
+ * A profile's settings with tombstoned filters stripped, for the flows that
+ * flatten `...profile.settings` straight into live state (switch / import /
+ * delete-switch) and would otherwise restore a stale myFilters snapshot.
+ * Profiles without a myFilters key are returned as-is (flattening must not
+ * clear the root list in that legacy case).
+ */
+function cleanProfileSettingsForFlatten(
+  settings: Profile["settings"],
+): Profile["settings"] {
+  if (!settings?.myFilters?.length) return settings;
+  const filtered = filterOutTombstoned(settings.myFilters);
+  return filtered === settings.myFilters
+    ? settings
+    : { ...settings, myFilters: filtered };
+}
+
+function stripTombstonedFromProfiles(profiles: Profile[]): Profile[] {
+  let changed = false;
+  const cleaned = profiles.map((profile) => {
+    const myFilters = profile.settings?.myFilters;
+    if (!myFilters?.length) return profile;
+    const filtered = filterOutTombstoned(myFilters);
+    if (filtered === myFilters) return profile;
+    changed = true;
+    return {
+      ...profile,
+      settings: { ...profile.settings, myFilters: filtered },
+    };
+  });
+  return changed ? cleaned : profiles;
 }
 
 // Cache for isDiscoveredNode results - invalidated when discoveredNodes changes
@@ -815,7 +875,9 @@ export const useSettingsStore = create(
 
             set({
               currentProfileId: profileId,
-              ...profile.settings, // Flatten switched profile settings to root
+              // Flatten switched profile settings to root (minus tombstoned
+              // filters — the snapshot may predate deletes made elsewhere)
+              ...cleanProfileSettingsForFlatten(profile.settings),
             });
           },
 
@@ -850,7 +912,8 @@ export const useSettingsStore = create(
                 set({
                   profiles: newProfiles,
                   currentProfileId: newCurrentProfileId,
-                  ...newProfile.settings, // Flatten settings to root
+                  // Flatten settings to root (minus tombstoned filters)
+                  ...cleanProfileSettingsForFlatten(newProfile.settings),
                 });
                 return;
               }
@@ -896,7 +959,9 @@ export const useSettingsStore = create(
             set({
               profiles: [...state.profiles, profile],
               currentProfileId: profile.id,
-              ...profile.settings, // Flatten imported profile settings to root
+              // Flatten imported profile settings to root (minus tombstoned
+              // filters — an exported file may contain since-deleted ones)
+              ...cleanProfileSettingsForFlatten(profile.settings),
             });
           },
 
@@ -1653,6 +1718,11 @@ export const useSettingsStore = create(
               return;
             }
 
+            // A deliberate (re-)add wins over any earlier delete of the same
+            // name/id — without this, a tombstone would eat the new filter on
+            // the next rehydrate.
+            clearFilterTombstones(myFilter);
+
             updateSettings({
               myFilters: [...state.myFilters, myFilter],
             });
@@ -1661,12 +1731,21 @@ export const useSettingsStore = create(
 
           removeMyFilter: (myFilterName: string) => {
             const state = get();
-            const target = state.myFilters.find((f) => f.name === myFilterName);
+            // Duplicate names are reachable (e.g. the same filter uploaded
+            // under two ids by different surfaces) — tombstone and
+            // server-delete EVERY match, not just the first.
+            const removed = state.myFilters.filter(
+              (f) => f.name === myFilterName,
+            );
+            if (removed.length === 0) return;
             const updatedFilters = state.myFilters.filter(
               (filter) => filter.name !== myFilterName,
             );
+            for (const filter of removed) recordFilterTombstone(filter);
             updateSettings({ myFilters: updatedFilters });
-            if (target?.id) fireFilterDelete(target.id);
+            for (const filter of removed) {
+              if (filter.id) fireFilterDelete(filter.id);
+            }
           },
 
           removeMyNode: async (nodeId: string) => {
@@ -1689,6 +1768,10 @@ export const useSettingsStore = create(
 
           hydrateFiltersFromServer: async (game: string) => {
             if (!isSignedIn()) return;
+            // Hydrate is the natural retry point for queued server deletes:
+            // it runs on every signed-in mount/focus. Fire-and-forget — the
+            // tombstone predicate below already hides anything still queued.
+            void flushQueuedFilterDeletes();
             let serverFilters;
             try {
               serverFilters = await apiListFilters(game);
@@ -1705,6 +1788,7 @@ export const useSettingsStore = create(
               state.myFilters,
               serverFilters.map(serverFilterToLocal),
               getPendingSyncIds(),
+              isFilterTombstoned,
             );
             updateSettings({ myFilters: merged });
             // Re-push filters whose server copy was empty but local had data.
@@ -1761,10 +1845,13 @@ export const useSettingsStore = create(
       },
       {
         name: getStorageName(),
-        // Only persist profiles array and currentProfileId (not flattened settings)
+        // Only persist profiles array and currentProfileId (not flattened
+        // settings). Tombstoned filters are stripped on the way out so a
+        // window holding stale in-memory state can't write a deleted filter
+        // back into storage.
         partialize: (state) =>
           ({
-            profiles: state.profiles,
+            profiles: stripTombstonedFromProfiles(state.profiles),
             currentProfileId: state.currentProfileId,
           }) as SettingsStore,
         merge: (persistedState, currentState) => {
@@ -1774,8 +1861,12 @@ export const useSettingsStore = create(
             ...(persistedState as any),
           };
 
-          // Flatten current profile settings to root level during merge
+          // Flatten current profile settings to root level during merge.
+          // Tombstoned filters are stripped first: rehydrate (mount AND
+          // cross-window storage events) is where a resurrected blob written
+          // by a stale window gets cleaned before it reaches the UI.
           if (merged.profiles?.length) {
+            merged.profiles = stripTombstonedFromProfiles(merged.profiles);
             const currentProfile = merged.profiles.find(
               (p: Profile) => p.id === merged.currentProfileId,
             );
