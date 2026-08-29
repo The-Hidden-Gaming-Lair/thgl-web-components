@@ -124,6 +124,86 @@ export function LayerSelect({
     }
   };
 
+  // When the surface has exactly ONE interior area (e.g. a single multi-floor
+  // building on its own map), skip the area step entirely and render a single
+  // combined dropdown — [surface overview, floor…] — so picking a floor is one
+  // click. (Multiple areas keep the area→floor two-step below.)
+  if (areas.length === 1) {
+    const area = areas[0]!;
+    const curFloor = area.floors.find((f) => f.mapName === mapName) ?? null;
+    return (
+      <div className="flex items-center border-l">
+        <Popover open={floorOpen} onOpenChange={setFloorOpen}>
+          <PopoverTrigger asChild>
+            <button
+              role="combobox"
+              aria-expanded={floorOpen}
+              aria-label="Select floor"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-sm transition-colors hover:text-primary"
+              type="button"
+            >
+              <Layers className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <span className="truncate font-medium max-w-[9rem]">
+                {curFloor ? curFloor.label : area.label}
+              </span>
+              <ChevronDown
+                className={cn(
+                  "h-3 w-3 shrink-0 text-muted-foreground transition-transform duration-200",
+                  floorOpen && "rotate-180",
+                )}
+              />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="p-1 w-40">
+            {/* Return to the surface (overview). */}
+            <button
+              type="button"
+              className={cn(
+                "flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent",
+                !curFloor && "bg-accent/50",
+              )}
+              onClick={() => {
+                setFloorOpen(false);
+                go(parentMap);
+              }}
+            >
+              <Check
+                className={cn(
+                  "mr-2 h-4 w-4 shrink-0",
+                  !curFloor ? "opacity-100" : "opacity-0",
+                )}
+              />
+              <span className="truncate">{t(parentMap) || parentMap}</span>
+            </button>
+            <div className="my-1 h-px bg-border" />
+            {area.floors.map((f) => (
+              <button
+                key={f.mapName}
+                type="button"
+                className={cn(
+                  "flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent",
+                  f.mapName === mapName && "bg-accent/50",
+                )}
+                onClick={() => {
+                  setFloorOpen(false);
+                  go(f.mapName);
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4 shrink-0",
+                    f.mapName === mapName ? "opacity-100" : "opacity-0",
+                  )}
+                />
+                <span className="truncate">{f.label}</span>
+              </button>
+            ))}
+          </PopoverContent>
+        </Popover>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center border-l">
       {/* AREA picker — descend into an interior, or return to the surface. */}

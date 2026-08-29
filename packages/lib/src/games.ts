@@ -205,6 +205,14 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "sinking-city-2",
+    discordId: "sinking-city-2",
+    title: "The Sinking City 2",
+    logo: `${TH_GL_URL}/global_icons/sinking-city-2.webp`,
+    web: "https://sinkingcity2.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "soulframe",
     discordId: "soulframe",
     title: "Soulframe",

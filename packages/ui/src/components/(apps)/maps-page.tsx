@@ -78,7 +78,12 @@ export function createMapsPage(appConfig: AppConfig) {
     ]);
     const t = getT(dict);
 
-    const mapNames = Object.keys(version.data.tiles);
+    // Only TOP-LEVEL maps get a listing card — interior floors (tagged with
+    // `layer`) are reached via the parent map's LayerSelect, not as standalone
+    // /maps pages (mirrors the in-map MapSelect filter).
+    const mapNames = Object.keys(version.data.tiles).filter(
+      (m) => !version.data.tiles[m]?.layer,
+    );
 
     const countsByMap = version.counts?.byMap;
 

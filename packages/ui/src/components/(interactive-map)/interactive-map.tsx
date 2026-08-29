@@ -120,6 +120,28 @@ export function InteractiveMap({
     },
     [setMapName, tileOptions, locale, t],
   );
+  // Switch to a specific FLOOR of an interior (from the on-map label menu). Unlike
+  // enterLayer, this keeps the SURFACE in the path + carries the floor as `?layer=`
+  // (mirrors LayerSelect.go) so the LayerSelect param-sync doesn't bounce a floor
+  // map back to its parent.
+  const selectFloor = useCallback(
+    (target: string) => {
+      setMapName(target);
+      if (location.pathname.includes("/maps/")) {
+        const targetLayer = tileOptions[target]?.layer;
+        const surface = targetLayer?.parent ?? target;
+        const dt = tileOptions[surface]?.defaultTitle;
+        const title = (dt && dt !== surface ? dt : t(surface)) || surface;
+        const path = localizePath(`/maps/${title}`, locale);
+        const params = new URLSearchParams(window.location.search);
+        if (targetLayer) params.set("layer", target);
+        else params.delete("layer");
+        const qs = params.toString();
+        window.history.pushState({}, "", qs ? `${path}?${qs}` : path);
+      }
+    },
+    [setMapName, tileOptions, locale, t],
+  );
   const getInteriorShapes = useCallback(
     () => mapRefsRef.current.interiorShapes,
     [],
@@ -536,23 +558,36 @@ export function InteractiveMap({
       webmap.removeLayer(mapRefsRef.current.interiorShapes);
       mapRefsRef.current.interiorShapes = null;
     }
-    // Only on a surface (non-layer) map; never in the transparent in-game overlay
-    // (no tiles there — the game world IS the map, so a drawn plan makes no sense).
-    if (mapTileOptions?.layer || (isOverlay && mapFilter === "full")) return;
-    // Faint context: draw every interior plan from this surface's Underground map,
-    // each with its name button — clicking any enters the single Underground.
-    const ugEntry = Object.entries(tileOptions).find(
-      ([, c]) => c.layer?.parent === mapName && !!c.overlays?.length,
+    // Never in the transparent in-game overlay (no tiles — the game world IS the map).
+    if (isOverlay && mapFilter === "full") return;
+    // The surface these interiors belong to (self on the surface, parent on a floor).
+    const surface = mapTileOptions?.layer?.parent ?? mapName;
+    // Floor-level maps of this surface that carry building `overlays`.
+    const floorMaps = Object.entries(tileOptions).filter(
+      ([, c]) => c.layer?.parent === surface && !!c.overlays?.length,
     );
-    const ugId = ugEntry?.[0];
-    const areas: InteriorArea[] = (ugEntry?.[1].overlays ?? []).map((o) => ({
-      mapName: ugId!,
+    if (!floorMaps.length) return;
+    // A MULTI-floor group draws its chips on the surface AND on each floor map, so
+    // you can move between floors from a floor. A single-floor interior (e.g. a
+    // WuWa "Underground") shows chips only on its surface, not inside itself.
+    const multiFloor =
+      new Set(floorMaps.map(([, c]) => c.layer!.floor)).size > 1;
+    if (mapTileOptions?.layer && !multiFloor) return;
+    // Footprints are constant across floors (shared union bbox) — take positions
+    // from the lowest floor, where every building is present.
+    const [ugId, ugCfg] = floorMaps.sort(
+      (a, b) => a[1].layer!.floor - b[1].layer!.floor,
+    )[0]!;
+    const areas: InteriorArea[] = (ugCfg.overlays ?? []).map((o) => ({
+      mapName: ugId,
       label: o.label ?? "",
       bounds: o.bounds,
       url: getTileLayerUrl(appName, o.url),
     }));
     if (!areas.length) return;
-    const shapes = new InteriorShapesLayer(areas, { opacity: 0.28 });
+    // Base opacity 0 → footprints are hidden until you hover a label chip, which
+    // highlights that building's outline (setHighlighted). Keeps the surface clean.
+    const shapes = new InteriorShapesLayer(areas, { opacity: 0 });
     webmap.addLayer(shapes, { zIndex: 2 });
     mapRefsRef.current.interiorShapes = shapes;
     return () => {
@@ -631,11 +666,14 @@ export function InteractiveMap({
           className={cn(`h-full bg-inherit! outline-none select-none`)}
           ref={containerRef}
         />
-        {/* Interior name buttons on the surface — click any to enter Underground. */}
+        {/* Interior name buttons on the surface — click one to pick its floor. */}
         <InteriorLabels
           getLayer={getInteriorShapes}
           getCanvas={getMapCanvas}
           onEnter={enterLayer}
+          tileOptions={tileOptions}
+          onSelectFloor={selectFloor}
+          activeMap={mapName}
         />
         {/* On an interior layer, an explicit way back to the surface (the camera
             is preserved by the tile-sharing keep-view logic). */}

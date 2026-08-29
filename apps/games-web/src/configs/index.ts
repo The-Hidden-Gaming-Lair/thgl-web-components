@@ -27,6 +27,7 @@ import { paxDei } from "./pax-dei";
 import { rsdragonwilds } from "./rsdragonwilds";
 import { satisfactory } from "./satisfactory";
 import { songsOfConquest } from "./songs-of-conquest";
+import { sinkingCity2 } from "./sinking-city-2";
 import { soulframe } from "./soulframe";
 import { soulmask } from "./soulmask";
 import { soulsRemnant } from "./souls-remnant";
@@ -71,6 +72,7 @@ const ALL_CONFIGS: AppConfig[] = [
   rsdragonwilds,
   satisfactory,
   songsOfConquest,
+  sinkingCity2,
   soulframe,
   soulmask,
   soulsRemnant,

@@ -133,7 +133,11 @@ export function createHomePage(appConfig: AppConfig) {
     // no home map cards — the map tiles still exist, they're just not surfaced.
     const mapNames = appConfig.db?.hideInteractiveMap
       ? []
-      : Object.keys(version.data.tiles);
+      : // Interior floors (tagged `layer`) are reached via the parent map's
+        // LayerSelect, not as standalone home cards (mirrors the MapSelect filter).
+        Object.keys(version.data.tiles).filter(
+          (m) => !version.data.tiles[m]?.layer,
+        );
     const mapCards: NavCardProps[] = await Promise.all(
       mapNames
         .filter((map) => {
