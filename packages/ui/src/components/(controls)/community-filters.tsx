@@ -44,6 +44,7 @@ import {
 } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
+import { useT } from "../(providers)";
 
 type SortOrder = "top" | "new" | "recent";
 
@@ -55,6 +56,7 @@ export function CommunityFilters({
   /** Tight icon+label sidebar variant. */
   compact?: boolean;
 } = {}) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   // getCurrentGameId() is client-only (reads window.location); on the server
   // it returns null, so without this guard the component renders nothing
@@ -69,8 +71,12 @@ export function CommunityFilters({
   const trigger = compact ? (
     <button
       type="button"
-      title="Browse community filters"
-      aria-label="Browse community filters"
+      title={t("community.browseTitle", {
+        fallback: "Browse community filters",
+      })}
+      aria-label={t("community.browseTitle", {
+        fallback: "Browse community filters",
+      })}
       className="flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors"
     >
       <Globe className="h-3.5 w-3.5" />
@@ -83,7 +89,7 @@ export function CommunityFilters({
       className="w-full justify-start gap-2"
     >
       <Globe className="h-4 w-4" />
-      Browse Community Filters
+      {t("community.browse", { fallback: "Browse Community Filters" })}
     </Button>
   );
 
@@ -92,9 +98,13 @@ export function CommunityFilters({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-2xl max-h-[80vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle>Community Filters</DialogTitle>
+          <DialogTitle>
+            {t("community.title", { fallback: "Community Filters" })}
+          </DialogTitle>
           <DialogDescription className="sr-only">
-            Browse and import community-shared filters.
+            {t("community.description", {
+              fallback: "Browse and import community-shared filters.",
+            })}
           </DialogDescription>
         </DialogHeader>
         <Browser game={game} onClose={() => setOpen(false)} />
@@ -104,6 +114,7 @@ export function CommunityFilters({
 }
 
 function Browser({ game, onClose }: { game: string; onClose: () => void }) {
+  const t = useT();
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
   const [sort, setSort] = useState<SortOrder>("top");
@@ -135,7 +146,11 @@ function Browser({ game, onClose }: { game: string; onClose: () => void }) {
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : "Failed to load filters");
+        setError(
+          err instanceof Error
+            ? err.message
+            : t("community.loadFailed", { fallback: "Failed to load filters" }),
+        );
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -159,7 +174,11 @@ function Browser({ game, onClose }: { game: string; onClose: () => void }) {
       setItems((prev) => [...prev, ...page.items]);
       setCursor(page.nextCursor);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load more");
+      setError(
+        err instanceof Error
+          ? err.message
+          : t("community.loadMoreFailed", { fallback: "Failed to load more" }),
+      );
     } finally {
       setLoading(false);
     }
@@ -173,7 +192,9 @@ function Browser({ game, onClose }: { game: string; onClose: () => void }) {
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search filter names…"
+            placeholder={t("community.searchPlaceholder", {
+              fallback: "Search filter names…",
+            })}
             className="pl-8"
           />
         </div>
@@ -182,9 +203,15 @@ function Browser({ game, onClose }: { game: string; onClose: () => void }) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="top">Top voted</SelectItem>
-            <SelectItem value="new">Newest</SelectItem>
-            <SelectItem value="recent">Recently updated</SelectItem>
+            <SelectItem value="top">
+              {t("community.topVoted", { fallback: "Top voted" })}
+            </SelectItem>
+            <SelectItem value="new">
+              {t("community.newest", { fallback: "Newest" })}
+            </SelectItem>
+            <SelectItem value="recent">
+              {t("community.recentlyUpdated", { fallback: "Recently updated" })}
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -195,8 +222,14 @@ function Browser({ game, onClose }: { game: string; onClose: () => void }) {
         {items.length === 0 && !loading && (
           <p className="text-sm text-muted-foreground text-center py-8">
             {debouncedQ
-              ? `No filters match "${debouncedQ}"`
-              : "No public filters for this game yet — be the first to publish one."}
+              ? t("community.noMatch", {
+                  fallback: 'No filters match "{{query}}"',
+                  vars: { query: debouncedQ },
+                })
+              : t("community.empty", {
+                  fallback:
+                    "No public filters for this game yet — be the first to publish one.",
+                })}
           </p>
         )}
         <ul className="space-y-2">
@@ -245,7 +278,7 @@ function Browser({ game, onClose }: { game: string; onClose: () => void }) {
               disabled={loading}
             >
               {loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-              Load more
+              {t("community.loadMore", { fallback: "Load more" })}
             </Button>
           </div>
         )}
@@ -276,6 +309,7 @@ function Card({
   onCommentChange,
   onImported,
 }: CardProps) {
+  const t = useT();
   const myUserId = useAccountStore((s) => s.decryptedUserId);
   const isSignedIn = !!myUserId;
   const isOwn = !!myUserId && meta.userId === myUserId;
@@ -286,7 +320,7 @@ function Card({
 
   async function handleVote() {
     if (!isSignedIn) {
-      toast.error("Sign in to vote");
+      toast.error(t("community.signInToVote", { fallback: "Sign in to vote" }));
       return;
     }
     if (voting) return;
@@ -295,7 +329,10 @@ function Card({
       const res = await apiVote(meta.id);
       onVoteChange(res.voted, res.voteCount);
     } catch (err) {
-      const msg = err instanceof FiltersApiError ? err.message : "Vote failed";
+      const msg =
+        err instanceof FiltersApiError
+          ? err.message
+          : t("community.voteFailed", { fallback: "Vote failed" });
       toast.error(msg);
     } finally {
       setVoting(false);
@@ -308,7 +345,11 @@ function Card({
       // Importing your own public filter would just create a
       // duplicate local copy. Block it client-side; the user already
       // has the original in My Filters.
-      toast("This is already your filter");
+      toast(
+        t("community.alreadyYours", {
+          fallback: "This is already your filter",
+        }),
+      );
       return;
     }
     setImporting(true);
@@ -324,11 +365,18 @@ function Card({
       delete local.voteCount;
       delete local.commentCount;
       addMyFilter(local);
-      toast.success(`Imported "${displayName}"`);
+      toast.success(
+        t("community.imported", {
+          fallback: 'Imported "{{name}}"',
+          vars: { name: displayName },
+        }),
+      );
       onImported();
     } catch (err) {
       const msg =
-        err instanceof FiltersApiError ? err.message : "Import failed";
+        err instanceof FiltersApiError
+          ? err.message
+          : t("community.importFailed", { fallback: "Import failed" });
       toast.error(msg);
     } finally {
       setImporting(false);
@@ -352,7 +400,7 @@ function Card({
           <span className="truncate font-medium">{displayName}</span>
           {isOwn && (
             <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-primary/15 text-primary shrink-0">
-              Yours
+              {t("community.yours", { fallback: "Yours" })}
             </span>
           )}
         </button>
@@ -370,10 +418,16 @@ function Card({
           variant="secondary"
           onClick={handleImport}
           disabled={importing || isOwn}
-          title={isOwn ? "This is already in your filters" : undefined}
+          title={
+            isOwn
+              ? t("community.alreadyInFilters", {
+                  fallback: "This is already in your filters",
+                })
+              : undefined
+          }
         >
           {importing && <ReloadIcon className="mr-1 h-3 w-3 animate-spin" />}
-          Import
+          {t("community.import", { fallback: "Import" })}
         </Button>
       </div>
       {expanded && (
@@ -404,6 +458,7 @@ function CardDetails({
   onVote,
   onCommentChange,
 }: CardDetailsProps) {
+  const t = useT();
   const myUserId = useAccountStore((s) => s.decryptedUserId);
   const [comments, setComments] = useState<FilterComment[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(false);
@@ -460,7 +515,9 @@ function CardDetails({
       onCommentChange(1);
     } catch (err) {
       const msg =
-        err instanceof FiltersApiError ? err.message : "Comment failed";
+        err instanceof FiltersApiError
+          ? err.message
+          : t("community.commentFailed", { fallback: "Comment failed" });
       toast.error(msg);
     } finally {
       setPosting(false);
@@ -474,7 +531,9 @@ function CardDetails({
       onCommentChange(-1);
     } catch (err) {
       const msg =
-        err instanceof FiltersApiError ? err.message : "Delete failed";
+        err instanceof FiltersApiError
+          ? err.message
+          : t("community.deleteFailed", { fallback: "Delete failed" });
       toast.error(msg);
     }
   }
@@ -486,7 +545,11 @@ function CardDetails({
           type="button"
           onClick={onVote}
           disabled={voting || !isSignedIn}
-          title={isSignedIn ? "Toggle vote" : "Sign in to vote"}
+          title={
+            isSignedIn
+              ? t("community.toggleVote", { fallback: "Toggle vote" })
+              : t("community.signInToVote", { fallback: "Sign in to vote" })
+          }
           className={cn(
             "flex items-center gap-1 hover:text-primary transition-colors",
             !isSignedIn && "cursor-not-allowed opacity-60",
@@ -497,29 +560,52 @@ function CardDetails({
           ) : (
             <Heart className="h-3 w-3" />
           )}
-          Vote
+          {t("community.vote", { fallback: "Vote" })}
         </button>
         <span>•</span>
-        <span>by {meta.userId === myUserId ? "you" : meta.userId}</span>
+        <span>
+          {t("community.by", {
+            fallback: "by {{user}}",
+            vars: {
+              user:
+                meta.userId === myUserId
+                  ? t("community.you", { fallback: "you" })
+                  : meta.userId,
+            },
+          })}
+        </span>
         <span>•</span>
-        <span>updated {formatTimestamp(meta.updatedAt)}</span>
+        <span>
+          {t("community.updatedAgo", {
+            fallback: "updated {{time}}",
+            vars: { time: formatTimestamp(meta.updatedAt, t) },
+          })}
+        </span>
       </div>
 
       <div className="space-y-2">
         <p className="text-xs font-medium text-muted-foreground">
-          Comments ({meta.commentCount})
+          {t("community.comments", {
+            fallback: "Comments ({{count}})",
+            vars: { count: String(meta.commentCount) },
+          })}
         </p>
         {comments.length === 0 && !commentsLoading && (
-          <p className="text-xs text-muted-foreground">No comments yet.</p>
+          <p className="text-xs text-muted-foreground">
+            {t("community.noComments", { fallback: "No comments yet." })}
+          </p>
         )}
         <ul className="space-y-1.5 max-h-48 overflow-y-auto">
           {comments.map((c) => (
             <li key={c.id} className="text-xs flex gap-2 items-start group">
               <span className="text-muted-foreground shrink-0 tabular-nums">
-                {formatTimestamp(c.createdAt)}
+                {formatTimestamp(c.createdAt, t)}
               </span>
               <span className="text-muted-foreground shrink-0">
-                {c.userId === myUserId ? "you" : c.userId}:
+                {c.userId === myUserId
+                  ? t("community.you", { fallback: "you" })
+                  : c.userId}
+                :
               </span>
               <span className="grow wrap-break-word">{c.body}</span>
               {c.userId === myUserId && (
@@ -527,7 +613,9 @@ function CardDetails({
                   type="button"
                   className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive shrink-0"
                   onClick={() => deleteOwnComment(c.id)}
-                  title="Delete comment"
+                  title={t("community.deleteComment", {
+                    fallback: "Delete comment",
+                  })}
                 >
                   <Trash className="h-3 w-3" />
                 </button>
@@ -542,7 +630,9 @@ function CardDetails({
             onClick={loadMoreComments}
             disabled={commentsLoading}
           >
-            Load more comments
+            {t("community.loadMoreComments", {
+              fallback: "Load more comments",
+            })}
           </button>
         )}
         {isSignedIn ? (
@@ -550,7 +640,9 @@ function CardDetails({
             <Input
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Write a comment…"
+              placeholder={t("community.commentPlaceholder", {
+                fallback: "Write a comment…",
+              })}
               className="h-8 text-sm"
               maxLength={4000}
             />
@@ -559,12 +651,14 @@ function CardDetails({
               size="sm"
               disabled={posting || !newComment.trim()}
             >
-              Post
+              {t("community.post", { fallback: "Post" })}
             </Button>
           </form>
         ) : (
           <p className="text-xs text-muted-foreground italic">
-            Sign in to vote or comment.
+            {t("community.signInToVoteOrComment", {
+              fallback: "Sign in to vote or comment.",
+            })}
           </p>
         )}
       </div>
@@ -572,12 +666,24 @@ function CardDetails({
   );
 }
 
-function formatTimestamp(seconds: number): string {
+function formatTimestamp(seconds: number, t: ReturnType<typeof useT>): string {
   const now = Math.floor(Date.now() / 1000);
   const diff = now - seconds;
-  if (diff < 60) return "just now";
-  if (diff < 3600) return `${Math.floor(diff / 60)}m`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
-  if (diff < 604800) return `${Math.floor(diff / 86400)}d`;
+  if (diff < 60) return t("community.justNow", { fallback: "just now" });
+  if (diff < 3600)
+    return t("community.minutesShort", {
+      fallback: "{{count}}m",
+      vars: { count: String(Math.floor(diff / 60)) },
+    });
+  if (diff < 86400)
+    return t("community.hoursShort", {
+      fallback: "{{count}}h",
+      vars: { count: String(Math.floor(diff / 3600)) },
+    });
+  if (diff < 604800)
+    return t("community.daysShort", {
+      fallback: "{{count}}d",
+      vars: { count: String(Math.floor(diff / 86400)) },
+    });
   return new Date(seconds * 1000).toLocaleDateString();
 }

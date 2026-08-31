@@ -111,6 +111,7 @@ function DiscoveryToggle({
   /** Custom toggle handler (for "discover all" button) */
   onToggle?: () => void;
 }) {
+  const t = useT();
   // Subscribe to discovery state changes so the toggle updates reactively
   useSettingsStore((state) => state.discoveredNodes);
   useSettingsStore((state) => state.autoDiscoveredNodes);
@@ -161,20 +162,34 @@ function DiscoveryToggle({
         <TooltipContent side="bottom" className="max-w-[200px] text-xs">
           {isAutoDiscovered ? (
             <>
-              <p>Auto-discovered — collected in-game</p>
+              <p>
+                {t("markers.autoDiscoveredTooltip", {
+                  fallback: "Auto-discovered — collected in-game",
+                })}
+              </p>
               <p className="text-muted-foreground mt-0.5">
-                Detected from game memory. Right-click to override, or turn off
-                auto-discovery in settings.
+                {t("markers.autoDiscoveredHint", {
+                  fallback:
+                    "Detected from game memory. Right-click to override, or turn off auto-discovery in settings.",
+                })}
               </p>
             </>
           ) : (
             <>
               <p>
-                {isDiscovered ? "Mark as undiscovered" : "Mark as discovered"}
+                {isDiscovered
+                  ? t("markers.markUndiscovered", {
+                      fallback: "Mark as undiscovered",
+                    })
+                  : t("markers.markDiscovered", {
+                      fallback: "Mark as discovered",
+                    })}
               </p>
               <p className="text-muted-foreground mt-0.5">
-                Right-click to toggle. Discovered nodes can be hidden in
-                settings.
+                {t("markers.discoveryToggleHint", {
+                  fallback:
+                    "Right-click to toggle. Discovered nodes can be hidden in settings.",
+                })}
               </p>
             </>
           )}
@@ -183,7 +198,9 @@ function DiscoveryToggle({
       {isAutoDiscovered && (
         <Sparkles
           className="pointer-events-none absolute -right-1 -top-1 h-3 w-3 text-primary"
-          aria-label="Auto-discovered"
+          aria-label={t("markers.autoDiscovered", {
+            fallback: "Auto-discovered",
+          })}
         />
       )}
     </span>
@@ -211,6 +228,7 @@ function PrivateNodeActions({
   id: string;
   onClose?: () => void;
 }) {
+  const t = useT();
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );
@@ -245,7 +263,7 @@ function PrivateNodeActions({
         }}
       >
         <Pencil className="w-3 h-3" />
-        Edit
+        {t("common.edit", { fallback: "Edit" })}
       </Button>
       <Button
         size="sm"
@@ -258,7 +276,7 @@ function PrivateNodeActions({
         }}
       >
         <Trash2 className="w-3 h-3" />
-        Delete
+        {t("common.delete", { fallback: "Delete" })}
       </Button>
     </div>
   );
@@ -383,7 +401,11 @@ function SingleItemTooltip({
             copyToClipboard(
               formatCoordinates(itemCoords, coordinateCopyFormat),
             );
-            toast("Copied to clipboard");
+            toast(
+              t("common.copiedToClipboard", {
+                fallback: "Copied to clipboard",
+              }),
+            );
           }}
         >
           <Copy className="w-full h-full" />

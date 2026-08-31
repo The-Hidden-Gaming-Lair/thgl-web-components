@@ -6,6 +6,7 @@ import {
 import { Button } from "../ui/button";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useT } from "../(providers)";
 
 export function UploadFilter({
   mapName = "",
@@ -17,6 +18,7 @@ export function UploadFilter({
   /** Tight icon+label sidebar variant. */
   compact?: boolean;
 } = {}) {
+  const t = useT();
   const addMyFilter = useSettingsStore((state) => state.addMyFilter);
 
   const handleClick = async () => {
@@ -71,13 +73,18 @@ export function UploadFilter({
         addMyFilter(myFilter);
         onUploaded?.(myFilter.name);
         toast(
-          `Imported filter: ${myFilter.name
-            .replace("private_", "")
-            .replace(/shared_\d+_/, "")}`,
+          t("sharedFilter.importedFilter", {
+            fallback: "Imported filter: {{name}}",
+            vars: {
+              name: myFilter.name
+                .replace("private_", "")
+                .replace(/shared_\d+_/, ""),
+            },
+          }),
         );
       } catch (error) {
         console.error(error);
-        toast.error("Invalid filter");
+        toast.error(t("sharedFilter.invalid", { fallback: "Invalid filter" }));
       }
     });
     reader.readAsText(file);
@@ -88,8 +95,12 @@ export function UploadFilter({
       <button
         type="button"
         onClick={handleClick}
-        title="Upload filter from file"
-        aria-label="Upload filter from file"
+        title={t("sharedFilter.uploadFromFile", {
+          fallback: "Upload filter from file",
+        })}
+        aria-label={t("sharedFilter.uploadFromFile", {
+          fallback: "Upload filter from file",
+        })}
         className="flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors"
       >
         <Upload className="h-3.5 w-3.5" />
@@ -100,7 +111,7 @@ export function UploadFilter({
   return (
     <Button size="sm" type="button" variant="secondary" onClick={handleClick}>
       <Upload className="h-4 w-4 mr-2" />
-      Import Filter
+      {t("sharedFilter.importFilter", { fallback: "Import Filter" })}
     </Button>
   );
 }

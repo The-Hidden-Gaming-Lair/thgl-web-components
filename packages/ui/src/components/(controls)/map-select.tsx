@@ -46,7 +46,7 @@ export function MapSelect({
           <button
             role="combobox"
             aria-expanded={open}
-            aria-label="Select map"
+            aria-label={t("markers.selectMap", { fallback: "Select map" })}
             className="flex items-center flex-1 min-w-0 px-2.5 py-1.5 text-sm transition-colors hover:text-primary group"
             type="button"
           >

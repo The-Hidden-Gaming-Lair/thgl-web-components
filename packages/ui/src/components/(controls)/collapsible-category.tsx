@@ -89,9 +89,15 @@ export function CollapsibleCategory({
             setFilters(newFilters);
           }}
           type="button"
-          title={activeCount ? "Disable all" : "Enable all"}
+          title={
+            activeCount
+              ? t("myFilters.disableAll", { fallback: "Disable all" })
+              : t("myFilters.enableAll", { fallback: "Enable all" })
+          }
         >
-          {activeCount ? "None" : "All"}
+          {activeCount
+            ? t("myFilters.none", { fallback: "None" })
+            : t("myFilters.all", { fallback: "All" })}
         </button>
         <FilterSettingsPopover
           isGroup

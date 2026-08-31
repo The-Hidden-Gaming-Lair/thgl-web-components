@@ -127,9 +127,15 @@ function OverlayGroupUI({
           className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-1 transition-colors shrink-0 uppercase tracking-wide"
           onClick={onToggleAll}
           type="button"
-          title={activeCount ? "Disable all" : "Enable all"}
+          title={
+            activeCount
+              ? t("myFilters.disableAll", { fallback: "Disable all" })
+              : t("myFilters.enableAll", { fallback: "Enable all" })
+          }
         >
-          {activeCount ? "None" : "All"}
+          {activeCount
+            ? t("myFilters.none", { fallback: "None" })
+            : t("myFilters.all", { fallback: "All" })}
         </button>
       </div>
       {/* Progress bar */}

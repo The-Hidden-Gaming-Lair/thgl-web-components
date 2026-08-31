@@ -649,6 +649,23 @@ export function getCanonicalMapName(
       }
     }
   }
+  // 3) English/default fallback: match the tile key itself or its English
+  // defaultTitle. Non-en dicts carry properly localized map names now, so
+  // English-named URLs (home cards, hreflang alternates, old bookmarks) no
+  // longer reverse-resolve through the locale dict — resolve them here and let
+  // the caller 308 to the localized canonical name.
+  if (!key) {
+    const lower = decodedMap.toLowerCase();
+    for (const [tileKey, tile] of Object.entries(version.data.tiles)) {
+      if (
+        tileKey.toLowerCase() === lower ||
+        tile.defaultTitle?.toLowerCase() === lower
+      ) {
+        key = tileKey;
+        break;
+      }
+    }
+  }
   if (!key) return null;
 
   // Canonical display name = the tile key's own dict term (pointer-resolved),

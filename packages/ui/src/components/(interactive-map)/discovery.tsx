@@ -9,6 +9,7 @@ import {
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { Info } from "lucide-react";
+import { useT } from "../(providers)";
 
 export function Discovery({
   id,
@@ -21,6 +22,7 @@ export function Discovery({
   isLive?: boolean;
   onClose?: () => void;
 }) {
+  const t = useT();
   useSettingsStore((state) => state.discoveredNodes);
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
   const toggleDiscoveredNode = useSettingsStore(
@@ -42,7 +44,7 @@ export function Discovery({
           }}
         />
         <Label htmlFor="discovered-node" className="grow">
-          Discovered
+          {t("markers.discovered", { fallback: "Discovered" })}
         </Label>
         <HoverCard openDelay={20} closeDelay={20}>
           <HoverCardTrigger>
@@ -51,10 +53,22 @@ export function Discovery({
           <HoverCardPortal>
             <HoverCardContent className="text-sm w-auto">
               <p>
-                Backup, restore and hide discovered nodes in the app settings.
+                {t("discovered.backupHint", {
+                  fallback:
+                    "Backup, restore and hide discovered nodes in the app settings.",
+                })}
               </p>
-              <p>Right-Click on the icon to toggle the node</p>
-              <p>In-Game App Only: Use the hotkey to toggle near-by node</p>
+              <p>
+                {t("discovered.rightClickHint", {
+                  fallback: "Right-Click on the icon to toggle the node",
+                })}
+              </p>
+              <p>
+                {t("discovered.hotkeyHint", {
+                  fallback:
+                    "In-Game App Only: Use the hotkey to toggle near-by node",
+                })}
+              </p>
             </HoverCardContent>
           </HoverCardPortal>
         </HoverCard>
@@ -86,7 +100,7 @@ export function Discovery({
               onClose?.();
             }}
           >
-            Edit
+            {t("common.edit", { fallback: "Edit" })}
           </Button>
           <Button
             size="sm"
@@ -96,7 +110,7 @@ export function Discovery({
               onClose?.();
             }}
           >
-            Delete
+            {t("common.delete", { fallback: "Delete" })}
           </Button>
         </div>
       )}

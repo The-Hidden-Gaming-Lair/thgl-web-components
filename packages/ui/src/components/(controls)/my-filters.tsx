@@ -11,7 +11,7 @@ import {
   useSettingsStore,
   writeFileOverwolf,
 } from "@repo/lib";
-import { useUserStore } from "../(providers)";
+import { useT, useUserStore } from "../(providers)";
 import { CommunityFilters } from "./community-filters";
 import { AddSharedFilter } from "../(interactive-map)/add-shared-filter";
 import { UploadFilter } from "../(interactive-map)/upload-filter";
@@ -63,6 +63,7 @@ const lastHydratedAt = new Map<string, number>();
 const HYDRATE_TTL_MS = 30_000;
 
 export function MyFilters() {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const { filters, setFilters, toggleFilter } = useUserStore();
   const myFilters = useSettingsStore((state) => state.myFilters);
@@ -142,7 +143,7 @@ export function MyFilters() {
                 "text-muted-foreground": !activeFiltersLength,
               },
             )}
-            title="My Filters"
+            title={t("myFilters.title", { fallback: "My Filters" })}
             type="button"
           >
             <ChevronRight
@@ -151,7 +152,9 @@ export function MyFilters() {
                 open && "rotate-90",
               )}
             />
-            <span className="font-semibold truncate">My Filters</span>
+            <span className="font-semibold truncate">
+              {t("myFilters.title", { fallback: "My Filters" })}
+            </span>
             <span className="text-xs text-muted-foreground tabular-nums shrink-0">
               {activeFiltersLength}/{filterNames.length}
             </span>
@@ -171,9 +174,15 @@ export function MyFilters() {
             setFilters(newFilters);
           }}
           type="button"
-          title={activeFiltersLength ? "Disable all" : "Enable all"}
+          title={
+            activeFiltersLength
+              ? t("myFilters.disableAll", { fallback: "Disable all" })
+              : t("myFilters.enableAll", { fallback: "Enable all" })
+          }
         >
-          {activeFiltersLength ? "None" : "All"}
+          {activeFiltersLength
+            ? t("myFilters.none", { fallback: "None" })
+            : t("myFilters.all", { fallback: "All" })}
         </button>
       </div>
       <div className="h-[2px] bg-muted/20 mx-1.5 overflow-hidden rounded-full">
@@ -185,11 +194,25 @@ export function MyFilters() {
       <CollapsibleContent className="flex flex-wrap w-[200px] md:w-full">
         {filterNames.length === 0 && (
           <p className="text-xs text-muted-foreground px-2 py-3 leading-snug">
-            No saved filters yet. Browse{" "}
-            <span className="text-foreground">Community</span> for public
-            filters, paste a <span className="text-foreground">Code</span> a
-            friend shared, or <span className="text-foreground">Upload</span> a
-            filter file.
+            {t("myFilters.empty.intro", {
+              fallback: "No saved filters yet. Browse",
+            })}{" "}
+            <span className="text-foreground">
+              {t("myFilters.empty.community", { fallback: "Community" })}
+            </span>{" "}
+            {t("myFilters.empty.forPublic", {
+              fallback: "for public filters, paste a",
+            })}{" "}
+            <span className="text-foreground">
+              {t("myFilters.empty.code", { fallback: "Code" })}
+            </span>{" "}
+            {t("myFilters.empty.shared", {
+              fallback: "a friend shared, or",
+            })}{" "}
+            <span className="text-foreground">
+              {t("myFilters.empty.upload", { fallback: "Upload" })}
+            </span>{" "}
+            {t("myFilters.empty.file", { fallback: "a filter file." })}
           </p>
         )}
         {myFilters
@@ -270,6 +293,7 @@ function FilterRow({
   onEditDrawing,
   onShareChange,
 }: FilterRowProps) {
+  const t = useT();
   // Track in-flight share operation so the menu doesn't fire twice
   // on rapid clicks.
   const busyRef = useRef(false);
@@ -288,7 +312,10 @@ function FilterRow({
     if (busyRef.current) return;
     if (!myFilter.id) {
       toast.error(
-        "Filter not yet synced to your account — try again in a moment",
+        t("myFilters.notSynced", {
+          fallback:
+            "Filter not yet synced to your account — try again in a moment",
+        }),
       );
       return;
     }
@@ -303,7 +330,9 @@ function FilterRow({
       });
     } catch (err) {
       const msg =
-        err instanceof FiltersApiError ? err.message : "Sharing failed";
+        err instanceof FiltersApiError
+          ? err.message
+          : t("myFilters.sharingFailed", { fallback: "Sharing failed" });
       toast.error(msg);
     } finally {
       busyRef.current = false;
@@ -314,7 +343,11 @@ function FilterRow({
     if (busyRef.current) return;
     const game = myFilter.game ?? getCurrentGameId();
     if (!game) {
-      toast.error("Could not determine which game this filter belongs to");
+      toast.error(
+        t("myFilters.unknownGame", {
+          fallback: "Could not determine which game this filter belongs to",
+        }),
+      );
       return;
     }
     busyRef.current = true;
@@ -342,9 +375,17 @@ function FilterRow({
         url: undefined,
         isShared: undefined,
       });
-      toast.success(`"${displayName}" saved to your account`);
+      toast.success(
+        t("myFilters.savedToAccount", {
+          fallback: '"{{name}}" saved to your account',
+          vars: { name: displayName },
+        }),
+      );
     } catch (err) {
-      const msg = err instanceof FiltersApiError ? err.message : "Save failed";
+      const msg =
+        err instanceof FiltersApiError
+          ? err.message
+          : t("myFilters.saveFailed", { fallback: "Save failed" });
       toast.error(msg);
     } finally {
       busyRef.current = false;
@@ -353,7 +394,11 @@ function FilterRow({
 
   async function copyShareCode() {
     if (!myFilter.id) {
-      toast.error("Filter not yet synced to your account");
+      toast.error(
+        t("myFilters.notSyncedShort", {
+          fallback: "Filter not yet synced to your account",
+        }),
+      );
       return;
     }
     let code = myFilter.shareCode;
@@ -372,17 +417,26 @@ function FilterRow({
         const msg =
           err instanceof FiltersApiError
             ? err.message
-            : "Could not generate share code";
+            : t("myFilters.generateCodeFailed", {
+                fallback: "Could not generate share code",
+              });
         toast.error(msg);
         return;
       }
     }
     if (!code) {
-      toast.error("No share code available");
+      toast.error(
+        t("myFilters.noShareCode", { fallback: "No share code available" }),
+      );
       return;
     }
     await navigator.clipboard.writeText(code);
-    toast(`Share code copied: ${code}`);
+    toast(
+      t("myFilters.shareCodeCopied", {
+        fallback: "Share code copied: {{code}}",
+        vars: { code },
+      }),
+    );
   }
 
   return (
@@ -418,7 +472,11 @@ function FilterRow({
                 }}
               >
                 <LogIn className="mr-2 h-4 w-4" />
-                <span>Sign in to share</span>
+                <span>
+                  {t("myFilters.signInToShare", {
+                    fallback: "Sign in to share",
+                  })}
+                </span>
               </DropdownMenuItem>
             )}
             {isSignedIn && !isSynced && (
@@ -427,8 +485,12 @@ function FilterRow({
                   <CloudUpload className="mr-2 h-4 w-4" />
                   <span>
                     {isLegacy
-                      ? "Save to my account (replace legacy share)"
-                      : "Save to my account"}
+                      ? t("myFilters.saveToAccountLegacy", {
+                          fallback: "Save to my account (replace legacy share)",
+                        })
+                      : t("myFilters.saveToAccount", {
+                          fallback: "Save to my account",
+                        })}
                   </span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -440,8 +502,12 @@ function FilterRow({
                   <Clipboard className="mr-2 h-4 w-4" />
                   <span>
                     {myFilter.shareCode
-                      ? "Copy share code"
-                      : "Create share code"}
+                      ? t("myFilters.copyShareCode", {
+                          fallback: "Copy share code",
+                        })
+                      : t("myFilters.createShareCode", {
+                          fallback: "Create share code",
+                        })}
                   </span>
                 </DropdownMenuItem>
                 {myFilter.shareCode && (
@@ -449,7 +515,11 @@ function FilterRow({
                     onClick={() => callShare({ revokeCode: true })}
                   >
                     <XCircle className="mr-2 h-4 w-4" />
-                    <span>Revoke share code</span>
+                    <span>
+                      {t("myFilters.revokeShareCode", {
+                        fallback: "Revoke share code",
+                      })}
+                    </span>
                   </DropdownMenuItem>
                 )}
                 {isPublic ? (
@@ -457,14 +527,20 @@ function FilterRow({
                     onClick={() => callShare({ visibility: "private" })}
                   >
                     <Lock className="mr-2 h-4 w-4" />
-                    <span>Make private</span>
+                    <span>
+                      {t("myFilters.makePrivate", { fallback: "Make private" })}
+                    </span>
                   </DropdownMenuItem>
                 ) : (
                   <DropdownMenuItem
                     onClick={() => callShare({ visibility: "public" })}
                   >
                     <Globe className="mr-2 h-4 w-4" />
-                    <span>Publish to community</span>
+                    <span>
+                      {t("myFilters.publishToCommunity", {
+                        fallback: "Publish to community",
+                      })}
+                    </span>
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
@@ -488,35 +564,37 @@ function FilterRow({
               }}
             >
               <Download className="mr-2 h-4 w-4" />
-              <span>Download</span>
+              <span>{t("common.download", { fallback: "Download" })}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onEditDrawing(myFilter)}
               disabled={isDrawingEditing}
             >
               <Pencil className="mr-2 h-4 w-4" />
-              <span>Edit drawing</span>
+              <span>
+                {t("myFilters.editDrawing", { fallback: "Edit drawing" })}
+              </span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onRename(myFilter)}
               disabled={isDrawingEditing}
             >
               <CaseSensitive className="mr-2 h-4 w-4" />
-              <span>Rename</span>
+              <span>{t("common.rename", { fallback: "Rename" })}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onDuplicate(myFilter)}
               disabled={isDrawingEditing}
             >
               <Copy className="mr-2 h-4 w-4" />
-              <span>Duplicate</span>
+              <span>{t("common.duplicate", { fallback: "Duplicate" })}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onDelete(myFilter)}
               disabled={isDrawingEditing}
             >
               <Trash className="mr-2 h-4 w-4" />
-              <span>Delete</span>
+              <span>{t("common.delete", { fallback: "Delete" })}</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

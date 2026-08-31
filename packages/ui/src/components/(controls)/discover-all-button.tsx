@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { getSpawnDiscoveryId, useSettingsStore } from "@repo/lib";
-import { useCoordinates } from "../(providers)";
+import { useCoordinates, useT } from "../(providers)";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import {
@@ -32,6 +32,7 @@ import {
  * Public feature (was Elite-Supporter/Preview-Release gated — now open to all).
  */
 export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
+  const t = useT();
   const { nodes } = useCoordinates();
   // Subscribe so label + badge update reactively (mirrors ClusterTooltip).
   const discoveredNodes = useSettingsStore((s) => s.discoveredNodes);
@@ -58,7 +59,9 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
 
   const noSpawns = spawnIds.length === 0;
   const allDiscovered = !noSpawns && discoveredCount === spawnIds.length;
-  const actionLabel = allDiscovered ? "Undiscover all" : "Discover all";
+  const actionLabel = allDiscovered
+    ? t("discovered.undiscoverAll", { fallback: "Undiscover all" })
+    : t("discovered.discoverAll", { fallback: "Discover all" });
 
   const applyBulk = () => setDiscoveredNodesBulk(spawnIds, !allDiscovered);
 
@@ -90,24 +93,46 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
 
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs">Discovered</Label>
+      <Label className="text-xs">
+        {t("discovered.label", { fallback: "Discovered" })}
+      </Label>
       {button}
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
             <AlertDialogTitle>
               {allDiscovered
-                ? `Undiscover all ${spawnIds.length} spots?`
-                : `Discover ${spawnIds.length - discoveredCount} remaining spots?`}
+                ? t("discovered.undiscoverConfirmTitle", {
+                    fallback: "Undiscover all {{count}} spots?",
+                    vars: { count: String(spawnIds.length) },
+                  })
+                : t("discovered.discoverConfirmTitle", {
+                    fallback: "Discover {{remaining}} remaining spots?",
+                    vars: {
+                      remaining: String(spawnIds.length - discoveredCount),
+                    },
+                  })}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {allDiscovered
-                ? "This clears every discovered spot of this selection — including ones you marked manually or that were auto-discovered."
-                : `${discoveredCount} of ${spawnIds.length} are already discovered and will be merged in — undiscovering later clears those too.`}
+                ? t("discovered.undiscoverConfirmText", {
+                    fallback:
+                      "This clears every discovered spot of this selection — including ones you marked manually or that were auto-discovered.",
+                  })
+                : t("discovered.discoverConfirmText", {
+                    fallback:
+                      "{{discovered}} of {{count}} are already discovered and will be merged in — undiscovering later clears those too.",
+                    vars: {
+                      discovered: String(discoveredCount),
+                      count: String(spawnIds.length),
+                    },
+                  })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("common.cancel", { fallback: "Cancel" })}
+            </AlertDialogCancel>
             <AlertDialogAction onClick={applyBulk}>
               {actionLabel}
             </AlertDialogAction>

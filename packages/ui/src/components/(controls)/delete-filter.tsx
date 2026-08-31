@@ -1,4 +1,4 @@
-import { useUserStore } from "../(providers)";
+import { useT, useUserStore } from "../(providers)";
 import { DrawingsAndNodes, useSettingsStore } from "@repo/lib";
 import {
   AlertDialog,
@@ -18,6 +18,7 @@ export function DeleteFilter({
   myFilter: DrawingsAndNodes | null;
   onClose: () => void;
 }) {
+  const t = useT();
   const removeMyFilter = useSettingsStore((state) => state.removeMyFilter);
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
@@ -44,16 +45,25 @@ export function DeleteFilter({
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Delete {myFilter?.name.replace(/my_\d+_/, "")}
+            {t("myFilters.deleteDialogTitle", {
+              fallback: "Delete {{name}}",
+              vars: { name: myFilter?.name.replace(/my_\d+_/, "") ?? "" },
+            })}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            filter.
+            {t("myFilters.deleteConfirmText", {
+              fallback:
+                "This action cannot be undone. This will permanently delete your filter.",
+            })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          <AlertDialogCancel>
+            {t("common.cancel", { fallback: "Cancel" })}
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete}>
+            {t("common.continue", { fallback: "Continue" })}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,4 +1,4 @@
-import { useUserStore } from "../(providers)";
+import { useT, useUserStore } from "../(providers)";
 import { Button, Label } from "../(controls)";
 import {
   Dialog,
@@ -18,6 +18,7 @@ export function RenameFilter({
   myFilter: DrawingsAndNodes | null;
   onClose: () => void;
 }) {
+  const t = useT();
   const [name, setName] = useState("");
   const setMyFilter = useSettingsStore((state) => state.setMyFilter);
   const filters = useUserStore((state) => state.filters);
@@ -51,27 +52,36 @@ export function RenameFilter({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            Rename {myFilter?.name.replace(/my_\d+_/, "")}
+            {t("myFilters.renameDialogTitle", {
+              fallback: "Rename {{name}}",
+              vars: { name: myFilter?.name.replace(/my_\d+_/, "") ?? "" },
+            })}
           </DialogTitle>
           <DialogDescription className="sr-only">
-            Rename this filter.
+            {t("myFilters.renameDescription", {
+              fallback: "Rename this filter.",
+            })}
           </DialogDescription>
         </DialogHeader>
         <section className="space-y-4 overflow-hidden">
           <form className="space-y-2" onSubmit={handleSubmit}>
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">
+                {t("common.name", { fallback: "Name" })}
+              </Label>
               <Input
                 id="name"
                 type="text"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 required
-                placeholder="Enter new name"
+                placeholder={t("myFilters.renamePlaceholder", {
+                  fallback: "Enter new name",
+                })}
               />
             </div>
             <Button type="submit" disabled={!name} className="w-full">
-              Rename Filter
+              {t("myFilters.renameFilter", { fallback: "Rename Filter" })}
             </Button>
           </form>
         </section>
