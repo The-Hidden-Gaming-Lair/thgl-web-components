@@ -11,6 +11,8 @@ import {
   TilesConfig,
   translate,
   isPreviewReleaseApp,
+  isDebug,
+  isLocalDev,
   useAccountStore,
   useOverlayMapHidden,
   useSettingsStore,
@@ -116,8 +118,14 @@ export function App({
   // Elite Supporter preview gate for preview-only games without Preview Release
   // Access: the full app shell + header stay (window mode, live mode, settings,
   // window controls) — only the map CONTENT below is replaced by the upsell.
+  // Dev/debug bypass (same as PreviewReleaseGuard): the THGLApp Debug build loads the dev server
+  // (app-dev.localhost) so isLocalDev is a reliable RUNTIME signal even when the prebuilt dist
+  // inlined NODE_ENV=production; isDebug() (localStorage DEBUG) is the manual escape hatch.
   const isPreviewLocked =
-    isPreviewReleaseApp(appConfig.name) && !hasPreviewAccess;
+    isPreviewReleaseApp(appConfig.name) &&
+    !hasPreviewAccess &&
+    !isLocalDev &&
+    !isDebug();
 
   return (
     <div
