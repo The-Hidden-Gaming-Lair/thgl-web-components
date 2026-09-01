@@ -1,6 +1,6 @@
 "use client";
 import type { ReactNode } from "react";
-import { isPreviewReleaseApp, useAccountStore } from "@repo/lib";
+import { isDebug, isPreviewReleaseApp, useAccountStore } from "@repo/lib";
 import { LockClosedIcon } from "@radix-ui/react-icons";
 import { Button } from "../(controls)";
 
@@ -52,11 +52,15 @@ export function PreviewReleaseGuard({
   const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
 
   if (!isPreviewReleaseApp(appName)) return <>{children}</>;
-  // Dev bypass: on the local dev server (NODE_ENV === "development", a build-time
-  // constant so production is unaffected) skip the Elite gate so we can validate
-  // pre-release maps without signing in — same convention as the other dev-only
-  // toggles (e.g. ads). Hooks above stay called unconditionally per build.
-  if (process.env.NODE_ENV === "development") return <>{children}</>;
+  // Dev/debug bypass: skip the Elite gate so we can work on a pre-release game without
+  // signing in —
+  //  • local dev server (NODE_ENV === "development", a build-time constant, so production
+  //    web is unaffected), and
+  //  • DEBUG mode (localStorage DEBUG === "true") — covers the THGLApp Debug build, which
+  //    serves the PRODUCTION frontend (NODE_ENV production) inside its WebView2.
+  // Hooks above stay called unconditionally per build.
+  if (process.env.NODE_ENV === "development" || isDebug())
+    return <>{children}</>;
   if (!hasHydrated) return null;
   if (!previewAccess) return <PreviewReleasePage title={title} />;
   return <>{children}</>;
