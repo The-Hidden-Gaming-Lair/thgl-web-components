@@ -126,6 +126,10 @@ export default function ActiveWorldsClient({
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<Set<string>>(new Set());
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Frozen row order so a background refresh doesn't reshuffle the table (which
+  // would yank the row you just requested/expanded). Rebuilt only when the
+  // filter changes; new worlds append at the bottom, gone ones drop out.
+  const orderRef = useRef<{ key: string; ids: string[] }>({ key: "", ids: [] });
 
   const toggleExpand = (serverId: string) =>
     setExpandedId((prev) => (prev === serverId ? null : serverId));
@@ -284,6 +288,23 @@ export default function ActiveWorldsClient({
       .sort((a, b) => freshest(b) - freshest(a));
   })();
 
+  // Stabilise the order: keep the positions established on first render (or when
+  // the filter changed) so refreshes don't move rows the user is interacting
+  // with. New worlds are appended; worlds that dropped out are removed.
+  const filterKey = [...eventFilter].sort().join(",");
+  const stableWorlds = (() => {
+    const byId = new Map(filteredWorlds.map((w) => [w.id, w]));
+    const prev = orderRef.current.key === filterKey ? orderRef.current.ids : [];
+    const kept = prev.filter((id) => byId.has(id));
+    const keptSet = new Set(kept);
+    const fresh = filteredWorlds
+      .map((w) => w.id)
+      .filter((id) => !keptSet.has(id));
+    const ids = [...kept, ...fresh];
+    orderRef.current = { key: filterKey, ids };
+    return ids.map((id) => byId.get(id)!);
+  })();
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
@@ -362,6 +383,7 @@ export default function ActiveWorldsClient({
           now={now}
           copiedId={copiedId}
           onCancel={cancelRequest}
+          onRetry={requestCode}
           onCopy={copy}
           strings={strings.pending}
         />
@@ -390,7 +412,7 @@ export default function ActiveWorldsClient({
               </tr>
             </thead>
             <tbody>
-              {filteredWorlds.length === 0 && (
+              {stableWorlds.length === 0 && (
                 <tr>
                   <td
                     colSpan={5}
@@ -400,7 +422,7 @@ export default function ActiveWorldsClient({
                   </td>
                 </tr>
               )}
-              {filteredWorlds.map((world) => {
+              {stableWorlds.map((world) => {
                 const expanded = expandedId === world.id;
                 return (
                   <Fragment key={world.id}>

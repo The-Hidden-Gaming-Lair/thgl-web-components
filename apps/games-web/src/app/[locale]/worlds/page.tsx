@@ -112,8 +112,8 @@ export default async function ActiveWorlds({ params }: PageProps) {
         "A player in this world gets a prompt to share its join code. More players in-world = faster.",
       pendingReporters: "in world",
       pendingArrived: "Code ready — copied to your clipboard.",
-      pendingExpired:
-        "No code shared in time. Try again or pick another world.",
+      pendingExpired: "No code shared in time.",
+      retry: "Try again",
       cancel: "Cancel request",
       copied: "Copied!",
       copyCode: "Copy code",

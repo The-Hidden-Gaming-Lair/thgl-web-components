@@ -6,6 +6,7 @@ import {
   CopyIcon,
   Loader2Icon,
   ClockIcon,
+  RotateCwIcon,
 } from "lucide-react";
 import type { PublicWorld } from "./active-worlds-client";
 import { worldName } from "./world-name";
@@ -17,6 +18,7 @@ export type PendingRequestStrings = {
   pendingReporters: string;
   pendingArrived: string;
   pendingExpired: string;
+  retry: string;
   cancel: string;
   copied: string;
   copyCode: string;
@@ -32,6 +34,7 @@ export default function PendingCodeRequests({
   now,
   copiedId,
   onCancel,
+  onRetry,
   onCopy,
   strings,
 }: {
@@ -41,6 +44,7 @@ export default function PendingCodeRequests({
   now: number;
   copiedId: string | null;
   onCancel: (serverId: string) => void;
+  onRetry: (serverId: string) => void;
   onCopy: (code: string) => void;
   strings: PendingRequestStrings;
 }) {
@@ -145,9 +149,19 @@ export default function PendingCodeRequests({
               )}
 
               {expired && (
-                <p className="mt-1 flex items-center gap-1 text-[11px] text-amber-400">
-                  <ClockIcon className="h-3 w-3" /> {strings.pendingExpired}
-                </p>
+                <div className="mt-1 flex flex-wrap items-center gap-2">
+                  <p className="flex items-center gap-1 text-[11px] text-amber-400">
+                    <ClockIcon className="h-3 w-3" /> {strings.pendingExpired}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => onRetry(w.id)}
+                    className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-0.5 text-[11px] text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+                  >
+                    <RotateCwIcon className="h-3 w-3" />
+                    {strings.retry}
+                  </button>
+                </div>
               )}
             </li>
           );
