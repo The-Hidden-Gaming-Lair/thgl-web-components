@@ -902,6 +902,12 @@ export type FiltersConfig = {
     // siblings). Used by FilterSettingsPopover to offer a "Enable all
     // variants" toggle. Omitted for filters with no siblings.
     baseType?: string;
+    // Codex/database section this marker type has an entry in. When set, the
+    // marker panel/tooltip shows a "View in Codex" link to
+    // `/db/<dbSection>/<spawn.id ?? spawn.type>` (the DB entry is keyed by the
+    // spawn id for per-instance entries — e.g. landmarks — or by the type id for
+    // per-type entries — e.g. a bestiary species). Generic across all games.
+    dbSection?: string;
   }[];
 }[];
 

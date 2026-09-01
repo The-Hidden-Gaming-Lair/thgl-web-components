@@ -829,6 +829,18 @@ function MarkersContent({
     return mapTypeToGroup;
   }, [filters]);
 
+  // type -> codex section (config `dbSection` on the filter value). Drives the marker tooltip's
+  // "View in Codex" link. Empty for games without a database.
+  const typeToDbSection = useMemo(() => {
+    const m = new Map<string, string>();
+    filters.forEach((g) => {
+      g.values.forEach((v) => {
+        if (v.dbSection) m.set(v.id, v.dbSection);
+      });
+    });
+    return m;
+  }, [filters]);
+
   // typeToCategory: top-level "Fishing" / "Bugs" / "Mining" etc. The category
   // slider in the FilterSettingsPopover writes iconSizeByGroup[<category>],
   // which is a different key than the per-group slider (e.g. fishing_legendary).
@@ -1629,6 +1641,9 @@ function MarkersContent({
           isLive: Boolean(s.address) && !positionedTypesRef.current.has(s.type),
           data: s.data,
           p: s.p,
+          dbSection: typeToDbSection.get(s.type),
+          // Codex entry key: the raw spawn id (per-instance entries) or the type (per-type entries).
+          dbEntryId: s.id ?? s.type,
         },
       ];
 
@@ -1655,6 +1670,8 @@ function MarkersContent({
                 !positionedTypesRef.current.has(stackedSpawn.type),
               data: stackedSpawn.data,
               p: stackedSpawn.p,
+              dbSection: typeToDbSection.get(stackedSpawn.type),
+              dbEntryId: stackedSpawn.id ?? stackedSpawn.type,
             };
           }),
         );

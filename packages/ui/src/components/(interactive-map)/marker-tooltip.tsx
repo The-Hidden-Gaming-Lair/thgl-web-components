@@ -2,6 +2,7 @@ import { API_FORGE_URL, useGameState, useSettingsStore, cn } from "@repo/lib";
 import { useMemo } from "react";
 import { useT } from "../(providers)";
 import { DescriptionMarkdown } from "./description-markdown";
+import { DbEntryLink } from "./db-entry-link";
 import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Comment } from "../(data)";
 import {
@@ -33,6 +34,10 @@ export type TooltipItem = {
   data?: Record<string, string[]>;
   /** Original spawn position — used for unique discovery IDs in clusters */
   p?: [number, number] | [number, number, number];
+  /** Codex section this marker has an entry in (filter value `dbSection`). */
+  dbSection?: string;
+  /** Codex entry key — the raw spawn id (per-instance) or the type (per-type). */
+  dbEntryId?: string;
 };
 
 export type TooltipItems = TooltipItem[];
@@ -421,6 +426,11 @@ function SingleItemTooltip({
 
       {/* Description */}
       {desc && desc !== item.type && <Description desc={desc} />}
+
+      {/* Codex cross-link */}
+      {item.dbSection && item.dbEntryId && (
+        <DbEntryLink section={item.dbSection} entryId={item.dbEntryId} />
+      )}
 
       {/* Private node actions */}
       {item.isPrivate && (
