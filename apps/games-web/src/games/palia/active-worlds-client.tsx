@@ -13,6 +13,7 @@ import PendingCodeRequests, {
   type PendingRequestStrings,
 } from "./pending-code-requests";
 import { worldName } from "./world-name";
+import { Skeleton } from "@repo/ui/data";
 
 const WORLDS_API = "https://palia-api.th.gl/worlds";
 const REQUEST_CODE_API = "https://palia-api.th.gl/worlds/request-code";
@@ -295,6 +296,22 @@ export default function ActiveWorldsClient({
           {data ? ` • ${formatRelative(data.updatedAt, now)}` : null}
         </span>
       </div>
+
+      {/* Loading placeholder — reserve the content height so the table + map
+          don't shove the page down (and the CTA up) when data arrives. */}
+      {!data && !error && (
+        <div className="space-y-3" aria-hidden>
+          <Skeleton className="h-7 w-64 rounded-full" />
+          <div className="overflow-hidden rounded-lg border border-border/50 bg-card/50 p-3">
+            <Skeleton className="mb-3 h-72 w-full rounded-lg" />
+            <div className="space-y-2">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="h-9 w-full rounded" />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* "Looking for" — filter the list to worlds with the chosen live events */}
       {data && data.worlds.length > 0 && (

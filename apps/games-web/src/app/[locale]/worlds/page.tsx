@@ -104,7 +104,7 @@ export default async function ActiveWorlds({ params }: PageProps) {
     noneMatch: "No active worlds with the selected events right now.",
     noMapTitle: "No event locations on the map yet",
     noMapBody:
-      "Worlds above show which events are live (Flow Trees, Palium), but exact map locations only appear once an app-user is standing near them in that world. Run the companion app while you play to put your world's events on the map.",
+      "No exact locations reported for this world yet. Its events are live, but a player running the companion app has to pass near them to pin them on the map — play with the app open to help fill it in.",
     pending: {
       pendingTitle: "Your code requests",
       pendingWaiting: "Waiting for a player to share the code…",
