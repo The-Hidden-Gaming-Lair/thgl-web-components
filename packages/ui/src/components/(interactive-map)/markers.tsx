@@ -2531,6 +2531,12 @@ function MarkersContent({
     iconsPath,
     typeToGroup,
     typeToCategory,
+    // Recreate live markers when the icons.webp sprite sheet finishes loading — a live actor
+    // created before the source image was ready got the RAW atlas sheet (resolveProcessedSpriteIcon
+    // returned null → whole-sheet render). The teardown clears live markers, so the re-run rebuilds
+    // them via the new-marker path with the now-loaded source (per-icon canvas). Fixes e.g. the
+    // Animal marker showing as the full sprite sheet in the overlay's live mode.
+    iconLoadVersion,
   ]);
 
   // Update high contrast uniforms without rebuilding markers
