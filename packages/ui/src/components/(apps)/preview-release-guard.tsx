@@ -1,14 +1,58 @@
 "use client";
 import type { ReactNode } from "react";
-import { isDebug, isPreviewReleaseApp, useAccountStore } from "@repo/lib";
+import {
+  isDebug,
+  isLocalDev,
+  isPreviewReleaseApp,
+  useAccountStore,
+} from "@repo/lib";
 import { LockClosedIcon } from "@radix-ui/react-icons";
 import { Button } from "../(controls)";
+
+/**
+ * Perk-only preview gate, independent of PREVIEW_RELEASE_APPS — for gating an
+ * individual page/component of a LIVE game (e.g. a work-in-progress feature)
+ * behind Elite Supporter access.
+ *
+ * - "allow": show it (Elite, the local dev server, or the THGLApp Debug build).
+ * - "pending": account not hydrated yet — render nothing to keep it out of SSR.
+ * - "deny": signed-in non-Elite (or signed-out) — hide / show an upsell.
+ */
+export type PreviewGate = "allow" | "deny" | "pending";
+export function usePreviewReleaseGate(): PreviewGate {
+  const hasHydrated = useAccountStore((s) => s._hasHydrated);
+  const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
+  // Same dev/debug bypass as PreviewReleaseGuard: local dev server + THGLApp
+  // Debug build (which serves the production frontend in its WebView2).
+  if (isLocalDev || isDebug()) return "allow";
+  if (!hasHydrated) return "pending";
+  return previewAccess ? "allow" : "deny";
+}
+
+/**
+ * Render children only for Elite Supporters (preview access). `fallback` shows
+ * for signed-in non-Elite users; nothing renders until the account hydrates
+ * (keeps preview-only content out of the server HTML). Use for WIP features of
+ * a live game — a nav link, home card, sidebar panel, etc.
+ */
+export function PreviewReleaseOnly({
+  children,
+  fallback = null,
+}: {
+  children: ReactNode;
+  fallback?: ReactNode;
+}) {
+  const gate = usePreviewReleaseGate();
+  if (gate === "pending") return null;
+  if (gate === "deny") return <>{fallback}</>;
+  return <>{children}</>;
+}
 
 /**
  * Full-page "sign in / become an Elite Supporter" gate for a pre-release game's
  * web pages (map, db). Shown INSTEAD of the content to non-Elite users.
  */
-function PreviewReleasePage({ title }: { title: string }) {
+export function PreviewReleasePage({ title }: { title: string }) {
   const setShowUserDialog = useAccountStore((s) => s.setShowUserDialog);
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center gap-4 p-8 text-center">
@@ -52,15 +96,14 @@ export function PreviewReleaseGuard({
   const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
 
   if (!isPreviewReleaseApp(appName)) return <>{children}</>;
-  // Dev/debug bypass: skip the Elite gate so we can work on a pre-release game without
-  // signing in —
-  //  • local dev server (NODE_ENV === "development", a build-time constant, so production
-  //    web is unaffected), and
-  //  • DEBUG mode (localStorage DEBUG === "true") — covers the THGLApp Debug build, which
-  //    serves the PRODUCTION frontend (NODE_ENV production) inside its WebView2.
-  // Hooks above stay called unconditionally per build.
-  if (process.env.NODE_ENV === "development" || isDebug())
-    return <>{children}</>;
+  // Dev/debug bypass: skip the Elite gate so we can work on a pre-release game without signing in.
+  //  • isLocalDev — RUNTIME host check (*-dev.localhost / *.localhost). Covers the games-web dev
+  //    server AND the THGLApp DEBUG build (it navigates to app-dev.localhost:3100; release loads
+  //    app.th.gl). Preferred over process.env.NODE_ENV, which the prebuilt package dist inlines as
+  //    "production" so it read false inside the WebView2 — the reason the gate still showed.
+  //  • isDebug() — manual localStorage DEBUG === "true" escape hatch.
+  // Production web (th.gl) is unaffected. Hooks above stay called unconditionally per build.
+  if (isLocalDev || isDebug()) return <>{children}</>;
   if (!hasHydrated) return null;
   if (!previewAccess) return <PreviewReleasePage title={title} />;
   return <>{children}</>;

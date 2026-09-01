@@ -6,6 +6,16 @@ export function isDebug() {
   return DEBUG;
 }
 
+// True on a local dev/debug HOST — the games-web dev server (*-dev.localhost:3100) and the
+// THGLApp DEBUG build (which navigates to app-dev.localhost:3100; release loads app.th.gl). This
+// is a RUNTIME check (window.location), so — unlike `process.env.NODE_ENV`, which a prebuilt
+// package dist can inline as "production" — it's correct inside the THGLApp's WebView2 too.
+export const isLocalDev =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname.endsWith(".localhost") ||
+    window.location.hostname.includes("-dev."));
+
 export const isOverwolf =
   typeof window !== "undefined" &&
   // @ts-expect-error
