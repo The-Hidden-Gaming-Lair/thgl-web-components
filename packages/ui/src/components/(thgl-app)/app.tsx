@@ -10,7 +10,7 @@ import {
   THGLAppConfig,
   TilesConfig,
   translate,
-  isPreviewReleaseApp,
+  isCompanionPreviewApp,
   isDebug,
   isLocalDev,
   useAccountStore,
@@ -58,8 +58,9 @@ import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
 import { useMemo } from "react";
 
-// Pre-release ("preview") games are Elite-only across the in-game app AND the web
-// map/db pages — the shared list + helper live in @repo/lib (isPreviewReleaseApp).
+// Pre-release ("preview") gating lives in @repo/lib: PREVIEW_RELEASE_APPS gates web + companion;
+// PREVIEW_RELEASE_COMPANION_APPS gates ONLY the in-game companion (website open). This paywall uses
+// isCompanionPreviewApp (either set); the web map/db guard uses isPreviewReleaseApp (full only).
 
 export function App({
   appConfig,
@@ -122,7 +123,7 @@ export function App({
   // (app-dev.localhost) so isLocalDev is a reliable RUNTIME signal even when the prebuilt dist
   // inlined NODE_ENV=production; isDebug() (localStorage DEBUG) is the manual escape hatch.
   const isPreviewLocked =
-    isPreviewReleaseApp(appConfig.name) &&
+    isCompanionPreviewApp(appConfig.name) &&
     !hasPreviewAccess &&
     !isLocalDev &&
     !isDebug();
