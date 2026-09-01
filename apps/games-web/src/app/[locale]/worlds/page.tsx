@@ -97,6 +97,9 @@ export default async function ActiveWorlds({ params }: PageProps) {
       "Ask a player in this world to share its join code so you can hop in.",
     codeRequested: "Requesting…",
     eventMap: "Event map",
+    lookingFor: "Looking for:",
+    clearFilter: "Clear",
+    noneMatch: "No active worlds with the selected events right now.",
     noMapTitle: "No event locations on the map yet",
     noMapBody:
       "Worlds above show which events are live (Flow Trees, Palium), but exact map locations only appear once an app-user is standing near them in that world. Run the companion app while you play to put your world's events on the map.",

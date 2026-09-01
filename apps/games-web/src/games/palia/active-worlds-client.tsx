@@ -49,6 +49,9 @@ export type ActiveWorldsStrings = {
   requestCodeHint: string;
   codeRequested: string;
   eventMap: string;
+  lookingFor: string;
+  clearFilter: string;
+  noneMatch: string;
   noMapTitle: string;
   noMapBody: string;
   pending: PendingRequestStrings;
@@ -76,6 +79,12 @@ const ACTIVITY_LABEL_KEYS: Record<string, ActivityLabelKey> = {
   palium: "activityPalium",
   lootPiles: "activityLootPiles",
 };
+
+// The event types a visitor can filter/sort worlds by (matches the map legend).
+const EVENT_FILTERS: { bucket: string; dot: string }[] = [
+  { bucket: "flowTrees", dot: "#34d399" },
+  { bucket: "palium", dot: "#38bdf8" },
+];
 
 function formatAge(startedAt: number | null, now: number, unknown: string) {
   if (!startedAt) {
@@ -107,7 +116,19 @@ export default function ActiveWorldsClient({
   const [error, setError] = useState(false);
   const [now, setNow] = useState(() => Date.now());
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [eventFilter, setEventFilter] = useState<Set<string>>(new Set());
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const toggleFilter = (bucket: string) =>
+    setEventFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(bucket)) {
+        next.delete(bucket);
+      } else {
+        next.add(bucket);
+      }
+      return next;
+    });
 
   const refresh = useCallback(() => {
     fetch(WORLDS_API)
@@ -175,6 +196,38 @@ export default function ActiveWorldsClient({
       .catch(() => null);
   };
 
+  // Shared join-code control (copy / requesting / request) — used in the table
+  // rows AND the event-map panel so a code can be requested from either place.
+  const codeControl = (world: PublicWorld) =>
+    world.joinCode ? (
+      <button
+        type="button"
+        onClick={() => copy(world.joinCode!)}
+        className="rounded bg-secondary px-2 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:bg-secondary/80"
+        title={strings.copied}
+      >
+        {copiedId === world.joinCode ? strings.copied : world.joinCode}
+      </button>
+    ) : world.codeRequested || requestedIds.has(world.id) ? (
+      <span className="inline-flex items-center gap-1 text-xs text-amber-400">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" />
+        </span>
+        {strings.codeRequested}
+      </span>
+    ) : (
+      <button
+        type="button"
+        onClick={() => requestCode(world.id)}
+        className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+        title={strings.requestCodeHint}
+      >
+        <SendIcon className="h-3 w-3" />
+        {strings.requestCode}
+      </button>
+    );
+
   // When a requested world's code lands on a later poll, copy it once.
   const autoCopiedRef = useRef<Set<string>>(new Set());
   useEffect(() => {
@@ -202,6 +255,20 @@ export default function ActiveWorldsClient({
       : null) ??
     worldsWithSpots[0]?.id ??
     null;
+  const previewWorld = data?.worlds.find((w) => w.id === previewId) ?? null;
+
+  // Apply the "looking for" event filter: keep only worlds with a selected
+  // activity, freshest first. No filter = all worlds, newest-seen first.
+  const filteredWorlds = (() => {
+    const all = data?.worlds ?? [];
+    if (eventFilter.size === 0) return all;
+    const buckets = [...eventFilter];
+    const freshest = (w: PublicWorld) =>
+      Math.max(0, ...buckets.map((bk) => w.activity[bk] ?? 0));
+    return all
+      .filter((w) => freshest(w) > 0)
+      .sort((a, b) => freshest(b) - freshest(a));
+  })();
 
   return (
     <div className="space-y-4">
@@ -215,6 +282,46 @@ export default function ActiveWorldsClient({
           {data ? ` • ${formatRelative(data.updatedAt, now)}` : null}
         </span>
       </div>
+
+      {/* "Looking for" — filter the list to worlds with the chosen live events */}
+      {data && data.worlds.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs text-muted-foreground">
+            {strings.lookingFor}
+          </span>
+          {EVENT_FILTERS.map(({ bucket, dot }) => {
+            const on = eventFilter.has(bucket);
+            return (
+              <button
+                key={bucket}
+                type="button"
+                onClick={() => toggleFilter(bucket)}
+                aria-pressed={on}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-colors ${
+                  on
+                    ? "border-primary/50 bg-primary/10 text-foreground"
+                    : "border-border/60 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <span
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: dot }}
+                />
+                {strings[ACTIVITY_LABEL_KEYS[bucket]]}
+              </button>
+            );
+          })}
+          {eventFilter.size > 0 && (
+            <button
+              type="button"
+              onClick={() => setEventFilter(new Set())}
+              className="text-[11px] text-muted-foreground underline hover:text-foreground"
+            >
+              {strings.clearFilter}
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Live tracker for the join-code requests this visitor has made */}
       {data && requestedIds.size > 0 && (
@@ -265,7 +372,12 @@ export default function ActiveWorldsClient({
                 </span>
               </span>
             )}
-            <span className="ml-auto text-[11px] text-muted-foreground">
+            {previewWorld && (
+              <span className="ml-auto">{codeControl(previewWorld)}</span>
+            )}
+            <span
+              className={`text-[11px] text-muted-foreground ${previewWorld ? "" : "ml-auto"}`}
+            >
               {worldsWithSpots.length} of {data?.worlds.length ?? 0} worlds
               mapped
             </span>
@@ -309,7 +421,17 @@ export default function ActiveWorldsClient({
               </tr>
             </thead>
             <tbody>
-              {data.worlds.map((world) => (
+              {filteredWorlds.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="px-3 py-4 text-center text-sm text-muted-foreground"
+                  >
+                    {strings.noneMatch}
+                  </td>
+                </tr>
+              )}
+              {filteredWorlds.map((world) => (
                 <tr
                   key={world.id}
                   className="border-b border-border/30 last:border-0"
@@ -334,36 +456,7 @@ export default function ActiveWorldsClient({
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      {world.joinCode ? (
-                        <button
-                          type="button"
-                          onClick={() => copy(world.joinCode!)}
-                          className="rounded bg-secondary px-2 py-1 font-mono text-secondary-foreground transition-colors hover:bg-secondary/80"
-                          title={strings.copied}
-                        >
-                          {copiedId === world.joinCode
-                            ? strings.copied
-                            : world.joinCode}
-                        </button>
-                      ) : world.codeRequested || requestedIds.has(world.id) ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-amber-400">
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
-                            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" />
-                          </span>
-                          {strings.codeRequested}
-                        </span>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => requestCode(world.id)}
-                          className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-                          title={strings.requestCodeHint}
-                        >
-                          <SendIcon className="h-3 w-3" />
-                          {strings.requestCode}
-                        </button>
-                      )}
+                      {codeControl(world)}
                     </div>
                   </td>
                   <td className="px-3 py-2 tabular-nums">
