@@ -202,6 +202,19 @@ export default async function ActiveWorlds({ params }: PageProps) {
             <>
               <h2 className="text-2xl">{t("activeWorlds.heading")}</h2>
               <p className="text-sm">{t("activeWorlds.description")}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                🚧 This feature is a work in progress — we&apos;d love your
+                feedback on{" "}
+                <a
+                  href="https://th.gl/discord"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary underline hover:no-underline"
+                >
+                  Discord
+                </a>
+                .
+              </p>
             </>
           }
           content={

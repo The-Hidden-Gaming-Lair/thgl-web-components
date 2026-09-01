@@ -1,6 +1,11 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { MapPinnedIcon, SendIcon, DownloadIcon } from "lucide-react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import {
+  MapPinnedIcon,
+  SendIcon,
+  DownloadIcon,
+  ChevronRightIcon,
+} from "lucide-react";
 import WorldMapPreview, {
   type WorldMapPreviewIcons,
 } from "./world-map-preview";
@@ -113,19 +118,16 @@ export default function ActiveWorldsClient({
   strings: ActiveWorldsStrings;
   mapIcons: WorldMapPreviewIcons;
 }) {
-  const [mapWorld, setMapWorld] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [data, setData] = useState<WorldsResponse | null>(null);
   const [error, setError] = useState(false);
   const [now, setNow] = useState(() => Date.now());
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<Set<string>>(new Set());
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const mapPanelRef = useRef<HTMLDivElement>(null);
 
-  const showOnMap = (serverId: string) => {
-    setMapWorld(serverId);
-    mapPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const toggleExpand = (serverId: string) =>
+    setExpandedId((prev) => (prev === serverId ? null : serverId));
 
   const toggleFilter = (bucket: string) =>
     setEventFilter((prev) => {
@@ -236,6 +238,16 @@ export default function ActiveWorldsClient({
       </button>
     );
 
+  // Expand the freshest mapped world once on first load, so a map is visible by
+  // default (falls back to the newest world). After that the user is in control.
+  const didInitExpand = useRef(false);
+  useEffect(() => {
+    if (didInitExpand.current || !data || data.worlds.length === 0) return;
+    didInitExpand.current = true;
+    const first = data.worlds.find((w) => w.hasSpots) ?? data.worlds[0];
+    setExpandedId(first.id);
+  }, [data]);
+
   // When a requested world's code lands on a later poll, copy it once.
   const autoCopiedRef = useRef<Set<string>>(new Set());
   useEffect(() => {
@@ -250,20 +262,6 @@ export default function ActiveWorldsClient({
     // `copy` is stable enough (only touches a ref + setState); omit from deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, requestedIds]);
-
-  // Worlds that have reported event locations — these are the ones the map
-  // preview can show. The user picks between them with the selector below.
-  const worldsWithSpots = data?.worlds.filter((w) => w.hasSpots) ?? [];
-
-  // The world shown in the inline map preview: an explicit click wins (if it
-  // still has spots), else the first world with reported event locations.
-  const previewId =
-    (mapWorld && worldsWithSpots.some((w) => w.id === mapWorld)
-      ? mapWorld
-      : null) ??
-    worldsWithSpots[0]?.id ??
-    null;
-  const previewWorld = data?.worlds.find((w) => w.id === previewId) ?? null;
 
   // Apply the "looking for" event filter: keep only worlds with a selected
   // activity, freshest first. No filter = all worlds, newest-seen first.
@@ -345,70 +343,6 @@ export default function ActiveWorldsClient({
         />
       )}
 
-      {/* Inline map preview — pick which active world's events to plot */}
-      {previewId && (
-        <div
-          ref={mapPanelRef}
-          className="scroll-mt-4 rounded-xl border border-border/60 bg-card/40 p-3"
-        >
-          <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
-            <MapPinnedIcon className="h-4 w-4 shrink-0 text-emerald-400" />
-            <span className="text-muted-foreground">{strings.eventMap}</span>
-            {worldsWithSpots.length > 1 ? (
-              <select
-                value={previewId}
-                onChange={(e) => setMapWorld(e.target.value)}
-                className="rounded border border-border/60 bg-secondary px-2 py-1 text-xs text-foreground outline-none focus:border-primary/50"
-                aria-label={strings.worldId}
-              >
-                {worldsWithSpots.map((w) => {
-                  const n = worldName(w.id);
-                  return (
-                    <option key={w.id} value={w.id}>
-                      {n.zone}
-                      {w.region ? ` · ${w.region}` : ""}
-                      {n.id ? ` · ${n.id}` : ""}
-                    </option>
-                  );
-                })}
-              </select>
-            ) : (
-              <span className="text-xs text-foreground">
-                <span className="font-medium">{worldName(previewId).zone}</span>
-                {data?.worlds.find((w) => w.id === previewId)?.region
-                  ? ` · ${data.worlds.find((w) => w.id === previewId)!.region}`
-                  : ""}
-                <span className="ml-1 font-mono text-muted-foreground">
-                  {worldName(previewId).id}
-                </span>
-              </span>
-            )}
-            {previewWorld && (
-              <span className="ml-auto">{codeControl(previewWorld)}</span>
-            )}
-            <span
-              className={`text-[11px] text-muted-foreground ${previewWorld ? "" : "ml-auto"}`}
-            >
-              {worldsWithSpots.length} of {data?.worlds.length ?? 0} worlds
-              mapped
-            </span>
-          </div>
-          <WorldMapPreview serverId={previewId} icons={mapIcons} />
-        </div>
-      )}
-      {/* No world has plottable coordinates yet — explain instead of hiding the
-          map entirely, so activity-without-location doesn't read as broken. */}
-      {!previewId && data && data.worlds.length > 0 && (
-        <div className="rounded-xl border border-border/60 bg-card/40 p-4 text-sm">
-          <div className="mb-1 flex items-center gap-2">
-            <MapPinnedIcon className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <span className="font-medium text-foreground">
-              {strings.noMapTitle}
-            </span>
-          </div>
-          <p className="text-muted-foreground">{strings.noMapBody}</p>
-        </div>
-      )}
       {error && (
         <p className="rounded-md bg-amber-500/10 px-3 py-2 text-sm text-amber-400">
           {strings.fetchError}
@@ -442,77 +376,105 @@ export default function ActiveWorldsClient({
                   </td>
                 </tr>
               )}
-              {filteredWorlds.map((world) => (
-                <tr
-                  key={world.id}
-                  className="border-b border-border/30 last:border-0"
-                >
-                  <td className="px-3 py-2">
-                    <div className="mb-1 flex flex-wrap items-center gap-1.5">
-                      <span className="font-medium text-foreground">
-                        {worldName(world.id).zone}
-                      </span>
-                      {world.region && (
-                        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] uppercase text-muted-foreground">
-                          {world.region}
-                        </span>
-                      )}
-                      {worldName(world.id).id && (
-                        <span
-                          className="font-mono text-[11px] text-muted-foreground"
-                          title={world.id}
-                        >
-                          {worldName(world.id).id}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {codeControl(world)}
-                      {world.hasSpots && (
-                        <button
-                          type="button"
-                          onClick={() => showOnMap(world.id)}
-                          className={`inline-flex items-center gap-1 rounded border px-2 py-1 text-xs transition-colors ${
-                            previewId === world.id
-                              ? "border-emerald-500/60 bg-emerald-500/20 text-emerald-300"
-                              : "border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
-                          }`}
-                          title={strings.showMapHint}
-                        >
-                          <MapPinnedIcon className="h-3 w-3" />
-                          {strings.showMap}
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-3 py-2 tabular-nums">
-                    {formatAge(world.startedAt, now, strings.ageUnknown)}
-                  </td>
-                  <td className="px-3 py-2 tabular-nums text-muted-foreground">
-                    {formatRelative(world.lastSeen, now)}
-                  </td>
-                  <td className="px-3 py-2 tabular-nums text-muted-foreground">
-                    {world.reporters}
-                  </td>
-                  <td className="px-3 py-2">
-                    <div className="flex flex-wrap items-center gap-1">
-                      {Object.entries(world.activity)
-                        .sort((a, b) => b[1] - a[1])
-                        .map(([bucket, ts]) => (
-                          <span
-                            key={bucket}
-                            className="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
-                          >
-                            {ACTIVITY_LABEL_KEYS[bucket]
-                              ? strings[ACTIVITY_LABEL_KEYS[bucket]]
-                              : bucket}{" "}
-                            · {formatRelative(ts, now)}
+              {filteredWorlds.map((world) => {
+                const expanded = expandedId === world.id;
+                return (
+                  <Fragment key={world.id}>
+                    <tr
+                      onClick={() => toggleExpand(world.id)}
+                      className={`cursor-pointer border-b border-border/30 transition-colors hover:bg-card/60 ${
+                        expanded ? "bg-card/60" : ""
+                      }`}
+                    >
+                      <td className="px-3 py-2">
+                        <div className="mb-1 flex flex-wrap items-center gap-1.5">
+                          <ChevronRightIcon
+                            className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${
+                              expanded ? "rotate-90" : ""
+                            }`}
+                          />
+                          <span className="font-medium text-foreground">
+                            {worldName(world.id).zone}
                           </span>
-                        ))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                          {world.region && (
+                            <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] uppercase text-muted-foreground">
+                              {world.region}
+                            </span>
+                          )}
+                          {worldName(world.id).id && (
+                            <span
+                              className="font-mono text-[11px] text-muted-foreground"
+                              title={world.id}
+                            >
+                              {worldName(world.id).id}
+                            </span>
+                          )}
+                        </div>
+                        {/* Stop the row-toggle when using the code control */}
+                        <div
+                          className="flex flex-wrap items-center gap-2 pl-5"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {codeControl(world)}
+                        </div>
+                      </td>
+                      <td className="px-3 py-2 tabular-nums">
+                        {formatAge(world.startedAt, now, strings.ageUnknown)}
+                      </td>
+                      <td className="px-3 py-2 tabular-nums text-muted-foreground">
+                        {formatRelative(world.lastSeen, now)}
+                      </td>
+                      <td className="px-3 py-2 tabular-nums text-muted-foreground">
+                        {world.reporters}
+                      </td>
+                      <td className="px-3 py-2">
+                        <div className="flex flex-wrap items-center gap-1">
+                          {Object.entries(world.activity)
+                            .sort((a, b) => b[1] - a[1])
+                            .map(([bucket, ts]) => {
+                              const dot = EVENT_FILTERS.find(
+                                (f) => f.bucket === bucket,
+                              )?.dot;
+                              return (
+                                <span
+                                  key={bucket}
+                                  className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
+                                >
+                                  {dot && (
+                                    <span
+                                      className="h-2 w-2 rounded-full"
+                                      style={{ backgroundColor: dot }}
+                                    />
+                                  )}
+                                  {ACTIVITY_LABEL_KEYS[bucket]
+                                    ? strings[ACTIVITY_LABEL_KEYS[bucket]]
+                                    : bucket}{" "}
+                                  · {formatRelative(ts, now)}
+                                </span>
+                              );
+                            })}
+                        </div>
+                      </td>
+                    </tr>
+                    {expanded && (
+                      <tr className="border-b border-border/30 bg-card/30">
+                        <td colSpan={5} className="px-3 pb-3">
+                          {world.hasSpots ? (
+                            <WorldMapPreview
+                              serverId={world.id}
+                              icons={mapIcons}
+                            />
+                          ) : (
+                            <p className="rounded-md border border-border/50 bg-card/50 px-3 py-4 text-sm text-muted-foreground">
+                              {strings.noMapBody}
+                            </p>
+                          )}
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                );
+              })}
             </tbody>
           </table>
         </div>
