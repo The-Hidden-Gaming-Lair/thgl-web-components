@@ -2,9 +2,8 @@ import { resolveAppConfig } from "@repo/lib";
 
 export const enshrouded = resolveAppConfig({
   name: "enshrouded",
-  // Not ready for production — show an "In Development" placeholder on enshrouded.th.gl.
-  // The real map/codex still renders on the local dev server for continued work.
-  inDevelopment: true,
+  // Preview release: the site is live, but the map/db pages are Elite-gated (PreviewReleaseGuard →
+  // PREVIEW_RELEASE_APPS) while support is finalized. (Was `inDevelopment` = full "Coming Soon".)
   // The game ships 15 languages; extraction emits a dict per THGL locale.
   supportedLocales: [
     "en",

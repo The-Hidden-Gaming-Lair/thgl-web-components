@@ -53,8 +53,9 @@ export function HomePageClient({
   const t = useT();
   const runningGames = useLiveState((state) => state.runningGames);
 
-  // Released companion games only — `inDevelopment` ones (e.g. Enshrouded) are hidden from the
-  // app's game list + running-game detection until launch (direct /apps/<id> route still works).
+  // Released companion games only — `inDevelopment` ones are hidden from the app's game list +
+  // running-game detection until launch (direct /apps/<id> route still works). Preview-release
+  // games (e.g. Enshrouded) are NOT inDevelopment — they show here but the content is Elite-gated.
   const companionGames = games.filter(hasReleasedCompanion);
 
   const isGameRunning = (gameId: string) => {

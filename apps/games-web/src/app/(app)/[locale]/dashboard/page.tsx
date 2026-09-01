@@ -11,7 +11,7 @@ import {
 import { HomePageClient } from "./home-client";
 
 export default async function DashboardHome() {
-  // Get recent updates from released companion games (excludes `inDevelopment`, e.g. Enshrouded).
+  // Get recent updates from released companion games (excludes `inDevelopment` ones).
   const companionGames = games.filter(hasReleasedCompanion);
 
   const gameUpdates: Array<{

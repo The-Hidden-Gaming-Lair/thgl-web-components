@@ -10,7 +10,7 @@
  *
  * To open a game to everyone, remove its id from this set.
  */
-export const PREVIEW_RELEASE_APPS = new Set<string>([]);
+export const PREVIEW_RELEASE_APPS = new Set<string>(["enshrouded"]);
 
 /** True if the given app/game id is pre-release (Elite-only) right now. */
 export function isPreviewReleaseApp(

@@ -1233,8 +1233,9 @@ export const games: Array<Game> = [
     title: "Enshrouded",
     logo: `${TH_GL_URL}/global_icons/enshrouded.webp`,
     companion: {
-      // Live mode still WIP (ECS World pointer) — not announced as supported.
-      inDevelopment: true,
+      // Preview release: listed + routable everywhere, but the map/db/companion content is gated
+      // to Elite supporters (previewReleaseAccess) via PREVIEW_RELEASE_APPS while support is
+      // finalized. (Was inDevelopment — fully hidden — until live chest/item tracking landed.)
       baseURL: "/apps/enshrouded",
       controllerURL: "/apps/enshrouded/controller",
       desktopURL: "/apps/enshrouded",
