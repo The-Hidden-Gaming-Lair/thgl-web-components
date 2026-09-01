@@ -265,6 +265,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   labelTextSize: 1,
   showLabelsHotkey: "l",
   displayDiscordActivityStatus: true,
+  // Palia: mute the "a player wants to join your world" join-code-request toast.
+  worldCodeRequestsMuted: false,
   presets: {},
   tempPrivateNode: null,
   recentPrivateNodeStyles: [],
@@ -391,6 +393,7 @@ export type ProfileSettings = {
   labelTextSize: number;
   showLabelsHotkey: string;
   displayDiscordActivityStatus: boolean;
+  worldCodeRequestsMuted: boolean;
   presets: Record<string, string[] | FilterPreset>;
   tempPrivateNode: (Partial<PrivateNode> & { filter?: string }) | null;
   recentPrivateNodeStyles: PrivateNodeStyle[];
@@ -507,6 +510,7 @@ export interface ProfileActions {
   setDisplayDiscordActivityStatus: (
     displayDiscordActivityStatus: boolean,
   ) => void;
+  setWorldCodeRequestsMuted: (muted: boolean) => void;
   addPreset: (presetName: string, preset: FilterPreset) => void;
   removePreset: (presetName: string) => void;
   // Rebuild the presets map in the given key order (presets render in
@@ -1516,6 +1520,10 @@ export const useSettingsStore = create(
             displayDiscordActivityStatus: boolean,
           ) => {
             updateSettings({ displayDiscordActivityStatus });
+          },
+
+          setWorldCodeRequestsMuted: (muted: boolean) => {
+            updateSettings({ worldCodeRequestsMuted: muted });
           },
 
           addPreset: (presetName: string, preset: FilterPreset) => {

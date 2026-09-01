@@ -53,6 +53,22 @@ You can subscribe on the [Support page](/support-me). Here's the full breakdown:
     embed: "feature-comparison",
   },
   {
+    id: "palia-active-worlds",
+    headline: "Palia Active Worlds & join-code requests",
+    question:
+      "What is the Active Worlds tracker, and why did I get a “a player wants to join your world” message?",
+    answer: `
+**Active Worlds** is a live, crowdsourced list of Palia worlds and the events happening in them right now — such as **Flow Trees** and **Palium** — powered by players running the free [TH.GL companion app](/companion-app). You can browse it at [palia.th.gl/worlds](https://palia.th.gl/worlds).
+
+Palia streams each zone as its own server instance, and to hop into a **specific** world you need its **4-character join code**. On the tracker you can **request a code** for any active world.
+
+**"A player wants to join your world" prompt:** when someone requests a code for the world you're currently in, the app shows you a prompt. To share your code, open the game menu (**Esc → World Code**) — the app reads the code the game displays and posts it to the tracker so the other player can join. It's completely optional: nothing is shared unless you open that panel yourself.
+
+**Don't want these prompts?** Turn them off in **Settings → Palia → Join-code request notifications**.
+    `.trim(),
+    labels: ["Palia"],
+  },
+  {
     id: "add-nodes-and-drawings",
     headline: "How to add your own nodes & drawings to the map",
     question:

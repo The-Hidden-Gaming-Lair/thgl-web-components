@@ -475,6 +475,31 @@ export function SettingsDialogContent({
             )}
           </Section>
 
+          {activeApp === "palia" && (
+            <Section title={t("settings.palia", { fallback: "Palia" })}>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="world-code-requests">
+                  {t("settings.worldCodeRequests", {
+                    fallback: "Join-code request notifications",
+                  })}
+                </Label>
+                <Switch
+                  id="world-code-requests"
+                  checked={!profileSettings.worldCodeRequestsMuted}
+                  onCheckedChange={(on) =>
+                    settingsStore.setWorldCodeRequestsMuted(!on)
+                  }
+                />
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("settings.worldCodeRequestsHint", {
+                  fallback:
+                    "Get a prompt when another player wants to join your world, so you can share your join code. Turn off to hide these.",
+                })}
+              </p>
+            </Section>
+          )}
+
           {!hideAppSettings && (
             <>
               {/* Map Behavior */}
