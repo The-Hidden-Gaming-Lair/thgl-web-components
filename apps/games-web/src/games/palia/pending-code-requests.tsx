@@ -8,6 +8,7 @@ import {
   ClockIcon,
 } from "lucide-react";
 import type { PublicWorld } from "./active-worlds-client";
+import { worldName } from "./world-name";
 
 export type PendingRequestStrings = {
   pendingTitle: string;
@@ -77,8 +78,11 @@ export default function PendingCodeRequests({
               className="rounded-lg border border-border/50 bg-card/60 px-3 py-2"
             >
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-foreground">
-                  {w.id}
+                <span className="text-xs text-foreground" title={w.id}>
+                  <span className="font-medium">{worldName(w.id).zone}</span>
+                  <span className="ml-1 font-mono text-muted-foreground">
+                    {worldName(w.id).id}
+                  </span>
                 </span>
                 {w.region && (
                   <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] uppercase text-muted-foreground">

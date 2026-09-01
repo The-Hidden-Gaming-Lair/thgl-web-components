@@ -7,6 +7,7 @@ import WorldMapPreview, {
 import PendingCodeRequests, {
   type PendingRequestStrings,
 } from "./pending-code-requests";
+import { worldName } from "./world-name";
 
 const WORLDS_API = "https://palia-api.th.gl/worlds";
 const REQUEST_CODE_API = "https://palia-api.th.gl/worlds/request-code";
@@ -239,19 +240,29 @@ export default function ActiveWorldsClient({
               <select
                 value={previewId}
                 onChange={(e) => setMapWorld(e.target.value)}
-                className="rounded border border-border/60 bg-secondary px-2 py-1 font-mono text-xs text-foreground outline-none focus:border-primary/50"
+                className="rounded border border-border/60 bg-secondary px-2 py-1 text-xs text-foreground outline-none focus:border-primary/50"
                 aria-label={strings.worldId}
               >
-                {worldsWithSpots.map((w) => (
-                  <option key={w.id} value={w.id}>
-                    {w.id}
-                    {w.region ? ` · ${w.region}` : ""}
-                  </option>
-                ))}
+                {worldsWithSpots.map((w) => {
+                  const n = worldName(w.id);
+                  return (
+                    <option key={w.id} value={w.id}>
+                      {n.zone}
+                      {w.region ? ` · ${w.region}` : ""}
+                      {n.id ? ` · ${n.id}` : ""}
+                    </option>
+                  );
+                })}
               </select>
             ) : (
-              <span className="font-mono text-xs text-foreground">
-                {previewId}
+              <span className="text-xs text-foreground">
+                <span className="font-medium">{worldName(previewId).zone}</span>
+                {data?.worlds.find((w) => w.id === previewId)?.region
+                  ? ` · ${data.worlds.find((w) => w.id === previewId)!.region}`
+                  : ""}
+                <span className="ml-1 font-mono text-muted-foreground">
+                  {worldName(previewId).id}
+                </span>
               </span>
             )}
             <span className="ml-auto text-[11px] text-muted-foreground">
@@ -304,6 +315,24 @@ export default function ActiveWorldsClient({
                   className="border-b border-border/30 last:border-0"
                 >
                   <td className="px-3 py-2">
+                    <div className="mb-1 flex flex-wrap items-center gap-1.5">
+                      <span className="font-medium text-foreground">
+                        {worldName(world.id).zone}
+                      </span>
+                      {world.region && (
+                        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] uppercase text-muted-foreground">
+                          {world.region}
+                        </span>
+                      )}
+                      {worldName(world.id).id && (
+                        <span
+                          className="font-mono text-[11px] text-muted-foreground"
+                          title={world.id}
+                        >
+                          {worldName(world.id).id}
+                        </span>
+                      )}
+                    </div>
                     <div className="flex items-center gap-2">
                       {world.joinCode ? (
                         <button
@@ -334,11 +363,6 @@ export default function ActiveWorldsClient({
                           <SendIcon className="h-3 w-3" />
                           {strings.requestCode}
                         </button>
-                      )}
-                      {world.region && (
-                        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] uppercase text-muted-foreground">
-                          {world.region}
-                        </span>
                       )}
                     </div>
                   </td>

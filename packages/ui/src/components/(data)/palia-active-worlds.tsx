@@ -41,6 +41,23 @@ const ACTIVITY_LABELS: Record<string, string> = {
   lootPiles: "Rummage Piles",
 };
 
+// A Palia serverId encodes zone + region + a unique instance id (Palia streams
+// each zone as its own server), e.g. "palia-adventure-2-x86cf-wmlxg" — turn it
+// into a readable label so same-region instances are tellable apart.
+const ZONE_NAMES: Record<string, string> = {
+  village: "Kilima Valley",
+  adventure: "Bahari Bay",
+  "adventure-2": "Elderwood",
+  "adventure-3": "Royal Highlands",
+  blackmarket: "Black Market",
+  housing: "Home Plot",
+};
+function worldName(serverId: string): { zone: string; id: string } {
+  const m = serverId.match(/^palia-([a-z]+(?:-\d+)?)-(.+)$/);
+  if (!m) return { zone: serverId, id: "" };
+  return { zone: ZONE_NAMES[m[1]] ?? m[1], id: m[2] };
+}
+
 function formatAge(startedAt: number | null, now: number) {
   if (!startedAt) {
     return "age unknown";
@@ -157,6 +174,9 @@ export function PaliaActiveWorlds() {
       {myWorldId && (
         <div className="flex items-center gap-2 px-4 pb-1 text-xs text-gray-400">
           <span>Your world:</span>
+          <span className="font-medium text-gray-200" title={myWorldId}>
+            {worldName(myWorldId).zone}
+          </span>
           {myWorld?.joinCode ? (
             <button
               type="button"
@@ -206,6 +226,17 @@ export function PaliaActiveWorlds() {
                   myWorldId === world.id ? "ring-1 ring-green-600" : ""
                 }`}
               >
+                <div
+                  className="mb-1 flex items-center gap-1.5"
+                  title={world.id}
+                >
+                  <span className="text-sm font-medium text-gray-200">
+                    {worldName(world.id).zone}
+                  </span>
+                  <span className="font-mono text-[10px] text-gray-500">
+                    {worldName(world.id).id}
+                  </span>
+                </div>
                 <div className="flex items-center gap-2">
                   {world.joinCode ? (
                     <Button
