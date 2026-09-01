@@ -6,10 +6,12 @@ import {
   DragonSwordSaveImport,
   DuneDeepDesertGrid,
   DuneHeatmaps,
+  PaliaActiveWorlds,
   PaliaGrid,
   PaliaGridToggle,
   PaliaTime,
   PaliaWeeklyWants,
+  PaliaWorldCodeRequest,
   SatisfactorySeed,
 } from "../(data)";
 
@@ -17,6 +19,8 @@ import type { JSX } from "react";
 
 const ADDITIONAL_CONTENT = {
   PlayerDetails: PlayerDetails,
+  PaliaActiveWorlds: PaliaActiveWorlds,
+  PaliaWorldCodeRequest: PaliaWorldCodeRequest,
   PaliaWeeklyWants: PaliaWeeklyWants,
   PaliaGrid: PaliaGrid,
   PaliaGridToggle: PaliaGridToggle,

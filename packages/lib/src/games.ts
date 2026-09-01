@@ -599,8 +599,17 @@ export const games: Array<Game> = [
     discordId: "palia",
     title: "Palia",
     lockedWindowComponents: ["PaliaTime"],
-    additionalComponents: ["PaliaGrid"],
-    additionalFilters: ["PaliaWeeklyWants", "PaliaTime", "PaliaGridToggle"],
+    // PaliaWorldCodeRequest renders nothing — it's an always-mounted driver that
+    // toasts the player when someone requests their world's join code.
+    additionalComponents: ["PaliaGrid", "PaliaWorldCodeRequest"],
+    // PaliaActiveWorlds shows the in-game clock at the end of its row, so
+    // there is no separate PaliaTime sidebar entry (the locked-window
+    // PaliaTime overlay stays via lockedWindowComponents).
+    additionalFilters: [
+      "PaliaWeeklyWants",
+      "PaliaActiveWorlds",
+      "PaliaGridToggle",
+    ],
     logo: `${TH_GL_URL}/global_icons/palia.webp`,
     companion: {
       baseURL: "/apps/palia",
@@ -1234,6 +1243,10 @@ export const games: Array<Game> = [
         radius: 6,
         playerIcon: "player.webp",
         imageSprite: true,
+        // Live detector emits generic chest/supply (tier isn't in the ECS archetype), so a live
+        // actor confirms & hides the fine-grained static tier marker (gold_chest/…) at its spot.
+        // 5 m ≈ just above the sint64→m rounding; chests/pickups sit farther apart than this.
+        liveConfirmRadius: 5,
         zPos: {
           // Placeholder values — update once sint64→float coordinate scale
           // is confirmed (likely mm→m: divide by 1000) and tested in-game.
@@ -1272,6 +1285,8 @@ export type PartnerApp = {
 
 export type AdditionalContent =
   | "PlayerDetails"
+  | "PaliaActiveWorlds"
+  | "PaliaWorldCodeRequest"
   | "PaliaWeeklyWants"
   | "PaliaGrid"
   | "PaliaGridToggle"
@@ -1330,6 +1345,13 @@ export type Game = {
       };
       clusterPrecision?: number;
       coordinateCopyFormat?: string;
+      // World-unit radius for position-based, type-agnostic live↔predicted dedup: a live actor
+      // hides the nearest combined-muted predicted static spawn at its spot (so combined mode shows
+      // one marker, not the faded prediction under it). Use when the memory detector emits COARSER
+      // types than the static data (e.g. Enshrouded live "chest" vs static gold_chest/silver_chest).
+      // 0/undefined = off (default; other games unchanged). Keep it small — just above the
+      // live-vs-file coordinate rounding — so it can't swallow a distinct neighbouring spawn.
+      liveConfirmRadius?: number;
     };
     games: {
       title: string;
@@ -1354,9 +1376,16 @@ export type Game = {
  * True when the game's companion integration is RELEASED — use for
  * "supported games" lists, counts, and badges. Games with
  * `companion.inDevelopment` keep their routing/config but aren't advertised.
+ *
+ * In DEV mode (`NODE_ENV !== "production"`), in-development companions count as
+ * released so they can be tested end-to-end in the THGLApp (listed in the
+ * sidebar, running-game detection, overlay/desktop auto-open) while staying
+ * hidden in production builds.
  */
 export function hasReleasedCompanion(game: Game): boolean {
-  return !!game.companion && !game.companion.inDevelopment;
+  if (!game.companion) return false;
+  if (process.env.NODE_ENV !== "production") return true;
+  return !game.companion.inDevelopment;
 }
 
 /** The web subdomain for a game (e.g. "starresonance"), derived from `web`. */

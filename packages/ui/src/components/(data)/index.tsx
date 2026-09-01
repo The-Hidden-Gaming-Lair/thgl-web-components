@@ -21,6 +21,8 @@ export {
 } from "./map-overlays";
 export { NodeDetails } from "./node-details";
 export { MarkerPanel } from "./marker-panel";
+export { PaliaActiveWorlds } from "./palia-active-worlds";
+export { PaliaWorldCodeRequest } from "./palia-world-code-request";
 export { PaliaGridToggle } from "./palia-grid-toggle";
 export { PaliaGrid } from "./palia-grid";
 export { PaliaWebGrid } from "./palia-web-grid";

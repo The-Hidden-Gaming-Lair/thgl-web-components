@@ -13,10 +13,12 @@ import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
 import { APP_CONFIG } from "./config";
 import { App } from "@repo/ui/overwolf";
 import {
+  PaliaActiveWorlds,
   PaliaGrid,
   PaliaGridToggle,
   PaliaTime,
   PaliaWeeklyWants,
+  PaliaWorldCodeRequest,
 } from "@repo/ui/data";
 
 logVersion();
@@ -43,12 +45,17 @@ if (el) {
         additionalFilters={
           <>
             <PaliaWeeklyWants />
-            <PaliaTime />
+            <PaliaActiveWorlds />
             <PaliaGridToggle />
           </>
         }
         lockedWindowComponents={<PaliaTime />}
-        additionalComponents={<PaliaGrid />}
+        additionalComponents={
+          <>
+            <PaliaGrid />
+            <PaliaWorldCodeRequest />
+          </>
+        }
       />
     </React.StrictMode>,
   );

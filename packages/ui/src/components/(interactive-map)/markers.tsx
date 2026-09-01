@@ -541,6 +541,12 @@ function MarkersContent({
       undefined,
     );
 
+  // Re-run the live pipeline (set by the live effect). Called at the end of the STATIC rebuild so
+  // position-based live suppression (liveConfirmRadius) re-applies against the freshly-rebuilt
+  // predicted markers — otherwise a mode switch shows the muted prediction + live marker together
+  // until the next actor poll.
+  const liveReprocessRef = useRef<(() => void) | undefined>(undefined);
+
   // Audio alert tracking - tracks if we've already alerted for current in-range spawns
   const hasAlertedRef = useRef<boolean>(false);
 
@@ -1758,6 +1764,10 @@ function MarkersContent({
     staticSpawnMapRef.current = newSpawnMap;
     spawnMapRef.current = new Map([...newSpawnMap, ...liveSpawnMapRef.current]);
 
+    // Re-apply live suppression against the just-rebuilt predicted markers (kills the transient
+    // muted+live double on a live/combined/predicted switch). No-op until the live effect mounts.
+    liveReprocessRef.current?.();
+
     // Handle map click to close tooltip and deselect node
     // When a marker is clicked, justClickedMarkerRef is set to prevent
     // the generic map click from undoing the selection.
@@ -1902,17 +1912,37 @@ function MarkersContent({
       // this pass) synchronously each call — O(n^2) reentrancy on a first load where
       // many effigies are already collected.
       if (settingsState.autoDiscoverCollected) {
+        const autoRadius = markerOptions.liveConfirmRadius ?? 0;
+        const grid = spatialGridRef.current;
         const newlyCollected: string[] = [];
         for (const actor of actorsList) {
           if (!actor.discovered || !actor.address) {
             continue;
           }
           const displayType = typesIdMap[actor.type];
-          if (!displayType || !positionedTypesRef.current.has(displayType)) {
-            continue;
+          if (!displayType) continue;
+          let autoId: string | undefined;
+          if (autoRadius > 0 && grid) {
+            // Position-based: the detector may emit COARSER types than the static data (Enshrouded
+            // live "chest" vs static gold_chest/…), so a type@pos id wouldn't match any real node.
+            // Mark the NEAREST static node (its real id) within the confirm radius instead.
+            let bestD2 = autoRadius * autoRadius;
+            for (const cand of grid.getNearby(actor.x, actor.y, autoRadius)) {
+              const dx = cand.latLng[0] - actor.x;
+              const dy = cand.latLng[1] - actor.y;
+              const d2 = dx * dx + dy * dy;
+              if (d2 <= bestD2) {
+                bestD2 = d2;
+                autoId = cand.id;
+              }
+            }
+          } else if (positionedTypesRef.current.has(displayType)) {
+            autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
           }
-          const autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
-          if (!checkNodeDiscovered(autoId, discoveryLookupRef.current)) {
+          if (
+            autoId &&
+            !checkNodeDiscovered(autoId, discoveryLookupRef.current)
+          ) {
             newlyCollected.push(autoId);
           }
         }
@@ -1924,6 +1954,14 @@ function MarkersContent({
       }
 
       if (!isLiveActive) {
+        // Static/predicted mode: un-hide any statics we suppressed while live/combined was active.
+        if (
+          (markerOptions.liveConfirmRadius ?? 0) > 0 &&
+          markerLayerForSheets
+        ) {
+          markerLayerForSheets.setHiddenById(undefined);
+          map.requestRedraw();
+        }
         if (liveSpawnMapRef.current.size > 0) {
           const ids = Array.from(liveSpawnMapRef.current.keys());
           for (const id of ids) liveMarkerLayer.unregisterAllEventHandlers(id);
@@ -2116,6 +2154,16 @@ function MarkersContent({
       const newSpawns = new Map<string, Spawn>();
       let dirty = false;
 
+      // Position-based, TYPE-AGNOSTIC dedup (opt-in via markerOptions.liveConfirmRadius, world
+      // units; 0 = off → unchanged for other games). A live actor "confirms" whatever combined-
+      // muted predicted static spawn sits at its location and hides it, so combined mode shows ONE
+      // marker (the live one) instead of the faded prediction beneath. Needed when the detector
+      // emits COARSE types (e.g. Enshrouded chest/supply) that can't match the fine static tiers
+      // (gold_chest/…) by type. Nearest-muted-only within the radius so tightly-spaced spawns
+      // (e.g. two pickups <1 unit apart) each suppress their own marker, not a neighbour's.
+      const liveConfirmRadius = markerOptions.liveConfirmRadius ?? 0;
+      const suppressStatic = new Set<string>();
+
       for (const unit of units) {
         const { id, displayType, members } = unit;
         const rep = members[0];
@@ -2127,6 +2175,28 @@ function MarkersContent({
         const baseY = unit.useCenter ? unit.cy : rep.y;
         let pos: [number, number] = [baseX, baseY];
         if (rotationCache) pos = rotationCache.getRotated(baseX, baseY);
+
+        // Confirm-and-suppress the nearest combined-muted predicted marker at this actor's spot.
+        if (liveConfirmRadius > 0 && spatialGridRef.current) {
+          const r2 = liveConfirmRadius * liveConfirmRadius;
+          let bestId: string | undefined;
+          let bestD2 = r2;
+          for (const cand of spatialGridRef.current.getNearby(
+            pos[0],
+            pos[1],
+            liveConfirmRadius,
+          )) {
+            if (!cand.spawn.muted) continue; // only fade-predicted (combined) markers
+            const dx = cand.latLng[0] - pos[0];
+            const dy = cand.latLng[1] - pos[1];
+            const d2 = dx * dx + dy * dy;
+            if (d2 <= bestD2) {
+              bestD2 = d2;
+              bestId = cand.id;
+            }
+          }
+          if (bestId) suppressStatic.add(bestId);
+        }
 
         const memberNodeId = (a: LiveActor) =>
           `${displayType}@${a.x.toFixed(2)}:${a.y.toFixed(2)}`;
@@ -2238,7 +2308,28 @@ function MarkersContent({
           rect = { x: 0, y: 0, width: px, height: px };
         }
 
-        const size = computeMarkerSize(displayType);
+        let size = computeMarkerSize(displayType);
+
+        // Pre-process atlas sprites into an isolated per-icon canvas — SAME as the static
+        // pipeline (resolveProcessedSpriteIcon). Without this the live layer was handed the raw
+        // "icons" atlas + a sub-rect, and rendered the WHOLE icons.webp sheet per marker (the
+        // WebGL layer expects per-icon sheets). imageSprite games (e.g. Enshrouded) hit this.
+        if (sheet === "icons") {
+          const liveSprite = getSourceImage(
+            getIconsUrl(appName, "icons.webp", iconsPath),
+          );
+          const proc = resolveProcessedSpriteIcon(
+            liveMarkerLayer,
+            sheet,
+            rect,
+            liveSprite,
+          );
+          if (proc) {
+            sheet = proc.sheet;
+            rect = proc.rect;
+            size *= proc.sizeMul; // compensate for the padding so the icon stays the right size
+          }
+        }
 
         const instance: IconMarkerInstance = {
           id,
@@ -2310,6 +2401,16 @@ function MarkersContent({
           liveMarkerLayer.unregisterAllEventHandlers(id);
         liveMarkerLayer.removeMany(toRemove);
         dirty = true;
+      }
+
+      // Apply the position-based static suppression (replaces the whole hidden set each pass, so a
+      // marker un-hides automatically when its confirming live actor goes away). Only touch the
+      // static layer when the feature is enabled, to leave other games untouched.
+      if (liveConfirmRadius > 0 && markerLayerForSheets) {
+        markerLayerForSheets.setHiddenById(
+          suppressStatic.size ? suppressStatic : undefined,
+        );
+        map.requestRedraw();
       }
 
       liveSpawnMapRef.current = newSpawns;
@@ -2391,10 +2492,14 @@ function MarkersContent({
       (s) => s.iconSizeByFilter,
       processActors,
     );
+    // Expose for the static rebuild to re-apply live suppression immediately (see liveReprocessRef).
+    liveReprocessRef.current = processActors;
+
     // Initial run.
     processActors();
 
     return () => {
+      liveReprocessRef.current = undefined;
       unsubActors();
       unsubHighlight();
       unsubFilters();

@@ -68,6 +68,14 @@ export const palia = resolveAppConfig({
       bgImage: "/games/palia/rummage-pile.webp",
     },
     {
+      href: "/worlds",
+      title: "config.internalLinks.activeWorlds.title",
+      description: "config.internalLinks.activeWorlds.description",
+      linkText: "config.internalLinks.activeWorlds.linkText",
+      iconName: "Server",
+      bgImage: "/games/palia/rummage-pile.webp",
+    },
+    {
       href: "/leaderboard",
       title: "config.internalLinks.leaderboard.title",
       description: "config.internalLinks.leaderboard.description",

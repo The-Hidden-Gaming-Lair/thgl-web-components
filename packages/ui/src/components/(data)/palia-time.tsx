@@ -2,13 +2,13 @@
 import { cn, useSettingsStore } from "@repo/lib";
 import { useEffect, useState } from "react";
 
-export function PaliaTime() {
+// Live in-game clock (1 real hour = 1 Palia day), formatted "h:mm AM/PM".
+// Shared by the locked-window PaliaTime overlay and the Active Worlds row.
+export function usePaliaTime() {
   const [timeFormated, setTimeFormated] = useState("");
-  const lockedWindow = useSettingsStore((state) => state.lockedWindow);
-  const overlayMode = useSettingsStore((state) => state.overlayMode);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const update = () => {
       const now = Date.now();
       const realSeconds = Math.floor(now / 1000) % 3600;
       const paliaSeconds = realSeconds * 24;
@@ -23,11 +23,21 @@ export function PaliaTime() {
       }
 
       setTimeFormated(`${hours}:${String(minutes).padStart(2, "0")} ${period}`);
-    }, 300);
+    };
+    update();
+    const interval = setInterval(update, 300);
     return () => {
       clearInterval(interval);
     };
   }, []);
+
+  return timeFormated;
+}
+
+export function PaliaTime() {
+  const timeFormated = usePaliaTime();
+  const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  const overlayMode = useSettingsStore((state) => state.overlayMode);
 
   if (lockedWindow) {
     return (

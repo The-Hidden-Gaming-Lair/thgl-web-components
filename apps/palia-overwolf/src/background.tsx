@@ -26,7 +26,18 @@ type PaliaEventsPlugin = {
     moduleName: string,
     callback: (isLoaded: boolean) => void,
   ) => void;
+  GetCurrentWorldInfo?: (
+    callback: (worldInfo: WorldInfo | null) => void,
+    onError: (err: string) => void,
+  ) => void;
 } & GameEventsPlugin;
+
+export interface WorldInfo {
+  serverId: string;
+  joinCode: string | null;
+  region: string | null;
+  startedAt: number; // epoch ms, 0 = unknown
+}
 
 export interface ValeriaCharacter {
   name: string;
@@ -69,6 +80,11 @@ const appVersion = manifest.meta.version;
 
 let lastSend = 0;
 let lastActorAddresses: number[] = [];
+// Anonymous per-app-run id (never persisted) so the backend can count distinct
+// reporters per world. Current world ServerId tags actor reports + heartbeats.
+const worldClientId =
+  globalThis.crypto?.randomUUID?.() ?? `ow-${Date.now()}-${Math.random()}`;
+let currentServerId: string | null = null;
 // Only report actors that have stayed visible for >= 5s, to drop transient
 // memory-read / loading-state blinks that would otherwise become false spawns.
 const dwellTracker = createDwellTracker();
@@ -239,10 +255,44 @@ function sendActorsToAPI(actors: Actor[]): void {
     headers: {
       "Content-Type": "application/json",
       "App-Version": appVersion,
+      // Tag actor reports with the current world so the backend can stamp
+      // resource activity (Flow Trees / Palium / Rummage Piles) per world.
+      ...(currentServerId ? { "Server-Id": currentServerId } : {}),
     },
     body: JSON.stringify(staticActors),
   }).catch(() => null);
 }
+
+// Active-worlds heartbeat: report the current world (ServerId + age + region,
+// always available from the PlayerController) every 60s, plus the friendly join
+// code opportunistically when the in-game menu has surfaced it.
+setInterval(() => {
+  gameEventsPlugin.GetCurrentWorldInfo?.(
+    (worldInfo) => {
+      currentServerId = worldInfo?.serverId ?? null;
+      if (!currentServerId) {
+        return;
+      }
+      fetch("https://palia-api.th.gl/worlds", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "App-Version": appVersion,
+        },
+        body: JSON.stringify({
+          serverId: currentServerId,
+          clientId: worldClientId,
+          ...(worldInfo?.joinCode ? { joinCode: worldInfo.joinCode } : {}),
+          ...(worldInfo?.region ? { region: worldInfo.region } : {}),
+          ...(worldInfo?.startedAt ? { startedAt: worldInfo.startedAt } : {}),
+        }),
+      }).catch(() => null);
+    },
+    () => {
+      //
+    },
+  );
+}, 60000);
 
 setInterval(() => {
   gameEventsPlugin.GetCurrentGiftPreferences(
