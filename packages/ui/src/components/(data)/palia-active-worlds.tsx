@@ -1,10 +1,9 @@
 "use client";
 
-import { useGameState } from "@repo/lib";
+import { isOverwolf, isThglApp, useGameState } from "@repo/lib";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../(controls)";
-import { Copy, Server, Send, Clock } from "lucide-react";
-import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
+import { Copy, Server, Clock } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -14,36 +13,23 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { usePaliaTime } from "./palia-time";
-import { ScrollArea } from "../ui/scroll-area";
-import { Badge } from "../ui/badge";
+import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 
 const WORLDS_API = "https://palia-api.th.gl/worlds";
-
-const REQUEST_CODE_API = "https://palia-api.th.gl/worlds/request-code";
+const TRACKER_URL = "https://palia.th.gl/worlds";
 
 type PublicWorld = {
-  id: string; // serverId
+  id: string;
   joinCode: string | null;
   region: string | null;
   startedAt: number | null;
-  firstSeen: number;
-  lastSeen: number;
-  reporters: number;
-  activity: Record<string, number>;
   codeRequested: boolean;
 };
-
 type WorldsResponse = { updatedAt: number; worlds: PublicWorld[] };
-
-const ACTIVITY_LABELS: Record<string, string> = {
-  flowTrees: "Flow Trees",
-  palium: "Palium",
-  lootPiles: "Rummage Piles",
-};
 
 // A Palia serverId encodes zone + region + a unique instance id (Palia streams
 // each zone as its own server), e.g. "palia-adventure-2-x86cf-wmlxg" — turn it
-// into a readable label so same-region instances are tellable apart.
+// into a readable label.
 const ZONE_NAMES: Record<string, string> = {
   village: "Kilima Valley",
   adventure: "Bahari Bay",
@@ -59,60 +45,44 @@ function worldName(serverId: string): { zone: string; id: string } {
 }
 
 function formatAge(startedAt: number | null, now: number) {
-  if (!startedAt) {
-    return "age unknown";
-  }
+  if (!startedAt) return "";
   const totalMinutes = Math.max(0, Math.floor((now - startedAt) / 60_000));
   const h = Math.floor(totalMinutes / 60);
   const m = totalMinutes % 60;
   return h > 0 ? `${h}h ${m}m old` : `${m}m old`;
 }
 
-function formatRelative(ts: number, now: number) {
-  const s = Math.max(0, Math.floor((now - ts) / 1000));
-  if (s < 60) {
-    return `${s}s`;
-  }
-  return `${Math.floor(s / 60)}m`;
-}
-
+// Sidebar entry. Browsing all active worlds lives on the /worlds PAGE now, so on
+// the web this collapses to just the in-game clock. IN-APP (overlay/desktop),
+// where there's no page navigation, it becomes a focused "Your World" panel:
+// your current world + join code for quick sharing, plus a link to the tracker.
 export function PaliaActiveWorlds() {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<WorldsResponse | null>(null);
-  const [error, setError] = useState(false);
   const [now, setNow] = useState(() => Date.now());
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // The app publishes the local ServerId as player.worldId (always available,
-  // menu-independent) so the panel can highlight the world you're in.
+  // The app publishes the local ServerId as player.worldId (menu-independent).
   const player = useGameState((state) => state.player) as {
     worldId?: string;
   } | null;
   const myWorldId = player?.worldId ?? null;
-  // In-game clock shown at the end of the trigger row (replaces the separate
-  // "Palia Time" sidebar row; the locked-window PaliaTime overlay stays).
   const paliaTime = usePaliaTime();
-  // Active Worlds is an Elite-only preview for now; non-preview users still get
-  // the in-game clock (this row replaced the old standalone "Palia Time" row).
   const previewGate = usePreviewReleaseGate();
-  const showWorlds = previewGate === "allow";
+  // In-app only + Elite/preview-gated. Everyone else just gets the clock.
+  const showPanel = (isThglApp || isOverwolf) && previewGate === "allow";
   const myWorld =
-    (myWorldId && data?.worlds.find((world) => world.id === myWorldId)) || null;
+    (myWorldId && data?.worlds.find((w) => w.id === myWorldId)) || null;
 
   const refresh = useCallback(() => {
     fetch(WORLDS_API)
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-      .then((json: WorldsResponse) => {
-        setData(json);
-        setError(false);
-      })
-      .catch(() => setError(true));
+      .then((json: WorldsResponse) => setData(json))
+      .catch(() => null);
   }, []);
 
-  // Poll even while the sheet is closed so the sidebar current-world line has
-  // age data — slower closed (60s) than open (30s); the CDN caches the GET.
   useEffect(() => {
-    if (!showWorlds) return; // non-preview: clock only, don't poll the worlds API
+    if (!showPanel) return; // web / non-preview: clock only, don't poll
     refresh();
     const poll = setInterval(refresh, isOpen ? 30_000 : 60_000);
     const tick = setInterval(() => setNow(Date.now()), 1000);
@@ -120,39 +90,17 @@ export function PaliaActiveWorlds() {
       clearInterval(poll);
       clearInterval(tick);
     };
-  }, [isOpen, refresh, showWorlds]);
+  }, [isOpen, refresh, showPanel]);
 
-  const copy = (id: string) => {
-    navigator.clipboard?.writeText(id).catch(() => null);
-    setCopiedId(id);
-    if (copyTimeout.current) {
-      clearTimeout(copyTimeout.current);
-    }
-    copyTimeout.current = setTimeout(() => setCopiedId(null), 1500);
+  const copy = (code: string) => {
+    navigator.clipboard?.writeText(code).catch(() => null);
+    setCopied(true);
+    if (copyTimeout.current) clearTimeout(copyTimeout.current);
+    copyTimeout.current = setTimeout(() => setCopied(false), 1500);
   };
 
-  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set());
-  const requestCode = (serverId: string) => {
-    // Optimistically mark as requested so the button flips immediately.
-    setRequestedIds((prev) => new Set(prev).add(serverId));
-    fetch(REQUEST_CODE_API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ serverId }),
-    })
-      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-      .then((json: { status: string; joinCode?: string }) => {
-        if (json.status === "code" && json.joinCode) {
-          copy(json.joinCode); // a fresh code already existed — copy it
-        }
-        refresh();
-      })
-      .catch(() => null);
-  };
-
-  // Non-preview users: keep only the in-game clock (the Active Worlds panel is
-  // Elite-only until it launches). Mirrors the trigger row's clock placement.
-  if (!showWorlds) {
+  // Web (or in-app non-preview): keep only the in-game clock.
+  if (!showPanel) {
     return (
       <div className="flex w-full items-center px-3 py-1.5 text-sm text-gray-300">
         <Clock className="mr-2 h-4 w-4" />
@@ -162,148 +110,130 @@ export function PaliaActiveWorlds() {
     );
   }
 
+  const { zone, id } = worldName(myWorldId ?? "");
+  const codeCopy = (code: string) => (
+    <button
+      type="button"
+      onClick={() => copy(code)}
+      className="inline-flex items-center gap-1 font-mono text-gray-100 hover:text-white"
+      title="Copy join code"
+    >
+      <Copy className="h-3 w-3" />
+      {copied ? "Copied!" : code}
+    </button>
+  );
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button size="sm" variant="ghost" className="w-full">
           <Server className="mr-2 h-4 w-4" />
-          <span className="grow text-left">Active Worlds</span>
+          <span className="grow text-left">Your World</span>
           {paliaTime}
         </Button>
       </SheetTrigger>
+
+      {/* Always-visible at-a-glance line: your world + code */}
       {myWorldId && (
-        <div className="flex items-center gap-2 px-4 pb-1 text-xs text-gray-400">
-          <span>Your world:</span>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 px-4 pb-1 text-xs text-gray-400">
           <span className="font-medium text-gray-200" title={myWorldId}>
-            {worldName(myWorldId).zone}
+            {zone}
           </span>
-          {myWorld?.joinCode ? (
-            <button
-              type="button"
-              onClick={() => copy(myWorld.joinCode!)}
-              className="font-mono text-gray-200 hover:text-white"
-              title="Copy join code"
-            >
-              {copiedId === myWorld.joinCode ? "Copied!" : myWorld.joinCode}
-            </button>
-          ) : (
-            <span className="text-gray-500">no code yet</span>
-          )}
           {myWorld?.region && (
             <span className="rounded bg-muted px-1 py-0.5 text-[10px] uppercase text-gray-400">
               {myWorld.region}
             </span>
           )}
-          {myWorld && <span>· {formatAge(myWorld.startedAt, now)}</span>}
+          <span>·</span>
+          {myWorld?.joinCode ? (
+            codeCopy(myWorld.joinCode)
+          ) : (
+            <span className="text-gray-500">no code shared</span>
+          )}
         </div>
       )}
-      <SheetContent side="left" className="flex flex-col">
+
+      <SheetContent side="left" className="flex flex-col gap-4">
         <SheetHeader>
-          <SheetTitle>Active Worlds</SheetTitle>
+          <SheetTitle>Your World</SheetTitle>
           <SheetDescription>
-            Crowdsourced by players using the TH.GL apps. Copy a world ID and
-            use it in-game to join that world.
+            Share your world so friends — or players on the Active Worlds
+            tracker — can join you.
           </SheetDescription>
         </SheetHeader>
-        <ScrollArea>
-          <div className="space-y-1">
-            {error && (
-              <p className="rounded-md bg-amber-500/10 px-3 py-2 text-sm text-amber-400">
-                Could not reach the live API – retrying
-              </p>
-            )}
-            {data && data.worlds.length === 0 && !error && (
-              <p className="text-sm text-gray-400">
-                No worlds reported in the last 10 minutes. Play with the app
-                running to contribute.
-              </p>
-            )}
-            {!data && !error && <div>Loading...</div>}
-            {data?.worlds.map((world) => (
-              <div
-                key={world.id}
-                className={`rounded-md border border-border/50 p-2 ${
-                  myWorldId === world.id ? "ring-1 ring-green-600" : ""
-                }`}
-              >
-                <div
-                  className="mb-1 flex items-center gap-1.5"
-                  title={world.id}
-                >
-                  <span className="text-sm font-medium text-gray-200">
-                    {worldName(world.id).zone}
+
+        {myWorldId ? (
+          <div className="space-y-3 text-sm">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-medium text-gray-100">{zone}</span>
+                {myWorld?.region && (
+                  <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] uppercase text-gray-400">
+                    {myWorld.region}
                   </span>
-                  <span className="font-mono text-[10px] text-gray-500">
-                    {worldName(world.id).id}
+                )}
+                {id && (
+                  <span className="font-mono text-[11px] text-gray-500">
+                    {id}
                   </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  {world.joinCode ? (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="font-mono"
-                      onClick={() => copy(world.joinCode!)}
-                    >
-                      <Copy className="mr-2 h-3 w-3" />
-                      {copiedId === world.joinCode ? "Copied!" : world.joinCode}
-                    </Button>
-                  ) : world.codeRequested || requestedIds.has(world.id) ? (
-                    <span className="text-xs text-amber-500">
-                      code requested…
-                    </span>
-                  ) : myWorldId === world.id ? (
-                    <span className="text-xs text-gray-500">no code yet</span>
-                  ) : (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="h-6 text-xs"
-                      onClick={() => requestCode(world.id)}
-                      title="Ask a player in this world to share the join code"
-                    >
-                      <Send className="mr-1 h-3 w-3" />
-                      Request code
-                    </Button>
-                  )}
-                  {world.region && (
-                    <span className="rounded bg-muted px-1 py-0.5 text-[10px] uppercase text-gray-400">
-                      {world.region}
-                    </span>
-                  )}
-                  <span className="text-sm text-gray-300">
-                    {formatAge(world.startedAt, now)}
-                  </span>
-                  {myWorldId === world.id && (
-                    <Badge variant="outline" className="text-green-500">
-                      You are here
-                    </Badge>
-                  )}
-                  <span className="ml-auto text-xs text-gray-400">
-                    {formatRelative(world.lastSeen, now)} ago
-                  </span>
-                </div>
-                {Object.keys(world.activity).length > 0 && (
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {Object.entries(world.activity)
-                      .sort((a, b) => b[1] - a[1])
-                      .map(([bucket, ts]) => (
-                        <Badge key={bucket} variant="outline">
-                          {ACTIVITY_LABELS[bucket] ?? bucket} ·{" "}
-                          {formatRelative(ts, now)}
-                        </Badge>
-                      ))}
-                  </div>
                 )}
               </div>
-            ))}
+              {myWorld?.startedAt && (
+                <p className="mt-0.5 text-xs text-gray-500">
+                  {formatAge(myWorld.startedAt, now)}
+                </p>
+              )}
+            </div>
+
+            {myWorld?.joinCode ? (
+              <div className="rounded-md border border-border/50 bg-card/60 p-3">
+                <p className="text-xs text-gray-400">Your join code</p>
+                <div className="mt-1 text-lg font-semibold">
+                  {codeCopy(myWorld.joinCode)}
+                </div>
+                <p className="mt-1 text-xs text-gray-500">
+                  Send it to a friend, or it's listed on the tracker for players
+                  who requested it.
+                </p>
+              </div>
+            ) : (
+              <div className="rounded-md border border-border/50 bg-card/60 p-3">
+                {myWorld?.codeRequested && (
+                  <p className="mb-1 text-xs font-medium text-amber-400">
+                    A player wants to join your world.
+                  </p>
+                )}
+                <p className="text-xs text-gray-400">
+                  Open the game menu (<b>Esc → World Code</b>) to share your
+                  join code
+                  {myWorld?.codeRequested
+                    ? " with them"
+                    : " so others can join"}
+                  . The app posts it to the tracker automatically.
+                </p>
+              </div>
+            )}
+
+            <p className="text-xs text-gray-500">
+              You'll get a prompt when someone wants to join. Turn it off in
+              Settings → Palia.
+            </p>
           </div>
-        </ScrollArea>
-        <SheetDescription>
-          <span className="text-gray-300 text-sm">
-            {data ? `Updated ${formatRelative(data.updatedAt, now)} ago` : ""}
-          </span>
-        </SheetDescription>
+        ) : (
+          <p className="text-sm text-gray-400">
+            Join a Palia world to see it here.
+          </p>
+        )}
+
+        <a
+          href={TRACKER_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-auto inline-flex items-center gap-1 text-sm text-primary hover:underline"
+        >
+          <Server className="h-3.5 w-3.5" />
+          Browse all active worlds →
+        </a>
       </SheetContent>
     </Sheet>
   );
