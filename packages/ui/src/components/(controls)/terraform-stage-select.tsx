@@ -61,6 +61,7 @@ const label = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 // the LIVE stage id emitted by THGLApp (any of the game's ~15 per-planet stages, many of which
 // we didn't capture a backdrop for) to the nearest CAPTURED backdrop, rounding DOWN.
 const GAME_ORDER = [
+  "dead",
   "barren",
   "toxicwasteland",
   "flooded",
@@ -70,8 +71,10 @@ const GAME_ORDER = [
   "toxicdust",
   "acidrains",
   "toxiceruptions",
+  "icemelting",
   "water",
   "watercycle",
+  "monsoon",
   "seismicactivity",
   "vegetationrenewal",
   "vegetation",
@@ -80,6 +83,7 @@ const GAME_ORDER = [
   "seismicshocks",
   "moss",
   "herbs",
+  "savannah",
   "cleanatmosphere",
   "cleanwatercycle",
   "plants",
@@ -91,6 +95,7 @@ const GAME_ORDER = [
   "breathable",
   "fish",
   "amphibians",
+  "herds",
   "mammals",
   "life",
   "complete",
@@ -135,6 +140,13 @@ const STAGE_THRESHOLDS: Record<string, Record<string, number>> = {
     waterplants: 1.5e10,
     life: 1.5e12,
     complete: 8e12,
+  },
+  Skeo: {
+    dead: 1e6,
+    icemelting: 4e8,
+    monsoon: 3e9,
+    savannah: 5e10,
+    complete: 9e12,
   },
 };
 function totalToStage(
