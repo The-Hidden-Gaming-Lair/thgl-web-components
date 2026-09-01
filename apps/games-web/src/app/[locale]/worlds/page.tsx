@@ -97,6 +97,8 @@ export default async function ActiveWorlds({ params }: PageProps) {
       "Ask a player in this world to share its join code so you can hop in.",
     codeRequested: "Requesting…",
     eventMap: "Event map",
+    showMap: "Show map",
+    showMapHint: "Show this world's event locations on the map above",
     lookingFor: "Looking for:",
     clearFilter: "Clear",
     noneMatch: "No active worlds with the selected events right now.",

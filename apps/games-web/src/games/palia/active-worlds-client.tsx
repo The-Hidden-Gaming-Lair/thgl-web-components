@@ -49,6 +49,8 @@ export type ActiveWorldsStrings = {
   requestCodeHint: string;
   codeRequested: string;
   eventMap: string;
+  showMap: string;
+  showMapHint: string;
   lookingFor: string;
   clearFilter: string;
   noneMatch: string;
@@ -118,6 +120,12 @@ export default function ActiveWorldsClient({
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<Set<string>>(new Set());
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mapPanelRef = useRef<HTMLDivElement>(null);
+
+  const showOnMap = (serverId: string) => {
+    setMapWorld(serverId);
+    mapPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const toggleFilter = (bucket: string) =>
     setEventFilter((prev) => {
@@ -339,7 +347,10 @@ export default function ActiveWorldsClient({
 
       {/* Inline map preview — pick which active world's events to plot */}
       {previewId && (
-        <div className="rounded-xl border border-border/60 bg-card/40 p-3">
+        <div
+          ref={mapPanelRef}
+          className="scroll-mt-4 rounded-xl border border-border/60 bg-card/40 p-3"
+        >
           <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
             <MapPinnedIcon className="h-4 w-4 shrink-0 text-emerald-400" />
             <span className="text-muted-foreground">{strings.eventMap}</span>
@@ -455,8 +466,23 @@ export default function ActiveWorldsClient({
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       {codeControl(world)}
+                      {world.hasSpots && (
+                        <button
+                          type="button"
+                          onClick={() => showOnMap(world.id)}
+                          className={`inline-flex items-center gap-1 rounded border px-2 py-1 text-xs transition-colors ${
+                            previewId === world.id
+                              ? "border-emerald-500/60 bg-emerald-500/20 text-emerald-300"
+                              : "border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                          }`}
+                          title={strings.showMapHint}
+                        >
+                          <MapPinnedIcon className="h-3 w-3" />
+                          {strings.showMap}
+                        </button>
+                      )}
                     </div>
                   </td>
                   <td className="px-3 py-2 tabular-nums">
@@ -483,24 +509,6 @@ export default function ActiveWorldsClient({
                             · {formatRelative(ts, now)}
                           </span>
                         ))}
-                      {world.hasSpots && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setMapWorld(world.id);
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                          }}
-                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors ${
-                            previewId === world.id
-                              ? "border-emerald-500/60 bg-emerald-500/20 text-emerald-300"
-                              : "border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
-                          }`}
-                          title="Show event locations on the map"
-                        >
-                          <MapPinnedIcon className="h-3 w-3" />
-                          Map
-                        </button>
-                      )}
                     </div>
                   </td>
                 </tr>
