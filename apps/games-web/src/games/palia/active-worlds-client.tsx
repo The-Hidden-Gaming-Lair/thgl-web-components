@@ -206,14 +206,18 @@ export default function ActiveWorldsClient({
       .catch(() => null);
   };
 
-  // Shared join-code control (copy / requesting / request) — used in the table
-  // rows AND the event-map panel so a code can be requested from either place.
+  // Shared join-code control (copy / requesting / request). The buttons stop
+  // click propagation so acting on the code doesn't also toggle the row's
+  // expansion (everything ELSE in the row expands it).
   const codeControl = (world: PublicWorld) =>
     world.joinCode ? (
       <button
         type="button"
-        onClick={() => copy(world.joinCode!)}
-        className="rounded bg-secondary px-2 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:bg-secondary/80"
+        onClick={(e) => {
+          e.stopPropagation();
+          copy(world.joinCode!);
+        }}
+        className="cursor-copy rounded bg-secondary px-2 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:bg-secondary/80"
         title={strings.copied}
       >
         {copiedId === world.joinCode ? strings.copied : world.joinCode}
@@ -229,7 +233,10 @@ export default function ActiveWorldsClient({
     ) : (
       <button
         type="button"
-        onClick={() => requestCode(world.id)}
+        onClick={(e) => {
+          e.stopPropagation();
+          requestCode(world.id);
+        }}
         className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
         title={strings.requestCodeHint}
       >
@@ -410,11 +417,7 @@ export default function ActiveWorldsClient({
                             </span>
                           )}
                         </div>
-                        {/* Stop the row-toggle when using the code control */}
-                        <div
-                          className="flex flex-wrap items-center gap-2 pl-5"
-                          onClick={(e) => e.stopPropagation()}
-                        >
+                        <div className="flex flex-wrap items-center gap-2 pl-5">
                           {codeControl(world)}
                         </div>
                       </td>
