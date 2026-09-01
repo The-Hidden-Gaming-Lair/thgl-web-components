@@ -74,6 +74,8 @@ export const palia = resolveAppConfig({
       linkText: "config.internalLinks.activeWorlds.linkText",
       iconName: "Server",
       bgImage: "/games/palia/rummage-pile.webp",
+      // WIP — Elite-only preview until the spots build ships & we validate data.
+      previewOnly: true,
     },
     {
       href: "/leaderboard",

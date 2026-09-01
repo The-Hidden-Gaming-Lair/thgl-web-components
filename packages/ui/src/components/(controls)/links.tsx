@@ -12,6 +12,7 @@ import {
 import { ExternalLink, MoreHorizontal, ChevronsUpDown } from "lucide-react";
 import { AppConfig, localizePath, cn } from "@repo/lib";
 import { Badge } from "../ui/badge";
+import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 import { useI18n } from "../(providers)";
 import { ScriptLoader } from "../(ads)";
 import ConsentLink from "../(ads)/consent-link";
@@ -56,6 +57,8 @@ export function Links({
 }): JSX.Element {
   const pathname = usePathname() ?? "/";
   const { locale, t } = useI18n();
+  // Elite-only (previewOnly) links stay hidden from the nav until access resolves.
+  const previewGate = usePreviewReleaseGate();
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(100);
   // Force re-render after hydration to fix active state mismatch
@@ -80,7 +83,9 @@ export function Links({
         (l) =>
           l.href !== "/" &&
           !l.href.startsWith("/maps") &&
-          !l.href.startsWith("/guides"),
+          !l.href.startsWith("/guides") &&
+          // Hide Elite-only links unless preview access is granted.
+          (!l.previewOnly || previewGate === "allow"),
       ) ?? [];
 
     const before = NAV_BEFORE.filter(
@@ -135,7 +140,15 @@ export function Links({
     }
 
     return items;
-  }, [appConfig.internalLinks, appConfig.db, hasMap, hasGuides, locale, t]);
+  }, [
+    appConfig.internalLinks,
+    appConfig.db,
+    hasMap,
+    hasGuides,
+    locale,
+    t,
+    previewGate,
+  ]);
 
   // Build external items: In-Game App first (most important), then partner links, then locale last
   const externalItems = useMemo(() => {

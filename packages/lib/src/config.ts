@@ -59,6 +59,9 @@ export type AppConfig = {
     linkText?: string;
     bgImage?: string;
     iconName: IconName;
+    /** Elite-only (preview) link — hidden from nav/home/sitemap for everyone
+     *  else. Used to soft-launch a WIP page of a live game. */
+    previewOnly?: boolean;
   }[];
   promoLinks?: {
     title: string;

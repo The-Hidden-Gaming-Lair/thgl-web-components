@@ -1,5 +1,5 @@
 "use client";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   isDebug,
   isLocalDev,
@@ -22,6 +22,14 @@ export type PreviewGate = "allow" | "deny" | "pending";
 export function usePreviewReleaseGate(): PreviewGate {
   const hasHydrated = useAccountStore((s) => s._hasHydrated);
   const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
+  // SSR-safe: the server has no `window` (isLocalDev/isDebug read location), so
+  // it always renders "pending". Stay "pending" on the first client render too
+  // (mounted === false) so hydration matches, then resolve after mount. Without
+  // this, dev/Elite would flip to "allow" on the first client paint and mismatch
+  // the server HTML (e.g. a gated nav link appearing where another link was).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return "pending";
   // Same dev/debug bypass as PreviewReleaseGuard: local dev server + THGLApp
   // Debug build (which serves the production frontend in its WebView2).
   if (isLocalDev || isDebug()) return "allow";

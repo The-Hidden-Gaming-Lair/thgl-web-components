@@ -523,6 +523,7 @@ export function createSitemap(appConfig: AppConfig) {
       }
 
       for (const link of appConfig.internalLinks || []) {
+        if (link.previewOnly) continue; // Elite-only WIP page — keep out of sitemap
         const path = link.href.replaceAll(/&/g, "%26");
         const url = `https://${appConfig.domain}.th.gl` + path;
         if (!entries.has(url)) {

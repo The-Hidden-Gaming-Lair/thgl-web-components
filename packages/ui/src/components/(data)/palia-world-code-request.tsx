@@ -3,6 +3,7 @@
 import { useGameState } from "@repo/lib";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
+import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 
 const REQUESTED_API = "https://palia-api.th.gl/worlds/requested";
 const POLL_MS = 8_000;
@@ -18,9 +19,11 @@ export function PaliaWorldCodeRequest() {
   } | null;
   const myWorldId = player?.worldId ?? null;
   const wasRequested = useRef(false);
+  // Elite-only preview: don't nudge non-preview players to share codes yet.
+  const allowed = usePreviewReleaseGate() === "allow";
 
   useEffect(() => {
-    if (!myWorldId) {
+    if (!allowed || !myWorldId) {
       if (wasRequested.current) {
         toast.dismiss(TOAST_ID);
         wasRequested.current = false;
@@ -61,7 +64,7 @@ export function PaliaWorldCodeRequest() {
       cancelled = true;
       clearInterval(interval);
     };
-  }, [myWorldId]);
+  }, [myWorldId, allowed]);
 
   return null;
 }

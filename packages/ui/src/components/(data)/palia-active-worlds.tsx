@@ -3,7 +3,8 @@
 import { useGameState } from "@repo/lib";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../(controls)";
-import { Copy, Server, Send } from "lucide-react";
+import { Copy, Server, Send, Clock } from "lucide-react";
+import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 import {
   Sheet,
   SheetContent,
@@ -74,6 +75,10 @@ export function PaliaActiveWorlds() {
   // In-game clock shown at the end of the trigger row (replaces the separate
   // "Palia Time" sidebar row; the locked-window PaliaTime overlay stays).
   const paliaTime = usePaliaTime();
+  // Active Worlds is an Elite-only preview for now; non-preview users still get
+  // the in-game clock (this row replaced the old standalone "Palia Time" row).
+  const previewGate = usePreviewReleaseGate();
+  const showWorlds = previewGate === "allow";
   const myWorld =
     (myWorldId && data?.worlds.find((world) => world.id === myWorldId)) || null;
 
@@ -90,6 +95,7 @@ export function PaliaActiveWorlds() {
   // Poll even while the sheet is closed so the sidebar current-world line has
   // age data — slower closed (60s) than open (30s); the CDN caches the GET.
   useEffect(() => {
+    if (!showWorlds) return; // non-preview: clock only, don't poll the worlds API
     refresh();
     const poll = setInterval(refresh, isOpen ? 30_000 : 60_000);
     const tick = setInterval(() => setNow(Date.now()), 1000);
@@ -97,7 +103,7 @@ export function PaliaActiveWorlds() {
       clearInterval(poll);
       clearInterval(tick);
     };
-  }, [isOpen, refresh]);
+  }, [isOpen, refresh, showWorlds]);
 
   const copy = (id: string) => {
     navigator.clipboard?.writeText(id).catch(() => null);
@@ -126,6 +132,18 @@ export function PaliaActiveWorlds() {
       })
       .catch(() => null);
   };
+
+  // Non-preview users: keep only the in-game clock (the Active Worlds panel is
+  // Elite-only until it launches). Mirrors the trigger row's clock placement.
+  if (!showWorlds) {
+    return (
+      <div className="flex w-full items-center px-3 py-1.5 text-sm text-gray-300">
+        <Clock className="mr-2 h-4 w-4" />
+        <span className="grow text-left">Palia Time</span>
+        {paliaTime}
+      </div>
+    );
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
