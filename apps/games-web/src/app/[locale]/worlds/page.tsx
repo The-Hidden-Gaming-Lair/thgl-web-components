@@ -123,19 +123,6 @@ export default async function ActiveWorlds({ params }: PageProps) {
     empty: t("activeWorlds.empty"),
     live: t("activeWorlds.live"),
     fetchError: t("activeWorlds.fetchError"),
-    ctaTitle: "Find a world and jump in",
-    ctaDescription:
-      "The tracker is powered by players running the free TH.GL companion app while they play — it keeps this list live so you can find a world with the events you want and join it.",
-    ctaStep1: "Get the companion app",
-    ctaStep1Body:
-      "Play with the app open and your world is added here automatically — no setup.",
-    ctaStep2: "Find an active world",
-    ctaStep2Body:
-      "Browse worlds by region, age and live events like Flow Trees and Palium, shown on the map.",
-    ctaStep3: "Request a join code",
-    ctaStep3Body:
-      "A player in that world gets a nudge to share the code — then copy it and join.",
-    ctaButton: "Get the Companion App",
   };
 
   return (
@@ -203,7 +190,26 @@ export default async function ActiveWorlds({ params }: PageProps) {
           header={
             <>
               <h2 className="text-2xl">{t("activeWorlds.heading")}</h2>
-              <p className="text-sm">{t("activeWorlds.description")}</p>
+              {(() => {
+                // Link the "TH.GL companion apps" phrase to /companion-app. Falls
+                // back to plain text for locales that translate it differently.
+                const desc = t("activeWorlds.description");
+                const phrase = "TH.GL companion apps";
+                const i = desc.indexOf(phrase);
+                if (i === -1) return <p className="text-sm">{desc}</p>;
+                return (
+                  <p className="text-sm">
+                    {desc.slice(0, i)}
+                    <a
+                      href="https://www.th.gl/companion-app"
+                      className="text-primary underline hover:no-underline"
+                    >
+                      {phrase}
+                    </a>
+                    {desc.slice(i + phrase.length)}
+                  </p>
+                );
+              })()}
               <p className="mt-1 text-sm text-muted-foreground">
                 🚧 This feature is a work in progress — we&apos;d love your
                 feedback on{" "}

@@ -1,11 +1,6 @@
 "use client";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import {
-  MapPinnedIcon,
-  SendIcon,
-  DownloadIcon,
-  ChevronRightIcon,
-} from "lucide-react";
+import { SendIcon, ChevronRightIcon } from "lucide-react";
 import WorldMapPreview, {
   type WorldMapPreviewIcons,
 } from "./world-map-preview";
@@ -69,15 +64,6 @@ export type ActiveWorldsStrings = {
   empty: string;
   live: string;
   fetchError: string;
-  ctaTitle: string;
-  ctaDescription: string;
-  ctaStep1: string;
-  ctaStep1Body: string;
-  ctaStep2: string;
-  ctaStep2Body: string;
-  ctaStep3: string;
-  ctaStep3Body: string;
-  ctaButton: string;
 };
 
 // Only the string-valued label keys — keeps `strings[bucketKey]` a string.
@@ -540,56 +526,6 @@ export default function ActiveWorldsClient({
           </table>
         </div>
       )}
-
-      {/* How it works + companion-app advert (mirrors the rummage-pile page) */}
-      <div className="mt-4 rounded-2xl border border-primary/20 bg-linear-to-br from-primary/5 via-transparent to-accent/5 p-6 md:p-8">
-        <h3 className="mb-2 text-2xl font-bold text-primary">
-          {strings.ctaTitle}
-        </h3>
-        <p className="mb-6 text-muted-foreground">{strings.ctaDescription}</p>
-        <div className="mb-8 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              icon: DownloadIcon,
-              title: strings.ctaStep1,
-              body: strings.ctaStep1Body,
-            },
-            {
-              icon: MapPinnedIcon,
-              title: strings.ctaStep2,
-              body: strings.ctaStep2Body,
-            },
-            {
-              icon: SendIcon,
-              title: strings.ctaStep3,
-              body: strings.ctaStep3Body,
-            },
-          ].map((step, i) => (
-            <div
-              key={i}
-              className="flex h-full flex-col items-center gap-4 rounded-xl border border-border/50 bg-card/50 p-5"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">
-                {i + 1}
-              </div>
-              <step.icon className="h-8 w-8 shrink-0 text-primary" />
-              <div className="text-center">
-                <p className="mb-1 font-medium">{step.title}</p>
-                <p className="text-sm text-muted-foreground">{step.body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <a
-          href="https://www.th.gl/companion-app"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.02]"
-        >
-          <DownloadIcon className="h-4 w-4" />
-          {strings.ctaButton}
-        </a>
-      </div>
     </div>
   );
 }
