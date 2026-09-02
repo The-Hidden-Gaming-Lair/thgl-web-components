@@ -259,7 +259,7 @@ export default function ActiveWorldsClient({
           e.stopPropagation();
           requestCode(world.id);
         }}
-        className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border/60 disabled:hover:text-muted-foreground"
+        className="inline-flex items-center gap-1 whitespace-nowrap rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border/60 disabled:hover:text-muted-foreground"
         title={atRequestLimit ? strings.requestLimit : strings.requestCodeHint}
       >
         <SendIcon className="h-3 w-3" />
@@ -484,9 +484,15 @@ export default function ActiveWorldsClient({
             <thead>
               <tr className="border-b border-border/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="px-3 py-2 font-medium">{strings.worldId}</th>
-                <th className="px-3 py-2 font-medium">{strings.age}</th>
-                <th className="px-3 py-2 font-medium">{strings.lastReport}</th>
-                <th className="px-3 py-2 font-medium">{strings.reporters}</th>
+                <th className="whitespace-nowrap px-3 py-2 font-medium">
+                  {strings.age}
+                </th>
+                <th className="whitespace-nowrap px-3 py-2 font-medium max-sm:hidden">
+                  {strings.lastReport}
+                </th>
+                <th className="whitespace-nowrap px-3 py-2 font-medium max-sm:hidden">
+                  {strings.reporters}
+                </th>
                 <th className="px-3 py-2 font-medium">{strings.activity}</th>
               </tr>
             </thead>
@@ -511,7 +517,7 @@ export default function ActiveWorldsClient({
                         expanded ? "bg-card/60" : ""
                       }`}
                     >
-                      <td className="px-3 py-2">
+                      <td className="px-3 py-2 align-top">
                         <div className="mb-1 flex flex-wrap items-center gap-1.5">
                           <ChevronRightIcon
                             className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${
@@ -538,17 +544,28 @@ export default function ActiveWorldsClient({
                         <div className="flex flex-wrap items-center gap-2 pl-5">
                           {codeControl(world)}
                         </div>
+                        {/* Secondary stats fold into the world cell on mobile,
+                            where the Last-report / Reporters columns are hidden. */}
+                        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 pl-5 text-[11px] text-muted-foreground tabular-nums sm:hidden">
+                          <span>
+                            {strings.lastReport}:{" "}
+                            {formatRelative(world.lastSeen, now)}
+                          </span>
+                          <span>
+                            {strings.reporters}: {world.reporters}
+                          </span>
+                        </div>
                       </td>
-                      <td className="px-3 py-2 tabular-nums">
+                      <td className="whitespace-nowrap px-3 py-2 align-top tabular-nums">
                         {formatAge(world.startedAt, now, strings.ageUnknown)}
                       </td>
-                      <td className="px-3 py-2 tabular-nums text-muted-foreground">
+                      <td className="px-3 py-2 align-top tabular-nums text-muted-foreground max-sm:hidden">
                         {formatRelative(world.lastSeen, now)}
                       </td>
-                      <td className="px-3 py-2 tabular-nums text-muted-foreground">
+                      <td className="px-3 py-2 align-top tabular-nums text-muted-foreground max-sm:hidden">
                         {world.reporters}
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="px-3 py-2 align-top">
                         <div className="flex flex-wrap items-center gap-1">
                           {Object.entries(world.activity)
                             .sort((a, b) => b[1] - a[1])
@@ -559,7 +576,7 @@ export default function ActiveWorldsClient({
                               return (
                                 <span
                                   key={bucket}
-                                  className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
+                                  className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
                                 >
                                   {dot && (
                                     <span
@@ -569,8 +586,13 @@ export default function ActiveWorldsClient({
                                   )}
                                   {ACTIVITY_LABEL_KEYS[bucket]
                                     ? strings[ACTIVITY_LABEL_KEYS[bucket]]
-                                    : bucket}{" "}
-                                  · {formatRelative(ts, now)}
+                                    : bucket}
+                                  {/* Timestamp is space-hungry — drop it on
+                                      mobile where the column is narrow. */}
+                                  <span className="max-sm:hidden">
+                                    {" "}
+                                    · {formatRelative(ts, now)}
+                                  </span>
                                 </span>
                               );
                             })}
