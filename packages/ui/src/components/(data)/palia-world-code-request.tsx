@@ -3,7 +3,6 @@
 import { useGameState, useSettingsStore } from "@repo/lib";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 
 const REQUESTED_API = "https://palia-api.th.gl/worlds/requested";
 const WORLDS_API = "https://palia-api.th.gl/worlds";
@@ -16,17 +15,17 @@ const TOAST_ID = "palia-world-code-request";
 // for THIS world's code, prompt the player to open the invite panel so the app
 // can capture + share it — then thank them once it's fulfilled. The prompt is
 // sticky (it stays until shared/expired, not a 15s flash) and can be muted in
-// Settings. Elite/preview-gated while the feature is in preview.
+// Settings → Palia.
 export function PaliaWorldCodeRequest() {
   const player = useGameState((state) => state.player) as {
     worldId?: string;
   } | null;
   const myWorldId = player?.worldId ?? null;
   const muted = useSettingsStore((s) => s.worldCodeRequestsMuted);
-  const allowed = usePreviewReleaseGate() === "allow" && !muted;
+  const allowed = !muted;
   const wasRequested = useRef(false);
 
-  // If the feature gets muted (or gated off) while a prompt is up, clear it.
+  // If the feature gets muted while a prompt is up, clear it.
   useEffect(() => {
     if (!allowed) {
       toast.dismiss(TOAST_ID);

@@ -13,7 +13,6 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { usePaliaTime } from "./palia-time";
-import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 
 const WORLDS_API = "https://palia-api.th.gl/worlds";
 const TRACKER_URL = "https://palia.th.gl/worlds";
@@ -68,9 +67,9 @@ export function PaliaActiveWorlds() {
   } | null;
   const myWorldId = player?.worldId ?? null;
   const paliaTime = usePaliaTime();
-  const previewGate = usePreviewReleaseGate();
-  // In-app only + Elite/preview-gated. Everyone else just gets the clock.
-  const showPanel = (isThglApp || isOverwolf) && previewGate === "allow";
+  // In-app only: the web has the /worlds page, so the sidebar there is just the
+  // clock. In the overlay/desktop app it's the focused "Your World" panel.
+  const showPanel = isThglApp || isOverwolf;
   const myWorld =
     (myWorldId && data?.worlds.find((w) => w.id === myWorldId)) || null;
 

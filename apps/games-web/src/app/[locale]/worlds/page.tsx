@@ -15,7 +15,6 @@ import { requireApp } from "@/lib/get-app-config";
 import ActiveWorldsClient, {
   type ActiveWorldsStrings,
 } from "@/games/palia/active-worlds-client";
-import ActiveWorldsGate from "@/games/palia/active-worlds-gate";
 
 type PageProps = { params: Promise<{ locale?: string }> };
 
@@ -41,8 +40,6 @@ export async function generateMetadata({
     title,
     description,
     openGraph: { title, description, url: canonical },
-    // WIP / Elite-only preview — keep it out of search until it launches.
-    robots: { index: false, follow: false },
   };
 }
 
@@ -225,11 +222,7 @@ export default async function ActiveWorlds({ params }: PageProps) {
               </p>
             </>
           }
-          content={
-            <ActiveWorldsGate title={t("activeWorlds.heading")}>
-              <ActiveWorldsClient strings={strings} mapIcons={mapIcons} />
-            </ActiveWorldsGate>
-          }
+          content={<ActiveWorldsClient strings={strings} mapIcons={mapIcons} />}
         />
       </HeaderOffset>
     </>
