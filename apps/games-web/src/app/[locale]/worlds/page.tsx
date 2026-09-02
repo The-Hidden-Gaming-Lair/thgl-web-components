@@ -88,6 +88,7 @@ export default async function ActiveWorlds({ params }: PageProps) {
     activityLootPiles: t("activeWorlds.activityLootPiles"),
     ageUnknown: "New",
     copied: t("activeWorlds.copied"),
+    codeReported: "Reported {ago} ago · click to copy",
     noCode: t("activeWorlds.noCode"),
     requestCode: "Request code",
     requestCodeHint:

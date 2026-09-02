@@ -27,6 +27,7 @@ export type PublicWorld = {
   activity: Record<string, number>;
   codeRequested: boolean;
   codeRequestedAt: number | null;
+  joinCodeAt: number | null;
   hasSpots: boolean;
 };
 
@@ -47,6 +48,7 @@ export type ActiveWorldsStrings = {
   activityLootPiles: string;
   ageUnknown: string;
   copied: string;
+  codeReported: string; // tooltip: how long ago the code was reported ("{ago}" placeholder)
   noCode: string;
   requestCode: string;
   requestCodeHint: string;
@@ -220,7 +222,14 @@ export default function ActiveWorldsClient({
           copy(world.joinCode!);
         }}
         className="cursor-copy rounded bg-secondary px-2 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:bg-secondary/80"
-        title={strings.copied}
+        title={
+          world.joinCodeAt
+            ? strings.codeReported.replace(
+                "{ago}",
+                formatRelative(world.joinCodeAt, now),
+              )
+            : strings.copied
+        }
       >
         {copiedId === world.joinCode ? strings.copied : world.joinCode}
       </button>
