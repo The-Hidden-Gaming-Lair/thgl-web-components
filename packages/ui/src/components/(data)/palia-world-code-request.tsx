@@ -1,6 +1,7 @@
 "use client";
 
-import { useGameState, useSettingsStore } from "@repo/lib";
+import { isThglApp, useGameState, useSettingsStore } from "@repo/lib";
+import { setWorldCodeRequestsMuted } from "@repo/lib/thgl-app";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
@@ -24,6 +25,16 @@ export function PaliaWorldCodeRequest() {
   const muted = useSettingsStore((s) => s.worldCodeRequestsMuted);
   const allowed = !muted;
   const wasRequested = useRef(false);
+
+  // Opt-out is a TRUE opt-out: mirror the mute into the native app so its world
+  // heartbeat drops the join code at the source (never transmitted when muted).
+  // Pushed on mount + on every change so C++ AppSettings stays in sync; the
+  // Overwolf background reads the same setting store directly.
+  useEffect(() => {
+    if (isThglApp) {
+      setWorldCodeRequestsMuted(muted).catch(() => {});
+    }
+  }, [muted]);
 
   // If the feature gets muted while a prompt is up, clear it.
   useEffect(() => {

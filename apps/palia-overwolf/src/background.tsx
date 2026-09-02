@@ -8,7 +8,7 @@ import {
   promisifyOverwolf,
 } from "@repo/lib/overwolf";
 import { APP_CONFIG } from "./config";
-import { fetchVersion } from "@repo/lib";
+import { fetchVersion, useSettingsStore } from "@repo/lib";
 
 const version = await fetchVersion(APP_CONFIG.name);
 const typesIdMap = version.data.typesIdMap;
@@ -273,6 +273,9 @@ setInterval(() => {
       if (!currentServerId) {
         return;
       }
+      // Opt-out: when the player has muted join-code requests, the code is
+      // NEVER transmitted — not silenced downstream, dropped at the source.
+      const shareCode = !useSettingsStore.getState().worldCodeRequestsMuted;
       fetch("https://palia-api.th.gl/worlds", {
         method: "POST",
         headers: {
@@ -282,7 +285,9 @@ setInterval(() => {
         body: JSON.stringify({
           serverId: currentServerId,
           clientId: worldClientId,
-          ...(worldInfo?.joinCode ? { joinCode: worldInfo.joinCode } : {}),
+          ...(shareCode && worldInfo?.joinCode
+            ? { joinCode: worldInfo.joinCode }
+            : {}),
           ...(worldInfo?.region ? { region: worldInfo.region } : {}),
           ...(worldInfo?.startedAt ? { startedAt: worldInfo.startedAt } : {}),
         }),

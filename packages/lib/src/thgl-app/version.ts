@@ -83,6 +83,15 @@ export function setCloseAction(closeAction: CloseAction) {
   });
 }
 
+// Opt-out mirror: pushes the Palia join-code mute to the native app so its world
+// heartbeat can DROP the join code at the source (never transmitted when muted).
+export function setWorldCodeRequestsMuted(muted: boolean) {
+  return postWebviewMessage({
+    action: "setWorldCodeRequestsMuted",
+    payload: { muted },
+  });
+}
+
 export function setLocaleOnNative(locale: string) {
   return postWebviewMessage({ action: "setLocale", payload: { locale } });
 }

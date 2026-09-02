@@ -283,6 +283,12 @@ export type WEBVIEW_SEND_MESSAGE =
       };
     }
   | {
+      action: "setWorldCodeRequestsMuted";
+      payload: {
+        muted: boolean;
+      };
+    }
+  | {
       action: "setLocale";
       payload: {
         locale: string;

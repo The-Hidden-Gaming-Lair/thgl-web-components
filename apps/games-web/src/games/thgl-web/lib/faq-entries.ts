@@ -66,7 +66,7 @@ Palia streams each zone as its own server instance, and to hop into a **specific
 
 **What sharing does — please read:** posting the code lists it publicly on the tracker, and **anyone with the code can join the world you're currently in** (joining costs them a teleport cooldown or a teleport potion, so it isn't instant server-hopping). Only share if you're happy for others to hop in — e.g. don't share during a private or player-hosted event. The code also expires on Palia's side, so a shared code goes stale on its own.
 
-**Don't want the prompts at all?** Turn them off in **Settings → Palia → Join-code request notifications**.
+**Don't want any of this?** Turn off **Settings → Palia → Join-code request notifications**. That's a true opt-out: you'll stop seeing the prompts **and** the app will never share your world's join code while it's off. If you'd already shared a code before turning it off, the tracker drops it within a few minutes once the app stops sending it.
     `.trim(),
     labels: ["Palia"],
   },
