@@ -112,13 +112,9 @@ export const starrupture = resolveAppConfig({
         icon: "🔷",
         description: "Combat & Survival LEM mods — effect, magnitude and tier.",
       },
-      {
-        href: "/db/aliens",
-        type: "aliens",
-        titleFallback: "Aliens & Fauna",
-        icon: "👾",
-        description: "Creatures and fauna native to Arcadia-7.",
-      },
+      // "aliens" + "lore" sections removed in game Update 2 (build 25052139):
+      // DT_Encyclopedia dropped all non-building rows (placeholder codex deleted).
+      // Re-add when the reworked codex ships (ENC_Fauna/ENC_Space icons are pre-staged).
       {
         href: "/db/audiologs",
         type: "audiologs",
@@ -132,13 +128,6 @@ export const starrupture = resolveAppConfig({
         titleFallback: "Data Pads",
         icon: "💾",
         description: "Collectible data pads scattered across the map.",
-      },
-      {
-        href: "/db/lore",
-        type: "lore",
-        titleFallback: "Lore",
-        icon: "📖",
-        description: "World lore, locations and characters of Arcadia-7.",
       },
     ],
     typeLabels: {
