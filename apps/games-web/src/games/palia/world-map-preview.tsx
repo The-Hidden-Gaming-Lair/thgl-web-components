@@ -28,6 +28,14 @@ const BUCKET_META: Record<string, { label: string; dot: string }> = {
 
 type Spots = Record<string, { m: string; x: number; y: number; at: number }[]>;
 
+// "3s ago" / "5m ago" / "1h ago" — recomputed each 15s poll (spots refresh).
+function formatAgo(atMs: number): string {
+  const s = Math.max(0, Math.floor((Date.now() - atMs) / 1000));
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60);
+  return m < 60 ? `${m}m ago` : `${Math.floor(m / 60)}h ago`;
+}
+
 export type WorldMapPreviewIcons = {
   tiles: TilesConfig;
   iconsPath: string;
@@ -77,11 +85,13 @@ export default function WorldMapPreview({
     for (const [bucket, list] of Object.entries(spots)) {
       const meta = BUCKET_META[bucket];
       const icon = icons.bucketIcons[bucket] ?? icons.fallbackIcon;
+      const label = meta?.label ?? bucket;
       list.forEach((s, i) => {
         (out[s.m] ||= []).push({
           id: `${bucket}-${s.m}-${i}`,
-          name: meta?.label ?? bucket,
-          label: meta?.label ?? bucket, // shown verbatim in the hover tooltip
+          name: label,
+          label, // tooltip title
+          description: `Last detected ${formatAgo(s.at)}`,
           icon,
           p: [s.x, s.y],
         } as SimpleSpawn);

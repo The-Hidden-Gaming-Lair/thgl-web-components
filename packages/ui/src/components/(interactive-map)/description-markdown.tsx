@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import Markdown from "markdown-to-jsx";
 import Link from "next/link";
 import { localizePath } from "@repo/lib";
-import { useLocale, useT, useUserStore } from "../(providers)";
+import { useLocale, useT, useUserStoreApiOptional } from "../(providers)";
 import { useMapStore } from "./store";
 
 // Shared renderer for marker DESCRIPTIONS (used by both the hover tooltip and the click-through
@@ -40,13 +40,17 @@ type GameMapLike = {
 // (`<prefix>@<lat>:<lng>`), so no lookup is needed. Same-map only (requirement links point at a boss
 // on the map the marker is already on); a modified/middle click falls through to the href.
 export function useFocusMarker() {
-  const setSelectedNodeId = useUserStore((s) => s.setSelectedNodeId);
+  // Read the store imperatively (best-effort): a standalone map embed like the
+  // /worlds preview has no CoordinatesProvider, and its descriptions carry no
+  // marker deep-links anyway — so selecting a node can safely no-op there.
+  const userStore = useUserStoreApiOptional();
   return useCallback(
     (nodeId: string) => {
       const at = nodeId.split("@")[1];
       const [lat, lng] = at ? at.split(":").map(Number) : [NaN, NaN];
       if (Number.isNaN(lat) || Number.isNaN(lng)) return;
-      setSelectedNodeId(nodeId); // triggers useMarkerUrlSync -> replaceState URL update (no reload)
+      // triggers useMarkerUrlSync -> replaceState URL update (no reload)
+      userStore?.getState().setSelectedNodeId(nodeId);
       const map = useMapStore.getState().map as
         | (GameMapLike & { minZoom?: number; maxZoom?: number })
         | null;
@@ -57,7 +61,7 @@ export function useFocusMarker() {
       map.setCenter([lat, lng]);
       if (map.getZoom() < targetZoom) map.setZoom(targetZoom);
     },
-    [setSelectedNodeId],
+    [userStore],
   );
 }
 
