@@ -18,6 +18,8 @@ import { Skeleton } from "@repo/ui/data";
 const WORLDS_API = "https://palia-api.th.gl/worlds";
 const REQUEST_CODE_API = "https://palia-api.th.gl/worlds/request-code";
 const CANCEL_CODE_API = "https://palia-api.th.gl/worlds/cancel-code";
+// Max join-code requests a visitor can have open (without a code) at once.
+const MAX_ACTIVE_REQUESTS = 3;
 
 export type PublicWorld = {
   id: string; // serverId
@@ -53,6 +55,7 @@ export type ActiveWorldsStrings = {
   noCode: string;
   requestCode: string;
   requestCodeHint: string;
+  requestLimit: string;
   codeRequested: string;
   eventMap: string;
   showMap: string;
@@ -157,6 +160,13 @@ export default function ActiveWorldsClient({
 
   const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set());
 
+  // Cap concurrent open requests: count the visitor's requests that don't yet
+  // have a code (pending / expired). Fulfilled ones free a slot.
+  const activeRequestCount = [...requestedIds].filter(
+    (id) => !data?.worlds.find((w) => w.id === id)?.joinCode,
+  ).length;
+  const atRequestLimit = activeRequestCount >= MAX_ACTIVE_REQUESTS;
+
   useEffect(() => {
     refresh();
     // Poll faster while the visitor is waiting on a requested code so it (and
@@ -180,6 +190,7 @@ export default function ActiveWorldsClient({
   };
 
   const requestCode = (serverId: string) => {
+    if (requestedIds.has(serverId) || atRequestLimit) return;
     setRequestedIds((prev) => new Set(prev).add(serverId));
     fetch(REQUEST_CODE_API, {
       method: "POST",
@@ -238,12 +249,13 @@ export default function ActiveWorldsClient({
     ) : (
       <button
         type="button"
+        disabled={atRequestLimit}
         onClick={(e) => {
           e.stopPropagation();
           requestCode(world.id);
         }}
-        className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-        title={strings.requestCodeHint}
+        className="inline-flex items-center gap-1 rounded border border-border/60 px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border/60 disabled:hover:text-muted-foreground"
+        title={atRequestLimit ? strings.requestLimit : strings.requestCodeHint}
       >
         <SendIcon className="h-3 w-3" />
         {strings.requestCode}
@@ -376,17 +388,24 @@ export default function ActiveWorldsClient({
 
       {/* Live tracker for the join-code requests this visitor has made */}
       {data && requestedIds.size > 0 && (
-        <PendingCodeRequests
-          worlds={data.worlds}
-          myRequests={requestedIds}
-          ttlMs={data.codeRequestTtlMs ?? 120_000}
-          now={now}
-          copiedId={copiedId}
-          onCancel={cancelRequest}
-          onRetry={requestCode}
-          onCopy={copy}
-          strings={strings.pending}
-        />
+        <>
+          <PendingCodeRequests
+            worlds={data.worlds}
+            myRequests={requestedIds}
+            ttlMs={data.codeRequestTtlMs ?? 120_000}
+            now={now}
+            copiedId={copiedId}
+            onCancel={cancelRequest}
+            onRetry={requestCode}
+            onCopy={copy}
+            strings={strings.pending}
+          />
+          {atRequestLimit && (
+            <p className="px-1 text-xs text-amber-400">
+              {strings.requestLimit}
+            </p>
+          )}
+        </>
       )}
 
       {error && (

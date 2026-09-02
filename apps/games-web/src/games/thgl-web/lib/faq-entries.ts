@@ -62,9 +62,11 @@ You can subscribe on the [Support page](/support-me). Here's the full breakdown:
 
 Palia streams each zone as its own server instance, and to hop into a **specific** world you need its **4-character join code**. On the tracker you can **request a code** for any active world.
 
-**"A player wants to join your world" prompt:** when someone requests a code for the world you're currently in, the app shows you a prompt. To share your code, open the game menu (**Esc → World Code**) — the app reads the code the game displays and posts it to the tracker so the other player can join. It's completely optional: nothing is shared unless you open that panel yourself.
+**"A player wants to join your world" prompt:** when someone requests a code for the world you're currently in, the app shows you a prompt. Sharing is **opt-in and explicit** — nothing happens unless *you* open the game menu (**Esc → World Code**). When you do, the app reads the code the game displays and posts it to the tracker.
 
-**Don't want these prompts?** Turn them off in **Settings → Palia → Join-code request notifications**.
+**What sharing does — please read:** posting the code lists it publicly on the tracker, and **anyone with the code can join the world you're currently in** (joining costs them a teleport cooldown or a teleport potion, so it isn't instant server-hopping). Only share if you're happy for others to hop in — e.g. don't share during a private or player-hosted event. The code also expires on Palia's side, so a shared code goes stale on its own.
+
+**Don't want the prompts at all?** Turn them off in **Settings → Palia → Join-code request notifications**.
     `.trim(),
     labels: ["Palia"],
   },

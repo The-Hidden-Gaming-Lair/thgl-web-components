@@ -45,7 +45,7 @@ function worldName(serverId: string): { zone: string; id: string } {
 }
 
 function formatAge(startedAt: number | null, now: number) {
-  if (!startedAt) return "";
+  if (!startedAt) return "New";
   const totalMinutes = Math.max(0, Math.floor((now - startedAt) / 60_000));
   const h = Math.floor(totalMinutes / 60);
   const m = totalMinutes % 60;

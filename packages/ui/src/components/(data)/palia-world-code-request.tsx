@@ -53,7 +53,7 @@ export function PaliaWorldCodeRequest() {
               id: TOAST_ID,
               duration: Infinity, // sticky until the code is shared or expires
               description:
-                "Someone found your world on the TH.GL Active Worlds tracker. Open the game menu (Esc) → World Code to share your join code with them.",
+                "They found your world on the TH.GL Active Worlds tracker. To let them in, open the game menu (Esc) → World Code — this shares your join code on the tracker, so anyone with it can hop into your CURRENT world. Only share if you're happy for others to join.",
               action: {
                 label: "What's this?",
                 onClick: () =>

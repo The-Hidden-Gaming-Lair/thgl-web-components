@@ -89,12 +89,14 @@ export default async function ActiveWorlds({ params }: PageProps) {
     activityFlowTrees: t("activeWorlds.activityFlowTrees"),
     activityPalium: t("activeWorlds.activityPalium"),
     activityLootPiles: t("activeWorlds.activityLootPiles"),
-    ageUnknown: t("activeWorlds.ageUnknown"),
+    ageUnknown: "New",
     copied: t("activeWorlds.copied"),
     noCode: t("activeWorlds.noCode"),
     requestCode: "Request code",
     requestCodeHint:
       "Ask a player in this world to share its join code so you can hop in.",
+    requestLimit:
+      "You already have 3 active requests — wait for a code, or cancel one first.",
     codeRequested: "Requesting…",
     eventMap: "Event map",
     showMap: "Show map",
