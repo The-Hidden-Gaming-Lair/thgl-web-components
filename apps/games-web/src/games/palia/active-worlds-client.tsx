@@ -7,7 +7,7 @@ import WorldMapPreview, {
 import PendingCodeRequests, {
   type PendingRequestStrings,
 } from "./pending-code-requests";
-import { worldName } from "./world-name";
+import { worldName, zoneLabel, ZONE_ORDER } from "./world-name";
 import { Skeleton } from "@repo/ui/data";
 
 const WORLDS_API = "https://palia-api.th.gl/worlds";
@@ -59,6 +59,12 @@ export type ActiveWorldsStrings = {
   showMapHint: string;
   lookingFor: string;
   clearFilter: string;
+  zone: string;
+  zoneAll: string;
+  sort: string;
+  sortActive: string;
+  sortOldest: string;
+  sortNewest: string;
   noneMatch: string;
   noMapTitle: string;
   noMapBody: string;
@@ -116,6 +122,10 @@ export default function ActiveWorldsClient({
   const [now, setNow] = useState(() => Date.now());
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [eventFilter, setEventFilter] = useState<Set<string>>(new Set());
+  const [zoneFilter, setZoneFilter] = useState("");
+  const [sortBy, setSortBy] = useState<"active" | "oldest" | "newest">(
+    "active",
+  );
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Frozen row order so a background refresh doesn't reshuffle the table (which
   // would yank the row you just requested/expanded). Rebuilt only when the
@@ -282,23 +292,44 @@ export default function ActiveWorldsClient({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, requestedIds]);
 
-  // Apply the "looking for" event filter: keep only worlds with a selected
-  // activity, freshest first. No filter = all worlds, newest-seen first.
+  // Which zones currently have worlds, in canonical order — drives the dropdown
+  // so we never offer an empty zone.
+  const zonesPresent = ZONE_ORDER.filter((z) =>
+    (data?.worlds ?? []).some((w) => worldName(w.id).zoneKey === z),
+  );
+
+  // Apply the zone + "looking for" event filters, then sort. Default sort keeps
+  // the old behaviour (freshest activity when event-filtered, else newest-seen);
+  // "oldest"/"newest" sort by server age (unknown age sinks to the bottom).
   const filteredWorlds = (() => {
-    const all = data?.worlds ?? [];
-    if (eventFilter.size === 0) return all;
     const buckets = [...eventFilter];
     const freshest = (w: PublicWorld) =>
       Math.max(0, ...buckets.map((bk) => w.activity[bk] ?? 0));
-    return all
-      .filter((w) => freshest(w) > 0)
-      .sort((a, b) => freshest(b) - freshest(a));
+    const list = (data?.worlds ?? []).filter((w) => {
+      if (zoneFilter && worldName(w.id).zoneKey !== zoneFilter) return false;
+      if (eventFilter.size > 0 && freshest(w) <= 0) return false;
+      return true;
+    });
+    if (sortBy === "oldest") {
+      return list.sort(
+        (a, b) => (a.startedAt ?? Infinity) - (b.startedAt ?? Infinity),
+      );
+    }
+    if (sortBy === "newest") {
+      return list.sort(
+        (a, b) => (b.startedAt ?? -Infinity) - (a.startedAt ?? -Infinity),
+      );
+    }
+    if (eventFilter.size > 0) {
+      return list.sort((a, b) => freshest(b) - freshest(a));
+    }
+    return list.sort((a, b) => b.lastSeen - a.lastSeen);
   })();
 
   // Stabilise the order: keep the positions established on first render (or when
   // the filter changed) so refreshes don't move rows the user is interacting
   // with. New worlds are appended; worlds that dropped out are removed.
-  const filterKey = [...eventFilter].sort().join(",");
+  const filterKey = `${sortBy}|${zoneFilter}|${[...eventFilter].sort().join(",")}`;
   const stableWorlds = (() => {
     const byId = new Map(filteredWorlds.map((w) => [w.id, w]));
     const prev = orderRef.current.key === filterKey ? orderRef.current.ids : [];
@@ -378,6 +409,40 @@ export default function ActiveWorldsClient({
               {strings.clearFilter}
             </button>
           )}
+
+          {/* Zone filter + age sort (requested by the community) */}
+          <span className="mx-1 hidden h-4 w-px bg-border/60 sm:block" />
+          {zonesPresent.length > 1 && (
+            <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+              {strings.zone}
+              <select
+                value={zoneFilter}
+                onChange={(e) => setZoneFilter(e.target.value)}
+                className="rounded-full border border-border/60 bg-card px-2 py-1 text-xs text-foreground focus:border-primary/50 focus:outline-none"
+              >
+                <option value="">{strings.zoneAll}</option>
+                {zonesPresent.map((z) => (
+                  <option key={z} value={z}>
+                    {zoneLabel(z)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+            {strings.sort}
+            <select
+              value={sortBy}
+              onChange={(e) =>
+                setSortBy(e.target.value as "active" | "oldest" | "newest")
+              }
+              className="rounded-full border border-border/60 bg-card px-2 py-1 text-xs text-foreground focus:border-primary/50 focus:outline-none"
+            >
+              <option value="active">{strings.sortActive}</option>
+              <option value="oldest">{strings.sortOldest}</option>
+              <option value="newest">{strings.sortNewest}</option>
+            </select>
+          </label>
         </div>
       )}
 

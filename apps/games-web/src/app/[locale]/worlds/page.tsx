@@ -101,6 +101,12 @@ export default async function ActiveWorlds({ params }: PageProps) {
     showMapHint: "Show this world's event locations on the map above",
     lookingFor: "Looking for:",
     clearFilter: "Clear",
+    zone: "Zone",
+    zoneAll: "All zones",
+    sort: "Sort",
+    sortActive: "Recently active",
+    sortOldest: "Oldest first",
+    sortNewest: "Newest first",
     noneMatch: "No active worlds with the selected events right now.",
     noMapTitle: "No event locations on the map yet",
     noMapBody:

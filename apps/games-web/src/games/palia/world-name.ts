@@ -11,8 +11,25 @@ const ZONE_NAMES: Record<string, string> = {
   housing: "Home Plot",
 };
 
-export function worldName(serverId: string): { zone: string; id: string } {
+// Canonical display order for the zone filter (housing is excluded upstream).
+export const ZONE_ORDER = [
+  "village",
+  "adventure",
+  "adventure-2",
+  "adventure-3",
+  "blackmarket",
+] as const;
+
+export function zoneLabel(zoneKey: string): string {
+  return ZONE_NAMES[zoneKey] ?? zoneKey;
+}
+
+export function worldName(serverId: string): {
+  zone: string;
+  zoneKey: string;
+  id: string;
+} {
   const m = serverId.match(/^palia-([a-z]+(?:-\d+)?)-(.+)$/);
-  if (!m) return { zone: serverId, id: "" };
-  return { zone: ZONE_NAMES[m[1]] ?? m[1], id: m[2] };
+  if (!m) return { zone: serverId, zoneKey: "", id: "" };
+  return { zone: ZONE_NAMES[m[1]] ?? m[1], zoneKey: m[1], id: m[2] };
 }
