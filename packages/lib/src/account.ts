@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { withStorageDOMEvents } from "./dom";
+import { TH_GL_URL } from "./env";
 
 export type Perks = {
   adRemoval: boolean;
@@ -117,3 +118,83 @@ export const useAccountStore = create(
 );
 
 withStorageDOMEvents(useAccountStore);
+
+export type ReverifiedAccount =
+  | {
+      status: "ok";
+      userId: string;
+      decryptedUserId: string | null;
+      email: string | null;
+      perks: Perks;
+    }
+  | { status: "not-subscriber" }
+  | { status: "invalid" }
+  | { status: "unknown" };
+
+/**
+ * Re-verify a stored account secret against /api/patreon/overwolf — the
+ * cookie-FREE verification path (the secret itself is the credential).
+ *
+ * Why this exists: the signed-in session is otherwise keyed on the `userId`
+ * cookie, and in THGLApp the WebView2 cookie store is DPAPI-bound to the
+ * Windows account — any cross-identity launch (Windows Compatibility "Run as
+ * administrator" elevating through a second admin account, SYSTEM contexts)
+ * silently regenerates the os_crypt key and wipes ALL cookies, while
+ * localStorage (this store) survives. The persisted secret can therefore heal
+ * the session where the cookie alone would sign the user out.
+ *
+ * "unknown" = transient (network/5xx/503) — callers must KEEP the persisted
+ * state, mirroring the token-store-outage rule in getAccount()/api/patreon.
+ */
+export async function reverifyAccountSecret(
+  secret: string,
+): Promise<ReverifiedAccount> {
+  try {
+    const response = await fetch(`${TH_GL_URL}/api/patreon/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: secret }),
+    });
+    if (response.ok) {
+      const body = (await response.json()) as {
+        decryptedUserId: string;
+        email: string;
+        secret?: string;
+      } & Perks;
+      return {
+        status: "ok",
+        // Prefer the re-minted enriched secret (carries the rotated Patreon
+        // token) so the stored credential self-updates like the web cookie.
+        userId: body.secret ?? secret,
+        decryptedUserId: body.decryptedUserId ?? null,
+        email: body.email ?? null,
+        perks: {
+          adRemoval: body.adRemoval ?? false,
+          previewReleaseAccess: body.previewReleaseAccess ?? false,
+          comments: body.comments ?? false,
+          premiumFeatures: body.premiumFeatures ?? false,
+        },
+      };
+    }
+    if (response.status === 403) {
+      return { status: "not-subscriber" };
+    }
+    if (response.status === 404 || response.status === 400) {
+      // "invalid" (→ sign-out) only for a real API verdict. A missing route
+      // (server not yet deployed) also 404s but with an HTML body — that must
+      // stay transient, never destroy the session.
+      try {
+        const body = (await response.json()) as { error?: unknown };
+        if (typeof body.error === "string") {
+          return { status: "invalid" };
+        }
+      } catch {
+        // non-JSON body — fall through to "unknown"
+      }
+      return { status: "unknown" };
+    }
+    return { status: "unknown" };
+  } catch {
+    return { status: "unknown" };
+  }
+}

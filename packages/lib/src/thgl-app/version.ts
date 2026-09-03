@@ -23,6 +23,11 @@ export type InitialState = {
   closeAction: CloseAction;
   locale: string;
   connectedClients?: ConnectedClient[];
+  // True when the app stripped the Windows Compatibility "Run as
+  // administrator" flag for its exe at startup (it forces UAC elevation on
+  // every launch and can fork the WebView2 storage identity — the app manages
+  // elevation itself). Surfaced as a one-time dashboard toast.
+  compatRunAsAdminFlagRemoved?: boolean;
 };
 
 export function getVersionFromWebview() {

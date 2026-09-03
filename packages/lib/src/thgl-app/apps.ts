@@ -440,6 +440,13 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           if (data.connectedClients) {
             liveState.setConnectedClients(data.connectedClients);
           }
+          if (data.compatRunAsAdminFlagRemoved) {
+            // Surfaced as a toast by CompatFlagNotice (ui layer) — this
+            // package can't import sonner directly.
+            window.dispatchEvent(
+              new CustomEvent("thgl-app:compat-flag-removed"),
+            );
+          }
           console.log("Dashboard received initial state:", data);
 
           // Cleanup stale sessions on startup - use current running games if available, else empty

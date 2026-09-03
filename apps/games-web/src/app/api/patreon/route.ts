@@ -1,13 +1,14 @@
 import { getToken } from "@/lib/tokens";
 import {
   TOKEN_COOKIE_NAME,
+  decodeUserSecret,
   parseTokenCookie,
   setTokenBestEffort,
   signTokenCookie,
   toTokenCookieString,
   toTokenCookieStringEmpty,
 } from "@/lib/token-cookie";
-import { sign, verify } from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { type NextRequest } from "next/server";
 import {
   type PatreonToken,
@@ -68,10 +69,17 @@ export async function GET(request: NextRequest) {
       ? games.find((a) => a.id === appId || a.overwolf?.id === appId)
       : undefined;
 
-    const userId = verify(
-      userIdCookie.value,
-      process.env.JWT_SECRET!,
-    ) as string;
+    // Accepts both cookie formats: the legacy JWT-of-plain-id minted at login
+    // AND the enriched { u, t } secret the client writes back after healing a
+    // wiped cookie store from localStorage (see reverifyAccountSecret).
+    const decoded = decodeUserSecret(userIdCookie.value);
+    if (!decoded) {
+      return Response.json(
+        { error: "Invalid userId" },
+        { status: 400, headers },
+      );
+    }
+    const userId = decoded.userId;
 
     // Primary: token store; fallback: the signed httpOnly cookie set
     // at login. A store outage must not sign the user out.
@@ -88,7 +96,9 @@ export async function GET(request: NextRequest) {
       request.cookies.get(TOKEN_COOKIE_NAME)?.value,
       userId,
     );
-    const patreonToken = storedToken ?? cookieToken;
+    // Last fallback: the token embedded in an enriched userId cookie —
+    // present exactly when the cookie store was healed from localStorage.
+    const patreonToken = storedToken ?? cookieToken ?? decoded.token;
     if (!patreonToken) {
       if (storeUnavailable) {
         // 503, NOT 404 — clients sign the user out on 404. This is a

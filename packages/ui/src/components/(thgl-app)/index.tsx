@@ -5,6 +5,7 @@ export { App } from "./app";
 export { AppVersion } from "./app-version";
 export { AuthRedirect } from "./auth-redirect";
 export { AppHeader } from "./app-header";
+export { CompatFlagNotice } from "./compat-flag-notice";
 export { InitializeAccount } from "./initialize-account";
 export { InitializeController } from "./initialize-controller";
 export { InitializeApp } from "./initialize-app";
