@@ -8,7 +8,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FilterSettingsPopover } from "./filter-settings-popover";
 import { useT } from "../(providers)";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ChevronRight } from "lucide-react";
 
 export function CollapsibleFilter({
@@ -24,15 +24,18 @@ export function CollapsibleFilter({
   forceOpen?: boolean;
   valueFilter?: Set<string>;
 }) {
-  const [open, setOpen] = useState(filter.defaultOpen ?? false);
-  useEffect(() => {
-    if (forceOpen) setOpen(true);
-  }, [forceOpen]);
-
   const t = useT();
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
   const toggleFilter = useUserStore((state) => state.toggleFilter);
+  // Open/collapsed is persisted per game (all groups start collapsed on first
+  // visit; the user's expansions stick). `forceOpen` (search match) overrides
+  // without writing to the store — the search-driven expansion is transient.
+  const hasHydrated = useUserStore((state) => state._hasHydrated);
+  const openGroups = useUserStore((state) => state.openGroups);
+  const setGroupOpen = useUserStore((state) => state.setGroupOpen);
+  const open =
+    Boolean(forceOpen) || (hasHydrated && openGroups.includes(filter.group));
   const activeFiltersLength = useMemo(
     () => filter.values.filter((f) => filters.includes(f.id)).length,
     [filters, filter],
@@ -47,7 +50,10 @@ export function CollapsibleFilter({
     filter.values.length > 0 ? activeFiltersLength / filter.values.length : 0;
 
   return (
-    <Collapsible open={open} onOpenChange={setOpen}>
+    <Collapsible
+      open={open}
+      onOpenChange={(o) => setGroupOpen(filter.group, o)}
+    >
       <div
         className={cn(
           "group flex items-center transition-colors w-full px-1.5",

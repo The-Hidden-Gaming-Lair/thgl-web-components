@@ -52,6 +52,10 @@ export interface UserStoreState {
   filters: string[];
   setFilters: (filters: string[]) => void;
   toggleFilter: (filter: string) => void;
+  /** Filter groups the user expanded in the sidebar (persisted; all groups
+   * start collapsed — there is no per-game default anymore). */
+  openGroups: string[];
+  setGroupOpen: (group: string, open: boolean) => void;
   viewByMap: Record<string, { center?: [number, number]; zoom?: number }>;
   setViewByMap: (
     mapName: string,
@@ -226,6 +230,20 @@ export function createUserStore(
                   ? state.filters.filter((f) => f !== filter)
                   : [...state.filters, filter];
                 return { filters };
+              });
+            },
+            openGroups: [],
+            setGroupOpen: (group, open) => {
+              set((state) => {
+                const isOpen = state.openGroups.includes(group);
+                if (open === isOpen) {
+                  return {};
+                }
+                return {
+                  openGroups: open
+                    ? [...state.openGroups, group]
+                    : state.openGroups.filter((g) => g !== group),
+                };
               });
             },
             globalFilters:
