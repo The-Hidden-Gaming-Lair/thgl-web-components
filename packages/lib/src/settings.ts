@@ -16,6 +16,7 @@ import {
   FiltersApiError,
   serverFilterToLocal,
 } from "./filters-api";
+import { repairMisimportedFilters } from "./filter-import";
 import {
   dedupeMyFilters,
   mergeHydratedFilters,
@@ -1970,6 +1971,10 @@ export const useSettingsStore = create(
               // Heal duplicate twins the pre-name-matching union minted (same
               // name, one copy with server id + one stale id-less snapshot).
               reconciled = dedupeMyFilters(reconciled);
+              // Heal filters an older file import wrapped whole into `drawing`
+              // (nodes intact but never rendered as markers), so an already
+              // botched import fixes itself instead of needing a re-import.
+              reconciled = repairMisimportedFilters(reconciled);
               if (reconciled !== persistedFilters) {
                 currentProfile.settings = {
                   ...currentProfile.settings,

@@ -31,6 +31,8 @@ import {
   useEffectiveLiveMode,
   useGameState,
   useSettingsStore,
+  buildPrivateIconLookups,
+  resolvePrivateIcon,
 } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
 import {
@@ -898,22 +900,14 @@ function MarkersContent({
 
   // Track effect runs for debugging
 
-  // Reverse lookup: translated icon name → current icon coords from filter config.
-  // Used to fix stale sprite x,y in old shared private nodes that lack filterId.
-  const sharedIconNameLookup = useMemo(() => {
-    const lookup = new Map<
-      string,
-      { x: number; y: number; width: number; height: number; filterId: string }
-    >();
-    for (const filter of filters) {
-      for (const value of filter.values) {
-        if (typeof value.icon !== "string") {
-          lookup.set(t(value.id), { ...value.icon, filterId: value.id });
-        }
-      }
-    }
-    return lookup;
-  }, [filters, t]);
+  // Current icon coords from the filter config, keyed by filter id (stable)
+  // and by translated name (legacy nodes). Shared private nodes bake the
+  // sprite rect they were saved with, so it must be re-resolved whenever the
+  // game's icon sheet is repacked — see resolvePrivateIcon.
+  const sharedIconLookups = useMemo(
+    () => buildPrivateIconLookups(filters, t),
+    [filters, t],
+  );
 
   // Main effect: add/update/remove markers
   useEffect(() => {
@@ -1377,26 +1371,12 @@ function MarkersContent({
       (myFilter) => {
         return (
           myFilter.nodes?.map((node) => {
-            // Resolve stale sprite coords for old private nodes missing filterId
-            let icon = node.icon;
-            if (
-              icon &&
-              !icon.filterId &&
-              icon.name &&
-              icon.url?.includes("/icons/")
-            ) {
-              const current = sharedIconNameLookup.get(icon.name);
-              if (current) {
-                icon = {
-                  ...icon,
-                  x: current.x,
-                  y: current.y,
-                  width: current.width,
-                  height: current.height,
-                  filterId: current.filterId,
-                };
-              }
-            }
+            // Re-resolve the baked sprite rect against the CURRENT icon sheet.
+            const icon = resolvePrivateIcon(
+              node.icon,
+              sharedIconLookups.byFilterId,
+              sharedIconLookups.byName,
+            );
             return {
               type: myFilter.name,
               mapName: node.mapName,
@@ -1832,7 +1812,7 @@ function MarkersContent({
     dynamicIconSize,
     dynamicIconSizeFactor,
     iconLoadVersion, // Re-run when images finish loading to apply processed icons
-    sharedIconNameLookup, // Re-resolve stale shared private icon coords
+    sharedIconLookups, // Re-resolve stale shared private icon coords
   ]);
 
   // Player-relative height arrows (up/down elevation indicators).

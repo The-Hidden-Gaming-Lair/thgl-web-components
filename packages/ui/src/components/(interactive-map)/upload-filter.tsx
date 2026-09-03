@@ -1,6 +1,6 @@
 import {
-  type DrawingsAndNodes,
   openFileOrFiles,
+  parseImportedFilter,
   useSettingsStore,
 } from "@repo/lib";
 import { Button } from "../ui/button";
@@ -29,46 +29,11 @@ export function UploadFilter({
       const text = loadEvent.target?.result;
       if (!text || typeof text !== "string") return;
       try {
-        const data = JSON.parse(text);
-        if (typeof data !== "object") return;
-        let myFilter: DrawingsAndNodes;
-        if (!Array.isArray(data)) {
-          if (data.id && !data.filter) {
-            // Deprecated drawing format
-            if ("positions" in data && Array.isArray(data.positions)) {
-              data.polylines = data.positions.map((b: any) => ({
-                positions: b.map((c: any) => c.position),
-                size: 4,
-                color: "#FFFFFFAA",
-                mapName,
-              }));
-              delete data.positions;
-            }
-            if ("types" in data) delete data.types;
-            myFilter = {
-              name: `my_${Date.now()}_${data.name}`,
-              drawing: data,
-            };
-            if ("name" in data) delete data.name;
-          } else {
-            myFilter = data;
-            myFilter.name = myFilter.name.replace(
-              /my_\d+_/,
-              `my_${Date.now()}_`,
-            );
-          }
-        } else if (data[0]?.id) {
-          const filter = data[0]?.filter ?? "Unsorted";
-          myFilter = {
-            name: `my_${Date.now()}_${filter.replace("private_", "").replace(/shared_\d+_/, "")}`,
-            nodes: data,
-          };
-          data.forEach((d: any) => {
-            if ("filter" in d) delete d.filter;
-          });
-        } else {
-          throw new Error("Invalid filter");
-        }
+        // Shape detection + legacy conversion live in the lib so they can be
+        // unit-tested: a modern filter export (which carries a server `id`
+        // once synced) used to be mistaken for the legacy bare-drawing format
+        // and imported with all of its nodes dropped.
+        const myFilter = parseImportedFilter(JSON.parse(text), mapName);
 
         addMyFilter(myFilter);
         onUploaded?.(myFilter.name);

@@ -33,6 +33,8 @@ import {
   getApiUrl,
   MIN_SEARCH_QUERY_LENGTH,
   type InGameCoordinates,
+  buildPrivateIconLookups,
+  resolvePrivateIcon,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
 import { useStore } from "zustand";
@@ -431,22 +433,14 @@ export function CoordinatesProvider({
   const myFilters = useSettingsStore((state) => state.myFilters);
   // Actors now flow directly into markers.tsx via useGameState subscription.
 
-  // Reverse lookup: translated icon name → current icon coords from filter config.
-  // Used to fix stale sprite x,y in old private nodes that lack filterId.
-  const iconNameLookup = useMemo(() => {
-    const lookup = new Map<
-      string,
-      { x: number; y: number; width: number; height: number; filterId: string }
-    >();
-    for (const filter of filters) {
-      for (const value of filter.values) {
-        if (typeof value.icon !== "string") {
-          lookup.set(t(value.id), { ...value.icon, filterId: value.id });
-        }
-      }
-    }
-    return lookup;
-  }, [filters, t]);
+  // Current icon coords from the filter config, keyed by filter id (stable)
+  // and by translated name (legacy nodes). Custom nodes bake the sprite rect
+  // they were saved with, so it must be re-resolved whenever the game's icon
+  // sheet is repacked — see resolvePrivateIcon.
+  const iconLookups = useMemo(
+    () => buildPrivateIconLookups(filters, t),
+    [filters, t],
+  );
 
   // User-created custom markers (from myFilters)
   const customNodes = useMemo<NodesCoordinates>(() => {
@@ -456,26 +450,12 @@ export function CoordinatesProvider({
     return myFilters.reduce<NodesCoordinates>((acc, myFilter) => {
       myFilter.nodes?.forEach((node) => {
         const nodeMapName = node.mapName;
-        // Resolve stale sprite coords for old private nodes missing filterId
-        let icon = node.icon;
-        if (
-          icon &&
-          !icon.filterId &&
-          icon.name &&
-          icon.url?.includes("/icons/")
-        ) {
-          const current = iconNameLookup.get(icon.name);
-          if (current) {
-            icon = {
-              ...icon,
-              x: current.x,
-              y: current.y,
-              width: current.width,
-              height: current.height,
-              filterId: current.filterId,
-            };
-          }
-        }
+        // Re-resolve the baked sprite rect against the CURRENT icon sheet.
+        const icon = resolvePrivateIcon(
+          node.icon,
+          iconLookups.byFilterId,
+          iconLookups.byName,
+        );
         const category = acc.find(
           (node) => node.type === myFilter.name && node.mapName === nodeMapName,
         );
@@ -511,7 +491,7 @@ export function CoordinatesProvider({
       });
       return acc;
     }, []);
-  }, [isHydrated, myFilters, iconNameLookup]);
+  }, [isHydrated, myFilters, iconLookups]);
 
   const allFilters = useMemo(() => {
     if (!isHydrated) {
