@@ -1,4 +1,8 @@
-import { mergeHydratedFilters } from "./filters-sync";
+import {
+  mergeHydratedFilters,
+  pendingIdsWithSyncGrace,
+  unionMyFiltersOnRehydrate,
+} from "./filters-sync";
 import type { DrawingsAndNodes } from "./settings";
 
 const withNodes = (
@@ -140,5 +144,126 @@ describe("mergeHydratedFilters", () => {
       (f) => f.name === "my_1_Campsite",
     );
     expect(merged).toHaveLength(0);
+  });
+});
+
+describe("unionMyFiltersOnRehydrate", () => {
+  it("keeps an in-memory local add the persisted (stale) blob doesn't know about", () => {
+    // billy's bug: a second webview holding a pre-add snapshot persists its
+    // whole settings blob (without the new filter) on any settings change. The
+    // storage event rehydrates THIS webview from that stale blob. Without the
+    // union the just-added filter is clobbered out of the live view (and, on
+    // the next persist, off disk). It must survive.
+    const inMemory = [
+      withNodes({ name: "my_1_Lodestone" }),
+      withNodes({ name: "my_2_Nodestone" }), // just added here
+    ];
+    const persisted = [withNodes({ name: "my_1_Lodestone" })]; // stale writer
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union.map((f) => f.name).sort()).toEqual([
+      "my_1_Lodestone",
+      "my_2_Nodestone",
+    ]);
+  });
+
+  it("does NOT re-add an in-memory filter that was deleted elsewhere (tombstoned)", () => {
+    // A delete in another webview persists without the filter AND records a
+    // tombstone. This webview still has it in memory; the union must not
+    // resurrect it — mirror of the deletion-monotonicity guarantee.
+    const inMemory = [withNodes({ name: "my_1_deleted", id: "X" })];
+    const persisted: DrawingsAndNodes[] = [];
+    const union = unionMyFiltersOnRehydrate(
+      inMemory,
+      persisted,
+      (f) => f.id === "X",
+    );
+    expect(union).toHaveLength(0);
+  });
+
+  it("lets a persisted edit win over the in-memory copy of the same filter (last-writer-wins)", () => {
+    // Another surface edited the filter and just wrote it. The persisted copy
+    // is newest; the stale in-memory copy must not shadow it.
+    const inMemory = [
+      withNodes({ name: "my_1_old", id: "E", drawing: { id: "old" } }),
+    ];
+    const persisted = [
+      withNodes({ name: "my_1_new", id: "E", drawing: { id: "new" } }),
+    ];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(1);
+    expect(union[0].name).toBe("my_1_new");
+    expect(union[0].drawing).toEqual({ id: "new" });
+  });
+
+  it("matches identity by id when present, else by name", () => {
+    // Same server id, different display name → one entry (id wins). Different
+    // ids with same name (two surfaces minted separately) → both kept.
+    const inMemory = [
+      withNodes({ name: "renamed_locally", id: "A" }),
+      withNodes({ name: "dup", id: "B" }),
+    ];
+    const persisted = [
+      withNodes({ name: "canonical", id: "A" }),
+      withNodes({ name: "dup", id: "C" }),
+    ];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    // A collapses to the persisted copy; B and C both survive (distinct ids).
+    expect(union.map((f) => f.id).sort()).toEqual(["A", "B", "C"]);
+    expect(union.find((f) => f.id === "A")!.name).toBe("canonical");
+  });
+
+  it("returns the persisted array unchanged (same ref) when nothing to add back", () => {
+    // Hot path: mount and same-state rehydrates must not re-allocate.
+    const persisted = [withNodes({ name: "my_1_keep", id: "K" })];
+    const inMemory = [withNodes({ name: "my_1_keep", id: "K" })];
+    expect(unionMyFiltersOnRehydrate(inMemory, persisted)).toBe(persisted);
+  });
+
+  it("returns persisted (all of it) at mount when in-memory is the empty default", () => {
+    const persisted = [
+      withNodes({ name: "a", id: "1" }),
+      withNodes({ name: "b", id: "2" }),
+    ];
+    expect(unionMyFiltersOnRehydrate([], persisted)).toBe(persisted);
+  });
+});
+
+describe("pendingIdsWithSyncGrace", () => {
+  const NOW = 1_000_000;
+  const GRACE = 15_000;
+
+  it("keeps queued/in-flight pending ids", () => {
+    const out = pendingIdsWithSyncGrace(
+      new Set(["A", "B"]),
+      new Map(),
+      NOW,
+      GRACE,
+    );
+    expect([...out].sort()).toEqual(["A", "B"]);
+  });
+
+  it("adds an id whose PUT succeeded within the grace window (the save-then-hydrate race)", () => {
+    // C's PUT just landed (synced:true, no longer queued) but a racing server
+    // fetch predates it → without the grace, hydrate would drop C.
+    const recent = new Map([["C", NOW - 5_000]]);
+    const out = pendingIdsWithSyncGrace(new Set(["A"]), recent, NOW, GRACE);
+    expect(out.has("C")).toBe(true);
+    expect(out.has("A")).toBe(true);
+  });
+
+  it("does NOT protect an id whose PUT is older than the grace window (real deletes still propagate)", () => {
+    const recent = new Map([["C", NOW - 20_000]]);
+    const out = pendingIdsWithSyncGrace(new Set(), recent, NOW, GRACE);
+    expect(out.has("C")).toBe(false);
+  });
+
+  it("prunes expired entries from the recent map", () => {
+    const recent = new Map([
+      ["fresh", NOW - 1_000],
+      ["stale", NOW - 99_000],
+    ]);
+    pendingIdsWithSyncGrace(new Set(), recent, NOW, GRACE);
+    expect(recent.has("fresh")).toBe(true);
+    expect(recent.has("stale")).toBe(false);
   });
 });

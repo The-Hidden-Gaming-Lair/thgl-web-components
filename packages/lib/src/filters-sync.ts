@@ -103,3 +103,89 @@ export function mergeHydratedFilters(
 
   return { merged, resyncIds };
 }
+
+/**
+ * Reconcile the in-memory `myFilters` against a just-loaded persisted copy
+ * during a store rehydrate (mount, and — crucially — the cross-window/webview
+ * `storage`-event rehydrate).
+ *
+ * The bug this closes is the mirror image of the deletion-resurrection one that
+ * {@link recordFilterTombstone}/{@link filterOutTombstoned} fixed. `myFilters`
+ * lives inside the whole settings blob (last-writer-wins on the entire
+ * `{profiles, currentProfileId}` object). THGLApp runs several long-lived
+ * WebView2 windows sharing ONE localStorage (dashboard + controller always;
+ * desktop/overlay on top — two full map windows in "Both" mode). A window
+ * holding a snapshot taken BEFORE the user added a filter will, on its next
+ * settings write (a hotkey, a live-mode toggle, an icon-size tweak…), persist
+ * its whole blob WITHOUT that filter. The resulting storage event rehydrates
+ * the window that owns the filter and — with a naive whole-blob merge — clobbers
+ * the just-added filter out of the live view, then off disk on the next persist.
+ * (Verified live in THGLApp: add → stale cross-window write → filter vanishes.)
+ *
+ * The rule (mirror of tombstones, but for adds/edits): the persisted copy is
+ * authoritative for anything it KNOWS about (so a genuine edit or delete that
+ * was just written wins — last-writer-wins), but any in-memory filter the
+ * persisted blob has NEVER heard of is a local add the stale writer simply
+ * didn't know about → keep it, UNLESS it carries a live tombstone (then it was
+ * deliberately deleted elsewhere and must stay gone).
+ *
+ * Identity is keyed by server `id` when present, else by `name` (local-only /
+ * signed-out filters — exactly billy's case — have no id). Returns the
+ * `persisted` array UNCHANGED (same reference) when there is nothing to add
+ * back, so the hot path (mount, same-state rehydrate) doesn't re-allocate and
+ * doesn't spuriously mark state changed.
+ *
+ * @param inMemory   the store's current `myFilters` (the live view)
+ * @param persisted  the just-loaded profile's `myFilters` (already
+ *                   tombstone-stripped by the caller)
+ * @param isTombstoned deletion-tombstone predicate (see filter-tombstones.ts)
+ */
+export function unionMyFiltersOnRehydrate(
+  inMemory: DrawingsAndNodes[],
+  persisted: DrawingsAndNodes[],
+  isTombstoned: (f: DrawingsAndNodes) => boolean = () => false,
+): DrawingsAndNodes[] {
+  if (inMemory.length === 0) return persisted;
+  const key = (f: DrawingsAndNodes) => f.id ?? `name:${f.name}`;
+  const persistedKeys = new Set(persisted.map(key));
+  const extras = inMemory.filter(
+    (f) => !persistedKeys.has(key(f)) && !isTombstoned(f),
+  );
+  return extras.length ? [...persisted, ...extras] : persisted;
+}
+
+/**
+ * Augment the queued/in-flight PUT set ({@link mergeHydratedFilters}'s
+ * `pendingIds`) with ids whose PUT SUCCEEDED within the last `graceMs`.
+ *
+ * Why: hydrate drops a "synced but absent-from-server" filter as "deleted on
+ * another device". But a filter saved moments ago races that rule — a
+ * signed-in add schedules a debounced PUT; a `hydrateFiltersFromServer` fired
+ * on mount/focus/visibility can fetch the server list BEFORE that PUT commits
+ * (or before a read-replica catches up), so the list omits the filter, WHILE
+ * the local copy has already flipped `synced:true` (PUT `.then`) and is no
+ * longer queued/in-flight. Result: the just-saved filter is dropped and the
+ * delete is persisted — it vanishes until the next focus re-fetch brings it
+ * back. (Reproduced live in THGLApp; matches "disappears right after saving /
+ * after reopening, reappears when I focus the window".)
+ *
+ * Treating recently-synced ids as pending keeps them for a short window, long
+ * enough for the server list to reflect the write. A genuine delete-elsewhere
+ * still propagates: that id was not PUT by THIS surface recently, so it isn't
+ * in `recent` and is dropped as before.
+ *
+ * Mutates `recent` to prune expired entries (called on the hydrate hot path).
+ */
+export function pendingIdsWithSyncGrace(
+  pending: ReadonlySet<string>,
+  recent: Map<string, number>,
+  now: number,
+  graceMs: number,
+): Set<string> {
+  const out = new Set(pending);
+  for (const [id, ts] of recent) {
+    if (now - ts < graceMs) out.add(id);
+    else recent.delete(id);
+  }
+  return out;
+}

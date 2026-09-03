@@ -16,7 +16,11 @@ import {
   FiltersApiError,
   serverFilterToLocal,
 } from "./filters-api";
-import { mergeHydratedFilters } from "./filters-sync";
+import {
+  mergeHydratedFilters,
+  pendingIdsWithSyncGrace,
+  unionMyFiltersOnRehydrate,
+} from "./filters-sync";
 import {
   clearFilterTombstones,
   enqueueFilterDelete,
@@ -663,10 +667,26 @@ const syncTimers = new Map<string, ReturnType<typeof setTimeout>>();
 // `syncTimers` keys these form the "pending" set that hydrate must not clobber
 // (a re-hydrate on focus could otherwise overwrite an edit mid-upload).
 const inFlightSyncIds = new Set<string>();
+// Ids whose PUT SUCCEEDED within RECENT_SYNC_GRACE_MS. A hydrate whose
+// server-list fetch predates (or races) that PUT sees the id as absent while
+// the local copy is already synced=true — the TOCTOU that made a just-saved
+// filter vanish until the next focus. Kept as "pending" for a short window so
+// mergeHydratedFilters doesn't drop them. See pendingIdsWithSyncGrace.
+const recentlySyncedIds = new Map<string, number>();
+const RECENT_SYNC_GRACE_MS = 15_000;
 
-/** Ids with a queued (debounced) or in-flight PUT. */
+/**
+ * Ids with a queued (debounced) or in-flight PUT, PLUS ids whose PUT landed
+ * within the last {@link RECENT_SYNC_GRACE_MS} (the save-then-hydrate race
+ * guard). Prunes expired grace entries as a side effect.
+ */
 export function getPendingSyncIds(): Set<string> {
-  return new Set<string>([...syncTimers.keys(), ...inFlightSyncIds]);
+  return pendingIdsWithSyncGrace(
+    new Set<string>([...syncTimers.keys(), ...inFlightSyncIds]),
+    recentlySyncedIds,
+    Date.now(),
+    RECENT_SYNC_GRACE_MS,
+  );
 }
 
 function isSignedIn(): boolean {
@@ -702,6 +722,11 @@ function scheduleFilterSync(filter: DrawingsAndNodes) {
         visibility: filter.visibility ?? "private",
       })
         .then(() => {
+          // Remember this PUT just landed: a hydrate whose server-list fetch
+          // raced it (or hits replica lag) would otherwise see the id as
+          // "synced but absent" and drop the just-saved filter. The grace
+          // window in getPendingSyncIds protects it until the list catches up.
+          recentlySyncedIds.set(id, Date.now());
           // Confirm the id now exists on the server so hydrate can safely
           // drop it if it later disappears (deleted elsewhere) instead of
           // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
@@ -1780,6 +1805,14 @@ export const useSettingsStore = create(
             // it runs on every signed-in mount/focus. Fire-and-forget — the
             // tombstone predicate below already hides anything still queued.
             void flushQueuedFilterDeletes();
+            // Snapshot pending BEFORE the fetch: a filter whose PUT completes
+            // DURING `apiListFilters` would otherwise be neither in the (stale)
+            // server list nor still pending by the time we merge, and get
+            // dropped as "deleted elsewhere". Unioning the before- and
+            // after-fetch pending sets (plus the recently-synced grace inside
+            // getPendingSyncIds) keeps such just-saved filters. This is the
+            // "custom filter vanishes right after saving / on reopen" bug.
+            const pendingBefore = getPendingSyncIds();
             let serverFilters;
             try {
               serverFilters = await apiListFilters(game);
@@ -1792,10 +1825,14 @@ export const useSettingsStore = create(
             // (previously synced, now absent) are dropped so the deletion
             // sticks instead of being resurrected; anonymous / not-yet-uploaded
             // filters are preserved. See {@link mergeHydratedFilters}.
+            const pendingIds = new Set<string>([
+              ...pendingBefore,
+              ...getPendingSyncIds(),
+            ]);
             const { merged, resyncIds } = mergeHydratedFilters(
               state.myFilters,
               serverFilters.map(serverFilterToLocal),
-              getPendingSyncIds(),
+              pendingIds,
               isFilterTombstoned,
             );
             updateSettings({ myFilters: merged });
@@ -1879,6 +1916,32 @@ export const useSettingsStore = create(
               (p: Profile) => p.id === merged.currentProfileId,
             );
             if (currentProfile) {
+              // Union the persisted filters with any in-memory local adds the
+              // WRITING window didn't know about (the mirror of tombstones, for
+              // adds/edits). Without this, a stale window's whole-blob write
+              // clobbers a filter this window just added — the "custom filter
+              // disappears" bug. Written into the profile too (not just the
+              // flat root) because partialize persists `profiles`, so the next
+              // write must carry the resurrected filter back to disk.
+              // See {@link unionMyFiltersOnRehydrate}.
+              const inMemory = (
+                currentState as { myFilters?: DrawingsAndNodes[] }
+              ).myFilters;
+              if (inMemory?.length) {
+                const persistedFilters =
+                  currentProfile.settings?.myFilters ?? [];
+                const unioned = unionMyFiltersOnRehydrate(
+                  inMemory,
+                  persistedFilters,
+                  isFilterTombstoned,
+                );
+                if (unioned !== persistedFilters) {
+                  currentProfile.settings = {
+                    ...currentProfile.settings,
+                    myFilters: unioned,
+                  };
+                }
+              }
               Object.assign(merged, currentProfile.settings);
             }
           }
