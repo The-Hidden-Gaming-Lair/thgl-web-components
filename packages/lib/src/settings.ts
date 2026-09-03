@@ -18,6 +18,7 @@ import {
 } from "./filters-api";
 import { repairMisimportedFilters } from "./filter-import";
 import {
+  adoptLocalFilters,
   dedupeMyFilters,
   mergeHydratedFilters,
   pendingIdsWithSyncGrace,
@@ -568,6 +569,12 @@ export interface ProfileActions {
    * preserved. Called on signed-in mount per game tenant.
    */
   hydrateFiltersFromServer: (game: string) => Promise<void>;
+  /**
+   * Give a server id to signed-in filters that have content but none, and
+   * upload them. Covers backups restored via `setMyFilters` (local-only) and
+   * filters healed from a botched import. No-op when signed out.
+   */
+  adoptLocalOnlyFilters: () => void;
   toggleShowGrid: () => void;
   toggleShowFilters: () => void;
   // Peer Link / Mesh settings
@@ -1855,11 +1862,37 @@ export const useSettingsStore = create(
             // storage-event rehydrate that follows our persist below — the
             // filter would ping-pong instead of staying deleted.
             recordHydrateDrops(droppedIds);
-            updateSettings({ myFilters: merged });
-            // Re-push filters whose server copy was empty but local had data.
-            const mergedById = new Map(merged.map((f) => [f.id, f]));
-            for (const id of resyncIds) {
-              const filter = mergedById.get(id);
+            // Adopt local-only filters (restored from a backup, healed from a
+            // botched import, or made while signed out) so they finally reach
+            // the cloud instead of diverging forever. See adoptLocalFilters.
+            const { filters: adopted, adoptedIds } = adoptLocalFilters(
+              merged,
+              () => crypto.randomUUID(),
+              game,
+            );
+            updateSettings({ myFilters: adopted });
+            // Re-push filters whose server copy was empty but local had data,
+            // plus everything just adopted.
+            const byId = new Map(adopted.map((f) => [f.id, f]));
+            for (const id of [...resyncIds, ...adoptedIds]) {
+              const filter = byId.get(id);
+              if (filter) scheduleFilterSync(filter);
+            }
+          },
+
+          adoptLocalOnlyFilters: () => {
+            if (!isSignedIn()) return;
+            const state = get();
+            const { filters, adoptedIds } = adoptLocalFilters(
+              state.myFilters,
+              () => crypto.randomUUID(),
+              getCurrentGameId() ?? undefined,
+            );
+            if (adoptedIds.length === 0) return;
+            updateSettings({ myFilters: filters });
+            const byId = new Map(filters.map((f) => [f.id, f]));
+            for (const id of adoptedIds) {
+              const filter = byId.get(id);
               if (filter) scheduleFilterSync(filter);
             }
           },

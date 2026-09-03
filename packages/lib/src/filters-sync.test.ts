@@ -1,4 +1,5 @@
 import {
+  adoptLocalFilters,
   dedupeMyFilters,
   mergeHydratedFilters,
   pendingIdsWithSyncGrace,
@@ -345,6 +346,82 @@ describe("dedupeMyFilters", () => {
   it("returns the input unchanged (same ref) when there is nothing to heal", () => {
     const clean = [withNodes({ name: "a", id: "1" }), withNodes({ name: "b" })];
     expect(dedupeMyFilters(clean)).toBe(clean);
+  });
+});
+
+describe("adoptLocalFilters", () => {
+  let n = 0;
+  const newId = () => `minted-${++n}`;
+  beforeEach(() => {
+    n = 0;
+  });
+
+  it("mints an id for a restored/healed filter that has content but none", () => {
+    // The gap: scheduleFilterSync is a no-op without an id, and only
+    // addMyFilter ever minted one — so a filter restored from a backup
+    // (setMyFilters is local-only) or healed from a botched import stayed
+    // invisible to every other device and couldn't be shared.
+    const filters = [withNodes({ name: "my_1_Bases" })];
+    const { filters: out, adoptedIds } = adoptLocalFilters(
+      filters,
+      newId,
+      "dune-awakening",
+    );
+    expect(adoptedIds).toEqual(["minted-1"]);
+    expect(out[0].id).toBe("minted-1");
+    expect(out[0].game).toBe("dune-awakening");
+  });
+
+  it("leaves the adopted filter unsynced so a racing hydrate can't drop it", () => {
+    const { filters: out } = adoptLocalFilters(
+      [withNodes({ name: "my_1_Bases" })],
+      newId,
+    );
+    expect(out[0].synced).toBeFalsy();
+  });
+
+  it("never touches a filter that already has a server id", () => {
+    const filters = [withNodes({ name: "my_1_Bases", id: "existing" })];
+    const { filters: out, adoptedIds } = adoptLocalFilters(filters, newId);
+    expect(adoptedIds).toEqual([]);
+    expect(out).toBe(filters); // same ref, hot path
+  });
+
+  it("skips empty filters — an id is only worth minting for real content", () => {
+    const filters = [{ name: "my_1_empty" }];
+    const { filters: out, adoptedIds } = adoptLocalFilters(filters, newId);
+    expect(adoptedIds).toEqual([]);
+    expect(out).toBe(filters);
+  });
+
+  it("adopts a drawing-only filter", () => {
+    const { adoptedIds } = adoptLocalFilters(
+      [{ name: "my_1_route", drawing: { id: "d1" } }],
+      newId,
+    );
+    expect(adoptedIds).toEqual(["minted-1"]);
+  });
+
+  it("keeps a filter's own game over the fallback", () => {
+    const { filters: out } = adoptLocalFilters(
+      [withNodes({ name: "a", game: "palia" })],
+      newId,
+      "dune-awakening",
+    );
+    expect(out[0].game).toBe("palia");
+  });
+
+  it("adopts only what needs it in a mixed list", () => {
+    const filters = [
+      withNodes({ name: "synced", id: "s1" }),
+      withNodes({ name: "restored" }),
+      { name: "empty" },
+    ];
+    const { filters: out, adoptedIds } = adoptLocalFilters(filters, newId);
+    expect(adoptedIds).toEqual(["minted-1"]);
+    expect(out[0].id).toBe("s1");
+    expect(out[1].id).toBe("minted-1");
+    expect(out[2].id).toBeUndefined();
   });
 });
 

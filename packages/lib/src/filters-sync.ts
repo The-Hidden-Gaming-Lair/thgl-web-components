@@ -245,6 +245,58 @@ export function dedupeMyFilters(
 }
 
 /**
+ * Give a server identity to signed-in filters that have content but no `id`,
+ * so they can finally be uploaded.
+ *
+ * `scheduleFilterSync` is a no-op without an `id`, and only `addMyFilter`
+ * ever minted one. Several paths produce an id-less filter that the user
+ * plainly expects to be theirs, in the cloud:
+ *
+ *  - **Settings → My Filters → Restore**, which calls `setMyFilters` (plural).
+ *    That action is deliberately sync-free — `scheduleFilterSync` uses it to
+ *    flip `synced` without re-triggering itself — so a restored backup stayed
+ *    local forever while still *looking* synced.
+ *  - a filter **healed** from a botched file import (see
+ *    `repairMisimportedFilter`), which strips the wrapper's identity.
+ *  - a filter created while signed out, kept after signing in.
+ *
+ * Such a filter is invisible to every other device and can't be shared — the
+ * share code would resolve to nothing. Adopting it on hydrate makes the local
+ * copy converge upward instead of silently diverging.
+ *
+ * Empty filters are skipped: an id is only worth minting for something with
+ * markers or a drawing to carry, and it avoids uploading placeholder rows for
+ * filters the user made but never filled in.
+ *
+ * @param filters current `myFilters`
+ * @param newId   id factory (injected so tests aren't tied to `crypto`)
+ * @param game    game id stamped on adopted filters that lack one — the PUT
+ *                requires it
+ * @returns `filters` unchanged (same reference) when there's nothing to adopt,
+ *          plus the ids that were minted so the caller can push them
+ */
+export function adoptLocalFilters(
+  filters: DrawingsAndNodes[],
+  newId: () => string,
+  game?: string,
+): { filters: DrawingsAndNodes[]; adoptedIds: string[] } {
+  const adoptedIds: string[] = [];
+  const out = filters.map((f) => {
+    if (f.id) return f;
+    const hasContent = (f.nodes?.length ?? 0) > 0 || !!f.drawing;
+    if (!hasContent) return f;
+    const id = newId();
+    adoptedIds.push(id);
+    // `synced` stays falsy: the PUT hasn't happened yet, and claiming
+    // otherwise would let a racing hydrate drop it as "deleted elsewhere".
+    return { ...f, id, game: f.game ?? game };
+  });
+  return adoptedIds.length
+    ? { filters: out, adoptedIds }
+    : { filters, adoptedIds };
+}
+
+/**
  * Augment the queued/in-flight PUT set ({@link mergeHydratedFilters}'s
  * `pendingIds`) with ids whose PUT SUCCEEDED within the last `graceMs`.
  *

@@ -284,6 +284,11 @@ export function SettingsDialogContent({
                         }
 
                         settingsStore.setMyFilters(myFilters);
+                        // setMyFilters is local-only by design (the sync path
+                        // uses it to flip `synced` without re-triggering
+                        // itself), so a restored backup would never reach the
+                        // cloud. Adopt + upload anything lacking a server id.
+                        settingsStore.adoptLocalOnlyFilters();
                         toast.success(
                           t("myFilters.restored", {
                             fallback: "My filters restored",
