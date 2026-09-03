@@ -15,7 +15,7 @@ export const grounded2 = resolveAppConfig({
     "zh-CN",
     "zh-TW",
   ],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   // Map cards (Brookhollow Park + The Abyss) are auto-generated from the map
   // list — no manual internalLinks map entries (they'd shadow the richer cards).
   internalLinks: [],
