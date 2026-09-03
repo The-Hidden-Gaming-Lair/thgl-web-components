@@ -144,6 +144,22 @@ export function AccountDialog() {
             <p className="font-bold text-sm">Account ID</p>
             <p className="text-muted-foreground">{account.decryptedUserId}</p>
           </div>
+          <div>
+            <p className="font-bold text-sm">Tier</p>
+            <p className="text-primary">
+              {/* Special is server-resolved (PATREON_SPECIAL_USERS) — perks
+                  alone can't distinguish it from Elite. */}
+              {account.isSpecial
+                ? "Special"
+                : account.perks.previewReleaseAccess
+                  ? "Elite"
+                  : account.perks.adRemoval
+                    ? "Pro"
+                    : account.perks.comments
+                      ? "Enthusiast"
+                      : "None"}
+            </p>
+          </div>
           <div className="space-y-2">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Perks

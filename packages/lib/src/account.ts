@@ -17,6 +17,10 @@ export type THGLAccount = {
   perks: Perks;
   username: string | null;
   avatarUrl: string | null;
+  // PATREON_SPECIAL_USERS member (server-resolved). Only servers know the
+  // list, so it rides on the account payload — the dialogs show "Special"
+  // instead of a perk-derived tier name.
+  isSpecial?: boolean;
 };
 
 export const defaultPerks: Perks = {
@@ -37,6 +41,7 @@ export const useAccountStore = create(
       perks: Perks;
       username: string | null;
       avatarUrl: string | null;
+      isSpecial: boolean;
       setAccount: (account: THGLAccount) => void;
       setProfile: (username: string | null, avatarUrl: string | null) => void;
       showUserDialog: boolean;
@@ -62,6 +67,7 @@ export const useAccountStore = create(
           perks: defaultPerks,
           username: null,
           avatarUrl: null,
+          isSpecial: false,
           setAccount: (account) => {
             set({
               userId: account.userId,
@@ -70,6 +76,7 @@ export const useAccountStore = create(
               perks: account.perks,
               username: account.username,
               avatarUrl: account.avatarUrl,
+              isSpecial: account.isSpecial ?? false,
             });
           },
           setProfile: (username, avatarUrl) => {
@@ -126,6 +133,7 @@ export type ReverifiedAccount =
       decryptedUserId: string | null;
       email: string | null;
       perks: Perks;
+      isSpecial: boolean;
     }
   | { status: "not-subscriber" }
   | { status: "invalid" }
@@ -160,6 +168,7 @@ export async function reverifyAccountSecret(
         decryptedUserId: string;
         email: string;
         secret?: string;
+        isSpecial?: boolean;
       } & Perks;
       return {
         status: "ok",
@@ -174,6 +183,7 @@ export async function reverifyAccountSecret(
           comments: body.comments ?? false,
           premiumFeatures: body.premiumFeatures ?? false,
         },
+        isSpecial: body.isSpecial ?? false,
       };
     }
     if (response.status === 403) {

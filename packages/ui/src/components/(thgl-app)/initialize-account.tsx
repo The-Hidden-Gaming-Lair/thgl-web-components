@@ -64,6 +64,7 @@ export function InitializeAccount({
           perks: result.perks,
           username: store.username,
           avatarUrl: store.avatarUrl,
+          isSpecial: result.isSpecial,
         });
         restoreUserIdCookie(result.userId);
       } else if (result.status === "not-subscriber") {

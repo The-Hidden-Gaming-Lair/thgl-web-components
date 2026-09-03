@@ -68,6 +68,7 @@ export function Account() {
               perks: result.perks,
               username: store.username,
               avatarUrl: store.avatarUrl,
+              isSpecial: result.isSpecial,
             });
             restoreUserIdCookie(result.userId);
             return;
@@ -125,6 +126,7 @@ export function Account() {
           expiresIn: number;
           decryptedUserId: string;
           email: string;
+          isSpecial?: boolean;
         } & Perks;
         if (!response.ok) {
           console.warn(body);
@@ -163,6 +165,7 @@ export function Account() {
             },
             username: profile.username,
             avatarUrl: profile.avatarUrl,
+            isSpecial: body.isSpecial ?? false,
           });
         }
       } catch (err) {

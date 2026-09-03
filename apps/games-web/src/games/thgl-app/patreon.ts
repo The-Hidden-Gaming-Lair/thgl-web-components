@@ -6,6 +6,11 @@ import {
   decodeUserSecret,
   parseTokenCookie,
 } from "@/lib/token-cookie";
+import {
+  TEST_SUPPORTER_EMAIL,
+  TEST_SUPPORTER_PERKS,
+  isTestSupporter,
+} from "@/lib/test-supporter";
 import { tiers } from "./tiers";
 
 interface App {
@@ -263,6 +268,7 @@ export async function getAccount(): Promise<THGLAccount | null> {
     },
     username: null,
     avatarUrl: null,
+    isSpecial: false,
   };
 
   if (!userId?.value) {
@@ -282,6 +288,15 @@ export async function getAccount(): Promise<THGLAccount | null> {
     return account;
   }
   const id = decoded.userId;
+
+  // Dev-only test account (see lib/test-supporter.ts).
+  if (isTestSupporter(id)) {
+    account.userId = userId.value;
+    account.decryptedUserId = id;
+    account.email = TEST_SUPPORTER_EMAIL;
+    account.perks = { ...TEST_SUPPORTER_PERKS };
+    return account;
+  }
 
   // Primary: token store; fallback: the signed httpOnly cookie set at
   // login. A store outage must not sign the user out.
@@ -352,6 +367,7 @@ export async function getAccount(): Promise<THGLAccount | null> {
     account.decryptedUserId = id;
     account.email = currentUserResult.data.attributes.email;
     account.perks = getPerks(currentUserResult);
+    account.isSpecial = isSpecialUser(id);
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error(`[getAccount] unexpected: ${msg}`);

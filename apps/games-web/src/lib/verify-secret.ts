@@ -11,9 +11,15 @@ import {
   type PatreonUser,
   getCurrentUser,
   getPerks,
+  isSpecialUser,
   isSupporter,
   postRefreshToken,
 } from "@/games/thgl-web/lib/patreon";
+import {
+  TEST_SUPPORTER_EMAIL,
+  TEST_SUPPORTER_PERKS,
+  isTestSupporter,
+} from "@/lib/test-supporter";
 import { games } from "@repo/lib";
 
 /**
@@ -55,6 +61,22 @@ export async function verifySecretPOST(request: NextRequest) {
       );
     }
     const userId = decoded.userId;
+
+    // Dev-only test account (see lib/test-supporter.ts): full perks without
+    // touching Patreon or the token store; the secret is returned unrotated.
+    if (isTestSupporter(userId)) {
+      return Response.json(
+        {
+          ...TEST_SUPPORTER_PERKS,
+          secret: requestBody.userId,
+          expiresIn: 2678400,
+          decryptedUserId: userId,
+          email: TEST_SUPPORTER_EMAIL,
+        },
+        { headers: CORS_HEADERS },
+      );
+    }
+
     // Enriched secrets (minted by /support-me/account) carry the
     // Patreon token — the OW equivalent of the patreonToken cookie.
     const embeddedToken = decoded.token;
@@ -163,6 +185,7 @@ export async function verifySecretPOST(request: NextRequest) {
       expiresIn: patreonTokenRefreshed.expires_in,
       decryptedUserId: userId,
       email: currentUser.data.attributes.email,
+      isSpecial: isSpecialUser(userId),
     };
     return Response.json(result, {
       headers: CORS_HEADERS,

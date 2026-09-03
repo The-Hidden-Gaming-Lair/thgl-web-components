@@ -9,12 +9,18 @@ import {
   toTokenCookieStringEmpty,
 } from "@/lib/token-cookie";
 import { sign } from "jsonwebtoken";
+import {
+  TEST_SUPPORTER_EMAIL,
+  TEST_SUPPORTER_PERKS,
+  isTestSupporter,
+} from "@/lib/test-supporter";
 import { type NextRequest } from "next/server";
 import {
   type PatreonToken,
   type PatreonUser,
   getCurrentUser,
   getPerks,
+  isSpecialUser,
   isSupporter,
   postRefreshToken,
   toCookieString,
@@ -80,6 +86,19 @@ export async function GET(request: NextRequest) {
       );
     }
     const userId = decoded.userId;
+
+    // Dev-only test account (see lib/test-supporter.ts).
+    if (isTestSupporter(userId)) {
+      return Response.json(
+        {
+          ...TEST_SUPPORTER_PERKS,
+          expiresIn: 2678400,
+          decryptedUserId: userId,
+          email: TEST_SUPPORTER_EMAIL,
+        },
+        { headers },
+      );
+    }
 
     // Primary: token store; fallback: the signed httpOnly cookie set
     // at login. A store outage must not sign the user out.
@@ -181,6 +200,7 @@ export async function GET(request: NextRequest) {
       expiresIn: refreshTokenResult.expires_in,
       decryptedUserId: userId,
       email: currentUser.data.attributes.email,
+      isSpecial: isSpecialUser(userId),
     };
     return Response.json(result, { headers: responseHeaders });
   } catch (err) {

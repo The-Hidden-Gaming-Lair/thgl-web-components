@@ -60,13 +60,17 @@ function AuthenticatedView() {
   const activePerks = PERK_CONFIG.filter((p) => account.perks[p.key]);
   const hasPerks = activePerks.length > 0;
 
-  const currentTier = account.perks.previewReleaseAccess
-    ? "Elite"
-    : account.perks.adRemoval
-      ? "Pro"
-      : account.perks.comments
-        ? "Enthusiast"
-        : null;
+  // isSpecial is server-resolved (PATREON_SPECIAL_USERS) and rides on the
+  // account payload — perks alone can't distinguish Special from Elite.
+  const currentTier = account.isSpecial
+    ? "Special"
+    : account.perks.previewReleaseAccess
+      ? "Elite"
+      : account.perks.adRemoval
+        ? "Pro"
+        : account.perks.comments
+          ? "Enthusiast"
+          : null;
 
   return (
     <div className="space-y-4">
