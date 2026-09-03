@@ -201,6 +201,9 @@ export class PeerMeshUtils {
   /**
    * Evict a stale sender that has the same name as a newly joining sender.
    * This handles the case where a sender restarts and gets a new data peer ID.
+   * `protectedId` (the leader's own sender ID) is never evicted — the leader
+   * is provably alive while processing the join, so a same-name joiner is a
+   * second live session, not a stale ghost.
    * Returns the evicted sender ID if found, or null.
    */
   static evictStaleSenderByName(
@@ -209,10 +212,15 @@ export class PeerMeshUtils {
     senderConnMap: Map<string, string>,
     newId: string,
     newName?: string,
+    protectedId?: string,
   ): string | null {
     if (!newName) return null;
     for (const [existingId, existingName] of Object.entries(senderNames)) {
-      if (existingName === newName && existingId !== newId) {
+      if (
+        existingName === newName &&
+        existingId !== newId &&
+        existingId !== protectedId
+      ) {
         senderIds.delete(existingId);
         delete senderNames[existingId];
         for (const [connPeer, senderId] of senderConnMap.entries()) {
