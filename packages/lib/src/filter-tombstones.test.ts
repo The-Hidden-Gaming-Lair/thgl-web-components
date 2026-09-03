@@ -6,7 +6,9 @@ import {
   flushFilterDeletes,
   getPendingFilterDeletes,
   isFilterTombstoned,
+  loadRecentSyncs,
   recordFilterTombstone,
+  recordRecentSync,
   type StorageLike,
 } from "./filter-tombstones";
 
@@ -134,5 +136,33 @@ describe("pending-delete queue", () => {
     await flushFilterDeletes({ isSignedIn: () => false, deleteFilter });
     expect(deleteFilter).not.toHaveBeenCalled();
     expect(getPendingFilterDeletes()).toEqual(["uuid-1"]);
+  });
+});
+
+describe("recent-sync stamps (durable save-then-hydrate grace)", () => {
+  // Use realistic timestamps: readMap prunes against the real 30-day TTL keyed
+  // to Date.now(), so tiny epoch values would be treated as long-expired.
+  const now = Date.now();
+
+  it("records an id and reads it back (survives a fresh load, i.e. window reopen)", () => {
+    recordRecentSync("uuid-1", now);
+    // loadRecentSyncs reads from storage fresh — models a reopened window whose
+    // in-memory pending state is empty but the durable stamp persists.
+    const map = loadRecentSyncs();
+    expect(map.get("uuid-1")).toBe(now);
+  });
+
+  it("prunes stamps older than the max age on write", () => {
+    recordRecentSync("old", now - 6 * 60 * 1000); // >5min ago
+    recordRecentSync("fresh", now);
+    const map = loadRecentSyncs();
+    expect(map.has("old")).toBe(false);
+    expect(map.has("fresh")).toBe(true);
+  });
+
+  it("no-ops without storage instead of throwing", () => {
+    _setFilterTombstoneStorageForTests(null);
+    expect(() => recordRecentSync("x")).not.toThrow();
+    expect(loadRecentSyncs().size).toBe(0);
   });
 });

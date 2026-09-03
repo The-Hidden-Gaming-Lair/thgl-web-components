@@ -236,6 +236,33 @@ export function getPendingFilterDeletes(): string[] {
   return Object.keys(readMap(PENDING_DELETES_KEY));
 }
 
+// Durable "recently synced" stamps. Their purpose is the mirror of tombstones:
+// keep hydrate from dropping a filter you JUST saved as "deleted elsewhere" when
+// a racing server-list fetch (or read-replica lag) doesn't reflect the write
+// yet. The in-memory pending sets can't cover this across a window close — a
+// freshly reopened WebView2 window starts with empty pending state, so a
+// synced-but-not-yet-replicated filter would be dropped (the "gone after
+// reopening, back on focus" bug). Persisting the stamps lets the fresh window
+// protect the id until the server catches up. Entries older than
+// RECENT_SYNC_MAX_AGE_MS are pruned on write so the map stays tiny.
+const RECENT_SYNCS_KEY = "thgl-filter-recent-syncs";
+const RECENT_SYNC_MAX_AGE_MS = 5 * 60 * 1000;
+
+/** Record that a filter's PUT just succeeded (durable across window close). */
+export function recordRecentSync(id: string, now: number = Date.now()): void {
+  const map = readMap(RECENT_SYNCS_KEY);
+  for (const [k, v] of Object.entries(map)) {
+    if (now - v > RECENT_SYNC_MAX_AGE_MS) delete map[k];
+  }
+  map[id] = now;
+  writeMap(RECENT_SYNCS_KEY, map);
+}
+
+/** Load the durable recently-synced stamps as a fresh map (id → unix ms). */
+export function loadRecentSyncs(): Map<string, number> {
+  return new Map(Object.entries(readMap(RECENT_SYNCS_KEY)));
+}
+
 let flushing = false;
 
 /**

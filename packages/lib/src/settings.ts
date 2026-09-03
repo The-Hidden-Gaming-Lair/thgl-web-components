@@ -27,7 +27,9 @@ import {
   filterOutTombstoned,
   flushFilterDeletes,
   isFilterTombstoned,
+  loadRecentSyncs,
   recordFilterTombstone,
+  recordRecentSync,
 } from "./filter-tombstones";
 import { getAppIdFromPathname, getCurrentGameId } from "./games";
 
@@ -667,23 +669,24 @@ const syncTimers = new Map<string, ReturnType<typeof setTimeout>>();
 // `syncTimers` keys these form the "pending" set that hydrate must not clobber
 // (a re-hydrate on focus could otherwise overwrite an edit mid-upload).
 const inFlightSyncIds = new Set<string>();
-// Ids whose PUT SUCCEEDED within RECENT_SYNC_GRACE_MS. A hydrate whose
-// server-list fetch predates (or races) that PUT sees the id as absent while
-// the local copy is already synced=true — the TOCTOU that made a just-saved
-// filter vanish until the next focus. Kept as "pending" for a short window so
-// mergeHydratedFilters doesn't drop them. See pendingIdsWithSyncGrace.
-const recentlySyncedIds = new Map<string, number>();
-const RECENT_SYNC_GRACE_MS = 15_000;
+// How long a just-synced id is protected from hydrate's "synced-but-absent =
+// deleted elsewhere" drop. Covers the save-then-hydrate race AND a window
+// close/reopen in between (the grace is loaded from durable storage, not
+// in-memory, so a freshly reopened window still honours it) plus read-replica
+// lag. Long enough for the server list to reflect the write; short relative to
+// how rarely you'd remote-delete a filter you just created here.
+const RECENT_SYNC_GRACE_MS = 60_000;
 
 /**
  * Ids with a queued (debounced) or in-flight PUT, PLUS ids whose PUT landed
- * within the last {@link RECENT_SYNC_GRACE_MS} (the save-then-hydrate race
- * guard). Prunes expired grace entries as a side effect.
+ * within the last {@link RECENT_SYNC_GRACE_MS}. The recently-synced stamps are
+ * DURABLE (localStorage via {@link loadRecentSyncs}), so this protection
+ * survives a window close/reopen — the in-memory pending sets do not.
  */
 export function getPendingSyncIds(): Set<string> {
   return pendingIdsWithSyncGrace(
     new Set<string>([...syncTimers.keys(), ...inFlightSyncIds]),
-    recentlySyncedIds,
+    loadRecentSyncs(),
     Date.now(),
     RECENT_SYNC_GRACE_MS,
   );
@@ -722,11 +725,12 @@ function scheduleFilterSync(filter: DrawingsAndNodes) {
         visibility: filter.visibility ?? "private",
       })
         .then(() => {
-          // Remember this PUT just landed: a hydrate whose server-list fetch
-          // raced it (or hits replica lag) would otherwise see the id as
-          // "synced but absent" and drop the just-saved filter. The grace
-          // window in getPendingSyncIds protects it until the list catches up.
-          recentlySyncedIds.set(id, Date.now());
+          // Remember this PUT just landed (DURABLY): a hydrate whose server-list
+          // fetch raced it (or hits replica lag), INCLUDING one on a freshly
+          // reopened window, would otherwise see the id as "synced but absent"
+          // and drop the just-saved filter. The grace window in
+          // getPendingSyncIds protects it until the list catches up.
+          recordRecentSync(id);
           // Confirm the id now exists on the server so hydrate can safely
           // drop it if it later disappears (deleted elsewhere) instead of
           // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
