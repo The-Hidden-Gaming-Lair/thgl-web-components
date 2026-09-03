@@ -1,4 +1,5 @@
 import {
+  dedupeMyFilters,
   mergeHydratedFilters,
   pendingIdsWithSyncGrace,
   unionMyFiltersOnRehydrate,
@@ -145,6 +146,32 @@ describe("mergeHydratedFilters", () => {
     );
     expect(merged).toHaveLength(0);
   });
+
+  it("reports deleted-elsewhere drops in droppedIds (the cross-window drop broadcast)", () => {
+    // The caller records these as hydrate-drop echoes so sibling windows don't
+    // union the filter right back in (remote deletes have no local tombstone).
+    const local = [
+      withNodes({ name: "my_1_gone", id: "A", synced: true }),
+      withNodes({ name: "my_1_stays", id: "B", synced: true }),
+    ];
+    const server = [withNodes({ name: "my_1_stays", id: "B" })];
+    const { droppedIds } = mergeHydratedFilters(local, server);
+    expect(droppedIds).toEqual(["A"]);
+  });
+
+  it("does not report pending/grace-protected or tombstoned filters as dropped", () => {
+    const local = [
+      withNodes({ name: "my_1_pending", id: "P", synced: true }),
+      withNodes({ name: "my_1_deleted_here", id: "T", synced: true }),
+    ];
+    const { droppedIds } = mergeHydratedFilters(
+      local,
+      [],
+      new Set(["P"]), // pending → kept, not a delete
+      (f) => f.id === "T", // tombstoned → dropped by LOCAL intent, no echo needed
+    );
+    expect(droppedIds).toEqual([]);
+  });
 });
 
 describe("unionMyFiltersOnRehydrate", () => {
@@ -195,21 +222,53 @@ describe("unionMyFiltersOnRehydrate", () => {
     expect(union[0].drawing).toEqual({ id: "new" });
   });
 
-  it("matches identity by id when present, else by name", () => {
-    // Same server id, different display name → one entry (id wins). Different
-    // ids with same name (two surfaces minted separately) → both kept.
+  it("matches identity by id — the persisted copy wins", () => {
+    const inMemory = [withNodes({ name: "renamed_locally", id: "A" })];
+    const persisted = [withNodes({ name: "canonical", id: "A" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(1);
+    expect(union[0].name).toBe("canonical");
+  });
+
+  it("collapses a name match instead of minting twins (id-vs-name identity split)", () => {
+    // The first union version keyed id-ELSE-name, so the same logical filter —
+    // in memory as the stale pre-id snapshot, persisted with its freshly
+    // assigned server id — had different keys and BOTH were kept. Users ended
+    // up with duplicate twins ("one is broken / one doesn't show"). A name
+    // match now means "known": the persisted copy is authoritative.
+    const inMemory = [withNodes({ name: "my_1_Campsite" })]; // pre-id snapshot
+    const persisted = [withNodes({ name: "my_1_Campsite", id: "S" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toBe(persisted); // nothing to add back, same ref
+  });
+
+  it("grafts the server id onto an id-less persisted name match (sign-in transition)", () => {
+    // Reverse direction: THIS window just assigned the id (first PUT), a stale
+    // window then wrote its pre-id blob. Persisted content wins (last-writer-
+    // wins) but the identity must survive — otherwise the filter stops syncing
+    // and the next hydrate re-appends the server row as a twin.
     const inMemory = [
-      withNodes({ name: "renamed_locally", id: "A" }),
-      withNodes({ name: "dup", id: "B" }),
+      withNodes({ name: "my_1_Campsite", id: "S", synced: true }),
     ];
     const persisted = [
-      withNodes({ name: "canonical", id: "A" }),
-      withNodes({ name: "dup", id: "C" }),
+      withNodes({ name: "my_1_Campsite", drawing: { id: "newer-edit" } }),
     ];
     const union = unionMyFiltersOnRehydrate(inMemory, persisted);
-    // A collapses to the persisted copy; B and C both survive (distinct ids).
-    expect(union.map((f) => f.id).sort()).toEqual(["A", "B", "C"]);
-    expect(union.find((f) => f.id === "A")!.name).toBe("canonical");
+    expect(union).toHaveLength(1);
+    expect(union[0].id).toBe("S");
+    expect(union[0].synced).toBe(true);
+    expect(union[0].drawing).toEqual({ id: "newer-edit" }); // persisted content
+  });
+
+  it("collapses same-name filters with two different ids to the persisted copy", () => {
+    // Two surfaces minted separate server rows for the same name. Keeping both
+    // locally shows twins; the persisted copy wins here and the next hydrate
+    // re-appends whatever the server really has — the server view is the
+    // authority for id-bearing rows either way.
+    const inMemory = [withNodes({ name: "dup", id: "B" })];
+    const persisted = [withNodes({ name: "dup", id: "C" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toBe(persisted);
   });
 
   it("returns the persisted array unchanged (same ref) when nothing to add back", () => {
@@ -225,6 +284,67 @@ describe("unionMyFiltersOnRehydrate", () => {
       withNodes({ name: "b", id: "2" }),
     ];
     expect(unionMyFiltersOnRehydrate([], persisted)).toBe(persisted);
+  });
+});
+
+describe("dedupeMyFilters", () => {
+  // Heals twins the id-else-name union minted before name-matching landed:
+  // same name, one copy with a server id + one stale id-less snapshot.
+  it("removes an id-less twin whose nodes are a subset of the id-carrying copy", () => {
+    const keeper: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      id: "S",
+      synced: true,
+      nodes: [
+        { id: "n1", icon: null, radius: 1, p: [0, 0], mapName: "Map" },
+        { id: "n2", icon: null, radius: 1, p: [1, 1], mapName: "Map" },
+      ],
+    };
+    const staleTwin: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      nodes: [{ id: "n1", icon: null, radius: 1, p: [0, 0], mapName: "Map" }],
+    };
+    const out = dedupeMyFilters([keeper, staleTwin]);
+    expect(out).toHaveLength(1);
+    expect(out[0].id).toBe("S");
+  });
+
+  it("removes an id-less twin with no content at all (the 'doesn't show' shell)", () => {
+    const keeper = withNodes({ name: "my_1_Campsite", id: "S" });
+    const emptyTwin: DrawingsAndNodes = { name: "my_1_Campsite" };
+    const out = dedupeMyFilters([emptyTwin, keeper]);
+    expect(out).toHaveLength(1);
+    expect(out[0].id).toBe("S");
+  });
+
+  it("keeps an id-less twin that has nodes the id-carrying copy lacks (no data loss)", () => {
+    const keeper = withNodes({ name: "my_1_Campsite", id: "S" }); // has n1
+    const divergedTwin: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      nodes: [{ id: "n9", icon: null, radius: 1, p: [2, 2], mapName: "Map" }],
+    };
+    const out = dedupeMyFilters([keeper, divergedTwin]);
+    expect(out).toHaveLength(2);
+  });
+
+  it("keeps an id-less twin that carries a drawing", () => {
+    const keeper = withNodes({ name: "my_1_Campsite", id: "S" });
+    const drawingTwin: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      drawing: { id: "d1" },
+    };
+    expect(dedupeMyFilters([keeper, drawingTwin])).toHaveLength(2);
+  });
+
+  it("leaves same-name pairs that BOTH carry ids alone (two real server rows)", () => {
+    const a = withNodes({ name: "dup", id: "A" });
+    const b = withNodes({ name: "dup", id: "B" });
+    expect(dedupeMyFilters([a, b])).toHaveLength(2);
+  });
+
+  it("returns the input unchanged (same ref) when there is nothing to heal", () => {
+    const clean = [withNodes({ name: "a", id: "1" }), withNodes({ name: "b" })];
+    expect(dedupeMyFilters(clean)).toBe(clean);
   });
 });
 

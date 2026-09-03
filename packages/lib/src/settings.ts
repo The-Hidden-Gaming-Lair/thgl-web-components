@@ -17,18 +17,22 @@ import {
   serverFilterToLocal,
 } from "./filters-api";
 import {
+  dedupeMyFilters,
   mergeHydratedFilters,
   pendingIdsWithSyncGrace,
   unionMyFiltersOnRehydrate,
 } from "./filters-sync";
 import {
   clearFilterTombstones,
+  clearHydrateDrops,
   enqueueFilterDelete,
   filterOutTombstoned,
   flushFilterDeletes,
   isFilterTombstoned,
+  isRecentHydrateDrop,
   loadRecentSyncs,
   recordFilterTombstone,
+  recordHydrateDrops,
   recordRecentSync,
 } from "./filter-tombstones";
 import { getAppIdFromPathname, getCurrentGameId } from "./games";
@@ -1833,12 +1837,23 @@ export const useSettingsStore = create(
               ...pendingBefore,
               ...getPendingSyncIds(),
             ]);
-            const { merged, resyncIds } = mergeHydratedFilters(
+            // Ids the server list DOES contain can't be deleted-elsewhere:
+            // clear any stale hydrate-drop echo (a replica-lag false positive
+            // or a re-creation) before it suppresses the filter in a sibling
+            // window's union.
+            clearHydrateDrops(serverFilters.map((f) => f.id));
+            const { merged, resyncIds, droppedIds } = mergeHydratedFilters(
               state.myFilters,
               serverFilters.map(serverFilterToLocal),
               pendingIds,
               isFilterTombstoned,
             );
+            // Broadcast deleted-elsewhere drops to sibling windows. A remote
+            // delete records no local tombstone, so without this a sibling
+            // still holding the filter in memory would union it back in on the
+            // storage-event rehydrate that follows our persist below — the
+            // filter would ping-pong instead of staying deleted.
+            recordHydrateDrops(droppedIds);
             updateSettings({ myFilters: merged });
             // Re-push filters whose server copy was empty but local had data.
             const mergedById = new Map(merged.map((f) => [f.id, f]));
@@ -1928,23 +1943,38 @@ export const useSettingsStore = create(
               // flat root) because partialize persists `profiles`, so the next
               // write must carry the resurrected filter back to disk.
               // See {@link unionMyFiltersOnRehydrate}.
-              const inMemory = (
-                currentState as { myFilters?: DrawingsAndNodes[] }
-              ).myFilters;
-              if (inMemory?.length) {
-                const persistedFilters =
-                  currentProfile.settings?.myFilters ?? [];
-                const unioned = unionMyFiltersOnRehydrate(
-                  inMemory,
-                  persistedFilters,
-                  isFilterTombstoned,
-                );
-                if (unioned !== persistedFilters) {
-                  currentProfile.settings = {
-                    ...currentProfile.settings,
-                    myFilters: unioned,
-                  };
-                }
+              //
+              // ONLY when the rehydrate stays on the same profile: if another
+              // window switched currentProfileId, the in-memory myFilters
+              // belong to the OLD profile and unioning them would leak filters
+              // across profiles. (At mount the in-memory list is the empty
+              // default, so the union is a no-op either way.)
+              const current = currentState as {
+                myFilters?: DrawingsAndNodes[];
+                currentProfileId?: string;
+              };
+              const sameProfile =
+                current.currentProfileId === merged.currentProfileId;
+              const persistedFilters = currentProfile.settings?.myFilters ?? [];
+              let reconciled =
+                sameProfile && current.myFilters?.length
+                  ? unionMyFiltersOnRehydrate(
+                      current.myFilters,
+                      persistedFilters,
+                      // A filter another window just dropped as deleted-on-
+                      // another-device must not be unioned back (remote deletes
+                      // record no local tombstone) — see recordHydrateDrops.
+                      (f) => isFilterTombstoned(f) || isRecentHydrateDrop(f.id),
+                    )
+                  : persistedFilters;
+              // Heal duplicate twins the pre-name-matching union minted (same
+              // name, one copy with server id + one stale id-less snapshot).
+              reconciled = dedupeMyFilters(reconciled);
+              if (reconciled !== persistedFilters) {
+                currentProfile.settings = {
+                  ...currentProfile.settings,
+                  myFilters: reconciled,
+                };
               }
               Object.assign(merged, currentProfile.settings);
             }

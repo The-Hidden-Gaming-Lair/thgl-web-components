@@ -169,6 +169,9 @@ export function clearFilterTombstones(filter: {
     changed = true;
   }
   if (changed) writeMap(TOMBSTONES_KEY, map);
+  // A deliberate (re-)add also invalidates any hydrate-drop echo for the id —
+  // the user's intent is newer than the recorded absence.
+  if (filter.id) clearHydrateDrops([filter.id]);
 }
 
 /**
@@ -261,6 +264,63 @@ export function recordRecentSync(id: string, now: number = Date.now()): void {
 /** Load the durable recently-synced stamps as a fresh map (id → unix ms). */
 export function loadRecentSyncs(): Map<string, number> {
   return new Map(Object.entries(readMap(RECENT_SYNCS_KEY)));
+}
+
+// Short-lived "hydrate dropped this as deleted-elsewhere" echoes. When
+// hydrateFiltersFromServer drops a synced filter the server no longer returns,
+// only THAT window learns about it — a sibling webview still holds the filter
+// in memory and, on the storage-event rehydrate that follows the drop's
+// persist, would union it right back in (unionMyFiltersOnRehydrate keeps
+// in-memory filters the persisted blob doesn't know about, and a REMOTE delete
+// records no local tombstone). The echo is the cross-window signal that the
+// absence is a deletion, not a stale writer's ignorance: the union predicate
+// checks it and lets the drop stick. Deliberately NOT a full tombstone — it
+// must not hide a server copy that reappears (e.g. the drop was a replica-lag
+// false positive), so hydrate clears the echo for any id its server list
+// contains, and entries expire quickly regardless.
+const HYDRATE_DROPS_KEY = "thgl-filter-hydrate-drops";
+const HYDRATE_DROP_MAX_AGE_MS = 10 * 60 * 1000;
+
+/** Record ids that hydrate just dropped as "deleted on another device". */
+export function recordHydrateDrops(
+  ids: string[],
+  now: number = Date.now(),
+): void {
+  if (ids.length === 0) return;
+  const map = readMap(HYDRATE_DROPS_KEY);
+  for (const [k, v] of Object.entries(map)) {
+    if (now - v > HYDRATE_DROP_MAX_AGE_MS) delete map[k];
+  }
+  for (const id of ids) map[id] = now;
+  writeMap(HYDRATE_DROPS_KEY, map);
+}
+
+/**
+ * Clear echoes for ids the server list DOES contain — the earlier drop was a
+ * false positive (replica lag) or the filter was re-created; either way the
+ * absence signal is stale and must not suppress the filter anywhere.
+ */
+export function clearHydrateDrops(ids: string[]): void {
+  if (ids.length === 0) return;
+  const map = readMap(HYDRATE_DROPS_KEY);
+  let changed = false;
+  for (const id of ids) {
+    if (id in map) {
+      delete map[id];
+      changed = true;
+    }
+  }
+  if (changed) writeMap(HYDRATE_DROPS_KEY, map);
+}
+
+/** Whether this id was recently dropped by a hydrate as deleted-elsewhere. */
+export function isRecentHydrateDrop(
+  id: string | undefined,
+  now: number = Date.now(),
+): boolean {
+  if (!id) return false;
+  const ts = readMap(HYDRATE_DROPS_KEY)[id];
+  return typeof ts === "number" && now - ts < HYDRATE_DROP_MAX_AGE_MS;
 }
 
 let flushing = false;

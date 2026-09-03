@@ -1,13 +1,16 @@
 import {
   _setFilterTombstoneStorageForTests,
   clearFilterTombstones,
+  clearHydrateDrops,
   enqueueFilterDelete,
   filterOutTombstoned,
   flushFilterDeletes,
   getPendingFilterDeletes,
   isFilterTombstoned,
+  isRecentHydrateDrop,
   loadRecentSyncs,
   recordFilterTombstone,
+  recordHydrateDrops,
   recordRecentSync,
   type StorageLike,
 } from "./filter-tombstones";
@@ -136,6 +139,50 @@ describe("pending-delete queue", () => {
     await flushFilterDeletes({ isSignedIn: () => false, deleteFilter });
     expect(deleteFilter).not.toHaveBeenCalled();
     expect(getPendingFilterDeletes()).toEqual(["uuid-1"]);
+  });
+});
+
+describe("hydrate-drop echoes (deleted-elsewhere broadcast)", () => {
+  const now = Date.now();
+
+  it("records a drop and reads it back from storage (cross-window signal)", () => {
+    // Another window's hydrate dropped this id as deleted-on-another-device.
+    // A sibling window consults the echo in its union predicate so it doesn't
+    // resurrect the filter from its own in-memory copy (the delete ping-pong).
+    recordHydrateDrops(["uuid-1"], now);
+    expect(isRecentHydrateDrop("uuid-1", now)).toBe(true);
+    expect(isRecentHydrateDrop("uuid-2", now)).toBe(false);
+    expect(isRecentHydrateDrop(undefined, now)).toBe(false);
+  });
+
+  it("expires: an old echo no longer suppresses the filter", () => {
+    recordHydrateDrops(["uuid-1"], now - 11 * 60 * 1000); // > 10min
+    expect(isRecentHydrateDrop("uuid-1", now)).toBe(false);
+  });
+
+  it("clearHydrateDrops removes echoes for ids the server list still contains", () => {
+    // A drop that was a replica-lag false positive: the next hydrate sees the
+    // id in the server list and clears the echo so the filter isn't suppressed.
+    recordHydrateDrops(["uuid-1", "uuid-2"], now);
+    clearHydrateDrops(["uuid-1"]);
+    expect(isRecentHydrateDrop("uuid-1", now)).toBe(false);
+    expect(isRecentHydrateDrop("uuid-2", now)).toBe(true);
+  });
+
+  it("a deliberate re-add (clearFilterTombstones) also clears the echo", () => {
+    recordHydrateDrops(["uuid-1"], now);
+    clearFilterTombstones({ name: "my_1_Campsite", id: "uuid-1" });
+    expect(isRecentHydrateDrop("uuid-1", now)).toBe(false);
+  });
+
+  it("recording no ids is a no-op", () => {
+    expect(() => recordHydrateDrops([], now)).not.toThrow();
+  });
+
+  it("no-ops without storage instead of throwing", () => {
+    _setFilterTombstoneStorageForTests(null);
+    expect(() => recordHydrateDrops(["x"])).not.toThrow();
+    expect(isRecentHydrateDrop("x")).toBe(false);
   });
 });
 

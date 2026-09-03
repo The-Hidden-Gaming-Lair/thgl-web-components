@@ -25,7 +25,11 @@ import type { DrawingsAndNodes } from "./settings";
  * @param server the server's filters, already converted via `serverFilterToLocal`
  * @returns `merged` — the reconciled list to store; `resyncIds` — ids whose
  *          local copy should be re-pushed (server copy was empty but local had
- *          data, so the two must converge upward).
+ *          data, so the two must converge upward); `droppedIds` — ids dropped
+ *          as "deleted on another device", so the caller can broadcast the
+ *          drop to sibling windows (see recordHydrateDrops) — without that
+ *          signal a sibling still holding the filter in memory unions it right
+ *          back in on the next rehydrate and the delete ping-pongs.
  *
  * @param pendingIds ids with a queued or in-flight PUT. Their local copy is
  *          kept verbatim — never overwritten by the (possibly stale) server
@@ -45,7 +49,7 @@ export function mergeHydratedFilters(
   server: DrawingsAndNodes[],
   pendingIds: ReadonlySet<string> = new Set(),
   isDeleted: (f: DrawingsAndNodes) => boolean = () => false,
-): { merged: DrawingsAndNodes[]; resyncIds: string[] } {
+): { merged: DrawingsAndNodes[]; resyncIds: string[]; droppedIds: string[] } {
   const serverById = new Map(
     server.filter((f) => f.id).map((f) => [f.id as string, f]),
   );
@@ -54,6 +58,7 @@ export function mergeHydratedFilters(
 
   const merged: DrawingsAndNodes[] = [];
   const resyncIds: string[] = [];
+  const droppedIds: string[] = [];
   const seenIds = new Set<string>();
 
   for (const localFilter of local) {
@@ -85,6 +90,7 @@ export function mergeHydratedFilters(
       // Confirmed on the server before, now gone → deleted on another
       // device/surface. Drop it so the deletion propagates instead of being
       // resurrected by the next sync. (Do not re-add to `merged`.)
+      droppedIds.push(localFilter.id);
       continue;
     } else {
       // No id, or an id whose upload was never confirmed (`synced` falsy) →
@@ -101,7 +107,7 @@ export function mergeHydratedFilters(
     merged.push({ ...filter, synced: true });
   }
 
-  return { merged, resyncIds };
+  return { merged, resyncIds, droppedIds };
 }
 
 /**
@@ -129,16 +135,30 @@ export function mergeHydratedFilters(
  * didn't know about → keep it, UNLESS it carries a live tombstone (then it was
  * deliberately deleted elsewhere and must stay gone).
  *
- * Identity is keyed by server `id` when present, else by `name` (local-only /
- * signed-out filters — exactly billy's case — have no id). Returns the
- * `persisted` array UNCHANGED (same reference) when there is nothing to add
- * back, so the hot path (mount, same-state rehydrate) doesn't re-allocate and
- * doesn't spuriously mark state changed.
+ * Identity: an in-memory filter is "known" to the persisted blob if its server
+ * `id` OR its `name` matches a persisted entry. Matching by id-else-name (the
+ * first version of this union) minted DUPLICATES around the id-assignment
+ * moment: the same logical filter existed in memory WITH an id (assigned by a
+ * signed-in `addMyFilter` / first PUT) while a stale window's blob still held
+ * the pre-id copy keyed only by name — different keys, both kept, twin filters
+ * ("one is broken / one doesn't show" reports). Name-matching collapses them.
+ * One asymmetry: if the in-memory copy carries an id and the persisted
+ * name-match does NOT, the id (and its sync bookkeeping) is grafted onto the
+ * persisted copy — content authority stays with the persisted write
+ * (last-writer-wins), but the server identity must survive, or the filter
+ * stops syncing AND the next hydrate re-appends the server row as a twin.
+ *
+ * Returns the `persisted` array UNCHANGED (same reference) when there is
+ * nothing to add back or graft, so the hot path (mount, same-state rehydrate)
+ * doesn't re-allocate and doesn't spuriously mark state changed.
  *
  * @param inMemory   the store's current `myFilters` (the live view)
  * @param persisted  the just-loaded profile's `myFilters` (already
  *                   tombstone-stripped by the caller)
- * @param isTombstoned deletion-tombstone predicate (see filter-tombstones.ts)
+ * @param isTombstoned deletion-tombstone predicate (see filter-tombstones.ts).
+ *                   Callers should fold in `isRecentHydrateDrop` so a filter
+ *                   another window just dropped as deleted-elsewhere isn't
+ *                   unioned back (the delete ping-pong).
  */
 export function unionMyFiltersOnRehydrate(
   inMemory: DrawingsAndNodes[],
@@ -146,12 +166,82 @@ export function unionMyFiltersOnRehydrate(
   isTombstoned: (f: DrawingsAndNodes) => boolean = () => false,
 ): DrawingsAndNodes[] {
   if (inMemory.length === 0) return persisted;
-  const key = (f: DrawingsAndNodes) => f.id ?? `name:${f.name}`;
-  const persistedKeys = new Set(persisted.map(key));
-  const extras = inMemory.filter(
-    (f) => !persistedKeys.has(key(f)) && !isTombstoned(f),
+  const persistedIds = new Set(
+    persisted.filter((f) => f.id).map((f) => f.id as string),
   );
-  return extras.length ? [...persisted, ...extras] : persisted;
+  const persistedNames = new Set(persisted.map((f) => f.name));
+
+  const extras: DrawingsAndNodes[] = [];
+  // persisted index → identity-grafted replacement
+  const grafts = new Map<number, DrawingsAndNodes>();
+  for (const f of inMemory) {
+    if (f.id && persistedIds.has(f.id)) continue; // known → persisted wins
+    if (persistedNames.has(f.name)) {
+      // Known by name. Same logical filter around the id-assignment moment —
+      // NOT a new add; keeping both would mint the duplicate twins this
+      // function used to create. If the in-memory copy has the server id and
+      // the persisted one doesn't, carry the identity over.
+      if (f.id) {
+        const idx = persisted.findIndex((p) => p.name === f.name && !p.id);
+        if (idx !== -1 && !grafts.has(idx)) {
+          const p = persisted[idx];
+          grafts.set(idx, {
+            ...p,
+            id: f.id,
+            game: p.game ?? f.game,
+            synced: f.synced,
+          });
+        }
+      }
+      continue;
+    }
+    if (!isTombstoned(f)) extras.push(f);
+  }
+
+  if (extras.length === 0 && grafts.size === 0) return persisted;
+  const out = persisted.map((p, i) => grafts.get(i) ?? p);
+  return extras.length ? [...out, ...extras] : out;
+}
+
+/**
+ * Heal duplicate "My Filters" twins that the id-else-name union above already
+ * minted for some users before name-matching landed: the same logical filter
+ * present twice under one name — once WITH a server id (the synced copy) and
+ * once WITHOUT (a stale pre-id snapshot unioned back in).
+ *
+ * Deliberately conservative — a twin is removed ONLY when doing so cannot lose
+ * data: it must be id-less, share its name with an id-carrying filter, carry
+ * no drawing, and every node id it has must already exist on the id-carrying
+ * copy. Twins with unique content are left alone (better a visible duplicate
+ * than silent data loss), as are same-name pairs that BOTH carry ids — those
+ * are two real server rows and the server view is authoritative.
+ *
+ * Returns the input array unchanged (same reference) when nothing is removed.
+ */
+export function dedupeMyFilters(
+  filters: DrawingsAndNodes[],
+): DrawingsAndNodes[] {
+  if (filters.length < 2) return filters;
+  const withId = new Map<string, DrawingsAndNodes[]>();
+  for (const f of filters) {
+    if (!f.id) continue;
+    const list = withId.get(f.name);
+    if (list) list.push(f);
+    else withId.set(f.name, [f]);
+  }
+  if (withId.size === 0) return filters;
+
+  const kept = filters.filter((f) => {
+    if (f.id) return true;
+    const keepers = withId.get(f.name);
+    if (!keepers) return true;
+    if (f.drawing) return true;
+    const keeperNodeIds = new Set(
+      keepers.flatMap((k) => (k.nodes ?? []).map((n) => n.id)),
+    );
+    return !(f.nodes ?? []).every((n) => keeperNodeIds.has(n.id));
+  });
+  return kept.length === filters.length ? filters : kept;
 }
 
 /**
