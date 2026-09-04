@@ -8,6 +8,7 @@ export * from "./dom";
 export * from "./env";
 export * from "./files";
 export * from "./filter-import";
+export * from "./filters-mutations";
 export * from "./game";
 export * from "./games";
 export * from "./hooks";

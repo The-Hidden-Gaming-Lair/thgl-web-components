@@ -307,7 +307,10 @@ export function SettingsDialogContent({
                   variant="destructive"
                   size="sm"
                   onClick={() => {
-                    settingsStore.setMyFilters([]);
+                    // resetMyFilters tombstones and server-deletes each one.
+                    // setMyFilters([]) only cleared the array, so the rows
+                    // survived and the next hydrate brought them all back.
+                    settingsStore.resetMyFilters();
                     toast.warning(
                       t("myFilters.resetDone", {
                         fallback: "My filters reset",

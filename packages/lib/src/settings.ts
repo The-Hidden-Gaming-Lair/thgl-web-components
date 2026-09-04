@@ -17,6 +17,7 @@ import {
   serverFilterToLocal,
 } from "./filters-api";
 import { repairMisimportedFilters } from "./filter-import";
+import { applyFilterPatch, removeFiltersMatching } from "./filters-mutations";
 import {
   adoptLocalFilters,
   dedupeMyFilters,
@@ -565,6 +566,12 @@ export interface ProfileActions {
   setMyFilter: (name: string, myFilter: Partial<DrawingsAndNodes>) => void;
   addMyFilter: (myFilter: DrawingsAndNodes) => void;
   removeMyFilter: (myFilterName: string) => void;
+  /**
+   * Delete EVERY filter: tombstoned and server-deleted like a single removal,
+   * so a reset actually sticks instead of being resurrected by the next
+   * hydrate.
+   */
+  resetMyFilters: () => void;
   removeMyNode: (nodeId: string) => void;
   /**
    * Replace this game's filters in local state with the server's view.
@@ -1778,20 +1785,17 @@ export const useSettingsStore = create(
 
           setMyFilter: (name, myFilter) => {
             const state = get();
-            // Capture the updated filter DURING the map. Looking it up
-            // afterwards by `name` silently skipped the upload whenever the
-            // patch changed the name — i.e. every rename — because no filter
-            // carried the old name any more and the lookup returned undefined.
-            // The rename applied locally and never reached the server, so the
-            // user's other devices kept the old name forever.
-            let updatedFilter: DrawingsAndNodes | undefined;
-            const updatedFilters = state.myFilters.map((filter) => {
-              if (filter.name !== name) return filter;
-              updatedFilter = { ...filter, ...myFilter };
-              return updatedFilter;
-            });
-            updateSettings({ myFilters: updatedFilters });
-            if (updatedFilter) scheduleFilterSync(updatedFilter);
+            // applyFilterPatch returns the updated filters themselves, so the
+            // upload can't be skipped by re-finding them under a key the patch
+            // just moved — which is what silently dropped every rename.
+            const { filters, updated } = applyFilterPatch(
+              state.myFilters,
+              name,
+              myFilter,
+            );
+            if (updated.length === 0) return;
+            updateSettings({ myFilters: filters });
+            for (const filter of updated) scheduleFilterSync(filter);
           },
 
           addMyFilter: async (myFilter) => {
@@ -1837,15 +1841,33 @@ export const useSettingsStore = create(
             // Duplicate names are reachable (e.g. the same filter uploaded
             // under two ids by different surfaces) — tombstone and
             // server-delete EVERY match, not just the first.
-            const removed = state.myFilters.filter(
+            const { filters, removed } = removeFiltersMatching(
+              state.myFilters,
               (f) => f.name === myFilterName,
             );
             if (removed.length === 0) return;
-            const updatedFilters = state.myFilters.filter(
-              (filter) => filter.name !== myFilterName,
-            );
             for (const filter of removed) recordFilterTombstone(filter);
-            updateSettings({ myFilters: updatedFilters });
+            updateSettings({ myFilters: filters });
+            for (const filter of removed) {
+              if (filter.id) fireFilterDelete(filter.id);
+            }
+          },
+
+          resetMyFilters: () => {
+            const state = get();
+            // The settings "Reset" button used to call setMyFilters([]), which
+            // clears the array and nothing else: no tombstones, no server
+            // deletes. For a signed-in user the rows survived and the very
+            // next hydrate resurrected everything just cleared. Reset is a
+            // delete of every filter, so it goes through the same tombstone +
+            // queued-DELETE path as removing one.
+            const { filters, removed } = removeFiltersMatching(
+              state.myFilters,
+              () => true,
+            );
+            if (removed.length === 0) return;
+            for (const filter of removed) recordFilterTombstone(filter);
+            updateSettings({ myFilters: filters });
             for (const filter of removed) {
               if (filter.id) fireFilterDelete(filter.id);
             }
