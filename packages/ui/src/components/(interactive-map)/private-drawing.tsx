@@ -7,7 +7,7 @@ import { Info, Spline } from "lucide-react";
 import { Button } from "../ui/button";
 import { ColorPicker } from "../(controls)/color-picker";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useSettingsStore, type Drawing } from "@repo/lib";
+import { useConnectionStore, useSettingsStore, type Drawing } from "@repo/lib";
 import {
   DrawingManager,
   DrawingLayer,
@@ -59,6 +59,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const dynamicIconSizeFactor = useSettingsStore(
     (state) => state.dynamicIconSizeFactor,
   );
+  // Filters shared by a Peer Link / whiteboard partner (same source the
+  // shared-marker path in markers.tsx reads).
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
   const { staticDrawings } = useCoordinates();
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
@@ -480,6 +483,22 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         filter.name !== editingName,
     );
 
+    // Drawings shared over Peer Link / whiteboard. These come from the OTHER
+    // player, so they are NOT gated on `filters` — that's this user's own
+    // enabled-filter list, which can never contain a peer's filter name. The
+    // shared-NODES path (markers.tsx) already renders unconditionally for the
+    // same reason; drawings were simply never wired to this source at all, so
+    // a peer sharing a drawing-only filter showed the receiver nothing while a
+    // filter with markers worked. Reported 2026-09-04.
+    for (const filter of sharedMyFilters) {
+      if (!filter.drawing) continue;
+      if (filter.name === editingName) continue;
+      // A peer can share a filter this user also has selected locally; render
+      // it once rather than stacking two identical copies of every shape.
+      if (selectedDrawings.some((f) => f.name === filter.name)) continue;
+      selectedDrawings.push(filter);
+    }
+
     if (selectedDrawings.length === 0) {
       // No drawings to show
       if (savedDrawingsLayerRef.current) {
@@ -589,6 +608,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     map,
     filters,
     myFilters,
+    sharedMyFilters,
     staticDrawings,
     mapName,
     isEditing,

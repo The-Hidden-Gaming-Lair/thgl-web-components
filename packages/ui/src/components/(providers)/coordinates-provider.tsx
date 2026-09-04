@@ -17,6 +17,7 @@ import {
   isOverwolf,
   resolveLiveModeForType,
   useAccountStore,
+  useConnectionStore,
   useEffectiveLiveMode,
   useGameState,
   useSettingsStore,
@@ -239,6 +240,9 @@ export function CoordinatesProvider({
       useGameState,
       useSettingsStore,
       useAccountStore,
+      // Peer Link / whiteboard state, so a shared filter can be injected
+      // without a second real peer (shared markers AND shared drawings).
+      useConnectionStore,
       userStore,
     };
   }, [userStore]);
