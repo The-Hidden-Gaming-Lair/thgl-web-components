@@ -270,6 +270,7 @@ export type API_WEEKLY_WANTS = {
     thewatcher: ITEMS;
     thegardener: ITEMS;
     thelostboy: ITEMS;
+    theranger: ITEMS;
   };
 };
 
