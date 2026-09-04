@@ -1778,11 +1778,19 @@ export const useSettingsStore = create(
 
           setMyFilter: (name, myFilter) => {
             const state = get();
-            const updatedFilters = state.myFilters.map((filter) =>
-              filter.name === name ? { ...filter, ...myFilter } : filter,
-            );
+            // Capture the updated filter DURING the map. Looking it up
+            // afterwards by `name` silently skipped the upload whenever the
+            // patch changed the name — i.e. every rename — because no filter
+            // carried the old name any more and the lookup returned undefined.
+            // The rename applied locally and never reached the server, so the
+            // user's other devices kept the old name forever.
+            let updatedFilter: DrawingsAndNodes | undefined;
+            const updatedFilters = state.myFilters.map((filter) => {
+              if (filter.name !== name) return filter;
+              updatedFilter = { ...filter, ...myFilter };
+              return updatedFilter;
+            });
             updateSettings({ myFilters: updatedFilters });
-            const updatedFilter = updatedFilters.find((f) => f.name === name);
             if (updatedFilter) scheduleFilterSync(updatedFilter);
           },
 
