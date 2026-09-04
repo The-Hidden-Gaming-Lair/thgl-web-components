@@ -1896,12 +1896,13 @@ export const useSettingsStore = create(
             // or a re-creation) before it suppresses the filter in a sibling
             // window's union.
             clearHydrateDrops(serverFilters.map((f) => f.id));
-            const { merged, resyncIds, droppedIds } = mergeHydratedFilters(
-              state.myFilters,
-              serverFilters.map(serverFilterToLocal),
-              pendingIds,
-              isFilterTombstoned,
-            );
+            const { merged, resyncIds, droppedIds, unsyncedIds } =
+              mergeHydratedFilters(
+                state.myFilters,
+                serverFilters.map(serverFilterToLocal),
+                pendingIds,
+                isFilterTombstoned,
+              );
             // Broadcast deleted-elsewhere drops to sibling windows. A remote
             // delete records no local tombstone, so without this a sibling
             // still holding the filter in memory would union it back in on the
@@ -1923,8 +1924,13 @@ export const useSettingsStore = create(
             // this re-arms its upload. Without it the local copy would survive
             // yet never reach the server.
             const byId = new Map(adopted.map((f) => [f.id, f]));
+            // `unsyncedIds` are first uploads that never landed — the id
+            // exists locally but the server has no such row, and nothing else
+            // would ever retry them, so the filter stays stranded on one
+            // device and every later edit looks like a broken sync.
             const toPush = new Set<string>([
               ...resyncIds,
+              ...unsyncedIds,
               ...adoptedIds,
               ...getDirtyFilterIds(),
             ]);

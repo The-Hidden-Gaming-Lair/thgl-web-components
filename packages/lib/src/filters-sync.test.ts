@@ -175,6 +175,59 @@ describe("mergeHydratedFilters", () => {
   });
 });
 
+describe("mergeHydratedFilters — first upload never landed", () => {
+  it("reports an id-bearing, never-synced, server-absent filter in unsyncedIds", () => {
+    // The stranded state: addMyFilter minted an id, the PUT failed or never
+    // fired, and nothing ever retried it. It was correctly KEPT — but silently,
+    // so the filter lived on one machine forever and every later edit looked
+    // like broken sync. resyncIds can't cover it: that only fires when the
+    // server HAS the row but left it empty.
+    const local = [withNodes({ name: "my_1_stranded", id: "S" })]; // synced falsy
+    const { merged, unsyncedIds } = mergeHydratedFilters(local, []);
+    expect(merged).toHaveLength(1);
+    expect(unsyncedIds).toEqual(["S"]);
+  });
+
+  it("does not report an anonymous local filter — there is no id to push to", () => {
+    const { unsyncedIds } = mergeHydratedFilters(
+      [withNodes({ name: "my_1_anon" })],
+      [],
+    );
+    expect(unsyncedIds).toEqual([]);
+  });
+
+  it("does not report a filter whose PUT is already queued/in flight", () => {
+    const local = [withNodes({ name: "my_1_inflight", id: "P" })];
+    const { unsyncedIds } = mergeHydratedFilters(local, [], new Set(["P"]));
+    expect(unsyncedIds).toEqual([]);
+  });
+
+  it("does not report a confirmed filter the server deleted (that is a drop)", () => {
+    const local = [withNodes({ name: "my_1_gone", id: "D", synced: true })];
+    const { unsyncedIds, droppedIds } = mergeHydratedFilters(local, []);
+    expect(unsyncedIds).toEqual([]);
+    expect(droppedIds).toEqual(["D"]);
+  });
+
+  it("does not report one the server already has", () => {
+    const local = [withNodes({ name: "my_1_ok", id: "K" })];
+    const server = [withNodes({ name: "my_1_ok", id: "K" })];
+    const { unsyncedIds } = mergeHydratedFilters(local, server);
+    expect(unsyncedIds).toEqual([]);
+  });
+
+  it("does not report a tombstoned filter", () => {
+    const local = [withNodes({ name: "my_1_deleted", id: "T" })];
+    const { unsyncedIds } = mergeHydratedFilters(
+      local,
+      [],
+      new Set(),
+      (f) => f.id === "T",
+    );
+    expect(unsyncedIds).toEqual([]);
+  });
+});
+
 describe("mergeHydratedFilters — edge cases", () => {
   it("a dirty id (unsent edit from a previous session) beats the older server copy", () => {
     // THE data-loss path: edit, close the window inside the 1s debounce, so the

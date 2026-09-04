@@ -25,7 +25,10 @@ import type { DrawingsAndNodes } from "./settings";
  * @param server the server's filters, already converted via `serverFilterToLocal`
  * @returns `merged` — the reconciled list to store; `resyncIds` — ids whose
  *          local copy should be re-pushed (server copy was empty but local had
- *          data, so the two must converge upward); `droppedIds` — ids dropped
+ *          data, so the two must converge upward); `unsyncedIds` — ids whose
+ *          FIRST upload never landed (id minted locally, never confirmed, and
+ *          the server has no such row), which the caller must re-push or they
+ *          stay stranded on one device; `droppedIds` — ids dropped
  *          as "deleted on another device", so the caller can broadcast the
  *          drop to sibling windows (see recordHydrateDrops) — without that
  *          signal a sibling still holding the filter in memory unions it right
@@ -49,7 +52,12 @@ export function mergeHydratedFilters(
   server: DrawingsAndNodes[],
   pendingIds: ReadonlySet<string> = new Set(),
   isDeleted: (f: DrawingsAndNodes) => boolean = () => false,
-): { merged: DrawingsAndNodes[]; resyncIds: string[]; droppedIds: string[] } {
+): {
+  merged: DrawingsAndNodes[];
+  resyncIds: string[];
+  droppedIds: string[];
+  unsyncedIds: string[];
+} {
   const serverById = new Map(
     server.filter((f) => f.id).map((f) => [f.id as string, f]),
   );
@@ -59,6 +67,7 @@ export function mergeHydratedFilters(
   const merged: DrawingsAndNodes[] = [];
   const resyncIds: string[] = [];
   const droppedIds: string[] = [];
+  const unsyncedIds: string[] = [];
   const seenIds = new Set<string>();
 
   for (const localFilter of local) {
@@ -103,6 +112,14 @@ export function mergeHydratedFilters(
     } else {
       // No id, or an id whose upload was never confirmed (`synced` falsy) →
       // keep so we don't lose data the user just created but couldn't upload.
+      //
+      // An id-bearing one is a FIRST upload that never landed: the id was
+      // minted locally, the PUT failed or never fired, and nothing has ever
+      // retried it. Keeping it was always right, but silently — the filter
+      // then lives on one machine forever, and every later edit looks like a
+      // broken sync. Report it so the caller re-pushes; `resyncIds` can't,
+      // because that only covers rows the server DOES have but left empty.
+      if (localFilter.id) unsyncedIds.push(localFilter.id);
       merged.push(localFilter);
     }
   }
@@ -115,7 +132,7 @@ export function mergeHydratedFilters(
     merged.push({ ...filter, synced: true });
   }
 
-  return { merged, resyncIds, droppedIds };
+  return { merged, resyncIds, droppedIds, unsyncedIds };
 }
 
 /**
