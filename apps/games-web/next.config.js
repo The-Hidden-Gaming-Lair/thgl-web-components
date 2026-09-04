@@ -227,6 +227,33 @@ const nextConfig = (phase) => ({
           { key: "CDN-Cache-Control", value: "no-store" },
         ],
       },
+      // "My Filters" sync. Same class as /api/patreon above, and it was
+      // simply missed: the blanket pageCache rule gave the per-user filter
+      // LIST `s-maxage=86400`, so a signed-in user's own list could be served
+      // from a day-old edge copy. The pull zone varies on the userId cookie,
+      // so this never leaked across accounts — but staleness alone is
+      // destructive here: hydrate treats a filter that is missing from the
+      // returned list as "deleted on another device", drops it locally and
+      // PERSISTS that deletion. A stale list therefore deletes filters the
+      // user still has, and makes cross-machine propagation take hours
+      // instead of seconds (both reported, 2026-09). by-code is covered by
+      // the wildcard too: a shared filter must reflect the owner's latest
+      // save, not yesterday's. Writes were never cached; only the reads that
+      // decide what gets deleted were.
+      {
+        source: "/api/filters",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/api/filters/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
       // The account PAGE renders the signed-in state server-side from
       // cookies. Edge-caching it (even cookie-varied) can pin a stale
       // auth state for a day — during the 2026-08-17 DB outage a
