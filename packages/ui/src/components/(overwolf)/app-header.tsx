@@ -42,12 +42,17 @@ import { UserDialog } from "../(header)/user-dialog";
 
 export function AppHeader({
   app,
+  appName,
   title,
   gameClassId,
   moreSettings,
   filters,
 }: {
   app: string;
+  /** Canonical game id (games.ts `name`, e.g. "palia"). `app` is the display
+   *  TITLE because GameSwitcher matches on `app.title`, but SettingsDialogContent
+   *  gates game-specific sections on the lowercase id, so it needs this. */
+  appName?: string;
   title?: string;
   gameClassId: number;
   moreSettings?: ReactNode;
@@ -92,7 +97,7 @@ export function AppHeader({
 
   const settingsDialogContent = (
     <OverwolfSettingsDialogContent
-      activeApp={app}
+      activeApp={appName ?? app}
       gameClassId={gameClassId}
       more={moreSettings}
       filters={filters}

@@ -200,6 +200,16 @@ const gameEventsPlugin = await initGameEventsPlugin<PaliaEventsPlugin>(
   (actor) => {
     return !actor.hidden;
   },
+  // Publish the current world onto the player object, mirroring what THGLApp's
+  // C++ does. The background already knows the ServerId from
+  // GetCurrentWorldInfo but never told its own frontend, so "Your World" stayed
+  // empty and the join-code prompt never fired for Overwolf users. This runs on
+  // the same object immediately before the PLAYER event is emitted.
+  (player) => {
+    if (!player) return;
+    (player as typeof player & { worldId?: string }).worldId =
+      currentServerId ?? undefined;
+  },
 );
 
 function sendActorsToAPI(actors: Actor[]): void {
@@ -266,7 +276,7 @@ function sendActorsToAPI(actors: Actor[]): void {
 // Active-worlds heartbeat: report the current world (ServerId + age + region,
 // always available from the PlayerController) every 60s, plus the friendly join
 // code opportunistically when the in-game menu has surfaced it.
-setInterval(() => {
+function reportWorld() {
   gameEventsPlugin.GetCurrentWorldInfo?.(
     (worldInfo) => {
       currentServerId = worldInfo?.serverId ?? null;
@@ -297,7 +307,11 @@ setInterval(() => {
       //
     },
   );
-}, 60000);
+}
+// Run once up front so worldId (and the heartbeat) aren't blank for the first
+// minute after launch.
+reportWorld();
+setInterval(reportWorld, 60000);
 
 setInterval(() => {
   gameEventsPlugin.GetCurrentGiftPreferences(

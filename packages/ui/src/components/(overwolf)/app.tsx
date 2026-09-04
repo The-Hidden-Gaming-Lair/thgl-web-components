@@ -127,6 +127,7 @@ export function App({
             <AppHeader
               title={appConfig.title}
               app={appConfig.title}
+              appName={appConfig.name}
               gameClassId={appConfig.gameClassId}
               moreSettings={moreSettings}
               filters={filters}
