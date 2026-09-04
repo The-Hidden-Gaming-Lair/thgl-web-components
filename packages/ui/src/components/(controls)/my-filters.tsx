@@ -3,6 +3,7 @@ import {
   apiPutFilter,
   apiSetShare,
   cn,
+  countMyFilterSpawns,
   DrawingsAndNodes,
   FiltersApiError,
   getCurrentGameId,
@@ -42,6 +43,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
@@ -303,6 +305,15 @@ function FilterRow({
   // The blob endpoint is 410-Gone now, so these are effectively local-only.
   const isLegacy = !!myFilter.url && !myFilter.id;
   const displayName = myFilter.name.replace(/my_\d+_/, "");
+  // Same marker stats the predefined-filter popover shows, for custom filters.
+  const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
+  const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
+  const spawnStats = useMemo(
+    () => countMyFilterSpawns(myFilter, isDiscoveredNode),
+    // discoveredNodes drives the recount: isDiscoveredNode is a stable store
+    // action, so it alone would never re-run this when a marker is ticked off.
+    [myFilter, isDiscoveredNode, discoveredNodes],
+  );
 
   async function callShare(input: {
     visibility?: "private" | "public";
@@ -464,6 +475,24 @@ function FilterRow({
           <EllipsisVertical className="h-4 w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          {/* Marker counts, mirroring the predefined-filter popover. Hidden
+              for drawing-only filters, where "Total: 0" says nothing. */}
+          {spawnStats.total > 0 && (
+            <>
+              <DropdownMenuLabel className="font-normal text-xs text-muted-foreground">
+                {t("filters.tooltip.total")}{" "}
+                <span className="font-medium text-foreground tabular-nums">
+                  {spawnStats.total}
+                </span>
+                <span className="mx-1.5 text-muted-foreground/50">·</span>
+                {t("filters.tooltip.discovered")}{" "}
+                <span className="font-medium text-foreground tabular-nums">
+                  {spawnStats.discovered}
+                </span>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuGroup>
             {!isSignedIn && (
               <DropdownMenuItem
