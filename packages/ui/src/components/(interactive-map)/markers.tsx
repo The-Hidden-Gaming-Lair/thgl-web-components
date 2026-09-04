@@ -514,7 +514,10 @@ function MarkersContent({
   // separate small effect could later update them via updateMarker.
   const throttledPlayerRef = useRef(throttledPlayer);
   throttledPlayerRef.current = throttledPlayer;
-  const firstRender = useRef(true);
+  // "Zoom map on filters change" plumbing: armed by a filter-selection change,
+  // consumed by the first spawn set that change produces (see the fit effect).
+  const fitOnNextSpawnsRef = useRef(false);
+  const lastFitSpawnsRef = useRef<typeof spawns | null>(null);
 
   // Track which marker IDs this component owns. Split by source so static
   // and live updates don't trample each other. spawnMapRef is the union for
@@ -2947,18 +2950,50 @@ function MarkersContent({
     t,
   ]);
 
-  // Fit bounds when spawns change
+  // "Zoom map on filters change" — arm the fit from the FILTER SELECTION, not
+  // from `spawns`. The spawn set is rebuilt by the coordinates provider on
+  // filter changes AND on map switches, node selection and data refreshes, so
+  // keying the fit on `spawns` alone re-zoomed the map on every map switch —
+  // the exact opposite of what the setting's label promises (WuWa report).
+  // These are the same store subscriptions that drive the spawn refresh, so
+  // the latch is always set before the spawn set it belongs to arrives.
   useEffect(() => {
+    const arm = () => {
+      fitOnNextSpawnsRef.current = true;
+    };
+    const unsubs = [
+      userStoreApi.subscribe((state) => state.filters, arm),
+      userStoreApi.subscribe((state) => state.globalFilters, arm),
+      // A map switch rebuilds the spawn set too — drop any pending fit so the
+      // incoming map keeps the camera it remembered in `viewByMap`.
+      userStoreApi.subscribe(
+        (state) => state.mapName,
+        () => {
+          fitOnNextSpawnsRef.current = false;
+        },
+      ),
+    ];
+    return () => unsubs.forEach((unsub) => unsub());
+  }, [userStoreApi]);
+
+  // Fit bounds to the new spawn set, but only for the one rebuild an armed
+  // filter change produced. The latch is consumed per spawn-set identity, so
+  // re-running for any other reason (toggling the setting itself, a live-mode
+  // switch, a map instance swap) never re-zooms.
+  useEffect(() => {
+    if (spawns === lastFitSpawnsRef.current) {
+      return;
+    }
+    lastFitSpawnsRef.current = spawns;
+    const armed = fitOnNextSpawnsRef.current;
+    fitOnNextSpawnsRef.current = false;
     if (
+      !armed ||
       !fitBoundsOnChange ||
       isLiveReadingActive(liveMode) ||
       spawns.length === 0 ||
       !map
     ) {
-      return;
-    }
-    if (firstRender.current) {
-      firstRender.current = false;
       return;
     }
     // WebMap doesn't have flyToBounds, use fitBounds if available

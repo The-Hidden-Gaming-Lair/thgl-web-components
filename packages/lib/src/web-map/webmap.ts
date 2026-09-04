@@ -159,6 +159,13 @@ export class WebMap {
   // Movement tracking for moveend/zoomend events
   private wasMoving = false;
   private lastZoom: number = 0;
+  // Camera last reported through `moveend`. A gesture or animation settling is
+  // not the only way the camera moves: setView/setZoom/fitBounds/resetView jump
+  // to a new camera outright, never entering the "moving" state, so without
+  // this the moveend below never fired for them and every consumer that
+  // persists the camera missed the jump entirely.
+  private lastEmittedCenter: LatLng | null = null;
+  private lastEmittedZoom: number | null = null;
   // Initial view state for resetView()
   private initialCenter: LatLng;
   private initialZoom: number;
@@ -184,6 +191,8 @@ export class WebMap {
     this.zoom = zoom;
     this.targetZoom = zoom;
     this.lastZoom = zoom;
+    this.lastEmittedZoom = zoom;
+    this.lastEmittedCenter = this.center;
     this.bearing = opts.bearing ?? 0;
     if (opts.pitch !== undefined)
       this.pitch = Math.max(0, Math.min(1.4, opts.pitch));
@@ -1535,12 +1544,24 @@ export class WebMap {
       this.zoomAnim !== undefined ||
       Math.abs(this.targetZoom - this.zoom) > 1e-3;
 
-    if (this.wasMoving && !isMoving) {
-      // Movement just stopped
+    // Movement just stopped, OR the camera was moved programmatically since the
+    // last report (setView/setZoom/fitBounds/resetView set it outright, so the
+    // gesture/animation transition above never happens for them). Either way it
+    // has settled at a new camera and consumers that persist it need to know —
+    // this block only runs on frames that actually redrew, so a parked camera
+    // never re-fires.
+    const jumpedSinceEmit =
+      this.lastEmittedCenter === null ||
+      this.lastEmittedCenter[0] !== this.center[0] ||
+      this.lastEmittedCenter[1] !== this.center[1] ||
+      this.lastEmittedZoom !== this.zoom;
+    if (!isMoving && (this.wasMoving || jumpedSinceEmit)) {
       this.fire("moveend", undefined as any);
       if (Math.abs(this.zoom - this.lastZoom) > 0.01) {
         this.fire("zoomend", undefined as any);
       }
+      this.lastEmittedCenter = this.center;
+      this.lastEmittedZoom = this.zoom;
     }
     this.wasMoving = isMoving;
     if (!isMoving) {
