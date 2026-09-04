@@ -11,6 +11,7 @@ export { Header } from "./header";
 export { HeaderLink } from "./header-link";
 export { HeaderOffset } from "./header-offset";
 export { HeaderSwitch } from "./header-switch";
+export { NewVersionButton } from "./new-version-button";
 export {
   PlausibleTracker,
   initPlausible,

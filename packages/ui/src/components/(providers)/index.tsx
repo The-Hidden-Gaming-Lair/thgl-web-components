@@ -33,4 +33,6 @@ export {
   useUserStoreApiOptional,
 } from "./user-store";
 
+export { useAppUpdateStore, type AppUpdateStatus } from "./app-update-store";
+
 export { TooltipProvider } from "../ui/tooltip";

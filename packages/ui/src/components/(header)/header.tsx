@@ -6,6 +6,7 @@ import { Settings } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { User } from "./user";
+import { NewVersionButton } from "./new-version-button";
 
 export function Header({
   children,
@@ -37,6 +38,8 @@ export function Header({
 
       {/* Action buttons — all screen sizes */}
       <div className="flex items-center gap-1 ml-2 shrink-0">
+        {/* Renders nothing unless a newer build is deployed. */}
+        <NewVersionButton />
         {settingsDialogContent && (
           <Dialog>
             <Button asChild size="icon" title={settingsTitle} variant="outline">

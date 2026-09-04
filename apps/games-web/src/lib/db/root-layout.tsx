@@ -17,6 +17,7 @@ import {
   Links,
   LocaleSwitcher,
   LocaleSwitcherInline,
+  AudioAlertUnlocker,
   NewVersionWatcher,
   Toaster,
 } from "@repo/ui/controls";
@@ -196,6 +197,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
           />
           <Toaster />
           <NewVersionWatcher />
+          <AudioAlertUnlocker />
         </body>
       </html>
     );

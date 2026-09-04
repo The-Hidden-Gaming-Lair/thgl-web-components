@@ -12,6 +12,7 @@ import { I18NProvider, TooltipProvider } from "../(providers)";
 import {
   SettingsDialogContent,
   Toaster,
+  AudioAlertUnlocker,
   NewVersionWatcher,
   Links,
   LocaleSwitcher,
@@ -162,6 +163,7 @@ export function createRootLayout(appConfig: AppConfig) {
           />
           <Toaster />
           <NewVersionWatcher />
+          <AudioAlertUnlocker />
         </body>
       </html>
     );

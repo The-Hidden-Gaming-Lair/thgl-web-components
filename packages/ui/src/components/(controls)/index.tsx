@@ -17,8 +17,13 @@ export {
   HideOverlayOnMapButton,
 } from "./overlay-map-hide";
 export { LiveModeControl } from "./live-mode-control";
-export { playAlertSound, ALERT_SOUND_OPTIONS } from "./audio-alert";
+export {
+  playAlertSound,
+  ALERT_SOUND_OPTIONS,
+  initAudioAlertUnlock,
+} from "./audio-alert";
 export type { AudioAlertSound } from "./audio-alert";
+export { AudioAlertUnlocker } from "./audio-alert-unlocker";
 
 // UI components
 export {
