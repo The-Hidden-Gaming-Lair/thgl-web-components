@@ -175,6 +175,108 @@ describe("mergeHydratedFilters", () => {
   });
 });
 
+describe("mergeHydratedFilters — edge cases", () => {
+  it("a dirty id (unsent edit from a previous session) beats the older server copy", () => {
+    // THE data-loss path: edit, close the window inside the 1s debounce, so the
+    // PUT never fires. Both copies have content, and the plain rule hands the
+    // win to the server — silently reverting the edit. The durable dirty marker
+    // is surfaced through pendingIds, which keeps the local copy verbatim.
+    const local = [
+      withNodes({
+        name: "my_1_bases",
+        id: "A",
+        synced: true,
+        drawing: { id: "edited" },
+      }),
+    ];
+    const server = [withNodes({ name: "my_1_bases", id: "A" })]; // pre-edit
+    const { merged } = mergeHydratedFilters(local, server, new Set(["A"]));
+    expect(merged[0].drawing).toEqual({ id: "edited" });
+  });
+
+  it("WITHOUT the dirty marker the server still wins (documents the old behaviour)", () => {
+    // Guards the boundary: this is intentional last-writer-wins for a copy we
+    // have no evidence is ahead. If this ever flips, the dirty marker is doing
+    // nothing and the test above is passing for the wrong reason.
+    const local = [
+      withNodes({
+        name: "my_1_bases",
+        id: "A",
+        synced: true,
+        drawing: { id: "edited" },
+      }),
+    ];
+    const server = [withNodes({ name: "my_1_bases", id: "A" })];
+    const { merged } = mergeHydratedFilters(local, server);
+    expect(merged[0].drawing).toBeUndefined();
+  });
+
+  it("keeps only one entry when the server returns the same id twice", () => {
+    // Defensive: a duplicated row must not produce duplicated local filters.
+    const server = [
+      withNodes({ name: "dup", id: "A" }),
+      withNodes({ name: "dup-again", id: "A" }),
+    ];
+    const { merged } = mergeHydratedFilters([], server);
+    expect(merged).toHaveLength(1);
+  });
+
+  it("handles two LOCAL copies sharing one server id without dropping both", () => {
+    // Reachable via the twin bug: the same id present twice locally.
+    const local = [
+      withNodes({ name: "twin-a", id: "A", synced: true }),
+      withNodes({ name: "twin-b", id: "A", synced: true }),
+    ];
+    const server = [withNodes({ name: "canonical", id: "A" })];
+    const { merged } = mergeHydratedFilters(local, server);
+    // One server row can only become ONE local filter. Resolving each local
+    // twin independently used to emit the server copy once per twin, turning
+    // two duplicates into two IDENTICAL duplicates on every hydrate.
+    expect(merged).toHaveLength(1);
+    expect(merged[0].name).toBe("canonical");
+  });
+
+  it("ignores server rows with no id rather than crashing", () => {
+    const server = [{ name: "no-id" } as DrawingsAndNodes];
+    const { merged } = mergeHydratedFilters([], server);
+    expect(merged).toHaveLength(0);
+  });
+
+  it("does not resync a server copy that is empty when local is empty too", () => {
+    // Nothing to converge upward — an empty-vs-empty pair must not queue a PUT.
+    const local = [{ name: "empty", id: "A", synced: true }];
+    const server = [{ name: "empty", id: "A" }];
+    const { resyncIds } = mergeHydratedFilters(local, server);
+    expect(resyncIds).toEqual([]);
+  });
+
+  it("treats a drawing-only filter as having data (resync guard)", () => {
+    const local = [{ name: "d", id: "A", synced: true, drawing: { id: "x" } }];
+    const server = [{ name: "d", id: "A" }];
+    const { merged, resyncIds } = mergeHydratedFilters(local, server);
+    expect(resyncIds).toEqual(["A"]);
+    expect(merged[0].drawing).toEqual({ id: "x" });
+  });
+
+  it("preserves local order and appends server-only filters after it", () => {
+    const local = [withNodes({ name: "local-first", id: "A", synced: true })];
+    const server = [
+      withNodes({ name: "local-first", id: "A" }),
+      withNodes({ name: "remote", id: "B" }),
+    ];
+    const { merged } = mergeHydratedFilters(local, server);
+    expect(merged.map((f) => f.id)).toEqual(["A", "B"]);
+  });
+
+  it("an empty server list leaves unsynced local filters completely intact", () => {
+    // Offline-ish: the account has no rows yet. Nothing may be dropped.
+    const local = [withNodes({ name: "a" }), withNodes({ name: "b", id: "B" })];
+    const { merged, droppedIds } = mergeHydratedFilters(local, []);
+    expect(merged).toHaveLength(2);
+    expect(droppedIds).toEqual([]);
+  });
+});
+
 describe("unionMyFiltersOnRehydrate", () => {
   it("keeps an in-memory local add the persisted (stale) blob doesn't know about", () => {
     // billy's bug: a second webview holding a pre-add snapshot persists its
@@ -422,6 +524,46 @@ describe("adoptLocalFilters", () => {
     expect(out[0].id).toBe("s1");
     expect(out[1].id).toBe("minted-1");
     expect(out[2].id).toBeUndefined();
+  });
+});
+
+describe("helper edge cases", () => {
+  it("dedupeMyFilters collapses THREE twins down to the id-carrying one", () => {
+    const keeper = withNodes({ name: "dup", id: "S" });
+    const empty1 = { name: "dup" } as DrawingsAndNodes;
+    const empty2 = { name: "dup" } as DrawingsAndNodes;
+    expect(dedupeMyFilters([keeper, empty1, empty2])).toHaveLength(1);
+  });
+
+  it("dedupeMyFilters leaves an id-less filter whose name is unique", () => {
+    const list = [withNodes({ name: "a", id: "S" }), { name: "b" }];
+    expect(dedupeMyFilters(list)).toBe(list);
+  });
+
+  it("adoptLocalFilters skips a filter whose nodes array is empty", () => {
+    // `nodes: []` is content-free — minting an id would upload a placeholder.
+    const filters = [{ name: "empty", nodes: [] }];
+    const { adoptedIds } = adoptLocalFilters(filters, () => "x");
+    expect(adoptedIds).toEqual([]);
+  });
+
+  it("unionMyFiltersOnRehydrate keeps a local add when persisted is empty", () => {
+    const inMemory = [withNodes({ name: "only-here" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, []);
+    expect(union).toHaveLength(1);
+  });
+
+  it("unionMyFiltersOnRehydrate grafts onto the FIRST id-less name match only", () => {
+    const inMemory = [withNodes({ name: "dup", id: "S" })];
+    const persisted = [withNodes({ name: "dup" }), withNodes({ name: "dup" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(2);
+    expect(union.filter((f) => f.id === "S")).toHaveLength(1);
+  });
+
+  it("pendingIdsWithSyncGrace copes with both inputs empty", () => {
+    const out = pendingIdsWithSyncGrace(new Set(), new Map(), 0, 1000);
+    expect(out.size).toBe(0);
   });
 });
 

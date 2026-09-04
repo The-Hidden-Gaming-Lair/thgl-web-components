@@ -25,14 +25,17 @@ import {
   unionMyFiltersOnRehydrate,
 } from "./filters-sync";
 import {
+  clearFilterDirty,
   clearFilterTombstones,
   clearHydrateDrops,
   enqueueFilterDelete,
   filterOutTombstoned,
   flushFilterDeletes,
+  getDirtyFilterIds,
   isFilterTombstoned,
   isRecentHydrateDrop,
   loadRecentSyncs,
+  recordFilterDirty,
   recordFilterTombstone,
   recordHydrateDrops,
   recordRecentSync,
@@ -681,6 +684,9 @@ const syncTimers = new Map<string, ReturnType<typeof setTimeout>>();
 // `syncTimers` keys these form the "pending" set that hydrate must not clobber
 // (a re-hydrate on focus could otherwise overwrite an edit mid-upload).
 const inFlightSyncIds = new Set<string>();
+// The debounced PUT body per id, so it can be fired early (page hide) instead
+// of waiting out the timer. Kept in step with `syncTimers`.
+const pendingSyncRuns = new Map<string, () => void>();
 // How long a just-synced id is protected from hydrate's "synced-but-absent =
 // deleted elsewhere" drop. Covers the save-then-hydrate race AND a window
 // close/reopen in between (the grace is loaded from durable storage, not
@@ -697,7 +703,14 @@ const RECENT_SYNC_GRACE_MS = 60_000;
  */
 export function getPendingSyncIds(): Set<string> {
   return pendingIdsWithSyncGrace(
-    new Set<string>([...syncTimers.keys(), ...inFlightSyncIds]),
+    // Dirty ids are durable, so an edit whose debounce never fired (window
+    // closed within the second) still counts as pending in the NEXT session —
+    // otherwise hydrate would overwrite it with the older server copy.
+    new Set<string>([
+      ...syncTimers.keys(),
+      ...inFlightSyncIds,
+      ...getDirtyFilterIds(),
+    ]),
     loadRecentSyncs(),
     Date.now(),
     RECENT_SYNC_GRACE_MS,
@@ -720,73 +733,102 @@ function scheduleFilterSync(filter: DrawingsAndNodes) {
   const id = filter.id;
   const existing = syncTimers.get(id);
   if (existing) clearTimeout(existing);
-  syncTimers.set(
-    id,
-    setTimeout(() => {
-      syncTimers.delete(id);
-      const game = filter.game ?? getCurrentGameId();
-      if (!game) {
-        console.error("[filter sync] no game id, skipping put", id);
-        return;
-      }
-      inFlightSyncIds.add(id);
-      void apiPutFilter(id, {
-        game,
-        name: filter.name,
-        payload: { nodes: filter.nodes, drawing: filter.drawing },
-        visibility: filter.visibility ?? "private",
+  // Durably mark the local copy as ahead of the server BEFORE the debounce, so
+  // closing the window inside that second can't strand the edit: without this
+  // the next hydrate hands the win to the older server copy. Cleared when the
+  // PUT lands. See recordFilterDirty.
+  recordFilterDirty(id);
+  const run = () => {
+    syncTimers.delete(id);
+    pendingSyncRuns.delete(id);
+    const game = filter.game ?? getCurrentGameId();
+    if (!game) {
+      console.error("[filter sync] no game id, skipping put", id);
+      return;
+    }
+    inFlightSyncIds.add(id);
+    void apiPutFilter(id, {
+      game,
+      name: filter.name,
+      payload: { nodes: filter.nodes, drawing: filter.drawing },
+      visibility: filter.visibility ?? "private",
+    })
+      .then(() => {
+        // Remember this PUT just landed (DURABLY): a hydrate whose server-list
+        // fetch raced it (or hits replica lag), INCLUDING one on a freshly
+        // reopened window, would otherwise see the id as "synced but absent"
+        // and drop the just-saved filter. The grace window in
+        // getPendingSyncIds protects it until the list catches up.
+        recordRecentSync(id);
+        // The server now has this edit — the local copy is no longer ahead.
+        clearFilterDirty(id);
+        // Confirm the id now exists on the server so hydrate can safely
+        // drop it if it later disappears (deleted elsewhere) instead of
+        // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
+        const state = useSettingsStore.getState();
+        if (state.myFilters.some((f) => f.id === id && !f.synced)) {
+          state.setMyFilters(
+            state.myFilters.map((f) =>
+              f.id === id ? { ...f, synced: true } : f,
+            ),
+          );
+        }
       })
-        .then(() => {
-          // Remember this PUT just landed (DURABLY): a hydrate whose server-list
-          // fetch raced it (or hits replica lag), INCLUDING one on a freshly
-          // reopened window, would otherwise see the id as "synced but absent"
-          // and drop the just-saved filter. The grace window in
-          // getPendingSyncIds protects it until the list catches up.
-          recordRecentSync(id);
-          // Confirm the id now exists on the server so hydrate can safely
-          // drop it if it later disappears (deleted elsewhere) instead of
-          // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
+      .catch((err) => {
+        // Account switched on this device (or somehow we have a stale
+        // server id we don't own). Strip the local id so the filter
+        // visibly drops back to local-only and the user can choose
+        // to re-save it under their current account.
+        if (err instanceof FiltersApiError && err.status === 403) {
           const state = useSettingsStore.getState();
-          if (state.myFilters.some((f) => f.id === id && !f.synced)) {
-            state.setMyFilters(
-              state.myFilters.map((f) =>
-                f.id === id ? { ...f, synced: true } : f,
-              ),
-            );
-          }
-        })
-        .catch((err) => {
-          // Account switched on this device (or somehow we have a stale
-          // server id we don't own). Strip the local id so the filter
-          // visibly drops back to local-only and the user can choose
-          // to re-save it under their current account.
-          if (err instanceof FiltersApiError && err.status === 403) {
-            const state = useSettingsStore.getState();
-            const updatedFilters = state.myFilters.map((f) =>
-              f.id === id
-                ? {
-                    ...f,
-                    id: undefined,
-                    visibility: undefined,
-                    shareCode: undefined,
-                    voteCount: undefined,
-                    commentCount: undefined,
-                  }
-                : f,
-            );
-            state.setMyFilters(updatedFilters);
-            console.warn(
-              `[filter sync] ${id} owned by another account; demoting to local-only`,
-            );
-            return;
-          }
-          console.error("[filter sync] put failed", id, err);
-        })
-        .finally(() => {
-          inFlightSyncIds.delete(id);
-        });
-    }, SYNC_DEBOUNCE_MS),
-  );
+          const updatedFilters = state.myFilters.map((f) =>
+            f.id === id
+              ? {
+                  ...f,
+                  id: undefined,
+                  visibility: undefined,
+                  shareCode: undefined,
+                  voteCount: undefined,
+                  commentCount: undefined,
+                }
+              : f,
+          );
+          state.setMyFilters(updatedFilters);
+          console.warn(
+            `[filter sync] ${id} owned by another account; demoting to local-only`,
+          );
+          return;
+        }
+        console.error("[filter sync] put failed", id, err);
+      })
+      .finally(() => {
+        inFlightSyncIds.delete(id);
+      });
+  };
+  pendingSyncRuns.set(id, run);
+  syncTimers.set(id, setTimeout(run, SYNC_DEBOUNCE_MS));
+}
+
+/**
+ * Fire every debounced PUT immediately.
+ *
+ * Called when the page is hidden (tab switch, window close, app shutdown) so a
+ * one-second debounce doesn't swallow the user's last edit. The durable dirty
+ * marker is the real safety net — this just narrows the window so the common
+ * case syncs promptly instead of waiting for the next session's hydrate.
+ */
+export function flushPendingFilterSyncs(): void {
+  for (const [id, timer] of syncTimers) {
+    clearTimeout(timer);
+    const run = pendingSyncRuns.get(id);
+    if (run) run();
+  }
+}
+
+if (typeof document !== "undefined") {
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") flushPendingFilterSyncs();
+  });
 }
 
 /**
@@ -803,6 +845,10 @@ function fireFilterDelete(id: string) {
     clearTimeout(existing);
     syncTimers.delete(id);
   }
+  pendingSyncRuns.delete(id);
+  // The filter is going away — a pending "local is ahead" marker would
+  // otherwise make the next hydrate try to re-upload a deleted filter.
+  clearFilterDirty(id);
   enqueueFilterDelete(id);
   void flushQueuedFilterDeletes();
 }
@@ -1872,9 +1918,17 @@ export const useSettingsStore = create(
             );
             updateSettings({ myFilters: adopted });
             // Re-push filters whose server copy was empty but local had data,
-            // plus everything just adopted.
+            // everything just adopted, and every dirty id — an edit whose
+            // debounce never fired is kept by the pending rule above, but only
+            // this re-arms its upload. Without it the local copy would survive
+            // yet never reach the server.
             const byId = new Map(adopted.map((f) => [f.id, f]));
-            for (const id of [...resyncIds, ...adoptedIds]) {
+            const toPush = new Set<string>([
+              ...resyncIds,
+              ...adoptedIds,
+              ...getDirtyFilterIds(),
+            ]);
+            for (const id of toPush) {
               const filter = byId.get(id);
               if (filter) scheduleFilterSync(filter);
             }

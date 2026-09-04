@@ -1,7 +1,10 @@
 import {
   _setFilterTombstoneStorageForTests,
+  clearFilterDirty,
   clearFilterTombstones,
   clearHydrateDrops,
+  getDirtyFilterIds,
+  recordFilterDirty,
   enqueueFilterDelete,
   filterOutTombstoned,
   flushFilterDeletes,
@@ -139,6 +142,55 @@ describe("pending-delete queue", () => {
     await flushFilterDeletes({ isSignedIn: () => false, deleteFilter });
     expect(deleteFilter).not.toHaveBeenCalled();
     expect(getPendingFilterDeletes()).toEqual(["uuid-1"]);
+  });
+});
+
+describe("dirty markers (local edit ahead of the server)", () => {
+  const now = Date.now();
+
+  it("survives a reload — the whole point (debounce lost to a window close)", () => {
+    // The upload is debounced 1s and the timer is in memory only. Close the
+    // window inside that second and nothing recorded that the local copy was
+    // ahead, so the next hydrate overwrote the edit with the older server copy.
+    recordFilterDirty("uuid-1", now);
+    // getDirtyFilterIds reads storage fresh — models the next session.
+    expect(getDirtyFilterIds()).toEqual(["uuid-1"]);
+  });
+
+  it("stays a single entry when rapid edits re-arm the debounce", () => {
+    recordFilterDirty("uuid-1", now - 60_000);
+    recordFilterDirty("uuid-1", now);
+    expect(getDirtyFilterIds()).toEqual(["uuid-1"]);
+  });
+
+  it("clears once the PUT lands", () => {
+    recordFilterDirty("uuid-1", now);
+    recordFilterDirty("uuid-2", now);
+    clearFilterDirty("uuid-1");
+    expect(getDirtyFilterIds()).toEqual(["uuid-2"]);
+  });
+
+  it("clearing an unknown id is a no-op", () => {
+    recordFilterDirty("uuid-1", now);
+    expect(() => clearFilterDirty("nope")).not.toThrow();
+    expect(getDirtyFilterIds()).toEqual(["uuid-1"]);
+  });
+
+  it("is independent of tombstones and recent-sync stamps", () => {
+    // All three live in separate storage keys; one must never clobber another.
+    recordFilterDirty("uuid-1", now);
+    recordFilterTombstone({ name: "other", id: "uuid-2" });
+    recordRecentSync("uuid-3", now);
+    expect(getDirtyFilterIds()).toEqual(["uuid-1"]);
+    expect(isFilterTombstoned({ name: "other", id: "uuid-2" })).toBe(true);
+    expect(loadRecentSyncs().has("uuid-3")).toBe(true);
+  });
+
+  it("no-ops without storage instead of throwing", () => {
+    _setFilterTombstoneStorageForTests(null);
+    expect(() => recordFilterDirty("x")).not.toThrow();
+    expect(() => clearFilterDirty("x")).not.toThrow();
+    expect(getDirtyFilterIds()).toEqual([]);
   });
 });
 

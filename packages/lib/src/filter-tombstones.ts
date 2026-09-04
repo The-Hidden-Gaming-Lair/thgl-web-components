@@ -266,6 +266,43 @@ export function loadRecentSyncs(): Map<string, number> {
   return new Map(Object.entries(readMap(RECENT_SYNCS_KEY)));
 }
 
+// Durable "this filter has an edit the server hasn't got yet" markers.
+//
+// The upload is debounced, and the debounce timer lives only in memory. Edit a
+// filter and close the window inside that second — or lose the tab, or crash —
+// and the PUT never fires, leaving NO trace that the local copy is ahead. On
+// the next hydrate mergeHydratedFilters sees two copies that both have content
+// and hands the win to the SERVER, silently overwriting the edit with an older
+// copy. That is the "I edited it, shut the machine down, and the change was
+// gone" report (and the matching "I still see the older variant").
+//
+// Recorded when a sync is SCHEDULED (not when it succeeds — that's what
+// recordRecentSync is for) and cleared once the PUT lands, so a reopened window
+// knows the local copy must be pushed rather than replaced. Deliberately has no
+// short expiry: an edit stays unsynced until it actually reaches the server.
+const DIRTY_KEY = "thgl-filter-dirty";
+
+/** Mark a filter as having local changes the server hasn't accepted yet. */
+export function recordFilterDirty(id: string, now: number = Date.now()): void {
+  const map = readMap(DIRTY_KEY);
+  if (map[id]) return; // keep the ORIGINAL time — it's when the edit was made
+  map[id] = now;
+  writeMap(DIRTY_KEY, map);
+}
+
+/** Clear the marker once the filter's PUT has succeeded. */
+export function clearFilterDirty(id: string): void {
+  const map = readMap(DIRTY_KEY);
+  if (!(id in map)) return;
+  delete map[id];
+  writeMap(DIRTY_KEY, map);
+}
+
+/** Ids whose local copy is newer than the server's (survives a restart). */
+export function getDirtyFilterIds(): string[] {
+  return Object.keys(readMap(DIRTY_KEY));
+}
+
 // Short-lived "hydrate dropped this as deleted-elsewhere" echoes. When
 // hydrateFiltersFromServer drops a synced filter the server no longer returns,
 // only THAT window learns about it — a sibling webview still holds the filter

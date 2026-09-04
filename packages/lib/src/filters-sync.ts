@@ -62,6 +62,14 @@ export function mergeHydratedFilters(
   const seenIds = new Set<string>();
 
   for (const localFilter of local) {
+    if (localFilter.id && seenIds.has(localFilter.id)) {
+      // A duplicate local copy of an id already resolved above. Resolving each
+      // twin independently emitted the server row once PER twin, so a pair of
+      // duplicates bred into a pair of IDENTICAL duplicates on every hydrate —
+      // a multiplier behind the "flooded with duplicates" reports. One server
+      // row can only ever become one local filter.
+      continue;
+    }
     if (isDeleted(localFilter)) {
       // Tombstoned → the user deleted this filter (possibly in another
       // window). Drop it, even over a pending PUT.
