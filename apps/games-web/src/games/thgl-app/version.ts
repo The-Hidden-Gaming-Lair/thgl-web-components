@@ -13,6 +13,9 @@ import { type CurrentVersion } from "@repo/lib/thgl-app";
  * cutover.
  */
 export async function getCurrentVersion(): Promise<CurrentVersion> {
+  // During SSR, server-side fetch to `*.localhost` can fail DNS resolution on Windows,
+  // or return 404 if version.txt is missing in local dev. We target 127.0.0.1 directly
+  // with an explicit Host header and guard with try/catch to prevent unhandled 500 crashes.
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:3100";
     const versionRes = await fetch(`${baseUrl}/version.txt`, {
@@ -23,7 +26,7 @@ export async function getCurrentVersion(): Promise<CurrentVersion> {
       return { version };
     }
   } catch {
-    // Fall back in local development if host isn't reachable
+    // Gracefully fall back to default version in local dev environments
   }
 
   return {
