@@ -238,25 +238,31 @@ export function Player({
     run();
   }, [iconUrl, iconSize, colorBlindMode, colorBlindSeverity]);
 
-  // Use stable primitives as deps so this effect only fires when the
-  // player position actually changes, not on every game state emission.
-  const px = player?.x;
-  const py = player?.y;
-  const pz = player?.z;
-  const pMap = player?.mapName;
+  // Use stable primitives as dependencies so this effect fires when the player's
+  // coordinates or facing direction (rotation) change, avoiding unnecessary re-renders.
+  const playerX = player?.x;
+  const playerY = player?.y;
+  const playerZ = player?.z;
+  const playerRotation = player?.r;
+  const playerMapName = player?.mapName;
 
   useEffect(() => {
-    if (!map?.mapName || px == null || py == null || !marker.current) {
+    if (
+      !map?.mapName ||
+      playerX == null ||
+      playerY == null ||
+      !marker.current
+    ) {
       return;
     }
 
-    // Apply rotation to player position if configured
-    let playerPosition: [number, number] = [px, py];
+    // Apply rotation to player position if configured on the map projection
+    let playerPosition: [number, number] = [playerX, playerY];
     const rotationDegrees = map._rotationDegrees;
     const rotationCenter = map._rotationCenter;
     if (rotationDegrees && rotationCenter) {
       playerPosition = rotateCoordinate(
-        [px, py],
+        [playerX, playerY],
         rotationDegrees,
         rotationCenter,
       );
@@ -269,15 +275,23 @@ export function Player({
       y: playerPosition[1],
     });
 
-    const isOnMap = !pMap || pMap === map.mapName;
-    if (!isOnMap) {
+    const isMarkerOnActiveMap = !playerMapName || playerMapName === map.mapName;
+    if (!isMarkerOnActiveMap) {
       return;
     }
 
     if (followPlayerPosition) {
       map.panTo(playerPosition);
     }
-  }, [map?.mapName, px, py, pz, pMap, followPlayerPosition]);
+  }, [
+    map?.mapName,
+    playerX,
+    playerY,
+    playerZ,
+    playerRotation,
+    playerMapName,
+    followPlayerPosition,
+  ]);
 
   useEffect(() => {
     if (!player?.mapName || !map) {

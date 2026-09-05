@@ -91,6 +91,50 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "dawnwalker",
+    discordId: "dawnwalker",
+    title: "The Blood of Dawnwalker",
+    logo: `${TH_GL_URL}/global_icons/dawnwalker.webp`,
+    additionalTooltip: ["InGameCoordinates"],
+    inGameCoordinates: {
+      scale: 100,
+      round: true,
+    },
+    companion: {
+      inDevelopment: true,
+      baseURL: "/apps/dawnwalker",
+      controllerURL: "/apps/dawnwalker/controller",
+      desktopURL: "/apps/dawnwalker",
+      overlayURL: "/apps/dawnwalker/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "The Blood of Dawnwalker",
+          processNames: ["Dawnwalker.exe", "Dawnwalker-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://dawnwalker.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "starsand-island",
     discordId: "starsand-island",
     title: "Starsand Island",

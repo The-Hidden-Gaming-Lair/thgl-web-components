@@ -93,9 +93,9 @@ export function AppHeader({
       return;
     }
     if (closeAction === "closeWindow") {
-      window.chrome.webview.postMessage("closeWindow");
+      window.chrome?.webview?.postMessage("closeWindow");
     } else {
-      window.chrome.webview.postMessage("exitApp");
+      window.chrome?.webview?.postMessage("exitApp");
     }
   };
 
@@ -109,9 +109,9 @@ export function AppHeader({
     }
     setIsCloseDialogOpen(false);
     if (choice === "closeWindow") {
-      window.chrome.webview.postMessage("closeWindow");
+      window.chrome?.webview?.postMessage("closeWindow");
     } else {
-      window.chrome.webview.postMessage("exitApp");
+      window.chrome?.webview?.postMessage("exitApp");
     }
   };
 
@@ -128,7 +128,7 @@ export function AppHeader({
           "px-2 h-[32px] fixed left-0 right-0 top-0 border-b bg-linear-to-b backdrop-blur-2xl border-neutral-800 bg-zinc-800/30 flex items-center pointer-events-auto z-999999",
         )}
         onDoubleClick={() => {
-          window.chrome.webview.postMessage("maximize");
+          window.chrome?.webview?.postMessage("maximize");
         }}
         onMouseDown={() => {
           setIsStartDragging(true);
@@ -138,7 +138,7 @@ export function AppHeader({
         }}
         onMouseMove={() => {
           if (isStartDragging) {
-            window.chrome.webview.postMessage("drag");
+            window.chrome?.webview?.postMessage("drag");
             setIsStartDragging(false);
           }
         }}
@@ -212,7 +212,7 @@ export function AppHeader({
             <button
               className="h-full w-[32px] inline-flex hover:bg-neutral-700"
               onClick={() => {
-                window.chrome.webview.postMessage("minimize");
+                window.chrome?.webview?.postMessage("minimize");
               }}
               type="button"
             >
@@ -225,7 +225,7 @@ export function AppHeader({
             <button
               className="h-full w-[32px] inline-flex hover:bg-neutral-700"
               onClick={() => {
-                window.chrome.webview.postMessage("maximize");
+                window.chrome?.webview?.postMessage("maximize");
               }}
               type="button"
             >

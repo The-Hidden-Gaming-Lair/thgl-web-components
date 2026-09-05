@@ -768,7 +768,7 @@ function MarkersContent({
         width: cached.canvas.width,
         height: cached.canvas.height,
       },
-      sizeMul: cached.logicalWidth / rect.width,
+      sizeMul: cached.logicalHeight / rect.height,
     };
   };
 
@@ -1231,10 +1231,15 @@ function MarkersContent({
       const spiderOffsetX = spawn.spiderOffsetX;
       const spiderOffsetY = spawn.spiderOffsetY;
 
+      // Scale width proportionally to preserve aspect ratio for non-square icons
+      const markerWidth =
+        rect.width && rect.height ? (rect.width / rect.height) * size : size;
+
       const instance: IconMarkerInstance = {
         id,
         latLng: markerPosition,
         size,
+        sizeW: markerWidth,
         sheet,
         rect,
         key: spawn.type,
@@ -2152,6 +2157,12 @@ function MarkersContent({
           // icon-size slider changes reflect immediately without recreating
           // the marker.
           const size = computeMarkerSize(displayType);
+          const rect = existing.rect;
+          // Scale width proportionally to preserve aspect ratio for non-square icons
+          const markerWidth =
+            rect.width && rect.height
+              ? (rect.width / rect.height) * size
+              : size;
           const posChanged =
             existing.latLng[0] !== pos[0] || existing.latLng[1] !== pos[1];
           const flagsChanged =
@@ -2168,6 +2179,7 @@ function MarkersContent({
             liveMarkerLayer.updateMarker(id, {
               latLng: pos,
               size,
+              sizeW: markerWidth,
               isDiscovered: isDiscoveredFlag,
               isHighlighted: newIsHighlighted,
               isSelected: newIsSelected,
@@ -2207,11 +2219,15 @@ function MarkersContent({
         }
 
         const size = computeMarkerSize(displayType);
+        // Scale width proportionally to preserve aspect ratio for non-square icons
+        const markerWidth =
+          rect.width && rect.height ? (rect.width / rect.height) * size : size;
 
         const instance: IconMarkerInstance = {
           id,
           latLng: pos,
           size,
+          sizeW: markerWidth,
           sheet,
           rect,
           key: displayType,

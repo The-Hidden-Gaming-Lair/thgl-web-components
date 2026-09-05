@@ -1,7 +1,7 @@
 "use client";
 import { isThglApp, useSettingsStore } from "@repo/lib";
 import { postWebviewMessage } from "@repo/lib/thgl-app";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type WebviewKeyboardEvent = {
   type: "keyboard";
@@ -75,7 +75,28 @@ const virtualKeyMap: Record<number, string> = {
   0x5a: "z",
 };
 
+/**
+ * Manages native window input transparency, mouse hover clickthrough,
+ * and global hotkey interception for the desktop overlay.
+ *
+ * Split into a client-mounted guard wrapper (`OverlayInputEvents`) and an inner
+ * implementation (`OverlayInputEventsInner`) to strictly adhere to React's
+ * Rules of Hooks and avoid hydration ordering mismatches between server and client.
+ */
 export function OverlayInputEvents() {
+  const [isClientMounted, setIsClientMounted] = useState(false);
+  useEffect(() => {
+    setIsClientMounted(true);
+  }, []);
+
+  if (!isClientMounted || !isThglApp) {
+    return null;
+  }
+
+  return <OverlayInputEventsInner />;
+}
+
+function OverlayInputEventsInner() {
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
   const containerRef = useRef<HTMLDivElement>(null);
 

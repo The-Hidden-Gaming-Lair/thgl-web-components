@@ -48,6 +48,9 @@ export function updateHotkeys(hotkeys: Record<string, string>) {
 
 // Sync current hotkeys from settings store to C++
 function syncHotkeysToNative() {
+  if (typeof window === "undefined" || !window.chrome?.webview) {
+    return;
+  }
   const hotkeys = useSettingsStore.getState().hotkeys;
   // Filter out empty values but keep the action->combo mapping
   const filteredHotkeys: Record<string, string> = {};
@@ -400,6 +403,12 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
       }
     });
     console.log("Direct WebView message listener registered for", role);
+  }
+
+  // Native WebView2 bridge check - outside of THGLApp (e.g. browser dev testing),
+  // C++ IPC calls are unavailable.
+  if (typeof window === "undefined" || !window.chrome?.webview) {
+    return;
   }
 
   // For dashboard role, request initial state from C++ when ready

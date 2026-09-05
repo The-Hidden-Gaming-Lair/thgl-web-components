@@ -53,7 +53,7 @@ import { THGLMapAds } from "../(ads)";
 import { AdditionalTooltipType } from "../(content)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 /**
  * Games whose in-game companion is an Elite Supporter preview: the App locks to
@@ -123,6 +123,13 @@ export function App({
   const isPreviewLocked =
     PREVIEW_ONLY_APPS.has(appConfig.name) && !hasPreviewAccess;
 
+  // In overlay mode, start in clean locked HUD mode so clicks pass directly to game
+  useEffect(() => {
+    if (isOverlay) {
+      useSettingsStore.getState().setLockedWindow(true);
+    }
+  }, [isOverlay]);
+
   return (
     <div
       className={cn(
@@ -189,7 +196,14 @@ export function App({
                           )}
                           onClick={() => {
                             setWindowMode("overlay");
-                            setWindowModeNative("overlay").catch(console.error);
+                            if (
+                              typeof window !== "undefined" &&
+                              window.chrome?.webview
+                            ) {
+                              setWindowModeNative("overlay").catch(
+                                console.error,
+                              );
+                            }
                           }}
                           onMouseDown={(e) => e.stopPropagation()}
                           disabled={appConfig.withoutOverlayMode}
@@ -205,7 +219,14 @@ export function App({
                           )}
                           onClick={() => {
                             setWindowMode("desktop");
-                            setWindowModeNative("desktop").catch(console.error);
+                            if (
+                              typeof window !== "undefined" &&
+                              window.chrome?.webview
+                            ) {
+                              setWindowModeNative("desktop").catch(
+                                console.error,
+                              );
+                            }
                           }}
                           onMouseDown={(e) => e.stopPropagation()}
                         >
@@ -220,7 +241,12 @@ export function App({
                           )}
                           onClick={() => {
                             setWindowMode("both");
-                            setWindowModeNative("both").catch(console.error);
+                            if (
+                              typeof window !== "undefined" &&
+                              window.chrome?.webview
+                            ) {
+                              setWindowModeNative("both").catch(console.error);
+                            }
                           }}
                           onMouseDown={(e) => e.stopPropagation()}
                           disabled={appConfig.withoutOverlayMode}

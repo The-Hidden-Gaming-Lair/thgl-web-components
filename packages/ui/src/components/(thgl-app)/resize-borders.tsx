@@ -1,11 +1,20 @@
 "use client";
 import type { MouseEvent, JSX } from "react";
+import { isThglApp } from "@repo/lib";
 
-export function ResizeBorders(): JSX.Element {
+/**
+ * Invisible draggable border handles around the window edges.
+ * Used exclusively in the standalone desktop THGLApp to enable native window resizing.
+ */
+export function ResizeBorders(): JSX.Element | null {
+  if (!isThglApp) {
+    return null;
+  }
+
   function onDragResize(edge: string) {
     return (event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
       event.stopPropagation();
-      window.chrome.webview.postMessage(edge);
+      window.chrome?.webview?.postMessage(edge);
     };
   }
 

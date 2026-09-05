@@ -167,7 +167,10 @@ export function SimpleWebMarkers({
       };
 
       // Use capture phase to intercept all wheel events on the tooltip
-      node.addEventListener("wheel", handleWheel, { passive: false, capture: true });
+      node.addEventListener("wheel", handleWheel, {
+        passive: false,
+        capture: true,
+      });
     },
     [mapRef],
   );
@@ -234,7 +237,9 @@ export function SimpleWebMarkers({
       // Multiply by DPR to maintain consistent visual size across devices
       // Apply per-filter icon size multiplier if available
       // Multiply by 1.5 for consistent visual sizing at typical zoom levels
-      const filterMultiplier = spawn.type ? (iconSizeByFilter[spawn.type] ?? 1) : 1;
+      const filterMultiplier = spawn.type
+        ? (iconSizeByFilter[spawn.type] ?? 1)
+        : 1;
       const size = baseRadius * 2 * 1.5 * baseIconSize * filterMultiplier * dpr;
 
       // Determine sheet and icon rect
@@ -246,7 +251,11 @@ export function SimpleWebMarkers({
         // No icon - use default circle
         sheetName = DEFAULT_CIRCLE_SHEET;
         iconRect = { x: 0, y: 0, width: 64, height: 64 };
-      } else if (typeof rawIcon !== "string" && "url" in rawIcon && rawIcon.url) {
+      } else if (
+        typeof rawIcon !== "string" &&
+        "url" in rawIcon &&
+        rawIcon.url
+      ) {
         // Custom URL-based icon
         const iconUrl = rawIcon.url as string;
 
@@ -257,7 +266,8 @@ export function SimpleWebMarkers({
           typeof rawIcon.y === "number";
 
         // Check if this is from the game-icons sprite sheets (local paths)
-        const isGameIconsSprite = iconUrl.includes("/game-icons/") && hasValidSpriteCoords;
+        const isGameIconsSprite =
+          iconUrl.includes("/game-icons/") && hasValidSpriteCoords;
 
         // Treat as standalone only if it's a data URL, external URL, or has no sprite coords
         const isStandaloneIcon =
@@ -333,10 +343,17 @@ export function SimpleWebMarkers({
         zMag = (spawn.p[2] - minZ) / zRange;
       }
 
+      // Scale width proportionally to preserve aspect ratio for non-square icons
+      const markerWidth =
+        iconRect.width && iconRect.height
+          ? (iconRect.width / iconRect.height) * size
+          : size;
+
       const marker: IconMarkerInstance = {
         id: spawn.id,
         latLng: [spawn.p[0], spawn.p[1]],
         size,
+        sizeW: markerWidth,
         sheet: sheetName,
         rect: iconRect,
         key: spawn.name,

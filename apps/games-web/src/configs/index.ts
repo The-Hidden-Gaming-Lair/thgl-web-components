@@ -4,6 +4,7 @@ import { blueProtocolStarResonance } from "./blue-protocol-star-resonance";
 import { chronoOdyssey } from "./chrono-odyssey";
 import { conanExiles } from "./conan-exiles";
 import { crimsonDesert } from "./crimson-desert";
+import { dawnwalker } from "./dawnwalker";
 import { diablo4 } from "./diablo4";
 import { dragonswordAwakening } from "./dragonsword-awakening";
 import { drakantos } from "./drakantos";
@@ -44,6 +45,7 @@ const ALL_CONFIGS: AppConfig[] = [
   chronoOdyssey,
   conanExiles,
   crimsonDesert,
+  dawnwalker,
   diablo4,
   dragonswordAwakening,
   drakantos,

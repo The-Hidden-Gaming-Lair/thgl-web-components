@@ -28,6 +28,9 @@ export function ActorTypeFilter({
   }, [typesIdMap, filters]);
 
   useEffect(() => {
+    if (typeof window === "undefined" || !window.chrome?.webview) {
+      return;
+    }
     // Debounced: toggling a filter group fires many store updates back-to-back,
     // and every native update invalidates the reader's scan cache.
     const timeout = setTimeout(() => {

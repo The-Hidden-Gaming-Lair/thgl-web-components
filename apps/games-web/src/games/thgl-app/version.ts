@@ -13,13 +13,20 @@ import { type CurrentVersion } from "@repo/lib/thgl-app";
  * cutover.
  */
 export async function getCurrentVersion(): Promise<CurrentVersion> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://app.localhost:3100";
-
-  const versionRes = await fetch(`${baseUrl}/version.txt`);
-
-  const version = await versionRes.text();
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:3100";
+    const versionRes = await fetch(`${baseUrl}/version.txt`, {
+      headers: { host: "app.th.gl" },
+    });
+    if (versionRes.ok) {
+      const version = await versionRes.text();
+      return { version };
+    }
+  } catch {
+    // Fall back in local development if host isn't reachable
+  }
 
   return {
-    version,
+    version: "1.0.0",
   };
 }

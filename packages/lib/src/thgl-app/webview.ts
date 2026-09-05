@@ -318,17 +318,47 @@ export function onWebviewMessage(
   };
 }
 
+/**
+ * Provides safe fallback responses when the application runs outside of the native
+ * Windows WebView2 host (such as in regular browser development or automated tests).
+ * This prevents unhandled promise rejections and UI crash modals.
+ */
+function createWebviewFallbackResponse<T>(
+  action: string,
+): WEBVIEW_RESPONSE_MESSAGE<T> {
+  let fallbackData: T | undefined;
+
+  if (action === "getWindowMode") {
+    fallbackData = "overlay" as unknown as T;
+  } else if (action === "getInitialState") {
+    fallbackData = {
+      version: "1.0.0",
+      windowMode: "overlay",
+      gpuFlag: "none",
+      isRunningAsAdmin: false,
+      alwaysRunAsAdmin: false,
+      exclusiveFullscreen: false,
+      closeAction: "closeWindow",
+      locale: "en",
+      isTaskInstalled: false,
+    } as unknown as T;
+  }
+
+  return {
+    status: "success",
+    message: `${action} (safe fallback outside native THGLApp host)`,
+    responseId: "",
+    data: fallbackData as T,
+  };
+}
+
 export function postWebviewMessage<T>(
   message: WEBVIEW_SEND_MESSAGE,
   timeout = 5000,
 ) {
   let promise: Promise<WEBVIEW_RESPONSE_MESSAGE<T>>;
   if (typeof window === "undefined" || !window.chrome?.webview) {
-    // No host bridge (plain-browser dev, SSR) — fail fast instead of
-    // dereferencing the missing bridge / waiting out the timeout.
-    promise = Promise.reject(
-      new Error(`${message.action} unavailable outside THGLApp`),
-    );
+    promise = Promise.resolve(createWebviewFallbackResponse<T>(message.action));
   } else {
     promise = new Promise<WEBVIEW_RESPONSE_MESSAGE<T>>((resolve, reject) => {
       const requestId = generateUniqueId();

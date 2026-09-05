@@ -681,6 +681,8 @@ export function CoordinatesProvider({
   const nodesFingerprint = useMemo(() => {
     let fp = "";
     for (const node of nodes) {
+      // Guard against sparse or malformed nodes without spawns arrays
+      if (!node?.spawns) continue;
       let privateHash = "";
       for (const s of node.spawns) {
         if (s.isPrivate) {
@@ -714,6 +716,7 @@ export function CoordinatesProvider({
       const selectedNodeId = state.selectedNodeId;
 
       currentNodes.forEach((node) => {
+        if (!node?.spawns) return;
         if (node.mapName && node.mapName !== state.mapName) return;
         const isFilterActive = state.filters.includes(node.type);
 

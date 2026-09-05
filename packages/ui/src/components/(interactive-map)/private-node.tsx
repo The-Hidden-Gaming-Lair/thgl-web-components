@@ -352,10 +352,17 @@ export function PrivateNode({
       initialSheet = circleSheetName;
     }
 
+    // Scale width proportionally to preserve aspect ratio for non-square icons
+    const markerWidth =
+      initialRect.width && initialRect.height
+        ? (initialRect.width / initialRect.height) * size
+        : size;
+
     const marker: IconMarkerInstance = {
       id: PRIVATE_NODE_MARKER_ID,
       latLng,
       size,
+      sizeW: markerWidth,
       sheet: initialSheet,
       rect: initialRect,
       key: "private-node-preview",

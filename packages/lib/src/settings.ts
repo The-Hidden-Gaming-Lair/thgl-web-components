@@ -418,6 +418,7 @@ export interface ProfileActions {
   setOverlayMode: (overlayMode: boolean) => void;
   toggleOverlayFullscreen: () => void;
   toggleLockedWindow: () => void;
+  setLockedWindow: (locked: boolean) => void;
   setColorBlindMode: (mode: ColorBlindMode) => void;
   setColorBlindSeverity: (severity: number) => void;
   toggleHighContrastMode: () => void;
@@ -932,6 +933,12 @@ export const useSettingsStore = create(
             const state = get();
             updateSettings({
               lockedWindow: !state.lockedWindow,
+            });
+          },
+
+          setLockedWindow: (locked: boolean) => {
+            updateSettings({
+              lockedWindow: locked,
             });
           },
 

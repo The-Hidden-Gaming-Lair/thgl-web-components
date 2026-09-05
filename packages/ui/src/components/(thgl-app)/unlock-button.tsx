@@ -35,20 +35,24 @@ export function UnlockButton({ onClick }: { onClick: () => void }) {
           hintVisible ? "bg-white" : "bg-white/10 text-white hover:bg-white/40",
         )}
         onMouseEnter={() => {
+          if (!window.chrome?.webview) return;
+          // Temporarily disable clickthrough when hovering over the unlock button so it can receive clicks
           postWebviewMessage({
             action: "clickthroughOverlayWebView",
             payload: {
               clickthrough: false,
             },
-          });
+          }).catch(() => {});
         }}
         onMouseLeave={() => {
+          if (!window.chrome?.webview) return;
+          // Restore clickthrough when the cursor leaves the unlock button
           postWebviewMessage({
             action: "clickthroughOverlayWebView",
             payload: {
               clickthrough: true,
             },
-          });
+          }).catch(() => {});
         }}
       >
         <EyeOpenIcon />
