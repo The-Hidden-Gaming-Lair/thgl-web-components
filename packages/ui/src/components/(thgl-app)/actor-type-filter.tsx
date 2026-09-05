@@ -28,6 +28,7 @@ export function ActorTypeFilter({
   }, [typesIdMap, filters]);
 
   useEffect(() => {
+    // Only send native IPC updates when running inside the native desktop app host
     if (typeof window === "undefined" || !window.chrome?.webview) {
       return;
     }

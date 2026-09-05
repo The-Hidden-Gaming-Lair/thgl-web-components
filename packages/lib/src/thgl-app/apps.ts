@@ -48,6 +48,7 @@ export function updateHotkeys(hotkeys: Record<string, string>) {
 
 // Sync current hotkeys from settings store to C++
 function syncHotkeysToNative() {
+  // Outside of the native Windows THGLApp host (e.g. browser testing/dev), WebView2 IPC is unavailable
   if (typeof window === "undefined" || !window.chrome?.webview) {
     return;
   }

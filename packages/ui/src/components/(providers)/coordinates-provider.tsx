@@ -716,6 +716,7 @@ export function CoordinatesProvider({
       const selectedNodeId = state.selectedNodeId;
 
       currentNodes.forEach((node) => {
+        // Skip sparse nodes without spawns array
         if (!node?.spawns) return;
         if (node.mapName && node.mapName !== state.mapName) return;
         const isFilterActive = state.filters.includes(node.type);

@@ -86,6 +86,8 @@ export function AppHeader({
     }
   };
 
+  // Optional chaining on window.chrome?.webview allows safe execution when testing
+  // the app header in browser environments where native WebView2 IPC is not present.
   const handleCloseClick = () => {
     if (closeAction === "ask") {
       setRememberChoice(false);

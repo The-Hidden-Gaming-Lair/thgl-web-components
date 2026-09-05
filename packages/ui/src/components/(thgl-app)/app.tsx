@@ -196,6 +196,7 @@ export function App({
                           )}
                           onClick={() => {
                             setWindowMode("overlay");
+                            // Guard native C++ call when running in standard browser dev environments
                             if (
                               typeof window !== "undefined" &&
                               window.chrome?.webview
