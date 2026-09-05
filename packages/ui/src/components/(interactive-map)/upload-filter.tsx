@@ -1,11 +1,12 @@
 import {
-  type DrawingsAndNodes,
   openFileOrFiles,
+  parseImportedFilter,
   useSettingsStore,
 } from "@repo/lib";
 import { Button } from "../ui/button";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useT } from "../(providers)";
 
 export function UploadFilter({
   mapName = "",
@@ -17,6 +18,7 @@ export function UploadFilter({
   /** Tight icon+label sidebar variant. */
   compact?: boolean;
 } = {}) {
+  const t = useT();
   const addMyFilter = useSettingsStore((state) => state.addMyFilter);
 
   const handleClick = async () => {
@@ -27,57 +29,27 @@ export function UploadFilter({
       const text = loadEvent.target?.result;
       if (!text || typeof text !== "string") return;
       try {
-        const data = JSON.parse(text);
-        if (typeof data !== "object") return;
-        let myFilter: DrawingsAndNodes;
-        if (!Array.isArray(data)) {
-          if (data.id && !data.filter) {
-            // Deprecated drawing format
-            if ("positions" in data && Array.isArray(data.positions)) {
-              data.polylines = data.positions.map((b: any) => ({
-                positions: b.map((c: any) => c.position),
-                size: 4,
-                color: "#FFFFFFAA",
-                mapName,
-              }));
-              delete data.positions;
-            }
-            if ("types" in data) delete data.types;
-            myFilter = {
-              name: `my_${Date.now()}_${data.name}`,
-              drawing: data,
-            };
-            if ("name" in data) delete data.name;
-          } else {
-            myFilter = data;
-            myFilter.name = myFilter.name.replace(
-              /my_\d+_/,
-              `my_${Date.now()}_`,
-            );
-          }
-        } else if (data[0]?.id) {
-          const filter = data[0]?.filter ?? "Unsorted";
-          myFilter = {
-            name: `my_${Date.now()}_${filter.replace("private_", "").replace(/shared_\d+_/, "")}`,
-            nodes: data,
-          };
-          data.forEach((d: any) => {
-            if ("filter" in d) delete d.filter;
-          });
-        } else {
-          throw new Error("Invalid filter");
-        }
+        // Shape detection + legacy conversion live in the lib so they can be
+        // unit-tested: a modern filter export (which carries a server `id`
+        // once synced) used to be mistaken for the legacy bare-drawing format
+        // and imported with all of its nodes dropped.
+        const myFilter = parseImportedFilter(JSON.parse(text), mapName);
 
         addMyFilter(myFilter);
         onUploaded?.(myFilter.name);
         toast(
-          `Imported filter: ${myFilter.name
-            .replace("private_", "")
-            .replace(/shared_\d+_/, "")}`,
+          t("sharedFilter.importedFilter", {
+            fallback: "Imported filter: {{name}}",
+            vars: {
+              name: myFilter.name
+                .replace("private_", "")
+                .replace(/shared_\d+_/, ""),
+            },
+          }),
         );
       } catch (error) {
         console.error(error);
-        toast.error("Invalid filter");
+        toast.error(t("sharedFilter.invalid", { fallback: "Invalid filter" }));
       }
     });
     reader.readAsText(file);
@@ -88,9 +60,13 @@ export function UploadFilter({
       <button
         type="button"
         onClick={handleClick}
-        title="Upload filter from file"
-        aria-label="Upload filter from file"
-        className="p-1 text-muted-foreground hover:text-primary transition-colors"
+        title={t("sharedFilter.uploadFromFile", {
+          fallback: "Upload filter from file",
+        })}
+        aria-label={t("sharedFilter.uploadFromFile", {
+          fallback: "Upload filter from file",
+        })}
+        className="flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors"
       >
         <Upload className="h-3.5 w-3.5" />
       </button>
@@ -98,14 +74,9 @@ export function UploadFilter({
   }
 
   return (
-    <Button
-      size="sm"
-      type="button"
-      variant="secondary"
-      onClick={handleClick}
-    >
+    <Button size="sm" type="button" variant="secondary" onClick={handleClick}>
       <Upload className="h-4 w-4 mr-2" />
-      Import Filter
+      {t("sharedFilter.importFilter", { fallback: "Import Filter" })}
     </Button>
   );
 }

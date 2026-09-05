@@ -16,8 +16,32 @@ import {
   FiltersApiError,
   serverFilterToLocal,
 } from "./filters-api";
-import { mergeHydratedFilters } from "./filters-sync";
-import { getCurrentGameId } from "./games";
+import { repairMisimportedFilters } from "./filter-import";
+import { applyFilterPatch, removeFiltersMatching } from "./filters-mutations";
+import {
+  adoptLocalFilters,
+  dedupeMyFilters,
+  mergeHydratedFilters,
+  pendingIdsWithSyncGrace,
+  unionMyFiltersOnRehydrate,
+} from "./filters-sync";
+import {
+  clearFilterDirty,
+  clearFilterTombstones,
+  clearHydrateDrops,
+  enqueueFilterDelete,
+  filterOutTombstoned,
+  flushFilterDeletes,
+  getDirtyFilterIds,
+  isFilterTombstoned,
+  isRecentHydrateDrop,
+  loadRecentSyncs,
+  recordFilterDirty,
+  recordFilterTombstone,
+  recordHydrateDrops,
+  recordRecentSync,
+} from "./filter-tombstones";
+import { getAppIdFromPathname, getCurrentGameId } from "./games";
 
 export type LiveMode = "static" | "live" | "combined";
 
@@ -219,6 +243,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   // users anyway, so this keeps the out-of-box experience consistent.
   liveMode: "live",
   overlayMode: null,
+  windowMode: null,
   overlayFullscreen: false,
   lockedWindow: false,
   colorBlindMode: "none",
@@ -256,6 +281,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   labelTextSize: 1,
   showLabelsHotkey: "l",
   displayDiscordActivityStatus: true,
+  // Palia: mute the "a player wants to join your world" join-code-request toast.
+  worldCodeRequestsMuted: false,
   presets: {},
   tempPrivateNode: null,
   recentPrivateNodeStyles: [],
@@ -306,11 +333,21 @@ export type FilterPreset = {
   audioAlertByFilter?: Record<string, boolean>;
 };
 
+// Which app window(s) to show in the Overwolf apps. Mirrors the THGLApp
+// window mode (thgl-app/apps.ts). `both` keeps the in-game overlay AND the
+// desktop (2nd screen) window open at once. `null` = auto-detect on first run.
+export type OverlayWindowMode = "overlay" | "desktop" | "both";
+
 export type ProfileSettings = {
   hotkeys: Record<string, string>;
   groupName: string;
   liveMode: LiveMode;
+  // Legacy binary preference, kept as a mirror of `windowMode` for backward
+  // compat and cosmetic consumers (overlay bg transparency, clock position).
   overlayMode: boolean | null;
+  // Source of truth for which window(s) to open. Falls back to `overlayMode`
+  // when unset (older profiles), then to monitor-count auto-detection.
+  windowMode: OverlayWindowMode | null;
   overlayFullscreen: boolean;
   lockedWindow: boolean;
   colorBlindMode: ColorBlindMode;
@@ -372,6 +409,7 @@ export type ProfileSettings = {
   labelTextSize: number;
   showLabelsHotkey: string;
   displayDiscordActivityStatus: boolean;
+  worldCodeRequestsMuted: boolean;
   presets: Record<string, string[] | FilterPreset>;
   tempPrivateNode: (Partial<PrivateNode> & { filter?: string }) | null;
   recentPrivateNodeStyles: PrivateNodeStyle[];
@@ -416,6 +454,7 @@ export interface ProfileActions {
   setLiveMode: (liveMode: LiveMode) => void;
   cycleLiveMode: () => void;
   setOverlayMode: (overlayMode: boolean) => void;
+  setWindowMode: (windowMode: OverlayWindowMode) => void;
   toggleOverlayFullscreen: () => void;
   toggleLockedWindow: () => void;
   /** Explicitly set overlay locked/clickthrough state (added for overlay testing and initial HUD mode) */
@@ -489,6 +528,7 @@ export interface ProfileActions {
   setDisplayDiscordActivityStatus: (
     displayDiscordActivityStatus: boolean,
   ) => void;
+  setWorldCodeRequestsMuted: (muted: boolean) => void;
   addPreset: (presetName: string, preset: FilterPreset) => void;
   removePreset: (presetName: string) => void;
   // Rebuild the presets map in the given key order (presets render in
@@ -528,6 +568,12 @@ export interface ProfileActions {
   setMyFilter: (name: string, myFilter: Partial<DrawingsAndNodes>) => void;
   addMyFilter: (myFilter: DrawingsAndNodes) => void;
   removeMyFilter: (myFilterName: string) => void;
+  /**
+   * Delete EVERY filter: tombstoned and server-deleted like a single removal,
+   * so a reset actually sticks instead of being resurrected by the next
+   * hydrate.
+   */
+  resetMyFilters: () => void;
   removeMyNode: (nodeId: string) => void;
   /**
    * Replace this game's filters in local state with the server's view.
@@ -535,6 +581,12 @@ export interface ProfileActions {
    * preserved. Called on signed-in mount per game tenant.
    */
   hydrateFiltersFromServer: (game: string) => Promise<void>;
+  /**
+   * Give a server id to signed-in filters that have content but none, and
+   * upload them. Covers backups restored via `setMyFilters` (local-only) and
+   * filters healed from a botched import. No-op when signed out.
+   */
+  adoptLocalOnlyFilters: () => void;
   toggleShowGrid: () => void;
   toggleShowFilters: () => void;
   // Peer Link / Mesh settings
@@ -612,9 +664,24 @@ export interface SettingsStore extends ProfileSettings, ProfileActions {
 
 const getStorageName = () => {
   if (typeof window !== "undefined") {
-    if (window.location.pathname.startsWith("/apps/")) {
-      const appId = window.location.pathname.split("/")[2];
-      return `thgl-settings-${appId}`;
+    // Locale-aware: /{locale}/apps/<id> must map to the SAME storage as
+    // /apps/<id>, otherwise non-English languages share the generic fallback
+    // while English gets the per-app storage (settings "change" with locale).
+    const appId = getAppIdFromPathname(window.location.pathname);
+    if (appId) {
+      const name = `thgl-settings-${appId}`;
+      // One-time seed: non-English users' settings lived in the generic
+      // fallback storage until the locale fix — adopt them when the per-app
+      // storage doesn't exist yet, so the fix doesn't read as a reset.
+      try {
+        const generic = localStorage.getItem("settings-storage");
+        if (generic !== null && localStorage.getItem(name) === null) {
+          localStorage.setItem(name, generic);
+        }
+      } catch {
+        // Storage access can throw (privacy mode) — per-app name still works.
+      }
+      return name;
     }
   }
   return "settings-storage";
@@ -626,10 +693,37 @@ const syncTimers = new Map<string, ReturnType<typeof setTimeout>>();
 // `syncTimers` keys these form the "pending" set that hydrate must not clobber
 // (a re-hydrate on focus could otherwise overwrite an edit mid-upload).
 const inFlightSyncIds = new Set<string>();
+// The debounced PUT body per id, so it can be fired early (page hide) instead
+// of waiting out the timer. Kept in step with `syncTimers`.
+const pendingSyncRuns = new Map<string, () => void>();
+// How long a just-synced id is protected from hydrate's "synced-but-absent =
+// deleted elsewhere" drop. Covers the save-then-hydrate race AND a window
+// close/reopen in between (the grace is loaded from durable storage, not
+// in-memory, so a freshly reopened window still honours it) plus read-replica
+// lag. Long enough for the server list to reflect the write; short relative to
+// how rarely you'd remote-delete a filter you just created here.
+const RECENT_SYNC_GRACE_MS = 60_000;
 
-/** Ids with a queued (debounced) or in-flight PUT. */
+/**
+ * Ids with a queued (debounced) or in-flight PUT, PLUS ids whose PUT landed
+ * within the last {@link RECENT_SYNC_GRACE_MS}. The recently-synced stamps are
+ * DURABLE (localStorage via {@link loadRecentSyncs}), so this protection
+ * survives a window close/reopen — the in-memory pending sets do not.
+ */
 export function getPendingSyncIds(): Set<string> {
-  return new Set<string>([...syncTimers.keys(), ...inFlightSyncIds]);
+  return pendingIdsWithSyncGrace(
+    // Dirty ids are durable, so an edit whose debounce never fired (window
+    // closed within the second) still counts as pending in the NEXT session —
+    // otherwise hydrate would overwrite it with the older server copy.
+    new Set<string>([
+      ...syncTimers.keys(),
+      ...inFlightSyncIds,
+      ...getDirtyFilterIds(),
+    ]),
+    loadRecentSyncs(),
+    Date.now(),
+    RECENT_SYNC_GRACE_MS,
+  );
 }
 
 function isSignedIn(): boolean {
@@ -648,85 +742,176 @@ function scheduleFilterSync(filter: DrawingsAndNodes) {
   const id = filter.id;
   const existing = syncTimers.get(id);
   if (existing) clearTimeout(existing);
-  syncTimers.set(
-    id,
-    setTimeout(() => {
-      syncTimers.delete(id);
-      const game = filter.game ?? getCurrentGameId();
-      if (!game) {
-        console.error("[filter sync] no game id, skipping put", id);
-        return;
-      }
-      inFlightSyncIds.add(id);
-      void apiPutFilter(id, {
-        game,
-        name: filter.name,
-        payload: { nodes: filter.nodes, drawing: filter.drawing },
-        visibility: filter.visibility ?? "private",
+  // Durably mark the local copy as ahead of the server BEFORE the debounce, so
+  // closing the window inside that second can't strand the edit: without this
+  // the next hydrate hands the win to the older server copy. Cleared when the
+  // PUT lands. See recordFilterDirty.
+  recordFilterDirty(id);
+  const run = () => {
+    syncTimers.delete(id);
+    pendingSyncRuns.delete(id);
+    const game = filter.game ?? getCurrentGameId();
+    if (!game) {
+      console.error("[filter sync] no game id, skipping put", id);
+      return;
+    }
+    inFlightSyncIds.add(id);
+    void apiPutFilter(id, {
+      game,
+      name: filter.name,
+      payload: { nodes: filter.nodes, drawing: filter.drawing },
+      visibility: filter.visibility ?? "private",
+    })
+      .then(() => {
+        // Remember this PUT just landed (DURABLY): a hydrate whose server-list
+        // fetch raced it (or hits replica lag), INCLUDING one on a freshly
+        // reopened window, would otherwise see the id as "synced but absent"
+        // and drop the just-saved filter. The grace window in
+        // getPendingSyncIds protects it until the list catches up.
+        recordRecentSync(id);
+        // The server now has this edit — the local copy is no longer ahead.
+        clearFilterDirty(id);
+        // Confirm the id now exists on the server so hydrate can safely
+        // drop it if it later disappears (deleted elsewhere) instead of
+        // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
+        const state = useSettingsStore.getState();
+        if (state.myFilters.some((f) => f.id === id && !f.synced)) {
+          state.setMyFilters(
+            state.myFilters.map((f) =>
+              f.id === id ? { ...f, synced: true } : f,
+            ),
+          );
+        }
       })
-        .then(() => {
-          // Confirm the id now exists on the server so hydrate can safely
-          // drop it if it later disappears (deleted elsewhere) instead of
-          // resurrecting it. setMyFilters doesn't re-trigger a sync, so no loop.
+      .catch((err) => {
+        // Account switched on this device (or somehow we have a stale
+        // server id we don't own). Strip the local id so the filter
+        // visibly drops back to local-only and the user can choose
+        // to re-save it under their current account.
+        if (err instanceof FiltersApiError && err.status === 403) {
           const state = useSettingsStore.getState();
-          if (state.myFilters.some((f) => f.id === id && !f.synced)) {
-            state.setMyFilters(
-              state.myFilters.map((f) =>
-                f.id === id ? { ...f, synced: true } : f,
-              ),
-            );
-          }
-        })
-        .catch((err) => {
-          // Account switched on this device (or somehow we have a stale
-          // server id we don't own). Strip the local id so the filter
-          // visibly drops back to local-only and the user can choose
-          // to re-save it under their current account.
-          if (err instanceof FiltersApiError && err.status === 403) {
-            const state = useSettingsStore.getState();
-            const updatedFilters = state.myFilters.map((f) =>
-              f.id === id
-                ? {
-                    ...f,
-                    id: undefined,
-                    visibility: undefined,
-                    shareCode: undefined,
-                    voteCount: undefined,
-                    commentCount: undefined,
-                  }
-                : f,
-            );
-            state.setMyFilters(updatedFilters);
-            console.warn(
-              `[filter sync] ${id} owned by another account; demoting to local-only`,
-            );
-            return;
-          }
-          console.error("[filter sync] put failed", id, err);
-        })
-        .finally(() => {
-          inFlightSyncIds.delete(id);
-        });
-    }, SYNC_DEBOUNCE_MS),
-  );
+          const updatedFilters = state.myFilters.map((f) =>
+            f.id === id
+              ? {
+                  ...f,
+                  id: undefined,
+                  visibility: undefined,
+                  shareCode: undefined,
+                  voteCount: undefined,
+                  commentCount: undefined,
+                }
+              : f,
+          );
+          state.setMyFilters(updatedFilters);
+          console.warn(
+            `[filter sync] ${id} owned by another account; demoting to local-only`,
+          );
+          return;
+        }
+        console.error("[filter sync] put failed", id, err);
+      })
+      .finally(() => {
+        inFlightSyncIds.delete(id);
+      });
+  };
+  pendingSyncRuns.set(id, run);
+  syncTimers.set(id, setTimeout(run, SYNC_DEBOUNCE_MS));
 }
 
-/** Immediate (non-debounced) server delete. Anonymous = no-op. */
+/**
+ * Fire every debounced PUT immediately.
+ *
+ * Called when the page is hidden (tab switch, window close, app shutdown) so a
+ * one-second debounce doesn't swallow the user's last edit. The durable dirty
+ * marker is the real safety net — this just narrows the window so the common
+ * case syncs promptly instead of waiting for the next session's hydrate.
+ */
+export function flushPendingFilterSyncs(): void {
+  for (const [id, timer] of syncTimers) {
+    clearTimeout(timer);
+    const run = pendingSyncRuns.get(id);
+    if (run) run();
+  }
+}
+
+if (typeof document !== "undefined") {
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") flushPendingFilterSyncs();
+  });
+}
+
+/**
+ * Server delete via the persistent pending-delete queue (see
+ * filter-tombstones.ts). The id is enqueued even when signed out — the flush
+ * skips until a signed-in surface picks it up — so deleting a synced filter
+ * while logged out no longer orphans its server row (which every later
+ * hydrate would resurrect). Failures are retried from hydrate.
+ */
 function fireFilterDelete(id: string) {
-  if (!isSignedIn()) return;
   // Cancel any pending PUT for this id so we don't race the delete.
   const existing = syncTimers.get(id);
   if (existing) {
     clearTimeout(existing);
     syncTimers.delete(id);
   }
-  void apiDeleteFilter(id).catch((err) => {
-    // 404 means it was never on the server (anonymous-created local-only
-    // filter, never synced). That's not an error.
-    if (err && typeof err === "object" && "status" in err && err.status === 404)
-      return;
-    console.error("[filter sync] delete failed", id, err);
+  pendingSyncRuns.delete(id);
+  // The filter is going away — a pending "local is ahead" marker would
+  // otherwise make the next hydrate try to re-upload a deleted filter.
+  clearFilterDirty(id);
+  enqueueFilterDelete(id);
+  void flushQueuedFilterDeletes();
+}
+
+/** Drain the delete queue. 404 = already gone, 403 = not ours: stop retrying. */
+function flushQueuedFilterDeletes(): Promise<void> {
+  return flushFilterDeletes({
+    isSignedIn,
+    deleteFilter: apiDeleteFilter,
+    shouldDiscard: (err) =>
+      err instanceof FiltersApiError &&
+      (err.status === 404 || err.status === 403),
   });
+}
+
+/**
+ * Strip tombstoned filters from every profile snapshot. Applied at the two
+ * persistence choke points (partialize on write, merge on rehydrate) so a
+ * stale window's whole-blob write can't resurrect a filter deleted in another
+ * window — the multi-window last-writer-wins race behind the "custom filters
+ * keep coming back" ticket. Returns untouched inputs when no tombstones match
+ * (partialize runs on every store write).
+ */
+/**
+ * A profile's settings with tombstoned filters stripped, for the flows that
+ * flatten `...profile.settings` straight into live state (switch / import /
+ * delete-switch) and would otherwise restore a stale myFilters snapshot.
+ * Profiles without a myFilters key are returned as-is (flattening must not
+ * clear the root list in that legacy case).
+ */
+function cleanProfileSettingsForFlatten(
+  settings: Profile["settings"],
+): Profile["settings"] {
+  if (!settings?.myFilters?.length) return settings;
+  const filtered = filterOutTombstoned(settings.myFilters);
+  return filtered === settings.myFilters
+    ? settings
+    : { ...settings, myFilters: filtered };
+}
+
+function stripTombstonedFromProfiles(profiles: Profile[]): Profile[] {
+  let changed = false;
+  const cleaned = profiles.map((profile) => {
+    const myFilters = profile.settings?.myFilters;
+    if (!myFilters?.length) return profile;
+    const filtered = filterOutTombstoned(myFilters);
+    if (filtered === myFilters) return profile;
+    changed = true;
+    return {
+      ...profile,
+      settings: { ...profile.settings, myFilters: filtered },
+    };
+  });
+  return changed ? cleaned : profiles;
 }
 
 // Cache for isDiscoveredNode results - invalidated when discoveredNodes changes
@@ -790,7 +975,9 @@ export const useSettingsStore = create(
 
             set({
               currentProfileId: profileId,
-              ...profile.settings, // Flatten switched profile settings to root
+              // Flatten switched profile settings to root (minus tombstoned
+              // filters — the snapshot may predate deletes made elsewhere)
+              ...cleanProfileSettingsForFlatten(profile.settings),
             });
           },
 
@@ -825,7 +1012,8 @@ export const useSettingsStore = create(
                 set({
                   profiles: newProfiles,
                   currentProfileId: newCurrentProfileId,
-                  ...newProfile.settings, // Flatten settings to root
+                  // Flatten settings to root (minus tombstoned filters)
+                  ...cleanProfileSettingsForFlatten(newProfile.settings),
                 });
                 return;
               }
@@ -871,7 +1059,9 @@ export const useSettingsStore = create(
             set({
               profiles: [...state.profiles, profile],
               currentProfileId: profile.id,
-              ...profile.settings, // Flatten imported profile settings to root
+              // Flatten imported profile settings to root (minus tombstoned
+              // filters — an exported file may contain since-deleted ones)
+              ...cleanProfileSettingsForFlatten(profile.settings),
             });
           },
 
@@ -920,7 +1110,20 @@ export const useSettingsStore = create(
           },
 
           setOverlayMode: (overlayMode) => {
-            updateSettings({ overlayMode });
+            updateSettings({
+              overlayMode,
+              windowMode: overlayMode ? "overlay" : "desktop",
+            });
+          },
+
+          setWindowMode: (windowMode) => {
+            updateSettings({
+              windowMode,
+              // Mirror to the legacy boolean so cosmetic consumers (overlay bg
+              // transparency, clock position) stay correct. `both` styles the
+              // overlay window as an overlay, so it maps to true.
+              overlayMode: windowMode === "desktop" ? false : true,
+            });
           },
 
           toggleOverlayFullscreen: () => {
@@ -1422,6 +1625,10 @@ export const useSettingsStore = create(
             updateSettings({ displayDiscordActivityStatus });
           },
 
+          setWorldCodeRequestsMuted: (muted: boolean) => {
+            updateSettings({ worldCodeRequestsMuted: muted });
+          },
+
           addPreset: (presetName: string, preset: FilterPreset) => {
             const state = get();
             updateSettings({
@@ -1587,12 +1794,17 @@ export const useSettingsStore = create(
 
           setMyFilter: (name, myFilter) => {
             const state = get();
-            const updatedFilters = state.myFilters.map((filter) =>
-              filter.name === name ? { ...filter, ...myFilter } : filter,
+            // applyFilterPatch returns the updated filters themselves, so the
+            // upload can't be skipped by re-finding them under a key the patch
+            // just moved — which is what silently dropped every rename.
+            const { filters, updated } = applyFilterPatch(
+              state.myFilters,
+              name,
+              myFilter,
             );
-            updateSettings({ myFilters: updatedFilters });
-            const updatedFilter = updatedFilters.find((f) => f.name === name);
-            if (updatedFilter) scheduleFilterSync(updatedFilter);
+            if (updated.length === 0) return;
+            updateSettings({ myFilters: filters });
+            for (const filter of updated) scheduleFilterSync(filter);
           },
 
           addMyFilter: async (myFilter) => {
@@ -1622,6 +1834,11 @@ export const useSettingsStore = create(
               return;
             }
 
+            // A deliberate (re-)add wins over any earlier delete of the same
+            // name/id — without this, a tombstone would eat the new filter on
+            // the next rehydrate.
+            clearFilterTombstones(myFilter);
+
             updateSettings({
               myFilters: [...state.myFilters, myFilter],
             });
@@ -1630,12 +1847,39 @@ export const useSettingsStore = create(
 
           removeMyFilter: (myFilterName: string) => {
             const state = get();
-            const target = state.myFilters.find((f) => f.name === myFilterName);
-            const updatedFilters = state.myFilters.filter(
-              (filter) => filter.name !== myFilterName,
+            // Duplicate names are reachable (e.g. the same filter uploaded
+            // under two ids by different surfaces) — tombstone and
+            // server-delete EVERY match, not just the first.
+            const { filters, removed } = removeFiltersMatching(
+              state.myFilters,
+              (f) => f.name === myFilterName,
             );
-            updateSettings({ myFilters: updatedFilters });
-            if (target?.id) fireFilterDelete(target.id);
+            if (removed.length === 0) return;
+            for (const filter of removed) recordFilterTombstone(filter);
+            updateSettings({ myFilters: filters });
+            for (const filter of removed) {
+              if (filter.id) fireFilterDelete(filter.id);
+            }
+          },
+
+          resetMyFilters: () => {
+            const state = get();
+            // The settings "Reset" button used to call setMyFilters([]), which
+            // clears the array and nothing else: no tombstones, no server
+            // deletes. For a signed-in user the rows survived and the very
+            // next hydrate resurrected everything just cleared. Reset is a
+            // delete of every filter, so it goes through the same tombstone +
+            // queued-DELETE path as removing one.
+            const { filters, removed } = removeFiltersMatching(
+              state.myFilters,
+              () => true,
+            );
+            if (removed.length === 0) return;
+            for (const filter of removed) recordFilterTombstone(filter);
+            updateSettings({ myFilters: filters });
+            for (const filter of removed) {
+              if (filter.id) fireFilterDelete(filter.id);
+            }
           },
 
           removeMyNode: async (nodeId: string) => {
@@ -1658,6 +1902,18 @@ export const useSettingsStore = create(
 
           hydrateFiltersFromServer: async (game: string) => {
             if (!isSignedIn()) return;
+            // Hydrate is the natural retry point for queued server deletes:
+            // it runs on every signed-in mount/focus. Fire-and-forget — the
+            // tombstone predicate below already hides anything still queued.
+            void flushQueuedFilterDeletes();
+            // Snapshot pending BEFORE the fetch: a filter whose PUT completes
+            // DURING `apiListFilters` would otherwise be neither in the (stale)
+            // server list nor still pending by the time we merge, and get
+            // dropped as "deleted elsewhere". Unioning the before- and
+            // after-fetch pending sets (plus the recently-synced grace inside
+            // getPendingSyncIds) keeps such just-saved filters. This is the
+            // "custom filter vanishes right after saving / on reopen" bug.
+            const pendingBefore = getPendingSyncIds();
             let serverFilters;
             try {
               serverFilters = await apiListFilters(game);
@@ -1670,16 +1926,72 @@ export const useSettingsStore = create(
             // (previously synced, now absent) are dropped so the deletion
             // sticks instead of being resurrected; anonymous / not-yet-uploaded
             // filters are preserved. See {@link mergeHydratedFilters}.
-            const { merged, resyncIds } = mergeHydratedFilters(
-              state.myFilters,
-              serverFilters.map(serverFilterToLocal),
-              getPendingSyncIds(),
+            const pendingIds = new Set<string>([
+              ...pendingBefore,
+              ...getPendingSyncIds(),
+            ]);
+            // Ids the server list DOES contain can't be deleted-elsewhere:
+            // clear any stale hydrate-drop echo (a replica-lag false positive
+            // or a re-creation) before it suppresses the filter in a sibling
+            // window's union.
+            clearHydrateDrops(serverFilters.map((f) => f.id));
+            const { merged, resyncIds, droppedIds, unsyncedIds } =
+              mergeHydratedFilters(
+                state.myFilters,
+                serverFilters.map(serverFilterToLocal),
+                pendingIds,
+                isFilterTombstoned,
+              );
+            // Broadcast deleted-elsewhere drops to sibling windows. A remote
+            // delete records no local tombstone, so without this a sibling
+            // still holding the filter in memory would union it back in on the
+            // storage-event rehydrate that follows our persist below — the
+            // filter would ping-pong instead of staying deleted.
+            recordHydrateDrops(droppedIds);
+            // Adopt local-only filters (restored from a backup, healed from a
+            // botched import, or made while signed out) so they finally reach
+            // the cloud instead of diverging forever. See adoptLocalFilters.
+            const { filters: adopted, adoptedIds } = adoptLocalFilters(
+              merged,
+              () => crypto.randomUUID(),
+              game,
             );
-            updateSettings({ myFilters: merged });
-            // Re-push filters whose server copy was empty but local had data.
-            const mergedById = new Map(merged.map((f) => [f.id, f]));
-            for (const id of resyncIds) {
-              const filter = mergedById.get(id);
+            updateSettings({ myFilters: adopted });
+            // Re-push filters whose server copy was empty but local had data,
+            // everything just adopted, and every dirty id — an edit whose
+            // debounce never fired is kept by the pending rule above, but only
+            // this re-arms its upload. Without it the local copy would survive
+            // yet never reach the server.
+            const byId = new Map(adopted.map((f) => [f.id, f]));
+            // `unsyncedIds` are first uploads that never landed — the id
+            // exists locally but the server has no such row, and nothing else
+            // would ever retry them, so the filter stays stranded on one
+            // device and every later edit looks like a broken sync.
+            const toPush = new Set<string>([
+              ...resyncIds,
+              ...unsyncedIds,
+              ...adoptedIds,
+              ...getDirtyFilterIds(),
+            ]);
+            for (const id of toPush) {
+              const filter = byId.get(id);
+              if (filter) scheduleFilterSync(filter);
+            }
+          },
+
+          adoptLocalOnlyFilters: () => {
+            if (!isSignedIn()) return;
+            const state = get();
+            const { filters, adoptedIds } = adoptLocalFilters(
+              state.myFilters,
+              () => crypto.randomUUID(),
+              getCurrentGameId() ?? undefined,
+            );
+            if (adoptedIds.length === 0) return;
+            updateSettings({ myFilters: filters });
+            const byId = new Map(filters.map((f) => [f.id, f]));
+            for (const id of adoptedIds) {
+              const filter = byId.get(id);
               if (filter) scheduleFilterSync(filter);
             }
           },
@@ -1730,10 +2042,13 @@ export const useSettingsStore = create(
       },
       {
         name: getStorageName(),
-        // Only persist profiles array and currentProfileId (not flattened settings)
+        // Only persist profiles array and currentProfileId (not flattened
+        // settings). Tombstoned filters are stripped on the way out so a
+        // window holding stale in-memory state can't write a deleted filter
+        // back into storage.
         partialize: (state) =>
           ({
-            profiles: state.profiles,
+            profiles: stripTombstonedFromProfiles(state.profiles),
             currentProfileId: state.currentProfileId,
           }) as SettingsStore,
         merge: (persistedState, currentState) => {
@@ -1743,12 +2058,61 @@ export const useSettingsStore = create(
             ...(persistedState as any),
           };
 
-          // Flatten current profile settings to root level during merge
+          // Flatten current profile settings to root level during merge.
+          // Tombstoned filters are stripped first: rehydrate (mount AND
+          // cross-window storage events) is where a resurrected blob written
+          // by a stale window gets cleaned before it reaches the UI.
           if (merged.profiles?.length) {
+            merged.profiles = stripTombstonedFromProfiles(merged.profiles);
             const currentProfile = merged.profiles.find(
               (p: Profile) => p.id === merged.currentProfileId,
             );
             if (currentProfile) {
+              // Union the persisted filters with any in-memory local adds the
+              // WRITING window didn't know about (the mirror of tombstones, for
+              // adds/edits). Without this, a stale window's whole-blob write
+              // clobbers a filter this window just added — the "custom filter
+              // disappears" bug. Written into the profile too (not just the
+              // flat root) because partialize persists `profiles`, so the next
+              // write must carry the resurrected filter back to disk.
+              // See {@link unionMyFiltersOnRehydrate}.
+              //
+              // ONLY when the rehydrate stays on the same profile: if another
+              // window switched currentProfileId, the in-memory myFilters
+              // belong to the OLD profile and unioning them would leak filters
+              // across profiles. (At mount the in-memory list is the empty
+              // default, so the union is a no-op either way.)
+              const current = currentState as {
+                myFilters?: DrawingsAndNodes[];
+                currentProfileId?: string;
+              };
+              const sameProfile =
+                current.currentProfileId === merged.currentProfileId;
+              const persistedFilters = currentProfile.settings?.myFilters ?? [];
+              let reconciled =
+                sameProfile && current.myFilters?.length
+                  ? unionMyFiltersOnRehydrate(
+                      current.myFilters,
+                      persistedFilters,
+                      // A filter another window just dropped as deleted-on-
+                      // another-device must not be unioned back (remote deletes
+                      // record no local tombstone) — see recordHydrateDrops.
+                      (f) => isFilterTombstoned(f) || isRecentHydrateDrop(f.id),
+                    )
+                  : persistedFilters;
+              // Heal duplicate twins the pre-name-matching union minted (same
+              // name, one copy with server id + one stale id-less snapshot).
+              reconciled = dedupeMyFilters(reconciled);
+              // Heal filters an older file import wrapped whole into `drawing`
+              // (nodes intact but never rendered as markers), so an already
+              // botched import fixes itself instead of needing a re-import.
+              reconciled = repairMisimportedFilters(reconciled);
+              if (reconciled !== persistedFilters) {
+                currentProfile.settings = {
+                  ...currentProfile.settings,
+                  myFilters: reconciled,
+                };
+              }
               Object.assign(merged, currentProfile.settings);
             }
           }

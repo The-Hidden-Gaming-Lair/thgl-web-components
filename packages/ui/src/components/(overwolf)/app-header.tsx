@@ -8,8 +8,8 @@ import {
 } from "@repo/lib";
 import {
   HOTKEYS,
+  applyWindowMode,
   setInputPassThrough,
-  togglePreferedWindow,
   useOverwolfState,
 } from "@repo/lib/overwolf";
 import { ReactNode, useEffect, useState, type JSX } from "react";
@@ -29,7 +29,6 @@ import { Hotkey } from "./hotkey";
 import { AppStatus } from "./app-status";
 import { GameSwitcher } from "../(header)/game-switcher";
 import {
-  HeaderSwitch,
   DiscordIcon,
   GitHubIcon,
   RedditIcon,
@@ -43,12 +42,17 @@ import { UserDialog } from "../(header)/user-dialog";
 
 export function AppHeader({
   app,
+  appName,
   title,
   gameClassId,
   moreSettings,
   filters,
 }: {
   app: string;
+  /** Canonical game id (games.ts `name`, e.g. "palia"). `app` is the display
+   *  TITLE because GameSwitcher matches on `app.title`, but SettingsDialogContent
+   *  gates game-specific sections on the lowercase id, so it needs this. */
+  appName?: string;
   title?: string;
   gameClassId: number;
   moreSettings?: ReactNode;
@@ -80,9 +84,20 @@ export function AppHeader({
 
   const isMaximized = windowInfo.stateEx === "maximized";
 
+  // Which segment to highlight. `windowMode` is the source of truth; fall back
+  // to the legacy boolean for older profiles that haven't resolved a mode yet.
+  const activeWindowMode =
+    settingsStore.windowMode ??
+    (settingsStore.overlayMode === false ? "desktop" : "overlay");
+  const windowModeOptions = [
+    { value: "overlay" as const, label: "Overlay" },
+    { value: "desktop" as const, label: "2nd Screen" },
+    { value: "both" as const, label: "Both" },
+  ];
+
   const settingsDialogContent = (
     <OverwolfSettingsDialogContent
-      activeApp={app}
+      activeApp={appName ?? app}
       gameClassId={gameClassId}
       more={moreSettings}
       filters={filters}
@@ -135,21 +150,42 @@ export function AppHeader({
                 </Button>
 
                 <Tooltip delayDuration={200} disableHoverableContent>
-                  <TooltipTrigger>
-                    <HeaderSwitch
-                      checked={!settingsStore.overlayMode}
-                      label="2nd Screen"
-                      onChange={(checked) => {
-                        settingsStore.setOverlayMode(!checked);
-                        togglePreferedWindow(gameClassId);
-                      }}
-                    />
+                  <TooltipTrigger asChild>
+                    <div className="flex rounded-md overflow-hidden border border-gray-600">
+                      {windowModeOptions.map((option, index) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          className={cn(
+                            "px-2 py-0.5 text-xs transition-colors",
+                            index > 0 && "border-l border-gray-600",
+                            activeWindowMode === option.value
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-gray-800 hover:bg-gray-700 text-gray-300",
+                          )}
+                          onClick={() => {
+                            settingsStore.setWindowMode(option.value);
+                            applyWindowMode(gameClassId);
+                          }}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
                   </TooltipTrigger>
                   <TooltipContent className="w-64" side="bottom">
                     <p>
-                      Switch between 2nd screen mode and overlay mode. The
-                      overlay mode requires that the game is running and it's
-                      enabled in the Overwolf overlay settings.
+                      <strong>Overlay:</strong> Shows the map on top of the
+                      game. Requires the game running with the Overwolf overlay
+                      enabled.
+                    </p>
+                    <p className="mt-1">
+                      <strong>2nd Screen:</strong> Opens the map in a separate
+                      desktop window.
+                    </p>
+                    <p className="mt-1">
+                      <strong>Both:</strong> Opens the overlay and the desktop
+                      window at once.
                     </p>
                   </TooltipContent>
                 </Tooltip>

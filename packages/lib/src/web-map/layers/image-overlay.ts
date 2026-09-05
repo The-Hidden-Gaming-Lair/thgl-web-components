@@ -30,8 +30,7 @@ export class ImageOverlayLayer implements Layer {
   // Pre-allocated buffers to avoid per-frame allocations
   private quadVertices = new Float32Array(12);
   private static readonly QUAD_TEX_COORDS = new Float32Array([
-    0, 1, 1, 1, 0, 0,
-    1, 1, 1, 0, 0, 0,
+    0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0,
   ]);
 
   constructor(options: ImageOverlayOptions) {
@@ -85,9 +84,18 @@ export class ImageOverlayLayer implements Layer {
 
     this.program = this.createProgram(vertexShaderSource, fragmentShaderSource);
     if (this.program) {
-      this.uniformLocations.view = this.gl.getUniformLocation(this.program, "u_view");
-      this.uniformLocations.texture = this.gl.getUniformLocation(this.program, "u_texture");
-      this.uniformLocations.opacity = this.gl.getUniformLocation(this.program, "u_opacity");
+      this.uniformLocations.view = this.gl.getUniformLocation(
+        this.program,
+        "u_view",
+      );
+      this.uniformLocations.texture = this.gl.getUniformLocation(
+        this.program,
+        "u_texture",
+      );
+      this.uniformLocations.opacity = this.gl.getUniformLocation(
+        this.program,
+        "u_opacity",
+      );
     }
   }
 
@@ -103,17 +111,41 @@ export class ImageOverlayLayer implements Layer {
     this.vao = this.gl.createVertexArray();
     this.gl.bindVertexArray(this.vao);
 
-    const positionLocation = this.gl.getAttribLocation(this.program, "a_position");
+    const positionLocation = this.gl.getAttribLocation(
+      this.program,
+      "a_position",
+    );
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
     this.gl.enableVertexAttribArray(positionLocation);
-    this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, false, 0, 0);
+    this.gl.vertexAttribPointer(
+      positionLocation,
+      2,
+      this.gl.FLOAT,
+      false,
+      0,
+      0,
+    );
 
-    const texCoordLocation = this.gl.getAttribLocation(this.program, "a_texCoord");
+    const texCoordLocation = this.gl.getAttribLocation(
+      this.program,
+      "a_texCoord",
+    );
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texCoordBuffer);
     // Upload static texCoords once
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, ImageOverlayLayer.QUAD_TEX_COORDS, this.gl.STATIC_DRAW);
+    this.gl.bufferData(
+      this.gl.ARRAY_BUFFER,
+      ImageOverlayLayer.QUAD_TEX_COORDS,
+      this.gl.STATIC_DRAW,
+    );
     this.gl.enableVertexAttribArray(texCoordLocation);
-    this.gl.vertexAttribPointer(texCoordLocation, 2, this.gl.FLOAT, false, 0, 0);
+    this.gl.vertexAttribPointer(
+      texCoordLocation,
+      2,
+      this.gl.FLOAT,
+      false,
+      0,
+      0,
+    );
 
     this.gl.bindVertexArray(null);
   }
@@ -131,12 +163,35 @@ export class ImageOverlayLayer implements Layer {
 
       this.texture = this.gl.createTexture();
       this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
-      this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image);
+      this.gl.texImage2D(
+        this.gl.TEXTURE_2D,
+        0,
+        this.gl.RGBA,
+        this.gl.RGBA,
+        this.gl.UNSIGNED_BYTE,
+        image,
+      );
       this.gl.generateMipmap(this.gl.TEXTURE_2D);
-      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR_MIPMAP_LINEAR);
-      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
-      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
-      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+      this.gl.texParameteri(
+        this.gl.TEXTURE_2D,
+        this.gl.TEXTURE_MIN_FILTER,
+        this.gl.LINEAR_MIPMAP_LINEAR,
+      );
+      this.gl.texParameteri(
+        this.gl.TEXTURE_2D,
+        this.gl.TEXTURE_MAG_FILTER,
+        this.gl.LINEAR,
+      );
+      this.gl.texParameteri(
+        this.gl.TEXTURE_2D,
+        this.gl.TEXTURE_WRAP_S,
+        this.gl.CLAMP_TO_EDGE,
+      );
+      this.gl.texParameteri(
+        this.gl.TEXTURE_2D,
+        this.gl.TEXTURE_WRAP_T,
+        this.gl.CLAMP_TO_EDGE,
+      );
 
       this.imageLoaded = true;
       this.loadingImage = undefined;
@@ -153,7 +208,9 @@ export class ImageOverlayLayer implements Layer {
     image.src = this.options.url;
   }
 
-  private buildQuad(projection: (latlng: [number, number]) => { x: number; y: number }): void {
+  private buildQuad(
+    projection: (latlng: [number, number]) => { x: number; y: number },
+  ): void {
     if (!this.gl) return;
 
     const [[minLat, minLng], [maxLat, maxLng]] = this.options.bounds;
@@ -164,14 +221,27 @@ export class ImageOverlayLayer implements Layer {
 
     // Reuse pre-allocated buffer
     const v = this.quadVertices;
-    v[0] = bl.x; v[1] = bl.y; v[2] = br.x; v[3] = br.y; v[4] = tl.x; v[5] = tl.y;
-    v[6] = br.x; v[7] = br.y; v[8] = tr.x; v[9] = tr.y; v[10] = tl.x; v[11] = tl.y;
+    v[0] = bl.x;
+    v[1] = bl.y;
+    v[2] = br.x;
+    v[3] = br.y;
+    v[4] = tl.x;
+    v[5] = tl.y;
+    v[6] = br.x;
+    v[7] = br.y;
+    v[8] = tr.x;
+    v[9] = tr.y;
+    v[10] = tl.x;
+    v[11] = tl.y;
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
     this.gl.bufferData(this.gl.ARRAY_BUFFER, v, this.gl.DYNAMIC_DRAW);
   }
 
-  private createProgram(vertexSource: string, fragmentSource: string): WebGLProgram | null {
+  private createProgram(
+    vertexSource: string,
+    fragmentSource: string,
+  ): WebGLProgram | null {
     if (!this.gl) return null;
 
     const vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER)!;
@@ -203,6 +273,16 @@ export class ImageOverlayLayer implements Layer {
     }
 
     if (!this.program || !this.vao) return;
+
+    // Composite the (transparent-edged) interior image over the tiles. Set blend
+    // explicitly — the global state can be left disabled by a prior layer.
+    gl.enable(gl.BLEND);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     gl.useProgram(this.program);
     gl.bindVertexArray(this.vao);

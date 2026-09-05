@@ -1,4 +1,10 @@
-import { mergeHydratedFilters } from "./filters-sync";
+import {
+  adoptLocalFilters,
+  dedupeMyFilters,
+  mergeHydratedFilters,
+  pendingIdsWithSyncGrace,
+  unionMyFiltersOnRehydrate,
+} from "./filters-sync";
 import type { DrawingsAndNodes } from "./settings";
 
 const withNodes = (
@@ -96,5 +102,560 @@ describe("mergeHydratedFilters", () => {
     expect(merged).toHaveLength(1);
     expect(merged[0].id).toBe("E");
     expect(merged[0].synced).toBe(true);
+  });
+
+  it("does not resurrect a tombstoned server filter (hydrate racing a purge)", () => {
+    // The purge-then-they-come-back bug: a hydrate whose fetch started before
+    // the purge still contains the deleted rows. The tombstone predicate must
+    // keep them out of the merged list.
+    const local: DrawingsAndNodes[] = [];
+    const server = [
+      withNodes({ name: "my_1_deleted", id: "H" }),
+      withNodes({ name: "my_1_alive", id: "I" }),
+    ];
+    const { merged } = mergeHydratedFilters(
+      local,
+      server,
+      new Set(),
+      (f) => f.id === "H",
+    );
+    expect(merged).toHaveLength(1);
+    expect(merged[0].id).toBe("I");
+  });
+
+  it("drops a tombstoned local filter even when it has a pending PUT", () => {
+    // Delete intent is newer than any in-flight edit.
+    const local = [withNodes({ name: "my_1_deleted", id: "J", synced: true })];
+    const { merged } = mergeHydratedFilters(
+      local,
+      [withNodes({ name: "my_1_deleted", id: "J" })],
+      new Set(["J"]),
+      (f) => f.id === "J",
+    );
+    expect(merged).toHaveLength(0);
+  });
+
+  it("drops a tombstoned anonymous (no id) local filter by name", () => {
+    // Local-only filters (created signed-out) resurrected by a stale window
+    // are matched by their name tombstone.
+    const local = [withNodes({ name: "my_1_Campsite" })];
+    const { merged } = mergeHydratedFilters(
+      local,
+      [],
+      new Set(),
+      (f) => f.name === "my_1_Campsite",
+    );
+    expect(merged).toHaveLength(0);
+  });
+
+  it("reports deleted-elsewhere drops in droppedIds (the cross-window drop broadcast)", () => {
+    // The caller records these as hydrate-drop echoes so sibling windows don't
+    // union the filter right back in (remote deletes have no local tombstone).
+    const local = [
+      withNodes({ name: "my_1_gone", id: "A", synced: true }),
+      withNodes({ name: "my_1_stays", id: "B", synced: true }),
+    ];
+    const server = [withNodes({ name: "my_1_stays", id: "B" })];
+    const { droppedIds } = mergeHydratedFilters(local, server);
+    expect(droppedIds).toEqual(["A"]);
+  });
+
+  it("does not report pending/grace-protected or tombstoned filters as dropped", () => {
+    const local = [
+      withNodes({ name: "my_1_pending", id: "P", synced: true }),
+      withNodes({ name: "my_1_deleted_here", id: "T", synced: true }),
+    ];
+    const { droppedIds } = mergeHydratedFilters(
+      local,
+      [],
+      new Set(["P"]), // pending → kept, not a delete
+      (f) => f.id === "T", // tombstoned → dropped by LOCAL intent, no echo needed
+    );
+    expect(droppedIds).toEqual([]);
+  });
+});
+
+describe("mergeHydratedFilters — first upload never landed", () => {
+  it("reports an id-bearing, never-synced, server-absent filter in unsyncedIds", () => {
+    // The stranded state: addMyFilter minted an id, the PUT failed or never
+    // fired, and nothing ever retried it. It was correctly KEPT — but silently,
+    // so the filter lived on one machine forever and every later edit looked
+    // like broken sync. resyncIds can't cover it: that only fires when the
+    // server HAS the row but left it empty.
+    const local = [withNodes({ name: "my_1_stranded", id: "S" })]; // synced falsy
+    const { merged, unsyncedIds } = mergeHydratedFilters(local, []);
+    expect(merged).toHaveLength(1);
+    expect(unsyncedIds).toEqual(["S"]);
+  });
+
+  it("does not report an anonymous local filter — there is no id to push to", () => {
+    const { unsyncedIds } = mergeHydratedFilters(
+      [withNodes({ name: "my_1_anon" })],
+      [],
+    );
+    expect(unsyncedIds).toEqual([]);
+  });
+
+  it("does not report a filter whose PUT is already queued/in flight", () => {
+    const local = [withNodes({ name: "my_1_inflight", id: "P" })];
+    const { unsyncedIds } = mergeHydratedFilters(local, [], new Set(["P"]));
+    expect(unsyncedIds).toEqual([]);
+  });
+
+  it("does not report a confirmed filter the server deleted (that is a drop)", () => {
+    const local = [withNodes({ name: "my_1_gone", id: "D", synced: true })];
+    const { unsyncedIds, droppedIds } = mergeHydratedFilters(local, []);
+    expect(unsyncedIds).toEqual([]);
+    expect(droppedIds).toEqual(["D"]);
+  });
+
+  it("does not report one the server already has", () => {
+    const local = [withNodes({ name: "my_1_ok", id: "K" })];
+    const server = [withNodes({ name: "my_1_ok", id: "K" })];
+    const { unsyncedIds } = mergeHydratedFilters(local, server);
+    expect(unsyncedIds).toEqual([]);
+  });
+
+  it("does not report a tombstoned filter", () => {
+    const local = [withNodes({ name: "my_1_deleted", id: "T" })];
+    const { unsyncedIds } = mergeHydratedFilters(
+      local,
+      [],
+      new Set(),
+      (f) => f.id === "T",
+    );
+    expect(unsyncedIds).toEqual([]);
+  });
+});
+
+describe("mergeHydratedFilters — edge cases", () => {
+  it("a dirty id (unsent edit from a previous session) beats the older server copy", () => {
+    // THE data-loss path: edit, close the window inside the 1s debounce, so the
+    // PUT never fires. Both copies have content, and the plain rule hands the
+    // win to the server — silently reverting the edit. The durable dirty marker
+    // is surfaced through pendingIds, which keeps the local copy verbatim.
+    const local = [
+      withNodes({
+        name: "my_1_bases",
+        id: "A",
+        synced: true,
+        drawing: { id: "edited" },
+      }),
+    ];
+    const server = [withNodes({ name: "my_1_bases", id: "A" })]; // pre-edit
+    const { merged } = mergeHydratedFilters(local, server, new Set(["A"]));
+    expect(merged[0].drawing).toEqual({ id: "edited" });
+  });
+
+  it("WITHOUT the dirty marker the server still wins (documents the old behaviour)", () => {
+    // Guards the boundary: this is intentional last-writer-wins for a copy we
+    // have no evidence is ahead. If this ever flips, the dirty marker is doing
+    // nothing and the test above is passing for the wrong reason.
+    const local = [
+      withNodes({
+        name: "my_1_bases",
+        id: "A",
+        synced: true,
+        drawing: { id: "edited" },
+      }),
+    ];
+    const server = [withNodes({ name: "my_1_bases", id: "A" })];
+    const { merged } = mergeHydratedFilters(local, server);
+    expect(merged[0].drawing).toBeUndefined();
+  });
+
+  it("keeps only one entry when the server returns the same id twice", () => {
+    // Defensive: a duplicated row must not produce duplicated local filters.
+    const server = [
+      withNodes({ name: "dup", id: "A" }),
+      withNodes({ name: "dup-again", id: "A" }),
+    ];
+    const { merged } = mergeHydratedFilters([], server);
+    expect(merged).toHaveLength(1);
+  });
+
+  it("handles two LOCAL copies sharing one server id without dropping both", () => {
+    // Reachable via the twin bug: the same id present twice locally.
+    const local = [
+      withNodes({ name: "twin-a", id: "A", synced: true }),
+      withNodes({ name: "twin-b", id: "A", synced: true }),
+    ];
+    const server = [withNodes({ name: "canonical", id: "A" })];
+    const { merged } = mergeHydratedFilters(local, server);
+    // One server row can only become ONE local filter. Resolving each local
+    // twin independently used to emit the server copy once per twin, turning
+    // two duplicates into two IDENTICAL duplicates on every hydrate.
+    expect(merged).toHaveLength(1);
+    expect(merged[0].name).toBe("canonical");
+  });
+
+  it("ignores server rows with no id rather than crashing", () => {
+    const server = [{ name: "no-id" } as DrawingsAndNodes];
+    const { merged } = mergeHydratedFilters([], server);
+    expect(merged).toHaveLength(0);
+  });
+
+  it("does not resync a server copy that is empty when local is empty too", () => {
+    // Nothing to converge upward — an empty-vs-empty pair must not queue a PUT.
+    const local = [{ name: "empty", id: "A", synced: true }];
+    const server = [{ name: "empty", id: "A" }];
+    const { resyncIds } = mergeHydratedFilters(local, server);
+    expect(resyncIds).toEqual([]);
+  });
+
+  it("treats a drawing-only filter as having data (resync guard)", () => {
+    const local = [{ name: "d", id: "A", synced: true, drawing: { id: "x" } }];
+    const server = [{ name: "d", id: "A" }];
+    const { merged, resyncIds } = mergeHydratedFilters(local, server);
+    expect(resyncIds).toEqual(["A"]);
+    expect(merged[0].drawing).toEqual({ id: "x" });
+  });
+
+  it("preserves local order and appends server-only filters after it", () => {
+    const local = [withNodes({ name: "local-first", id: "A", synced: true })];
+    const server = [
+      withNodes({ name: "local-first", id: "A" }),
+      withNodes({ name: "remote", id: "B" }),
+    ];
+    const { merged } = mergeHydratedFilters(local, server);
+    expect(merged.map((f) => f.id)).toEqual(["A", "B"]);
+  });
+
+  it("an empty server list leaves unsynced local filters completely intact", () => {
+    // Offline-ish: the account has no rows yet. Nothing may be dropped.
+    const local = [withNodes({ name: "a" }), withNodes({ name: "b", id: "B" })];
+    const { merged, droppedIds } = mergeHydratedFilters(local, []);
+    expect(merged).toHaveLength(2);
+    expect(droppedIds).toEqual([]);
+  });
+});
+
+describe("unionMyFiltersOnRehydrate", () => {
+  it("keeps an in-memory local add the persisted (stale) blob doesn't know about", () => {
+    // billy's bug: a second webview holding a pre-add snapshot persists its
+    // whole settings blob (without the new filter) on any settings change. The
+    // storage event rehydrates THIS webview from that stale blob. Without the
+    // union the just-added filter is clobbered out of the live view (and, on
+    // the next persist, off disk). It must survive.
+    const inMemory = [
+      withNodes({ name: "my_1_Lodestone" }),
+      withNodes({ name: "my_2_Nodestone" }), // just added here
+    ];
+    const persisted = [withNodes({ name: "my_1_Lodestone" })]; // stale writer
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union.map((f) => f.name).sort()).toEqual([
+      "my_1_Lodestone",
+      "my_2_Nodestone",
+    ]);
+  });
+
+  it("does NOT re-add an in-memory filter that was deleted elsewhere (tombstoned)", () => {
+    // A delete in another webview persists without the filter AND records a
+    // tombstone. This webview still has it in memory; the union must not
+    // resurrect it — mirror of the deletion-monotonicity guarantee.
+    const inMemory = [withNodes({ name: "my_1_deleted", id: "X" })];
+    const persisted: DrawingsAndNodes[] = [];
+    const union = unionMyFiltersOnRehydrate(
+      inMemory,
+      persisted,
+      (f) => f.id === "X",
+    );
+    expect(union).toHaveLength(0);
+  });
+
+  it("lets a persisted edit win over the in-memory copy of the same filter (last-writer-wins)", () => {
+    // Another surface edited the filter and just wrote it. The persisted copy
+    // is newest; the stale in-memory copy must not shadow it.
+    const inMemory = [
+      withNodes({ name: "my_1_old", id: "E", drawing: { id: "old" } }),
+    ];
+    const persisted = [
+      withNodes({ name: "my_1_new", id: "E", drawing: { id: "new" } }),
+    ];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(1);
+    expect(union[0].name).toBe("my_1_new");
+    expect(union[0].drawing).toEqual({ id: "new" });
+  });
+
+  it("matches identity by id — the persisted copy wins", () => {
+    const inMemory = [withNodes({ name: "renamed_locally", id: "A" })];
+    const persisted = [withNodes({ name: "canonical", id: "A" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(1);
+    expect(union[0].name).toBe("canonical");
+  });
+
+  it("collapses a name match instead of minting twins (id-vs-name identity split)", () => {
+    // The first union version keyed id-ELSE-name, so the same logical filter —
+    // in memory as the stale pre-id snapshot, persisted with its freshly
+    // assigned server id — had different keys and BOTH were kept. Users ended
+    // up with duplicate twins ("one is broken / one doesn't show"). A name
+    // match now means "known": the persisted copy is authoritative.
+    const inMemory = [withNodes({ name: "my_1_Campsite" })]; // pre-id snapshot
+    const persisted = [withNodes({ name: "my_1_Campsite", id: "S" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toBe(persisted); // nothing to add back, same ref
+  });
+
+  it("grafts the server id onto an id-less persisted name match (sign-in transition)", () => {
+    // Reverse direction: THIS window just assigned the id (first PUT), a stale
+    // window then wrote its pre-id blob. Persisted content wins (last-writer-
+    // wins) but the identity must survive — otherwise the filter stops syncing
+    // and the next hydrate re-appends the server row as a twin.
+    const inMemory = [
+      withNodes({ name: "my_1_Campsite", id: "S", synced: true }),
+    ];
+    const persisted = [
+      withNodes({ name: "my_1_Campsite", drawing: { id: "newer-edit" } }),
+    ];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(1);
+    expect(union[0].id).toBe("S");
+    expect(union[0].synced).toBe(true);
+    expect(union[0].drawing).toEqual({ id: "newer-edit" }); // persisted content
+  });
+
+  it("collapses same-name filters with two different ids to the persisted copy", () => {
+    // Two surfaces minted separate server rows for the same name. Keeping both
+    // locally shows twins; the persisted copy wins here and the next hydrate
+    // re-appends whatever the server really has — the server view is the
+    // authority for id-bearing rows either way.
+    const inMemory = [withNodes({ name: "dup", id: "B" })];
+    const persisted = [withNodes({ name: "dup", id: "C" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toBe(persisted);
+  });
+
+  it("returns the persisted array unchanged (same ref) when nothing to add back", () => {
+    // Hot path: mount and same-state rehydrates must not re-allocate.
+    const persisted = [withNodes({ name: "my_1_keep", id: "K" })];
+    const inMemory = [withNodes({ name: "my_1_keep", id: "K" })];
+    expect(unionMyFiltersOnRehydrate(inMemory, persisted)).toBe(persisted);
+  });
+
+  it("returns persisted (all of it) at mount when in-memory is the empty default", () => {
+    const persisted = [
+      withNodes({ name: "a", id: "1" }),
+      withNodes({ name: "b", id: "2" }),
+    ];
+    expect(unionMyFiltersOnRehydrate([], persisted)).toBe(persisted);
+  });
+});
+
+describe("dedupeMyFilters", () => {
+  // Heals twins the id-else-name union minted before name-matching landed:
+  // same name, one copy with a server id + one stale id-less snapshot.
+  it("removes an id-less twin whose nodes are a subset of the id-carrying copy", () => {
+    const keeper: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      id: "S",
+      synced: true,
+      nodes: [
+        { id: "n1", icon: null, radius: 1, p: [0, 0], mapName: "Map" },
+        { id: "n2", icon: null, radius: 1, p: [1, 1], mapName: "Map" },
+      ],
+    };
+    const staleTwin: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      nodes: [{ id: "n1", icon: null, radius: 1, p: [0, 0], mapName: "Map" }],
+    };
+    const out = dedupeMyFilters([keeper, staleTwin]);
+    expect(out).toHaveLength(1);
+    expect(out[0].id).toBe("S");
+  });
+
+  it("removes an id-less twin with no content at all (the 'doesn't show' shell)", () => {
+    const keeper = withNodes({ name: "my_1_Campsite", id: "S" });
+    const emptyTwin: DrawingsAndNodes = { name: "my_1_Campsite" };
+    const out = dedupeMyFilters([emptyTwin, keeper]);
+    expect(out).toHaveLength(1);
+    expect(out[0].id).toBe("S");
+  });
+
+  it("keeps an id-less twin that has nodes the id-carrying copy lacks (no data loss)", () => {
+    const keeper = withNodes({ name: "my_1_Campsite", id: "S" }); // has n1
+    const divergedTwin: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      nodes: [{ id: "n9", icon: null, radius: 1, p: [2, 2], mapName: "Map" }],
+    };
+    const out = dedupeMyFilters([keeper, divergedTwin]);
+    expect(out).toHaveLength(2);
+  });
+
+  it("keeps an id-less twin that carries a drawing", () => {
+    const keeper = withNodes({ name: "my_1_Campsite", id: "S" });
+    const drawingTwin: DrawingsAndNodes = {
+      name: "my_1_Campsite",
+      drawing: { id: "d1" },
+    };
+    expect(dedupeMyFilters([keeper, drawingTwin])).toHaveLength(2);
+  });
+
+  it("leaves same-name pairs that BOTH carry ids alone (two real server rows)", () => {
+    const a = withNodes({ name: "dup", id: "A" });
+    const b = withNodes({ name: "dup", id: "B" });
+    expect(dedupeMyFilters([a, b])).toHaveLength(2);
+  });
+
+  it("returns the input unchanged (same ref) when there is nothing to heal", () => {
+    const clean = [withNodes({ name: "a", id: "1" }), withNodes({ name: "b" })];
+    expect(dedupeMyFilters(clean)).toBe(clean);
+  });
+});
+
+describe("adoptLocalFilters", () => {
+  let n = 0;
+  const newId = () => `minted-${++n}`;
+  beforeEach(() => {
+    n = 0;
+  });
+
+  it("mints an id for a restored/healed filter that has content but none", () => {
+    // The gap: scheduleFilterSync is a no-op without an id, and only
+    // addMyFilter ever minted one — so a filter restored from a backup
+    // (setMyFilters is local-only) or healed from a botched import stayed
+    // invisible to every other device and couldn't be shared.
+    const filters = [withNodes({ name: "my_1_Bases" })];
+    const { filters: out, adoptedIds } = adoptLocalFilters(
+      filters,
+      newId,
+      "dune-awakening",
+    );
+    expect(adoptedIds).toEqual(["minted-1"]);
+    expect(out[0].id).toBe("minted-1");
+    expect(out[0].game).toBe("dune-awakening");
+  });
+
+  it("leaves the adopted filter unsynced so a racing hydrate can't drop it", () => {
+    const { filters: out } = adoptLocalFilters(
+      [withNodes({ name: "my_1_Bases" })],
+      newId,
+    );
+    expect(out[0].synced).toBeFalsy();
+  });
+
+  it("never touches a filter that already has a server id", () => {
+    const filters = [withNodes({ name: "my_1_Bases", id: "existing" })];
+    const { filters: out, adoptedIds } = adoptLocalFilters(filters, newId);
+    expect(adoptedIds).toEqual([]);
+    expect(out).toBe(filters); // same ref, hot path
+  });
+
+  it("skips empty filters — an id is only worth minting for real content", () => {
+    const filters = [{ name: "my_1_empty" }];
+    const { filters: out, adoptedIds } = adoptLocalFilters(filters, newId);
+    expect(adoptedIds).toEqual([]);
+    expect(out).toBe(filters);
+  });
+
+  it("adopts a drawing-only filter", () => {
+    const { adoptedIds } = adoptLocalFilters(
+      [{ name: "my_1_route", drawing: { id: "d1" } }],
+      newId,
+    );
+    expect(adoptedIds).toEqual(["minted-1"]);
+  });
+
+  it("keeps a filter's own game over the fallback", () => {
+    const { filters: out } = adoptLocalFilters(
+      [withNodes({ name: "a", game: "palia" })],
+      newId,
+      "dune-awakening",
+    );
+    expect(out[0].game).toBe("palia");
+  });
+
+  it("adopts only what needs it in a mixed list", () => {
+    const filters = [
+      withNodes({ name: "synced", id: "s1" }),
+      withNodes({ name: "restored" }),
+      { name: "empty" },
+    ];
+    const { filters: out, adoptedIds } = adoptLocalFilters(filters, newId);
+    expect(adoptedIds).toEqual(["minted-1"]);
+    expect(out[0].id).toBe("s1");
+    expect(out[1].id).toBe("minted-1");
+    expect(out[2].id).toBeUndefined();
+  });
+});
+
+describe("helper edge cases", () => {
+  it("dedupeMyFilters collapses THREE twins down to the id-carrying one", () => {
+    const keeper = withNodes({ name: "dup", id: "S" });
+    const empty1 = { name: "dup" } as DrawingsAndNodes;
+    const empty2 = { name: "dup" } as DrawingsAndNodes;
+    expect(dedupeMyFilters([keeper, empty1, empty2])).toHaveLength(1);
+  });
+
+  it("dedupeMyFilters leaves an id-less filter whose name is unique", () => {
+    const list = [withNodes({ name: "a", id: "S" }), { name: "b" }];
+    expect(dedupeMyFilters(list)).toBe(list);
+  });
+
+  it("adoptLocalFilters skips a filter whose nodes array is empty", () => {
+    // `nodes: []` is content-free — minting an id would upload a placeholder.
+    const filters = [{ name: "empty", nodes: [] }];
+    const { adoptedIds } = adoptLocalFilters(filters, () => "x");
+    expect(adoptedIds).toEqual([]);
+  });
+
+  it("unionMyFiltersOnRehydrate keeps a local add when persisted is empty", () => {
+    const inMemory = [withNodes({ name: "only-here" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, []);
+    expect(union).toHaveLength(1);
+  });
+
+  it("unionMyFiltersOnRehydrate grafts onto the FIRST id-less name match only", () => {
+    const inMemory = [withNodes({ name: "dup", id: "S" })];
+    const persisted = [withNodes({ name: "dup" }), withNodes({ name: "dup" })];
+    const union = unionMyFiltersOnRehydrate(inMemory, persisted);
+    expect(union).toHaveLength(2);
+    expect(union.filter((f) => f.id === "S")).toHaveLength(1);
+  });
+
+  it("pendingIdsWithSyncGrace copes with both inputs empty", () => {
+    const out = pendingIdsWithSyncGrace(new Set(), new Map(), 0, 1000);
+    expect(out.size).toBe(0);
+  });
+});
+
+describe("pendingIdsWithSyncGrace", () => {
+  const NOW = 1_000_000;
+  const GRACE = 15_000;
+
+  it("keeps queued/in-flight pending ids", () => {
+    const out = pendingIdsWithSyncGrace(
+      new Set(["A", "B"]),
+      new Map(),
+      NOW,
+      GRACE,
+    );
+    expect([...out].sort()).toEqual(["A", "B"]);
+  });
+
+  it("adds an id whose PUT succeeded within the grace window (the save-then-hydrate race)", () => {
+    // C's PUT just landed (synced:true, no longer queued) but a racing server
+    // fetch predates it → without the grace, hydrate would drop C.
+    const recent = new Map([["C", NOW - 5_000]]);
+    const out = pendingIdsWithSyncGrace(new Set(["A"]), recent, NOW, GRACE);
+    expect(out.has("C")).toBe(true);
+    expect(out.has("A")).toBe(true);
+  });
+
+  it("does NOT protect an id whose PUT is older than the grace window (real deletes still propagate)", () => {
+    const recent = new Map([["C", NOW - 20_000]]);
+    const out = pendingIdsWithSyncGrace(new Set(), recent, NOW, GRACE);
+    expect(out.has("C")).toBe(false);
+  });
+
+  it("prunes expired entries from the recent map", () => {
+    const recent = new Map([
+      ["fresh", NOW - 1_000],
+      ["stale", NOW - 99_000],
+    ]);
+    pendingIdsWithSyncGrace(new Set(), recent, NOW, GRACE);
+    expect(recent.has("fresh")).toBe(true);
+    expect(recent.has("stale")).toBe(false);
   });
 });

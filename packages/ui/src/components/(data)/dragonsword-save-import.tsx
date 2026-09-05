@@ -237,7 +237,18 @@ export function DragonSwordSaveImport() {
         setDiscoveredNodes(merged);
         toast.success(`Added ${added} new discoveries`);
       } else {
-        setDiscoveredNodes(filtered);
+        // "Replace" resets ONLY the imported categories to the save's state — it must NOT wipe
+        // markers the user tracked by hand in categories the save can't provide (bounties/Sudden
+        // Missions have no save record, lorebooks, etc.). Preserve every discovered node whose type
+        // isn't in a selected import group (Discord: Luckzifer — importing reset his bounty counters).
+        const importPrefixes = [...selectedGroups].map(
+          (k) => SAVE_GROUPS[k].prefix,
+        );
+        const preserved = discoveredNodes.filter(
+          (id) => !importPrefixes.some((p) => nodeType(id).startsWith(p)),
+        );
+        const next = [...new Set([...preserved, ...filtered])];
+        setDiscoveredNodes(next);
         toast.success(`Set ${filtered.length} discovered items`);
       }
 
@@ -435,8 +446,9 @@ export function DragonSwordSaveImport() {
                     className="flex-1"
                     onClick={() => applyToMap(false)}
                     disabled={filteredCount === 0}
+                    title="Reset the selected categories to your save. Other discoveries (e.g. bounties) are kept."
                   >
-                    Replace all
+                    Replace selected
                   </Button>
                 </div>
 

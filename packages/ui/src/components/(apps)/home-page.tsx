@@ -21,6 +21,7 @@ import {
 import type { NavCardProps } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
 import { JSONLDScript } from "./json-ld-script";
+import { PreviewReleaseOnly } from "./preview-release-guard";
 
 const MAX_HOME_MAP_CARDS = 6;
 
@@ -40,9 +41,11 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
     // description. Prefer curated internalLinks; fall back to the game's
     // keywords so games without internalLinks (e.g. Avowed, Satisfactory)
     // never render an empty slot ("Explore  in {{title}}…").
+    const seoLinks =
+      appConfig.internalLinks?.filter((l) => !l.previewOnly) ?? [];
     const featureSource =
-      appConfig.internalLinks && appConfig.internalLinks.length > 0
-        ? appConfig.internalLinks.slice(0, 3).map((link) => t(link.title))
+      seoLinks.length > 0
+        ? seoLinks.slice(0, 3).map((link) => t(link.title))
         : appConfig.keywords.slice(0, 3).map((k) => t(k));
     const features = featureSource.join(", ");
 
@@ -120,7 +123,8 @@ export function createHomePage(appConfig: AppConfig) {
 
     const features =
       appConfig.internalLinks
-        ?.slice(0, 3)
+        ?.filter((l) => !l.previewOnly)
+        .slice(0, 3)
         .map((link) => t(link.title))
         .join(", ") ?? "";
 
@@ -129,7 +133,15 @@ export function createHomePage(appConfig: AppConfig) {
     const internalLinkHrefs = new Set(
       appConfig.internalLinks?.map((link) => link.href) ?? [],
     );
-    const mapNames = Object.keys(version.data.tiles);
+    // Tenants that browse maps via the DB "Maps" section (hideInteractiveMap) get
+    // no home map cards — the map tiles still exist, they're just not surfaced.
+    const mapNames = appConfig.db?.hideInteractiveMap
+      ? []
+      : // Interior floors (tagged `layer`) are reached via the parent map's
+        // LayerSelect, not as standalone home cards (mirrors the MapSelect filter).
+        Object.keys(version.data.tiles).filter(
+          (m) => !version.data.tiles[m]?.layer,
+        );
     const mapCards: NavCardProps[] = await Promise.all(
       mapNames
         .filter((map) => {
@@ -198,13 +210,16 @@ export function createHomePage(appConfig: AppConfig) {
     // Feature cards: non-map, non-guide links (e.g. "Weapons", "Deviant Locations").
     // Exclude any that are also DB sections — those render as the card grid below, so
     // they must not also appear as plain feature rows.
-    const featureCards =
+    const featureCardsAll =
       appConfig.internalLinks?.filter(
         (link) =>
           !link.href?.startsWith("/maps/") &&
           !link.href?.startsWith("/guides") &&
           !dbHrefs.has(link.href),
       ) ?? [];
+    // Elite-only feature cards render inside a client PreviewReleaseOnly gate.
+    const featureCards = featureCardsAll.filter((l) => !l.previewOnly);
+    const previewFeatureCards = featureCardsAll.filter((l) => l.previewOnly);
 
     const allMapCards = [...internalMapCards, ...mapCards];
     const totalMapCount = allMapCards.length;
@@ -564,6 +579,12 @@ export function createHomePage(appConfig: AppConfig) {
 
                 {/* 4. Feature cards (non-map, non-guide internal links) */}
                 {featureCards.length > 0 && <NavGrid cards={featureCards} />}
+                {/* Elite-only feature cards — hidden from non-preview visitors */}
+                {previewFeatureCards.length > 0 && (
+                  <PreviewReleaseOnly>
+                    <NavGrid cards={previewFeatureCards} />
+                  </PreviewReleaseOnly>
+                )}
 
                 {/* 4. Highlighted filters / guides */}
                 {highlightedFilters.length > 0 && (

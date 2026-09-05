@@ -25,11 +25,14 @@ import {
   MarkerOptions,
   resolveLiveModeForType,
   Spawn,
+  TilesConfig,
   useAccountStore,
   useConnectionStore,
   useEffectiveLiveMode,
   useGameState,
   useSettingsStore,
+  buildPrivateIconLookups,
+  resolvePrivateIcon,
 } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
 import {
@@ -91,12 +94,14 @@ function computeRelativeZPos(
 export function Markers({
   appName,
   markerOptions,
+  tilesConfig,
   hideComments,
   iconsPath,
   additionalTooltip,
 }: {
   appName: string;
   markerOptions: MarkerOptions;
+  tilesConfig: TilesConfig;
   hideComments?: boolean;
   iconsPath: string;
   additionalTooltip?: AdditionalTooltipType;
@@ -258,6 +263,7 @@ export function Markers({
       <MarkersContent
         appName={appName}
         markerOptions={markerOptions}
+        tilesConfig={tilesConfig}
         iconsPath={iconsPath}
         onTooltipData={setTooltipData}
         onTooltipOpen={setTooltipIsOpen}
@@ -377,6 +383,7 @@ const TooltipPositioner = React.forwardRef<
 function MarkersContent({
   appName,
   markerOptions,
+  tilesConfig,
   iconsPath,
   onTooltipData,
   onTooltipOpen,
@@ -384,6 +391,7 @@ function MarkersContent({
 }: {
   appName: string;
   markerOptions: MarkerOptions;
+  tilesConfig: TilesConfig;
   iconsPath: string;
   onTooltipData: (data: {
     x: number;
@@ -534,6 +542,12 @@ function MarkersContent({
     useRef<SpatialGrid<{ id: string; spawn: Spawn; latLng: [number, number] }>>(
       undefined,
     );
+
+  // Re-run the live pipeline (set by the live effect). Called at the end of the STATIC rebuild so
+  // position-based live suppression (liveConfirmRadius) re-applies against the freshly-rebuilt
+  // predicted markers — otherwise a mode switch shows the muted prediction + live marker together
+  // until the next actor poll.
+  const liveReprocessRef = useRef<(() => void) | undefined>(undefined);
 
   // Audio alert tracking - tracks if we've already alerted for current in-range spawns
   const hasAlertedRef = useRef<boolean>(false);
@@ -817,6 +831,18 @@ function MarkersContent({
     return mapTypeToGroup;
   }, [filters]);
 
+  // type -> codex section (config `dbSection` on the filter value). Drives the marker tooltip's
+  // "View in Codex" link. Empty for games without a database.
+  const typeToDbSection = useMemo(() => {
+    const m = new Map<string, string>();
+    filters.forEach((g) => {
+      g.values.forEach((v) => {
+        if (v.dbSection) m.set(v.id, v.dbSection);
+      });
+    });
+    return m;
+  }, [filters]);
+
   // typeToCategory: top-level "Fishing" / "Bugs" / "Mining" etc. The category
   // slider in the FilterSettingsPopover writes iconSizeByGroup[<category>],
   // which is a different key than the per-group slider (e.g. fishing_legendary).
@@ -874,22 +900,14 @@ function MarkersContent({
 
   // Track effect runs for debugging
 
-  // Reverse lookup: translated icon name → current icon coords from filter config.
-  // Used to fix stale sprite x,y in old shared private nodes that lack filterId.
-  const sharedIconNameLookup = useMemo(() => {
-    const lookup = new Map<
-      string,
-      { x: number; y: number; width: number; height: number; filterId: string }
-    >();
-    for (const filter of filters) {
-      for (const value of filter.values) {
-        if (typeof value.icon !== "string") {
-          lookup.set(t(value.id), { ...value.icon, filterId: value.id });
-        }
-      }
-    }
-    return lookup;
-  }, [filters, t]);
+  // Current icon coords from the filter config, keyed by filter id (stable)
+  // and by translated name (legacy nodes). Shared private nodes bake the
+  // sprite rect they were saved with, so it must be re-resolved whenever the
+  // game's icon sheet is repacked — see resolvePrivateIcon.
+  const sharedIconLookups = useMemo(
+    () => buildPrivateIconLookups(filters, t),
+    [filters, t],
+  );
 
   // Main effect: add/update/remove markers
   useEffect(() => {
@@ -943,6 +961,10 @@ function MarkersContent({
 
     const baseRadius = 12;
     const dpr = window.devicePixelRatio || 1;
+    // The layer badge only makes sense on the overworld, where layered spawns
+    // are mixed with surface ones. On a layer map (e.g. "Underground") every
+    // spawn is layered, so a badge on all of them is just noise — suppress it.
+    const onLayerMap = !!tilesConfig[map.mapName]?.layer?.parent;
     const markerInstances: IconMarkerInstance[] = [];
     const newSpawnMap = new Map<string, Spawn>();
     // Track raw Z values for height visualization without player
@@ -1258,6 +1280,9 @@ function MarkersContent({
             ? spawn.color
             : undefined,
         isStacked,
+        // Show a layer badge on the overworld for spawns that live inside a
+        // layered interior (they are also mirrored into the "Underground" map).
+        layered: !onLayerMap && !!spawn.layer,
         spiderOffsetX,
         spiderOffsetY,
       };
@@ -1351,26 +1376,12 @@ function MarkersContent({
       (myFilter) => {
         return (
           myFilter.nodes?.map((node) => {
-            // Resolve stale sprite coords for old private nodes missing filterId
-            let icon = node.icon;
-            if (
-              icon &&
-              !icon.filterId &&
-              icon.name &&
-              icon.url?.includes("/icons/")
-            ) {
-              const current = sharedIconNameLookup.get(icon.name);
-              if (current) {
-                icon = {
-                  ...icon,
-                  x: current.x,
-                  y: current.y,
-                  width: current.width,
-                  height: current.height,
-                  filterId: current.filterId,
-                };
-              }
-            }
+            // Re-resolve the baked sprite rect against the CURRENT icon sheet.
+            const icon = resolvePrivateIcon(
+              node.icon,
+              sharedIconLookups.byFilterId,
+              sharedIconLookups.byName,
+            );
             return {
               type: myFilter.name,
               mapName: node.mapName,
@@ -1615,6 +1626,9 @@ function MarkersContent({
           isLive: Boolean(s.address) && !positionedTypesRef.current.has(s.type),
           data: s.data,
           p: s.p,
+          dbSection: typeToDbSection.get(s.type),
+          // Codex entry key: the raw spawn id (per-instance entries) or the type (per-type entries).
+          dbEntryId: s.id ?? s.type,
         },
       ];
 
@@ -1641,6 +1655,8 @@ function MarkersContent({
                 !positionedTypesRef.current.has(stackedSpawn.type),
               data: stackedSpawn.data,
               p: stackedSpawn.p,
+              dbSection: typeToDbSection.get(stackedSpawn.type),
+              dbEntryId: stackedSpawn.id ?? stackedSpawn.type,
             };
           }),
         );
@@ -1750,6 +1766,10 @@ function MarkersContent({
     staticSpawnMapRef.current = newSpawnMap;
     spawnMapRef.current = new Map([...newSpawnMap, ...liveSpawnMapRef.current]);
 
+    // Re-apply live suppression against the just-rebuilt predicted markers (kills the transient
+    // muted+live double on a live/combined/predicted switch). No-op until the live effect mounts.
+    liveReprocessRef.current?.();
+
     // Handle map click to close tooltip and deselect node
     // When a marker is clicked, justClickedMarkerRef is set to prevent
     // the generic map click from undoing the selection.
@@ -1797,7 +1817,7 @@ function MarkersContent({
     dynamicIconSize,
     dynamicIconSizeFactor,
     iconLoadVersion, // Re-run when images finish loading to apply processed icons
-    sharedIconNameLookup, // Re-resolve stale shared private icon coords
+    sharedIconLookups, // Re-resolve stale shared private icon coords
   ]);
 
   // Player-relative height arrows (up/down elevation indicators).
@@ -1894,17 +1914,37 @@ function MarkersContent({
       // this pass) synchronously each call — O(n^2) reentrancy on a first load where
       // many effigies are already collected.
       if (settingsState.autoDiscoverCollected) {
+        const autoRadius = markerOptions.liveConfirmRadius ?? 0;
+        const grid = spatialGridRef.current;
         const newlyCollected: string[] = [];
         for (const actor of actorsList) {
           if (!actor.discovered || !actor.address) {
             continue;
           }
           const displayType = typesIdMap[actor.type];
-          if (!displayType || !positionedTypesRef.current.has(displayType)) {
-            continue;
+          if (!displayType) continue;
+          let autoId: string | undefined;
+          if (autoRadius > 0 && grid) {
+            // Position-based: the detector may emit COARSER types than the static data (Enshrouded
+            // live "chest" vs static gold_chest/…), so a type@pos id wouldn't match any real node.
+            // Mark the NEAREST static node (its real id) within the confirm radius instead.
+            let bestD2 = autoRadius * autoRadius;
+            for (const cand of grid.getNearby(actor.x, actor.y, autoRadius)) {
+              const dx = cand.latLng[0] - actor.x;
+              const dy = cand.latLng[1] - actor.y;
+              const d2 = dx * dx + dy * dy;
+              if (d2 <= bestD2) {
+                bestD2 = d2;
+                autoId = cand.id;
+              }
+            }
+          } else if (positionedTypesRef.current.has(displayType)) {
+            autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
           }
-          const autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
-          if (!checkNodeDiscovered(autoId, discoveryLookupRef.current)) {
+          if (
+            autoId &&
+            !checkNodeDiscovered(autoId, discoveryLookupRef.current)
+          ) {
             newlyCollected.push(autoId);
           }
         }
@@ -1916,6 +1956,14 @@ function MarkersContent({
       }
 
       if (!isLiveActive) {
+        // Static/predicted mode: un-hide any statics we suppressed while live/combined was active.
+        if (
+          (markerOptions.liveConfirmRadius ?? 0) > 0 &&
+          markerLayerForSheets
+        ) {
+          markerLayerForSheets.setHiddenById(undefined);
+          map.requestRedraw();
+        }
         if (liveSpawnMapRef.current.size > 0) {
           const ids = Array.from(liveSpawnMapRef.current.keys());
           for (const id of ids) liveMarkerLayer.unregisterAllEventHandlers(id);
@@ -1939,6 +1987,10 @@ function MarkersContent({
       );
 
       const activeFilters = new Set(userState.filters);
+      // A selected live search result row renders its type's actors even when
+      // the filter is off (row identity = type id; see markers-search-live-
+      // results.tsx). Deselecting removes them again.
+      const selectedSearchType = userState.selectedSearchResult?.name;
       const currentMapName = userState.mapName;
       const selectedNodeIdNow = userState.selectedNodeId;
       const highlightSpawnIDsNow = useGameState.getState().highlightSpawnIDs;
@@ -1995,7 +2047,11 @@ function MarkersContent({
         if (actor.hidden) continue;
         const displayType = typesIdMap[actor.type];
         if (!displayType) continue;
-        if (!activeFilters.has(displayType)) continue;
+        if (
+          !activeFilters.has(displayType) &&
+          displayType !== selectedSearchType
+        )
+          continue;
         // Merge/replace: a live actor for a PERMANENT (static:true) type is already
         // represented by its always-rendered static marker (realStaticNodes) at the
         // same fixed position — don't draw a live twin on top (double marker +
@@ -2080,7 +2136,11 @@ function MarkersContent({
       } else {
         for (const { actor, displayType } of visible) {
           units.push({
-            id: String(actor.address),
+            // Key by type + address (not address alone): the same entity address
+            // can change species in place (e.g. Heartopia re-types pooled fish on
+            // time-period rollover), and the in-place update path never refreshes
+            // the icon — a new id forces remove + recreate with the correct icon.
+            id: `${displayType}@${actor.address}`,
             displayType,
             members: [actor],
             cx: actor.x,
@@ -2096,6 +2156,16 @@ function MarkersContent({
       const newSpawns = new Map<string, Spawn>();
       let dirty = false;
 
+      // Position-based, TYPE-AGNOSTIC dedup (opt-in via markerOptions.liveConfirmRadius, world
+      // units; 0 = off → unchanged for other games). A live actor "confirms" whatever combined-
+      // muted predicted static spawn sits at its location and hides it, so combined mode shows ONE
+      // marker (the live one) instead of the faded prediction beneath. Needed when the detector
+      // emits COARSE types (e.g. Enshrouded chest/supply) that can't match the fine static tiers
+      // (gold_chest/…) by type. Nearest-muted-only within the radius so tightly-spaced spawns
+      // (e.g. two pickups <1 unit apart) each suppress their own marker, not a neighbour's.
+      const liveConfirmRadius = markerOptions.liveConfirmRadius ?? 0;
+      const suppressStatic = new Set<string>();
+
       for (const unit of units) {
         const { id, displayType, members } = unit;
         const rep = members[0];
@@ -2107,6 +2177,28 @@ function MarkersContent({
         const baseY = unit.useCenter ? unit.cy : rep.y;
         let pos: [number, number] = [baseX, baseY];
         if (rotationCache) pos = rotationCache.getRotated(baseX, baseY);
+
+        // Confirm-and-suppress the nearest combined-muted predicted marker at this actor's spot.
+        if (liveConfirmRadius > 0 && spatialGridRef.current) {
+          const r2 = liveConfirmRadius * liveConfirmRadius;
+          let bestId: string | undefined;
+          let bestD2 = r2;
+          for (const cand of spatialGridRef.current.getNearby(
+            pos[0],
+            pos[1],
+            liveConfirmRadius,
+          )) {
+            if (!cand.spawn.muted) continue; // only fade-predicted (combined) markers
+            const dx = cand.latLng[0] - pos[0];
+            const dy = cand.latLng[1] - pos[1];
+            const d2 = dx * dx + dy * dy;
+            if (d2 <= bestD2) {
+              bestD2 = d2;
+              bestId = cand.id;
+            }
+          }
+          if (bestId) suppressStatic.add(bestId);
+        }
 
         const memberNodeId = (a: LiveActor) =>
           `${displayType}@${a.x.toFixed(2)}:${a.y.toFixed(2)}`;
@@ -2140,6 +2232,11 @@ function MarkersContent({
         const newIsHighlighted =
           highlightSpawnIDsNow.includes(nodeId) || selectedNodeIdNow === nodeId;
         const newIsSelected = selectedNodeIdNow === nodeId;
+        // While a search result is selected, actors of other types fade like
+        // predicted spawns in combined mode — only the selection stays full.
+        const liveMuted =
+          selectedSearchType !== undefined &&
+          displayType !== selectedSearchType;
 
         const { zPos, zValue } = computeRelativeZPos(
           spawn.p[2],
@@ -2169,6 +2266,7 @@ function MarkersContent({
             !!existing.isDiscovered !== isDiscoveredFlag ||
             !!existing.isHighlighted !== newIsHighlighted ||
             !!existing.isSelected !== newIsSelected ||
+            !!existing.isMuted !== liveMuted ||
             !!existing.isStacked !== isStacked ||
             (existing.spiderOffsetX ?? 0) !== unit.spiderOffsetX ||
             (existing.spiderOffsetY ?? 0) !== unit.spiderOffsetY ||
@@ -2183,6 +2281,7 @@ function MarkersContent({
               isDiscovered: isDiscoveredFlag,
               isHighlighted: newIsHighlighted,
               isSelected: newIsSelected,
+              isMuted: liveMuted,
               isStacked,
               spiderOffsetX: unit.spiderOffsetX,
               spiderOffsetY: unit.spiderOffsetY,
@@ -2218,7 +2317,29 @@ function MarkersContent({
           rect = { x: 0, y: 0, width: px, height: px };
         }
 
-        const size = computeMarkerSize(displayType);
+        let size = computeMarkerSize(displayType);
+
+        // Pre-process atlas sprites into an isolated per-icon canvas — SAME as the static
+        // pipeline (resolveProcessedSpriteIcon). Without this the live layer was handed the raw
+        // "icons" atlas + a sub-rect, and rendered the WHOLE icons.webp sheet per marker (the
+        // WebGL layer expects per-icon sheets). imageSprite games (e.g. Enshrouded) hit this.
+        if (sheet === "icons") {
+          const liveSprite = getSourceImage(
+            getIconsUrl(appName, "icons.webp", iconsPath),
+          );
+          const proc = resolveProcessedSpriteIcon(
+            liveMarkerLayer,
+            sheet,
+            rect,
+            liveSprite,
+          );
+          if (proc) {
+            sheet = proc.sheet;
+            rect = proc.rect;
+            size *= proc.sizeMul; // compensate for the padding so the icon stays the right size
+          }
+        }
+
         // Scale width proportionally to preserve aspect ratio for non-square icons
         const markerWidth =
           rect.width && rect.height ? (rect.width / rect.height) * size : size;
@@ -2233,7 +2354,7 @@ function MarkersContent({
           key: displayType,
           isHighlighted: newIsHighlighted,
           isDiscovered: isDiscoveredFlag,
-          isMuted: false,
+          isMuted: liveMuted,
           isSelected: newIsSelected,
           isStacked,
           spiderOffsetX: unit.spiderOffsetX,
@@ -2296,6 +2417,16 @@ function MarkersContent({
         dirty = true;
       }
 
+      // Apply the position-based static suppression (replaces the whole hidden set each pass, so a
+      // marker un-hides automatically when its confirming live actor goes away). Only touch the
+      // static layer when the feature is enabled, to leave other games untouched.
+      if (liveConfirmRadius > 0 && markerLayerForSheets) {
+        markerLayerForSheets.setHiddenById(
+          suppressStatic.size ? suppressStatic : undefined,
+        );
+        map.requestRedraw();
+      }
+
       liveSpawnMapRef.current = newSpawns;
       spawnMapRef.current = new Map([
         ...staticSpawnMapRef.current,
@@ -2322,6 +2453,10 @@ function MarkersContent({
     );
     const unsubSelected = userStoreApi.subscribe(
       (s) => s.selectedNodeId,
+      processActors,
+    );
+    const unsubSelectedSearch = userStoreApi.subscribe(
+      (s) => s.selectedSearchResult,
       processActors,
     );
     const unsubLiveMode = useSettingsStore.subscribe(
@@ -2371,15 +2506,20 @@ function MarkersContent({
       (s) => s.iconSizeByFilter,
       processActors,
     );
+    // Expose for the static rebuild to re-apply live suppression immediately (see liveReprocessRef).
+    liveReprocessRef.current = processActors;
+
     // Initial run.
     processActors();
 
     return () => {
+      liveReprocessRef.current = undefined;
       unsubActors();
       unsubHighlight();
       unsubFilters();
       unsubMapName();
       unsubSelected();
+      unsubSelectedSearch();
       unsubLiveMode();
       unsubLiveModeByFilter();
       unsubPreviewAccess();
@@ -2405,6 +2545,12 @@ function MarkersContent({
     iconsPath,
     typeToGroup,
     typeToCategory,
+    // Recreate live markers when the icons.webp sprite sheet finishes loading — a live actor
+    // created before the source image was ready got the RAW atlas sheet (resolveProcessedSpriteIcon
+    // returned null → whole-sheet render). The teardown clears live markers, so the re-run rebuilds
+    // them via the new-marker path with the now-loaded source (per-icon canvas). Fixes e.g. the
+    // Animal marker showing as the full sprite sheet in the overlay's live mode.
+    iconLoadVersion,
   ]);
 
   // Update high contrast uniforms without rebuilding markers
@@ -2487,9 +2633,21 @@ function MarkersContent({
       // the store on every call so the subscription below sees current actors.
       if (typesIdMap) {
         const liveActorsList = useGameState.getState().actors || [];
+        // Mirror the live-render visibility gate: an unticked filter's actors
+        // are not on the map, so they must not ding either — the per-filter
+        // alert setting survives the filter being disabled, and without this
+        // gate the alert keeps firing for markers the user can't see. Same
+        // selected-search exception as the renderer (those actors ARE
+        // rendered even with the filter off).
+        const userStateNow = userStoreApi.getState();
+        const enabledFilters = new Set(userStateNow.filters);
+        const searchedType = userStateNow.selectedSearchResult?.name;
         for (const actor of liveActorsList) {
+          if (actor.hidden) continue;
           const displayType = typesIdMap[actor.type];
           if (!displayType || !audioAlertByFilter[displayType]) continue;
+          if (!enabledFilters.has(displayType) && displayType !== searchedType)
+            continue;
           // Same discovered-node skip as static spawns above. Node id matches
           // the live-marker pipeline's format (type@x:y, 2-decimal coords).
           const actorNodeId = `${displayType}@${actor.x.toFixed(
@@ -2561,6 +2719,9 @@ function MarkersContent({
     // Re-run on discovery changes so a newly-discovered in-range node stops
     // alerting immediately (and re-checks with a fresh lookup, not a stale ref).
     discoveryLookup,
+    // Stable store API — read fresh in checkProximity for the enabled-filters
+    // gate. Filter toggles still re-trigger via the `spawns` dep.
+    userStoreApi,
   ]);
 
   // Label rendering using canvas-rendered text as WebGL markers on the main marker layer

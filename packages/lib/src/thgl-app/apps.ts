@@ -181,6 +181,7 @@ let prevPlayer: {
   z: number;
   r: number | null;
   mapName?: string;
+  terraformStage?: string;
 } | null = null;
 let prevActors: {
   address: number;
@@ -274,7 +275,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 p.y !== prevPlayer.y ||
                 p.z !== prevPlayer.z ||
                 p.r !== prevPlayer.r ||
-                p.mapName !== prevPlayer.mapName
+                p.mapName !== prevPlayer.mapName ||
+                p.terraformStage !== prevPlayer.terraformStage
               ) {
                 prevPlayer = p;
                 gameState.setPlayer({
@@ -316,6 +318,17 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                   }
                 }
               }
+            } else if (message.action === "actorsDelta") {
+              // Incremental mover update: only the actors that moved/appeared plus the
+              // addresses that disappeared, instead of the full per-poll list. Applied
+              // immediately — deltas arrive at most at the backend poll rate (~10/s) and
+              // are small, so no throttle is needed (unlike the full-payload keyframe).
+              const { changed, removed } = message.payload;
+              // A full "actors" keyframe is still the source of truth for the throttle
+              // gate; a delta doesn't reconstruct prevActors, so invalidate it so the
+              // next keyframe isn't wrongly skipped as "unchanged".
+              prevActors = [];
+              gameState.applyActorsDelta(changed ?? [], removed ?? []);
             } else if (message.action === "staticActorsDelta") {
               // Incremental update: a harvest is one removed address, a respawn
               // wave a few added actors — no full-payload parse or re-render.
@@ -436,6 +449,13 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           liveState.setLocale(data.locale ?? "en");
           if (data.connectedClients) {
             liveState.setConnectedClients(data.connectedClients);
+          }
+          if (data.compatRunAsAdminFlagRemoved) {
+            // Surfaced as a toast by CompatFlagNotice (ui layer) — this
+            // package can't import sonner directly.
+            window.dispatchEvent(
+              new CustomEvent("thgl-app:compat-flag-removed"),
+            );
           }
           console.log("Dashboard received initial state:", data);
 

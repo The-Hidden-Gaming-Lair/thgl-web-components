@@ -221,12 +221,18 @@ export default async function Page({ params }: { params: Params }) {
   const item = fullType.items.find((i) => i.id === id);
   if (!item) notFound();
 
-  // Only fetch map tiles when this entry actually has locations to plot.
-  const hasLocations = Boolean(
-    (item.props as { locations?: { list?: unknown[] } } | undefined)?.locations
-      ?.list?.length,
+  // Fetch map tiles when this entry embeds a map — either specific locations to
+  // plot, or a whole-level embed (a map entry's own interactive view).
+  const entryProps = item.props as
+    | {
+        locations?: { list?: unknown[] };
+        embeddedMap?: { mapName?: string };
+      }
+    | undefined;
+  const needsTiles = Boolean(
+    entryProps?.locations?.list?.length || entryProps?.embeddedMap?.mapName,
   );
-  const tiles = hasLocations ? await getTiles(appConfig.name) : undefined;
+  const tiles = needsTiles ? await getTiles(appConfig.name) : undefined;
 
   const name = resolveDict(dict, id) || id;
   const desc = resolveDict(dict, `${id}_desc`);
@@ -281,6 +287,7 @@ export default async function Page({ params }: { params: Params }) {
               locale={locale}
               icons={icons}
               tiles={tiles}
+              filters={version.data.filters}
               dict={dict}
             />
           );

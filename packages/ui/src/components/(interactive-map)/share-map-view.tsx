@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import { toast } from "sonner";
 import { useMap } from "./store";
-import { useCoordinates, useI18n } from "../(providers)";
+import { useCoordinates, useI18n, useT } from "../(providers)";
 import { mapArrayValues } from "@repo/lib";
 
 export function ShareMapView({
@@ -30,6 +30,7 @@ export function ShareMapView({
   onClose: () => void;
   domain: string;
 }) {
+  const t = useT();
   const map = useMap();
   const { dict } = useI18n();
 
@@ -92,15 +93,21 @@ export function ShareMapView({
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Share Map View URL</DialogTitle>
+          <DialogTitle>
+            {t("shareView.title", { fallback: "Share Map View URL" })}
+          </DialogTitle>
           <DialogDescription>
-            Copy the URL below to share the current map view.
+            {t("shareView.description", {
+              fallback: "Copy the URL below to share the current map view.",
+            })}
           </DialogDescription>
         </DialogHeader>
         <Separator />
         <div className="grid gap-4 py-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="withCenter">Add Map Center</Label>
+            <Label htmlFor="withCenter">
+              {t("shareView.addCenter", { fallback: "Add Map Center" })}
+            </Label>
             <Switch
               id="withCenter"
               checked={withCenter}
@@ -109,7 +116,9 @@ export function ShareMapView({
           </div>
           <div className="flex items-center justify-between">
             <Label htmlFor="withClickCenter">
-              Use Clicked Position as Center
+              {t("shareView.useClickedCenter", {
+                fallback: "Use Clicked Position as Center",
+              })}
             </Label>
             <Switch
               id="withClickCenter"
@@ -119,7 +128,9 @@ export function ShareMapView({
             />
           </div>
           <div className="flex items-center justify-between">
-            <Label htmlFor="withZoom">Add Zoom Level</Label>
+            <Label htmlFor="withZoom">
+              {t("shareView.addZoom", { fallback: "Add Zoom Level" })}
+            </Label>
             <Switch
               id="withZoom"
               checked={withZoom}
@@ -127,7 +138,9 @@ export function ShareMapView({
             />
           </div>
           <div className="flex items-center justify-between">
-            <Label htmlFor="withFilters">Add Filters</Label>
+            <Label htmlFor="withFilters">
+              {t("shareView.addFilters", { fallback: "Add Filters" })}
+            </Label>
             <Switch
               id="withFilters"
               checked={withFilters}
@@ -141,10 +154,14 @@ export function ShareMapView({
               type="button"
               onClick={() => {
                 navigator.clipboard.writeText(url);
-                toast("Copied to clipboard");
+                toast(
+                  t("common.copiedToClipboard", {
+                    fallback: "Copied to clipboard",
+                  }),
+                );
               }}
             >
-              Copy
+              {t("common.copy", { fallback: "Copy" })}
             </Button>
           </div>
         </div>

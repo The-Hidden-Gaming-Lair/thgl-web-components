@@ -18,13 +18,15 @@ export function searchParamsToView(
     }
     if (typeof center === "string") {
       const [lat, lng] = center.split(",").map((v) => parseFloat(v));
-      if (!isNaN(lat) && !isNaN(lng)) {
+      // Number.isFinite (not !isNaN): "1e999" parses to Infinity, which passes
+      // isNaN, poisons the persisted per-map view, and blacks out the map.
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
         view.center = [lat, lng];
       }
     }
     if (typeof zoom === "string") {
       const z = parseFloat(zoom);
-      if (!isNaN(z)) {
+      if (Number.isFinite(z)) {
         view.zoom = z;
       }
     }

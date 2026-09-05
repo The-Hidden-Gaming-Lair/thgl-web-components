@@ -2,7 +2,17 @@
 
 import dynamic from "next/dynamic";
 import { Skeleton } from "@repo/ui/data";
-import type { SimpleSpawn, TilesConfig } from "@repo/lib";
+import type { SimpleSpawn, TilesConfig, FiltersConfig } from "@repo/lib";
+
+/** Resolve a spawn `type` to its filter value's sprite icon (same lookup guide pages use), so DB
+ * location maps render the real map icons instead of the plain white-circle fallback. */
+function getIconFromFilters(filters: FiltersConfig | undefined, id: string) {
+  return (
+    filters
+      ?.find((f) => f.values.some((v) => v.id === id))
+      ?.values.find((v) => v.id === id)?.icon ?? null
+  );
+}
 
 // Leaflet doesn't render in SSR — dynamic-import the map with ssr:false and a
 // skeleton placeholder (mirrors the once-human EntryMap pattern).
@@ -30,17 +40,19 @@ export function DbLocationMap({
   mapName,
   tiles,
   appName,
+  filters,
 }: {
   locations: DbLocation[];
   mapName: string;
   tiles: TilesConfig;
   appName: string;
+  filters?: FiltersConfig;
 }) {
   const spawns: SimpleSpawn[] = locations.map((l) => ({
     id: l.node,
     name: l.label,
     type: l.type,
-    icon: null,
+    icon: getIconFromFilters(filters, l.type),
     // The map renderer expects [lat, lng]-style [y, x]; data-forge stores
     // x = worldX, y = worldY, and the node id is `type@y:x`.
     p: [l.y, l.x],

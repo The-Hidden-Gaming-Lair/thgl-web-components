@@ -6,8 +6,16 @@ import { Inter as FontSans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { PlausibleTracker } from "@repo/ui/header";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
-import { Toaster } from "@repo/ui/controls";
-import { getGlobalDictionary, getAppDictionary, isValidLocale } from "@repo/ui/dicts";
+import {
+  AudioAlertUnlocker,
+  NewVersionWatcher,
+  Toaster,
+} from "@repo/ui/controls";
+import {
+  getGlobalDictionary,
+  getAppDictionary,
+  isValidLocale,
+} from "@repo/ui/dicts";
 import { getCurrentVersion } from "@/games/thgl-app/version";
 import { requireApp } from "@/lib/get-app-config";
 import { notFound } from "next/navigation";
@@ -57,7 +65,9 @@ export default async function RootLayout({
         )}
       >
         <I18NProvider dict={dict} locale={locale}>
-          <TooltipProvider><main className="grow min-h-0">{children}</main></TooltipProvider>
+          <TooltipProvider>
+            <main className="grow min-h-0">{children}</main>
+          </TooltipProvider>
         </I18NProvider>
         <PlausibleTracker
           apiHost="https://a.th.gl"
@@ -68,6 +78,8 @@ export default async function RootLayout({
           locale={locale}
         />
         <Toaster />
+        <NewVersionWatcher />
+        <AudioAlertUnlocker />
       </body>
     </html>
   );

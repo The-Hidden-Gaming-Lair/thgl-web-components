@@ -1,6 +1,8 @@
 import { API_FORGE_URL, useGameState, useSettingsStore, cn } from "@repo/lib";
 import { useMemo } from "react";
 import { useT } from "../(providers)";
+import { DescriptionMarkdown } from "./description-markdown";
+import { DbEntryLink } from "./db-entry-link";
 import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Comment } from "../(data)";
 import {
@@ -16,13 +18,14 @@ import {
 import { ScrollArea } from "../ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../(controls)";
-import Markdown from "markdown-to-jsx";
 import useSWR from "swr";
 import { toast } from "sonner";
 
 export type TooltipItem = {
   id: string;
   termId: string;
+  /** Pre-resolved literal label — shown verbatim instead of translating termId. */
+  label?: string;
   description?: string;
   type: string;
   group?: string;
@@ -31,6 +34,10 @@ export type TooltipItem = {
   data?: Record<string, string[]>;
   /** Original spawn position — used for unique discovery IDs in clusters */
   p?: [number, number] | [number, number, number];
+  /** Codex section this marker has an entry in (filter value `dbSection`). */
+  dbSection?: string;
+  /** Codex entry key — the raw spawn id (per-instance) or the type (per-type). */
+  dbEntryId?: string;
 };
 
 export type TooltipItems = TooltipItem[];
@@ -109,6 +116,7 @@ function DiscoveryToggle({
   /** Custom toggle handler (for "discover all" button) */
   onToggle?: () => void;
 }) {
+  const t = useT();
   // Subscribe to discovery state changes so the toggle updates reactively
   useSettingsStore((state) => state.discoveredNodes);
   useSettingsStore((state) => state.autoDiscoveredNodes);
@@ -159,20 +167,34 @@ function DiscoveryToggle({
         <TooltipContent side="bottom" className="max-w-[200px] text-xs">
           {isAutoDiscovered ? (
             <>
-              <p>Auto-discovered — collected in-game</p>
+              <p>
+                {t("markers.autoDiscoveredTooltip", {
+                  fallback: "Auto-discovered — collected in-game",
+                })}
+              </p>
               <p className="text-muted-foreground mt-0.5">
-                Detected from game memory. Right-click to override, or turn off
-                auto-discovery in settings.
+                {t("markers.autoDiscoveredHint", {
+                  fallback:
+                    "Detected from game memory. Right-click to override, or turn off auto-discovery in settings.",
+                })}
               </p>
             </>
           ) : (
             <>
               <p>
-                {isDiscovered ? "Mark as undiscovered" : "Mark as discovered"}
+                {isDiscovered
+                  ? t("markers.markUndiscovered", {
+                      fallback: "Mark as undiscovered",
+                    })
+                  : t("markers.markDiscovered", {
+                      fallback: "Mark as discovered",
+                    })}
               </p>
               <p className="text-muted-foreground mt-0.5">
-                Right-click to toggle. Discovered nodes can be hidden in
-                settings.
+                {t("markers.discoveryToggleHint", {
+                  fallback:
+                    "Right-click to toggle. Discovered nodes can be hidden in settings.",
+                })}
               </p>
             </>
           )}
@@ -181,7 +203,9 @@ function DiscoveryToggle({
       {isAutoDiscovered && (
         <Sparkles
           className="pointer-events-none absolute -right-1 -top-1 h-3 w-3 text-primary"
-          aria-label="Auto-discovered"
+          aria-label={t("markers.autoDiscovered", {
+            fallback: "Auto-discovered",
+          })}
         />
       )}
     </span>
@@ -197,7 +221,7 @@ function Description({ desc }: { desc: string }) {
         scrollbarColor: "hsl(var(--ring) / 0.5) transparent",
       }}
     >
-      <Markdown options={{ forceBlock: false }}>{desc}</Markdown>
+      <DescriptionMarkdown>{desc}</DescriptionMarkdown>
     </div>
   );
 }
@@ -209,6 +233,7 @@ function PrivateNodeActions({
   id: string;
   onClose?: () => void;
 }) {
+  const t = useT();
   const setTempPrivateNode = useSettingsStore(
     (state) => state.setTempPrivateNode,
   );
@@ -243,7 +268,7 @@ function PrivateNodeActions({
         }}
       >
         <Pencil className="w-3 h-3" />
-        Edit
+        {t("common.edit", { fallback: "Edit" })}
       </Button>
       <Button
         size="sm"
@@ -256,7 +281,7 @@ function PrivateNodeActions({
         }}
       >
         <Trash2 className="w-3 h-3" />
-        Delete
+        {t("common.delete", { fallback: "Delete" })}
       </Button>
     </div>
   );
@@ -289,9 +314,11 @@ function SingleItemTooltip({
   // Private nodes use the user-supplied raw name as termId — don't run it
   // through translation (which would return the filter-name fallback when
   // the user-supplied string isn't a known key).
-  const name = item.isPrivate
-    ? item.termId
-    : t(item.termId, { fallback: item.type }) || item.termId;
+  const name = item.label
+    ? item.label
+    : item.isPrivate
+      ? item.termId
+      : t(item.termId, { fallback: item.type }) || item.termId;
   const typeName = t(item.type, { fallback: item.type });
   const groupName = item.group ? t(item.group, { fallback: item.group }) : null;
   const itemCoords = useMemo(
@@ -379,7 +406,11 @@ function SingleItemTooltip({
             copyToClipboard(
               formatCoordinates(itemCoords, coordinateCopyFormat),
             );
-            toast("Copied to clipboard");
+            toast(
+              t("common.copiedToClipboard", {
+                fallback: "Copied to clipboard",
+              }),
+            );
           }}
         >
           <Copy className="w-full h-full" />
@@ -395,6 +426,11 @@ function SingleItemTooltip({
 
       {/* Description */}
       {desc && desc !== item.type && <Description desc={desc} />}
+
+      {/* Codex cross-link */}
+      {item.dbSection && item.dbEntryId && (
+        <DbEntryLink section={item.dbSection} entryId={item.dbEntryId} />
+      )}
 
       {/* Private node actions */}
       {item.isPrivate && (
@@ -492,7 +528,7 @@ function ClusterTooltip({
       {/* Description (shared across same-type cluster) */}
       {desc && desc !== items[0].type && (
         <div className="text-xs text-popover-foreground/90 leading-snug line-clamp-2">
-          <Markdown options={{ forceBlock: false }}>{desc}</Markdown>
+          <DescriptionMarkdown>{desc}</DescriptionMarkdown>
         </div>
       )}
 

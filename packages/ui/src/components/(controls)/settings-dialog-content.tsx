@@ -36,6 +36,7 @@ import { Play, RotateCcw, X } from "lucide-react";
 import { playAlertSound, ALERT_SOUND_OPTIONS } from "./audio-alert";
 import { Section } from "./section";
 import { MapsSettingsSection } from "./maps-settings";
+import { SiteImport } from "../(data)/site-import";
 
 export function SettingsDialogContent({
   activeApp,
@@ -68,9 +69,13 @@ export function SettingsDialogContent({
       aria-describedby="settings-dialog-description"
     >
       <DialogHeader>
-        <DialogTitle>Settings</DialogTitle>
+        <DialogTitle>
+          {t("settings.title", { fallback: "Settings" })}
+        </DialogTitle>
         <DialogDescription id="settings-dialog-description">
-          Configure your application settings below.
+          {t("settings.description", {
+            fallback: "Configure your application settings below.",
+          })}
         </DialogDescription>
       </DialogHeader>
       <ScrollArea>
@@ -84,16 +89,24 @@ export function SettingsDialogContent({
 
           {/* Profiles */}
           <Section
-            title="Profiles"
-            description="Manage your settings profiles to quickly switch between different configurations."
+            title={t("settings.profiles.title", { fallback: "Profiles" })}
+            description={t("settings.profiles.description", {
+              fallback:
+                "Manage your settings profiles to quickly switch between different configurations.",
+            })}
           >
             <ProfileManager activeApp={activeApp} />
           </Section>
 
           {/* Discovered Nodes */}
           <Section
-            title="Discovered Nodes"
-            description={`You discovered ${settingsStore.discoveredNodes.length} nodes.`}
+            title={t("settings.discoveredNodes.title", {
+              fallback: "Discovered Nodes",
+            })}
+            description={t("settings.discoveredNodes.description", {
+              fallback: "You discovered {{count}} nodes.",
+              vars: { count: String(settingsStore.discoveredNodes.length) },
+            })}
           >
             <div className="flex items-center space-x-2">
               <Button
@@ -117,7 +130,7 @@ export function SettingsDialogContent({
                   }
                 }}
               >
-                Backup
+                {t("common.backup", { fallback: "Backup" })}
               </Button>
               <Button
                 variant="secondary"
@@ -147,7 +160,11 @@ export function SettingsDialogContent({
                         );
                       }
                       settingsStore.setDiscoveredNodes(discoveredNodes);
-                      toast.success("Discovered nodes restored");
+                      toast.success(
+                        t("discovered.restored", {
+                          fallback: "Discovered nodes restored",
+                        }),
+                      );
                     } catch (error) {
                       // Do nothing
                     }
@@ -155,22 +172,31 @@ export function SettingsDialogContent({
                   reader.readAsText(file);
                 }}
               >
-                Restore
+                {t("common.restore", { fallback: "Restore" })}
               </Button>
               <Button
                 variant="destructive"
                 size="sm"
                 onClick={() => {
                   settingsStore.setDiscoveredNodes([]);
-                  toast.warning("Discovered nodes reset");
+                  toast.warning(
+                    t("discovered.resetDone", {
+                      fallback: "Discovered nodes reset",
+                    }),
+                  );
                 }}
               >
-                Reset
+                {t("common.reset", { fallback: "Reset" })}
               </Button>
             </div>
+            {/* Import discovered markers from a third-party map site (renders
+                only when a source covers this game). */}
+            <SiteImport activeApp={activeApp} />
             <div className="flex items-center justify-between">
               <Label htmlFor="hide-discovered-nodes">
-                Hide Discovered Nodes
+                {t("settings.hideDiscovered", {
+                  fallback: "Hide Discovered Nodes",
+                })}
               </Label>
               <Switch
                 id="hide-discovered-nodes"
@@ -181,12 +207,15 @@ export function SettingsDialogContent({
             <div className="flex items-center justify-between">
               <div className="pr-2">
                 <Label htmlFor="auto-discover-collected">
-                  Auto-discover collected items
+                  {t("settings.autoDiscover", {
+                    fallback: "Auto-discover collected items",
+                  })}
                 </Label>
                 <p className="text-xs text-muted-foreground">
-                  Mark items you already collected in-game (e.g. effigies) as
-                  discovered automatically. Turning this off restores the ones
-                  it added.
+                  {t("settings.autoDiscover.description", {
+                    fallback:
+                      "Mark items you already collected in-game (e.g. effigies) as discovered automatically. Turning this off restores the ones it added.",
+                  })}
                 </p>
               </div>
               <Switch
@@ -199,12 +228,15 @@ export function SettingsDialogContent({
 
           {/* My Filters */}
           <Section
-            title="My Filters"
-            description={`You have ${settingsStore.myFilters.length} filters.`}
+            title={t("settings.myFilters.title", { fallback: "My Filters" })}
+            description={t("settings.myFilters.description", {
+              fallback: "You have {{count}} filters.",
+              vars: { count: String(settingsStore.myFilters.length) },
+            })}
           >
             <div className="space-y-2">
               <p className="text-xs font-medium text-muted-foreground">
-                Backup &amp; Restore
+                {t("settings.backupRestore", { fallback: "Backup & Restore" })}
               </p>
               <div className="flex items-center space-x-2">
                 <Button
@@ -229,7 +261,7 @@ export function SettingsDialogContent({
                     }
                   }}
                 >
-                  Export All
+                  {t("settings.exportAll", { fallback: "Export All" })}
                 </Button>
                 <Button
                   variant="secondary"
@@ -252,7 +284,16 @@ export function SettingsDialogContent({
                         }
 
                         settingsStore.setMyFilters(myFilters);
-                        toast.success("My filters restored");
+                        // setMyFilters is local-only by design (the sync path
+                        // uses it to flip `synced` without re-triggering
+                        // itself), so a restored backup would never reach the
+                        // cloud. Adopt + upload anything lacking a server id.
+                        settingsStore.adoptLocalOnlyFilters();
+                        toast.success(
+                          t("myFilters.restored", {
+                            fallback: "My filters restored",
+                          }),
+                        );
                       } catch (error) {
                         // Do nothing
                       }
@@ -260,43 +301,76 @@ export function SettingsDialogContent({
                     reader.readAsText(file);
                   }}
                 >
-                  Import All
+                  {t("settings.importAll", { fallback: "Import All" })}
                 </Button>
                 <Button
                   variant="destructive"
                   size="sm"
                   onClick={() => {
-                    settingsStore.setMyFilters([]);
-                    toast.warning("My filters reset");
+                    // resetMyFilters tombstones and server-deletes each one.
+                    // setMyFilters([]) only cleared the array, so the rows
+                    // survived and the next hydrate brought them all back.
+                    settingsStore.resetMyFilters();
+                    toast.warning(
+                      t("myFilters.resetDone", {
+                        fallback: "My filters reset",
+                      }),
+                    );
                   }}
                 >
-                  Reset
+                  {t("common.reset", { fallback: "Reset" })}
                 </Button>
               </div>
             </div>
           </Section>
 
           {/* Accessibility */}
-          <Section title="Accessibility">
+          <Section
+            title={t("settings.accessibility", { fallback: "Accessibility" })}
+          >
             <div className="flex items-center gap-2 justify-between">
-              <Label htmlFor="color-blind-mode">Color Blind Mode</Label>
+              <Label htmlFor="color-blind-mode">
+                {t("settings.colorBlindMode", { fallback: "Color Blind Mode" })}
+              </Label>
               <Select
                 value={profileSettings.colorBlindMode}
                 onValueChange={settingsStore.setColorBlindMode}
               >
                 <SelectTrigger className="w-[180px] h-8">
-                  <SelectValue placeholder="Select mode" />
+                  <SelectValue
+                    placeholder={t("settings.selectMode", {
+                      fallback: "Select mode",
+                    })}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="protanopia">Protanopia</SelectItem>
-                  <SelectItem value="deuteranopia">Deuteranopia</SelectItem>
-                  <SelectItem value="tritanopia">Tritanopia</SelectItem>
+                  <SelectItem value="none">
+                    {t("settings.colorBlind.none", { fallback: "None" })}
+                  </SelectItem>
+                  <SelectItem value="protanopia">
+                    {t("settings.colorBlind.protanopia", {
+                      fallback: "Protanopia",
+                    })}
+                  </SelectItem>
+                  <SelectItem value="deuteranopia">
+                    {t("settings.colorBlind.deuteranopia", {
+                      fallback: "Deuteranopia",
+                    })}
+                  </SelectItem>
+                  <SelectItem value="tritanopia">
+                    {t("settings.colorBlind.tritanopia", {
+                      fallback: "Tritanopia",
+                    })}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex items-center gap-2 justify-between">
-              <Label htmlFor="color-blind-severity">Color Blind Severity</Label>
+              <Label htmlFor="color-blind-severity">
+                {t("settings.colorBlindSeverity", {
+                  fallback: "Color Blind Severity",
+                })}
+              </Label>
               <div className="flex items-center gap-2">
                 <Slider
                   id="color-blind-severity"
@@ -318,10 +392,15 @@ export function SettingsDialogContent({
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="high-contrast-mode">
-                  High Contrast Markers
+                  {t("settings.highContrastMarkers", {
+                    fallback: "High Contrast Markers",
+                  })}
                 </Label>
                 <p className="text-muted-foreground text-xs">
-                  Adds a bright glow around markers for better visibility
+                  {t("settings.highContrastMarkers.description", {
+                    fallback:
+                      "Adds a bright glow around markers for better visibility",
+                  })}
                 </p>
               </div>
               <Switch
@@ -333,7 +412,9 @@ export function SettingsDialogContent({
             {profileSettings.highContrastMode && (
               <>
                 <div className="flex items-center gap-2 justify-between">
-                  <Label htmlFor="high-contrast-color">Outline Color</Label>
+                  <Label htmlFor="high-contrast-color">
+                    {t("settings.outlineColor", { fallback: "Outline Color" })}
+                  </Label>
                   <ColorPicker
                     id="high-contrast-color"
                     value={profileSettings.highContrastColor}
@@ -342,7 +423,9 @@ export function SettingsDialogContent({
                 </div>
                 <div className="flex items-center gap-2 justify-between">
                   <Label htmlFor="high-contrast-thickness">
-                    Outline Thickness
+                    {t("settings.outlineThickness", {
+                      fallback: "Outline Thickness",
+                    })}
                   </Label>
                   <div className="flex items-center gap-2">
                     <Slider
@@ -366,11 +449,13 @@ export function SettingsDialogContent({
           </Section>
 
           {/* Icon Sizes & Map Behavior */}
-          <Section title="Icon Sizes">
+          <Section title={t("settings.iconSizes", { fallback: "Icon Sizes" })}>
             <IconSizes filters={filters} />
             <div className="flex items-center justify-between mt-3">
               <Label htmlFor="dynamic-icon-size">
-                Dynamic icon size (zoom-based)
+                {t("settings.dynamicIconSize", {
+                  fallback: "Dynamic icon size (zoom-based)",
+                })}
               </Label>
               <Switch
                 id="dynamic-icon-size"
@@ -380,7 +465,9 @@ export function SettingsDialogContent({
             </div>
             {profileSettings.dynamicIconSize && (
               <div className="flex items-center gap-2 justify-between mt-2">
-                <Label htmlFor="dynamic-icon-factor">Factor</Label>
+                <Label htmlFor="dynamic-icon-factor">
+                  {t("settings.factor", { fallback: "Factor" })}
+                </Label>
                 <Slider
                   id="dynamic-icon-factor"
                   min={0.1}
@@ -396,13 +483,42 @@ export function SettingsDialogContent({
             )}
           </Section>
 
+          {activeApp === "palia" && (
+            <Section title={t("settings.palia", { fallback: "Palia" })}>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="world-code-requests">
+                  {t("settings.worldCodeRequests", {
+                    fallback: "Join-code request notifications",
+                  })}
+                </Label>
+                <Switch
+                  id="world-code-requests"
+                  checked={!profileSettings.worldCodeRequestsMuted}
+                  onCheckedChange={(on) =>
+                    settingsStore.setWorldCodeRequestsMuted(!on)
+                  }
+                />
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("settings.worldCodeRequestsHint", {
+                  fallback:
+                    "Get a prompt when another player wants to join your world, so you can share your join code. Turn off to hide these.",
+                })}
+              </p>
+            </Section>
+          )}
+
           {!hideAppSettings && (
             <>
               {/* Map Behavior */}
-              <Section title="Map Behavior">
+              <Section
+                title={t("settings.mapBehavior", { fallback: "Map Behavior" })}
+              >
                 <div className="flex items-center justify-between">
                   <Label htmlFor="zoom-on-filter-change">
-                    Zoom map on filters change
+                    {t("settings.zoomOnFilterChange", {
+                      fallback: "Zoom map on filters change",
+                    })}
                   </Label>
                   <Switch
                     id="zoom-on-filter-change"
@@ -417,17 +533,23 @@ export function SettingsDialogContent({
 
               {/* Trace Line */}
               <Section
-                title="Trace Line"
+                title={t("settings.traceLine", { fallback: "Trace Line" })}
                 description={
                   withoutTraceLines
-                    ? "This game does not support trace lines."
+                    ? t("settings.traceLine.unsupported", {
+                        fallback: "This game does not support trace lines.",
+                      })
                     : undefined
                 }
               >
                 {!withoutTraceLines && (
                   <>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="show-trace-line">Show Trace Line</Label>
+                      <Label htmlFor="show-trace-line">
+                        {t("settings.showTraceLine", {
+                          fallback: "Show Trace Line",
+                        })}
+                      </Label>
                       <Switch
                         id="show-trace-line"
                         checked={profileSettings.showTraceLine}
@@ -435,7 +557,11 @@ export function SettingsDialogContent({
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="follow-player">Follow Player</Label>
+                      <Label htmlFor="follow-player">
+                        {t("settings.followPlayer", {
+                          fallback: "Follow Player",
+                        })}
+                      </Label>
                       <Switch
                         id="follow-player"
                         checked={profileSettings.followPlayer}
@@ -444,7 +570,9 @@ export function SettingsDialogContent({
                     </div>
                     <div className="flex items-center gap-2 justify-between">
                       <Label htmlFor="trace-line-length">
-                        Trace Line Length
+                        {t("settings.traceLineLength", {
+                          fallback: "Trace Line Length",
+                        })}
                       </Label>
                       <Input
                         type="number"
@@ -458,7 +586,11 @@ export function SettingsDialogContent({
                       />
                     </div>
                     <div className="flex items-center gap-2 justify-between">
-                      <Label htmlFor="trace-line-rate">Trace Line Rate</Label>
+                      <Label htmlFor="trace-line-rate">
+                        {t("settings.traceLineRate", {
+                          fallback: "Trace Line Rate",
+                        })}
+                      </Label>
                       <Input
                         type="number"
                         id="trace-line-rate"
@@ -471,7 +603,11 @@ export function SettingsDialogContent({
                       />
                     </div>
                     <div className="flex items-center gap-2 justify-between">
-                      <Label htmlFor="trace-line-color">Trace Line Color</Label>
+                      <Label htmlFor="trace-line-color">
+                        {t("settings.traceLineColor", {
+                          fallback: "Trace Line Color",
+                        })}
+                      </Label>
                       <ColorPicker
                         id="trace-line-color"
                         value={profileSettings.traceLineColor}
@@ -479,7 +615,11 @@ export function SettingsDialogContent({
                       />
                     </div>
                     <div className="flex items-center gap-2 justify-between">
-                      <Label htmlFor="trace-line-style">Trace Line Style</Label>
+                      <Label htmlFor="trace-line-style">
+                        {t("settings.traceLineStyle", {
+                          fallback: "Trace Line Style",
+                        })}
+                      </Label>
                       <Select
                         value={profileSettings.traceLineStyle}
                         onValueChange={(v) =>
@@ -490,8 +630,12 @@ export function SettingsDialogContent({
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="dots">Dots</SelectItem>
-                          <SelectItem value="line">Line</SelectItem>
+                          <SelectItem value="dots">
+                            {t("settings.traceLineDots", { fallback: "Dots" })}
+                          </SelectItem>
+                          <SelectItem value="line">
+                            {t("settings.traceLineLine", { fallback: "Line" })}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -501,12 +645,19 @@ export function SettingsDialogContent({
 
               {/* Proximity Range */}
               <Section
-                title="Proximity Range"
-                description='Used by audio alerts, "In Range" labels, and "Discover Nearest Node". Configure per-filter using the settings icon next to each filter.'
+                title={t("settings.proximityRange", {
+                  fallback: "Proximity Range",
+                })}
+                description={t("settings.proximityRange.description", {
+                  fallback:
+                    'Used by audio alerts, "In Range" labels, and "Discover Nearest Node". Configure per-filter using the settings icon next to each filter.',
+                })}
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 justify-between">
-                    <Label htmlFor="proximity-range">Range</Label>
+                    <Label htmlFor="proximity-range">
+                      {t("settings.range", { fallback: "Range" })}
+                    </Label>
                     <Input
                       type="number"
                       id="proximity-range"
@@ -519,13 +670,17 @@ export function SettingsDialogContent({
                     />
                   </div>
                   <p className="text-muted-foreground text-xs">
-                    Distance in map units. The ideal value depends on the game
-                    and map scale.
+                    {t("settings.range.description", {
+                      fallback:
+                        "Distance in map units. The ideal value depends on the game and map scale.",
+                    })}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="show-proximity-range">
-                    Show Range on Map
+                    {t("settings.showRangeOnMap", {
+                      fallback: "Show Range on Map",
+                    })}
                   </Label>
                   <Switch
                     id="show-proximity-range"
@@ -537,11 +692,16 @@ export function SettingsDialogContent({
 
               {/* Audio Alerts */}
               <Section
-                title="Audio Alerts"
-                description="Play a sound when tracked items appear within range. Enable per-filter using the settings icon next to each filter."
+                title={t("settings.audioAlerts", { fallback: "Audio Alerts" })}
+                description={t("settings.audioAlerts.description", {
+                  fallback:
+                    "Play a sound when tracked items appear within range. Enable per-filter using the settings icon next to each filter.",
+                })}
               >
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="mute-audio-alerts">Mute All</Label>
+                  <Label htmlFor="mute-audio-alerts">
+                    {t("settings.muteAll", { fallback: "Mute All" })}
+                  </Label>
                   <Switch
                     id="mute-audio-alerts"
                     checked={profileSettings.audioAlertsMuted}
@@ -550,9 +710,14 @@ export function SettingsDialogContent({
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <Label htmlFor="audio-alert-notifications">
-                    Show Notification
+                    {t("settings.showNotification", {
+                      fallback: "Show Notification",
+                    })}
                     <span className="block text-muted-foreground text-xs font-normal">
-                      Pop up which alert fired, so you know what dinged.
+                      {t("settings.showNotification.description", {
+                        fallback:
+                          "Pop up which alert fired, so you know what dinged.",
+                      })}
                     </span>
                   </Label>
                   <Switch
@@ -576,7 +741,9 @@ export function SettingsDialogContent({
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between gap-2">
                         <Label>
-                          Active Alerts
+                          {t("settings.activeAlerts", {
+                            fallback: "Active Alerts",
+                          })}
                           <span className="text-muted-foreground font-normal">
                             {" "}
                             ({enabledIds.length})
@@ -589,13 +756,15 @@ export function SettingsDialogContent({
                           disabled={enabledIds.length === 0}
                           onClick={settingsStore.resetAudioAlerts}
                         >
-                          Reset all
+                          {t("settings.resetAll", { fallback: "Reset all" })}
                         </Button>
                       </div>
                       {enabledIds.length === 0 ? (
                         <p className="text-muted-foreground text-xs">
-                          No audio alerts set. Enable one with the gear icon
-                          next to a filter.
+                          {t("settings.noAudioAlerts", {
+                            fallback:
+                              "No audio alerts set. Enable one with the gear icon next to a filter.",
+                          })}
                         </p>
                       ) : (
                         // Native overflow scroll — Radix ScrollArea needs a
@@ -613,8 +782,13 @@ export function SettingsDialogContent({
                                 <span className="truncate">{name}</span>
                                 <button
                                   type="button"
-                                  aria-label={`Turn off alert for ${name}`}
-                                  title="Turn off this alert"
+                                  aria-label={t("settings.turnOffAlertFor", {
+                                    fallback: "Turn off alert for {{name}}",
+                                    vars: { name },
+                                  })}
+                                  title={t("settings.turnOffAlert", {
+                                    fallback: "Turn off this alert",
+                                  })}
                                   className="shrink-0 text-muted-foreground hover:text-destructive transition-colors"
                                   onClick={() =>
                                     settingsStore.toggleAudioAlertByFilter(id)
@@ -631,7 +805,9 @@ export function SettingsDialogContent({
                   );
                 })()}
                 <div className="flex items-center gap-2 justify-between">
-                  <Label htmlFor="audio-alert-sound">Alert Sound</Label>
+                  <Label htmlFor="audio-alert-sound">
+                    {t("settings.alertSound", { fallback: "Alert Sound" })}
+                  </Label>
                   <div className="flex items-center gap-2">
                     <Select
                       value={profileSettings.audioAlertSound}
@@ -658,14 +834,18 @@ export function SettingsDialogContent({
                           profileSettings.audioAlertVolume,
                         )
                       }
-                      title="Preview sound"
+                      title={t("settings.previewSound", {
+                        fallback: "Preview sound",
+                      })}
                     >
                       <Play className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 justify-between">
-                  <Label htmlFor="audio-alert-volume">Volume</Label>
+                  <Label htmlFor="audio-alert-volume">
+                    {t("settings.volume", { fallback: "Volume" })}
+                  </Label>
                   <div className="flex items-center gap-2">
                     <Slider
                       id="audio-alert-volume"
@@ -687,11 +867,20 @@ export function SettingsDialogContent({
 
               {/* Marker Labels */}
               <Section
-                title="Marker Labels"
-                description="Show text labels above markers for easier identification. Configure per-filter using the settings icon next to each filter."
+                title={t("settings.markerLabels", {
+                  fallback: "Marker Labels",
+                })}
+                description={t("settings.markerLabels.description", {
+                  fallback:
+                    "Show text labels above markers for easier identification. Configure per-filter using the settings icon next to each filter.",
+                })}
               >
                 <div className="flex items-center gap-2 justify-between">
-                  <Label htmlFor="label-text-size">Label Text Size</Label>
+                  <Label htmlFor="label-text-size">
+                    {t("settings.labelTextSize", {
+                      fallback: "Label Text Size",
+                    })}
+                  </Label>
                   <div className="flex items-center gap-2">
                     <Slider
                       id="label-text-size"
@@ -719,9 +908,13 @@ export function SettingsDialogContent({
           <Separator />
           <div className="flex items-center justify-between py-1">
             <div>
-              <p className="text-sm font-medium">Reset Interface</p>
+              <p className="text-sm font-medium">
+                {t("settings.resetInterface", { fallback: "Reset Interface" })}
+              </p>
               <p className="text-muted-foreground text-xs">
-                Resets all visual settings to defaults
+                {t("settings.resetInterface.description", {
+                  fallback: "Resets all visual settings to defaults",
+                })}
               </p>
             </div>
             <Button
@@ -730,11 +923,15 @@ export function SettingsDialogContent({
               className="gap-1.5"
               onClick={() => {
                 settingsStore.resetInterface();
-                toast.success("Interface reset to defaults");
+                toast.success(
+                  t("settings.interfaceReset", {
+                    fallback: "Interface reset to defaults",
+                  }),
+                );
               }}
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              Reset
+              {t("common.reset", { fallback: "Reset" })}
             </Button>
           </div>
         </div>

@@ -1,17 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Lock } from "lucide-react";
-import {
-  cn,
-  getSpawnDiscoveryId,
-  useAccountStore,
-  useSettingsStore,
-} from "@repo/lib";
-import { useCoordinates } from "../(providers)";
+import { getSpawnDiscoveryId, useSettingsStore } from "@repo/lib";
+import { useCoordinates, useT } from "../(providers)";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,12 +29,10 @@ import {
  * its overlay disables outside-pointerdown dismissal for the layers below it,
  * so the popover stays open (and this component mounted) while it's shown.
  *
- * Elite Supporter (Preview Release Access) feature: the button stays visible
- * so everyone discovers it, but locked accounts get a Lock icon + tooltip
- * instead of the action. Dev mode bypasses the gate so it's testable locally
- * without an Elite account.
+ * Public feature (was Elite-Supporter/Preview-Release gated — now open to all).
  */
 export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
+  const t = useT();
   const { nodes } = useCoordinates();
   // Subscribe so label + badge update reactively (mirrors ClusterTooltip).
   const discoveredNodes = useSettingsStore((s) => s.discoveredNodes);
@@ -49,8 +40,6 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
   const setDiscoveredNodesBulk = useSettingsStore(
     (s) => s.setDiscoveredNodesBulk,
   );
-  const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
-  const locked = !previewAccess && process.env.NODE_ENV !== "development";
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const spawnIds = useMemo(
@@ -70,12 +59,13 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
 
   const noSpawns = spawnIds.length === 0;
   const allDiscovered = !noSpawns && discoveredCount === spawnIds.length;
-  const actionLabel = allDiscovered ? "Undiscover all" : "Discover all";
+  const actionLabel = allDiscovered
+    ? t("discovered.undiscoverAll", { fallback: "Undiscover all" })
+    : t("discovered.discoverAll", { fallback: "Discover all" });
 
   const applyBulk = () => setDiscoveredNodesBulk(spawnIds, !allDiscovered);
 
   const handleClick = () => {
-    if (locked) return;
     // Nothing discovered yet → nothing to override, apply directly. Otherwise
     // ask for approval first.
     if (discoveredCount === 0) {
@@ -90,18 +80,11 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
       type="button"
       variant="outline"
       size="sm"
-      className={cn(
-        "w-full justify-between text-xs h-7",
-        locked && "cursor-not-allowed text-muted-foreground",
-      )}
-      aria-disabled={locked}
+      className="w-full justify-between text-xs h-7"
       disabled={noSpawns}
       onClick={handleClick}
     >
-      <span className="flex items-center gap-1">
-        {locked && <Lock className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />}
-        {actionLabel}
-      </span>
+      <span className="flex items-center gap-1">{actionLabel}</span>
       <span className="text-muted-foreground tabular-nums">
         {discoveredCount}/{spawnIds.length}
       </span>
@@ -110,33 +93,46 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
 
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs">Discovered</Label>
-      {locked ? (
-        <Tooltip delayDuration={200} disableHoverableContent>
-          <TooltipTrigger asChild>{button}</TooltipTrigger>
-          <TooltipContent side="bottom" className="max-w-[220px]">
-            Elite supporter feature
-          </TooltipContent>
-        </Tooltip>
-      ) : (
-        button
-      )}
+      <Label className="text-xs">
+        {t("discovered.label", { fallback: "Discovered" })}
+      </Label>
+      {button}
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
             <AlertDialogTitle>
               {allDiscovered
-                ? `Undiscover all ${spawnIds.length} spots?`
-                : `Discover ${spawnIds.length - discoveredCount} remaining spots?`}
+                ? t("discovered.undiscoverConfirmTitle", {
+                    fallback: "Undiscover all {{count}} spots?",
+                    vars: { count: String(spawnIds.length) },
+                  })
+                : t("discovered.discoverConfirmTitle", {
+                    fallback: "Discover {{remaining}} remaining spots?",
+                    vars: {
+                      remaining: String(spawnIds.length - discoveredCount),
+                    },
+                  })}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {allDiscovered
-                ? "This clears every discovered spot of this selection — including ones you marked manually or that were auto-discovered."
-                : `${discoveredCount} of ${spawnIds.length} are already discovered and will be merged in — undiscovering later clears those too.`}
+                ? t("discovered.undiscoverConfirmText", {
+                    fallback:
+                      "This clears every discovered spot of this selection — including ones you marked manually or that were auto-discovered.",
+                  })
+                : t("discovered.discoverConfirmText", {
+                    fallback:
+                      "{{discovered}} of {{count}} are already discovered and will be merged in — undiscovering later clears those too.",
+                    vars: {
+                      discovered: String(discoveredCount),
+                      count: String(spawnIds.length),
+                    },
+                  })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("common.cancel", { fallback: "Cancel" })}
+            </AlertDialogCancel>
             <AlertDialogAction onClick={applyBulk}>
               {actionLabel}
             </AlertDialogAction>

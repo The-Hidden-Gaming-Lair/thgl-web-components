@@ -3,6 +3,28 @@ import { persist, subscribeWithSelector } from "zustand/middleware";
 import { View } from "./search-params";
 import { FiltersConfig, GlobalFiltersConfig } from "./config";
 import { DrawingsAndNodes } from "./settings";
+import { getAppIdFromPathname } from "./games";
+
+// Which data source the sidebar search results read from: "historical" =
+// the static/accumulated spawn locations, "live" = currently tracked live
+// actors (companion app / Peer Link). The filter-list filtering is scope-
+// independent — this only switches the results section.
+export type SearchScope = "historical" | "live";
+
+// Minimum query length before marker search results are computed/fetched.
+// Shared by the coordinates provider (which empties results below it) and the
+// sidebar (which renders the "type more characters" hint) so they can't drift.
+export const MIN_SEARCH_QUERY_LENGTH = 3;
+
+// A selected sidebar search result row. Selecting a row overlays exactly that
+// result's spawns on the map (without touching the user's filters); clicking
+// it again, clicking another row, or clearing the search deselects. `name` is
+// the row identity: the translated group name for historical rows, the filter
+// type id for live rows.
+export type SelectedSearchResult = {
+  name: string;
+  mapName: string;
+};
 
 export interface UserStoreState {
   _hasHydrated: boolean;
@@ -23,9 +45,17 @@ export interface UserStoreState {
   setSearch: (search: string) => void;
   searchIsLoading: boolean;
   setSearchIsLoading: (state: boolean) => void;
+  searchScope: SearchScope;
+  setSearchScope: (scope: SearchScope) => void;
+  selectedSearchResult: SelectedSearchResult | null;
+  setSelectedSearchResult: (result: SelectedSearchResult | null) => void;
   filters: string[];
   setFilters: (filters: string[]) => void;
   toggleFilter: (filter: string) => void;
+  /** Filter groups the user expanded in the sidebar (persisted; all groups
+   * start collapsed — there is no per-game default anymore). */
+  openGroups: string[];
+  setGroupOpen: (group: string, open: boolean) => void;
   viewByMap: Record<string, { center?: [number, number]; zoom?: number }>;
   setViewByMap: (
     mapName: string,
@@ -37,11 +67,56 @@ export interface UserStoreState {
   toggleGlobalFilter: (filter: string) => void;
 }
 
+// A per-map view is only usable if every component is a finite number — a
+// NaN/Infinity camera JSON-serializes to null and would otherwise persist a
+// permanently black map for that one map (until the user finds Reset
+// Interface). Guard every write and heal persisted state on rehydrate.
+const isValidCenter = (center: unknown): center is [number, number] =>
+  Array.isArray(center) &&
+  center.length === 2 &&
+  Number.isFinite(center[0]) &&
+  Number.isFinite(center[1]);
+
+const sanitizeViewByMap = (
+  viewByMap: UserStoreState["viewByMap"],
+): UserStoreState["viewByMap"] => {
+  const result: UserStoreState["viewByMap"] = {};
+  for (const [mapName, view] of Object.entries(viewByMap ?? {})) {
+    if (!view || typeof view !== "object") {
+      continue;
+    }
+    const sanitized: { center?: [number, number]; zoom?: number } = {};
+    if (isValidCenter(view.center)) {
+      sanitized.center = view.center;
+    }
+    if (Number.isFinite(view.zoom)) {
+      sanitized.zoom = view.zoom;
+    }
+    result[mapName] = sanitized;
+  }
+  return result;
+};
+
 const getStorageName = () => {
   if (typeof window !== "undefined") {
-    if (window.location.pathname.startsWith("/apps/")) {
-      const appId = window.location.pathname.split("/")[2];
-      return `thgl-coordinates-${appId}`;
+    // Locale-aware: /{locale}/apps/<id> must map to the SAME storage as
+    // /apps/<id>, otherwise non-English languages share the generic fallback
+    // while English gets the per-app storage (state "changes" with locale).
+    const appId = getAppIdFromPathname(window.location.pathname);
+    if (appId) {
+      const name = `thgl-coordinates-${appId}`;
+      // One-time seed: non-English users' state lived in the generic fallback
+      // storage until the locale fix — adopt it when the per-app storage
+      // doesn't exist yet, so the fix doesn't read as a reset.
+      try {
+        const generic = localStorage.getItem("coordinates");
+        if (generic !== null && localStorage.getItem(name) === null) {
+          localStorage.setItem(name, generic);
+        }
+      } catch {
+        // Storage access can throw (privacy mode) — per-app name still works.
+      }
+      return name;
     }
   }
   return "coordinates";
@@ -80,10 +155,10 @@ export function createUserStore(
                   ...state.viewByMap,
                   [mapName]: state.viewByMap[mapName] ?? {},
                 };
-                if (center) {
+                if (isValidCenter(center)) {
                   viewByMap[mapName].center = center;
                 }
-                if (zoom) {
+                if (Number.isFinite(zoom)) {
                   viewByMap[mapName].zoom = zoom;
                 }
                 return { mapName, viewByMap };
@@ -95,6 +170,9 @@ export function createUserStore(
                 }
               : {},
             setViewByMap: (mapName, center, zoom) => {
+              if (!isValidCenter(center) || !Number.isFinite(zoom)) {
+                return;
+              }
               set((state) => {
                 const viewByMap = {
                   ...state.viewByMap,
@@ -119,11 +197,20 @@ export function createUserStore(
             },
             search: "",
             setSearch: (search) => {
-              set({ search });
+              // Clearing the search also deselects the selected result row.
+              set(search ? { search } : { search, selectedSearchResult: null });
             },
             searchIsLoading: false,
             setSearchIsLoading: (state) => {
               set({ searchIsLoading: state });
+            },
+            searchScope: "historical",
+            setSearchScope: (searchScope) => {
+              set({ searchScope });
+            },
+            selectedSearchResult: null,
+            setSelectedSearchResult: (selectedSearchResult) => {
+              set({ selectedSearchResult });
             },
             filters: view.filters ?? [
               ...filters.flatMap((filter) =>
@@ -143,6 +230,20 @@ export function createUserStore(
                   ? state.filters.filter((f) => f !== filter)
                   : [...state.filters, filter];
                 return { filters };
+              });
+            },
+            openGroups: [],
+            setGroupOpen: (group, open) => {
+              set((state) => {
+                const isOpen = state.openGroups.includes(group);
+                if (open === isOpen) {
+                  return {};
+                }
+                return {
+                  openGroups: open
+                    ? [...state.openGroups, group]
+                    : state.openGroups.filter((g) => g !== group),
+                };
               });
             },
             globalFilters:
@@ -192,6 +293,9 @@ export function createUserStore(
               return current;
             }
             const result = { ...current, ...persisted };
+            // Heal corrupted persisted views (e.g. a NaN/Infinity camera that
+            // serialized to null) so an affected map recovers on next load.
+            result.viewByMap = sanitizeViewByMap(result.viewByMap);
             if (view.map) {
               result.mapName = view.map;
               result.viewByMap = {

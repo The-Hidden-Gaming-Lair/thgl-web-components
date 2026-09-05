@@ -6,15 +6,17 @@ import {
   getNodeId,
   getPositionedDiscoverTypes,
   handleOverlayFullscreenHotkey,
+  isSameWorld,
   resolveDiscoverMode,
   type Spawn,
+  type TilesConfig,
   useGameState,
   useSettingsStore,
 } from "@repo/lib";
 import { useCoordinates, useT } from "../(providers)";
 import { toast } from "sonner";
 
-export function MapHotkeys() {
+export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
   const map = useMap();
   const { nodes, searchableNodes, typesIdMap } = useCoordinates();
   const userStoreApi = useUserStoreApi();
@@ -91,7 +93,14 @@ export function MapHotkeys() {
         const positionedTypes = getPositionedDiscoverTypes(searchableNodes);
         const nodeSpawns = nodes
           .filter((node) => {
-            if (node.mapName && node.mapName !== player.mapName) {
+            // In the player's world = on the player's map OR a layer of it (the
+            // Underground reuses the player's coordinates). Lets the hotkey mark
+            // layered nodes while viewing the Underground, but never a node on a
+            // completely different map.
+            if (
+              node.mapName &&
+              !isSameWorld(node.mapName, player.mapName, tilesConfig)
+            ) {
               return false;
             }
             if (!filters.includes(node.type)) {
@@ -203,7 +212,7 @@ export function MapHotkeys() {
     return () => {
       overwolf.settings.hotkeys.onPressed.removeListener(handleHotkey);
     };
-  }, [nodes, searchableNodes, typesIdMap]);
+  }, [nodes, searchableNodes, typesIdMap, tilesConfig]);
 
   return <></>;
 }

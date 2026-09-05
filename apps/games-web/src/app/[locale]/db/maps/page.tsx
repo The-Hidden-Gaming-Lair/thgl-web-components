@@ -9,10 +9,13 @@ import {
   DEFAULT_LOCALE,
 } from "@repo/lib";
 import { generateCategoryMetadata } from "@/games/homm-olden-era/metadata";
-import { requireApp } from "@/lib/get-app-config";
+import { getAppConfig, requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
+import GenericSectionPage, {
+  generateMetadata as genericSectionMetadata,
+} from "@/app/[locale]/db/[section]/page";
 
 const APP_NAME = "homm-olden-era";
 
@@ -27,13 +30,29 @@ type MapProps = {
   preview?: string;
 };
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  await requireApp("homm-olden-era");
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  // Non-HoMM tenants delegate this shadowed slug to the generic [section] list.
+  const app = await getAppConfig();
+  if (app.name !== "homm-olden-era") {
+    const p = await params;
+    return genericSectionMetadata({
+      params: Promise.resolve({ ...p, section: "maps" }),
+    });
+  }
   const { locale = DEFAULT_LOCALE } = await params;
   return generateCategoryMetadata(locale, "maps");
 }
 
 export default async function Page({ params }: PageProps) {
+  const app = await getAppConfig();
+  if (app.name !== "homm-olden-era") {
+    const p = await params;
+    return GenericSectionPage({
+      params: Promise.resolve({ ...p, section: "maps" }),
+    });
+  }
   const appConfig = await requireApp("homm-olden-era");
   const { locale = DEFAULT_LOCALE } = await params;
   const [dict, mapsCat, indexDb] = await Promise.all([
@@ -71,7 +90,11 @@ export default async function Page({ params }: PageProps) {
         locale={locale}
       />
       <div className="max-w-7xl mx-auto px-4 pt-6">
-        <Breadcrumb crumbs={[{ label: sectionLabel }]} locale={locale} dict={dict} />
+        <Breadcrumb
+          crumbs={[{ label: sectionLabel }]}
+          locale={locale}
+          dict={dict}
+        />
         <h1 className="text-2xl font-bold mb-1">{sectionLabel}</h1>
         <p className="text-sm text-muted-foreground mb-6">
           {resolveDict(dict, "ui.map_rmg_note")}

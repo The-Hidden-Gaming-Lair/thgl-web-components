@@ -1,8 +1,16 @@
 import { type THGLAccount } from "@repo/lib";
 import { cookies } from "next/headers";
-import { verify } from "jsonwebtoken";
 import { getToken } from "@/lib/tokens";
-import { TOKEN_COOKIE_NAME, parseTokenCookie } from "@/lib/token-cookie";
+import {
+  TOKEN_COOKIE_NAME,
+  decodeUserSecret,
+  parseTokenCookie,
+} from "@/lib/token-cookie";
+import {
+  TEST_SUPPORTER_EMAIL,
+  TEST_SUPPORTER_PERKS,
+  isTestSupporter,
+} from "@/lib/test-supporter";
 import { tiers } from "./tiers";
 
 interface App {
@@ -260,6 +268,7 @@ export async function getAccount(): Promise<THGLAccount | null> {
     },
     username: null,
     avatarUrl: null,
+    isSpecial: false,
   };
 
   if (!userId?.value) {
@@ -269,12 +278,23 @@ export async function getAccount(): Promise<THGLAccount | null> {
     console.error("[getAccount] JWT_SECRET is not set");
     return account;
   }
-  let id: string;
-  try {
-    id = verify(userId.value, process.env.JWT_SECRET) as string;
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.error(`[getAccount] jwt verify failed: ${msg}`);
+  // decodeUserSecret accepts both cookie formats: the legacy JWT-of-plain-id
+  // minted at login AND the enriched { u, t } secret — the client writes the
+  // latter back after healing a wiped cookie store from localStorage (see
+  // reverifyAccountSecret / restoreUserIdCookie).
+  const decoded = decodeUserSecret(userId.value);
+  if (!decoded) {
+    console.error(`[getAccount] jwt verify failed`);
+    return account;
+  }
+  const id = decoded.userId;
+
+  // Dev-only test account (see lib/test-supporter.ts).
+  if (isTestSupporter(id)) {
+    account.userId = userId.value;
+    account.decryptedUserId = id;
+    account.email = TEST_SUPPORTER_EMAIL;
+    account.perks = { ...TEST_SUPPORTER_PERKS };
     return account;
   }
 
@@ -291,7 +311,10 @@ export async function getAccount(): Promise<THGLAccount | null> {
     cookieStore.get(TOKEN_COOKIE_NAME)?.value,
     id,
   );
-  const patreonToken = storedToken ?? cookieToken;
+  // Last fallback: the token embedded in an enriched userId cookie — present
+  // exactly when the cookie store was healed from localStorage (no separate
+  // patreonToken cookie survived the wipe).
+  const patreonToken = storedToken ?? cookieToken ?? decoded.token;
   if (!patreonToken) {
     if (storeUnavailable) {
       console.error(
@@ -344,6 +367,7 @@ export async function getAccount(): Promise<THGLAccount | null> {
     account.decryptedUserId = id;
     account.email = currentUserResult.data.attributes.email;
     account.perks = getPerks(currentUserResult);
+    account.isSpecial = isSpecialUser(id);
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error(`[getAccount] unexpected: ${msg}`);

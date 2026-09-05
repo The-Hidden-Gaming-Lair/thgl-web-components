@@ -59,6 +59,10 @@ void main(){
     vec3 sim = simulateCB(c.rgb, u_cb_mode);
     c.rgb = mix(c.rgb, sim, clamp(u_cb_sev, 0.0, 1.0));
   }
-  outColor = vec4(c.rgb, c.a * u_alpha);
+  // u_alpha doubles as a brightness multiplier: for layered "backdrop" maps we
+  // darken the reused parent tiles (rgb *= u_alpha) so the interior overlay reads
+  // as the active floor. Applied to rgb (not alpha) so it works regardless of the
+  // global blend state (tiles draw opaque; alpha blending is unreliable here).
+  outColor = vec4(c.rgb * u_alpha, c.a);
 }
 `;

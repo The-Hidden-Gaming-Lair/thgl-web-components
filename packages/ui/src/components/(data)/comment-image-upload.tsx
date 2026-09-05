@@ -16,6 +16,118 @@ const ACCEPTED_TYPES = new Set([
   "image/gif",
 ]);
 
+/** Longest-side cap for re-encoded images — plenty for map screenshots. */
+const COMPRESS_MAX_DIM = 2560;
+
+/**
+ * Re-encode an image to WebP under the size limit (dimension cap + stepped
+ * quality). Returns null when it can't get under MAX_SIZE or decoding fails.
+ */
+async function compressImage(file: File): Promise<File | null> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(
+      1,
+      COMPRESS_MAX_DIM / Math.max(bitmap.width, bitmap.height),
+    );
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    for (const quality of [0.85, 0.7, 0.55]) {
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, "image/webp", quality),
+      );
+      if (blob && blob.size <= MAX_SIZE) {
+        const baseName = file.name.replace(/\.[^.]*$/, "") || "image";
+        return new File([blob], `${baseName}.webp`, { type: "image/webp" });
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Normalizes raw user files before validation: images that are oversized or
+ * in a non-whitelisted format (e.g. BMP) are re-encoded to WebP instead of
+ * being rejected — screenshots are the primary use case and should just
+ * work. Only unfixable files toast. GIFs are never re-encoded (it would
+ * drop the animation), so an oversized GIF still rejects.
+ */
+export async function prepareCommentImages(files: File[]): Promise<File[]> {
+  const prepared: File[] = [];
+  for (const file of files) {
+    const whitelisted = ACCEPTED_TYPES.has(file.type);
+    if (whitelisted && file.size <= MAX_SIZE) {
+      prepared.push(file);
+      continue;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast.error(
+        `${file.name || "File"}: unsupported type. Use PNG, JPEG, WebP or GIF.`,
+      );
+      continue;
+    }
+    if (file.type === "image/gif") {
+      toast.error(
+        `${file.name || "Image"} is too large (${(file.size / 1024 / 1024).toFixed(1)}MB, max 2MB) — GIFs can't be compressed.`,
+      );
+      continue;
+    }
+    const compressed = await compressImage(file);
+    if (compressed) {
+      prepared.push(compressed);
+    } else {
+      toast.error(`${file.name || "Image"} couldn't be compressed under 2MB.`);
+    }
+  }
+  return prepared;
+}
+
+/**
+ * Validates incoming files against the comment image constraints (type
+ * whitelist, 2MB size limit, max count, dedup) and returns the new image
+ * list. Rejections surface as toasts — silent drops made users think the
+ * upload worked when the server would later reject it.
+ */
+export function appendCommentImages(
+  current: File[],
+  incoming: FileList | File[],
+  existingCount = 0,
+): File[] {
+  const remaining = MAX_FILES - current.length - existingCount;
+  const seen = new Set(current.map((f) => `${f.name}:${f.size}`));
+  const valid: File[] = [];
+  for (const file of Array.from(incoming)) {
+    if (!ACCEPTED_TYPES.has(file.type)) {
+      toast.error(
+        `${file.name || "Image"}: unsupported type. Use PNG, JPEG, WebP or GIF.`,
+      );
+      continue;
+    }
+    if (file.size > MAX_SIZE) {
+      toast.error(
+        `${file.name || "Image"} is too large (${(file.size / 1024 / 1024).toFixed(1)}MB, max 2MB).`,
+      );
+      continue;
+    }
+    const key = `${file.name}:${file.size}`;
+    if (seen.has(key)) continue;
+    if (valid.length >= remaining) {
+      toast.error(`Maximum ${MAX_FILES} images per comment.`);
+      break;
+    }
+    seen.add(key);
+    valid.push(file);
+  }
+  return valid.length > 0 ? [...current, ...valid] : current;
+}
+
 export function CommentImageUpload({
   images,
   onImagesChange,
@@ -38,26 +150,17 @@ export function CommentImageUpload({
 
   const validateAndAdd = useCallback(
     (files: FileList | File[]) => {
-      const currentTotal = images.length + (existingImages?.length ?? 0);
-      const remaining = MAX_FILES - currentTotal;
-      if (remaining <= 0) return;
-
-      const existingKeys = new Set(
-        images.map((f) => `${f.name}:${f.size}`),
-      );
-      const valid: File[] = [];
-      for (const file of Array.from(files)) {
-        if (valid.length >= remaining) break;
-        if (!ACCEPTED_TYPES.has(file.type)) continue;
-        if (file.size > MAX_SIZE) continue;
-        const key = `${file.name}:${file.size}`;
-        if (existingKeys.has(key)) continue;
-        existingKeys.add(key);
-        valid.push(file);
-      }
-      if (valid.length > 0) {
-        onImagesChange([...images, ...valid]);
-      }
+      void prepareCommentImages(Array.from(files)).then((prepared) => {
+        if (prepared.length === 0) return;
+        const next = appendCommentImages(
+          images,
+          prepared,
+          existingImages?.length ?? 0,
+        );
+        if (next !== images) {
+          onImagesChange(next);
+        }
+      });
     },
     [images, existingImages, onImagesChange],
   );
@@ -77,11 +180,14 @@ export function CommentImageUpload({
   const handlePaste = useCallback(
     (e: React.ClipboardEvent) => {
       const files = Array.from(e.clipboardData.items)
-        .filter((item) => item.kind === "file" && ACCEPTED_TYPES.has(item.type))
+        .filter((item) => item.kind === "file" && /^image\//.test(item.type))
         .map((item) => item.getAsFile())
         .filter((f): f is File => f !== null);
       if (files.length > 0) {
         e.preventDefault();
+        // Don't let the paste bubble to the surrounding comment form's
+        // onPaste — it would add the same files a second time.
+        e.stopPropagation();
         validateAndAdd(files);
       }
     },
@@ -117,10 +223,7 @@ export function CommentImageUpload({
   const hasAny = totalCount > 0;
 
   return (
-    <div
-      className="relative"
-      onPaste={handlePaste}
-    >
+    <div className="relative" onPaste={handlePaste}>
       <input
         ref={inputRef}
         type="file"

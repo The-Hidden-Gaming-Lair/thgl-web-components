@@ -22,8 +22,15 @@ export type SectionLink = {
   sub?: string;
 };
 
-/** A non-clickable icon + value pill (resource / essence costs, …). */
-export type SectionChip = { iconId?: string; label: string; title?: string };
+/** A non-clickable icon + value pill (resource / essence costs, …). The icon
+ *  resolves via `iconId` from the DB-entry icons record, or ships inline as a
+ *  sprite object for icons that aren't DB entries (e.g. work-suitability). */
+export type SectionChip = {
+  iconId?: string;
+  icon?: IconSprite;
+  label: string;
+  title?: string;
+};
 
 /** A structured extra section the generic card view can't express
  *  (cross-link grids / stat tables / bullet lists / cost chips). This is the
@@ -122,7 +129,7 @@ export function SectionsRenderer({
           ) : sec.kind === "chips" ? (
             <div className="flex flex-wrap gap-2">
               {sec.chips.map((c, i) => {
-                const ic = c.iconId ? icons?.[c.iconId] : undefined;
+                const ic = (c.iconId ? icons?.[c.iconId] : undefined) ?? c.icon;
                 return (
                   <span
                     key={i}

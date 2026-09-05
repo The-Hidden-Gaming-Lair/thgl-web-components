@@ -17,6 +17,7 @@ import {
   isOverwolf,
   resolveLiveModeForType,
   useAccountStore,
+  useConnectionStore,
   useEffectiveLiveMode,
   useGameState,
   useSettingsStore,
@@ -31,7 +32,10 @@ import {
   GlobalFiltersConfig,
   Spawn,
   getApiUrl,
+  MIN_SEARCH_QUERY_LENGTH,
   type InGameCoordinates,
+  buildPrivateIconLookups,
+  resolvePrivateIcon,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
 import { useStore } from "zustand";
@@ -73,8 +77,6 @@ export type Icons = Map<
         };
     size?: number;
     no_map_markers?: boolean;
-    /** @deprecated Renamed to `no_map_markers`. Still read for back-compat. */
-    live_only?: boolean;
     autoDiscover?: boolean;
     defaultOn?: boolean;
   }
@@ -103,6 +105,13 @@ interface ContextValue {
    * subscriptions and are NOT included here.
    */
   spawns: Spawns;
+  /**
+   * Spawns matching the active search query (Fuse index + /search API),
+   * independent of the active filters — the sidebar results list consumes
+   * these. Empty when no query (< 3 chars). The map is NOT driven by this:
+   * `spawns` stays filter-driven even while searching.
+   */
+  searchResults: Spawns;
   icons: Icons;
   typesIdMap?: Record<string, string>;
   /**
@@ -111,6 +120,12 @@ interface ContextValue {
    * False on the plain web map, where live/combined mode has no source.
    */
   liveCapable: boolean;
+  /**
+   * Whether this GAME can ever have live-tracked actors (a non-empty typeIDs
+   * bridge exists). Orthogonal to `liveCapable`: gates live-related UI that
+   * should show even on the plain web (e.g. the search Live scope switch).
+   */
+  gameSupportsLive: boolean;
   /**
    * Per-game map<->in-game coordinate transform (from `game.inGameCoordinates`).
    * Consumed by the In-Game coordinate tooltip and the map-controls go-to input.
@@ -225,6 +240,9 @@ export function CoordinatesProvider({
       useGameState,
       useSettingsStore,
       useAccountStore,
+      // Peer Link / whiteboard state, so a shared filter can be injected
+      // without a second real peer (shared markers AND shared drawings).
+      useConnectionStore,
       userStore,
     };
   }, [userStore]);
@@ -349,7 +367,7 @@ export function CoordinatesProvider({
         !userStoreHasHydrated ||
         !search ||
         initialStaticNodes ||
-        search.length < 3
+        search.length < MIN_SEARCH_QUERY_LENGTH
       ) {
         return { [search]: emptyArray as Spawns };
       }
@@ -419,22 +437,14 @@ export function CoordinatesProvider({
   const myFilters = useSettingsStore((state) => state.myFilters);
   // Actors now flow directly into markers.tsx via useGameState subscription.
 
-  // Reverse lookup: translated icon name → current icon coords from filter config.
-  // Used to fix stale sprite x,y in old private nodes that lack filterId.
-  const iconNameLookup = useMemo(() => {
-    const lookup = new Map<
-      string,
-      { x: number; y: number; width: number; height: number; filterId: string }
-    >();
-    for (const filter of filters) {
-      for (const value of filter.values) {
-        if (typeof value.icon !== "string") {
-          lookup.set(t(value.id), { ...value.icon, filterId: value.id });
-        }
-      }
-    }
-    return lookup;
-  }, [filters, t]);
+  // Current icon coords from the filter config, keyed by filter id (stable)
+  // and by translated name (legacy nodes). Custom nodes bake the sprite rect
+  // they were saved with, so it must be re-resolved whenever the game's icon
+  // sheet is repacked — see resolvePrivateIcon.
+  const iconLookups = useMemo(
+    () => buildPrivateIconLookups(filters, t),
+    [filters, t],
+  );
 
   // User-created custom markers (from myFilters)
   const customNodes = useMemo<NodesCoordinates>(() => {
@@ -444,26 +454,12 @@ export function CoordinatesProvider({
     return myFilters.reduce<NodesCoordinates>((acc, myFilter) => {
       myFilter.nodes?.forEach((node) => {
         const nodeMapName = node.mapName;
-        // Resolve stale sprite coords for old private nodes missing filterId
-        let icon = node.icon;
-        if (
-          icon &&
-          !icon.filterId &&
-          icon.name &&
-          icon.url?.includes("/icons/")
-        ) {
-          const current = iconNameLookup.get(icon.name);
-          if (current) {
-            icon = {
-              ...icon,
-              x: current.x,
-              y: current.y,
-              width: current.width,
-              height: current.height,
-              filterId: current.filterId,
-            };
-          }
-        }
+        // Re-resolve the baked sprite rect against the CURRENT icon sheet.
+        const icon = resolvePrivateIcon(
+          node.icon,
+          iconLookups.byFilterId,
+          iconLookups.byName,
+        );
         const category = acc.find(
           (node) => node.type === myFilter.name && node.mapName === nodeMapName,
         );
@@ -499,7 +495,7 @@ export function CoordinatesProvider({
       });
       return acc;
     }, []);
-  }, [isHydrated, myFilters, iconNameLookup]);
+  }, [isHydrated, myFilters, iconLookups]);
 
   const allFilters = useMemo(() => {
     if (!isHydrated) {
@@ -592,10 +588,14 @@ export function CoordinatesProvider({
     [customNodes, staticNodes],
   );
 
-  // Only rebuild Fuse.js search index when user is actively searching.
-  // Depends on searchableNodes (stable) not nodes (includes actors).
+  // Only build the Fuse.js search index when user is actively searching.
+  // Depends on searchableNodes (stable) not nodes (includes actors), and on
+  // search TRUTHINESS, not the query text — the index doesn't depend on the
+  // query, so it's built once per search session instead of per keystroke
+  // (which would also churn refreshSearchResults' identity every keystroke).
+  const hasSearchQuery = !!search;
   const searchIndex = useMemo(() => {
-    if (!search) {
+    if (!hasSearchQuery) {
       return null;
     }
     const nodeSpawns = searchableNodes.flatMap((node) =>
@@ -655,7 +655,7 @@ export function CoordinatesProvider({
       includeScore: true,
       threshold: 0.3,
     });
-  }, [search, searchableNodes, initialStaticNodes, mapName, t]);
+  }, [hasSearchQuery, searchableNodes, initialStaticNodes, mapName, t]);
 
   const icons = useMemo(
     () =>
@@ -667,7 +667,77 @@ export function CoordinatesProvider({
     [filters],
   );
 
-  const [spawns, setSpawns] = useState<Spawns>([]);
+  const [filteredMapSpawns, setFilteredMapSpawns] = useState<Spawns>([]);
+  const [searchResults, setSearchResults] = useState<Spawns>([]);
+  const selectedSearchResult = useStore(
+    userStore,
+    (state) => state.selectedSearchResult,
+  );
+
+  // The map spawn set: the filter-driven spawns, plus — while a search result
+  // row is selected — that row's matching search spawns overlaid (deduped),
+  // so a selected result shows on the map without touching the filters.
+  const spawns = useMemo(() => {
+    if (!selectedSearchResult) {
+      return filteredMapSpawns;
+    }
+    if (
+      selectedSearchResult.mapName !== mapName &&
+      selectedSearchResult.mapName !== "default"
+    ) {
+      return filteredMapSpawns;
+    }
+    // Mirrors the row grouping in markers-search-results.tsx: rows are keyed
+    // by translated name + map, cluster members counted under their own key.
+    const matchesRow = (
+      id: string | undefined,
+      type: string,
+      spawnMapName: string | undefined,
+    ) =>
+      t(id ?? type, { fallback: type }) === selectedSearchResult.name &&
+      (spawnMapName ?? "default") === selectedSearchResult.mapName;
+    const matched: Spawns = [];
+    for (const spawn of searchResults) {
+      if (matchesRow(spawn.id, spawn.type, spawn.mapName)) {
+        matched.push(spawn);
+        continue;
+      }
+      spawn.cluster?.forEach((member) => {
+        if (matchesRow(member.id, member.type, member.mapName)) {
+          matched.push({ ...member, cluster: [] });
+        }
+      });
+    }
+    // Types considered "part of the selection": the matched row's types, plus
+    // the selection name itself when it IS a filter type id (live result rows
+    // are keyed by type id). Their spawns keep full opacity below.
+    const selectedTypes = new Set(matched.map((s) => s.type));
+    if (allFilters.includes(selectedSearchResult.name)) {
+      selectedTypes.add(selectedSearchResult.name);
+    }
+    if (matched.length === 0 && selectedTypes.size === 0) {
+      return filteredMapSpawns;
+    }
+    const spawnKey = (s: Spawn) => `${s.type}:${s.p[0]}:${s.p[1]}`;
+    const matchedKeys = new Set(matched.map(spawnKey));
+    // Focus the selection: everything that isn't part of it fades exactly
+    // like predicted spawns in combined mode (the muted render path).
+    const dimmed = filteredMapSpawns.map((s) =>
+      matchedKeys.has(spawnKey(s)) || selectedTypes.has(s.type) || s.muted
+        ? s
+        : { ...s, muted: true },
+    );
+    const existing = new Set(filteredMapSpawns.map(spawnKey));
+    const additions = matched.filter((s) => !existing.has(spawnKey(s)));
+    return additions.length ? dimmed.concat(additions) : dimmed;
+  }, [
+    filteredMapSpawns,
+    searchResults,
+    selectedSearchResult,
+    mapName,
+    allFilters,
+    t,
+  ]);
 
   // Ref lets refreshSpawns read the latest node list without being recreated
   // on every change — the callback's identity stays stable across renders.
@@ -790,86 +860,102 @@ export function CoordinatesProvider({
     [clusterKey, globalFilters],
   );
 
-  // Refresh: iterates static nodes (and search results when search is active).
-  // Runs on filter/search/mapName/data changes. Live actors are NOT included
-  // — they're rendered imperatively in markers.tsx and don't flow through here.
-  const refreshSpawns = useCallback(
+  // Two independent refresh pipelines (live actors are in neither — they're
+  // rendered imperatively in markers.tsx):
+  //  • Map spawns are ALWAYS filter-driven — searching must not override the
+  //    filter toggles. Recomputed on filter/mapName/data changes only, so
+  //    typing a query never rebuilds the (potentially huge) marker layer.
+  //  • Search results feed the sidebar results list, independent of the
+  //    active filters. Recomputed on search changes only.
+  const refreshMapSpawns = useCallback(
     (state: UserStoreState) => {
-      if (state.search) {
-        if (state.search.length < 3 || !searchIndex) {
-          setSpawns([]);
-          return;
-        }
-        const spawnsByCoordinate = new Map<string, Spawn>();
-        const results: (Spawn & { score?: number })[] = searchIndex
-          .search(state.search)
-          .map((r) => ({ ...r.item, score: r.score }));
-        const privateMapName = results[0]?.mapName;
-        if (publicSearchSpawns) {
-          results.push(
-            ...publicSearchSpawns
-              .filter((n) => n.mapName !== privateMapName)
-              .map((spawn) => ({
-                ...spawn,
-                id: spawn.id ?? spawn.type,
-                mapName: spawn.mapName,
-                type: spawn.type,
-              })),
-          );
-        }
-        results.forEach((spawn) => {
-          const key = clusterKey(spawn.p);
-          if (!spawnsByCoordinate.has(key)) {
-            spawnsByCoordinate.set(key, { ...spawn, cluster: [] });
-          } else {
-            spawnsByCoordinate.get(key)!.cluster!.push(spawn);
-          }
-        });
-        const sorted = Array.from(spawnsByCoordinate.values()).sort((a, b) => {
-          const aScore = (a as Spawn & { score?: number }).score;
-          const bScore = (b as Spawn & { score?: number }).score;
-          if (aScore !== undefined && bScore !== undefined) {
-            const scoreDiff = aScore - bScore;
-            if (scoreDiff !== 0) return scoreDiff;
-          }
-          if (a.mapName && b.mapName) return b.mapName.localeCompare(a.mapName);
-          return 0;
-        });
-        setSpawns(sorted);
+      setFilteredMapSpawns(processNodes(nodesRef.current, state));
+    },
+    [processNodes],
+  );
+
+  const refreshSearchResults = useCallback(
+    (state: UserStoreState) => {
+      if (
+        !state.search ||
+        state.search.length < MIN_SEARCH_QUERY_LENGTH ||
+        !searchIndex
+      ) {
+        setSearchResults(emptyArray as Spawns);
         return;
       }
-      setSpawns(processNodes(nodesRef.current, state));
+      const spawnsByCoordinate = new Map<string, Spawn>();
+      const results: (Spawn & { score?: number })[] = searchIndex
+        .search(state.search)
+        .map((r) => ({ ...r.item, score: r.score }));
+      const privateMapName = results[0]?.mapName;
+      if (publicSearchSpawns) {
+        results.push(
+          ...publicSearchSpawns
+            .filter((n) => n.mapName !== privateMapName)
+            .map((spawn) => ({
+              ...spawn,
+              id: spawn.id ?? spawn.type,
+              mapName: spawn.mapName,
+              type: spawn.type,
+            })),
+        );
+      }
+      results.forEach((spawn) => {
+        const key = clusterKey(spawn.p);
+        if (!spawnsByCoordinate.has(key)) {
+          spawnsByCoordinate.set(key, { ...spawn, cluster: [] });
+        } else {
+          spawnsByCoordinate.get(key)!.cluster!.push(spawn);
+        }
+      });
+      const sorted = Array.from(spawnsByCoordinate.values()).sort((a, b) => {
+        const aScore = (a as Spawn & { score?: number }).score;
+        const bScore = (b as Spawn & { score?: number }).score;
+        if (aScore !== undefined && bScore !== undefined) {
+          const scoreDiff = aScore - bScore;
+          if (scoreDiff !== 0) return scoreDiff;
+        }
+        if (a.mapName && b.mapName) return b.mapName.localeCompare(a.mapName);
+        return 0;
+      });
+      setSearchResults(sorted);
     },
-    [processNodes, searchIndex, publicSearchSpawns, clusterKey],
+    [searchIndex, publicSearchSpawns, clusterKey],
   );
 
   useEffect(() => {
     if (!isHydrated) return;
-    refreshSpawns(userStore.getState());
+    refreshMapSpawns(userStore.getState());
     const unsubs = [
       userStore.subscribe(
         (s) => s.filters,
-        () => refreshSpawns(userStore.getState()),
-      ),
-      userStore.subscribe(
-        (s) => s.search,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
       userStore.subscribe(
         (s) => s.globalFilters,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
       userStore.subscribe(
         (s) => s.mapName,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
       userStore.subscribe(
         (s) => s.selectedNodeId,
-        () => refreshSpawns(userStore.getState()),
+        () => refreshMapSpawns(userStore.getState()),
       ),
     ];
     return () => unsubs.forEach((u) => u());
-  }, [isHydrated, refreshSpawns, mapName, nodesFingerprint, userStore]);
+  }, [isHydrated, refreshMapSpawns, mapName, nodesFingerprint, userStore]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    refreshSearchResults(userStore.getState());
+    return userStore.subscribe(
+      (s) => s.search,
+      () => refreshSearchResults(userStore.getState()),
+    );
+  }, [isHydrated, refreshSearchResults, userStore]);
 
   return (
     <UserStoreContext.Provider value={userStore}>
@@ -884,10 +970,12 @@ export function CoordinatesProvider({
           mapNames,
           filters,
           spawns,
+          searchResults,
           icons,
           typesIdMap,
           globalFilters,
           liveCapable,
+          gameSupportsLive: !!typesIdMap && Object.keys(typesIdMap).length > 0,
           inGameCoordinates,
         }}
       >

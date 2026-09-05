@@ -6,10 +6,12 @@ import {
   API_FORGE_URL,
   defaultPerks,
   Perks,
+  reverifyAccountSecret,
   TH_GL_URL,
   useAccountStore,
   useSettingsStore,
 } from "@repo/lib";
+import { restoreUserIdCookie } from "./user-id-cookie";
 
 async function fetchProfile(token: string) {
   try {
@@ -47,6 +49,47 @@ export function Account() {
     const refreshState = async () => {
       const state = useAccountStore.getState();
       if (!userId) {
+        // Cookie is gone but the persisted secret may still be valid — the
+        // WebView2 cookie store is wiped by any cross-Windows-account launch
+        // (DPAPI churn), and cookies also just expire. Re-verify via the
+        // cookie-free endpoint before signing the user out.
+        const storedSecret = state.userId;
+        if (storedSecret) {
+          const result = await reverifyAccountSecret(storedSecret);
+          const store = useAccountStore.getState();
+          if (result.status === "ok") {
+            console.log(
+              "Account healed from persisted secret (cookie was lost)",
+            );
+            store.setAccount({
+              userId: result.userId,
+              decryptedUserId: result.decryptedUserId,
+              email: result.email,
+              perks: result.perks,
+              username: store.username,
+              avatarUrl: store.avatarUrl,
+              isSpecial: result.isSpecial,
+            });
+            restoreUserIdCookie(result.userId);
+            return;
+          }
+          if (result.status === "not-subscriber") {
+            store.setAccount({
+              userId: storedSecret,
+              decryptedUserId: store.decryptedUserId,
+              email: null,
+              perks: defaultPerks,
+              username: store.username,
+              avatarUrl: store.avatarUrl,
+            });
+            return;
+          }
+          if (result.status === "unknown") {
+            // Transient — keep the persisted state, retry on next load.
+            return;
+          }
+          // "invalid": the secret is dead — fall through to the sign-out.
+        }
         if (
           state.userId ||
           state.perks.adRemoval ||
@@ -83,6 +126,7 @@ export function Account() {
           expiresIn: number;
           decryptedUserId: string;
           email: string;
+          isSpecial?: boolean;
         } & Perks;
         if (!response.ok) {
           console.warn(body);
@@ -121,6 +165,7 @@ export function Account() {
             },
             username: profile.username,
             avatarUrl: profile.avatarUrl,
+            isSpecial: body.isSpecial ?? false,
           });
         }
       } catch (err) {

@@ -16,6 +16,13 @@ import { purgeStatusCache } from "@/lib/status-purge";
 
 const LOG = "[status/run]";
 
+// Per-pod memory of the last state ANNOUNCED per component. When the DB
+// is unwritable, the stored history window freezes and every run
+// re-detects the same transition — without this guard that meant one
+// identical Discord ping per minute (2026-08-17 spam during the relay
+// rate-limiting window). Worst case now is one duplicate per pod.
+const lastNotifiedState = new Map<string, StatusState>();
+
 async function notifyDiscord(text: string): Promise<void> {
   const webhook = process.env.STATUS_DISCORD_WEBHOOK;
   if (!webhook) return;
@@ -48,7 +55,11 @@ export async function GET(request: Request) {
   const checks = await runAllChecks();
   const components = checks.map((c) => c.component);
 
-  const transitions: string[] = [];
+  const transitions: {
+    component: string;
+    after: StatusState;
+    message: string;
+  }[] = [];
   try {
     // Public state BEFORE this run (suppression over the stored window)
     // vs AFTER (current + stored). Raw rows only are stored; suppression
@@ -59,11 +70,14 @@ export async function GET(request: Request) {
       const before = applyFlapSuppression(prevRaw);
       const after = applyFlapSuppression([check.state, ...prevRaw]);
       if (before !== after) {
-        transitions.push(
-          `**${COMPONENT_LABELS[check.component] ?? check.component}**: ${before} → ${after}` +
+        transitions.push({
+          component: check.component,
+          after,
+          message:
+            `**${COMPONENT_LABELS[check.component] ?? check.component}**: ${before} → ${after}` +
             (check.detail ? ` (${check.detail})` : "") +
             (check.latencyMs !== null ? ` [${check.latencyMs}ms]` : ""),
-        );
+        });
         if (HARD_COMPONENTS.includes(check.component)) {
           if (after === "outage") {
             await openIncident({
@@ -102,10 +116,18 @@ export async function GET(request: Request) {
     console.error(`${LOG} persistence failed: ${msg}`);
   }
 
-  if (transitions.length > 0) {
+  // Announce only transitions this pod hasn't already announced with the
+  // same target state — see lastNotifiedState above.
+  const announcements = transitions.filter(
+    (t) => lastNotifiedState.get(t.component) !== t.after,
+  );
+  if (announcements.length > 0) {
+    for (const t of announcements) {
+      lastNotifiedState.set(t.component, t.after);
+    }
     await Promise.all([
       notifyDiscord(
-        `🛰️ THGL status change:\n${transitions.join("\n")}\nhttps://www.th.gl/status`,
+        `🛰️ THGL status change:\n${announcements.map((t) => t.message).join("\n")}\nhttps://www.th.gl/status`,
       ),
       // Evict the cached page/API so the transition is visible
       // immediately, not after the 60s TTL.
@@ -116,6 +138,6 @@ export async function GET(request: Request) {
   return Response.json({
     ok: true,
     checks: checks.map((c) => ({ component: c.component, state: c.state })),
-    transitions: transitions.length,
+    transitions: announcements.length,
   });
 }

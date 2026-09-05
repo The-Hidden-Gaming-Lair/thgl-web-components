@@ -6,7 +6,9 @@
 # ------------------------------------------------------------------
 # Stage 1: build (uses bun for install + turbo build)
 # ------------------------------------------------------------------
-FROM oven/bun:1.3.11 AS builder
+# 1.4.0+: Next 16.3.3's compiled runtime fails under Bun 1.3.x ("Expected
+# CommonJS module to have a function wrapper" / SIGILL during next build).
+FROM oven/bun:1.4.0 AS builder
 WORKDIR /repo
 
 # Build identity: the deploying git SHA, inlined into the client bundle as

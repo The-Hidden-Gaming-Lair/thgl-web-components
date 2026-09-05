@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import Fuse from "fuse.js";
 import { Search, X } from "lucide-react";
+import { matchSnippet } from "./match-snippet";
 
 type SearchEntry = {
   id: string;
@@ -19,6 +20,8 @@ type SearchEntry = {
     width: number;
     height: number;
   };
+  /** Flattened effect/props text for reverse lookups ("View Radius"). */
+  text?: string;
 };
 
 const DEFAULT_TYPE_BADGE = "bg-zinc-800 text-slate-400";
@@ -89,10 +92,27 @@ export function DbSearch({
     });
   }, [loaded, locale]);
 
-  const results =
-    query.trim() && fuseRef.current
-      ? fuseRef.current.search(query.trim(), { limit: 12 }).map((r) => r.item)
-      : [];
+  // Fuzzy name matches first, then exact-substring matches on the flattened
+  // effect text ("View Radius" → skills/artifacts granting it). Substring, not
+  // fuzzy, on the long text — fuzzy over prose produces noisy false positives.
+  const trimmed = query.trim();
+  let results: SearchEntry[] = [];
+  if (trimmed && fuseRef.current) {
+    results = fuseRef.current.search(trimmed, { limit: 12 }).map((r) => r.item);
+    if (trimmed.length >= 3 && results.length < 12) {
+      const q = trimmed.toLowerCase();
+      for (const entry of entries) {
+        if (results.length >= 12) break;
+        if (
+          entry.text &&
+          !results.includes(entry) &&
+          entry.text.toLowerCase().includes(q)
+        ) {
+          results.push(entry);
+        }
+      }
+    }
+  }
 
   const navigate = useCallback(
     (entry: SearchEntry) => {
@@ -212,44 +232,65 @@ export function DbSearch({
                   : "absolute right-0 top-full mt-1 w-80"
               }`}
             >
-              {results.map((entry, i) => (
-                <button
-                  key={entry.id}
-                  onClick={() => navigate(entry)}
-                  onMouseEnter={() => setSelectedIndex(i)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
-                    i === selectedIndex ? "bg-zinc-800" : "hover:bg-zinc-800/50"
-                  }`}
-                >
-                  {entry.icon && (
-                    <img
-                      alt=""
-                      role="presentation"
-                      className="shrink-0 object-none w-[32px] h-[32px]"
-                      src={iconsUrl}
-                      width={entry.icon.width}
-                      height={entry.icon.height}
-                      style={{
-                        objectPosition: `-${entry.icon.x}px -${entry.icon.y}px`,
-                        // fit into the 32px box, never upscale past the source
-                        zoom: Math.min(32 / (entry.icon.width || 64), 1),
-                      }}
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">
-                      {entry.name}
-                    </div>
-                  </div>
-                  <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded shrink-0 ${
-                      typeColors?.[entry.type] ?? DEFAULT_TYPE_BADGE
+              {results.map((entry, i) => {
+                // Why did this match? Show the effect line for entries found
+                // via effect text rather than their name.
+                const snippet = entry.name
+                  .toLowerCase()
+                  .includes(trimmed.toLowerCase())
+                  ? null
+                  : matchSnippet(entry.text, trimmed);
+                return (
+                  <button
+                    key={entry.id}
+                    onClick={() => navigate(entry)}
+                    onMouseEnter={() => setSelectedIndex(i)}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
+                      i === selectedIndex
+                        ? "bg-zinc-800"
+                        : "hover:bg-zinc-800/50"
                     }`}
                   >
-                    {typeLabels?.[entry.type] ?? entry.type}
-                  </span>
-                </button>
-              ))}
+                    {entry.icon && (
+                      <img
+                        alt=""
+                        role="presentation"
+                        className="shrink-0 object-none"
+                        src={iconsUrl}
+                        width={entry.icon.width}
+                        height={entry.icon.height}
+                        style={{
+                          // Size the element to the icon's OWN cell (so object-none
+                          // shows exactly that cell, no bleed from neighbours), then
+                          // zoom to the 32px box — scaling small icons UP too, not
+                          // just clamping large ones down.
+                          width: entry.icon.width,
+                          height: entry.icon.height,
+                          objectPosition: `-${entry.icon.x}px -${entry.icon.y}px`,
+                          zoom: 32 / (entry.icon.width || 64),
+                        }}
+                      />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">
+                        {entry.name}
+                      </div>
+                      {snippet && (
+                        <div className="text-xs text-muted-foreground truncate">
+                          {snippet}
+                        </div>
+                      )}
+                    </div>
+                    <span
+                      className={`text-[10px] px-1.5 py-0.5 rounded shrink-0 ${
+                        typeColors?.[entry.type] ?? DEFAULT_TYPE_BADGE
+                      }`}
+                    >
+                      {typeLabels?.[entry.type] ?? entry.type}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           );
           return isMobile ? createPortal(dropdown, document.body) : dropdown;

@@ -396,6 +396,7 @@ export function SimpleWebMarkers({
             {
               id: s.id,
               termId: s.name,
+              label: s.label,
               description: s.description,
               type: s.type || "",
               data: s.data,

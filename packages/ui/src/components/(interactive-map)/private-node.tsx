@@ -1,5 +1,5 @@
 "use client";
-import { useUserStore } from "../(providers)";
+import { useUserStore, useT } from "../(providers)";
 import { useEffect, useRef, useState } from "react";
 import { useMap } from "./store";
 import { Button } from "../ui/button";
@@ -54,9 +54,15 @@ const PRIVATE_NODE_ICON_SHEET = "__private_node_icon_sheet__";
 const SHARED_PRIVATE_NODE_MARKER_ID = "__shared_private_node_preview__";
 
 // A short human label for a saved style, used in the "Use last" dropdown.
-function styleLabel(style: PrivateNodeStyle): string {
+function styleLabel(
+  style: PrivateNodeStyle,
+  t: ReturnType<typeof useT>,
+): string {
   return (
-    style.name?.trim() || style.icon?.name || style.filter || "Untitled style"
+    style.name?.trim() ||
+    style.icon?.name ||
+    style.filter ||
+    t("nodes.add.untitledStyle", { fallback: "Untitled style" })
   );
 }
 
@@ -69,6 +75,7 @@ export function PrivateNode({
   hidden?: boolean;
   iconsPath: string;
 }) {
+  const t = useT();
   const map = useMap();
   const mapName = useUserStore((state) => state.mapName);
   const myFilters = useSettingsStore((state) => state.myFilters);
@@ -768,21 +775,27 @@ export function PrivateNode({
             <Button
               size="icon"
               variant={isEditing ? "secondary" : "outline"}
-              aria-label="Add node"
+              aria-label={t("nodes.add.title", { fallback: "Add node" })}
             >
               <MapPin className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
         </TooltipTrigger>
-        <TooltipContent side="bottom">Add Node</TooltipContent>
+        <TooltipContent side="bottom">
+          {t("nodes.add.title", { fallback: "Add Node" })}
+        </TooltipContent>
       </Tooltip>
       <PopoverContent onInteractOutside={(e) => e.preventDefault()}>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <div className="space-y-2">
-              <h4 className="font-medium leading-none">Add Node</h4>
+              <h4 className="font-medium leading-none">
+                {t("nodes.add.title", { fallback: "Add Node" })}
+              </h4>
               <p className="text-sm text-muted-foreground">
-                Click on the map to change the node position.
+                {t("nodes.add.clickToPlace", {
+                  fallback: "Click on the map to change the node position.",
+                })}
               </p>
               {!tempPrivateNode?.id && recentPrivateNodeStyles.length > 0 && (
                 <DropdownMenu>
@@ -792,7 +805,9 @@ export function PrivateNode({
                       variant="outline"
                       size="sm"
                       className="w-full justify-between gap-2 h-8"
-                      title="Reuse the style of a recently created node"
+                      title={t("nodes.add.useLastHint", {
+                        fallback: "Reuse the style of a recently created node",
+                      })}
                     >
                       <span className="flex items-center gap-2 truncate">
                         <span
@@ -803,7 +818,8 @@ export function PrivateNode({
                           }}
                         />
                         <span className="truncate text-muted-foreground">
-                          Use last: {styleLabel(recentPrivateNodeStyles[0])}
+                          {t("nodes.add.useLast", { fallback: "Use last:" })}{" "}
+                          {styleLabel(recentPrivateNodeStyles[0], t)}
                         </span>
                       </span>
                       <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
@@ -813,7 +829,11 @@ export function PrivateNode({
                     align="start"
                     className="max-h-64 overflow-y-auto"
                   >
-                    <DropdownMenuLabel>Recent node styles</DropdownMenuLabel>
+                    <DropdownMenuLabel>
+                      {t("nodes.add.recentStyles", {
+                        fallback: "Recent node styles",
+                      })}
+                    </DropdownMenuLabel>
                     {recentPrivateNodeStyles.map((style, index) => (
                       <DropdownMenuItem
                         key={index}
@@ -826,7 +846,7 @@ export function PrivateNode({
                             backgroundColor: style.color ?? "#FFFFFFCC",
                           }}
                         />
-                        <span className="truncate">{styleLabel(style)}</span>
+                        <span className="truncate">{styleLabel(style, t)}</span>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
@@ -836,16 +856,16 @@ export function PrivateNode({
             <div className="grid gap-2">
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="filter" className="flex gap-1 items-center">
-                  Filter
+                  {t("common.filter", { fallback: "Filter" })}
                   <HoverCard openDelay={50} closeDelay={50}>
                     <HoverCardTrigger asChild>
                       <Info className="h-4 w-4 text-muted-foreground" />
                     </HoverCardTrigger>
                     <HoverCardContent>
-                      You can group nodes by filters. For example, you can use a
-                      filter to group all nodes related to a specific quest. The
-                      filter is toggled on and off in the search. Shared nodes
-                      can be imported by other users.
+                      {t("nodes.add.filterHelp", {
+                        fallback:
+                          "You can group nodes by filters. For example, you can use a filter to group all nodes related to a specific quest. The filter is toggled on and off in the search. Shared nodes can be imported by other users.",
+                      })}
                     </HoverCardContent>
                   </HoverCard>
                 </Label>
@@ -862,21 +882,25 @@ export function PrivateNode({
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="name" className="flex gap-1 items-center">
-                  Name
+                  {t("common.name", { fallback: "Name" })}
                   <HoverCard openDelay={50} closeDelay={50}>
                     <HoverCardTrigger asChild>
                       <Info className="h-4 w-4 text-muted-foreground" />
                     </HoverCardTrigger>
                     <HoverCardContent>
-                      An optional name for the node, which is visible in the
-                      search and tooltip.
+                      {t("nodes.add.nameHelp", {
+                        fallback:
+                          "An optional name for the node, which is visible in the search and tooltip.",
+                      })}
                     </HoverCardContent>
                   </HoverCard>
                 </Label>
                 <Input
                   id="name"
                   className="col-span-2 h-8"
-                  placeholder="Optional name…"
+                  placeholder={t("nodes.add.namePlaceholder", {
+                    fallback: "Optional name…",
+                  })}
                   value={tempPrivateNode?.name ?? ""}
                   onChange={(e) => setTempPrivateNode({ name: e.target.value })}
                 />
@@ -886,12 +910,14 @@ export function PrivateNode({
                   htmlFor="description"
                   className="flex gap-1 items-center"
                 >
-                  Description
+                  {t("common.description", { fallback: "Description" })}
                 </Label>
                 <Textarea
                   id="description"
                   className="col-span-2 resize-none"
-                  placeholder="Optional notes or description…"
+                  placeholder={t("nodes.add.descriptionPlaceholder", {
+                    fallback: "Optional notes or description…",
+                  })}
                   value={tempPrivateNode?.description ?? ""}
                   onChange={(e) =>
                     setTempPrivateNode({ description: e.target.value })
@@ -900,7 +926,9 @@ export function PrivateNode({
                 />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="color">Color</Label>
+                <Label htmlFor="color">
+                  {t("common.color", { fallback: "Color" })}
+                </Label>
                 <ColorPicker
                   id="color"
                   className="col-span-2 h-8"
@@ -909,7 +937,7 @@ export function PrivateNode({
                 />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label>Icon</Label>
+                <Label>{t("common.icon", { fallback: "Icon" })}</Label>
                 <IconPicker
                   appName={appName}
                   className="col-span-2 h-8"
@@ -919,7 +947,9 @@ export function PrivateNode({
                 />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="radius">Size</Label>
+                <Label htmlFor="radius">
+                  {t("common.size", { fallback: "Size" })}
+                </Label>
                 <Slider
                   id="radius"
                   className="col-span-2 h-8 p-0"
@@ -965,7 +995,7 @@ export function PrivateNode({
           </div>
           <div className="flex items-center space-x-2 mt-2">
             <Button size="sm" type="submit" disabled={!tempPrivateNode?.filter}>
-              Save
+              {t("common.save", { fallback: "Save" })}
             </Button>
             <Button
               size="sm"
@@ -973,9 +1003,12 @@ export function PrivateNode({
               type="button"
               disabled={!tempPrivateNode?.filter}
               onClick={() => saveNode(true)}
-              title="Save this node and keep the dialog open to add another with the same style"
+              title={t("nodes.add.saveAndNextHint", {
+                fallback:
+                  "Save this node and keep the dialog open to add another with the same style",
+              })}
             >
-              Save & next
+              {t("nodes.add.saveAndNext", { fallback: "Save & next" })}
             </Button>
             <Button
               size="sm"
@@ -983,7 +1016,7 @@ export function PrivateNode({
               onClick={() => setTempPrivateNode(null)}
               type="button"
             >
-              Cancel
+              {t("common.cancel", { fallback: "Cancel" })}
             </Button>
           </div>
         </form>

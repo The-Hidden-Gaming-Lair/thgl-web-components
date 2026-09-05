@@ -7,7 +7,7 @@ import { Info, Spline } from "lucide-react";
 import { Button } from "../ui/button";
 import { ColorPicker } from "../(controls)/color-picker";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useSettingsStore, type Drawing } from "@repo/lib";
+import { useConnectionStore, useSettingsStore, type Drawing } from "@repo/lib";
 import {
   DrawingManager,
   DrawingLayer,
@@ -26,9 +26,10 @@ import {
 import { AddSharedFilter } from "./add-shared-filter";
 import { UploadFilter } from "./upload-filter";
 import { inverseRotateCoordinate, rotateCoordinate } from "./rotation";
-import { useCoordinates } from "../(providers)";
+import { useCoordinates, useT } from "../(providers)";
 
 export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
+  const t = useT();
   const map = useMap();
   const drawingColor = useSettingsStore((state) => state.drawingColor);
   const setDrawingColor = useSettingsStore((state) => state.setDrawingColor);
@@ -58,6 +59,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
   const dynamicIconSizeFactor = useSettingsStore(
     (state) => state.dynamicIconSizeFactor,
   );
+  // Filters shared by a Peer Link / whiteboard partner (same source the
+  // shared-marker path in markers.tsx reads).
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
   const { staticDrawings } = useCoordinates();
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
@@ -479,6 +483,22 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
         filter.name !== editingName,
     );
 
+    // Drawings shared over Peer Link / whiteboard. These come from the OTHER
+    // player, so they are NOT gated on `filters` — that's this user's own
+    // enabled-filter list, which can never contain a peer's filter name. The
+    // shared-NODES path (markers.tsx) already renders unconditionally for the
+    // same reason; drawings were simply never wired to this source at all, so
+    // a peer sharing a drawing-only filter showed the receiver nothing while a
+    // filter with markers worked. Reported 2026-09-04.
+    for (const filter of sharedMyFilters) {
+      if (!filter.drawing) continue;
+      if (filter.name === editingName) continue;
+      // A peer can share a filter this user also has selected locally; render
+      // it once rather than stacking two identical copies of every shape.
+      if (selectedDrawings.some((f) => f.name === filter.name)) continue;
+      selectedDrawings.push(filter);
+    }
+
     if (selectedDrawings.length === 0) {
       // No drawings to show
       if (savedDrawingsLayerRef.current) {
@@ -588,6 +608,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
     map,
     filters,
     myFilters,
+    sharedMyFilters,
     staticDrawings,
     mapName,
     isEditing,
@@ -666,13 +687,15 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
             <Button
               size="icon"
               variant={isEditing ? "secondary" : "outline"}
-              aria-label="Add drawing"
+              aria-label={t("drawing.add", { fallback: "Add drawing" })}
             >
               <Spline className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
         </TooltipTrigger>
-        <TooltipContent side="bottom">Add Drawing</TooltipContent>
+        <TooltipContent side="bottom">
+          {t("drawing.add", { fallback: "Add Drawing" })}
+        </TooltipContent>
       </Tooltip>
       <PopoverContent
         onInteractOutside={(e) => e.preventDefault()}
@@ -687,26 +710,30 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
           <div className="grid gap-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">
-                {tempPrivateDrawing?.id ? "Edit" : "Add"} Drawing
+                {tempPrivateDrawing?.id
+                  ? t("drawing.edit", { fallback: "Edit Drawing" })
+                  : t("drawing.add", { fallback: "Add Drawing" })}
               </h4>
               <p className="text-sm text-muted-foreground">
-                You can draw multiple shapes and add texts the map. The drawing
-                can be toggled in the filters section by the following name.
+                {t("drawing.help", {
+                  fallback:
+                    "You can draw multiple shapes and add texts the map. The drawing can be toggled in the filters section by the following name.",
+                })}
               </p>
             </div>
             <div className="grid gap-2">
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="filter" className="flex gap-1 items-center">
-                  Filter
+                  {t("common.filter", { fallback: "Filter" })}
                   <HoverCard openDelay={50} closeDelay={50}>
                     <HoverCardTrigger asChild>
                       <Info className="h-4 w-4 text-muted-foreground" />
                     </HoverCardTrigger>
                     <HoverCardContent>
-                      You can group nodes by filters. For example, you can use a
-                      filter to group all nodes related to a specific quest. The
-                      filter is toggled on and off in the search. Shared nodes
-                      can be imported by other users.
+                      {t("nodes.add.filterHelp", {
+                        fallback:
+                          "You can group nodes by filters. For example, you can use a filter to group all nodes related to a specific quest. The filter is toggled on and off in the search. Shared nodes can be imported by other users.",
+                      })}
                     </HoverCardContent>
                   </HoverCard>
                 </Label>
@@ -749,7 +776,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                   size="icon"
                   variant={globalMode === "line" ? "default" : "outline"}
                   type="button"
-                  title="Draw Line"
+                  title={t("drawing.line", { fallback: "Draw Line" })}
                   onClick={() => updateGlobalMode("line")}
                 >
                   <svg
@@ -765,7 +792,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                   size="icon"
                   variant={globalMode === "rectangle" ? "default" : "outline"}
                   type="button"
-                  title="Draw Rectangle"
+                  title={t("drawing.rectangle", { fallback: "Draw Rectangle" })}
                   onClick={() => updateGlobalMode("rectangle")}
                 >
                   <svg
@@ -781,7 +808,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                   size="icon"
                   variant={globalMode === "polygon" ? "default" : "outline"}
                   type="button"
-                  title="Draw Polygon"
+                  title={t("drawing.polygon", { fallback: "Draw Polygon" })}
                   onClick={() => updateGlobalMode("polygon")}
                 >
                   <svg
@@ -797,7 +824,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                   size="icon"
                   variant={globalMode === "circle" ? "default" : "outline"}
                   type="button"
-                  title="Draw Circle"
+                  title={t("drawing.circle", { fallback: "Draw Circle" })}
                   onClick={() => updateGlobalMode("circle")}
                 >
                   <svg
@@ -812,7 +839,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 <Button
                   size="icon"
                   variant={globalMode === "text" ? "default" : "outline"}
-                  title="Add Text"
+                  title={t("drawing.text", { fallback: "Add Text" })}
                   type="button"
                   onClick={() => updateGlobalMode("text")}
                 >
@@ -831,7 +858,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 <Button
                   size="icon"
                   variant={globalMode === "edit" ? "default" : "outline"}
-                  title="Edit Mode"
+                  title={t("drawing.editMode", { fallback: "Edit Mode" })}
                   type="button"
                   onClick={() => updateGlobalMode("edit")}
                 >
@@ -847,7 +874,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 <Button
                   size="icon"
                   variant={globalMode === "drag" ? "default" : "outline"}
-                  title="Drag Mode"
+                  title={t("drawing.dragMode", { fallback: "Drag Mode" })}
                   type="button"
                   onClick={() => updateGlobalMode("drag")}
                 >
@@ -863,7 +890,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 <Button
                   size="icon"
                   variant={globalMode === "remove" ? "default" : "outline"}
-                  title="Remove Layer"
+                  title={t("drawing.removeLayer", { fallback: "Remove Layer" })}
                   type="button"
                   onClick={() => updateGlobalMode("remove")}
                 >
@@ -878,7 +905,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 </Button>
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="color">Color</Label>
+                <Label htmlFor="color">
+                  {t("common.color", { fallback: "Color" })}
+                </Label>
                 {isText ? (
                   <ColorPicker
                     id="color"
@@ -907,7 +936,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 globalMode === "polygon" ||
                 globalMode === "circle") && (
                 <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="fillColor">Background</Label>
+                  <Label htmlFor="fillColor">
+                    {t("drawing.background", { fallback: "Background" })}
+                  </Label>
                   <ColorPicker
                     id="fillColor"
                     className="col-span-2 h-8"
@@ -917,7 +948,9 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
                 </div>
               )}
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="radius">Size</Label>
+                <Label htmlFor="radius">
+                  {t("common.size", { fallback: "Size" })}
+                </Label>
                 {globalMode === "text" ? (
                   <Slider
                     id="radius"
@@ -961,7 +994,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
               type="submit"
               disabled={!tempPrivateDrawing?.name}
             >
-              Save
+              {t("common.save", { fallback: "Save" })}
             </Button>
             <Button
               size="sm"
@@ -972,7 +1005,7 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
               }}
               type="button"
             >
-              Cancel
+              {t("common.cancel", { fallback: "Cancel" })}
             </Button>
           </div>
         </form>

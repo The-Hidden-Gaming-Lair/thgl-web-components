@@ -9,6 +9,79 @@ function getAudioContext(): AudioContext {
   return audioContext;
 }
 
+const UNLOCK_EVENTS = ["pointerdown", "touchstart", "keydown"] as const;
+
+/**
+ * Arms a one-shot user-gesture unlock for the alert AudioContext, and keeps it
+ * resumed across tab visibility changes. Returns a cleanup function.
+ *
+ * WHY: on iOS/iPadOS an AudioContext created outside a user gesture starts
+ * `suspended`, and `resume()` called from a non-gesture context (which is
+ * where `playAlertSound` runs — a proximity check in the marker loop) does
+ * NOT unlock it. Result: after every page load the alerts are silently dead
+ * until the user happens to touch the page. On a second screen they never do,
+ * so alerts appeared "reset" after each reload and the user had to go poke
+ * the settings dialog — a gesture — to bring them back.
+ *
+ * Playing a zero-gain oscillator inside the gesture is what actually flips
+ * WebKit out of `suspended`; `resume()` alone is not reliably enough.
+ *
+ * The visibilitychange half matters on its own: iPadOS suspends the context
+ * whenever the tab goes to the background, which silences a passive second
+ * screen even with no reload involved.
+ */
+export function initAudioAlertUnlock(): () => void {
+  if (typeof document === "undefined") return () => {};
+
+  let unlocked = false;
+
+  const unlock = () => {
+    if (unlocked) return;
+    unlocked = true;
+    removeGestureListeners();
+    try {
+      const ctx = getAudioContext();
+      void ctx.resume();
+      // Silent blip — the actual unlock on WebKit.
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.01);
+    } catch {
+      // Audio not supported — nothing to unlock.
+    }
+  };
+
+  function removeGestureListeners() {
+    for (const type of UNLOCK_EVENTS) {
+      document.removeEventListener(type, unlock, true);
+    }
+  }
+
+  for (const type of UNLOCK_EVENTS) {
+    document.addEventListener(type, unlock, true);
+  }
+
+  const onVisible = () => {
+    if (document.visibilityState !== "visible") return;
+    if (!audioContext || audioContext.state !== "suspended") return;
+    try {
+      void audioContext.resume();
+    } catch {
+      // Ignore — the next gesture retries.
+    }
+  };
+  document.addEventListener("visibilitychange", onVisible);
+
+  return () => {
+    removeGestureListeners();
+    document.removeEventListener("visibilitychange", onVisible);
+  };
+}
+
 function playSound(ctx: AudioContext, sound: AudioAlertSound, volume: number) {
   switch (sound) {
     case "chime":
@@ -74,7 +147,10 @@ function playPing(ctx: AudioContext, volume: number): void {
 
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(1200, ctx.currentTime);
-  oscillator.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.15);
+  oscillator.frequency.exponentialRampToValueAtTime(
+    800,
+    ctx.currentTime + 0.15,
+  );
 
   gainNode.gain.setValueAtTime(volume * 0.5, ctx.currentTime);
   gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);

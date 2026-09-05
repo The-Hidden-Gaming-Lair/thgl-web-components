@@ -26,6 +26,13 @@ export {
 
 export { I18NProvider, useI18n, useT, useLocale } from "./i18n-provider";
 
-export { UserStoreContext, useUserStore, useUserStoreApi } from "./user-store";
+export {
+  UserStoreContext,
+  useUserStore,
+  useUserStoreApi,
+  useUserStoreApiOptional,
+} from "./user-store";
+
+export { useAppUpdateStore, type AppUpdateStatus } from "./app-update-store";
 
 export { TooltipProvider } from "../ui/tooltip";

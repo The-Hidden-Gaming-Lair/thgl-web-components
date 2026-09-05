@@ -113,6 +113,13 @@ export type Spawn = {
   } | null;
   radius?: number;
   isPrivate?: boolean;
+  /**
+   * Name of the layered interior this spawn belongs to (e.g. an underground
+   * area). Set at extraction time. Its presence marks the spawn on the overworld
+   * with a layer badge; the spawn is also mirrored into the "Underground" layer
+   * map. Absent for ordinary surface spawns.
+   */
+  layer?: string;
   data?: Record<string, string[]>;
   /** Screen-space X offset in device px for spiderfied mixed-type clusters */
   spiderOffsetX?: number;
@@ -137,6 +144,10 @@ export type SimpleSpawn = {
       }
     | null;
   name: string;
+  /** A pre-resolved literal display label. When set, the marker tooltip shows it
+   *  verbatim instead of translating `name` as a dict key — for embeds that ship
+   *  a sliced client dict without the full game terms. */
+  label?: string;
   color?: string;
   description?: string;
   data?: Record<string, string[]>;

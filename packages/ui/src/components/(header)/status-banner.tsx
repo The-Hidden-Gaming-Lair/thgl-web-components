@@ -25,6 +25,15 @@ interface Banner {
   text: string;
 }
 
+/** Which product this banner is mounted in. Global incidents show on every
+ *  surface; game-integration messages show only in the app that runs the
+ *  affected event pipeline — the website shows neither (its maps don't
+ *  depend on either pipeline). Overwolf apps of GEP-backed games (Diablo
+ *  IV) surface the OW feed state; every other app — the THGL app always,
+ *  and OW apps of games without GEP (their events ARE the THGL pipeline)
+ *  — surfaces the manual THGL-events flag (liveMode). */
+export type StatusSurface = "web" | "thgl-app" | "overwolf";
+
 // Session-scope fallback when localStorage is unavailable.
 const sessionDismissed = new Set<string>();
 
@@ -43,9 +52,13 @@ function dismissed(id: string): boolean {
 /** All applicable, non-dismissed messages for this surface, worst/most
  *  specific first. The banner renders the first and a "+N more" link;
  *  dismissing the first reveals the next. */
-function toBanners(doc: StatusDocument, game: string | null): Banner[] {
+function toBanners(
+  doc: StatusDocument,
+  game: string | null,
+  surface: StatusSurface,
+): Banner[] {
   const banners: Banner[] = [];
-  const surface = { components: SURFACE_COMPONENTS, game };
+  const incidentScope = { components: SURFACE_COMPONENTS, game };
   // Open incidents (manual AND auto) matching this surface. Dismissal is
   // per MESSAGE, not per topic: the key includes createdAt, so a
   // re-opened incident that reuses a stable id (auto-<component>) or a
@@ -53,7 +66,12 @@ function toBanners(doc: StatusDocument, game: string | null): Banner[] {
   // additional never-hidden-forever backstop for ongoing incidents.
   const incidents: StatusIncident[] = doc.incidents
     .filter((i) => i.resolvedAt === null)
-    .filter((i) => incidentMatchesSurface(i, surface))
+    // `flag-*` incidents mirror the game live-mode flag for status-page
+    // history only — the flag itself (liveMode below) is the banner
+    // source, scoped to the in-game apps. Without this, the mirror would
+    // re-leak the message onto the website via the game-id match.
+    .filter((i) => !i.id.startsWith("flag-"))
+    .filter((i) => incidentMatchesSurface(i, incidentScope))
     .sort(
       (a, b) =>
         (a.severity === b.severity ? 0 : a.severity === "outage" ? -1 : 1) ||
@@ -90,12 +108,29 @@ function toBanners(doc: StatusDocument, game: string | null): Banner[] {
       text: "Some features are temporarily degraded due to a service outage.",
     });
   }
-  // Game-scoped live-mode flag (shown only on that game's surface). Key
-  // includes the flag's updatedAt: editing the note or state counts as a
-  // new message and re-shows immediately.
-  const gameFlag = game
-    ? doc.games.find((g) => g.id === game && g.liveMode !== null)
-    : undefined;
+  const gameRow = game ? doc.games.find((g) => g.id === game) : undefined;
+  // An Overwolf app of a GEP-backed game (owEvents tracked — Diablo IV)
+  // runs on Overwolf's feed, so it shows THAT state and not the THGL
+  // flag; all other OW apps run on THGL's own pipeline (fall through to
+  // the flag below). No updatedAt on the feed state, so the
+  // state-in-the-key + 6h dismiss expiry govern re-showing.
+  const owBacked = surface === "overwolf" && gameRow?.owEvents != null;
+  if (owBacked && gameRow?.owEvents && gameRow.owEvents !== "operational") {
+    const key = `ow-events-${gameRow.id}:${gameRow.owEvents}`;
+    if (!dismissed(key)) {
+      banners.unshift({
+        id: key,
+        severity: gameRow.owEvents,
+        text: `Overwolf's ${gameRow.label} event feed is ${gameRow.owEvents === "outage" ? "down" : "degraded"} — in-game events may be missing or delayed.`,
+      });
+    }
+  }
+  // Game-scoped live-mode flag (THGL's own event pipeline) — shown in
+  // both in-game apps (unless this app is GEP-backed, above) but not on
+  // the website: the web map works without the pipeline. Key includes
+  // the flag's updatedAt: editing the note or state counts as a new
+  // message and re-shows immediately.
+  const gameFlag = surface !== "web" && !owBacked ? gameRow : undefined;
   if (gameFlag?.liveMode) {
     const key = `flag-${gameFlag.id}:${gameFlag.liveMode.updatedAt}`;
     if (!dismissed(key)) {
@@ -115,9 +150,11 @@ function toBanners(doc: StatusDocument, game: string | null): Banner[] {
 
 export function StatusBanner({
   game,
+  surface,
   className,
 }: {
   game: string | null;
+  surface: StatusSurface;
   /** Positioning per mount — fixed-header layouts overlay the banner
    *  below their header (it must not hide behind `fixed top-0` bars). */
   className?: string;
@@ -161,7 +198,7 @@ export function StatusBanner({
     };
   }, [game]);
 
-  const banners = doc ? toBanners(doc, game) : [];
+  const banners = doc ? toBanners(doc, game, surface) : [];
   const banner = banners[0];
   if (!banner) return null;
   const more = banners.length - 1;

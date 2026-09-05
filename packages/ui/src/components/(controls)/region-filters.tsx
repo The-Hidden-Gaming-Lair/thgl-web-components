@@ -81,9 +81,15 @@ export function RegionFilters() {
             setFilters(newFilters);
           }}
           type="button"
-          title={activeFiltersLength ? "Disable all" : "Enable all"}
+          title={
+            activeFiltersLength
+              ? t("myFilters.disableAll", { fallback: "Disable all" })
+              : t("myFilters.enableAll", { fallback: "Enable all" })
+          }
         >
-          {activeFiltersLength ? "None" : "All"}
+          {activeFiltersLength
+            ? t("myFilters.none", { fallback: "None" })
+            : t("myFilters.all", { fallback: "All" })}
         </button>
       </div>
       {/* Progress bar */}

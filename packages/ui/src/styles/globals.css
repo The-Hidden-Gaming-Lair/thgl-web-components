@@ -98,12 +98,20 @@
   @apply pointer-events-none;
 }
 
-.locked .lock-opacity {
-  @apply opacity-10 transition-opacity;
+/* Locked ("Hide Controls") overlay map: block hit testing on the container
+   AND every descendant, so hovers/clicks always pass to the game — map
+   internals that set pointer-events explicitly would otherwise override an
+   inherited `none` and let marker tooltips fire mid-game. */
+.lock-block-input,
+.lock-block-input * {
+  pointer-events: none !important;
 }
 
-.locked .lock-opacity > * {
-  @apply pointer-events-none;
+/* Fade the locked map while hovered so the game behind stays visible —
+   applied from a document-level mousemove (the container itself is
+   click-through and gets no mouse events). */
+.locked .lock-opacity {
+  @apply opacity-10 transition-opacity;
 }
 
 .h-dscreen {
@@ -153,5 +161,28 @@
   background-color: hsl(var(--ring) / 0.5);
 }
 .sidebar-scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Global thin, themed scrollbars so every scrollable surface (code blocks,
+   textareas, overflow panels, dialogs) matches without per-element utilities.
+   Kept UNLAYERED (like .sidebar-scroll above) — Chrome does not reliably apply
+   ::-webkit-scrollbar pseudo-elements from inside a cascade @layer. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--ring) / 0.5) transparent;
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background-color: hsl(var(--ring) / 0.5);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--ring) / 0.7);
+}
+::-webkit-scrollbar-track {
   background-color: transparent;
 }

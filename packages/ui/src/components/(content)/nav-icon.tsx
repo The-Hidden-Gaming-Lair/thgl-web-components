@@ -31,6 +31,8 @@ import {
   PawPrint,
   Users,
   CloudSun,
+  Shield,
+  Sparkles,
 } from "lucide-react";
 
 const ICONS = {
@@ -65,6 +67,8 @@ const ICONS = {
   PawPrint: PawPrint,
   Users: Users,
   CloudSun: CloudSun,
+  Shield: Shield,
+  Sparkles: Sparkles,
 } as const;
 
 export function NavIcon({

@@ -24,7 +24,11 @@ import {
   ScrollArea,
 } from "../(controls)";
 import { RemotePlayer, usePeersStore } from "../(providers)/peers-store";
-import { PeerMeshUtils, peerServerOptions, type ControlMsg } from "../(providers)/peer-mesh-utils";
+import {
+  PeerMeshUtils,
+  peerServerOptions,
+  type ControlMsg,
+} from "../(providers)/peer-mesh-utils";
 
 const useConnectionStore = create<{
   connections: Record<string, DataConnection>;
@@ -231,7 +235,9 @@ export function StreamingSender({
       console.log(
         `Already have open connection to ${senderId}, skipping ${isIncoming ? "incoming" : "outbound"}`,
       );
-      try { conn.close(); } catch {}
+      try {
+        conn.close();
+      } catch {}
       return;
     }
     setSenderDataConnStatus((prev) => ({ ...prev, [senderId]: "connecting" }));
@@ -240,7 +246,9 @@ export function StreamingSender({
       if (!conn.open) {
         console.log("Sender data connection timeout for", senderId);
         conn.removeAllListeners();
-        try { conn.close(); } catch {}
+        try {
+          conn.close();
+        } catch {}
         delete senderDataConnectionsRef.current[senderId];
         setSenderDataConnStatus((prev) => ({ ...prev, [senderId]: "failed" }));
       }
@@ -251,8 +259,20 @@ export function StreamingSender({
       }
       // Process data from other senders - only player positions, not actors
       if ("player" in data && data.player) {
-        peersStoreSetPlayer(senderId, data.player as RemotePlayer);
-        setSenderDataConnStatus((prev) => ({ ...prev, [senderId]: "receiving" }));
+        const remotePlayer = data.player as RemotePlayer;
+        // Names are treated as unique per mesh (see evictStaleSenderByName), so
+        // a sender with our own name is another session of ourselves — storing
+        // it would render a labeled teammate marker on top of the local player.
+        const ownName = useSettingsStore.getState().playerName;
+        if (!ownName || remotePlayer.name !== ownName) {
+          peersStoreSetPlayer(senderId, remotePlayer);
+        } else if (usePeersStore.getState().remotePlayers[senderId]) {
+          peersStoreRemove(senderId);
+        }
+        setSenderDataConnStatus((prev) => ({
+          ...prev,
+          [senderId]: "receiving",
+        }));
       }
       // Note: actors are not processed from other senders
     });
@@ -501,11 +521,17 @@ export function StreamingSender({
               } else if (msg.role === "sender") {
                 // Evict stale sender with same name (e.g. app restarted with new peer ID)
                 const evicted = PeerMeshUtils.evictStaleSenderByName(
-                  senderIds, senderNames, senderConnMap, msg.id, msg.name,
+                  senderIds,
+                  senderNames,
+                  senderConnMap,
+                  msg.id,
+                  msg.name,
+                  selfId,
                 );
                 if (evicted) {
                   controlConns.forEach((rc) => {
-                    if (rc.open) rc.send({ type: "peer-left", id: evicted } as ControlMsg);
+                    if (rc.open)
+                      rc.send({ type: "peer-left", id: evicted } as ControlMsg);
                   });
                 }
                 if (!senderIds.has(msg.id)) {
@@ -674,11 +700,20 @@ export function StreamingSender({
                 } else if (msg.role === "sender") {
                   // Evict stale sender with same name (e.g. app restarted with new peer ID)
                   const evicted = PeerMeshUtils.evictStaleSenderByName(
-                    senderIds, senderNames, senderConnMap, msg.id, msg.name,
+                    senderIds,
+                    senderNames,
+                    senderConnMap,
+                    msg.id,
+                    msg.name,
+                    selfId,
                   );
                   if (evicted) {
                     receiverConns.forEach((rc) => {
-                      if (rc.open) rc.send({ type: "peer-left", id: evicted } as ControlMsg);
+                      if (rc.open)
+                        rc.send({
+                          type: "peer-left",
+                          id: evicted,
+                        } as ControlMsg);
                     });
                   }
                   if (!senderIds.has(msg.id)) {
@@ -1093,10 +1128,22 @@ export function StreamingSender({
 
             {inPeer && peerSenderIds.length > 0 && (
               <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-muted-foreground">
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-green-400 rounded-full" />receiving</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-blue-400 rounded-full" />connected</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-yellow-400 rounded-full" />connecting</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-400 rounded-full" />failed</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+                  receiving
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
+                  connected
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full" />
+                  connecting
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full" />
+                  failed
+                </span>
               </div>
             )}
 

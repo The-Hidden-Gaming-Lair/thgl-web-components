@@ -16,11 +16,10 @@ export interface Perk {
   title: string;
 }
 
+// "comments" is intentionally NOT in this display list — commenting is free
+// for every signed-in account. It stays in the tier data below because
+// getPerks() still derives the Enthusiast+ tier signal from it.
 export const perks: Perk[] = [
-  {
-    id: "comments",
-    title: "Full Comments Access",
-  },
   {
     id: "supporter-role",
     title: "Discord Supporter Role",
@@ -66,7 +65,7 @@ export const tiers: Tier[] = [
     title: "Enthusiast",
     price: 2,
     perks: ["comments", "supporter-role"],
-    gift: { url: "https://www.patreon.com/devleon/redeem/3B1DA", months: 3 },
+    gift: { url: "https://www.patreon.com/devleon/redeem/14FE4", months: 3 },
   },
   {
     id: "21470797",

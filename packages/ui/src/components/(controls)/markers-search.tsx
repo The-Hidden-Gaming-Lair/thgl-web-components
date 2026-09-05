@@ -1,15 +1,22 @@
 "use client";
 
-import { cn, TilesConfig, useSettingsStore } from "@repo/lib";
+import {
+  cn,
+  MIN_SEARCH_QUERY_LENGTH,
+  TilesConfig,
+  useSettingsStore,
+} from "@repo/lib";
 import { useUserStore } from "../(providers)";
 import { ReactNode, useEffect, useRef, useState, type JSX } from "react";
 import { Input } from "../ui/input";
 import { MarkersSearchResults } from "./markers-search-results";
 import { MarkersFilters } from "./markers-filters";
 import { ScrollArea } from "../ui/scroll-area";
+import { MarkersSearchLiveResults } from "./markers-search-live-results";
 import {
   Loader2,
   PanelLeftClose,
+  RadioTower,
   Search,
   SlidersHorizontal,
   TriangleAlert,
@@ -18,9 +25,11 @@ import {
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { MapSelect } from "./map-select";
+import { LayerSelect } from "./layer-select";
+import { TerraformStageSelect } from "./terraform-stage-select";
 import { Presets } from "./presets";
 import { GlobalFilters } from "./global-filters";
-import { useT } from "../(providers)";
+import { useCoordinates, useT } from "../(providers)";
 
 export function MarkersSearch({
   lastMapUpdate,
@@ -44,17 +53,35 @@ export function MarkersSearch({
   mapEnTitles?: Record<string, string>;
 }): JSX.Element {
   const t = useT();
-  const { _hasHydrated, search, setSearch, searchIsLoading } = useUserStore();
+  const {
+    _hasHydrated,
+    search,
+    setSearch,
+    searchIsLoading,
+    searchScope,
+    setSearchScope,
+  } = useUserStore();
   const [internalSearch, setInternalSearch] = useState(search);
+  // Only games with a typeIDs bridge can ever have live-tracked actors — no
+  // point offering the Live search scope elsewhere. (The guard also covers a
+  // persisted "live" scope carried over to a game without live support.)
+  const { gameSupportsLive } = useCoordinates();
+  const liveScopeActive = searchScope === "live" && gameSupportsLive;
+  const queryReady = internalSearch.length >= MIN_SEARCH_QUERY_LENGTH;
   const showFilters = useSettingsStore((state) => state.showFilters);
   const toggleShowFilters = useSettingsStore(
     (state) => state.toggleShowFilters,
   );
 
-  const mapNames = Object.entries(tileOptions).map(([k, v]) => ({
-    name: k,
-    defaultTitle: v.defaultTitle || mapEnTitles?.[k] || t(k),
-  }));
+  // Only TOP-LEVEL maps in the main selector — interior floors (tagged with
+  // `layer`) are chosen in the separate Layered Map picker instead.
+  const mapNames = Object.entries(tileOptions)
+    .filter(([, v]) => !v.layer)
+    .map(([k, v]) => ({
+      name: k,
+      defaultTitle: v.defaultTitle || mapEnTitles?.[k] || t(k),
+    }));
+  const hasLayers = Object.values(tileOptions).some((v) => v.layer);
 
   useEffect(() => {
     if (_hasHydrated) {
@@ -113,48 +140,84 @@ export function MarkersSearch({
           className,
         )}
       >
-        <div className="relative flex w-full pointer-events-auto bg-card border rounded-md">
-          {/* Leading search icon, swaps to a spinner while a query is in flight */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-muted-foreground">
-            {isLoading && internalSearch.length >= 3 ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Search className="h-4 w-4" />
-            )}
-          </div>
-          <Input
-            autoComplete="off"
-            autoCorrect="off"
-            className="pl-8 pr-16"
-            onChange={(event) => {
-              setInternalSearch(event.target.value);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") {
-                setInternalSearch("");
-                event.currentTarget.blur();
-              }
-            }}
-            placeholder={t("markers.search.placeholder")}
-            type="text"
-            value={internalSearch}
-          />
-          {internalSearch ? (
-            <button
-              aria-label={t("markers.search.clear")}
-              className="flex absolute inset-y-0 right-10 items-center px-1 text-muted-foreground hover:text-foreground transition-colors"
-              onClick={() => {
-                setInternalSearch("");
-              }}
-              type="button"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          ) : null}
+        <div
+          className={cn(
+            "relative flex w-full items-stretch pointer-events-auto bg-card border border-input rounded-md shadow-xs",
+            "transition-[color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50",
+          )}
+        >
+          {/* Same subtle tint the standalone Input carries (bg-input/30). */}
           <div
-            className="absolute inset-y-2 right-9 w-px bg-border"
+            className="pointer-events-none absolute inset-0 rounded-md bg-input/30"
             aria-hidden
           />
+          <div className="relative grow">
+            {/* Leading search icon, swaps to a spinner while a query is in flight */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-muted-foreground">
+              {isLoading && queryReady ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Search className="h-4 w-4" />
+              )}
+            </div>
+            <Input
+              autoComplete="off"
+              autoCorrect="off"
+              className="pl-8 pr-7 border-0 bg-transparent shadow-none rounded-none rounded-l-md focus-visible:ring-0 focus-visible:border-0"
+              onChange={(event) => {
+                setInternalSearch(event.target.value);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setInternalSearch("");
+                  event.currentTarget.blur();
+                }
+              }}
+              placeholder={t("markers.search.placeholder")}
+              type="text"
+              value={internalSearch}
+            />
+            {internalSearch ? (
+              <button
+                aria-label={t("markers.search.clear")}
+                className="flex absolute inset-y-0 right-0 items-center px-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                onClick={() => {
+                  setInternalSearch("");
+                }}
+                type="button"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
+          {gameSupportsLive && (
+            <>
+              <div className="my-2 w-px bg-border" aria-hidden />
+              {/* Search-scope switch: historical spawn locations vs live
+                  tracked actors. Independent of the global live mode. */}
+              <button
+                aria-checked={searchScope === "live"}
+                className={cn(
+                  "flex items-center gap-1 px-2 text-xs transition-colors",
+                  searchScope === "live"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+                onClick={() => {
+                  setSearchScope(
+                    searchScope === "live" ? "historical" : "live",
+                  );
+                }}
+                role="switch"
+                title={t("markers.search.scopeHint")}
+                type="button"
+              >
+                <RadioTower className="h-3.5 w-3.5" />
+                {t("markers.search.scopeLive")}
+              </button>
+            </>
+          )}
+          <div className="my-2 w-px bg-border" aria-hidden />
           <button
             aria-expanded={showFilters}
             aria-haspopup="menu"
@@ -163,9 +226,7 @@ export function MarkersSearch({
                 ? t("markers.filters.toggleHide")
                 : t("markers.filters.toggleShow")
             }
-            className={cn(
-              `flex absolute inset-y-0 right-1 items-center px-2 text-muted-foreground hover:text-foreground transition-colors`,
-            )}
+            className="flex items-center px-2 text-muted-foreground hover:text-foreground transition-colors"
             onClick={toggleShowFilters}
             type="button"
           >
@@ -202,9 +263,17 @@ export function MarkersSearch({
               <Separator />
             </div>
           )}
-          {mapNames.length > 1 && (
+          {(mapNames.length > 1 || hasLayers) && (
             <div className="shrink-0">
-              <MapSelect mapNames={mapNames} />
+              <div className="flex items-center">
+                <div className="flex-1 min-w-0">
+                  <MapSelect mapNames={mapNames} tileOptions={tileOptions} />
+                </div>
+                {/* Layered Map picker — only appears where interiors exist. */}
+                <LayerSelect tileOptions={tileOptions} />
+                {/* Terraform-stage backdrop picker — only where a map has `.stages`. */}
+                <TerraformStageSelect tileOptions={tileOptions} />
+              </div>
               <Separator />
             </div>
           )}
@@ -214,31 +283,48 @@ export function MarkersSearch({
             <GlobalFilters />
           </div>
           <ScrollArea type="auto" className="min-h-0">
-            {internalSearch ? (
+            {/* One query drives BOTH sections: the marker results (historical
+                spawn locations or live actors, per the scope switch) on top,
+                and the filtered filter list with its toggles below. */}
+            {internalSearch.trim() ? (
               <>
-                {isLoading && internalSearch.length >= 3 && (
+                <div className="px-2.5 pt-1.5 text-[10px] uppercase tracking-wider text-muted-foreground/80">
+                  {liveScopeActive
+                    ? t("markers.search.liveResults")
+                    : t("markers.search.locations")}
+                </div>
+                {!queryReady ? (
+                  <div className="p-2 text-center text-xs text-muted-foreground">
+                    <TriangleAlert className="w-4 h-4 mx-auto" />
+                    {t("markers.search.moreCharacters")}
+                  </div>
+                ) : liveScopeActive ? (
+                  <MarkersSearchLiveResults
+                    hasMultipleMaps={mapNames.length > 1}
+                    appName={appName}
+                    iconsPath={iconsPath}
+                    query={internalSearch}
+                  />
+                ) : isLoading ? (
                   <div className="p-2 text-center">
                     <Search className="w-4 h-4 mx-auto" />
                     {t("markers.search.searching")}
                   </div>
-                )}
-                {internalSearch.length < 3 && (
-                  <div className="p-2 text-center">
-                    <TriangleAlert className="w-4 h-4 mx-auto" />
-                    {t("markers.search.moreCharacters")}
-                  </div>
-                )}
-                {!isLoading && internalSearch.length >= 3 && (
+                ) : (
                   <MarkersSearchResults
                     hasMultipleMaps={mapNames.length > 1}
                     appName={appName}
                     iconsPath={iconsPath}
                   />
                 )}
+                <Separator className="my-1" />
               </>
-            ) : (
-              <MarkersFilters appName={appName} iconsPath={iconsPath} />
-            )}
+            ) : null}
+            <MarkersFilters
+              appName={appName}
+              iconsPath={iconsPath}
+              query={internalSearch}
+            />
           </ScrollArea>
         </div>
         <div className="grow" />

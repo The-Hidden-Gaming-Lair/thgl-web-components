@@ -10,9 +10,12 @@ import {
 import { getFullDictionary } from "@repo/ui/dicts";
 import { generateEntryMetadata } from "./metadata";
 import { GenericEntityView } from "@/lib/db/generic-view";
-import { requireApp } from "@/lib/get-app-config";
+import { getAppConfig, requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
+import GenericEntryPage, {
+  generateMetadata as genericEntryMetadata,
+} from "@/app/[locale]/db/[section]/[id]/page";
 
 type Params = Promise<{ id: string; locale?: string }>;
 
@@ -33,14 +36,36 @@ type IconSprite = {
  *                     page will 404 if the requested id doesn't live in one
  *                     of these. Defaults to `[section]`.
  */
-export function makeEntryPage(section: string, allowedTypes: string[] = [section]) {
-  async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-    await requireApp("drakantos");
+export function makeEntryPage(
+  section: string,
+  allowedTypes: string[] = [section],
+) {
+  // Non-Drakantos tenants delegate to the generic [section]/[id] page — these
+  // static slugs shadow it (see reference_db_reserved_route_slugs).
+  async function generateMetadata({
+    params,
+  }: {
+    params: Params;
+  }): Promise<Metadata> {
+    const app = await getAppConfig();
+    if (app.name !== "drakantos") {
+      const p = await params;
+      return genericEntryMetadata({
+        params: Promise.resolve({ ...p, section }),
+      });
+    }
     const { id, locale = DEFAULT_LOCALE } = await params;
     return generateEntryMetadata(locale, section, id);
   }
 
   async function EntryPage({ params }: { params: Params }) {
+    const app = await getAppConfig();
+    if (app.name !== "drakantos") {
+      const p = await params;
+      return GenericEntryPage({
+        params: Promise.resolve({ ...p, section }),
+      });
+    }
     const appConfig = await requireApp("drakantos");
     const { id, locale = DEFAULT_LOCALE } = await params;
 
@@ -70,9 +95,10 @@ export function makeEntryPage(section: string, allowedTypes: string[] = [section
     );
     const groupId = (item as { groupId?: string }).groupId;
     const groupLabel = groupId ? resolveDict(dict, groupId) : undefined;
-    const rawIcon = (item.icon && typeof item.icon === "object")
-      ? (item.icon as IconSprite)
-      : undefined;
+    const rawIcon =
+      item.icon && typeof item.icon === "object"
+        ? (item.icon as IconSprite)
+        : undefined;
     const icon = rawIcon
       ? {
           url: getIconsUrl(appConfig.name, rawIcon.url, iconsHash),

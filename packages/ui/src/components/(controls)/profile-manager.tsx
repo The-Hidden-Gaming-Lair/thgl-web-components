@@ -40,8 +40,10 @@ import {
 } from "../ui/alert-dialog";
 import { toast } from "sonner";
 import { Trash2, Copy, Download, Upload, Edit, UserPlus } from "lucide-react";
+import { useT } from "../(providers)";
 
 export function ProfileManager({ activeApp }: { activeApp: string }) {
+  const t = useT();
   const settingsStore = useSettingsStore();
   const [newProfileName, setNewProfileName] = useState("");
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
@@ -60,22 +62,35 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
 
   const handleCreateProfile = () => {
     if (!newProfileName.trim()) {
-      toast.error("Profile name cannot be empty");
+      toast.error(
+        t("profiles.nameEmpty", { fallback: "Profile name cannot be empty" }),
+      );
       return;
     }
     if (settingsStore.profiles.some((p) => p.name === newProfileName.trim())) {
-      toast.error("A profile with this name already exists");
+      toast.error(
+        t("profiles.nameExists", {
+          fallback: "A profile with this name already exists",
+        }),
+      );
       return;
     }
     settingsStore.createProfile(newProfileName.trim());
     setNewProfileName("");
     setCreateDialogOpen(false);
-    toast.success(`Profile "${newProfileName}" created`);
+    toast.success(
+      t("profiles.created", {
+        fallback: 'Profile "{{name}}" created',
+        vars: { name: newProfileName },
+      }),
+    );
   };
 
   const handleRenameProfile = () => {
     if (!editingProfileName.trim()) {
-      toast.error("Profile name cannot be empty");
+      toast.error(
+        t("profiles.nameEmpty", { fallback: "Profile name cannot be empty" }),
+      );
       return;
     }
     if (
@@ -84,7 +99,11 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
           p.name === editingProfileName.trim() && p.id !== editingProfileId,
       )
     ) {
-      toast.error("A profile with this name already exists");
+      toast.error(
+        t("profiles.nameExists", {
+          fallback: "A profile with this name already exists",
+        }),
+      );
       return;
     }
     if (editingProfileId) {
@@ -92,7 +111,7 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
       setEditingProfileId(null);
       setEditingProfileName("");
       setRenameDialogOpen(false);
-      toast.success("Profile renamed");
+      toast.success(t("profiles.renamed", { fallback: "Profile renamed" }));
     }
   };
 
@@ -101,23 +120,37 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
     const profile = settingsStore.profiles.find((p) => p.id === profileId);
     if (profile) {
       settingsStore.switchProfile(profileId);
-      toast.success(`Switched to profile "${profile.name}"`);
+      toast.success(
+        t("profiles.switched", {
+          fallback: 'Switched to profile "{{name}}"',
+          vars: { name: profile.name },
+        }),
+      );
     }
   };
 
   const handleDeleteProfile = (profileId: string, profileName: string) => {
     if (settingsStore.profiles.length <= 1) {
-      toast.error("Cannot delete the last profile");
+      toast.error(
+        t("profiles.cannotDeleteLast", {
+          fallback: "Cannot delete the last profile",
+        }),
+      );
       return;
     }
     settingsStore.deleteProfile(profileId);
-    toast.success(`Profile "${profileName}" deleted`);
+    toast.success(
+      t("profiles.deleted", {
+        fallback: 'Profile "{{name}}" deleted',
+        vars: { name: profileName },
+      }),
+    );
   };
 
   const handleDownloadProfile = (profileId: string) => {
     const profile = settingsStore.exportProfile(profileId);
     if (!profile) {
-      toast.error("Profile not found");
+      toast.error(t("profiles.notFound", { fallback: "Profile not found" }));
       return;
     }
 
@@ -134,7 +167,12 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
         fileName,
       );
     }
-    toast.success(`Profile "${profile.name}" downloaded`);
+    toast.success(
+      t("profiles.downloaded", {
+        fallback: 'Profile "{{name}}" downloaded',
+        vars: { name: profile.name },
+      }),
+    );
   };
 
   const handleUploadProfile = async () => {
@@ -145,7 +183,9 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
     reader.addEventListener("load", (loadEvent) => {
       const text = loadEvent.target?.result;
       if (!text || typeof text !== "string") {
-        toast.error("Failed to read file");
+        toast.error(
+          t("profiles.readFileFailed", { fallback: "Failed to read file" }),
+        );
         return;
       }
 
@@ -160,14 +200,25 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
           typeof profile.createdAt !== "number" ||
           typeof profile.updatedAt !== "number"
         ) {
-          toast.error("Invalid profile format");
+          toast.error(
+            t("profiles.invalidFormat", { fallback: "Invalid profile format" }),
+          );
           return;
         }
 
         settingsStore.importProfile(profile);
-        toast.success(`Profile "${profile.name}" uploaded`);
+        toast.success(
+          t("profiles.uploaded", {
+            fallback: 'Profile "{{name}}" uploaded',
+            vars: { name: profile.name },
+          }),
+        );
       } catch (error) {
-        toast.error("Failed to parse profile file");
+        toast.error(
+          t("profiles.parseFailed", {
+            fallback: "Failed to parse profile file",
+          }),
+        );
       }
     });
     reader.readAsText(file);
@@ -175,13 +226,19 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
 
   const handleDuplicateProfile = () => {
     if (!duplicateProfileName.trim()) {
-      toast.error("Profile name cannot be empty");
+      toast.error(
+        t("profiles.nameEmpty", { fallback: "Profile name cannot be empty" }),
+      );
       return;
     }
     if (
       settingsStore.profiles.some((p) => p.name === duplicateProfileName.trim())
     ) {
-      toast.error("A profile with this name already exists");
+      toast.error(
+        t("profiles.nameExists", {
+          fallback: "A profile with this name already exists",
+        }),
+      );
       return;
     }
     if (duplicateProfileId) {
@@ -196,7 +253,13 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
       setDuplicateProfileName("");
       setDuplicateDialogOpen(false);
       toast.success(
-        `Profile "${sourceProfile?.name}" duplicated as "${duplicateProfileName}"`,
+        t("profiles.duplicated", {
+          fallback: 'Profile "{{source}}" duplicated as "{{name}}"',
+          vars: {
+            source: String(sourceProfile?.name),
+            name: duplicateProfileName,
+          },
+        }),
       );
     }
   };
@@ -214,7 +277,9 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
           onValueChange={handleSwitchProfile}
         >
           <SelectTrigger className="min-w-0 flex-1 h-8" id="profile-select">
-            <SelectValue placeholder="Select profile" />
+            <SelectValue
+              placeholder={t("profiles.select", { fallback: "Select profile" })}
+            />
           </SelectTrigger>
           <SelectContent>
             {settingsStore.profiles.map((profile) => (
@@ -231,26 +296,37 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
               size="sm"
               variant="outline"
               className="h-8 px-2 text-green-600 dark:text-green-400"
-              title="Create new profile"
+              title={t("profiles.createNew", {
+                fallback: "Create new profile",
+              })}
             >
               <UserPlus className="h-4 w-4" />
             </Button>
           </DialogTrigger>
           <DialogContent aria-describedby="create-profile-description">
             <DialogHeader>
-              <DialogTitle>Create New Profile</DialogTitle>
+              <DialogTitle>
+                {t("profiles.create", { fallback: "Create New Profile" })}
+              </DialogTitle>
               <DialogDescription id="create-profile-description">
-                Create a new profile based on your current settings.
+                {t("profiles.createDescription", {
+                  fallback:
+                    "Create a new profile based on your current settings.",
+                })}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="new-profile-name">Profile Name</Label>
+                <Label htmlFor="new-profile-name">
+                  {t("profiles.name", { fallback: "Profile Name" })}
+                </Label>
                 <Input
                   id="new-profile-name"
                   value={newProfileName}
                   onChange={(e) => setNewProfileName(e.target.value)}
-                  placeholder="Enter profile name"
+                  placeholder={t("profiles.namePlaceholder", {
+                    fallback: "Enter profile name",
+                  })}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleCreateProfile();
@@ -267,9 +343,11 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
                   setNewProfileName("");
                 }}
               >
-                Cancel
+                {t("common.cancel", { fallback: "Cancel" })}
               </Button>
-              <Button onClick={handleCreateProfile}>Create</Button>
+              <Button onClick={handleCreateProfile}>
+                {t("common.create", { fallback: "Create" })}
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -282,7 +360,9 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
                   size="sm"
                   variant="outline"
                   className="h-8 px-2 text-blue-600 dark:text-blue-400"
-                  title="Rename profile"
+                  title={t("profiles.renameTitle", {
+                    fallback: "Rename profile",
+                  })}
                   onClick={() => {
                     setEditingProfileId(currentProfile.id);
                     setEditingProfileName(currentProfile.name);
@@ -293,19 +373,27 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
               </DialogTrigger>
               <DialogContent aria-describedby="rename-profile-description">
                 <DialogHeader>
-                  <DialogTitle>Rename Profile</DialogTitle>
+                  <DialogTitle>
+                    {t("profiles.rename", { fallback: "Rename Profile" })}
+                  </DialogTitle>
                   <DialogDescription id="rename-profile-description">
-                    Enter a new name for this profile.
+                    {t("profiles.renameDescription", {
+                      fallback: "Enter a new name for this profile.",
+                    })}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="edit-profile-name">Profile Name</Label>
+                    <Label htmlFor="edit-profile-name">
+                      {t("profiles.name", { fallback: "Profile Name" })}
+                    </Label>
                     <Input
                       id="edit-profile-name"
                       value={editingProfileName}
                       onChange={(e) => setEditingProfileName(e.target.value)}
-                      placeholder="Enter profile name"
+                      placeholder={t("profiles.namePlaceholder", {
+                        fallback: "Enter profile name",
+                      })}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleRenameProfile();
@@ -323,9 +411,11 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
                       setEditingProfileName("");
                     }}
                   >
-                    Cancel
+                    {t("common.cancel", { fallback: "Cancel" })}
                   </Button>
-                  <Button onClick={handleRenameProfile}>Rename</Button>
+                  <Button onClick={handleRenameProfile}>
+                    {t("common.rename", { fallback: "Rename" })}
+                  </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -339,7 +429,9 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
                   size="sm"
                   variant="outline"
                   className="h-8 px-2 text-purple-600 dark:text-purple-400"
-                  title="Duplicate profile"
+                  title={t("profiles.duplicateTitle", {
+                    fallback: "Duplicate profile",
+                  })}
                   onClick={() => {
                     setDuplicateProfileId(currentProfile.id);
                     setDuplicateProfileName(`${currentProfile.name} Copy`);
@@ -350,20 +442,29 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
               </DialogTrigger>
               <DialogContent aria-describedby="duplicate-profile-description">
                 <DialogHeader>
-                  <DialogTitle>Duplicate Profile</DialogTitle>
+                  <DialogTitle>
+                    {t("profiles.duplicate", { fallback: "Duplicate Profile" })}
+                  </DialogTitle>
                   <DialogDescription id="duplicate-profile-description">
-                    Create a copy of "{currentProfile.name}" with all its
-                    settings.
+                    {t("profiles.duplicateDescription", {
+                      fallback:
+                        'Create a copy of "{{name}}" with all its settings.',
+                      vars: { name: currentProfile.name },
+                    })}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="duplicate-profile-name">Profile Name</Label>
+                    <Label htmlFor="duplicate-profile-name">
+                      {t("profiles.name", { fallback: "Profile Name" })}
+                    </Label>
                     <Input
                       id="duplicate-profile-name"
                       value={duplicateProfileName}
                       onChange={(e) => setDuplicateProfileName(e.target.value)}
-                      placeholder="Enter profile name"
+                      placeholder={t("profiles.namePlaceholder", {
+                        fallback: "Enter profile name",
+                      })}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleDuplicateProfile();
@@ -381,9 +482,11 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
                       setDuplicateProfileName("");
                     }}
                   >
-                    Cancel
+                    {t("common.cancel", { fallback: "Cancel" })}
                   </Button>
-                  <Button onClick={handleDuplicateProfile}>Duplicate</Button>
+                  <Button onClick={handleDuplicateProfile}>
+                    {t("common.duplicate", { fallback: "Duplicate" })}
+                  </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -392,7 +495,7 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
               size="sm"
               variant="outline"
               className="h-8 px-2 text-amber-600 dark:text-amber-400"
-              title="Download profile"
+              title={t("profiles.download", { fallback: "Download profile" })}
               onClick={() => handleDownloadProfile(currentProfile.id)}
             >
               <Download className="h-4 w-4" />
@@ -404,7 +507,7 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
           size="sm"
           variant="outline"
           className="h-8 px-2 text-cyan-600 dark:text-cyan-400"
-          title="Upload profile"
+          title={t("profiles.upload", { fallback: "Upload profile" })}
           onClick={handleUploadProfile}
         >
           <Upload className="h-4 w-4" />
@@ -419,8 +522,12 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
                 className="h-8 px-2 text-red-600 dark:text-red-400"
                 title={
                   settingsStore.profiles.length <= 1
-                    ? "Cannot delete the last profile"
-                    : "Delete profile"
+                    ? t("profiles.cannotDeleteLast", {
+                        fallback: "Cannot delete the last profile",
+                      })
+                    : t("profiles.deleteTitle", {
+                        fallback: "Delete profile",
+                      })
                 }
                 disabled={settingsStore.profiles.length <= 1}
               >
@@ -429,21 +536,28 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Delete Profile</AlertDialogTitle>
+                <AlertDialogTitle>
+                  {t("profiles.delete", { fallback: "Delete Profile" })}
+                </AlertDialogTitle>
                 <AlertDialogDescription>
-                  Are you sure you want to delete the profile "
-                  {currentProfile.name}"? This action cannot be undone.
+                  {t("profiles.deleteConfirm", {
+                    fallback:
+                      'Are you sure you want to delete the profile "{{name}}"? This action cannot be undone.',
+                    vars: { name: currentProfile.name },
+                  })}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>
+                  {t("common.cancel", { fallback: "Cancel" })}
+                </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() =>
                     handleDeleteProfile(currentProfile.id, currentProfile.name)
                   }
                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
-                  Delete
+                  {t("common.delete", { fallback: "Delete" })}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -453,7 +567,12 @@ export function ProfileManager({ activeApp }: { activeApp: string }) {
 
       {currentProfile && (
         <div className="text-xs text-muted-foreground space-y-1">
-          <p>Updated: {handleDateDisplay(currentProfile.updatedAt)}</p>
+          <p>
+            {t("profiles.updatedAt", {
+              fallback: "Updated: {{date}}",
+              vars: { date: handleDateDisplay(currentProfile.updatedAt) },
+            })}
+          </p>
         </div>
       )}
     </div>

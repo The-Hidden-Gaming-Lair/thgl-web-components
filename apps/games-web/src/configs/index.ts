@@ -17,17 +17,22 @@ import { heartopia } from "./heartopia";
 import { hogwartsLegacy } from "./hogwarts-legacy";
 import { hommOldenEra } from "./homm-olden-era";
 import { infinityNikki } from "./infinity-nikki";
+import { legendOfKhiimori } from "./legend-of-khiimori";
 import { nevernessToEverness } from "./neverness-to-everness";
 import { nightCrows } from "./night-crows";
 import { onceHuman } from "./once-human";
 import { palia } from "./palia";
+import { planetCrafter } from "./planet-crafter";
 import { palworld } from "./palworld";
 import { paxDei } from "./pax-dei";
 import { rsdragonwilds } from "./rsdragonwilds";
 import { satisfactory } from "./satisfactory";
 import { songsOfConquest } from "./songs-of-conquest";
+import { sinkingCity2 } from "./sinking-city-2";
 import { soulframe } from "./soulframe";
 import { soulmask } from "./soulmask";
+import { soulsRemnant } from "./souls-remnant";
+import { starrupture } from "./starrupture";
 import { starsandIsland } from "./starsand-island";
 import { subnautica2 } from "./subnautica-2";
 import { thglApp } from "./thgl-app";
@@ -40,6 +45,7 @@ import { wutheringWaves } from "./wuthering-waves";
  * Add a new game by importing its config and adding it to this array.
  */
 const ALL_CONFIGS: AppConfig[] = [
+  planetCrafter,
   avowed,
   blueProtocolStarResonance,
   chronoOdyssey,
@@ -58,6 +64,7 @@ const ALL_CONFIGS: AppConfig[] = [
   hogwartsLegacy,
   hommOldenEra,
   infinityNikki,
+  legendOfKhiimori,
   nevernessToEverness,
   nightCrows,
   onceHuman,
@@ -67,8 +74,11 @@ const ALL_CONFIGS: AppConfig[] = [
   rsdragonwilds,
   satisfactory,
   songsOfConquest,
+  sinkingCity2,
   soulframe,
   soulmask,
+  soulsRemnant,
+  starrupture,
   starsandIsland,
   subnautica2,
   thglApp,

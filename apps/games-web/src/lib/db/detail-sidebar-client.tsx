@@ -112,8 +112,9 @@ export function DetailSidebarClient({
                         width: item.icon.width,
                         height: item.icon.height,
                         objectPosition: `-${item.icon.x}px -${item.icon.y}px`,
-                        // scale by native width, never upscale past the source
-                        zoom: Math.min(20 / (item.icon.width || 64), 1),
+                        // scale to the 20px slot — small icons UP too, so a 9px
+                        // sprite fills the row like a 20px one (uniform sizing)
+                        zoom: 20 / (item.icon.width || 64),
                       }}
                     />
                   )}

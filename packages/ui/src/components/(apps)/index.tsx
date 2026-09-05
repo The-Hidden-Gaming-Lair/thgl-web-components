@@ -7,6 +7,12 @@ export {
 } from "./guides-page";
 export { createHomePageGenerateMetadata, createHomePage } from "./home-page";
 export { createMapPageGenerateMetadata, createMapPage } from "./map-page";
+export {
+  PreviewReleaseGuard,
+  PreviewReleaseOnly,
+  PreviewReleasePage,
+  usePreviewReleaseGate,
+} from "./preview-release-guard";
 export { createMapsPageGenerateMetadata, createMapsPage } from "./maps-page";
 export { createDbPageGenerateMetadata, createDbPage } from "./db-page";
 export {

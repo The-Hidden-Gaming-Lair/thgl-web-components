@@ -5,6 +5,7 @@ import Link from "next/link";
 import { localizePath } from "@repo/lib";
 import { SpriteIcon } from "./sprite-icon";
 import { EntityTooltip } from "./entity-tooltip";
+import { matchSnippet } from "./match-snippet";
 
 type IconSprite = {
   url: string;
@@ -20,13 +21,17 @@ export type GridItem = {
   groupId: string;
   groupLabel: string;
   icon?: IconSprite;
+  /** Flattened effect/props text for reverse lookups ("Ranged Offence"). */
+  text?: string;
 };
 
 /**
  * Client list grid with a text filter + category (group) chips. Used by the
  * generic DB section list page so large sets (uniques, aspects, …) are
  * searchable/filterable like the reference sites. Names + group labels are
- * resolved server-side and passed in.
+ * resolved server-side and passed in. The filter also matches each item's
+ * effect text, so "Ranged Offence" lists every entry granting it (with the
+ * matching effect line shown under the name).
  */
 export function FilterableEntityGrid({
   items,
@@ -60,7 +65,9 @@ export function FilterableEntityGrid({
     return items.filter(
       (it) =>
         (!group || it.groupId === group) &&
-        (!q || it.name.toLowerCase().includes(q)),
+        (!q ||
+          it.name.toLowerCase().includes(q) ||
+          it.text?.toLowerCase().includes(q)),
     );
   }, [items, query, group]);
 
@@ -91,7 +98,7 @@ export function FilterableEntityGrid({
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Filter by name…"
+          placeholder="Filter by name or effect…"
           className="h-8 w-48 rounded border border-slate-700 bg-slate-900/60 px-2.5 text-sm text-slate-200 outline-none focus:border-amber-700/70"
         />
         {groups.length > 1 && (
@@ -134,31 +141,47 @@ export function FilterableEntityGrid({
                 </h2>
               )}
               <div className="grid grid-cols-2 gap-1 lg:grid-cols-3">
-                {b.items.map((item) => (
-                  <EntityTooltip
-                    key={item.id}
-                    entityId={item.id}
-                    locale={locale}
-                  >
-                    <Link
-                      href={localizePath(`/db/${section}/${item.id}`, locale)}
-                      prefetch={false}
-                      className="group flex w-full items-center gap-2.5 rounded px-2.5 py-2 transition-colors hover:bg-zinc-800/50"
+                {b.items.map((item) => {
+                  // When the item matched via effect text (not its name), show
+                  // the matching effect line so the result explains itself.
+                  const q = query.trim();
+                  const snippet =
+                    q && !item.name.toLowerCase().includes(q.toLowerCase())
+                      ? matchSnippet(item.text, q)
+                      : null;
+                  return (
+                    <EntityTooltip
+                      key={item.id}
+                      entityId={item.id}
+                      locale={locale}
                     >
-                      {item.icon && (
-                        <SpriteIcon
-                          icon={item.icon}
-                          appName={appName}
-                          size={28}
-                          iconsHash={iconsHash}
-                        />
-                      )}
-                      <span className="truncate transition-colors group-hover:text-amber-400">
-                        {item.name}
-                      </span>
-                    </Link>
-                  </EntityTooltip>
-                ))}
+                      <Link
+                        href={localizePath(`/db/${section}/${item.id}`, locale)}
+                        prefetch={false}
+                        className="group flex w-full items-center gap-2.5 rounded px-2.5 py-2 transition-colors hover:bg-zinc-800/50"
+                      >
+                        {item.icon && (
+                          <SpriteIcon
+                            icon={item.icon}
+                            appName={appName}
+                            size={28}
+                            iconsHash={iconsHash}
+                          />
+                        )}
+                        <span className="min-w-0">
+                          <span className="block truncate transition-colors group-hover:text-amber-400">
+                            {item.name}
+                          </span>
+                          {snippet && (
+                            <span className="block truncate text-xs text-muted-foreground">
+                              {snippet}
+                            </span>
+                          )}
+                        </span>
+                      </Link>
+                    </EntityTooltip>
+                  );
+                })}
               </div>
             </div>
           ))}

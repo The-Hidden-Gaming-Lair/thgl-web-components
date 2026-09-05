@@ -17,6 +17,7 @@ import {
   Links,
   LocaleSwitcher,
   LocaleSwitcherInline,
+  AudioAlertUnlocker,
   NewVersionWatcher,
   Toaster,
 } from "@repo/ui/controls";
@@ -123,7 +124,11 @@ export function createDbRootLayout(appConfig: AppConfig) {
             >
               <Link
                 href={locale === DEFAULT_LOCALE ? "/" : `/${locale}`}
-                aria-label="Home"
+                // Accessible name must CONTAIN the visible Brand text (WCAG 2.5.3
+                // Label in Name) — bare "Home" mismatched the "<DOMAIN>.TH.GL" logo
+                // text. Mirror Brand's rendering; still names the link on mobile
+                // where Brand is hidden.
+                aria-label={`${appConfig.domain.replaceAll(" ", "").toUpperCase()}.TH.GL home`}
               >
                 <Brand title={appConfig.domain} />
               </Link>
@@ -140,7 +145,10 @@ export function createDbRootLayout(appConfig: AppConfig) {
                     </Suspense>
                   ) : undefined
                 }
-                hasMap={Object.keys(version.data.tiles ?? {}).length > 0}
+                hasMap={
+                  !appConfig.db?.hideInteractiveMap &&
+                  Object.keys(version.data.tiles ?? {}).length > 0
+                }
                 hasGuides={hasFilters}
               >
                 {appConfig.supportedLocales.length > 1 && (
@@ -169,6 +177,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
 
             <StatusBanner
               game={appConfig.name}
+              surface="web"
               className="fixed top-[54px] inset-x-0 z-99989"
             />
 
@@ -188,6 +197,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
           />
           <Toaster />
           <NewVersionWatcher />
+          <AudioAlertUnlocker />
         </body>
       </html>
     );

@@ -17,6 +17,18 @@ initGameEventsPlugin(
   Object.keys(typesIdMap),
 );
 
+// Wild-pal sightings are crowd-sourced too, so predicted spawner markers can be
+// audited against real in-game spawns (e.g. "does Chillet actually spawn on the
+// Frostbound Mountains Summit?"). Scoped to the pal filter groups — owned/companion
+// (otomo) pals are already dropped inside the memory-reading plugin, and NPC/visitor
+// classes stay out of the crowd data.
+const PAL_FILTER_GROUPS = new Set(["pal_common", "pal_alpha", "pal_predator"]);
+const palTypeIds = new Set(
+  version.data.filters
+    .filter((filter) => PAL_FILTER_GROUPS.has(filter.group))
+    .flatMap((filter) => filter.values.map((value) => value.id)),
+);
+
 let lastSend = 0;
 let lastActorAddresses: number[] = [];
 // Only report actors that have stayed visible for >= 5s, to drop transient
@@ -32,7 +44,8 @@ async function sendActorsToAPI(actors: Actor[]) {
   const newActors = actors.filter(
     (actor) =>
       !lastActorAddresses.includes(actor.address) &&
-      actor.type.startsWith("BP_MapObject_") &&
+      (actor.type.startsWith("BP_MapObject_") ||
+        palTypeIds.has(typesIdMap[actor.type])) &&
       dwellTracker.isStable(actor.address),
   );
   lastActorAddresses = actors.map((actor) => actor.address);

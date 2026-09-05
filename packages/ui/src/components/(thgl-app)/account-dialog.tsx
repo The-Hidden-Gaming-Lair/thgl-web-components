@@ -12,14 +12,7 @@ import {
 } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import {
-  Eye,
-  ExternalLink,
-  MessageCircle,
-  Shield,
-  Star,
-  Zap,
-} from "lucide-react";
+import { Eye, ExternalLink, Shield, Star, Zap } from "lucide-react";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -28,12 +21,6 @@ const PERK_CONFIG = [
     label: "Premium",
     icon: Zap,
     tier: "Pro+",
-  },
-  {
-    key: "comments" as const,
-    label: "Comments",
-    icon: MessageCircle,
-    tier: "Enthusiast+",
   },
   {
     key: "previewReleaseAccess" as const,
@@ -156,6 +143,22 @@ export function AccountDialog() {
           <div>
             <p className="font-bold text-sm">Account ID</p>
             <p className="text-muted-foreground">{account.decryptedUserId}</p>
+          </div>
+          <div>
+            <p className="font-bold text-sm">Tier</p>
+            <p className="text-primary">
+              {/* Special is server-resolved (PATREON_SPECIAL_USERS) — perks
+                  alone can't distinguish it from Elite. */}
+              {account.isSpecial
+                ? "Special"
+                : account.perks.previewReleaseAccess
+                  ? "Elite"
+                  : account.perks.adRemoval
+                    ? "Pro"
+                    : account.perks.comments
+                      ? "Enthusiast"
+                      : "None"}
+            </p>
           </div>
           <div className="space-y-2">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">

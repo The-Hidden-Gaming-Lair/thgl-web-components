@@ -1,23 +1,115 @@
-import { resolveAppConfig, DATA_FORGE_CDN_URL } from "@repo/lib";
+import { resolveAppConfig } from "@repo/lib";
 
 export const grounded2 = resolveAppConfig({
   name: "grounded2",
-  supportedLocales: ["en", "de", "es", "es-MX", "fr", "it", "zh-CN"],
-  appUrl: null,
-  internalLinks: [
-    {
-      title: "Brookhollow Park Map",
-      description:
-        "Navigate Grounded 2's Brookhollow Park with our interactive maps.",
-      href: "/maps/Brookhollow%20Park",
-      iconName: "Map",
-      // Inlined getPreviewImageUrl("grounded2", "brookhollow-park")
-      bgImage:
-        `${DATA_FORGE_CDN_URL}/grounded2/map-tiles/brookhollow-park/preview.webp`,
-      linkText: "Explore the Brookhollow Park Map",
-    },
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "es-MX",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pt-BR",
+    "zh-CN",
+    "zh-TW",
   ],
+  appUrl: "https://www.th.gl/companion-app",
+  // Map cards (Brookhollow Park + The Abyss) are auto-generated from the map
+  // list — no manual internalLinks map entries (they'd shadow the richer cards).
+  internalLinks: [],
   promoLinks: [],
   externalLinks: [],
   keywords: ["Wonders", "Ominent Facilities", "Resources"],
+  db: {
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search weapons, armor, creatures, materials…",
+    sectionsInNav: true,
+    homeSections: [
+      {
+        href: "/db/weapons",
+        type: "weapons",
+        titleFallback: "Weapons & Tools",
+        icon: "🗡️",
+        description: "Spears, bows, hammers and tools with recipes and stats.",
+      },
+      {
+        href: "/db/armor",
+        type: "armor",
+        titleFallback: "Armor",
+        icon: "🛡️",
+        description: "Head, chest and leg gear with damage reduction stats.",
+      },
+      {
+        href: "/db/creatures",
+        type: "creatures",
+        titleFallback: "Creatures",
+        icon: "🐛",
+        description: "Every bug and bot in the park, with weak points.",
+      },
+      {
+        href: "/db/materials",
+        type: "materials",
+        titleFallback: "Materials",
+        icon: "🪨",
+        description:
+          "Natural resources and crafting materials, and what they craft.",
+      },
+      {
+        href: "/db/consumables",
+        type: "consumables",
+        titleFallback: "Consumables",
+        icon: "🍖",
+        description: "Food, meals, smoothies and bandages.",
+      },
+      {
+        href: "/db/trinkets",
+        type: "trinkets",
+        titleFallback: "Trinkets",
+        icon: "📿",
+        description: "Accessories with passive effects.",
+      },
+      {
+        href: "/db/ammo",
+        type: "ammo",
+        titleFallback: "Ammo & Throwables",
+        icon: "🏹",
+        description: "Arrows, bolts and throwable items.",
+      },
+      {
+        href: "/db/buildings",
+        type: "buildings",
+        titleFallback: "Buildings",
+        icon: "🏠",
+        description: "Base building pieces and utilities with build costs.",
+      },
+      {
+        href: "/db/buggies",
+        type: "buggies",
+        titleFallback: "Buggies",
+        icon: "🏎️",
+        description: "Rideable buggy mounts and their equipment.",
+      },
+      {
+        href: "/db/key-items",
+        type: "key-items",
+        titleFallback: "Key Items",
+        icon: "🗝️",
+        description: "Notes, audio logs, optical disks and other key items.",
+      },
+    ],
+    typeLabels: {
+      weapons: "Weapons & Tools",
+      armor: "Armor",
+      creatures: "Creatures",
+      materials: "Materials",
+      consumables: "Consumables",
+      trinkets: "Trinkets",
+      ammo: "Ammo & Throwables",
+      buildings: "Buildings",
+      buggies: "Buggies",
+      "key-items": "Key Items",
+    },
+  },
 });

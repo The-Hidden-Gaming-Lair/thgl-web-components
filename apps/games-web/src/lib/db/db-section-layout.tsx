@@ -105,7 +105,11 @@ export async function buildSidebarGroups({
             groupId,
           )
         : resolveDictWithFallback(dict, groupId, groupId),
-    items,
+    // Sort entries alphabetically by display name (natural order so "Cave 2"
+    // precedes "Cave 10"). The DB emits them in id order, which reads as random.
+    items: [...items].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+    ),
   }));
 }
 

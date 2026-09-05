@@ -6,7 +6,12 @@ import { useMap } from "./store";
 import { PlayerMarker } from "./player-marker";
 import { rotateCoordinate } from "./rotation";
 import type { ActorPlayer } from "@repo/lib/overwolf";
-import { getIconsUrl, MarkerOptions, TilesConfig } from "@repo/lib";
+import {
+  getIconsUrl,
+  isSameWorld,
+  MarkerOptions,
+  TilesConfig,
+} from "@repo/lib";
 import { useSettingsStore } from "@repo/lib";
 import { useT } from "../(providers)";
 import { applyColorBlindTransform } from "./color-blind";
@@ -28,9 +33,9 @@ export function Player({
 }): JSX.Element {
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
-  const followPlayerPosition = useSettingsStore((state) => state.followPlayer);
   const setMapName = useUserStore((state) => state.setMapName);
   const t = useT();
+  const followPlayerPosition = useSettingsStore((state) => state.followPlayer);
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const playerIconSize = useSettingsStore((state) => state.playerIconSize);
   const colorBlindMode = useSettingsStore((state) => state.colorBlindMode);
@@ -116,7 +121,8 @@ export function Player({
       return;
     }
 
-    const isOnMap = !player.mapName || player.mapName === map.mapName;
+    const isOnMap =
+      !player.mapName || isSameWorld(player.mapName, map.mapName, tilesConfig);
     if (!isOnMap) {
       return;
     }
@@ -238,31 +244,26 @@ export function Player({
     run();
   }, [iconUrl, iconSize, colorBlindMode, colorBlindSeverity]);
 
-  // Use stable primitives as dependencies so this effect fires when the player's
-  // coordinates or facing direction (rotation) change, avoiding unnecessary re-renders.
-  const playerX = player?.x;
-  const playerY = player?.y;
-  const playerZ = player?.z;
-  const playerRotation = player?.r;
-  const playerMapName = player?.mapName;
+  // Use stable primitives as deps so this effect only fires when the
+  // player position or facing direction (rotation) actually changes, not on every game state emission.
+  const px = player?.x;
+  const py = player?.y;
+  const pz = player?.z;
+  const pr = player?.r;
+  const pMap = player?.mapName;
 
   useEffect(() => {
-    if (
-      !map?.mapName ||
-      playerX == null ||
-      playerY == null ||
-      !marker.current
-    ) {
+    if (!map?.mapName || px == null || py == null || !marker.current) {
       return;
     }
 
     // Apply rotation to player position if configured on the map projection
-    let playerPosition: [number, number] = [playerX, playerY];
+    let playerPosition: [number, number] = [px, py];
     const rotationDegrees = map._rotationDegrees;
     const rotationCenter = map._rotationCenter;
     if (rotationDegrees && rotationCenter) {
       playerPosition = rotateCoordinate(
-        [playerX, playerY],
+        [px, py],
         rotationDegrees,
         rotationCenter,
       );
@@ -275,40 +276,55 @@ export function Player({
       y: playerPosition[1],
     });
 
-    const isMarkerOnActiveMap = !playerMapName || playerMapName === map.mapName;
-    if (!isMarkerOnActiveMap) {
+    const isOnMap = !pMap || isSameWorld(pMap, map.mapName, tilesConfig);
+    if (!isOnMap) {
       return;
     }
 
     if (followPlayerPosition) {
       map.panTo(playerPosition);
     }
-  }, [
-    map?.mapName,
-    playerX,
-    playerY,
-    playerZ,
-    playerRotation,
-    playerMapName,
-    followPlayerPosition,
-  ]);
+  }, [map?.mapName, px, py, pz, pr, pMap, followPlayerPosition, tilesConfig]);
 
+  // Live map-follow: when the player crosses to a DIFFERENT map (game map / instance),
+  // switch the viewed map to theirs. Edge-triggered on the player's map so it doesn't
+  // fight manual browsing. It does NOT follow the player into a layered interior: the
+  // `sameWorld` guard keeps a manual layer pick (e.g. viewing the parent's Underground)
+  // from being yanked back to the surface, since the player's position already shows
+  // on both.
+  const lastPlayerMapRef = useRef<string | null>(null);
   useEffect(() => {
-    if (!player?.mapName || !map) {
+    if (!pMap || !map || !(pMap in tilesConfig)) {
       return;
     }
-    // Use 'in' operator for efficient object property check instead of Object.keys
-    if (!(player.mapName in tilesConfig)) {
+    if (pMap === lastPlayerMapRef.current) {
       return;
     }
-    if (player.mapName !== map.mapName) {
-      console.log("Setting map name", player.mapName);
-      setMapName(player.mapName, [player.x, player.y], map.getZoom());
-      if (location.pathname.includes("/maps/")) {
-        window.history.pushState({}, "", `/maps/${t(player.mapName)}`);
-      }
+    lastPlayerMapRef.current = pMap;
+    if (isSameWorld(pMap, map.mapName, tilesConfig)) {
+      return;
     }
-  }, [!!map, player?.mapName]);
+    // Carry the current zoom only when both maps share tiles (same coordinate
+    // space). Across different tile spaces the current zoom is meaningless —
+    // and on a transiently misdetected switch (e.g. Once Human reads server
+    // "unknown" while loading into a world and briefly maps to Eternaland)
+    // carrying it would overwrite the target map's remembered zoom with the
+    // wrong map's zoomed-out fit zoom ("Manibus starts fully zoomed out after
+    // a game restart"). Omitting it keeps the target's saved zoom, falling
+    // back to its default fit zoom on a first visit.
+    const sameTiles = tilesConfig[pMap]?.url === tilesConfig[map.mapName]?.url;
+    setMapName(
+      pMap,
+      [player.x, player.y],
+      sameTiles ? map.getZoom() : undefined,
+    );
+    if (location.pathname.includes("/maps/")) {
+      // Slug = dict term; a defaultTitle equal to the map id isn't a real title.
+      const dt = tilesConfig[pMap]?.defaultTitle;
+      const title = (dt && dt !== pMap ? dt : t(pMap)) || pMap;
+      window.history.pushState({}, "", `/maps/${title}`);
+    }
+  }, [!!map, pMap, tilesConfig]);
 
   // Audio alert range circle
   const showAudioAlertRange = useSettingsStore(

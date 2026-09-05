@@ -23,6 +23,11 @@ export type InitialState = {
   closeAction: CloseAction;
   locale: string;
   connectedClients?: ConnectedClient[];
+  // True when the app stripped the Windows Compatibility "Run as
+  // administrator" flag for its exe at startup (it forces UAC elevation on
+  // every launch and can fork the WebView2 storage identity — the app manages
+  // elevation itself). Surfaced as a one-time dashboard toast.
+  compatRunAsAdminFlagRemoved?: boolean;
 };
 
 export function getVersionFromWebview() {
@@ -80,6 +85,15 @@ export function setCloseAction(closeAction: CloseAction) {
   return postWebviewMessage({
     action: "setCloseAction",
     payload: { closeAction },
+  });
+}
+
+// Opt-out mirror: pushes the Palia join-code mute to the native app so its world
+// heartbeat can DROP the join code at the source (never transmitted when muted).
+export function setWorldCodeRequestsMuted(muted: boolean) {
+  return postWebviewMessage({
+    action: "setWorldCodeRequestsMuted",
+    payload: { muted },
   });
 }
 

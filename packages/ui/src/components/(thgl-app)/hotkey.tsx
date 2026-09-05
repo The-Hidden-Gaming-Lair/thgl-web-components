@@ -22,8 +22,14 @@ export function Hotkey({
 
   const [recording, setRecording] = useState(false);
   const [currentCombo, setCurrentCombo] = useState<string | null>(null);
+  const [detectedPad, setDetectedPad] = useState<{
+    id: string;
+    mapping: string;
+  } | null>(null);
+  const [padHint, setPadHint] = useState<string | null>(null);
   const rafRef = useRef<number | null>(null);
   const gamepadPrevPressedRef = useRef<boolean[]>([]);
+  const detectedPadIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     const active = isActive ?? recording;
@@ -66,12 +72,33 @@ export function Hotkey({
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
+    // Reset any stale gamepad detection from a previous recording session
+    setDetectedPad(null);
+    setPadHint(null);
+    detectedPadIdRef.current = null;
+
     // Gamepad capture via Gamepad API while recording
     const pollGamepad = () => {
       const pads = navigator.getGamepads ? navigator.getGamepads() : [];
       for (let i = 0; i < (pads?.length ?? 0); i++) {
         const pad = pads?.[i];
         if (!pad) continue;
+
+        // Surface which controller we see and whether the browser reports the
+        // "standard" (Xbox/XInput) layout. Native PS5 / Steam controllers are
+        // often reported with a non-"standard" mapping (unusable button
+        // indices), and the app's runtime hotkey firing is XInput-only anyway,
+        // so guide the user to enable Steam Input (which presents a virtual
+        // Xbox controller that works exactly like a real one).
+        if (detectedPadIdRef.current !== pad.id) {
+          detectedPadIdRef.current = pad.id;
+          setDetectedPad({ id: pad.id, mapping: pad.mapping });
+          setPadHint(
+            pad.mapping !== "standard"
+              ? "This controller isn't in Xbox/XInput mode, so its buttons can't be mapped here. Enable Steam Input (Steam → Settings → Controller) to use it like an Xbox controller."
+              : null,
+          );
+        }
 
         // Buttons: detect first newly pressed button
         for (let b = 0; b < pad.buttons.length; b++) {
@@ -80,13 +107,24 @@ export function Hotkey({
             (gamepadPrevPressedRef.current as any)[`${i}:${b}`] === true;
           const nowPressed = !!btn.pressed || btn.value > 0.5;
           if (!wasPressed && nowPressed) {
-            const btnName = mapGamepadButtonToName(b);
-            if (btnName) {
-              setHotkey(nameArg(), btnName);
-              onStop?.();
-              setRecording(false);
-              setCurrentCombo(null);
-              return; // stop on first detection
+            // Only "standard"-mapped pads have reliable indices that also match
+            // the XInput names the runtime fires on. For non-standard pads we
+            // deliberately DON'T assign a token the runtime could never fire —
+            // the Steam Input hint above tells the user how to fix it.
+            if (pad.mapping === "standard") {
+              const btnName = mapGamepadButtonToName(b);
+              if (btnName) {
+                setHotkey(nameArg(), btnName);
+                onStop?.();
+                setRecording(false);
+                setCurrentCombo(null);
+                setDetectedPad(null);
+                setPadHint(null);
+                return; // stop on first detection
+              }
+              setPadHint(
+                `Button #${b} on this controller isn't a supported hotkey button.`,
+              );
             }
           }
           (gamepadPrevPressedRef.current as any)[`${i}:${b}`] = nowPressed;
@@ -103,45 +141,62 @@ export function Hotkey({
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      setDetectedPad(null);
+      setPadHint(null);
+      detectedPadIdRef.current = null;
     };
   }, [isActive, recording, currentCombo, setHotkey, name]);
 
+  const active = isActive ?? recording;
   return (
-    <div className="flex items-center gap-2">
-      <Button
-        size="sm"
-        variant={(isActive ?? recording) ? "default" : "outline"}
-        onClick={() => {
-          if (!(isActive ?? recording)) {
-            onStart?.();
-            setRecording(true);
-            setCurrentCombo(null);
-          } else {
+    <div className="flex flex-col items-end gap-1">
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          variant={active ? "default" : "outline"}
+          onClick={() => {
+            if (!active) {
+              onStart?.();
+              setRecording(true);
+              setCurrentCombo(null);
+            } else {
+              onStop?.();
+              setRecording(false);
+              setCurrentCombo(null);
+            }
+          }}
+        >
+          {active
+            ? currentCombo || "Press keys or gamepad..."
+            : hotkeys[name] || "Unassigned"}
+        </Button>
+        <Button
+          size="xs-icon"
+          variant="ghost"
+          aria-label="Clear hotkey"
+          title="Clear hotkey"
+          onClick={() => {
+            setHotkey(name, undefined as any);
             onStop?.();
             setRecording(false);
             setCurrentCombo(null);
-          }
-        }}
-      >
-        {(isActive ?? recording)
-          ? currentCombo || "Press keys or gamepad..."
-          : hotkeys[name] || "Unassigned"}
-      </Button>
-      <Button
-        size="xs-icon"
-        variant="ghost"
-        aria-label="Clear hotkey"
-        title="Clear hotkey"
-        onClick={() => {
-          setHotkey(name, undefined as any);
-          onStop?.();
-          setRecording(false);
-          setCurrentCombo(null);
-          onClear?.();
-        }}
-      >
-        <X className="h-3.5 w-3.5" />
-      </Button>
+            onClear?.();
+          }}
+        >
+          <X className="h-3.5 w-3.5" />
+        </Button>
+      </div>
+      {active && detectedPad ? (
+        <p className="max-w-[240px] text-right text-[10px] text-muted-foreground">
+          🎮 {detectedPad.id.replace(/\s*\([^)]*\)\s*$/, "")}
+          {detectedPad.mapping !== "standard" ? " · not Xbox/XInput mode" : ""}
+        </p>
+      ) : null}
+      {active && padHint ? (
+        <p className="max-w-[240px] text-right text-[10px] text-amber-500">
+          {padHint}
+        </p>
+      ) : null}
     </div>
   );
 }

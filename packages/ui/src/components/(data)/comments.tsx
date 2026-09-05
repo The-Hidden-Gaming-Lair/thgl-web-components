@@ -22,12 +22,18 @@ import { Textarea } from "../ui/textarea";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { Skeleton } from "../ui/skeleton";
-import { API_FORGE_URL, useAccountStore } from "@repo/lib";
+import { API_FORGE_URL, resilientFetch, useAccountStore } from "@repo/lib";
 import { type Comment, SingleComment } from "./comment";
 import { ScrollArea } from "../ui/scroll-area";
 import { AuthAlert } from "./auth-alert";
-import { CommentImageUpload } from "./comment-image-upload";
+import {
+  CommentImageUpload,
+  appendCommentImages,
+  prepareCommentImages,
+} from "./comment-image-upload";
 import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import { errorFromResponse } from "./comment-utils";
 
 const formSchema = z.object({
   text: z.string().min(2).max(500),
@@ -35,7 +41,6 @@ const formSchema = z.object({
 
 export function Comments({ id, appName }: { id: string; appName: string }) {
   const userId = useAccountStore((state) => state.userId);
-  const commentsPerk = useAccountStore((state) => state.perks.comments);
   const [pendingImages, setPendingImages] = useState<File[]>([]);
   const isThglApp = typeof window !== "undefined" && !!window.chrome?.webview;
 
@@ -46,7 +51,14 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
       .filter((f): f is File => f !== null);
     if (files.length > 0) {
       e.preventDefault();
-      setPendingImages((prev) => [...prev, ...files].slice(0, 3));
+      // Same pipeline as the dropzone — an unchecked paste used to send
+      // oversized images the server rejects with a silent 400. Oversized
+      // screenshots get re-encoded to WebP instead of rejected.
+      void prepareCommentImages(files).then((prepared) => {
+        if (prepared.length > 0) {
+          setPendingImages((prev) => appendCommentImages(prev, prepared));
+        }
+      });
     }
   }, []);
 
@@ -55,7 +67,7 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
     isLoading,
     error,
   } = useSWR(`/comments/${id}`, async () => {
-    const res = await fetch(
+    const res = await resilientFetch(
       `${API_FORGE_URL}/comments?node_id=${id}&app_id=${appName}`,
     );
     if (!res.ok) {
@@ -67,7 +79,11 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
     );
   });
 
-  const { trigger, isMutating } = useSWRMutation(
+  const {
+    trigger,
+    isMutating,
+    error: submitError,
+  } = useSWRMutation(
     `/comments/${id}`,
     async (
       _,
@@ -91,12 +107,12 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
       for (const img of arg.images) {
         formData.append("images", img);
       }
-      const res = await fetch(`${API_FORGE_URL}/comments`, {
+      const res = await resilientFetch(`${API_FORGE_URL}/comments`, {
         method: "POST",
         body: formData,
       });
       if (!res.ok) {
-        throw new Error("Failed to post comment");
+        throw await errorFromResponse(res, "Failed to post comment");
       }
       return (await res.json()) as { comment: Comment };
     },
@@ -114,15 +130,23 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!userId) return;
 
-    await trigger({
-      appId: appName,
-      nodeId: id,
-      text: values.text,
-      userId,
-      images: pendingImages,
-    });
-    form.reset();
-    setPendingImages([]);
+    try {
+      await trigger({
+        appId: appName,
+        nodeId: id,
+        text: values.text,
+        userId,
+        images: pendingImages,
+      });
+      // Only clear on success — a failed post keeps the draft so the user
+      // can retry without retyping.
+      form.reset();
+      setPendingImages([]);
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : "Failed to post comment",
+      );
+    }
   };
 
   return (
@@ -183,7 +207,7 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
           </div>
         </div>
 
-        {!commentsPerk ? (
+        {!userId ? (
           <AuthAlert />
         ) : (
           <Form {...form}>
@@ -223,6 +247,12 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
                   {watchText?.length ?? 0}/500
                 </span>
               </div>
+
+              {submitError instanceof Error && !isMutating && (
+                <p className="text-xs text-destructive">
+                  {submitError.message}
+                </p>
+              )}
 
               <Button
                 type="submit"

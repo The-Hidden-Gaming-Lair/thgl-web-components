@@ -17,6 +17,11 @@ export {
   type ImageOverlayOptions,
 } from "./layers/image-overlay";
 export { ZoneOverlayLayer } from "./layers/zone-overlay";
+export {
+  InteriorShapesLayer,
+  type InteriorArea,
+} from "./layers/interior-shapes";
+export { BackdropExitLayer } from "./layers/backdrop-exit";
 export { NavmeshLayer } from "./layers/navmesh";
 export {
   DrawingManager,

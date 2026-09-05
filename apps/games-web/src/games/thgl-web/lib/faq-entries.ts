@@ -30,12 +30,11 @@ export const faqEntries: FAQEntry[] = [
     answer: `
 The map itself is **free** — interactive maps, every filter, live tracking, and **Peer Link** (mirror the map to a phone or second screen) need no account at all.
 
-A **free account** (just sign in) adds **cloud-synced, shareable filters**.
+A **free account** (just sign in) adds **cloud-synced, shareable filters** and **comments on map markers**.
 
 Supporting on [Patreon](https://www.patreon.com/devleon) unlocks the rest. Tiers are **cumulative** — each includes everything below it:
 
 ### Enthusiast — $2/mo
-- Comments on map markers
 - Discord supporter role
 
 ### Pro — $5/mo
@@ -46,12 +45,30 @@ Supporting on [Patreon](https://www.patreon.com/devleon) unlocks the rest. Tiers
 - Everything in Pro
 - Early access to preview features (new features land here first before public release)
 
-**A note on "Premium Features":** these are game-specific extras that only a few older apps (like New World) bundle. Newer maps such as **Palia** don't have separate premium features — supporting Palia gets you the perks above (ad removal, comments, preview access).
+**A note on "Premium Features":** these are game-specific extras that only a few older apps (like New World) bundle. Newer maps such as **Palia** don't have separate premium features — supporting Palia gets you the perks above (ad removal, preview access).
 
 You can subscribe on the [Support page](/support-me). Here's the full breakdown:
     `.trim(),
     labels: ["Subscription", "General"],
     embed: "feature-comparison",
+  },
+  {
+    id: "palia-active-worlds",
+    headline: "Palia Active Worlds & join-code requests",
+    question:
+      "What is the Active Worlds tracker, and why did I get a “a player wants to join your world” message?",
+    answer: `
+**Active Worlds** is a live, crowdsourced list of Palia worlds and the events happening in them right now — such as **Flow Trees** and **Palium** — powered by players running the free [TH.GL companion app](/companion-app). You can browse it at [palia.th.gl/worlds](https://palia.th.gl/worlds).
+
+Palia streams each zone as its own server instance, and to hop into a **specific** world you need its **4-character join code**. On the tracker you can **request a code** for any active world.
+
+**"A player wants to join your world" prompt:** when someone requests a code for the world you're currently in, the app shows you a prompt. Sharing is **opt-in and explicit** — nothing happens unless *you* open the game menu (**Esc → World Code**). When you do, the app reads the code the game displays and posts it to the tracker.
+
+**What sharing does — please read:** posting the code lists it publicly on the tracker, and **anyone with the code can join the world you're currently in** (joining costs them a teleport cooldown or a teleport potion, so it isn't instant server-hopping). Only share if you're happy for others to hop in — e.g. don't share during a private or player-hosted event. The code also expires on Palia's side, so a shared code goes stale on its own.
+
+**Don't want any of this?** Turn off **Settings → Palia → Join-code request notifications**. That's a true opt-out: you'll stop seeing the prompts **and** the app will never share your world's join code while it's off. If you'd already shared a code before turning it off, the tracker drops it within a few minutes once the app stops sending it.
+    `.trim(),
+    labels: ["Palia"],
   },
   {
     id: "add-nodes-and-drawings",
@@ -94,6 +111,34 @@ Sharing is built in — sign in with a free account so your filter syncs, then o
 - **Publish to community** — makes it public so anyone can find and import it from **Browse Community Filters** (the globe button at the top of My Filters).
 - **Create share code** — generates a code to send a friend; they add it with **Add Shared Filter** by pasting the code.
 - **Download** — export it as a file to share manually (the other person imports it with **Upload**).
+    `.trim(),
+    labels: ["General"],
+  },
+  {
+    id: "import-progress-from-another-map-site",
+    headline: "Import your progress from another map site",
+    question:
+      "I already tracked chests and collectibles on another interactive map (like appsample). Can I import that progress into TH.GL?",
+    answer: `
+Yes — for supported games you can bring your found markers over in a one-time copy. It matches the other site's markers to the same locations on our map and marks them as **discovered** here.
+
+> Supported today: **appsample → Wuthering Waves**. More sites/games will follow.
+
+## How to import
+1. On the TH.GL map, open **Settings → Discovered Nodes** and click **Import from another site**.
+2. Follow the on-screen steps to export from the other site (see below), then paste the result into the box.
+3. Review the matched groups and choose **Merge** (keep what you already have) or **Replace all**.
+
+## Exporting from appsample (desktop only)
+The other site stores your progress in your signed-in account, so the export has to run in a desktop browser (mobile browsers have no developer console):
+1. Open the appsample map on a **computer** and sign in with the same Google account.
+2. Press **F12** → **Console** tab.
+3. Paste the snippet shown in the TH.GL import dialog and press **Enter**. (If the browser blocks the paste, type **allow pasting** first.)
+4. It copies your found markers to the clipboard — paste them back into the TH.GL import box.
+
+## Good to know
+- Only marker types we have on our map can be matched (e.g. chests, tidal heritages, sonance caskets). Anything we don't track, or areas not yet supported, is skipped — the dialog tells you how many.
+- Discovered markers are stored **per device** (they aren't cloud-synced), so import on each device you use, or use **Backup/Restore** in the same settings section to copy them across.
     `.trim(),
     labels: ["General"],
   },
@@ -154,10 +199,11 @@ If you'd like to see this feature return, feel free to contact the game studio a
 
 The app includes a built-in debug snapshot feature that automatically gathers all relevant information:
 
-1. **Open the Dashboard** (double-click system tray icon)
-2. **Click the Bug icon** in the header (next to Discord/User/Info icons)
-3. **Describe your issue** in the text box (e.g., "Ore not showing up on map")
-4. **Click Send** - The app automatically captures and sends:
+1. **Open the Dashboard** (double-click the system tray icon)
+2. **Click the Menu icon** (☰ burger, top-right of the header)
+3. **Click the Bug icon** ("Send Debug Snapshot") — it's in the menu's top row, next to the Discord/GitHub/Reddit icons
+4. **Describe your issue** in the text box (e.g., "Ore not showing up on map")
+5. **Click Send** - The app automatically captures and sends:
    - Last 500 log entries (including debug logs)
    - Current game state (player position, actors, character data)
    - App version and system info
@@ -697,6 +743,44 @@ Windows 10 or 11 (64-bit) with WebView2 Runtime (included with Windows 11 or ins
 The companion app is Windows-only. However, you can use our web versions (e.g., palworld.th.gl, duneawakening.th.gl) on any platform. They won't have overlay or position tracking, but all map features work.
     `.trim(),
     labels: ["Companion App", "Linux", "General"],
+  },
+  {
+    id: "how-to-update-apps",
+    headline: "How to update the apps (Overwolf & Companion App)",
+    question:
+      "How do I update the Overwolf apps or the TH.GL Companion App to the latest version?",
+    answer: `
+Both app types **update automatically** — there is no manual update button and you don't need to reinstall for new versions.
+
+**The universal fix:** fully **exit** the app (system tray icon → Exit, not just the \`X\`) and start it again — or restart your PC. Both apps check for updates on startup.
+
+## TH.GL Companion App
+
+The app checks for a new version:
+- shortly after it starts,
+- every 30 minutes while it runs,
+- right after you close your game.
+
+**Updates are never installed while a game is running** — that's the most common reason the app seems "stuck" on an old version. Close the game and the update installs silently within a few seconds; the app restarts itself on the new version.
+
+**Still on an old version?** If an update attempt failed (e.g. a permission problem), the app waits a few hours before retrying the same version — this prevents endless permission-prompt loops. The fastest fix: download the latest installer and run it over your existing installation. Your settings are kept.
+
+[Download the latest Companion App](https://app.th.gl/THGL_Installer.exe)
+
+## Overwolf apps
+
+Overwolf downloads updates for itself and its apps silently in the background and applies them the next time Overwolf starts. To force an update:
+
+1. **Fully exit Overwolf** via the system tray icon (not just \`X\`) and start it again — pending updates are applied on launch.
+2. Or update from inside the app: open the app's **Settings** — the **Status** section shows your version and checks for updates. If a new version is ready, click **Update Now!**, then **Restart Now!** once it's installed.
+
+To update the Overwolf client itself, see the official guide: [How to update Overwolf](https://support.overwolf.com/en/support/solutions/articles/9000176831-what-is-my-overwolf-version-and-how-to-update-it-)
+
+## Still having trouble?
+
+Reach out on Discord at [th.gl/discord](https://th.gl/discord).
+    `.trim(),
+    labels: ["General", "Overwolf", "Companion App", "Technical"],
   },
   {
     id: "admin-rights-error",

@@ -1,5 +1,6 @@
 "use client";
 import { cn, useAccountStore } from "@repo/lib";
+import { useAppUpdateStore } from "../(providers)/app-update-store";
 import { useState, type JSX } from "react";
 import {
   sendDebugSnapshot,
@@ -24,6 +25,7 @@ import {
   GitHubIcon,
   RedditIcon,
   WindowControlSymbols,
+  NewVersionButton,
 } from "../(header)";
 import { AccountDialog } from "./account-dialog";
 import {
@@ -65,6 +67,7 @@ export function AppHeader({
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const updateStatus = useAppUpdateStore((state) => state.status);
 
   const handleSendDebugSnapshot = async () => {
     setIsSendingDebug(true);
@@ -117,9 +120,12 @@ export function AppHeader({
     }
   };
 
-  // Right button count: window controls + settings? + user + burger
+  // Right button count: window controls + update? + settings? + user + burger
   const windowControlCount = isOverlay ? 1 : 3; // close + min + max
-  const actionButtonCount = 2 + (settingsDialogContent ? 1 : 0); // user, burger (+ settings)
+  const actionButtonCount =
+    2 + // user, burger
+    (settingsDialogContent ? 1 : 0) +
+    (updateStatus === "current" ? 0 : 1); // NewVersionButton renders only when stale/broken
   const rightPx = (windowControlCount + actionButtonCount) * 32;
 
   return (
@@ -175,6 +181,10 @@ export function AppHeader({
           onDoubleClick={(e) => e.stopPropagation()}
           onMouseDown={(e) => e.stopPropagation()}
         >
+          {/* New web build deployed — renders nothing when in sync. The
+              auto-showing label is suppressed in the overlay so it never pops
+              up on top of gameplay; the icon alone carries it there. */}
+          <NewVersionButton compact autoLabel={!isOverlay} />
           {/* Settings — outline style matching web */}
           {settingsDialogContent && (
             <Button

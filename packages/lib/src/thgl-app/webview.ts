@@ -33,6 +33,10 @@ export type Player = {
   r: number;
   path: string;
   mapName?: string;
+  // Optional per-game world-state tag. The Planet Crafter detector emits the current
+  // terraform stage id ("Barren".."Complete") so the map can auto-select the matching
+  // terraform backdrop. Absent for other games.
+  terraformStage?: string;
 };
 
 export type Actor = {
@@ -73,6 +77,14 @@ export type WEBVIEW_RECEIVE_MESSAGE =
   | {
       action: "actors";
       payload: Array<Actor>;
+    }
+  | {
+      // Incremental mover update: only actors that appeared/moved since the last
+      // send (`changed`, upsert by address) plus addresses that disappeared
+      // (`removed`). A full `actors` message is still sent as a periodic/first/resync
+      // keyframe. See SendActorsDeltaToController (THGLApp game_threads.cpp).
+      action: "actorsDelta";
+      payload: { changed: Array<Actor>; removed: Array<string> };
     }
   | {
       action: "staticActors";
@@ -268,6 +280,12 @@ export type WEBVIEW_SEND_MESSAGE =
       action: "setCloseAction";
       payload: {
         closeAction: CloseAction;
+      };
+    }
+  | {
+      action: "setWorldCodeRequestsMuted";
+      payload: {
+        muted: boolean;
       };
     }
   | {

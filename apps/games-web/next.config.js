@@ -4,6 +4,13 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 const nextConfig = (phase) => ({
   // Standalone output for Docker container deployment
   output: "standalone",
+  // Ship source maps for the client bundle in production. Fixes Lighthouse's
+  // `valid-source-maps` Best-Practices audit (large first-party chunks were
+  // flagged as missing maps). No user-facing cost — browsers only fetch the
+  // .map when devtools is open — and no IP concern: the frontend repo is
+  // public. The remaining BP failures (Topics API / third-party cookies /
+  // cookie issues) are all the NitroPay ad stack, unfixable in our code.
+  productionBrowserSourceMaps: true,
   // Serve hashed build assets from the persistent static host instead of the
   // container. static.th.gl fronts the thgl-games-web-static storage zone,
   // which the deploy workflow populates assets-first (uploads .next/static
@@ -215,6 +222,53 @@ const nextConfig = (phase) => ({
       },
       {
         source: "/www/api/patreon/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      // "My Filters" sync. Same class as /api/patreon above, and it was
+      // simply missed: the blanket pageCache rule gave the per-user filter
+      // LIST `s-maxage=86400`, so a signed-in user's own list could be served
+      // from a day-old edge copy. The pull zone varies on the userId cookie,
+      // so this never leaked across accounts — but staleness alone is
+      // destructive here: hydrate treats a filter that is missing from the
+      // returned list as "deleted on another device", drops it locally and
+      // PERSISTS that deletion. A stale list therefore deletes filters the
+      // user still has, and makes cross-machine propagation take hours
+      // instead of seconds (both reported, 2026-09). by-code is covered by
+      // the wildcard too: a shared filter must reflect the owner's latest
+      // save, not yesterday's. Writes were never cached; only the reads that
+      // decide what gets deleted were.
+      {
+        source: "/api/filters",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/api/filters/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      // The account PAGE renders the signed-in state server-side from
+      // cookies. Edge-caching it (even cookie-varied) can pin a stale
+      // auth state for a day — during the 2026-08-17 DB outage a
+      // "not authenticated" render got cached and kept showing after
+      // recovery (while client-side nav hit the separate fresh RSC
+      // cache entry). Covers the incoming www path + the rewritten form.
+      {
+        source: "/support-me/account",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/www/support-me/account",
         headers: [
           { key: "Cache-Control", value: "no-store" },
           { key: "CDN-Cache-Control", value: "no-store" },

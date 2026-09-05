@@ -34,7 +34,9 @@ export type IconName =
   | "Flower"
   | "PawPrint"
   | "Users"
-  | "CloudSun";
+  | "CloudSun"
+  | "Shield"
+  | "Sparkles";
 
 export type AppConfig = {
   name: string;
@@ -57,6 +59,9 @@ export type AppConfig = {
     linkText?: string;
     bgImage?: string;
     iconName: IconName;
+    /** Elite-only (preview) link — hidden from nav/home/sitemap for everyone
+     *  else. Used to soft-launch a WIP page of a live game. */
+    previewOnly?: boolean;
   }[];
   promoLinks?: {
     title: string;
@@ -125,6 +130,14 @@ export type DbAppConfig = {
    * tenants keep their curated navs.
    */
   sectionsInNav?: boolean;
+  /**
+   * Hide the standalone interactive-map nav link + home map cards even when the
+   * game HAS tiles. For games where the map is better browsed as a DB "Maps"
+   * section (e.g. Soul's Remnant's tiny side-scroller levels) rather than the
+   * leaflet interactive map. The /maps routes still resolve; they're just not
+   * surfaced in the chrome.
+   */
+  hideInteractiveMap?: boolean;
   /**
    * Number of UI translations to display on the landing page. Defaults to
    * `appConfig.supportedLocales.length` when omitted.
@@ -584,6 +597,87 @@ export function getMapNameFromVersion(
   return null;
 }
 
+/**
+ * Resolve a map URL segment to BOTH its tile key and its canonical display
+ * name, tolerating '+'-as-space and wrong CASE. Used to 301/308-canonicalize
+ * non-canonical map URLs (e.g. `/maps/palpagos%20island` or a legacy
+ * `+`-encoded form) to the proper-cased `%20` URL that the sitemap emits.
+ *
+ * `name` is the canonical display name for the resolved tile in THIS dict
+ * (locale) — encode it with encodeURIComponent to build the canonical path.
+ * Returns null when the segment doesn't resolve to a real map (→ caller 404s).
+ */
+export function getCanonicalMapName(
+  version: Version,
+  map: string,
+  dict: Record<string, string>,
+): { key: string; name: string } | null {
+  // Mirror getMapNameFromVersion's decode, but also treat '+' as a space so a
+  // legacy `/maps/Foo+Bar` still resolves (proxy normally 301s it first).
+  const decodedMap = decodeURIComponent(map.replace(/\+/g, " "));
+  const { tileKeys } = getVersionLookupCache(version);
+  const reverseDictMap = getReverseDictMap(dict);
+
+  // Given a display name, resolve to the first tile key it maps to (handles
+  // pointer values, identical to getMapNameFromVersion).
+  const resolveTileKey = (displayName: string): string | null => {
+    const possibleKeys = reverseDictMap.get(displayName);
+    if (!possibleKeys) return null;
+    for (const key of possibleKeys) {
+      if (key[0] === "@") {
+        const resolvedKeys = reverseDictMap.get(key);
+        if (!resolvedKeys) continue;
+        for (const resolvedKey of resolvedKeys) {
+          if (tileKeys.has(resolvedKey)) return resolvedKey;
+        }
+      } else if (tileKeys.has(key)) {
+        return key;
+      }
+    }
+    return null;
+  };
+
+  // 1) Exact match (the common, already-canonical case).
+  let key = resolveTileKey(decodedMap);
+  // 2) Case-insensitive fallback for wrong-cased URLs (crawlers/old links).
+  if (!key) {
+    const lower = decodedMap.toLowerCase();
+    for (const [displayName] of reverseDictMap) {
+      if (displayName.toLowerCase() === lower) {
+        const resolved = resolveTileKey(displayName);
+        if (resolved) {
+          key = resolved;
+          break;
+        }
+      }
+    }
+  }
+  // 3) English/default fallback: match the tile key itself or its English
+  // defaultTitle. Non-en dicts carry properly localized map names now, so
+  // English-named URLs (home cards, hreflang alternates, old bookmarks) no
+  // longer reverse-resolve through the locale dict — resolve them here and let
+  // the caller 308 to the localized canonical name.
+  if (!key) {
+    const lower = decodedMap.toLowerCase();
+    for (const [tileKey, tile] of Object.entries(version.data.tiles)) {
+      if (
+        tileKey.toLowerCase() === lower ||
+        tile.defaultTitle?.toLowerCase() === lower
+      ) {
+        key = tileKey;
+        break;
+      }
+    }
+  }
+  if (!key) return null;
+
+  // Canonical display name = the tile key's own dict term (pointer-resolved),
+  // falling back to the key when it has no term.
+  const raw = dict[key];
+  const name = raw && raw[0] === "@" ? (dict[raw] ?? key) : (raw ?? key);
+  return { key, name };
+}
+
 export function getTypeFromVersion(
   version: Version,
   type: string,
@@ -783,7 +877,6 @@ export type DatabaseConfig<T = Record<string, any>> = {
 export type FiltersConfig = {
   group: string;
   category?: string;
-  defaultOpen?: boolean;
   defaultOn?: boolean;
   values: {
     id: string;
@@ -801,8 +894,6 @@ export type FiltersConfig = {
     sort?: number;
     /** No plotted map markers for this type (only shown via the in-app live overlay). */
     no_map_markers?: boolean;
-    /** @deprecated Renamed to `no_map_markers`. Still read for back-compat. */
-    live_only?: boolean;
     autoDiscover?: boolean;
     defaultOn?: boolean;
     // Stable identifier shared by all variants of the same underlying entity
@@ -810,6 +901,12 @@ export type FiltersConfig = {
     // siblings). Used by FilterSettingsPopover to offer a "Enable all
     // variants" toggle. Omitted for filters with no siblings.
     baseType?: string;
+    // Codex/database section this marker type has an entry in. When set, the
+    // marker panel/tooltip shows a "View in Codex" link to
+    // `/db/<dbSection>/<spawn.id ?? spawn.type>` (the DB entry is keyed by the
+    // spawn id for per-instance entries — e.g. landmarks — or by the type id for
+    // per-type entries — e.g. a bestiary species). Generic across all games.
+    dbSection?: string;
   }[];
 }[];
 
@@ -835,5 +932,80 @@ export type TileLayer = {
     center: [number, number];
     angle: number;
   };
+  /**
+   * Marks this map as a FLOOR of a layered/hierarchical area (multi-floor
+   * towers, underground, interiors). Floors of the same `group` are shown
+   * together in the LayerSelect control and switched between like any map.
+   * A layer map typically REUSES its parent's `url`/`options` (so the parent
+   * tiles render as spatial context) and draws its own `overlay` on top.
+   */
+  layer?: {
+    /** The map this is a floor of (whose tiles provide the backdrop). */
+    parent: string;
+    /** Area id grouping all floors together (e.g. the interior's name). */
+    group: string;
+    /** Sort order within the group; lower = higher floor (0 = surface). */
+    floor: number;
+    /** Display label for this floor (falls back to `defaultTitle`). */
+    label?: string;
+    /**
+     * Tight XY world footprint of the interior (shared by all floors of the
+     * group). In live mode the apps auto-switch to this interior when the
+     * player's position falls inside it. [[minLat,minLng],[maxLat,maxLng]].
+     */
+    footprint?: [[number, number], [number, number]];
+    /**
+     * This floor's height (Z) band [min,max] — used in live mode to pick which
+     * floor of a multi-floor interior the player is on.
+     */
+    zRange?: [number, number];
+  };
+  /**
+   * An interior image drawn over the tiles (the floor plan of a layered area),
+   * positioned at `bounds` in map coordinates. Rendered via ImageOverlayLayer.
+   */
+  overlay?: {
+    url: string;
+    bounds: [[number, number], [number, number]];
+    opacity?: number;
+  };
+  /**
+   * Multiple interior overlays drawn at once — the single "Underground" map
+   * renders every interior's floor plan, and the overworld draws them faint as
+   * context. Each is placed at its own `bounds`.
+   */
+  overlays?: {
+    url: string;
+    bounds: [[number, number], [number, number]];
+    /** Interior name — shown as an on-map "Underground" entrance button. */
+    label?: string;
+  }[];
+  /**
+   * Per-interior footprints (tight XY world bounds). Live mode auto-switches to
+   * the Underground when the player falls inside ANY of these.
+   */
+  footprints?: [[number, number], [number, number]][];
+  /** Dim the underlying tiles so the `overlay`(s) read as the active floor. */
+  backdrop?: boolean;
 };
 export type TilesConfig = Record<string, TileLayer>;
+
+/**
+ * Whether two maps share the same world — the same map, a layer of the other
+ * (e.g. an "Underground" whose `layer.parent` is the surface), or two layers of
+ * the same parent. Layer maps reuse the parent's world transform, so a position
+ * on one projects to the same spot on the other. `!!aParent` guards the sibling
+ * check so two ordinary maps (both `parent === undefined`) are NOT treated as the
+ * same world in games without layered maps.
+ */
+export function isSameWorld(
+  a: string,
+  b: string | undefined,
+  tiles: TilesConfig,
+): boolean {
+  if (a === b) return true;
+  if (!b) return false;
+  const aParent = tiles[a]?.layer?.parent;
+  const bParent = tiles[b]?.layer?.parent;
+  return aParent === b || bParent === a || (!!aParent && aParent === bParent);
+}

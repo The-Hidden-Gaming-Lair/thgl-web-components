@@ -1,11 +1,11 @@
 import {
   WINDOWS,
+  applyWindowMode,
   closeMainWindow,
   closeWindow,
-  getPreferedWindowName,
-  moveToOtherScreen,
+  resolveWindowMode,
   restoreWindow,
-  toggleWindow,
+  toggleActiveWindows,
 } from "./windows";
 import { getRunningGameInfo } from "./games";
 import { defaultPerks, Perks, useAccountStore } from "../account";
@@ -64,20 +64,19 @@ export async function initBackground(
   const discordRPCPlugin = await loadDiscordRPCPlugin(discordApplicationId);
   overwolf.games.onGameInfoUpdated.addListener(async (event) => {
     if (event.runningChanged && event.gameInfo?.classId === gameClassId) {
-      const preferedWindowName = await getPreferedWindowName();
       if (event.gameInfo.isRunning) {
-        if (preferedWindowName === WINDOWS.OVERLAY) {
-          restoreWindow(WINDOWS.OVERLAY);
-          closeWindow(WINDOWS.DESKTOP);
-        } else {
-          restoreWindow(WINDOWS.DESKTOP);
-          closeWindow(WINDOWS.OVERLAY);
-        }
+        await applyWindowMode(gameClassId);
       } else {
-        console.log("Game stopped -> Closing App");
+        console.log("Game stopped");
         await dispose(discordRPCPlugin);
-        if (preferedWindowName === WINDOWS.OVERLAY) {
+        const mode = await resolveWindowMode();
+        if (mode === "overlay") {
+          // Overlay-only mode has no desktop window to fall back to -> quit.
           closeMainWindow();
+        } else {
+          // Desktop / both: the in-game-only overlay is gone with the game;
+          // keep the desktop window open.
+          closeWindow(WINDOWS.OVERLAY).catch(() => {});
         }
       }
     }
@@ -88,12 +87,10 @@ async function handleAppLaunch(gameClassId: number) {
   const runningGameInfo = await getRunningGameInfo(gameClassId);
 
   if (runningGameInfo) {
-    const preferedWindowName = await getPreferedWindowName();
-    const windowId = await restoreWindow(preferedWindowName);
-    if (preferedWindowName === WINDOWS.DESKTOP) {
-      moveToOtherScreen(windowId, runningGameInfo.monitorHandle.value);
-    }
+    await applyWindowMode(gameClassId);
   } else {
+    // Game not running: only the desktop window can show (overlay is
+    // in_game_only), regardless of the configured mode.
     restoreWindow(WINDOWS.DESKTOP);
   }
 }
@@ -101,8 +98,7 @@ async function handleAppLaunch(gameClassId: number) {
 function initHotkeys() {
   overwolf.settings.hotkeys.onPressed.addListener(async (event) => {
     if (event.name === HOTKEYS.TOGGLE_APP) {
-      const preferedWindowName = await getPreferedWindowName();
-      toggleWindow(preferedWindowName);
+      toggleActiveWindows();
     } else if (event.name === HOTKEYS.TOGGLE_LOCK_APP) {
       useSettingsStore.getState().toggleLockedWindow();
     } else if (event.name === HOTKEYS.TOGGLE_LIVE_MODE) {

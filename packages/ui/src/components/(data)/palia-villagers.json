@@ -187,5 +187,12 @@
     "type": "thelostboy",
     "typeId": "BP_Villager_TheLostBoy_C",
     "icon": "thelostboy.webp"
+  },
+  {
+    "villagerCoreId": 803653031,
+    "persistId": 1624046234,
+    "type": "theranger",
+    "typeId": "BP_Villager_TheRanger_C",
+    "icon": "theranger.webp"
   }
 ]

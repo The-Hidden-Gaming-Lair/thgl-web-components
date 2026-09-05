@@ -1,11 +1,17 @@
 import Link from "next/link";
-import { localizePath, type TilesConfig } from "@repo/lib";
+import { localizePath, type TilesConfig, type FiltersConfig } from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { DbLocationMap } from "@/lib/db/db-location-map";
+import { DbEmbeddedMap, type EmbeddedMapSpawn } from "@/lib/db/db-embedded-map";
+import { resolveDict } from "@/lib/db/resolve-dict";
 import {
   FilterableRefs,
   type IconSprite as RefIconSprite,
 } from "@/lib/db/filterable-refs";
+import {
+  SectionsRenderer,
+  type EntitySection,
+} from "@/lib/db/sections-renderer";
 
 type IconSprite = {
   url: string;
@@ -24,13 +30,61 @@ type ItemLocation = {
   y: number;
   label: string;
 };
-type LocationsProp = { total: number; list: ItemLocation[] };
+type LocationsProp = {
+  total: number;
+  list: ItemLocation[];
+  /** Singular/plural noun for the "Found at N …" heading (e.g. "deposit"/"deposits",
+   *  "chest"/"chests"). Defaults to "location"/"locations" — set by data-forge per
+   *  game so the wording fits (ore deposits ≠ chests ≠ POIs). */
+  noun?: string;
+  nounPlural?: string;
+};
 
 function isLocationsProp(v: unknown): v is LocationsProp {
   return (
     typeof v === "object" &&
     v !== null &&
     Array.isArray((v as LocationsProp).list)
+  );
+}
+
+/** A whole-level embed: a map name + its teleporter / object markers. */
+type EmbeddedMapProp = { mapName: string; spawns: EmbeddedMapSpawn[] };
+function isEmbeddedMapProp(v: unknown): v is EmbeddedMapProp {
+  return (
+    typeof v === "object" &&
+    v !== null &&
+    typeof (v as EmbeddedMapProp).mapName === "string" &&
+    Array.isArray((v as EmbeddedMapProp).spawns)
+  );
+}
+
+/** Rarity tiers an item rolls (per-instance), produced by data-forge. */
+type RarityTier = { label: string; color: string };
+function isRarityTiers(v: unknown): v is RarityTier[] {
+  return (
+    Array.isArray(v) &&
+    v.length > 0 &&
+    v.every(
+      (t) =>
+        typeof (t as RarityTier)?.label === "string" &&
+        typeof (t as RarityTier)?.color === "string",
+    )
+  );
+}
+
+/** A per-level table (e.g. a skill's upgrade cost by level), produced by data-forge. */
+type UpgradeTable = {
+  label?: string;
+  columns: string[];
+  rows: (string | number)[][];
+};
+function isUpgradeTable(v: unknown): v is UpgradeTable {
+  return (
+    typeof v === "object" &&
+    v !== null &&
+    Array.isArray((v as UpgradeTable).columns) &&
+    Array.isArray((v as UpgradeTable).rows)
   );
 }
 
@@ -102,6 +156,21 @@ function isCraftable(v: unknown): v is Craftable {
   );
 }
 
+/** A labelled list of map areas (e.g. a monster's "Found In") → chips, each
+ *  optionally linking to its map page when that map is rendered. */
+type AreasProp = { label: string; items: { name: string; href?: string }[] };
+function isAreasProp(v: unknown): v is AreasProp {
+  return (
+    typeof v === "object" &&
+    v !== null &&
+    typeof (v as AreasProp).label === "string" &&
+    Array.isArray((v as AreasProp).items) &&
+    (v as AreasProp).items.every(
+      (it) => typeof (it as { name?: unknown })?.name === "string",
+    )
+  );
+}
+
 /** A labelled icon variant (e.g. a familiar's skin recolours), produced by data-forge. */
 type Variant = { label: string; icon: IconSprite };
 function isVariantArray(v: unknown): v is Variant[] {
@@ -139,9 +208,11 @@ export function GenericEntityView({
   locale = "en",
   icons,
   tiles,
+  filters,
   statIcons,
   monoDetails = true,
   badges,
+  dict,
 }: {
   id: string;
   name: string;
@@ -159,18 +230,40 @@ export function GenericEntityView({
   icons?: Record<string, IconSprite>;
   /** Map tile config — when present, `locations` render as an embedded map. */
   tiles?: TilesConfig;
+  /** Filters config (from version.json) — used to resolve each location's real sprite icon
+   *  on the embedded map instead of the plain white-circle fallback. */
+  filters?: FiltersConfig;
   /** Optional stat-label → icon-id map; renders the icon on matching stat cards
    *  (the view stays generic — the caller supplies the game-specific mapping). */
   statIcons?: Record<string, string>;
   /** Render the "Details" table in monospace (default). Set false for games
    *  whose extra props are prose (Songs of Conquest) rather than technical keys. */
   monoDetails?: boolean;
+  /** Full localization dict — resolves cross-link (DbRef) names, which the data
+   *  carries as bare `{id, section}` (names live in the per-locale dict). */
+  dict?: Record<string, string>;
 }) {
+  // DbRefs carry no baked name (localized via dict). Resolve name from the ref
+  // itself, then the dict, then fall back to the raw id.
+  const refName = (r: { id: string; name?: string }) =>
+    r.name || (dict ? resolveDict(dict, r.id) : "") || r.id;
   const hasDesc = desc && desc !== `${id}_desc` && desc !== id;
   // "Found where on the map" — rendered as its own clickable section, not in
   // the table.
   const locations = isLocationsProp(props?.locations)
     ? props.locations
+    : undefined;
+  // A whole-level interactive map embed (a map DB entry's own view).
+  const embeddedMap = isEmbeddedMapProp(props?.embeddedMap)
+    ? props.embeddedMap
+    : undefined;
+  // A per-level table (e.g. a skill's upgrade cost by level).
+  const upgradeTable = isUpgradeTable(props?.upgradeTable)
+    ? props.upgradeTable
+    : undefined;
+  // Rarity tiers this item rolls per instance.
+  const rarityTiers = isRarityTiers(props?.rarityTiers)
+    ? props.rarityTiers
     : undefined;
   // Cross-links to other DB entries, rendered as their own link sections.
   const soldBy = asDbRefList(props?.soldBy);
@@ -185,6 +278,18 @@ export function GenericEntityView({
   const rarity = isRarity(props?.rarity) ? props.rarity : undefined;
   // "Craftable at <station>" provenance line.
   const craftable = isCraftable(props?.craftable) ? props.craftable : undefined;
+  // Labelled map-area chips (e.g. "Found In" / "Gathered In"), linked where the
+  // map is rendered.
+  const areas = isAreasProp(props?.areas) ? props.areas : undefined;
+  // Structured `_sections` (the generic cross-link/stat/chip/list contract from
+  // sections-renderer.tsx) — emitted by data-forge, rendered for every game.
+  const extraSections =
+    Array.isArray(props?._sections) &&
+    (props._sections as EntitySection[]).every(
+      (s) => typeof s?.title === "string" && typeof s?.kind === "string",
+    )
+      ? (props._sections as EntitySection[])
+      : undefined;
   // Remaining props, minus everything rendered in a dedicated section above.
   const remaining = Object.entries(props ?? {}).filter(
     ([k]) =>
@@ -196,6 +301,9 @@ export function GenericEntityView({
       k !== "category" &&
       k !== "categoryId" &&
       k !== "locations" &&
+      k !== "embeddedMap" &&
+      k !== "upgradeTable" &&
+      k !== "rarityTiers" &&
       k !== "soldBy" &&
       k !== "sells" &&
       k !== "rarity" &&
@@ -204,7 +312,8 @@ export function GenericEntityView({
       k !== "droppedBy" &&
       k !== "ingredients" &&
       k !== "usedToCraft" &&
-      k !== "variants",
+      k !== "variants" &&
+      k !== "areas",
   );
   // Any remaining prop whose value is a DbRef (single or array) — e.g. a recipe's
   // `Tool` or a codex entry's `documents` — renders as a labeled link section, not
@@ -233,18 +342,21 @@ export function GenericEntityView({
         href={localizePath(`/db/${r.section}/${r.id}`, locale)}
         prefetch={false}
         data-reftip-anchor={r.tooltip ? "" : undefined}
+        title={refName(r)}
         className="relative inline-flex items-center gap-1.5 rounded border border-slate-700 bg-slate-900/60 py-1 pr-2.5 text-xs hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
         style={{ paddingLeft: ic ? 4 : 10 }}
       >
         {ic && (
-          <SpriteIcon
-            icon={ic}
-            appName={appName}
-            size={20}
-            iconsHash={iconsHash}
-          />
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+            <SpriteIcon
+              icon={ic}
+              appName={appName}
+              size={20}
+              iconsHash={iconsHash}
+            />
+          </span>
         )}
-        <span className="text-slate-200">{r.name}</span>
+        <span className="text-slate-200">{refName(r)}</span>
         {typeof r.count === "number" && r.count > 1 && (
           <span className="font-mono text-muted-foreground">×{r.count}</span>
         )}
@@ -267,6 +379,7 @@ export function GenericEntityView({
       <FilterableRefs
         items={refs.map((r) => ({
           ...r,
+          name: refName(r),
           icon: (icons?.[r.id] as RefIconSprite) ?? null,
         }))}
         appName={appName}
@@ -276,6 +389,55 @@ export function GenericEntityView({
     ) : (
       refLinks(refs)
     );
+
+  // An icon-first grid: centered icon in a fixed square + name caption + hover
+  // tooltip. Used for icon-heavy cross-link props (e.g. a map's monsters /
+  // gatherables) where a gallery reads better than a wall of name pills.
+  const iconGrid = (refs: DbRef[]) => (
+    <div className="flex flex-wrap gap-2">
+      {refs.map((r) => {
+        const ic = icons?.[r.id];
+        const label = refName(r);
+        return (
+          <Link
+            key={`${r.section}/${r.id}`}
+            href={localizePath(`/db/${r.section}/${r.id}`, locale)}
+            prefetch={false}
+            title={label}
+            className="group flex w-16 flex-col items-center gap-1"
+          >
+            <span className="relative flex h-12 w-12 items-center justify-center rounded border border-slate-700 bg-slate-900/60 transition-colors group-hover:border-amber-700/70 group-hover:bg-slate-900">
+              {ic ? (
+                <SpriteIcon
+                  icon={ic}
+                  appName={appName}
+                  size={36}
+                  iconsHash={iconsHash}
+                />
+              ) : (
+                <span className="text-[9px] text-slate-600">?</span>
+              )}
+              {typeof r.count === "number" && r.count > 1 && (
+                <span className="absolute -bottom-1 -right-1 rounded bg-slate-950/90 px-1 font-mono text-[10px] leading-tight text-amber-300 ring-1 ring-slate-700">
+                  ×{r.count}
+                </span>
+              )}
+            </span>
+            <span className="line-clamp-2 text-center text-[10px] leading-tight text-slate-300 group-hover:text-amber-300">
+              {label}
+            </span>
+          </Link>
+        );
+      })}
+    </div>
+  );
+
+  // Arbitrary DbRef props (Monsters / Gatherables / Connects To …): an icon
+  // grid when every ref has an icon, else the standard pills.
+  const renderRefProp = (refs: DbRef[]) =>
+    refs.length >= 3 && refs.every((r) => icons?.[r.id])
+      ? iconGrid(refs)
+      : renderRefs(refs);
 
   const refLinks = (refs: DbRef[]) => {
     // No group field → flat list (existing behavior for all other games).
@@ -362,6 +524,18 @@ export function GenericEntityView({
         </div>
       )}
 
+      {embeddedMap && tiles && (
+        <div className="mb-6 max-w-3xl">
+          <DbEmbeddedMap
+            mapName={embeddedMap.mapName}
+            spawns={embeddedMap.spawns}
+            tiles={tiles}
+            appName={appName}
+            filters={filters}
+          />
+        </div>
+      )}
+
       {variants && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
@@ -403,7 +577,7 @@ export function GenericEntityView({
                       iconsHash={iconsHash}
                     />
                   )}
-                  {k}
+                  {humanizeKey(k)}
                 </div>
                 <div className="text-sm font-medium text-slate-100">
                   {String(v)}
@@ -414,11 +588,115 @@ export function GenericEntityView({
         </div>
       )}
 
+      {rarityTiers && (
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Rarity
+          </div>
+          <p className="text-xs text-muted-foreground mb-2 max-w-2xl">
+            Rarity is rolled per instance when this item drops or is crafted
+            (like its random bonuses) — shown by the item&apos;s border colour.
+            Higher tiers roll more and stronger bonuses.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {rarityTiers.map((t) => (
+              <span
+                key={t.label}
+                className="inline-flex items-center gap-1.5 rounded border px-2 py-0.5 text-xs font-medium"
+                style={{
+                  color: t.color,
+                  borderColor: `${t.color}66`,
+                  backgroundColor: `${t.color}14`,
+                }}
+              >
+                <span
+                  className="h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: t.color }}
+                />
+                {t.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {upgradeTable && upgradeTable.rows.length > 0 && (
+        <div className="mb-6 max-w-md">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            {upgradeTable.label ?? "Upgrade"}
+          </div>
+          <div className="border border-slate-800 rounded overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-slate-900/60">
+                  {upgradeTable.columns.map((c) => (
+                    <th
+                      key={c}
+                      className="px-3 py-1.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"
+                    >
+                      {c}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {upgradeTable.rows.map((row, i) => (
+                  <tr
+                    key={i}
+                    className="border-t border-slate-800/50 first:border-t-0"
+                  >
+                    {row.map((cell, j) => (
+                      <td
+                        key={j}
+                        className={`px-3 py-1.5 ${j === 0 ? "text-slate-300" : "font-medium text-slate-100"}`}
+                      >
+                        {String(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {areas && areas.items.length > 0 && (
+        <div className="mb-6 max-w-3xl">
+          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            {areas.label}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {areas.items.map((a) =>
+              a.href ? (
+                <Link
+                  key={a.name}
+                  href={localizePath(a.href, locale)}
+                  prefetch={false}
+                  className="inline-flex items-center rounded border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-amber-300 hover:border-amber-700/70 hover:bg-slate-900 transition-colors"
+                >
+                  {a.name}
+                </Link>
+              ) : (
+                <span
+                  key={a.name}
+                  className="inline-flex items-center rounded border border-slate-800 bg-slate-900/40 px-2.5 py-1 text-xs text-muted-foreground"
+                >
+                  {a.name}
+                </span>
+              ),
+            )}
+          </div>
+        </div>
+      )}
+
       {locations && locations.list.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Found in {locations.total}{" "}
-            {locations.total === 1 ? "chest" : "chests"}
+            Found at {locations.total}{" "}
+            {locations.total === 1
+              ? (locations.noun ?? "location")
+              : (locations.nounPlural ?? "locations")}
           </div>
           {tiles ? (
             // Embedded interactive map pinning every location.
@@ -427,6 +705,7 @@ export function GenericEntityView({
               mapName={locations.list[0].map}
               tiles={tiles}
               appName={appName}
+              filters={filters}
             />
           ) : (
             // Fallback (no tiles): a flat list of coordinate links.
@@ -465,6 +744,17 @@ export function GenericEntityView({
             </div>
           )}
         </div>
+      )}
+
+      {extraSections && (
+        <SectionsRenderer
+          sections={extraSections}
+          icons={icons}
+          dict={dict}
+          appName={appName}
+          locale={locale}
+          iconsHash={iconsHash}
+        />
       )}
 
       {soldBy && soldBy.length > 0 && (
@@ -537,7 +827,7 @@ export function GenericEntityView({
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
             {humanizeKey(k)}
           </div>
-          {renderRefs(refs)}
+          {renderRefProp(refs)}
         </div>
       ))}
 

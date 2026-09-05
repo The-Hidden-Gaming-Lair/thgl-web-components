@@ -10,6 +10,9 @@ import {
   THGLAppConfig,
   TilesConfig,
   translate,
+  isCompanionPreviewApp,
+  isDebug,
+  isLocalDev,
   useAccountStore,
   useOverlayMapHidden,
   useSettingsStore,
@@ -55,13 +58,9 @@ import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
 import { useEffect, useMemo } from "react";
 
-/**
- * Games whose in-game companion is an Elite Supporter preview: the App locks to
- * an upsell for accounts without `perks.previewReleaseAccess`. Web DB/map pages
- * are unaffected (this gate lives only in the in-game App component). Add a game
- * id here to gate its in-game app; empty = every supported game is open to all.
- */
-const PREVIEW_ONLY_APPS = new Set<string>([]);
+// Pre-release ("preview") gating lives in @repo/lib: PREVIEW_RELEASE_APPS gates web + companion;
+// PREVIEW_RELEASE_COMPANION_APPS gates ONLY the in-game companion (website open). This paywall uses
+// isCompanionPreviewApp (either set); the web map/db guard uses isPreviewReleaseApp (full only).
 
 export function App({
   appConfig,
@@ -120,8 +119,14 @@ export function App({
   // Elite Supporter preview gate for preview-only games without Preview Release
   // Access: the full app shell + header stay (window mode, live mode, settings,
   // window controls) — only the map CONTENT below is replaced by the upsell.
+  // Dev/debug bypass (same as PreviewReleaseGuard): the THGLApp Debug build loads the dev server
+  // (app-dev.localhost) so isLocalDev is a reliable RUNTIME signal even when the prebuilt dist
+  // inlined NODE_ENV=production; isDebug() (localStorage DEBUG) is the manual escape hatch.
   const isPreviewLocked =
-    PREVIEW_ONLY_APPS.has(appConfig.name) && !hasPreviewAccess;
+    isCompanionPreviewApp(appConfig.name) &&
+    !hasPreviewAccess &&
+    !isLocalDev &&
+    !isDebug();
 
   // In overlay mode, start in clean locked HUD mode so clicks pass directly to game
   useEffect(() => {
@@ -307,7 +312,7 @@ export function App({
               // z-600: above the map controls (filters/actions are z-500)
               // which otherwise paint over the banner (later in DOM).
               <div className="absolute top-[32px] inset-x-0 z-600">
-                <StatusBanner game={appConfig.name} />
+                <StatusBanner game={appConfig.name} surface="thgl-app" />
               </div>
             )}
             <div
@@ -372,7 +377,7 @@ export function App({
                 isOverlay={Boolean(isOverlay)}
               />
             )}
-            <MapHotkeys />
+            <MapHotkeys tilesConfig={tiles} />
             {isOverlay && <OverlayInputEvents />}
             {isOverlay && <ExclusiveFullscreenDialog />}
           </CoordinatesProvider>

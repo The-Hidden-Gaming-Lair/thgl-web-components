@@ -18,6 +18,7 @@ import { ContentLayout } from "../(ads)";
 import { Subtitle } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
 import { JSONLDScript } from "./json-ld-script";
+import { PreviewReleaseGuard } from "./preview-release-guard";
 
 type PageProps = {
   params: Promise<{ locale?: string }>;
@@ -77,7 +78,12 @@ export function createMapsPage(appConfig: AppConfig) {
     ]);
     const t = getT(dict);
 
-    const mapNames = Object.keys(version.data.tiles);
+    // Only TOP-LEVEL maps get a listing card — interior floors (tagged with
+    // `layer`) are reached via the parent map's LayerSelect, not as standalone
+    // /maps pages (mirrors the in-map MapSelect filter).
+    const mapNames = Object.keys(version.data.tiles).filter(
+      (m) => !version.data.tiles[m]?.layer,
+    );
 
     const countsByMap = version.counts?.byMap;
 
@@ -138,120 +144,125 @@ export function createMapsPage(appConfig: AppConfig) {
           }}
         />
 
-        <HeaderOffset full>
-          <ContentLayout
-            id={appConfig.name}
-            header={
-              <>
-                <PageTitle
-                  title={t("maps.pageTitle", {
-                    vars: { title: appConfig.title },
-                  })}
-                />
-                <nav
-                  aria-label="Breadcrumb"
-                  className="text-xs text-muted-foreground py-2"
-                >
-                  <ol className="flex items-center gap-1">
-                    <li>
-                      <Link
-                        href={localizePath("/", locale)}
-                        className="hover:text-foreground transition-colors"
-                      >
-                        Home
-                      </Link>
-                    </li>
-                    <li aria-hidden="true">/</li>
-                    <li aria-current="page">Maps</li>
-                  </ol>
-                </nav>
-                <Subtitle
-                  title={t("maps.title", {
-                    vars: { title: appConfig.title },
-                    fallback: `${appConfig.title} Maps`,
-                  })}
-                />
-                <p className="text-sm text-muted-foreground mt-2">
-                  {t("maps.description", {
-                    vars: {
-                      title: appConfig.title,
-                      count: String(maps.length),
-                    },
-                    fallback: `Browse all ${maps.length} interactive maps for ${appConfig.title}.`,
-                  })}
-                </p>
-              </>
-            }
-            content={(() => {
-              const mapsWithImage = maps.filter((m) => m.bgImage);
-              const mapsWithoutImage = maps.filter((m) => !m.bgImage);
-              const totalLocations = version.counts?.total;
-
-              const renderMapCard = (map: (typeof maps)[number]) => (
-                <li key={map.key}>
-                  <Link
-                    href={localizePath(map.href, locale)}
-                    className="group block border rounded-lg overflow-hidden hover:border-primary transition-colors"
+        <PreviewReleaseGuard appName={appConfig.name} title={appConfig.title}>
+          <HeaderOffset full>
+            <ContentLayout
+              id={appConfig.name}
+              header={
+                <>
+                  <PageTitle
+                    title={t("maps.pageTitle", {
+                      vars: { title: appConfig.title },
+                    })}
+                  />
+                  <nav
+                    aria-label="Breadcrumb"
+                    className="text-xs text-muted-foreground py-2"
                   >
-                    {map.bgImage ? (
-                      <div className="aspect-video bg-muted/30 relative">
-                        <Image
-                          src={map.bgImage}
-                          alt=""
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="px-3 py-2 flex items-baseline justify-between gap-2">
-                      <span className="font-medium text-sm truncate">
-                        {map.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground shrink-0">
-                        {map.locationCount > 0 && (
-                          <>{map.locationCount.toLocaleString()} locations · </>
-                        )}
-                        <span className="group-hover:text-primary transition-colors">
-                          Explore →
-                        </span>
-                      </span>
-                    </div>
-                  </Link>
-                </li>
-              );
+                    <ol className="flex items-center gap-1">
+                      <li>
+                        <Link
+                          href={localizePath("/", locale)}
+                          className="hover:text-foreground transition-colors"
+                        >
+                          Home
+                        </Link>
+                      </li>
+                      <li aria-hidden="true">/</li>
+                      <li aria-current="page">Maps</li>
+                    </ol>
+                  </nav>
+                  <Subtitle
+                    title={t("maps.title", {
+                      vars: { title: appConfig.title },
+                      fallback: `${appConfig.title} Maps`,
+                    })}
+                  />
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {t("maps.description", {
+                      vars: {
+                        title: appConfig.title,
+                        count: String(maps.length),
+                      },
+                      fallback: `Browse all ${maps.length} interactive maps for ${appConfig.title}.`,
+                    })}
+                  </p>
+                </>
+              }
+              content={(() => {
+                const mapsWithImage = maps.filter((m) => m.bgImage);
+                const mapsWithoutImage = maps.filter((m) => !m.bgImage);
+                const totalLocations = version.counts?.total;
 
-              return (
-                <div className="space-y-6 mt-4">
-                  {totalLocations && (
-                    <p className="text-sm text-muted-foreground text-center">
-                      {totalLocations.toLocaleString()} total locations across{" "}
-                      {maps.length} maps
-                    </p>
-                  )}
-                  {mapsWithImage.length > 0 && (
-                    <ul
-                      className={`grid gap-4 ${
-                        mapsWithImage.length === 1
-                          ? "grid-cols-1 max-w-md mx-auto"
-                          : mapsWithImage.length === 2
-                            ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
-                            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                      }`}
+                const renderMapCard = (map: (typeof maps)[number]) => (
+                  <li key={map.key}>
+                    <Link
+                      href={localizePath(map.href, locale)}
+                      className="group block border rounded-lg overflow-hidden hover:border-primary transition-colors"
                     >
-                      {mapsWithImage.map(renderMapCard)}
-                    </ul>
-                  )}
-                  {mapsWithoutImage.length > 0 && (
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                      {mapsWithoutImage.map(renderMapCard)}
-                    </ul>
-                  )}
-                </div>
-              );
-            })()}
-          />
-        </HeaderOffset>
+                      {map.bgImage ? (
+                        <div className="aspect-video bg-muted/30 relative">
+                          <Image
+                            src={map.bgImage}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        </div>
+                      ) : null}
+                      <div className="px-3 py-2 flex items-baseline justify-between gap-2">
+                        <span className="font-medium text-sm truncate">
+                          {map.name}
+                        </span>
+                        <span className="text-xs text-muted-foreground shrink-0">
+                          {map.locationCount > 0 && (
+                            <>
+                              {map.locationCount.toLocaleString()} locations
+                              ·{" "}
+                            </>
+                          )}
+                          <span className="group-hover:text-primary transition-colors">
+                            Explore →
+                          </span>
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                );
+
+                return (
+                  <div className="space-y-6 mt-4">
+                    {totalLocations && (
+                      <p className="text-sm text-muted-foreground text-center">
+                        {totalLocations.toLocaleString()} total locations across{" "}
+                        {maps.length} maps
+                      </p>
+                    )}
+                    {mapsWithImage.length > 0 && (
+                      <ul
+                        className={`grid gap-4 ${
+                          mapsWithImage.length === 1
+                            ? "grid-cols-1 max-w-md mx-auto"
+                            : mapsWithImage.length === 2
+                              ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+                              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                        }`}
+                      >
+                        {mapsWithImage.map(renderMapCard)}
+                      </ul>
+                    )}
+                    {mapsWithoutImage.length > 0 && (
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                        {mapsWithoutImage.map(renderMapCard)}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })()}
+            />
+          </HeaderOffset>
+        </PreviewReleaseGuard>
       </>
     );
   };

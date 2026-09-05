@@ -3,7 +3,19 @@ import { resolveAppConfig } from "@repo/lib";
 export const rsdragonwilds = resolveAppConfig({
   name: "rsdragonwilds",
   // Production URL is dragonwilds.th.gl (NOT rsdragonwilds.th.gl)
-  supportedLocales: ["en", "de", "es", "fr", "it", "ja", "ko", "pt", "zh-CN"],
+  // zh-TW added with the 0.12.1.x hotfixes (game shipped a zh-Hant localization)
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pt",
+    "zh-CN",
+    "zh-TW",
+  ],
   appUrl: "https://www.th.gl/companion-app",
   // No manual "/maps/..." internalLink: the home page auto-generates a richer
   // map card (with the preview.webp image + live location count) for each map,

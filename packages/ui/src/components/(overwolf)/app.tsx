@@ -127,6 +127,7 @@ export function App({
             <AppHeader
               title={appConfig.title}
               app={appConfig.title}
+              appName={appConfig.name}
               gameClassId={appConfig.gameClassId}
               moreSettings={moreSettings}
               filters={filters}
@@ -134,6 +135,7 @@ export function App({
             {!isOverlay && (
               <StatusBanner
                 game={appConfig.name}
+                surface="overwolf"
                 className="fixed top-[32px] inset-x-0 z-999997"
               />
             )}
@@ -155,9 +157,10 @@ export function App({
                       appName={appConfig.name}
                     />
                   </MapContainer>
-                  <Regions />
+                  <Regions tilesConfig={tiles} />
                   <Markers
                     markerOptions={appConfig.markerOptions}
+                    tilesConfig={tiles}
                     appName={appConfig.name}
                     iconsPath={version?.more.icons}
                     additionalTooltip={additionalTooltip}
@@ -232,7 +235,7 @@ export function App({
                 </>
               )}
             </HeaderOffset>
-            <MapHotkeys />
+            <MapHotkeys tilesConfig={tiles} />
           </CoordinatesProvider>
         </TooltipProvider>
       </I18NProvider>

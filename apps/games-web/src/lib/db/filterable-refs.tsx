@@ -55,7 +55,7 @@ export function FilterableRefs({
     return items.filter(
       (i) =>
         (!group || i.group === group) &&
-        (!q || i.name.toLowerCase().includes(q)),
+        (!q || (i.name ?? i.id).toLowerCase().includes(q)),
     );
   }, [items, query, group]);
 
@@ -95,7 +95,7 @@ export function FilterableRefs({
           iconsHash={iconsHash}
         />
       )}
-      <span className="text-slate-200">{r.name}</span>
+      <span className="text-slate-200">{r.name ?? r.id}</span>
       {typeof r.count === "number" && r.count > 1 && (
         <span className="font-mono text-muted-foreground">×{r.count}</span>
       )}

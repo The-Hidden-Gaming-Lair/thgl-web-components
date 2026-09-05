@@ -224,6 +224,7 @@ export function Whiteboard({
             <Button
               size="icon"
               variant="outline"
+              aria-label="Whiteboard"
               className={cn(
                 hasConnections
                   ? "text-green-400"

@@ -1,16 +1,15 @@
 import { type Metadata } from "next";
-import {
-  fetchDatabaseIndex,
-  fetchVersion,
-  DEFAULT_LOCALE,
-} from "@repo/lib";
+import { fetchDatabaseIndex, fetchVersion, DEFAULT_LOCALE } from "@repo/lib";
 import { getFullDictionary } from "@repo/ui/dicts";
 import { generateCategoryMetadata } from "./metadata";
-import { requireApp } from "@/lib/get-app-config";
+import { getAppConfig, requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { EntityGrid } from "@/lib/db/entity-grid";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
+import GenericSectionPage, {
+  generateMetadata as genericSectionMetadata,
+} from "@/app/[locale]/db/[section]/page";
 
 type PageProps = { params: Promise<{ locale?: string }> };
 
@@ -26,13 +25,31 @@ type PageProps = { params: Promise<{ locale?: string }> };
 export function makeCategoryPage(section: string, extraTypes: string[] = []) {
   const allTypes = [section, ...extraTypes];
 
+  // These static /db/<slug> routes exist for Drakantos's bespoke category grid,
+  // but the same slugs (items, creatures, maps, …) are normal db-section slugs
+  // for other games. For any non-Drakantos app we delegate to the generic
+  // [section] page, which renders the section if the app defines it and 404s
+  // otherwise (see reference_db_reserved_route_slugs — delegate, don't rename).
   async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    await requireApp("drakantos");
+    const app = await getAppConfig();
+    if (app.name !== "drakantos") {
+      const p = await params;
+      return genericSectionMetadata({
+        params: Promise.resolve({ ...p, section }),
+      });
+    }
     const { locale = DEFAULT_LOCALE } = await params;
     return generateCategoryMetadata(locale, section);
   }
 
   async function Page({ params }: PageProps) {
+    const app = await getAppConfig();
+    if (app.name !== "drakantos") {
+      const p = await params;
+      return GenericSectionPage({
+        params: Promise.resolve({ ...p, section }),
+      });
+    }
     const appConfig = await requireApp("drakantos");
     const { locale = DEFAULT_LOCALE } = await params;
     const [dict, database, version] = await Promise.all([

@@ -1,7 +1,7 @@
 "use client";
 
 import { Settings2 } from "lucide-react";
-import { useUserStore } from "../(providers)";
+import { useT, useUserStore } from "../(providers)";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Slider } from "../ui/slider";
 import { Switch } from "../ui/switch";
@@ -38,7 +38,7 @@ type FilterSettingsPopoverProps =
       isGroup?: false;
       groupId?: never;
       filterIds?: never;
-      liveOnly?: boolean;
+      noMapMarkers?: boolean;
     }
   | {
       filterId?: never;
@@ -46,11 +46,12 @@ type FilterSettingsPopoverProps =
       isGroup: true;
       groupId: string;
       filterIds: string[];
-      liveOnly?: never;
+      noMapMarkers?: never;
     };
 
 export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
   const { filterLabel, isGroup } = props;
+  const t = useT();
   const [open, setOpen] = useState(false);
 
   const { filters, typesIdMap } = useCoordinates();
@@ -279,7 +280,9 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
           onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
           type="button"
-          aria-label="Filter settings"
+          aria-label={t("markers.filterSettings", {
+            fallback: "Filter settings",
+          })}
         >
           <Settings2 className="h-3.5 w-3.5" />
         </button>
@@ -290,7 +293,7 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
       >
         {!isGroup && (
           <>
-            {props.liveOnly && (
+            {props.noMapMarkers && (
               <p className="font-bold text-sm text-orange-500">
                 This filter is only available with the live mode of the In-Game
                 app.

@@ -1,20 +1,18 @@
 "use client";
 
 import { cn, getIconsUrl } from "@repo/lib";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { ArrowLeft, Circle } from "lucide-react";
-import { Fragment, useEffect, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "../ui/command";
+  Dialog,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { ArrowLeft, Circle, Search, X } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import { useCoordinates, useT } from "../(providers)";
 import gameIcons from "./icons.json";
 
@@ -28,6 +26,80 @@ type Icon = {
   width: number;
   height: number;
 };
+
+type Category = {
+  tag: string;
+  icons: Icon[];
+};
+
+// Flattened icon entry used for searching across all categories.
+type SearchEntry = {
+  icon: Icon;
+  tag: string;
+  // Lower-cased "name tag" haystack, precomputed once.
+  haystack: string;
+};
+
+const MAX_SEARCH_RESULTS = 160;
+
+const SCROLLBAR_CLASSES =
+  "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent";
+
+// Uniform icon grid cell used by both the search results and the category
+// view: every icon sits centered in an equal square, so rows stay tight and
+// aligned no matter how the sprite cells are sized.
+const ICON_GRID_CLASSES =
+  "grid grid-cols-[repeat(auto-fill,minmax(2.5rem,1fr))] content-start gap-0.5 px-2 pb-2";
+
+function IconButton({
+  icon,
+  appName,
+  iconsPath,
+  title,
+  selected,
+  onClick,
+}: {
+  icon: Icon;
+  appName: string;
+  iconsPath: string;
+  title: string;
+  selected?: boolean;
+  onClick: () => void;
+}) {
+  const src = appName ? getIconsUrl(appName, icon.url, iconsPath) : icon.url;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      className={cn(
+        "flex h-10 items-center justify-center overflow-hidden rounded-md transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none",
+        selected && "bg-accent ring-1 ring-ring",
+      )}
+    >
+      {icon.width !== 0 ? (
+        <img
+          src={src}
+          alt={icon.name}
+          className="object-none shrink-0"
+          width={icon.width}
+          height={icon.height}
+          style={{
+            width: icon.width,
+            height: icon.height,
+            objectPosition: `-${icon.x}px -${icon.y}px`,
+            // adaptive: uniform ~32px box by the icon's own width
+            // (cells are packed at native size now, not a fixed 64px).
+            zoom: 32 / (icon.width || 64),
+          }}
+        />
+      ) : (
+        <img src={src} alt={icon.name} loading="lazy" className="h-6 w-6" />
+      )}
+    </button>
+  );
+}
+
 export function IconPicker({
   appName,
   value,
@@ -48,30 +120,15 @@ export function IconPicker({
   className?: string;
   iconsPath: string;
 }) {
-  const [selection, setSelection] = useState<{
-    tag: string;
-    icons: Icon[];
-  } | null>(null);
-  const [icons, setIcons] = useState<
-    | {
-        tag: string;
-        icons: {
-          name: string;
-          url: string;
-          author?: string;
-          x: number;
-          y: number;
-          width: number;
-          height: number;
-        }[];
-      }[][]
-    | null
-  >(null);
+  const [open, setOpen] = useState(false);
+  const [selection, setSelection] = useState<Category | null>(null);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const t = useT();
   const { filters } = useCoordinates();
 
-  useEffect(() => {
-    const appIcons = {
+  const categories = useMemo<Category[]>(() => {
+    const appIcons: Category = {
       tag: "App Specific",
       icons: Object.values(
         filters.reduce(
@@ -107,12 +164,60 @@ export function IconPicker({
         ),
       ),
     };
-    setIcons([[appIcons], ...gameIcons]);
-  }, []);
+    return [appIcons, ...gameIcons.flat()];
+  }, [filters, t]);
+
+  const searchEntries = useMemo<SearchEntry[]>(
+    () =>
+      categories.flatMap((category) => {
+        const tagLower = category.tag.toLowerCase();
+        return category.icons.map((icon) => ({
+          icon,
+          tag: category.tag,
+          haystack: `${icon.name.toLowerCase()} ${tagLower}`,
+        }));
+      }),
+    [categories],
+  );
+
+  const trimmedQuery = query.trim().toLowerCase();
+  const searchResults = useMemo<SearchEntry[] | null>(() => {
+    if (!trimmedQuery) {
+      return null;
+    }
+    // Every whitespace-separated token must match the icon name or its
+    // category, so e.g. "fire sword" narrows instead of unioning.
+    const tokens = trimmedQuery.split(/\s+/);
+    return searchEntries.filter((entry) =>
+      tokens.every((token) => entry.haystack.includes(token)),
+    );
+  }, [trimmedQuery, searchEntries]);
+
+  const selectIcon = (icon: Icon | null) => {
+    onChange(icon);
+    setOpen(false);
+  };
+
+  // Highlight the currently applied icon when browsing (same sprite cell).
+  const isSelected = (icon: Icon) =>
+    value !== null &&
+    value.url === icon.url &&
+    (value.x ?? 0) === icon.x &&
+    (value.y ?? 0) === icon.y;
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        if (nextOpen) {
+          // Start every session at the category overview.
+          setQuery("");
+          setSelection(null);
+        }
+      }}
+    >
+      <DialogTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
@@ -155,106 +260,159 @@ export function IconPicker({
             </div>
           </div>
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className="p-0 max-h-(--radix-popover-content-available-height) overflow-hidden flex flex-col">
-        {icons === null ? (
-          <div className="space-y-2 p-4">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
-          </div>
-        ) : selection ? (
-          <div className="flex-1 min-h-0 flex flex-col">
-            <div className="px-4 pt-4 pb-2 space-y-2 shrink-0">
-              <button
-                className="flex gap-1 items-center text-sm text-primary underline-offset-4 hover:underline"
-                onClick={() => setSelection(null)}
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to categories</span>
-              </button>
-              <div className="text-sm font-medium">{selection.tag}</div>
-            </div>
-            <div className="flex flex-wrap gap-1 flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
-              {selection.icons.map((icon) => (
-                <button
-                  key={`${icon.name}-${icon.author}`}
-                  onClick={() => onChange(icon)}
-                  title={`${icon.name}${icon.author ? `made by ${icon.author}` : ""}`}
-                >
-                  {icon.width !== 0 ? (
-                    <img
-                      src={
-                        appName
-                          ? getIconsUrl(appName, icon.url, iconsPath)
-                          : icon.url
-                      }
-                      alt={icon.name}
-                      className="object-none"
-                      width={icon.width}
-                      height={icon.height}
-                      style={{
-                        width: icon.width,
-                        height: icon.height,
-                        objectPosition: `-${icon.x}px -${icon.y}px`,
-                        // adaptive: uniform ~32px box by the icon's own width
-                        // (cells are packed at native size now, not a fixed 64px).
-                        zoom: 32 / (icon.width || 64),
-                      }}
-                    />
-                  ) : (
-                    <img
-                      src={
-                        appName
-                          ? getIconsUrl(appName, icon.url, iconsPath)
-                          : icon.url
-                      }
-                      alt={icon.name}
-                      loading="lazy"
-                      className="h-6 w-6 active:scale-105"
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <Command className="flex-1 min-h-0">
-            <CommandInput placeholder="Search category..." />
-            <CommandEmpty className="w-full">No category found.</CommandEmpty>
-            <CommandList className="[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
-              <CommandGroup className="p-0">
-                {icons.map((subIcons, index) => (
-                  <Fragment key={index}>
-                    {subIcons.map(({ tag, icons, ...props }) => (
-                      <CommandItem
-                        key={tag}
-                        value={tag}
-                        onSelect={() => {
-                          setSelection({ tag, icons, ...props });
-                        }}
-                      >
-                        <span>
-                          {tag} ({icons.length})
-                        </span>
-                      </CommandItem>
-                    ))}
-                    {index !== icons.length - 1 && <CommandSeparator />}
-                  </Fragment>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        )}
-
-        <Button
-          size="sm"
-          onClick={() => onChange(null)}
-          className="block mx-auto shrink-0 my-3"
-          variant="outline"
+      </DialogTrigger>
+      {/* A centered modal instead of an anchored popover: the picker needs real
+          height for its icon grid, and an anchored popover gets squeezed to
+          near-zero when the trigger sits low in a small window. */}
+      <DialogPortal>
+        <DialogOverlay className="z-990999 bg-black/50" />
+        <DialogPrimitive.Content
+          className="fixed left-1/2 top-[8dvh] z-990999 flex max-h-[min(80dvh,36rem)] w-[min(92vw,32rem)] -translate-x-1/2 flex-col overflow-hidden rounded-lg border bg-popover text-popover-foreground shadow-lg outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+          onDoubleClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          }}
+          onOpenAutoFocus={(event) => {
+            // Radix focuses the first focusable element (the close button);
+            // the search input is what the user wants to type into.
+            event.preventDefault();
+            inputRef.current?.focus();
+          }}
         >
-          Clear icon
-        </Button>
-      </PopoverContent>
-    </Popover>
+          <DialogTitle className="sr-only">Pick an icon</DialogTitle>
+          <DialogDescription className="sr-only">
+            Search all icons by name or browse them by category.
+          </DialogDescription>
+          <DialogPrimitive.Close className="absolute right-3 top-3.5 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+          <div className="flex items-center border-b pl-3 pr-10 shrink-0">
+            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <input
+              ref={inputRef}
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
+              placeholder="Search icons…"
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                // Typing always searches across ALL categories, so leave the
+                // category view to show the global results.
+                if (event.target.value) {
+                  setSelection(null);
+                }
+              }}
+            />
+          </div>
+          {searchResults ? (
+            <div className="flex-1 min-h-0 flex flex-col">
+              <div className="px-3 pt-3 pb-1.5 text-xs uppercase tracking-wider text-muted-foreground shrink-0">
+                {searchResults.length === 0
+                  ? "No icon found"
+                  : searchResults.length > MAX_SEARCH_RESULTS
+                    ? `Showing ${MAX_SEARCH_RESULTS} of ${searchResults.length} — keep typing to narrow`
+                    : `${searchResults.length} icon${searchResults.length === 1 ? "" : "s"}`}
+              </div>
+              <div
+                className={cn(
+                  ICON_GRID_CLASSES,
+                  "flex-1 min-h-0 overflow-y-auto",
+                  SCROLLBAR_CLASSES,
+                )}
+              >
+                {searchResults
+                  .slice(0, MAX_SEARCH_RESULTS)
+                  .map(({ icon, tag }, index) => (
+                    <IconButton
+                      key={`${tag}-${icon.name}-${icon.author ?? ""}-${index}`}
+                      icon={icon}
+                      appName={appName}
+                      iconsPath={iconsPath}
+                      title={`${icon.name} · ${tag}${icon.author ? ` (made by ${icon.author})` : ""}`}
+                      selected={isSelected(icon)}
+                      onClick={() => selectIcon(icon)}
+                    />
+                  ))}
+              </div>
+            </div>
+          ) : selection ? (
+            <div className="flex-1 min-h-0 flex flex-col">
+              <div className="flex items-baseline justify-between px-3 pt-3 pb-1.5 shrink-0">
+                <div className="text-xs uppercase tracking-wider text-muted-foreground">
+                  {selection.tag} · {selection.icons.length}
+                </div>
+                <button
+                  type="button"
+                  className="flex gap-1 items-center text-xs text-primary underline-offset-4 hover:underline"
+                  onClick={() => setSelection(null)}
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  <span>All categories</span>
+                </button>
+              </div>
+              <div
+                className={cn(
+                  ICON_GRID_CLASSES,
+                  "flex-1 min-h-0 overflow-y-auto",
+                  SCROLLBAR_CLASSES,
+                )}
+              >
+                {selection.icons.map((icon, index) => (
+                  <IconButton
+                    key={`${icon.name}-${icon.author ?? ""}-${index}`}
+                    icon={icon}
+                    appName={appName}
+                    iconsPath={iconsPath}
+                    title={`${icon.name}${icon.author ? ` (made by ${icon.author})` : ""}`}
+                    selected={isSelected(icon)}
+                    onClick={() => selectIcon(icon)}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex-1 min-h-0 flex flex-col">
+              <div className="px-3 pt-3 pb-1.5 text-xs uppercase tracking-wider text-muted-foreground shrink-0">
+                Categories
+              </div>
+              <div
+                className={cn(
+                  "grid content-start sm:grid-cols-2 gap-x-1 px-2 pb-2 flex-1 min-h-0 overflow-y-auto",
+                  SCROLLBAR_CLASSES,
+                )}
+              >
+                {categories.map((category) => (
+                  <button
+                    key={category.tag}
+                    type="button"
+                    className="flex w-full cursor-default select-none items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+                    onClick={() => setSelection(category)}
+                  >
+                    <span className="truncate">{category.tag}</span>
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                      {category.icons.length}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between border-t px-3 py-2 shrink-0">
+            <span className="text-xs text-muted-foreground">
+              {searchEntries.length.toLocaleString()} icons
+            </span>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 text-muted-foreground"
+              onClick={() => selectIcon(null)}
+            >
+              Clear icon
+            </Button>
+          </div>
+        </DialogPrimitive.Content>
+      </DialogPortal>
+    </Dialog>
   );
 }

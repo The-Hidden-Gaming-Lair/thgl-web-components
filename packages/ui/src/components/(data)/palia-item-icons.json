@@ -440,5 +440,8 @@
   "DA_ItemType_Ammo_Arrow_Simple": "da_itemtype_ammo_arrow_simple.webp",
   "DA_ItemType_Crop_BokChoy": "da_itemtype_crop_bokchoy.webp",
   "DA_ItemType_Crop_Cabbage": "da_itemtype_crop_cabbage.webp",
-  "DA_ItemType_Forage_Spice_GreenOnion": "da_itemtype_forage_spice_greenonion.webp"
+  "DA_ItemType_Forage_Spice_GreenOnion": "da_itemtype_forage_spice_greenonion.webp",
+  "DA_ItemType_Ammo_Arrow_Fine": "da_itemtype_ammo_arrow_fine.webp",
+  "DA_ItemType_Ammo_Arrow_Jadium": "da_itemtype_ammo_arrow_jadium.webp",
+  "DA_ItemType_C_FriedPiqni": "da_itemtype_c_friedpiqni.webp"
 }

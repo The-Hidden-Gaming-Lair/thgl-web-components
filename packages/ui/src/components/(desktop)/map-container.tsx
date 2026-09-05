@@ -17,11 +17,9 @@ import { Button } from "../(controls)";
 
 export function MapContainer({
   children,
-  noLockHover,
   isOverlay,
 }: {
   children?: React.ReactNode;
-  noLockHover?: boolean;
   isOverlay: boolean;
 }) {
   const targetRef = useRef<HTMLButtonElement>(null);
@@ -42,7 +40,6 @@ export function MapContainer({
   } = useSettingsStore();
   const [isEditMode, setIsEditMode] = useState(false);
   const moveableRef = useRef<Moveable>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!isOverlay || !_hasHydrated) {
@@ -98,6 +95,37 @@ export function MapContainer({
     map?.invalidateSize();
   }, [overlayFullscreen]);
 
+  // Fade the locked map while the cursor is over it, so the game behind stays
+  // visible. The locked container is fully click-through (lock-block-input),
+  // so its own mouse events never fire — listen at document level and
+  // hit-test the container bounds instead.
+  useEffect(() => {
+    if (!isOverlay || !lockedWindow) return;
+    let timeout: NodeJS.Timeout | null = null;
+    const onMouseMove = (event: MouseEvent) => {
+      const el = mapContainerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!inside) return;
+      if (timeout) clearTimeout(timeout);
+      el.classList.add("lock-opacity");
+      timeout = setTimeout(() => {
+        mapContainerRef.current?.classList.remove("lock-opacity");
+      }, 1000);
+    };
+    document.addEventListener("mousemove", onMouseMove);
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      if (timeout) clearTimeout(timeout);
+      mapContainerRef.current?.classList.remove("lock-opacity");
+    };
+  }, [isOverlay, lockedWindow]);
+
   if (!isOverlay) {
     return children;
   }
@@ -113,23 +141,8 @@ export function MapContainer({
         <div
           ref={mapContainerRef}
           className={cn("absolute inset-0 will-change-transform z-10", {
-            "pointer-events-none": lockedWindow && noLockHover,
+            "lock-block-input": lockedWindow,
           })}
-          onMouseMove={() => {
-            if (!lockedWindow || !mapContainerRef.current || noLockHover) {
-              return;
-            }
-            if (timeoutRef.current) {
-              clearTimeout(timeoutRef.current);
-            }
-            if (!mapContainerRef.current.classList.contains("lock-opacity")) {
-              mapContainerRef.current.classList.add("lock-opacity");
-            }
-
-            timeoutRef.current = setTimeout(() => {
-              mapContainerRef.current?.classList.remove("lock-opacity");
-            }, 1000);
-          }}
         >
           {!lockedWindow && (
             <div
@@ -195,24 +208,9 @@ export function MapContainer({
       <div
         ref={mapContainerRef}
         className={cn(`lock absolute inset-0 will-change-transform z-11000`, {
-          "pointer-events-none": lockedWindow && noLockHover,
+          "lock-block-input": lockedWindow,
         })}
         style={mapTransformWithoutBorderRadius}
-        onMouseMove={() => {
-          if (!lockedWindow || !mapContainerRef.current || noLockHover) {
-            return;
-          }
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-          if (!mapContainerRef.current.classList.contains("lock-opacity")) {
-            mapContainerRef.current.classList.add("lock-opacity");
-          }
-
-          timeoutRef.current = setTimeout(() => {
-            mapContainerRef.current?.classList.remove("lock-opacity");
-          }, 1000);
-        }}
       >
         {!lockedWindow && (
           <div

@@ -1,6 +1,7 @@
 import {
   AppHeader,
   AppVersion,
+  CompatFlagNotice,
   ExclusiveFullscreenWarning,
   InitializeApp,
   ResizeBorders,
@@ -19,6 +20,7 @@ export default function DashboardLayout({
   return (
     <>
       <InitializeApp role="dashboard" />
+      <CompatFlagNotice />
       <LocaleSync />
       <div className="flex h-full flex-col w-dvw">
         <AppHeader>

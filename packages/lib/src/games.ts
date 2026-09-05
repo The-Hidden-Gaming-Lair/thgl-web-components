@@ -211,11 +211,103 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "legend-of-khiimori",
+    discordId: "legend-of-khiimori",
+    title: "The Legend of Khiimori",
+    logo: `${TH_GL_URL}/global_icons/legend-of-khiimori.webp`,
+    companion: {
+      baseURL: "/apps/legend-of-khiimori",
+      controllerURL: "/apps/legend-of-khiimori/controller",
+      desktopURL: "/apps/legend-of-khiimori",
+      overlayURL: "/apps/legend-of-khiimori/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "The Legend of Khiimori",
+          processNames: ["LegendOfKhiimori-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://khiimori.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
+    id: "sinking-city-2",
+    discordId: "sinking-city-2",
+    title: "The Sinking City 2",
+    logo: `${TH_GL_URL}/global_icons/sinking-city-2.webp`,
+    web: "https://sinkingcity2.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "soulframe",
     discordId: "soulframe",
     title: "Soulframe",
     logo: `${TH_GL_URL}/global_icons/soulframe.webp`,
     web: "https://soulframe.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
+    id: "souls-remnant",
+    discordId: "souls-remnant",
+    title: "Soul's Remnant",
+    logo: `${TH_GL_URL}/global_icons/souls-remnant.webp`,
+    web: "https://soulsremnant.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
+    id: "starrupture",
+    discordId: "starrupture",
+    title: "Star Rupture",
+    logo: `${TH_GL_URL}/global_icons/starrupture.webp`,
+    companion: {
+      baseURL: "/apps/starrupture",
+      controllerURL: "/apps/starrupture/controller",
+      desktopURL: "/apps/starrupture",
+      overlayURL: "/apps/starrupture/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "Star Rupture",
+          processNames: ["StarRuptureGameSteam-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://starrupture.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
@@ -258,6 +350,44 @@ export const games: Array<Game> = [
       },
     },
     web: "https://subnautica2.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
+    id: "planet-crafter",
+    discordId: "planet-crafter",
+    title: "The Planet Crafter",
+    logo: `${TH_GL_URL}/global_icons/planet-crafter.webp`,
+    companion: {
+      baseURL: "/apps/planet-crafter",
+      controllerURL: "/apps/planet-crafter/controller",
+      desktopURL: "/apps/planet-crafter",
+      overlayURL: "/apps/planet-crafter/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 400,
+          zDistance: 60,
+        },
+      },
+      games: [
+        {
+          title: "The Planet Crafter",
+          processNames: ["Planet Crafter.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://planetcrafter.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
@@ -513,8 +643,17 @@ export const games: Array<Game> = [
     discordId: "palia",
     title: "Palia",
     lockedWindowComponents: ["PaliaTime"],
-    additionalComponents: ["PaliaGrid"],
-    additionalFilters: ["PaliaWeeklyWants", "PaliaTime", "PaliaGridToggle"],
+    // PaliaWorldCodeRequest renders nothing — it's an always-mounted driver that
+    // toasts the player when someone requests their world's join code.
+    additionalComponents: ["PaliaGrid", "PaliaWorldCodeRequest"],
+    // PaliaActiveWorlds shows the in-game clock at the end of its row, so
+    // there is no separate PaliaTime sidebar entry (the locked-window
+    // PaliaTime overlay stays via lockedWindowComponents).
+    additionalFilters: [
+      "PaliaWeeklyWants",
+      "PaliaActiveWorlds",
+      "PaliaGridToggle",
+    ],
     logo: `${TH_GL_URL}/global_icons/palia.webp`,
     companion: {
       baseURL: "/apps/palia",
@@ -575,6 +714,36 @@ export const games: Array<Game> = [
     discordId: "grounded2",
     title: "Grounded 2",
     logo: `${TH_GL_URL}/global_icons/grounded2.webp`,
+    companion: {
+      baseURL: "/apps/grounded2",
+      controllerURL: "/apps/grounded2/controller",
+      desktopURL: "/apps/grounded2",
+      overlayURL: "/apps/grounded2/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "Grounded 2",
+          processNames: ["Grounded2Steam-Win64-Shipping.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://grounded2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
@@ -1138,8 +1307,9 @@ export const games: Array<Game> = [
     title: "Enshrouded",
     logo: `${TH_GL_URL}/global_icons/enshrouded.webp`,
     companion: {
-      // Live mode still WIP (ECS World pointer) — not announced as supported.
-      inDevelopment: true,
+      // Preview release: listed + routable everywhere, but the map/db/companion content is gated
+      // to Elite supporters (previewReleaseAccess) via PREVIEW_RELEASE_APPS while support is
+      // finalized. (Was inDevelopment — fully hidden — until live chest/item tracking landed.)
       baseURL: "/apps/enshrouded",
       controllerURL: "/apps/enshrouded/controller",
       desktopURL: "/apps/enshrouded",
@@ -1148,6 +1318,10 @@ export const games: Array<Game> = [
         radius: 6,
         playerIcon: "player.webp",
         imageSprite: true,
+        // Live detector emits generic chest/supply (tier isn't in the ECS archetype), so a live
+        // actor confirms & hides the fine-grained static tier marker (gold_chest/…) at its spot.
+        // 5 m ≈ just above the sint64→m rounding; chests/pickups sit farther apart than this.
+        liveConfirmRadius: 5,
         zPos: {
           // Placeholder values — update once sint64→float coordinate scale
           // is confirmed (likely mm→m: divide by 1000) and tested in-game.
@@ -1186,6 +1360,8 @@ export type PartnerApp = {
 
 export type AdditionalContent =
   | "PlayerDetails"
+  | "PaliaActiveWorlds"
+  | "PaliaWorldCodeRequest"
   | "PaliaWeeklyWants"
   | "PaliaGrid"
   | "PaliaGridToggle"
@@ -1244,6 +1420,13 @@ export type Game = {
       };
       clusterPrecision?: number;
       coordinateCopyFormat?: string;
+      // World-unit radius for position-based, type-agnostic live↔predicted dedup: a live actor
+      // hides the nearest combined-muted predicted static spawn at its spot (so combined mode shows
+      // one marker, not the faded prediction under it). Use when the memory detector emits COARSER
+      // types than the static data (e.g. Enshrouded live "chest" vs static gold_chest/silver_chest).
+      // 0/undefined = off (default; other games unchanged). Keep it small — just above the
+      // live-vs-file coordinate rounding — so it can't swallow a distinct neighbouring spawn.
+      liveConfirmRadius?: number;
     };
     games: {
       title: string;
@@ -1268,9 +1451,16 @@ export type Game = {
  * True when the game's companion integration is RELEASED — use for
  * "supported games" lists, counts, and badges. Games with
  * `companion.inDevelopment` keep their routing/config but aren't advertised.
+ *
+ * In DEV mode (`NODE_ENV !== "production"`), in-development companions count as
+ * released so they can be tested end-to-end in the THGLApp (listed in the
+ * sidebar, running-game detection, overlay/desktop auto-open) while staying
+ * hidden in production builds.
  */
 export function hasReleasedCompanion(game: Game): boolean {
-  return !!game.companion && !game.companion.inDevelopment;
+  if (!game.companion) return false;
+  if (process.env.NODE_ENV !== "production") return true;
+  return !game.companion.inDevelopment;
 }
 
 /** The web subdomain for a game (e.g. "starresonance"), derived from `web`. */
@@ -1297,10 +1487,25 @@ export function getAppDomain(game: Game): string {
  * callers should treat null as "don't render game-scoped UI" rather than
  * guessing.
  */
+/**
+ * Extract the app id from an in-app route (`/apps/<id>`), tolerating a locale
+ * prefix (`/{locale}/apps/<id>` — every locale except the default `en` is
+ * prefixed). Keying off a fixed path position broke all non-English languages:
+ * they fell back to generic behavior/storage while English got the per-app
+ * one, so e.g. settings appeared to change with the selected language.
+ */
+export function getAppIdFromPathname(pathname: string): string | null {
+  const match = pathname.match(
+    /^\/(?:[a-z]{2}(?:-[a-zA-Z0-9]{2,4})?\/)?apps\/([^/?#]+)/,
+  );
+  return match?.[1] ?? null;
+}
+
 export function getCurrentGameId(): string | null {
   if (typeof window === "undefined") return null;
   const path = window.location.pathname;
-  if (path.startsWith("/apps/")) return path.split("/")[2] ?? null;
+  const appId = getAppIdFromPathname(path);
+  if (appId) return appId;
   if (isOverwolf) {
     const ext = window.location.hostname;
     return games.find((g) => g.overwolf?.id === ext)?.id ?? null;

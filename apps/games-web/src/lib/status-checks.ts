@@ -1,3 +1,4 @@
+import { connect } from "node:tls";
 import { sign } from "jsonwebtoken";
 import { type StatusState } from "@repo/lib";
 
@@ -9,15 +10,19 @@ export interface RawCheck {
 }
 
 /** Components whose OUTAGE auto-opens an incident + triggers the auto banner. */
-export const HARD_COMPONENTS = ["auth", "database", "cdn"];
+export const HARD_COMPONENTS = ["auth", "database", "cdn", "web"];
 
 export const COMPONENT_LABELS: Record<string, string> = {
+  web: "Website (maps & guides)",
   auth: "Auth & Sign-in",
   database: "Database (accounts & filters)",
   "api-forge": "Comments & Profiles",
-  "actors-api": "Live tracking",
+  "actors-api": "Actors API",
+  "palia-api": "Palia community data",
+  peer: "Peer Link",
   cdn: "Map data CDN",
   search: "Search API",
+  certificates: "TLS certificates",
 };
 
 /** Games with an Overwolf-GEP dependency shown on the status page.
@@ -96,14 +101,14 @@ async function checkAuth(): Promise<RawCheck> {
   };
 }
 
-// Deliberately not lib/libsql.ts: that client is pinned to the
-// BUNNY_DATABASE_URL env var, while this ping must target arbitrary
-// URLs (prod path vs direct path). Keep the URL normalization in sync.
+// Deliberately not lib/libsql.ts: this ping measures latency and never
+// throws, and stays independent of that client's error handling. Keep
+// the URL normalization in sync with libsql.ts.
 async function libsqlPing(
   baseUrl: string,
-): Promise<{ ok: boolean; ms: number }> {
+): Promise<{ ok: boolean; ms: number; err: string | null }> {
   const url = `${baseUrl.replace(/^libsql:\/\//, "https://").replace(/\/+$/, "")}/v2/pipeline`;
-  const { res, ms } = await timedFetch(url, {
+  const { res, ms, err } = await timedFetch(url, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.BUNNY_DATABASE_AUTH_TOKEN}`,
@@ -113,40 +118,24 @@ async function libsqlPing(
       requests: [{ type: "execute", stmt: { sql: "SELECT 1" } }],
     }),
   });
-  return { ok: res?.ok ?? false, ms };
+  const ok = res?.ok ?? false;
+  return { ok, ms, err: ok ? null : (err ?? `HTTP ${res?.status}`) };
 }
 
-/** One "database" row: prod path (BUNNY_DATABASE_URL — currently the mia
- *  relay) + the direct bunnydb URL (STATUS_DB_DIRECT_URL). Direct-down but
- *  prod-up = degraded with route detail — and the detail flips to null by
- *  itself when Bunny fixes their route. */
+/** Bunny DB reachability from inside the Magic Container — the exact
+ *  vector of the 2026-07-27 outage. Single path again: the mia relay
+ *  detour was decommissioned 2026-08-17 after Bunny fixed their route
+ *  (and their rate limiting made the relay's single IP unusable anyway). */
 async function checkDatabase(): Promise<RawCheck> {
-  const [prod, direct] = await Promise.all([
-    libsqlPing(process.env.BUNNY_DATABASE_URL!),
-    libsqlPing(
-      process.env.STATUS_DB_DIRECT_URL ?? process.env.BUNNY_DATABASE_URL!,
-    ),
-  ]);
-  if (prod.ok && direct.ok)
+  const { ok, ms, err } = await libsqlPing(process.env.BUNNY_DATABASE_URL!);
+  if (ok)
     return {
       component: "database",
       state: "operational",
-      latencyMs: prod.ms,
+      latencyMs: ms,
       detail: null,
     };
-  if (prod.ok)
-    return {
-      component: "database",
-      state: "degraded",
-      latencyMs: prod.ms,
-      detail: "direct route down — serving via relay",
-    };
-  return {
-    component: "database",
-    state: "outage",
-    latencyMs: prod.ms,
-    detail: direct.ok ? "prod path down (direct up)" : "both paths down",
-  };
+  return { component: "database", state: "outage", latencyMs: ms, detail: err };
 }
 
 async function checkSimple(
@@ -162,6 +151,133 @@ async function checkSimple(
     state: "outage",
     latencyMs: ms,
     detail: err ?? `HTTP ${res?.status}`,
+  };
+}
+
+/**
+ * Dual-path probe for the Bunny-fronted self-hosted APIs: users reach them
+ * via the edge hostname, but the `*-direct` origin hostname stays published
+ * (also the browser fallback path in resilientFetch). Probing both makes an
+ * incident self-diagnosing: edge down + origin up = Bunny route problem;
+ * both down = the origin box itself.
+ */
+async function checkDualPath(
+  component: string,
+  edgeUrl: string,
+  directUrl: string,
+  expect: (res: Response) => boolean = (r) => r.ok,
+): Promise<RawCheck> {
+  const probe = async (url: string) => {
+    const { res, ms, err } = await timedFetch(url);
+    const ok = res !== null && expect(res);
+    return { ok, ms, err: ok ? null : (err ?? `HTTP ${res?.status}`) };
+  };
+  const [edge, direct] = await Promise.all([probe(edgeUrl), probe(directUrl)]);
+  if (edge.ok && direct.ok)
+    return {
+      component,
+      state: "operational",
+      latencyMs: edge.ms,
+      detail: null,
+    };
+  if (edge.ok)
+    return {
+      component,
+      state: "degraded",
+      latencyMs: edge.ms,
+      detail: `origin direct path down (edge serving) — ${direct.err}`,
+    };
+  if (direct.ok)
+    return {
+      component,
+      state: "degraded",
+      latencyMs: direct.ms,
+      detail: `edge route down — origin healthy (${edge.err})`,
+    };
+  return { component, state: "outage", latencyMs: edge.ms, detail: edge.err };
+}
+
+/** Hostnames whose TLS certs we watch. Bunny renews the edge certs, the
+ *  acme-companions renew the box certs — either failing silently would
+ *  otherwise only surface when a cert expires. metrics.th.gl shares one
+ *  cert order with a.th.gl (whose HTTP-01 now travels through the edge). */
+const CERT_HOSTS = [
+  "www.th.gl",
+  "cdn.th.gl",
+  "metrics.th.gl",
+  "peer.th.gl",
+  "api-forge-direct.th.gl",
+  "actors-api-direct.th.gl",
+  "palia-api-direct.th.gl",
+];
+
+function certDaysLeft(host: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const socket = connect(
+      // rejectUnauthorized false: an EXPIRED cert must still be readable —
+      // reporting "expired 3 days ago" is the whole point of this check.
+      { host, port: 443, servername: host, rejectUnauthorized: false },
+      () => {
+        const cert = socket.getPeerCertificate();
+        socket.end();
+        if (!cert?.valid_to) {
+          reject(new Error("no certificate"));
+          return;
+        }
+        resolve((new Date(cert.valid_to).getTime() - Date.now()) / 86_400_000);
+      },
+    );
+    socket.setTimeout(TIMEOUT_MS, () => {
+      socket.destroy();
+      reject(new Error("timeout"));
+    });
+    socket.on("error", reject);
+  });
+}
+
+async function checkCertificates(): Promise<RawCheck> {
+  const results = await Promise.all(
+    CERT_HOSTS.map(async (host) => {
+      try {
+        return { host, days: await certDaysLeft(host), err: null };
+      } catch (e) {
+        return {
+          host,
+          days: null,
+          err: e instanceof Error ? e.message : String(e),
+        };
+      }
+    }),
+  );
+  const expired = results.filter((r) => r.days !== null && r.days < 3);
+  const expiringSoon = results.filter(
+    (r) => r.days !== null && r.days >= 3 && r.days < 21,
+  );
+  const unreachable = results.filter((r) => r.days === null);
+  if (expired.length > 0)
+    return {
+      component: "certificates",
+      state: "outage",
+      latencyMs: null,
+      detail: expired
+        .map((r) => `${r.host}: ${Math.floor(r.days!)}d left`)
+        .join(", "),
+    };
+  if (expiringSoon.length > 0 || unreachable.length > 0)
+    return {
+      component: "certificates",
+      state: "degraded",
+      latencyMs: null,
+      detail: [
+        ...expiringSoon.map((r) => `${r.host}: ${Math.floor(r.days!)}d left`),
+        ...unreachable.map((r) => `${r.host}: ${r.err}`),
+      ].join(", "),
+    };
+  return {
+    component: "certificates",
+    state: "operational",
+    latencyMs: null,
+    detail: null,
   };
 }
 
@@ -204,17 +320,103 @@ export async function checkOwEvents(): Promise<
   return out;
 }
 
+/**
+ * Games-web page-origin health. Probes key root pages with a per-minute
+ * cache-buster so we hit the Magic Container ORIGIN — a cached 200 would
+ * otherwise hide a 504 (the AI-crawler overload pattern where the origin
+ * 504s across all tenants while the edge still serves cached pages). Catches
+ * two failure modes: origin down/overloaded (all roots 5xx/slow/timeout) and
+ * a single root that stops being accessible (e.g. a bad tenant/locale config
+ * → 404). All roots share one Magic Container, so a small representative set
+ * is enough to detect an origin-wide outage.
+ */
+const WEB_ROOTS = [
+  "https://www.th.gl/",
+  "https://palworld.th.gl/",
+  "https://satisfactory.th.gl/",
+];
+// A 200 that takes this long signals origin overload (early warning before a
+// full 504) — surfaced as "degraded" so it pings without declaring an outage.
+const WEB_SLOW_MS = 3000;
+
+async function checkWeb(): Promise<RawCheck> {
+  const bust = Math.floor(Date.now() / 60000);
+  const results = await Promise.all(
+    WEB_ROOTS.map(async (base) => {
+      const { res, ms, err } = await timedFetch(`${base}?status=${bust}`);
+      return {
+        host: new URL(base).host,
+        ok: res?.ok ?? false,
+        status: res?.status ?? null,
+        ms,
+        err,
+      };
+    }),
+  );
+  const down = results.filter((r) => !r.ok);
+  const slowest = Math.max(...results.map((r) => r.ms));
+
+  if (down.length === 0) {
+    if (slowest > WEB_SLOW_MS) {
+      const slow = results
+        .filter((r) => r.ms > WEB_SLOW_MS)
+        .map((r) => `${r.host} ${r.ms}ms`);
+      return {
+        component: "web",
+        state: "degraded",
+        latencyMs: slowest,
+        detail: `slow origin — ${slow.join(", ")}`,
+      };
+    }
+    return {
+      component: "web",
+      state: "operational",
+      latencyMs: slowest,
+      detail: null,
+    };
+  }
+
+  const detail = down
+    .map((r) => `${r.host}: ${r.err ?? `HTTP ${r.status}`}`)
+    .join("; ");
+  // All roots down = origin-wide outage (auto-incident); a subset = one root
+  // broken while the origin is otherwise up = degraded.
+  return {
+    component: "web",
+    state: down.length === results.length ? "outage" : "degraded",
+    latencyMs: down[0].ms,
+    detail,
+  };
+}
+
 export async function runAllChecks(): Promise<RawCheck[]> {
   return Promise.all([
+    checkWeb(),
     checkAuth(),
     checkDatabase(),
     // api-forge: /comments with a dummy node returns 200 with empty array — no auth needed
-    checkSimple(
+    checkDualPath(
       "api-forge",
       "https://api-forge.th.gl/comments?app_id=palworld&node_id=test%400%3A0",
+      "https://api-forge-direct.th.gl/comments?app_id=palworld&node_id=test%400%3A0",
     ),
     // actors-api: /health returns 200 when the service is up
-    checkSimple("actors-api", "https://actors-api.th.gl/health"),
+    checkDualPath(
+      "actors-api",
+      "https://actors-api.th.gl/health",
+      "https://actors-api-direct.th.gl/health",
+    ),
+    // palia-api has no /health; an unauthenticated /nodes answers 401 when
+    // the service is up (any other status = nginx default page or down)
+    checkDualPath(
+      "palia-api",
+      "https://palia-api.th.gl/nodes?type=spawnNodes",
+      "https://palia-api-direct.th.gl/nodes?type=spawnNodes",
+      (r) => r.status === 401,
+    ),
+    // PeerJS signaling server root returns its JSON banner with 200
+    checkSimple("peer", "https://peer.th.gl/"),
+    checkCertificates(),
     checkSimple(
       "cdn",
       // Cache-buster rotates once per minute: fresh enough to catch an

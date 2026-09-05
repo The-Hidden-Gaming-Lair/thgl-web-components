@@ -47,7 +47,18 @@ export function useUserStore<T = UserStoreState>(
 export function useUserStoreApi(): UserStore {
   const store = useContext(UserStoreContext);
   if (!store) {
-    throw new Error("useUserStoreApi must be used within a CoordinatesProvider");
+    throw new Error(
+      "useUserStoreApi must be used within a CoordinatesProvider",
+    );
   }
   return store;
+}
+
+/**
+ * Non-throwing variant: returns the store, or `null` when there is no
+ * CoordinatesProvider (e.g. a standalone map embed like the /worlds preview).
+ * For imperative, best-effort features that can safely no-op without the store.
+ */
+export function useUserStoreApiOptional(): UserStore | null {
+  return useContext(UserStoreContext);
 }

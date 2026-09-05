@@ -3,6 +3,7 @@ import {
   AppConfig,
   DEFAULT_LOCALE,
   fetchVersion,
+  getCanonicalMapName,
   getMapNameFromVersion,
   getMetadataAlternates,
   getOpenGraphImageUrl,
@@ -16,10 +17,11 @@ import { FullMapDynamic } from "../(dynamic)/full-map-dynamic";
 import { MarkersSearch } from "../(controls)/markers-search";
 import { FloatingAds } from "../(ads)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getFullDictionary } from "../../dicts";
 import { ReactNode } from "react";
 import { JSONLDScript } from "./json-ld-script";
+import { PreviewReleaseGuard } from "./preview-release-guard";
 import { AdditionalTooltipType } from "../(content)";
 
 type MapPageProps = {
@@ -151,7 +153,7 @@ export function createMapPage(
   additionalTooltip?: AdditionalTooltipType,
   additionalComponents?: ReactNode,
 ) {
-  return async function Map({ params }: MapPageProps) {
+  return async function Map({ params, searchParams }: MapPageProps) {
     const {
       locale = DEFAULT_LOCALE,
       map,
@@ -167,10 +169,37 @@ export function createMapPage(
 
     const t = getT(dict);
 
-    const mapName = getMapNameFromVersion(version, map, dict);
-    if (!mapName) {
+    // Resolve the map tolerantly ('+'-as-space + case-insensitive) and, when the
+    // URL isn't the canonical proper-cased %20 form (the one the sitemap emits /
+    // Google should index), 308-redirect to it. Avoids serving duplicate-content
+    // map URLs. The redirect key is the MAP segment only — the type/marker tail
+    // is preserved (mirrors the encode(decode(slug)) pattern used elsewhere), so
+    // the canonical target never re-triggers a redirect (no loop).
+    const canonical = getCanonicalMapName(version, map, dict);
+    if (!canonical) {
       notFound();
     }
+    if (decodeURIComponent(map.replace(/\+/g, " ")) !== canonical.name) {
+      let dest = localizePath(
+        `/maps/${encodeURIComponent(canonical.name)}`,
+        locale,
+      );
+      if (typeSlug) {
+        dest += `/${encodeURIComponent(decodeURIComponent(typeSlug))}`;
+        if (markerSlug) {
+          dest += `/${encodeURIComponent(decodeURIComponent(markerSlug))}`;
+        }
+      }
+      const sp = await searchParams;
+      const qs = new URLSearchParams();
+      for (const [k, v] of Object.entries(sp)) {
+        if (Array.isArray(v)) v.forEach((entry) => qs.append(k, entry));
+        else if (v !== undefined) qs.set(k, v);
+      }
+      const query = qs.toString();
+      permanentRedirect(query ? `${dest}?${query}` : dest);
+    }
+    const mapName = canonical.key;
 
     let decodedMap = decodeURIComponent(map);
     if (!decodedMap.endsWith(" Map")) {
@@ -286,57 +315,59 @@ export function createMapPage(
             small. Map markers / filters / search need to translate game IDs
             client-side, so wrap the map subtree with the full dict here. */}
         <I18NProvider dict={dict} locale={locale}>
-          <CoordinatesProvider
-            appName={appConfig.name}
-            staticDrawings={version.data.drawings}
-            filters={version.data.filters}
-            mapNames={Object.keys(version.data.tiles)}
-            useCbor
-            regions={version.data.regions}
-            typesIdMap={
-              appConfig.withoutLiveMode ? {} : version.data.typesIdMap
-            }
-            nodesPaths={version.more.nodes}
-            globalFilters={version.data.globalFilters}
-            map={mapName}
-            clusterPrecision={appConfig.markerOptions?.clusterPrecision}
-            inGameCoordinates={appConfig.game?.inGameCoordinates}
-          >
-            <HeaderOffset full>
-              <PageTitle title={mapTitle} />
-              <FullMapDynamic
-                appConfig={appConfig}
-                tilesConfig={version.data.tiles}
-                iconsPath={version.more.icons}
-                additionalTooltip={additionalTooltip}
-              />
-              {additionalComponents}
-              <MarkersSearch
-                lastMapUpdate={version.createdAt}
-                tileOptions={version.data.tiles}
-                appName={appConfig.name}
-                iconsPath={version.more.icons}
-                additionalFilters={additionalFilters}
-                mapEnTitles={Object.fromEntries(
-                  Object.keys(version.data.tiles).map((k) => [
-                    k,
-                    translate(dict, k),
-                  ]),
-                )}
-              >
-                <FloatingAds id={appConfig.name} />
-              </MarkersSearch>
-              <MarkerPanel
-                appName={appConfig.name}
-                markerSlug={markerId}
-                additionalTooltip={additionalTooltip}
-                coordinateCopyFormat={
-                  appConfig.markerOptions?.coordinateCopyFormat
-                }
-              />
-              <ZoneDetailsPanel appName={appConfig.name} />
-            </HeaderOffset>
-          </CoordinatesProvider>
+          <PreviewReleaseGuard appName={appConfig.name} title={appConfig.title}>
+            <CoordinatesProvider
+              appName={appConfig.name}
+              staticDrawings={version.data.drawings}
+              filters={version.data.filters}
+              mapNames={Object.keys(version.data.tiles)}
+              useCbor
+              regions={version.data.regions}
+              typesIdMap={
+                appConfig.withoutLiveMode ? {} : version.data.typesIdMap
+              }
+              nodesPaths={version.more.nodes}
+              globalFilters={version.data.globalFilters}
+              map={mapName}
+              clusterPrecision={appConfig.markerOptions?.clusterPrecision}
+              inGameCoordinates={appConfig.game?.inGameCoordinates}
+            >
+              <HeaderOffset full>
+                <PageTitle title={mapTitle} />
+                <FullMapDynamic
+                  appConfig={appConfig}
+                  tilesConfig={version.data.tiles}
+                  iconsPath={version.more.icons}
+                  additionalTooltip={additionalTooltip}
+                />
+                {additionalComponents}
+                <MarkersSearch
+                  lastMapUpdate={version.createdAt}
+                  tileOptions={version.data.tiles}
+                  appName={appConfig.name}
+                  iconsPath={version.more.icons}
+                  additionalFilters={additionalFilters}
+                  mapEnTitles={Object.fromEntries(
+                    Object.keys(version.data.tiles).map((k) => [
+                      k,
+                      translate(dict, k),
+                    ]),
+                  )}
+                >
+                  <FloatingAds id={appConfig.name} />
+                </MarkersSearch>
+                <MarkerPanel
+                  appName={appConfig.name}
+                  markerSlug={markerId}
+                  additionalTooltip={additionalTooltip}
+                  coordinateCopyFormat={
+                    appConfig.markerOptions?.coordinateCopyFormat
+                  }
+                />
+                <ZoneDetailsPanel appName={appConfig.name} />
+              </HeaderOffset>
+            </CoordinatesProvider>
+          </PreviewReleaseGuard>
         </I18NProvider>
       </>
     );

@@ -140,7 +140,10 @@ export function MarkerDetails({
     // Convert spawn.data arrays to flat vars object for template interpolation
     const vars: Record<string, string> | undefined = item.data
       ? Object.fromEntries(
-          Object.entries(item.data).map(([key, values]) => [key, values?.[0] ?? ""])
+          Object.entries(item.data).map(([key, values]) => [
+            key,
+            values?.[0] ?? "",
+          ]),
         )
       : undefined;
 
@@ -175,8 +178,14 @@ export function MarkerDetails({
             className="h-5 w-5"
             onClick={(e) => {
               e.stopPropagation();
-              copyToClipboard(formatCoordinates(itemCoords, coordinateCopyFormat));
-              toast("Copied to clipboard");
+              copyToClipboard(
+                formatCoordinates(itemCoords, coordinateCopyFormat),
+              );
+              toast(
+                t("common.copiedToClipboard", {
+                  fallback: "Copied to clipboard",
+                }),
+              );
             }}
           >
             <Copy className="w-3 h-3" />
@@ -184,7 +193,8 @@ export function MarkerDetails({
         </p>
         {distance && (
           <p className="text-xs text-muted-foreground">
-            Distance: {distance.toFixed(0)}
+            {t("markers.distance", { fallback: "Distance:" })}{" "}
+            {distance.toFixed(0)}
           </p>
         )}
         {additionalTooltip && (

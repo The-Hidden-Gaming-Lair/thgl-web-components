@@ -51,7 +51,13 @@ export function FilterSelect({
   const myFilters = useSettingsStore((state) => state.myFilters);
   const addMyFilter = useSettingsStore((state) => state.addMyFilter);
   const filterNames = myFilters.map((filter) => filter.name);
-  const isExistingFilter = filterNames.includes(value);
+  // Match the typed name against DISPLAY names too: users see "Campsite", not
+  // "my_1712…_Campsite". Comparing raw names only meant re-typing an existing
+  // filter's name always offered "Add filter" and minted a duplicate
+  // (support ticket: 6× "Campsite").
+  const isExistingFilter = filterNames.some(
+    (name) => name === value || name.replace(/my_\d+_/, "") === value,
+  );
   const myFilter = myFilters.find((f) => f.name === filter);
 
   return (
