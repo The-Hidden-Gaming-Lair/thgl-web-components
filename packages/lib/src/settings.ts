@@ -418,6 +418,7 @@ export interface ProfileActions {
   setOverlayMode: (overlayMode: boolean) => void;
   toggleOverlayFullscreen: () => void;
   toggleLockedWindow: () => void;
+  /** Explicitly set overlay locked/clickthrough state (added for overlay testing and initial HUD mode) */
   setLockedWindow: (locked: boolean) => void;
   setColorBlindMode: (mode: ColorBlindMode) => void;
   setColorBlindSeverity: (severity: number) => void;
@@ -936,6 +937,7 @@ export const useSettingsStore = create(
             });
           },
 
+          // Explicitly set overlay window clickthrough mode on launch or during overlay testing
           setLockedWindow: (locked: boolean) => {
             updateSettings({
               lockedWindow: locked,
