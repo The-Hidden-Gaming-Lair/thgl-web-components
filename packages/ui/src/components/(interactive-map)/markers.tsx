@@ -765,7 +765,13 @@ function MarkersContent({
     rect: { x: number; y: number; width: number; height: number };
     sizeMul: number;
   } | null => {
-    if (sheet !== "icons" || !spriteSheetSource || rect.width <= 0) return null;
+    if (
+      sheet !== "icons" ||
+      !spriteSheetSource ||
+      rect.width <= 0 ||
+      rect.height <= 0
+    )
+      return null;
     const dpr = window.devicePixelRatio || 1;
     const processedKey = `__processed_icon_${rect.x}_${rect.y}_${rect.width}_${rect.height}_${dpr}__`;
     let cached = processedIconCache.current.get(processedKey);

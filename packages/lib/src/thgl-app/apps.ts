@@ -422,6 +422,38 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
   // Native WebView2 bridge check - outside of THGLApp (e.g. browser dev testing),
   // C++ IPC calls are unavailable.
   if (typeof window === "undefined" || !window.chrome?.webview) {
+    // In local development outside of the native desktop host, optionally connect to
+    // a local companion memory reader SSE stream if available (default port 8765).
+    if (process.env.NODE_ENV === "development" && role === "client") {
+      try {
+        const eventSource = new EventSource(
+          "http://localhost:8765/api/telemetry/stream",
+        );
+        eventSource.onmessage = (event) => {
+          try {
+            const p = JSON.parse(event.data);
+            if (p?.connected && typeof p.x === "number") {
+              gameState.setPlayer({
+                x: p.x,
+                y: p.y,
+                z: p.z,
+                r: p.yaw ?? p.r ?? 0,
+                mapName: p.mapName,
+                address: 0,
+                type: "player",
+              });
+            }
+          } catch {
+            // Ignore malformed SSE frames
+          }
+        };
+        eventSource.onerror = () => {
+          // Silently ignore when companion server is not running
+        };
+      } catch {
+        // Companion server unavailable
+      }
+    }
     return;
   }
 

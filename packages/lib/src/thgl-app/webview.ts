@@ -324,6 +324,9 @@ export type CloseAction =
 export function onWebviewMessage(
   callback: (data: WEBVIEW_RECEIVE_MESSAGE) => void,
 ) {
+  if (typeof window === "undefined" || !window.chrome?.webview) {
+    return () => {};
+  }
   const handler = (event: MessageEvent) => {
     if (event.data && event.data.action) {
       callback(event.data as WEBVIEW_RECEIVE_MESSAGE);
@@ -332,7 +335,7 @@ export function onWebviewMessage(
 
   window.chrome.webview.addEventListener("message", handler);
   return () => {
-    window.chrome.webview.removeEventListener("message", handler);
+    window.chrome?.webview?.removeEventListener("message", handler);
   };
 }
 
@@ -363,7 +366,7 @@ function createWebviewFallbackResponse<T>(
   }
 
   return {
-    status: "success",
+    status: fallbackData !== undefined ? "success" : "error",
     message: `${action} (safe fallback outside native THGLApp host)`,
     responseId: "",
     data: fallbackData as T,

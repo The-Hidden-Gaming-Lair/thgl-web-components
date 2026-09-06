@@ -22,7 +22,7 @@ export async function getCurrentVersion(): Promise<CurrentVersion> {
       headers: { host: "app.th.gl" },
     });
     if (versionRes.ok) {
-      const version = await versionRes.text();
+      const version = (await versionRes.text()).trim();
       return { version };
     }
   } catch {
