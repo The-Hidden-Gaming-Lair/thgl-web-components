@@ -221,6 +221,53 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "where-winds-meet",
+    discordId: "where-winds-meet",
+    title: "Where Winds Meet",
+    logo: `${TH_GL_URL}/global_icons/where-winds-meet.webp`,
+    companion: {
+      // Not advertised anywhere (supported-games lists, counts, badges, OG
+      // image): the detector is still a stub with no recovered offsets, so live
+      // mode would report a player at the world origin. Routing and process
+      // detection stay live, and NODE_ENV !== "production" treats it as released
+      // so it can be tested end-to-end in the THGLApp.
+      inDevelopment: true,
+      baseURL: "/apps/where-winds-meet",
+      controllerURL: "/apps/where-winds-meet/controller",
+      desktopURL: "/apps/where-winds-meet",
+      overlayURL: "/apps/where-winds-meet/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        // Spawns carry a real height (p = [lat, lng, height] = [-X, -Z, Y]),
+        // so the z filter is meaningful here. The world spans 12096 units on
+        // both axes and world Y runs roughly -2160..520 across all placements.
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "Where Winds Meet",
+          processNames: ["wwm.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://wherewindsmeet.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "souls-remnant",
     discordId: "souls-remnant",
     title: "Soul's Remnant",
