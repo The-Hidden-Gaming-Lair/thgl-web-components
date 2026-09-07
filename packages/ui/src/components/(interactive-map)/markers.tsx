@@ -1919,7 +1919,9 @@ function MarkersContent({
           if (!actor.discovered || !actor.address) {
             continue;
           }
-          const displayType = typesIdMap[actor.type];
+          const displayType =
+            typesIdMap[actor.type] ??
+            typesIdMap[actor.type.split("_Variant.")[0]];
           if (!displayType) continue;
           let autoId: string | undefined;
           if (autoRadius > 0 && grid) {
@@ -2043,7 +2045,9 @@ function MarkersContent({
         // Respect that — otherwise we render markers for entities the game
         // has hidden.
         if (actor.hidden) continue;
-        const displayType = typesIdMap[actor.type];
+        const displayType =
+          typesIdMap[actor.type] ??
+          typesIdMap[actor.type.split("_Variant.")[0]];
         if (!displayType) continue;
         if (
           !activeFilters.has(displayType) &&
@@ -2630,7 +2634,9 @@ function MarkersContent({
         const searchedType = userStateNow.selectedSearchResult?.name;
         for (const actor of liveActorsList) {
           if (actor.hidden) continue;
-          const displayType = typesIdMap[actor.type];
+          const displayType =
+            typesIdMap[actor.type] ??
+            typesIdMap[actor.type.split("_Variant.")[0]];
           if (!displayType || !audioAlertByFilter[displayType]) continue;
           if (!enabledFilters.has(displayType) && displayType !== searchedType)
             continue;

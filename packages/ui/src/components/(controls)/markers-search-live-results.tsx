@@ -62,7 +62,8 @@ export function MarkersSearchLiveResults({
     const reduced = new Map<string, Map<string, LiveActors>>();
     for (const actor of actors) {
       if (actor.hidden) continue;
-      const displayType = typesIdMap[actor.type];
+      const displayType =
+        typesIdMap[actor.type] ?? typesIdMap[actor.type.split("_Variant.")[0]];
       if (!displayType) continue;
       const name = t(displayType, { fallback: displayType });
       if (

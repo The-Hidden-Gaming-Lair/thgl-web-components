@@ -143,7 +143,9 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
           if (typesIdMap) {
             const actors = useGameState.getState().actors || [];
             for (const actor of actors) {
-              const displayType = typesIdMap[actor.type];
+              const displayType =
+                typesIdMap[actor.type] ??
+                typesIdMap[actor.type.split("_Variant.")[0]];
               if (!displayType) continue;
               if (!filters.includes(displayType)) continue;
               // Live memory detection: only discoverable when the type resolves
