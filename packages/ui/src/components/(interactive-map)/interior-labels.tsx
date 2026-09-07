@@ -128,7 +128,15 @@ export function InteriorLabels({
                 <button
                   key={f.id}
                   type="button"
-                  onClick={() => onSelectFloor(f.id)}
+                  onClick={() => {
+                    // Click the ACTIVE floor again → toggle back to the surface.
+                    if (f.id === activeMap) {
+                      const surface = tileOptions[f.id]?.layer?.parent;
+                      if (surface) onSelectFloor(surface);
+                    } else {
+                      onSelectFloor(f.id);
+                    }
+                  }}
                   onFocus={() => getLayer()?.setHighlighted(l.id)}
                   onBlur={() => getLayer()?.setHighlighted(null)}
                   className={cn(
