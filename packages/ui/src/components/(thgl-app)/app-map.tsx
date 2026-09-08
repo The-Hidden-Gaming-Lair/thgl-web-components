@@ -64,6 +64,7 @@ export function AppMap({
             domain={appConfig.domain}
             hidden={lockedWindow}
             withoutLiveMode={withoutLiveMode}
+            tileOptions={tileOptions}
           />
           <PrivateNode
             appName={appConfig.name}

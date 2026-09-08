@@ -12,7 +12,13 @@ import {
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { create } from "zustand";
-import { cn, useGameState, useSettingsStore } from "@repo/lib";
+import {
+  buildPeerLinkUrl,
+  cn,
+  useGameState,
+  useSettingsStore,
+  type TilesConfig,
+} from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
 import { Input } from "../ui/input";
 import { QR } from "./qr";
@@ -24,6 +30,7 @@ import {
   ScrollArea,
 } from "../(controls)";
 import { RemotePlayer, usePeersStore } from "../(providers)/peers-store";
+import { useT, useUserStore } from "../(providers)";
 import {
   PeerMeshUtils,
   peerServerOptions,
@@ -69,10 +76,13 @@ export function StreamingSender({
   hidden,
   domain,
   withoutLiveMode,
+  tileOptions,
 }: {
   hidden: boolean;
   domain: string;
   withoutLiveMode?: boolean;
+  /** Tiles config, so the QR / share link can open the sender's current map. */
+  tileOptions?: TilesConfig;
 }) {
   const connectionStore = useConnectionStore();
   const [isConnected, setIsConnected] = useState(false);
@@ -104,6 +114,8 @@ export function StreamingSender({
   const controlPeerRef = useRef<Peer | null>(null);
   const player = useGameState((state) => state.player);
   const actors = useGameState((state) => state.actors);
+  const displayedMap = useUserStore((state) => state.mapName);
+  const t = useT();
   const [inPeer, setInPeer] = useState(false);
   const [joiningPeer, setJoiningPeer] = useState(false);
   const [peerSenderIds, setPeerSenderIds] = useState<string[]>([]);
@@ -948,6 +960,11 @@ export function StreamingSender({
                   just make sure everyone uses the exact same code.
                 </p>
                 <p>
+                  <strong>QR Code:</strong> Scan it with a phone or tablet to
+                  open the map you are on with the code already filled in.
+                  Tracking starts as soon as the page loads.
+                </p>
+                <p>
                   The first person to join becomes the coordinator temporarily,
                   but all gameplay data flows directly between peers.
                 </p>
@@ -1052,11 +1069,13 @@ export function StreamingSender({
                   </TooltipTrigger>
                   <TooltipContent side="top" className="p-2">
                     <QR
-                      value={
-                        peerCode
-                          ? `https://${domain}.th.gl?peer_code=${peerCode}`
-                          : `https://${domain}.th.gl`
-                      }
+                      value={buildPeerLinkUrl({
+                        domain,
+                        peerCode,
+                        mapName: player?.mapName || displayedMap,
+                        tiles: tileOptions,
+                        t,
+                      })}
                     />
                   </TooltipContent>
                 </Tooltip>

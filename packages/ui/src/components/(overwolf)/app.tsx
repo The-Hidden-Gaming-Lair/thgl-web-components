@@ -200,6 +200,7 @@ export function App({
                       domain={appConfig.domain}
                       hidden={lockedWindow}
                       withoutLiveMode={appConfig.withoutLiveMode}
+                      tileOptions={tiles}
                     />
                     <PrivateNode
                       appName={appConfig.name}

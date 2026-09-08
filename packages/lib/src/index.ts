@@ -16,6 +16,7 @@ export * from "./hooks";
 export * from "./i18n";
 export * from "./metadata";
 export * from "./overlay-map-hide";
+export * from "./peer-link-url";
 export * from "./planet-crafter-save";
 export * from "./preview-release";
 export * from "./private-icons";

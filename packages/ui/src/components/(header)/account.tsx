@@ -199,7 +199,15 @@ export function Account() {
       const settingsStore = useSettingsStore.getState();
       settingsStore.setAutoJoinPeer(true);
       settingsStore.setPeerCode(peerCode);
-      window.history.replaceState(null, "", window.location.pathname);
+      // Strip only the consumed code: a QR/share link can land on a map page
+      // with other params (e.g. `?layer=`) that the map controls still read.
+      searchParams.delete("peer_code");
+      const rest = searchParams.toString();
+      window.history.replaceState(
+        null,
+        "",
+        rest ? `${window.location.pathname}?${rest}` : window.location.pathname,
+      );
     }
 
     return () => {
