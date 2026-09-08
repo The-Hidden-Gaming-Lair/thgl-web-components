@@ -1,5 +1,6 @@
+import "../../fonts/inter.css";
+
 import { AppConfig, cn, DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
-import { Inter as FontSans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import {
   Account,
@@ -26,11 +27,6 @@ import {
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { DidYouKnowCompanionApp } from "../(tips)";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const rootLayoutViewport: Viewport = {
   themeColor: "black",
@@ -95,7 +91,7 @@ export function createRootLayout(appConfig: AppConfig) {
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
-            fontSans.variable,
+            "inter-font-sans",
           )}
         >
           <I18NProvider dict={dict} locale={locale}>

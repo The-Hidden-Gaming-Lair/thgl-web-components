@@ -1,8 +1,8 @@
 import "@/styles/globals.css";
 import "@repo/ui/styles/globals.css";
+import "@repo/ui/fonts/inter.css";
 
 import { cn, DEFAULT_LOCALE } from "@repo/lib";
-import { Inter as FontSans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { PlausibleTracker } from "@repo/ui/header";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
@@ -19,11 +19,6 @@ import {
 import { getCurrentVersion } from "@/games/thgl-app/version";
 import { requireApp } from "@/lib/get-app-config";
 import { notFound } from "next/navigation";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -61,7 +56,7 @@ export default async function RootLayout({
       <body
         className={cn(
           "font-sans dark h-dscreen bg-transparent text-white antialiased select-none overflow-hidden flex",
-          fontSans.variable,
+          "inter-font-sans",
         )}
       >
         <I18NProvider dict={dict} locale={locale}>

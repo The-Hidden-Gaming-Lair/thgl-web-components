@@ -1,5 +1,6 @@
 import "./styles/globals.css";
 import "@repo/ui/styles/globals.css";
+import "@repo/ui/fonts/inter.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";

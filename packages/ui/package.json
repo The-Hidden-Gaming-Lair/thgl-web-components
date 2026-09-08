@@ -56,6 +56,8 @@
       "import": "./src/components/(tips)/index.tsx"
     },
     "./styles/globals.css": "./dist/index.css",
+    "./fonts/inter.css": "./src/fonts/inter.css",
+    "./fonts/exo2.css": "./src/fonts/exo2.css",
     "./dicts/en.json": "./src/dicts/en.json",
     "./dicts/de.json": "./src/dicts/de.json",
     "./dicts": "./src/dicts/index.ts"

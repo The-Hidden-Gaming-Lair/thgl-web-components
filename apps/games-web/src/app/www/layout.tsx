@@ -1,5 +1,6 @@
 import "@/games/thgl-web/styles/globals.css";
 import "@repo/ui/styles/globals.css";
+import "@repo/ui/fonts/exo2.css";
 
 import type { Viewport } from "next";
 import type { ReactNode } from "react";
@@ -9,7 +10,6 @@ import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
 import { Footer } from "@/games/thgl-web/components/footer";
 import { HeroBackground } from "@/games/thgl-web/components/hero-background";
 import { cn } from "@/games/thgl-web/lib/utils";
-import { exo2 } from "@/games/thgl-web/styles/fonts";
 import { ErrorBoundary } from "@repo/ui/controls";
 import { Header } from "@/games/thgl-web/components/header";
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           locale="en"
         />
       </head>
-      <body className={cn(exo2.className, "dark text-slate-50 min-h-screen")}>
+      <body className={cn("font-exo2", "dark text-slate-50 min-h-screen")}>
         <I18NProvider dict={enDictGlobal}>
           {/* Refreshes the persisted account store (perks + profile) so
               the header account icon reflects the real sign-in state. */}

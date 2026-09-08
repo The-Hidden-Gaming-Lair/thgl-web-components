@@ -1,10 +1,10 @@
 import "@/styles/globals.css";
 import "@repo/ui/styles/globals.css";
+import "@repo/ui/fonts/inter.css";
 
 import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { Inter as FontSans } from "next/font/google";
 import { AppConfig, cn, DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
 import {
   Header,
@@ -30,11 +30,6 @@ import {
   isValidLocale,
 } from "@repo/ui/dicts";
 import { DbSearch } from "@/lib/db/db-search";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 /**
  * Slice the client-shipped dict down to UI strings + the dict keys
@@ -106,7 +101,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
-            fontSans.variable,
+            "inter-font-sans",
           )}
         >
           <I18NProvider dict={clientDict} locale={locale}>
