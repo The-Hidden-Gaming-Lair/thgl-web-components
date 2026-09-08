@@ -12,6 +12,7 @@ import {
   isTestSupporter,
 } from "@/lib/test-supporter";
 import { tiers } from "./tiers";
+import { getInvitesBestEffort } from "@/lib/invites";
 
 interface App {
   id: string;
@@ -295,6 +296,12 @@ export async function getAccount(): Promise<THGLAccount | null> {
     account.decryptedUserId = id;
     account.email = TEST_SUPPORTER_EMAIL;
     account.perks = { ...TEST_SUPPORTER_PERKS };
+    // Invites still come from the DB so the invite gate is testable in dev.
+    account.invites = await getInvitesBestEffort(
+      "[getAccount]",
+      id,
+      TEST_SUPPORTER_EMAIL,
+    );
     return account;
   }
 
@@ -368,6 +375,13 @@ export async function getAccount(): Promise<THGLAccount | null> {
     account.email = currentUserResult.data.attributes.email;
     account.perks = getPerks(currentUserResult);
     account.isSpecial = isSpecialUser(id);
+    // Invite-only companion access (undefined = lookup failed → the client
+    // keeps its persisted list; see THGLAccount.invites).
+    account.invites = await getInvitesBestEffort(
+      "[getAccount]",
+      id,
+      account.email,
+    );
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error(`[getAccount] unexpected: ${msg}`);

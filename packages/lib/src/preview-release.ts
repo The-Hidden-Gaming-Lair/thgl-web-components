@@ -11,6 +11,10 @@
  * that fetch on every request.
  *
  * To open a game to everyone, remove its id from both sets.
+ *
+ * A THIRD, per-account scope lives in games.ts: `companion.inviteOnly` (e.g. Pax Dei) — never
+ * advertised, opened only for accounts whose server-resolved `invites` include the game
+ * (`isCompanionAccessible`, admin UI at www.th.gl/admin/invites, gate = InviteOnlyGate).
  */
 export const PREVIEW_RELEASE_APPS = new Set<string>([]);
 

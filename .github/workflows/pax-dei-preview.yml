@@ -1,9 +1,11 @@
 name: Pax Dei Preview
 
+# DISCONTINUED (2026-09-08): the Pax Dei Overwolf app is no longer released —
+# its KsDumper-based memory reading is unsupported, and Pax Dei tracking moved
+# to the THGLApp companion (invite-only, see packages/lib/src/games.ts). The
+# push trigger is removed so a manifest edit can never publish again; the code
+# stays in apps/pax-dei-overwolf and this job can still be run by hand.
 on:
-  push:
-    paths:
-      - "apps/pax-dei-overwolf/manifest.json"
   workflow_dispatch:
 
 jobs:

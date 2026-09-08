@@ -27,6 +27,7 @@ import {
   toCookieStringEmpty,
 } from "@/games/thgl-web/lib/patreon";
 import { games } from "@repo/lib";
+import { getInvitesBestEffort } from "@/lib/invites";
 
 /**
  * Account-perks refresh.
@@ -95,6 +96,12 @@ export async function GET(request: NextRequest) {
           expiresIn: 2678400,
           decryptedUserId: userId,
           email: TEST_SUPPORTER_EMAIL,
+          // Invites still come from the DB so the gate is testable in dev.
+          invites: await getInvitesBestEffort(
+            "[api/patreon]",
+            userId,
+            TEST_SUPPORTER_EMAIL,
+          ),
         },
         { headers },
       );
@@ -201,6 +208,11 @@ export async function GET(request: NextRequest) {
       decryptedUserId: userId,
       email: currentUser.data.attributes.email,
       isSpecial: isSpecialUser(userId),
+      invites: await getInvitesBestEffort(
+        "[api/patreon]",
+        userId,
+        currentUser.data.attributes.email,
+      ),
     };
     return Response.json(result, { headers: responseHeaders });
   } catch (err) {

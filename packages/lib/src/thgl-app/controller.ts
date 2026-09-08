@@ -14,7 +14,8 @@ import {
   triggerUpdate,
 } from "./version";
 import { onWebviewMessage } from "./webview";
-import { games, hasReleasedCompanion } from "../games";
+import { games, isCompanionAccessible } from "../games";
+import { useAccountStore } from "../account";
 
 let initialized = false;
 let activeGames: string[] = []; // Track running games for update check logic
@@ -149,12 +150,16 @@ export async function initController(currentVersion: CurrentVersion) {
               currentWindowMode,
             );
 
+            // Invite-only companions auto-open only for invited accounts (the
+            // account store is persisted, so this is the last verified list).
+            const invites = useAccountStore.getState().invites;
             games.forEach((game) => {
               const companion = game.companion;
               // Skip `inDevelopment` companions (e.g. Enshrouded) — they must not
               // auto-open the overlay/desktop when their process is detected. The
-              // direct /apps/<id> route still works for manual testing.
-              if (!hasReleasedCompanion(game)) {
+              // direct /apps/<id> route still works for manual testing. Same for
+              // `inviteOnly` companions the account isn't invited to.
+              if (!isCompanionAccessible(game, invites)) {
                 return;
               }
               if (

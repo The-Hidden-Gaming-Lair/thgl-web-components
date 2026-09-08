@@ -3,7 +3,7 @@
 import {
   cn,
   games,
-  hasReleasedCompanion,
+  isCompanionAccessible,
   localizePath,
   useAccountStore,
 } from "@repo/lib";
@@ -47,7 +47,10 @@ export function DashboardSidebar() {
   // app entirely until launch — excluded here AND kept out of the web-only list (they have a
   // companion block, so `!game.companion` already excludes them). Preview-release games are NOT
   // inDevelopment — they appear here, gated to Elite supporters via PreviewReleaseGuard.
-  const companionGames = games.filter(hasReleasedCompanion);
+  // `inviteOnly` companions (Pax Dei) appear ONLY for accounts invited to them.
+  const companionGames = games.filter((game) =>
+    isCompanionAccessible(game, account.invites),
+  );
   const webOnlyGames = games.filter((game) => !game.companion && game.web);
 
   const isGameRunning = (gameId: string) => {

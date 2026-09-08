@@ -3,8 +3,10 @@ import { resolveAppConfig } from "@repo/lib";
 export const paxDei = resolveAppConfig({
   name: "pax-dei",
   supportedLocales: ["en"],
-  // Pax Dei companion app was denied by the publisher (see memory) — website
-  // only, no overlay / live mode.
+  // The publisher refused a PUBLIC companion app (see memory), so the website
+  // stays as-is: no live mode, no "In-Game App" CTA. The THGLApp companion
+  // exists but is INVITE ONLY (games.ts `companion.inviteOnly`) and must not
+  // be advertised here — keep appUrl null.
   appUrl: null,
   withoutLiveMode: true,
   externalLinks: [

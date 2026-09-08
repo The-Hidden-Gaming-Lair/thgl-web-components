@@ -21,6 +21,12 @@ export type THGLAccount = {
   // list, so it rides on the account payload — the dialogs show "Special"
   // instead of a perk-derived tier name.
   isSpecial?: boolean;
+  // Invite-only companion access (server-resolved from the `app_invites`
+  // table, matched by Patreon user id or email): the game ids this account
+  // may open when `companion.inviteOnly` is set. `undefined` = the payload
+  // did not resolve invites (older server / DB hiccup) — the store KEEPS its
+  // persisted list so a transient failure never flickers the gate.
+  invites?: string[];
 };
 
 export const defaultPerks: Perks = {
@@ -42,6 +48,7 @@ export const useAccountStore = create(
       username: string | null;
       avatarUrl: string | null;
       isSpecial: boolean;
+      invites: string[];
       setAccount: (account: THGLAccount) => void;
       setProfile: (username: string | null, avatarUrl: string | null) => void;
       showUserDialog: boolean;
@@ -68,8 +75,9 @@ export const useAccountStore = create(
           username: null,
           avatarUrl: null,
           isSpecial: false,
+          invites: [],
           setAccount: (account) => {
-            set({
+            set((state) => ({
               userId: account.userId,
               decryptedUserId: account.decryptedUserId,
               email: account.email,
@@ -77,7 +85,13 @@ export const useAccountStore = create(
               username: account.username,
               avatarUrl: account.avatarUrl,
               isSpecial: account.isSpecial ?? false,
-            });
+              // Signed out → no invites. Otherwise keep the persisted list when
+              // the payload carries none (see THGLAccount.invites).
+              invites:
+                account.userId === null
+                  ? []
+                  : (account.invites ?? state.invites),
+            }));
           },
           setProfile: (username, avatarUrl) => {
             set({ username, avatarUrl });
@@ -95,7 +109,7 @@ export const useAccountStore = create(
             state?.setHasHydrated(true);
           }
         },
-        version: 3,
+        version: 4,
         migrate: (persistedState: any, version) => {
           if (version === 0) {
             persistedState.perks = {
@@ -117,6 +131,10 @@ export const useAccountStore = create(
             persistedState.username = null;
             persistedState.avatarUrl = null;
           }
+          if (version <= 3) {
+            // Add invite-only companion access for version 4
+            persistedState.invites = [];
+          }
           return persistedState;
         },
       },
@@ -134,6 +152,7 @@ export type ReverifiedAccount =
       email: string | null;
       perks: Perks;
       isSpecial: boolean;
+      invites?: string[];
     }
   | { status: "not-subscriber" }
   | { status: "invalid" }
@@ -169,6 +188,7 @@ export async function reverifyAccountSecret(
         email: string;
         secret?: string;
         isSpecial?: boolean;
+        invites?: string[];
       } & Perks;
       return {
         status: "ok",
@@ -184,6 +204,7 @@ export async function reverifyAccountSecret(
           premiumFeatures: body.premiumFeatures ?? false,
         },
         isSpecial: body.isSpecial ?? false,
+        invites: Array.isArray(body.invites) ? body.invites : undefined,
       };
     }
     if (response.status === 403) {

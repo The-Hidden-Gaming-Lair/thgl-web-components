@@ -11,6 +11,7 @@ import {
   TilesConfig,
   translate,
   isCompanionPreviewApp,
+  isInviteOnlyCompanion,
   isDebug,
   isLocalDev,
   useAccountStore,
@@ -41,6 +42,7 @@ import {
 import { MarkersSearch } from "../(controls)/markers-search";
 import { AppHeader } from "./app-header";
 import { PreviewReleaseGate } from "./preview-release-gate";
+import { InviteOnlyGate } from "./invite-only-gate";
 import { GameSwitcher } from "../(header)/game-switcher";
 import { StatusBanner } from "../(header)/status-banner";
 import { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
@@ -125,6 +127,20 @@ export function App({
   const isPreviewLocked =
     isCompanionPreviewApp(appConfig.name) &&
     !hasPreviewAccess &&
+    !isLocalDev &&
+    !isDebug();
+  // Invite-only companion (games.ts `companion.inviteOnly`, e.g. Pax Dei):
+  // locked unless the server-resolved account invites include this game.
+  // Same dev/debug bypass as the preview gate.
+  const invites = useAccountStore((state) => state.invites);
+  const inviteOnlyGame = useMemo(
+    () => games.find((game) => game.id === appConfig.name),
+    [appConfig.name],
+  );
+  const isInviteLocked =
+    !!inviteOnlyGame &&
+    isInviteOnlyCompanion(inviteOnlyGame) &&
+    !invites.includes(appConfig.name) &&
     !isLocalDev &&
     !isDebug();
 
@@ -346,6 +362,12 @@ export function App({
                 header, hotkeys and the window-unlock button stay functional. */}
             {isPreviewLocked && (
               <PreviewReleaseGate
+                title={appConfig.title}
+                isOverlay={Boolean(isOverlay)}
+              />
+            )}
+            {isInviteLocked && !isPreviewLocked && (
+              <InviteOnlyGate
                 title={appConfig.title}
                 isOverlay={Boolean(isOverlay)}
               />

@@ -69,6 +69,7 @@ export function Account() {
               username: store.username,
               avatarUrl: store.avatarUrl,
               isSpecial: result.isSpecial,
+              invites: result.invites,
             });
             restoreUserIdCookie(result.userId);
             return;

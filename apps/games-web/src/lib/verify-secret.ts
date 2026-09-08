@@ -21,6 +21,7 @@ import {
   isTestSupporter,
 } from "@/lib/test-supporter";
 import { games } from "@repo/lib";
+import { getInvitesBestEffort } from "@/lib/invites";
 
 /**
  * Cookie-free secret verification: takes a userId secret (legacy or
@@ -72,6 +73,12 @@ export async function verifySecretPOST(request: NextRequest) {
           expiresIn: 2678400,
           decryptedUserId: userId,
           email: TEST_SUPPORTER_EMAIL,
+          // Invites still come from the DB so the gate is testable in dev.
+          invites: await getInvitesBestEffort(
+            "[patreon/verify]",
+            userId,
+            TEST_SUPPORTER_EMAIL,
+          ),
         },
         { headers: CORS_HEADERS },
       );
@@ -186,6 +193,11 @@ export async function verifySecretPOST(request: NextRequest) {
       decryptedUserId: userId,
       email: currentUser.data.attributes.email,
       isSpecial: isSpecialUser(userId),
+      invites: await getInvitesBestEffort(
+        "[patreon/verify]",
+        userId,
+        currentUser.data.attributes.email,
+      ),
     };
     return Response.json(result, {
       headers: CORS_HEADERS,

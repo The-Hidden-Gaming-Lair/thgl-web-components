@@ -1187,6 +1187,47 @@ export const games: Array<Game> = [
     discordId: "pax-dei",
     title: "Pax Dei",
     logo: `${TH_GL_URL}/global_icons/pax-dei.webp`,
+    companion: {
+      // INVITE ONLY (2026-09-08): the publisher refused a public companion
+      // app, so this replaces the discontinued Overwolf app for a hand-picked
+      // set of Patreon accounts (`app_invites` table → account.invites). Never
+      // advertised (www lists/counts/OG, tenant appUrl stays null); shown in the
+      // THGLApp dashboard + auto-opened only for invited accounts, and the app
+      // route renders the InviteOnlyGate for everyone else. The detector's
+      // actors-api tracking runs for every THGLApp user regardless.
+      inviteOnly: true,
+      baseURL: "/apps/pax-dei",
+      controllerURL: "/apps/pax-dei/controller",
+      desktopURL: "/apps/pax-dei",
+      overlayURL: "/apps/pax-dei/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 15000,
+          zDistance: 350,
+        },
+      },
+      games: [
+        {
+          title: "Pax Dei",
+          processNames: [
+            "PaxDeiClient-Win64-Shipping.exe",
+            "NWXClient-Win64-Shipping.exe",
+          ],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://paxdei.th.gl",
     markerOptions: {
       radius: 6,
@@ -1409,6 +1450,15 @@ export type Game = {
      * detection) stays live so the integration can be tested.
      */
     inDevelopment?: boolean;
+    /**
+     * Companion is finished but INVITE ONLY: never advertised (same public
+     * exclusions as `inDevelopment`), yet released for accounts whose
+     * server-resolved `invites` include this game id — they get the dashboard
+     * card, running-game detection and auto-open. Everyone else who reaches
+     * the /apps/<id> route sees the InviteOnlyGate. Invites are managed at
+     * www.th.gl/admin/invites. Check access with `isCompanionAccessible`.
+     */
+    inviteOnly?: boolean;
     baseURL: string;
     controllerURL: string;
     desktopURL: string;
@@ -1463,7 +1513,27 @@ export type Game = {
 export function hasReleasedCompanion(game: Game): boolean {
   if (!game.companion) return false;
   if (process.env.NODE_ENV !== "production") return true;
-  return !game.companion.inDevelopment;
+  return !game.companion.inDevelopment && !game.companion.inviteOnly;
+}
+
+/** True when the game's companion is `inviteOnly` (see the type docs). */
+export function isInviteOnlyCompanion(game: Game): boolean {
+  return !!game.companion?.inviteOnly;
+}
+
+/**
+ * Per-ACCOUNT companion availability — use wherever the signed-in user's
+ * own list of games is built (THGLApp dashboard sidebar/home, process
+ * auto-open): every publicly released companion, PLUS `inviteOnly` ones the
+ * account is invited to (`useAccountStore().invites`, server-resolved). Public
+ * marketing surfaces keep using `hasReleasedCompanion`, which never includes
+ * invite-only games.
+ */
+export function isCompanionAccessible(game: Game, invites: string[]): boolean {
+  if (!game.companion) return false;
+  if (hasReleasedCompanion(game)) return true;
+  if (game.companion.inDevelopment) return false;
+  return !!game.companion.inviteOnly && invites.includes(game.id);
 }
 
 /** The web subdomain for a game (e.g. "starresonance"), derived from `web`. */

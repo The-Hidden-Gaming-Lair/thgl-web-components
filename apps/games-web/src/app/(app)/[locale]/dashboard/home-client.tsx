@@ -3,8 +3,9 @@
 import {
   games,
   ForumPost,
-  hasReleasedCompanion,
+  isCompanionAccessible,
   localizePath,
+  useAccountStore,
 } from "@repo/lib";
 import { openInBrowser, useLiveState } from "@repo/lib/thgl-app";
 import { useLocale, useT } from "@repo/ui/providers";
@@ -52,11 +53,15 @@ export function HomePageClient({
   const locale = useLocale();
   const t = useT();
   const runningGames = useLiveState((state) => state.runningGames);
+  const invites = useAccountStore((state) => state.invites);
 
   // Released companion games only — `inDevelopment` ones are hidden from the app's game list +
   // running-game detection until launch (direct /apps/<id> route still works). Preview-release
   // games (e.g. Enshrouded) are NOT inDevelopment — they show here but the content is Elite-gated.
-  const companionGames = games.filter(hasReleasedCompanion);
+  // `inviteOnly` companions (Pax Dei) are listed only for accounts invited to them.
+  const companionGames = games.filter((game) =>
+    isCompanionAccessible(game, invites),
+  );
 
   const isGameRunning = (gameId: string) => {
     const game = games.find((g) => g.id === gameId);
