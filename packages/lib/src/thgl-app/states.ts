@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 
 import { WindowMode } from "./apps";
+import type { DriverHealth } from "./driver-health";
 import { RunningGame } from "./games";
 import { AppVersion } from "./version";
 import { CloseAction, GpuFlag } from "./webview";
@@ -47,6 +48,9 @@ export const useLiveState = create<{
   // Game runs in exclusive fullscreen - the overlay can't render over it
   exclusiveFullscreen: boolean;
   setExclusiveFullscreen: (exclusive: boolean) => void;
+  // State of the THGLApp -> BridgeHost -> kernel driver chain (null until the app reports it)
+  driverHealth: DriverHealth | null;
+  setDriverHealth: (health: DriverHealth | null) => void;
 }>((set) => ({
   isTaskInstalled: null,
   setIsTaskInstalled: (isTaskInstalled) => set({ isTaskInstalled }),
@@ -71,6 +75,8 @@ export const useLiveState = create<{
   exclusiveFullscreen: false,
   setExclusiveFullscreen: (exclusive) =>
     set({ exclusiveFullscreen: exclusive }),
+  driverHealth: null,
+  setDriverHealth: (health) => set({ driverHealth: health }),
 }));
 
 export const useTHGLAppState = create(

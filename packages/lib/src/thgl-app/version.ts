@@ -1,5 +1,6 @@
 import { postWebviewMessage, GpuFlag, CloseAction } from "./webview";
 import { WindowMode } from "./apps";
+import type { DriverHealth } from "./driver-health";
 import type { ConnectedClient } from "./states";
 
 export type CurrentVersion = {
@@ -28,6 +29,9 @@ export type InitialState = {
   // every launch and can fork the WebView2 storage identity — the app manages
   // elevation itself). Surfaced as a one-time dashboard toast.
   compatRunAsAdminFlagRemoved?: boolean;
+  // BridgeHost/driver chain state at load time (older apps omit it); live updates
+  // arrive as `driverHealth` messages.
+  driverHealth?: DriverHealth;
 };
 
 export function getVersionFromWebview() {

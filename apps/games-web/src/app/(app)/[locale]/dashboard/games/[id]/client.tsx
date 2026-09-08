@@ -2,6 +2,7 @@
 
 import { games, Game, DiscordMessageData, localizePath } from "@repo/lib";
 import {
+  isGameBlockedByDriver,
   openDesktopWebView,
   openInBrowser,
   showOverlay,
@@ -78,6 +79,11 @@ export function GamePageClient({
   const isRunning = runningGames?.some((rg) =>
     processNames.includes(rg.processName.toLowerCase()),
   );
+  // The game process IS running but the app cannot confirm it through the driver
+  // (BridgeHost/driver problem, explained by the banner at the top of the dashboard).
+  const driverHealth = useLiveState((state) => state.driverHealth);
+  const blockedByDriver =
+    !isRunning && isGameBlockedByDriver(driverHealth, processNames);
 
   // Filter sessions for this game
   const gameSessionsForGame = gameSessions.filter((s) => s.gameId === game.id);
@@ -195,8 +201,16 @@ export function GamePageClient({
         </div>
 
         {!isRunning && game.companion?.overlayURL && (
-          <p className="text-sm text-muted-foreground">
-            {t("game.overlayHint")}
+          <p
+            className={
+              blockedByDriver
+                ? "text-sm text-amber-200"
+                : "text-sm text-muted-foreground"
+            }
+          >
+            {blockedByDriver
+              ? t("game.driverBlockedHint")
+              : t("game.overlayHint")}
           </p>
         )}
 

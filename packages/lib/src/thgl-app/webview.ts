@@ -1,3 +1,4 @@
+import type { DriverHealth, DriverRepairKind } from "./driver-health";
 import { RunningGame } from "./games";
 import { generateUniqueId } from "./utils";
 declare global {
@@ -140,6 +141,11 @@ export type WEBVIEW_RECEIVE_MESSAGE =
   | {
       action: "exclusiveFullscreenChanged";
       payload: boolean;
+    }
+  | {
+      // Broadcast whenever the BridgeHost/driver chain state changes (see driver-health.ts)
+      action: "driverHealth";
+      payload: DriverHealth;
     };
 
 export type WEBVIEW_RESPONSE_MESSAGE<T = undefined> = {
@@ -268,6 +274,16 @@ export type WEBVIEW_SEND_MESSAGE =
   | {
       action: "relaunchAsAdmin";
       payload: {};
+    }
+  | {
+      // Active probe of the BridgeHost/driver chain; also broadcast as `driverHealth`
+      action: "getDriverHealth";
+      payload: {};
+    }
+  | {
+      // Runs a repair off the UI thread; outcome arrives via `driverHealth` broadcasts
+      action: "repairDriver";
+      payload: { kind: DriverRepairKind };
     }
   | {
       action: "closeElevationPrompt";

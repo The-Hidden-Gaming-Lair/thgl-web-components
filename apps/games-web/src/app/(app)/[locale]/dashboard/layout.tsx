@@ -2,6 +2,7 @@ import {
   AppHeader,
   AppVersion,
   CompatFlagNotice,
+  DriverHealthWarning,
   ExclusiveFullscreenWarning,
   InitializeApp,
   ResizeBorders,
@@ -40,6 +41,7 @@ export default function DashboardLayout({
         <div className="flex flex-1 overflow-hidden pt-[32px]">
           <DashboardSidebar />
           <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
+            <DriverHealthWarning />
             <ExclusiveFullscreenWarning />
             <div className="flex-1 min-h-0 min-w-0 overflow-auto">
               {children}

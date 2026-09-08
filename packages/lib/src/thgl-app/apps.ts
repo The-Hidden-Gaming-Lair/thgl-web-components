@@ -366,7 +366,9 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           }
           // Dashboard specific handlers - receive directly from C++
           if (role === "dashboard") {
-            if (message.action === "runningGames") {
+            if (message.action === "driverHealth") {
+              liveState.setDriverHealth(message.payload);
+            } else if (message.action === "runningGames") {
               liveState.setRunningGames(message.payload);
               // Cleanup stale sessions - mark sessions as closed if their PID is no longer active
               const activePids = message.payload.map((g: RunningGame) => g.pid);
@@ -439,6 +441,9 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           liveState.setLocale(data.locale ?? "en");
           if (data.connectedClients) {
             liveState.setConnectedClients(data.connectedClients);
+          }
+          if (data.driverHealth) {
+            liveState.setDriverHealth(data.driverHealth);
           }
           if (data.compatRunAsAdminFlagRemoved) {
             // Surfaced as a toast by CompatFlagNotice (ui layer) — this

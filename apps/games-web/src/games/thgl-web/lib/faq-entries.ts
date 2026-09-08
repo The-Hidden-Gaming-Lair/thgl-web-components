@@ -228,6 +228,42 @@ You can also type \`%appdata%\\..\\Local\\The Hidden Gaming Lair\` into File Exp
     labels: ["Companion App", "Technical"],
   },
   {
+    id: "companion-driver-unavailable",
+    headline: "Game not detected / overlay stays disabled",
+    question:
+      'Why does the Companion App say "Start the game to enable the overlay" while my game is running?',
+    answer: `
+The Companion App detects games through its driver service. The chain is:
+
+\`Companion App → THGL Bridge Host (Windows service) → THGL Driver (kernel driver)\`
+
+If any link is broken, the app cannot confirm that a supported game is running, so the game page keeps showing **"Start the game to enable the overlay"**, the **Open Overlay** button stays disabled and the Session Log stays empty. Desktop mode still opens, but nothing is tracked.
+
+## What the app does about it
+
+Since version 16.2.1 the dashboard shows an **amber banner** at the top whenever this chain is broken, names the game that is running but cannot be tracked, and offers the fix:
+
+- **Start service** - the THGL Bridge Host service is installed but stopped. Windows asks for administrator permission once, then the service starts and detection resumes within a few seconds.
+- **Restart service** - the service runs but the kernel driver is not loaded, or the service does not answer. The service reinstalls and starts the driver every time it starts.
+- **Repair installation** - the service is missing or it rejected the app's signature. This re-runs the installer, which re-registers the services and updates them.
+
+The app also repairs a stopped service on its own when it runs with administrator rights.
+
+## The most common cause: missing Certum root certificate
+
+The app is signed with a certificate issued by **Certum**. Its root certificate is not part of every Windows installation; Windows normally downloads it on demand. On stripped-down or offline Windows images that download never happens, the service cannot verify the app's signature and refuses it ("App signature rejected by the driver service").
+
+The Bridge Host service shipped with the app since version 16.2.1 carries the Certum root itself and no longer depends on Windows for it. **Repair installation** installs that version. If you cannot update, install the certificate manually: run \`certutil -addstore -f Root <CertumTrustedNetworkCA2.cer>\` as administrator and reboot.
+
+## If the banner does not go away
+
+Send a **debug snapshot** (menu ☰ → bug icon). Since version 16.2.1 it includes the driver health state and the last part of the Bridge Host service log, which records the exact reason a client was refused.
+
+Please do **not** run the Companion App as administrator to work around this: it does not help detection (the driver handles that) and causes other issues.
+    `.trim(),
+    labels: ["Companion App", "Technical"],
+  },
+  {
     id: "update-companion-app",
     headline: "How to update the Companion App",
     question: "How do I update the TH.GL Companion App to the latest version?",
