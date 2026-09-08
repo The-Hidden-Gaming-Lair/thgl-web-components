@@ -20,6 +20,9 @@ export { ZoneOverlayLayer } from "./layers/zone-overlay";
 export {
   InteriorShapesLayer,
   type InteriorArea,
+  type InteriorFloor,
+  type InteriorLabelOptions,
+  type InteriorLabelHit,
 } from "./layers/interior-shapes";
 export { BackdropExitLayer } from "./layers/backdrop-exit";
 export { NavmeshLayer } from "./layers/navmesh";

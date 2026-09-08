@@ -25,7 +25,6 @@ import {
 import { useMapStore, type GameMap } from "./store";
 import { useTerraformStage } from "../(controls)/terraform-stage-select";
 import { ContextMenu } from "./context-menu";
-import { InteriorLabels } from "./interior-labels";
 import { useLocale, useT } from "../(providers)";
 
 // Extended ref to hold WebMap layers
@@ -77,6 +76,11 @@ export function InteractiveMap({
   const { map, setMap } = useMapStore();
   const isHydrated = useUserStore((state) => state._hasHydrated);
   const mapFilter = useSettingsStore((state) => state.mapFilter);
+  const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  // The shapes layer instance as state so the chip-options effect re-runs
+  // when the layer is (re)created (the ref alone wouldn't trigger it).
+  const [interiorShapes, setInteriorShapes] =
+    useState<InteriorShapesLayer | null>(null);
   const mapName = useUserStore((state) => state.mapName);
   const setMapName = useUserStore((state) => state.setMapName);
   const locale = useLocale();
@@ -142,11 +146,6 @@ export function InteractiveMap({
     },
     [setMapName, tileOptions, locale, t],
   );
-  const getInteriorShapes = useCallback(
-    () => mapRefsRef.current.interiorShapes,
-    [],
-  );
-  const getMapCanvas = useCallback(() => mapRefsRef.current.canvas, []);
 
   const [contextMenuData, setContextMenuData] = useState<{
     x: number;
@@ -590,11 +589,13 @@ export function InteractiveMap({
     const shapes = new InteriorShapesLayer(areas, { opacity: 0 });
     webmap.addLayer(shapes, { zIndex: 2 });
     mapRefsRef.current.interiorShapes = shapes;
+    setInteriorShapes(shapes);
     return () => {
       const refs = mapRefsRef.current;
       if (refs.webmap && refs.interiorShapes) {
         refs.webmap.removeLayer(refs.interiorShapes);
         refs.interiorShapes = null;
+        setInteriorShapes(null);
       }
     };
   }, [
@@ -608,6 +609,46 @@ export function InteractiveMap({
     isOverlay,
     mapFilter,
   ]);
+
+  // The interior name chips are drawn INSIDE the shapes layer (below the
+  // markers, so they never cover a marker or the player icon). Each chip shows
+  // the name plus inline floor-number buttons when the interior has several
+  // floors (= the surface's floor-level maps whose `overlays` include it);
+  // clicking a number descends straight to that floor, clicking the ACTIVE
+  // floor again returns to the surface. Hidden while the overlay window is
+  // locked ("Hide Controls"): the locked overlay is click-through, so the chips
+  // would be visible but unclickable, and they'd cover the map for nothing.
+  useEffect(() => {
+    if (!interiorShapes) return;
+    interiorShapes.setLabelOptions({
+      floorsFor: (area) => {
+        const surface = tileOptions[area.mapName]?.layer?.parent;
+        if (!surface) return [];
+        return Object.entries(tileOptions)
+          .filter(
+            ([, c]) =>
+              c.layer?.parent === surface &&
+              c.overlays?.some((o) => o.label === area.label),
+          )
+          .map(([id, c]) => ({ id, floor: c.layer!.floor }))
+          .sort((a, b) => a.floor - b.floor);
+      },
+      activeMap: mapName,
+      onEnter: enterLayer,
+      onSelectFloor: (floorId) => {
+        if (floorId === mapName) {
+          const surface = tileOptions[floorId]?.layer?.parent;
+          if (surface) selectFloor(surface);
+        } else {
+          selectFloor(floorId);
+        }
+      },
+    });
+  }, [interiorShapes, tileOptions, mapName, enterLayer, selectFloor]);
+
+  useEffect(() => {
+    interiorShapes?.setLabelsVisible(!lockedWindow);
+  }, [interiorShapes, lockedWindow]);
 
   // On an interior map, a click on the dimmed backdrop (off the footprint)
   // returns to the surface — an invisible pick-only layer below the markers so
@@ -665,15 +706,6 @@ export function InteractiveMap({
         <div
           className={cn(`h-full bg-inherit! outline-none select-none`)}
           ref={containerRef}
-        />
-        {/* Interior name buttons on the surface — click one to pick its floor. */}
-        <InteriorLabels
-          getLayer={getInteriorShapes}
-          getCanvas={getMapCanvas}
-          onEnter={enterLayer}
-          tileOptions={tileOptions}
-          onSelectFloor={selectFloor}
-          activeMap={mapName}
         />
         {/* On an interior layer, an explicit way back to the surface (the camera
             is preserved by the tile-sharing keep-view logic). */}

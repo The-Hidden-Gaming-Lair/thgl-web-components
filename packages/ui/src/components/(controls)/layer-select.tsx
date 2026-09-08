@@ -76,8 +76,13 @@ export function LayerSelect({
   // back/forward, so a shared link opens the right interior/floor (mirrors `?stage=`).
   // Only reacts to interiors of THIS surface; returns to the surface when the param is
   // gone. Writing happens in go(). Hook runs every render (before the early return below).
+  // Only on URL-addressed map pages (`/maps/<Map>`): the companion-app routes
+  // (`/apps/<id>`, overlay) never write `?layer=`, so there the missing param
+  // must NOT bounce a freshly selected floor/Underground map back to the
+  // surface (that made every interior unreachable in the app).
   useEffect(() => {
     const apply = () => {
+      if (!window.location.pathname.includes("/maps/")) return;
       const p = getMapParam("layer");
       if (p && tileOptions[p]?.layer?.parent === parentMap) {
         if (p !== mapName) setMapName(p);
