@@ -59,8 +59,14 @@ Two layers — run BOTH before a version bump:
   unit tests cannot see: map load + tiles + non-black canvas, map switch (zoom persistence,
   marker swap, stale region shapes), filter toggle (store + sidebar), marker panel deep
   link, live actors (inject via `useGameState.setActors`/`applyActorsDelta`; size must
-  match the static marker across updates). Add a scenario whenever a map/live bug is
+  match the static marker across updates), My Filters round trip (add → reload →
+  remove node → reload, signed-out). Add a scenario whenever a map/live/filters bug is
   fixed; keep assertions on store/layer state, not pixels.
+- **Store orchestration is extracted, not tested in place.** `settings.ts` stays a thin
+  wiring layer: rehydrate reconcile → `settings-rehydrate.ts`, hydrate plan →
+  `planFilterHydrate` (filters-sync.ts), mutations → `filters-mutations.ts`. Put new
+  My Filters logic in one of those (pure, predicates injected) with a test, never inline
+  in the store.
 
 ## Architecture Overview
 

@@ -16,21 +16,26 @@ import {
   FiltersApiError,
   serverFilterToLocal,
 } from "./filters-api";
-import { repairMisimportedFilters } from "./filter-import";
-import { applyFilterPatch, removeFiltersMatching } from "./filters-mutations";
+import {
+  cleanProfileSettingsForFlatten as cleanProfileSettingsForFlattenWith,
+  reconcileRehydratedProfiles,
+  stripTombstonedFromProfiles as stripTombstonedFromProfilesWith,
+} from "./settings-rehydrate";
+import {
+  applyFilterPatch,
+  removeFiltersMatching,
+  removeNodeFromFilters,
+} from "./filters-mutations";
 import {
   adoptLocalFilters,
-  dedupeMyFilters,
-  mergeHydratedFilters,
   pendingIdsWithSyncGrace,
-  unionMyFiltersOnRehydrate,
+  planFilterHydrate,
 } from "./filters-sync";
 import {
   clearFilterDirty,
   clearFilterTombstones,
   clearHydrateDrops,
   enqueueFilterDelete,
-  filterOutTombstoned,
   flushFilterDeletes,
   getDirtyFilterIds,
   isFilterTombstoned,
@@ -889,27 +894,11 @@ function flushQueuedFilterDeletes(): Promise<void> {
 function cleanProfileSettingsForFlatten(
   settings: Profile["settings"],
 ): Profile["settings"] {
-  if (!settings?.myFilters?.length) return settings;
-  const filtered = filterOutTombstoned(settings.myFilters);
-  return filtered === settings.myFilters
-    ? settings
-    : { ...settings, myFilters: filtered };
+  return cleanProfileSettingsForFlattenWith(settings, isFilterTombstoned);
 }
 
 function stripTombstonedFromProfiles(profiles: Profile[]): Profile[] {
-  let changed = false;
-  const cleaned = profiles.map((profile) => {
-    const myFilters = profile.settings?.myFilters;
-    if (!myFilters?.length) return profile;
-    const filtered = filterOutTombstoned(myFilters);
-    if (filtered === myFilters) return profile;
-    changed = true;
-    return {
-      ...profile,
-      settings: { ...profile.settings, myFilters: filtered },
-    };
-  });
-  return changed ? cleaned : profiles;
+  return stripTombstonedFromProfilesWith(profiles, isFilterTombstoned);
 }
 
 // Cache for isDiscoveredNode results - invalidated when discoveredNodes changes
@@ -1875,20 +1864,13 @@ export const useSettingsStore = create(
 
           removeMyNode: async (nodeId: string) => {
             const state = get();
-            const myFilter = state.myFilters.find((filter) =>
-              filter.nodes?.some((node) => node.id === nodeId),
+            const { filters, updated } = removeNodeFromFilters(
+              state.myFilters,
+              nodeId,
             );
-            if (!myFilter) return;
-            const updated: DrawingsAndNodes = {
-              ...myFilter,
-              nodes: myFilter.nodes?.filter((node) => node.id !== nodeId),
-            };
-            updateSettings({
-              myFilters: state.myFilters.map((filter) =>
-                filter.name === updated.name ? updated : filter,
-              ),
-            });
-            scheduleFilterSync(updated);
+            if (updated.length === 0) return;
+            updateSettings({ myFilters: filters });
+            for (const filter of updated) scheduleFilterSync(filter);
           },
 
           hydrateFiltersFromServer: async (game: string) => {
@@ -1926,48 +1908,26 @@ export const useSettingsStore = create(
             // or a re-creation) before it suppresses the filter in a sibling
             // window's union.
             clearHydrateDrops(serverFilters.map((f) => f.id));
-            const { merged, resyncIds, droppedIds, unsyncedIds } =
-              mergeHydratedFilters(
-                state.myFilters,
-                serverFilters.map(serverFilterToLocal),
-                pendingIds,
-                isFilterTombstoned,
-              );
+            // Merge, adopt local-only filters, and work out what to re-push —
+            // the composition that grew one union per 2026-09 regression fix;
+            // see {@link planFilterHydrate} (tested as one unit).
+            const { filters, droppedIds, toPush } = planFilterHydrate({
+              local: state.myFilters,
+              server: serverFilters.map(serverFilterToLocal),
+              pendingIds,
+              dirtyIds: getDirtyFilterIds(),
+              isTombstoned: isFilterTombstoned,
+              newId: () => crypto.randomUUID(),
+              game,
+            });
             // Broadcast deleted-elsewhere drops to sibling windows. A remote
             // delete records no local tombstone, so without this a sibling
             // still holding the filter in memory would union it back in on the
             // storage-event rehydrate that follows our persist below — the
             // filter would ping-pong instead of staying deleted.
             recordHydrateDrops(droppedIds);
-            // Adopt local-only filters (restored from a backup, healed from a
-            // botched import, or made while signed out) so they finally reach
-            // the cloud instead of diverging forever. See adoptLocalFilters.
-            const { filters: adopted, adoptedIds } = adoptLocalFilters(
-              merged,
-              () => crypto.randomUUID(),
-              game,
-            );
-            updateSettings({ myFilters: adopted });
-            // Re-push filters whose server copy was empty but local had data,
-            // everything just adopted, and every dirty id — an edit whose
-            // debounce never fired is kept by the pending rule above, but only
-            // this re-arms its upload. Without it the local copy would survive
-            // yet never reach the server.
-            const byId = new Map(adopted.map((f) => [f.id, f]));
-            // `unsyncedIds` are first uploads that never landed — the id
-            // exists locally but the server has no such row, and nothing else
-            // would ever retry them, so the filter stays stranded on one
-            // device and every later edit looks like a broken sync.
-            const toPush = new Set<string>([
-              ...resyncIds,
-              ...unsyncedIds,
-              ...adoptedIds,
-              ...getDirtyFilterIds(),
-            ]);
-            for (const id of toPush) {
-              const filter = byId.get(id);
-              if (filter) scheduleFilterSync(filter);
-            }
+            updateSettings({ myFilters: filters });
+            for (const filter of toPush) scheduleFilterSync(filter);
           },
 
           adoptLocalOnlyFilters: () => {
@@ -2053,59 +2013,24 @@ export const useSettingsStore = create(
           // Tombstoned filters are stripped first: rehydrate (mount AND
           // cross-window storage events) is where a resurrected blob written
           // by a stale window gets cleaned before it reaches the UI.
+          // The reconcile order (strip tombstones → union in-memory adds on
+          // the same profile, minus deleted-elsewhere drops → dedupe twins →
+          // repair botched imports → write back into the profile) is what the
+          // 2026-09 My Filters regressions kept breaking; it lives, tested, in
+          // {@link reconcileRehydratedProfiles}.
           if (merged.profiles?.length) {
-            merged.profiles = stripTombstonedFromProfiles(merged.profiles);
-            const currentProfile = merged.profiles.find(
-              (p: Profile) => p.id === merged.currentProfileId,
-            );
-            if (currentProfile) {
-              // Union the persisted filters with any in-memory local adds the
-              // WRITING window didn't know about (the mirror of tombstones, for
-              // adds/edits). Without this, a stale window's whole-blob write
-              // clobbers a filter this window just added — the "custom filter
-              // disappears" bug. Written into the profile too (not just the
-              // flat root) because partialize persists `profiles`, so the next
-              // write must carry the resurrected filter back to disk.
-              // See {@link unionMyFiltersOnRehydrate}.
-              //
-              // ONLY when the rehydrate stays on the same profile: if another
-              // window switched currentProfileId, the in-memory myFilters
-              // belong to the OLD profile and unioning them would leak filters
-              // across profiles. (At mount the in-memory list is the empty
-              // default, so the union is a no-op either way.)
-              const current = currentState as {
+            const { profiles, currentProfile } = reconcileRehydratedProfiles({
+              profiles: merged.profiles,
+              currentProfileId: merged.currentProfileId,
+              inMemory: currentState as {
                 myFilters?: DrawingsAndNodes[];
                 currentProfileId?: string;
-              };
-              const sameProfile =
-                current.currentProfileId === merged.currentProfileId;
-              const persistedFilters = currentProfile.settings?.myFilters ?? [];
-              let reconciled =
-                sameProfile && current.myFilters?.length
-                  ? unionMyFiltersOnRehydrate(
-                      current.myFilters,
-                      persistedFilters,
-                      // A filter another window just dropped as deleted-on-
-                      // another-device must not be unioned back (remote deletes
-                      // record no local tombstone) — see recordHydrateDrops.
-                      (f) => isFilterTombstoned(f) || isRecentHydrateDrop(f.id),
-                    )
-                  : persistedFilters;
-              // Heal duplicate twins the pre-name-matching union minted (same
-              // name, one copy with server id + one stale id-less snapshot).
-              reconciled = dedupeMyFilters(reconciled);
-              // Heal filters an older file import wrapped whole into `drawing`
-              // (nodes intact but never rendered as markers), so an already
-              // botched import fixes itself instead of needing a re-import.
-              reconciled = repairMisimportedFilters(reconciled);
-              if (reconciled !== persistedFilters) {
-                currentProfile.settings = {
-                  ...currentProfile.settings,
-                  myFilters: reconciled,
-                };
-              }
-              Object.assign(merged, currentProfile.settings);
-            }
+              },
+              isTombstoned: isFilterTombstoned,
+              isRecentHydrateDrop,
+            });
+            merged.profiles = profiles;
+            if (currentProfile) Object.assign(merged, currentProfile.settings);
           }
 
           return merged;

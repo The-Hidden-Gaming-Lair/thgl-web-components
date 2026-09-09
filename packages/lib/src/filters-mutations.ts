@@ -60,3 +60,32 @@ export function removeFiltersMatching(
   if (removed.length === 0) return { filters, removed };
   return { filters: filters.filter((f) => !predicate(f)), removed };
 }
+
+/**
+ * Remove one node (by id) from whichever filter holds it.
+ *
+ * Keyed on the filter's IDENTITY, not its name: duplicate names are reachable
+ * (the same filter uploaded under two ids by different surfaces), and a
+ * name-keyed write-back replaced BOTH twins with the edited copy — the other
+ * twin's nodes silently vanished, and only the edited copy was uploaded.
+ *
+ * @returns the new list (same reference when no filter holds the node) and
+ *          the edited filter(s) the caller must upload — at most one.
+ */
+export function removeNodeFromFilters(
+  filters: DrawingsAndNodes[],
+  nodeId: string,
+): { filters: DrawingsAndNodes[]; updated: DrawingsAndNodes[] } {
+  const holder = filters.find((filter) =>
+    filter.nodes?.some((node) => node.id === nodeId),
+  );
+  if (!holder) return { filters, updated: [] };
+  const edited: DrawingsAndNodes = {
+    ...holder,
+    nodes: holder.nodes?.filter((node) => node.id !== nodeId),
+  };
+  return {
+    filters: filters.map((filter) => (filter === holder ? edited : filter)),
+    updated: [edited],
+  };
+}

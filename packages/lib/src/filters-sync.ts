@@ -356,3 +356,62 @@ export function pendingIdsWithSyncGrace(
   }
   return out;
 }
+
+/**
+ * The pure core of the store's `hydrateFiltersFromServer`: reconcile the
+ * local list against the server list, adopt local-only filters, and resolve
+ * which filters must be (re-)uploaded afterwards.
+ *
+ * Grew one id-set union per regression fix in 2026-09 (pending snapshot,
+ * hydrate-drop echoes, adoption, first-upload retry, dirty edits) — this
+ * function is where that composition lives so it can be tested as one unit.
+ * The store keeps only the edges: the fetch, the pending snapshots, the
+ * hydrate-drop bookkeeping, `updateSettings` and scheduling the pushes.
+ *
+ * @param pendingIds union of pending ids sampled BEFORE and AFTER the fetch
+ *          (see {@link mergeHydratedFilters}).
+ * @param dirtyIds durable "local is ahead of the server" markers; an id that
+ *          no longer maps to a filter is ignored.
+ * @returns `filters` — the new local list; `droppedIds` — deleted-elsewhere
+ *          drops for the caller to broadcast (recordHydrateDrops); `toPush` —
+ *          the filters to schedule, each once: empty-on-server resyncs,
+ *          first uploads that never landed, freshly adopted ones, dirty edits.
+ */
+export function planFilterHydrate(args: {
+  local: DrawingsAndNodes[];
+  server: DrawingsAndNodes[];
+  pendingIds: ReadonlySet<string>;
+  dirtyIds: Iterable<string>;
+  isTombstoned: (f: DrawingsAndNodes) => boolean;
+  newId: () => string;
+  game: string;
+}): {
+  filters: DrawingsAndNodes[];
+  droppedIds: string[];
+  toPush: DrawingsAndNodes[];
+} {
+  const { merged, resyncIds, droppedIds, unsyncedIds } = mergeHydratedFilters(
+    args.local,
+    args.server,
+    args.pendingIds,
+    args.isTombstoned,
+  );
+  const { filters, adoptedIds } = adoptLocalFilters(
+    merged,
+    args.newId,
+    args.game,
+  );
+  const byId = new Map(filters.filter((f) => f.id).map((f) => [f.id, f]));
+  const ids = new Set<string>([
+    ...resyncIds,
+    ...unsyncedIds,
+    ...adoptedIds,
+    ...args.dirtyIds,
+  ]);
+  const toPush: DrawingsAndNodes[] = [];
+  for (const id of ids) {
+    const filter = byId.get(id);
+    if (filter) toPush.push(filter);
+  }
+  return { filters, droppedIds, toPush };
+}

@@ -1,4 +1,8 @@
-import { applyFilterPatch, removeFiltersMatching } from "./filters-mutations";
+import {
+  applyFilterPatch,
+  removeFiltersMatching,
+  removeNodeFromFilters,
+} from "./filters-mutations";
 import type { DrawingsAndNodes } from "./settings";
 
 const f = (over: Partial<DrawingsAndNodes> & { name: string }) =>
@@ -119,5 +123,52 @@ describe("removeFiltersMatching", () => {
     const res = removeFiltersMatching(filters, () => true);
     expect(res.filters).toBe(filters);
     expect(res.removed).toEqual([]);
+  });
+});
+
+describe("removeNodeFromFilters", () => {
+  it("strips the node from the ONE filter that holds it and returns that filter for upload", () => {
+    const filters = [
+      f({ name: "a", id: "A", nodes: [{ id: "n1", p: [0, 0] }] as any }),
+      f({ name: "b", id: "B", nodes: [{ id: "n2", p: [0, 0] }] as any }),
+    ];
+    const { filters: next, updated } = removeNodeFromFilters(filters, "n2");
+    expect(next[0]).toBe(filters[0]); // untouched filter keeps identity
+    expect(next[1].nodes).toEqual([]);
+    expect(updated.map((u) => u.id)).toEqual(["B"]);
+  });
+
+  it("does not overwrite a same-named twin (the name-keyed write-back bug)", () => {
+    // Duplicate names are reachable (same filter uploaded under two ids by
+    // different surfaces). Keying the write-back on `name` replaced BOTH
+    // twins with the edited copy — the other twin's nodes silently vanished.
+    const twinA = f({
+      name: "dup",
+      id: "A",
+      nodes: [{ id: "n1", p: [0, 0] }] as any,
+    });
+    const twinB = f({
+      name: "dup",
+      id: "B",
+      nodes: [{ id: "n9", p: [1, 1] }] as any,
+    });
+    const { filters: next, updated } = removeNodeFromFilters(
+      [twinA, twinB],
+      "n1",
+    );
+    expect(next[0].nodes).toEqual([]);
+    expect(next[1]).toBe(twinB);
+    expect(updated).toHaveLength(1);
+    expect(updated[0].id).toBe("A");
+  });
+
+  it("is a no-op (same reference, nothing to upload) when no filter holds the node", () => {
+    const filters = [f({ name: "a", id: "A", nodes: [] })];
+    const { filters: next, updated } = removeNodeFromFilters(
+      filters,
+      "missing",
+    );
+    expect(next).toBe(filters);
+    expect(updated).toEqual([]);
   });
 });
