@@ -2,6 +2,7 @@ import type { AffineTransform, Layer, LatLng, RenderState } from "../types";
 import { createProgram } from "../utils/gl";
 import { tileVS, tileFS } from "../utils/shaders";
 import { ColorBlindMode } from "../utils/color-blind";
+import { TileRetryPolicy } from "./tile-retry";
 
 export interface TileLayerOptions {
   url: string; // template: {z}/{x}/{y}.png with optional {s}
@@ -35,9 +36,15 @@ export class TileLayer implements Layer {
   private vao: WebGLVertexArrayObject | null = null;
   private quad: WebGLBuffer | null = null;
   private textures: TileTex[] = [];
-  private failedTiles = new Set<string>(); // Permanently failed tiles (404) — cleared on zoom change
   private loadingTiles = new Set<string>(); // Track loading tiles
-  private networkErrorTiles = new Map<string, number>(); // Track network error tiles with retry timestamp
+  // Failed loads are retried with backoff (see tile-retry.ts). A failure used
+  // to be permanent until the native zoom changed, which left tiles black for
+  // good after any transient CDN/network error. Cleared on zoom change so the
+  // new level gets a fresh attempt immediately.
+  private retry = new TileRetryPolicy();
+  // Wakes the (idle-skipping) render loop when the earliest retry comes due,
+  // so a tile recovers without the user having to pan or zoom.
+  private retryTimer: ReturnType<typeof setTimeout> | null = null;
   private opts: TileLayerOptions;
   private u_view_loc: WebGLUniformLocation | null = null;
   private u_tex_loc: WebGLUniformLocation | null = null;
@@ -146,9 +153,9 @@ export class TileLayer implements Layer {
         } catch {}
       }
       this.textures = [];
-      this.failedTiles.clear();
       this.loadingTiles.clear();
-      this.networkErrorTiles.clear();
+      this.retry.clear();
+      this.clearRetryTimer();
       if (this.quad) {
         try {
           gl.deleteBuffer(this.quad);
@@ -191,10 +198,9 @@ export class TileLayer implements Layer {
       this.prevZ = this.activeZ;
       this.activeZ = nativeZ;
       this.zoomChangeAt = performance.now();
-      // Clear failed tiles cache on zoom change to allow retries at different zoom levels
-      this.failedTiles.clear();
-      // Also clear network error cache to retry immediately at new zoom
-      this.networkErrorTiles.clear();
+      // Fresh attempt for every tile at the new zoom level.
+      this.retry.clear();
+      this.clearRetryTimer();
     }
 
     // Compute viewport in world pixels at current zf using inverse view matrix
@@ -295,14 +301,9 @@ export class TileLayer implements Layer {
           const k: TileKey = { z: nativeZ, x: serverX, y: serverY };
           const keyStr = `${k.z}/${k.x}/${k.y}`;
 
-          // Skip currently loading or permanently failed (404)
+          // Skip tiles in flight, and failed tiles until their backoff elapses
           if (this.loadingTiles.has(keyStr)) continue;
-          if (this.failedTiles.has(keyStr)) continue;
-
-          // Skip network error tiles until retry time (5 seconds backoff)
-          const networkErrorTime = this.networkErrorTiles.get(keyStr);
-          if (networkErrorTime && performance.now() < networkErrorTime)
-            continue;
+          if (!this.retry.canRequest(keyStr)) continue;
 
           const existing = this.textures.find((t) => sameKey(t.key, k));
           // Store local coordinates for rendering
@@ -311,18 +312,27 @@ export class TileLayer implements Layer {
             existing.localY = ty;
           } else {
             this.loadingTiles.add(keyStr);
-            this.loadTile(gl, k, tx, ty).then(({ tex, isNetworkError }) => {
+            this.loadTile(gl, k, tx, ty).then((tex) => {
               this.loadingTiles.delete(keyStr);
+              // The layer was removed (map switch / context loss) while this
+              // load was in flight: its texture belongs to a dead context.
+              if (this.gl !== gl) {
+                if (tex) {
+                  try {
+                    gl.deleteTexture(tex.tex);
+                  } catch {}
+                }
+                return;
+              }
               if (tex) {
                 this.textures.push(tex);
-                this.networkErrorTiles.delete(keyStr);
+                this.retry.recordSuccess(keyStr);
                 this.onTileLoad?.();
-              } else if (isNetworkError) {
-                // Network error (offline): retry after 5 seconds
-                this.networkErrorTiles.set(keyStr, performance.now() + 5000);
               } else {
-                // Server error (404, 500, etc): don't retry until zoom change
-                this.failedTiles.add(keyStr);
+                // Any failure (network, HTTP error, GL upload) is retried with
+                // backoff; the policy stops polling a tile that keeps failing.
+                this.retry.recordFailure(keyStr);
+                this.scheduleRetryWake();
               }
             });
           }
@@ -453,11 +463,15 @@ export class TileLayer implements Layer {
     key: TileKey,
     localX: number,
     localY: number,
-  ): Promise<{ tex: TileTex | null; isNetworkError: boolean }> {
+  ): Promise<TileTex | null> {
     const url = templateURL(this.opts.url, key, this.opts.subdomains);
     try {
       const img = await loadImage(url, "anonymous");
-      const tex = gl.createTexture()!;
+      // A lost context hands out null textures without throwing; a null
+      // texture drawn later is a black tile that would never be re-requested.
+      if (gl.isContextLost()) return null;
+      const tex = gl.createTexture();
+      if (!tex) return null;
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -470,10 +484,35 @@ export class TileLayer implements Layer {
         gl.LINEAR_MIPMAP_LINEAR,
       );
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      return { tex: { key, tex, localX, localY }, isNetworkError: false };
-    } catch (error: any) {
-      const isNetworkError = error?.isNetworkError ?? false;
-      return { tex: null, isNetworkError };
+      return { key, tex, localX, localY };
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Arm a single timer for the earliest pending retry. The render loop skips
+   * frames while the view is idle, so without this a failed tile would only be
+   * re-requested on the next user pan/zoom — a static map stays black.
+   */
+  private scheduleRetryWake() {
+    const at = this.retry.nextRetryAt();
+    if (at === null || !this.gl) return;
+    if (this.retryTimer !== null) return; // an earlier wake is already armed
+    const delay = Math.max(0, at - performance.now());
+    this.retryTimer = setTimeout(() => {
+      this.retryTimer = null;
+      if (!this.gl) return;
+      this.onTileLoad?.();
+      // Tiles with a later retryAt still need a wake of their own.
+      this.scheduleRetryWake();
+    }, delay + 1);
+  }
+
+  private clearRetryTimer() {
+    if (this.retryTimer !== null) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
     }
   }
   private evictUnusedTiles(
@@ -574,11 +613,7 @@ function loadImage(
     const img = new Image();
     if (crossOrigin) img.crossOrigin = crossOrigin;
     img.onload = () => res(img);
-    img.onerror = () => {
-      const error: any = new Error("Image load failed");
-      error.isNetworkError = !navigator.onLine;
-      rej(error);
-    };
+    img.onerror = () => rej(new Error("Image load failed"));
     img.src = src;
   });
 }
