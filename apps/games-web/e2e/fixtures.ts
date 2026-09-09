@@ -211,3 +211,68 @@ export async function canvasInkRatio(page: Page): Promise<number> {
   }
   return lit / total;
 }
+
+/** Companion (THGLApp WebView2) surface — the `/apps/<game>` route on app.localhost. */
+export const APP_BASE_URL =
+  process.env.E2E_APP_BASE_URL ?? "http://app-dev.localhost:3100";
+
+/**
+ * Install a fake `window.chrome.webview` bridge BEFORE the page boots
+ * (`initializeApp` only registers its message listener when the bridge
+ * exists, and `isThglApp` is a module-load constant). `__emit(data)` delivers
+ * a message the way the C++ host does: JSON text on `event.data`.
+ */
+export async function installFakeWebviewBridge(page: Page) {
+  await page.addInitScript(() => {
+    const listeners: ((e: { data: string }) => void)[] = [];
+    const w = window as any;
+    w.chrome = w.chrome || {};
+    w.chrome.webview = {
+      addEventListener: (t: string, fn: (e: { data: string }) => void) => {
+        if (t === "message") listeners.push(fn);
+      },
+      removeEventListener: (t: string, fn: (e: { data: string }) => void) => {
+        const i = listeners.indexOf(fn);
+        if (i >= 0) listeners.splice(i, 1);
+      },
+      postMessage: () => {},
+      hostObjects: {},
+      __emit: (data: unknown) => {
+        for (const fn of listeners) fn({ data: JSON.stringify(data) });
+        return listeners.length;
+      },
+    };
+  });
+}
+
+/** Deliver one host→webview message (`{ action, payload }`). */
+export function emitWebviewMessage(page: Page, message: unknown) {
+  return page.evaluate(
+    (m) => (window as any).chrome.webview.__emit(m) as number,
+    message,
+  );
+}
+
+/** Like waitForMapReady, but the companion picks its own initial map. */
+export async function waitForAppMapReady(page: Page): Promise<string> {
+  await page.waitForFunction(
+    () => {
+      const t = (window as any).__thgl;
+      if (!t?.userStore || !t.useMapStore) return false;
+      const u = t.userStore.getState();
+      const map = t.useMapStore.getState().map;
+      return (
+        u._hasHydrated &&
+        t.useSettingsStore.getState()._hasHydrated &&
+        !!u.mapName &&
+        !!map?.markerLayer &&
+        !!map?.liveMarkerLayer
+      );
+    },
+    null,
+    { timeout: 30_000 },
+  );
+  // No "static markers drawn" wait here: the companion boots in Live mode,
+  // where predicted (static:false) markers are muted until actors arrive.
+  return userState<string>(page, "mapName");
+}

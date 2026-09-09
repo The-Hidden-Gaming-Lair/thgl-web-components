@@ -60,7 +60,10 @@ Two layers — run BOTH before a version bump:
   marker swap, stale region shapes), filter toggle (store + sidebar), marker panel deep
   link, live actors (inject via `useGameState.setActors`/`applyActorsDelta`; size must
   match the static marker across updates), My Filters round trip (add → reload →
-  remove node → reload, signed-out). Add a scenario whenever a map/live/filters bug is
+  remove node → reload, signed-out), companion surface (`app-dev.localhost:3100/apps/<game>`
+  behind a fake `window.chrome.webview` bridge: host `player`/`actors` messages → map
+  follow + live layer). `bun run bump` runs this suite first and refuses on failure
+  (`--skip-e2e` = emergency bypass). Add a scenario whenever a map/live/filters bug is
   fixed; keep assertions on store/layer state, not pixels.
 - **Store orchestration is extracted, not tested in place.** `settings.ts` stays a thin
   wiring layer: rehydrate reconcile → `settings-rehydrate.ts`, hydrate plan →
