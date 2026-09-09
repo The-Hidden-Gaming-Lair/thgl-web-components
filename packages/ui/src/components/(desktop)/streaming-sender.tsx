@@ -22,7 +22,7 @@ import {
 import { useShallow } from "zustand/react/shallow";
 import { Input } from "../ui/input";
 import { QR } from "./qr";
-import { Cast, Copy, QrCode, Shuffle, AlertTriangle } from "lucide-react";
+import { Cast, Copy, Link, QrCode, Shuffle, AlertTriangle } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -902,6 +902,15 @@ export function StreamingSender({
   }
 
   const hasConnections = Object.keys(connectionStore.connections).length > 0;
+  // Same URL behind the QR code and the "Copy Link" button: opens the map the
+  // sender is on with the peer code applied, so a receiver needs no QR scanner.
+  const peerLinkUrl = buildPeerLinkUrl({
+    domain,
+    peerCode,
+    mapName: player?.mapName || displayedMap,
+    tiles: tileOptions,
+    t,
+  });
 
   return (
     <Dialog>
@@ -1055,6 +1064,19 @@ export function StreamingSender({
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="outline"
+                  aria-label="Copy Link"
+                  title="Copy link that opens your map with this code"
+                  onClick={() =>
+                    peerCode && navigator.clipboard.writeText(peerLinkUrl)
+                  }
+                  disabled={!peerCode}
+                >
+                  <Link className="h-4 w-4" />
+                </Button>
                 <Tooltip delayDuration={200} disableHoverableContent>
                   <TooltipTrigger asChild>
                     <Button
@@ -1068,15 +1090,7 @@ export function StreamingSender({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="p-2">
-                    <QR
-                      value={buildPeerLinkUrl({
-                        domain,
-                        peerCode,
-                        mapName: player?.mapName || displayedMap,
-                        tiles: tileOptions,
-                        t,
-                      })}
-                    />
+                    <QR value={peerLinkUrl} />
                   </TooltipContent>
                 </Tooltip>
               </div>
