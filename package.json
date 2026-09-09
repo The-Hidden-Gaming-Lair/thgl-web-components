@@ -29,6 +29,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:e2e": "bun run --cwd apps/games-web test:e2e",
     "typecheck": "turbo run typecheck",
     "verify": "node scripts/verify.mjs",
     "prepare": "git config core.hooksPath .githooks || true",

@@ -39,7 +39,7 @@
       ]
     },
     "test": {
-      "outputs": ["coverage/**"],
+      "outputs": [],
       "dependsOn": []
     },
     "lint": {

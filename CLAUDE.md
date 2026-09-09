@@ -44,7 +44,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Testing
 
-No test framework is configured - the project relies on TypeScript, linting, and formatting for code quality.
+Two layers — run BOTH before a version bump:
+
+- **Unit (jest)** — `bun run test` (turbo → `@repo/lib` + `@repo/ui`, ~1s). Part of
+  `bun run verify`, so the pre-push hook and CI run it. Pattern: extract the decision
+  logic out of a component/layer into a pure helper next to it and test that
+  (`packages/lib/src/filters-sync.test.ts`, `tile-retry.test.ts`, `filters-mutations.test.ts`
+  are the references — they were added after the 2026-09 My Filters sync regressions).
+- **Map smoke (Playwright)** — `bun run test:e2e` (`apps/games-web/e2e`, ~25s). Drives
+  `palia-dev.localhost:3100` headless through the dev-only `window.__thgl` seam
+  (`coordinates-provider.tsx`: stores + `useMapStore` → live `WebMap`, `markerLayer`,
+  `liveMarkerLayer`). Needs the dev servers running (games-web :3100 + data-forge :33033);
+  it never starts them. NOT part of `verify`. Covers the WebGL-lifecycle regression class
+  unit tests cannot see: map load + tiles + non-black canvas, map switch (zoom persistence,
+  marker swap, stale region shapes), filter toggle (store + sidebar), marker panel deep
+  link, live actors (inject via `useGameState.setActors`/`applyActorsDelta`; size must
+  match the static marker across updates). Add a scenario whenever a map/live bug is
+  fixed; keep assertions on store/layer state, not pixels.
 
 ## Architecture Overview
 

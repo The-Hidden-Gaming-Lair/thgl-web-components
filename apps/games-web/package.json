@@ -18,6 +18,7 @@
     "dev": "next dev -p 3100",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
     "start": "next start -p 3100"
   },
   "dependencies": {
@@ -31,14 +32,17 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "catalog:",
+    "@playwright/test": "1.63.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "catalog:",
     "@types/jsonwebtoken": "catalog:",
     "@types/node": "catalog:",
+    "@types/pngjs": "6.0.5",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "pngjs": "7.0.0",
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:"

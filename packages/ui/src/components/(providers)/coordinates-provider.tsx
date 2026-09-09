@@ -40,6 +40,7 @@ import {
 import { CaseSensitive, Hexagon } from "lucide-react";
 import { useStore } from "zustand";
 import { UserStoreContext } from "./user-store";
+import { useMapStore } from "../(interactive-map)/store";
 import { useStaticNodesTransformStore } from "./static-nodes-transform-store";
 import useSWRImmutable from "swr/immutable";
 import { toast } from "sonner";
@@ -232,6 +233,7 @@ export function CoordinatesProvider({
   // Dev-only test seam: expose the stores so the map's auth-gated / live-only
   // UI can be driven from the browser console (or the Playwright MCP) without
   // the real game/app — e.g. inject synthetic actors to verify clustering.
+  // The e2e smoke suite (apps/games-web/e2e) is built on it.
   // See docs/THGL_FRONTEND_GUIDE.md in data-forge.
   useEffect(() => {
     if (process.env.NODE_ENV !== "development" || typeof window === "undefined")
@@ -244,6 +246,10 @@ export function CoordinatesProvider({
       // without a second real peer (shared markers AND shared drawings).
       useConnectionStore,
       userStore,
+      // The live WebMap (+ markerLayer / liveMarkerLayer) — the only way a
+      // page-level test can count drawn markers or read zoom/region shapes,
+      // since everything on the map is WebGL with no DOM footprint.
+      useMapStore,
     };
   }, [userStore]);
 

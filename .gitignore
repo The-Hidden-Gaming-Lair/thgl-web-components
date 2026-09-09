@@ -18,3 +18,6 @@ obfuscar.xml
 .claude/settings.local.json
 private/
 .mcp.json
+# Playwright e2e artifacts
+e2e-report
+e2e-results
