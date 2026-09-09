@@ -2254,8 +2254,11 @@ function MarkersContent({
           // In-place update — position OR derived state (discovery, highlight,
           // selection, height arrow, size) so right-click-to-discover and
           // icon-size slider changes reflect immediately without recreating
-          // the marker.
-          const size = computeMarkerSize(displayType);
+          // the marker. Re-apply the sprite padding multiplier the create path
+          // baked into the size — otherwise the first tick after creation
+          // shrinks every padded atlas icon by that factor, so anything that is
+          // recreated while moving (new cluster cell → new id) pulses big/small.
+          const size = computeMarkerSize(displayType) * (existing.sizeMul ?? 1);
           const posChanged =
             existing.latLng[0] !== pos[0] || existing.latLng[1] !== pos[1];
           const flagsChanged =
@@ -2313,6 +2316,7 @@ function MarkersContent({
         }
 
         let size = computeMarkerSize(displayType);
+        let sizeMul = 1;
 
         // Pre-process atlas sprites into an isolated per-icon canvas — SAME as the static
         // pipeline (resolveProcessedSpriteIcon). Without this the live layer was handed the raw
@@ -2331,7 +2335,8 @@ function MarkersContent({
           if (proc) {
             sheet = proc.sheet;
             rect = proc.rect;
-            size *= proc.sizeMul; // compensate for the padding so the icon stays the right size
+            sizeMul = proc.sizeMul;
+            size *= sizeMul; // compensate for the padding so the icon stays the right size
           }
         }
 
@@ -2339,6 +2344,7 @@ function MarkersContent({
           id,
           latLng: pos,
           size,
+          sizeMul,
           sheet,
           rect,
           key: displayType,

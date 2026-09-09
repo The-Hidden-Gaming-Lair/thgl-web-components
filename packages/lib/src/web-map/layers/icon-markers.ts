@@ -177,6 +177,7 @@ export interface IconMarkerInstance {
   latLng: LatLng;
   size: number; // pixel height on screen (before highlight)
   sizeW?: number; // optional pixel width (defaults to size for square icons)
+  sizeMul?: number; // multiplier already baked into `size` for padded pre-processed sprites; in-place size recomputes must re-apply it
   sheet: string; // sheet name
   rect: IconRect; // sub-rect in pixels on the sheet image
   key?: string; // type/category key for grouping
