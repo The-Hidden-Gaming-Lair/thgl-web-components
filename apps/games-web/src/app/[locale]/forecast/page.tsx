@@ -106,6 +106,9 @@ export default async function Page({ params }: PageProps) {
                 hourly: "Hourly forecast",
                 special: "Special weather",
                 find: "Find next special weather",
+                today: "Today",
+                slots:
+                  "Each day shows its four 6-hour windows (night, morning, afternoon, evening). Dates follow the real calendar.",
               }}
             />
           </div>
