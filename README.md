@@ -16,6 +16,7 @@ The Hidden Gaming Lair (TH.GL) is a comprehensive gaming companion platform prov
 ### Core Features
 
 **📍 Interactive Maps**
+
 - Comprehensive location databases for collectibles, resources, NPCs, and more
 - Advanced filtering system with custom categories per game
 - Progress tracking: mark locations as discovered (unlimited, completely free)
@@ -23,6 +24,7 @@ The Hidden Gaming Lair (TH.GL) is a comprehensive gaming companion platform prov
 - Real-time actor tracking (monsters, animals, NPCs) when supported by the game
 
 **🖥️ Companion App (Windows)**
+
 - Standalone desktop application (~7MB) - no additional platform required
 - **In-game overlays**: DirectX injection for seamless map access without alt-tabbing
 - **Second screen mode**: Use a separate display for full map view with one hotkey
@@ -33,12 +35,14 @@ The Hidden Gaming Lair (TH.GL) is a comprehensive gaming companion platform prov
 - Privacy-focused: runs locally, no account required
 
 **🌐 Web-Based Tools**
+
 - Full interactive maps accessible from any device/browser
 - No download required - works on Windows, Mac, Linux, mobile
 - Progress syncs across devices (browser storage)
 - All map features available (except overlay and live tracking)
 
 **🎮 Overwolf Apps**
+
 - Alternative in-game overlay platform for supported games
 - Available on Overwolf app store
 - Both platforms supported and maintained
@@ -46,6 +50,7 @@ The Hidden Gaming Lair (TH.GL) is a comprehensive gaming companion platform prov
 ### Supported Games
 
 Currently supporting 20+ games including:
+
 - **Companion App** (10+ games): Palworld, Dune Awakening, Once Human, Wuthering Waves, Palia, Blue Protocol: Star Resonance, Duet Night Abyss, RuneScape: Dragonwilds, and more
 - **Overwolf Apps**: Palia, Palworld, Once Human, Wuthering Waves, Diablo 4, New World, Avowed, Satisfactory, Hogwarts Legacy, Sons of the Forest, and more
 - **Web Maps**: All 20+ games with full interactive features
@@ -62,11 +67,13 @@ Currently supporting 20+ games including:
 ### How It Works
 
 **For Players:**
+
 1. Visit game-specific website (e.g., palworld.th.gl) for browser-based maps
 2. OR download TH.GL Companion App for overlays and live tracking
 3. OR install Overwolf app for alternative overlay experience
 
 **Technical Implementation:**
+
 - Web apps serve interactive WebGL2-based maps with real-time data
 - Companion app reads game memory for position tracking (read-only, no modifications)
 - Memory addresses discovered through reverse engineering per game
@@ -169,10 +176,10 @@ Each app contains a `src/config.ts` file for routing and game-specific setup.
 
 ## 📦 Deployment
 
-| Type          | How it works                                                              |
-| ------------- | ------------------------------------------------------------------------- |
-| Websites      | `games-web` multi-tenant **Bunny Magic Container**, redeployed on change (`games-web-deploy.yml`) |
-| Overwolf Apps | Must be manually updated (via `manifest.json`)                            |
+| Type          | How it works                                                                                                                                                                                                                                                                                                                      |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Websites      | `games-web` multi-tenant **Bunny Magic Container**, redeployed on change (`games-web-deploy.yml`)                                                                                                                                                                                                                                 |
+| Overwolf Apps | Released on a `manifest.json` version change: `bun run bump fix` (or `minor`/`major`, optionally one app: `bun run bump fix palia`), commit as `Bump version`, push. Each `<game>-preview.yml` then builds, uploads to the preview channel and promotes to production. Code changes alone do NOT ship to the apps until you bump. |
 
 ## 🧠 Need Help?
 
