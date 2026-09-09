@@ -127,5 +127,12 @@
   "driver.repair.running": "正在修复...",
   "driver.repair.lastResult": "上次尝试：{{result}}",
   "driver.sendSnapshot": "仍未解决？请从菜单（bug 图标）发送调试快照，现在其中已包含驱动程序服务日志。",
-  "driver.faq": "了解更多"
+  "driver.faq": "了解更多",
+
+  "settings.relaunchAsAdmin": "以管理员身份重新启动",
+  "settings.relaunchNormal": "以普通权限重新启动",
+  "settings.relaunchNormalBlocked": "请先关闭“始终以管理员身份运行”",
+  "settings.relaunchDesc": "以另一种权限级别重新启动应用。已打开的地图窗口将被关闭。",
+  "settings.compatFlagRemoved": "本次会话是通过 Windows 兼容性选项“以管理员身份运行此程序”启动的，该方式不受支持。该设置已被移除。请重新启动应用以正常运行。",
+  "settings.compatFlagPresent": "应用已被设置了 Windows 兼容性选项“以管理员身份运行此程序”，该方式不受支持。请在“属性 > 兼容性”中取消勾选，然后重新启动应用。"
 }

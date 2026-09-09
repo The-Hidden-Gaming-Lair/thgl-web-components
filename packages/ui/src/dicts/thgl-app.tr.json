@@ -127,5 +127,12 @@
   "driver.repair.running": "Onar\u0131l\u0131yor...",
   "driver.repair.lastResult": "Son deneme: {{result}}",
   "driver.sendSnapshot": "H\u00e2l\u00e2 \u00e7al\u0131\u015fm\u0131yor mu? Men\u00fcden (b\u00f6cek simgesi) bir hata ay\u0131klama anl\u0131k g\u00f6r\u00fcnt\u00fcs\u00fc g\u00f6nderin. Art\u0131k s\u00fcr\u00fcc\u00fc hizmeti g\u00fcnl\u00fc\u011f\u00fcn\u00fc de i\u00e7eriyor.",
-  "driver.faq": "Daha fazla bilgi edinin"
+  "driver.faq": "Daha fazla bilgi edinin",
+
+  "settings.relaunchAsAdmin": "Yönetici olarak yeniden başlat",
+  "settings.relaunchNormal": "Yönetici olmadan yeniden başlat",
+  "settings.relaunchNormalBlocked": "Önce \"Her zaman yönetici olarak çalıştır\" seçeneğini kapat",
+  "settings.relaunchDesc": "Uygulamayı diğer yetki düzeyiyle yeniden başlatır. Açık harita pencereleri kapanır.",
+  "settings.compatFlagRemoved": "Bu oturum, desteklenmeyen Windows uyumluluk seçeneği \"Yönetici olarak çalıştır\" ile başlatıldı. Ayar kaldırıldı. Normal çalıştırmak için uygulamayı yeniden başlat.",
+  "settings.compatFlagPresent": "Uygulama için Windows uyumluluk seçeneği \"Yönetici olarak çalıştır\" ayarlı ve bu desteklenmiyor. Özellikler > Uyumluluk altında işaretini kaldırıp uygulamayı yeniden başlat."
 }

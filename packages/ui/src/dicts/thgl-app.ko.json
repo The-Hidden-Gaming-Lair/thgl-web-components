@@ -127,5 +127,12 @@
   "driver.repair.running": "복구 중...",
   "driver.repair.lastResult": "마지막 시도: {{result}}",
   "driver.sendSnapshot": "그래도 해결되지 않나요? 메뉴(버그 아이콘)에서 디버그 스냅샷을 보내주세요. 이제 드라이버 서비스 로그도 포함됩니다.",
-  "driver.faq": "자세히 보기"
+  "driver.faq": "자세히 보기",
+
+  "settings.relaunchAsAdmin": "관리자 권한으로 다시 시작",
+  "settings.relaunchNormal": "관리자 권한 없이 다시 시작",
+  "settings.relaunchNormalBlocked": "먼저 \"항상 관리자 권한으로 실행\"을 끄세요",
+  "settings.relaunchDesc": "다른 권한 수준으로 앱을 다시 시작합니다. 열려 있는 지도 창은 닫힙니다.",
+  "settings.compatFlagRemoved": "이 세션은 Windows 호환성 옵션 \"관리자 권한으로 이 프로그램 실행\"으로 시작되었으며, 이 방식은 지원되지 않습니다. 해당 설정은 제거되었습니다. 앱을 다시 시작하면 정상적으로 실행됩니다.",
+  "settings.compatFlagPresent": "앱에 Windows 호환성 옵션 \"관리자 권한으로 이 프로그램 실행\"이 설정되어 있으며, 지원되지 않습니다. 속성 > 호환성에서 체크를 해제하고 앱을 다시 시작하세요."
 }

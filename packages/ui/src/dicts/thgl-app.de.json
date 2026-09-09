@@ -127,5 +127,12 @@
   "driver.repair.running": "Wird repariert...",
   "driver.repair.lastResult": "Letzter Versuch: {{result}}",
   "driver.sendSnapshot": "Funktioniert es immer noch nicht? Sende einen Debug-Snapshot über das Menü (Bug-Symbol). Er enthält jetzt auch das Protokoll des Treiberdienstes.",
-  "driver.faq": "Mehr erfahren"
+  "driver.faq": "Mehr erfahren",
+
+  "settings.relaunchAsAdmin": "Als Administrator neu starten",
+  "settings.relaunchNormal": "Ohne Administrator neu starten",
+  "settings.relaunchNormalBlocked": "Schalte zuerst „Immer als Administrator ausführen“ aus",
+  "settings.relaunchDesc": "Startet die App mit der anderen Berechtigungsstufe neu. Offene Kartenfenster werden geschlossen.",
+  "settings.compatFlagRemoved": "Diese Sitzung wurde über die Windows-Kompatibilitätsoption „Als Administrator ausführen“ gestartet, die nicht unterstützt wird. Die Einstellung wurde entfernt. Starte die App neu, um sie normal auszuführen.",
+  "settings.compatFlagPresent": "Die Windows-Kompatibilitätsoption „Als Administrator ausführen“ ist für die App gesetzt und wird nicht unterstützt. Deaktiviere sie unter Eigenschaften > Kompatibilität und starte die App neu."
 }

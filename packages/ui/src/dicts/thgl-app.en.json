@@ -127,5 +127,12 @@
   "driver.repair.running": "Repairing...",
   "driver.repair.lastResult": "Last attempt: {{result}}",
   "driver.sendSnapshot": "Still not working? Send a debug snapshot from the menu (bug icon). It now includes the driver service log.",
-  "driver.faq": "Learn more"
+  "driver.faq": "Learn more",
+
+  "settings.relaunchAsAdmin": "Relaunch as administrator",
+  "settings.relaunchNormal": "Relaunch without administrator",
+  "settings.relaunchNormalBlocked": "Turn off \"Always run as administrator\" first",
+  "settings.relaunchDesc": "Restarts the app with the other privilege level. Open map windows close.",
+  "settings.compatFlagRemoved": "This session was started through Windows Compatibility \"Run as administrator\", which is not supported. The setting was removed. Restart the app to run it normally.",
+  "settings.compatFlagPresent": "Windows Compatibility \"Run as administrator\" is set for the app and is not supported. Uncheck it under Properties > Compatibility and restart the app."
 }

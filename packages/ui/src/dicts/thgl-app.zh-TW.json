@@ -127,5 +127,12 @@
   "driver.repair.running": "修復中...",
   "driver.repair.lastResult": "上次嘗試：{{result}}",
   "driver.sendSnapshot": "仍然無法解決？請從選單（bug 圖示）傳送偵錯快照，現在其中已包含驅動程式服務記錄。",
-  "driver.faq": "深入了解"
+  "driver.faq": "深入了解",
+
+  "settings.relaunchAsAdmin": "以系統管理員身分重新啟動",
+  "settings.relaunchNormal": "以一般權限重新啟動",
+  "settings.relaunchNormalBlocked": "請先關閉「一律以系統管理員身分執行」",
+  "settings.relaunchDesc": "以另一種權限層級重新啟動應用程式。已開啟的地圖視窗將會關閉。",
+  "settings.compatFlagRemoved": "本次工作階段是透過 Windows 相容性選項「以系統管理員身分執行此程式」啟動的，此方式不受支援。該設定已移除。請重新啟動應用程式以正常執行。",
+  "settings.compatFlagPresent": "應用程式已設定 Windows 相容性選項「以系統管理員身分執行此程式」，此方式不受支援。請在「內容 > 相容性」取消勾選，然後重新啟動應用程式。"
 }

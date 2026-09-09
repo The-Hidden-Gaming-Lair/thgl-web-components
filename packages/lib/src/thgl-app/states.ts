@@ -4,7 +4,7 @@ import { persist, subscribeWithSelector } from "zustand/middleware";
 import { WindowMode } from "./apps";
 import type { DriverHealth } from "./driver-health";
 import { RunningGame } from "./games";
-import { AppVersion } from "./version";
+import { AppVersion, CompatRunAsAdminFlag } from "./version";
 import { CloseAction, GpuFlag } from "./webview";
 
 export type ConnectedClient = {
@@ -43,6 +43,11 @@ export const useLiveState = create<{
   setCloseAction: (action: CloseAction) => void;
   alwaysRunAsAdmin: boolean;
   setAlwaysRunAsAdmin: (always: boolean) => void;
+  // Windows Compatibility "Run as administrator" flag state at startup:
+  // "none" (or an older app), "removed" (the app stripped it — restart to
+  // apply), "present" (found but not removable — the user must uncheck it).
+  compatRunAsAdminFlag: CompatRunAsAdminFlag;
+  setCompatRunAsAdminFlag: (state: CompatRunAsAdminFlag) => void;
   locale: string;
   setLocale: (locale: string) => void;
   // Game runs in exclusive fullscreen - the overlay can't render over it
@@ -70,6 +75,8 @@ export const useLiveState = create<{
   setCloseAction: (action) => set({ closeAction: action }),
   alwaysRunAsAdmin: false,
   setAlwaysRunAsAdmin: (always) => set({ alwaysRunAsAdmin: always }),
+  compatRunAsAdminFlag: "none",
+  setCompatRunAsAdminFlag: (state) => set({ compatRunAsAdminFlag: state }),
   locale: "en",
   setLocale: (locale) => set({ locale }),
   exclusiveFullscreen: false,

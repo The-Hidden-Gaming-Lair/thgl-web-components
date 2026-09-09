@@ -127,5 +127,12 @@
   "driver.repair.running": "Riparazione in corso...",
   "driver.repair.lastResult": "Ultimo tentativo: {{result}}",
   "driver.sendSnapshot": "Ancora non funziona? Invia uno snapshot di debug dal menu (icona insetto). Ora include anche il log del servizio driver.",
-  "driver.faq": "Scopri di più"
+  "driver.faq": "Scopri di più",
+
+  "settings.relaunchAsAdmin": "Riavvia come amministratore",
+  "settings.relaunchNormal": "Riavvia senza amministratore",
+  "settings.relaunchNormalBlocked": "Disattiva prima \"Esegui sempre come amministratore\"",
+  "settings.relaunchDesc": "Riavvia l'app con l'altro livello di privilegi. Le finestre della mappa aperte vengono chiuse.",
+  "settings.compatFlagRemoved": "Questa sessione è stata avviata tramite l'opzione di compatibilità di Windows \"Esegui come amministratore\", che non è supportata. L'impostazione è stata rimossa. Riavvia l'app per eseguirla normalmente.",
+  "settings.compatFlagPresent": "L'opzione di compatibilità di Windows \"Esegui come amministratore\" è attiva per l'app e non è supportata. Deselezionala in Proprietà > Compatibilità e riavvia l'app."
 }

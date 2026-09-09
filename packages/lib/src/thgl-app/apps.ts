@@ -3,7 +3,10 @@ import type { Actor } from "../overwolf/plugin";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
 import { useLiveState, useTHGLAppState } from "./states";
-import { getInitialStateFromWebview } from "./version";
+import {
+  compatRunAsAdminFlagState,
+  getInitialStateFromWebview,
+} from "./version";
 import { postWebviewMessage } from "./webview";
 
 export type WindowMode = "overlay" | "desktop" | "both";
@@ -436,6 +439,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           liveState.setGpuFlag(data.gpuFlag);
           liveState.setIsRunningAsAdmin(data.isRunningAsAdmin ?? false);
           liveState.setAlwaysRunAsAdmin(data.alwaysRunAsAdmin ?? false);
+          liveState.setCompatRunAsAdminFlag(compatRunAsAdminFlagState(data));
           liveState.setExclusiveFullscreen(data.exclusiveFullscreen ?? false);
           liveState.setCloseAction(data.closeAction ?? "ask");
           liveState.setLocale(data.locale ?? "en");

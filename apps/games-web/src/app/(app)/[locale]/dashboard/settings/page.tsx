@@ -1,6 +1,13 @@
 "use client";
 
-import { Settings, ChevronDown, ChevronUp, AlertTriangle, Shield, Globe } from "lucide-react";
+import {
+  Settings,
+  ChevronDown,
+  ChevronUp,
+  AlertTriangle,
+  Shield,
+  Globe,
+} from "lucide-react";
 import {
   ScrollArea,
   Label,
@@ -23,6 +30,8 @@ import {
   useTHGLAppState,
   setGpuFlag,
   setAlwaysRunAsAdmin as setAlwaysRunAsAdminApi,
+  relaunchAsAdmin,
+  relaunchNormal,
   setCloseAction as setCloseActionApi,
   getIsTaskInstalled,
   GpuFlag,
@@ -54,18 +63,42 @@ const LOCALE_OPTIONS: { value: string; label: string }[] = [
 
 const GPU_FLAG_KEYS: Record<GpuFlag, { label: string; desc: string }> = {
   none: { label: "settings.gpu.default", desc: "settings.gpu.defaultDesc" },
-  "disable-direct-composition-video": { label: "settings.gpu.disableVideo", desc: "settings.gpu.disableVideoDesc" },
-  "disable-gpu-compositing": { label: "settings.gpu.disableCompositing", desc: "settings.gpu.disableCompositingDesc" },
-  "disable-gpu": { label: "settings.gpu.software", desc: "settings.gpu.softwareDesc" },
+  "disable-direct-composition-video": {
+    label: "settings.gpu.disableVideo",
+    desc: "settings.gpu.disableVideoDesc",
+  },
+  "disable-gpu-compositing": {
+    label: "settings.gpu.disableCompositing",
+    desc: "settings.gpu.disableCompositingDesc",
+  },
+  "disable-gpu": {
+    label: "settings.gpu.software",
+    desc: "settings.gpu.softwareDesc",
+  },
 };
 
-const CLOSE_ACTION_KEYS: Record<CloseAction, { label: string; desc: string }> = {
-  ask: { label: "settings.closeAction.ask", desc: "settings.closeAction.askDesc" },
-  closeWindow: { label: "settings.closeAction.closeWindow", desc: "settings.closeAction.closeWindowDesc" },
-  exit: { label: "settings.closeAction.exit", desc: "settings.closeAction.exitDesc" },
-};
+const CLOSE_ACTION_KEYS: Record<CloseAction, { label: string; desc: string }> =
+  {
+    ask: {
+      label: "settings.closeAction.ask",
+      desc: "settings.closeAction.askDesc",
+    },
+    closeWindow: {
+      label: "settings.closeAction.closeWindow",
+      desc: "settings.closeAction.closeWindowDesc",
+    },
+    exit: {
+      label: "settings.closeAction.exit",
+      desc: "settings.closeAction.exitDesc",
+    },
+  };
 
-const GPU_FLAGS: GpuFlag[] = ["none", "disable-direct-composition-video", "disable-gpu-compositing", "disable-gpu"];
+const GPU_FLAGS: GpuFlag[] = [
+  "none",
+  "disable-direct-composition-video",
+  "disable-gpu-compositing",
+  "disable-gpu",
+];
 const CLOSE_ACTIONS: CloseAction[] = ["ask", "closeWindow", "exit"];
 
 export default function SettingsPage() {
@@ -89,8 +122,21 @@ export default function SettingsPage() {
   const setGpuFlagState = useLiveState((state) => state.setGpuFlag);
   const isRunningAsAdmin = useLiveState((state) => state.isRunningAsAdmin);
   const alwaysRunAsAdmin = useLiveState((state) => state.alwaysRunAsAdmin);
+  const compatRunAsAdminFlag = useLiveState(
+    (state) => state.compatRunAsAdminFlag,
+  );
+  // Set while a relaunch request is in flight; the app closes this window on
+  // success, and an error response (refused relaunch) re-enables the button.
+  const [relaunching, setRelaunching] = useState(false);
+  const requestRelaunch = (relaunch: () => Promise<unknown>) => {
+    setRelaunching(true);
+    relaunch().catch((error) => {
+      console.error(error);
+      setRelaunching(false);
+    });
+  };
   const setAlwaysRunAsAdmin = useLiveState(
-    (state) => state.setAlwaysRunAsAdmin
+    (state) => state.setAlwaysRunAsAdmin,
   );
   const closeAction = useLiveState((state) => state.closeAction);
   const setCloseActionState = useLiveState((state) => state.setCloseAction);
@@ -227,6 +273,55 @@ export default function SettingsPage() {
                 }}
               />
             </div>
+            {compatRunAsAdminFlag !== "none" && (
+              <div className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-500">
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>
+                  {t(
+                    compatRunAsAdminFlag === "removed"
+                      ? "settings.compatFlagRemoved"
+                      : "settings.compatFlagPresent",
+                  )}
+                </span>
+              </div>
+            )}
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs text-muted-foreground">
+                {t("settings.relaunchDesc")}
+              </p>
+              {isRunningAsAdmin ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    {/* span keeps the tooltip working while the button is disabled */}
+                    <span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={alwaysRunAsAdmin || relaunching}
+                        onClick={() => requestRelaunch(relaunchNormal)}
+                      >
+                        {t("settings.relaunchNormal")}
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  {alwaysRunAsAdmin && (
+                    <TooltipContent>
+                      {t("settings.relaunchNormalBlocked")}
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={relaunching}
+                  onClick={() => requestRelaunch(relaunchAsAdmin)}
+                >
+                  <Shield className="w-3.5 h-3.5 mr-1.5" />
+                  {t("settings.relaunchAsAdmin")}
+                </Button>
+              )}
+            </div>
             <div className="border-t" />
             <div className="space-y-2">
               <Label htmlFor="close-action" className="text-sm font-normal">
@@ -239,7 +334,9 @@ export default function SettingsPage() {
                 }
               >
                 <SelectTrigger id="close-action" className="w-full">
-                  <SelectValue placeholder={t("settings.closeActionPlaceholder")} />
+                  <SelectValue
+                    placeholder={t("settings.closeActionPlaceholder")}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {CLOSE_ACTIONS.map((value) => (
@@ -344,7 +441,9 @@ export default function SettingsPage() {
                   variant="outline"
                   size="sm"
                   className="h-7 text-xs border-amber-500/30 text-amber-500 hover:bg-amber-500/10 hover:text-amber-500"
-                  onClick={() => window.chrome.webview.postMessage("restartApp")}
+                  onClick={() =>
+                    window.chrome.webview.postMessage("restartApp")
+                  }
                 >
                   {t("settings.restart")}
                 </Button>
@@ -368,7 +467,9 @@ export default function SettingsPage() {
             className="w-full justify-between p-4 h-auto"
             onClick={() => setShowDevTools(!showDevTools)}
           >
-            <span className="text-sm font-semibold">{t("settings.devTools")}</span>
+            <span className="text-sm font-semibold">
+              {t("settings.devTools")}
+            </span>
             {showDevTools ? (
               <ChevronUp className="h-4 w-4" />
             ) : (
@@ -379,13 +480,18 @@ export default function SettingsPage() {
             <div className="px-4 pb-4 space-y-3 text-sm">
               <div className="border-t" />
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t("settings.version")}</span>
+                <span className="text-muted-foreground">
+                  {t("settings.version")}
+                </span>
                 <Tooltip>
                   <TooltipTrigger className="hover:text-foreground">
                     {version?.buildVersion ?? t("settings.versionUnknown")}
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Version: {version?.buildVersion ?? t("settings.versionUnknown")}</p>
+                    <p>
+                      Version:{" "}
+                      {version?.buildVersion ?? t("settings.versionUnknown")}
+                    </p>
                     <p>Date: {version?.buildDate}</p>
                     <p>Time: {version?.buildTime}</p>
                   </TooltipContent>
@@ -393,7 +499,9 @@ export default function SettingsPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("settings.inspect")}</span>
+                  <span className="text-muted-foreground">
+                    {t("settings.inspect")}
+                  </span>
                   <div className="space-x-2">
                     <Button
                       variant="link"
@@ -424,7 +532,9 @@ export default function SettingsPage() {
                 {/* Game windows (overlays, desktop) */}
                 {connectedClients?.filter((c) => c.role === "client").length ? (
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">{t("settings.gameWindows")}</span>
+                    <span className="text-muted-foreground">
+                      {t("settings.gameWindows")}
+                    </span>
                     <div className="flex flex-wrap gap-x-2 gap-y-1 justify-end">
                       {connectedClients
                         ?.filter((c) => c.role === "client")
@@ -436,7 +546,10 @@ export default function SettingsPage() {
                             const url = new URL(client.href);
                             const appsIdx = url.pathname.indexOf("/apps/");
                             if (appsIdx !== -1) {
-                              const appParts = url.pathname.substring(appsIdx + 6).split("/").filter(Boolean);
+                              const appParts = url.pathname
+                                .substring(appsIdx + 6)
+                                .split("/")
+                                .filter(Boolean);
                               name = appParts[0] || "window";
                               if (appParts[1]) {
                                 name += ` (${appParts[1]})`;

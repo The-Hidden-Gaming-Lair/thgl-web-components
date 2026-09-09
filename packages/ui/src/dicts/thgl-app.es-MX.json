@@ -127,5 +127,12 @@
   "driver.repair.running": "Reparando...",
   "driver.repair.lastResult": "Último intento: {{result}}",
   "driver.sendSnapshot": "¿Sigue sin funcionar? Envía un snapshot de depuración desde el menú (ícono de bicho). Ahora incluye también el registro del servicio del driver.",
-  "driver.faq": "Más información"
+  "driver.faq": "Más información",
+
+  "settings.relaunchAsAdmin": "Reiniciar como administrador",
+  "settings.relaunchNormal": "Reiniciar sin administrador",
+  "settings.relaunchNormalBlocked": "Primero desactiva «Ejecutar siempre como administrador»",
+  "settings.relaunchDesc": "Reinicia la app con el otro nivel de privilegios. Las ventanas de mapa abiertas se cierran.",
+  "settings.compatFlagRemoved": "Esta sesión se inició con la opción de compatibilidad de Windows «Ejecutar como administrador», que no es compatible. La opción se quitó. Reinicia la app para ejecutarla normalmente.",
+  "settings.compatFlagPresent": "La opción de compatibilidad de Windows «Ejecutar como administrador» está activada para la app y no es compatible. Desmárcala en Propiedades > Compatibilidad y reinicia la app."
 }

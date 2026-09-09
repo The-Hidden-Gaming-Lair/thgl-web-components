@@ -127,5 +127,12 @@
   "driver.repair.running": "修復中...",
   "driver.repair.lastResult": "前回の試行: {{result}}",
   "driver.sendSnapshot": "それでも解決しない場合は、メニュー（バグアイコン）からデバッグスナップショットを送信してください。ドライバーサービスのログも含まれるようになりました。",
-  "driver.faq": "詳細を見る"
+  "driver.faq": "詳細を見る",
+
+  "settings.relaunchAsAdmin": "管理者として再起動",
+  "settings.relaunchNormal": "管理者権限なしで再起動",
+  "settings.relaunchNormalBlocked": "先に「常に管理者として実行」をオフにしてください",
+  "settings.relaunchDesc": "別の権限レベルでアプリを再起動します。開いているマップウィンドウは閉じられます。",
+  "settings.compatFlagRemoved": "このセッションはWindowsの互換性オプション「管理者としてこのプログラムを実行する」で起動されましたが、この方法はサポートされていません。設定は削除されました。アプリを再起動すると通常どおり実行されます。",
+  "settings.compatFlagPresent": "アプリにWindowsの互換性オプション「管理者としてこのプログラムを実行する」が設定されていますが、サポートされていません。プロパティ > 互換性でチェックを外し、アプリを再起動してください。"
 }

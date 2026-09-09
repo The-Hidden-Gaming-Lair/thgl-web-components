@@ -276,6 +276,11 @@ export type WEBVIEW_SEND_MESSAGE =
       payload: {};
     }
   | {
+      // Drop elevation: relaunch at the shell's integrity level (dashboard settings).
+      action: "relaunchNormal";
+      payload: {};
+    }
+  | {
       // Active probe of the BridgeHost/driver chain; also broadcast as `driverHealth`
       action: "getDriverHealth";
       payload: {};

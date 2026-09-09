@@ -127,5 +127,12 @@
   "driver.repair.running": "Réparation en cours...",
   "driver.repair.lastResult": "Dernière tentative : {{result}}",
   "driver.sendSnapshot": "Toujours pas de solution ? Envoyez un instantané de débogage depuis le menu (icône du bug). Il inclut désormais le journal du service du pilote.",
-  "driver.faq": "En savoir plus"
+  "driver.faq": "En savoir plus",
+
+  "settings.relaunchAsAdmin": "Relancer en tant qu'administrateur",
+  "settings.relaunchNormal": "Relancer sans administrateur",
+  "settings.relaunchNormalBlocked": "Désactivez d'abord « Toujours exécuter en tant qu'administrateur »",
+  "settings.relaunchDesc": "Redémarre l'application avec l'autre niveau de privilèges. Les fenêtres de carte ouvertes se ferment.",
+  "settings.compatFlagRemoved": "Cette session a été lancée via l'option de compatibilité Windows « Exécuter en tant qu'administrateur », qui n'est pas prise en charge. Le paramètre a été supprimé. Redémarrez l'application pour l'exécuter normalement.",
+  "settings.compatFlagPresent": "L'option de compatibilité Windows « Exécuter en tant qu'administrateur » est activée pour l'application et n'est pas prise en charge. Décochez-la dans Propriétés > Compatibilité et redémarrez l'application."
 }

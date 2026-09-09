@@ -127,5 +127,12 @@
   "driver.repair.running": "Naprawianie...",
   "driver.repair.lastResult": "Ostatnia próba: {{result}}",
   "driver.sendSnapshot": "Nadal nie działa? Wyślij migawkę debugowania z menu (ikona robaka). Zawiera teraz również dziennik usługi sterownika.",
-  "driver.faq": "Dowiedz się więcej"
+  "driver.faq": "Dowiedz się więcej",
+
+  "settings.relaunchAsAdmin": "Uruchom ponownie jako administrator",
+  "settings.relaunchNormal": "Uruchom ponownie bez administratora",
+  "settings.relaunchNormalBlocked": "Najpierw wyłącz „Zawsze uruchamiaj jako administrator”",
+  "settings.relaunchDesc": "Uruchamia aplikację ponownie z innym poziomem uprawnień. Otwarte okna mapy zostaną zamknięte.",
+  "settings.compatFlagRemoved": "Ta sesja została uruchomiona przez opcję zgodności Windows „Uruchom jako administrator”, która nie jest obsługiwana. Ustawienie zostało usunięte. Uruchom aplikację ponownie, aby działała normalnie.",
+  "settings.compatFlagPresent": "Opcja zgodności Windows „Uruchom jako administrator” jest włączona dla aplikacji i nie jest obsługiwana. Odznacz ją w Właściwości > Zgodność i uruchom aplikację ponownie."
 }
