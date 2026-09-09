@@ -82,6 +82,7 @@ export function Account() {
               perks: defaultPerks,
               username: store.username,
               avatarUrl: store.avatarUrl,
+              invites: result.invites,
             });
             return;
           }
@@ -128,7 +129,11 @@ export function Account() {
           decryptedUserId: string;
           email: string;
           isSpecial?: boolean;
+          invites?: string[];
         } & Perks;
+        // Invite-only companion access (undefined = not resolved → the store
+        // keeps its persisted list).
+        const invites = Array.isArray(body.invites) ? body.invites : undefined;
         if (!response.ok) {
           console.warn(body);
           if (response.status === 403) {
@@ -139,6 +144,7 @@ export function Account() {
               perks: defaultPerks,
               username: profile.username,
               avatarUrl: profile.avatarUrl,
+              invites,
             });
           } else if (response.status === 404 || response.status === 400) {
             state.setAccount({
@@ -167,6 +173,7 @@ export function Account() {
             username: profile.username,
             avatarUrl: profile.avatarUrl,
             isSpecial: body.isSpecial ?? false,
+            invites,
           });
         }
       } catch (err) {

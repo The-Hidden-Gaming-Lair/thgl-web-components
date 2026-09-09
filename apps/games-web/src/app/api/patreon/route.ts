@@ -192,8 +192,18 @@ export async function GET(request: NextRequest) {
     }
     const currentUser = currentUserResult;
     if (!isSupporter(currentUser, game)) {
+      // Invite-only companion access does not require a tier — ship the
+      // invites with the 403 so an invited non-supporter still gets in.
       return Response.json(
-        { error: "User is not a patron", currentUser },
+        {
+          error: "User is not a patron",
+          currentUser,
+          invites: await getInvitesBestEffort(
+            "[api/patreon]",
+            userId,
+            currentUser.data.attributes.email,
+          ),
+        },
         {
           status: 403,
           headers: responseHeaders,

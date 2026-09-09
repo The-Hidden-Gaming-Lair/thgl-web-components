@@ -77,6 +77,7 @@ export function InitializeAccount({
           perks: defaultPerks,
           username: store.username,
           avatarUrl: store.avatarUrl,
+          invites: result.invites,
         });
       } else if (result.status === "invalid") {
         // The stored secret itself is dead — the sign-out is real.

@@ -200,7 +200,10 @@ function UnauthenticatedView() {
         decryptedUserId: string;
         email: string;
         secret?: string;
+        invites?: string[];
       } & Perks;
+      // Invite-only companion access rides on both the ok and the 403 body.
+      const invites = Array.isArray(body.invites) ? body.invites : undefined;
       if (!response.ok) {
         if (response.status === 403) {
           account.setAccount({
@@ -210,6 +213,7 @@ function UnauthenticatedView() {
             perks: defaultPerks,
             username: null,
             avatarUrl: null,
+            invites,
           });
           toast("User is not a subscriber");
         } else if (response.status === 404) {
@@ -241,6 +245,7 @@ function UnauthenticatedView() {
           },
           username: null,
           avatarUrl: null,
+          invites,
         });
         toast("Subscription enabled");
       }

@@ -154,7 +154,7 @@ export type ReverifiedAccount =
       isSpecial: boolean;
       invites?: string[];
     }
-  | { status: "not-subscriber" }
+  | { status: "not-subscriber"; invites?: string[] }
   | { status: "invalid" }
   | { status: "unknown" };
 
@@ -208,7 +208,17 @@ export async function reverifyAccountSecret(
       };
     }
     if (response.status === 403) {
-      return { status: "not-subscriber" };
+      // Valid account without a tier — it may still hold companion invites.
+      let invites: string[] | undefined;
+      try {
+        const body = (await response.json()) as { invites?: unknown };
+        invites = Array.isArray(body.invites)
+          ? (body.invites as string[])
+          : undefined;
+      } catch {
+        // non-JSON body — leave invites unknown
+      }
+      return { status: "not-subscriber", invites };
     }
     if (response.status === 404 || response.status === 400) {
       // "invalid" (→ sign-out) only for a real API verdict. A missing route
