@@ -82,10 +82,19 @@ const SAVE_GROUPS = {
     icon: Pickaxe,
     defaultOn: false,
     types: [
-      "mine_iron", "mine_copper", "mine_silver", "mine_gold",
-      "mine_diamond", "mine_ruby", "mine_bismuth", "mine_bluestone",
-      "mine_greenstone", "mine_redstone", "mine_whitestone",
-      "mine_sulfur", "mine_blacksmith",
+      "mine_iron",
+      "mine_copper",
+      "mine_silver",
+      "mine_gold",
+      "mine_diamond",
+      "mine_ruby",
+      "mine_bismuth",
+      "mine_bluestone",
+      "mine_greenstone",
+      "mine_redstone",
+      "mine_whitestone",
+      "mine_sulfur",
+      "mine_blacksmith",
     ],
   },
   abyss: {
@@ -93,24 +102,45 @@ const SAVE_GROUPS = {
     icon: Skull,
     defaultOn: true,
     types: [
-      "abyss_nexus", "abyss_cresset", "abyss_ruins",
-      "abyss_gate", "abyss_bridge", "abyss_constellation",
+      "abyss_nexus",
+      "abyss_cresset",
+      "abyss_ruins",
+      "abyss_gate",
+      "abyss_bridge",
+      "abyss_constellation",
     ],
   },
   stations: {
     label: "Stations",
     icon: Flame,
     defaultOn: true,
-    types: ["bonfire", "cooking_station", "crafting_anvil", "alchemy_station"],
+    types: [
+      "bonfire",
+      "cooking_station",
+      "crafting_anvil",
+      "alchemy_station",
+      // Kept in sync with the waypoint types the save lookup can return — a type
+      // missing here is silently dropped from the import (it matches no group prefix).
+      "sewing_station",
+      "carpentry_station",
+    ],
   },
   landmarks: {
     label: "Landmarks",
     icon: Compass,
     defaultOn: true,
     types: [
-      "treasure_box", "religion_box", "sealed_artifact",
-      "teleport_gate", "dungeon", "tunnel", "bell",
-      "greymane_shrine", "memory_fragment", "housing_move",
+      "treasure_box",
+      "religion_box",
+      "sealed_artifact",
+      "teleport_gate",
+      "dungeon",
+      "tunnel",
+      "bell",
+      "well",
+      "greymane_shrine",
+      "memory_fragment",
+      "housing_move",
     ],
   },
   gathering: {
@@ -118,8 +148,17 @@ const SAVE_GROUPS = {
     icon: Leaf,
     defaultOn: false,
     types: [
-      "jijeongta_leaf", "taro", "chaya", "amaranth", "dulse",
-      "ensete", "opuntia", "chlorella", "kudzu_vine", "rubber", "mercury",
+      "jijeongta_leaf",
+      "taro",
+      "chaya",
+      "amaranth",
+      "dulse",
+      "ensete",
+      "opuntia",
+      "chlorella",
+      "kudzu_vine",
+      "rubber",
+      "mercury",
     ],
   },
   chests: {
@@ -166,19 +205,29 @@ function computeGroupStats(data: SaveParseResult) {
       };
     } else if (key === "chests") {
       stats[key] = {
-        found: (data.summary as unknown as Record<string, number>).matchedChests || 0,
-        total: (totals.treasure_box || 0) + (totals.collection_chest || 0) +
-          (totals.sealed_artifact || 0) + (totals.chest || 0) +
-          (totals.treasure_chest_level || 0) + (totals.puzzle_chest || 0),
+        found:
+          (data.summary as unknown as Record<string, number>).matchedChests ||
+          0,
+        total:
+          (totals.treasure_box || 0) +
+          (totals.collection_chest || 0) +
+          (totals.sealed_artifact || 0) +
+          (totals.chest || 0) +
+          (totals.treasure_chest_level || 0) +
+          (totals.puzzle_chest || 0),
       };
     } else if (key === "weaponDisplays") {
       stats[key] = {
-        found: (data.summary as unknown as Record<string, number>).matchedWeaponDisplays || 0,
+        found:
+          (data.summary as unknown as Record<string, number>)
+            .matchedWeaponDisplays || 0,
         total: totals.weapon_display || 0,
       };
     } else if (key === "hiddenItems") {
       stats[key] = {
-        found: (data.summary as unknown as Record<string, number>).matchedHiddenItems || 0,
+        found:
+          (data.summary as unknown as Record<string, number>)
+            .matchedHiddenItems || 0,
         total: totals.hidden_item || 0,
       };
     } else {
@@ -218,7 +267,8 @@ function filterNodeIds(
     if (selectedGroups.has("quests")) add(byCategory.quests);
     if (selectedGroups.has("knowledge")) add(byCategory.knowledge);
     if (selectedGroups.has("chests")) add(byCategory.chests);
-    if (selectedGroups.has("weaponDisplays")) add(byCategory.weaponDisplays || []);
+    if (selectedGroups.has("weaponDisplays"))
+      add(byCategory.weaponDisplays || []);
     if (selectedGroups.has("hiddenItems")) add(byCategory.hiddenItems || []);
 
     // Waypoint groups: filter the waypoints list by type prefix
@@ -265,8 +315,7 @@ export function CrimsonDesertSaveImport() {
   const discoveredNodes = useSettingsStore((s) => s.discoveredNodes);
 
   const groupStats = useMemo(
-    () =>
-      state.step === "result" ? computeGroupStats(state.data) : null,
+    () => (state.step === "result" ? computeGroupStats(state.data) : null),
     [state],
   );
 
