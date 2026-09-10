@@ -99,6 +99,10 @@ export const useTHGLAppState = create(
       setAutoRunGame: (gameId: string, enabled: boolean) => void;
       sidebarExpanded: boolean;
       setSidebarExpanded: (expanded: boolean) => void;
+      // game id -> epoch ms of the last time its process was detected. Drives the
+      // dashboard game order (recently played first, see sortGamesByLastPlayed).
+      lastPlayed: Record<string, number>;
+      setLastPlayed: (gameId: string, at?: number) => void;
       gameSessions: Array<GameSessionInfo>;
       updateGameSession: (session: GameSessionInfo) => void;
       clearClosedSessions: () => void;
@@ -123,6 +127,11 @@ export const useTHGLAppState = create(
           })),
         sidebarExpanded: true,
         setSidebarExpanded: (expanded) => set({ sidebarExpanded: expanded }),
+        lastPlayed: {},
+        setLastPlayed: (gameId, at = Date.now()) =>
+          set((state) => ({
+            lastPlayed: { ...state.lastPlayed, [gameId]: at },
+          })),
         gameSessions: [],
         updateGameSession: (session) =>
           set((state) => {

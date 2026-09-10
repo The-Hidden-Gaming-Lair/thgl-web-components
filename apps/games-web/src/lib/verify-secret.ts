@@ -21,7 +21,7 @@ import {
   isTestSupporter,
 } from "@/lib/test-supporter";
 import { games } from "@repo/lib";
-import { getInvitesBestEffort } from "@/lib/invites";
+import { applyInvitePerks, getInvitesBestEffort } from "@/lib/invites";
 
 /**
  * Cookie-free secret verification: takes a userId secret (legacy or
@@ -74,11 +74,7 @@ export async function verifySecretPOST(request: NextRequest) {
           decryptedUserId: userId,
           email: TEST_SUPPORTER_EMAIL,
           // Invites still come from the DB so the gate is testable in dev.
-          invites: await getInvitesBestEffort(
-            "[patreon/verify]",
-            userId,
-            TEST_SUPPORTER_EMAIL,
-          ),
+          invites: await getInvitesBestEffort("[patreon/verify]", userId),
         },
         { headers: CORS_HEADERS },
       );
@@ -172,19 +168,12 @@ export async function verifySecretPOST(request: NextRequest) {
       );
     }
     const currentUser = currentUserResult;
-    if (!isSupporter(currentUser, game)) {
-      // Invite-only companion access does not require a tier — ship the
-      // invites with the 403 so an invited non-supporter still gets in.
+    // Invite-only companion access does not require a tier: an invited account
+    // is verified like a supporter (with the invite perks, see applyInvitePerks).
+    const invites = await getInvitesBestEffort("[patreon/verify]", userId);
+    if (!isSupporter(currentUser, game) && !invites?.length) {
       return Response.json(
-        {
-          error: "User is not a patron",
-          currentUser,
-          invites: await getInvitesBestEffort(
-            "[patreon/verify]",
-            userId,
-            currentUser.data.attributes.email,
-          ),
-        },
+        { error: "User is not a patron", currentUser, invites },
         {
           status: 403,
           headers: CORS_HEADERS,
@@ -192,7 +181,7 @@ export async function verifySecretPOST(request: NextRequest) {
       );
     }
 
-    const perks = getPerks(currentUser, game);
+    const perks = applyInvitePerks(getPerks(currentUser, game), invites);
     const result = {
       ...perks,
       // Fresh enriched secret (rotates with the token). Clients store
@@ -203,11 +192,7 @@ export async function verifySecretPOST(request: NextRequest) {
       decryptedUserId: userId,
       email: currentUser.data.attributes.email,
       isSpecial: isSpecialUser(userId),
-      invites: await getInvitesBestEffort(
-        "[patreon/verify]",
-        userId,
-        currentUser.data.attributes.email,
-      ),
+      invites,
     };
     return Response.json(result, {
       headers: CORS_HEADERS,

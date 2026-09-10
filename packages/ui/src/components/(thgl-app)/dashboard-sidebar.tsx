@@ -5,6 +5,7 @@ import {
   games,
   isCompanionAccessible,
   localizePath,
+  sortGamesByLastPlayed,
   useAccountStore,
 } from "@repo/lib";
 import {
@@ -48,8 +49,11 @@ export function DashboardSidebar() {
   // companion block, so `!game.companion` already excludes them). Preview-release games are NOT
   // inDevelopment — they appear here, gated to Elite supporters via PreviewReleaseGuard.
   // `inviteOnly` companions (Pax Dei) appear ONLY for accounts invited to them.
-  const companionGames = games.filter((game) =>
-    isCompanionAccessible(game, account.invites),
+  const lastPlayed = useTHGLAppState((state) => state.lastPlayed);
+  // Recently played first, then the registry order (newest integrations first).
+  const companionGames = sortGamesByLastPlayed(
+    games.filter((game) => isCompanionAccessible(game, account.invites)),
+    lastPlayed,
   );
   const webOnlyGames = games.filter((game) => !game.companion && game.web);
 

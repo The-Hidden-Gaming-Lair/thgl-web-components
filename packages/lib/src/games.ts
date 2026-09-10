@@ -1536,6 +1536,21 @@ export function isCompanionAccessible(game: Game, invites: string[]): boolean {
   return !!game.companion.inviteOnly && invites.includes(game.id);
 }
 
+/**
+ * Dashboard order: games the user has played (THGLApp `lastPlayed`, most recent
+ * first) on top, everything else in the natural registry order (newest
+ * integrations first). Stable for games without a timestamp.
+ */
+export function sortGamesByLastPlayed(
+  list: Game[],
+  lastPlayed: Record<string, number>,
+): Game[] {
+  return list
+    .map((game, index) => ({ game, index, at: lastPlayed[game.id] ?? 0 }))
+    .sort((a, b) => (a.at !== b.at ? b.at - a.at : a.index - b.index))
+    .map((entry) => entry.game);
+}
+
 /** The web subdomain for a game (e.g. "starresonance"), derived from `web`. */
 export function getAppDomain(game: Game): string {
   return game.web ? new URL(game.web).host.split(".")[0] : game.id;

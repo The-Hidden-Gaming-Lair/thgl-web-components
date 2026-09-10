@@ -27,7 +27,7 @@ import {
   toCookieStringEmpty,
 } from "@/games/thgl-web/lib/patreon";
 import { games } from "@repo/lib";
-import { getInvitesBestEffort } from "@/lib/invites";
+import { applyInvitePerks, getInvitesBestEffort } from "@/lib/invites";
 
 /**
  * Account-perks refresh.
@@ -97,11 +97,7 @@ export async function GET(request: NextRequest) {
           decryptedUserId: userId,
           email: TEST_SUPPORTER_EMAIL,
           // Invites still come from the DB so the gate is testable in dev.
-          invites: await getInvitesBestEffort(
-            "[api/patreon]",
-            userId,
-            TEST_SUPPORTER_EMAIL,
-          ),
+          invites: await getInvitesBestEffort("[api/patreon]", userId),
         },
         { headers },
       );
@@ -191,19 +187,12 @@ export async function GET(request: NextRequest) {
       );
     }
     const currentUser = currentUserResult;
-    if (!isSupporter(currentUser, game)) {
-      // Invite-only companion access does not require a tier — ship the
-      // invites with the 403 so an invited non-supporter still gets in.
+    // Invite-only companion access does not require a tier: an invited account
+    // is verified like a supporter (with the invite perks, see applyInvitePerks).
+    const invites = await getInvitesBestEffort("[api/patreon]", userId);
+    if (!isSupporter(currentUser, game) && !invites?.length) {
       return Response.json(
-        {
-          error: "User is not a patron",
-          currentUser,
-          invites: await getInvitesBestEffort(
-            "[api/patreon]",
-            userId,
-            currentUser.data.attributes.email,
-          ),
-        },
+        { error: "User is not a patron", currentUser, invites },
         {
           status: 403,
           headers: responseHeaders,
@@ -211,18 +200,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const perks = getPerks(currentUser, game);
+    const perks = applyInvitePerks(getPerks(currentUser, game), invites);
     const result = {
       ...perks,
       expiresIn: refreshTokenResult.expires_in,
       decryptedUserId: userId,
       email: currentUser.data.attributes.email,
       isSpecial: isSpecialUser(userId),
-      invites: await getInvitesBestEffort(
-        "[api/patreon]",
-        userId,
-        currentUser.data.attributes.email,
-      ),
+      invites,
     };
     return Response.json(result, { headers: responseHeaders });
   } catch (err) {

@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   }
   if (!subject) {
     return Response.json(
-      { error: "subject (Patreon user id or email) required" },
+      { error: "subject must be a numeric Patreon user id" },
       { status: 400 },
     );
   }

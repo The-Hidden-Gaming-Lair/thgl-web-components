@@ -9,9 +9,10 @@ import {
 } from "../ui/dialog";
 import {
   defaultPerks,
+  games,
   isOverwolf,
-  type Perks,
   TH_GL_URL,
+  type Perks,
   useAccountStore,
 } from "@repo/lib";
 import { Badge, Button } from "../(controls)";
@@ -20,7 +21,15 @@ import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
 import { Input } from "../ui/input";
 import { useMemo, useState } from "react";
-import { ExternalLink, LogOut, Shield, Star, Eye, Zap } from "lucide-react";
+import {
+  ExternalLink,
+  LogOut,
+  Shield,
+  Star,
+  Eye,
+  Ticket,
+  Zap,
+} from "lucide-react";
 import { toast } from "sonner";
 import { toSvg } from "jdenticon";
 
@@ -58,19 +67,27 @@ function AuthenticatedView() {
   );
 
   const activePerks = PERK_CONFIG.filter((p) => account.perks[p.key]);
-  const hasPerks = activePerks.length > 0;
+  // Invite-only companions this account is invited to (games.ts titles).
+  const inviteTitles = account.invites.map(
+    (id) => games.find((game) => game.id === id)?.title ?? id,
+  );
+  const hasPerks = activePerks.length > 0 || inviteTitles.length > 0;
 
   // isSpecial is server-resolved (PATREON_SPECIAL_USERS) and rides on the
-  // account payload — perks alone can't distinguish Special from Elite.
+  // account payload — perks alone can't distinguish Special from Elite. Every
+  // paid tier includes comments; an invited non-supporter has the invite perks
+  // (preview/premium) but no comments, so that combination reads "Invited".
   const currentTier = account.isSpecial
     ? "Special"
-    : account.perks.previewReleaseAccess
-      ? "Elite"
-      : account.perks.adRemoval
-        ? "Pro"
-        : account.perks.comments
-          ? "Enthusiast"
-          : null;
+    : !account.perks.comments && inviteTitles.length > 0
+      ? "Invited"
+      : account.perks.previewReleaseAccess
+        ? "Elite"
+        : account.perks.adRemoval
+          ? "Pro"
+          : account.perks.comments
+            ? "Enthusiast"
+            : null;
 
   return (
     <div className="space-y-4">
@@ -103,6 +120,27 @@ function AuthenticatedView() {
           )}
         </div>
       </div>
+
+      {/* Invited: invite-only companions this account may open. Hidden when
+          there are none. */}
+      {inviteTitles.length > 0 && (
+        <div className="space-y-1">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Invited
+          </p>
+          <div className="grid grid-cols-2 gap-1.5">
+            {inviteTitles.map((title) => (
+              <div
+                key={title}
+                className="flex items-center gap-2 text-xs text-foreground py-1"
+              >
+                <Ticket className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span>{title}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Perks */}
       <div className="space-y-2">

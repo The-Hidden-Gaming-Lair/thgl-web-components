@@ -1,5 +1,5 @@
 "use client";
-import { defaultPerks, TH_GL_URL, useAccountStore } from "@repo/lib";
+import { defaultPerks, games, TH_GL_URL, useAccountStore } from "@repo/lib";
 import { Button } from "../(controls)";
 import Cookies from "js-cookie";
 import {
@@ -12,7 +12,7 @@ import {
 } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import { Eye, ExternalLink, Shield, Star, Zap } from "lucide-react";
+import { Eye, ExternalLink, Shield, Star, Ticket, Zap } from "lucide-react";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -29,6 +29,38 @@ const PERK_CONFIG = [
     tier: "Elite",
   },
 ];
+
+/** Titles of the invite-only companions the account is invited to. */
+function inviteTitles(invites: string[]): string[] {
+  return invites.map((id) => games.find((game) => game.id === id)?.title ?? id);
+}
+
+/**
+ * Invite-only companions the account is invited to (games.ts
+ * `companion.inviteOnly`). Renders nothing when there are none.
+ */
+function InvitedSection({ invites }: { invites: string[] }) {
+  const titles = inviteTitles(invites);
+  if (titles.length === 0) return null;
+  return (
+    <div className="space-y-2">
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        Invited
+      </p>
+      <div className="grid grid-cols-2 gap-1.5">
+        {titles.map((title) => (
+          <div
+            key={title}
+            className="flex items-center gap-2 text-xs text-foreground py-1"
+          >
+            <Ticket className="w-3.5 h-3.5 text-primary shrink-0" />
+            <span>{title}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function PerksGrid({ perks }: { perks: Record<string, boolean> }) {
   return (
@@ -149,17 +181,22 @@ export function AccountDialog() {
             <p className="text-primary">
               {/* Special is server-resolved (PATREON_SPECIAL_USERS) — perks
                   alone can't distinguish it from Elite. */}
+              {/* Every paid tier includes comments; an invited non-supporter
+                  has the invite perks (preview/premium) but no comments. */}
               {account.isSpecial
                 ? "Special"
-                : account.perks.previewReleaseAccess
-                  ? "Elite"
-                  : account.perks.adRemoval
-                    ? "Pro"
-                    : account.perks.comments
-                      ? "Enthusiast"
-                      : "None"}
+                : !account.perks.comments && account.invites.length > 0
+                  ? "Invited"
+                  : account.perks.previewReleaseAccess
+                    ? "Elite"
+                    : account.perks.adRemoval
+                      ? "Pro"
+                      : account.perks.comments
+                        ? "Enthusiast"
+                        : "None"}
             </p>
           </div>
+          <InvitedSection invites={account.invites} />
           <div className="space-y-2">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Perks

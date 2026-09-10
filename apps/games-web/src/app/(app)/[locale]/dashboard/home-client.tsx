@@ -5,9 +5,14 @@ import {
   ForumPost,
   isCompanionAccessible,
   localizePath,
+  sortGamesByLastPlayed,
   useAccountStore,
 } from "@repo/lib";
-import { openInBrowser, useLiveState } from "@repo/lib/thgl-app";
+import {
+  openInBrowser,
+  useLiveState,
+  useTHGLAppState,
+} from "@repo/lib/thgl-app";
 import { useLocale, useT } from "@repo/ui/providers";
 import { ScrollArea } from "@repo/ui/controls";
 import { WhatsNew, UpdateItem } from "@repo/ui/content";
@@ -59,8 +64,11 @@ export function HomePageClient({
   // running-game detection until launch (direct /apps/<id> route still works). Preview-release
   // games (e.g. Enshrouded) are NOT inDevelopment — they show here but the content is Elite-gated.
   // `inviteOnly` companions (Pax Dei) are listed only for accounts invited to them.
-  const companionGames = games.filter((game) =>
-    isCompanionAccessible(game, invites),
+  const lastPlayed = useTHGLAppState((state) => state.lastPlayed);
+  // Recently played first, then the registry order (newest integrations first).
+  const companionGames = sortGamesByLastPlayed(
+    games.filter((game) => isCompanionAccessible(game, invites)),
+    lastPlayed,
   );
 
   const isGameRunning = (gameId: string) => {

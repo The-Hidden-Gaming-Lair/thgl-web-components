@@ -69,7 +69,9 @@ export function InvitesAdminPanel({
             </select>
             <input
               type="text"
-              placeholder="Patreon user id or email"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              placeholder="Patreon user id"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               className="bg-background border border-border rounded px-2 py-1 text-sm flex-1 min-w-[220px]"

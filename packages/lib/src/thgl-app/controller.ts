@@ -142,7 +142,19 @@ export async function initController(currentVersion: CurrentVersion) {
             // Wait for window mode to be loaded from C++ to avoid race condition
             await waitForWindowMode();
 
-            const { disabledApps, autoRunGames } = useTHGLAppState.getState();
+            const { disabledApps, autoRunGames, setLastPlayed } =
+              useTHGLAppState.getState();
+            // Remember when each companion game was last seen running: the
+            // dashboard lists recently played games first.
+            games.forEach((game) => {
+              if (
+                game.companion?.games.some((g) =>
+                  g.processNames.includes(runningGame.processName),
+                )
+              ) {
+                setLastPlayed(game.id);
+              }
+            });
             console.log(
               "Game started:",
               runningGame,

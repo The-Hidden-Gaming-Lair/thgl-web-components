@@ -35,9 +35,9 @@ export default async function InvitesAdminPage() {
         <h1 className="text-3xl font-bold">Companion invites</h1>
         <p className="text-sm text-muted-foreground">
           Accounts allowed to open invite-only companion apps. Enter the Patreon
-          user id (shown in the account dialog) or the account&apos;s Patreon
-          email. Changes apply the next time the account verifies (sign-in, app
-          start, or the periodic perks refresh).
+          user id shown in the account dialog. Changes apply the next time the
+          account verifies (sign-in, app start, or the periodic perks refresh).
+          Invited accounts also get Premium + Preview Access.
         </p>
       </div>
       {invites === null ? (
