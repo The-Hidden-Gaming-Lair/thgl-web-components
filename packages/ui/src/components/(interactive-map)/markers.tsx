@@ -2850,8 +2850,14 @@ function MarkersContent({
         target.set(`__label_${id}`, { anchorId: id, pos, text: t(spawn.type) });
       }
 
-      // "inRange" mode labels
-      if (rotatedPlayer) {
+      // "inRange" mode labels. Only the modes above need the full spawn walk;
+      // without a single "inRange" filter the proximity query below is pure
+      // waste — and with a large proximity range it is expensive waste, so
+      // never run it just because some OTHER filter has labels on.
+      const hasInRangeLabels = Object.values(labelModeByFilter).some(
+        (m) => m === "inRange",
+      );
+      if (rotatedPlayer && hasInRangeLabels) {
         const playerX = rotatedPlayer.x;
         const playerY = rotatedPlayer.y;
         const rangeSq = audioAlertRange * audioAlertRange;
