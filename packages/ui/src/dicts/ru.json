@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Сбрасывает все визуальные настройки к значениям по умолчанию",
   "settings.interfaceReset": "Интерфейс сброшен к настройкам по умолчанию",
   "markers.selectMap": "Выбрать карту",
-  "markers.filterSettings": "Настройки фильтра"
+  "markers.filterSettings": "Настройки фильтра",
+  "settings.showInteriorNames": "Показывать названия интерьеров на карте",
+  "settings.showInteriorNames.description": "Название рядом с кнопкой слоя зданий и подземных зон. Отключите для более чистой карты: кнопка останется, планы этажей по-прежнему доступны."
 }

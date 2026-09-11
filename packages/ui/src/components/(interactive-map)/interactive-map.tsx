@@ -77,6 +77,10 @@ export function InteractiveMap({
   const isHydrated = useUserStore((state) => state._hasHydrated);
   const mapFilter = useSettingsStore((state) => state.mapFilter);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  // `?? true`: profiles persisted before the setting existed lack the key.
+  const showInteriorLabelNames = useSettingsStore(
+    (state) => state.showInteriorLabelNames ?? true,
+  );
   // The shapes layer instance as state so the chip-options effect re-runs
   // when the layer is (re)created (the ref alone wouldn't trigger it).
   const [interiorShapes, setInteriorShapes] =
@@ -634,6 +638,7 @@ export function InteractiveMap({
           .sort((a, b) => a.floor - b.floor);
       },
       activeMap: mapName,
+      showNames: showInteriorLabelNames,
       onEnter: enterLayer,
       onSelectFloor: (floorId) => {
         if (floorId === mapName) {
@@ -644,7 +649,14 @@ export function InteractiveMap({
         }
       },
     });
-  }, [interiorShapes, tileOptions, mapName, enterLayer, selectFloor]);
+  }, [
+    interiorShapes,
+    tileOptions,
+    mapName,
+    enterLayer,
+    selectFloor,
+    showInteriorLabelNames,
+  ]);
 
   useEffect(() => {
     interiorShapes?.setLabelsVisible(!lockedWindow);

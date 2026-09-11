@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Resetuje wszystkie ustawienia wizualne do domyślnych",
   "settings.interfaceReset": "Interfejs zresetowany do ustawień domyślnych",
   "markers.selectMap": "Wybierz mapę",
-  "markers.filterSettings": "Ustawienia filtra"
+  "markers.filterSettings": "Ustawienia filtra",
+  "settings.showInteriorNames": "Pokaż nazwy wnętrz na mapie",
+  "settings.showInteriorNames.description": "Nazwa obok przycisku warstwy budynków i obszarów podziemnych. Wyłącz ją, aby mapa była czytelniejsza - przycisk zostaje, więc nadal otworzysz plany pięter."
 }

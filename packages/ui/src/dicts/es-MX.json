@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Restablece todos los ajustes visuales a los valores predeterminados",
   "settings.interfaceReset": "Interfaz restablecida a los valores predeterminados",
   "markers.selectMap": "Seleccionar mapa",
-  "markers.filterSettings": "Configuración del filtro"
+  "markers.filterSettings": "Configuración del filtro",
+  "settings.showInteriorNames": "Mostrar nombres de interiores en el mapa",
+  "settings.showInteriorNames.description": "El nombre junto al botón de capa de edificios y zonas subterráneas. Desactívalo para un mapa más limpio: el botón se mantiene, así que puedes seguir abriendo sus mapas de planta."
 }

@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "คืนค่าการตั้งค่าภาพทั้งหมดเป็นค่าเริ่มต้น",
   "settings.interfaceReset": "รีเซ็ตอินเทอร์เฟซเป็นค่าเริ่มต้นแล้ว",
   "markers.selectMap": "เลือกแผนที่",
-  "markers.filterSettings": "ตั้งค่าตัวกรอง"
+  "markers.filterSettings": "ตั้งค่าตัวกรอง",
+  "settings.showInteriorNames": "แสดงชื่อพื้นที่ภายในบนแผนที่",
+  "settings.showInteriorNames.description": "ชื่อที่อยู่ข้างปุ่มชั้นของอาคารและพื้นที่ใต้ดิน ปิดไว้เพื่อให้แผนที่ดูโล่งขึ้น ปุ่มยังอยู่ จึงเปิดแผนผังชั้นได้เหมือนเดิม"
 }

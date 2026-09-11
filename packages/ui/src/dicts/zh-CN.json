@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "将所有视觉设置恢复为默认值",
   "settings.interfaceReset": "界面已恢复默认设置",
   "markers.selectMap": "选择地图",
-  "markers.filterSettings": "筛选条件设置"
+  "markers.filterSettings": "筛选条件设置",
+  "settings.showInteriorNames": "在地图上显示室内名称",
+  "settings.showInteriorNames.description": "建筑和地下区域图层按钮旁边的名称。关闭后地图更清爽，按钮仍会保留，楼层图照常打开。"
 }

@@ -307,6 +307,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   myFilters: [],
   showGrid: false,
   showFilters: true,
+  showInteriorLabelNames: true,
   // Peer Link / Mesh settings
   peerCode: "",
   lastMeSenderId: "",
@@ -434,6 +435,13 @@ export type ProfileSettings = {
   myFilters: DrawingsAndNodes[];
   showGrid: boolean;
   showFilters: boolean;
+  /**
+   * Draw the interior NAME next to the layer button on the map ("Hunter's
+   * Den"). Off leaves the button itself — icon plus floor numbers — so the
+   * floor maps stay reachable while the map gets much less text on it.
+   * Independent of the lock rule, which hides the buttons entirely.
+   */
+  showInteriorLabelNames: boolean;
   // Peer Link / Mesh settings
   peerCode: string;
   lastMeSenderId: string;
@@ -526,6 +534,7 @@ export interface ProfileActions {
   // Flag/unflag a map for overlay auto-hide. `false` deletes the key.
   setHideOverlayOnMap: (mapName: string, hide: boolean) => void;
   setHideOverlayWithoutMap: (hide: boolean) => void;
+  setShowInteriorLabelNames: (show: boolean) => void;
   setLabelTextSize: (size: number) => void;
   setShowLabelsHotkey: (key: string) => void;
   setDisplayDiscordActivityStatus: (
@@ -1589,6 +1598,10 @@ export const useSettingsStore = create(
 
           setHideOverlayWithoutMap: (hide) => {
             updateSettings({ hideOverlayWithoutMap: hide });
+          },
+
+          setShowInteriorLabelNames: (show) => {
+            updateSettings({ showInteriorLabelNames: show });
           },
 
           setLabelTextSize: (size: number) => {

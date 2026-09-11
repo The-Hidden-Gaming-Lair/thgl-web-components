@@ -29,6 +29,12 @@ export interface InteriorLabelOptions {
   floorsFor: (area: InteriorArea) => InteriorFloor[];
   /** The currently-viewed map — its floor button is drawn active. */
   activeMap: string;
+  /**
+   * Draw the interior's name on its chip. Off shrinks the chip to the layers
+   * icon plus any floor numbers, so it still opens the interior but covers far
+   * less of the map (user setting).
+   */
+  showNames: boolean;
   onEnter: (mapName: string) => void;
   onSelectFloor: (floorId: string) => void;
 }
@@ -509,13 +515,16 @@ export class InteriorShapesLayer implements Layer {
         w: number;
       }[];
     };
+    const showNames = opts?.showNames ?? true;
     const drafts: Draft[] = [];
     for (const a of this.areas) {
       if (!a.loaded || !a.area.label) continue;
-      ctx.font = nameFont;
-      const nameW = Math.ceil(ctx.measureText(a.area.label).width);
       const floorList = opts ? opts.floorsFor(a.area) : [];
-      let x = CHIP.border + CHIP.padX + CHIP.icon + CHIP.gap + nameW;
+      let x = CHIP.border + CHIP.padX + CHIP.icon;
+      if (showNames) {
+        ctx.font = nameFont;
+        x += CHIP.gap + Math.ceil(ctx.measureText(a.area.label).width);
+      }
       const floors: Draft["floors"] = [];
       if (floorList.length > 1) {
         ctx.font = floorFont;
@@ -567,11 +576,13 @@ export class InteriorShapesLayer implements Layer {
       for (const p of layersIcon) ctx.stroke(p);
       ctx.restore();
       cx += CHIP.icon + CHIP.gap;
-      // name
-      ctx.font = nameFont;
-      ctx.textAlign = "left";
-      ctx.fillStyle = "rgb(241, 245, 249)";
-      ctx.fillText(d.area.area.label, cx, midY);
+      // name (omitted when the user turned interior names off)
+      if (showNames) {
+        ctx.font = nameFont;
+        ctx.textAlign = "left";
+        ctx.fillStyle = "rgb(241, 245, 249)";
+        ctx.fillText(d.area.area.label, cx, midY);
+      }
       // floor buttons
       ctx.font = floorFont;
       ctx.textAlign = "center";

@@ -405,5 +405,7 @@
   "settings.resetInterface.description": "Đặt lại tất cả cài đặt hiển thị về mặc định",
   "settings.interfaceReset": "Đã đặt lại giao diện về mặc định",
   "markers.selectMap": "Chọn bản đồ",
-  "markers.filterSettings": "Cài đặt bộ lọc"
+  "markers.filterSettings": "Cài đặt bộ lọc",
+  "settings.showInteriorNames": "Hiện tên khu vực bên trong trên bản đồ",
+  "settings.showInteriorNames.description": "Tên bên cạnh nút lớp của các tòa nhà và khu vực ngầm. Tắt đi để bản đồ gọn hơn - nút vẫn còn nên bạn vẫn mở được sơ đồ tầng."
 }

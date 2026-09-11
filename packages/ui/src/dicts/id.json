@@ -405,5 +405,7 @@
   "settings.resetInterface.description": "Mengembalikan semua pengaturan visual ke bawaan",
   "settings.interfaceReset": "Antarmuka dikembalikan ke bawaan",
   "markers.selectMap": "Pilih peta",
-  "markers.filterSettings": "Pengaturan filter"
+  "markers.filterSettings": "Pengaturan filter",
+  "settings.showInteriorNames": "Tampilkan nama interior di peta",
+  "settings.showInteriorNames.description": "Nama di sebelah tombol lapisan bangunan dan area bawah tanah. Matikan agar peta lebih bersih - tombolnya tetap ada, jadi denah lantainya masih bisa dibuka."
 }

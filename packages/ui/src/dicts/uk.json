@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Скидає всі візуальні налаштування до типових",
   "settings.interfaceReset": "Інтерфейс скинуто до типових налаштувань",
   "markers.selectMap": "Вибрати мапу",
-  "markers.filterSettings": "Налаштування фільтра"
+  "markers.filterSettings": "Налаштування фільтра",
+  "settings.showInteriorNames": "Показувати назви інтер'єрів на мапі",
+  "settings.showInteriorNames.description": "Назва поруч із кнопкою шару будівель і підземних зон. Вимкніть для чистішої мапи: кнопка залишається, плани поверхів усе одно доступні."
 }
