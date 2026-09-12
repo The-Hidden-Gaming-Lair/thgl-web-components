@@ -101,12 +101,12 @@ export const bloodOfDawnwalker = resolveAppConfig({
       },
     ],
     typeLabels: {
-      inventory: "Item",
-      recipes: "Recipe",
-      bestiary: "Creature",
+      inventory: "Items",
+      recipes: "Recipes",
+      bestiary: "Bestiary",
       glossary: "Glossary",
-      readables: "Readable",
-      vendors: "Vendor",
+      readables: "Readables",
+      vendors: "Vendors",
     },
   },
 });
