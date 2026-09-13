@@ -17,6 +17,10 @@
  * (`isCompanionAccessible`, admin UI at www.th.gl/admin/invites, gate = InviteOnlyGate).
  */
 export const PREVIEW_RELEASE_APPS = new Set<string>([
+  // 2026-09-13: static map release, gated to Elite Supporters for the pre-release.
+  // The companion is still `inDevelopment` (no public THGLApp build ships the
+  // Dawnwalker detector yet) and the site is English-only for now.
+  "blood-of-dawnwalker",
   "sinking-city-2",
   // 2026-09-13: opened from `inDevelopment` (whole site was a Coming Soon
   // placeholder). Gated rather than fully released because Hexi still has no

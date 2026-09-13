@@ -12,6 +12,54 @@ export const DEFAULT_PATREON_TIER_IDS = [
 
 export const games: Array<Game> = [
   {
+    // Title MUST match data-forge global-menu.ts byte-for-byte.
+    id: "blood-of-dawnwalker",
+    discordId: "blood-of-dawnwalker",
+    title: "The Blood of Dawnwalker",
+    logo: `${TH_GL_URL}/global_icons/blood-of-dawnwalker.webp`,
+    companion: {
+      // Static-map release first (2026-09-12): the detector exists on the app branch but no
+      // public THGLApp build ships it yet, so keep the companion hidden from every list/CTA
+      // (same recipe as Where Winds Meet) - routing + process detection stay live so the Debug
+      // app can test it. Remove this flag (and set the tenant's appUrl) with the app release.
+      inDevelopment: true,
+      baseURL: "/apps/blood-of-dawnwalker",
+      controllerURL: "/apps/blood-of-dawnwalker/controller",
+      desktopURL: "/apps/blood-of-dawnwalker",
+      overlayURL: "/apps/blood-of-dawnwalker/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        // Spawns carry UE Z as height (p = [UE.X, UE.Y, Z]); one open world with
+        // caves/interiors stacked under the surface, so the z filter is meaningful.
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "The Blood of Dawnwalker",
+          // THGLApp game_registry.h + manifests/targets.json use the same name.
+          // The exe is Dawnwalker.exe, NOT *-Win64-Shipping.exe.
+          processNames: ["Dawnwalker.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://bloodofdawnwalker.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "dragonsword-awakening",
     discordId: "dragonsword-awakening",
     title: "DragonSword: Awakening",
