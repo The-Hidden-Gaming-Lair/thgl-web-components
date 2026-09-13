@@ -41,6 +41,13 @@ export const bloodOfDawnwalker = resolveAppConfig({
     "Glossary",
     "Readables",
     "Vendors",
+    "Quests",
+    "Perks",
+    "Skill Trees",
+    "Active Abilities",
+    "Court",
+    "Infamy",
+    "Edicts",
   ],
   topFilters: ["shrine", "tower", "monster_lair", "bandit_camp"],
   // Database (codex): sections mirror data-forge `config/database.<type>.json`
@@ -99,6 +106,38 @@ export const bloodOfDawnwalker = resolveAppConfig({
         description:
           "Blacksmiths, armourers, medics, innkeepers, merchants and named traders, with what each one sells.",
       },
+      {
+        href: "/db/quests",
+        type: "quests",
+        titleFallback: "Quests",
+        icon: "📜",
+        description:
+          "Main and side quests, points of interest and activities with their objectives, endings, rewards and where they start.",
+      },
+      {
+        href: "/db/perks",
+        type: "perks",
+        titleFallback: "Perks",
+        icon: "🌳",
+        description:
+          "The Swordmastery, Witchcraft and Vampirism skill trees: every perk and ultimate with its levels, skill-point and time cost, effects and how it is unlocked.",
+      },
+      {
+        href: "/db/abilities",
+        type: "abilities",
+        titleFallback: "Active Abilities",
+        icon: "⚔️",
+        description:
+          "Sword techniques, witchcraft spells and vampiric powers with their activation charge cost and effects per level.",
+      },
+      {
+        href: "/db/court",
+        type: "court",
+        titleFallback: "Court",
+        icon: "👑",
+        description:
+          "Brencis' court: the three boyars, the activities that raise their anger and your infamy, the boss quests they unlock and the nine edicts.",
+      },
     ],
     typeLabels: {
       inventory: "Items",
@@ -107,6 +146,10 @@ export const bloodOfDawnwalker = resolveAppConfig({
       glossary: "Glossary",
       readables: "Readables",
       vendors: "Vendors",
+      quests: "Quests",
+      perks: "Perks",
+      abilities: "Active Abilities",
+      court: "Court",
     },
   },
 });
