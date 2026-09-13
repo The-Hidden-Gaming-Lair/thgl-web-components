@@ -828,6 +828,21 @@ export async function fetchDatabaseType(
     ),
     { next: { revalidate: 60 } },
   );
+  // Games shipping a single monolith database.json (no per-type split — Once
+  // Human, Crimson Desert, Dune: Awakening and 11 others) have no such file, so
+  // this 404s. A 404 body is not JSON, so `res.json()` threw and EVERY /db page
+  // for those games returned 500 in production. Mirror fetchDatabaseIndex and
+  // read the category out of the monolith instead.
+  //
+  // A type genuinely absent from the monolith yields an empty category, so the
+  // caller's `items.find(...)` misses and the page 404s — the correct answer for
+  // an entry that does not exist. We deliberately do NOT swallow a failing
+  // monolith fetch: if neither file is reachable the data is broken, and an error
+  // is more useful than silently serving an empty database.
+  if (!res.ok) {
+    const db = await fetchDatabase(appName);
+    return db.find((cat) => cat.type === type) ?? { type, items: [] };
+  }
   return res.json();
 }
 
