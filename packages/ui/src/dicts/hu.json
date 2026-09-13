@@ -393,5 +393,7 @@
   "settings.resetInterface.description": "Minden vizuális beállítást visszaállít alapértelmezettre",
   "settings.interfaceReset": "Felület visszaállítva az alapértelmezésekre",
   "markers.selectMap": "Térkép kiválasztása",
-  "markers.filterSettings": "Szűrőbeállítások"
+  "markers.filterSettings": "Szűrőbeállítások",
+  "settings.showInteriorNames": "Belső terek nevének megjelenítése a térképen",
+  "settings.showInteriorNames.description": "Az épületek és föld alatti területek szintgombja melletti név. Kapcsold ki a letisztultabb térképért - a gomb marad, a szinttérképek továbbra is megnyithatók."
 }

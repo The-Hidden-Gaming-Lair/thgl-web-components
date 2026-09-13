@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Redefine todas as configurações visuais para o padrão",
   "settings.interfaceReset": "Interface redefinida para o padrão",
   "markers.selectMap": "Selecionar mapa",
-  "markers.filterSettings": "Configurações do filtro"
+  "markers.filterSettings": "Configurações do filtro",
+  "settings.showInteriorNames": "Mostrar nomes de interiores no mapa",
+  "settings.showInteriorNames.description": "O nome ao lado do botão de camada de prédios e áreas subterrâneas. Desative para um mapa mais limpo: o botão continua ali, então você ainda abre as plantas dos andares."
 }

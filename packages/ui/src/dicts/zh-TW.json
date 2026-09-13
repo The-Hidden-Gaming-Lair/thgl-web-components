@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "將所有視覺設定還原為預設值",
   "settings.interfaceReset": "介面已還原為預設值",
   "markers.selectMap": "選擇地圖",
-  "markers.filterSettings": "篩選條件設定"
+  "markers.filterSettings": "篩選條件設定",
+  "settings.showInteriorNames": "在地圖上顯示室內名稱",
+  "settings.showInteriorNames.description": "建築與地下區域圖層按鈕旁的名稱。關閉後地圖更清爽，按鈕仍會保留，樓層圖照樣開啟。"
 }

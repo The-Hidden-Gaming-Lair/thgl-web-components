@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "すべての表示設定をデフォルトに戻します",
   "settings.interfaceReset": "インターフェースをデフォルトにリセットしました",
   "markers.selectMap": "マップを選択",
-  "markers.filterSettings": "フィルター設定"
+  "markers.filterSettings": "フィルター設定",
+  "settings.showInteriorNames": "屋内エリアの名前をマップに表示",
+  "settings.showInteriorNames.description": "建物や地下エリアのレイヤーボタンの横に表示される名前です。オフにするとマップがすっきりします。ボタンは残るのでフロアマップはこれまで通り開けます。"
 }

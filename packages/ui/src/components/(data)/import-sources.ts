@@ -21,9 +21,9 @@ export type ImportSource = {
   steps: string[];
   /**
    * Desktop-only console snippet the user pastes into the source site's
-   * DevTools console. It must copy the user's found-marker data to the
-   * clipboard in a shape data-forge's parser accepts (here: a JSON array of
-   * marker id strings).
+   * DevTools console. It must hand the user their found-marker data in a shape
+   * that source's parser in data-forge accepts (appsample: a JSON array of
+   * marker ids; wuthering.gg: its `marked-locations` object).
    */
   snippet: string;
 };
@@ -63,6 +63,32 @@ const APPSAMPLE_SNIPPET = `(async () => {
   } catch (err) { alert('Export failed: ' + err.message); }
 })();`;
 
+// wuthering.gg stores found markers in localStorage under `marked-locations`
+// (an object keyed by their marker type, each holding the coordinate keys of the
+// markers you hid). Signing in there syncs that same object, so reading
+// localStorage covers guests and accounts alike — no token needed. Downloads a
+// file for the same reasons as above, and logs the JSON as a manual fallback.
+const WUTHERINGGG_SNIPPET = `(() => {
+  try {
+    const payload = localStorage.getItem('marked-locations');
+    const marks = payload ? JSON.parse(payload) : {};
+    const count = Object.values(marks).reduce((n, v) => n + ((v && v.Locations) || []).length, 0);
+    if (!count) { alert('No found markers in this browser. Open the map, mark something as found, then run this again (and use the same browser you tracked in).'); return; }
+    console.log('%cTH.GL export (' + count + ' markers) — you can also copy the JSON below and paste it into TH.GL:', 'font-weight:bold');
+    console.log(payload);
+    try {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([payload], { type: 'application/json' }));
+      a.download = 'thgl-map-progress.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      alert('Found ' + count + ' markers and downloaded them as thgl-map-progress.json. Upload that file in the TH.GL import box (or copy the JSON from the Console and paste it).');
+    } catch (dlErr) {
+      alert('Found ' + count + ' markers. Download was blocked, so copy the long { ... } line printed in the Console and paste it into TH.GL.');
+    }
+  } catch (err) { alert('Export failed: ' + err.message); }
+})();`;
+
 export const IMPORT_SOURCES: ImportSource[] = [
   {
     id: "appsample",
@@ -76,6 +102,19 @@ export const IMPORT_SOURCES: ImportSource[] = [
       "It downloads a thgl-map-progress.json file — upload it below (or copy the array it prints in the Console and paste it).",
     ],
     snippet: APPSAMPLE_SNIPPET,
+  },
+  {
+    id: "wutheringgg",
+    name: "wuthering.gg (Interactive Map)",
+    games: ["wuthering-waves"],
+    siteUrl: "https://wuthering.gg/map",
+    steps: [
+      "Open wuthering.gg/map on a computer, in the browser you tracked your markers in. (If you have an account there, sign in first and any browser works.)",
+      "Press F12 to open DevTools, then click the Console tab.",
+      "Paste the snippet below and press Enter. (If the browser blocks the paste, type “allow pasting” first, then paste again.)",
+      "It downloads a thgl-map-progress.json file — upload it below (or copy the JSON it prints in the Console and paste it).",
+    ],
+    snippet: WUTHERINGGG_SNIPPET,
   },
 ];
 

@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Setzt alle visuellen Einstellungen auf die Standardwerte zurück",
   "settings.interfaceReset": "Oberfläche auf Standardwerte zurückgesetzt",
   "markers.selectMap": "Karte auswählen",
-  "markers.filterSettings": "Filtereinstellungen"
+  "markers.filterSettings": "Filtereinstellungen",
+  "settings.showInteriorNames": "Namen von Innenbereichen auf der Karte anzeigen",
+  "settings.showInteriorNames.description": "Der Name neben der Ebenen-Schaltfläche von Gebäuden und Untergrundbereichen. Schalte ihn für eine aufgeräumtere Karte aus - die Schaltfläche bleibt, du kommst weiterhin zu den Etagenkarten."
 }

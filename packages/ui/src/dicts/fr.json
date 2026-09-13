@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Réinitialise tous les réglages visuels aux valeurs par défaut",
   "settings.interfaceReset": "Interface réinitialisée aux valeurs par défaut",
   "markers.selectMap": "Sélectionner la carte",
-  "markers.filterSettings": "Paramètres du filtre"
+  "markers.filterSettings": "Paramètres du filtre",
+  "settings.showInteriorNames": "Afficher les noms des intérieurs sur la carte",
+  "settings.showInteriorNames.description": "Le nom à côté du bouton de niveau des bâtiments et des zones souterraines. Désactivez-le pour une carte plus lisible : le bouton reste, vous pouvez toujours ouvrir leurs plans d'étage."
 }

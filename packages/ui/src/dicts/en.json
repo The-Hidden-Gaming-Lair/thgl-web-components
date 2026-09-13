@@ -405,5 +405,7 @@
   "settings.resetInterface.description": "Resets all visual settings to defaults",
   "settings.interfaceReset": "Interface reset to defaults",
   "markers.selectMap": "Select map",
-  "markers.filterSettings": "Filter settings"
+  "markers.filterSettings": "Filter settings",
+  "settings.showInteriorNames": "Show interior names on the map",
+  "settings.showInteriorNames.description": "The name next to the layer button of buildings and underground areas. Turn it off for a cleaner map - the button stays, so you can still open their floor maps."
 }

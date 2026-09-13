@@ -393,5 +393,7 @@
   "settings.resetInterface.description": "Resetuje všechna vizuální nastavení na výchozí",
   "settings.interfaceReset": "Rozhraní resetováno na výchozí",
   "markers.selectMap": "Vybrat mapu",
-  "markers.filterSettings": "Nastavení filtru"
+  "markers.filterSettings": "Nastavení filtru",
+  "settings.showInteriorNames": "Zobrazovat názvy interiérů na mapě",
+  "settings.showInteriorNames.description": "Název vedle tlačítka vrstvy u budov a podzemních oblastí. Vypni ho pro přehlednější mapu - tlačítko zůstává, plány pater tak otevřeš dál."
 }

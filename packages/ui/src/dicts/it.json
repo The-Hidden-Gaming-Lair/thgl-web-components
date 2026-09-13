@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Ripristina tutte le impostazioni visive ai valori predefiniti",
   "settings.interfaceReset": "Interfaccia ripristinata ai valori predefiniti",
   "markers.selectMap": "Seleziona mappa",
-  "markers.filterSettings": "Impostazioni filtro"
+  "markers.filterSettings": "Impostazioni filtro",
+  "settings.showInteriorNames": "Mostra i nomi degli interni sulla mappa",
+  "settings.showInteriorNames.description": "Il nome accanto al pulsante del livello di edifici e aree sotterranee. Disattivalo per una mappa più pulita: il pulsante resta, quindi puoi ancora aprire le loro planimetrie."
 }

@@ -526,6 +526,26 @@ export function SettingsDialogContent({
                     onCheckedChange={settingsStore.toggleFitBoundsOnChange}
                   />
                 </div>
+                <div className="flex items-center justify-between">
+                  <div className="pr-2">
+                    <Label htmlFor="show-interior-label-names">
+                      {t("settings.showInteriorNames", {
+                        fallback: "Show interior names on the map",
+                      })}
+                    </Label>
+                    <p className="text-xs text-muted-foreground">
+                      {t("settings.showInteriorNames.description", {
+                        fallback:
+                          "The name next to the layer button of buildings and underground areas. Turn it off for a cleaner map - the button stays, so you can still open their floor maps.",
+                      })}
+                    </p>
+                  </div>
+                  <Switch
+                    id="show-interior-label-names"
+                    checked={profileSettings.showInteriorLabelNames ?? true}
+                    onCheckedChange={settingsStore.setShowInteriorLabelNames}
+                  />
+                </div>
               </Section>
 
               {/* Per-Map Settings (all surfaces; null for single-map games) */}

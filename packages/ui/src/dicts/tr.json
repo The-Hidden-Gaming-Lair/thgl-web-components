@@ -396,5 +396,7 @@
   "settings.resetInterface.description": "Tüm görsel ayarları varsayılanlara döndürür",
   "settings.interfaceReset": "Arayüz varsayılanlara sıfırlandı",
   "markers.selectMap": "Harita seç",
-  "markers.filterSettings": "Filtre ayarları"
+  "markers.filterSettings": "Filtre ayarları",
+  "settings.showInteriorNames": "İç mekân adlarını haritada göster",
+  "settings.showInteriorNames.description": "Binaların ve yeraltı alanlarının katman düğmesinin yanındaki ad. Daha sade bir harita için kapat - düğme kalır, kat planlarını yine açabilirsin."
 }

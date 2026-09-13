@@ -828,6 +828,52 @@ export async function fetchDatabaseType(
     ),
     { next: { revalidate: 60 } },
   );
+  // Games shipping a single monolith database.json (no per-type split — Once
+  // Human, Crimson Desert, Dune: Awakening and 11 others) have no such file, so
+  // this 404s. A 404 body is not JSON, so `res.json()` threw and EVERY /db page
+  // for those games returned 500 in production. Mirror fetchDatabaseIndex and
+  // read the category out of the monolith instead.
+  //
+  // A type genuinely absent from the monolith yields an empty category, so the
+  // caller's `items.find(...)` misses and the page 404s — the correct answer for
+  // an entry that does not exist. We deliberately do NOT swallow a failing
+  // monolith fetch: if neither file is reachable the data is broken, and an error
+  // is more useful than silently serving an empty database.
+  if (!res.ok) {
+    const db = await fetchDatabase(appName);
+    return db.find((cat) => cat.type === type) ?? { type, items: [] };
+  }
+  return res.json();
+}
+
+/**
+ * Fetch ONE database entry, for categories the index marks with `entries: true`.
+ *
+ * Why this exists: rendering a detail page used to `fetchDatabaseType` and then
+ * `items.find(i => i.id === id)` — pulling and JSON-parsing up to 1.3 MB to use a
+ * few hundred bytes. Measured in production that cost a cold render about +0.15s
+ * on the biggest types, which multiplied straight into origin capacity during the
+ * 2026-09-13 crawl. Per-entry files cut that to roughly 500 bytes.
+ *
+ * The body deliberately has NO `icon` (sprite coordinates move on every icon
+ * repack, so keeping them out avoids a one-icon change rewriting tens of
+ * thousands of files) — read the icon from `fetchDatabaseIndex` instead.
+ *
+ * Returns null when the entry is not found, so callers can fall back to the full
+ * type file rather than 404 a page that genuinely exists.
+ */
+export async function fetchDatabaseEntry(
+  appName: string,
+  type: string,
+  id: string,
+): Promise<DatabaseConfig[number]["items"][number] | null> {
+  const res = await fetch(
+    await resolveForgeUrl(
+      `${DATA_FORGE_CDN_URL}/${appName}/config/database.${type}/${encodeURIComponent(id)}.json`,
+    ),
+    { next: { revalidate: 60 } },
+  );
+  if (!res.ok) return null;
   return res.json();
 }
 
@@ -866,6 +912,15 @@ export type IconSprite = {
 export type Icon = string | IconSprite;
 export type DatabaseConfig<T = Record<string, any>> = {
   type: string;
+  /**
+   * Set by data-forge on categories that ALSO ship one file per entry at
+   * `config/database.<type>/<id>.json` (types big enough that pulling the whole
+   * type to render one detail page was expensive). When true, prefer
+   * `fetchDatabaseEntry`; when absent, the full type file is the only source.
+   * Always treat it as optional — older games keep shipping without it until
+   * their next regeneration.
+   */
+  entries?: boolean;
   items: {
     id: string;
     icon?: Icon;
