@@ -188,13 +188,36 @@ const nextConfig = (phase) => ({
       { source: "/:path*", headers: securityHeaders },
       { source: "/:path*", headers: pageCache },
       // Build-identity probe (NewVersionWatcher polling + the deploy workflow's
-      // drain detection). Must reflect the LIVE container on every request, so
-      // it must come AFTER the pageCache /:path* rule to override s-maxage.
+      // drain detection). Comes AFTER the pageCache /:path* rule to override its
+      // s-maxage=86400 with a short shared TTL.
+      //
+      // WHY NOT no-store (was, until 2026-09-13): this is polled by EVERY open
+      // tab (NewVersionWatcher, 5-min interval + on tab-focus), so at no-store it
+      // was the single largest uncacheable origin consumer on the site — 14.1k
+      // req/h at a 0% edge-hit ratio across just 33 distinct URLs (one per
+      // tenant), i.e. ~236 origin-req/min that grew LINEARLY with concurrent
+      // tabs. Measured origin capacity is ~1650 req/min before 5xx, so ~10x the
+      // current audience would have taken the origin down on this route alone.
+      //
+      // s-maxage=30 makes the origin cost O(tenants), not O(users): ~33 URLs x
+      // 2/min = ~66 origin-req/min at ANY audience size. Browser copy stays
+      // no-store (max-age=0) so a tab never reuses its own stale answer, and the
+      // worst case is learning about a new build <=30s late — invisible next to
+      // the 5-minute poll interval.
+      //
+      // Safe for the deploy drain probe: it requests
+      // /api/build-id?drain=<run-id>-<i> (unique per attempt) and the pull zone
+      // has IgnoreQueryStrings=false, so every probe is a distinct cache key and
+      // always reaches a live container. Do NOT set IgnoreQueryStrings=true on
+      // PZ 5829962 without revisiting this.
       {
         source: "/api/build-id",
         headers: [
-          { key: "Cache-Control", value: "no-store" },
-          { key: "CDN-Cache-Control", value: "no-store" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, s-maxage=30, stale-while-revalidate=30",
+          },
+          { key: "CDN-Cache-Control", value: "public, s-maxage=30" },
         ],
       },
       // Patreon perks/auth family — per-user AND credentialed: these routes read
