@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
   fetchDatabaseIndex,
+  fetchDatabaseEntry,
   fetchDatabaseType,
   fetchVersion,
   fetchTiles,
@@ -51,6 +52,29 @@ function getTiles(appName: string): Promise<TilesConfig> {
     tilesCache.set(appName, p);
   }
   return p;
+}
+
+/**
+ * Load one entry, preferring its per-entry file.
+ *
+ * Categories flagged `entries` in the index ship `config/database.<type>/<id>.json`,
+ * so we can skip downloading and parsing the whole type (up to 1.3 MB) just to pick
+ * one item out of it. Anything else — an unflagged category, an older game not yet
+ * regenerated, or a per-entry file that 404s — falls back to the full type file, so
+ * this never turns a working page into a 404.
+ */
+async function loadEntry(
+  appName: string,
+  cat: { type: string; entries?: boolean } | undefined,
+  type: string,
+  id: string,
+) {
+  if (cat?.entries) {
+    const entry = await fetchDatabaseEntry(appName, type, id);
+    if (entry) return entry;
+  }
+  const full = await fetchDatabaseType(appName, type);
+  return full.items.find((i) => i.id === id);
 }
 
 async function resolveSection(section: string, locale: string, id: string) {
@@ -143,10 +167,13 @@ export async function generateMetadata({
           secTypes.includes(cat.type) && cat.items.some((i) => i.id === id),
       )?.type ?? index.find((cat) => cat.items.some((i) => i.id === id))?.type;
     if (matchingType) {
-      const full = await fetchDatabaseType(appConfig.name, matchingType);
-      props = full.items.find((i) => i.id === id)?.props as
-        | Record<string, any>
-        | undefined;
+      const entry = await loadEntry(
+        appConfig.name,
+        index.find((cat) => cat.type === matchingType),
+        matchingType,
+        id,
+      );
+      props = entry?.props as Record<string, any> | undefined;
     }
   } catch {
     /* fall back to the simple description */
@@ -217,8 +244,12 @@ export default async function Page({ params }: { params: Params }) {
     notFound();
   }
 
-  const fullType = await fetchDatabaseType(appConfig.name, matchingType);
-  const item = fullType.items.find((i) => i.id === id);
+  const item = await loadEntry(
+    appConfig.name,
+    index.find((cat) => cat.type === matchingType),
+    matchingType,
+    id,
+  );
   if (!item) notFound();
 
   // Fetch map tiles when this entry embeds a map — either specific locations to
@@ -242,10 +273,12 @@ export default async function Page({ params }: { params: Params }) {
     section;
   const groupId = (item as { groupId?: string }).groupId;
   const groupLabel = groupId ? resolveDict(dict, groupId) : undefined;
+  // Per-entry files omit `icon` (see fetchDatabaseEntry), so fall back to the
+  // id -> icon map already built from the index above.
   const icon =
     item.icon && typeof item.icon === "object"
       ? (item.icon as IconSprite)
-      : undefined;
+      : icons[id];
 
   const hasDesc = desc && desc !== `${id}_desc` && desc !== id;
   return (

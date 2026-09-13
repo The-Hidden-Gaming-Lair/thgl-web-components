@@ -831,6 +831,37 @@ export async function fetchDatabaseType(
   return res.json();
 }
 
+/**
+ * Fetch ONE database entry, for categories the index marks with `entries: true`.
+ *
+ * Why this exists: rendering a detail page used to `fetchDatabaseType` and then
+ * `items.find(i => i.id === id)` — pulling and JSON-parsing up to 1.3 MB to use a
+ * few hundred bytes. Measured in production that cost a cold render about +0.15s
+ * on the biggest types, which multiplied straight into origin capacity during the
+ * 2026-09-13 crawl. Per-entry files cut that to roughly 500 bytes.
+ *
+ * The body deliberately has NO `icon` (sprite coordinates move on every icon
+ * repack, so keeping them out avoids a one-icon change rewriting tens of
+ * thousands of files) — read the icon from `fetchDatabaseIndex` instead.
+ *
+ * Returns null when the entry is not found, so callers can fall back to the full
+ * type file rather than 404 a page that genuinely exists.
+ */
+export async function fetchDatabaseEntry(
+  appName: string,
+  type: string,
+  id: string,
+): Promise<DatabaseConfig[number]["items"][number] | null> {
+  const res = await fetch(
+    await resolveForgeUrl(
+      `${DATA_FORGE_CDN_URL}/${appName}/config/database.${type}/${encodeURIComponent(id)}.json`,
+    ),
+    { next: { revalidate: 60 } },
+  );
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export async function fetchTiles(appName: string): Promise<TilesConfig> {
   const res = await fetch(
     await resolveForgeUrl(`${DATA_FORGE_CDN_URL}/${appName}/config/tiles.json`),
@@ -866,6 +897,15 @@ export type IconSprite = {
 export type Icon = string | IconSprite;
 export type DatabaseConfig<T = Record<string, any>> = {
   type: string;
+  /**
+   * Set by data-forge on categories that ALSO ship one file per entry at
+   * `config/database.<type>/<id>.json` (types big enough that pulling the whole
+   * type to render one detail page was expensive). When true, prefer
+   * `fetchDatabaseEntry`; when absent, the full type file is the only source.
+   * Always treat it as optional — older games keep shipping without it until
+   * their next regeneration.
+   */
+  entries?: boolean;
   items: {
     id: string;
     icon?: Icon;
