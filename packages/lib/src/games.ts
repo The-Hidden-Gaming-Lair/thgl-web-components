@@ -1351,9 +1351,9 @@ export const games: Array<Game> = [
     title: "Enshrouded",
     logo: `${TH_GL_URL}/global_icons/enshrouded.webp`,
     companion: {
-      // Preview release: listed + routable everywhere, but the map/db/companion content is gated
-      // to Elite supporters (previewReleaseAccess) via PREVIEW_RELEASE_APPS while support is
-      // finalized. (Was inDevelopment — fully hidden — until live chest/item tracking landed.)
+      // Fully public (2026-09-13): website + in-game companion open to everyone. Was
+      // inDevelopment (hidden), then companion-only preview (Elite-gated app) until live
+      // chest/item tracking landed; now ungated.
       baseURL: "/apps/enshrouded",
       controllerURL: "/apps/enshrouded/controller",
       desktopURL: "/apps/enshrouded",

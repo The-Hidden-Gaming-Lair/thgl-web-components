@@ -25,7 +25,9 @@ export const PREVIEW_RELEASE_APPS = new Set<string>([
 ]);
 
 /** Games whose IN-GAME COMPANION is Elite-only, but whose WEBSITE is public. */
-export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>(["enshrouded"]);
+export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>([]);
+// enshrouded fully opened 2026-09-13 — live chest/item tracking landed; app no
+// longer Elite-gated.
 
 /**
  * True if the WEB pages (map/db) are Elite-gated. Companion-only preview games are NOT gated here —
