@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { localizePath } from "@repo/lib";
@@ -19,12 +19,51 @@ type SidebarGroup = {
   items: { id: string; name: string; icon?: IconSprite }[];
 };
 
+/**
+ * Sidebar lists already loaded in this tab, keyed by request URL.
+ *
+ * The list is identical for every entry in a section, so without this, moving
+ * between two entries would refetch it. Module scope (not state) so it survives
+ * the component unmounting on navigation. `inflight` dedupes concurrent loads.
+ */
+const groupsCache = new Map<string, SidebarGroup[]>();
+const inflight = new Map<string, Promise<SidebarGroup[]>>();
+
+function loadGroups(src: string): Promise<SidebarGroup[]> {
+  const cached = groupsCache.get(src);
+  if (cached) return Promise.resolve(cached);
+  const pending = inflight.get(src);
+  if (pending) return pending;
+  const p = fetch(src)
+    .then((r) => (r.ok ? r.json() : { groups: [] }))
+    .then((d: { groups?: SidebarGroup[] }) => {
+      const groups = d.groups ?? [];
+      groupsCache.set(src, groups);
+      return groups;
+    })
+    .catch(() => [] as SidebarGroup[])
+    .finally(() => {
+      inflight.delete(src);
+    });
+  inflight.set(src, p);
+  return p;
+}
+
 export function DetailSidebarClient({
-  groups,
+  groups: serverGroups,
+  src,
   section,
   locale = "en",
 }: {
-  groups: SidebarGroup[];
+  /** Server-built list. Bespoke section layouts still pass this directly. */
+  groups?: SidebarGroup[];
+  /**
+   * Load the list from this URL in the browser instead of receiving it as
+   * server props. Used by the generic `/db/<section>` layout, where the list can
+   * run to thousands of entries — inlining it made every detail page under the
+   * section megabytes of HTML. Ignored when `groups` is passed.
+   */
+  src?: string;
   /**
    * URL stem to prefix item links with. Accepts either:
    *   - a bare segment ("units"), expanded to "/db/units/<id>"
@@ -45,15 +84,36 @@ export function DetailSidebarClient({
   const activeId = pathname.split("/").pop() ?? "";
   const [filter, setFilter] = useState("");
 
+  // When loading client-side, start from anything this tab already fetched so a
+  // same-section navigation paints the list immediately with no flash.
+  const [loaded, setLoaded] = useState<SidebarGroup[] | null>(() =>
+    serverGroups ? null : src ? (groupsCache.get(src) ?? null) : [],
+  );
+  useEffect(() => {
+    if (serverGroups || !src || groupsCache.has(src)) return;
+    let cancelled = false;
+    void loadGroups(src).then((g) => {
+      if (!cancelled) setLoaded(g);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [serverGroups, src]);
+
+  const groups = serverGroups ?? loaded;
+  const isLoading = groups === null;
+
   const query = filter.toLowerCase().trim();
-  const filteredGroups = query
-    ? groups
-        .map((g) => ({
-          ...g,
-          items: g.items.filter((i) => i.name.toLowerCase().includes(query)),
-        }))
-        .filter((g) => g.items.length > 0)
-    : groups;
+  const filteredGroups = !groups
+    ? []
+    : query
+      ? groups
+          .map((g) => ({
+            ...g,
+            items: g.items.filter((i) => i.name.toLowerCase().includes(query)),
+          }))
+          .filter((g) => g.items.length > 0)
+      : groups;
 
   return (
     <nav className="flex flex-col h-full">
@@ -124,7 +184,21 @@ export function DetailSidebarClient({
             })}
           </div>
         ))}
-        {query && filteredGroups.length === 0 && (
+        {isLoading && (
+          <div
+            className="space-y-1 px-1.5 py-1"
+            aria-busy="true"
+            aria-label="Loading list"
+          >
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-6 rounded bg-zinc-800/40 animate-pulse"
+              />
+            ))}
+          </div>
+        )}
+        {!isLoading && query && filteredGroups.length === 0 && (
           <div className="text-xs text-muted-foreground text-center py-4">
             No matches
           </div>

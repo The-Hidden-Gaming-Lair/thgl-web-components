@@ -274,12 +274,12 @@ export const games: Array<Game> = [
     title: "Where Winds Meet",
     logo: `${TH_GL_URL}/global_icons/where-winds-meet.webp`,
     companion: {
-      // Not advertised anywhere (supported-games lists, counts, badges, OG
-      // image): the detector is still a stub with no recovered offsets, so live
-      // mode would report a player at the world origin. Routing and process
-      // detection stay live, and NODE_ENV !== "production" treats it as released
-      // so it can be tested end-to-end in the THGLApp.
-      inDevelopment: true,
+      // Preview release: listed + routable everywhere, with the map/db/companion
+      // content gated to Elite supporters (previewReleaseAccess) via
+      // PREVIEW_RELEASE_APPS. (Was inDevelopment — fully hidden — until the
+      // detector got real offsets: player position and heading now come from a
+      // code-anchored signature and were verified in-game, so live mode no longer
+      // reports a player at the world origin.)
       baseURL: "/apps/where-winds-meet",
       controllerURL: "/apps/where-winds-meet/controller",
       desktopURL: "/apps/where-winds-meet",
@@ -1399,9 +1399,9 @@ export const games: Array<Game> = [
     title: "Enshrouded",
     logo: `${TH_GL_URL}/global_icons/enshrouded.webp`,
     companion: {
-      // Preview release: listed + routable everywhere, but the map/db/companion content is gated
-      // to Elite supporters (previewReleaseAccess) via PREVIEW_RELEASE_APPS while support is
-      // finalized. (Was inDevelopment — fully hidden — until live chest/item tracking landed.)
+      // Fully public (2026-09-13): website + in-game companion open to everyone. Was
+      // inDevelopment (hidden), then companion-only preview (Elite-gated app) until live
+      // chest/item tracking landed; now ungated.
       baseURL: "/apps/enshrouded",
       controllerURL: "/apps/enshrouded/controller",
       desktopURL: "/apps/enshrouded",

@@ -16,10 +16,22 @@
  * advertised, opened only for accounts whose server-resolved `invites` include the game
  * (`isCompanionAccessible`, admin UI at www.th.gl/admin/invites, gate = InviteOnlyGate).
  */
-export const PREVIEW_RELEASE_APPS = new Set<string>([]);
+export const PREVIEW_RELEASE_APPS = new Set<string>([
+  // 2026-09-13: static map release, gated to Elite Supporters for the pre-release.
+  // The companion is still `inDevelopment` (no public THGLApp build ships the
+  // Dawnwalker detector yet) and the site is English-only for now.
+  "blood-of-dawnwalker",
+  "sinking-city-2",
+  // 2026-09-13: opened from `inDevelopment` (whole site was a Coming Soon
+  // placeholder). Gated rather than fully released because Hexi still has no
+  // terrain art and most marker icons are placeholder glyphs.
+  "where-winds-meet",
+]);
 
 /** Games whose IN-GAME COMPANION is Elite-only, but whose WEBSITE is public. */
-export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>(["enshrouded"]);
+export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>([]);
+// enshrouded fully opened 2026-09-13 — live chest/item tracking landed; app no
+// longer Elite-gated.
 
 /**
  * True if the WEB pages (map/db) are Elite-gated. Companion-only preview games are NOT gated here —

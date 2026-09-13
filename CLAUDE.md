@@ -2,6 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Cross-repo agent rules (canonical in data-forge)
+
+Two THGL-wide workflows are version-controlled in the data-forge repo, not duplicated here.
+Read the file when the situation applies — they hold the rules, this is only the pointer:
+
+- **A bare Discord channel/thread id in a message, "read the channel", a reporter by handle** →
+  `D:\dev\data-forge\.claude\skills\discord-bug-feed\SKILL.md`. The channel is the bug feed:
+  number every report, triage against git history, reproduce before diagnosing. **You can post as
+  the bot from this repo** — `bun D:\dev\data-forge\scripts\discord-post.mjs <threadId> <file>
+--mention <userId> --dry-run` (run it from `D:\dev\data-forge`); the `discord` /
+  `discord-cdp` MCPs are read-only, which is not the same as "cannot reply".
+- **Anything about to leave the working tree** — commit, push, `sync:bunny`, a deploy, a release,
+  release notes, a Discord post → `D:\dev\data-forge\.claude\skills\ship-and-announce\SKILL.md`.
+  It owns the order per repo, who may ship without asking, and what counts as served.
+
+**The trap in this repo:** a push redeploys the **website only**. The Overwolf apps ship only
+after `bun run bump fix` (+ a `Bump version` commit + push) triggers the `<game>-preview.yml`
+workflows — watch both with `gh run list` before calling anything deployed. A data-forge data
+change the site depends on (new locale, new dicts) must be pushed AND CDN-synced first.
+
 ## Key Commands
 
 ### Development
