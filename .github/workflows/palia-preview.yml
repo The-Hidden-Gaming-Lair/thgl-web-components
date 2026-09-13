@@ -2,6 +2,7 @@ name: Palia Preview
 
 on:
   push:
+    branches: [main]
     paths:
       - "apps/palia-overwolf/manifest.json"
   workflow_dispatch:

@@ -2,6 +2,7 @@ name: Once Human Preview
 
 on:
   push:
+    branches: [main]
     paths:
       - "apps/once-human-overwolf/manifest.json"
   workflow_dispatch:

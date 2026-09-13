@@ -2,6 +2,7 @@ name: Palworld Preview
 
 on:
   push:
+    branches: [main]
     paths:
       - "apps/palworld-overwolf/manifest.json"
   workflow_dispatch:
