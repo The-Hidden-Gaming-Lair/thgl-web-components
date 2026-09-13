@@ -2,10 +2,9 @@ import { resolveAppConfig } from "@repo/lib";
 
 export const sinkingCity2 = resolveAppConfig({
   name: "sinking-city-2",
-  // Pre-release (Frogwares not yet contacted) — show an "In Development" placeholder
-  // on sinkingcity2.th.gl in production. The real map/codex still renders on the local
-  // dev server for continued work. (Mirrors Enshrouded.)
-  inDevelopment: true,
+  // Preview release: the map/codex is Elite-Supporter-gated (added to
+  // PREVIEW_RELEASE_APPS in packages/lib/src/preview-release.ts); the marketing/home
+  // page stays public. No longer a full "In Development" placeholder.
   // Locales the game ships (Game.locres) that the THGL UI also supports.
   supportedLocales: [
     "en",
