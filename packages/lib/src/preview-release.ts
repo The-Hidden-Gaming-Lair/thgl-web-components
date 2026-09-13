@@ -16,7 +16,13 @@
  * advertised, opened only for accounts whose server-resolved `invites` include the game
  * (`isCompanionAccessible`, admin UI at www.th.gl/admin/invites, gate = InviteOnlyGate).
  */
-export const PREVIEW_RELEASE_APPS = new Set<string>([]);
+export const PREVIEW_RELEASE_APPS = new Set<string>([
+  "sinking-city-2",
+  // 2026-09-13: opened from `inDevelopment` (whole site was a Coming Soon
+  // placeholder). Gated rather than fully released because Hexi still has no
+  // terrain art and most marker icons are placeholder glyphs.
+  "where-winds-meet",
+]);
 
 /** Games whose IN-GAME COMPANION is Elite-only, but whose WEBSITE is public. */
 export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>(["enshrouded"]);

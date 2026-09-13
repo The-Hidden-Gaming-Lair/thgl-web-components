@@ -226,12 +226,12 @@ export const games: Array<Game> = [
     title: "Where Winds Meet",
     logo: `${TH_GL_URL}/global_icons/where-winds-meet.webp`,
     companion: {
-      // Not advertised anywhere (supported-games lists, counts, badges, OG
-      // image): the detector is still a stub with no recovered offsets, so live
-      // mode would report a player at the world origin. Routing and process
-      // detection stay live, and NODE_ENV !== "production" treats it as released
-      // so it can be tested end-to-end in the THGLApp.
-      inDevelopment: true,
+      // Preview release: listed + routable everywhere, with the map/db/companion
+      // content gated to Elite supporters (previewReleaseAccess) via
+      // PREVIEW_RELEASE_APPS. (Was inDevelopment — fully hidden — until the
+      // detector got real offsets: player position and heading now come from a
+      // code-anchored signature and were verified in-game, so live mode no longer
+      // reports a player at the world origin.)
       baseURL: "/apps/where-winds-meet",
       controllerURL: "/apps/where-winds-meet/controller",
       desktopURL: "/apps/where-winds-meet",
