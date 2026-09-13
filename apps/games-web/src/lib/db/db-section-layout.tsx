@@ -128,6 +128,7 @@ export async function DbSectionLayout({
   locale = "en",
   nameLabelPrefixByType,
   sidebar,
+  lazySidebar,
 }: {
   children: React.ReactNode;
   appConfig: AppConfig;
@@ -137,20 +138,41 @@ export async function DbSectionLayout({
   locale?: string;
   nameLabelPrefixByType?: Record<string, string>;
   sidebar?: React.ReactNode;
+  lazySidebar?: boolean;
 }) {
-  const resolvedSidebar = sidebar ?? (
-    <DetailSidebarClient
-      groups={await buildSidebarGroups({
-        appConfig,
-        types,
-        groupLabelPrefix,
-        locale,
-        nameLabelPrefixByType,
-      })}
-      section={section}
-      locale={locale}
-    />
-  );
+  // `lazySidebar` moves the item list out of the server payload and into a
+  // browser fetch of /api/db/sidebar. Only the GENERIC `/db/[section]` layout
+  // opts in: its sections are the ones that run to thousands of entries (a
+  // Palworld `/db/inventory/<id>` page carried all 2,342 item links, 1.87 MB of
+  // HTML, versus 424 KB for a 286-entry section). Bespoke per-game layouts pass
+  // their own `groups` or `sidebar` and are unaffected.
+  //
+  // The route resolves the section from the same tenant config this layout
+  // does, so it can only reproduce the DEFAULT sidebar — a caller passing
+  // `nameLabelPrefixByType` or a non-empty `groupLabelPrefix` would get a
+  // different list back, so those keep rendering server-side.
+  const canLazy = lazySidebar && !groupLabelPrefix && !nameLabelPrefixByType;
+  const resolvedSidebar =
+    sidebar ??
+    (canLazy ? (
+      <DetailSidebarClient
+        src={`/api/db/sidebar?section=${encodeURIComponent(section)}&locale=${encodeURIComponent(locale)}`}
+        section={section}
+        locale={locale}
+      />
+    ) : (
+      <DetailSidebarClient
+        groups={await buildSidebarGroups({
+          appConfig,
+          types,
+          groupLabelPrefix,
+          locale,
+          nameLabelPrefixByType,
+        })}
+        section={section}
+        locale={locale}
+      />
+    ));
 
   return (
     <HeaderOffset full>

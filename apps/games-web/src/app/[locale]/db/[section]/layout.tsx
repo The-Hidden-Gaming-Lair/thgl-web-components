@@ -30,6 +30,7 @@ export default async function Layout({ children, params }: LayoutProps) {
       types={types}
       groupLabelPrefix=""
       locale={locale}
+      lazySidebar
     >
       {children}
     </DbSectionLayout>
