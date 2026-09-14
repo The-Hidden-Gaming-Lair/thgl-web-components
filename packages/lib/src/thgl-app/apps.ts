@@ -75,11 +75,21 @@ export function updateActorTypeFilters(types: string[], processName?: string) {
   });
 }
 
-export function sendDebugSnapshot(userContext: string) {
+/**
+ * Posts a debug snapshot to the THGL team. `discordUsername` is the reporter's
+ * Discord handle: snapshots are only useful next to a support conversation, and
+ * without a way back to the reporter the post is unanswerable (the app-debug
+ * channel filled up with anonymous "chest" / "treasure map" contexts).
+ */
+export function sendDebugSnapshot(
+  userContext: string,
+  discordUsername: string,
+) {
   return postWebviewMessage({
     action: "sendDebugSnapshot",
     payload: {
       userContext,
+      discordUsername,
     },
   });
 }

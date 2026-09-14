@@ -8,7 +8,7 @@ import {
   useLiveState,
   CloseAction,
 } from "@repo/lib/thgl-app";
-import { Button, Checkbox, Label } from "../(controls)";
+import { Button, Checkbox, Input, Label } from "../(controls)";
 import {
   Bug,
   CircleUser,
@@ -41,6 +41,18 @@ import { Separator } from "../ui/separator";
 import { ScriptLoader } from "../(ads)/nitro-script";
 import ConsentLink from "../(ads)/consent-link";
 
+// Remembered across sessions so a reporter types their handle once. The account
+// store's `username` is the Patreon name, not Discord, so it can't prefill this.
+const DEBUG_DISCORD_USERNAME_KEY = "thgl-debug-discord-username";
+
+function readStoredDiscordUsername() {
+  try {
+    return localStorage.getItem(DEBUG_DISCORD_USERNAME_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
 export function AppHeader({
   title,
   children,
@@ -60,6 +72,9 @@ export function AppHeader({
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
   const [rememberChoice, setRememberChoice] = useState(false);
   const [debugContext, setDebugContext] = useState("");
+  const [debugDiscordUsername, setDebugDiscordUsername] = useState(
+    readStoredDiscordUsername,
+  );
   const [isSendingDebug, setIsSendingDebug] = useState(false);
   const [isDebugDialogOpen, setIsDebugDialogOpen] = useState(false);
   const [debugStatus, setDebugStatus] = useState<"idle" | "success" | "error">(
@@ -69,11 +84,27 @@ export function AppHeader({
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const updateStatus = useAppUpdateStore((state) => state.status);
 
+  // Both are required: a snapshot without a description or a way back to the
+  // reporter cannot be acted on, so the Send button stays disabled until filled.
+  const trimmedDiscordUsername = debugDiscordUsername.trim();
+  const trimmedDebugContext = debugContext.trim();
+  const canSendDebugSnapshot =
+    trimmedDiscordUsername.length > 0 && trimmedDebugContext.length > 0;
+
   const handleSendDebugSnapshot = async () => {
+    if (!canSendDebugSnapshot) return;
     setIsSendingDebug(true);
     setDebugStatus("idle");
     try {
-      await sendDebugSnapshot(debugContext || "No additional context provided");
+      await sendDebugSnapshot(trimmedDebugContext, trimmedDiscordUsername);
+      try {
+        localStorage.setItem(
+          DEBUG_DISCORD_USERNAME_KEY,
+          trimmedDiscordUsername,
+        );
+      } catch {
+        // storage unavailable: the handle is simply asked again next time
+      }
       setDebugContext("");
       setDebugStatus("success");
       // Auto-close dialog after 2 seconds on success
@@ -343,7 +374,8 @@ export function AppHeader({
           <DialogHeader>
             <DialogTitle>Send Debug Snapshot</DialogTitle>
             <DialogDescription>
-              For bug reports, please join our{" "}
+              A snapshot is only useful alongside a conversation. Found a bug?
+              Report it on our{" "}
               <a
                 href="https://th.gl/discord"
                 target="_blank"
@@ -352,21 +384,39 @@ export function AppHeader({
               >
                 Discord server
               </a>{" "}
-              and describe your issue there. Only send debug logs if asked by
-              support.
+              first. The THGL team will ask you for a snapshot when they need
+              one and follow up with you there.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <Textarea
-              placeholder="Description provided to support (e.g., 'Standing next to ore that is not detected')"
-              value={debugContext}
-              onChange={(e) => setDebugContext(e.target.value)}
-              rows={5}
-              disabled={isSendingDebug}
-            />
+            <div className="space-y-1.5">
+              <Label htmlFor="debug-discord-username">
+                Your Discord username
+              </Label>
+              <Input
+                id="debug-discord-username"
+                placeholder="The username you are talking to the THGL team with"
+                value={debugDiscordUsername}
+                onChange={(e) => setDebugDiscordUsername(e.target.value)}
+                maxLength={64}
+                autoComplete="off"
+                disabled={isSendingDebug}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="debug-context">What is wrong?</Label>
+              <Textarea
+                id="debug-context"
+                placeholder="What did you expect, and what happened instead? (e.g. 'Standing next to ore that is not detected')"
+                value={debugContext}
+                onChange={(e) => setDebugContext(e.target.value)}
+                rows={5}
+                disabled={isSendingDebug}
+              />
+            </div>
             {debugStatus === "success" && (
               <div className="text-sm text-green-600 dark:text-green-400 font-medium">
-                ✓ Debug snapshot sent successfully!
+                ✓ Sent. The THGL team will follow up with you on Discord.
               </div>
             )}
             {debugStatus === "error" && (
@@ -386,7 +436,10 @@ export function AppHeader({
             >
               Cancel
             </Button>
-            <Button onClick={handleSendDebugSnapshot} disabled={isSendingDebug}>
+            <Button
+              onClick={handleSendDebugSnapshot}
+              disabled={isSendingDebug || !canSendDebugSnapshot}
+            >
               {isSendingDebug ? "Sending..." : "Send"}
             </Button>
           </DialogFooter>

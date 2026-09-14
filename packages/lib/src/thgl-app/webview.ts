@@ -237,6 +237,7 @@ export type WEBVIEW_SEND_MESSAGE =
       action: "sendDebugSnapshot";
       payload: {
         userContext: string;
+        discordUsername: string;
       };
     }
   | {
