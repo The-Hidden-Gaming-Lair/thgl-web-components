@@ -12,8 +12,7 @@ import {
   translate,
   isCompanionPreviewApp,
   isInviteOnlyCompanion,
-  isDebug,
-  isLocalDev,
+  useAccountGate,
   useAccountStore,
   useOverlayMapHidden,
   useSettingsStore,
@@ -120,19 +119,32 @@ export function App({
 
   // Elite Supporter preview gate for preview-only games without Preview Release
   // Access: the full app shell + header stay (window mode, live mode, settings,
-  // window controls) — only the map CONTENT below is replaced by the upsell.
-  // Dev/debug bypass (same as PreviewReleaseGuard): the THGLApp Debug build loads the dev server
-  // (app-dev.localhost) so isLocalDev is a reliable RUNTIME signal even when the prebuilt dist
-  // inlined NODE_ENV=production; isDebug() (localStorage DEBUG) is the manual escape hatch.
+  // window controls) — only the map CONTENT below is covered by the upsell.
+  //
+  // ⚠️ Both locks resolve through `useAccountGate`, which stays "pending" during
+  // SSR *and* the first client render. Do NOT go back to reading `isLocalDev` /
+  // `isDebug()` / the persisted perk directly here: they only exist in the
+  // browser, so the server rendered them as false → LOCKED, baked the upsell
+  // card into the server HTML, and the THGLApp WebView painted it for ~300 ms
+  // before hydration unlocked it — a visible flash plus "Hydration failed
+  // because the server rendered HTML didn't match the client", which makes
+  // React re-render the whole map subtree. "pending" must render the UNLOCKED
+  // (neutral) state, never the lock.
+  //
+  // Deliberate trade-off: a locked user therefore sees the map for the frame
+  // between hydration and the account resolving, instead of the paywall being
+  // there instantly. That is acceptable HERE — unlike the web guard, this
+  // paywall is by design a translucent overlay ON TOP of a fully rendered app
+  // (see preview-release-gate.tsx), so the map is rendered underneath either
+  // way. Rendering the lock while "pending" is the only alternative, and it is
+  // exactly the bug above.
+  const invites = useAccountStore((state) => state.invites);
+  const previewGate = useAccountGate(hasPreviewAccess);
+  const inviteGate = useAccountGate(invites.includes(appConfig.name));
   const isPreviewLocked =
-    isCompanionPreviewApp(appConfig.name) &&
-    !hasPreviewAccess &&
-    !isLocalDev &&
-    !isDebug();
+    isCompanionPreviewApp(appConfig.name) && previewGate === "deny";
   // Invite-only companion (games.ts `companion.inviteOnly`, e.g. Pax Dei):
   // locked unless the server-resolved account invites include this game.
-  // Same dev/debug bypass as the preview gate.
-  const invites = useAccountStore((state) => state.invites);
   const inviteOnlyGame = useMemo(
     () => games.find((game) => game.id === appConfig.name),
     [appConfig.name],
@@ -140,9 +152,7 @@ export function App({
   const isInviteLocked =
     !!inviteOnlyGame &&
     isInviteOnlyCompanion(inviteOnlyGame) &&
-    !invites.includes(appConfig.name) &&
-    !isLocalDev &&
-    !isDebug();
+    inviteGate === "deny";
 
   return (
     <div

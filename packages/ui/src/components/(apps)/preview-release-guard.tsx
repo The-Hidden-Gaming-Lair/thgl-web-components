@@ -1,9 +1,8 @@
 "use client";
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import {
-  isDebug,
-  isLocalDev,
   isPreviewReleaseApp,
+  useAccountGate,
   useAccountStore,
 } from "@repo/lib";
 import { LockClosedIcon } from "@radix-ui/react-icons";
@@ -20,21 +19,13 @@ import { Button } from "../(controls)";
  */
 export type PreviewGate = "allow" | "deny" | "pending";
 export function usePreviewReleaseGate(): PreviewGate {
-  const hasHydrated = useAccountStore((s) => s._hasHydrated);
   const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
-  // SSR-safe: the server has no `window` (isLocalDev/isDebug read location), so
-  // it always renders "pending". Stay "pending" on the first client render too
-  // (mounted === false) so hydration matches, then resolve after mount. Without
-  // this, dev/Elite would flip to "allow" on the first client paint and mismatch
-  // the server HTML (e.g. a gated nav link appearing where another link was).
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return "pending";
-  // Same dev/debug bypass as PreviewReleaseGuard: local dev server + THGLApp
-  // Debug build (which serves the production frontend in its WebView2).
-  if (isLocalDev || isDebug()) return "allow";
-  if (!hasHydrated) return "pending";
-  return previewAccess ? "allow" : "deny";
+  // `useAccountGate` (@repo/lib) owns the SSR-safe resolution shared by every
+  // account gate: "pending" on the server AND on the first client render, then
+  // the dev/debug bypass, then the persisted account. Do not re-implement it
+  // here — the THGLApp companion paywall used to and that is what put the
+  // upsell into the server HTML (visible flash + hydration error).
+  return useAccountGate(previewAccess);
 }
 
 /**
@@ -86,10 +77,11 @@ export function PreviewReleasePage({ title }: { title: string }) {
  *
  * Client-side by design: Elite status (perks.previewReleaseAccess) is resolved
  * in the browser (userId cookie -> /api/patreon -> account store), so the server
- * can't know it. Before the persisted account hydrates (incl. SSR) we render
- * nothing — that also keeps the pre-release map out of the server HTML. After
- * hydration: Elite users see the content, everyone else sees the upsell page.
- * Non-preview games always render their content unchanged.
+ * can't know it. Before the gate resolves (incl. SSR) we render nothing — that
+ * also keeps the pre-release map out of the server HTML. After mount: Elite
+ * users see the content, everyone else sees the upsell page. Non-preview games
+ * always render their content unchanged (and pay no hook/render cost — the gate
+ * lives in the inner component, which only mounts for gated apps).
  */
 export function PreviewReleaseGuard({
   appName,
@@ -100,19 +92,34 @@ export function PreviewReleaseGuard({
   title: string;
   children: ReactNode;
 }) {
-  const hasHydrated = useAccountStore((s) => s._hasHydrated);
-  const previewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
-
+  // No hooks here on purpose: for the ~40 non-preview tenants this must be a
+  // pass-through with no extra state and no post-mount re-render.
   if (!isPreviewReleaseApp(appName)) return <>{children}</>;
-  // Dev/debug bypass: skip the Elite gate so we can work on a pre-release game without signing in.
-  //  • isLocalDev — RUNTIME host check (*-dev.localhost / *.localhost). Covers the games-web dev
-  //    server AND the THGLApp DEBUG build (it navigates to app-dev.localhost:3100; release loads
-  //    app.th.gl). Preferred over process.env.NODE_ENV, which the prebuilt package dist inlines as
-  //    "production" so it read false inside the WebView2 — the reason the gate still showed.
-  //  • isDebug() — manual localStorage DEBUG === "true" escape hatch.
-  // Production web (th.gl) is unaffected. Hooks above stay called unconditionally per build.
-  if (isLocalDev || isDebug()) return <>{children}</>;
-  if (!hasHydrated) return null;
-  if (!previewAccess) return <PreviewReleasePage title={title} />;
+  return <PreviewReleaseGate title={title}>{children}</PreviewReleaseGate>;
+}
+
+/**
+ * The actual gate for a preview app. Uses `usePreviewReleaseGate`, whose
+ * post-mount resolution is what keeps SSR and the first client render in sync.
+ *
+ * ⚠️ Do NOT inline the `isLocalDev || isDebug()` bypass here: both read
+ * `window`, so they are false during SSR and true on the dev server / THGLApp
+ * Debug build. Deciding on them during the FIRST client render makes that
+ * render disagree with the server HTML (server: nothing; client: the whole
+ * page), which is a hydration mismatch — React then throws away the server
+ * markup and re-renders the entire map subtree. `usePreviewReleaseGate` returns
+ * "pending" until `useEffect` has run, so the first client render reproduces
+ * the server output exactly and the bypass applies from the second render on.
+ */
+function PreviewReleaseGate({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  const gate = usePreviewReleaseGate();
+  if (gate === "pending") return null;
+  if (gate === "deny") return <PreviewReleasePage title={title} />;
   return <>{children}</>;
 }
