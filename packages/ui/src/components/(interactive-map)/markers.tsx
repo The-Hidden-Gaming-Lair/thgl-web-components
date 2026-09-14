@@ -726,12 +726,6 @@ function MarkersContent({
     const ctx = canvas.getContext("2d")!;
     ctx.scale(dpr, dpr);
 
-    // Apply subtle shadow like old Leaflet canvas-marker.ts
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.shadowColor = "black";
-    ctx.shadowBlur = 1;
-
     // Draw icon cropped from sprite sheet at full resolution.
     // This isolates the icon from the atlas, preventing WebGL bilinear
     // filtering from bleeding adjacent icon pixels across boundaries.
