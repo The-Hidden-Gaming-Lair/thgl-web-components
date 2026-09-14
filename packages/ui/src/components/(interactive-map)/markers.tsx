@@ -1621,8 +1621,9 @@ function MarkersContent({
           data: s.data,
           p: s.p,
           dbSection: typeToDbSection.get(s.type),
-          // Codex entry key: the raw spawn id (per-instance entries) or the type (per-type entries).
-          dbEntryId: s.id ?? s.type,
+          // Codex entry key: the spawn's explicit `dbEntryId` when it carries one, else the raw
+          // spawn id (per-instance entries) or the type (per-type entries).
+          dbEntryId: s.dbEntryId ?? s.id ?? s.type,
         },
       ];
 
@@ -1650,7 +1651,8 @@ function MarkersContent({
               data: stackedSpawn.data,
               p: stackedSpawn.p,
               dbSection: typeToDbSection.get(stackedSpawn.type),
-              dbEntryId: stackedSpawn.id ?? stackedSpawn.type,
+              dbEntryId:
+                stackedSpawn.dbEntryId ?? stackedSpawn.id ?? stackedSpawn.type,
             };
           }),
         );

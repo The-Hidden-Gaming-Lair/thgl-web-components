@@ -88,6 +88,14 @@ export type Spawn = {
   mapName?: string;
   color?: string;
   /**
+   * Codex/database entry this marker maps to, when it differs from the spawn id
+   * or the type id — e.g. games whose spawn ids are position-derived
+   * (`{type}@{x}:{y}`). Set at extraction time. Absent = current behaviour: the
+   * link falls back to `id ?? type`. Only used when the marker's filter value
+   * declares a `dbSection`.
+   */
+  dbEntryId?: string;
+  /**
    * Where this spawn currently came from at render time.
    * 'static' = predicted only (no live confirmation right now).
    * 'live'   = live-only (no matching static prediction).

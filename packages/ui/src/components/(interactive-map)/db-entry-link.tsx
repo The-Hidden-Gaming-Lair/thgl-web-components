@@ -7,8 +7,9 @@ import { useLocale, useT } from "../(providers)";
 
 // A soft-nav link from a map marker to its codex/database entry. Rendered by the marker panel and
 // hover tooltip whenever the marker's filter value carries a `dbSection` (see config.ts). The entry
-// is keyed by the spawn id (per-instance entries — landmarks) or the type id (per-type entries — a
-// bestiary species); the caller passes whichever it is as `entryId`. Generic across all games.
+// is named by the spawn's own `dbEntryId` when it carries one, else keyed by the spawn id
+// (per-instance entries — landmarks) or the type id (per-type entries — a bestiary species); the
+// caller passes whichever it is as `entryId`. Generic across all games.
 export function DbEntryLink({
   section,
   entryId,
