@@ -42,7 +42,7 @@ export async function generateMetadata({
   const { locale = DEFAULT_LOCALE } = await params;
   const appConfig = await getAppConfig();
   const title = `${TITLE} - ${appConfig.title}`;
-  const description = `Hour-by-hour weather forecast for ${appConfig.title} — plan around meteor showers, rainbows, storms and more.`;
+  const description = `Hour-by-hour weather forecast for ${appConfig.title} — plan around meteor showers, rainbows, auroras, snow and more.`;
   const { canonical, languageAlternates } = getMetadataAlternates(
     "/forecast",
     locale,
@@ -108,7 +108,9 @@ export default async function Page({ params }: PageProps) {
                 find: "Find next special weather",
                 today: "Today",
                 slots:
-                  "Each day shows its four 6-hour windows (night, morning, afternoon, evening). Dates follow the real calendar.",
+                  "Each day shows the game's four 6-hour windows. Dates follow the real calendar.",
+                variants:
+                  "Meteor showers and auroras come in three variants (1–3); the number marks which one the game shows in that hour.",
               }}
             />
           </div>

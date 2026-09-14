@@ -14,15 +14,20 @@ export type WeatherData = {
       special: boolean;
       /** Game weather class (1 clear, 2 rain, 3 rainbow, 4 snow) — what fish/bug gating refers to. */
       cls?: number;
+      /** 1–3 for meteor showers / auroras: the game draws a different icon per variant. */
+      variant?: number;
     }
   >;
   calendar: { m: number; d: number; h: number[] }[];
+  /** The game's four day phases (Dawn 0, Morning 6, Afternoon 12, Evening 18), localized. */
+  phases?: { b: number; names: Record<string, string> }[];
 };
 
 // Weather category → emoji + accent. Emoji keeps it locale-independent and needs no icon pipeline.
 const CAT: Record<string, { emoji: string; ring: string }> = {
   clear: { emoji: "☀️", ring: "" },
   cloud: { emoji: "☁️", ring: "" },
+  heat: { emoji: "🔥", ring: "" },
   petal: { emoji: "🌸", ring: "" },
   meteor: { emoji: "☄️", ring: "ring-1 ring-amber-500/60" },
   aurora: { emoji: "🌌", ring: "ring-1 ring-amber-500/60" },
@@ -34,13 +39,16 @@ const CAT: Record<string, { emoji: string; ring: string }> = {
   other: { emoji: "🌫️", ring: "" },
 };
 
-// Special weathers players hunt (rare fish/bugs/ores gate on them) — surfaced as "find next" jumps.
+// Weathers players hunt (rare fish/bugs/ores gate on them, seasonal events need snow/heat/petals)
+// — surfaced as "find next" jumps. A category without a type in the data renders no button.
 const SPECIAL_CATS = [
   "meteor",
   "rainbow",
   "aurora",
-  "storm",
   "sunshower",
+  "snow",
+  "heat",
+  "petal",
 ] as const;
 
 // Which weather represents a 6-hour slot in the month grid: the rarest / most useful thing in the
@@ -54,6 +62,7 @@ const CAT_RANK: Record<string, number> = {
   sunshower: 6,
   storm: 5,
   petal: 4,
+  heat: 4,
   rain: 3,
   snow: 3,
   other: 2,
@@ -63,6 +72,9 @@ const CAT_RANK: Record<string, number> = {
 
 /** The four 6-hour windows the in-game forecast panel is built around. */
 const SLOT_STARTS = [0, 6, 12, 18] as const;
+
+/** English fallback for the game's day phases when the data ships without them. */
+const PHASE_FALLBACK = ["Dawn", "Morning", "Afternoon", "Evening"];
 
 /** In-game night = 18:00–05:59 (the weather panel shows moon icons for its 6pm and 12am slots). */
 const isNightHour = (hour: number) => hour >= 18 || hour < 6;
@@ -113,6 +125,7 @@ export function WeatherForecast({
     find: string;
     today: string;
     slots: string;
+    variants: string;
   };
 }) {
   const today = useSyncExternalStore(subscribeNoop, todayKey, () => 0);
@@ -154,6 +167,12 @@ export function WeatherForecast({
     if (cat === "clear" && hour !== undefined && isNightHour(hour))
       return { ...m, emoji: "🌙" };
     return m;
+  };
+
+  // Localized name of the 6-hour window starting at `start` (the game's own day phases).
+  const phaseName = (k: number) => {
+    const p = data.phases?.find((x) => x.b === SLOT_STARTS[k]);
+    return p?.names[locale] ?? p?.names.en ?? PHASE_FALLBACK[k];
   };
 
   // One representative weather per 6-hour slot (see CAT_RANK): highest rank in the window, ties
@@ -201,6 +220,14 @@ export function WeatherForecast({
     [locale],
   );
 
+  const monthNames = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) =>
+        formatDate(locale, new Date(year, i, 1), { month: "short" }),
+      ),
+    [locale, year],
+  );
+
   const monthTitle = formatDate(locale, new Date(year, month - 1, 1), {
     month: "long",
     year: "numeric",
@@ -223,6 +250,9 @@ export function WeatherForecast({
     }
     return [...set];
   }, [cur, data.types]);
+
+  // Whether the selected day has a weather with variants (shows the legend line).
+  const hasVariants = cur.h.some((w) => data.types[String(w)]?.variant);
 
   // Jump to the next day (wrapping) whose hours contain the given category.
   const findNext = (cat: string) => {
@@ -299,6 +329,28 @@ export function WeatherForecast({
             →
           </button>
         </div>
+        {/* Month jump row */}
+        <div className="mb-3 grid grid-cols-6 gap-1 sm:grid-cols-12">
+          {monthNames.map((label, i) => {
+            const m = i + 1;
+            const active = m === month;
+            return (
+              <button
+                key={m}
+                type="button"
+                onClick={() => setViewMonth(m)}
+                aria-pressed={active}
+                className={`rounded-md border px-1 py-1 text-xs capitalize transition-colors ${
+                  active
+                    ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
+                    : "border-border bg-background hover:bg-accent"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
         <div className="grid grid-cols-7 gap-1">
           {weekdays.map((w) => (
             <div
@@ -323,7 +375,7 @@ export function WeatherForecast({
                 onClick={() => select(c.i)}
                 aria-pressed={isSel}
                 title={slots
-                  .map((s, k) => `${SLOT_STARTS[k]}:00 ${name(s.wid, s.hour)}`)
+                  .map((s, k) => `${phaseName(k)}: ${name(s.wid, s.hour)}`)
                   .join(" · ")}
                 className={`flex min-h-[3.5rem] flex-col rounded-md border p-1 text-left transition-colors sm:min-h-[4rem] ${
                   isSel
@@ -351,10 +403,19 @@ export function WeatherForecast({
             );
           })}
         </div>
-        <p className="mt-3 text-xs text-muted-foreground">{labels.slots}</p>
+        <p className="mt-3 text-xs text-muted-foreground">
+          {labels.slots}{" "}
+          {SLOT_STARTS.map((start, k) => (
+            <span key={start} className="whitespace-nowrap">
+              {k > 0 && " · "}
+              {phaseName(k)} {String(start).padStart(2, "0")}–
+              {String(start + 6).padStart(2, "0")}
+            </span>
+          ))}
+        </p>
       </div>
 
-      {/* Selected day: 24-hour timeline */}
+      {/* Selected day: 24-hour timeline, one column per 6-hour window (read downwards) */}
       <div className="rounded-lg border border-border bg-card p-4">
         <div className="flex items-center justify-between gap-3 mb-3">
           <button
@@ -388,25 +449,57 @@ export function WeatherForecast({
         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
           {labels.hourly}
         </p>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {cur.h.map((wid, hour) => {
-            const m = meta(wid, hour);
-            return (
-              <div
-                key={hour}
-                className={`flex items-center gap-2 rounded-md bg-background px-2.5 py-2 ${m.ring}`}
-              >
-                <span className="text-xl leading-none">{m.emoji}</span>
-                <div className="min-w-0">
-                  <div className="text-xs text-muted-foreground tabular-nums">
-                    {String(hour).padStart(2, "0")}:00
-                  </div>
-                  <div className="truncate text-sm">{name(wid, hour)}</div>
-                </div>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {SLOT_STARTS.map((start, k) => (
+            <div key={start} className="space-y-1.5">
+              <div className="flex items-baseline justify-between px-1 text-xs">
+                <span className="font-semibold uppercase tracking-wide text-muted-foreground">
+                  {phaseName(k)}
+                </span>
+                <span className="tabular-nums text-muted-foreground/70">
+                  {String(start).padStart(2, "0")}–
+                  {String(start + 6).padStart(2, "0")}
+                </span>
               </div>
-            );
-          })}
+              {cur.h.slice(start, start + 6).map((wid, j) => {
+                const hour = start + j;
+                const m = meta(wid, hour);
+                const variant = data.types[String(wid)]?.variant;
+                return (
+                  <div
+                    key={hour}
+                    className={`flex items-center gap-2 rounded-md bg-background px-2.5 py-2 ${m.ring}`}
+                  >
+                    <span className="text-xl leading-none">{m.emoji}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs text-muted-foreground tabular-nums">
+                        {String(hour).padStart(2, "0")}:00
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="truncate text-sm">
+                          {name(wid, hour)}
+                        </span>
+                        {variant !== undefined && (
+                          <span
+                            className="shrink-0 rounded bg-amber-500/20 px-1 text-[10px] font-semibold tabular-nums text-amber-400"
+                            title={`${labels.variants} ${variant}`}
+                          >
+                            {variant}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
         </div>
+        {hasVariants && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            {labels.variants}
+          </p>
+        )}
       </div>
     </div>
   );
