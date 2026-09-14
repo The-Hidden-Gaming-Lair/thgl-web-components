@@ -329,8 +329,12 @@ export function WeatherForecast({
             →
           </button>
         </div>
-        {/* Month jump row */}
-        <div className="mb-3 grid grid-cols-6 gap-1 sm:grid-cols-12">
+        {/* Month jump row. The responsive column counts here and on the hourly grid are
+            `!important`: the page loads the app's Tailwind build first and the prebuilt
+            @repo/ui stylesheet second, and the second re-emits the base `grid-cols-*`
+            utilities without the app's responsive variants, so a plain `lg:grid-cols-4`
+            loses the cascade and the grid stays at its mobile column count. */}
+        <div className="mb-3 grid grid-cols-6 gap-1 sm:grid-cols-12!">
           {monthNames.map((label, i) => {
             const m = i + 1;
             const active = m === month;
@@ -449,7 +453,7 @@ export function WeatherForecast({
         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
           {labels.hourly}
         </p>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4!">
           {SLOT_STARTS.map((start, k) => (
             <div key={start} className="space-y-1.5">
               <div className="flex items-baseline justify-between px-1 text-xs">
