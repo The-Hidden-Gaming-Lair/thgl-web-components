@@ -392,6 +392,7 @@ export function SimpleWebMarkers({
               label: s.label,
               description: s.description,
               type: s.type || "",
+              typeLabel: s.typeLabel,
               data: s.data,
             },
           ],

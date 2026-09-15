@@ -172,16 +172,34 @@ export function createGuidePage(appConfig: AppConfig) {
       maps.push(defaultMapName);
     }
 
-    const simpleSpawns = spawns.map<SimpleSpawn>((s) => ({
-      id: getNodeId(s),
-      p: s.p,
-      mapName: s.mapName || defaultMapName,
-      type: s.type,
-      name: dict[s.id ?? s.type] || s.id || s.type,
-      icon: s.icon || getIconFromFilters(version.data.filters, s.type) || icon,
-      description: s.description,
-      data: s.data,
-    }));
+    // Resolved term for a dict key that exists (t() follows `@` pointers), else
+    // undefined — t() alone would echo the key back for a missing term.
+    const term = (key: string | undefined) =>
+      key !== undefined && dict[key] ? t(key) : undefined;
+    const simpleSpawns = spawns.map<SimpleSpawn>((s) => {
+      // A spawn id is a stable key (discovered-node state, comments) and only
+      // SOMETIMES a dict key: a named NPC/chest has its own term, a position-
+      // derived `{type}@{x}:{y}` id never does. Fall through to the type name so
+      // unnamed spawns group into one list row and the tooltip shows the type
+      // name instead of the raw id.
+      const typeLabel = term(s.type) ?? s.type;
+      const name = term(s.id) ?? typeLabel;
+      return {
+        id: getNodeId(s),
+        p: s.p,
+        mapName: s.mapName || defaultMapName,
+        type: s.type,
+        name,
+        // The client dict on guide pages only ships UI strings, so the tooltip
+        // can't re-translate `name` — hand it the resolved label verbatim.
+        label: name,
+        typeLabel,
+        icon:
+          s.icon || getIconFromFilters(version.data.filters, s.type) || icon,
+        description: s.description,
+        data: s.data,
+      };
+    });
 
     return (
       <>

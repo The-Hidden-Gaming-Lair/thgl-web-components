@@ -28,6 +28,8 @@ export type TooltipItem = {
   label?: string;
   description?: string;
   type: string;
+  /** Pre-resolved display name of `type` — shown verbatim instead of translating it. */
+  typeLabel?: string;
   group?: string;
   isPrivate?: boolean;
   isLive?: boolean;
@@ -319,7 +321,7 @@ function SingleItemTooltip({
     : item.isPrivate
       ? item.termId
       : t(item.termId, { fallback: item.type }) || item.termId;
-  const typeName = t(item.type, { fallback: item.type });
+  const typeName = item.typeLabel ?? t(item.type, { fallback: item.type });
   const groupName = item.group ? t(item.group, { fallback: item.group }) : null;
   const itemCoords = useMemo(
     () => parseItemCoords(item.id, latLng),
@@ -460,7 +462,8 @@ function ClusterTooltip({
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
   const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
 
-  const typeName = t(items[0].type, { fallback: items[0].type });
+  const typeName =
+    items[0].typeLabel ?? t(items[0].type, { fallback: items[0].type });
 
   const itemIds = useMemo(
     () => items.map((item) => getDiscoveryId(item, latLng)),

@@ -148,6 +148,8 @@ export type SimpleSpawn = {
    *  verbatim instead of translating `name` as a dict key — for embeds that ship
    *  a sliced client dict without the full game terms. */
   label?: string;
+  /** Pre-resolved display name of `type`, for the same sliced-dict embeds. */
+  typeLabel?: string;
   color?: string;
   description?: string;
   data?: Record<string, string[]>;
