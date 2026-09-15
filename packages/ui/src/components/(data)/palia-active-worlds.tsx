@@ -125,15 +125,19 @@ export function PaliaActiveWorlds() {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button size="sm" variant="ghost" className="w-full">
-          <Server className="mr-2 h-4 w-4" />
-          <span className="grow text-left">Your World</span>
-          {/* The clock at the row's end has its own popover; the rest of the
-              row opens the Your World sheet. */}
-          <PaliaClock>{paliaTime}</PaliaClock>
-        </Button>
-      </SheetTrigger>
+      {/* The clock sits BESIDE the sheet trigger, never inside it: its popover
+          is a React portal, so clicks inside it (bell, lead-time select) bubble
+          up the REACT tree and would open the sheet - and a button inside a
+          button is invalid markup on top of that. */}
+      <div className="flex w-full items-center pr-3">
+        <SheetTrigger asChild>
+          <Button size="sm" variant="ghost" className="grow justify-start">
+            <Server className="mr-2 h-4 w-4 shrink-0" />
+            <span className="grow truncate text-left">Your World</span>
+          </Button>
+        </SheetTrigger>
+        <PaliaClock>{paliaTime}</PaliaClock>
+      </div>
 
       {/* Always-visible at-a-glance line: your world + code */}
       {myWorldId && (

@@ -884,6 +884,12 @@ export function PaliaClock({
         onMouseEnter={cancelClose}
         onMouseLeave={scheduleClose}
         onOpenAutoFocus={(e) => e.preventDefault()}
+        // The content is portalled, but React events still bubble along the
+        // REACT tree - i.e. into whatever the trigger is nested in (the "Your
+        // World" sheet trigger in the companion app). Keep every click and
+        // pointer press inside the popover to itself.
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <PaliaClockContent config={config} open={open} />
       </PopoverContent>
