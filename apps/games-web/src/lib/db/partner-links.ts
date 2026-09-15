@@ -9,10 +9,9 @@
  * how the game-switcher partner chips work: declared in config, compiled into the
  * frontend, never shipped as game data.
  *
- * Entries are keyed by the codex entry id rather than by display name. Ids are
- * stable across localisation and renames, and they disambiguate the cases where
- * several of our entries share one partner page (the four Rover elements each
- * exist twice in our data but have one Prydwen guide apiece).
+ * Entries are keyed by the codex entry id rather than by display name: ids are
+ * stable across localisation and renames, and several of our entries can share
+ * one partner page.
  */
 
 type PartnerSite = {
@@ -43,7 +42,6 @@ const PRYDWEN_WUWA_RESONATOR_SLUGS: Record<string, string> = {
   char_1501: "rover-spectro", // Rover: Spectro
   char_1102: "sanhua", // Sanhua
   char_1601: "taoqi", // Taoqi
-  char_1502: "rover-spectro", // Rover: Spectro
   char_1103: "baizhi", // Baizhi
   char_1203: "encore", // Encore
   char_1602: "danjin", // Danjin
@@ -56,7 +54,6 @@ const PRYDWEN_WUWA_RESONATOR_SLUGS: Record<string, string> = {
   char_1104: "lingyang", // Lingyang
   char_1303: "yuanwu", // Yuanwu
   char_1604: "rover-havoc", // Rover: Havoc
-  char_1605: "rover-havoc", // Rover: Havoc
   char_1405: "jianxin", // Jianxin
   char_1304: "jinhsi", // Jinhsi
   char_1305: "xiangli-yao", // Xiangli Yao
@@ -73,7 +70,6 @@ const PRYDWEN_WUWA_RESONATOR_SLUGS: Record<string, string> = {
   char_1607: "cantarella", // Cantarella
   char_1407: "ciaccona", // Ciaccona
   char_1507: "zani", // Zani
-  char_1408: "rover-aero", // Rover: Aero
   char_1207: "lupa", // Lupa
   char_1608: "phrolova", // Phrolova
   char_1409: "cartethyia", // Cartethyia
@@ -94,7 +90,6 @@ const PRYDWEN_WUWA_RESONATOR_SLUGS: Record<string, string> = {
   char_1511: "lucy", // Lucy
   char_1108: "hiyuki", // Hiyuki
   char_1309: "rover-electro", // Rover: Electro
-  char_1310: "rover-electro", // Rover: Electro
   char_1610: "yangyang-xuanling", // Yangyang: Xuanling
   char_1110: "suisui", // Suisui
   char_1413: "qingxiao", // Qingxiao
