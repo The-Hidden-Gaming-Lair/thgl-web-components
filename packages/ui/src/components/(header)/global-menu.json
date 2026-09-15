@@ -90,7 +90,7 @@
     "partners": [
       {
         "title": "Prydwen",
-        "url": "https://www.prydwen.gg/neverness-to-everness/?ref=thgl",
+        "url": "https://www.prydwen.gg/neverness-to-everness/?utm_source=nte.th.gl&utm_medium=referral",
         "sprite": {
           "fileName": "partners-5086212168992129834.webp",
           "x": 2,
@@ -443,7 +443,7 @@
     "partners": [
       {
         "title": "Prydwen",
-        "url": "https://www.prydwen.gg/wuthering-waves/?ref=thgl",
+        "url": "https://www.prydwen.gg/wuthering-waves/?utm_source=wuthering.th.gl&utm_medium=referral",
         "sprite": {
           "fileName": "partners-5086212168992129834.webp",
           "x": 2,

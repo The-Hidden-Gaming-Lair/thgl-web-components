@@ -391,7 +391,7 @@ export function createHomePage(appConfig: AppConfig) {
                   <a
                     href={appConfig.appUrl!}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                     className="group mx-auto flex items-center gap-3 border border-muted rounded-lg px-4 py-2.5 hover:border-primary/50 transition-colors max-w-md"
                   >
                     <span className="relative flex h-2 w-2 shrink-0">

@@ -379,7 +379,7 @@ export function AppHeader({
               <a
                 href="https://th.gl/discord"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="text-primary underline hover:no-underline"
               >
                 Discord server

@@ -767,7 +767,7 @@ function AlertOptions() {
       <a
         href={FAQ_URL}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener"
         className="flex items-center gap-1 hover:text-foreground hover:underline"
       >
         <HelpCircle className="h-3 w-3" />
