@@ -1,9 +1,11 @@
 "use client";
 import { cn, useSettingsStore } from "@repo/lib";
 import { useEffect, useState } from "react";
+import { PaliaClock } from "./palia-clock";
 
 // Live in-game clock (1 real hour = 1 Palia day), formatted "h:mm AM/PM".
 // Shared by the locked-window PaliaTime overlay and the Active Worlds row.
+// The event schedule behind the clock popover lives in palia-clock.ts.
 export function usePaliaTime() {
   const [timeFormated, setTimeFormated] = useState("");
 
@@ -49,7 +51,8 @@ export function PaliaTime() {
       >
         <div className={cn("w-full text-left flex gap-2 justify-between")}>
           <span>Palia Time</span>
-          <span>{timeFormated}</span>
+          {/* Locked window: plain readout, nothing to hover or click. */}
+          <PaliaClock disabled>{timeFormated}</PaliaClock>
         </div>
       </div>
     );
@@ -60,7 +63,7 @@ export function PaliaTime() {
       className={cn("w-full text-left flex gap-2 justify-between py-2 px-4")}
     >
       <span>Palia Time</span>
-      <span>{timeFormated}</span>
+      <PaliaClock>{timeFormated}</PaliaClock>
     </div>
   );
 }

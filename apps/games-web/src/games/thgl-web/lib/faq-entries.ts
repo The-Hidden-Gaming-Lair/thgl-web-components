@@ -71,6 +71,33 @@ Palia streams each zone as its own server instance, and to hop into a **specific
     labels: ["Palia"],
   },
   {
+    id: "palia-event-clock",
+    headline: "Palia event clock: daily events, times and alerts",
+    question:
+      "What are the events in the Palia clock (Crab Wars, Flow Tree Grove, Piksii Blossom Bounce, Flower Bloom, Zeki, Maji Market), when do they happen, and how do the alerts work?",
+    answer: `
+Hover or click the **Palia Time** readout in the map sidebar to open the event clock. One in-game day lasts one real hour, so every daily event comes around once an hour. The strip shows the in-game day with morning, day, evening and night, and every event on it; the list below counts down in real time, active events first.
+
+## The events
+
+- **Crab Wars** - Enfield Shores, Royal Highlands, 7:00 AM in-game (:17 past every real hour). General Crabjorn Snips' crabs and King Hoppington's rockhoppers go to war. Catch as many of either side as you can for 4 real minutes; afterwards everyone who took part can open the Spoils of War chest for another 4 minutes. Warm-up notices start at 5:36 AM.
+- **Flower Bloom** - Kilima Village, 12:00 PM in-game. An orange aura marks one of 6 spots; clear the Drossweed and water the sprouts to reveal random flowers and plants. The flowers stay for 8 real minutes after they are watered and picked.
+- **Piksii Blossom Bounce** - Elderwood, 10:00 PM in-game (:55 past the hour). Bounce across the mushroom platforms and collect Piksiiweed seeds for 3 real minutes. Shielded seeds need an arrow or a smoke bomb first, and collecting grants the Piksii Power stamina buff.
+- **Flow Tree Grove** - Bahari Bay, 12:00 AM in-game (top of the hour). One of 12 groves fills with Flow-infused trees plus rare bugs and creatures with a chance at star quality. It lasts until about 70% of the trees are chopped.
+- **Zeki at the Underground** - Kilima Village, 9:00 PM to 2:00 AM in-game. Zeki's shop is open in the Underground during these hours.
+- **Maji Market** - Kilima Fairgrounds, open nightly from 6:00 PM to 3:00 AM in-game during market weeks. The clock shows the current market week and when the next one starts.
+
+The map pin next to an event switches to its map, turns on its markers and centres on the spots. All candidate spots are shown; only one (or a few) is active per day.
+
+## Alerts
+
+Click the **bell** next to an event to get your alert sound before it starts and again when it starts. Pick the lead time (1, 2, 5 or 10 real minutes) at the bottom of the clock, and turn on **Read alerts aloud** to have the alert spoken. The sound, volume, mute switch and the on-screen notice come from **Settings → Audio Alerts**, the same as the tracked-item alerts.
+
+The times follow UTC, not your local clock, so they are correct in every timezone, including half-hour ones.
+    `.trim(),
+    labels: ["Palia"],
+  },
+  {
     id: "add-nodes-and-drawings",
     headline: "How to add your own nodes & drawings to the map",
     question:

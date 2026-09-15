@@ -278,6 +278,12 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   audioAlertVolume: 0.5,
   showAudioAlertRange: false,
   audioAlertByFilter: {},
+  // Palia clock: event ids whose start plays the alert sound (see palia-clock.tsx).
+  paliaEventAlerts: {},
+  // Real minutes before an event's start the clock alert fires (plus at the start).
+  paliaEventAlertLeadMinutes: 1,
+  // Also read the alert aloud (browser speech synthesis).
+  paliaEventAlertsSpoken: false,
   labelModeByFilter: {},
   liveModeByFilter: {},
   discoverModeByFilter: {},
@@ -387,6 +393,9 @@ export type ProfileSettings = {
   audioAlertVolume: number;
   showAudioAlertRange: boolean;
   audioAlertByFilter: Record<string, boolean>;
+  paliaEventAlerts: Record<string, boolean>;
+  paliaEventAlertLeadMinutes: number;
+  paliaEventAlertsSpoken: boolean;
   labelModeByFilter: Record<string, LabelMode>;
   /**
    * Per-filter live-mode override. Absent key = inherit the global live mode.
@@ -511,6 +520,9 @@ export interface ProfileActions {
   setAudioAlertVolume: (volume: number) => void;
   toggleShowAudioAlertRange: () => void;
   toggleAudioAlertByFilter: (filterId: string) => void;
+  togglePaliaEventAlert: (eventId: string) => void;
+  setPaliaEventAlertLeadMinutes: (minutes: number) => void;
+  togglePaliaEventAlertsSpoken: () => void;
   setAudioAlertByFilters: (filterIds: string[], enabled: boolean) => void;
   resetAudioAlerts: () => void;
   setLabelModeByFilter: (filterId: string, mode: LabelMode) => void;
@@ -1478,6 +1490,29 @@ export const useSettingsStore = create(
           toggleShowAudioAlertRange: () => {
             const state = get();
             updateSettings({ showAudioAlertRange: !state.showAudioAlertRange });
+          },
+
+          togglePaliaEventAlert: (eventId: string) => {
+            const state = get();
+            updateSettings({
+              paliaEventAlerts: {
+                ...state.paliaEventAlerts,
+                [eventId]: !(state.paliaEventAlerts?.[eventId] ?? false),
+              },
+            });
+          },
+
+          setPaliaEventAlertLeadMinutes: (minutes: number) => {
+            updateSettings({
+              paliaEventAlertLeadMinutes: Math.max(0, Math.min(30, minutes)),
+            });
+          },
+
+          togglePaliaEventAlertsSpoken: () => {
+            const state = get();
+            updateSettings({
+              paliaEventAlertsSpoken: !state.paliaEventAlertsSpoken,
+            });
           },
 
           toggleAudioAlertByFilter: (filterId: string) => {

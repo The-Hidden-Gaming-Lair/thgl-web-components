@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { PaliaClock } from "./palia-clock";
 import { usePaliaTime } from "./palia-time";
 
 const WORLDS_API = "https://palia-api.th.gl/worlds";
@@ -102,9 +103,9 @@ export function PaliaActiveWorlds() {
   if (!showPanel) {
     return (
       <div className="flex w-full items-center px-3 py-1.5 text-sm text-gray-300">
-        <Clock className="mr-2 h-4 w-4" />
-        <span className="grow text-left">Palia Time</span>
-        {paliaTime}
+        <Clock className="mr-2 h-4 w-4 shrink-0" />
+        <span className="grow truncate text-left">Palia Time</span>
+        <PaliaClock>{paliaTime}</PaliaClock>
       </div>
     );
   }
@@ -128,7 +129,9 @@ export function PaliaActiveWorlds() {
         <Button size="sm" variant="ghost" className="w-full">
           <Server className="mr-2 h-4 w-4" />
           <span className="grow text-left">Your World</span>
-          {paliaTime}
+          {/* The clock at the row's end has its own popover; the rest of the
+              row opens the Your World sheet. */}
+          <PaliaClock>{paliaTime}</PaliaClock>
         </Button>
       </SheetTrigger>
 
