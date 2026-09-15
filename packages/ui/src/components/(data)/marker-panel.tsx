@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useUserStore } from "../(providers)";
-import { cn, useGameState, useSettingsStore } from "@repo/lib";
+import { cn, dbEntryIdOf, useGameState, useSettingsStore } from "@repo/lib";
 import { SidePanel } from "./side-panel";
 import { useCoordinates, useT } from "../(providers)";
 import { Separator } from "../ui/separator";
@@ -250,7 +250,7 @@ export function MarkerPanel({
     ? filter?.values.find((v) => v.id === spawn.type)
     : undefined;
   const dbSection = dbValue?.dbSection;
-  const dbEntryId = spawn ? (spawn.dbEntryId ?? spawn.id ?? spawn.type) : "";
+  const dbEntryId = spawn ? dbEntryIdOf(spawn) : "";
 
   const termId = spawn
     ? (spawn.name ?? spawn.id ?? spawn.type).replace(/my_\d+_/, "")

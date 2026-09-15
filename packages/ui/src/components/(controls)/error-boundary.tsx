@@ -31,6 +31,15 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
+      // Next's own control-flow errors (`notFound()` -> NEXT_NOT_FOUND / NEXT_HTTP_ERROR_FALLBACK,
+      // `redirect()` -> NEXT_REDIRECT) travel as thrown errors too. On a CLIENT-SIDE navigation
+      // they reach this boundary before Next's not-found / redirect boundaries above it, so
+      // catching them here turned a missing codex entry into "Something went wrong" (a direct
+      // load 404s correctly). Re-throw them; only real errors get the fallback UI.
+      const digest = (this.state.error as { digest?: unknown } | null)?.digest;
+      if (typeof digest === "string" && digest.startsWith("NEXT_")) {
+        throw this.state.error;
+      }
       return (
         <div className="flex items-center justify-center min-h-screen p-4 bg-background">
           <div className="w-full max-w-2xl space-y-6 p-6 rounded-lg border border-destructive/50 bg-destructive/5">

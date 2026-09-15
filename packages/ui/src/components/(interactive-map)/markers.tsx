@@ -33,6 +33,7 @@ import {
   useSettingsStore,
   buildPrivateIconLookups,
   resolvePrivateIcon,
+  dbEntryIdOf,
 } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
 import {
@@ -1621,9 +1622,9 @@ function MarkersContent({
           data: s.data,
           p: s.p,
           dbSection: typeToDbSection.get(s.type),
-          // Codex entry key: the spawn's explicit `dbEntryId` when it carries one, else the raw
-          // spawn id (per-instance entries) or the type (per-type entries).
-          dbEntryId: s.dbEntryId ?? s.id ?? s.type,
+          // Codex entry key (dbEntryIdOf): explicit `dbEntryId`, else the id when it is an
+          // entry id, else the type — a position-derived id (`type@x:y`) is skipped.
+          dbEntryId: dbEntryIdOf(s),
         },
       ];
 
@@ -1651,8 +1652,7 @@ function MarkersContent({
               data: stackedSpawn.data,
               p: stackedSpawn.p,
               dbSection: typeToDbSection.get(stackedSpawn.type),
-              dbEntryId:
-                stackedSpawn.dbEntryId ?? stackedSpawn.id ?? stackedSpawn.type,
+              dbEntryId: dbEntryIdOf(stackedSpawn),
             };
           }),
         );
