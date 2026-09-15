@@ -116,8 +116,12 @@ export function SpawnsList({
             const isHighlighted = highlightedIds.some((id) =>
               groupSpawnIds.includes(id),
             );
+            // Entries are grouped by type AND name, so two types sharing a
+            // display name (e.g. a location and a landmark both called
+            // "Night Sky Temple") are separate rows — key them the same way.
+            const key = `${groupSpawns[0]?.type ?? ""}::${name}`;
             return (
-              <div key={name} className="flex gap-2 items-center">
+              <div key={key} className="flex gap-2 items-center">
                 <div className="relative grow overflow-hidden">
                   <p className="text-md font-bold px-2 py-2 text-shadow truncate">
                     <span className="truncate">{name}</span>

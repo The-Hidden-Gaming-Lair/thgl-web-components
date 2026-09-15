@@ -14,9 +14,7 @@ import {
   localizePath,
   resolveForgeUrl,
   SimpleSpawn,
-  getNodeId,
 } from "@repo/lib";
-import { Spawns } from "../(providers)";
 import { HeaderOffset, PageTitle } from "../(header)";
 import { ContentLayout } from "../(ads)";
 import { notFound } from "next/navigation";
@@ -95,6 +93,20 @@ function getIconFromFilters(filters: FiltersConfig, id: string) {
   );
 }
 
+/** `search?…&summary=1` response: how many spawns match and on which maps. */
+type GuideSummary = { count: number; maps: string[] };
+
+async function fetchGuideSummary(
+  appName: string,
+  query: string,
+): Promise<GuideSummary> {
+  const url = await resolveForgeUrl(getApiUrl(appName, `${query}&summary=1`));
+  const response = await fetch(url);
+  if (!response.ok) return { count: 0, maps: [] };
+  const buffer = await response.arrayBuffer();
+  return decodeFromBuffer<GuideSummary>(new Uint8Array(buffer));
+}
+
 export function createGuidePage(appConfig: AppConfig) {
   return async function GuidePage({ params }: PageProps) {
     const { locale = DEFAULT_LOCALE, type } = await params;
@@ -104,29 +116,23 @@ export function createGuidePage(appConfig: AppConfig) {
     ]);
 
     const t = getT(dict);
-    const defaultMapName = Object.keys(version.data.tiles)[0] || "default";
+    const tileNames = Object.keys(version.data.tiles);
+    const defaultMapName = tileNames[0] || "default";
 
     // Find all type IDs that translate to the same name (e.g. "Sword" in multiple rarity categories)
     const allTypeIds = getAllTypesFromVersion(version, type, dict);
     let guideId: string;
-    let icon;
-    let spawns: Spawns;
+    let icon: ReturnType<typeof getIconFromFilters>;
+    let typeIds: string[];
+    // Search-API queries the client runs to load the spawns (one per type, or
+    // the whole group).
+    let queries: string[];
 
     if (allTypeIds.length > 0) {
       guideId = allTypeIds[0]; // Use first for title/icon
       icon = getIconFromFilters(version.data.filters, guideId);
-      // Fetch spawns for ALL matching types
-      const allSpawnArrays = await Promise.all(
-        allTypeIds.map(async (typeId) => {
-          const url = await resolveForgeUrl(
-            getApiUrl(appConfig.name, `type=${typeId}`),
-          );
-          const response = await fetch(url);
-          const buffer = await response.arrayBuffer();
-          return decodeFromBuffer<Spawns>(new Uint8Array(buffer));
-        }),
-      );
-      spawns = allSpawnArrays.flat();
+      typeIds = allTypeIds;
+      queries = allTypeIds.map((typeId) => `type=${typeId}`);
     } else {
       const groupId = getGroupFromVersion(version, type, dict);
       if (!groupId) {
@@ -134,14 +140,33 @@ export function createGuidePage(appConfig: AppConfig) {
       }
       guideId = groupId;
       icon = null;
-      const url = await resolveForgeUrl(
-        getApiUrl(appConfig.name, `group=${guideId}`),
-      );
-      const response = await fetch(url);
-      const buffer = await response.arrayBuffer();
-      spawns = decodeFromBuffer<Spawns>(new Uint8Array(buffer));
+      typeIds =
+        version.data.filters
+          .find((f) => f.group === groupId)
+          ?.values.map((v) => v.id) ?? [];
+      queries = [`group=${groupId}`];
     }
     const guideTitle = t(guideId);
+
+    // The server only needs the spawn COUNT and the MAPS for the intro text
+    // and the map tabs; the spawns themselves are loaded by the client
+    // (MapGuides). Embedding every spawn in the render made a resource type
+    // with 38k spawns (Dune: Scrap Metal) an 80 MB, 12 s origin render.
+    const summaries = await Promise.all(
+      queries.map((query) => fetchGuideSummary(appConfig.name, query)),
+    );
+    const spawnCount = summaries.reduce((n, s) => n + s.count, 0);
+    const maps = [...new Set(summaries.flatMap((s) => s.maps))]
+      .map((mapName) => mapName || defaultMapName)
+      .filter(
+        (mapName, i, arr) =>
+          version.data.tiles[mapName] && arr.indexOf(mapName) === i,
+      )
+      .sort((a, b) => tileNames.indexOf(a) - tileNames.indexOf(b));
+    if (maps.length === 0) {
+      // Ensure at least one map for UI rendering
+      maps.push(defaultMapName);
+    }
 
     // Build type → group label map for disambiguation in the spawns list
     const typeGroupLabels: Record<string, string> = {};
@@ -153,53 +178,20 @@ export function createGuidePage(appConfig: AppConfig) {
       }
     }
 
-    const maps = spawns
-      .reduce((acc, n) => {
-        const mapName = n.mapName || defaultMapName;
-        if (!acc.includes(mapName) && version.data.tiles[mapName]) {
-          acc.push(mapName);
-        }
-        return acc;
-      }, [] as string[])
-      .sort(
-        (a, b) =>
-          Object.keys(version.data.tiles).indexOf(a) -
-          Object.keys(version.data.tiles).indexOf(b),
-      );
-
-    if (spawns.length === 0) {
-      // Ensure at least one map for UI rendering
-      maps.push(defaultMapName);
-    }
-
     // Resolved term for a dict key that exists (t() follows `@` pointers), else
     // undefined — t() alone would echo the key back for a missing term.
     const term = (key: string | undefined) =>
       key !== undefined && dict[key] ? t(key) : undefined;
-    const simpleSpawns = spawns.map<SimpleSpawn>((s) => {
-      // A spawn id is a stable key (discovered-node state, comments) and only
-      // SOMETIMES a dict key: a named NPC/chest has its own term, a position-
-      // derived `{type}@{x}:{y}` id never does. Fall through to the type name so
-      // unnamed spawns group into one list row and the tooltip shows the type
-      // name instead of the raw id.
-      const typeLabel = term(s.type) ?? s.type;
-      const name = term(s.id) ?? typeLabel;
-      return {
-        id: getNodeId(s),
-        p: s.p,
-        mapName: s.mapName || defaultMapName,
-        type: s.type,
-        name,
-        // The client dict on guide pages only ships UI strings, so the tooltip
-        // can't re-translate `name` — hand it the resolved label verbatim.
-        label: name,
-        typeLabel,
-        icon:
-          s.icon || getIconFromFilters(version.data.filters, s.type) || icon,
-        description: s.description,
-        data: s.data,
-      };
-    });
+    // Per-type label + icon for the client: its dict only ships UI strings and
+    // filter names, and the search API only names spawns that own a term, so
+    // unnamed spawns fall back to these.
+    const typeLabels: Record<string, string> = {};
+    const typeIcons: Record<string, SimpleSpawn["icon"]> = {};
+    for (const typeId of typeIds) {
+      typeLabels[typeId] = term(typeId) ?? typeId;
+      typeIcons[typeId] =
+        getIconFromFilters(version.data.filters, typeId) || icon;
+    }
 
     return (
       <>
@@ -340,7 +332,7 @@ export function createGuidePage(appConfig: AppConfig) {
                 <p className="text-sm mt-2">
                   {t.rich("guide.spawns", {
                     components: {
-                      spawns: <strong>{simpleSpawns.length}</strong>,
+                      spawns: <strong>{spawnCount}</strong>,
                       maps: <strong>{maps.length}</strong>,
                       guide: <strong>{guideTitle}</strong>,
                     },
@@ -360,11 +352,15 @@ export function createGuidePage(appConfig: AppConfig) {
             }
             content={
               <MapGuides
-                simpleSpawns={simpleSpawns}
+                appName={appConfig.name}
+                locale={locale}
+                queries={queries}
+                typeLabels={typeLabels}
+                typeIcons={typeIcons}
+                defaultMapName={defaultMapName}
                 maps={maps}
                 mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
                 tiles={version.data.tiles}
-                appName={appConfig.name}
                 additionalTooltip={
                   games.find((g) => g.id === appConfig.name)
                     ?.additionalTooltip ?? appConfig.game?.additionalTooltip
