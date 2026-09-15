@@ -67,7 +67,7 @@ const HYDRATE_TTL_MS = 30_000;
 export function MyFilters() {
   const t = useT();
   const [open, setOpen] = useState(false);
-  const { filters, setFilters, toggleFilter } = useUserStore();
+  const { filters, setFilters, toggleFilter, mapName } = useUserStore();
   const myFilters = useSettingsStore((state) => state.myFilters);
   const addMyFilter = useSettingsStore((state) => state.addMyFilter);
   const setMyFilter = useSettingsStore((state) => state.setMyFilter);
@@ -165,7 +165,7 @@ export function MyFilters() {
         <div className="flex items-center shrink-0">
           <CommunityFilters compact />
           <AddSharedFilter compact />
-          <UploadFilter compact />
+          <UploadFilter compact mapName={mapName} />
         </div>
         <button
           className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-1 transition-colors shrink-0 uppercase tracking-wide"
