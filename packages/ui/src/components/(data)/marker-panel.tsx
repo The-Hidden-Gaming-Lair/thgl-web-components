@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useUserStore } from "../(providers)";
-import { cn, useGameState, useSettingsStore } from "@repo/lib";
+import { cn, dbEntryIdOf, useGameState, useSettingsStore } from "@repo/lib";
 import { SidePanel } from "./side-panel";
 import { useCoordinates, useT } from "../(providers)";
 import { Separator } from "../ui/separator";
@@ -242,13 +242,15 @@ export function MarkerPanel({
   const filter = spawn
     ? filters.find((f) => f.values.some((v) => v.id === spawn.type))
     : null;
-  // Codex cross-link: when the marker's filter value declares a `dbSection`, the entry is keyed by
-  // the spawn id (per-instance — landmarks) or the type id (per-type — a bestiary species).
+  // Codex cross-link: when the marker's filter value declares a `dbSection`, the entry is named by
+  // the spawn's own `dbEntryId` when it carries one (extraction-time link — for position-derived
+  // spawn ids), else keyed by the spawn id (per-instance — landmarks) or the type id (per-type — a
+  // bestiary species).
   const dbValue = spawn
     ? filter?.values.find((v) => v.id === spawn.type)
     : undefined;
   const dbSection = dbValue?.dbSection;
-  const dbEntryId = spawn ? (spawn.id ?? spawn.type) : "";
+  const dbEntryId = spawn ? dbEntryIdOf(spawn) : "";
 
   const termId = spawn
     ? (spawn.name ?? spawn.id ?? spawn.type).replace(/my_\d+_/, "")

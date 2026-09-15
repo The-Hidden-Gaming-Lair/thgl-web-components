@@ -19,9 +19,11 @@ export const games: Array<Game> = [
     logo: `${TH_GL_URL}/global_icons/blood-of-dawnwalker.webp`,
     companion: {
       // Static-map release first (2026-09-12): the detector exists on the app branch but no
-      // public THGLApp build ships it yet, so keep the companion hidden from every list/CTA
-      // (same recipe as Where Winds Meet) - routing + process detection stay live so the Debug
-      // app can test it. Remove this flag (and set the tenant's appUrl) with the app release.
+      // public THGLApp build ships it yet, so keep the companion hidden from every list/CTA -
+      // routing + process detection stay live so the Debug app can test it. The website itself
+      // is Elite-gated separately (PREVIEW_RELEASE_APPS in preview-release.ts). Where Winds Meet
+      // went the same way and dropped this flag for that gate once its detector was verified
+      // in-game; do the same here (and set the tenant's appUrl) with the app release.
       inDevelopment: true,
       baseURL: "/apps/blood-of-dawnwalker",
       controllerURL: "/apps/blood-of-dawnwalker/controller",

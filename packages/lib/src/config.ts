@@ -958,9 +958,11 @@ export type FiltersConfig = {
     baseType?: string;
     // Codex/database section this marker type has an entry in. When set, the
     // marker panel/tooltip shows a "View in Codex" link to
-    // `/db/<dbSection>/<spawn.id ?? spawn.type>` (the DB entry is keyed by the
-    // spawn id for per-instance entries — e.g. landmarks — or by the type id for
-    // per-type entries — e.g. a bestiary species). Generic across all games.
+    // `/db/<dbSection>/<spawn.dbEntryId ?? spawn.id ?? spawn.type>`: a spawn can
+    // name its entry explicitly via `dbEntryId` (for position-derived spawn ids),
+    // otherwise the DB entry is keyed by the spawn id for per-instance entries —
+    // e.g. landmarks — or by the type id for per-type entries — e.g. a bestiary
+    // species. Generic across all games.
     dbSection?: string;
   }[];
 }[];

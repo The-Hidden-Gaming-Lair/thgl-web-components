@@ -706,6 +706,7 @@ export function GenericEntityView({
               tiles={tiles}
               appName={appName}
               filters={filters}
+              locale={locale}
             />
           ) : (
             // Fallback (no tiles): a flat list of coordinate links.

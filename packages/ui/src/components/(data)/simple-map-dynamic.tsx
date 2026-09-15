@@ -16,6 +16,7 @@ export default function SimpleMapDynamic({
   highlightedIds,
   appName,
   additionalTooltip,
+  onClick,
 }: {
   mapName: string;
   spawns: SimpleSpawn[];
@@ -23,6 +24,9 @@ export default function SimpleMapDynamic({
   highlightedIds?: string[];
   appName: string;
   additionalTooltip?: AdditionalTooltipType;
+  /** Marker click handler, forwarded to `SimpleWebMarkers` — lets an embed
+   *  deep-link a marker (e.g. DB location maps opening the full map). */
+  onClick?: (spawn: SimpleSpawn) => void;
 }): JSX.Element {
   const mapRef = useRef<SimpleWebMapRef | null>(null);
 
@@ -41,6 +45,7 @@ export default function SimpleMapDynamic({
         iconsPath="/icons/icons.webp"
         additionalTooltip={additionalTooltip}
         mapRef={mapRef}
+        onClick={onClick}
       />
     </div>
   );

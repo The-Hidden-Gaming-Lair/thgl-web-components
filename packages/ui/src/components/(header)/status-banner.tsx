@@ -212,7 +212,7 @@ export function StatusBanner({
           <a
             href="https://www.th.gl/status"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener"
             className="underline"
           >
             …and {more} more
@@ -222,7 +222,7 @@ export function StatusBanner({
           <a
             href="https://www.th.gl/status"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener"
             className="underline"
           >
             Status page

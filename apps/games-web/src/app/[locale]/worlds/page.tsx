@@ -220,7 +220,7 @@ export default async function ActiveWorlds({ params }: PageProps) {
                 <a
                   href="https://th.gl/discord"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener"
                   className="text-primary underline hover:no-underline"
                 >
                   Discord

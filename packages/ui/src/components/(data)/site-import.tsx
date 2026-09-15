@@ -229,7 +229,7 @@ export function SiteImport({ activeApp }: { activeApp: string }) {
                   <a
                     href={source.siteUrl}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener"
                     className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                   >
                     Open {source.name} <ExternalLink className="h-3 w-3" />
@@ -268,7 +268,7 @@ export function SiteImport({ activeApp }: { activeApp: string }) {
                 <a
                   href={DISCORD_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener"
                   className="text-foreground underline underline-offset-2 hover:no-underline"
                 >
                   Request it on our Discord
@@ -422,7 +422,7 @@ export function SiteImport({ activeApp }: { activeApp: string }) {
               <a
                 href={FAQ_URL}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener"
                 className="block text-center text-xs text-muted-foreground hover:text-foreground"
               >
                 How does this work?

@@ -88,6 +88,14 @@ export type Spawn = {
   mapName?: string;
   color?: string;
   /**
+   * Codex/database entry this marker maps to, when it differs from the spawn id
+   * or the type id — e.g. games whose spawn ids are position-derived
+   * (`{type}@{x}:{y}`). Set at extraction time. Absent = current behaviour: the
+   * link falls back to `id ?? type`. Only used when the marker's filter value
+   * declares a `dbSection`.
+   */
+  dbEntryId?: string;
+  /**
    * Where this spawn currently came from at render time.
    * 'static' = predicted only (no live confirmation right now).
    * 'live'   = live-only (no matching static prediction).
@@ -128,6 +136,24 @@ export type Spawn = {
   /** Screen-space Y offset in device px for spiderfied mixed-type clusters */
   spiderOffsetY?: number;
 };
+
+/**
+ * The codex/database entry a marker links to (`/db/<dbSection>/<entry>`): the spawn's explicit
+ * `dbEntryId`, else its id when that id IS an entry id (per-instance entries — landmarks), else
+ * the type (per-type entries — a bestiary species, a named character). A POSITION-DERIVED id
+ * (`{type}@{x}:{y}`, the repo's node-id format — every live actor, and the static markers of
+ * games that key spawns by position) never names an entry, so it is skipped: the live Mirto
+ * marker `glossary_character_mirto@259128.72:373001.97` links to `glossary_character_mirto`.
+ */
+export function dbEntryIdOf(spawn: {
+  dbEntryId?: string | undefined;
+  id?: string | undefined;
+  type: string;
+}): string {
+  if (spawn.dbEntryId) return spawn.dbEntryId;
+  if (spawn.id && !spawn.id.startsWith(`${spawn.type}@`)) return spawn.id;
+  return spawn.type;
+}
 
 export type SimpleSpawn = {
   id: string;

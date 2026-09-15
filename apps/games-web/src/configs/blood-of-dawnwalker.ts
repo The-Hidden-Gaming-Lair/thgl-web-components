@@ -20,7 +20,41 @@ export const bloodOfDawnwalker = resolveAppConfig({
   // No "In-Game App" CTA until a public THGLApp build ships the Dawnwalker detector
   // (companion block is inDevelopment in games.ts). Set to "https://www.th.gl/companion-app" then.
   appUrl: null,
-  internalLinks: [],
+  // Curated database cards (guides page + llms.txt); the map card is auto-generated (see above).
+  internalLinks: [
+    {
+      title: "Items",
+      description:
+        "Every item in The Blood of Dawnwalker — weapons, armour, accessories, consumables, ingredients, manuals and valuables — with stats, prices and the vendors that sell them.",
+      href: "/db/inventory",
+      iconName: "Gift",
+      linkText: "Open the Items database",
+    },
+    {
+      title: "Quests",
+      description:
+        "Main and side quests, points of interest and activities across Vale Sangora, with objectives, endings, rewards and where each one starts.",
+      href: "/db/quests",
+      iconName: "ScrollText",
+      linkText: "Browse Quests",
+    },
+    {
+      title: "Bestiary",
+      description:
+        "Monsters, animals and the undead of Vale Sangora — glossary lore, portraits, stats per level, drops and blood values.",
+      href: "/db/bestiary",
+      iconName: "Bug",
+      linkText: "Browse the Bestiary",
+    },
+    {
+      title: "Perks",
+      description:
+        "The Swordmastery, Witchcraft and Vampirism skill trees — every perk and ultimate with its levels, costs, effects and how it is unlocked.",
+      href: "/db/perks",
+      iconName: "Sparkles",
+      linkText: "Browse Perks",
+    },
+  ],
   promoLinks: [],
   externalLinks: [],
   keywords: [
@@ -40,13 +74,11 @@ export const bloodOfDawnwalker = resolveAppConfig({
     "Bestiary",
     "Glossary",
     "Readables",
-    "Vendors",
     "Quests",
     "Perks",
     "Skill Trees",
     "Active Abilities",
     "Court",
-    "Infamy",
     "Edicts",
   ],
   topFilters: ["shrine", "tower", "monster_lair", "bandit_camp"],
@@ -55,7 +87,7 @@ export const bloodOfDawnwalker = resolveAppConfig({
   // static /db/<folder> routes (items, weapons, creatures, ...).
   db: {
     heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, recipes, monsters, lore…",
+    searchPlaceholder: "Search items, recipes, monsters, quests, perks…",
     sectionsInNav: true,
     homeSections: [
       {
@@ -110,7 +142,7 @@ export const bloodOfDawnwalker = resolveAppConfig({
         href: "/db/quests",
         type: "quests",
         titleFallback: "Quests",
-        icon: "📜",
+        icon: "❗",
         description:
           "Main and side quests, points of interest and activities with their objectives, endings, rewards and where they start.",
       },
@@ -136,7 +168,7 @@ export const bloodOfDawnwalker = resolveAppConfig({
         titleFallback: "Court",
         icon: "👑",
         description:
-          "Brencis' court: the three boyars, the activities that raise their anger and your infamy, the boss quests they unlock and the nine edicts.",
+          "Brencis' court: the three boyars, the activities that raise their anger, the boss quests they unlock and the nine edicts.",
       },
     ],
     typeLabels: {

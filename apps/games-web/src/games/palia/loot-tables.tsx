@@ -198,7 +198,7 @@ function createColumns(
             <a
               href={paliapediaUrl}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className={`inline-flex items-center gap-1 font-medium hover:text-primary hover:underline ${isCollectedOneTime ? "line-through" : ""}`}
             >
               {itemName}

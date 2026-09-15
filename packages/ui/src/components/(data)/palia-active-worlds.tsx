@@ -234,7 +234,7 @@ export function PaliaActiveWorlds() {
         <a
           href={TRACKER_URL}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener"
           className="mt-auto inline-flex items-center gap-1 text-sm text-primary hover:underline"
         >
           <Server className="h-3.5 w-3.5" />

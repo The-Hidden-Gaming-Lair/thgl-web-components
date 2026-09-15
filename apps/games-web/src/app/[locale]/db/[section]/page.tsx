@@ -14,6 +14,8 @@ import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
 import { collectionPageJsonLd } from "@/lib/db/json-ld";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { FilterableEntityGrid } from "@/lib/db/filterable-entity-grid";
+import { getPartnerSectionLink } from "@/lib/db/partner-links";
+import { PartnerLinkRow } from "@/lib/db/partner-link";
 import { fetchFullPropsCategory, flattenPropsText } from "@/lib/db/props-text";
 
 /**
@@ -138,9 +140,21 @@ export default async function Page({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 pt-6">
         <Breadcrumb crumbs={[{ label }]} locale={locale} dict={dict} />
         <h1 className="text-2xl font-bold mb-2">{label}</h1>
-        <p className="text-sm text-muted-foreground mb-6">
+        <p className="text-sm text-muted-foreground mb-3">
           {totalCount.toLocaleString()} entries
         </p>
+        {(() => {
+          const partner = getPartnerSectionLink(appConfig.name, section);
+          if (!partner) return null;
+          return (
+            <div className="mb-6">
+              <PartnerLinkRow
+                link={partner}
+                label={`${label} build guides on ${partner.name}`}
+              />
+            </div>
+          );
+        })()}
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-6">
         <FilterableEntityGrid

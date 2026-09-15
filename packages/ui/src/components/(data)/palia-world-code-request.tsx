@@ -66,8 +66,7 @@ export function PaliaWorldCodeRequest() {
                 "They found your world on the TH.GL Active Worlds tracker. To let them in, open the game menu (Esc) → World Code — this shares your join code on the tracker, so anyone with it can hop into your CURRENT world. Only share if you're happy for others to join.",
               action: {
                 label: "What's this?",
-                onClick: () =>
-                  window.open(FAQ_URL, "_blank", "noopener,noreferrer"),
+                onClick: () => window.open(FAQ_URL, "_blank", "noopener"),
               },
             });
           } else if (!requested && wasRequested.current) {

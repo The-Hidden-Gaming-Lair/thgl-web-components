@@ -121,7 +121,7 @@ export function DidYouKnowCompanionApp({
       <a
         href={appUrl!}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener"
         onClick={() => {
           updateTipState(TIP_ID, { clickedAt: Date.now() });
           trackEvent("Did You Know: Clicked", { props: { tip: TIP_ID } });

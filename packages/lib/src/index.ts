@@ -1,4 +1,5 @@
 export * from "./account";
+export * from "./account-gate";
 export * from "./changelog";
 export * from "./cbor";
 export * from "./config";
