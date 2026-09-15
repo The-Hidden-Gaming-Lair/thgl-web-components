@@ -46,6 +46,14 @@ export interface WebMapEventMap {
 
 type EventHandler<T = any> = (event: T) => void;
 
+// Two-finger gesture intent thresholds (see the pinch handler). A pinch
+// wobbles by a few degrees; a deliberate twist passes ~12° quickly.
+const PINCH_ROTATE_THRESHOLD = 0.2; // radians (~11.5°)
+// A two-finger vertical drag must travel this far (CSS px, midpoint) with the
+// finger distance about unchanged (< this much zoom change) to start tilting.
+const PINCH_TILT_THRESHOLD_PX = 24;
+const PINCH_TILT_MAX_ZOOM_DELTA = 0.15;
+
 function clamp(v: number, min: number, max: number) {
   return Math.max(min, Math.min(max, v));
 }
@@ -157,6 +165,18 @@ export class WebMap {
   private pinchMidpoint?: { x: number; y: number };
   private pinchStartAngle?: number;
   private pinchStartBearing?: number;
+  // Gesture intent (see the pointermove handler): a two-finger gesture zooms
+  // from the first frame, but only ROTATES once the fingers have twisted past
+  // PINCH_ROTATE_THRESHOLD and only TILTS once both fingers have dragged
+  // vertically past PINCH_TILT_THRESHOLD_PX without pinching or twisting.
+  // Without these, the few degrees of wobble in every pinch rotated the map
+  // and a slightly uneven pinch tilted it ("can't zoom without rotating").
+  private pinchLastAngle?: number;
+  private pinchAngleAccum = 0; // twist since the gesture started, radians
+  private pinchRotateActive = false;
+  private pinchRotateOffset = 0; // twist at the moment rotation engaged
+  private pinchStartMidpoint?: { x: number; y: number };
+  private pinchTiltActive = false;
   // Double-tap to zoom state
   private lastTap?: { x: number; y: number; t: number };
   // Movement tracking for moveend/zoomend events
@@ -376,11 +396,17 @@ export class WebMap {
           this.pinchStartDist = Math.sqrt(dx * dx + dy * dy);
           this.pinchStartZoom = this.zoom;
           this.pinchStartAngle = Math.atan2(dy, dx);
+          this.pinchLastAngle = this.pinchStartAngle;
+          this.pinchAngleAccum = 0;
+          this.pinchRotateActive = false;
+          this.pinchRotateOffset = 0;
+          this.pinchTiltActive = false;
           this.pinchStartBearing = this.bearing;
           this.pinchMidpoint = {
             x: (pointers[0].x + pointers[1].x) / 2 - rect.left,
             y: (pointers[0].y + pointers[1].y) / 2 - rect.top,
           };
+          this.pinchStartMidpoint = { ...this.pinchMidpoint };
           // Cancel single-finger drag and click detection when pinch starts
           this.dragging = false;
           this.downPointer = undefined;
@@ -506,22 +532,58 @@ export class WebMap {
           this.zoom = newZoom;
           this.targetZoom = newZoom;
 
-          // Two-finger rotation: change bearing based on angle between fingers
+          // Two-finger rotation: accumulate the twist frame by frame (wrapped,
+          // so the ±π seam of atan2 never produces a jump) and only start
+          // turning the map once it exceeds the threshold. From then on the
+          // bearing follows the twist beyond that point, so the map does not
+          // jump when rotation engages.
           if (
-            this.pinchStartAngle !== undefined &&
+            this.pinchLastAngle !== undefined &&
             this.pinchStartBearing !== undefined
           ) {
             const currentAngle = Math.atan2(dy, dx);
-            const angleDelta = currentAngle - this.pinchStartAngle;
-            this.bearing = this.pinchStartBearing - angleDelta;
-            this.cachedBearing = this.bearing;
-            this.cachedCos = Math.cos(this.bearing);
-            this.cachedSin = Math.sin(this.bearing);
+            let step = currentAngle - this.pinchLastAngle;
+            if (step > Math.PI) step -= 2 * Math.PI;
+            else if (step < -Math.PI) step += 2 * Math.PI;
+            this.pinchLastAngle = currentAngle;
+            this.pinchAngleAccum += step;
+            if (
+              !this.pinchRotateActive &&
+              !this.pinchTiltActive &&
+              Math.abs(this.pinchAngleAccum) > PINCH_ROTATE_THRESHOLD
+            ) {
+              this.pinchRotateActive = true;
+              this.pinchRotateOffset = this.pinchAngleAccum;
+            }
+            if (this.pinchRotateActive) {
+              this.bearing =
+                this.pinchStartBearing -
+                (this.pinchAngleAccum - this.pinchRotateOffset);
+              this.cachedBearing = this.bearing;
+              this.cachedCos = Math.cos(this.bearing);
+              this.cachedSin = Math.sin(this.bearing);
+            }
           }
 
           // Compute deltas from previous midpoint before updating
           const midpointDx = newMidpoint.x - this.pinchMidpoint.x;
           const midpointDy = newMidpoint.y - this.pinchMidpoint.y;
+
+          // Two-finger tilt intent: both fingers dragged vertically past the
+          // threshold while the gesture is neither a pinch (distance about
+          // unchanged) nor a twist. Once engaged it stays engaged until the
+          // fingers lift.
+          if (
+            !this.pinchTiltActive &&
+            !this.pinchRotateActive &&
+            this.pinchStartMidpoint !== undefined &&
+            Math.abs(newMidpoint.y - this.pinchStartMidpoint.y) >
+              PINCH_TILT_THRESHOLD_PX &&
+            Math.abs(zoomDelta) < PINCH_TILT_MAX_ZOOM_DELTA &&
+            Math.abs(this.pinchAngleAccum) < PINCH_ROTATE_THRESHOLD / 2
+          ) {
+            this.pinchTiltActive = true;
+          }
 
           // Pan to keep the midpoint stationary
           if (Math.abs(midpointDx) > 1 || Math.abs(midpointDy) > 1) {
@@ -537,7 +599,7 @@ export class WebMap {
           }
 
           // Two-finger tilt: vertical midpoint movement changes pitch
-          if (Math.abs(midpointDy) > 2) {
+          if (this.pinchTiltActive && Math.abs(midpointDy) > 0) {
             const newPitch = clamp(this.pitch - midpointDy * 0.004, 0, 1.4);
             this.pitch = newPitch;
             this.cachedPitch = newPitch;
@@ -634,6 +696,12 @@ export class WebMap {
           this.pinchMidpoint = undefined;
           this.pinchStartAngle = undefined;
           this.pinchStartBearing = undefined;
+          this.pinchLastAngle = undefined;
+          this.pinchAngleAccum = 0;
+          this.pinchRotateActive = false;
+          this.pinchRotateOffset = 0;
+          this.pinchStartMidpoint = undefined;
+          this.pinchTiltActive = false;
         }
 
         // Fire map mouseup event
@@ -755,6 +823,12 @@ export class WebMap {
           this.pinchMidpoint = undefined;
           this.pinchStartAngle = undefined;
           this.pinchStartBearing = undefined;
+          this.pinchLastAngle = undefined;
+          this.pinchAngleAccum = 0;
+          this.pinchRotateActive = false;
+          this.pinchRotateOffset = 0;
+          this.pinchStartMidpoint = undefined;
+          this.pinchTiltActive = false;
         }
         this.dragging = false;
         this.rotating = false;
