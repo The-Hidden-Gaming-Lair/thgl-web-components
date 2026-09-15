@@ -73,6 +73,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -189,6 +190,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -227,6 +229,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -336,6 +339,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -374,6 +378,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         // Underwater: large vertical range, so fade markers by depth.
         zPos: {
@@ -454,6 +459,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -492,6 +498,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 270,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -530,6 +537,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 270,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -569,6 +577,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 5000,
@@ -664,6 +673,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -714,6 +724,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 15000,
@@ -773,6 +784,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 180,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -921,6 +933,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -959,6 +972,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -999,6 +1013,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 15000,
@@ -1049,6 +1064,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 15000,
@@ -1095,6 +1111,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -1121,6 +1138,7 @@ export const games: Array<Game> = [
     markerOptions: {
       radius: 6,
       playerIcon: "player.webp",
+      playerIconForward: 90,
       imageSprite: true,
     },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -1251,6 +1269,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 15000,
@@ -1280,6 +1299,7 @@ export const games: Array<Game> = [
     markerOptions: {
       radius: 6,
       playerIcon: "player.webp",
+      playerIconForward: 90,
       imageSprite: true,
     },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -1297,6 +1317,7 @@ export const games: Array<Game> = [
       markerOptions: {
         radius: 6,
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 15000,
@@ -1323,6 +1344,7 @@ export const games: Array<Game> = [
     markerOptions: {
       radius: 6,
       playerIcon: "player.webp",
+      playerIconForward: 90,
       imageSprite: true,
       zPos: {
         xyMaxDistance: 15000,
@@ -1514,6 +1536,12 @@ export type Game = {
     markerOptions: {
       radius: number;
       playerIcon: string;
+      // Direction the player icon IMAGE points at rotation 0, in degrees clockwise from
+      // up (0 = up, 90 = right, 180 = down, 270 = left). The marker is drawn at the
+      // game's heading `r`, so the player's on-screen facing is `r + playerIconForward`;
+      // "Rotate map with player" needs it to put that direction at the top. Check the
+      // icon in public/<game>/icons/player.webp when adding a game. Default 0.
+      playerIconForward?: number;
       imageSprite: boolean;
       zPos: {
         xyMaxDistance: number;

@@ -60,10 +60,7 @@ export class PlayerMarker {
   private _animRaf: number = 0;
   private _lastAnimTs: number = 0;
 
-  constructor(
-    latLng: [number, number],
-    options: PlayerMarkerOptions,
-  ) {
+  constructor(latLng: [number, number], options: PlayerMarkerOptions) {
     this._id = options.id;
     // Unique sheet per marker so each player/teammate can have its own
     // icon (and color). A shared name would let markers overwrite each
@@ -240,7 +237,8 @@ export class PlayerMarker {
       sheet: this._sheetName,
       rect: { x: 0, y: 0, width: this._iconWidth, height: this._iconHeight },
       rotation: (this._rotation * Math.PI) / 180, // Convert to radians
-      keepUpright: true, // Player icon should always face up
+      keepUpright: true, // billboard on tilt
+      worldHeading: true, // ...but the rotation is a world heading: turn with the map
       isHighlighted: false,
       alwaysOnTop: true,
     };

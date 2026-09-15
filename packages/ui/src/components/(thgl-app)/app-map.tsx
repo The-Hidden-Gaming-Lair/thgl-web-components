@@ -76,6 +76,7 @@ export function AppMap({
         <MapControls
           hidden={lockedWindow}
           alwaysShowFollowPlayer
+          isOverlay={isOverlay}
           coordinateCopyFormat={appConfig.markerOptions.coordinateCopyFormat}
         />
       </div>
@@ -85,6 +86,7 @@ export function AppMap({
         appName={appConfig.name}
         iconsPath={version?.more.icons}
         tilesConfig={tileOptions}
+        isOverlay={isOverlay}
       />
       <LiveNavmesh />
       <LiveTeammates

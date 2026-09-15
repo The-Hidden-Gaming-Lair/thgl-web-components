@@ -6,11 +6,14 @@ export function LivePlayer({
   markerOptions,
   iconsPath,
   tilesConfig,
+  isOverlay,
 }: {
   appName: string;
   markerOptions: MarkerOptions;
   iconsPath: string;
   tilesConfig: TilesConfig;
+  /** In-game overlay window (reads the overlay's own rotate setting). */
+  isOverlay?: boolean;
 }) {
   const player = useGameState((state) => state.player);
 
@@ -24,6 +27,7 @@ export function LivePlayer({
       markerOptions={markerOptions}
       iconsPath={iconsPath}
       tilesConfig={tilesConfig}
+      isOverlay={isOverlay}
     />
   );
 }

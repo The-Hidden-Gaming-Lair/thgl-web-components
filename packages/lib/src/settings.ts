@@ -49,6 +49,8 @@ import {
 import { getAppIdFromPathname, getCurrentGameId } from "./games";
 
 export type LiveMode = "static" | "live" | "combined";
+/** Which map window a rotate-with-player toggle addresses. */
+export type RotateMapSurface = "overlay" | "desktop";
 
 export const LIVE_MODE_VALUES: readonly LiveMode[] = [
   "static",
@@ -267,6 +269,12 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   actorsPollingRate: 100,
   showTraceLine: true,
   followPlayer: true,
+  // Turn the map so the player's facing direction is up (needs followPlayer).
+  // Two surfaces: the desktop/second-screen window and the website share one
+  // value, the in-game overlay minimap has its own (a rotating minimap is
+  // wanted in-game far more often than on a big desktop map).
+  rotateMapWithPlayer: false,
+  rotateMapWithPlayerOverlay: false,
   traceLineLength: 100,
   traceLineRate: 5,
   traceLineColor: "#1ccdd1B3",
@@ -382,6 +390,8 @@ export type ProfileSettings = {
   actorsPollingRate: number;
   showTraceLine: boolean;
   followPlayer: boolean;
+  rotateMapWithPlayer: boolean;
+  rotateMapWithPlayerOverlay: boolean;
   traceLineLength: number;
   traceLineRate: number;
   traceLineColor: string;
@@ -509,6 +519,11 @@ export interface ProfileActions {
   setActorsPollingRate: (actorsPollingRate: number) => void;
   toggleShowTraceLine: () => void;
   toggleFollowPlayer: () => void;
+  // Heading-up mode only works while following the player, so enabling it
+  // switches Follow Player on as well (disabling leaves follow untouched).
+  // `surface` picks the value: "overlay" = the in-game overlay minimap,
+  // "desktop" = desktop / second-screen window and the website.
+  setRotateMapWithPlayer: (enabled: boolean, surface: RotateMapSurface) => void;
   setTraceLineLength: (traceLineLength: number) => void;
   setTraceLineRate: (traceLineRate: number) => void;
   setTraceLineColor: (traceLineColor: string) => void;
@@ -1230,6 +1245,8 @@ export const useSettingsStore = create(
               // Trace line
               showTraceLine: true,
               followPlayer: true,
+              rotateMapWithPlayer: false,
+              rotateMapWithPlayerOverlay: false,
               traceLineLength: 100,
               traceLineRate: 5,
               traceLineColor: "#1ccdd1B3",
@@ -1442,6 +1459,19 @@ export const useSettingsStore = create(
             const state = get();
             updateSettings({
               followPlayer: !state.followPlayer,
+            });
+          },
+
+          setRotateMapWithPlayer: (
+            enabled: boolean,
+            surface: RotateMapSurface,
+          ) => {
+            const state = get();
+            updateSettings({
+              [surface === "overlay"
+                ? "rotateMapWithPlayerOverlay"
+                : "rotateMapWithPlayer"]: enabled,
+              ...(enabled && !state.followPlayer ? { followPlayer: true } : {}),
             });
           },
 

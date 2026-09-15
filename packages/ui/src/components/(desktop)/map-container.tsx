@@ -7,13 +7,194 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Slider } from "../ui/slider";
-import { useEffect, useRef, useState } from "react";
+import { Switch } from "../ui/switch";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import Moveable from "react-moveable";
 import { cn, useSettingsStore } from "@repo/lib";
 import { Move, Settings, Maximize2, Minimize2 } from "lucide-react";
 import { useMap } from "../(interactive-map)/store";
 import { Toggle } from "../ui/toggle";
 import { Button } from "../(controls)";
+import { useT } from "../(providers)";
+
+/**
+ * The overlay minimap's setup toolbar: a fixed pill of icon buttons that never
+ * changes size, so the button under the cursor stays put when the settings
+ * open. The settings live in a card BELOW the pill (`MinimapSettingsCard`)
+ * instead of being injected into the same row — the old inline select + slider
+ * pushed the gear off the window edge on a 300px minimap.
+ */
+function MinimapToolbar({
+  className,
+  moveRef,
+  fullscreen,
+  onToggleFullscreen,
+  isEditMode,
+  onEditModeChange,
+}: {
+  className?: string;
+  /** Drag handle for react-moveable; omitted in fullscreen (nothing to move). */
+  moveRef?: RefObject<HTMLButtonElement | null>;
+  fullscreen: boolean;
+  onToggleFullscreen: () => void;
+  isEditMode: boolean;
+  onEditModeChange: (editMode: boolean) => void;
+}) {
+  return (
+    <div
+      className={cn(
+        "absolute z-10 left-1/2 -translate-x-1/2 flex overflow-hidden rounded-lg bg-card shadow-md",
+        className,
+      )}
+    >
+      {moveRef && (
+        <Button
+          ref={moveRef}
+          className="cursor-move rounded-none"
+          size="icon"
+          variant="secondary"
+          aria-label="Move minimap"
+          title="Drag to move"
+        >
+          <Move className="w-4 h-4" />
+        </Button>
+      )}
+      <Button
+        className="rounded-none"
+        size="icon"
+        variant="secondary"
+        onClick={onToggleFullscreen}
+        aria-label={fullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        title={fullscreen ? "Exit fullscreen" : "Fullscreen"}
+      >
+        {fullscreen ? (
+          <Minimize2 className="w-4 h-4" />
+        ) : (
+          <Maximize2 className="w-4 h-4" />
+        )}
+      </Button>
+      <Toggle
+        className="rounded-none"
+        aria-label="Toggle Map Settings"
+        title="Minimap settings"
+        pressed={isEditMode}
+        onPressedChange={onEditModeChange}
+      >
+        <Settings className="w-4 h-4" />
+      </Toggle>
+    </div>
+  );
+}
+
+/** Card under the toolbar with the minimap's own settings (edit mode). */
+function MinimapSettingsCard({
+  className,
+  fullscreen,
+}: {
+  className?: string;
+  fullscreen: boolean;
+}) {
+  const t = useT();
+  const mapFilter = useSettingsStore((state) => state.mapFilter);
+  const setMapFilter = useSettingsStore((state) => state.setMapFilter);
+  const windowOpacity = useSettingsStore((state) => state.windowOpacity);
+  const setWindowOpacity = useSettingsStore((state) => state.setWindowOpacity);
+  const followPlayer = useSettingsStore((state) => state.followPlayer);
+  const toggleFollowPlayer = useSettingsStore(
+    (state) => state.toggleFollowPlayer,
+  );
+  // The minimap is the in-game overlay: its own rotate value, separate from
+  // the desktop / website one.
+  const rotateMapWithPlayer = useSettingsStore(
+    (state) => state.rotateMapWithPlayerOverlay,
+  );
+  const setRotateMapWithPlayer = useSettingsStore(
+    (state) => state.setRotateMapWithPlayer,
+  );
+
+  return (
+    <div
+      className={cn(
+        "absolute z-10 left-1/2 -translate-x-1/2 w-64 max-w-[calc(100%-1rem)]",
+        "rounded-lg border border-input bg-card/95 backdrop-blur-sm shadow-md p-3",
+        "flex flex-col gap-3 text-xs",
+        className,
+      )}
+      // The container is the react-moveable target: keep wheel/pointer
+      // interactions on the card from reaching the map underneath.
+      onPointerDown={(e) => e.stopPropagation()}
+      onWheel={(e) => e.stopPropagation()}
+    >
+      <label className="flex items-center justify-between gap-3">
+        <span className="text-muted-foreground">
+          {t("minimap.transparency", { fallback: "Transparency" })}
+        </span>
+        <Select value={mapFilter} onValueChange={setMapFilter}>
+          <SelectTrigger className="h-7 w-36 text-xs focus:ring-0">
+            <SelectValue placeholder="Transparency" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="none">No Transparency</SelectItem>
+            <SelectItem value="greyscale">Greyscale</SelectItem>
+            <SelectItem value="colorful">Colorful</SelectItem>
+            <SelectItem value="full">Full Transparency</SelectItem>
+          </SelectContent>
+        </Select>
+      </label>
+      <label className="flex items-center justify-between gap-3">
+        <span className="text-muted-foreground shrink-0">
+          {t("minimap.opacity", { fallback: "Opacity" })}
+        </span>
+        <span className="flex items-center gap-2 w-36">
+          <Slider
+            className="flex-1"
+            value={[windowOpacity]}
+            step={0.05}
+            min={0.25}
+            max={1}
+            onValueChange={(value) => setWindowOpacity(value[0])}
+            aria-label="Opacity"
+          />
+          <span className="tabular-nums w-8 text-right text-muted-foreground">
+            {Math.round(windowOpacity * 100)}%
+          </span>
+        </span>
+      </label>
+      <label className="flex items-center justify-between gap-3 cursor-pointer">
+        <span className="text-muted-foreground">
+          {t("settings.followPlayer", { fallback: "Follow Player" })}
+        </span>
+        <Switch
+          checked={followPlayer}
+          onCheckedChange={toggleFollowPlayer}
+          aria-label="Follow player"
+        />
+      </label>
+      <label className="flex items-center justify-between gap-3 cursor-pointer">
+        <span className="text-muted-foreground">
+          {t("settings.rotateMapWithPlayer", {
+            fallback: "Rotate Map With Player",
+          })}
+        </span>
+        <Switch
+          checked={rotateMapWithPlayer && followPlayer}
+          onCheckedChange={(checked) =>
+            setRotateMapWithPlayer(checked, "overlay")
+          }
+          aria-label="Rotate map with player"
+        />
+      </label>
+      {!fullscreen && (
+        <p className="text-[11px] leading-snug text-muted-foreground/80">
+          {t("minimap.resizeHint", {
+            fallback:
+              "Drag the corner handles to resize and the round handle to round the corners.",
+          })}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export function MapContainer({
   children,
@@ -31,10 +212,7 @@ export function MapContainer({
     lockedWindow,
     mapTransform,
     setMapTransform,
-    mapFilter,
-    setMapFilter,
     windowOpacity,
-    setWindowOpacity,
     overlayFullscreen,
     toggleOverlayFullscreen,
   } = useSettingsStore();
@@ -95,6 +273,11 @@ export function MapContainer({
     map?.invalidateSize();
   }, [overlayFullscreen]);
 
+  // Locking the window ends the setup session.
+  useEffect(() => {
+    if (lockedWindow) setIsEditMode(false);
+  }, [lockedWindow]);
+
   // Fade the locked map while the cursor is over it, so the game behind stays
   // visible. The locked container is fully click-through (lock-block-input),
   // so its own mouse events never fire — listen at document level and
@@ -145,51 +328,24 @@ export function MapContainer({
           })}
         >
           {!lockedWindow && (
-            <div
-              className={cn(
-                "absolute z-10 top-[40px] left-1/2 -translate-x-1/2 flex overflow-hidden rounded-lg bg-card",
-              )}
-            >
-              <Button
-                className="rounded-none"
-                size="icon"
-                variant="secondary"
-                onClick={toggleOverlayFullscreen}
-                aria-label="Exit Fullscreen"
-              >
-                <Minimize2 className="w-4 h-4" />
-              </Button>
-              <Toggle
-                className="rounded-none"
-                aria-label="Toggle Map Settings"
-                onClick={() => setIsEditMode((isEditMode) => !isEditMode)}
-              >
-                <Settings className="w-4 h-4" />
-              </Toggle>
+            <>
+              {/* Left-aligned under the Filters button: the centered spot at
+                  top-[40px] is covered by the right-hand action bar on a
+                  narrow window. */}
+              <MinimapToolbar
+                className="top-21 left-2 translate-x-0"
+                fullscreen
+                onToggleFullscreen={toggleOverlayFullscreen}
+                isEditMode={isEditMode}
+                onEditModeChange={setIsEditMode}
+              />
               {isEditMode && (
-                <>
-                  <Select value={mapFilter} onValueChange={setMapFilter}>
-                    <SelectTrigger className="w-fit focus:ring-0 rounded-none">
-                      <SelectValue placeholder="Transparency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">No Transparency</SelectItem>
-                      <SelectItem value="greyscale">Greyscale</SelectItem>
-                      <SelectItem value="colorful">Colorful</SelectItem>
-                      <SelectItem value="full">Full Transparency</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Slider
-                    className="w-24 px-1"
-                    value={[windowOpacity]}
-                    step={0.05}
-                    min={0.25}
-                    max={1}
-                    onValueChange={(value) => setWindowOpacity(value[0])}
-                  />
-                </>
+                <MinimapSettingsCard
+                  className="top-32 left-2 translate-x-0"
+                  fullscreen
+                />
               )}
-            </div>
+            </>
           )}
           <div
             className={cn("h-full w-full overflow-hidden")}
@@ -213,59 +369,19 @@ export function MapContainer({
         style={mapTransformWithoutBorderRadius}
       >
         {!lockedWindow && (
-          <div
-            className={cn(
-              "absolute z-10 top-2 left-1/2 -translate-x-1/2  flex overflow-hidden rounded-lg bg-card",
-            )}
-          >
+          <>
+            <MinimapToolbar
+              className="top-2"
+              moveRef={targetRef}
+              fullscreen={false}
+              onToggleFullscreen={toggleOverlayFullscreen}
+              isEditMode={isEditMode}
+              onEditModeChange={setIsEditMode}
+            />
             {isEditMode && (
-              <>
-                <Select value={mapFilter} onValueChange={setMapFilter}>
-                  <SelectTrigger className="w-fit focus:ring-0 rounded-none">
-                    <SelectValue placeholder="Transparency" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">No Transparency</SelectItem>
-                    <SelectItem value="greyscale">Greyscale</SelectItem>
-                    <SelectItem value="colorful">Colorful</SelectItem>
-                    <SelectItem value="full">Full Transparency</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Slider
-                  className="w-24 px-1"
-                  value={[windowOpacity]}
-                  step={0.05}
-                  min={0.25}
-                  max={1}
-                  onValueChange={(value) => setWindowOpacity(value[0])}
-                />
-              </>
+              <MinimapSettingsCard className="top-13" fullscreen={false} />
             )}
-            <Button
-              ref={targetRef}
-              className="cursor-move rounded-none"
-              size="icon"
-              variant="secondary"
-            >
-              <Move className="w-4 h-4" />
-            </Button>
-            <Button
-              className="rounded-none"
-              size="icon"
-              variant="secondary"
-              onClick={toggleOverlayFullscreen}
-              aria-label="Enter Fullscreen"
-            >
-              <Maximize2 className="w-4 h-4" />
-            </Button>
-            <Toggle
-              className="rounded-none"
-              aria-label="Toggle Map Settings"
-              onClick={() => setIsEditMode((isEditMode) => !isEditMode)}
-            >
-              <Settings className="w-4 h-4" />
-            </Toggle>
-          </div>
+          </>
         )}
         <div
           ref={mapRef}

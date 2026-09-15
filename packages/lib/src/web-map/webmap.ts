@@ -97,6 +97,9 @@ export class WebMap {
   private layers: { layer: Layer; z: number }[] = [];
   private center: LatLng;
   private targetCenter: LatLng | null = null;
+  // Smoothed bearing target (rotateTo) — the "rotate map with player" mode feeds
+  // the player's heading here every tick; null when no rotation is pending.
+  private targetBearing: number | null = null;
   private zoom: number;
   private targetZoom: number;
   private bearing: number;
@@ -416,6 +419,8 @@ export class WebMap {
           if (e.button === 1 || (e.button === 0 && e.ctrlKey)) {
             // middle button or ctrl+left: rotate/tilt
             this.rotating = true;
+            // A manual rotate gesture wins over a pending rotateTo target
+            this.targetBearing = null;
 
             // Use proper perspective-aware screen->world
             const worldPos = this.screenToWorld(localX, localY);
@@ -957,6 +962,19 @@ export class WebMap {
   }
   setBearing(rad: number) {
     this.bearing = rad;
+    this.targetBearing = null;
+  }
+  /**
+   * Smoothly rotate the view to a bearing (radians; same convention as
+   * setBearing — a world heading θ ends up at the top of the screen when
+   * bearing == θ). Takes the shortest arc, so a heading wrapping across ±180°
+   * never spins the map the long way round. Ignored while the user is
+   * drag-rotating.
+   */
+  rotateTo(rad: number) {
+    if (!Number.isFinite(rad)) return;
+    if (this.rotating) return;
+    this.targetBearing = rad;
   }
   getZoom() {
     return this.zoom;
@@ -1426,6 +1444,22 @@ export class WebMap {
         ];
       }
     }
+    // Smooth rotation to target bearing (rotateTo), shortest arc. Settles when
+    // the remaining turn is invisible (< ~0.03°) so a player standing still does
+    // not keep the view hash churning frame after frame.
+    if (this.targetBearing !== null && !this.rotating) {
+      const rotAlpha = this.softwareRender ? 1 : 1 - Math.exp(-dt / 150);
+      const TWO_PI = Math.PI * 2;
+      let delta = (this.targetBearing - this.bearing) % TWO_PI;
+      if (delta > Math.PI) delta -= TWO_PI;
+      else if (delta < -Math.PI) delta += TWO_PI;
+      if (Math.abs(delta) < 5e-4) {
+        this.bearing = this.targetBearing;
+        this.targetBearing = null;
+      } else {
+        this.bearing += delta * rotAlpha;
+      }
+    }
     if (Math.abs(this.targetZoom - this.zoom) > 1e-3) {
       const prevZoom = this.zoom;
       this.zoom = this.zoom + (this.targetZoom - this.zoom) * alpha;
@@ -1541,6 +1575,7 @@ export class WebMap {
       this.rotating ||
       this.panAnim !== undefined ||
       this.targetCenter !== null ||
+      this.targetBearing !== null ||
       this.zoomAnim !== undefined ||
       Math.abs(this.targetZoom - this.zoom) > 1e-3;
 

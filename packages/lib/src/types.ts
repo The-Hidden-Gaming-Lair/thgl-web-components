@@ -1,6 +1,14 @@
 export interface MarkerOptions {
   radius: number;
   playerIcon: string;
+  /**
+   * Direction the player icon IMAGE points at rotation 0, in degrees clockwise
+   * from up (0 = up, 90 = right, 180 = down, 270 = left). The marker is drawn at
+   * the game's heading `r`, so the on-screen facing is `r + playerIconForward`;
+   * "Rotate map with player" uses it to put that direction at the top.
+   * Default: 0
+   */
+  playerIconForward?: number;
   imageSprite?: boolean;
   zPos?: {
     xyMaxDistance: number;

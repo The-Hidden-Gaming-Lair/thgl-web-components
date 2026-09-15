@@ -185,6 +185,7 @@ export function App({
                       <MapControls
                         hidden={lockedWindow}
                         alwaysShowFollowPlayer
+                        isOverlay={Boolean(isOverlay)}
                       />
                     }
                     className="top-[40px]"
@@ -215,6 +216,7 @@ export function App({
                     appName={appConfig.name}
                     iconsPath={version?.more.icons}
                     tilesConfig={tiles}
+                    isOverlay={Boolean(isOverlay)}
                   />
                   <LiveTeammates
                     markerOptions={appConfig.markerOptions}

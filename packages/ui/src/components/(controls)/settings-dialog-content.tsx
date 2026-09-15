@@ -12,6 +12,7 @@ import {
   useSettingsStore,
   openFileOrFiles,
   FiltersConfig,
+  isApp,
 } from "@repo/lib";
 import { useT } from "../(providers)";
 import { Label } from "../ui/label";
@@ -587,6 +588,74 @@ export function SettingsDialogContent({
                         checked={profileSettings.followPlayer}
                         onCheckedChange={settingsStore.toggleFollowPlayer}
                       />
+                    </div>
+                    <div className="space-y-2">
+                      <div>
+                        <Label>
+                          {t("settings.rotateMapWithPlayer", {
+                            fallback: "Rotate Map With Player",
+                          })}
+                        </Label>
+                        <p className="text-xs text-muted-foreground">
+                          {t("settings.rotateMapWithPlayer.description", {
+                            fallback:
+                              "Turns the map so the direction you are facing is always up, like a rotating minimap. Turns on Follow Player as well.",
+                          })}
+                        </p>
+                      </div>
+                      {/* One value per window: the in-game overlay minimap
+                          (apps only) and the desktop / website map. */}
+                      {isApp && (
+                        <div className="flex items-center justify-between gap-2 pl-2">
+                          <Label
+                            htmlFor="rotate-map-with-player-overlay"
+                            className="font-normal"
+                          >
+                            {t("settings.rotateMapWithPlayer.overlay", {
+                              fallback: "In-game overlay",
+                            })}
+                          </Label>
+                          <Switch
+                            id="rotate-map-with-player-overlay"
+                            checked={
+                              (profileSettings.rotateMapWithPlayerOverlay ??
+                                false) &&
+                              profileSettings.followPlayer
+                            }
+                            onCheckedChange={(checked) =>
+                              settingsStore.setRotateMapWithPlayer(
+                                checked,
+                                "overlay",
+                              )
+                            }
+                          />
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between gap-2 pl-2">
+                        <Label
+                          htmlFor="rotate-map-with-player"
+                          className="font-normal"
+                        >
+                          {t("settings.rotateMapWithPlayer.desktop", {
+                            fallback: isApp
+                              ? "Desktop window and website"
+                              : "Website map",
+                          })}
+                        </Label>
+                        <Switch
+                          id="rotate-map-with-player"
+                          checked={
+                            (profileSettings.rotateMapWithPlayer ?? false) &&
+                            profileSettings.followPlayer
+                          }
+                          onCheckedChange={(checked) =>
+                            settingsStore.setRotateMapWithPlayer(
+                              checked,
+                              "desktop",
+                            )
+                          }
+                        />
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 justify-between">
                       <Label htmlFor="trace-line-length">

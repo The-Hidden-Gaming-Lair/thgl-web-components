@@ -24,18 +24,24 @@ export function Player({
   markerOptions,
   iconsPath,
   tilesConfig,
+  isOverlay = false,
 }: {
   appName: string;
   player: ActorPlayer;
   markerOptions: MarkerOptions;
   iconsPath: string;
   tilesConfig: TilesConfig;
+  /** In-game overlay window: heading-up follows the overlay's own setting. */
+  isOverlay?: boolean;
 }): JSX.Element {
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
   const setMapName = useUserStore((state) => state.setMapName);
   const t = useT();
   const followPlayerPosition = useSettingsStore((state) => state.followPlayer);
+  const rotateMapWithPlayer = useSettingsStore((state) =>
+    isOverlay ? state.rotateMapWithPlayerOverlay : state.rotateMapWithPlayer,
+  );
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const playerIconSize = useSettingsStore((state) => state.playerIconSize);
   const colorBlindMode = useSettingsStore((state) => state.colorBlindMode);
@@ -248,7 +254,9 @@ export function Player({
   // player position actually changes, not on every game state emission.
   const px = player?.x;
   const py = player?.y;
+  const pr = player?.r;
   const pMap = player?.mapName;
+  const rotateWithPlayer = followPlayerPosition && rotateMapWithPlayer;
 
   useEffect(() => {
     if (!map?.mapName || px == null || py == null || !marker.current) {
@@ -282,14 +290,45 @@ export function Player({
     if (followPlayerPosition) {
       map.panTo(playerPosition);
     }
-  }, [map?.mapName, px, py, pMap, followPlayerPosition, tilesConfig]);
+    // Heading-up: the icon is drawn at r plus the map's rotation offset (the sum
+    // PlayerMarker uses), and the image itself points `playerIconForward` away
+    // from up, so the player faces screen angle r + offset + forward. A world
+    // heading θ sits at the top of the screen when the camera bearing equals θ.
+    if (rotateWithPlayer && pr != null && Number.isFinite(pr)) {
+      const offset = tilesConfig[map.mapName]?.rotation?.angle ?? 0;
+      const forward = markerOptions.playerIconForward ?? 0;
+      map.rotateTo(((pr + offset + forward) * Math.PI) / 180);
+    }
+  }, [
+    map?.mapName,
+    px,
+    py,
+    pr,
+    pMap,
+    followPlayerPosition,
+    rotateWithPlayer,
+    tilesConfig,
+    markerOptions.playerIconForward,
+  ]);
+
+  // Leaving heading-up mode puts north back on top; while it is on, a manual
+  // rotate is simply overtaken by the next heading update.
+  const prevRotateWithPlayerRef = useRef(rotateWithPlayer);
+  useEffect(() => {
+    if (prevRotateWithPlayerRef.current && !rotateWithPlayer) {
+      map?.rotateTo(0);
+    }
+    prevRotateWithPlayerRef.current = rotateWithPlayer;
+  }, [map, rotateWithPlayer]);
 
   // Live map-follow: when the player crosses to a DIFFERENT map (game map / instance),
   // switch the viewed map to theirs. Edge-triggered on the player's map so it doesn't
-  // fight manual browsing. It does NOT follow the player into a layered interior: the
-  // `sameWorld` guard keeps a manual layer pick (e.g. viewing the parent's Underground)
-  // from being yanked back to the surface, since the player's position already shows
-  // on both.
+  // fight manual browsing. Within one world (surface + its layer maps) it follows only
+  // when the app itself reports a LAYER map (the game told it which floor the player
+  // is on — Infinity Nikki's Stonetree/Spira floors), and back to the surface once the
+  // app stops reporting one. A surface-only report (Wuthering Waves: the app never
+  // names an interior) leaves a manual layer pick alone, since the player's position
+  // already shows on both.
   const lastPlayerMapRef = useRef<string | null>(null);
   useEffect(() => {
     if (!pMap || !map || !(pMap in tilesConfig)) {
@@ -298,9 +337,14 @@ export function Player({
     if (pMap === lastPlayerMapRef.current) {
       return;
     }
+    const prevPlayerMap = lastPlayerMapRef.current;
     lastPlayerMapRef.current = pMap;
     if (isSameWorld(pMap, map.mapName, tilesConfig)) {
-      return;
+      const reportsLayer = !!tilesConfig[pMap]?.layer;
+      const leftLayer = !!prevPlayerMap && !!tilesConfig[prevPlayerMap]?.layer;
+      if (pMap === map.mapName || !(reportsLayer || leftLayer)) {
+        return;
+      }
     }
     // Carry the current zoom only when both maps share tiles (same coordinate
     // space). Across different tile spaces the current zoom is meaningless —
@@ -317,10 +361,21 @@ export function Player({
       sameTiles ? map.getZoom() : undefined,
     );
     if (location.pathname.includes("/maps/")) {
+      // Mirrors selectFloor: the path names the SURFACE, a floor rides along as
+      // `?layer=` (a floor title in the path would resolve back to the surface).
+      const surface = tilesConfig[pMap]?.layer?.parent ?? pMap;
       // Slug = dict term; a defaultTitle equal to the map id isn't a real title.
-      const dt = tilesConfig[pMap]?.defaultTitle;
-      const title = (dt && dt !== pMap ? dt : t(pMap)) || pMap;
-      window.history.pushState({}, "", `/maps/${title}`);
+      const dt = tilesConfig[surface]?.defaultTitle;
+      const title = (dt && dt !== surface ? dt : t(surface)) || surface;
+      const params = new URLSearchParams(window.location.search);
+      if (surface !== pMap) params.set("layer", pMap);
+      else params.delete("layer");
+      const qs = params.toString();
+      window.history.pushState(
+        {},
+        "",
+        qs ? `/maps/${title}?${qs}` : `/maps/${title}`,
+      );
     }
   }, [!!map, pMap, tilesConfig]);
 

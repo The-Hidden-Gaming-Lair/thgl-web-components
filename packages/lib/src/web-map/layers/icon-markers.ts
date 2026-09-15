@@ -193,6 +193,10 @@ export interface IconMarkerInstance {
   screenOffsetY?: number; // screen-space Y offset in world pixels (negative = up)
   rotation?: number; // radians
   keepUpright?: boolean; // do not rotate with map bearing
+  // `rotation` is a WORLD heading (player/teammate arrows): the icon stays a
+  // billboard on tilt but turns with the map bearing, so it keeps pointing
+  // where the actor faces on a rotated map. Ignored when keepUpright is false.
+  worldHeading?: boolean;
   tint?: string; // optional color tint (hex string like "#FF0000" or "#FF0000CC")
   isStacked?: boolean; // show indicator for multiple spawns at same location
   layered?: boolean; // spawn belongs to a layered interior — show a layer badge
@@ -216,7 +220,7 @@ in float a_count;   // 1=single, 2=stacked (multiple spawns at same location)
 in float a_layered; // 1=spawn is inside a layered interior (show layer badge)
 in float a_angle;   // rotation in radians
 in float a_renderMode; // 0=icon, 1=height stem
-in float a_keepUpright; // 1=billboard mode, 0=use own rotation
+in float a_keepUpright; // 1=billboard mode, 2=billboard + world heading, 0=use own rotation
 in vec4 a_tint;     // RGBA tint color (1,1,1,1 = no tint)
 in vec2 a_spiderOffset; // screen-space offset in device px for spiderfied markers
 uniform mat3 u_view; // world->clip
@@ -278,8 +282,13 @@ void main(){
       float depth = (1.0 + centerScreen.y) * 0.5;
       centerScreen.y += heightClip * iconDirection;
 
-      // Apply icon rotation in screen space
-      float cs = cos(a_angle), sn = sin(a_angle);
+      // Apply icon rotation in screen space. Plain billboards (spawn icons,
+      // a_angle 0) stay upright whatever the bearing. In world-heading mode
+      // (2.0: the player arrow) a_angle is a WORLD heading, so subtract the
+      // camera bearing: the arrow keeps pointing where the player faces on a
+      // rotated map, and straight up in "rotate map with player" mode.
+      float ang = a_keepUpright > 1.5 ? a_angle - u_bearing : a_angle;
+      float cs = cos(ang), sn = sin(ang);
       vec2 rot = vec2(cs*local.x - sn*local.y, sn*local.x + cs*local.y);
 
       // Apply screen-space offset directly (no perspective compression)
@@ -1627,7 +1636,8 @@ export class IconMarkerLayer implements Layer {
         layered[visCount] = m.layered ? 1 : 0;
         const angle = m.rotation ?? 0;
         angles[visCount] = angle;
-        keepUprights[visCount] = m.keepUpright !== false ? 1.0 : 0.0;
+        keepUprights[visCount] =
+          m.keepUpright === false ? 0.0 : m.worldHeading ? 2.0 : 1.0;
         // Parse tint color (hex string to RGBA), cached on the instance
         if (m.tint) {
           let rgba = (m as any)._tintRGBA as

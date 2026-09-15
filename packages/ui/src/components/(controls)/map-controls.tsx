@@ -23,6 +23,7 @@ import { useCoordinatesOptional } from "../(providers)";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
+import { Switch } from "../ui/switch";
 
 /** Large interactive compass with draggable bearing ring and tilt slider */
 function CompassPopover({
@@ -31,12 +32,17 @@ function CompassPopover({
   onBearingChange,
   onPitchChange,
   onResetNorth,
+  rotateWithPlayer,
+  onToggleRotateWithPlayer,
 }: {
   bearing: number;
   pitch: number;
   onBearingChange: (rad: number) => void;
   onPitchChange: (rad: number) => void;
   onResetNorth: () => void;
+  /** Heading-up mode state; the row is hidden when undefined (no player). */
+  rotateWithPlayer?: boolean;
+  onToggleRotateWithPlayer?: () => void;
 }) {
   const ringRef = useRef<SVGCircleElement>(null);
   const draggingRef = useRef(false);
@@ -231,6 +237,18 @@ function CompassPopover({
         </button>
       </div>
 
+      {/* Heading-up mode: the map turns with the player's facing direction */}
+      {rotateWithPlayer !== undefined && onToggleRotateWithPlayer && (
+        <label className="flex items-center justify-between gap-3 w-full text-xs text-muted-foreground cursor-pointer">
+          <span>Rotate with player</span>
+          <Switch
+            checked={rotateWithPlayer}
+            onCheckedChange={onToggleRotateWithPlayer}
+            aria-label="Rotate map with player"
+          />
+        </label>
+      )}
+
       {/* Keyboard shortcut hints */}
       <div className="border-t border-border/40 pt-2 mt-1 space-y-0.5">
         <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
@@ -279,6 +297,7 @@ export function MapControls({
   hidden,
   webmap: externalMap,
   alwaysShowFollowPlayer,
+  isOverlay = false,
   coordinateCopyFormat,
 }: {
   hidden?: boolean;
@@ -286,6 +305,8 @@ export function MapControls({
   webmap?: WebMap | null;
   /** Always show the follow player toggle (for in-game overlays) */
   alwaysShowFollowPlayer?: boolean;
+  /** In-game overlay window: the compass drives the overlay's own rotate setting */
+  isOverlay?: boolean;
   /** Per-game coordinate format (e.g. "({x},{y})"), used for the go-to placeholder */
   coordinateCopyFormat?: string;
 }) {
@@ -403,6 +424,20 @@ export function MapControls({
   const toggleFollowPlayer = useSettingsStore(
     (state) => state.toggleFollowPlayer,
   );
+  const rotateMapWithPlayer = useSettingsStore((state) =>
+    isOverlay ? state.rotateMapWithPlayerOverlay : state.rotateMapWithPlayer,
+  );
+  const setRotateMapWithPlayer = useSettingsStore(
+    (state) => state.setRotateMapWithPlayer,
+  );
+  // Heading-up needs follow; the setter switches Follow Player on with it so
+  // the toggle never visibly does nothing.
+  const handleToggleRotateWithPlayer = useCallback(() => {
+    setRotateMapWithPlayer(
+      !(rotateMapWithPlayer && followPlayer),
+      isOverlay ? "overlay" : "desktop",
+    );
+  }, [rotateMapWithPlayer, followPlayer, setRotateMapWithPlayer, isOverlay]);
 
   if (!map || hidden) return null;
 
@@ -434,6 +469,12 @@ export function MapControls({
             onBearingChange={handleBearingChange}
             onPitchChange={handlePitchChange}
             onResetNorth={handleResetNorth}
+            rotateWithPlayer={
+              showFollowPlayer ? rotateMapWithPlayer && followPlayer : undefined
+            }
+            onToggleRotateWithPlayer={
+              showFollowPlayer ? handleToggleRotateWithPlayer : undefined
+            }
           />
         </PopoverContent>
       </Popover>
