@@ -19,6 +19,8 @@ import { resolveDict } from "@/lib/db/resolve-dict";
 import { entityPageJsonLd } from "@/lib/db/json-ld";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { GenericEntityView } from "@/lib/db/generic-view";
+import { getPartnerEntryLink } from "@/lib/db/partner-links";
+import { PartnerLinkRow } from "@/lib/db/partner-link";
 import { SocEntityView } from "@/games/songs-of-conquest/entity-view";
 
 // Per-game detail-view overrides. Tenants not listed fall back to the generic
@@ -323,6 +325,20 @@ export default async function Page({ params }: { params: Params }) {
               filters={version.data.filters}
               dict={dict}
             />
+          );
+        })()}
+        {(() => {
+          // Partner counterpart for this entry (e.g. a resonator's build guide),
+          // rendered after the entity so our own content stays the page's lead.
+          const partner = getPartnerEntryLink(appConfig.name, section, item.id);
+          if (!partner) return null;
+          return (
+            <div className="mt-6">
+              <PartnerLinkRow
+                link={partner}
+                label={`${name} build guide on ${partner.name}`}
+              />
+            </div>
           );
         })()}
       </div>
