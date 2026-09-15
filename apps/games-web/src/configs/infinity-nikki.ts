@@ -9,8 +9,7 @@ const preview = (mapId: string, version?: string) => {
 export const infinityNikki = resolveAppConfig({
   name: "infinity-nikki",
   supportedLocales: ["en"],
-  appUrl: null,
-  withoutLiveMode: true,
+  appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
       title: "Miraland Map",

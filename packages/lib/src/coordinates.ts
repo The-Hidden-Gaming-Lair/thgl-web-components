@@ -120,6 +120,8 @@ export type Spawn = {
    * map. Absent for ordinary surface spawns.
    */
   layer?: string;
+  /** Plotted on a layer map it does NOT belong to (badge there too). */
+  offLayer?: boolean;
   data?: Record<string, string[]>;
   /** Screen-space X offset in device px for spiderfied mixed-type clusters */
   spiderOffsetX?: number;

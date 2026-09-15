@@ -960,7 +960,9 @@ function MarkersContent({
     const dpr = window.devicePixelRatio || 1;
     // The layer badge only makes sense on the overworld, where layered spawns
     // are mixed with surface ones. On a layer map (e.g. "Underground") every
-    // spawn is layered, so a badge on all of them is just noise — suppress it.
+    // spawn is layered, so a badge on all of them is just noise — suppress it,
+    // except for copies flagged `offLayer` (a marker the game shows on every floor
+    // of an area, plotted on a floor that is not its own — Nikki checkpoints).
     const onLayerMap = !!tilesConfig[map.mapName]?.layer?.parent;
     const markerInstances: IconMarkerInstance[] = [];
     const newSpawnMap = new Map<string, Spawn>();
@@ -1274,7 +1276,7 @@ function MarkersContent({
         isStacked,
         // Show a layer badge on the overworld for spawns that live inside a
         // layered interior (they are also mirrored into the "Underground" map).
-        layered: !onLayerMap && !!spawn.layer,
+        layered: !!spawn.layer && (!onLayerMap || !!spawn.offLayer),
         spiderOffsetX,
         spiderOffsetY,
       };
