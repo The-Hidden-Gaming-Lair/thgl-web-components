@@ -4,10 +4,8 @@ import { resolveAppConfig } from "@repo/lib";
  * The Blood of Dawnwalker — interactive map of Vale Sangora (one open world).
  * Subdomain: bloodofdawnwalker.th.gl (derived from games.ts `web`).
  *
- * THGLApp companion support (detector `bloodofdawnwalker_detector`) is built but not
- * yet in a public app release: `appUrl` (the "In-Game App" CTA) stays null until then.
- * Live mode stays enabled so the typeIDs map (`version.typesIdMap`) reaches the map
- * page for the Debug app / the future release.
+ * THGLApp companion support (detector `bloodofdawnwalker_detector`) ships in the public
+ * app since 17.1.2 (2026-09-16); `appUrl` enables the "In-Game App" CTA.
  * No manual "/maps/..." internalLink — the home page auto-generates the richer
  * map card (preview + counts) for the single map.
  */
@@ -17,9 +15,8 @@ export const bloodOfDawnwalker = resolveAppConfig({
   // game locales (cs, de, es, es-MX, fr, hu, it, ja, ko, pl, pt-BR, tr, zh-CN, zh-TW) to
   // dicts/<locale>.json (map names + database) — add them here to enable them later.
   supportedLocales: ["en"],
-  // No "In-Game App" CTA until a public THGLApp build ships the Dawnwalker detector
-  // (companion block is inDevelopment in games.ts). Set to "https://www.th.gl/companion-app" then.
-  appUrl: null,
+  // appUrl enables the "In-Game App" CTA on the web page.
+  appUrl: "https://www.th.gl/companion-app",
   // Curated database cards (guides page + llms.txt); the map card is auto-generated (see above).
   internalLinks: [
     {
