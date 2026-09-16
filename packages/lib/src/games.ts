@@ -18,13 +18,6 @@ export const games: Array<Game> = [
     title: "The Blood of Dawnwalker",
     logo: `${TH_GL_URL}/global_icons/blood-of-dawnwalker.webp`,
     companion: {
-      // Website public since 2026-09-15 (was Elite-gated via PREVIEW_RELEASE_APPS). The
-      // detector is merged on THGLApp main but no public build ships it yet, so keep the
-      // companion hidden from every list/CTA - routing + process detection stay live so the
-      // Debug app can test it. Drop this flag (and set the tenant's appUrl) with the app
-      // release; gate the companion alone via PREVIEW_RELEASE_COMPANION_APPS if it needs a
-      // preview round first (Enshrouded precedent).
-      inDevelopment: true,
       baseURL: "/apps/blood-of-dawnwalker",
       controllerURL: "/apps/blood-of-dawnwalker/controller",
       desktopURL: "/apps/blood-of-dawnwalker",
