@@ -1,4 +1,5 @@
 import { type AppConfig, isDevForgeHost } from "@repo/lib";
+import { aniimo } from "./aniimo";
 import { avowed } from "./avowed";
 import { bloodOfDawnwalker } from "./blood-of-dawnwalker";
 import { blueProtocolStarResonance } from "./blue-protocol-star-resonance";
@@ -47,6 +48,7 @@ import { wutheringWaves } from "./wuthering-waves";
  */
 const ALL_CONFIGS: AppConfig[] = [
   planetCrafter,
+  aniimo,
   avowed,
   bloodOfDawnwalker,
   blueProtocolStarResonance,

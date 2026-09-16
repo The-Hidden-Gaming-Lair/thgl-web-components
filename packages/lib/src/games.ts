@@ -986,6 +986,14 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "aniimo",
+    discordId: "aniimo",
+    title: "Aniimo",
+    logo: `${TH_GL_URL}/global_icons/aniimo.webp`,
+    web: "https://aniimo.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "avowed",
     discordId: "avowed",
     title: "Avowed",
