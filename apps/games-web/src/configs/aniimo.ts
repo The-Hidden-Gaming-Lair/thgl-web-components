@@ -38,7 +38,7 @@ export const aniimo = resolveAppConfig({
   ],
   db: {
     heroSubtitle: "Game Database",
-    searchPlaceholder: "Search Aniimo and items…",
+    searchPlaceholder: "Search Aniimo, skills, items, quests…",
     sectionsInNav: true,
     homeSections: [
       {
@@ -55,6 +55,49 @@ export const aniimo = resolveAppConfig({
         titleFallback: "Items",
         icon: "🎒",
         description: "Items, materials and consumables by rarity.",
+      },
+      {
+        href: "/db/skills",
+        type: "skills",
+        titleFallback: "Skills",
+        icon: "✨",
+        description:
+          "Every Aniimo skill with element, power, EP cost and cooldown, linked from each species.",
+      },
+      {
+        href: "/db/talents",
+        type: "talents",
+        titleFallback: "Talents",
+        icon: "🧬",
+        description: "Aniimo talents by rarity with their effects.",
+      },
+      {
+        href: "/db/type_chart",
+        type: "type_chart",
+        titleFallback: "Type Chart",
+        icon: "⚔️",
+        description: "Damage multipliers between all nine elements.",
+      },
+      {
+        href: "/db/shops",
+        type: "shops",
+        titleFallback: "Shops",
+        icon: "🛒",
+        description: "What every shop sells, with prices and currencies.",
+      },
+      {
+        href: "/db/quests",
+        type: "quests",
+        titleFallback: "Quests",
+        icon: "📜",
+        description: "Main story quests by chapter with their regions.",
+      },
+      {
+        href: "/db/badges",
+        type: "badges",
+        titleFallback: "Badges",
+        icon: "🏅",
+        description: "Pathfinder profile badges and how to earn them.",
       },
     ],
   },
