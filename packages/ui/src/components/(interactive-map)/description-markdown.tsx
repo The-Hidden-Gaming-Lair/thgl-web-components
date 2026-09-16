@@ -4,7 +4,15 @@ import type { ReactNode } from "react";
 import { useCallback } from "react";
 import Markdown from "markdown-to-jsx";
 import Link from "next/link";
-import { localizePath } from "@repo/lib";
+import {
+  games,
+  getCurrentGameId,
+  isThglApp,
+  localizePath,
+  TH_GL_URL,
+  useHasMounted,
+} from "@repo/lib";
+import { openInBrowser } from "@repo/lib/thgl-app";
 import { useLocale, useT, useUserStoreApiOptional } from "../(providers)";
 import { useMapStore } from "./store";
 
@@ -18,6 +26,12 @@ import { useMapStore } from "./store";
 //     layout (Next routing would remount the map — the app itself uses replaceState for this).
 //   • other internal links (`/db/...`) — client-side <Link> (soft nav).
 //   • external links — new tab.
+//
+// Inside the companion app (app.th.gl/apps/<id>) every internal link is WRONG twice over: the app
+// tenant has no `/db` or `/maps` routes (404) and the page IS the map, so the soft nav replaces it
+// with no way back. There they open on the game's public site in the default browser via
+// "openInBrowser", exactly like the codex link (db-entry-link.tsx). Decided after mount only —
+// `isThglApp` is browser-only and deciding during the first render breaks hydration.
 
 function resolveMapLink(
   href: string,
@@ -69,6 +83,9 @@ function mdOptions(
   locale: string,
   t: (key: string, opts?: { fallback?: string }) => string,
   focusMarker: (nodeId: string) => void,
+  // Public site to send internal links to when running inside the app; null on web/Overwolf,
+  // where the same-origin soft nav is correct.
+  appSite: string | null,
 ) {
   const linkClass =
     "text-amber-400 underline underline-offset-2 hover:text-amber-300";
@@ -85,11 +102,12 @@ function mdOptions(
         }) => {
           if (typeof href === "string" && href.startsWith("/maps/")) {
             const resolved = localizePath(resolveMapLink(href, t), locale);
+            const target = appSite ? `${appSite}${resolved}` : resolved;
             const m = href.match(/[?&]id=([^&]+)/);
             const nodeId = m ? decodeURIComponent(m[1]) : undefined;
             return (
               <a
-                href={resolved}
+                href={target}
                 className={linkClass}
                 onClick={(e) => {
                   // Let modified / non-left clicks open the real URL (new tab, cross-map SSR).
@@ -99,8 +117,15 @@ function mdOptions(
                     e.ctrlKey ||
                     e.shiftKey ||
                     e.button !== 0
-                  )
+                  ) {
+                    // …but in the app that URL must go to the browser, not the WebView.
+                    if (appSite) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      void openInBrowser(target);
+                    }
                     return;
+                  }
                   e.preventDefault();
                   e.stopPropagation();
                   focusMarker(nodeId);
@@ -111,9 +136,28 @@ function mdOptions(
             );
           }
           if (typeof href === "string" && href.startsWith("/")) {
+            const path = localizePath(href, locale);
+            if (appSite) {
+              const target = `${appSite}${path}`;
+              return (
+                <a
+                  href={target}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={linkClass}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    void openInBrowser(target);
+                  }}
+                >
+                  {children}
+                </a>
+              );
+            }
             return (
               <Link
-                href={localizePath(href, locale)}
+                href={path}
                 prefetch={false}
                 className={linkClass}
                 onClick={(e) => e.stopPropagation()}
@@ -144,7 +188,14 @@ export function DescriptionMarkdown({ children }: { children: string }) {
   const locale = useLocale();
   const t = useT();
   const focusMarker = useFocusMarker();
+  const mounted = useHasMounted();
+  const appSite =
+    mounted && isThglApp
+      ? (games.find((g) => g.id === getCurrentGameId())?.web ?? TH_GL_URL)
+      : null;
   return (
-    <Markdown options={mdOptions(locale, t, focusMarker)}>{children}</Markdown>
+    <Markdown options={mdOptions(locale, t, focusMarker, appSite)}>
+      {children}
+    </Markdown>
   );
 }
