@@ -17,7 +17,7 @@ export const aniimo = resolveAppConfig({
     "zh-CN",
     "zh-TW",
   ],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   internalLinks: [],
   promoLinks: [],
   externalLinks: [],
