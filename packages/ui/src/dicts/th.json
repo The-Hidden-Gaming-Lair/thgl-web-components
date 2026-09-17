@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "แจ้งเตือนล่วงหน้า {{minutes}} นาที",
   "paliaClock.speak": "อ่านการแจ้งเตือนออกเสียง",
   "paliaClock.about": "เกี่ยวกับกิจกรรมเหล่านี้",
-  "paliaClock.info": "นี่คืออะไร?"
+  "paliaClock.info": "นี่คืออะไร?",
+  "settings.darkMap": "แผนที่มืด",
+  "settings.darkMap.description": "ทำให้ภาพแผนที่มืดลง แผนที่สว่างจะถูกกลับสี ส่วนแผนที่มืดจะถูกหรี่ลง"
 }

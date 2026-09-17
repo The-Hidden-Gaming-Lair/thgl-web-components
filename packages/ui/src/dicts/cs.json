@@ -423,5 +423,7 @@
   "paliaClock.leadBefore": "Upozornit {{minutes}} min předem",
   "paliaClock.speak": "Číst upozornění nahlas",
   "paliaClock.about": "O těchto událostech",
-  "paliaClock.info": "Co to je?"
+  "paliaClock.info": "Co to je?",
+  "settings.darkMap": "Tmavá mapa",
+  "settings.darkMap.description": "Ztmaví obraz mapy. Světlé mapy se invertují, tmavé mapy se ztlumí."
 }

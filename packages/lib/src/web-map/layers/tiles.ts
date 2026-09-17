@@ -2,13 +2,23 @@ import type { AffineTransform, Layer, LatLng, RenderState } from "../types";
 import { createProgram } from "../utils/gl";
 import { tileVS, tileFS } from "../utils/shaders";
 import { ColorBlindMode } from "../utils/color-blind";
+import { ToneEstimator, sampleImageLuma } from "../utils/tile-tone";
 import { TileRetryPolicy } from "./tile-retry";
+
+/**
+ * In-game overlay transparency modes: "greyscale"/"colorful" make dark map
+ * pixels see-through so the game shows behind the map; anything else draws the
+ * tiles as they are ("full" means no tile layer at all - handled by the caller).
+ */
+export type TileFilter = "none" | "greyscale" | "colorful" | "full";
 
 export interface TileLayerOptions {
   url: string; // template: {z}/{x}/{y}.png with optional {s}
   subdomains?: string[];
-  filter?: "greyscale" | "colorful" | null;
+  filter?: TileFilter | null;
   colorBlind?: { mode: ColorBlindMode; severity: number } | null;
+  /** Dark Map strength 0..1 (0 = off). Light maps invert, dark maps dim. */
+  darkness?: number;
   tileSize?: number; // default 256
   minNativeZoom?: number;
   maxNativeZoom?: number;
@@ -54,6 +64,10 @@ export class TileLayer implements Layer {
   private u_cb_mode_loc: WebGLUniformLocation | null = null;
   private u_cb_sev_loc: WebGLUniformLocation | null = null;
   private u_filter_loc: WebGLUniformLocation | null = null;
+  private u_dark_mode_loc: WebGLUniformLocation | null = null;
+  private u_dark_loc: WebGLUniformLocation | null = null;
+  // Light-vs-dark estimate of this map, fed by every loaded tile.
+  private tone = new ToneEstimator();
   private tileSize = 256;
   private minNativeZoom = 0;
   private maxNativeZoom = 24;
@@ -76,6 +90,21 @@ export class TileLayer implements Layer {
   /** Update the tile dim (backdrop) in place — no tile reload. */
   setOpacity(opacity: number) {
     this.opts.opacity = opacity;
+  }
+
+  /** Switch the overlay transparency mode in place — no tile reload. */
+  setFilter(filter: TileFilter | null) {
+    this.opts.filter = filter;
+  }
+
+  /** Update the Dark Map strength in place — no tile reload. */
+  setDarkness(darkness: number) {
+    this.opts.darkness = Math.max(0, Math.min(1, darkness));
+  }
+
+  /** Whether the loaded tiles read as a light map (drives invert vs dim). */
+  isLightMap() {
+    return this.tone.isLight();
   }
 
   setColorBlindMode(mode: ColorBlindMode) {
@@ -139,6 +168,8 @@ export class TileLayer implements Layer {
     this.u_cb_mode_loc = gl.getUniformLocation(this.program!, "u_cb_mode");
     this.u_cb_sev_loc = gl.getUniformLocation(this.program!, "u_cb_sev");
     this.u_filter_loc = gl.getUniformLocation(this.program!, "u_filterMode");
+    this.u_dark_mode_loc = gl.getUniformLocation(this.program!, "u_darkMode");
+    this.u_dark_loc = gl.getUniformLocation(this.program!, "u_dark");
   }
 
   onRemove(): void {
@@ -353,7 +384,22 @@ export class TileLayer implements Layer {
     const sev = this.opts.colorBlind?.severity ?? 0;
     gl.uniform1i(this.u_cb_mode_loc, mode);
     gl.uniform1f(this.u_cb_sev_loc, sev);
-    gl.uniform1i(this.u_filter_loc, this.opts.filter === "greyscale" ? 1 : 0);
+    const filterMode = filterToInt(this.opts.filter);
+    gl.uniform1i(this.u_filter_loc, filterMode);
+    const darkness = this.opts.darkness ?? 0;
+    gl.uniform1i(this.u_dark_mode_loc, this.tone.mode(darkness));
+    gl.uniform1f(this.u_dark_loc, darkness);
+    if (filterMode !== 0) {
+      // The transparency modes emit alpha 0 for dark pixels; that only shows
+      // through if blending is on. Another layer may have left it disabled.
+      gl.enable(gl.BLEND);
+      gl.blendFuncSeparate(
+        gl.SRC_ALPHA,
+        gl.ONE_MINUS_SRC_ALPHA,
+        gl.ONE,
+        gl.ONE_MINUS_SRC_ALPHA,
+      );
+    }
     const u_alpha = this.u_alpha_loc!;
     const now = performance.now();
     const fade =
@@ -470,6 +516,10 @@ export class TileLayer implements Layer {
       // A lost context hands out null textures without throwing; a null
       // texture drawn later is a black tile that would never be re-requested.
       if (gl.isContextLost()) return null;
+      // Always sampled (not only while Dark Map is on) so the light/dark
+      // decision is ready the moment the slider moves; the estimator locks
+      // after a handful of tiles, so at most a few 8x8 draws per layer.
+      this.tone.add(sampleImageLuma(img));
       const tex = gl.createTexture();
       if (!tex) return null;
       gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -616,6 +666,17 @@ function loadImage(
     img.onerror = () => rej(new Error("Image load failed"));
     img.src = src;
   });
+}
+
+function filterToInt(filter: TileFilter | null | undefined): number {
+  switch (filter) {
+    case "greyscale":
+      return 1;
+    case "colorful":
+      return 2;
+    default:
+      return 0;
+  }
 }
 
 function cbModeToInt(mode: ColorBlindMode): number {

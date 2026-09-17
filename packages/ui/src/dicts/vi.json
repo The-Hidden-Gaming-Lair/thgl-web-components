@@ -435,5 +435,7 @@
   "paliaClock.leadBefore": "Cảnh báo trước {{minutes}} phút",
   "paliaClock.speak": "Đọc to cảnh báo",
   "paliaClock.about": "Về các sự kiện này",
-  "paliaClock.info": "Đây là gì?"
+  "paliaClock.info": "Đây là gì?",
+  "settings.darkMap": "Bản đồ tối",
+  "settings.darkMap.description": "Làm tối hình ảnh bản đồ. Bản đồ sáng được đảo màu, bản đồ tối được giảm sáng."
 }

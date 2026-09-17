@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "Alertar {{minutes}} min antes",
   "paliaClock.speak": "Ler alertas em voz alta",
   "paliaClock.about": "Sobre estes eventos",
-  "paliaClock.info": "O que é isso?"
+  "paliaClock.info": "O que é isso?",
+  "settings.darkMap": "Mapa escuro",
+  "settings.darkMap.description": "Escurece a imagem do mapa. Mapas claros são invertidos e mapas escuros são atenuados."
 }

@@ -435,5 +435,7 @@
   "paliaClock.leadBefore": "Peringatan {{minutes}} menit sebelumnya",
   "paliaClock.speak": "Bacakan peringatan",
   "paliaClock.about": "Tentang acara ini",
-  "paliaClock.info": "Apa ini?"
+  "paliaClock.info": "Apa ini?",
+  "settings.darkMap": "Peta Gelap",
+  "settings.darkMap.description": "Menggelapkan gambar peta. Peta terang dibalik warnanya, peta gelap diredupkan."
 }

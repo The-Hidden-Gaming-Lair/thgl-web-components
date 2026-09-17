@@ -1,6 +1,6 @@
 export * from "./types";
 export { WebMap, type WebMapEventMap } from "./webmap";
-export { TileLayer } from "./layers/tiles";
+export { TileLayer, type TileFilter } from "./layers/tiles";
 export {
   IconMarkerLayer,
   type IconMarkerInstance,

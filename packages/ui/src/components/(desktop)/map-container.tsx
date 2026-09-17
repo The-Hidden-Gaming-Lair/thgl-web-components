@@ -99,6 +99,9 @@ function MinimapSettingsCard({
   const setMapFilter = useSettingsStore((state) => state.setMapFilter);
   const windowOpacity = useSettingsStore((state) => state.windowOpacity);
   const setWindowOpacity = useSettingsStore((state) => state.setWindowOpacity);
+  // `?? 0`: profiles persisted before the setting existed lack the key.
+  const mapDarkness = useSettingsStore((state) => state.mapDarkness ?? 0);
+  const setMapDarkness = useSettingsStore((state) => state.setMapDarkness);
   const followPlayer = useSettingsStore((state) => state.followPlayer);
   const toggleFollowPlayer = useSettingsStore(
     (state) => state.toggleFollowPlayer,
@@ -157,6 +160,25 @@ function MinimapSettingsCard({
           />
           <span className="tabular-nums w-8 text-right text-muted-foreground">
             {Math.round(windowOpacity * 100)}%
+          </span>
+        </span>
+      </label>
+      <label className="flex items-center justify-between gap-3">
+        <span className="text-muted-foreground shrink-0">
+          {t("settings.darkMap", { fallback: "Dark Map" })}
+        </span>
+        <span className="flex items-center gap-2 w-36">
+          <Slider
+            className="flex-1"
+            value={[mapDarkness]}
+            step={0.05}
+            min={0}
+            max={1}
+            onValueChange={(value) => setMapDarkness(value[0])}
+            aria-label="Dark map"
+          />
+          <span className="tabular-nums w-8 text-right text-muted-foreground">
+            {Math.round(mapDarkness * 100)}%
           </span>
         </span>
       </label>

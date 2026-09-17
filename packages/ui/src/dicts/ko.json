@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "{{minutes}}분 전에 알림",
   "paliaClock.speak": "알림 음성으로 읽기",
   "paliaClock.about": "이벤트 정보",
-  "paliaClock.info": "이게 뭔가요?"
+  "paliaClock.info": "이게 뭔가요?",
+  "settings.darkMap": "다크 맵",
+  "settings.darkMap.description": "맵 이미지를 어둡게 합니다. 밝은 맵은 반전되고 어두운 맵은 어둡게 조정됩니다."
 }

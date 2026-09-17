@@ -261,6 +261,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   transforms: {},
   mapTransform: null,
   mapFilter: "none",
+  mapDarkness: 0,
   windowOpacity: 1,
   discoveredNodes: [],
   hideDiscoveredNodes: false,
@@ -378,6 +379,9 @@ export type ProfileSettings = {
   transforms: Record<string, string>;
   mapTransform: MapTransform | null;
   mapFilter: string;
+  // "Dark Map" slider 0..1 (0 = off): darkens the map image on web, desktop
+  // and overlay. Profiles saved before it existed lack the key (read as 0).
+  mapDarkness: number;
   windowOpacity: number;
   discoveredNodes: string[];
   hideDiscoveredNodes: boolean;
@@ -497,6 +501,7 @@ export interface ProfileActions {
   setTransform: (id: string, transform: string) => void;
   setMapTransform: (mapTransform: MapTransform | null) => void;
   setMapFilter: (mapFilter: string) => void;
+  setMapDarkness: (mapDarkness: number) => void;
   setWindowOpacity: (windowOpacity: number) => void;
   resetTransform: () => void;
   resetInterface: () => void;
@@ -1208,6 +1213,12 @@ export const useSettingsStore = create(
             updateSettings({ mapFilter });
           },
 
+          setMapDarkness: (mapDarkness) => {
+            updateSettings({
+              mapDarkness: Math.max(0, Math.min(1, mapDarkness)),
+            });
+          },
+
           setWindowOpacity: (windowOpacity) => {
             updateSettings({ windowOpacity });
           },
@@ -1239,6 +1250,7 @@ export const useSettingsStore = create(
               // Accessibility
               colorBlindMode: "none",
               colorBlindSeverity: 1,
+              mapDarkness: 0,
               highContrastMode: false,
               highContrastColor: "#FFFFFFCC",
               highContrastThickness: 2,

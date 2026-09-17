@@ -423,5 +423,7 @@
   "paliaClock.leadBefore": "Riasztás {{minutes}} perccel előtte",
   "paliaClock.speak": "Riasztások felolvasása",
   "paliaClock.about": "Az eseményekről",
-  "paliaClock.info": "Mi ez?"
+  "paliaClock.info": "Mi ez?",
+  "settings.darkMap": "Sötét térkép",
+  "settings.darkMap.description": "Sötétíti a térkép képét. A világos térképek invertálódnak, a sötétek halványodnak."
 }

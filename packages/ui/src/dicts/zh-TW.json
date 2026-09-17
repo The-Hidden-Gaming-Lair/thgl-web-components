@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "提前 {{minutes}} 分鐘提醒",
   "paliaClock.speak": "朗讀提醒",
   "paliaClock.about": "關於這些活動",
-  "paliaClock.info": "這是什麼？"
+  "paliaClock.info": "這是什麼？",
+  "settings.darkMap": "深色地圖",
+  "settings.darkMap.description": "使地圖圖片變暗。淺色地圖會反轉，深色地圖會調暗。"
 }

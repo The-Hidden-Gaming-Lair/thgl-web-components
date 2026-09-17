@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "Сповістити за {{minutes}} хв до початку",
   "paliaClock.speak": "Озвучувати сповіщення",
   "paliaClock.about": "Про ці події",
-  "paliaClock.info": "Що це?"
+  "paliaClock.info": "Що це?",
+  "settings.darkMap": "Темна мапа",
+  "settings.darkMap.description": "Затемнює зображення мапи. Світлі мапи інвертуються, темні приглушуються."
 }

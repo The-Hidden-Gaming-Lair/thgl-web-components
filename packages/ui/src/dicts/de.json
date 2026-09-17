@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "{{minutes}} Min. vorher benachrichtigen",
   "paliaClock.speak": "Alarme vorlesen",
   "paliaClock.about": "Über diese Events",
-  "paliaClock.info": "Was ist das?"
+  "paliaClock.info": "Was ist das?",
+  "settings.darkMap": "Dunkle Karte",
+  "settings.darkMap.description": "Dunkelt das Kartenbild ab. Helle Karten werden invertiert, dunkle Karten abgedimmt."
 }

@@ -390,6 +390,36 @@ export function SettingsDialogContent({
               </div>
             </div>
             <Separator className="opacity-30" />
+            <div className="flex items-center gap-2 justify-between">
+              <div>
+                <Label htmlFor="map-darkness">
+                  {t("settings.darkMap", { fallback: "Dark Map" })}
+                </Label>
+                <p className="text-muted-foreground text-xs">
+                  {t("settings.darkMap.description", {
+                    fallback:
+                      "Darkens the map image. Light maps are inverted, dark maps are dimmed.",
+                  })}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Slider
+                  id="map-darkness"
+                  className="w-40 h-8 p-0"
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  value={[profileSettings.mapDarkness ?? 0]}
+                  onValueChange={(values) => {
+                    settingsStore.setMapDarkness(values[0]);
+                  }}
+                />
+                <span className="text-xs text-muted-foreground w-10 text-right">
+                  {Math.round((profileSettings.mapDarkness ?? 0) * 100)}%
+                </span>
+              </div>
+            </div>
+            <Separator className="opacity-30" />
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="high-contrast-mode">

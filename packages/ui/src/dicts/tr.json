@@ -426,5 +426,7 @@
   "paliaClock.leadBefore": "{{minutes}} dakika önce uyar",
   "paliaClock.speak": "Uyarıları sesli oku",
   "paliaClock.about": "Bu etkinlikler hakkında",
-  "paliaClock.info": "Bu nedir?"
+  "paliaClock.info": "Bu nedir?",
+  "settings.darkMap": "Koyu Harita",
+  "settings.darkMap.description": "Harita görüntüsünü koyulaştırır. Açık haritalar ters çevrilir, koyu haritalar kısılır."
 }

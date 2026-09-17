@@ -1,9 +1,13 @@
 import type { Layer, RenderState } from "../types";
+import { darkMapGLSL } from "../utils/shaders";
+import { ToneEstimator, sampleImageLuma } from "../utils/tile-tone";
 
 export interface ImageOverlayOptions {
   url: string;
   bounds: [[number, number], [number, number]];
   opacity?: number;
+  /** Dark Map strength 0..1 (0 = off), same semantics as the tile layer. */
+  darkness?: number;
 }
 
 export class ImageOverlayLayer implements Layer {
@@ -22,9 +26,13 @@ export class ImageOverlayLayer implements Layer {
     view?: WebGLUniformLocation | null;
     texture?: WebGLUniformLocation | null;
     opacity?: WebGLUniformLocation | null;
+    darkMode?: WebGLUniformLocation | null;
+    dark?: WebGLUniformLocation | null;
   } = {};
 
   private options: Required<ImageOverlayOptions>;
+  // A single image: one sample decides invert vs dim.
+  private tone = new ToneEstimator(1);
   private imageLoaded = false;
   private lastQuadZoom = -1;
   // Pre-allocated buffers to avoid per-frame allocations
@@ -38,6 +46,7 @@ export class ImageOverlayLayer implements Layer {
       url: options.url,
       bounds: options.bounds,
       opacity: options.opacity ?? 1.0,
+      darkness: options.darkness ?? 0,
     };
   }
 
@@ -74,11 +83,13 @@ export class ImageOverlayLayer implements Layer {
       in vec2 v_texCoord;
       uniform sampler2D u_texture;
       uniform float u_opacity;
+      ${darkMapGLSL}
       out vec4 outColor;
 
       void main() {
         vec4 texColor = texture(u_texture, v_texCoord);
-        outColor = vec4(texColor.rgb, texColor.a * u_opacity);
+        vec3 rgb = darkMap(texColor.rgb, u_darkMode, clamp(u_dark, 0.0, 1.0));
+        outColor = vec4(rgb, texColor.a * u_opacity);
       }
     `;
 
@@ -95,6 +106,14 @@ export class ImageOverlayLayer implements Layer {
       this.uniformLocations.opacity = this.gl.getUniformLocation(
         this.program,
         "u_opacity",
+      );
+      this.uniformLocations.darkMode = this.gl.getUniformLocation(
+        this.program,
+        "u_darkMode",
+      );
+      this.uniformLocations.dark = this.gl.getUniformLocation(
+        this.program,
+        "u_dark",
       );
     }
   }
@@ -161,6 +180,7 @@ export class ImageOverlayLayer implements Layer {
     image.onload = () => {
       if (!this.gl || this.loadingImage !== image) return;
 
+      this.tone.add(sampleImageLuma(image));
       this.texture = this.gl.createTexture();
       this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
       this.gl.texImage2D(
@@ -300,6 +320,15 @@ export class ImageOverlayLayer implements Layer {
     if (this.uniformLocations.opacity) {
       gl.uniform1f(this.uniformLocations.opacity, this.options.opacity);
     }
+    if (this.uniformLocations.darkMode) {
+      gl.uniform1i(
+        this.uniformLocations.darkMode,
+        this.tone.mode(this.options.darkness),
+      );
+    }
+    if (this.uniformLocations.dark) {
+      gl.uniform1f(this.uniformLocations.dark, this.options.darkness);
+    }
 
     gl.drawArrays(gl.TRIANGLES, 0, 6);
     gl.bindVertexArray(null);
@@ -307,6 +336,11 @@ export class ImageOverlayLayer implements Layer {
 
   setOpacity(opacity: number): void {
     this.options.opacity = opacity;
+  }
+
+  /** Update the Dark Map strength in place — no image reload. */
+  setDarkness(darkness: number): void {
+    this.options.darkness = Math.max(0, Math.min(1, darkness));
   }
 
   destroy(): void {

@@ -7,6 +7,7 @@ import { cn, getTileLayerUrl, localizePath, useSettingsStore } from "@repo/lib";
 import {
   WebMap,
   TileLayer,
+  type TileFilter,
   createAffineProjection,
   IconMarkerLayer,
   ImageOverlayLayer,
@@ -93,6 +94,8 @@ export function InteractiveMap({
   const colorBlindSeverity = useSettingsStore(
     (state) => state.colorBlindSeverity,
   );
+  // `?? 0`: profiles persisted before the setting existed lack the key.
+  const mapDarkness = useSettingsStore((state) => state.mapDarkness ?? 0);
   const t = useT();
 
   const mapTileOptions = tileOptions[mapName];
@@ -494,6 +497,9 @@ export function InteractiveMap({
 
     const url = getTileLayerUrl(appName, stageTileUrl ?? mapTileOptions.url);
     const opacity = mapTileOptions.backdrop ? 0.4 : 1;
+    // The transparency modes only make sense over the game (in-game overlay);
+    // on web/desktop the tiles are always drawn as they are.
+    const filter = isOverlay ? (mapFilter as TileFilter) : "none";
 
     // Reuse the tile layer when the TILES are the same (a surface ↔ its interior
     // layers share tiles) — just re-dim it in place, so switching a layer never
@@ -501,6 +507,8 @@ export function InteractiveMap({
     const existing = mapRefsRef.current.tileLayer;
     if (existing && existing.url === url) {
       existing.setOpacity(opacity);
+      existing.setFilter(filter);
+      existing.setDarkness(mapDarkness);
       existing.setColorBlindMode(colorBlindMode);
       existing.setColorBlindSeverity(colorBlindSeverity);
     } else {
@@ -515,6 +523,8 @@ export function InteractiveMap({
         // On a layered map, dim the (reused parent) tiles so the interior
         // overlay reads as the active floor — the Kuro-style backdrop.
         opacity,
+        filter,
+        darkness: mapDarkness,
         colorBlind:
           colorBlindMode !== "none"
             ? { mode: colorBlindMode, severity: colorBlindSeverity }
@@ -536,6 +546,7 @@ export function InteractiveMap({
         url: getTileLayerUrl(appName, ol.url),
         bounds: ol.bounds,
         opacity: (ol as { opacity?: number }).opacity ?? 1,
+        darkness: mapDarkness,
       });
       webmap.addLayer(overlayLayer, { zIndex: 1 });
       mapRefsRef.current.overlayLayers.push(overlayLayer);
@@ -547,6 +558,7 @@ export function InteractiveMap({
     stageTileUrl,
     colorBlindMode,
     colorBlindSeverity,
+    mapDarkness,
     isOverlay,
     mapFilter,
   ]);
