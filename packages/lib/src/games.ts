@@ -678,7 +678,10 @@ export const games: Array<Game> = [
       games: [
         {
           title: "Dune: Awakening",
-          processNames: ["DuneSandbox-Win64-Shipping.exe"],
+          processNames: [
+            "DuneSandbox-Win64-Shipping.exe",
+            "DuneSandbox-WinGDK-Shipping.exe",
+          ],
         },
       ],
       defaultHotkeys: {
