@@ -329,11 +329,13 @@ export function MapContainer({
         >
           {!lockedWindow && (
             <>
-              {/* Left-aligned under the Filters button: the centered spot at
-                  top-[40px] is covered by the right-hand action bar on a
-                  narrow window. */}
+              {/* Centered on the map-actions row (fixed top-[40px], z-500
+                  like the right-hand action bar). It must NOT sit in the
+                  left column: the expanded Filters panel (fixed, z-500,
+                  up to 363px wide) covers anything below it there, which
+                  hid the exit-fullscreen button. */}
               <MinimapToolbar
-                className="top-21 left-2 translate-x-0"
+                className="fixed top-[40px] mt-px z-500"
                 fullscreen
                 onToggleFullscreen={toggleOverlayFullscreen}
                 isEditMode={isEditMode}
@@ -341,7 +343,7 @@ export function MapContainer({
               />
               {isEditMode && (
                 <MinimapSettingsCard
-                  className="top-32 left-2 translate-x-0"
+                  className="fixed top-21 z-500"
                   fullscreen
                 />
               )}
