@@ -28,6 +28,7 @@ export default async function BuildingsLayout({
         types={types}
         groupLabelPrefix=""
         locale={locale}
+        lazySidebar
       >
         {children}
       </DbSectionLayout>

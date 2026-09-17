@@ -32,6 +32,11 @@ export function makeSectionLayout(
     // the shadowed section (e.g. Soul's Remnant "items") loses its sidebar while
     // its sibling sections (equipment/monsters via [section]) keep it. Resolve
     // the section from the tenant's own db config, exactly like [section]/layout.
+    // Pass `lazySidebar` too, exactly like [section]/layout: this branch hardcodes
+    // an empty groupLabelPrefix and no nameLabelPrefixByType, which is precisely the
+    // condition /api/db/sidebar can reproduce. Without it a shadowed section embeds
+    // every entry in the server payload (Aniimo "items": 4,226 links, 3.0 MB per
+    // detail page, versus 113 KB for the same tenant via the generic route).
     if (app.name !== "drakantos") {
       const secCfg = app.db?.homeSections.find(
         (s) => s.href === `/db/${section}` || s.type === section,
@@ -44,6 +49,7 @@ export function makeSectionLayout(
           types={[secCfg.type, ...(secCfg.extraTypes ?? [])]}
           groupLabelPrefix=""
           locale={locale}
+          lazySidebar
         >
           {children}
         </DbSectionLayout>

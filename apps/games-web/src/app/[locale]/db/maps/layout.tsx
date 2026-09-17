@@ -25,6 +25,7 @@ export default async function MapsLayout({
         types={[secCfg.type, ...(secCfg.extraTypes ?? [])]}
         groupLabelPrefix=""
         locale={locale}
+        lazySidebar
       >
         {children}
       </DbSectionLayout>

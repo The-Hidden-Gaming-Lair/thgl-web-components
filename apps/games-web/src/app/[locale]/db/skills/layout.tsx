@@ -34,6 +34,7 @@ export default async function SkillsLayout({
         types={[secCfg.type, ...(secCfg.extraTypes ?? [])]}
         groupLabelPrefix=""
         locale={locale}
+        lazySidebar
       >
         {children}
       </DbSectionLayout>
