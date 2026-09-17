@@ -1,7 +1,7 @@
 "use client";
 
 import { getIconsUrl, useGameState } from "@repo/lib";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../(controls)";
 import { CircleCheckBig, Gift, Heart } from "lucide-react";
 import { useT } from "../(providers)";
@@ -22,16 +22,52 @@ import { Badge } from "../ui/badge";
 export const villagers = _villagers;
 export const itemIcons = _itemIcons;
 
+const WEEKLY_WANTS_REFRESH_MS = 15 * 60 * 1000;
+
 export function PaliaWeeklyWants() {
   const [targetPopover, setTargetPopover] = useState<null | string>(null);
   const character = useGameState(
     (state) => state.character as ValeriaCharacter | null,
   );
   const [data, setData] = useState<WEEKLY_WANTS | null>(null);
+  const refetchedForVersion = useRef<number | null>(null);
 
   useEffect(() => {
-    fetchWeeklyWants().then(setData).catch(console.error);
+    let cancelled = false;
+    const load = () =>
+      fetchWeeklyWants()
+        .then((next) => {
+          if (!cancelled) {
+            setData(next);
+          }
+        })
+        .catch(console.error);
+    load();
+    // A page can outlive the weekly reset (the in-game overlay stays mounted for
+    // the whole game session), so refresh the list periodically. Otherwise the
+    // counter compares this week's gifts against last week's list -> "0 of 112".
+    const interval = setInterval(load, WEEKLY_WANTS_REFRESH_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
+
+  // The live character payload carries the in-game preference version. When it
+  // is ahead of the fetched list, the reset happened while mounted: refetch now
+  // (once per version -- the API may lag a moment behind the game).
+  const liveVersion =
+    character?.weeklyWants?.preferenceDataVersionNumber ?? null;
+  useEffect(() => {
+    if (liveVersion === null || !data || data.version >= liveVersion) {
+      return;
+    }
+    if (refetchedForVersion.current === liveVersion) {
+      return;
+    }
+    refetchedForVersion.current = liveVersion;
+    fetchWeeklyWants().then(setData).catch(console.error);
+  }, [liveVersion, data]);
 
   const totalGifts = Object.values(data?.weeklyWants ?? {}).reduce(
     (sum, items) => sum + items.length,
@@ -293,4 +329,8 @@ type ValeriaCharacter = {
   giftHistory: VillagerGiftHistory[];
   skillLevels: SkillLevels[];
   lastKnownPrimaryHousingPlotValue: number;
+  // In-game current gift preferences (THGLApp only; null when not readable).
+  weeklyWants?: {
+    preferenceDataVersionNumber: number;
+  } | null;
 };
