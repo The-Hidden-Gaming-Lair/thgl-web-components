@@ -56,6 +56,15 @@ export interface UserStoreState {
    * start collapsed — there is no per-game default anymore). */
   openGroups: string[];
   setGroupOpen: (group: string, open: boolean) => void;
+  /**
+   * Search-result sections the user collapsed, by scope. The section defaults
+   * to OPEN — it only exists while a query is typed, so it is the direct
+   * answer to something the user just did — which is why this records the
+   * exceptions rather than the expansions (compare `openGroups`, where absent
+   * = collapsed). Persisted per game, like `openGroups`.
+   */
+  collapsedSearchScopes: SearchScope[];
+  setSearchScopeCollapsed: (scope: SearchScope, collapsed: boolean) => void;
   viewByMap: Record<string, { center?: [number, number]; zoom?: number }>;
   setViewByMap: (
     mapName: string,
@@ -243,6 +252,20 @@ export function createUserStore(
                   openGroups: open
                     ? [...state.openGroups, group]
                     : state.openGroups.filter((g) => g !== group),
+                };
+              });
+            },
+            collapsedSearchScopes: [],
+            setSearchScopeCollapsed: (scope, collapsed) => {
+              set((state) => {
+                const isCollapsed = state.collapsedSearchScopes.includes(scope);
+                if (collapsed === isCollapsed) {
+                  return {};
+                }
+                return {
+                  collapsedSearchScopes: collapsed
+                    ? [...state.collapsedSearchScopes, scope]
+                    : state.collapsedSearchScopes.filter((s) => s !== scope),
                 };
               });
             },
