@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "게임",
   "sidebar.webOnly": "웹 전용",
+  "sidebar.favorites": "즐겨찾기",
+  "sidebar.favorite.toggle": "{{game}} 즐겨찾기",
+  "sidebar.sort.label": "게임 정렬",
+  "sidebar.sort.recent": "최근",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "설정",
   "sidebar.signIn": "로그인",
 

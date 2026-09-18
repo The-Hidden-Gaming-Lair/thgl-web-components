@@ -1694,6 +1694,47 @@ export function sortGamesByLastPlayed(
     .map((entry) => entry.game);
 }
 
+/** How the dashboard sidebar orders its games list. */
+export type GamesSort = "recent" | "alpha";
+
+/**
+ * Dashboard order for a chosen sort. "recent" is the long-standing default
+ * (see sortGamesByLastPlayed); "alpha" sorts by `Game.title`. The titles are
+ * NOT localized — every UI language sees the same English strings — only the
+ * collation rules are locale-aware (e.g. where "Ä" sorts relative to "A"/"Z").
+ * An unknown `sort` value (a stale persisted store) falls back to "recent".
+ */
+export function sortGamesBy(
+  list: Game[],
+  sort: GamesSort,
+  lastPlayed: Record<string, number>,
+  locale: string,
+): Game[] {
+  if (sort !== "alpha") {
+    return sortGamesByLastPlayed(list, lastPlayed);
+  }
+  const collator = new Intl.Collator(locale, {
+    sensitivity: "base",
+    numeric: true,
+  });
+  return [...list].sort((a, b) => collator.compare(a.title, b.title));
+}
+
+/**
+ * Split a games list into the user's favourites and the rest, each keeping the
+ * order of the input list. Ids that are no longer in the registry are ignored.
+ */
+export function partitionFavoriteGames(
+  list: Game[],
+  favoriteGames: string[],
+): { favorites: Game[]; rest: Game[] } {
+  const favoriteIds = new Set(favoriteGames);
+  return {
+    favorites: list.filter((game) => favoriteIds.has(game.id)),
+    rest: list.filter((game) => !favoriteIds.has(game.id)),
+  };
+}
+
 /** The web subdomain for a game (e.g. "starresonance"), derived from `web`. */
 export function getAppDomain(game: Game): string {
   return game.web ? new URL(game.web).host.split(".")[0] : game.id;

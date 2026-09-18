@@ -5,7 +5,8 @@ import {
   ForumPost,
   isCompanionAccessible,
   localizePath,
-  sortGamesByLastPlayed,
+  partitionFavoriteGames,
+  sortGamesBy,
   useAccountStore,
 } from "@repo/lib";
 import {
@@ -25,6 +26,7 @@ import {
 } from "@repo/ui/controls";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 import { Circle, Lightbulb, MessageSquare, BookOpen } from "lucide-react";
 
 const blogEntries = [
@@ -65,11 +67,24 @@ export function HomePageClient({
   // games (e.g. Enshrouded) are NOT inDevelopment — they show here but the content is Elite-gated.
   // `inviteOnly` companions (Pax Dei) are listed only for accounts invited to them.
   const lastPlayed = useTHGLAppState((state) => state.lastPlayed);
-  // Recently played first, then the registry order (newest integrations first).
-  const companionGames = sortGamesByLastPlayed(
-    games.filter((game) => isCompanionAccessible(game, invites)),
-    lastPlayed,
-  );
+  const gamesSort = useTHGLAppState((state) => state.gamesSort);
+  const favoriteGames = useTHGLAppState((state) => state.favoriteGames);
+  // The same order the sidebar shows: the chosen sort ("recent" = recently
+  // played first, then registry order; "alpha" = by title), favourites first.
+  // Memoized because this re-renders on every running-games poll; its only
+  // consumer is the Running Games card below.
+  const companionGames = useMemo(() => {
+    const { favorites, rest } = partitionFavoriteGames(
+      sortGamesBy(
+        games.filter((game) => isCompanionAccessible(game, invites)),
+        gamesSort,
+        lastPlayed,
+        locale,
+      ),
+      favoriteGames,
+    );
+    return [...favorites, ...rest];
+  }, [invites, gamesSort, lastPlayed, locale, favoriteGames]);
 
   const isGameRunning = (gameId: string) => {
     const game = games.find((g) => g.id === gameId);

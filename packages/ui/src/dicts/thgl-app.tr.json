@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "Oyunlar",
   "sidebar.webOnly": "Yaln\u0131zca Web",
+  "sidebar.favorites": "Favoriler",
+  "sidebar.favorite.toggle": "{{game}} favori",
+  "sidebar.sort.label": "Oyunlar\u0131 s\u0131rala",
+  "sidebar.sort.recent": "Son",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "Ayarlar",
   "sidebar.signIn": "Giri\u015f yap",
 

@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "ゲーム",
   "sidebar.webOnly": "Webのみ",
+  "sidebar.favorites": "お気に入り",
+  "sidebar.favorite.toggle": "{{game}} をお気に入りにする",
+  "sidebar.sort.label": "ゲームを並べ替え",
+  "sidebar.sort.recent": "最近",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "設定",
   "sidebar.signIn": "サインイン",
 

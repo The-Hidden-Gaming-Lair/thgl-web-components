@@ -4,6 +4,7 @@ import { persist, subscribeWithSelector } from "zustand/middleware";
 import { WindowMode } from "./apps";
 import type { DriverHealth } from "./driver-health";
 import { RunningGame } from "./games";
+import type { GamesSort } from "../games";
 import { AppVersion, CompatRunAsAdminFlag } from "./version";
 import { CloseAction, GpuFlag } from "./webview";
 
@@ -99,6 +100,13 @@ export const useTHGLAppState = create(
       setAutoRunGame: (gameId: string, enabled: boolean) => void;
       sidebarExpanded: boolean;
       setSidebarExpanded: (expanded: boolean) => void;
+      // Dashboard sidebar games order: "recent" keeps the long-standing
+      // recently-played-first order, "alpha" sorts by title.
+      gamesSort: GamesSort;
+      setGamesSort: (sort: GamesSort) => void;
+      // Game ids pinned to the top of the dashboard sidebar.
+      favoriteGames: Array<string>;
+      toggleFavoriteGame: (gameId: string) => void;
       // game id -> epoch ms of the last time its process was detected. Drives the
       // dashboard game order (recently played first, see sortGamesByLastPlayed).
       lastPlayed: Record<string, number>;
@@ -127,6 +135,15 @@ export const useTHGLAppState = create(
           })),
         sidebarExpanded: true,
         setSidebarExpanded: (expanded) => set({ sidebarExpanded: expanded }),
+        gamesSort: "recent",
+        setGamesSort: (sort) => set({ gamesSort: sort }),
+        favoriteGames: [],
+        toggleFavoriteGame: (gameId) =>
+          set((state) => ({
+            favoriteGames: state.favoriteGames.includes(gameId)
+              ? state.favoriteGames.filter((id) => id !== gameId)
+              : [...state.favoriteGames, gameId],
+          })),
         lastPlayed: {},
         setLastPlayed: (gameId, at = Date.now()) =>
           set((state) => ({
