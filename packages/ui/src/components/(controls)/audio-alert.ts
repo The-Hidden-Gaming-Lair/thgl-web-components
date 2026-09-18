@@ -82,26 +82,108 @@ export function initAudioAlertUnlock(): () => void {
   };
 }
 
-function playSound(ctx: AudioContext, sound: AudioAlertSound, volume: number) {
+/**
+ * The tone's peak gain, clamped to a small positive value.
+ *
+ * `volume` is no longer always the user's slider: in positional mode it is the
+ * distance-scaled gain, which can approach 0. Every tone decays with
+ * `exponentialRampToValueAtTime`, which is undefined for 0 and rises instead of
+ * falls when the target sits above the peak - hence both the floor here and the
+ * relative (`peak * 0.02`) tails at the call sites.
+ */
+function peakGain(volume: number, headroom: number): number {
+  return Math.max(1e-4, volume * headroom);
+}
+
+/**
+ * Output stage for one tone.
+ *
+ * A pan of 0 (or an engine without StereoPannerNode) connects straight to the
+ * destination, so the non-positional path builds exactly the graph it always
+ * did. A fresh panner per play is the correct pattern: nodes are single-use
+ * anyway, creating one costs microseconds, and a long-lived panner would mean
+ * automating one param across overlapping plays for no gain.
+ *
+ * StereoPannerNode and not an HRTF PannerNode on purpose: HRTF's selling point
+ * is elevation and front/back, which it does not deliver without a
+ * personalised transfer function, it sounds worse than a plain pan on
+ * speakers, and it convolves per node on a CPU that is already running a game.
+ *
+ * Returns the release for the chain it built. Callers hang it on
+ * `oscillator.onended` so every per-ping node is detached from the graph as
+ * soon as the tone is over, independently of when the engine would collect it
+ * - positional mode plays up to 2.5 tones per second per type.
+ */
+function connectOut(
+  ctx: AudioContext,
+  node: AudioNode,
+  pan: number,
+): () => void {
+  // A tolerance, not truthiness: sin(+-PI) for a marker dead behind is ~1e-16,
+  // which must not build a panner for an inaudible pan.
+  if (Math.abs(pan) > 1e-6 && typeof ctx.createStereoPanner === "function") {
+    const panner = ctx.createStereoPanner();
+    panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), ctx.currentTime);
+    node.connect(panner);
+    panner.connect(ctx.destination);
+    return () => {
+      node.disconnect();
+      panner.disconnect();
+    };
+  }
+  node.connect(ctx.destination);
+  return () => node.disconnect();
+}
+
+function playSound(
+  ctx: AudioContext,
+  sound: AudioAlertSound,
+  volume: number,
+  pan: number,
+) {
   switch (sound) {
     case "chime":
-      playChime(ctx, volume);
+      playChime(ctx, volume, pan);
       break;
     case "ping":
-      playPing(ctx, volume);
+      playPing(ctx, volume, pan);
       break;
     case "beacon":
-      playBeacon(ctx, volume);
+      playBeacon(ctx, volume, pan);
       break;
     case "soft":
-      playSoft(ctx, volume);
+      playSoft(ctx, volume, pan);
       break;
   }
 }
 
+/**
+ * True while the shared context exists but is not running (suspended by the
+ * browser's autoplay policy, or by iPadOS backgrounding the tab).
+ *
+ * The one-shot alert can afford to call `ctx.resume()` and schedule in the
+ * `.then()`. A repeating positional ping cannot: with the context suspended
+ * every cycle would queue another pending resume, and they would all fire at
+ * once the moment the user finally touches the page. Repeating callers skip
+ * the ping instead and let `initAudioAlertUnlock` bring the context back.
+ *
+ * Returns false before the context has ever been created, so the very first
+ * alert still gets to create and unlock it. Only "suspended" counts: a closed
+ * context never comes back, and reporting it here would have the repeating
+ * caller retry forever instead of failing once inside playAlertSound.
+ */
+export function isAudioAlertSuspended(): boolean {
+  return audioContext !== null && audioContext.state === "suspended";
+}
+
+/**
+ * Play one alert tone. `pan` is -1 (hard left) to +1 (hard right); the default
+ * 0 keeps every existing caller centred and unchanged.
+ */
 export function playAlertSound(
   sound: AudioAlertSound,
   volume: number = 0.5,
+  pan: number = 0,
 ): void {
   try {
     const ctx = getAudioContext();
@@ -109,9 +191,9 @@ export function playAlertSound(
     if (ctx.state === "suspended") {
       // Wait for the context to actually resume before scheduling oscillators,
       // otherwise the sound is lost because nodes are scheduled on a paused clock.
-      ctx.resume().then(() => playSound(ctx, sound, volume));
+      ctx.resume().then(() => playSound(ctx, sound, volume, pan));
     } else {
-      playSound(ctx, sound, volume);
+      playSound(ctx, sound, volume, pan);
     }
   } catch {
     // Audio not supported
@@ -119,31 +201,38 @@ export function playAlertSound(
 }
 
 // Two-tone chime (original sound)
-function playChime(ctx: AudioContext, volume: number): void {
+function playChime(ctx: AudioContext, volume: number, pan: number): void {
   const oscillator = ctx.createOscillator();
   const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(ctx.destination);
+  oscillator.onended = connectOut(ctx, gainNode, pan);
 
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(880, ctx.currentTime); // A5
   oscillator.frequency.setValueAtTime(1108.73, ctx.currentTime + 0.1); // C#6
 
-  gainNode.gain.setValueAtTime(volume * 0.6, ctx.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+  // The peak is distance-dependent in positional mode, so it can be tiny.
+  // exponentialRampToValueAtTime can never touch 0 and the tail must stay
+  // BELOW the peak, otherwise a quiet far alert "decays" upward into a click.
+  const peak = peakGain(volume, 0.6);
+  gainNode.gain.setValueAtTime(peak, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(
+    peak * 0.02,
+    ctx.currentTime + 0.3,
+  );
 
   oscillator.start(ctx.currentTime);
   oscillator.stop(ctx.currentTime + 0.3);
 }
 
 // Simple ping sound
-function playPing(ctx: AudioContext, volume: number): void {
+function playPing(ctx: AudioContext, volume: number, pan: number): void {
   const oscillator = ctx.createOscillator();
   const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(ctx.destination);
+  oscillator.onended = connectOut(ctx, gainNode, pan);
 
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(1200, ctx.currentTime);
@@ -152,29 +241,34 @@ function playPing(ctx: AudioContext, volume: number): void {
     ctx.currentTime + 0.15,
   );
 
-  gainNode.gain.setValueAtTime(volume * 0.5, ctx.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+  const peak = peakGain(volume, 0.5);
+  gainNode.gain.setValueAtTime(peak, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(
+    peak * 0.02,
+    ctx.currentTime + 0.15,
+  );
 
   oscillator.start(ctx.currentTime);
   oscillator.stop(ctx.currentTime + 0.15);
 }
 
 // Beacon sound (repeating pulse)
-function playBeacon(ctx: AudioContext, volume: number): void {
+function playBeacon(ctx: AudioContext, volume: number, pan: number): void {
   for (let i = 0; i < 2; i++) {
     const oscillator = ctx.createOscillator();
     const gainNode = ctx.createGain();
 
     oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
+    oscillator.onended = connectOut(ctx, gainNode, pan);
 
     oscillator.type = "sine";
     const startTime = ctx.currentTime + i * 0.12;
     oscillator.frequency.setValueAtTime(1000, startTime);
 
+    const peak = peakGain(volume, 0.5);
     gainNode.gain.setValueAtTime(0, startTime);
-    gainNode.gain.linearRampToValueAtTime(volume * 0.5, startTime + 0.02);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(peak, startTime + 0.02);
+    gainNode.gain.exponentialRampToValueAtTime(peak * 0.02, startTime + 0.1);
 
     oscillator.start(startTime);
     oscillator.stop(startTime + 0.1);
@@ -182,20 +276,24 @@ function playBeacon(ctx: AudioContext, volume: number): void {
 }
 
 // Soft notification (gentle tone)
-function playSoft(ctx: AudioContext, volume: number): void {
+function playSoft(ctx: AudioContext, volume: number, pan: number): void {
   const oscillator = ctx.createOscillator();
   const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(ctx.destination);
+  oscillator.onended = connectOut(ctx, gainNode, pan);
 
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
   oscillator.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15); // E5
 
+  const peak = peakGain(volume, 0.4);
   gainNode.gain.setValueAtTime(0, ctx.currentTime);
-  gainNode.gain.linearRampToValueAtTime(volume * 0.4, ctx.currentTime + 0.05);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+  gainNode.gain.linearRampToValueAtTime(peak, ctx.currentTime + 0.05);
+  gainNode.gain.exponentialRampToValueAtTime(
+    peak * 0.02,
+    ctx.currentTime + 0.4,
+  );
 
   oscillator.start(ctx.currentTime);
   oscillator.stop(ctx.currentTime + 0.4);
