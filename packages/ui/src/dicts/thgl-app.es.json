@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "Juegos",
   "sidebar.webOnly": "Solo Web",
+  "sidebar.favorites": "Favoritos",
+  "sidebar.favorite.toggle": "Marcar {{game}} como favorito",
+  "sidebar.sort.label": "Ordenar juegos",
+  "sidebar.sort.recent": "Recientes",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "Configuración",
   "sidebar.signIn": "Iniciar sesión",
 
