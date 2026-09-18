@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Oriente la carte pour que la direction dans laquelle vous regardez soit toujours en haut, comme une minicarte rotative. Active aussi Suivre le joueur.",
   "settings.rotateMapWithPlayer.overlay": "Overlay en jeu",
   "settings.rotateMapWithPlayer.desktop": "Fenêtre bureau et site web",
+  "settings.rotateMapWithCtrlDrag": "Tourner la carte avec Ctrl + glisser",
+  "settings.rotateMapWithCtrlDrag.description": "Maintenir Ctrl enfoncé pendant le glissement fait pivoter et incliner la carte. Désactivez cette option si Ctrl est votre touche Push-to-Talk : Ctrl + glisser fonctionnera alors comme un glissement normal. Le glissement avec le bouton central de la souris continue de faire pivoter la carte.",
   "minimap.transparency": "Transparence",
   "minimap.opacity": "Opacité",
   "minimap.resizeHint": "Tirez les poignées d'angle pour redimensionner et la poignée ronde pour arrondir les coins.",

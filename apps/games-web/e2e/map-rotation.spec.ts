@@ -115,3 +115,115 @@ test.describe("rotate map with player", () => {
     ).toBe(false);
   });
 });
+
+/**
+ * Ctrl + left-drag rotates/tilts the map (like a middle-button drag) only
+ * while the "Rotate map with Ctrl + drag" setting is on. Off, the same drag
+ * pans like a plain drag - Ctrl doubles as push-to-talk for many players and
+ * kept knocking the map off north. Middle-button drag rotates either way.
+ */
+test.describe("ctrl + drag rotation toggle", () => {
+  type Page = import("@playwright/test").Page;
+  type Pt = { x: number; y: number };
+
+  const view = (page: Page) =>
+    page.evaluate(() => {
+      const map = (window as any).__thgl.useMapStore.getState().map;
+      const [lat, lng] = map.getCenterLatLng() as [number, number];
+      return {
+        bearing: map.getBearing() as number,
+        pitch: map.getPitch() as number,
+        lat,
+        lng,
+      };
+    });
+
+  const settle = (page: Page) =>
+    page.evaluate(
+      () =>
+        new Promise<void>((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => r())),
+        ),
+    );
+
+  /** Drag by (dx, dy) px from `from`, optionally with Ctrl held. A negative
+   *  dy (upwards) tilts when the gesture rotates, so both axes are exercised. */
+  const drag = async (
+    page: Page,
+    from: Pt,
+    dx: number,
+    dy: number,
+    opts: { ctrl?: boolean; button?: "left" | "middle" } = {},
+  ) => {
+    const button = opts.button ?? "left";
+    if (opts.ctrl) await page.keyboard.down("Control");
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down({ button });
+    for (let i = 1; i <= 8; i++) {
+      await page.mouse.move(from.x + (dx * i) / 8, from.y + (dy * i) / 8);
+    }
+    await page.mouse.up({ button });
+    if (opts.ctrl) await page.keyboard.up("Control");
+    await settle(page);
+  };
+
+  const northUp = (page: Page) =>
+    page.evaluate(() => {
+      const map = (window as any).__thgl.useMapStore.getState().map;
+      map.setBearing(0);
+      map.setPitch(0);
+    });
+
+  test("ctrl + drag rotates while on, pans while off; middle drag always rotates", async ({
+    page,
+  }) => {
+    await openMap(page, MAPS.kilima);
+    await page.evaluate(() =>
+      (window as any).__thgl.useSettingsStore.setState({
+        followPlayer: false,
+        rotateMapWithPlayer: false,
+        rotateMapWithCtrlDrag: true,
+      }),
+    );
+    const box = (await page.locator("canvas").first().boundingBox())!;
+    const c = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+
+    // On (default): ctrl + drag turns AND tilts the map.
+    const before = await view(page);
+    await drag(page, c, 120, -60, { ctrl: true });
+    const rotated = await view(page);
+    expect(Math.abs(rotated.bearing - before.bearing)).toBeGreaterThan(0.1);
+    expect(rotated.pitch).toBeGreaterThan(before.pitch + 0.05);
+
+    // Off: the same drag pans and leaves bearing/pitch alone.
+    await northUp(page);
+    await page.evaluate(() =>
+      (window as any).__thgl.useSettingsStore
+        .getState()
+        .setRotateMapWithCtrlDrag(false),
+    );
+    // The setting reaches the WebMap through a React effect - let it flush.
+    await settle(page);
+    const level = await view(page);
+    await drag(page, c, 120, -60, { ctrl: true });
+    const panned = await view(page);
+    expect(panned.bearing).toBeCloseTo(level.bearing, 6);
+    expect(panned.pitch).toBeCloseTo(level.pitch, 6);
+    expect(
+      Math.abs(panned.lat - level.lat) + Math.abs(panned.lng - level.lng),
+    ).toBeGreaterThan(0);
+
+    // Middle-button drag still rotates with the setting off.
+    await drag(page, c, 120, -60, { button: "middle" });
+    const middle = await view(page);
+    expect(Math.abs(middle.bearing - panned.bearing)).toBeGreaterThan(0.1);
+
+    expect(
+      await page.evaluate(
+        () =>
+          (window as any).__thgl.useSettingsStore.getState()
+            .rotateMapWithCtrlDrag,
+      ),
+    ).toBe(false);
+  });
+});

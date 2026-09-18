@@ -276,6 +276,10 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   // wanted in-game far more often than on a big desktop map).
   rotateMapWithPlayer: false,
   rotateMapWithPlayerOverlay: false,
+  // Ctrl + left-drag rotates and tilts the map (same as a middle-button drag).
+  // Off = Ctrl is ignored and the drag pans, for people whose push-to-talk key
+  // is Ctrl. Default keeps the long-standing behaviour.
+  rotateMapWithCtrlDrag: true,
   traceLineLength: 100,
   traceLineRate: 5,
   traceLineColor: "#1ccdd1B3",
@@ -396,6 +400,7 @@ export type ProfileSettings = {
   followPlayer: boolean;
   rotateMapWithPlayer: boolean;
   rotateMapWithPlayerOverlay: boolean;
+  rotateMapWithCtrlDrag: boolean;
   traceLineLength: number;
   traceLineRate: number;
   traceLineColor: string;
@@ -529,6 +534,7 @@ export interface ProfileActions {
   // `surface` picks the value: "overlay" = the in-game overlay minimap,
   // "desktop" = desktop / second-screen window and the website.
   setRotateMapWithPlayer: (enabled: boolean, surface: RotateMapSurface) => void;
+  setRotateMapWithCtrlDrag: (enabled: boolean) => void;
   setTraceLineLength: (traceLineLength: number) => void;
   setTraceLineRate: (traceLineRate: number) => void;
   setTraceLineColor: (traceLineColor: string) => void;
@@ -1259,6 +1265,7 @@ export const useSettingsStore = create(
               followPlayer: true,
               rotateMapWithPlayer: false,
               rotateMapWithPlayerOverlay: false,
+              rotateMapWithCtrlDrag: true,
               traceLineLength: 100,
               traceLineRate: 5,
               traceLineColor: "#1ccdd1B3",
@@ -1485,6 +1492,10 @@ export const useSettingsStore = create(
                 : "rotateMapWithPlayer"]: enabled,
               ...(enabled && !state.followPlayer ? { followPlayer: true } : {}),
             });
+          },
+
+          setRotateMapWithCtrlDrag: (enabled: boolean) => {
+            updateSettings({ rotateMapWithCtrlDrag: enabled });
           },
 
           setTraceLineLength: (traceLineLength: number) => {

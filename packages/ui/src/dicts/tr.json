@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Haritayı, baktığın yön her zaman yukarıda olacak şekilde döndürür; dönen bir mini harita gibi. Oyuncuyu Takip Et de açılır.",
   "settings.rotateMapWithPlayer.overlay": "Oyun içi overlay",
   "settings.rotateMapWithPlayer.desktop": "Masaüstü penceresi ve web sitesi",
+  "settings.rotateMapWithCtrlDrag": "Ctrl + sürükleme ile haritayı döndür",
+  "settings.rotateMapWithCtrlDrag.description": "Sürüklerken Ctrl tuşunu basılı tutmak haritayı döndürür ve eğer. Ctrl, Push-to-Talk (bas konuş) tuşunsa bunu kapat: bu durumda Ctrl + sürükleme normal bir sürükleme gibi haritayı kaydırır. Fare orta tuşuyla sürükleme haritayı döndürmeye devam eder.",
   "minimap.transparency": "Saydamlık",
   "minimap.opacity": "Opaklık",
   "minimap.resizeHint": "Yeniden boyutlandırmak için köşe tutamaçlarını, köşeleri yuvarlamak için yuvarlak tutamacı sürükle.",

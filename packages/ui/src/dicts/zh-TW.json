@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "旋轉地圖，讓你面向的方向永遠朝上，就像會旋轉的小地圖。同時會開啟「跟隨玩家」。",
   "settings.rotateMapWithPlayer.overlay": "遊戲內覆蓋層",
   "settings.rotateMapWithPlayer.desktop": "桌面視窗和網站",
+  "settings.rotateMapWithCtrlDrag": "按住 Ctrl + 拖曳旋轉地圖",
+  "settings.rotateMapWithCtrlDrag.description": "拖曳時按住 Ctrl 會旋轉並傾斜地圖。如果 Ctrl 是你的一鍵通話（Push-to-Talk）按鍵，請關閉此選項：關閉後 Ctrl + 拖曳將和一般拖曳一樣只會平移地圖。使用滑鼠中鍵拖曳仍然會旋轉地圖。",
   "minimap.transparency": "透明度",
   "minimap.opacity": "不透明度",
   "minimap.resizeHint": "拖曳角落的控制點調整大小，拖曳圓形控制點調整圓角。",

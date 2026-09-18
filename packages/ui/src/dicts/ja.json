@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "向いている方向が常に上になるようにマップを回転します（回転するミニマップのように）。「プレイヤーを追従」も同時にオンになります。",
   "settings.rotateMapWithPlayer.overlay": "ゲーム内オーバーレイ",
   "settings.rotateMapWithPlayer.desktop": "デスクトップウィンドウとウェブサイト",
+  "settings.rotateMapWithCtrlDrag": "Ctrl + ドラッグでマップを回転",
+  "settings.rotateMapWithCtrlDrag.description": "ドラッグ中にCtrlを押したままにすると、マップが回転・傾斜します。CtrlをPush-to-Talk（無線通話）キーとして使っている場合はオフにしてください。オフにするとCtrl + ドラッグは通常のドラッグと同じようにマップを移動するだけになります。マウスの中央ボタンでのドラッグは引き続きマップを回転させます。",
   "minimap.transparency": "透過",
   "minimap.opacity": "不透明度",
   "minimap.resizeHint": "角のハンドルをドラッグしてサイズ変更、丸いハンドルで角を丸くできます。",

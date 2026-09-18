@@ -366,6 +366,8 @@
   "settings.rotateMapWithPlayer.description": "Úgy forgatja a térképet, hogy a nézési irányod mindig felül legyen, mint egy forgó minitérképen. A Játékos követése is bekapcsol.",
   "settings.rotateMapWithPlayer.overlay": "Játékbeli overlay",
   "settings.rotateMapWithPlayer.desktop": "Asztali ablak és weboldal",
+  "settings.rotateMapWithCtrlDrag": "Térkép forgatása Ctrl + húzással",
+  "settings.rotateMapWithCtrlDrag.description": "A Ctrl lenyomva tartása húzás közben elforgatja és megdönti a térképet. Kapcsold ki, ha a Ctrl a Push-to-Talk billentyűd: ekkor a Ctrl + húzás egyszerű mozgatásként fog működni. Az egér középső gombjával húzva a térkép továbbra is forog.",
   "minimap.transparency": "Átlátszóság",
   "minimap.opacity": "Fedettség",
   "minimap.resizeHint": "A sarokfogantyúkkal méretezheted, a kerek fogantyúval lekerekítheted a sarkokat.",

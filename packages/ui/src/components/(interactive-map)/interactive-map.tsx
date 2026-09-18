@@ -96,7 +96,15 @@ export function InteractiveMap({
   );
   // `?? 0`: profiles persisted before the setting existed lack the key.
   const mapDarkness = useSettingsStore((state) => state.mapDarkness ?? 0);
+  // `?? true`: profiles persisted before the setting existed lack the key.
+  const rotateMapWithCtrlDrag = useSettingsStore(
+    (state) => state.rotateMapWithCtrlDrag ?? true,
+  );
   const t = useT();
+
+  useEffect(() => {
+    map?.setCtrlDragRotate(rotateMapWithCtrlDrag);
+  }, [map, rotateMapWithCtrlDrag]);
 
   const mapTileOptions = tileOptions[mapName];
   // Terraform-stage backdrop swap: if a stage is selected for this map, use that
@@ -320,6 +328,7 @@ export function InteractiveMap({
       minZoom,
       maxZoom,
       projection,
+      ctrlDragRotate: rotateMapWithCtrlDrag,
     });
     mapRefsRef.current.webmap = webmap;
 

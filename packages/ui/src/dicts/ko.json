@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "바라보는 방향이 항상 위쪽이 되도록 지도를 회전합니다. 회전하는 미니맵과 같습니다. 플레이어 따라가기도 함께 켜집니다.",
   "settings.rotateMapWithPlayer.overlay": "게임 내 오버레이",
   "settings.rotateMapWithPlayer.desktop": "데스크톱 창 및 웹사이트",
+  "settings.rotateMapWithCtrlDrag": "Ctrl + 드래그로 지도 회전",
+  "settings.rotateMapWithCtrlDrag.description": "드래그하는 동안 Ctrl을 누르고 있으면 지도가 회전하고 기울어집니다. Ctrl을 푸시 투 토크(Push-to-Talk) 키로 사용한다면 이 기능을 꺼두세요. 끄면 Ctrl + 드래그는 일반 드래그처럼 지도를 이동시킵니다. 마우스 가운데 버튼 드래그는 계속 지도를 회전시킵니다.",
   "minimap.transparency": "투명도",
   "minimap.opacity": "불투명도",
   "minimap.resizeHint": "모서리 핸들을 드래그해 크기를 조절하고, 둥근 핸들로 모서리를 둥글게 만드세요.",

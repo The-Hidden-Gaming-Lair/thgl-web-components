@@ -378,6 +378,8 @@
   "settings.rotateMapWithPlayer.description": "Xoay bản đồ để hướng bạn đang nhìn luôn ở phía trên, giống như minimap xoay. Đồng thời bật Theo dõi người chơi.",
   "settings.rotateMapWithPlayer.overlay": "Lớp phủ trong game",
   "settings.rotateMapWithPlayer.desktop": "Cửa sổ desktop và trang web",
+  "settings.rotateMapWithCtrlDrag": "Xoay bản đồ bằng Ctrl + kéo",
+  "settings.rotateMapWithCtrlDrag.description": "Giữ Ctrl trong khi kéo sẽ xoay và nghiêng bản đồ. Tắt tùy chọn này nếu Ctrl là phím Push-to-Talk của bạn: khi đó Ctrl + kéo sẽ hoạt động như thao tác kéo bình thường (di chuyển bản đồ). Kéo bằng nút giữa của chuột vẫn sẽ xoay bản đồ.",
   "minimap.transparency": "Độ trong suốt",
   "minimap.opacity": "Độ mờ",
   "minimap.resizeHint": "Kéo các nút ở góc để đổi kích thước và nút tròn để bo tròn góc.",

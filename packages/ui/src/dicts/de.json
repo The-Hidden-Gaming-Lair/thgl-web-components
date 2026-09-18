@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Dreht die Karte so, dass deine Blickrichtung immer oben ist, wie bei einer rotierenden Minimap. Schaltet auch Spieler folgen ein.",
   "settings.rotateMapWithPlayer.overlay": "Ingame-Overlay",
   "settings.rotateMapWithPlayer.desktop": "Desktop-Fenster und Website",
+  "settings.rotateMapWithCtrlDrag": "Karte mit Strg + Ziehen drehen",
+  "settings.rotateMapWithCtrlDrag.description": "Wenn du beim Ziehen Strg gedrückt hältst, wird die Karte gedreht und geneigt. Schalte dies aus, wenn Strg deine Push-to-Talk-Taste ist: Strg + Ziehen verschiebt die Karte dann wie normales Ziehen. Ziehen mit der mittleren Maustaste dreht die Karte weiterhin.",
   "minimap.transparency": "Transparenz",
   "minimap.opacity": "Deckkraft",
   "minimap.resizeHint": "Ziehe die Eckgriffe zum Skalieren und den runden Griff, um die Ecken abzurunden.",
