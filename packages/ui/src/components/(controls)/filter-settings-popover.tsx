@@ -19,6 +19,11 @@ import {
 import { Lock } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useCoordinates } from "../(providers)";
+import {
+  ALERT_SOUND_OPTIONS,
+  playAlertSound,
+  type AudioAlertSound,
+} from "./audio-alert";
 import { FilterTooltip } from "./filter-tooltip";
 import { DiscoverAllButton } from "./discover-all-button";
 import { Button } from "../ui/button";
@@ -117,6 +122,14 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
     (s) => s.setAudioAlertByFilters,
   );
   const audioAlertsMuted = useSettingsStore((s) => s.audioAlertsMuted);
+  const globalAlertSound = useSettingsStore((s) => s.audioAlertSound);
+  const audioAlertVolume = useSettingsStore((s) => s.audioAlertVolume);
+  const audioAlertSoundByFilter = useSettingsStore(
+    (s) => s.audioAlertSoundByFilter,
+  );
+  const setAudioAlertSoundByFilters = useSettingsStore(
+    (s) => s.setAudioAlertSoundByFilters,
+  );
   const labelModeByFilter = useSettingsStore((s) => s.labelModeByFilter);
   const setLabelModeByFilter = useSettingsStore((s) => s.setLabelModeByFilter);
   const setLabelModeByFilters = useSettingsStore(
@@ -262,6 +275,42 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
     }
   };
 
+  // Group tone state: collapse to one value only if every filter agrees, else
+  // "mixed". Absent override = "default" (the global Alert Sound). Plain
+  // computation, not a useMemo: it is one pass over a handful of ids and the
+  // popover only renders while it is open.
+  const groupTone: AudioAlertSound | "default" | "mixed" = (() => {
+    if (!isGroup || props.filterIds.length === 0) return "default";
+    const ids = props.filterIds;
+    const first = audioAlertSoundByFilter?.[ids[0]] ?? "default";
+    return ids.every(
+      (id) => (audioAlertSoundByFilter?.[id] ?? "default") === first,
+    )
+      ? first
+      : "mixed";
+  })();
+
+  const toneValue: AudioAlertSound | "default" = isGroup
+    ? groupTone === "mixed"
+      ? "default"
+      : groupTone
+    : (audioAlertSoundByFilter?.[props.filterId] ?? "default");
+
+  const handleToneChange = (value: AudioAlertSound | "default") => {
+    setAudioAlertSoundByFilters(
+      isGroup ? props.filterIds : [props.filterId],
+      value,
+    );
+    // Play what was just picked so the choice is checkable by ear, which is the
+    // whole point for the users this is for.
+    if (!audioAlertsMuted) {
+      playAlertSound(
+        value === "default" ? globalAlertSound : value,
+        audioAlertVolume,
+      );
+    }
+  };
+
   const handleAudioToggle = () => {
     if (isGroup) {
       // If all or some are enabled, disable all. If none are enabled, enable all.
@@ -349,6 +398,31 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
         <div className="flex items-center justify-between">
           <Label className="text-xs">Audio Alert {isGroup && "(All)"}</Label>
           <Switch checked={audioEnabled} onCheckedChange={handleAudioToggle} />
+        </div>
+
+        <div className="flex items-center justify-between">
+          <Label className="text-xs">Tone {isGroup && "(All)"}</Label>
+          <Select
+            value={isGroup && groupTone === "mixed" ? "" : toneValue}
+            onValueChange={handleToneChange}
+            disabled={!audioEnabled}
+          >
+            <SelectTrigger className="w-24 h-7 text-xs">
+              <SelectValue
+                placeholder={
+                  isGroup && groupTone === "mixed" ? "Mixed" : undefined
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="default">Default</SelectItem>
+              {ALERT_SOUND_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {isGroup && groupAudioState === "some" && (
