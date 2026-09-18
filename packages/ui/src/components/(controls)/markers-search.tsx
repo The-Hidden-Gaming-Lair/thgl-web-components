@@ -3,6 +3,7 @@
 import {
   cn,
   MIN_SEARCH_QUERY_LENGTH,
+  type SearchScope,
   TilesConfig,
   useSettingsStore,
 } from "@repo/lib";
@@ -12,8 +13,18 @@ import { Input } from "../ui/input";
 import { MarkersSearchResults } from "./markers-search-results";
 import { MarkersFilters } from "./markers-filters";
 import { ScrollArea } from "../ui/scroll-area";
-import { MarkersSearchLiveResults } from "./markers-search-live-results";
 import {
+  countLiveSearchRows,
+  MarkersSearchLiveResults,
+  useLiveSearchGroups,
+} from "./markers-search-live-results";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../ui/collapsible";
+import {
+  ChevronRight,
   Loader2,
   PanelLeftClose,
   RadioTower,
@@ -60,18 +71,40 @@ export function MarkersSearch({
     searchIsLoading,
     searchScope,
     setSearchScope,
+    collapsedSearchScopes,
+    setSearchScopeCollapsed,
   } = useUserStore();
   const [internalSearch, setInternalSearch] = useState(search);
   // Only games with a typeIDs bridge can ever have live-tracked actors — no
   // point offering the Live search scope elsewhere. (The guard also covers a
   // persisted "live" scope carried over to a game without live support.)
-  const { gameSupportsLive } = useCoordinates();
+  const { gameSupportsLive, liveCapable } = useCoordinates();
   const liveScopeActive = searchScope === "live" && gameSupportsLive;
   const queryReady = internalSearch.length >= MIN_SEARCH_QUERY_LENGTH;
   const showFilters = useSettingsStore((state) => state.showFilters);
   const toggleShowFilters = useSettingsStore(
     (state) => state.toggleShowFilters,
   );
+
+  // Which scope's collapse state the results header owns. The two lists differ
+  // a lot in length, so they are remembered independently.
+  const resultsScope: SearchScope = liveScopeActive ? "live" : "historical";
+  // Default OPEN; `collapsedSearchScopes` records the exceptions. The
+  // `_hasHydrated` guard mirrors collapsible-filter.tsx: before localStorage is
+  // read the array is always empty, so without it the first paint would say
+  // "open" and then snap shut — a hydration mismatch.
+  const resultsOpen =
+    !_hasHydrated || !collapsedSearchScopes.includes(resultsScope);
+
+  // Lifted out of MarkersSearchLiveResults so the header can show the row
+  // count without walking the (potentially huge) actor list a second time.
+  // Gated so its 1Hz snapshot interval doesn't tick on every page with a
+  // sidebar; it returns [] whenever it is disabled.
+  const liveGroups = useLiveSearchGroups(
+    internalSearch,
+    liveScopeActive && queryReady,
+  );
+  const liveRowCount = countLiveSearchRows(liveGroups);
 
   // Only TOP-LEVEL maps in the main selector — interior floors (tagged with
   // `layer`) are chosen in the separate Layered Map picker instead.
@@ -287,38 +320,82 @@ export function MarkersSearch({
                 spawn locations or live actors, per the scope switch) on top,
                 and the filtered filter list with its toggles below. */}
             {internalSearch.trim() ? (
-              <>
-                <div className="px-2.5 pt-1.5 text-[10px] uppercase tracking-wider text-muted-foreground/80">
-                  {liveScopeActive
-                    ? t("markers.search.liveResults")
-                    : t("markers.search.locations")}
-                </div>
-                {!queryReady ? (
+              // The results block collapses like a filter group, so a broad
+              // query (live scope can match dozens of types) never pushes the
+              // filter toggles below the fold. Default open, per-scope
+              // collapse persisted in the user store.
+              <Collapsible
+                open={resultsOpen}
+                onOpenChange={(open) => {
+                  setSearchScopeCollapsed(resultsScope, !open);
+                }}
+                data-testid="search-results-section"
+              >
+                <CollapsibleTrigger asChild>
+                  <button
+                    className="flex w-full items-center gap-1.5 px-2.5 pt-1.5 pb-0.5 text-left text-[10px] uppercase tracking-wider text-muted-foreground/80 transition-colors hover:text-primary"
+                    title={
+                      liveScopeActive
+                        ? t("markers.search.liveResults")
+                        : t("markers.search.locations")
+                    }
+                    type="button"
+                  >
+                    <ChevronRight
+                      className={cn(
+                        "h-3 w-3 shrink-0 transition-transform duration-200",
+                        resultsOpen && "rotate-90",
+                      )}
+                    />
+                    <span className="truncate">
+                      {liveScopeActive
+                        ? t("markers.search.liveResults")
+                        : t("markers.search.locations")}
+                    </span>
+                    {/* Collapsed, the count is the only signal that the query
+                        matched anything at all. Not without live capability:
+                        "(0)" would claim "no match" where the real answer is
+                        "needs the app". */}
+                    {liveScopeActive && queryReady && liveCapable && (
+                      <span className="tabular-nums text-muted-foreground shrink-0">
+                        ({liveRowCount})
+                      </span>
+                    )}
+                  </button>
+                </CollapsibleTrigger>
+                {/* Not a result row, so it stays visible while collapsed. */}
+                {!queryReady && (
                   <div className="p-2 text-center text-xs text-muted-foreground">
                     <TriangleAlert className="w-4 h-4 mx-auto" />
                     {t("markers.search.moreCharacters")}
                   </div>
-                ) : liveScopeActive ? (
-                  <MarkersSearchLiveResults
-                    hasMultipleMaps={mapNames.length > 1}
-                    appName={appName}
-                    iconsPath={iconsPath}
-                    query={internalSearch}
-                  />
-                ) : isLoading ? (
-                  <div className="p-2 text-center">
-                    <Search className="w-4 h-4 mx-auto" />
-                    {t("markers.search.searching")}
-                  </div>
-                ) : (
-                  <MarkersSearchResults
-                    hasMultipleMaps={mapNames.length > 1}
-                    appName={appName}
-                    iconsPath={iconsPath}
-                  />
                 )}
+                <CollapsibleContent>
+                  {!queryReady ? null : liveScopeActive ? (
+                    <MarkersSearchLiveResults
+                      hasMultipleMaps={mapNames.length > 1}
+                      appName={appName}
+                      iconsPath={iconsPath}
+                      groups={liveGroups}
+                      query={internalSearch}
+                    />
+                  ) : isLoading ? (
+                    <div className="p-2 text-center">
+                      <Search className="w-4 h-4 mx-auto" />
+                      {t("markers.search.searching")}
+                    </div>
+                  ) : (
+                    <MarkersSearchResults
+                      hasMultipleMaps={mapNames.length > 1}
+                      appName={appName}
+                      iconsPath={iconsPath}
+                    />
+                  )}
+                </CollapsibleContent>
+                {/* Outside the content: the boundary between results and
+                    filters is still drawn while the section is shut. */}
                 <Separator className="my-1" />
-              </>
+              </Collapsible>
             ) : null}
             <MarkersFilters
               appName={appName}
