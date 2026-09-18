@@ -282,6 +282,14 @@ The app is signed with a certificate issued by **Certum**. Its root certificate 
 
 The Bridge Host service shipped with the app since version 16.2.1 carries the Certum root itself and no longer depends on Windows for it. **Repair installation** installs that version. If you cannot update, install the certificate manually: run \`certutil -addstore -f Root <CertumTrustedNetworkCA2.cer>\` as administrator and reboot.
 
+## Blocked by a firewall or antivirus: "Driver does not recognise this app version"
+
+The driver only accepts app versions that are on an approval list, and the Bridge Host service keeps that list current by downloading it from th.gl. If a firewall or antivirus blocks the **service**, the list stays on an older version and the driver refuses every app update from then on - even though the app itself still reaches the internet and updates normally. Reinstalling does not help either: the installer does not carry the list, so a reinstall inherits the same outdated one.
+
+Allow \`THGLBridgeHost.exe\` (in \`C:\\Program Files\\The Hidden Gaming Lair\`) through your security software, then press **Restart service** in the banner. Third-party firewalls do this more often than the Windows one; Bitdefender is one I have seen block it. In a debug snapshot, the Bridge Host log shows \`Failed to download manifest\` when this is the cause.
+
+A related message, **"Driver cannot verify this app"**, means the driver could not read the app's own program file to check it. That is security software holding the file open: add \`C:\\Program Files\\The Hidden Gaming Lair\` to its exclusions and restart the app.
+
 ## If the banner does not go away
 
 Send a **debug snapshot** (menu ☰ → bug icon). Since version 16.2.1 it includes the driver health state and the last part of the Bridge Host service log, which records the exact reason a client was refused.

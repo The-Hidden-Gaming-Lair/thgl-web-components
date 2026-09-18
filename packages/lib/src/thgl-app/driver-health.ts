@@ -13,6 +13,8 @@ export type DriverHealthState =
   | "clientNotAuthorized"
   | "driverNotRunning"
   | "deviceAccessDenied"
+  | "clientNotInAllowlist"
+  | "clientImageUnreadable"
   | "error";
 
 export type DriverHealth = {
@@ -24,6 +26,9 @@ export type DriverHealth = {
   bridgeServiceInstalled: boolean;
   bridgeServiceRunning: boolean;
   driverServiceRunning: boolean;
+  // The BridgeHost log says it could not download the allowlist manifest: the reason a fresh
+  // app build gets refused by the driver. Optional: older app builds do not send it.
+  manifestUpdateBlocked?: boolean;
   repairNeedsElevation: boolean;
   repairing: boolean;
   lastRepair: string;
@@ -69,9 +74,10 @@ export function describeDriverHealth(health: DriverHealth): DriverHealthAdvice {
     key: string,
     repair: DriverRepairKind | null,
     repairLabelKey: string | null = null,
+    descriptionKey = `driver.${key}.description`,
   ): DriverHealthAdvice => ({
     titleKey: `driver.${key}.title`,
-    descriptionKey: `driver.${key}.description`,
+    descriptionKey,
     repair,
     repairLabelKey,
     // Service control needs SERVICE_START/STOP rights: a UAC prompt unless the app is elevated.
@@ -112,6 +118,23 @@ export function describeDriverHealth(health: DriverHealth): DriverHealthAdvice {
       );
     case "deviceAccessDenied":
       return base("deviceAccessDenied", "reinstall", "driver.repair.reinstall");
+    case "clientNotInAllowlist":
+      // The driver refuses this app build because BridgeHost's cached allowlist manifest is
+      // older than the build. A reinstall cannot fix it (the installer ships no manifest and
+      // keeps the cached one), so offer the service restart, which re-attempts the download.
+      // When the BridgeHost log proves the download is being blocked, say so outright.
+      return base(
+        "clientNotInAllowlist",
+        "restartBridgeHost",
+        "driver.repair.restartService",
+        health.manifestUpdateBlocked
+          ? "driver.clientNotInAllowlist.blockedDescription"
+          : "driver.clientNotInAllowlist.description",
+      );
+    case "clientImageUnreadable":
+      // The driver could not even read the app's own image to hash it. Nothing the app can
+      // repair: security software is holding the file.
+      return base("clientImageUnreadable", null);
     case "error":
       return base("error", "reinstall", "driver.repair.reinstall");
     case "bridgeBusy":

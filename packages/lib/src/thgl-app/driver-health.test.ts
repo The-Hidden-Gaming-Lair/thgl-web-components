@@ -39,6 +39,8 @@ describe("isDriverHealthProblem", () => {
       "clientNotAuthorized",
       "driverNotRunning",
       "deviceAccessDenied",
+      "clientNotInAllowlist",
+      "clientImageUnreadable",
       "error",
     ] as const) {
       expect(isDriverHealthProblem(health({ state }))).toBe(true);
@@ -85,6 +87,36 @@ describe("describeDriverHealth", () => {
       expect(advice.needsElevation).toBe(false);
       expect(advice.descriptionKey).toBe(`driver.${state}.description`);
     }
+  });
+
+  it("offers a service restart - never a reinstall - for a stale allowlist", () => {
+    // The installer ships no manifest and leaves the cached one in place, so a reinstall
+    // provably cannot fix this state; only a service restart re-attempts the download.
+    const advice = describeDriverHealth(
+      health({ state: "clientNotInAllowlist" }),
+    );
+    expect(advice.repair).toBe("restartBridgeHost");
+    expect(advice.descriptionKey).toBe(
+      "driver.clientNotInAllowlist.description",
+    );
+  });
+
+  it("names the blocked download once the BridgeHost log proves it", () => {
+    const advice = describeDriverHealth(
+      health({ state: "clientNotInAllowlist", manifestUpdateBlocked: true }),
+    );
+    expect(advice.descriptionKey).toBe(
+      "driver.clientNotInAllowlist.blockedDescription",
+    );
+    expect(advice.repair).toBe("restartBridgeHost");
+  });
+
+  it("offers no repair when the driver cannot even read the app image", () => {
+    const advice = describeDriverHealth(
+      health({ state: "clientImageUnreadable" }),
+    );
+    expect(advice.repair).toBeNull();
+    expect(advice.titleKey).toBe("driver.clientImageUnreadable.title");
   });
 
   it("offers nothing for ok / unknown / busy", () => {
