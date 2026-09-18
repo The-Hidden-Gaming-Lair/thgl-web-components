@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Gira o mapa para que a direção em que você está olhando fique sempre para cima, como um minimapa rotativo. Também ativa Seguir jogador.",
   "settings.rotateMapWithPlayer.overlay": "Overlay no jogo",
   "settings.rotateMapWithPlayer.desktop": "Janela na área de trabalho e site",
+  "settings.rotateMapWithCtrlDrag": "Girar mapa com Ctrl + arrastar",
+  "settings.rotateMapWithCtrlDrag.description": "Manter Ctrl pressionado enquanto arrasta gira e inclina o mapa. Desative essa opção se Ctrl for sua tecla de Push-to-Talk: Ctrl + arrastar passará a funcionar como um arraste normal. Arrastar com o botão do meio do mouse continua girando o mapa.",
   "minimap.transparency": "Transparência",
   "minimap.opacity": "Opacidade",
   "minimap.resizeHint": "Arraste as alças dos cantos para redimensionar e a alça redonda para arredondar os cantos.",

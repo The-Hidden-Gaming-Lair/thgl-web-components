@@ -378,6 +378,8 @@
   "settings.rotateMapWithPlayer.description": "Memutar peta agar arah yang kamu hadapi selalu di atas, seperti minimap yang berputar. Juga mengaktifkan Ikuti Pemain.",
   "settings.rotateMapWithPlayer.overlay": "Overlay dalam game",
   "settings.rotateMapWithPlayer.desktop": "Jendela desktop dan situs web",
+  "settings.rotateMapWithCtrlDrag": "Putar Peta dengan Ctrl + Seret",
+  "settings.rotateMapWithCtrlDrag.description": "Menahan Ctrl sambil menyeret akan memutar dan memiringkan peta. Matikan jika Ctrl adalah tombol Push-to-Talk kamu: Ctrl + seret akan berfungsi seperti seret biasa (menggeser peta). Menyeret dengan tombol tengah mouse tetap memutar peta.",
   "minimap.transparency": "Transparansi",
   "minimap.opacity": "Opasitas",
   "minimap.resizeHint": "Seret pegangan sudut untuk mengubah ukuran dan pegangan bulat untuk membulatkan sudut.",

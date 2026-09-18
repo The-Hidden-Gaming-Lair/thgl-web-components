@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Obraca mapę tak, aby kierunek, w którym patrzysz, był zawsze u góry, jak na obracającej się minimapie. Włącza też opcję Śledź gracza.",
   "settings.rotateMapWithPlayer.overlay": "Nakładka w grze",
   "settings.rotateMapWithPlayer.desktop": "Okno na pulpicie i strona internetowa",
+  "settings.rotateMapWithCtrlDrag": "Obracaj mapę za pomocą Ctrl + przeciągnięcia",
+  "settings.rotateMapWithCtrlDrag.description": "Przytrzymanie Ctrl podczas przeciągania obraca i przechyla mapę. Wyłącz tę opcję, jeśli Ctrl to Twój klawisz Push-to-Talk: wtedy Ctrl + przeciągnięcie będzie działać jak zwykłe przesuwanie mapy. Przeciąganie środkowym przyciskiem myszy nadal obraca mapę.",
   "minimap.transparency": "Przezroczystość",
   "minimap.opacity": "Krycie",
   "minimap.resizeHint": "Przeciągnij uchwyty w rogach, aby zmienić rozmiar, a okrągły uchwyt, aby zaokrąglić rogi.",

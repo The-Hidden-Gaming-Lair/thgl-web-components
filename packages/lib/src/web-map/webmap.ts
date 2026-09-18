@@ -97,6 +97,8 @@ export interface WebMapOptions {
   minZoom?: number;
   maxZoom?: number;
   projection?: ProjectionImpl;
+  // Ctrl + left-drag rotates/tilts (default true); see setCtrlDragRotate().
+  ctrlDragRotate?: boolean;
 }
 
 export class WebMap {
@@ -145,6 +147,10 @@ export class WebMap {
   private wheelTimer?: number;
   // Interaction control
   private interactionsDisabled = false;
+  // Ctrl + left-drag rotates/tilts the map like a middle-button drag. Off,
+  // Ctrl is ignored and the drag pans - for people whose push-to-talk key is
+  // Ctrl and who kept knocking the map off north while talking.
+  private ctrlDragRotate = true;
   // When true, the map will not change the cursor (drawing manager handles it)
   private _cursorLocked = false;
   // Event system
@@ -223,6 +229,8 @@ export class WebMap {
     // Detect software rasterization from the REAL on-screen context (logs once).
     this.softwareRender = isContextSoftware(this.gl);
     this.proj = opts.projection ?? defaultWebMercatorProjection;
+    if (opts.ctrlDragRotate !== undefined)
+      this.ctrlDragRotate = opts.ctrlDragRotate;
     // Bind projection method once to avoid closure allocation per frame
     this.projectionBound = this.projection.bind(this);
     this.setupGL();
@@ -442,8 +450,11 @@ export class WebMap {
 
         // Only start dragging/rotating if interactions are enabled
         if (!this.interactionsDisabled) {
-          if (e.button === 1 || (e.button === 0 && e.ctrlKey)) {
-            // middle button or ctrl+left: rotate/tilt
+          if (
+            e.button === 1 ||
+            (e.button === 0 && e.ctrlKey && this.ctrlDragRotate)
+          ) {
+            // middle button or ctrl+left (when enabled): rotate/tilt
             this.rotating = true;
             // A manual rotate gesture wins over a pending rotateTo target
             this.targetBearing = null;
@@ -1193,6 +1204,11 @@ export class WebMap {
     if (!this._cursorLocked) {
       this.canvas.style.cursor = "grab";
     }
+  }
+
+  /** Whether Ctrl + left-drag rotates/tilts (true) or pans like a plain drag. */
+  setCtrlDragRotate(enabled: boolean) {
+    this.ctrlDragRotate = enabled;
   }
 
   lockCursor() {

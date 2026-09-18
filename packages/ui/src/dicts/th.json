@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "หมุนแผนที่ให้ทิศทางที่คุณหันหน้าอยู่ด้านบนเสมอ เหมือนมินิแมปแบบหมุน และเปิดติดตามผู้เล่นให้ด้วย",
   "settings.rotateMapWithPlayer.overlay": "โอเวอร์เลย์ในเกม",
   "settings.rotateMapWithPlayer.desktop": "หน้าต่างเดสก์ท็อปและเว็บไซต์",
+  "settings.rotateMapWithCtrlDrag": "หมุนแผนที่ด้วย Ctrl + ลาก",
+  "settings.rotateMapWithCtrlDrag.description": "การกด Ctrl ค้างไว้ขณะลากจะหมุนและเอียงแผนที่ ปิดตัวเลือกนี้หากคุณใช้ Ctrl เป็นปุ่ม Push-to-Talk เมื่อปิดแล้ว Ctrl + ลาก จะทำงานเหมือนการลากปกติ (เลื่อนแผนที่) การลากด้วยปุ่มกลางของเมาส์ยังคงหมุนแผนที่ได้ตามปกติ",
   "minimap.transparency": "ความโปร่งใส",
   "minimap.opacity": "ความทึบ",
   "minimap.resizeHint": "ลากจุดจับที่มุมเพื่อปรับขนาด และจุดจับกลมเพื่อทำมุมโค้ง",

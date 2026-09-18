@@ -366,6 +366,8 @@
   "settings.rotateMapWithPlayer.description": "Otočí mapu tak, aby směr, kterým se díváš, byl vždy nahoře, jako u otočné minimapy. Zapne také Sledovat hráče.",
   "settings.rotateMapWithPlayer.overlay": "Herní overlay",
   "settings.rotateMapWithPlayer.desktop": "Okno na ploše a web",
+  "settings.rotateMapWithCtrlDrag": "Otáčet mapu pomocí Ctrl + přetažení",
+  "settings.rotateMapWithCtrlDrag.description": "Podržení Ctrl při přetahování otáčí a naklápí mapu. Pokud používáš Ctrl jako klávesu Push-to-Talk, tuto možnost vypni – Ctrl + přetažení pak bude fungovat jako běžné posouvání. Přetažení prostředním tlačítkem myši mapu stále otočí.",
   "minimap.transparency": "Průhlednost",
   "minimap.opacity": "Krytí",
   "minimap.resizeHint": "Tažením rohových úchytů změníš velikost, kulatým úchytem zaoblíš rohy.",

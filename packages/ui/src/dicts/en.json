@@ -378,6 +378,8 @@
   "settings.rotateMapWithPlayer.description": "Turns the map so the direction you are facing is always up, like a rotating minimap. Turns on Follow Player as well.",
   "settings.rotateMapWithPlayer.overlay": "In-game overlay",
   "settings.rotateMapWithPlayer.desktop": "Desktop window and website",
+  "settings.rotateMapWithCtrlDrag": "Rotate map with Ctrl + drag",
+  "settings.rotateMapWithCtrlDrag.description": "Holding Ctrl while dragging rotates and tilts the map. Turn it off if Ctrl is your push-to-talk key: Ctrl + drag then pans like a normal drag. Middle-mouse drag still rotates.",
   "minimap.transparency": "Transparency",
   "minimap.opacity": "Opacity",
   "minimap.resizeHint": "Drag the corner handles to resize and the round handle to round the corners.",
