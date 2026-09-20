@@ -70,8 +70,10 @@ function ElevationPromptContent() {
         </button>
       </header>
 
-      {/* Content */}
-      <div className="flex-1 p-5 flex flex-col">
+      {/* Content. Scrolls when the window is shorter than the text - a long
+          translation or a small display must never push the buttons out of
+          view, so the actions below stay pinned. */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-5 pt-5 pb-3">
         {/* Icon and title */}
         <div className="flex items-start gap-3">
           <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
@@ -92,48 +94,45 @@ function ElevationPromptContent() {
           <p>{t("elevation.description")}</p>
           <p className="text-zinc-500 text-xs">{t("elevation.hint")}</p>
         </div>
+      </div>
 
-        {/* Spacer */}
-        <div className="flex-1 min-h-4" />
+      {/* Action buttons */}
+      <div className="shrink-0 px-5 pb-5 pt-1 space-y-2">
+        <Button
+          onClick={handleRelaunch}
+          className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors"
+        >
+          <ShieldCheck className="w-4 h-4 mr-2" />
+          {t("elevation.relaunch")}
+        </Button>
 
-        {/* Action buttons */}
-        <div className="space-y-2">
+        <Button
+          onClick={handleAlwaysRelaunch}
+          variant="outline"
+          className="w-full h-9 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600 text-zinc-300"
+        >
+          <Shield className="w-4 h-4 mr-2 text-zinc-500" />
+          {t("elevation.alwaysRelaunch")}
+        </Button>
+
+        <div className="flex gap-2 pt-1">
           <Button
-            onClick={handleRelaunch}
-            className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors"
+            onClick={handleOpenDesktop}
+            variant="ghost"
+            className="flex-1 h-8 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 text-xs"
           >
-            <ShieldCheck className="w-4 h-4 mr-2" />
-            {t("elevation.relaunch")}
+            <Monitor className="w-3.5 h-3.5 mr-1.5" />
+            {t("elevation.desktopMode")}
           </Button>
 
           <Button
-            onClick={handleAlwaysRelaunch}
-            variant="outline"
-            className="w-full h-9 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600 text-zinc-300"
+            onClick={handleClose}
+            variant="ghost"
+            className="flex-1 h-8 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 text-xs"
           >
-            <Shield className="w-4 h-4 mr-2 text-zinc-500" />
-            {t("elevation.alwaysRelaunch")}
+            <X className="w-3.5 h-3.5 mr-1.5" />
+            {t("elevation.closeOverlay")}
           </Button>
-
-          <div className="flex gap-2 pt-1">
-            <Button
-              onClick={handleOpenDesktop}
-              variant="ghost"
-              className="flex-1 h-8 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 text-xs"
-            >
-              <Monitor className="w-3.5 h-3.5 mr-1.5" />
-              {t("elevation.desktopMode")}
-            </Button>
-
-            <Button
-              onClick={handleClose}
-              variant="ghost"
-              className="flex-1 h-8 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 text-xs"
-            >
-              <X className="w-3.5 h-3.5 mr-1.5" />
-              {t("elevation.closeOverlay")}
-            </Button>
-          </div>
         </div>
       </div>
     </div>
