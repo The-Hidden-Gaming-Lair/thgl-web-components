@@ -44,6 +44,10 @@ function CompassPopover({
   rotateWithPlayer?: boolean;
   onToggleRotateWithPlayer?: () => void;
 }) {
+  // The Ctrl + drag hint only applies while that gesture is enabled (settings).
+  const rotateWithCtrlDrag = useSettingsStore(
+    (state) => state.rotateMapWithCtrlDrag ?? true,
+  );
   const ringRef = useRef<SVGCircleElement>(null);
   const draggingRef = useRef(false);
 
@@ -257,12 +261,14 @@ function CompassPopover({
           </kbd>
           <span>Tilt &amp; rotate</span>
         </div>
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-          <kbd className="px-1 py-0.5 rounded bg-muted text-[9px] font-mono">
-            Ctrl + drag
-          </kbd>
-          <span>Tilt &amp; rotate</span>
-        </div>
+        {rotateWithCtrlDrag && (
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+            <kbd className="px-1 py-0.5 rounded bg-muted text-[9px] font-mono">
+              Ctrl + drag
+            </kbd>
+            <span>Tilt &amp; rotate</span>
+          </div>
+        )}
       </div>
     </div>
   );

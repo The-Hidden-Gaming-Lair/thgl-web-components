@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Повертає карту так, щоб напрямок вашого погляду завжди був угорі, як на міні-карті, що обертається. Також вмикає «Слідувати за гравцем».",
   "settings.rotateMapWithPlayer.overlay": "Оверлей у грі",
   "settings.rotateMapWithPlayer.desktop": "Вікно на робочому столі та сайт",
+  "settings.rotateMapWithCtrlDrag": "Повертати карту за допомогою Ctrl + перетягування",
+  "settings.rotateMapWithCtrlDrag.description": "Утримування Ctrl під час перетягування обертає та нахиляє карту. Вимкніть цю опцію, якщо Ctrl — ваша клавіша Push-to-Talk: тоді Ctrl + перетягування діятиме як звичайне переміщення карти. Перетягування середньою кнопкою миші й надалі обертає карту.",
   "minimap.transparency": "Прозорість",
   "minimap.opacity": "Непрозорість",
   "minimap.resizeHint": "Тягніть кутові маркери, щоб змінити розмір, і круглий маркер, щоб заокруглити кути.",

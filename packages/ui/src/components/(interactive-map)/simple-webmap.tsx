@@ -41,6 +41,10 @@ export function SimpleWebMap({
   const colorBlindSeverity = useSettingsStore(
     (state) => state.colorBlindSeverity,
   );
+  // `?? true`: profiles persisted before the setting existed lack the key.
+  const rotateMapWithCtrlDrag = useSettingsStore(
+    (state) => state.rotateMapWithCtrlDrag ?? true,
+  );
 
   // Initialize WebMap
   useLayoutEffect(() => {
@@ -150,6 +154,7 @@ export function SimpleWebMap({
       minZoom: mapTileOptions.minZoom,
       maxZoom: mapTileOptions.maxZoom,
       projection,
+      ctrlDragRotate: rotateMapWithCtrlDrag,
     });
 
     webmapRef.current = webmap;
@@ -188,6 +193,11 @@ export function SimpleWebMap({
       }
     };
   }, [mapTileOptions?.url]); // Only recreate on URL change
+
+  // Same Ctrl + drag rule as the main map (see interactive-map.tsx).
+  useEffect(() => {
+    webmapState?.setCtrlDragRotate(rotateMapWithCtrlDrag);
+  }, [webmapState, rotateMapWithCtrlDrag]);
 
   // Add/update tile layer
   useEffect(() => {

@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "Ruota la mappa in modo che la direzione in cui guardi sia sempre in alto, come una minimappa rotante. Attiva anche Segui giocatore.",
   "settings.rotateMapWithPlayer.overlay": "Overlay in gioco",
   "settings.rotateMapWithPlayer.desktop": "Finestra desktop e sito web",
+  "settings.rotateMapWithCtrlDrag": "Ruota mappa con Ctrl + trascinamento",
+  "settings.rotateMapWithCtrlDrag.description": "Tenendo premuto Ctrl durante il trascinamento la mappa ruota e si inclina. Disattivalo se Ctrl è il tuo tasto Push-to-Talk: Ctrl + trascinamento funzionerà allora come un trascinamento normale. Il trascinamento con il pulsante centrale del mouse continua a far ruotare la mappa.",
   "minimap.transparency": "Trasparenza",
   "minimap.opacity": "Opacità",
   "minimap.resizeHint": "Trascina le maniglie agli angoli per ridimensionare e quella rotonda per arrotondare gli angoli.",

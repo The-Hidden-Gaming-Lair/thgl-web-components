@@ -559,6 +559,26 @@ export function SettingsDialogContent({
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="pr-2">
+                    <Label htmlFor="rotate-map-with-ctrl-drag">
+                      {t("settings.rotateMapWithCtrlDrag", {
+                        fallback: "Rotate map with Ctrl + drag",
+                      })}
+                    </Label>
+                    <p className="text-xs text-muted-foreground">
+                      {t("settings.rotateMapWithCtrlDrag.description", {
+                        fallback:
+                          "Holding Ctrl while dragging rotates and tilts the map. Turn it off if Ctrl is your push-to-talk key: Ctrl + drag then pans like a normal drag. Middle-mouse drag still rotates.",
+                      })}
+                    </p>
+                  </div>
+                  <Switch
+                    id="rotate-map-with-ctrl-drag"
+                    checked={profileSettings.rotateMapWithCtrlDrag ?? true}
+                    onCheckedChange={settingsStore.setRotateMapWithCtrlDrag}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="pr-2">
                     <Label htmlFor="show-interior-label-names">
                       {t("settings.showInteriorNames", {
                         fallback: "Show interior names on the map",

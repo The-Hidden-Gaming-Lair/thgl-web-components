@@ -369,6 +369,8 @@
   "settings.rotateMapWithPlayer.description": "旋转地图，使你面朝的方向始终朝上，就像会旋转的小地图。同时会开启“跟随玩家”。",
   "settings.rotateMapWithPlayer.overlay": "游戏内悬浮窗",
   "settings.rotateMapWithPlayer.desktop": "桌面窗口和网站",
+  "settings.rotateMapWithCtrlDrag": "按住 Ctrl + 拖动旋转地图",
+  "settings.rotateMapWithCtrlDrag.description": "拖动时按住 Ctrl 可旋转并倾斜地图。如果 Ctrl 是你的一键通话（Push-to-Talk）按键，请关闭此选项：关闭后 Ctrl + 拖动将像普通拖动一样只平移地图。使用鼠标中键拖动仍然可以旋转地图。",
   "minimap.transparency": "透明度",
   "minimap.opacity": "不透明度",
   "minimap.resizeHint": "拖动角上的手柄调整大小，拖动圆形手柄调整圆角。",
