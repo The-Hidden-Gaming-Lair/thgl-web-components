@@ -297,6 +297,59 @@ const nextConfig = (phase) => ({
           { key: "CDN-Cache-Control", value: "no-store" },
         ],
       },
+      // THGLApp's account pages — the SAME bug class as /support-me/account
+      // above, and they were missed when that one was fixed (2026-08-17).
+      // /controller is the Companion App's only account resolution: it renders
+      // getAccount() server-side and INLINES the payload (decryptedUserId,
+      // email, perks, isSpecial) into the HTML for InitializeAccount, which
+      // writes it straight into the persisted store — no client-side
+      // /api/patreon refresh exists in the app tenant (the web header's
+      // Account component isn't mounted here), so whatever this page says IS
+      // the app's tier, permanently. /redirect is the OAuth landing page and
+      // does the same thing via AuthRedirect.
+      //
+      // At the blanket pageCache TTL those responses were edge-cached for a
+      // day (s-maxage=86400, SWR=86400). The pull zone varies on the `userId`
+      // cookie so nothing leaked across accounts, but that cookie is
+      // DETERMINISTIC for a given user — jwt.sign(<id>, secret) over a string
+      // payload carries no `iat`, so re-signing yields byte-identical output
+      // and therefore the same cache key. Consequences, all reported
+      // (2026-09-20, Pro showing as "Tier: None" in the app while the website
+      // showed Pro): upgrading a tier doesn't reach the app for up to a day;
+      // re-authenticating can't fix it (same cookie → same cache entry);
+      // restarting the app or the PC can't fix it (the staleness is at the
+      // edge, not on the client); and a sign-in that renders once during a
+      // token-store hiccup pins THAT verdict. Per-user auth state must never
+      // ride a shared cache. Locale-prefixed form covered too — /controller
+      // and /en/controller both render.
+      {
+        source: "/controller",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/:locale/controller",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/redirect",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/:locale/redirect",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
       // Status API — the status page + in-app banners poll this, so it must
       // reflect reality within a minute (spec: 60s CDN cache). Comes AFTER
       // the pageCache /:path* rule to override the 1-day s-maxage.
