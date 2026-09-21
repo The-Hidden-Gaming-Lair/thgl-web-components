@@ -118,6 +118,22 @@ function AuthenticatedView() {
           ) : (
             <p className="text-xs text-muted-foreground">No active tier</p>
           )}
+          {/* Which Patreon account this actually is. The display name
+              above is the TH.GL profile name, not the Patreon identity —
+              without this a user with two Patreon accounts cannot tell
+              which one the app signed in with. `email` is only present
+              when the token carries the identity[email] scope; the id is
+              always there and is what support compares against. */}
+          {account.email && (
+            <p className="text-xs text-muted-foreground truncate">
+              {account.email}
+            </p>
+          )}
+          {account.decryptedUserId && (
+            <p className="text-[10px] text-muted-foreground/70 truncate">
+              Patreon ID: {account.decryptedUserId}
+            </p>
+          )}
         </div>
       </div>
 

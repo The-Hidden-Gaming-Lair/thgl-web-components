@@ -138,6 +138,15 @@ export default async function SupportMeAccount() {
                     <p className="text-lg font-semibold text-primary">
                       {currentUserResult.data.attributes.full_name}
                     </p>
+                    {/* Patreon only returns the address when the token
+                        carries the identity[email] scope — tokens minted
+                        before that scope was requested resolve to
+                        undefined, so the line is conditional. */}
+                    {currentUserResult.data.attributes.email && (
+                      <p className="text-sm text-muted-foreground">
+                        {currentUserResult.data.attributes.email}
+                      </p>
+                    )}
                     <p className="text-xs text-muted-foreground">
                       ID: {currentUserResult.data.id}
                     </p>
