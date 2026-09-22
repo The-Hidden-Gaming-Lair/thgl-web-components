@@ -792,7 +792,10 @@ export const games: Array<Game> = [
       games: [
         {
           title: "Grounded 2",
-          processNames: ["Grounded2Steam-Win64-Shipping.exe"],
+          processNames: [
+            "Grounded2Steam-Win64-Shipping.exe",
+            "Grounded2-WinGDK-Shipping.exe",
+          ],
         },
       ],
       defaultHotkeys: {
