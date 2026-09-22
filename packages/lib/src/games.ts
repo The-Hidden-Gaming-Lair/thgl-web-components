@@ -972,7 +972,10 @@ export const games: Array<Game> = [
       games: [
         {
           title: "RuneScape: Dragonwilds",
-          processNames: ["RSDragonwilds-Win64-Shipping.exe"],
+          processNames: [
+            "RSDragonwilds-Win64-Shipping.exe",
+            "RSDragonwilds-WinGDK-Shipping.exe",
+          ],
         },
       ],
       defaultHotkeys: {
