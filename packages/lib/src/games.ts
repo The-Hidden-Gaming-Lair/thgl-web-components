@@ -38,7 +38,7 @@ export const games: Array<Game> = [
           title: "The Blood of Dawnwalker",
           // THGLApp game_registry.h + manifests/targets.json use the same name.
           // The exe is Dawnwalker.exe, NOT *-Win64-Shipping.exe.
-          processNames: ["Dawnwalker.exe"],
+          processNames: ["Dawnwalker.exe", "Dawnwalker-WinGDK-Shipping.exe"],
         },
       ],
       defaultHotkeys: {
@@ -628,6 +628,7 @@ export const games: Array<Game> = [
             "BPSR.exe",
             "BPSR_EPIC.exe",
             "StarASIA_STEAM.exe",
+            "應用程式.exe",
           ],
         },
       ],
@@ -1055,7 +1056,10 @@ export const games: Array<Game> = [
       games: [
         {
           title: "Avowed",
-          processNames: ["Avowed-Win64-Shipping.exe"],
+          processNames: [
+            "Avowed-Win64-Shipping.exe",
+            "Avowed-WinGDK-Shipping.exe",
+          ],
         },
       ],
       defaultHotkeys: {
