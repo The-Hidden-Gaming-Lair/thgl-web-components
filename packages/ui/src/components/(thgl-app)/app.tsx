@@ -93,6 +93,12 @@ export function App({
   additionalTooltip?: AdditionalTooltipType;
 }) {
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  const overlayFullscreen = useSettingsStore(
+    (state) => state.overlayFullscreen,
+  );
+  const fullscreenHotkey = useSettingsStore(
+    (state) => state.hotkeys.toggle_overlay_fullscreen,
+  );
   const toggleLockedWindow = useSettingsStore(
     (state) => state.toggleLockedWindow,
   );
@@ -186,7 +192,12 @@ export function App({
                 native reader only scans/serializes the types actually in use. */}
             <ActorTypeFilter typesIdMap={fullTypesIdMap} />
             {lockedWindow ? (
-              <UnlockButton onClick={toggleLockedWindow} />
+              <UnlockButton
+                onClick={toggleLockedWindow}
+                fullscreenHotkey={
+                  isOverlay && overlayFullscreen ? fullscreenHotkey : undefined
+                }
+              />
             ) : (
               <AppHeader
                 isOverlay={isOverlay}

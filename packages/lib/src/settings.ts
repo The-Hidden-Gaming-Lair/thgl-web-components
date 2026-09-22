@@ -1285,6 +1285,10 @@ export const useSettingsStore = create(
               labelTextSize: 1,
               // Map behavior
               fitBoundsOnChange: false,
+              // Overlay window: a fullscreen or locked minimap is the usual
+              // reason people reach for "reset" in the first place.
+              overlayFullscreen: false,
+              lockedWindow: false,
             });
           },
 

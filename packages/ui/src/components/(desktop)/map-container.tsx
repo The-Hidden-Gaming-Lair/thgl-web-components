@@ -16,6 +16,7 @@ import { useMap } from "../(interactive-map)/store";
 import { Toggle } from "../ui/toggle";
 import { Button } from "../(controls)";
 import { useT } from "../(providers)";
+import { toast } from "sonner";
 
 /**
  * The overlay minimap's setup toolbar: a fixed pill of icon buttons that never
@@ -240,6 +241,21 @@ export function MapContainer({
   } = useSettingsStore();
   const [isEditMode, setIsEditMode] = useState(false);
   const moveableRef = useRef<Moveable>(null);
+  const fullscreenHotkey = useSettingsStore(
+    (state) => state.hotkeys.toggle_overlay_fullscreen,
+  );
+
+  // A fullscreen minimap with no obvious way back is a recurring support case:
+  // the hotkey sits next to the "Hide Controls" one and the state persists, so
+  // people restart into a map that covers the whole game. Say how to leave it
+  // every time fullscreen turns on, and once at startup when it already is.
+  useEffect(() => {
+    if (!isOverlay || !_hasHydrated || !overlayFullscreen) return;
+    toast(
+      `The map is fullscreen. Press ${fullscreenHotkey || "the fullscreen hotkey"} or click the two-arrows button at the top to shrink it back.`,
+      { duration: 8000, id: "overlay-fullscreen-hint" },
+    );
+  }, [isOverlay, _hasHydrated, overlayFullscreen, fullscreenHotkey]);
 
   useEffect(() => {
     if (!isOverlay || !_hasHydrated) {

@@ -5,7 +5,14 @@ import { Button } from "../ui/button";
 import { cn } from "@repo/lib";
 import { postWebviewMessage } from "@repo/lib/thgl-app";
 
-export function UnlockButton({ onClick }: { onClick: () => void }) {
+export function UnlockButton({
+  onClick,
+  fullscreenHotkey,
+}: {
+  onClick: () => void;
+  /** Set while the map is fullscreen: the hint also names the way out of it. */
+  fullscreenHotkey?: string;
+}) {
   const [timeLeft, setTimeLeft] = useState(9);
 
   useEffect(() => {
@@ -57,6 +64,7 @@ export function UnlockButton({ onClick }: { onClick: () => void }) {
         <>
           <p className="text-sm font-bold">
             Click the eye to show the controls again
+            {fullscreenHotkey ? ` (${fullscreenHotkey} exits fullscreen)` : ""}
           </p>
           <span className="text-sm">{timeLeft}</span>
         </>
