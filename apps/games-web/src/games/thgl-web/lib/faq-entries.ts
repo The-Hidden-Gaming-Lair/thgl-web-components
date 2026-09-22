@@ -288,6 +288,8 @@ The driver only accepts app versions that are on an approval list, and the Bridg
 
 Allow \`THGLBridgeHost.exe\` (in \`C:\\Program Files\\The Hidden Gaming Lair\`) through your security software, then press **Restart service** in the banner. Third-party firewalls do this more often than the Windows one; Bitdefender is one I have seen block it. In a debug snapshot, the Bridge Host log shows \`Failed to download manifest\` when this is the cause.
 
+The same message also appears on machines where Windows Defender has been switched off by a "tweak" or "debloat" tool (Windows Security then says **"managed by your organization"** and **"No active antivirus provider"**). Those tools usually change more than Defender: root certificate updates and network rules the service depends on. The service runs as a system service, so it can be cut off even while your own programs reach the internet fine. Turn Defender back on, allow the app when asked, then press **Restart service**.
+
 A related message, **"Driver cannot verify this app"**, means the driver could not read the app's own program file to check it. That is security software holding the file open: add \`C:\\Program Files\\The Hidden Gaming Lair\` to its exclusions and restart the app.
 
 ## If the banner does not go away
