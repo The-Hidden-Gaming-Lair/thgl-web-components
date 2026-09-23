@@ -12,7 +12,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useSessionStorage } from "@uidotdev/usehooks";
 import { useT } from "../(providers)";
-import { useAccountStore } from "@repo/lib";
 
 // Obfuscated key generation to prevent easylist blocking
 function getStorageKey() {
@@ -37,7 +36,6 @@ export function AdBlocker() {
   const [timeLeft, setTimeLeft] = useState(DISMISS_COUNTDOWN);
   const [ready, setReady] = useState(false);
   const [open, setOpen] = useState(true);
-  const setShowUserDialog = useAccountStore((state) => state.setShowUserDialog);
   const interactionsRef = useRef(0);
 
   const sessionKey = getStorageKey();
@@ -68,7 +66,10 @@ export function AdBlocker() {
 
     const checkReady = () => {
       const elapsed = Date.now() - mountTime.current;
-      if (elapsed >= SHOW_DELAY_MS && interactionsRef.current >= MIN_INTERACTIONS) {
+      if (
+        elapsed >= SHOW_DELAY_MS &&
+        interactionsRef.current >= MIN_INTERACTIONS
+      ) {
         setReady(true);
       }
     };
@@ -121,14 +122,17 @@ export function AdBlocker() {
           <li>
             <span className="font-bold">{t("adblocker.supportTitle")}</span>{" "}
             {t("adblocker.supportText")}
-            <div
-              onClick={() => {
-                setShowUserDialog(true);
+            <ExternalAnchor
+              href="https://www.th.gl/support-me"
+              className="flex gap-1 text-primary hover:underline items-center"
+              onClick={(e) => {
+                window.open("https://www.th.gl/support-me", "_blank");
+                e.preventDefault();
               }}
-              className="flex gap-1 text-primary hover:underline cursor-pointer"
             >
               <span>{t("adblocker.supportLink")}</span>
-            </div>
+              <ExternalLink className="w-3 h-3" />
+            </ExternalAnchor>
           </li>
 
           <li>
