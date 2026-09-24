@@ -355,6 +355,7 @@ uniform float u_cb_sev; // 0..1
 uniform int u_hc_mode; // 0=off, 1=on
 uniform vec4 u_hc_color; // outline RGBA
 uniform float u_hc_thickness; // outline thickness in texels (1-6)
+uniform float u_dark; // Dark Map strength 0..1: softens white glyphs to off-white
 in vec2 v_uv;
 in vec2 v_localUv;  // 0..1 across entire quad
 in vec2 v_uvMin;    // UV min bounds for atlas sub-rect
@@ -625,6 +626,14 @@ void main(){
     draw = mix(draw, sim, clamp(u_cb_sev, 0.0, 1.0));
   }
 
+  // Dark Map: pure white glyphs glare on a darkened map, so highlights are
+  // eased to an off-white (white -> 0.75 at full strength). Only bright pixels
+  // are touched; coloured parts (red flags, badges) keep their hue and level.
+  if(u_dark > 0.0){
+    float l = dot(draw, vec3(0.2126, 0.7152, 0.0722));
+    draw *= 1.0 - 0.25 * clamp(u_dark, 0.0, 1.0) * smoothstep(0.55, 1.0, l);
+  }
+
   // Ensure overlays are visible even over transparent sprite padding
   alpha = max(alpha, overlayAlpha);
   // Discard nearly transparent fragments so they don't write to the depth buffer
@@ -719,9 +728,11 @@ export class IconMarkerLayer implements Layer {
   private dynamicSizeFactor: number = 2 / 3;
   private u_cb_mode_loc: WebGLUniformLocation | null = null;
   private u_cb_sev_loc: WebGLUniformLocation | null = null;
+  private u_dark_loc: WebGLUniformLocation | null = null;
   private hidden?: Set<string>;
   private colorBlindMode: ColorBlindMode = "none";
   private colorBlindSeverity: number = 1;
+  private darkness: number = 0;
   private highContrastMode: boolean = false;
   private highContrastColor: [number, number, number, number] = [0, 0, 0, 1];
   private highContrastThickness: number = 2;
@@ -889,6 +900,11 @@ export class IconMarkerLayer implements Layer {
 
   setColorBlindSeverity(severity: number) {
     this.colorBlindSeverity = Math.max(0, Math.min(1, severity));
+  }
+
+  /** Dark Map strength 0..1 — same value as the tile layer's. */
+  setDarkness(darkness: number) {
+    this.darkness = Math.max(0, Math.min(1, darkness));
   }
 
   setDynamicSizeFactor(factor: number) {
@@ -1140,6 +1156,7 @@ export class IconMarkerLayer implements Layer {
     );
     this.u_cb_mode_loc = gl.getUniformLocation(this.program!, "u_cb_mode");
     this.u_cb_sev_loc = gl.getUniformLocation(this.program!, "u_cb_sev");
+    this.u_dark_loc = gl.getUniformLocation(this.program!, "u_dark");
     this.u_hc_mode_loc = gl.getUniformLocation(this.program!, "u_hc_mode");
     this.u_hc_color_loc = gl.getUniformLocation(this.program!, "u_hc_color");
     this.u_hc_thickness_loc = gl.getUniformLocation(
@@ -1429,6 +1446,7 @@ export class IconMarkerLayer implements Layer {
     // Set color-blind simulation uniforms
     gl.uniform1i(this.u_cb_mode_loc, this.cbModeToInt(this.colorBlindMode));
     gl.uniform1f(this.u_cb_sev_loc, this.colorBlindSeverity);
+    gl.uniform1f(this.u_dark_loc, this.darkness);
 
     // Set high contrast uniforms
     gl.uniform1i(this.u_hc_mode_loc, this.highContrastMode ? 1 : 0);
