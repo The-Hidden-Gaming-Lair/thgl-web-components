@@ -5,8 +5,10 @@ import {
   games,
   isCompanionAccessible,
   localizePath,
-  sortGamesByLastPlayed,
+  partitionFavoriteGames,
+  sortGamesBy,
   useAccountStore,
+  type GamesSort,
 } from "@repo/lib";
 import {
   openInBrowser,
@@ -27,12 +29,14 @@ import {
   BookOpen,
   ExternalLink,
   MessageCircle,
+  Star,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../(controls)";
 import { useLocale, useT } from "../(providers)";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { useMemo } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 
 export function DashboardSidebar() {
@@ -50,11 +54,34 @@ export function DashboardSidebar() {
   // inDevelopment — they appear here, gated to Elite supporters via PreviewReleaseGuard.
   // `inviteOnly` companions (Pax Dei) appear ONLY for accounts invited to them.
   const lastPlayed = useTHGLAppState((state) => state.lastPlayed);
-  // Recently played first, then the registry order (newest integrations first).
-  const companionGames = sortGamesByLastPlayed(
-    games.filter((game) => isCompanionAccessible(game, account.invites)),
-    lastPlayed,
+  const gamesSort = useTHGLAppState((state) => state.gamesSort);
+  const setGamesSort = useTHGLAppState((state) => state.setGamesSort);
+  const favoriteGames = useTHGLAppState((state) => state.favoriteGames);
+  const toggleFavoriteGame = useTHGLAppState(
+    (state) => state.toggleFavoriteGame,
   );
+  // "recent" (default) = recently played first, then the registry order (newest
+  // integrations first). "alpha" = by title (registry English), collated with
+  // the UI locale's rules. Favourites are
+  // lifted to the top of whichever order is active. Memoized: the sidebar
+  // re-renders on every running-games poll, and neither input changes then.
+  const sortedGames = useMemo(
+    () =>
+      sortGamesBy(
+        games.filter((game) => isCompanionAccessible(game, account.invites)),
+        gamesSort,
+        lastPlayed,
+        locale,
+      ),
+    [account.invites, gamesSort, lastPlayed, locale],
+  );
+  const { favorites: favoriteList, rest: otherGames } = useMemo(
+    () => partitionFavoriteGames(sortedGames, favoriteGames),
+    [sortedGames, favoriteGames],
+  );
+  // With every game starred the GAMES section would be a caption over nothing;
+  // then the sort control moves up into the FAVORITES caption instead.
+  const showGamesSection = otherGames.length > 0 || favoriteList.length === 0;
   const webOnlyGames = games.filter((game) => !game.companion && game.web);
 
   const isGameRunning = (gameId: string) => {
@@ -69,6 +96,96 @@ export function DashboardSidebar() {
       processNames.includes(rg.processName.toLowerCase()),
     );
   };
+
+  // One companion row, shared by the favourites section and the main list so a
+  // game looks and behaves identically wherever its star put it.
+  const renderCompanionGame = (game: (typeof games)[number]) => {
+    const gameHref = localizePath(`/dashboard/games/${game.id}`, locale);
+    const isFavorite = favoriteGames.includes(game.id);
+
+    return (
+      <NavItem
+        key={game.id}
+        href={gameHref}
+        icon={
+          <div className="relative">
+            <Image
+              src={game.logo}
+              unoptimized
+              alt={game.title}
+              width={20}
+              height={20}
+              className="rounded"
+            />
+            {isGameRunning(game.id) && (
+              <Circle className="absolute -bottom-0.5 -right-0.5 h-2 w-2 fill-green-500 text-green-500" />
+            )}
+          </div>
+        }
+        label={game.title}
+        isActive={pathname === gameHref}
+        isExpanded={isExpanded}
+        // The star is a SIBLING of the row's link, never nested inside it:
+        // nested interactive elements are invalid and break keyboard order.
+        action={
+          isExpanded ? (
+            <button
+              type="button"
+              // Toggle button: a STABLE name plus aria-pressed, so a screen
+              // reader says "Favorite Palia, pressed" instead of announcing a
+              // label that flips between add/remove on every click.
+              aria-pressed={isFavorite}
+              aria-label={t("sidebar.favorite.toggle", {
+                fallback: "Favorite {{game}}",
+                vars: { game: game.title },
+              })}
+              onClick={() => toggleFavoriteGame(game.id)}
+              className={cn(
+                "shrink-0 rounded p-1 transition-opacity hover:text-primary focus-visible:opacity-100",
+                isFavorite
+                  ? "text-primary opacity-100"
+                  : "text-muted-foreground opacity-0 group-hover:opacity-100",
+              )}
+            >
+              <Star
+                className={cn("h-3.5 w-3.5", isFavorite && "fill-current")}
+              />
+            </button>
+          ) : undefined
+        }
+      />
+    );
+  };
+
+  // Two plain toggle buttons in a labelled group. NOT a radiogroup: that role
+  // promises arrow-key navigation with a single tab stop, which two tabbable
+  // buttons do not deliver — aria-pressed states exactly what they are.
+  const sortControl = (
+    <div
+      role="group"
+      aria-label={t("sidebar.sort.label", { fallback: "Sort games" })}
+      className="flex shrink-0 items-center rounded-md border"
+    >
+      {(["recent", "alpha"] as GamesSort[]).map((value) => (
+        <button
+          key={value}
+          type="button"
+          aria-pressed={gamesSort === value}
+          onClick={() => setGamesSort(value)}
+          className={cn(
+            "px-1.5 py-0.5 text-[10px] uppercase tracking-wide transition-colors",
+            gamesSort === value
+              ? "bg-primary/10 text-primary"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {value === "recent"
+            ? t("sidebar.sort.recent", { fallback: "Recent" })
+            : t("sidebar.sort.alpha", { fallback: "A-Z" })}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <aside
@@ -147,44 +264,41 @@ export function DashboardSidebar() {
       {/* Games List */}
       <ScrollArea className="flex-1">
         <div className="p-2 space-y-1">
-          {isExpanded && (
-            <span className="px-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t("sidebar.games")}
-            </span>
+          {/* Favourites: the starred games, in whichever order is active, so
+              there is no hidden third ordering to explain. Collapsed, they
+              simply render first — no caption, no stars, no room for either. */}
+          {favoriteList.length > 0 && (
+            <>
+              {isExpanded && (
+                <div className="flex items-center justify-between gap-2 px-2">
+                  <span className="truncate text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    {t("sidebar.favorites", { fallback: "Favorites" })}
+                  </span>
+                  {!showGamesSection && sortControl}
+                </div>
+              )}
+              {favoriteList.map(renderCompanionGame)}
+            </>
           )}
-          {companionGames.map((game) => {
-            const gameHref = localizePath(
-              `/dashboard/games/${game.id}`,
-              locale,
-            );
-            const isActive = pathname === gameHref;
-            const isRunning = isGameRunning(game.id);
 
-            return (
-              <NavItem
-                key={game.id}
-                href={gameHref}
-                icon={
-                  <div className="relative">
-                    <Image
-                      src={game.logo}
-                      unoptimized
-                      alt={game.title}
-                      width={20}
-                      height={20}
-                      className="rounded"
-                    />
-                    {isRunning && (
-                      <Circle className="absolute -bottom-0.5 -right-0.5 h-2 w-2 fill-green-500 text-green-500" />
-                    )}
-                  </div>
-                }
-                label={game.title}
-                isActive={isActive}
-                isExpanded={isExpanded}
-              />
-            );
-          })}
+          {showGamesSection && (
+            <>
+              {isExpanded && (
+                <div
+                  className={cn(
+                    "flex items-center justify-between gap-2 px-2",
+                    favoriteList.length > 0 && "pt-3",
+                  )}
+                >
+                  <span className="truncate text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    {t("sidebar.games")}
+                  </span>
+                  {sortControl}
+                </div>
+              )}
+              {otherGames.map(renderCompanionGame)}
+            </>
+          )}
 
           {/* Web-Only Games */}
           {webOnlyGames.length > 0 && (
@@ -304,12 +418,15 @@ function NavItem({
   label,
   isActive,
   isExpanded,
+  action,
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
   isActive: boolean;
   isExpanded: boolean;
+  /** Optional control rendered NEXT TO the link, never inside it. */
+  action?: React.ReactNode;
 }) {
   const button = (
     <Button
@@ -319,6 +436,7 @@ function NavItem({
         "w-full transition-colors hover:bg-primary/10 hover:text-primary",
         isExpanded ? "justify-start" : "justify-center",
         isActive && "bg-primary/10 text-primary",
+        action && "flex-1 min-w-0",
       )}
       asChild
     >
@@ -343,6 +461,20 @@ function NavItem({
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>
+    );
+  }
+
+  if (action) {
+    // `group` drives the star's hover reveal; focus-visible keeps it reachable
+    // for keyboard users, who never trigger the hover.
+    return (
+      <div
+        data-testid="companion-row"
+        className="group flex items-center gap-1"
+      >
+        {button}
+        {action}
+      </div>
     );
   }
 

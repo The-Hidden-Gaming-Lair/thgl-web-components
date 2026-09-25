@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "Игры",
   "sidebar.webOnly": "Только веб",
+  "sidebar.favorites": "Избранное",
+  "sidebar.favorite.toggle": "{{game}} в избранное",
+  "sidebar.sort.label": "Сортировка игр",
+  "sidebar.sort.recent": "Недавно",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "Настройки",
   "sidebar.signIn": "Войти",
 

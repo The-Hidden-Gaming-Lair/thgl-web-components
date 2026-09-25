@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "เกม",
   "sidebar.webOnly": "เว็บเท่านั้น",
+  "sidebar.favorites": "รายการโปรด",
+  "sidebar.favorite.toggle": "{{game}} รายการโปรด",
+  "sidebar.sort.label": "เรียงลำดับเกม",
+  "sidebar.sort.recent": "ล่าสุด",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "ตั้งค่า",
   "sidebar.signIn": "เข้าสู่ระบบ",
 

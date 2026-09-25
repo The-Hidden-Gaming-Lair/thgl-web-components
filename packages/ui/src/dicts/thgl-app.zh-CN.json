@@ -8,6 +8,11 @@
   "sidebar.discord": "Discord",
   "sidebar.games": "游戏",
   "sidebar.webOnly": "仅网页版",
+  "sidebar.favorites": "收藏",
+  "sidebar.favorite.toggle": "收藏 {{game}}",
+  "sidebar.sort.label": "游戏排序",
+  "sidebar.sort.recent": "最近",
+  "sidebar.sort.alpha": "A-Z",
   "sidebar.settings": "设置",
   "sidebar.signIn": "登录",
 
