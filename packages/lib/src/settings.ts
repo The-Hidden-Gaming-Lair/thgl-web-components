@@ -289,8 +289,15 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   audioAlertRange: 5000,
   audioAlertSound: "chime" as const,
   audioAlertVolume: 0.5,
+  // Accessibility: the alert's volume follows the distance to the nearest
+  // marker of that type and it re-pings while you approach (instead of a
+  // single ding on entering range). Off = the long-standing behaviour.
+  audioAlertPositional: false,
   showAudioAlertRange: false,
   audioAlertByFilter: {},
+  // Per-filter tone override. An absent key = the global audioAlertSound, so
+  // nobody who never opens the picker hears a change.
+  audioAlertSoundByFilter: {},
   // Palia clock: event ids whose start plays the alert sound (see palia-clock.tsx).
   paliaEventAlerts: {},
   // Real minutes before an event's start the clock alert fires (plus at the start).
@@ -410,8 +417,15 @@ export type ProfileSettings = {
   audioAlertRange: number;
   audioAlertSound: "chime" | "ping" | "beacon" | "soft";
   audioAlertVolume: number;
+  audioAlertPositional: boolean;
   showAudioAlertRange: boolean;
   audioAlertByFilter: Record<string, boolean>;
+  /**
+   * Per-filter alert tone. Absent key = the global `audioAlertSound`.
+   * The union is spelled out by hand, like `audioAlertSound` above: @repo/lib
+   * must not import from @repo/ui, where `AudioAlertSound` is declared.
+   */
+  audioAlertSoundByFilter: Record<string, "chime" | "ping" | "beacon" | "soft">;
   paliaEventAlerts: Record<string, boolean>;
   paliaEventAlertLeadMinutes: number;
   paliaEventAlertsSpoken: boolean;
@@ -544,12 +558,20 @@ export interface ProfileActions {
   setAudioAlertRange: (range: number) => void;
   setAudioAlertSound: (sound: "chime" | "ping" | "beacon" | "soft") => void;
   setAudioAlertVolume: (volume: number) => void;
+  toggleAudioAlertPositional: () => void;
   toggleShowAudioAlertRange: () => void;
   toggleAudioAlertByFilter: (filterId: string) => void;
   togglePaliaEventAlert: (eventId: string) => void;
   setPaliaEventAlertLeadMinutes: (minutes: number) => void;
   togglePaliaEventAlertsSpoken: () => void;
   setAudioAlertByFilters: (filterIds: string[], enabled: boolean) => void;
+  // One setter for both cases: the popover passes `[filterId]` for a single
+  // filter and the whole group's ids for a group. `"default"` deletes the key
+  // so the filter falls back to the global tone.
+  setAudioAlertSoundByFilters: (
+    filterIds: string[],
+    sound: "chime" | "ping" | "beacon" | "soft" | "default",
+  ) => void;
   resetAudioAlerts: () => void;
   setLabelModeByFilter: (filterId: string, mode: LabelMode) => void;
   setLabelModeByFilters: (filterIds: string[], mode: LabelMode) => void;
@@ -1276,8 +1298,10 @@ export const useSettingsStore = create(
               audioAlertRange: 5000,
               audioAlertSound: "chime",
               audioAlertVolume: 0.5,
+              audioAlertPositional: false,
               showAudioAlertRange: false,
               audioAlertByFilter: {},
+              audioAlertSoundByFilter: {},
               // Labels
               labelModeByFilter: {},
               liveModeByFilter: {},
@@ -1544,6 +1568,13 @@ export const useSettingsStore = create(
             });
           },
 
+          toggleAudioAlertPositional: () => {
+            const state = get();
+            updateSettings({
+              audioAlertPositional: !state.audioAlertPositional,
+            });
+          },
+
           toggleShowAudioAlertRange: () => {
             const state = get();
             updateSettings({ showAudioAlertRange: !state.showAudioAlertRange });
@@ -1597,11 +1628,25 @@ export const useSettingsStore = create(
             });
           },
 
+          setAudioAlertSoundByFilters: (filterIds, sound) => {
+            const state = get();
+            const next = { ...state.audioAlertSoundByFilter };
+            for (const id of filterIds) {
+              if (sound === "default") delete next[id];
+              else next[id] = sound;
+            }
+            updateSettings({ audioAlertSoundByFilter: next });
+          },
+
           resetAudioAlerts: () => {
             // Clear every per-filter audio alert back to off. Distinct from the
             // global mute (audioAlertsMuted), which only silences without
-            // changing the per-filter toggles.
-            updateSettings({ audioAlertByFilter: {} });
+            // changing the per-filter toggles. The tone overrides go with them:
+            // "Reset all" must not leave orphan tones behind.
+            updateSettings({
+              audioAlertByFilter: {},
+              audioAlertSoundByFilter: {},
+            });
           },
 
           setDiscoverModeByFilter: (filterId, mode) => {
@@ -1753,6 +1798,11 @@ export const useSettingsStore = create(
             }
             if (settings.audioAlertByFilter) {
               update.audioAlertByFilter = settings.audioAlertByFilter;
+              // A preset replaces the per-filter alert map wholesale, so the
+              // per-filter tones start over too: a tone must not linger on a
+              // filter the preset just disabled. Presets carry no tones of
+              // their own on purpose.
+              update.audioAlertSoundByFilter = {};
             }
             updateSettings(update);
           },

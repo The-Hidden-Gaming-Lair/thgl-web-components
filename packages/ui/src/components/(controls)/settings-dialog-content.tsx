@@ -421,6 +421,27 @@ export function SettingsDialogContent({
             </div>
             <Separator className="opacity-30" />
             <div className="flex items-center justify-between">
+              <div className="pr-2">
+                <Label htmlFor="audio-alert-positional">
+                  {t("settings.positionalAudio", {
+                    fallback: "Positional audio alerts",
+                  })}
+                </Label>
+                <p className="text-muted-foreground text-xs">
+                  {t("settings.positionalAudio.description", {
+                    fallback:
+                      "Audio alerts get louder as you get closer and repeat while a marker is in range, with the tone panned to the side the marker is on. Made for playing by ear. Off = one alert when something enters range.",
+                  })}
+                </p>
+              </div>
+              <Switch
+                id="audio-alert-positional"
+                checked={profileSettings.audioAlertPositional ?? false}
+                onCheckedChange={settingsStore.toggleAudioAlertPositional}
+              />
+            </div>
+            <Separator className="opacity-30" />
+            <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="high-contrast-mode">
                   {t("settings.highContrastMarkers", {
@@ -944,10 +965,18 @@ export function SettingsDialogContent({
                   );
                 })()}
                 <div className="flex items-center gap-2 justify-between">
-                  <Label htmlFor="audio-alert-sound">
-                    {t("settings.alertSound", { fallback: "Alert Sound" })}
-                  </Label>
-                  <div className="flex items-center gap-2">
+                  <div className="pr-2">
+                    <Label htmlFor="audio-alert-sound">
+                      {t("settings.alertSound", { fallback: "Alert Sound" })}
+                    </Label>
+                    <p className="text-muted-foreground text-xs">
+                      {t("settings.alertSound.description", {
+                        fallback:
+                          "Used by filters that don't have their own tone. Set a tone per filter with the gear icon next to it.",
+                      })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
                     <Select
                       value={profileSettings.audioAlertSound}
                       onValueChange={settingsStore.setAudioAlertSound}

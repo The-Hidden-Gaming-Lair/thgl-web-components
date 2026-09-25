@@ -45,7 +45,19 @@ import { SpatialGrid } from "./spatial-grid";
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
 import { toast } from "sonner";
 import { AdditionalTooltipType } from "../(content)";
-import { playAlertSound } from "../(controls)/audio-alert";
+import {
+  isAudioAlertSuspended,
+  playAlertSound,
+  type AudioAlertSound,
+} from "../(controls)/audio-alert";
+import {
+  alertGain,
+  alertPan,
+  alertRepeatDelayMs,
+  rearAttenuation,
+  relativeBearing,
+  resolveAlertSound,
+} from "../(controls)/audio-alert-math";
 import {
   getSourceImage,
   setSourceImage,
@@ -91,6 +103,38 @@ function computeRelativeZPos(
   if (dz < -cfg.zDistance) return { zPos: "top", zValue: -dz };
   return { zPos: null, zValue: undefined };
 }
+
+/**
+ * Positional mode caps how many filter types may ping in one cycle. Past three
+ * simultaneous tones nothing is distinguishable any more and it just reads as
+ * an alarm; the nearest types win.
+ */
+const MAX_SIMULTANEOUS_ALERT_TYPES = 3;
+
+/** The nearest in-range marker of one filter type: squared distance + its (rotated) position. */
+type NearestAlert = { dSq: number; lat: number; lng: number };
+
+/**
+ * Everything one positional ping needs, captured by the LAST proximity check:
+ * the in-range candidates plus the player pose they were measured against.
+ * Kept in a ref so the repeat timer can re-evaluate "what is due" without a
+ * React render and without walking the spawns again.
+ */
+type PositionalAlertCandidates = {
+  nearestByType: Map<string, NearestAlert>;
+  playerX: number;
+  playerY: number;
+  facingRad: number;
+  hasHeading: boolean;
+};
+
+/** Never schedule a positional tick closer than this - timers are not that precise anyway. */
+const POSITIONAL_TICK_MIN_MS = 50;
+/** While the AudioContext is suspended, poll this slowly for it to come back. */
+const POSITIONAL_SUSPENDED_RETRY_MS = 1000;
+
+/** Stable fallback for profiles saved before audioAlertSoundByFilter existed. */
+const EMPTY_SOUND_BY_FILTER: Record<string, AudioAlertSound> = {};
 
 export function Markers({
   appName,
@@ -446,6 +490,8 @@ function MarkersContent({
     audioAlertByFilter,
     audioAlertSound,
     audioAlertVolume,
+    audioAlertPositional,
+    audioAlertSoundByFilter,
   } = useSettingsStore(
     useShallow((state) => ({
       audioAlertsMuted: state.audioAlertsMuted,
@@ -454,6 +500,10 @@ function MarkersContent({
       audioAlertByFilter: state.audioAlertByFilter,
       audioAlertSound: state.audioAlertSound,
       audioAlertVolume: state.audioAlertVolume,
+      // Profiles saved before these settings existed have no key at all.
+      audioAlertPositional: state.audioAlertPositional ?? false,
+      audioAlertSoundByFilter:
+        state.audioAlertSoundByFilter ?? EMPTY_SOUND_BY_FILTER,
     })),
   );
   const {
@@ -555,6 +605,19 @@ function MarkersContent({
 
   // Audio alert tracking - tracks if we've already alerted for current in-range spawns
   const hasAlertedRef = useRef<boolean>(false);
+  // Positional mode only: filter type -> performance.now() before which that
+  // type must not ping again. Distance-scaled, so a close marker repeats fast
+  // and one at the range edge slowly. Cleared whenever the range empties.
+  const nextPingAtRef = useRef<Map<string, number>>(new Map());
+  // Positional mode only: what the last proximity check found, and the timer
+  // that keeps re-pinging it while the player stands still. The check only
+  // runs when the throttled player or the actors change, so without a timer
+  // of its own a type whose cooldown had not expired at that moment would
+  // never ping again until the player moved.
+  const positionalCandidatesRef = useRef<PositionalAlertCandidates | null>(
+    null,
+  );
+  const positionalTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Hotkey state for showing all labels temporarily (set by MapHotkeys in Overwolf/THGL apps)
   const showLabelsActive = useGameState((state) => state.showLabelsActive);
@@ -2563,6 +2626,17 @@ function MarkersContent({
     map.requestRedraw();
   }, [map, highContrastMode, highContrastColor, highContrastThickness]);
 
+  // Flipping positional mode mid-approach must not inherit the other mode's
+  // state: positional leaves the latch set (it uses it for the one-shot
+  // toast), which would keep the non-positional branch silent until every
+  // type has left the range; and the cooldowns are meaningless once repeats
+  // stop. Declared BEFORE the alert effect so its checkProximity sees the
+  // reset in the same commit.
+  useEffect(() => {
+    hasAlertedRef.current = false;
+    nextPingAtRef.current.clear();
+  }, [audioAlertPositional]);
+
   // Audio alerts when player is within range of tracked spawns.
   // Uses `spawns` directly (not spawnMapRef) because spawns is the
   // authoritative filtered list from useCoordinates() — it excludes
@@ -2591,6 +2665,164 @@ function MarkersContent({
       playerY = rotatedPlayer[1];
     }
 
+    // Where the player is FACING on screen, degrees clockwise from up. This is
+    // the exact sum heading-up mode uses (player.tsx): the raw heading, plus
+    // the map's coordinate rotation, plus the angle the player icon image
+    // already points at rotation 0. Dropping either correction pans a marker
+    // dead ahead to the side on every game whose icon is not drawn pointing up.
+    // `r` can be absent (no reader heading) - then there is no facing to be
+    // relative to, so the alert stays centred and keeps only the distance gain.
+    const playerR = throttledPlayer.r;
+    const hasHeading = playerR != null && Number.isFinite(playerR);
+    const facingRad = hasHeading
+      ? ((playerR +
+          (tilesConfig[map?.mapName ?? ""]?.rotation?.angle ?? 0) +
+          (markerOptions.playerIconForward ?? 0)) *
+          Math.PI) /
+        180
+      : 0;
+
+    const notify = (types: Iterable<string>) => {
+      if (!audioAlertNotifications) return;
+      const names = [...types].map((tp) => t(tp) || tp);
+      const label =
+        names.length <= 2
+          ? names.join(", ")
+          : `${names[0]} +${names.length - 1} more`;
+      toast(`🔔 ${label} nearby`);
+    };
+
+    // Positional mode: each alerting type re-pings on its own distance-scaled
+    // cooldown at a volume that rises as the player closes in, turning the old
+    // one-shot "something is in range" into a continuous hotter/colder signal.
+    //
+    // The cadence is independent of player updates on purpose. checkProximity
+    // only runs when the throttled player (1 Hz, and only while moving) or the
+    // actors change, and it is what refreshes the candidate set; the pings
+    // themselves come from a setTimeout chain that wakes exactly when the
+    // earliest cooldown among the nearest types expires. A player standing
+    // still therefore keeps hearing the marker, and a move that lands inside a
+    // cooldown is not lost - the next tick plays it from the updated pose.
+    // Every tick walks only the handful of already-collected candidates, never
+    // the spawns.
+    //
+    // Freshness: the pose and facing come from throttledPlayer, so they are at
+    // most 1 Hz fresh while pings can reach 2.5 Hz (400 ms at the player's
+    // feet) - a ping between two player updates replays the last known pose,
+    // which is the accepted trade for not subscribing to the 16 Hz raw player.
+    // A frozen feed does not ping forever: every source nulls the player on
+    // disconnect (streaming-receiver, the Overwolf plugin, the THGL app), and
+    // a null throttledPlayer bails out of this effect, whose cleanup stops the
+    // timer.
+    const stopPositionalTimer = () => {
+      if (positionalTimerRef.current !== null) {
+        clearTimeout(positionalTimerRef.current);
+        positionalTimerRef.current = null;
+      }
+    };
+
+    /** The candidate types that may ping at all: the nearest few, by distance. */
+    const nearestPositionalTypes = (
+      candidates: PositionalAlertCandidates,
+    ): [string, NearestAlert][] =>
+      [...candidates.nearestByType.entries()]
+        .sort((a, b) => a[1].dSq - b[1].dSq)
+        .slice(0, MAX_SIMULTANEOUS_ALERT_TYPES);
+
+    const firePositionalAlerts = () => {
+      const candidates = positionalCandidatesRef.current;
+      if (!candidates || candidates.nearestByType.size === 0) return;
+
+      const now = performance.now();
+      // Only the nearest types compete for the slots; a farther type stays
+      // silent while three closer ones are in range instead of squeezing in
+      // between their cooldowns and turning the signal into an alarm.
+      const due = nearestPositionalTypes(candidates).filter(
+        ([type]) => (nextPingAtRef.current.get(type) ?? 0) <= now,
+      );
+      if (due.length === 0) return;
+
+      // The toast stays a once-per-approach event: one every 400ms is unusable.
+      // It is raised BEFORE the audio gate below: "Show Notification" is its
+      // own promise, and the non-positional path toasts whether or not the
+      // context can play - so must this one.
+      if (!hasAlertedRef.current) notify(candidates.nearestByType.keys());
+      hasAlertedRef.current = true;
+
+      // Never queue resumes on a suspended context - see isAudioAlertSuspended.
+      // The cooldowns stay unset, so these types are still due when the slow
+      // retry in schedulePositionalTick comes back around.
+      if (isAudioAlertSuspended()) return;
+
+      const { playerX, playerY, facingRad, hasHeading } = candidates;
+      // Project through the map rather than differencing lat/lng directly:
+      // lat/lng -> screen is a per-game affine transform whose lat coefficient
+      // is negative on some games and positive on others. Both points are
+      // projected at the same zoom, so the angle is zoom invariant, and it is
+      // the MAP-frame bearing - panning follows the player's heading in the
+      // world, not wherever the camera happens to point.
+      const playerPx =
+        hasHeading && map ? map.projectLatLng([playerX, playerY]) : null;
+
+      for (const [type, nearest] of due) {
+        const distance = Math.sqrt(nearest.dSq);
+        let gain = alertGain(distance, audioAlertRange, audioAlertVolume);
+        let pan = 0;
+        if (playerPx && map) {
+          const markerPx = map.projectLatLng([nearest.lat, nearest.lng]);
+          const rel = relativeBearing(
+            markerPx.x - playerPx.x,
+            markerPx.y - playerPx.y,
+            facingRad,
+          );
+          pan = alertPan(rel);
+          // sin() is 0 both dead ahead and dead behind, so behind is told apart
+          // by a gain dip - never by pitch, which is what identifies WHICH
+          // filter is pinging.
+          gain *= rearAttenuation(rel);
+        }
+        playAlertSound(
+          resolveAlertSound(type, audioAlertSoundByFilter, audioAlertSound),
+          gain,
+          pan,
+        );
+        nextPingAtRef.current.set(
+          type,
+          now + alertRepeatDelayMs(distance, audioAlertRange),
+        );
+      }
+    };
+
+    // Arm the next tick for the earliest cooldown expiry among the nearest
+    // types. Nothing in range = no timer at all; a suspended context = a slow
+    // retry instead of a busy loop.
+    const schedulePositionalTick = () => {
+      stopPositionalTimer();
+      const candidates = positionalCandidatesRef.current;
+      if (!candidates || candidates.nearestByType.size === 0) return;
+
+      let delay: number;
+      if (isAudioAlertSuspended()) {
+        delay = POSITIONAL_SUSPENDED_RETRY_MS;
+      } else {
+        const now = performance.now();
+        let nextDueAt = Infinity;
+        for (const [type] of nearestPositionalTypes(candidates)) {
+          nextDueAt = Math.min(
+            nextDueAt,
+            nextPingAtRef.current.get(type) ?? now,
+          );
+        }
+        delay = Math.max(POSITIONAL_TICK_MIN_MS, nextDueAt - now);
+      }
+
+      positionalTimerRef.current = setTimeout(() => {
+        positionalTimerRef.current = null;
+        firePositionalAlerts();
+        schedulePositionalTick();
+      }, delay);
+    };
+
     const checkProximity = () => {
       // Collect the distinct alert TYPES in range (not just a boolean) so the
       // fire-time notification can name what dinged. Skip predicted-only
@@ -2598,7 +2830,17 @@ function MarkersContent({
       // markers we haven't confirmed live, so alerting on them would fire on
       // phantom locations. The per-type guard makes the loop cheap (only
       // enabled-alert types do any work).
-      const inRangeTypes = new Set<string>();
+      // type -> the NEAREST in-range spawn/actor of that type (squared distance
+      // plus its already-rotated position). Squared throughout: the sqrt, the
+      // projection and the bearing happen later for at most three types, at
+      // play time, instead of once per candidate marker.
+      const nearestByType = new Map<string, NearestAlert>();
+      const note = (type: string, dSq: number, lat: number, lng: number) => {
+        const prev = nearestByType.get(type);
+        if (prev === undefined || dSq < prev.dSq) {
+          nearestByType.set(type, { dSq, lat, lng });
+        }
+      };
       for (const spawn of spawns) {
         if (!audioAlertByFilter[spawn.type]) continue;
         if (spawn.source === "static") continue;
@@ -2618,8 +2860,9 @@ function MarkersContent({
         const dx = playerX - spawnX;
         const dy = playerY - spawnY;
 
-        if (dx * dx + dy * dy <= rangeSq) {
-          inRangeTypes.add(spawn.type);
+        const dSq = dx * dx + dy * dy;
+        if (dSq <= rangeSq) {
+          note(spawn.type, dSq, spawnX, spawnY);
         }
       }
 
@@ -2661,29 +2904,48 @@ function MarkersContent({
 
           const dx = playerX - actorX;
           const dy = playerY - actorY;
-          if (dx * dx + dy * dy <= rangeSq) {
-            inRangeTypes.add(displayType);
+          const dSq = dx * dx + dy * dy;
+          if (dSq <= rangeSq) {
+            note(displayType, dSq, actorX, actorY);
           }
         }
       }
 
-      if (inRangeTypes.size > 0) {
-        // Play sound (and notify) only on transition from none to some.
-        if (!hasAlertedRef.current) {
+      if (nearestByType.size > 0) {
+        if (audioAlertPositional) {
+          // Fresh candidates + the pose they were measured against; ping what
+          // is due right now and let the timer carry the cadence from here.
+          positionalCandidatesRef.current = {
+            nearestByType,
+            playerX,
+            playerY,
+            facingRad,
+            hasHeading,
+          };
+          firePositionalAlerts();
+          schedulePositionalTick();
+        } else if (!hasAlertedRef.current) {
+          // Play sound (and notify) only on transition from none to some.
+          // Per-filter tones apply here too; with several types in range the
+          // first one found wins, since there is still only one ding.
           hasAlertedRef.current = true;
-          playAlertSound(audioAlertSound, audioAlertVolume);
-          if (audioAlertNotifications) {
-            const names = [...inRangeTypes].map((tp) => t(tp) || tp);
-            const label =
-              names.length <= 2
-                ? names.join(", ")
-                : `${names[0]} +${names.length - 1} more`;
-            toast(`🔔 ${label} nearby`);
-          }
+          const [firstType] = nearestByType.keys();
+          playAlertSound(
+            resolveAlertSound(
+              firstType,
+              audioAlertSoundByFilter,
+              audioAlertSound,
+            ),
+            audioAlertVolume,
+          );
+          notify(nearestByType.keys());
         }
       } else {
         // Reset when all spawns are out of range
         hasAlertedRef.current = false;
+        nextPingAtRef.current.clear();
+        positionalCandidatesRef.current = null;
+        stopPositionalTimer();
       }
     };
 
@@ -2699,6 +2961,16 @@ function MarkersContent({
     const unsubActors = useGameState.subscribe((s) => s.actors, checkProximity);
     return () => {
       unsubActors();
+      // The timer holds this run's closure (settings, map, translate), so it
+      // must die with it; the next run's initial checkProximity re-arms it
+      // from fresh candidates. This also covers unmount, the switch turning
+      // off and alerts being muted - none of those reach checkProximity.
+      stopPositionalTimer();
+      // NOTE: the ping cooldowns deliberately survive teardown. This effect
+      // re-runs on every throttled player update (1 Hz), so clearing them here
+      // would reset every cooldown once a second and collapse the whole
+      // distance-scaled cadence to "one ping per second" at any distance. They
+      // are cleared where it is actually meaningful: when the range empties.
     };
   }, [
     throttledPlayer,
@@ -2709,6 +2981,11 @@ function MarkersContent({
     audioAlertByFilter,
     audioAlertSound,
     audioAlertVolume,
+    audioAlertPositional,
+    audioAlertSoundByFilter,
+    map,
+    tilesConfig,
+    markerOptions.playerIconForward,
     rotationCache,
     typesIdMap,
     t,
