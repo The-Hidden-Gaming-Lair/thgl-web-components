@@ -254,6 +254,8 @@ export type Version = {
   more: {
     nodes: Record<string, string>;
     icons: string;
+    /** Changes whenever the dicts or database output change (see withContentHash). */
+    contentHash?: string;
   };
   /** Spawn counts for UI display */
   counts?: {
@@ -443,57 +445,122 @@ export function getOpenGraphImageUrl(appName: string, mapName: string): string {
  * games with lots of regions, dicts/<locale>-desc.json on text-heavy games)
  * or whose payload doesn't fit Next.js's tag/path invalidation model.
  *
- * Dedupes concurrent requests for the same URL so cold renders don't
- * double-fetch.
+ * Stale-while-revalidate: once a URL is cached, callers never wait on the
+ * network for it again. An expired entry is returned immediately and refreshed
+ * in the background; a failed refresh keeps serving the old copy. Before this,
+ * every expiry made an SSR render await cdn.th.gl, and a hung connect (undici
+ * ETIMEDOUT after 10 s) held the render and 5xx'd the page. During the
+ * 2026-09-25 Googlebot crawl that spilled into 499s on every tenant.
+ *
+ * `immutable` entries (URL pinned to a content hash, see withContentHash) are
+ * never refreshed. Total cached bytes are capped; least recently used entries
+ * are evicted first. Dedupes concurrent requests for the same URL so cold
+ * renders don't double-fetch.
  */
-const memoryFetchCache = new Map<
-  string,
-  { data: unknown; expiresAt: number }
->();
+type MemoryFetchEntry = { data: unknown; expiresAt: number; bytes: number };
+const memoryFetchCache = new Map<string, MemoryFetchEntry>();
 const memoryFetchInflight = new Map<string, Promise<unknown>>();
 const MEMORY_FETCH_TTL_MS = 60_000;
+const MEMORY_FETCH_MAX_BYTES = 256 * 1024 * 1024;
+let memoryFetchBytes = 0;
 
-export async function fetchJsonWithMemoryCache<T>(
-  url: string,
-  options?: { onNotFound?: () => T | undefined; ttlMs?: number },
-): Promise<T> {
-  // Resolve before the cache lookup so the cache is keyed by the real
-  // target (local vs prod forge differ per request in dev proxy mode).
-  url = await resolveForgeUrl(url);
-  const now = Date.now();
-  const cached = memoryFetchCache.get(url);
-  if (cached && cached.expiresAt > now) {
-    return cached.data as T;
+type MemoryFetchOptions<T> = {
+  onNotFound?: () => T | undefined;
+  ttlMs?: number;
+  immutable?: boolean;
+};
+
+function storeMemoryFetchEntry(url: string, entry: MemoryFetchEntry) {
+  const previous = memoryFetchCache.get(url);
+  if (previous) {
+    memoryFetchBytes -= previous.bytes;
+    memoryFetchCache.delete(url);
   }
+  memoryFetchCache.set(url, entry);
+  memoryFetchBytes += entry.bytes;
+  // Map iteration is insertion order and hits re-insert, so this walks LRU-first.
+  for (const [key, oldest] of memoryFetchCache) {
+    if (memoryFetchBytes <= MEMORY_FETCH_MAX_BYTES || key === url) break;
+    memoryFetchCache.delete(key);
+    memoryFetchBytes -= oldest.bytes;
+  }
+}
+
+/** One retry for network failures (DNS, connect timeout), not HTTP errors. */
+async function fetchNoStore(url: string): Promise<Response> {
+  try {
+    return await fetch(url, { cache: "no-store" });
+  } catch {
+    return fetch(url, { cache: "no-store" });
+  }
+}
+
+function loadIntoMemoryCache<T>(
+  url: string,
+  options?: MemoryFetchOptions<T>,
+): Promise<T> {
   const inflight = memoryFetchInflight.get(url);
   if (inflight) return inflight as Promise<T>;
 
   const ttl = options?.ttlMs ?? MEMORY_FETCH_TTL_MS;
+  const expiresAt = () =>
+    options?.immutable ? Number.POSITIVE_INFINITY : Date.now() + ttl;
   const promise = (async () => {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetchNoStore(url);
     if (!res.ok) {
       if (res.status === 404 && options?.onNotFound) {
         const fallback = options.onNotFound();
         if (fallback !== undefined) {
           // Cache the fallback like a normal result — otherwise every call
           // for a missing resource re-fetches the 404 from the CDN.
-          memoryFetchCache.set(url, {
+          storeMemoryFetchEntry(url, {
             data: fallback,
-            expiresAt: Date.now() + ttl,
+            expiresAt: expiresAt(),
+            bytes: 0,
           });
           return fallback;
         }
       }
       throw new Error(`Failed to fetch ${url}: ${res.status}`);
     }
-    const data = (await res.json()) as T;
-    memoryFetchCache.set(url, { data, expiresAt: Date.now() + ttl });
+    const text = await res.text();
+    const data = JSON.parse(text) as T;
+    storeMemoryFetchEntry(url, {
+      data,
+      expiresAt: expiresAt(),
+      bytes: text.length,
+    });
     return data;
   })().finally(() => {
     memoryFetchInflight.delete(url);
   });
   memoryFetchInflight.set(url, promise);
   return promise;
+}
+
+export async function fetchJsonWithMemoryCache<T>(
+  url: string,
+  options?: MemoryFetchOptions<T>,
+): Promise<T> {
+  // Resolve before the cache lookup so the cache is keyed by the real
+  // target (local vs prod forge differ per request in dev proxy mode).
+  url = await resolveForgeUrl(url);
+  const ttl = options?.ttlMs ?? MEMORY_FETCH_TTL_MS;
+  const cached = memoryFetchCache.get(url);
+  // ttl 0 (dev version.json) opts out of serving stale.
+  if (cached && (ttl > 0 || cached.expiresAt > Date.now())) {
+    memoryFetchCache.delete(url);
+    memoryFetchCache.set(url, cached);
+    if (cached.expiresAt <= Date.now() && !memoryFetchInflight.has(url)) {
+      loadIntoMemoryCache(url, options).catch((error) => {
+        // Keep serving the stale copy; retry after another TTL.
+        cached.expiresAt = Date.now() + ttl;
+        console.warn(`Background refresh failed, serving stale ${url}:`, error);
+      });
+    }
+    return cached.data as T;
+  }
+  return loadIntoMemoryCache(url, options);
 }
 
 export async function fetchVersion(appName: string): Promise<Version> {
@@ -503,6 +570,27 @@ export async function fetchVersion(appName: string): Promise<Version> {
       ttlMs: process.env.NODE_ENV === "development" ? 0 : MEMORY_FETCH_TTL_MS,
     },
   );
+}
+
+/**
+ * Pin a data-forge file URL to the game's content hash (version.json
+ * `more.contentHash`, which data-forge changes whenever the dicts or database
+ * output change). Hashed URLs are cached until the next data update instead of
+ * being re-fetched every minute; the `?v=` also keys the CDN edge cache.
+ * version.json files that predate the field keep the TTL behaviour.
+ */
+async function withContentHash(
+  appName: string,
+  url: string,
+): Promise<{ url: string; immutable: boolean }> {
+  const hash = await fetchVersion(appName)
+    .then((version) => version.more.contentHash)
+    .catch(() => undefined);
+  if (!hash) return { url, immutable: false };
+  return {
+    url: `${url}${url.includes("?") ? "&" : "?"}v=${hash}`,
+    immutable: true,
+  };
 }
 
 // Cache for version lookup maps to avoid recreating them on each call
@@ -768,9 +856,13 @@ export async function fetchDict(
   appName: string,
   locale: string = "en",
 ): Promise<Record<string, string>> {
-  const dict = await fetchJsonWithMemoryCache<Record<string, string> | null>(
+  const { url, immutable } = await withContentHash(
+    appName,
     `${DATA_FORGE_CDN_URL}/${appName}/dicts/${locale}.json`,
-    { onNotFound: () => null },
+  );
+  const dict = await fetchJsonWithMemoryCache<Record<string, string> | null>(
+    url,
+    { onNotFound: () => null, immutable },
   );
   if (dict !== null) return dict;
   // A locale without a dict on the CDN (tenant advertises more locales than the
@@ -787,9 +879,13 @@ async function fetchDbTerms(
   appName: string,
   locale: string,
 ): Promise<Record<string, string> | null> {
-  const terms = await fetchJsonWithMemoryCache<Record<string, string> | null>(
+  const { url, immutable } = await withContentHash(
+    appName,
     `${DATA_FORGE_CDN_URL}/${appName}/dicts/db/${locale}.json`,
-    { onNotFound: () => null },
+  );
+  const terms = await fetchJsonWithMemoryCache<Record<string, string> | null>(
+    url,
+    { onNotFound: () => null, immutable },
   );
   if (terms !== null || locale === "en") return terms;
   return fetchDbTerms(appName, "en");
@@ -831,14 +927,25 @@ export async function fetchDbDict(
   return merged;
 }
 
-export async function fetchDatabase(appName: string): Promise<DatabaseConfig> {
-  const res = await fetch(
-    await resolveForgeUrl(
-      `${DATA_FORGE_CDN_URL}/${appName}/config/database.json`,
-    ),
-    { next: { revalidate: 60 } },
+/**
+ * Database files go through the memory cache pinned to the content hash, so a
+ * crawl across thousands of /db pages costs one CDN fetch per file per server
+ * per data update instead of one every minute.
+ */
+async function fetchDatabaseFile<T>(
+  appName: string,
+  path: string,
+  onNotFound?: () => T,
+): Promise<T> {
+  const { url, immutable } = await withContentHash(
+    appName,
+    `${DATA_FORGE_CDN_URL}/${appName}/config/${path}`,
   );
-  return res.json();
+  return fetchJsonWithMemoryCache<T>(url, { onNotFound, immutable });
+}
+
+export async function fetchDatabase(appName: string): Promise<DatabaseConfig> {
+  return fetchDatabaseFile<DatabaseConfig>(appName, "database.json");
 }
 
 /**
@@ -851,16 +958,14 @@ export async function fetchDatabase(appName: string): Promise<DatabaseConfig> {
 export async function fetchDatabaseIndex(
   appName: string,
 ): Promise<DatabaseConfig> {
-  const res = await fetch(
-    await resolveForgeUrl(
-      `${DATA_FORGE_CDN_URL}/${appName}/config/database.index.json`,
-    ),
-    { next: { revalidate: 60 } },
+  const index = await fetchDatabaseFile<DatabaseConfig | null>(
+    appName,
+    "database.index.json",
+    () => null,
   );
   // Games that ship a single monolith database.json (no split index, e.g. BPSR)
   // fall back to it so the home/db section counts and listings still work.
-  if (!res.ok) return fetchDatabase(appName);
-  return res.json();
+  return index ?? fetchDatabase(appName);
 }
 
 /**
@@ -871,11 +976,10 @@ export async function fetchDatabaseType(
   appName: string,
   type: string,
 ): Promise<DatabaseConfig[number]> {
-  const res = await fetch(
-    await resolveForgeUrl(
-      `${DATA_FORGE_CDN_URL}/${appName}/config/database.${type}.json`,
-    ),
-    { next: { revalidate: 60 } },
+  const category = await fetchDatabaseFile<DatabaseConfig[number] | null>(
+    appName,
+    `database.${type}.json`,
+    () => null,
   );
   // Games shipping a single monolith database.json (no per-type split — Once
   // Human, Crimson Desert, Dune: Awakening and 11 others) have no such file, so
@@ -888,11 +992,11 @@ export async function fetchDatabaseType(
   // an entry that does not exist. We deliberately do NOT swallow a failing
   // monolith fetch: if neither file is reachable the data is broken, and an error
   // is more useful than silently serving an empty database.
-  if (!res.ok) {
+  if (!category) {
     const db = await fetchDatabase(appName);
     return db.find((cat) => cat.type === type) ?? { type, items: [] };
   }
-  return res.json();
+  return category;
 }
 
 /**
@@ -916,14 +1020,11 @@ export async function fetchDatabaseEntry(
   type: string,
   id: string,
 ): Promise<DatabaseConfig[number]["items"][number] | null> {
-  const res = await fetch(
-    await resolveForgeUrl(
-      `${DATA_FORGE_CDN_URL}/${appName}/config/database.${type}/${encodeURIComponent(id)}.json`,
-    ),
-    { next: { revalidate: 60 } },
-  );
-  if (!res.ok) return null;
-  return res.json();
+  return fetchDatabaseFile<DatabaseConfig[number]["items"][number] | null>(
+    appName,
+    `database.${type}/${encodeURIComponent(id)}.json`,
+    () => null,
+  ).catch(() => null);
 }
 
 export async function fetchTiles(appName: string): Promise<TilesConfig> {
