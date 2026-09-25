@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import {
   fetchDatabaseIndex,
   fetchDatabaseType,
-  fetchDict,
+  fetchDbDict,
   DEFAULT_LOCALE,
 } from "@repo/lib";
 import { generateCategoryMetadata } from "@/games/homm-olden-era/metadata";
@@ -45,7 +45,7 @@ export default async function Page({ params }: PageProps) {
   const appConfig = await requireApp("homm-olden-era");
   const { locale = DEFAULT_LOCALE } = await params;
   const [dict, skillsCat, indexDb] = await Promise.all([
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchDatabaseType(appConfig.name, "skills"),
     fetchDatabaseIndex(appConfig.name),
   ]);

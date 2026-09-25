@@ -1,5 +1,10 @@
 import { notFound } from "next/navigation";
-import { fetchDatabaseIndex, fetchDict, fetchVersion, DEFAULT_LOCALE } from "@repo/lib";
+import {
+  fetchDatabaseIndex,
+  fetchDbDict,
+  fetchVersion,
+  DEFAULT_LOCALE,
+} from "@repo/lib";
 import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { EntityGrid } from "@/lib/db/entity-grid";
@@ -15,10 +20,12 @@ export async function getGroupData(types: string[], groupId: string) {
   );
   if (!hasGroup) return null;
 
-  const filtered = matching.map((cat) => ({
-    ...cat,
-    items: cat.items.filter((item) => item.groupId === groupId),
-  })).filter((cat) => cat.items.length > 0);
+  const filtered = matching
+    .map((cat) => ({
+      ...cat,
+      items: cat.items.filter((item) => item.groupId === groupId),
+    }))
+    .filter((cat) => cat.items.length > 0);
 
   return filtered;
 }
@@ -39,7 +46,7 @@ export async function GroupPageContent({
   locale?: string;
 }) {
   const [dict, entries, version] = await Promise.all([
-    fetchDict(APP_NAME, locale),
+    fetchDbDict(APP_NAME, locale),
     getGroupData(types, groupId),
     fetchVersion(APP_NAME),
   ]);

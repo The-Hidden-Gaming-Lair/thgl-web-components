@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { fetchDatabaseIndex, fetchVersion, DEFAULT_LOCALE } from "@repo/lib";
-import { getFullDictionary } from "@repo/ui/dicts";
+import { getFullDbDictionary } from "@repo/ui/dicts";
 import { generateCategoryMetadata } from "./metadata";
 import { getAppConfig, requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
@@ -53,7 +53,7 @@ export function makeCategoryPage(section: string, extraTypes: string[] = []) {
     const appConfig = await requireApp("drakantos");
     const { locale = DEFAULT_LOCALE } = await params;
     const [dict, database, version] = await Promise.all([
-      getFullDictionary(appConfig.name, locale),
+      getFullDbDictionary(appConfig.name, locale),
       fetchDatabaseIndex(appConfig.name),
       fetchVersion(appConfig.name),
     ]);

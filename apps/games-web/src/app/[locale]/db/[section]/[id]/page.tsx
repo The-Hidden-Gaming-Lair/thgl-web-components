@@ -12,7 +12,7 @@ import {
   type TilesConfig,
   DEFAULT_LOCALE,
 } from "@repo/lib";
-import { getFullDictionary } from "@repo/ui/dicts";
+import { getFullDbDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
@@ -150,7 +150,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id, locale = DEFAULT_LOCALE, section } = await params;
   const { appConfig, secCfg } = await resolveSection(section, locale, id);
-  const dict = await getFullDictionary(appConfig.name, locale);
+  const dict = await getFullDbDictionary(appConfig.name, locale);
   const name = resolveDict(dict, id) || id;
   const sectionLabel =
     appConfig.db?.typeLabels?.[secCfg.type] ||
@@ -230,7 +230,7 @@ export default async function Page({ params }: { params: Params }) {
 
   const [index, dict, version] = await Promise.all([
     fetchDatabaseIndex(appConfig.name),
-    getFullDictionary(appConfig.name, locale),
+    getFullDbDictionary(appConfig.name, locale),
     fetchVersion(appConfig.name),
   ]);
   const iconsHash = version.more.icons;

@@ -1,5 +1,10 @@
 import { type Metadata } from "next";
-import { fetchDatabaseIndex, fetchDict, fetchVersion, DEFAULT_LOCALE } from "@repo/lib";
+import {
+  fetchDatabaseIndex,
+  fetchDbDict,
+  fetchVersion,
+  DEFAULT_LOCALE,
+} from "@repo/lib";
 import { generateCategoryMetadata } from "@/games/homm-olden-era/metadata";
 import { requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
@@ -9,7 +14,9 @@ import { SectionJsonLd } from "@/lib/db/section-jsonld";
 
 type PageProps = { params: Promise<{ locale?: string }> };
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   await requireApp("homm-olden-era");
   const { locale = DEFAULT_LOCALE } = await params;
   return generateCategoryMetadata(locale, "factions");
@@ -19,13 +26,15 @@ export default async function Page({ params }: PageProps) {
   const appConfig = await requireApp("homm-olden-era");
   const { locale = DEFAULT_LOCALE } = await params;
   const [dict, database, version] = await Promise.all([
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchDatabaseIndex(appConfig.name),
     fetchVersion(appConfig.name),
   ]);
 
   const factions = database.filter((item) => item.type === "factions");
-  const specializations = database.filter((item) => item.type === "specializations");
+  const specializations = database.filter(
+    (item) => item.type === "specializations",
+  );
   const factionLaws = database.filter((item) => item.type === "faction_laws");
   const sectionLabel = resolveDict(dict, "factions");
   const iconsHash = version.more.icons;
@@ -44,7 +53,11 @@ export default async function Page({ params }: PageProps) {
         locale={locale}
       />
       <div className="max-w-7xl mx-auto px-4 pt-6">
-        <Breadcrumb crumbs={[{ label: sectionLabel }]} locale={locale} dict={dict} />
+        <Breadcrumb
+          crumbs={[{ label: sectionLabel }]}
+          locale={locale}
+          dict={dict}
+        />
         <h1 className="text-2xl font-bold mb-6">{sectionLabel}</h1>
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-6">

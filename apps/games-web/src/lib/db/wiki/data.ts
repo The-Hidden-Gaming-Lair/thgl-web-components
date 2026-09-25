@@ -1,4 +1,4 @@
-import { fetchDatabase, fetchDict, type DatabaseConfig } from "@repo/lib";
+import { fetchDatabase, fetchDbDict, type DatabaseConfig } from "@repo/lib";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import type { WikiItem, WikiItemProps, WikiSection } from "./types";
 
@@ -31,10 +31,10 @@ export async function loadSection(
 ): Promise<{ category: { type: string; label: string }; items: WikiItem[] }[]> {
   const [database, enDict, localeDict] = await Promise.all([
     fetchDatabase(appName),
-    fetchDict(appName),
+    fetchDbDict(appName),
     locale === "en"
       ? Promise.resolve(null as Record<string, string> | null)
-      : fetchDict(appName, locale),
+      : fetchDbDict(appName, locale),
   ]);
 
   const dict = localeDict ?? enDict;
@@ -125,7 +125,7 @@ export async function loadAllWikiItems(
   }>
 > {
   const database: DatabaseConfig = await fetchDatabase(appName);
-  const enDict = await fetchDict(appName);
+  const enDict = await fetchDbDict(appName);
   const out: Array<{
     id: string;
     href: string;

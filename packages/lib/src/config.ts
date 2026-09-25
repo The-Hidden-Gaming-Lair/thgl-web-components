@@ -782,6 +782,55 @@ export async function fetchDict(
   return fetchDict(appName, "en");
 }
 
+/** A game's split-out codex terms (`dicts/db/<locale>.json`), or null if it has none. */
+async function fetchDbTerms(
+  appName: string,
+  locale: string,
+): Promise<Record<string, string> | null> {
+  const terms = await fetchJsonWithMemoryCache<Record<string, string> | null>(
+    `${DATA_FORGE_CDN_URL}/${appName}/dicts/db/${locale}.json`,
+    { onNotFound: () => null },
+  );
+  if (terms !== null || locale === "en") return terms;
+  return fetchDbTerms(appName, "en");
+}
+
+const dbDictMerges = new Map<
+  string,
+  {
+    dict: Record<string, string>;
+    terms: Record<string, string>;
+    merged: Record<string, string>;
+  }
+>();
+
+/**
+ * The dictionary for /db pages: the game's dict merged with its split-out codex terms.
+ * data-forge `write({ splitDbDict })` moves codex-only names/descriptions to
+ * `dicts/db/<locale>.json` because the interactive map ships its whole dict to the
+ * client. Games that don't split have no such file, so this equals `fetchDict`.
+ * Pointer keys never collide across the two files (`@…` vs `@d…`).
+ */
+export async function fetchDbDict(
+  appName: string,
+  locale: string = "en",
+): Promise<Record<string, string>> {
+  const [dict, terms] = await Promise.all([
+    fetchDict(appName, locale),
+    fetchDbTerms(appName, locale),
+  ]);
+  if (!terms) return dict;
+  // Both inputs come from the memory cache, so reuse the merge while they're unchanged.
+  const key = `${appName}|${locale}`;
+  const cached = dbDictMerges.get(key);
+  if (cached && cached.dict === dict && cached.terms === terms) {
+    return cached.merged;
+  }
+  const merged = { ...dict, ...terms };
+  dbDictMerges.set(key, { dict, terms, merged });
+  return merged;
+}
+
 export async function fetchDatabase(appName: string): Promise<DatabaseConfig> {
   const res = await fetch(
     await resolveForgeUrl(

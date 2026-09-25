@@ -2,7 +2,7 @@ import {
   DEFAULT_LOCALE,
   fetchDatabaseIndex,
   fetchDatabaseType,
-  fetchDict,
+  fetchDbDict,
 } from "@repo/lib";
 import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
@@ -42,7 +42,7 @@ export default async function SkillsLayout({
   }
   const appConfig = await requireApp("homm-olden-era");
   const [dict, skillsCat, indexDb] = await Promise.all([
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchDatabaseType(appConfig.name, "skills"),
     fetchDatabaseIndex(appConfig.name),
   ]);

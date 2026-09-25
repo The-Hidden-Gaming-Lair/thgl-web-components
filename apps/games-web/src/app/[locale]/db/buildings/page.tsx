@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import {
   fetchDatabaseIndex,
-  fetchDict,
+  fetchDbDict,
   fetchVersion,
   DEFAULT_LOCALE,
 } from "@repo/lib";
@@ -46,7 +46,7 @@ export default async function Page({ params }: PageProps) {
   }
   const { locale = DEFAULT_LOCALE } = await params;
   const [dict, database, version] = await Promise.all([
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchDatabaseIndex(appConfig.name),
     fetchVersion(appConfig.name),
   ]);

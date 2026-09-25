@@ -25,7 +25,7 @@ import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
 import { SettingsDialogContent } from "@repo/ui/controls";
 import { DidYouKnowCompanionApp } from "@repo/ui/tips";
 import {
-  getFullDictionary,
+  getFullDbDictionary,
   getStaticDictionary,
   isValidLocale,
 } from "@repo/ui/dicts";
@@ -85,7 +85,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
     }
 
     const [dict, staticDict, version] = await Promise.all([
-      getFullDictionary(appConfig.name, locale),
+      getFullDbDictionary(appConfig.name, locale),
       getStaticDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
     ]);

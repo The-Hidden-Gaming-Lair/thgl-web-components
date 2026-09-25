@@ -1,6 +1,6 @@
 import {
   fetchDatabaseIndex,
-  fetchDict,
+  fetchDbDict,
   fetchVersion,
   getIconsUrl,
   localizePath,
@@ -38,7 +38,7 @@ function resolveDict(dict: Record<string, string>, key: string): string {
 export async function buildHommSearchIndex(locale: string) {
   const [database, dict, version] = await Promise.all([
     fetchDatabaseIndex(APP_NAME),
-    fetchDict(APP_NAME, locale),
+    fetchDbDict(APP_NAME, locale),
     fetchVersion(APP_NAME),
   ]);
 

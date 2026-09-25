@@ -7,7 +7,7 @@ import {
   DEFAULT_LOCALE,
   getIconsUrl,
 } from "@repo/lib";
-import { getFullDictionary } from "@repo/ui/dicts";
+import { getFullDbDictionary } from "@repo/ui/dicts";
 import { generateEntryMetadata } from "./metadata";
 import { GenericEntityView } from "@/lib/db/generic-view";
 import { getAppConfig, requireApp } from "@/lib/get-app-config";
@@ -71,7 +71,7 @@ export function makeEntryPage(
 
     const [index, dict, version] = await Promise.all([
       fetchDatabaseIndex(appConfig.name),
-      getFullDictionary(appConfig.name, locale),
+      getFullDbDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
     ]);
     const iconsHash = version.more.icons;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import {
   fetchDatabaseIndex,
   fetchDatabaseType,
-  fetchDict,
+  fetchDbDict,
   getAppUrl,
   localizePath,
   DEFAULT_LOCALE,
@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps) {
   const appConfig = await requireApp("homm-olden-era");
   const { locale = DEFAULT_LOCALE } = await params;
   const [dict, mapsCat, indexDb] = await Promise.all([
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchDatabaseType(appConfig.name, "maps"),
     fetchDatabaseIndex(appConfig.name),
   ]);

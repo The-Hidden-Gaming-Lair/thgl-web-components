@@ -1,5 +1,10 @@
 import { type Metadata } from "next";
-import { fetchDatabaseIndex, fetchDatabaseType, fetchDict, getMetadataAlternates } from "@repo/lib";
+import {
+  fetchDatabaseIndex,
+  fetchDatabaseType,
+  fetchDbDict,
+  getMetadataAlternates,
+} from "@repo/lib";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { hommOldenEra } from "@/configs/homm-olden-era";
 
@@ -16,18 +21,28 @@ function resolveTemplatePlaceholders(
   for (const b of bonuses) {
     for (const p of b.params) {
       const n = parseFloat(String(p));
-      if (!isNaN(n) && n !== 0 && String(p) !== "true" && String(p) !== "false") {
+      if (
+        !isNaN(n) &&
+        n !== 0 &&
+        String(p) !== "true" &&
+        String(p) !== "false"
+      ) {
         const abs = Math.abs(n);
-        values.push(abs > 0 && abs < 1 ? `${Math.round(abs * 100)}` : String(abs));
+        values.push(
+          abs > 0 && abs < 1 ? `${Math.round(abs * 100)}` : String(abs),
+        );
       }
     }
     if ((b as any).upgrade) {
       const inc = (b as any).upgrade.increment;
       if (typeof inc === "number" && inc !== 0) {
         const abs = Math.abs(inc);
-        values.push(abs > 0 && abs < 1 ? `${Math.round(abs * 100)}` : String(abs));
+        values.push(
+          abs > 0 && abs < 1 ? `${Math.round(abs * 100)}` : String(abs),
+        );
       }
-      if ((b as any).upgrade.levelStep) values.push(String((b as any).upgrade.levelStep));
+      if ((b as any).upgrade.levelStep)
+        values.push(String((b as any).upgrade.levelStep));
     }
   }
   return text.replace(/\{(\d+)\}/g, (_, idx) => values[parseInt(idx)] ?? "");
@@ -41,9 +56,7 @@ const OG_IMAGE = {
   alt: GAME_TITLE,
 };
 
-export async function generateHomeMetadata(
-  locale: string,
-): Promise<Metadata> {
+export async function generateHomeMetadata(locale: string): Promise<Metadata> {
   const title = `${GAME_TITLE} Database | The Hidden Gaming Lair`;
   const description = `Complete database for ${GAME_TITLE} |browse units, heroes, spells, artifacts, skills, and factions with stats, abilities, and cross-references.`;
   const { canonical, languageAlternates } = getMetadataAlternates(
@@ -66,7 +79,7 @@ export async function generateCategoryMetadata(
   section: string,
   labelOverride?: string,
 ): Promise<Metadata> {
-  const dict = await fetchDict(APP_NAME, locale);
+  const dict = await fetchDbDict(APP_NAME, locale);
   const sectionLabel = labelOverride ?? resolveDict(dict, section);
   const title = `${sectionLabel} | ${GAME_TITLE}`;
   const description = `Browse all ${sectionLabel.toLowerCase()} in ${GAME_TITLE}. Complete stats, abilities, and detailed information.`;
@@ -93,16 +106,20 @@ export async function generateGroupMetadata(
   groupLabelPrefix: string,
   sectionDictKey: string,
 ): Promise<Metadata> {
-  const dict = await fetchDict(APP_NAME, locale);
+  const dict = await fetchDbDict(APP_NAME, locale);
   const sectionLabel = resolveDict(dict, sectionDictKey);
   const groupLabel = groupLabelPrefix
     ? (dict[`${groupLabelPrefix}${groupId}`] ?? groupId)
     : (dict[groupId] ?? groupId);
-  const resolved = groupLabel.startsWith("@") && dict[groupLabel] ? dict[groupLabel] : groupLabel;
+  const resolved =
+    groupLabel.startsWith("@") && dict[groupLabel]
+      ? dict[groupLabel]
+      : groupLabel;
 
-  const title = resolved === sectionLabel
-    ? `${resolved} | ${GAME_TITLE}`
-    : `${resolved} ${sectionLabel} | ${GAME_TITLE}`;
+  const title =
+    resolved === sectionLabel
+      ? `${resolved} | ${GAME_TITLE}`
+      : `${resolved} ${sectionLabel} | ${GAME_TITLE}`;
   const description = `Browse all ${resolved.toLowerCase()} in ${GAME_TITLE}. Complete stats, abilities, and detailed information.`;
   const path = `/db/${section}/${groupId}`;
   const { canonical, languageAlternates } = getMetadataAlternates(
@@ -126,14 +143,15 @@ export async function generateEntryMetadata(
   id: string,
 ): Promise<Metadata> {
   const [dict, index] = await Promise.all([
-    fetchDict(APP_NAME, locale),
+    fetchDbDict(APP_NAME, locale),
     fetchDatabaseIndex(APP_NAME),
   ]);
 
   let entryName: string;
   if (section === "factions") {
     const factionLabel = resolveDict(dict, `faction_${id}`);
-    entryName = factionLabel !== `faction_${id}` ? factionLabel : resolveDict(dict, id);
+    entryName =
+      factionLabel !== `faction_${id}` ? factionLabel : resolveDict(dict, id);
   } else {
     entryName = resolveDict(dict, id);
   }
@@ -148,11 +166,21 @@ export async function generateEntryMetadata(
   }
 
   const sectionLabel = resolveDict(dict, section);
-  let desc = resolveDict(dict, section === "factions" ? `faction_${id}_desc` : `${id}_desc`);
-  const hasDesc = desc && desc !== `${id}_desc` && desc !== `faction_${id}_desc` && desc !== id;
+  let desc = resolveDict(
+    dict,
+    section === "factions" ? `faction_${id}_desc` : `${id}_desc`,
+  );
+  const hasDesc =
+    desc &&
+    desc !== `${id}_desc` &&
+    desc !== `faction_${id}_desc` &&
+    desc !== id;
 
   if (hasDesc) {
-    desc = resolveTemplatePlaceholders(desc, itemProps?.bonuses ?? itemProps?.levels?.[0]?.bonuses);
+    desc = resolveTemplatePlaceholders(
+      desc,
+      itemProps?.bonuses ?? itemProps?.levels?.[0]?.bonuses,
+    );
   }
 
   const title = `${entryName} | ${sectionLabel} | ${GAME_TITLE}`;

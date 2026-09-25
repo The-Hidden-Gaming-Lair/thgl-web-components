@@ -1,7 +1,7 @@
 import {
   type AppConfig,
   fetchDatabaseIndex,
-  fetchDict,
+  fetchDbDict,
   fetchVersion,
   getIconsUrl,
   localizePath,
@@ -37,7 +37,7 @@ export async function buildGenericSearchIndex(
 ) {
   const [database, dict, version] = await Promise.all([
     fetchDatabaseIndex(appConfig.name),
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchVersion(appConfig.name),
   ]);
 

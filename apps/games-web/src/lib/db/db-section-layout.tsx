@@ -1,6 +1,6 @@
 import {
   fetchDatabaseIndex,
-  fetchDict,
+  fetchDbDict,
   fetchVersion,
   getIconsUrl,
   type AppConfig,
@@ -40,7 +40,7 @@ export async function buildSidebarGroups({
   nameLabelPrefixByType?: Record<string, string>;
 }) {
   const [dict, database, version] = await Promise.all([
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
     fetchDatabaseIndex(appConfig.name),
     fetchVersion(appConfig.name),
   ]);

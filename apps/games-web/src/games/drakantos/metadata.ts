@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { getMetadataAlternates } from "@repo/lib";
-import { getFullDictionary } from "@repo/ui/dicts";
+import { getFullDbDictionary } from "@repo/ui/dicts";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { drakantos } from "@/configs/drakantos";
 
@@ -21,10 +21,9 @@ export async function generateCategoryMetadata(
   section: string,
   labelOverride?: string,
 ): Promise<Metadata> {
-  const dict = await getFullDictionary(APP_NAME, locale);
+  const dict = await getFullDbDictionary(APP_NAME, locale);
   const sectionLabel =
-    labelOverride ??
-    resolveDict(dict, `config.internalLinks.${section}.title`);
+    labelOverride ?? resolveDict(dict, `config.internalLinks.${section}.title`);
   const title = `${sectionLabel} | ${GAME_TITLE}`;
   const description = `Browse all ${sectionLabel.toLowerCase()} in ${GAME_TITLE}. Sprite-decrypted game data from a live capture.`;
   const path = `/db/${section}`;
@@ -47,7 +46,7 @@ export async function generateEntryMetadata(
   section: string,
   id: string,
 ): Promise<Metadata> {
-  const dict = await getFullDictionary(APP_NAME, locale);
+  const dict = await getFullDbDictionary(APP_NAME, locale);
   const entryName = resolveDict(dict, id);
   const sectionLabel = resolveDict(
     dict,

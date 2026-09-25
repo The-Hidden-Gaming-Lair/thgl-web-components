@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import {
   fetchDatabaseIndex,
   fetchDatabaseType,
-  fetchDict,
+  fetchDbDict,
   fetchVersion,
   type DatabaseConfig,
 } from "@repo/lib";
@@ -166,7 +166,7 @@ export async function DatabaseEntryContent({
 }) {
   const [index, dict, version] = await Promise.all([
     fetchDatabaseIndex(APP_NAME),
-    fetchDict(APP_NAME, locale),
+    fetchDbDict(APP_NAME, locale),
     fetchVersion(APP_NAME),
   ]);
   const iconsHash = version.more.icons;

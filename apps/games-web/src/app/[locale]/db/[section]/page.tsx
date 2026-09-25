@@ -7,7 +7,7 @@ import {
   localizePath,
   DEFAULT_LOCALE,
 } from "@repo/lib";
-import { getFullDictionary } from "@repo/ui/dicts";
+import { getFullDbDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
 import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
@@ -64,7 +64,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale = DEFAULT_LOCALE, section } = await params;
   const { appConfig, secCfg } = await resolveSection(section, locale);
-  const dict = await getFullDictionary(appConfig.name, locale);
+  const dict = await getFullDbDictionary(appConfig.name, locale);
   const label = getSectionLabel(appConfig, dict, secCfg.type, section);
   const title = `${label} - ${appConfig.title}`;
   const description = `Browse all ${label.toLowerCase()} in ${appConfig.title}.`;
@@ -92,7 +92,7 @@ export default async function Page({ params }: PageProps) {
   const types = [secCfg.type, ...(secCfg.extraTypes ?? [])];
 
   const [dict, database, version] = await Promise.all([
-    getFullDictionary(appConfig.name, locale),
+    getFullDbDictionary(appConfig.name, locale),
     fetchDatabaseIndex(appConfig.name),
     fetchVersion(appConfig.name),
   ]);

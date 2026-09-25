@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchDatabaseIndex, fetchDatabaseType, fetchDict } from "@repo/lib";
+import { fetchDatabaseIndex, fetchDatabaseType, fetchDbDict } from "@repo/lib";
 import { getAppConfig } from "@/lib/get-app-config";
 
 function resolveDict(dict: Record<string, string>, key: string): string {
@@ -211,7 +211,7 @@ export async function GET(request: Request) {
 
   const [index, dict] = await Promise.all([
     fetchDatabaseIndex(appConfig.name),
-    fetchDict(appConfig.name, locale),
+    fetchDbDict(appConfig.name, locale),
   ]);
 
   let item: any;

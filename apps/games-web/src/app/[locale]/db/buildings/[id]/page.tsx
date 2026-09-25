@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { fetchDict, DEFAULT_LOCALE } from "@repo/lib";
+import { fetchDbDict, DEFAULT_LOCALE } from "@repo/lib";
 import {
   generateEntryMetadata,
   generateGroupMetadata,
@@ -67,7 +67,7 @@ export default async function EntryPage({ params }: { params: Params }) {
     );
   }
 
-  const dict = await fetchDict(appConfig.name, locale);
+  const dict = await fetchDbDict(appConfig.name, locale);
 
   return (
     <>

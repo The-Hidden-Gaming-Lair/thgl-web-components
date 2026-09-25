@@ -1,4 +1,4 @@
-import { Dict, fetchDict } from "@repo/lib";
+import { Dict, fetchDbDict, fetchDict } from "@repo/lib";
 import "server-only";
 
 // Global dictionary files per locale.
@@ -183,6 +183,22 @@ export async function getFullDictionary(
   const [staticDict, dict] = await Promise.all([
     getStaticDictionary(appName, locale),
     fetchDict(appName, locale),
+  ]);
+  return {
+    ...staticDict,
+    ...dict,
+  };
+}
+
+/** getFullDictionary for /db pages — includes the game's split-out codex terms
+ *  (`dicts/db/<locale>.json`, see `fetchDbDict`). */
+export async function getFullDbDictionary(
+  appName: string,
+  locale: string,
+): Promise<Dict> {
+  const [staticDict, dict] = await Promise.all([
+    getStaticDictionary(appName, locale),
+    fetchDbDict(appName, locale),
   ]);
   return {
     ...staticDict,
