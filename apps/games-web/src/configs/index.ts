@@ -24,6 +24,7 @@ import { nightCrows } from "./night-crows";
 import { onceHuman } from "./once-human";
 import { palia } from "./palia";
 import { planetCrafter } from "./planet-crafter";
+import { graveyardKeeper2 } from "./graveyard-keeper-2";
 import { palworld } from "./palworld";
 import { paxDei } from "./pax-dei";
 import { rsdragonwilds } from "./rsdragonwilds";
@@ -48,6 +49,7 @@ import { wutheringWaves } from "./wuthering-waves";
  */
 const ALL_CONFIGS: AppConfig[] = [
   planetCrafter,
+  graveyardKeeper2,
   aniimo,
   avowed,
   bloodOfDawnwalker,

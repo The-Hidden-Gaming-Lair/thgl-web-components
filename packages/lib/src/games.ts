@@ -1439,6 +1439,14 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "graveyard-keeper-2",
+    discordId: "graveyard-keeper-2",
+    title: "Graveyard Keeper 2",
+    logo: `${TH_GL_URL}/global_icons/graveyard-keeper-2.webp`,
+    web: "https://graveyardkeeper2.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "songs-of-conquest",
     discordId: "songs-of-conquest",
     title: "Songs of Conquest",
