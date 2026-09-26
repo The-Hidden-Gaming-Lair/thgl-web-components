@@ -1443,6 +1443,38 @@ export const games: Array<Game> = [
     discordId: "graveyard-keeper-2",
     title: "Graveyard Keeper 2",
     logo: `${TH_GL_URL}/global_icons/graveyard-keeper-2.webp`,
+    companion: {
+      baseURL: "/apps/graveyard-keeper-2",
+      controllerURL: "/apps/graveyard-keeper-2/controller",
+      desktopURL: "/apps/graveyard-keeper-2",
+      overlayURL: "/apps/graveyard-keeper-2/overlay",
+      markerOptions: {
+        radius: 6,
+        // the game's own map pin (upright, not an arrow) — the detector sends r = 0
+        playerIcon: "player.webp",
+        imageSprite: true,
+        // world is small (~260 x 320 units for the whole overworld)
+        zPos: {
+          xyMaxDistance: 60,
+          zDistance: 10,
+        },
+      },
+      games: [
+        {
+          title: "Graveyard Keeper 2",
+          processNames: ["GraveyardKeeper2.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://graveyardkeeper2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },

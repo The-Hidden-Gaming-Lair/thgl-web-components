@@ -15,7 +15,7 @@ export const graveyardKeeper2 = resolveAppConfig({
     "tr",
     "zh-CN",
   ],
-  appUrl: null,
+  appUrl: "https://www.th.gl/companion-app",
   internalLinks: [],
   promoLinks: [],
   externalLinks: [],
