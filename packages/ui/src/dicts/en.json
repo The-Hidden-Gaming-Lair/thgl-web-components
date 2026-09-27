@@ -61,6 +61,8 @@
   "filters.tooltip.spawnType": "Spawn Type:",
   "filters.tooltip.static": "Fixed",
   "filters.tooltip.dynamic": "Live-tracked",
+  "filters.experimental": "Experimental",
+  "filters.tooltip.experimental": "Experimental filter. Please share feedback on Discord.",
   "liveMode.label": "Live mode",
   "liveMode.static": "Predicted",
   "liveMode.static.desc": "Show predicted spawn locations only.",

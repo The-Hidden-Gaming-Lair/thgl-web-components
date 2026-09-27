@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Çıkma Türü:",
   "filters.tooltip.static": "Sabit",
   "filters.tooltip.dynamic": "Canlı izlenen",
+  "filters.experimental": "Deneysel",
+  "filters.tooltip.experimental": "Deneysel filtre. Lütfen geri bildiriminizi Discord'da paylaşın.",
   "liveMode.label": "Canlı Mod",
   "liveMode.static": "Tahmin",
   "liveMode.static.desc": "Yalnızca tahmin edilen doğum konumlarını göster.",

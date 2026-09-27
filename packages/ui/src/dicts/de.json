@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Spawn-Typ:",
   "filters.tooltip.static": "Fest",
   "filters.tooltip.dynamic": "Live-verfolgt",
+  "filters.experimental": "Experimentell",
+  "filters.tooltip.experimental": "Experimenteller Filter. Bitte gib uns Feedback auf Discord.",
   "liveMode.label": "Live-Modus",
   "liveMode.static": "Vorhergesagt",
   "liveMode.static.desc": "Nur vorhergesagte Spawn-Orte anzeigen.",

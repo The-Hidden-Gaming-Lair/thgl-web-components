@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Tipo di Spawn:",
   "filters.tooltip.static": "Fisso",
   "filters.tooltip.dynamic": "Tracciato in tempo reale",
+  "filters.experimental": "Sperimentale",
+  "filters.tooltip.experimental": "Filtro sperimentale: condividi il tuo feedback su Discord.",
   "liveMode.label": "Modalità Live",
   "liveMode.static": "Previsto",
   "liveMode.static.desc": "Mostra solo le posizioni di spawn previste.",

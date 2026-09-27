@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "出現類型：",
   "filters.tooltip.static": "固定",
   "filters.tooltip.dynamic": "即時追蹤",
+  "filters.experimental": "實驗性",
+  "filters.tooltip.experimental": "實驗性篩選器。歡迎在 Discord 上回饋。",
   "liveMode.label": "即時模式",
   "liveMode.static": "預測",
   "liveMode.static.desc": "僅顯示預測的生成位置。",

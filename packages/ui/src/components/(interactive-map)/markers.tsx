@@ -37,6 +37,7 @@ import {
 } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
 import {
+  DrawingLayer,
   IconMarkerLayer,
   type IconMarkerInstance,
   DEFAULT_CIRCLE_SHEET,
@@ -576,6 +577,19 @@ function MarkersContent({
   const spawnMapRef = useRef<Map<string, Spawn>>(new Map());
   const staticSpawnMapRef = useRef<Map<string, Spawn>>(new Map());
   const liveSpawnMapRef = useRef<Map<string, Spawn>>(new Map());
+  // Area-of-effect rings around live actors whose filter value declares a
+  // `rangeRadius` (map units) — e.g. Palia's chum bucket Star Quality pool.
+  // Created lazily so games without range types never add the layer.
+  const rangeLayerRef = useRef<DrawingLayer | null>(null);
+  const rangeRadiusByType = useMemo(() => {
+    const byType = new Map<string, number>();
+    for (const f of filters) {
+      for (const v of f.values) {
+        if (v.rangeRadius && v.rangeRadius > 0) byType.set(v.id, v.rangeRadius);
+      }
+    }
+    return byType;
+  }, [filters]);
   const justClickedMarkerRef = useRef(false);
   const tooltipDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Shared tooltip helper updated each render via the static effect — lets
@@ -1950,6 +1964,69 @@ function MarkersContent({
 
     const dpr = window.devicePixelRatio || 1;
 
+    // Sync the range rings to the actors that are visible this pass. Uses the
+    // same visibility decision as the markers (filter on, live mode, map,
+    // hidden), so a ring never outlives or precedes its marker.
+    const syncRangeCircles = (
+      visibleActors: {
+        actor: { address?: number; x: number; y: number };
+        displayType: string;
+      }[],
+    ) => {
+      if (rangeRadiusByType.size === 0 && !rangeLayerRef.current) return;
+      const wanted = new Map<
+        string,
+        { center: [number, number]; radius: number }
+      >();
+      for (const { actor, displayType } of visibleActors) {
+        const radius = rangeRadiusByType.get(displayType);
+        if (!radius || !actor.address) continue;
+        const center = rotationCache
+          ? rotationCache.getRotated(actor.x, actor.y)
+          : ([actor.x, actor.y] as [number, number]);
+        wanted.set(`range:${actor.address}`, { center, radius });
+      }
+      let layer = rangeLayerRef.current;
+      if (!layer) {
+        if (wanted.size === 0) return;
+        layer = new DrawingLayer({ interactive: false });
+        // Above regions/drawings, below the marker layers (100/101).
+        map.addLayer(layer, { zIndex: 95 });
+        rangeLayerRef.current = layer;
+      }
+      let changed = false;
+      for (const shape of layer.getAllShapes()) {
+        if (!wanted.has(shape.id)) {
+          layer.removeShape(shape.id);
+          changed = true;
+        }
+      }
+      for (const [id, { center, radius }] of wanted) {
+        const existing = layer.getShape(id);
+        if (!existing) {
+          layer.addShape({
+            id,
+            type: "circle",
+            center,
+            radius,
+            color: "#22C55ECC",
+            fillColor: "#22C55E26",
+            size: 2,
+            mapName: map.mapName,
+          });
+          changed = true;
+        } else if (
+          existing.center?.[0] !== center[0] ||
+          existing.center?.[1] !== center[1] ||
+          existing.radius !== radius
+        ) {
+          layer.updateShape(id, { center, radius });
+          changed = true;
+        }
+      }
+      if (changed) map.requestRedraw();
+    };
+
     const processActors = () => {
       const actorsList = useGameState.getState().actors || [];
       const userState = userStoreApi.getState();
@@ -2017,6 +2094,7 @@ function MarkersContent({
       }
 
       if (!isLiveActive) {
+        syncRangeCircles([]);
         // Static/predicted mode: un-hide any statics we suppressed while live/combined was active.
         if (
           (markerOptions.liveConfirmRadius ?? 0) > 0 &&
@@ -2135,6 +2213,7 @@ function MarkersContent({
         if (actor.mapName && actor.mapName !== currentMapName) continue;
         visible.push({ actor, displayType });
       }
+      syncRangeCircles(visible);
 
       type LiveUnit = {
         id: string;
@@ -2589,8 +2668,14 @@ function MarkersContent({
       for (const id of ids) liveMarkerLayer.unregisterAllEventHandlers(id);
       if (ids.length > 0) liveMarkerLayer.removeMany(ids);
       liveSpawnMapRef.current.clear();
+      if (rangeLayerRef.current) {
+        rangeLayerRef.current.clearShapes();
+        map.removeLayer(rangeLayerRef.current);
+        rangeLayerRef.current = null;
+      }
     };
   }, [
+    rangeRadiusByType,
     map,
     map?.liveMarkerLayer,
     map?.markerLayer,

@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "刷新类型：",
   "filters.tooltip.static": "固定",
   "filters.tooltip.dynamic": "实时追踪",
+  "filters.experimental": "实验性",
+  "filters.tooltip.experimental": "实验性筛选器。欢迎在 Discord 上反馈。",
   "liveMode.label": "实时模式",
   "liveMode.static": "预测",
   "liveMode.static.desc": "仅显示预测的生成位置。",

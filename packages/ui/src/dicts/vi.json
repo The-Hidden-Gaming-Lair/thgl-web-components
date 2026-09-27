@@ -61,6 +61,8 @@
   "filters.tooltip.spawnType": "Loại xuất hiện:",
   "filters.tooltip.static": "Cố định",
   "filters.tooltip.dynamic": "Theo dõi trực tiếp",
+  "filters.experimental": "Thử nghiệm",
+  "filters.tooltip.experimental": "Bộ lọc thử nghiệm. Hãy chia sẻ phản hồi trên Discord.",
   "liveMode.label": "Chế độ trực tiếp",
   "liveMode.static": "Dự đoán",
   "liveMode.static.desc": "Chỉ hiển thị các vị trí xuất hiện được dự đoán.",

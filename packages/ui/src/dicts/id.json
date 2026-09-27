@@ -61,6 +61,8 @@
   "filters.tooltip.spawnType": "Tipe Spawn:",
   "filters.tooltip.static": "Tetap",
   "filters.tooltip.dynamic": "Dilacak langsung",
+  "filters.experimental": "Eksperimental",
+  "filters.tooltip.experimental": "Filter eksperimental. Silakan beri masukan di Discord.",
   "liveMode.label": "Mode langsung",
   "liveMode.static": "Diprediksi",
   "liveMode.static.desc": "Hanya tampilkan lokasi spawn yang diprediksi.",

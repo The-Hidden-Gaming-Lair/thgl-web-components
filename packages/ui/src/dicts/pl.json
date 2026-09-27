@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Typ Pojawiania:",
   "filters.tooltip.static": "Stały",
   "filters.tooltip.dynamic": "Śledzony na żywo",
+  "filters.experimental": "Eksperymentalny",
+  "filters.tooltip.experimental": "Filtr eksperymentalny. Podziel się opinią na Discordzie.",
   "liveMode.label": "Tryb na żywo",
   "liveMode.static": "Przewidywane",
   "liveMode.static.desc": "Pokaż tylko przewidywane miejsca pojawiania się.",

@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "出現タイプ：",
   "filters.tooltip.static": "固定",
   "filters.tooltip.dynamic": "ライブ追跡",
+  "filters.experimental": "実験的",
+  "filters.tooltip.experimental": "実験的なフィルターです。Discordでフィードバックをお寄せください。",
   "liveMode.label": "ライブモード",
   "liveMode.static": "予測",
   "liveMode.static.desc": "予測されたスポーン位置のみを表示します。",

@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Tipo de Aparición:",
   "filters.tooltip.static": "Fijo",
   "filters.tooltip.dynamic": "Rastreado en vivo",
+  "filters.experimental": "Experimental",
+  "filters.tooltip.experimental": "Filtro experimental: comparte tu opinión en Discord.",
   "liveMode.label": "Modo en Vivo",
   "liveMode.static": "Predicho",
   "liveMode.static.desc": "Mostrar solo ubicaciones de aparición predichas.",

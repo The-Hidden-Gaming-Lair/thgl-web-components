@@ -53,6 +53,8 @@
   "filters.tooltip.spawnType": "Typ výskytu:",
   "filters.tooltip.static": "Pevný",
   "filters.tooltip.dynamic": "Sledováno naživo",
+  "filters.experimental": "Experimentální",
+  "filters.tooltip.experimental": "Experimentální filtr. Podělte se prosím o zpětnou vazbu na Discordu.",
   "liveMode.label": "Živý režim",
   "liveMode.static": "Předpovězené",
   "liveMode.static.desc": "Zobrazit pouze předpovězená místa spawnu.",

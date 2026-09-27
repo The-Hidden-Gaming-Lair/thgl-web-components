@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Type d'Apparition :",
   "filters.tooltip.static": "Fixe",
   "filters.tooltip.dynamic": "Suivi en direct",
+  "filters.experimental": "Expérimental",
+  "filters.tooltip.experimental": "Filtre expérimental. Donnez-nous votre avis sur Discord.",
   "liveMode.label": "Mode en Direct",
   "liveMode.static": "Prédit",
   "liveMode.static.desc": "Afficher uniquement les emplacements d'apparition prédits.",

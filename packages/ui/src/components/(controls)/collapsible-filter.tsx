@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FilterSettingsPopover } from "./filter-settings-popover";
 import { useT } from "../(providers)";
 import { useMemo } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, FlaskConical } from "lucide-react";
 
 export function CollapsibleFilter({
   appName,
@@ -189,6 +189,12 @@ export function CollapsibleFilter({
                       />
                     )}
                     <span className="truncate">{t(f.id) || f.id}</span>
+                    {f.experimental && (
+                      <FlaskConical
+                        className="h-3.5 w-3.5 shrink-0 text-amber-500"
+                        aria-label={t("filters.experimental")}
+                      />
+                    )}
                   </button>
                 </TooltipTrigger>
                 <TooltipContent side="top">{t(f.id) || f.id}</TooltipContent>

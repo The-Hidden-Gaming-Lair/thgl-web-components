@@ -6,7 +6,7 @@ import { Badge } from "../ui/badge";
 
 export function FilterTooltip({ id }: { id: string }) {
   const t = useT();
-  const { nodes, typesIdMap, liveCapable } = useCoordinates();
+  const { nodes, typesIdMap, liveCapable, filters } = useCoordinates();
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
 
@@ -22,12 +22,24 @@ export function FilterTooltip({ id }: { id: string }) {
     [discoveredNodes, filterNode],
   );
 
+  const isExperimental = useMemo(
+    () =>
+      filters.some((f) => f.values.some((v) => v.id === id && v.experimental)),
+    [filters, id],
+  );
+
   const hasTypeIDsMap = typesIdMap && Object.keys(typesIdMap).length > 0;
   const supportsLiveMode =
     hasTypeIDsMap && Object.values(typesIdMap).includes(id);
   return (
     <div className="space-y-1.5">
       <p className="text-sm font-bold leading-tight">{t(id)}</p>
+
+      {isExperimental && (
+        <p className="text-[11px] font-medium text-amber-500">
+          {t("filters.tooltip.experimental")}
+        </p>
+      )}
 
       {/* Spawn counts — muted labels, emphasized tabular figures. */}
       <p className="text-xs text-muted-foreground">

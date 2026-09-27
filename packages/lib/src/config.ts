@@ -1114,6 +1114,13 @@ export type FiltersConfig = {
     // e.g. landmarks — or by the type id for per-type entries — e.g. a bestiary
     // species. Generic across all games.
     dbSection?: string;
+    // New/unproven filter we want community feedback on: an "Experimental"
+    // badge on the filter row + a feedback hint in its tooltip.
+    experimental?: boolean;
+    // Area-of-effect radius in MAP units (same units as spawn positions, not
+    // screen pixels). A circle of this radius is drawn around every live actor
+    // of the type (e.g. Palia chum bucket's Star Quality fishing pool).
+    rangeRadius?: number;
   }[];
 }[];
 

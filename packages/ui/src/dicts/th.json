@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "ประเภทการเกิด:",
   "filters.tooltip.static": "คงที่",
   "filters.tooltip.dynamic": "ติดตามแบบสด",
+  "filters.experimental": "ทดลอง",
+  "filters.tooltip.experimental": "ตัวกรองทดลอง โปรดแสดงความคิดเห็นบน Discord",
   "liveMode.label": "โหมดสด",
   "liveMode.static": "คาดการณ์",
   "liveMode.static.desc": "แสดงเฉพาะตำแหน่งเกิดที่คาดการณ์ไว้",

@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Tipo de Surgimento:",
   "filters.tooltip.static": "Fixo",
   "filters.tooltip.dynamic": "Rastreado ao vivo",
+  "filters.experimental": "Experimental",
+  "filters.tooltip.experimental": "Filtro experimental. Compartilhe sua opinião no Discord.",
   "liveMode.label": "Modo Ao Vivo",
   "liveMode.static": "Previsto",
   "liveMode.static.desc": "Mostrar apenas locais de spawn previstos.",

@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "Тип появления:",
   "filters.tooltip.static": "Фиксированный",
   "filters.tooltip.dynamic": "Отслеживается вживую",
+  "filters.experimental": "Экспериментально",
+  "filters.tooltip.experimental": "Экспериментальный фильтр. Поделитесь отзывом в Discord.",
   "liveMode.label": "Режим реального времени",
   "liveMode.static": "Предсказанные",
   "liveMode.static.desc": "Показывать только предсказанные точки появления.",

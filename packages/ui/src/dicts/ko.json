@@ -52,6 +52,8 @@
   "filters.tooltip.spawnType": "스폰 유형:",
   "filters.tooltip.static": "고정",
   "filters.tooltip.dynamic": "실시간 추적",
+  "filters.experimental": "실험적",
+  "filters.tooltip.experimental": "실험적 필터입니다. Discord에서 피드백을 공유해 주세요.",
   "liveMode.label": "라이브 모드",
   "liveMode.static": "예측",
   "liveMode.static.desc": "예측된 스폰 위치만 표시합니다.",
