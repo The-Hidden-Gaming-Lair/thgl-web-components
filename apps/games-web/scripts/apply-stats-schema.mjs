@@ -84,6 +84,9 @@ const statements = [
      PRIMARY KEY (game_id, user_id)
    ) WITHOUT ROWID`,
   `CREATE INDEX IF NOT EXISTS stats_request_votes_user ON stats_request_votes(user_id)`,
+  // Added 2026-09-28 (Discord #game-requests sync). ALTER has no IF NOT
+  // EXISTS; a "duplicate column" error on re-runs is expected and ignored.
+  `ALTER TABLE stats_games ADD COLUMN discord_thread_id TEXT`,
   `SELECT COUNT(*) FROM stats_games`,
 ];
 
@@ -99,7 +102,9 @@ const res = await fetch(`${url}/v2/pipeline`, {
 });
 const body = await res.json();
 for (const [i, r] of body.results.entries()) {
-  if (r.type === "error") {
+  if (r.type === "error" && /duplicate column/i.test(r.error.message)) {
+    console.log(`stmt ${i} ok (column already exists)`);
+  } else if (r.type === "error") {
     console.error(`stmt ${i} failed: ${r.error.message}`);
     process.exitCode = 1;
   } else {

@@ -42,6 +42,12 @@ export const STATUS_LABELS: Record<StatsStatus, string> = {
   declined: "Declined",
 };
 
+/** TH.GL Discord server; request threads live in its #game-requests forum. */
+export const DISCORD_GUILD_ID = "320539672663031818";
+export const GAME_REQUESTS_CHANNEL_ID = "1554083192846164008";
+export const discordThreadUrl = (threadId: string) =>
+  `https://discord.com/channels/${DISCORD_GUILD_ID}/${threadId}`;
+
 export const PLATFORM_CLIENTS = [
   "steam",
   "epic",
@@ -110,6 +116,8 @@ export type StatsGame = {
   url: string | null;
   discordInvite: string | null;
   discordGuildId: string | null;
+  /** Thread in the Discord #game-requests forum (bot-managed). */
+  discordThreadId: string | null;
   twitchGameId: string | null;
   note: string | null;
   voteCount: number;

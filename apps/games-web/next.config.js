@@ -399,6 +399,13 @@ const nextConfig = (phase) => ({
         ],
       },
       {
+        source: "/api/stats/discord",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
         source: "/api/stats/requests/:path*",
         headers: [
           { key: "Cache-Control", value: "no-store" },

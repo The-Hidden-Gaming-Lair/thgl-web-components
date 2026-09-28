@@ -10,7 +10,11 @@ import { GameVote } from "@/games/thgl-web/components/stats/game-vote";
 import { StatusBadge } from "@/games/thgl-web/components/stats/status-badge";
 import { formatExact } from "@/games/thgl-web/components/stats/format";
 import { getGame, getGameDetail } from "@/lib/stats-db";
-import { PUBLIC_STATUSES, VOTABLE_STATUSES } from "@/lib/stats-types";
+import {
+  discordThreadUrl,
+  PUBLIC_STATUSES,
+  VOTABLE_STATUSES,
+} from "@/lib/stats-types";
 import { getAppConfigBySlug } from "@/configs";
 import { getSiteKind, siteLinkLabel } from "@/lib/site-kind";
 
@@ -39,7 +43,6 @@ export default async function GameStatsPage({ params }: Props) {
   const { id } = await params;
   const game = await getGameDetail(id);
   if (!game || !PUBLIC_STATUSES.includes(game.status)) notFound();
-  // Editor gets the plain row — not a second copy of the series in the RSC payload.
   const thgl = game.thglId
     ? thglGames.find((g) => g.id === game.thglId)
     : undefined;
@@ -124,6 +127,16 @@ export default async function GameStatsPage({ params }: Props) {
         ) : VOTABLE_STATUSES.includes(game.status) ? (
           <GameVote gameId={game.id} voteCount={game.voteCount} />
         ) : null}
+        {game.discordThreadId && (
+          <a
+            href={discordThreadUrl(game.discordThreadId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-primary hover:underline"
+          >
+            Discuss {game.title} on Discord
+          </a>
+        )}
         {game.note && (
           <p className="max-w-2xl text-sm text-muted-foreground">{game.note}</p>
         )}
@@ -131,6 +144,7 @@ export default async function GameStatsPage({ params }: Props) {
 
       <GameStatsView game={game} />
 
+      {/* The plain row, not a second copy of the series in the RSC payload. */}
       <AdminGameEditor
         game={{
           id: game.id,
@@ -144,6 +158,7 @@ export default async function GameStatsPage({ params }: Props) {
           url: game.url,
           discordInvite: game.discordInvite,
           discordGuildId: game.discordGuildId,
+          discordThreadId: game.discordThreadId,
           twitchGameId: game.twitchGameId,
           note: game.note,
           voteCount: game.voteCount,

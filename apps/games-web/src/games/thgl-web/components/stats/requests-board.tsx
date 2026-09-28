@@ -6,6 +6,7 @@ import { Check, Loader2, Search } from "lucide-react";
 import { cn } from "@repo/lib";
 import { Button, Input } from "@repo/ui/controls";
 import {
+  discordThreadUrl,
   STATUS_LABELS,
   type StatsGame,
   type StatsGameWithSummary,
@@ -465,6 +466,17 @@ export function RequestsBoard({ games }: { games: StatsGameWithSummary[] }) {
                   </div>
                   <div className="text-xs text-muted-foreground">followers</div>
                 </div>
+                {g.discordThreadId && (
+                  <a
+                    href={discordThreadUrl(g.discordThreadId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-muted-foreground hover:text-foreground max-md:hidden"
+                    title={`Discuss ${g.title} on Discord`}
+                  >
+                    Discord
+                  </a>
+                )}
                 <span className="max-lg:hidden">
                   <StatusBadge status={g.status} />
                 </span>

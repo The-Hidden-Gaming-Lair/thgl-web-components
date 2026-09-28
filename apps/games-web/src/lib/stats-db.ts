@@ -48,7 +48,7 @@ async function libsqlChunked(stmts: LibSqlStmt[]): Promise<void> {
 }
 
 const GAME_COLS =
-  "id, title, status, thgl_id, steam_app_id, platforms, image_url, release_date, url, discord_invite, discord_guild_id, twitch_game_id, note, vote_count, created_at, updated_at";
+  "id, title, status, thgl_id, steam_app_id, platforms, image_url, release_date, url, discord_invite, discord_guild_id, twitch_game_id, note, vote_count, created_at, updated_at, discord_thread_id";
 
 function rowToGame(row: Row): StatsGame {
   let platforms: PlatformEntry[];
@@ -74,6 +74,7 @@ function rowToGame(row: Row): StatsGame {
     voteCount: Number(row[13].value),
     createdAt: Number(row[14].value),
     updatedAt: Number(row[15].value),
+    discordThreadId: str(row[16]),
   };
 }
 
@@ -188,6 +189,7 @@ export type GamePatch = Partial<{
   url: string | null;
   discordInvite: string | null;
   discordGuildId: string | null;
+  discordThreadId: string | null;
   twitchGameId: string | null;
   note: string | null;
 }>;
@@ -203,6 +205,7 @@ const PATCH_COLUMNS: Record<keyof GamePatch, string> = {
   url: "url",
   discordInvite: "discord_invite",
   discordGuildId: "discord_guild_id",
+  discordThreadId: "discord_thread_id",
   twitchGameId: "twitch_game_id",
   note: "note",
 };
@@ -613,4 +616,59 @@ export async function getUserVotes(userId: string): Promise<string[]> {
     },
   ]);
   return result.rows.map((r) => r[0].value);
+}
+
+/** Recount a game's votes from the vote rows (source of truth for the counter). */
+async function recountVotes(gameId: string): Promise<number> {
+  await libsql([
+    {
+      sql: "UPDATE stats_games SET vote_count = (SELECT COUNT(*) FROM stats_request_votes WHERE game_id = ?) WHERE id = ?",
+      args: [arg.text(gameId), arg.text(gameId)],
+    },
+  ]);
+  return readVoteCount(gameId);
+}
+
+/**
+ * Replace a game's Discord votes with the current 👍 reactors on its
+ * #game-requests thread. Discord voters are stored as `discord:<id>`; the
+ * Discord user who requested the game (via /request) keeps their vote even
+ * without reacting. Website (Patreon) votes are never touched.
+ */
+export async function setDiscordVoters(
+  gameId: string,
+  discordUserIds: string[],
+): Promise<number> {
+  const [existing, requester] = await libsql([
+    {
+      sql: "SELECT user_id FROM stats_request_votes WHERE game_id = ? AND user_id LIKE 'discord:%'",
+      args: [arg.text(gameId)],
+    },
+    {
+      sql: "SELECT requested_by FROM stats_games WHERE id = ?",
+      args: [arg.text(gameId)],
+    },
+  ]);
+  const keep = new Set(discordUserIds.map((id) => `discord:${id}`));
+  const requestedBy = str(requester.rows[0]?.[0]);
+  if (requestedBy?.startsWith("discord:")) keep.add(requestedBy);
+  const current = new Set(existing.rows.map((r) => r[0].value));
+  const stmts: LibSqlStmt[] = [];
+  const t = now();
+  for (const userId of keep) {
+    if (current.has(userId)) continue;
+    stmts.push({
+      sql: "INSERT OR IGNORE INTO stats_request_votes (game_id, user_id, created_at) VALUES (?, ?, ?)",
+      args: [arg.text(gameId), arg.text(userId), arg.int(t)],
+    });
+  }
+  for (const userId of current) {
+    if (keep.has(userId)) continue;
+    stmts.push({
+      sql: "DELETE FROM stats_request_votes WHERE game_id = ? AND user_id = ?",
+      args: [arg.text(gameId), arg.text(userId)],
+    });
+  }
+  if (stmts.length > 0) await libsqlChunked(stmts);
+  return recountVotes(gameId);
 }

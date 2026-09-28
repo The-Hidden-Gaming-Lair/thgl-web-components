@@ -757,28 +757,26 @@ Source: [Reddit confirmation](https://www.reddit.com/r/duneawakening/comments/1n
     question:
       "Can you add support for [game name]? How do I request a new game?",
     answer: `
-Game support depends on several factors. Here's what I consider:
+Request it and vote for the games you want on **[th.gl/requests](/requests)**.
 
-## Requirements:
-- **Game Engine**: Preferably Unreal Engine (data mining/tools are ready)
-- **User Base**: Higher player count is preferred (check SteamDB charts)
-- **Game Type**: Upcoming games or established games with active communities
+## How to request a game
+1. Search for the game on the [requests page](/requests). Steam games are added right away and their player numbers are tracked from then on.
+2. Not on Steam? Send the game's name and a link to its official page. I review these before they show up.
+3. Sign in with any Patreon account to request and vote. No subscription needed.
 
-## When requesting, please provide:
-1. **Why are interactive maps useful** for this specific game?
-2. **Which filters/locations** are most important to track?
-3. **Existing competition** - Are there already good maps available?
-4. **Feature scope** - Do you want:
-   - Interactive web map only?
-   - In-game app with live position tracking?
+**On Discord:** use \`/request\` in the [TH.GL Discord](https://th.gl/discord). Every requested game gets its own post in **#game-requests**, where you can discuss it and vote with 👍.
 
-## How to request:
-1. Join the Discord: [th.gl/discord](https://th.gl/discord)
-2. Go to the **#👾・other-games** channel
-3. **Search first** to check if already requested
-4. Share your request with the details above
+## How games get picked
+Votes, together with player numbers, decide which game gets support next. I also look at:
+- **Player interest**: Steam players, Twitch viewers and the size of the game's community, all on the [game stats](/stats) page
+- **Existing maps**: games that already have a good official or community map are less likely
+- **Timing**: upcoming games can be ready on launch day
 
-The more information you provide, the better I can evaluate the feasibility!
+## Request status
+- 🗳️ **Requested**: players ask for it and vote
+- 👀 **Watching**: I follow its player numbers and news
+- 🛠️ **In progress**: maps and tools are being built
+- ✅ **Supported**: live on TH.GL
     `.trim(),
     labels: ["General", "Companion App", "Overwolf"],
   },

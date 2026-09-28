@@ -85,6 +85,18 @@ export default async function RequestsPage() {
         </p>
       )}
       <p className="text-center text-sm text-muted-foreground">
+        Prefer Discord? Use{" "}
+        <span className="font-mono text-foreground">/request</span> in our{" "}
+        <a
+          href="https://th.gl/discord"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary hover:underline"
+        >
+          Discord server
+        </a>
+        , and vote with 👍 on the game&apos;s thread in #game-requests.
+        <br />
         See player numbers for every tracked game on the{" "}
         <Link href="/stats" className="text-primary hover:underline">
           stats page
