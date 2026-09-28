@@ -57,7 +57,7 @@ export function AppMap({
         additionalTooltip={additionalTooltip}
       />
       <div className="fixed top-[40px] right-2 mt-px z-500 flex gap-1.5 items-center">
-        <div className="flex items-center rounded-md border border-input bg-background shadow-sm divide-x divide-input overflow-hidden [&_button]:border-0 [&_button]:shadow-none [&_button]:rounded-none [&_button]:h-8 [&_button]:w-8">
+        <div className="flex empty:hidden items-center rounded-md border border-input bg-background shadow-sm divide-x divide-input overflow-hidden [&_button]:border-0 [&_button]:shadow-none [&_button]:rounded-none [&_button]:h-8 [&_button]:w-8">
           {isOverlay && <HideOverlayOnMapButton hidden={lockedWindow} />}
           <Whiteboard domain={appConfig.domain} hidden={lockedWindow} />
           <StreamingSender
