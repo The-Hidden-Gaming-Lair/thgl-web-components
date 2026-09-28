@@ -37,7 +37,7 @@ export function GameVote({
         <span className="text-sm text-muted-foreground">
           {state && !state.signedIn
             ? "Sign in to vote for this game"
-            : "Votes decide which game TH.GL supports next"}
+            : "Votes help me pick which game to support next"}
         </span>
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}

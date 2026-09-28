@@ -65,7 +65,7 @@ export default async function RequestsPage() {
       </nav>
       <PageHeader
         title="Which game should be next?"
-        description="Request the game you want maps, overlays and tools for, and vote for other requests. Votes, together with player numbers, decide what TH.GL supports next."
+        description="Request the game you want maps, overlays and tools for, and vote for other requests. Votes show me which games you want most and help me pick what to build next."
       />
       <ol className="grid gap-3 sm:max-md:grid-cols-2 md:grid-cols-4">
         {STEPS.map((step, i) => (

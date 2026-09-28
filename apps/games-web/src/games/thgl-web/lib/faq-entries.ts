@@ -767,7 +767,7 @@ Request it and vote for the games you want on **[th.gl/requests](/requests)**.
 **On Discord:** use \`/request\` in the [TH.GL Discord](https://th.gl/discord). Every requested game gets its own post in **#game-requests**, where you can discuss it and vote with 👍.
 
 ## How games get picked
-Votes, together with player numbers, decide which game gets support next. I also look at:
+Votes show me which games you want most, but a game with many votes isn't automatically next. I also look at:
 - **Player interest**: Steam players, Twitch viewers and the size of the game's community, all on the [game stats](/stats) page
 - **Existing maps**: games that already have a good official or community map are less likely
 - **Timing**: upcoming games can be ready on launch day
