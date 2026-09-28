@@ -355,6 +355,22 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               }
             } else if (message.action === "characterData") {
               gameState.setCharacter(message.payload);
+              // Nodes the game itself reports as collected (e.g. Aniimo's server-synced
+              // map-mark status: opened chests / picked-up Lumin Amber, account-wide).
+              // Plain spawn ids — discovery matches a node's base id — so they apply in
+              // every live mode and to pins that are not loaded or filtered out.
+              const collected = message.payload?.collectedNodeIds;
+              if (Array.isArray(collected) && collected.length > 0) {
+                const settings = useSettingsStore.getState();
+                if (settings.autoDiscoverCollected) {
+                  const known = new Set(settings.discoveredNodes);
+                  const fresh = collected.filter(
+                    (id): id is string =>
+                      typeof id === "string" && !known.has(id),
+                  );
+                  if (fresh.length > 0) settings.markAutoDiscovered(fresh);
+                }
+              }
             } else if (message.action === "dungeonNavmesh") {
               // Floor plan for the dungeon the player is in, re-sent on a slow cadence.
               // Skip identical resends; apply only when the dungeon (or its triangle
