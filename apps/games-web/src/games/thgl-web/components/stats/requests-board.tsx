@@ -8,11 +8,13 @@ import { Button, Input } from "@repo/ui/controls";
 import {
   discordThreadUrl,
   STATUS_LABELS,
+  VOTABLE_STATUSES,
   type StatsGame,
   type StatsGameWithSummary,
   type StatsStatus,
 } from "@/lib/stats-types";
 import { formatCount, formatDate } from "./format";
+import { CommentBox } from "./game-discussion";
 import { StatusBadge } from "./status-badge";
 import { signInUrl, useMyRequests } from "./use-my-requests";
 import { VoteButton } from "./vote-button";
@@ -62,7 +64,10 @@ function GameThumb({ src }: { src: string | null }) {
 function RequestForm({
   onDone,
 }: {
-  onDone: (message: string, id?: string) => void;
+  onDone: (
+    message: string,
+    game?: { id: string; title: string; status: string },
+  ) => void;
 }) {
   const { state: my } = useMyRequests();
   const [query, setQuery] = useState("");
@@ -101,17 +106,19 @@ function RequestForm({
     setBusy(r.appId);
     setError(null);
     try {
-      const res = await postJson<{ id: string; created: boolean }>(
-        "/api/stats/requests",
-        {
-          steamAppId: r.appId,
-        },
-      );
+      const res = await postJson<{
+        id: string;
+        title: string;
+        status: string;
+        created: boolean;
+      }>("/api/stats/requests", {
+        steamAppId: r.appId,
+      });
       onDone(
         res.created
           ? `${r.name} was added. Its stats start collecting now.`
           : `Your vote for ${r.name} was counted.`,
-        res.id,
+        { id: res.id, title: res.title, status: res.status },
       );
       setQuery("");
     } catch (err) {
@@ -342,6 +349,10 @@ export function RequestsBoard({ games }: { games: StatsGameWithSummary[] }) {
   const { state: my, setState, refresh } = useMyRequests();
   const [tab, setTab] = useState<StatsStatus>("requested");
   const [notice, setNotice] = useState<string | null>(null);
+  const [justRequested, setJustRequested] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const rows = useMemo(
@@ -372,8 +383,14 @@ export function RequestsBoard({ games }: { games: StatsGameWithSummary[] }) {
       <section className="space-y-3">
         <h2 className={SECTION}>Request a game</h2>
         <RequestForm
-          onDone={(message) => {
+          onDone={(message, game) => {
             setNotice(message);
+            // Ask for details right after a request, while it's fresh.
+            setJustRequested(
+              game && VOTABLE_STATUSES.includes(game.status as StatsStatus)
+                ? game
+                : null,
+            );
             void refresh();
           }}
         />
@@ -381,6 +398,16 @@ export function RequestsBoard({ games }: { games: StatsGameWithSummary[] }) {
           <p className="text-sm text-emerald-400" role="status">
             {notice} New requests appear in the list within 10 minutes.
           </p>
+        )}
+        {justRequested && (
+          <div className="rounded-lg border bg-card p-4">
+            <CommentBox
+              key={justRequested.id}
+              gameId={justRequested.id}
+              title={justRequested.title}
+              autoFocus
+            />
+          </div>
         )}
       </section>
 

@@ -125,6 +125,30 @@ export type StatsGame = {
   updatedAt: number;
 };
 
+/** A comment written on th.gl about a requested game. */
+export type RequestComment = {
+  id: string;
+  gameId: string;
+  authorName: string;
+  authorAvatar: string | null;
+  body: string;
+  createdAt: number;
+  /** Set once the bot has mirrored it into the game's Discord thread. */
+  discordMessageId: string | null;
+};
+
+/** One entry of a game's discussion (Discord thread reply or web comment). */
+export type DiscussionEntry = {
+  id: string;
+  source: "discord" | "web";
+  authorName: string;
+  authorAvatar: string | null;
+  bot: boolean;
+  text: string;
+  images: string[];
+  createdAt: number;
+};
+
 /** Latest + windowed numbers for list views. null = no data. */
 export type StatsSummary = {
   steamCcu: number | null;

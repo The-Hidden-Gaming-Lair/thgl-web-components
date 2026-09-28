@@ -5,6 +5,7 @@ import { games as thglGames } from "@repo/lib";
 import { Button } from "@repo/ui/controls";
 import { PageShell } from "@/games/thgl-web/components/page-shell";
 import { AdminGameEditor } from "@/games/thgl-web/components/stats/admin-game-editor";
+import { GameDiscussion } from "@/games/thgl-web/components/stats/game-discussion";
 import { GameStatsView } from "@/games/thgl-web/components/stats/game-stats-view";
 import { GameVote } from "@/games/thgl-web/components/stats/game-vote";
 import { StatusBadge } from "@/games/thgl-web/components/stats/status-badge";
@@ -17,6 +18,7 @@ import {
 } from "@/lib/stats-types";
 import { getAppConfigBySlug } from "@/configs";
 import { getSiteKind, siteLinkLabel } from "@/lib/site-kind";
+import { getDiscussion } from "@/lib/stats-discussion";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +52,9 @@ export default async function GameStatsPage({ params }: Props) {
   const siteLabel = tenant
     ? siteLinkLabel(await getSiteKind(tenant))
     : "Open the website";
+  const canComment = VOTABLE_STATUSES.includes(game.status);
+  const discussion =
+    canComment || game.discordThreadId ? await getDiscussion(game) : [];
 
   return (
     <PageShell className="max-w-6xl">
@@ -127,20 +132,20 @@ export default async function GameStatsPage({ params }: Props) {
         ) : VOTABLE_STATUSES.includes(game.status) ? (
           <GameVote gameId={game.id} voteCount={game.voteCount} />
         ) : null}
-        {game.discordThreadId && (
-          <a
-            href={discordThreadUrl(game.discordThreadId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-primary hover:underline"
-          >
-            Discuss {game.title} on Discord
-          </a>
-        )}
         {game.note && (
           <p className="max-w-2xl text-sm text-muted-foreground">{game.note}</p>
         )}
       </header>
+
+      <GameDiscussion
+        gameId={game.id}
+        title={game.title}
+        entries={discussion}
+        canComment={canComment}
+        threadUrl={
+          game.discordThreadId ? discordThreadUrl(game.discordThreadId) : null
+        }
+      />
 
       <GameStatsView game={game} />
 

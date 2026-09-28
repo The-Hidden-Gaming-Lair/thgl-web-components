@@ -24,59 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui/controls";
-import { ExternalAnchor } from "@repo/ui/header";
 import {
-  ChevronDown,
-  ChevronUp,
-  ExternalLink,
-  MessageSquare,
-  User,
-} from "lucide-react";
+  ContentWithLinks,
+  ForumReply,
+} from "@/games/thgl-web/components/forum-reply";
+import { ChevronDown, ChevronUp, MessageSquare, User } from "lucide-react";
 import { PreviewImage } from "@repo/ui/content";
-
-const urlSplitRegex = /(https?:\/\/[^\s]+)/g;
-const urlExactRegex = /^https?:\/\/[^\s]+$/i;
-
-function ContentWithLinks({
-  text,
-  className = "",
-}: {
-  text: string;
-  className?: string;
-}) {
-  if (!text) {
-    return (
-      <p
-        className={`whitespace-pre-wrap wrap-break-word ${className}`.trim()}
-      />
-    );
-  }
-
-  const parts = text.split(urlSplitRegex);
-
-  return (
-    <p className={`whitespace-pre-wrap wrap-break-word ${className}`.trim()}>
-      {parts.map((part, index) => {
-        if (urlExactRegex.test(part)) {
-          const label = part.replace(/^https?:\/\//i, "");
-          return (
-            <ExternalAnchor
-              key={`${part}-${index}`}
-              href={part}
-              title={part}
-              className="inline-flex max-w-[18rem] min-w-0 items-center gap-1 text-primary hover:underline"
-            >
-              <span className="truncate max-w-full">{label}</span>
-              <ExternalLink className="h-3 w-3" />
-            </ExternalAnchor>
-          );
-        }
-
-        return <span key={`text-${index}`}>{part}</span>;
-      })}
-    </p>
-  );
-}
 
 function TagBadgeContent({ tag }: { tag: ForumTag }) {
   const hasEmojiImage = Boolean(tag.emoji?.url);
@@ -518,40 +471,14 @@ export function SuggestionIssueDetail({ post }: { post: ForumPostDetail }) {
           <div className="space-y-4">
             <h3 className="font-semibold">Replies ({post.replies.length})</h3>
             {post.replies.map((reply) => (
-              <div key={reply.id} className="pl-4 border-l-2 border-muted">
-                <div className="flex items-center gap-2 mb-2">
-                  {reply.author.avatar ? (
-                    <img
-                      src={reply.author.avatar}
-                      alt={reply.author.username}
-                      className="h-6 w-6 rounded-full"
-                    />
-                  ) : (
-                    <User className="h-4 w-4" />
-                  )}
-                  <span className="font-medium text-sm">
-                    {reply.author.username}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(reply.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-                <ContentWithLinks
-                  text={reply.content}
-                  className="text-sm text-muted-foreground"
-                />
-                {reply.images.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {reply.images.map((image) => (
-                      <PreviewImage
-                        key={image}
-                        src={image}
-                        alt={`Attachment from ${reply.author.username}`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
+              <ForumReply
+                key={reply.id}
+                authorName={reply.author.username}
+                authorAvatar={reply.author.avatar}
+                createdAt={reply.createdAt}
+                text={reply.content}
+                images={reply.images}
+              />
             ))}
           </div>
         )}

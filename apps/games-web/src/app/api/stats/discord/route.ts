@@ -8,6 +8,8 @@ import {
 import {
   getGame,
   listGames,
+  listUnpostedComments,
+  markCommentPosted,
   setDiscordVoters,
   updateGame,
 } from "@/lib/stats-db";
@@ -19,9 +21,11 @@ import { requestSteamGame } from "@/lib/stats-requests";
  * request as `discord:<snowflake>`.
  *
  * GET                                                every non-pending game
+ * GET ?comments=unposted                             web comments to mirror
  * POST {action:"thread", gameId, threadId}           remember the forum thread
  * POST {action:"votes", gameId, discordUserIds[]}    👍 reactors = Discord votes
  * POST {action:"request", steamAppId, discordUserId} /request slash command
+ * POST {action:"comment-posted", commentId, messageId} web comment mirrored
  */
 
 const SNOWFLAKE = /^\d{15,21}$/;
@@ -36,6 +40,9 @@ function requireBot(request: Request) {
 export async function GET(request: Request) {
   return handle(async () => {
     requireBot(request);
+    if (new URL(request.url).searchParams.get("comments") === "unposted") {
+      return jsonResponse({ comments: await listUnpostedComments() });
+    }
     const games = await listGames([
       "supported",
       "in_progress",
@@ -67,6 +74,15 @@ export async function POST(request: Request) {
           Number(body.steamAppId),
         ),
       );
+    }
+
+    if (body.action === "comment-posted") {
+      const messageId = String(body.messageId ?? "");
+      if (!SNOWFLAKE.test(messageId) || typeof body.commentId !== "string") {
+        throw new BadRequestError("Invalid comment-posted payload");
+      }
+      await markCommentPosted(body.commentId, messageId);
+      return jsonResponse({ ok: true });
     }
 
     const gameId = String(body.gameId ?? "");

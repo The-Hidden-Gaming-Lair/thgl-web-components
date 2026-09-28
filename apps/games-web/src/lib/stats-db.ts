@@ -1,6 +1,7 @@
 import { arg, libsql, type LibSqlStmt } from "@/lib/libsql";
 import {
   type Metric,
+  type RequestComment,
   type PlatformEntry,
   type SeriesPoint,
   type StatsBuild,
@@ -671,4 +672,99 @@ export async function setDiscordVoters(
   }
   if (stmts.length > 0) await libsqlChunked(stmts);
   return recountVotes(gameId);
+}
+
+// ── Comments (website side of each game's discussion) ─────────────────
+
+const COMMENT_COLS =
+  "id, game_id, author_name, author_avatar, body, created_at, discord_message_id";
+
+function rowToComment(row: Row): RequestComment {
+  return {
+    id: row[0].value,
+    gameId: row[1].value,
+    authorName: row[2].value,
+    authorAvatar: str(row[3]),
+    body: row[4].value,
+    createdAt: Number(row[5].value),
+    discordMessageId: str(row[6]),
+  };
+}
+
+export async function insertComment(comment: {
+  gameId: string;
+  userId: string;
+  authorName: string;
+  authorAvatar: string | null;
+  body: string;
+}): Promise<RequestComment> {
+  const row: RequestComment = {
+    id: crypto.randomUUID(),
+    gameId: comment.gameId,
+    authorName: comment.authorName,
+    authorAvatar: comment.authorAvatar,
+    body: comment.body,
+    createdAt: now(),
+    discordMessageId: null,
+  };
+  await libsql([
+    {
+      sql: "INSERT INTO stats_request_comments (id, game_id, user_id, author_name, author_avatar, body, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      args: [
+        arg.text(row.id),
+        arg.text(row.gameId),
+        arg.text(comment.userId),
+        arg.text(row.authorName),
+        textOrNull(row.authorAvatar),
+        arg.text(row.body),
+        arg.int(row.createdAt),
+      ],
+    },
+  ]);
+  return row;
+}
+
+export async function listComments(gameId: string): Promise<RequestComment[]> {
+  const [result] = await libsql([
+    {
+      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE game_id = ? ORDER BY created_at LIMIT 500`,
+      args: [arg.text(gameId)],
+    },
+  ]);
+  return result.rows.map(rowToComment);
+}
+
+export async function countRecentComments(
+  userId: string,
+  windowSeconds: number,
+): Promise<number> {
+  const [result] = await libsql([
+    {
+      sql: "SELECT COUNT(*) FROM stats_request_comments WHERE user_id = ? AND created_at > ?",
+      args: [arg.text(userId), arg.int(now() - windowSeconds)],
+    },
+  ]);
+  return Number(result.rows[0]?.[0]?.value ?? 0);
+}
+
+/** Web comments the bot hasn't mirrored into their game's thread yet. */
+export async function listUnpostedComments(): Promise<RequestComment[]> {
+  const [result] = await libsql([
+    {
+      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE discord_message_id IS NULL ORDER BY created_at LIMIT 100`,
+    },
+  ]);
+  return result.rows.map(rowToComment);
+}
+
+export async function markCommentPosted(
+  id: string,
+  discordMessageId: string,
+): Promise<void> {
+  await libsql([
+    {
+      sql: "UPDATE stats_request_comments SET discord_message_id = ? WHERE id = ?",
+      args: [arg.text(discordMessageId), arg.text(id)],
+    },
+  ]);
 }

@@ -87,6 +87,20 @@ const statements = [
   // Added 2026-09-28 (Discord #game-requests sync). ALTER has no IF NOT
   // EXISTS; a "duplicate column" error on re-runs is expected and ignored.
   `ALTER TABLE stats_games ADD COLUMN discord_thread_id TEXT`,
+  // Website comments on requested games; the bot mirrors each into the
+  // game's #game-requests thread and records the Discord message id.
+  `CREATE TABLE IF NOT EXISTS stats_request_comments (
+     id                 TEXT PRIMARY KEY,
+     game_id            TEXT NOT NULL,
+     user_id            TEXT NOT NULL,
+     author_name        TEXT NOT NULL,
+     author_avatar      TEXT,
+     body               TEXT NOT NULL,
+     created_at         INTEGER NOT NULL,
+     discord_message_id TEXT
+   )`,
+  `CREATE INDEX IF NOT EXISTS stats_request_comments_game ON stats_request_comments(game_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS stats_request_comments_user ON stats_request_comments(user_id, created_at)`,
   `SELECT COUNT(*) FROM stats_games`,
 ];
 
