@@ -245,7 +245,10 @@ function NitroPayAd({
         }, // Use 'platform' as primary discriminator to avoid bleed over with web
         refreshTime: 30,
         renderVisibleOnly: false,
-        outstream: "never",
+        // Outstream video only outside the in-game overlay: a playing video
+        // composited over the game costs game performance. The desktop window
+        // (usually a second screen) takes video bids like the dashboard does.
+        outstream: isOverlay ? "never" : "auto",
         sizes: adFormat.sizes,
         report: {
           enabled: false,
