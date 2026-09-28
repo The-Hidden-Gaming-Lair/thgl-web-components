@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ReleaseNotes } from "./release-notes";
 import { PartnerCard } from "@/games/thgl-web/components/partner-card";
 import { PlatformCard } from "@/games/thgl-web/components/platform-card";
+import { StatsCard } from "@/games/thgl-web/components/stats/stats-card";
+import { getSupportedGameSummary } from "@/lib/stats-db";
 
 export async function generateMetadata({
   params,
@@ -46,7 +48,11 @@ export default async function GameDetailPage({
     }
     redirect(`/apps`);
   }
-  const updateMessages = await getUpdateMessages(game.discordId);
+  const [updateMessages, stats] = await Promise.all([
+    getUpdateMessages(game.discordId),
+    // Stats are optional here — a DB hiccup must not break the app page.
+    getSupportedGameSummary(game.id).catch(() => null),
+  ]);
 
   return (
     <section className="mx-auto px-4 py-12 space-y-10 max-w-6xl">
@@ -152,6 +158,8 @@ export default async function GameDetailPage({
           </div>
         </div>
       )}
+
+      {stats && <StatsCard game={stats} />}
 
       {/* Release Notes */}
       <div className="space-y-6">

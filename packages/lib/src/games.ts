@@ -16,6 +16,7 @@ export const games: Array<Game> = [
     id: "blood-of-dawnwalker",
     discordId: "blood-of-dawnwalker",
     title: "The Blood of Dawnwalker",
+    steamAppId: 3751260,
     logo: `${TH_GL_URL}/global_icons/blood-of-dawnwalker.webp`,
     companion: {
       baseURL: "/apps/blood-of-dawnwalker",
@@ -58,6 +59,7 @@ export const games: Array<Game> = [
     id: "dragonsword-awakening",
     discordId: "dragonsword-awakening",
     title: "DragonSword: Awakening",
+    steamAppId: 4570720,
     logo: `${TH_GL_URL}/global_icons/dragonsword-awakening.webp`,
     additionalFilters: ["DragonSwordSaveImport"],
     companion: {
@@ -98,6 +100,7 @@ export const games: Array<Game> = [
     id: "crimson-desert",
     discordId: "crimson-desert",
     title: "Crimson Desert",
+    steamAppId: 3321460,
     logo: `${TH_GL_URL}/global_icons/crimson-desert.webp`,
     additionalFilters: ["CrimsonDesertZones", "CrimsonDesertSaveImport"],
     companion: {
@@ -138,6 +141,7 @@ export const games: Array<Game> = [
     id: "starsand-island",
     discordId: "starsand-island",
     title: "Starsand Island",
+    steamAppId: 2966320,
     logo: `${TH_GL_URL}/global_icons/starsand-island.webp`,
     companion: {
       baseURL: "/apps/starsand-island",
@@ -176,6 +180,7 @@ export const games: Array<Game> = [
     id: "soulmask",
     discordId: "soulmask",
     title: "Soulmask",
+    steamAppId: 2646460,
     logo: `${TH_GL_URL}/global_icons/soulmask.webp`,
     companion: {
       baseURL: "/apps/soulmask",
@@ -215,6 +220,7 @@ export const games: Array<Game> = [
     id: "legend-of-khiimori",
     discordId: "legend-of-khiimori",
     title: "The Legend of Khiimori",
+    steamAppId: 2697000,
     logo: `${TH_GL_URL}/global_icons/legend-of-khiimori.webp`,
     companion: {
       baseURL: "/apps/legend-of-khiimori",
@@ -254,6 +260,7 @@ export const games: Array<Game> = [
     id: "sinking-city-2",
     discordId: "sinking-city-2",
     title: "The Sinking City 2",
+    steamAppId: 2825860,
     logo: `${TH_GL_URL}/global_icons/sinking-city-2.webp`,
     web: "https://sinkingcity2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -262,6 +269,7 @@ export const games: Array<Game> = [
     id: "soulframe",
     discordId: "soulframe",
     title: "Soulframe",
+    steamAppId: 4095380,
     logo: `${TH_GL_URL}/global_icons/soulframe.webp`,
     web: "https://soulframe.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -270,6 +278,7 @@ export const games: Array<Game> = [
     id: "where-winds-meet",
     discordId: "where-winds-meet",
     title: "Where Winds Meet",
+    steamAppId: 3564740,
     logo: `${TH_GL_URL}/global_icons/where-winds-meet.webp`,
     companion: {
       // Preview release: listed + routable everywhere, with the map/db/companion
@@ -317,6 +326,7 @@ export const games: Array<Game> = [
     id: "souls-remnant",
     discordId: "souls-remnant",
     title: "Soul's Remnant",
+    steamAppId: 3451980,
     logo: `${TH_GL_URL}/global_icons/souls-remnant.webp`,
     web: "https://soulsremnant.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -325,6 +335,7 @@ export const games: Array<Game> = [
     id: "starrupture",
     discordId: "starrupture",
     title: "Star Rupture",
+    steamAppId: 1631270,
     logo: `${TH_GL_URL}/global_icons/starrupture.webp`,
     companion: {
       baseURL: "/apps/starrupture",
@@ -364,6 +375,7 @@ export const games: Array<Game> = [
     id: "subnautica-2",
     discordId: "subnautica-2",
     title: "Subnautica 2",
+    steamAppId: 1962700,
     logo: `${TH_GL_URL}/global_icons/subnautica-2.webp`,
     companion: {
       baseURL: "/apps/subnautica-2",
@@ -407,6 +419,7 @@ export const games: Array<Game> = [
     id: "planet-crafter",
     discordId: "planet-crafter",
     title: "The Planet Crafter",
+    steamAppId: 1284190,
     logo: `${TH_GL_URL}/global_icons/planet-crafter.webp`,
     companion: {
       baseURL: "/apps/planet-crafter",
@@ -445,6 +458,7 @@ export const games: Array<Game> = [
     id: "witchspire",
     discordId: "witchspire",
     title: "Witchspire",
+    steamAppId: 2679100,
     logo: `${TH_GL_URL}/global_icons/witchspire.webp`,
     companion: {
       baseURL: "/apps/witchspire",
@@ -484,6 +498,7 @@ export const games: Array<Game> = [
     id: "conan-exiles",
     discordId: "conan-exiles",
     title: "Conan Exiles Enhanced",
+    steamAppId: 440900,
     logo: `${TH_GL_URL}/global_icons/conan-exiles.webp`,
     companion: {
       baseURL: "/apps/conan-exiles",
@@ -523,6 +538,7 @@ export const games: Array<Game> = [
     id: "gothic-1-remake",
     discordId: "gothic-1-remake",
     title: "Gothic 1 Remake",
+    steamAppId: 1297900,
     logo: `${TH_GL_URL}/global_icons/gothic-1-remake.webp`,
     companion: {
       baseURL: "/apps/gothic-1-remake",
@@ -563,6 +579,7 @@ export const games: Array<Game> = [
     id: "duet-night-abyss",
     discordId: "duet-night-abyss",
     title: "Duet Night Abyss",
+    steamAppId: 3950020,
     logo: `${TH_GL_URL}/global_icons/duetnightabyss.webp`,
     companion: {
       baseURL: "/apps/duet-night-abyss",
@@ -602,6 +619,7 @@ export const games: Array<Game> = [
     id: "blue-protocol-star-resonance",
     discordId: "blue-protocol-star-resonance",
     title: "Blue Protocol: Star Resonance",
+    steamAppId: 3681810,
     logo: `${TH_GL_URL}/global_icons/starresonance.webp`,
     companion: {
       baseURL: "/apps/blue-protocol-star-resonance",
@@ -649,6 +667,7 @@ export const games: Array<Game> = [
     id: "chrono-odyssey",
     discordId: "chrono-odyssey",
     title: "Chrono Odyssey",
+    steamAppId: 2873440,
     logo: `${TH_GL_URL}/global_icons/chrono-odyssey.webp`,
     web: "https://chronoodyssey.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -657,6 +676,7 @@ export const games: Array<Game> = [
     id: "dune-awakening",
     discordId: "dune-awakening",
     title: "Dune: Awakening",
+    steamAppId: 1172710,
     logo: `${TH_GL_URL}/global_icons/dune.webp`,
     lockedWindowComponents: ["DuneDeepDesertGrid", "DuneHeatmaps"],
     additionalFilters: ["DuneDeepDesertGrid", "DuneHeatmaps"],
@@ -702,6 +722,7 @@ export const games: Array<Game> = [
     id: "palia",
     discordId: "palia",
     title: "Palia",
+    steamAppId: 2707930,
     lockedWindowComponents: ["PaliaTime"],
     // PaliaWorldCodeRequest renders nothing — it's an always-mounted driver that
     // toasts the player when someone requests their world's join code.
@@ -774,6 +795,7 @@ export const games: Array<Game> = [
     id: "grounded2",
     discordId: "grounded2",
     title: "Grounded 2",
+    steamAppId: 2661300,
     logo: `${TH_GL_URL}/global_icons/grounded2.webp`,
     companion: {
       baseURL: "/apps/grounded2",
@@ -816,6 +838,7 @@ export const games: Array<Game> = [
     id: "palworld",
     discordId: "palworld",
     title: "Palworld",
+    steamAppId: 1623730,
     logo: `${TH_GL_URL}/global_icons/palworld.webp`,
     additionalTooltip: ["InGameCoordinates"],
     inGameCoordinates: {
@@ -871,6 +894,7 @@ export const games: Array<Game> = [
     id: "once-human",
     discordId: "once-human",
     title: "Once Human",
+    steamAppId: 2139460,
     additionalFilters: ["PlayerDetails"],
     logo: `${TH_GL_URL}/global_icons/once-human.webp`,
     companion: {
@@ -918,6 +942,7 @@ export const games: Array<Game> = [
     id: "infinity-nikki",
     discordId: "infinity-nikki",
     title: "Infinity Nikki",
+    steamAppId: 3164330,
     logo: `${TH_GL_URL}/global_icons/infinity-nikki.webp`,
     companion: {
       baseURL: "/apps/infinity-nikki",
@@ -957,6 +982,7 @@ export const games: Array<Game> = [
     id: "rsdragonwilds",
     discordId: "rsdragonwilds",
     title: "RuneScape: Dragonwilds",
+    steamAppId: 1374490,
     logo: `${TH_GL_URL}/global_icons/rsdragonwilds.webp`,
     companion: {
       baseURL: "/apps/rsdragonwilds",
@@ -999,6 +1025,7 @@ export const games: Array<Game> = [
     id: "aniimo",
     discordId: "aniimo",
     title: "Aniimo",
+    steamAppId: 4126040,
     logo: `${TH_GL_URL}/global_icons/aniimo.webp`,
     companion: {
       baseURL: "/apps/aniimo",
@@ -1037,6 +1064,7 @@ export const games: Array<Game> = [
     id: "avowed",
     discordId: "avowed",
     title: "Avowed",
+    steamAppId: 2457220,
     logo: `${TH_GL_URL}/global_icons/avowed.webp`,
     companion: {
       baseURL: "/apps/avowed",
@@ -1079,6 +1107,7 @@ export const games: Array<Game> = [
     id: "satisfactory",
     discordId: "satisfactory",
     title: "Satisfactory",
+    steamAppId: 526870,
     logo: `${TH_GL_URL}/global_icons/satisfactory.webp`,
     web: "https://satisfactory.th.gl",
     additionalFilters: ["SatisfactorySeed"],
@@ -1129,6 +1158,7 @@ export const games: Array<Game> = [
     id: "wuthering-waves",
     discordId: "wuthering-waves",
     title: "Wuthering Waves",
+    steamAppId: 3513350,
     logo: `${TH_GL_URL}/global_icons/wuthering-waves.webp`,
     additionalTooltip: ["InGameCoordinates"],
     // Map position p = [worldY/100, worldX/100] (extraction), so in-game ≈ map/100.
@@ -1179,6 +1209,7 @@ export const games: Array<Game> = [
     id: "neverness-to-everness",
     discordId: "neverness-to-everness",
     title: "Neverness To Everness",
+    steamAppId: 4508340,
     logo: `${TH_GL_URL}/global_icons/neverness-to-everness.webp`,
     companion: {
       baseURL: "/apps/neverness-to-everness",
@@ -1224,6 +1255,7 @@ export const games: Array<Game> = [
     id: "diablo4",
     discordId: "diablo4",
     title: "Diablo IV",
+    steamAppId: 2344520,
     logo: `${TH_GL_URL}/global_icons/diablo4.webp`,
     web: "https://diablo4.th.gl",
     markerOptions: {
@@ -1288,6 +1320,7 @@ export const games: Array<Game> = [
     id: "new-world",
     discordId: "aeternum-map",
     title: "New World",
+    steamAppId: 1063730,
     logo: `${TH_GL_URL}/global_icons/aeternum-map.png`,
     web: "https://aeternum-map.th.gl",
     overwolf: {
@@ -1315,6 +1348,7 @@ export const games: Array<Game> = [
     id: "sons-of-the-forest",
     discordId: "sons-of-the-forest-map",
     title: "Sons Of The Forest",
+    steamAppId: 1326470,
     logo: `${TH_GL_URL}/global_icons/sons-of-the-forest.webp`,
     web: "https://sotf.th.gl",
     overwolf: {
@@ -1329,6 +1363,7 @@ export const games: Array<Game> = [
     id: "pax-dei",
     discordId: "pax-dei",
     title: "Pax Dei",
+    steamAppId: 1995520,
     logo: `${TH_GL_URL}/global_icons/pax-dei.webp`,
     companion: {
       // INVITE ONLY (2026-09-08): the publisher refused a public companion
@@ -1385,6 +1420,7 @@ export const games: Array<Game> = [
     id: "hogwarts-legacy",
     discordId: "hogwarts-legacy-map",
     title: "Hogwarts Legacy",
+    steamAppId: 990080,
     logo: `${TH_GL_URL}/global_icons/hogwarts-legacy.webp`,
     companion: {
       baseURL: "/apps/hogwarts-legacy",
@@ -1442,6 +1478,7 @@ export const games: Array<Game> = [
     id: "graveyard-keeper-2",
     discordId: "graveyard-keeper-2",
     title: "Graveyard Keeper 2",
+    steamAppId: 4358690,
     logo: `${TH_GL_URL}/global_icons/graveyard-keeper-2.webp`,
     companion: {
       baseURL: "/apps/graveyard-keeper-2",
@@ -1482,6 +1519,7 @@ export const games: Array<Game> = [
     id: "songs-of-conquest",
     discordId: "songs-of-conquest",
     title: "Songs of Conquest",
+    steamAppId: 867210,
     logo: `${TH_GL_URL}/global_icons/songs-of-conquest.webp`,
     web: "https://soc.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -1490,6 +1528,7 @@ export const games: Array<Game> = [
     id: "heartopia",
     discordId: "heartopia",
     title: "Heartopia",
+    steamAppId: 4025700,
     logo: `${TH_GL_URL}/global_icons/heartopia.webp`,
     companion: {
       baseURL: "/apps/heartopia",
@@ -1528,6 +1567,7 @@ export const games: Array<Game> = [
     id: "homm-olden-era",
     discordId: "homm-olden-era",
     title: "Heroes of Might & Magic: Olden Era",
+    steamAppId: 3105440,
     logo: `${TH_GL_URL}/global_icons/homm-olden-era.webp`,
     web: "https://oldenera.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
@@ -1536,6 +1576,7 @@ export const games: Array<Game> = [
     id: "enshrouded",
     discordId: "enshrouded",
     title: "Enshrouded",
+    steamAppId: 1203620,
     logo: `${TH_GL_URL}/global_icons/enshrouded.webp`,
     companion: {
       // Fully public (2026-09-13): website + in-game companion open to everyone. Was
@@ -1610,6 +1651,11 @@ export type Game = {
   id: string;
   discordId: string;
   title: string;
+  /**
+   * Steam app id, when the game is on Steam. Seeds the www.th.gl game stats
+   * (player counts, patch history) for supported games.
+   */
+  steamAppId?: number;
   logo: string;
   lockedWindowComponents?: Array<AdditionalContent>;
   additionalComponents?: Array<AdditionalContent>;

@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
+import { type AppConfig, DEFAULT_LOCALE } from "@repo/lib";
 import { notFound } from "next/navigation";
 import { createHomePage, createHomePageGenerateMetadata } from "@repo/ui/apps";
 import { isValidLocale } from "@repo/ui/dicts";
@@ -7,6 +7,7 @@ import {
   createDbHomePageGenerateMetadata,
 } from "@/lib/db/home-page";
 import { getAppConfig } from "@/lib/get-app-config";
+import { getSiteKind } from "@/lib/site-kind";
 
 type PageProps = { params: Promise<{ locale?: string }> };
 
@@ -34,10 +35,10 @@ function assertLocaleOrNotFound(rawLocale: string | undefined): string {
  * map-shipped game always has filters, while a DB-only deployment
  * publishes an empty filters array.
  */
-async function isDbOnly(name: string, hasDb: boolean): Promise<boolean> {
-  if (!hasDb) return false;
-  const version = await fetchVersion(name).catch(() => null);
-  return version ? version.data.filters.length === 0 : false;
+async function isDbOnly(config: AppConfig): Promise<boolean> {
+  if (!config.db) return false;
+  const { hasMap } = await getSiteKind(config);
+  return !hasMap;
 }
 
 export async function generateMetadata(props: PageProps) {
@@ -49,7 +50,7 @@ export async function generateMetadata(props: PageProps) {
   // kick off CDN/Discord fetches for `thgl-app` (which 404 or
   // ETIMEDOUT, polluting logs).
   if (config.name === "thgl-app") notFound();
-  const dbOnly = await isDbOnly(config.name, !!config.db);
+  const dbOnly = await isDbOnly(config);
   const factory = dbOnly
     ? createDbHomePageGenerateMetadata
     : createHomePageGenerateMetadata;
@@ -61,7 +62,7 @@ export default async function Page(props: PageProps) {
   assertLocaleOrNotFound(locale);
   const config = await getAppConfig();
   if (config.name === "thgl-app") notFound();
-  const dbOnly = await isDbOnly(config.name, !!config.db);
+  const dbOnly = await isDbOnly(config);
   const factory = dbOnly ? createDbHomePage : createHomePage;
   return factory(config)(props);
 }

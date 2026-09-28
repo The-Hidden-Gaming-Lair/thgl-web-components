@@ -2,6 +2,8 @@ import { blogEntries } from "@/games/thgl-web/lib/blog-entries";
 import { faqEntries } from "@/games/thgl-web/lib/faq-entries";
 import { games, getSuggestionsAndIssues } from "@repo/lib";
 import { MetadataRoute } from "next";
+import { listGames } from "@/lib/stats-db";
+import { PUBLIC_STATUSES } from "@/lib/stats-types";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -25,6 +27,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(entry.date),
     changeFrequency: "monthly",
     priority: 0.9,
+  }));
+
+  // Stats pages for every public tracked game; a DB hiccup only drops them.
+  const statsGames = await listGames(PUBLIC_STATUSES).catch(() => []);
+  const statsRoutes: MetadataRoute.Sitemap = statsGames.map((game) => ({
+    url: `https://www.th.gl/stats/${encodeURIComponent(game.id)}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.7,
   }));
 
   const suggestionsIssues = await getSuggestionsAndIssues(100);
@@ -55,6 +66,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 1,
+    },
+    {
+      url: "https://www.th.gl/stats",
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.th.gl/requests",
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
     },
     {
       url: "https://www.th.gl/support-me",
@@ -119,6 +142,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...appRoutes,
     ...faqRoutes,
     ...blogRoutes,
+    ...statsRoutes,
     ...suggestionsIssuesRoutes,
   ];
 }

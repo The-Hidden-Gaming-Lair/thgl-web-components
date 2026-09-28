@@ -241,6 +241,8 @@ export function proxy(req: NextRequest) {
     !path.startsWith("/api/status") && // Global status API + admin routes —
     // the canonical status page (www.th.gl/status) and its banners fetch
     // these same-origin.
+    !path.startsWith("/api/stats") && // Global game-stats API (collector,
+    // requests + votes) — www.th.gl/stats and /requests fetch it same-origin.
     path !== "/api/build-id" && // Global build-identity probe (deploy drain
     // detection + NewVersionWatcher) — must answer on every host incl. www.
     path !== "/api/patreon" // Global perks-refresh route (exact match).

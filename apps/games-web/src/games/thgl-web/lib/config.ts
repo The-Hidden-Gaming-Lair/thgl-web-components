@@ -31,6 +31,18 @@ export const appConfig: AppConfig = {
       iconName: "Newspaper",
     },
     {
+      title: "Game Stats",
+      href: "/stats",
+      description: "Player counts and trends for tracked games.",
+      iconName: "ChartLine",
+    },
+    {
+      title: "Request a Game",
+      href: "/requests",
+      description: "Vote on which game gets support next.",
+      iconName: "Vote",
+    },
+    {
       title: "Suggestions & Issues",
       href: "/suggestions-issues",
       description: "View and discuss suggestions and reported issues.",

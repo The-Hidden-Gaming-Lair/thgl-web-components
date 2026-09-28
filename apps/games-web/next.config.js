@@ -152,6 +152,18 @@ const nextConfig = (phase) => ({
         value: "public, s-maxage=60, stale-while-revalidate=300",
       },
     ];
+    // Game stats (www.th.gl/stats, /requests, /apps/<id> stats card): the
+    // collector writes every 10 min, so pages + public API follow that.
+    const statsCache = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=0, s-maxage=600, stale-while-revalidate=600",
+      },
+      {
+        key: "CDN-Cache-Control",
+        value: "public, s-maxage=600, stale-while-revalidate=600",
+      },
+    ];
     // The companion-app auto-update gate: version.txt + THGL_Installer.exe. These MUST NOT ride
     // the 15-min page cache. A stale version.txt makes clients keep polling the old version; worse,
     // if version.txt goes fresh while the installer edge copy is still the old build (or vice
@@ -376,6 +388,35 @@ const nextConfig = (phase) => ({
           { key: "CDN-Cache-Control", value: "no-store" },
         ],
       },
+      // Game stats — AFTER pageCache. The collector + the request/vote/
+      // per-user routes must never be cached (cookie-derived state, side
+      // effects); public stats follow the 10-min collector cadence.
+      {
+        source: "/api/stats/run",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/api/stats/requests/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      { source: "/api/stats/games/:path*", headers: statsCache },
+      { source: "/api/stats/search", headers: statsCache },
+      { source: "/stats/:path*", headers: statsCache },
+      { source: "/www/stats/:path*", headers: statsCache },
+      { source: "/requests", headers: statsCache },
+      { source: "/www/requests", headers: statsCache },
+      {
+        source: "/apps/:id",
+        has: [{ type: "host", value: "www.th.gl" }],
+        headers: statsCache,
+      },
+      { source: "/www/apps/:id", headers: statsCache },
       // Auto-update gate — must come AFTER the pageCache /:path* rule so it overrides s-maxage.
       // app.th.gl serves these at the root (/version.txt); the middleware also rewrites to
       // /games/thgl-app/*, so cover both the incoming and rewritten paths.

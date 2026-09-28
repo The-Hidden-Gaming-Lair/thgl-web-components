@@ -383,10 +383,11 @@ export default async function CompanionAppPage() {
         </details>
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">
-            More games coming soon! Request support in our{" "}
-            <Link href="https://th.gl/discord" className="underline">
-              Discord server
-            </Link>
+            More games coming soon!{" "}
+            <Link href="/requests" className="underline">
+              Request a game and vote
+            </Link>{" "}
+            for the one you want next.
           </p>
         </div>
       </div>

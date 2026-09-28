@@ -33,6 +33,8 @@ import {
   CloudSun,
   Shield,
   Sparkles,
+  ChartLine,
+  Vote,
 } from "lucide-react";
 
 const ICONS = {
@@ -69,6 +71,8 @@ const ICONS = {
   CloudSun: CloudSun,
   Shield: Shield,
   Sparkles: Sparkles,
+  ChartLine: ChartLine,
+  Vote: Vote,
 } as const;
 
 export function NavIcon({

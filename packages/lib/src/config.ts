@@ -36,7 +36,9 @@ export type IconName =
   | "Users"
   | "CloudSun"
   | "Shield"
-  | "Sparkles";
+  | "Sparkles"
+  | "ChartLine"
+  | "Vote";
 
 export type AppConfig = {
   name: string;
