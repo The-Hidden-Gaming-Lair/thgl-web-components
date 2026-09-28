@@ -332,6 +332,15 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "welcome-to-elderfield",
+    discordId: "welcome-to-elderfield",
+    title: "Welcome to Elderfield",
+    steamAppId: 3195440,
+    logo: `${TH_GL_URL}/global_icons/welcome-to-elderfield.webp`,
+    web: "https://welcometoelderfield.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "starrupture",
     discordId: "starrupture",
     title: "Star Rupture",

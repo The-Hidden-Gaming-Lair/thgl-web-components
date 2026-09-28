@@ -35,6 +35,7 @@ import { soulframe } from "./soulframe";
 import { whereWindsMeet } from "./where-winds-meet";
 import { soulmask } from "./soulmask";
 import { soulsRemnant } from "./souls-remnant";
+import { welcomeToElderfield } from "./welcome-to-elderfield";
 import { starrupture } from "./starrupture";
 import { starsandIsland } from "./starsand-island";
 import { subnautica2 } from "./subnautica-2";
@@ -84,6 +85,7 @@ const ALL_CONFIGS: AppConfig[] = [
   whereWindsMeet,
   soulmask,
   soulsRemnant,
+  welcomeToElderfield,
   starrupture,
   starsandIsland,
   subnautica2,
