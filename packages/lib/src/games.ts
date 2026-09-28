@@ -341,6 +341,15 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "delta-force",
+    discordId: "delta-force",
+    title: "Delta Force",
+    steamAppId: 2507950,
+    logo: `${TH_GL_URL}/global_icons/delta-force.webp`,
+    web: "https://deltaforce.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "starrupture",
     discordId: "starrupture",
     title: "Star Rupture",

@@ -32,6 +32,7 @@ import { satisfactory } from "./satisfactory";
 import { songsOfConquest } from "./songs-of-conquest";
 import { sinkingCity2 } from "./sinking-city-2";
 import { soulframe } from "./soulframe";
+import { deltaForce } from "./delta-force";
 import { whereWindsMeet } from "./where-winds-meet";
 import { soulmask } from "./soulmask";
 import { soulsRemnant } from "./souls-remnant";
@@ -82,6 +83,7 @@ const ALL_CONFIGS: AppConfig[] = [
   songsOfConquest,
   sinkingCity2,
   soulframe,
+  deltaForce,
   whereWindsMeet,
   soulmask,
   soulsRemnant,
