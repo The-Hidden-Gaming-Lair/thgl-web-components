@@ -14,6 +14,8 @@ export type MyRequests = {
   votes: string[];
   isAdmin: boolean;
   pending: StatsGame[];
+  /** The signed-in user's own th.gl comments (they may delete them). */
+  commentIds?: string[];
 };
 
 const EMPTY: MyRequests = {

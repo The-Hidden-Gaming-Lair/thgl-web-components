@@ -727,7 +727,7 @@ export async function insertComment(comment: {
 export async function listComments(gameId: string): Promise<RequestComment[]> {
   const [result] = await libsql([
     {
-      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE game_id = ? ORDER BY created_at LIMIT 500`,
+      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE game_id = ? AND deleted_at IS NULL ORDER BY created_at LIMIT 500`,
       args: [arg.text(gameId)],
     },
   ]);
@@ -751,7 +751,7 @@ export async function countRecentComments(
 export async function listUnpostedComments(): Promise<RequestComment[]> {
   const [result] = await libsql([
     {
-      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE discord_message_id IS NULL ORDER BY created_at LIMIT 100`,
+      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE discord_message_id IS NULL AND deleted_at IS NULL ORDER BY created_at LIMIT 100`,
     },
   ]);
   return result.rows.map(rowToComment);
@@ -767,4 +767,78 @@ export async function markCommentPosted(
       args: [arg.text(discordMessageId), arg.text(id)],
     },
   ]);
+}
+
+/** Web comments whose Discord copy exists (checked for deletions in Discord). */
+export async function listMirroredComments(): Promise<RequestComment[]> {
+  const [result] = await libsql([
+    {
+      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE discord_message_id IS NOT NULL AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 1000`,
+    },
+  ]);
+  return result.rows.map(rowToComment);
+}
+
+/** Deleted on th.gl, but the Discord copy still has to be removed. */
+export async function listDeletedMirroredComments(): Promise<RequestComment[]> {
+  const [result] = await libsql([
+    {
+      sql: `SELECT ${COMMENT_COLS} FROM stats_request_comments WHERE discord_message_id IS NOT NULL AND deleted_at IS NOT NULL LIMIT 100`,
+    },
+  ]);
+  return result.rows.map(rowToComment);
+}
+
+export async function getCommentOwner(
+  id: string,
+): Promise<{ userId: string; gameId: string; deleted: boolean } | null> {
+  const [result] = await libsql([
+    {
+      sql: "SELECT user_id, game_id, deleted_at FROM stats_request_comments WHERE id = ?",
+      args: [arg.text(id)],
+    },
+  ]);
+  const row = result.rows[0];
+  return row
+    ? {
+        userId: row[0].value,
+        gameId: row[1].value,
+        deleted: row[2].type !== "null",
+      }
+    : null;
+}
+
+/** Soft-delete; the bot removes the Discord copy on its next run. */
+export async function deleteComment(id: string): Promise<void> {
+  await libsql([
+    {
+      sql: "UPDATE stats_request_comments SET deleted_at = ? WHERE id = ? AND deleted_at IS NULL",
+      args: [arg.int(now()), arg.text(id)],
+    },
+  ]);
+}
+
+/** The Discord copy is gone (deleted there, or removed by the bot). */
+export async function markCommentUnmirrored(
+  id: string,
+  { deleted }: { deleted: boolean },
+): Promise<void> {
+  await libsql([
+    {
+      sql: deleted
+        ? "UPDATE stats_request_comments SET discord_message_id = NULL, deleted_at = COALESCE(deleted_at, ?) WHERE id = ?"
+        : "UPDATE stats_request_comments SET discord_message_id = NULL WHERE id = ?",
+      args: deleted ? [arg.int(now()), arg.text(id)] : [arg.text(id)],
+    },
+  ]);
+}
+
+export async function getUserCommentIds(userId: string): Promise<string[]> {
+  const [result] = await libsql([
+    {
+      sql: "SELECT id FROM stats_request_comments WHERE user_id = ? AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 500",
+      args: [arg.text(userId)],
+    },
+  ]);
+  return result.rows.map((r) => r[0].value);
 }

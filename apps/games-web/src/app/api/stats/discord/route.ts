@@ -8,8 +8,11 @@ import {
 import {
   getGame,
   listGames,
+  listDeletedMirroredComments,
+  listMirroredComments,
   listUnpostedComments,
   markCommentPosted,
+  markCommentUnmirrored,
   setDiscordVoters,
   updateGame,
 } from "@/lib/stats-db";
@@ -22,10 +25,14 @@ import { requestSteamGame } from "@/lib/stats-requests";
  *
  * GET                                                every non-pending game
  * GET ?comments=unposted                             web comments to mirror
+ * GET ?comments=mirrored                             mirrored ones (check they still exist)
+ * GET ?comments=deleted                              deleted on th.gl, Discord copy to remove
  * POST {action:"thread", gameId, threadId}           remember the forum thread
  * POST {action:"votes", gameId, discordUserIds[]}    👍 reactors = Discord votes
  * POST {action:"request", steamAppId, discordUserId} /request slash command
  * POST {action:"comment-posted", commentId, messageId} web comment mirrored
+ * POST {action:"comment-unmirrored", commentId, deleted} Discord copy gone
+ *      (deleted: true = it was deleted in Discord, so hide it on th.gl too)
  */
 
 const SNOWFLAKE = /^\d{15,21}$/;
@@ -40,8 +47,15 @@ function requireBot(request: Request) {
 export async function GET(request: Request) {
   return handle(async () => {
     requireBot(request);
-    if (new URL(request.url).searchParams.get("comments") === "unposted") {
+    const which = new URL(request.url).searchParams.get("comments");
+    if (which === "unposted") {
       return jsonResponse({ comments: await listUnpostedComments() });
+    }
+    if (which === "mirrored") {
+      return jsonResponse({ comments: await listMirroredComments() });
+    }
+    if (which === "deleted") {
+      return jsonResponse({ comments: await listDeletedMirroredComments() });
     }
     const games = await listGames([
       "supported",
@@ -82,6 +96,16 @@ export async function POST(request: Request) {
         throw new BadRequestError("Invalid comment-posted payload");
       }
       await markCommentPosted(body.commentId, messageId);
+      return jsonResponse({ ok: true });
+    }
+
+    if (body.action === "comment-unmirrored") {
+      if (typeof body.commentId !== "string") {
+        throw new BadRequestError("Invalid comment-unmirrored payload");
+      }
+      await markCommentUnmirrored(body.commentId, {
+        deleted: body.deleted === true,
+      });
       return jsonResponse({ ok: true });
     }
 

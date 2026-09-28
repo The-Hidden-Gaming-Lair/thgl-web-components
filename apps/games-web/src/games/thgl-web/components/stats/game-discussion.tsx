@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { Badge, Button } from "@repo/ui/controls";
 import { ForumReply } from "@/games/thgl-web/components/forum-reply";
 import type { DiscussionEntry, RequestComment } from "@/lib/stats-types";
@@ -117,7 +117,40 @@ export function GameDiscussion({
   threadUrl: string | null;
 }) {
   const [items, setItems] = useState(entries);
+  const { state: my, setState: setMy } = useMyRequests();
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   if (!canComment && items.length === 0) return null;
+
+  const canDelete = (entry: DiscussionEntry) =>
+    entry.source === "web" &&
+    Boolean(my?.isAdmin || my?.commentIds?.includes(entry.id));
+
+  async function remove(entry: DiscussionEntry) {
+    if (
+      !window.confirm("Delete this comment? It's also removed from Discord.")
+    ) {
+      return;
+    }
+    setDeleting(entry.id);
+    setDeleteError(null);
+    try {
+      const res = await fetch(
+        `/api/stats/requests/${encodeURIComponent(gameId)}/comments/${encodeURIComponent(entry.id)}`,
+        { method: "DELETE", credentials: "include" },
+      );
+      const body = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok)
+        throw new Error(body.error ?? "Could not delete the comment");
+      setItems((list) => list.filter((e) => e.id !== entry.id));
+    } catch (err) {
+      setDeleteError(
+        err instanceof Error ? err.message : "Could not delete the comment",
+      );
+    } finally {
+      setDeleting(null);
+    }
+  }
   return (
     <section className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -150,15 +183,38 @@ export function GameDiscussion({
                   {entry.source === "web" ? "th.gl" : "Discord"}
                 </Badge>
               }
+              actions={
+                canDelete(entry) ? (
+                  <button
+                    type="button"
+                    onClick={() => remove(entry)}
+                    disabled={deleting === entry.id}
+                    title="Delete comment"
+                    aria-label="Delete comment"
+                    className="text-muted-foreground hover:text-destructive disabled:opacity-50"
+                  >
+                    {deleting === entry.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
+                  </button>
+                ) : null
+              }
             />
           ))}
         </div>
       )}
+      {deleteError && <p className="text-sm text-destructive">{deleteError}</p>}
       {canComment && (
         <CommentBox
           gameId={gameId}
           title={title}
-          onPosted={(c) =>
+          onPosted={(c) => {
+            // Own it right away so the delete button shows without a reload.
+            setMy((s) =>
+              s ? { ...s, commentIds: [...(s.commentIds ?? []), c.id] } : s,
+            );
             setItems((list) => [
               ...list,
               {
@@ -171,8 +227,8 @@ export function GameDiscussion({
                 images: [],
                 createdAt: c.createdAt,
               },
-            ])
-          }
+            ]);
+          }}
         />
       )}
     </section>

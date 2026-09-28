@@ -61,6 +61,7 @@ export function ForumReply({
   text,
   images,
   badge,
+  actions,
 }: {
   authorName: string;
   authorAvatar?: string | null;
@@ -70,6 +71,8 @@ export function ForumReply({
   images: string[];
   /** Small label after the name, e.g. "Discord" / "th.gl". */
   badge?: ReactNode;
+  /** Right-aligned controls in the header row (e.g. delete). */
+  actions?: ReactNode;
 }) {
   return (
     <div className="pl-4 border-l-2 border-muted">
@@ -92,6 +95,7 @@ export function ForumReply({
         >
           {new Date(createdAt).toLocaleDateString()}
         </span>
+        {actions && <span className="ml-auto">{actions}</span>}
       </div>
       <ContentWithLinks text={text} className="text-sm text-muted-foreground" />
       {images.length > 0 && (

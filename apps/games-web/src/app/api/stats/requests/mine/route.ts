@@ -1,7 +1,7 @@
 import { corsPreflight, handle, jsonResponse } from "@/lib/api-errors";
 import { getUserIdFromRequest } from "@/lib/auth";
 import { requireStatusAdmin } from "@/lib/status-admin";
-import { getUserVotes, listPending } from "@/lib/stats-db";
+import { getUserCommentIds, getUserVotes, listPending } from "@/lib/stats-db";
 
 /**
  * Per-user state for /requests: my votes, pending (unreviewed) requests —
@@ -20,11 +20,18 @@ export async function GET() {
       });
     }
     const isAdmin = Boolean(await requireStatusAdmin());
-    const [votes, pending] = await Promise.all([
+    const [votes, pending, commentIds] = await Promise.all([
       getUserVotes(userId),
       listPending(isAdmin ? undefined : userId),
+      getUserCommentIds(userId),
     ]);
-    return jsonResponse({ signedIn: true, votes, isAdmin, pending });
+    return jsonResponse({
+      signedIn: true,
+      votes,
+      isAdmin,
+      pending,
+      commentIds,
+    });
   });
 }
 

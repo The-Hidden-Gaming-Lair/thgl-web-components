@@ -101,6 +101,8 @@ const statements = [
    )`,
   `CREATE INDEX IF NOT EXISTS stats_request_comments_game ON stats_request_comments(game_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS stats_request_comments_user ON stats_request_comments(user_id, created_at)`,
+  // Soft delete (author/admin on th.gl, or the Discord copy was deleted).
+  `ALTER TABLE stats_request_comments ADD COLUMN deleted_at INTEGER`,
   `SELECT COUNT(*) FROM stats_games`,
 ];
 
