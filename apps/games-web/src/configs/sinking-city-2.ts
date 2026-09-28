@@ -2,9 +2,8 @@ import { resolveAppConfig } from "@repo/lib";
 
 export const sinkingCity2 = resolveAppConfig({
   name: "sinking-city-2",
-  // Preview release: the map/codex is Elite-Supporter-gated (added to
-  // PREVIEW_RELEASE_APPS in packages/lib/src/preview-release.ts); the marketing/home
-  // page stays public. No longer a full "In Development" placeholder.
+  // Public since 2026-09-28 (map + codex). Was an Elite-gated preview release
+  // (PREVIEW_RELEASE_APPS) before that, and an "In Development" placeholder earlier.
   // Locales the game ships (Game.locres) that the THGL UI also supports.
   supportedLocales: [
     "en",

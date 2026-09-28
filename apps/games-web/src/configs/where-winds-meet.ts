@@ -3,12 +3,9 @@ import { resolveAppConfig } from "@repo/lib";
 export const whereWindsMeet = resolveAppConfig({
   name: "where-winds-meet",
   domain: "wherewindsmeet",
-  // PREVIEW RELEASE (2026-09-13): the site is live and indexed, but the map, codex
-  // and companion are Elite-gated via `PREVIEW_RELEASE_APPS` in
-  // packages/lib/src/preview-release.ts. Was `inDevelopment` — a "Coming Soon"
-  // placeholder for the whole site — until the companion detector got real offsets.
-  // Still not finished for a general audience: Hexi has no terrain art, and most
-  // marker icons are game-icons.net placeholders rather than the game's own art.
+  // Public since 2026-09-28 (map, codex and companion). Elite-gated preview release
+  // (`PREVIEW_RELEASE_APPS`) 2026-09-13..28; before that `inDevelopment`, a "Coming
+  // Soon" placeholder, until the companion detector got real offsets.
   // The twelve the game itself ships, all of which packages/ui has a global
   // dictionary for. Must stay in step with the dicts the extractor emits.
   supportedLocales: [

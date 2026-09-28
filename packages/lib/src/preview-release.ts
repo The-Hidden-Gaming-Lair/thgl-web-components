@@ -20,11 +20,8 @@ export const PREVIEW_RELEASE_APPS = new Set<string>([
   // blood-of-dawnwalker: Elite-gated 2026-09-13 → opened to everyone 2026-09-15 (creature
   // spawns, Enemies/Characters filters and codex links landed). Its companion is still
   // `inDevelopment` in games.ts until a public THGLApp build ships the detector.
-  "sinking-city-2",
-  // 2026-09-13: opened from `inDevelopment` (whole site was a Coming Soon
-  // placeholder). Gated rather than fully released because Hexi still has no
-  // terrain art and most marker icons are placeholder glyphs.
-  "where-winds-meet",
+  // sinking-city-2 + where-winds-meet: Elite-gated since 2026-09-13 → opened to everyone
+  // 2026-09-28.
 ]);
 
 /** Games whose IN-GAME COMPANION is Elite-only, but whose WEBSITE is public. */

@@ -79,6 +79,14 @@ export function proxy(req: NextRequest) {
   const config = getAppConfigByHost(host);
 
   if (!config) {
+    // Unknown *.th.gl subdomain (the DNS wildcard routes every name here): 301 to
+    // www.th.gl instead of a 404, so typo hosts that search engines picked up
+    // (crimpsondesert, once-human, ground2, …) keep their visitors and get
+    // consolidated. Real tenants (incl. app / www) matched above; status.th.gl and
+    // the apex redirect earlier. localhost / *.b-cdn.net hosts are untouched.
+    if (/\.th\.gl$/i.test(host.split(":")[0])) {
+      return NextResponse.redirect("https://www.th.gl/", 301);
+    }
     return NextResponse.next();
   }
 

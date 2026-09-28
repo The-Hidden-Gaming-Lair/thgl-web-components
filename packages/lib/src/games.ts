@@ -281,9 +281,8 @@ export const games: Array<Game> = [
     steamAppId: 3564740,
     logo: `${TH_GL_URL}/global_icons/where-winds-meet.webp`,
     companion: {
-      // Preview release: listed + routable everywhere, with the map/db/companion
-      // content gated to Elite supporters (previewReleaseAccess) via
-      // PREVIEW_RELEASE_APPS. (Was inDevelopment — fully hidden — until the
+      // Public since 2026-09-28 (was an Elite-gated preview release via
+      // PREVIEW_RELEASE_APPS from 2026-09-13). (Was inDevelopment — fully hidden — until the
       // detector got real offsets: player position and heading now come from a
       // code-anchored signature and were verified in-game, so live mode no longer
       // reports a player at the world origin.)
