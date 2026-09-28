@@ -47,7 +47,7 @@ export default function DashboardLayout({
               {children}
             </div>
           </div>
-          <THGLDashboardAds className="w-[360px] flex-none border-l overflow-y-auto" />
+          <THGLDashboardAds className="w-[360px] flex-none border-l" />
         </div>
       </div>
       <ResizeBorders />
