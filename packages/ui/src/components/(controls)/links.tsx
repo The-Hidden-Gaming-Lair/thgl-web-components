@@ -442,7 +442,9 @@ export function Links({
       </div>
 
       {/* Mobile: page switcher */}
-      <div className="sm:hidden relative" ref={mobileMenuRef}>
+      {/* min-w-0 + max-w-full: on narrow phones the label truncates instead of
+          pushing the header search over the settings/account buttons. */}
+      <div className="sm:hidden relative min-w-0" ref={mobileMenuRef}>
         {(() => {
           const activeNav = navItems.find(isItemActive);
           const activeLabel = activeNav?.label ?? navItems[0]?.label ?? "";
@@ -450,7 +452,7 @@ export function Links({
             <button
               onClick={() => setOverflowOpen((v) => !v)}
               className={cn(
-                "flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border transition-colors max-w-[160px]",
+                "flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border transition-colors max-w-[160px] min-w-0 w-full",
                 overflowOpen
                   ? "border-amber-800/50 bg-amber-900/20 text-amber-400"
                   : "border-neutral-700 bg-zinc-900 text-foreground hover:border-neutral-600",
