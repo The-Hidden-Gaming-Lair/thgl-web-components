@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, type JSX } from "react";
-import { getNitroAds } from "./nitro-pay";
-import { AdFreeContainer } from "./ad-free-container";
-import { cn } from "@repo/lib";
-import { IS_DEMO_MODE } from "./constants";
-import { AdPlaceholder } from "./ad-placeholder";
+import type { JSX } from "react";
+import { InContentBanner } from "./in-content-banner";
+
+// 320x50 on phones, 728x90 leaderboard where the content column fits it.
+const PHONE = { width: 320, height: 50 };
 
 export function MobileBanner({
   id,
@@ -15,30 +14,13 @@ export function MobileBanner({
   targeting?: Record<string, string>;
   className?: string;
 }): JSX.Element {
-  useEffect(() => {
-    try {
-      getNitroAds().createAd(id, {
-        targeting, // Custom targeting for reporting filters
-        refreshTime: 30,
-        renderVisibleOnly: false,
-        sizes: [["320", "50"]],
-        demo: IS_DEMO_MODE,
-        debug: "silent",
-      });
-    } catch (error) {
-      console.error(`[MobileBanner] Failed to create ad ${id}:`, error);
-    }
-    // Depend on the targeting *values* (not the object reference) — see
-    // wide-skyscrapper.tsx for full context.
-  }, [id, targeting?.game, targeting?.platform]);
-
   return (
-    <AdFreeContainer className={cn("w-fit mx-auto", className)}>
-      <div
-        className="rounded h-[50px] w-[320px] bg-zinc-800/30 flex flex-col justify-center text-gray-500"
-        id={id}
-      />
-    </AdFreeContainer>
+    <InContentBanner
+      id={id}
+      targeting={targeting}
+      phone={PHONE}
+      className={className}
+    />
   );
 }
 
@@ -48,11 +30,11 @@ export function MobileBannerLoading({
   className?: string;
 }): JSX.Element {
   return (
-    <AdPlaceholder
-      type="loading"
-      width="w-[320px]"
-      height="h-[50px]"
-      className={cn("w-fit mx-auto", className)}
+    <InContentBanner
+      id=""
+      phone={PHONE}
+      state="loading"
+      className={className}
     />
   );
 }
@@ -63,12 +45,12 @@ export function MobileBannerFallback({
   className?: string;
 }): JSX.Element {
   return (
-    <AdPlaceholder
-      type="blocked"
-      width="w-[320px]"
-      height="h-[50px]"
-      className={cn("w-fit mx-auto", className)}
+    <InContentBanner
+      id=""
+      phone={PHONE}
+      state="blocked"
       hideBlockedText
+      className={className}
     />
   );
 }

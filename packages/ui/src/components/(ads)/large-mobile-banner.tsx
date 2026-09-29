@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, type JSX } from "react";
-import { getNitroAds } from "./nitro-pay";
-import { AdFreeContainer } from "./ad-free-container";
-import { IS_DEMO_MODE } from "./constants";
-import { AdPlaceholder } from "./ad-placeholder";
+import type { JSX } from "react";
+import { InContentBanner } from "./in-content-banner";
+
+// 320x100 on phones, 728x90 leaderboard where the content column fits it.
+const PHONE = { width: 320, height: 100 };
 
 export function LargeMobileBanner({
   id,
@@ -12,52 +12,15 @@ export function LargeMobileBanner({
   id: string;
   targeting?: Record<string, string>;
 }): JSX.Element {
-  useEffect(() => {
-    try {
-      getNitroAds().createAd(id, {
-        targeting, // Custom targeting for reporting filters
-        refreshTime: 30,
-        renderVisibleOnly: false,
-        sizes: [["320", "100"]],
-        demo: IS_DEMO_MODE,
-        debug: "silent",
-      });
-    } catch (error) {
-      console.error(`[LargeMobileBanner] Failed to create ad ${id}:`, error);
-    }
-    // Depend on the targeting *values* (not the object reference) — see
-    // wide-skyscrapper.tsx for full context.
-  }, [id, targeting?.game, targeting?.platform]);
-
-  return (
-    <AdFreeContainer className="w-fit mx-auto">
-      <div
-        className="rounded h-[100px] w-[320px] bg-zinc-800/30 flex flex-col justify-center text-gray-500"
-        id={id}
-      />
-    </AdFreeContainer>
-  );
+  return <InContentBanner id={id} targeting={targeting} phone={PHONE} />;
 }
 
 export function LargeMobileBannerLoading(): JSX.Element {
-  return (
-    <AdPlaceholder
-      type="loading"
-      width="w-[320px]"
-      height="h-[100px]"
-      className="w-fit mx-auto"
-    />
-  );
+  return <InContentBanner id="" phone={PHONE} state="loading" />;
 }
 
 export function LargeMobileBannerFallback(): JSX.Element {
   return (
-    <AdPlaceholder
-      type="blocked"
-      width="w-[320px]"
-      height="h-[100px]"
-      className="w-fit mx-auto"
-      hideBlockedText
-    />
+    <InContentBanner id="" phone={PHONE} state="blocked" hideBlockedText />
   );
 }

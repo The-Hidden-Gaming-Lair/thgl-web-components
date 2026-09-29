@@ -46,23 +46,23 @@ type AdFormat = {
 };
 
 // Desktop breakpoints (not overlay)
-const DESKTOP_BANNER: AdFormat = {
-  // Height < 700px
-  sizes: [
-    ["970", "90"],
-    ["728", "90"],
-  ],
-  width: 970,
-  height: 90,
-  variant: "banner",
+const DESKTOP_SHORT_RECTANGLE: AdFormat = {
+  // Height < 700px (and width >= 970px). Was a 970x90/728x90 bottom banner,
+  // the weakest unit we ran ($0.03-0.09 CPM); a corner rectangle covers
+  // about the same area.
+  sizes: [["300", "250"]],
+  width: 300,
+  height: 250,
+  variant: "short-rectangle",
 };
 
-const DESKTOP_SMALL_SIDEBAR: AdFormat = {
-  // Width < 1680px AND Height >= 700px
-  sizes: [["160", "600"]],
-  width: 160,
-  height: 600,
-  variant: "small-sidebar",
+const DESKTOP_SMALL_RECTANGLE: AdFormat = {
+  // Width < 1680px AND Height >= 700px. Was 160x600 only ($0.10-0.14 CPM vs
+  // $0.19-0.28 for the 300x600 variant); 300x250 covers less of the map.
+  sizes: [["300", "250"]],
+  width: 300,
+  height: 250,
+  variant: "small-rectangle",
 };
 
 const DESKTOP_MEDIUM_SIDEBAR: AdFormat = {
@@ -160,14 +160,14 @@ function useAdFormat(isOverlay: boolean): AdFormat | null {
     }
 
     // Desktop mode
-    if (isSmallHeight) return DESKTOP_BANNER;
+    if (isSmallHeight) return DESKTOP_SHORT_RECTANGLE;
     if (isSmallWindow) return DESKTOP_COMPACT;
-    if (isNarrowTall) return DESKTOP_SMALL_SIDEBAR;
+    if (isNarrowTall) return DESKTOP_SMALL_RECTANGLE;
     if (isWideMedium) return DESKTOP_MEDIUM_SIDEBAR;
     if (isWideTall) return DESKTOP_LARGE_SIDEBAR;
 
     // Fallback
-    return DESKTOP_SMALL_SIDEBAR;
+    return DESKTOP_SMALL_RECTANGLE;
   }, [
     hydrated,
     isOverlay,

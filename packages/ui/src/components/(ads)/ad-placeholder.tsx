@@ -4,7 +4,7 @@ import { AdFreeContainer } from "./ad-free-container";
 import { AdBlockMessage } from "./ad-block-message";
 import { AdLoadingMessage } from "./ad-loading-message";
 
-import type { JSX } from "react";
+import type { CSSProperties, JSX } from "react";
 
 type AdPlaceholderType = "loading" | "blocked";
 
@@ -15,6 +15,8 @@ interface AdPlaceholderProps {
   className?: string;
   hideBlockedText?: boolean;
   displayCheck?: boolean;
+  /** Inline size for runtime-chosen dimensions (Tailwind can't see dynamic classes) */
+  style?: CSSProperties;
 }
 
 /**
@@ -33,6 +35,7 @@ export function AdPlaceholder({
   className,
   hideBlockedText = false,
   displayCheck = true,
+  style,
 }: AdPlaceholderProps): JSX.Element {
   return (
     <AdFreeContainer className={className} displayCheck={displayCheck}>
@@ -44,6 +47,7 @@ export function AdPlaceholder({
         )}
         style={{
           textAlign: "center",
+          ...style,
         }}
       >
         {type === "loading" && <AdLoadingMessage />}
