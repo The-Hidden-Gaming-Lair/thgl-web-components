@@ -364,7 +364,15 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 const settings = useSettingsStore.getState();
                 if (settings.autoDiscoverCollected) {
                   const known = new Set(settings.discoveredNodes);
-                  const fresh = collected.filter(
+                  // Aniimo reports every collected map mark as "e<markId>", but pins
+                  // drawn from the game's map marks (puzzles, Lumin Collection, …)
+                  // carry the id "m<markId>" — mark both forms.
+                  const ids = collected.flatMap((id) =>
+                    typeof id === "string" && /^e\d+$/.test(id)
+                      ? [id, `m${id.slice(1)}`]
+                      : [id],
+                  );
+                  const fresh = ids.filter(
                     (id): id is string =>
                       typeof id === "string" && !known.has(id),
                   );
