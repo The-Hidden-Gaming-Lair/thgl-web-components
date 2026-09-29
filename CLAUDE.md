@@ -159,7 +159,8 @@ re-declared** there. They are derived from the linked `Game` by resolvers in
 - Follow existing code patterns and conventions in the codebase
 - `games-web` auto-deploys to Bunny via GitHub Actions (`games-web-deploy.yml`).
   Overwolf apps require manual updates.
-- No direct pushes to main - all changes via PR
+- Pushing to main is the owner's call (branch protection is owner-bypassed): as an agent,
+  push to main only when told, and never open a PR unasked
 - Use `.env.example` files for environment variable templates (never commit `.env` files)
 - Repository is source-available but NOT open source - code cannot be reused for other projects
 - Format code with Prettier, ensure ESLint passes before committing
@@ -448,7 +449,7 @@ context.putImageData(imageData, 0, 0);
 1. Implement feature/fix
 2. Run `bun run typecheck` to verify
 3. Commit with descriptive message
-4. Create PR for review (no direct pushes to main)
+4. Push to main only when told (no PR unless asked)
 
 ### Announcements
 

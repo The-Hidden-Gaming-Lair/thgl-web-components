@@ -18,8 +18,8 @@
  */
 export const PREVIEW_RELEASE_APPS = new Set<string>([
   // blood-of-dawnwalker: Elite-gated 2026-09-13 → opened to everyone 2026-09-15 (creature
-  // spawns, Enemies/Characters filters and codex links landed). Its companion is still
-  // `inDevelopment` in games.ts until a public THGLApp build ships the detector.
+  // spawns, Enemies/Characters filters and codex links landed); its companion went public
+  // 2026-09-16 (`inDevelopment` dropped in games.ts).
   // sinking-city-2 + where-winds-meet: Elite-gated since 2026-09-13 → opened to everyone
   // 2026-09-28.
 ]);
