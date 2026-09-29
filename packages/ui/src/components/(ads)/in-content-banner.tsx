@@ -38,6 +38,7 @@ export function InContentBanner({
   id,
   targeting,
   phone,
+  phoneId,
   state = "ad",
   hideBlockedText = false,
   className,
@@ -45,6 +46,8 @@ export function InContentBanner({
   id: string;
   targeting?: Record<string, string>;
   phone: Size;
+  /** Unit id for the phone size when it differs from `id` (new size = new unit) */
+  phoneId?: string;
   state?: "ad" | "loading" | "blocked";
   hideBlockedText?: boolean;
   className?: string;
@@ -54,7 +57,7 @@ export function InContentBanner({
   const size = fits ? LEADERBOARD : phone;
   // The leaderboard is its own ad unit so NitroPay floors and reports it
   // separately from the phone banner.
-  const unitId = fits ? `${id}-lb` : id;
+  const unitId = fits ? `${id}-lb` : (phoneId ?? id);
 
   return (
     <div ref={ref} className={className}>

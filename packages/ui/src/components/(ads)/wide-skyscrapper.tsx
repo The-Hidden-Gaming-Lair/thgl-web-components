@@ -7,13 +7,14 @@ import { cn } from "@repo/lib";
 import { IS_DEMO_MODE } from "./constants";
 import { AdPlaceholder } from "./ad-placeholder";
 
-// Wide screens get 300px rails (300x600 or 160x600); tall enough windows
-// stack a 300x250 under it. The stack is only created when it fits on
-// screen: the rail starts ~94px down, so 18 (header) + 600 + 8 + 250 needs
-// ~975px. Two units per rail keep both rails under ~30% of the screen
-// (Better Ads Standards limit for sticky desktop ads).
+// Wide screens get 300px rails holding stacked 300x250 rectangles (they
+// earn more per screen area than one 300x600). A rectangle is only created
+// when it fits on screen: the rail starts ~94px down, plus the 18px header,
+// then 250px per slot with 8px gaps. Three per rail keep both rails under
+// ~30% of the screen (Better Ads Standards limit for sticky desktop ads).
 const WIDE_QUERY = "(min-width: 1680px)";
-const STACK_QUERY = "(min-width: 1680px) and (min-height: 975px)";
+const TWO_QUERY = "(min-width: 1680px) and (min-height: 625px)";
+const THREE_QUERY = "(min-width: 1680px) and (min-height: 880px)";
 
 export function WideSkyscraper({
   id,
@@ -26,42 +27,39 @@ export function WideSkyscraper({
 }): JSX.Element {
   const matched = useMediaQuery(mediaQuery);
   const wide = useMediaQuery(WIDE_QUERY);
-  const stacked = useMediaQuery(STACK_QUERY);
+  const two = useMediaQuery(TWO_QUERY);
+  const three = useMediaQuery(THREE_QUERY);
 
   if (!matched) {
     return <></>;
   }
 
-  // Wide rails are their own ad units so they report and floor separately.
-  const railId = wide ? `${id}-wide` : id;
+  // Each rectangle is its own ad unit so it reports and floors separately.
+  const rects = three ? 3 : two ? 2 : 1;
   return (
     <>
       <div className={wide ? "w-[300px]" : "w-[160px]"}></div>
       <AdFreeContainer className="fixed">
         <div className="flex flex-col gap-2">
-          <RailSlot
-            key={railId}
-            id={railId}
-            targeting={targeting}
-            mediaQuery={mediaQuery}
-            sizes={
-              wide
-                ? [
-                    ["300", "600"],
-                    ["160", "600"],
-                  ]
-                : [["160", "600"]]
-            }
-            className={wide ? "h-[600px] w-[300px]" : "h-[600px] w-[160px]"}
-          />
-          {wide && stacked && (
+          {wide ? (
+            Array.from({ length: rects }, (_, i) => (
+              <RailSlot
+                key={`${id}-r${i + 1}`}
+                id={`${id}-r${i + 1}`}
+                targeting={targeting}
+                mediaQuery={mediaQuery}
+                sizes={[["300", "250"]]}
+                className="h-[250px] w-[300px]"
+              />
+            ))
+          ) : (
             <RailSlot
-              key={`${id}-stack`}
-              id={`${id}-stack`}
+              key={id}
+              id={id}
               targeting={targeting}
               mediaQuery={mediaQuery}
-              sizes={[["300", "250"]]}
-              className="h-[250px] w-[300px]"
+              sizes={[["160", "600"]]}
+              className="h-[600px] w-[160px]"
             />
           )}
         </div>

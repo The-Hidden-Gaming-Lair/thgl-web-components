@@ -43,7 +43,11 @@ type AdFormat = {
   width: number;
   height: number;
   variant: string;
+  // Stacked slots (each width x height, own auction + refresh). Default 1.
+  stack?: number;
 };
+
+const STACK_GAP = 8;
 
 // Desktop breakpoints (not overlay)
 const DESKTOP_SHORT_RECTANGLE: AdFormat = {
@@ -65,29 +69,26 @@ const DESKTOP_SMALL_RECTANGLE: AdFormat = {
   variant: "small-rectangle",
 };
 
-const DESKTOP_MEDIUM_SIDEBAR: AdFormat = {
-  // Width >= 1680px AND Height 700-1049px
-  sizes: [
-    ["300", "600"],
-    ["160", "600"],
-    ["300", "250"],
-  ],
+const DESKTOP_MEDIUM_STACK: AdFormat = {
+  // Width >= 1680px AND Height 700-1049px. Was one 300x600 box; two stacked
+  // rectangles earn more per screen area and take 92px less height.
+  sizes: [["300", "250"]],
   width: 300,
-  height: 600,
-  variant: "medium-sidebar",
+  height: 250,
+  variant: "medium-stack",
+  stack: 2,
 };
 
-const DESKTOP_LARGE_SIDEBAR: AdFormat = {
-  // Width >= 1680px AND Height >= 1050px
+const DESKTOP_LARGE_STACK: AdFormat = {
+  // Width >= 1680px AND Height >= 1050px. Was one 336x600 box.
   sizes: [
-    ["300", "600"],
-    ["160", "600"],
     ["336", "280"],
     ["300", "250"],
   ],
   width: 336,
-  height: 600,
-  variant: "large-sidebar",
+  height: 280,
+  variant: "large-stack",
+  stack: 2,
 };
 
 const DESKTOP_COMPACT: AdFormat = {
@@ -163,8 +164,8 @@ function useAdFormat(isOverlay: boolean): AdFormat | null {
     if (isSmallHeight) return DESKTOP_SHORT_RECTANGLE;
     if (isSmallWindow) return DESKTOP_COMPACT;
     if (isNarrowTall) return DESKTOP_SMALL_RECTANGLE;
-    if (isWideMedium) return DESKTOP_MEDIUM_SIDEBAR;
-    if (isWideTall) return DESKTOP_LARGE_SIDEBAR;
+    if (isWideMedium) return DESKTOP_MEDIUM_STACK;
+    if (isWideTall) return DESKTOP_LARGE_STACK;
 
     // Fallback
     return DESKTOP_SMALL_RECTANGLE;
@@ -235,33 +236,36 @@ function NitroPayAd({
   adFormat: AdFormat;
 }): JSX.Element {
   useEffect(() => {
-    try {
-      getNitroAds().createAd(id, {
-        targeting: {
-          platform: "thgl-app",
-          game: appConfig.name,
-          view: isOverlay ? "overlay" : "desktop",
-          variant: adFormat.variant,
-        }, // Use 'platform' as primary discriminator to avoid bleed over with web
-        refreshTime: 30,
-        renderVisibleOnly: false,
-        // Outstream video only outside the in-game overlay: a playing video
-        // composited over the game costs game performance. The desktop window
-        // (usually a second screen) takes video bids like the dashboard does.
-        outstream: isOverlay ? "never" : "auto",
-        sizes: adFormat.sizes,
-        report: {
-          enabled: false,
-          icon: false,
-          wording: "Report Ad",
-          position: "top-left",
-        },
-        skipBidders: ["google"],
-        demo: IS_DEMO_MODE,
-        debug: "silent",
-      });
-    } catch (error) {
-      console.error(`[THGLMapAds] Failed to create ad ${id}:`, error);
+    for (const [index, slotId] of slotIds(id, adFormat).entries()) {
+      try {
+        getNitroAds().createAd(slotId, {
+          targeting: {
+            platform: "thgl-app",
+            game: appConfig.name,
+            view: isOverlay ? "overlay" : "desktop",
+            variant: adFormat.variant,
+            slot: String(index + 1),
+          }, // Use 'platform' as primary discriminator to avoid bleed over with web
+          refreshTime: 30,
+          renderVisibleOnly: false,
+          // Outstream video only outside the in-game overlay: a playing video
+          // composited over the game costs game performance. The desktop window
+          // (usually a second screen) takes video bids like the dashboard does.
+          outstream: isOverlay ? "never" : "auto",
+          sizes: adFormat.sizes,
+          report: {
+            enabled: false,
+            icon: false,
+            wording: "Report Ad",
+            position: "top-left",
+          },
+          skipBidders: ["google"],
+          demo: IS_DEMO_MODE,
+          debug: "silent",
+        });
+      } catch (error) {
+        console.error(`[THGLMapAds] Failed to create ad ${slotId}:`, error);
+      }
     }
   }, [id, adFormat.sizes, adFormat.variant, appConfig.name, isOverlay]);
 
@@ -276,22 +280,7 @@ function NitroPayAd({
         adFormat.variant
       }
     >
-      <div
-        // Clamp the NitroPay-injected creative (and its iframe) to the box —
-        // NitroPay occasionally serves a creative larger than the requested
-        // sizes; without this it overflows instead of fitting the container.
-        className="bg-background/50 [&>*]:max-w-full [&>*]:max-h-full [&_iframe]:max-w-full [&_iframe]:max-h-full"
-        style={{
-          width: adFormat.width,
-          height: adFormat.height,
-          position: "relative",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        id={id}
-      />
+      <AdSlots id={id} adFormat={adFormat} />
     </MovableAdsContainer>
   );
 }
@@ -318,22 +307,40 @@ function NitroPayAdLoading({
         adFormat.variant
       }
     >
-      <div
-        // Clamp the NitroPay-injected creative (and its iframe) to the box —
-        // NitroPay occasionally serves a creative larger than the requested
-        // sizes; without this it overflows instead of fitting the container.
-        className="bg-background/50 [&>*]:max-w-full [&>*]:max-h-full [&_iframe]:max-w-full [&_iframe]:max-h-full"
-        style={{
-          width: adFormat.width,
-          height: adFormat.height,
-          position: "relative",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        id={id}
-      />
+      <AdSlots id={id} adFormat={adFormat} />
     </MovableAdsContainer>
+  );
+}
+
+function slotIds(id: string, adFormat: AdFormat): string[] {
+  const stack = adFormat.stack ?? 1;
+  return stack === 1
+    ? [id]
+    : Array.from({ length: stack }, (_, i) => `${id}-${i + 1}`);
+}
+
+function AdSlots({ id, adFormat }: { id: string; adFormat: AdFormat }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: STACK_GAP }}>
+      {slotIds(id, adFormat).map((slotId) => (
+        <div
+          key={slotId}
+          // Clamp the NitroPay-injected creative (and its iframe) to the box —
+          // NitroPay occasionally serves a creative larger than the requested
+          // sizes; without this it overflows instead of fitting the container.
+          className="bg-background/50 [&>*]:max-w-full [&>*]:max-h-full [&_iframe]:max-w-full [&_iframe]:max-h-full"
+          style={{
+            width: adFormat.width,
+            height: adFormat.height,
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          id={slotId}
+        />
+      ))}
+    </div>
   );
 }

@@ -2,8 +2,10 @@
 import type { JSX } from "react";
 import { InContentBanner } from "./in-content-banner";
 
-// 320x50 on phones, 728x90 leaderboard where the content column fits it.
-const PHONE = { width: 320, height: 50 };
+// Page-end banner: a 300x250 rectangle on phones (the page end is rarely
+// seen, so a rectangle's deeper demand beats a 320x50 there, and it pushes
+// no content down), a 728x90 leaderboard where the content column fits it.
+const PHONE = { width: 300, height: 250 };
 
 export function MobileBanner({
   id,
@@ -17,6 +19,7 @@ export function MobileBanner({
   return (
     <InContentBanner
       id={id}
+      phoneId={`${id}-mr`}
       targeting={targeting}
       phone={PHONE}
       className={className}
