@@ -38,6 +38,21 @@ export function isContextSoftware(
   return software;
 }
 
+/**
+ * Thrown when the browser can't create a WebGL2 context — almost always because
+ * graphics acceleration is turned off in a desktop browser, the GPU driver is
+ * blocklisted, or on mobile an old OS / iOS Lockdown Mode. (Overwolf and the
+ * Companion App fall back to software WebGL, so they don't hit this.) The UI ErrorBoundary matches on `name` (not `instanceof`, which
+ * breaks across bundle copies) and shows a fix-it guide instead of the generic
+ * crash screen.
+ */
+export class WebGLUnsupportedError extends Error {
+  constructor() {
+    super("WebGL2 not supported");
+    this.name = "WebGLUnsupportedError";
+  }
+}
+
 export function createGL(canvas: HTMLCanvasElement): WebGL2RenderingContext {
   const gl = canvas.getContext("webgl2", {
     antialias: true,
@@ -46,7 +61,7 @@ export function createGL(canvas: HTMLCanvasElement): WebGL2RenderingContext {
     preserveDrawingBuffer: false,
     powerPreference: "high-performance",
   }) as WebGL2RenderingContext | null;
-  if (!gl) throw new Error("WebGL2 not supported");
+  if (!gl) throw new WebGLUnsupportedError();
   return gl;
 }
 
