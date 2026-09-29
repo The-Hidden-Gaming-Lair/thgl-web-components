@@ -43,6 +43,7 @@ export function ContentLayout({
   const wideSkyscraper2Id = getObfuscatedAdId(AD_TYPES.WIDE_SKYSCRAPER_2);
   const largeMobileBannerId = getObfuscatedAdId(AD_TYPES.LARGE_MOBILE_BANNER);
   const mobileBannerId = getObfuscatedAdId(AD_TYPES.MOBILE_BANNER);
+  const inlineBannerId = getObfuscatedAdId(AD_TYPES.MOBILE_BANNER_INLINE);
   const mobileVideoId = getObfuscatedAdId(AD_TYPES.MOBILE_VIDEO);
 
   // Targeting for filtering in NitroPay reporting
@@ -101,7 +102,7 @@ export function ContentLayout({
                 loading={<MobileBannerLoading />}
                 fallback={<MobileBannerFallback />}
               >
-                <MobileBanner id={mobileBannerId} targeting={targeting} />
+                <MobileBanner id={inlineBannerId} targeting={targeting} />
                 <FloatingMobileBanner
                   bannerId={mobileBannerId}
                   videoId={mobileVideoId}
@@ -135,7 +136,7 @@ export function ContentLayout({
             loading={<MobileBannerLoading />}
             fallback={<MobileBannerFallback />}
           >
-            <MobileBanner id={mobileBannerId} targeting={targeting} />
+            <MobileBanner id={inlineBannerId} targeting={targeting} />
             <FloatingMobileBanner
               bannerId={mobileBannerId}
               videoId={mobileVideoId}

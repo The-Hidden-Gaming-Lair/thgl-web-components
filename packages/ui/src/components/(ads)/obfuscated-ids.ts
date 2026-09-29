@@ -52,6 +52,9 @@ export const AD_TYPES = {
   VIDEO: "video",
   FLOATING_BANNER: "floating-banner",
   MOBILE_BANNER: "mobile-banner",
+  // In-content bottom banner of ContentLayout. Must differ from MOBILE_BANNER:
+  // that id belongs to the sticky FloatingMobileBanner rendered on the same page.
+  MOBILE_BANNER_INLINE: "mobile-banner-inline",
   MOBILE_VIDEO: "mobile-video",
   WIDE_SKYSCRAPER_1: "wide-skyscraper-1",
   WIDE_SKYSCRAPER_2: "wide-skyscraper-2",
