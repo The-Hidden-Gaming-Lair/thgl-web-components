@@ -44,7 +44,7 @@ const COLUMNS: { key: SortKey; label: string; className?: string }[] = [
   },
   {
     key: "twitchViewers",
-    label: "Twitch",
+    label: "Twitch viewers",
     className: "text-right max-lg:hidden",
   },
   {
