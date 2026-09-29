@@ -9,21 +9,6 @@ import { type Item, columns } from "./columns";
 
 import type { JSX } from "react";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/db/mod-locations",
-  },
-  title: "All Mod Locations – The Hidden Gaming Lair",
-  description:
-    "A comprehensive list of mod locations for Once Human. It details the mod list, item types, drop locations, enemy types, and map regions. Some notable mods include Elemental Amplifier, Thunderclap, Weakspot DMG Boost, Rejuvenating, and Flame Resonance, each found in different locations and dropped by different enemy types.",
-  openGraph: {
-    title: "All Mod Locations – The Hidden Gaming Lair",
-    description:
-      "A comprehensive list of mod locations for Once Human. It details the mod list, item types, drop locations, enemy types, and map regions.",
-    url: "/db/mod-locations",
-  },
-};
-
 const allModLocations: Item[] = [
   {
     modList: [
@@ -205,6 +190,26 @@ const allModLocations: Item[] = [
     mapRegion: "Iron River, Northeast",
   },
 ];
+
+// Search-intent title ("all N mod locations") with the game name, derived
+// from the table itself so the count never goes stale.
+const modCount = new Set(allModLocations.flatMap((l) => l.modList)).size;
+const sourceCount = allModLocations.length;
+const metaTitle = `All ${modCount} Once Human Mod Locations – ${sourceCount} Drop Sources`;
+const metaDescription = `Where to farm every Once Human mod: ${modCount} mods across ${sourceCount} drop sources (silos and monoliths) with gear slot, enemy type and map region for each.`;
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/db/mod-locations",
+  },
+  title: metaTitle,
+  description: metaDescription,
+  openGraph: {
+    title: metaTitle,
+    description: metaDescription,
+    url: "/db/mod-locations",
+  },
+};
 
 export default async function ModLocations(): Promise<JSX.Element> {
   await requireApp("once-human");

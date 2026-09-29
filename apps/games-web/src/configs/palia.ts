@@ -93,4 +93,83 @@ export const palia = resolveAppConfig({
     },
   ],
   keywords: ["Rummage Pile", "Plushies", "Elderwood"],
+  db: {
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search items, recipes, villagers, fish, bugs…",
+    sectionsInNav: true,
+    homeSections: [
+      {
+        href: "/db/inventory",
+        type: "inventory",
+        titleFallback: "Items",
+        icon: "🎒",
+        description:
+          "Materials, food, tools and quest items with sell prices, sources and uses.",
+      },
+      {
+        href: "/db/furniture",
+        type: "furniture",
+        titleFallback: "Furniture & Decor",
+        icon: "🪑",
+        description:
+          "Furniture, plushies, wallpaper and flooring with their recipes and stores.",
+      },
+      {
+        href: "/db/recipes",
+        type: "recipes",
+        titleFallback: "Recipes",
+        icon: "📜",
+        description:
+          "Cooking, crafting and furniture recipes with ingredients and stations.",
+      },
+      {
+        href: "/db/fish",
+        type: "fish",
+        titleFallback: "Fish",
+        icon: "🐟",
+        description:
+          "Every fish with where to catch it, bait, time and weather.",
+      },
+      {
+        href: "/db/bugs",
+        type: "bugs",
+        titleFallback: "Bugs",
+        icon: "🐞",
+        description:
+          "Bugs with active times, weather and the maps they live on.",
+      },
+      {
+        href: "/db/critters",
+        type: "critters",
+        titleFallback: "Creatures",
+        icon: "🏹",
+        description: "Huntable creatures by tier with their loot drops.",
+      },
+      {
+        href: "/db/characters",
+        type: "characters",
+        titleFallback: "Villagers",
+        icon: "🧑‍🌾",
+        description:
+          "Villagers with gift preferences, weekly wants, schedules and rewards.",
+      },
+      {
+        href: "/db/shops",
+        type: "shops",
+        titleFallback: "Shops",
+        icon: "🛒",
+        description: "Stores and villager shops with everything they sell.",
+      },
+    ],
+    typeLabels: {
+      inventory: "Items",
+      furniture: "Furniture & Decor",
+      recipes: "Recipes",
+      fish: "Fish",
+      bugs: "Bugs",
+      critters: "Creatures",
+      characters: "Villagers",
+      shops: "Shops",
+    },
+  },
 });

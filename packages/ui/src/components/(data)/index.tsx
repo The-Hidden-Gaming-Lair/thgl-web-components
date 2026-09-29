@@ -3,7 +3,14 @@ export { Activities } from "./activities";
 export { ActivityProgress } from "./activity-progress";
 export { ActivityReset } from "./activity-reset";
 export { SingleComment, type Comment, type CommentImage } from "./comment";
-export { Comments } from "./comments";
+export {
+  Comments,
+  CommentForm,
+  CommentGuidelines,
+  useNodeComments,
+} from "./comments";
+export { PageComments } from "./page-comments";
+export { DataFeedback } from "./data-feedback";
 export { CustomActivities } from "./custom-activities";
 export { DataTable, type ColumnDef } from "./data-table";
 export { DuneAltitude } from "./dune-altitude";

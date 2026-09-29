@@ -1116,6 +1116,10 @@ export type FiltersConfig = {
     // e.g. landmarks — or by the type id for per-type entries — e.g. a bestiary
     // species. Generic across all games.
     dbSection?: string;
+    // Type-level codex entry id, when the entry for this type is NOT keyed by the type id
+    // (e.g. filter `coal` → entry `item_coal`). Used after the spawn's own `dbEntryId`/id and
+    // before the type-id fallback — the only way live actors of the type can link.
+    dbEntryId?: string;
     // New/unproven filter we want community feedback on: an "Experimental"
     // badge on the filter row + a feedback hint in its tooltip.
     experimental?: boolean;

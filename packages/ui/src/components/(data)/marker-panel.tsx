@@ -11,6 +11,7 @@ import { useMarkerUrlSync } from "./use-marker-url-sync";
 import { Copy, Eye, EyeOff, Navigation, Pencil, Trash2, X } from "lucide-react";
 import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Comments } from "./comments";
+import { DataFeedback } from "./data-feedback";
 import { DescriptionMarkdown } from "../(interactive-map)/description-markdown";
 import { DbEntryLink } from "../(interactive-map)/db-entry-link";
 import { toast } from "sonner";
@@ -250,7 +251,7 @@ export function MarkerPanel({
     ? filter?.values.find((v) => v.id === spawn.type)
     : undefined;
   const dbSection = dbValue?.dbSection;
-  const dbEntryId = spawn ? dbEntryIdOf(spawn) : "";
+  const dbEntryId = spawn ? dbEntryIdOf(spawn, dbValue?.dbEntryId) : "";
 
   const termId = spawn
     ? (spawn.name ?? spawn.id ?? spawn.type).replace(/my_\d+_/, "")
@@ -359,7 +360,7 @@ export function MarkerPanel({
             )}
 
             {/* Codex cross-link */}
-            {dbSection && (
+            {dbSection && dbEntryId && (
               <>
                 <Separator />
                 <DbEntryLink section={dbSection} entryId={dbEntryId} />
@@ -381,6 +382,8 @@ export function MarkerPanel({
             {/* Comments */}
             {!hideComments && !spawn.isPrivate && !spawn.address && (
               <>
+                <Separator />
+                <DataFeedback appName={appName} targetId={nodeId} />
                 <Separator />
                 <Comments id={nodeId} appName={appName} />
               </>

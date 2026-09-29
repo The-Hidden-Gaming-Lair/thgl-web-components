@@ -137,3 +137,39 @@ export function entityPageJsonLd({
     image: `${baseUrl(appConfig)}/opengraph-image.jpg`,
   };
 }
+
+/**
+ * BreadcrumbList schema mirroring the visible `<Breadcrumb>` trail
+ * (Home › Database › Section › Entry). `crumbs` excludes Home (added here);
+ * the last crumb may omit `href` — it resolves to the current page `url`.
+ */
+export function breadcrumbJsonLd({
+  appConfig,
+  homeLabel,
+  crumbs,
+  url,
+  locale = "en",
+}: {
+  appConfig: AppConfig;
+  homeLabel: string;
+  crumbs: Array<{ label: string; href?: string }>;
+  /** Absolute URL of the current page (used for an href-less last crumb). */
+  url: string;
+  locale?: string;
+}): Record<string, unknown> {
+  const localePath = locale === "en" ? "" : `/${locale}`;
+  const abs = (href: string) =>
+    `${baseUrl(appConfig)}${localePath}${href === "/" ? "" : href}` ||
+    baseUrl(appConfig);
+  const all = [{ label: homeLabel, href: "/" }, ...crumbs];
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: all.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      item: c.href ? abs(c.href) : url,
+    })),
+  };
+}

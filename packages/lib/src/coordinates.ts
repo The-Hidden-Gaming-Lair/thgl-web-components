@@ -145,14 +145,20 @@ export type Spawn = {
  * games that key spawns by position) never names an entry, so it is skipped: the live Mirto
  * marker `glossary_character_mirto@259128.72:373001.97` links to `glossary_character_mirto`.
  */
-export function dbEntryIdOf(spawn: {
-  dbEntryId?: string | undefined;
-  id?: string | undefined;
-  type: string;
-}): string {
-  if (spawn.dbEntryId) return spawn.dbEntryId;
+export function dbEntryIdOf(
+  spawn: {
+    dbEntryId?: string | undefined;
+    id?: string | undefined;
+    type: string;
+  },
+  // Type-level default from the filter value's `dbEntryId` — names the entry for every spawn of
+  // the type (incl. live actors, which carry no per-spawn `dbEntryId`) when it differs from the type id.
+  typeDbEntryId?: string,
+): string {
+  // `""` is NO_DB_ENTRY: a deliberate "this marker has no codex entry" — no link.
+  if (spawn.dbEntryId !== undefined) return spawn.dbEntryId;
   if (spawn.id && !spawn.id.startsWith(`${spawn.type}@`)) return spawn.id;
-  return spawn.type;
+  return typeDbEntryId ?? spawn.type;
 }
 
 export type SimpleSpawn = {

@@ -45,6 +45,12 @@ type NamedMarker = {
   typeName: string;
   displayName: string;
   nodeId: string;
+  /** Raw dict keys — per-locale slugs translate THESE, never a reverse lookup
+   *  of the English value (that can hit a dict-optimizer `@xxxxxx` pointer key,
+   *  which is build- and locale-specific and leaked into /de/... URLs). */
+  mapKey: string;
+  typeKey: string;
+  nameKey: string;
 };
 
 // Each entry generates ~(1 + locales) URL entries with alternates XML.
@@ -104,9 +110,23 @@ async function loadAllDicts(
   return dicts;
 }
 
+/**
+ * Real "last modified" signal for sitemap entries: version.json `createdAt`,
+ * which data-forge only bumps when the content hash (data + dicts + database)
+ * changes. Returns undefined when absent so the field is omitted rather than
+ * claiming every URL changed "now" on every crawl.
+ */
+function versionLastModified(
+  version: Awaited<ReturnType<typeof fetchVersion>> | undefined,
+): Date | undefined {
+  const ts = version?.createdAt;
+  return typeof ts === "number" && ts > 0 ? new Date(ts) : undefined;
+}
+
 function createHelpers(
   appConfig: AppConfig,
   allDicts?: Map<string, Record<string, string>>,
+  lastModified?: Date,
 ) {
   const baseUrl = `https://${appConfig.domain}.th.gl`;
   const locales = appConfig.supportedLocales;
@@ -143,8 +163,6 @@ function createHelpers(
     return { languages };
   };
 
-  const now = new Date();
-
   /**
    * Add a sitemap entry. For entries with translated slugs (guides, markers),
    * pass `localizedPathFn` to generate per-locale paths with translated names.
@@ -165,7 +183,7 @@ function createHelpers(
     if (!entries.has(canonicalUrl)) {
       entries.set(canonicalUrl, {
         url: canonicalUrl,
-        lastModified: now,
+        ...(lastModified ? { lastModified } : {}),
         changeFrequency: opts.changeFrequency,
         priority: opts.priority,
         alternates,
@@ -186,7 +204,7 @@ function createHelpers(
         if (!entries.has(localeUrl)) {
           entries.set(localeUrl, {
             url: localeUrl,
-            lastModified: now,
+            ...(lastModified ? { lastModified } : {}),
             changeFrequency: opts.changeFrequency,
             priority: opts.priority,
             alternates,
@@ -226,6 +244,7 @@ async function collectNamedMarkers(
 
       for (const node of nodes) {
         const typeName = translate(enDict, node.type);
+        const typeKey = node.type;
 
         for (const spawn of node.spawns) {
           // Only include spawns with a unique ID (not type@coords format)
@@ -240,7 +259,15 @@ async function collectNamedMarkers(
 
           const nodeId = `${spawn.id}@${spawn.p[0]}:${spawn.p[1]}`;
 
-          markers.push({ mapTitle, typeName, displayName, nodeId });
+          markers.push({
+            mapTitle,
+            typeName,
+            displayName,
+            nodeId,
+            mapKey: mapName,
+            typeKey,
+            nameKey: rawId,
+          });
         }
       }
     } catch (err) {
@@ -260,7 +287,9 @@ function translateForLocale(
 ): string {
   if (locale === DEFAULT_LOCALE) return translate(enDict, key);
   const dict = allDicts?.get(locale);
-  if (!dict) return translate(enDict, key);
+  // Missing in this locale → the English name, not the raw key (a raw key is
+  // an internal id like `BP_…_UAID_…` or an `@xxxxxx` dict pointer).
+  if (!dict || !dict[key]) return translate(enDict, key);
   return translate(dict, key);
 }
 
@@ -295,14 +324,14 @@ export function createSitemapIndex(appConfig: AppConfig) {
 
     const totalSitemaps = 1 + guideChunks + markerChunks + dbChunks;
 
-    const now = new Date().toISOString();
+    const lastmod = versionLastModified(version)?.toISOString();
     const xml = [
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
       ...Array.from(
         { length: totalSitemaps },
         (_, i) =>
-          `  <sitemap>\n    <loc>${baseUrl}/sitemap/${i}.xml</loc>\n    <lastmod>${now}</lastmod>\n  </sitemap>`,
+          `  <sitemap>\n    <loc>${baseUrl}/sitemap/${i}.xml</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ""}\n  </sitemap>`,
       ),
       "</sitemapindex>",
     ].join("\n");
@@ -365,34 +394,23 @@ function collectDbEntries(
   return entries;
 }
 
-/** Unique (section, groupId) pairs for `/db/<section>/<groupId>` pages. */
-function collectDbGroupPages(
-  database: DatabaseConfig,
-  resolveSection: (catType: string) => string | null,
-): { section: string; groupId: string }[] {
-  const seen = new Set<string>();
-  const entries: { section: string; groupId: string }[] = [];
-  for (const cat of database) {
-    if (cat.type.startsWith("_")) continue;
-    const section = resolveSection(cat.type);
-    if (!section) continue;
-    for (const item of cat.items) {
-      const gid = item.groupId;
-      if (!gid) continue;
-      const key = `${section}/${gid}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      entries.push({ section, groupId: gid });
-    }
-  }
-  return entries;
-}
-
 /**
  * Count total guide entries (the /guides index, plus dedup'd group and type
  * pages). Returns 0 when there are no filters so DB-only games don't get
  * an empty shard allocated for them.
  */
+/**
+ * Guide pages with zero spawns 404 (guide-page), so they must not be listed.
+ * Without per-type counts (older version.json) every type is kept.
+ */
+function hasGuideSpawns(
+  version: Awaited<ReturnType<typeof fetchVersion>>,
+  typeId: string,
+): boolean {
+  const byType = version.counts?.byType;
+  return !byType || (byType[typeId] ?? 0) > 0;
+}
+
 function countGuideEntries(
   version: Awaited<ReturnType<typeof fetchVersion>>,
   enDict: Record<string, string>,
@@ -402,12 +420,14 @@ function countGuideEntries(
   let count = 1; // /guides index page
   const seenGroups = new Set<string>();
   for (const filter of version.data.filters) {
+    const values = filter.values.filter((v) => hasGuideSpawns(version, v.id));
+    if (values.length === 0) continue;
     const enGroup = translate(enDict, filter.group);
     if (!seenGroups.has(enGroup)) {
       seenGroups.add(enGroup);
       count++;
     }
-    for (const v of filter.values) {
+    for (const v of values) {
       const enLabel = translate(enDict, v.id);
       if (!seenLabels.has(enLabel)) {
         seenLabels.add(enLabel);
@@ -445,7 +465,7 @@ export function createGenerateSitemaps(appConfig: AppConfig) {
           : 0;
     }
 
-    // id 0 = core pages (home, maps, links, db group pages),
+    // id 0 = core pages (home, maps, links, db landing + section listings),
     // id 1..guideChunks = guides, then markers, then db detail pages
     const total = 1 + guideChunks + markerChunks + dbChunks;
     return Array.from({ length: total }, (_, i) => ({ id: i }));
@@ -470,7 +490,11 @@ export function createSitemap(appConfig: AppConfig) {
       ? await loadAllDicts(appConfig.name, locales)
       : undefined;
 
-    const { addEntry } = createHelpers(appConfig, allDicts);
+    const { addEntry } = createHelpers(
+      appConfig,
+      allDicts,
+      versionLastModified(version),
+    );
     const entries = new Map<string, MetadataRoute.Sitemap[number]>();
 
     // Determine chunk boundaries
@@ -534,9 +558,10 @@ export function createSitemap(appConfig: AppConfig) {
         }
       }
 
-      // DB-mode extras: group pages (e.g. /db/spells/day) and the
-      // item-sets landing page. Detail pages live in the dedicated
-      // dbChunks range below.
+      // DB-mode extras: the /db landing, section listings and the item-sets
+      // landing page. Detail pages live in the dedicated dbChunks range below.
+      // No /db/<section>/<groupId> URLs: no route renders a group page (that
+      // segment is the entry [id] route), so every one of them was a 404.
       if (appConfig.db) {
         // The /db landing and each /db/<section> listing. Driven by
         // db.homeSections so hybrid games that don't repeat sections in
@@ -547,16 +572,6 @@ export function createSitemap(appConfig: AppConfig) {
         });
         for (const section of appConfig.db.homeSections) {
           addEntry(entries, section.href, {
-            changeFrequency: "weekly",
-            priority: 0.7,
-          });
-        }
-        const database = await fetchDatabaseForSitemap(appConfig.name).catch(
-          () => [] as DatabaseConfig,
-        );
-        const groupPages = collectDbGroupPages(database, resolveSection);
-        for (const { section, groupId } of groupPages) {
-          addEntry(entries, `/db/${section}/${encodeURIComponent(groupId)}`, {
             changeFrequency: "weekly",
             priority: 0.7,
           });
@@ -593,6 +608,10 @@ export function createSitemap(appConfig: AppConfig) {
         const seenTypes = new Set<string>();
 
         for (const filter of version.data.filters) {
+          const values = filter.values.filter((v) =>
+            hasGuideSpawns(version, v.id),
+          );
+          if (values.length === 0) continue;
           const enGroupTitle = translate(enDict, filter.group);
           if (!seenGroups.has(enGroupTitle)) {
             seenGroups.add(enGroupTitle);
@@ -611,7 +630,7 @@ export function createSitemap(appConfig: AppConfig) {
             });
           }
 
-          for (const value of filter.values) {
+          for (const value of values) {
             const enTypeTitle = translate(enDict, value.id);
             if (!seenTypes.has(enTypeTitle)) {
               seenTypes.add(enTypeTitle);
@@ -650,21 +669,19 @@ export function createSitemap(appConfig: AppConfig) {
       const start = markerChunkIndex * ENTRIES_PER_CHUNK;
       const chunk = markers.slice(start, start + ENTRIES_PER_CHUNK);
 
-      for (const { mapTitle, typeName, displayName, nodeId } of chunk) {
+      for (const {
+        mapTitle,
+        typeName,
+        displayName,
+        nodeId,
+        mapKey,
+        typeKey,
+        nameKey,
+      } of chunk) {
         const markerPath = `/maps/${encodeURIComponent(mapTitle)}/${encodeURIComponent(typeName)}/${encodeURIComponent(displayName)}?id=${encodeURIComponent(nodeId)}`;
 
-        // Extract raw keys for translation
-        // We need to find the original dict keys from the English translations
-        const mapKey = Object.entries(enDict).find(
-          ([, v]) => v === mapTitle,
-        )?.[0];
-        const typeKey = Object.entries(enDict).find(
-          ([, v]) => v === typeName,
-        )?.[0];
-        const nameKey = Object.entries(enDict).find(
-          ([, v]) => v === displayName,
-        )?.[0];
-
+        // Translate the marker's own dict keys per locale (never reverse-look-up
+        // the English value — see NamedMarker).
         addEntry(entries, markerPath, {
           changeFrequency: "weekly",
           priority: 0.6,

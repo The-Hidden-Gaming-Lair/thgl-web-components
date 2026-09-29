@@ -159,7 +159,12 @@ export function createGuidesPage(appConfig: AppConfig) {
       });
     }
 
-    const allGuides = [...guideGroups, ...guideTypes];
+    // Types with no plottable spawns (live-only NPCs, overlay-only types)
+    // have no guide page (it 404s), so don't list them. Only when the counts
+    // exist — an older version.json without them keeps the full list.
+    const allGuides = [...guideGroups, ...guideTypes].filter(
+      (g) => !countsByType || g.locationCount > 0,
+    );
 
     return (
       <>

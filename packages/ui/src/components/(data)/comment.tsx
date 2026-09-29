@@ -1,6 +1,14 @@
 "use client";
 
-import { ThumbsDown, ThumbsUp, Trash2, Pencil, X, Check } from "lucide-react";
+import {
+  ThumbsDown,
+  ThumbsUp,
+  Trash2,
+  Pencil,
+  X,
+  Check,
+  Flag,
+} from "lucide-react";
 import { Button } from "../(controls)";
 import { API_FORGE_URL, resilientFetch, useAccountStore } from "@repo/lib";
 import { toSvg } from "jdenticon";
@@ -35,9 +43,19 @@ export type Comment = {
   downvotes: number;
 };
 
+// api-forge stores SQLite CURRENT_TIMESTAMP ("YYYY-MM-DD HH:MM:SS", UTC with
+// no zone marker); `new Date()` would read it as LOCAL time, so a comment just
+// posted showed as "2h ago" in UTC+2.
+function parseApiDate(dateStr: string): number {
+  const utc = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateStr)
+    ? `${dateStr.replace(" ", "T")}Z`
+    : dateStr;
+  return new Date(utc).getTime();
+}
+
 function relativeTime(dateStr: string): string {
   const now = Date.now();
-  const then = new Date(dateStr).getTime();
+  const then = parseApiDate(dateStr);
   const diff = now - then;
   const seconds = Math.floor(diff / 1000);
   if (seconds < 60) return "just now";
@@ -70,6 +88,9 @@ export function SingleComment({
   const [editKeepImageIds, setEditKeepImageIds] = useState<number[]>([]);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const deleteTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [confirmReport, setConfirmReport] = useState(false);
+  const [reported, setReported] = useState(false);
+  const reportTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Vote mutation
   const { trigger: triggerVote, isMutating: isVoting } = useSWRMutation(
@@ -139,6 +160,50 @@ export function SingleComment({
       throwOnError: false,
     },
   );
+
+  // Report (flag) — signed-in users, one report per user; enough distinct
+  // reports auto-hide the comment server-side until a moderator reviews it.
+  const { trigger: triggerReport, isMutating: isReporting } = useSWRMutation(
+    `/comments/${nodeId}/flags`,
+    async () => {
+      if (!userId) throw new Error("Sign in to report a comment");
+      const res = await resilientFetch(
+        `${API_FORGE_URL}/comments/${comment.id}/flags`,
+        {
+          method: "POST",
+          body: JSON.stringify({ userId }),
+        },
+      );
+      if (!res.ok) throw await errorFromResponse(res, "Failed to report");
+      return (await res.json()) as { hidden: boolean };
+    },
+    {
+      onSuccess: (result) => {
+        setReported(true);
+        toast.success(
+          result.hidden
+            ? "Reported. The comment is hidden until a moderator reviews it."
+            : "Reported. Thanks for helping keep comments useful.",
+        );
+        if (result.hidden) mutate(`/comments/${nodeId}`);
+      },
+      onError: (err) =>
+        toast.error(err instanceof Error ? err.message : "Failed to report"),
+      throwOnError: false,
+    },
+  );
+
+  const handleReportClick = () => {
+    if (!confirmReport) {
+      setConfirmReport(true);
+      clearTimeout(reportTimerRef.current);
+      reportTimerRef.current = setTimeout(() => setConfirmReport(false), 3000);
+    } else {
+      clearTimeout(reportTimerRef.current);
+      setConfirmReport(false);
+      triggerReport();
+    }
+  };
 
   // Delete handler
   const handleDelete = useCallback(async () => {
@@ -353,6 +418,31 @@ export function SingleComment({
                 <ThumbsDown className="h-3 w-3" />
                 {comment.downvotes > 0 && comment.downvotes}
               </Button>
+              {!isOwner && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={
+                    confirmReport
+                      ? "h-6 px-1.5 text-xs text-red-400 hover:text-red-300 gap-1 ml-auto"
+                      : "h-6 px-1.5 text-xs text-muted-foreground/60 hover:text-red-400 gap-1 ml-auto"
+                  }
+                  onClick={handleReportClick}
+                  disabled={isReporting || !userId || reported}
+                  title={
+                    !userId
+                      ? "Sign in to report"
+                      : reported
+                        ? "Reported"
+                        : "Report comment"
+                  }
+                  aria-label="Report comment"
+                >
+                  <Flag className="h-3 w-3" />
+                  {confirmReport && "Report?"}
+                  {reported && "Reported"}
+                </Button>
+              )}
               {isOwner && (
                 <>
                   <Button

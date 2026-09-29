@@ -71,22 +71,27 @@ export function ContentLayout({
 
       {/* Main Content */}
       {sidebar ? (
-        <div className="relative container grid grid-rows-[auto_1fr] h-[calc(100dvh-54px-16px)] px-4 pt-2 text-left overflow-hidden">
+        // Fixed-height, internally-scrolling panes only at xl (sidebar visible);
+        // below that the page scrolls normally — no nested scroll container
+        // on phones.
+        <div className="relative container grid grid-rows-[auto_1fr] xl:h-[calc(100dvh-54px-16px)] px-4 pt-2 text-left xl:overflow-hidden">
           {/* Row 1: breadcrumb */}
           {header}
 
-          {/* Row 2: sidebar + content */}
+          {/* Row 2: sidebar + content. Content comes FIRST in the DOM (crawlers
+              and screen readers reach the entry before a long sidebar list);
+              `xl:order-first` puts the sidebar back in the left column. */}
           <div className="grid xl:grid-cols-[250px_1fr] min-h-0">
-            <aside className="sidebar-scroll hidden xl:block overflow-y-auto border-r border-zinc-800/60 pr-3 py-3 min-h-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
-              {sidebar}
-            </aside>
-            <div className="overflow-y-auto min-h-0 space-y-4 xl:pl-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
+            <div className="min-h-0 space-y-4 xl:overflow-y-auto xl:pl-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
               {/* Top Banner */}
               <ScriptLoader
                 loading={<LargeMobileBannerLoading />}
                 fallback={<LargeMobileBannerFallback />}
               >
-                <LargeMobileBanner id={largeMobileBannerId} targeting={targeting} />
+                <LargeMobileBanner
+                  id={largeMobileBannerId}
+                  targeting={targeting}
+                />
               </ScriptLoader>
 
               {content}
@@ -106,6 +111,9 @@ export function ContentLayout({
 
               {more}
             </div>
+            <aside className="sidebar-scroll hidden xl:block xl:order-first overflow-y-auto border-r border-zinc-800/60 pr-3 py-3 min-h-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent">
+              {sidebar}
+            </aside>
           </div>
         </div>
       ) : (

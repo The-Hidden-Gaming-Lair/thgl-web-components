@@ -1,4 +1,8 @@
-import { getSpawnDiscoveryId, removeDiscoveredMatches } from "./coordinates";
+import {
+  dbEntryIdOf,
+  getSpawnDiscoveryId,
+  removeDiscoveredMatches,
+} from "./coordinates";
 
 describe("getSpawnDiscoveryId", () => {
   it("uses spawn.id for private spawns", () => {
@@ -62,5 +66,29 @@ describe("removeDiscoveredMatches", () => {
   it("returns the same array reference when nothing matches", () => {
     const existing = ["chest@1:2"];
     expect(removeDiscoveredMatches(existing, ["iron_ore@5:6"])).toBe(existing);
+  });
+});
+
+describe("dbEntryIdOf", () => {
+  test("explicit spawn dbEntryId wins", () => {
+    expect(dbEntryIdOf({ dbEntryId: "e1", id: "x", type: "t" }, "d")).toBe(
+      "e1",
+    );
+  });
+  test('NO_DB_ENTRY ("") suppresses the link', () => {
+    expect(dbEntryIdOf({ dbEntryId: "", type: "t" }, "d")).toBe("");
+  });
+  test("entry-like spawn id beats the type default", () => {
+    expect(dbEntryIdOf({ id: "landmark_1", type: "t" }, "d")).toBe(
+      "landmark_1",
+    );
+  });
+  test("position-derived id falls back to the type-level default", () => {
+    expect(dbEntryIdOf({ id: "coal@1:2", type: "coal" }, "item_coal")).toBe(
+      "item_coal",
+    );
+  });
+  test("no default falls back to the type id", () => {
+    expect(dbEntryIdOf({ id: "coal@1:2", type: "coal" })).toBe("coal");
   });
 });

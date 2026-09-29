@@ -34,9 +34,50 @@ type MapPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
+/** A data-forge dict-optimizer pointer key (`@1hc740`). These are build- AND
+ *  locale-specific, so one must never appear in a URL — but older sitemaps
+ *  leaked English pointers into localized marker URLs (/de/maps/…/@1hc740). */
+const DICT_POINTER_RE = /^@[0-9a-z]{3,12}$/i;
+
+/**
+ * Resolve dict-pointer slugs in a marker URL back to readable names: the
+ * marker name from the `?id=` spawn id (translated in this locale), else the
+ * pointer itself when this locale's dict happens to have it. Non-pointer slugs
+ * pass through unchanged. Used for the canonical URL and a 308 to it.
+ */
+function resolvePointerSlugs(
+  dict: Record<string, string>,
+  typeName: string | undefined,
+  markerId: string | undefined,
+  idParam: string | string[] | undefined,
+): { typeName?: string; markerId?: string } {
+  const deref = (key: string): string | undefined => {
+    const v = dict[key];
+    if (!v) return undefined;
+    const out = v[0] === "@" ? dict[v] : v;
+    return out && !DICT_POINTER_RE.test(out) ? out : undefined;
+  };
+  let resolvedType = typeName;
+  if (typeName && DICT_POINTER_RE.test(typeName)) {
+    resolvedType = deref(typeName) ?? typeName;
+  }
+  let resolvedMarker = markerId;
+  if (markerId && DICT_POINTER_RE.test(markerId)) {
+    const nodeId = Array.isArray(idParam) ? idParam[0] : idParam;
+    const spawnId =
+      nodeId && nodeId.includes("@")
+        ? nodeId.slice(0, nodeId.indexOf("@"))
+        : undefined;
+    resolvedMarker =
+      (spawnId ? deref(spawnId) : undefined) ?? deref(markerId) ?? markerId;
+  }
+  return { typeName: resolvedType, markerId: resolvedMarker };
+}
+
 export function createMapPageGenerateMetadata(appConfig: AppConfig) {
   return async function generateMetadata({
     params,
+    searchParams,
   }: MapPageProps): Promise<Metadata> {
     const {
       locale = DEFAULT_LOCALE,
@@ -44,13 +85,20 @@ export function createMapPageGenerateMetadata(appConfig: AppConfig) {
       type: typeSlug,
       marker: markerSlug,
     } = await params;
-    const typeName = typeSlug ? decodeURIComponent(typeSlug) : undefined;
-    const markerId = markerSlug ? decodeURIComponent(markerSlug) : undefined;
+    const rawTypeName = typeSlug ? decodeURIComponent(typeSlug) : undefined;
+    const rawMarkerId = markerSlug ? decodeURIComponent(markerSlug) : undefined;
 
-    const [dict, version] = await Promise.all([
+    const [dict, version, sp] = await Promise.all([
       getFullDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
+      searchParams,
     ]);
+    const { typeName, markerId } = resolvePointerSlugs(
+      dict,
+      rawTypeName,
+      rawMarkerId,
+      sp?.id,
+    );
 
     const mapName = getMapNameFromVersion(version, map, dict);
     if (!mapName) {
@@ -160,14 +208,24 @@ export function createMapPage(
       type: typeSlug,
       marker: markerSlug,
     } = await params;
-    const markerId = markerSlug ? decodeURIComponent(markerSlug) : undefined;
+    const rawMarkerId = markerSlug ? decodeURIComponent(markerSlug) : undefined;
+    const rawTypeName = typeSlug ? decodeURIComponent(typeSlug) : undefined;
 
-    const [dict, version] = await Promise.all([
+    const [dict, version, sp] = await Promise.all([
       getFullDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
+      searchParams,
     ]);
 
     const t = getT(dict);
+    // Dict-pointer slugs (leaked by old sitemaps) → readable names; 308 below.
+    const { typeName, markerId } = resolvePointerSlugs(
+      dict,
+      rawTypeName,
+      rawMarkerId,
+      sp?.id,
+    );
+    const slugsChanged = typeName !== rawTypeName || markerId !== rawMarkerId;
 
     // Resolve the map tolerantly ('+'-as-space + case-insensitive) and, when the
     // URL isn't the canonical proper-cased %20 form (the one the sitemap emits /
@@ -179,18 +237,20 @@ export function createMapPage(
     if (!canonical) {
       notFound();
     }
-    if (decodeURIComponent(map.replace(/\+/g, " ")) !== canonical.name) {
+    if (
+      decodeURIComponent(map.replace(/\+/g, " ")) !== canonical.name ||
+      slugsChanged
+    ) {
       let dest = localizePath(
         `/maps/${encodeURIComponent(canonical.name)}`,
         locale,
       );
-      if (typeSlug) {
-        dest += `/${encodeURIComponent(decodeURIComponent(typeSlug))}`;
-        if (markerSlug) {
-          dest += `/${encodeURIComponent(decodeURIComponent(markerSlug))}`;
+      if (typeName) {
+        dest += `/${encodeURIComponent(typeName)}`;
+        if (markerId) {
+          dest += `/${encodeURIComponent(markerId)}`;
         }
       }
-      const sp = await searchParams;
       const qs = new URLSearchParams();
       for (const [k, v] of Object.entries(sp)) {
         if (Array.isArray(v)) v.forEach((entry) => qs.append(k, entry));
@@ -205,8 +265,6 @@ export function createMapPage(
     if (!decodedMap.endsWith(" Map")) {
       decodedMap += " Map";
     }
-
-    const typeName = typeSlug ? decodeURIComponent(typeSlug) : undefined;
 
     // For marker pages, build a human-readable title
     let markerDisplayName: string | undefined;

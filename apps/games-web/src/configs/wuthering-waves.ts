@@ -49,7 +49,14 @@ export const wutheringWaves = resolveAppConfig({
         type: "echoes",
         titleFallback: "Echoes",
         icon: "👁️",
-        description: "Collectible echoes and their rarities.",
+        description: "Collectible echoes with cost, skills and sonata sets.",
+      },
+      {
+        href: "/db/sonatas",
+        type: "sonatas",
+        titleFallback: "Sonatas",
+        icon: "🎼",
+        description: "Echo set bonuses and the echoes that grant them.",
       },
       {
         href: "/db/enemies",
@@ -70,6 +77,7 @@ export const wutheringWaves = resolveAppConfig({
       resonators: "Resonators",
       weapons: "Weapons",
       echoes: "Echoes",
+      sonatas: "Sonatas",
       enemies: "Enemies",
       inventory: "Items",
     },

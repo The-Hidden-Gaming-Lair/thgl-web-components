@@ -4,7 +4,11 @@ import {
   getApiUrl,
   decodeFromBuffer,
   DEFAULT_LOCALE,
+  fetchDatabaseIndex,
+  fetchDbDict,
   fetchVersion,
+  findDbEntriesForFilterTypes,
+  getDbSectionByType,
   FiltersConfig,
   getAllTypesFromVersion,
   getGroupFromVersion,
@@ -21,6 +25,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Subtitle } from "../(content)";
 import MapGuides from "../(data)/map-guides";
+import { PageComments } from "../(data)/page-comments";
 import { Metadata } from "next";
 import { getFullDictionary } from "../../dicts";
 import { JSONLDScript } from "./json-ld-script";
@@ -96,15 +101,58 @@ function getIconFromFilters(filters: FiltersConfig, id: string) {
 /** `search?…&summary=1` response: how many spawns match and on which maps. */
 type GuideSummary = { count: number; maps: string[] };
 
+/** null = the search API could not answer (NOT the same as zero spawns). */
 async function fetchGuideSummary(
   appName: string,
   query: string,
-): Promise<GuideSummary> {
-  const url = await resolveForgeUrl(getApiUrl(appName, `${query}&summary=1`));
-  const response = await fetch(url);
-  if (!response.ok) return { count: 0, maps: [] };
-  const buffer = await response.arrayBuffer();
-  return decodeFromBuffer<GuideSummary>(new Uint8Array(buffer));
+): Promise<GuideSummary | null> {
+  try {
+    const url = await resolveForgeUrl(getApiUrl(appName, `${query}&summary=1`));
+    const response = await fetch(url);
+    if (!response.ok) return null;
+    const buffer = await response.arrayBuffer();
+    return decodeFromBuffer<GuideSummary>(new Uint8Array(buffer));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Database entries this guide's filter types correspond to (declared
+ * `dbSection` links, else an exact English-name match), with localized names.
+ * Best-effort: a DB hiccup just drops the links.
+ */
+async function getGuideDbLinks(
+  appConfig: AppConfig,
+  locale: string,
+  typeIds: string[],
+  filters: FiltersConfig,
+): Promise<{ href: string; name: string }[]> {
+  if (!appConfig.db || typeIds.length === 0) return [];
+  try {
+    const [index, enDict, localeDict] = await Promise.all([
+      fetchDatabaseIndex(appConfig.name),
+      fetchDbDict(appConfig.name, "en"),
+      fetchDbDict(appConfig.name, locale),
+    ]);
+    const refs = findDbEntriesForFilterTypes({
+      typeIds,
+      filters,
+      index,
+      enDict,
+      sectionByType: getDbSectionByType(appConfig.db.homeSections, index),
+    });
+    const t = getT(localeDict);
+    return refs.map((ref) => ({
+      href: localizePath(
+        `/db/${ref.section}/${encodeURIComponent(ref.id)}`,
+        locale,
+      ),
+      name: t(ref.id),
+    }));
+  } catch {
+    return [];
+  }
 }
 
 export function createGuidePage(appConfig: AppConfig) {
@@ -152,9 +200,27 @@ export function createGuidePage(appConfig: AppConfig) {
     // and the map tabs; the spawns themselves are loaded by the client
     // (MapGuides). Embedding every spawn in the render made a resource type
     // with 38k spawns (Dune: Scrap Metal) an 80 MB, 12 s origin render.
-    const summaries = await Promise.all(
-      queries.map((query) => fetchGuideSummary(appConfig.name, query)),
-    );
+    const [rawSummaries, dbLinks] = await Promise.all([
+      Promise.all(
+        queries.map((query) => fetchGuideSummary(appConfig.name, query)),
+      ),
+      // Only type guides map to one entity; a group guide has no DB twin.
+      getGuideDbLinks(
+        appConfig,
+        locale,
+        allTypeIds.length > 0 ? typeIds : [],
+        version.data.filters,
+      ),
+    ]);
+    // A type with no plottable spawns (live-only NPCs, overlay-only types)
+    // has nothing to guide — 404 it instead of rendering "0 known …"
+    // boilerplate. Only when every summary actually answered: a search-API
+    // outage must never 404 a real guide.
+    if (rawSummaries.every((s) => s !== null)) {
+      const total = rawSummaries.reduce((n, s) => n + (s?.count ?? 0), 0);
+      if (total === 0) return notFound();
+    }
+    const summaries = rawSummaries.map((s) => s ?? { count: 0, maps: [] });
     const spawnCount = summaries.reduce((n, s) => n + s.count, 0);
     const maps = [...new Set(summaries.flatMap((s) => s.maps))]
       .map((mapName) => mapName || defaultMapName)
@@ -338,6 +404,22 @@ export function createGuidePage(appConfig: AppConfig) {
                     },
                   })}
                 </p>
+                {dbLinks.length > 0 && (
+                  <p className="text-sm mt-2">
+                    {t("guide.dbLinks", { fallback: "In the database:" })}{" "}
+                    {dbLinks.map((link, i) => (
+                      <span key={link.href}>
+                        {i > 0 && ", "}
+                        <Link
+                          href={link.href}
+                          className="text-amber-300 underline underline-offset-2 hover:text-amber-200"
+                        >
+                          {link.name}
+                        </Link>
+                      </span>
+                    ))}
+                  </p>
+                )}
                 {version.createdAt && (
                   <p className="text-xs text-muted-foreground mt-2">
                     Last updated:{" "}
@@ -351,22 +433,30 @@ export function createGuidePage(appConfig: AppConfig) {
               </>
             }
             content={
-              <MapGuides
-                appName={appConfig.name}
-                locale={locale}
-                queries={queries}
-                typeLabels={typeLabels}
-                typeIcons={typeIcons}
-                defaultMapName={defaultMapName}
-                maps={maps}
-                mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
-                tiles={version.data.tiles}
-                additionalTooltip={
-                  games.find((g) => g.id === appConfig.name)
-                    ?.additionalTooltip ?? appConfig.game?.additionalTooltip
-                }
-                typeGroupLabels={typeGroupLabels}
-              />
+              <>
+                <MapGuides
+                  appName={appConfig.name}
+                  locale={locale}
+                  queries={queries}
+                  typeLabels={typeLabels}
+                  typeIcons={typeIcons}
+                  defaultMapName={defaultMapName}
+                  maps={maps}
+                  mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
+                  tiles={version.data.tiles}
+                  additionalTooltip={
+                    games.find((g) => g.id === appConfig.name)
+                      ?.additionalTooltip ?? appConfig.game?.additionalTooltip
+                  }
+                  typeGroupLabels={typeGroupLabels}
+                />
+                {/* Keyed by the type/group ID, not the localized URL slug, so
+                  every language shares one thread. */}
+                <PageComments
+                  id={`guide:${guideId}`}
+                  appName={appConfig.name}
+                />
+              </>
             }
           />
         </HeaderOffset>

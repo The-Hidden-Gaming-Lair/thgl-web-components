@@ -1,9 +1,15 @@
 import Link from "next/link";
-import { localizePath, type TilesConfig, type FiltersConfig } from "@repo/lib";
+import {
+  localizePath,
+  translate,
+  type TilesConfig,
+  type FiltersConfig,
+} from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { DbLocationMap } from "@/lib/db/db-location-map";
 import { DbEmbeddedMap, type EmbeddedMapSpawn } from "@/lib/db/db-embedded-map";
 import { resolveDict } from "@/lib/db/resolve-dict";
+import { formatBool } from "@/lib/db/seo";
 import {
   FilterableRefs,
   type IconSprite as RefIconSprite,
@@ -243,11 +249,14 @@ export function GenericEntityView({
    *  carries as bare `{id, section}` (names live in the per-locale dict). */
   dict?: Record<string, string>;
 }) {
-  // DbRefs carry no baked name (localized via dict). Resolve name from the ref
-  // itself, then the dict, then fall back to the raw id.
+  // DbRefs carry no baked name (names resolve per-locale from the dict). The
+  // dict wins; a legacy baked (English) `name` is only a fallback, then the id.
   const refName = (r: { id: string; name?: string }) =>
-    r.name || (dict ? resolveDict(dict, r.id) : "") || r.id;
+    (dict && dict[r.id] ? resolveDict(dict, r.id) : "") || r.name || r.id;
   const hasDesc = desc && desc !== `${id}_desc` && desc !== id;
+  // Localized page chrome (UI dict `db.*` keys; English fallback).
+  const L = (key: string, fallback: string, vars?: Record<string, string>) =>
+    translate(dict ?? {}, key, { fallback, vars });
   // "Found where on the map" — rendered as its own clickable section, not in
   // the table.
   const locations = isLocationsProp(props?.locations)
@@ -481,8 +490,13 @@ export function GenericEntityView({
             />
           </div>
         ) : (
-          <div className="shrink-0 w-[120px] h-[120px] border border-dashed border-slate-700 rounded bg-slate-900/30 flex items-center justify-center text-slate-600 text-xs">
-            no icon
+          // Neutral placeholder (the entry's initial) — never literal text
+          // like "no icon" that ends up in the indexed page content.
+          <div
+            aria-hidden="true"
+            className="shrink-0 w-[120px] h-[120px] border border-slate-800 rounded bg-slate-900/40 flex items-center justify-center text-slate-600 text-5xl font-bold select-none"
+          >
+            {name.trim().charAt(0).toUpperCase()}
           </div>
         )}
         <div className="min-w-0 flex-1">
@@ -539,7 +553,7 @@ export function GenericEntityView({
       {variants && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Variants
+            {L("db.variants", "Variants")}
           </div>
           <div className="flex flex-wrap gap-3">
             {variants.map((v) => (
@@ -580,7 +594,7 @@ export function GenericEntityView({
                   {humanizeKey(k)}
                 </div>
                 <div className="text-sm font-medium text-slate-100">
-                  {String(v)}
+                  {typeof v === "boolean" ? formatBool(dict, v) : String(v)}
                 </div>
               </div>
             );
@@ -591,12 +605,13 @@ export function GenericEntityView({
       {rarityTiers && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Rarity
+            {L("db.rarity", "Rarity")}
           </div>
           <p className="text-xs text-muted-foreground mb-2 max-w-2xl">
-            Rarity is rolled per instance when this item drops or is crafted
-            (like its random bonuses) — shown by the item&apos;s border colour.
-            Higher tiers roll more and stronger bonuses.
+            {L(
+              "db.rarityNote",
+              "Rarity is rolled per instance when this item drops or is crafted (like its random bonuses) — shown by the item's border colour. Higher tiers roll more and stronger bonuses.",
+            )}
           </p>
           <div className="flex flex-wrap gap-2">
             {rarityTiers.map((t) => (
@@ -623,7 +638,7 @@ export function GenericEntityView({
       {upgradeTable && upgradeTable.rows.length > 0 && (
         <div className="mb-6 max-w-md">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            {upgradeTable.label ?? "Upgrade"}
+            {upgradeTable.label ?? L("db.upgrade", "Upgrade")}
           </div>
           <div className="border border-slate-800 rounded overflow-hidden">
             <table className="w-full text-sm">
@@ -693,10 +708,13 @@ export function GenericEntityView({
       {locations && locations.list.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Found at {locations.total}{" "}
-            {locations.total === 1
-              ? (locations.noun ?? "location")
-              : (locations.nounPlural ?? "locations")}
+            {L("db.foundAt", "Found at {{count}} {{noun}}", {
+              count: String(locations.total),
+              noun:
+                locations.total === 1
+                  ? (locations.noun ?? L("db.location", "location"))
+                  : (locations.nounPlural ?? L("db.locations", "locations")),
+            })}
           </div>
           {tiles ? (
             // Embedded interactive map pinning every location.
@@ -741,7 +759,9 @@ export function GenericEntityView({
           )}
           {locations.total > locations.list.length && (
             <div className="mt-2 text-xs text-muted-foreground">
-              + {locations.total - locations.list.length} more
+              {L("db.moreCount", "+ {{count}} more", {
+                count: String(locations.total - locations.list.length),
+              })}
             </div>
           )}
         </div>
@@ -761,7 +781,7 @@ export function GenericEntityView({
       {soldBy && soldBy.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Sold by
+            {L("db.soldBy", "Sold by")}
           </div>
           {refLinks(soldBy)}
         </div>
@@ -770,7 +790,11 @@ export function GenericEntityView({
       {sells && sells.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Sells {sells.length} {sells.length === 1 ? "item" : "items"}
+            {sells.length === 1
+              ? L("db.sellsOne", "Sells 1 item")
+              : L("db.sellsCount", "Sells {{count}} items", {
+                  count: String(sells.length),
+                })}
           </div>
           {refLinks(sells)}
         </div>
@@ -779,7 +803,7 @@ export function GenericEntityView({
       {craftable && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Craftable at
+            {L("db.craftableAt", "Craftable at")}
           </div>
           <span className="inline-flex items-center rounded border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-amber-300">
             {craftable.station}
@@ -790,7 +814,7 @@ export function GenericEntityView({
       {ingredients && ingredients.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Crafted from
+            {L("db.craftedFrom", "Crafted from")}
           </div>
           {refLinks(ingredients)}
         </div>
@@ -799,7 +823,7 @@ export function GenericEntityView({
       {usedToCraft && usedToCraft.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Used to craft
+            {L("db.usedToCraft", "Used to craft")}
           </div>
           {refLinks(usedToCraft)}
         </div>
@@ -808,7 +832,7 @@ export function GenericEntityView({
       {drops && drops.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Drops
+            {L("db.drops", "Drops")}
           </div>
           {renderRefs(drops)}
         </div>
@@ -817,7 +841,7 @@ export function GenericEntityView({
       {droppedBy && droppedBy.length > 0 && (
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-            Dropped by
+            {L("db.droppedBy", "Dropped by")}
           </div>
           {refLinks(droppedBy)}
         </div>
@@ -835,7 +859,7 @@ export function GenericEntityView({
       {Object.keys(tableProps).length > 0 && (
         <div className="border border-slate-800 rounded max-w-3xl">
           <div className="border-b border-slate-800 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Details
+            {L("db.details", "Details")}
           </div>
           <table className="w-full text-sm">
             <tbody>
@@ -852,7 +876,7 @@ export function GenericEntityView({
                   <td
                     className={`px-3 py-1.5 text-xs ${monoDetails ? "font-mono break-all" : ""}`}
                   >
-                    {formatValue(v)}
+                    {formatValue(v, dict)}
                   </td>
                 </tr>
               ))}
@@ -864,21 +888,19 @@ export function GenericEntityView({
   );
 }
 
-function formatValue(v: unknown): string {
+function formatValue(v: unknown, dict?: Record<string, string>): string {
   if (v === null || v === undefined) return String(v);
-  if (
-    typeof v === "string" ||
-    typeof v === "number" ||
-    typeof v === "boolean"
-  ) {
+  if (typeof v === "boolean") return formatBool(dict, v);
+  if (typeof v === "string" || typeof v === "number") {
     return String(v);
   }
   if (Array.isArray(v)) {
+    const fmt = (x: unknown) => formatValue(x, dict);
     if (v.length === 0) return "[]";
     if (v.length > 20) {
-      return `[${v.slice(0, 20).map(formatValue).join(", ")}, … (${v.length} total)]`;
+      return `[${v.slice(0, 20).map(fmt).join(", ")}, … (${v.length} total)]`;
     }
-    return `[${v.map(formatValue).join(", ")}]`;
+    return `[${v.map(fmt).join(", ")}]`;
   }
   return JSON.stringify(v);
 }

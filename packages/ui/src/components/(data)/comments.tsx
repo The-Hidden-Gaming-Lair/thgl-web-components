@@ -39,7 +39,54 @@ const formSchema = z.object({
   text: z.string().min(2).max(500),
 });
 
-export function Comments({ id, appName }: { id: string; appName: string }) {
+/**
+ * SWR key for a node's comment list. SingleComment revalidates the same key
+ * after votes/edits/deletes/reports, so every consumer must use this.
+ */
+export const commentsKey = (id: string) => `/comments/${id}`;
+
+/**
+ * Comments attached to a free-form node id: a map marker (`type@x:y`), a DB
+ * entry (`db:<section>/<id>`) or a guide (`guide:<type>`). Pass
+ * `enabled: false` to defer the request (e.g. until the section scrolls into
+ * view) — the fetch stays client-side so edge-cached pages never go per-user.
+ */
+export function useNodeComments(
+  id: string,
+  appName: string,
+  enabled: boolean = true,
+) {
+  return useSWR(enabled ? commentsKey(id) : null, async () => {
+    const res = await resilientFetch(
+      `${API_FORGE_URL}/comments?node_id=${encodeURIComponent(id)}&app_id=${encodeURIComponent(appName)}`,
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch comments");
+    }
+    return ((await res.json()) as { comments: Comment[] }).comments.sort(
+      (a, b) =>
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+    );
+  });
+}
+
+/** Sign-in-gated composer shared by the marker panel and page sections. */
+export function CommentForm({
+  id,
+  appName,
+  placeholder = "Write a comment...",
+  signInMessage,
+  autoFocus,
+  onPosted,
+}: {
+  id: string;
+  appName: string;
+  placeholder?: string;
+  /** AuthAlert text for signed-out visitors. */
+  signInMessage?: string;
+  autoFocus?: boolean;
+  onPosted?: () => void;
+}) {
   const userId = useAccountStore((state) => state.userId);
   const [pendingImages, setPendingImages] = useState<File[]>([]);
   const isThglApp = typeof window !== "undefined" && !!window.chrome?.webview;
@@ -63,28 +110,11 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
   }, []);
 
   const {
-    data: comments,
-    isLoading,
-    error,
-  } = useSWR(`/comments/${id}`, async () => {
-    const res = await resilientFetch(
-      `${API_FORGE_URL}/comments?node_id=${id}&app_id=${appName}`,
-    );
-    if (!res.ok) {
-      throw new Error("Failed to fetch comments");
-    }
-    return ((await res.json()) as { comments: Comment[] }).comments.sort(
-      (a, b) =>
-        new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
-    );
-  });
-
-  const {
     trigger,
     isMutating,
     error: submitError,
   } = useSWRMutation(
-    `/comments/${id}`,
+    commentsKey(id),
     async (
       _,
       {
@@ -142,12 +172,106 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
       // can retry without retyping.
       form.reset();
       setPendingImages([]);
+      onPosted?.();
     } catch (err) {
       toast.error(
         err instanceof Error ? err.message : "Failed to post comment",
       );
     }
   };
+
+  if (!userId) {
+    return <AuthAlert message={signInMessage} />;
+  }
+
+  return (
+    <Form {...form}>
+      <form
+        className="space-y-2"
+        onSubmit={form.handleSubmit(onSubmit)}
+        onPaste={handleFormPaste}
+      >
+        <FormField
+          control={form.control}
+          name="text"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea
+                  className="text-xs min-h-0 resize-none"
+                  placeholder={placeholder}
+                  rows={2}
+                  maxLength={500}
+                  autoFocus={autoFocus}
+                  disabled={isMutating || !userId}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <CommentImageUpload
+          images={pendingImages}
+          onImagesChange={setPendingImages}
+          showScreenshot={isThglApp}
+        />
+
+        <div className="flex items-center justify-end">
+          <span className="text-[10px] text-muted-foreground tabular-nums">
+            {watchText?.length ?? 0}/500
+          </span>
+        </div>
+
+        {submitError instanceof Error && !isMutating && (
+          <p className="text-xs text-destructive">{submitError.message}</p>
+        )}
+
+        <Button
+          type="submit"
+          size="sm"
+          className="h-7 text-xs"
+          disabled={isMutating || !userId}
+        >
+          {isMutating ? "Sending..." : "Send"}
+        </Button>
+      </form>
+    </Form>
+  );
+}
+
+/** Small "Markdown / be respectful" hint row shown above a composer. */
+export function CommentGuidelines({ label }: { label: string }) {
+  return (
+    <div className="flex items-center justify-between mb-1.5">
+      <span className="text-xs font-medium">{label}</span>
+      <div className="flex items-center gap-1.5">
+        <a
+          href="https://www.markdownguide.org/cheat-sheet/"
+          target="_blank"
+          className="text-[10px] text-muted-foreground hover:text-primary transition-colors"
+        >
+          Markdown
+        </a>
+        <HoverCard openDelay={20} closeDelay={20}>
+          <HoverCardTrigger>
+            <Info className="h-3 w-3 text-muted-foreground" />
+          </HoverCardTrigger>
+          <HoverCardPortal>
+            <HoverCardContent className="text-xs w-auto max-w-[240px]">
+              <p>Comments are public and visible to everyone.</p>
+              <p>Be respectful, avoid spamming and ask before advertisement.</p>
+            </HoverCardContent>
+          </HoverCardPortal>
+        </HoverCard>
+      </div>
+    </div>
+  );
+}
+
+export function Comments({ id, appName }: { id: string; appName: string }) {
+  const { data: comments, isLoading, error } = useNodeComments(id, appName);
 
   return (
     <>
@@ -181,90 +305,8 @@ export function Comments({ id, appName }: { id: string; appName: string }) {
 
       {/* Form */}
       <div className="pt-2 border-t border-border">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs font-medium">Add comment</span>
-          <div className="flex items-center gap-1.5">
-            <a
-              href="https://www.markdownguide.org/cheat-sheet/"
-              target="_blank"
-              className="text-[10px] text-muted-foreground hover:text-primary transition-colors"
-            >
-              Markdown
-            </a>
-            <HoverCard openDelay={20} closeDelay={20}>
-              <HoverCardTrigger>
-                <Info className="h-3 w-3 text-muted-foreground" />
-              </HoverCardTrigger>
-              <HoverCardPortal>
-                <HoverCardContent className="text-xs w-auto max-w-[240px]">
-                  <p>Comments are public and visible to everyone.</p>
-                  <p>
-                    Be respectful, avoid spamming and ask before advertisement.
-                  </p>
-                </HoverCardContent>
-              </HoverCardPortal>
-            </HoverCard>
-          </div>
-        </div>
-
-        {!userId ? (
-          <AuthAlert />
-        ) : (
-          <Form {...form}>
-            <form
-              className="space-y-2"
-              onSubmit={form.handleSubmit(onSubmit)}
-              onPaste={handleFormPaste}
-            >
-              <FormField
-                control={form.control}
-                name="text"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        className="text-xs min-h-0 resize-none"
-                        placeholder="Write a comment..."
-                        rows={2}
-                        maxLength={500}
-                        disabled={isMutating || !userId}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <CommentImageUpload
-                images={pendingImages}
-                onImagesChange={setPendingImages}
-                showScreenshot={isThglApp}
-              />
-
-              <div className="flex items-center justify-end">
-                <span className="text-[10px] text-muted-foreground tabular-nums">
-                  {watchText?.length ?? 0}/500
-                </span>
-              </div>
-
-              {submitError instanceof Error && !isMutating && (
-                <p className="text-xs text-destructive">
-                  {submitError.message}
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                size="sm"
-                className="h-7 text-xs"
-                disabled={isMutating || !userId}
-              >
-                {isMutating ? "Sending..." : "Send"}
-              </Button>
-            </form>
-          </Form>
-        )}
+        <CommentGuidelines label="Add comment" />
+        <CommentForm id={id} appName={appName} />
       </div>
     </>
   );

@@ -9,6 +9,7 @@ import {
   fetchTiles,
   getMetadataAlternates,
   localizePath,
+  translate,
   type TilesConfig,
   DEFAULT_LOCALE,
 } from "@repo/lib";
@@ -16,11 +17,17 @@ import { getFullDbDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
-import { entityPageJsonLd } from "@/lib/db/json-ld";
+import { breadcrumbJsonLd, entityPageJsonLd } from "@/lib/db/json-ld";
+import {
+  buildEntityDescription,
+  buildEntityTitle,
+  getSectionLabels,
+} from "@/lib/db/seo";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { GenericEntityView } from "@/lib/db/generic-view";
 import { getPartnerEntryLink } from "@/lib/db/partner-links";
 import { PartnerLinkRow } from "@/lib/db/partner-link";
+import { EntryExtras } from "@/lib/db/entry-extras";
 import { SocEntityView } from "@/games/songs-of-conquest/entity-view";
 
 // Per-game detail-view overrides. Tenants not listed fall back to the generic
@@ -98,51 +105,6 @@ async function resolveSection(section: string, locale: string, id: string) {
   return { appConfig, secCfg, types };
 }
 
-// Build a data-rich meta description from an entry's props (stats + where it's
-// found / sold / crafted / dropped). Generic over any tenant's prop shape.
-function buildEntityDescription(
-  name: string,
-  sectionLabel: string,
-  props: Record<string, any> | undefined,
-  appTitle: string,
-): string {
-  const p = props ?? {};
-  const stats: string[] = [];
-  if (p.Damage) stats.push(`${p.Damage} damage`);
-  if (p.Value) stats.push(String(p.Value));
-  if (p["Magic Circle"] != null)
-    stats.push(`Circle of Magic ${p["Magic Circle"]}`);
-  const names = (a: any) =>
-    Array.isArray(a)
-      ? a
-          .slice(0, 3)
-          .map((r: any) => r.name)
-          .filter(Boolean)
-      : [];
-  const prov: string[] = [];
-  if (p.locations?.total)
-    prov.push(
-      `found in ${p.locations.total} chest${p.locations.total > 1 ? "s" : ""}`,
-    );
-  if (names(p.soldBy).length)
-    prov.push(`sold by ${names(p.soldBy).join(", ")}`);
-  if (p.craftable?.station) prov.push(`craftable at a ${p.craftable.station}`);
-  if (names(p.droppedBy).length)
-    prov.push(`dropped by ${names(p.droppedBy).join(", ")}`);
-  if (p.drops?.total)
-    prov.push(`drops ${p.drops.total} item${p.drops.total > 1 ? "s" : ""}`);
-  if (p.sells?.total) prov.push(`sells ${p.sells.total} items`);
-
-  let desc = `${name} — ${sectionLabel.toLowerCase()} in ${appTitle}`;
-  if (stats.length) desc += ` (${stats.join(", ")})`;
-  desc += ".";
-  if (prov.length) {
-    const joined = prov.join("; ");
-    desc += " " + joined.charAt(0).toUpperCase() + joined.slice(1) + ".";
-  }
-  return desc.length > 300 ? desc.slice(0, 297) + "…" : desc;
-}
-
 export async function generateMetadata({
   params,
 }: {
@@ -152,10 +114,10 @@ export async function generateMetadata({
   const { appConfig, secCfg } = await resolveSection(section, locale, id);
   const dict = await getFullDbDictionary(appConfig.name, locale);
   const name = resolveDict(dict, id) || id;
-  const sectionLabel =
-    appConfig.db?.typeLabels?.[secCfg.type] ||
-    resolveDict(dict, secCfg.type) ||
-    section;
+  const { singular } = getSectionLabels(appConfig, dict, secCfg, section);
+  const rawDesc = resolveDict(dict, `${id}_desc`);
+  const entryDesc =
+    rawDesc && rawDesc !== `${id}_desc` && rawDesc !== id ? rawDesc : undefined;
 
   // Pull the entry's props (cached fetch shared with the page) for a rich,
   // data-driven description. Best-effort — fall back to a simple line.
@@ -195,13 +157,21 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${name} - ${appConfig.title}`;
-  const description = buildEntityDescription(
+  const title = buildEntityTitle({
+    dict,
     name,
-    sectionLabel,
+    singular,
+    game: appConfig.title,
     props,
-    appConfig.title,
-  );
+  });
+  const description = buildEntityDescription({
+    dict,
+    name,
+    singular,
+    game: appConfig.title,
+    desc: entryDesc,
+    props,
+  });
   const { canonical, languageAlternates } = getMetadataAlternates(
     `/db/${section}/${id}`,
     locale,
@@ -283,10 +253,12 @@ export default async function Page({ params }: { params: Params }) {
 
   const name = resolveDict(dict, id) || id;
   const desc = resolveDict(dict, `${id}_desc`);
-  const sectionLabel =
-    appConfig.db?.typeLabels?.[secCfg.type] ||
-    resolveDict(dict, secCfg.type) ||
-    section;
+  const { plural: sectionLabel, singular } = getSectionLabels(
+    appConfig,
+    dict,
+    secCfg,
+    section,
+  );
   const groupId = (item as { groupId?: string }).groupId;
   const groupLabel = groupId ? resolveDict(dict, groupId) : undefined;
   // Per-entry files omit `icon` (see fetchDatabaseEntry), so fall back to the
@@ -297,6 +269,15 @@ export default async function Page({ params }: { params: Params }) {
       : icons[id];
 
   const hasDesc = desc && desc !== `${id}_desc` && desc !== id;
+  const crumbs = [
+    {
+      label: translate(dict, "db.database", { fallback: "Database" }),
+      href: "/db",
+    },
+    { label: sectionLabel, href: `/db/${section}` },
+    { label: name },
+  ];
+  const pageUrl = `https://${appConfig.domain}.th.gl${localizePath(`/db/${section}/${encodeURIComponent(item.id)}`, locale)}`;
   return (
     <>
       <JSONLDScript
@@ -306,19 +287,28 @@ export default async function Page({ params }: { params: Params }) {
           sectionLabel,
           entityId: item.id,
           entityName: name,
-          description: hasDesc ? desc : undefined,
+          description: buildEntityDescription({
+            dict,
+            name,
+            singular,
+            game: appConfig.title,
+            desc: hasDesc ? desc : undefined,
+            props: item.props as Record<string, unknown> | undefined,
+          }),
+          locale,
+        })}
+      />
+      <JSONLDScript
+        json={breadcrumbJsonLd({
+          appConfig,
+          homeLabel: dict["ui.nav_home"] || "Home",
+          crumbs,
+          url: pageUrl,
           locale,
         })}
       />
       <div className="max-w-7xl mx-auto px-4 pt-6">
-        <Breadcrumb
-          crumbs={[
-            { label: sectionLabel, href: `/db/${section}` },
-            { label: name },
-          ]}
-          locale={locale}
-          dict={dict}
-        />
+        <Breadcrumb crumbs={crumbs} locale={locale} dict={dict} />
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-6">
         {(() => {
@@ -355,6 +345,20 @@ export default async function Page({ params }: { params: Params }) {
             </div>
           );
         })()}
+        {/* On the map / Related / Was this accurate? / Tips & comments */}
+        <EntryExtras
+          appConfig={appConfig}
+          section={section}
+          id={item.id}
+          name={name}
+          type={matchingType}
+          groupId={groupId}
+          props={item.props as Record<string, unknown> | undefined}
+          index={index}
+          dict={dict}
+          locale={locale}
+          version={version}
+        />
       </div>
     </>
   );

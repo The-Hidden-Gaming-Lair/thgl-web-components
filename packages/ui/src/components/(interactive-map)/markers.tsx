@@ -917,6 +917,17 @@ function MarkersContent({
     });
     return m;
   }, [filters]);
+  // type -> type-level codex entry id (filter value `dbEntryId`), for types whose entry is not
+  // keyed by the type id. Second-to-last fallback of dbEntryIdOf.
+  const typeToDbEntryId = useMemo(() => {
+    const m = new Map<string, string>();
+    filters.forEach((g) => {
+      g.values.forEach((v) => {
+        if (v.dbSection && v.dbEntryId) m.set(v.id, v.dbEntryId);
+      });
+    });
+    return m;
+  }, [filters]);
 
   // typeToCategory: top-level "Fishing" / "Bugs" / "Mining" etc. The category
   // slider in the FilterSettingsPopover writes iconSizeByGroup[<category>],
@@ -1701,7 +1712,7 @@ function MarkersContent({
           dbSection: typeToDbSection.get(s.type),
           // Codex entry key (dbEntryIdOf): explicit `dbEntryId`, else the id when it is an
           // entry id, else the type — a position-derived id (`type@x:y`) is skipped.
-          dbEntryId: dbEntryIdOf(s),
+          dbEntryId: dbEntryIdOf(s, typeToDbEntryId.get(s.type)),
         },
       ];
 
@@ -1729,7 +1740,10 @@ function MarkersContent({
               data: stackedSpawn.data,
               p: stackedSpawn.p,
               dbSection: typeToDbSection.get(stackedSpawn.type),
-              dbEntryId: dbEntryIdOf(stackedSpawn),
+              dbEntryId: dbEntryIdOf(
+                stackedSpawn,
+                typeToDbEntryId.get(stackedSpawn.type),
+              ),
             };
           }),
         );

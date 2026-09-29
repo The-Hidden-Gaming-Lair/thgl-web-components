@@ -5,13 +5,19 @@ import {
   fetchVersion,
   getMetadataAlternates,
   localizePath,
+  translate,
   DEFAULT_LOCALE,
 } from "@repo/lib";
 import { getFullDbDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
 import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
-import { collectionPageJsonLd } from "@/lib/db/json-ld";
+import { breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/db/json-ld";
+import {
+  buildSectionDescription,
+  buildSectionTitle,
+  getSectionLabels,
+} from "@/lib/db/seo";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { FilterableEntityGrid } from "@/lib/db/filterable-entity-grid";
 import { getPartnerSectionLink } from "@/lib/db/partner-links";
@@ -45,17 +51,20 @@ async function resolveSection(section: string, locale: string) {
   return { appConfig, db, secCfg };
 }
 
-function getSectionLabel(
-  appConfig: Awaited<ReturnType<typeof getAppConfig>>,
-  dict: Record<string, string>,
-  type: string,
-  section: string,
-): string {
-  return (
-    appConfig.db?.typeLabels?.[type] ||
-    resolveDict(dict, `config.internalLinks.${section}.title`) ||
-    resolveDict(dict, type) ||
-    section
+type SectionCfg = NonNullable<
+  Awaited<ReturnType<typeof getAppConfig>>["db"]
+>["homeSections"][number];
+
+/** Categories of the database index that belong to this section. */
+function sectionCategories<T extends { type: string }>(
+  database: T[],
+  secCfg: SectionCfg,
+): T[] {
+  const types = [secCfg.type, ...(secCfg.extraTypes ?? [])];
+  return database.filter(
+    (cat) =>
+      types.includes(cat.type) ||
+      (secCfg.typePrefix ? cat.type.startsWith(secCfg.typePrefix) : false),
   );
 }
 
@@ -64,10 +73,25 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale = DEFAULT_LOCALE, section } = await params;
   const { appConfig, secCfg } = await resolveSection(section, locale);
-  const dict = await getFullDbDictionary(appConfig.name, locale);
-  const label = getSectionLabel(appConfig, dict, secCfg.type, section);
-  const title = `${label} - ${appConfig.title}`;
-  const description = `Browse all ${label.toLowerCase()} in ${appConfig.title}.`;
+  const [dict, database] = await Promise.all([
+    getFullDbDictionary(appConfig.name, locale),
+    fetchDatabaseIndex(appConfig.name).catch(() => []),
+  ]);
+  const { plural: label } = getSectionLabels(appConfig, dict, secCfg, section);
+  const cats = sectionCategories(database, secCfg);
+  const count = cats.reduce((sum, cat) => sum + cat.items.length, 0);
+  const title = count
+    ? buildSectionTitle(dict, label, count, appConfig.title)
+    : `${label} | ${appConfig.title}`;
+  const description = buildSectionDescription(
+    dict,
+    label,
+    count,
+    appConfig.title,
+    cats.flatMap((cat) =>
+      cat.items.slice(0, 4).map((i) => resolveDict(dict, i.id)),
+    ),
+  );
   const { canonical, languageAlternates } = getMetadataAlternates(
     `/db/${section}`,
     locale,
@@ -89,19 +113,13 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { locale = DEFAULT_LOCALE, section } = await params;
   const { appConfig, secCfg } = await resolveSection(section, locale);
-  const types = [secCfg.type, ...(secCfg.extraTypes ?? [])];
-
   const [dict, database, version] = await Promise.all([
     getFullDbDictionary(appConfig.name, locale),
     fetchDatabaseIndex(appConfig.name),
     fetchVersion(appConfig.name),
   ]);
 
-  const data = database.filter(
-    (cat) =>
-      types.includes(cat.type) ||
-      (secCfg.typePrefix ? cat.type.startsWith(secCfg.typePrefix) : false),
-  );
+  const data = sectionCategories(database, secCfg);
   if (!data.length) notFound();
 
   // Flattened effect text per item id, so the grid's filter can match effects
@@ -118,12 +136,20 @@ export default async function Page({ params }: PageProps) {
     }),
   );
 
-  const label = getSectionLabel(appConfig, dict, secCfg.type, section);
+  const { plural: label } = getSectionLabels(appConfig, dict, secCfg, section);
   const iconsHash = version.more.icons;
   const totalCount = data.reduce((sum, cat) => sum + cat.items.length, 0);
   const jsonLdItems = data.flatMap((cat) =>
     cat.items.map((i) => ({ id: i.id, name: resolveDict(dict, i.id) })),
   );
+  const crumbs = [
+    {
+      label: translate(dict, "db.database", { fallback: "Database" }),
+      href: "/db",
+    },
+    { label },
+  ];
+  const pageUrl = `https://${appConfig.domain}.th.gl${localizePath(`/db/${section}`, locale)}`;
 
   return (
     <>
@@ -132,16 +158,34 @@ export default async function Page({ params }: PageProps) {
           appConfig,
           section,
           sectionLabel: label,
-          description: `Browse all ${label.toLowerCase()} in ${appConfig.title}.`,
+          description: buildSectionDescription(
+            dict,
+            label,
+            totalCount,
+            appConfig.title,
+            jsonLdItems.slice(0, 4).map((i) => i.name),
+          ),
           items: jsonLdItems,
           locale,
         })}
       />
+      <JSONLDScript
+        json={breadcrumbJsonLd({
+          appConfig,
+          homeLabel: dict["ui.nav_home"] || "Home",
+          crumbs,
+          url: pageUrl,
+          locale,
+        })}
+      />
       <div className="max-w-7xl mx-auto px-4 pt-6">
-        <Breadcrumb crumbs={[{ label }]} locale={locale} dict={dict} />
+        <Breadcrumb crumbs={crumbs} locale={locale} dict={dict} />
         <h1 className="text-2xl font-bold mb-2">{label}</h1>
         <p className="text-sm text-muted-foreground mb-3">
-          {totalCount.toLocaleString()} entries
+          {translate(dict, "db.entriesCount", {
+            fallback: "{{count}} entries",
+            vars: { count: totalCount.toLocaleString(locale) },
+          })}
         </p>
         {(() => {
           const partner = getPartnerSectionLink(appConfig.name, section);

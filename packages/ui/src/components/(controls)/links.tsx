@@ -115,10 +115,13 @@ export function Links({
       for (const section of appConfig.db.homeSections) {
         if (seen.has(section.href)) continue;
         seen.add(section.href);
+        // The section's display (plural) label — the same one the section's
+        // h1 / breadcrumb / title use. `typeLabels` is the SINGULAR entry
+        // label (search badges, entry titles), only a last resort here.
         const label =
-          appConfig.db.typeLabels?.[section.type] ??
           (section.titleKey ? t(section.titleKey) : undefined) ??
           section.titleFallback ??
+          appConfig.db.typeLabels?.[section.type] ??
           section.type;
         items.push({
           key: localizePath(section.href, locale),
