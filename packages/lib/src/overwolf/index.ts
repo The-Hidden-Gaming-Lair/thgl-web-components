@@ -12,4 +12,5 @@ export * from "./manifest";
 export * from "./plugin";
 export * from "./promisify";
 export * from "./state";
+export * from "./thgl-plugin";
 export * from "./windows";

@@ -4,7 +4,7 @@
   "meta": {
     "name": "Palia Map-DEV",
     "author": "Leon Machens",
-    "version": "4.30.6",
+    "version": "4.31.0",
     "minimum-overwolf-version": "0.241.0",
     "minimum-gep-version": "242.0",
     "description": "Palia Interactive Map – The Hidden Gaming Lair",
@@ -152,8 +152,8 @@
     },
     "extra-objects": {
       "game-events": {
-        "file": "plugins/GameEventsPlugin.dll",
-        "class": "GameEventsPlugin.Overwolf"
+        "file": "plugins/THGLOverwolfPlugin.dll",
+        "class": "THGL.Overwolf.PaliaPlugin"
       },
       "discord": {
         "file": "plugins/DiscordRPCPlugin.dll",
