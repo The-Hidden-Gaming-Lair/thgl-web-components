@@ -65,7 +65,7 @@ function parsePlatforms(v: unknown): PlatformEntry[] {
 /** Admin edit (PATREON_SPECIAL_USERS). */
 export async function PATCH(request: Request, { params }: Params) {
   return handle(async () => {
-    if (!(await requireStatusAdmin())) throw new ForbiddenError();
+    if (!(await requireStatusAdmin(request))) throw new ForbiddenError();
     const { id } = await params;
     const existing = await getGame(id);
     if (!existing) throw new NotFoundError("Game not found");
