@@ -501,8 +501,17 @@ export function InteractiveMap({
     if (!webmap || !mapTileOptions?.url) {
       return;
     }
-    // Skip tile layer for overlay mode with full filter
+    // No tiles in overlay mode with the full filter — and drop any tiles/floor
+    // overlays a previous mode drew, else switching back to "full" keeps them.
     if (isOverlay && mapFilter === "full") {
+      const refs = mapRefsRef.current;
+      if (refs.tileLayer) {
+        webmap.removeLayer(refs.tileLayer);
+        refs.tileLayer = null;
+      }
+      for (const ol of refs.overlayLayers) webmap.removeLayer(ol);
+      refs.overlayLayers = [];
+      webmap.requestRedraw();
       return;
     }
 
