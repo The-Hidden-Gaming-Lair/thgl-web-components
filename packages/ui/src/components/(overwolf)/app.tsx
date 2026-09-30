@@ -67,6 +67,7 @@ export function App({
   additionalFilters,
   lockedWindowComponents,
   additionalComponents,
+  filterBarExtras,
   globalFilters,
   moreSettings,
   version,
@@ -82,6 +83,7 @@ export function App({
   filters: FiltersConfig;
   lockedWindowComponents?: React.ReactNode;
   additionalComponents?: React.ReactNode;
+  filterBarExtras?: React.ReactNode;
   globalFilters?: GlobalFiltersConfig;
   additionalFilters?: React.ReactNode;
   moreSettings?: React.ReactNode;
@@ -173,6 +175,7 @@ export function App({
                       additionalFilters={additionalFilters}
                       iconsPath={version?.more.icons}
                       className="top-[40px]"
+                      filterBarExtras={filterBarExtras}
                       mapEnTitles={Object.fromEntries(
                         Object.keys(tiles).map((k) => [k, translate(dict, k)]),
                       )}

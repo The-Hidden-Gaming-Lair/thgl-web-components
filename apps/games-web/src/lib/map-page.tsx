@@ -22,9 +22,14 @@ function getMapExtras(appConfig: AppConfig) {
     game?.additionalComponents && game.additionalComponents.length > 0 ? (
       <AdditionalContent items={game.additionalComponents} />
     ) : undefined;
+  const filterBarExtras =
+    game?.filterBarComponents && game.filterBarComponents.length > 0 ? (
+      <AdditionalContent items={game.filterBarComponents} />
+    ) : undefined;
   return {
     additionalFilters,
     additionalComponents,
+    filterBarExtras,
     additionalTooltip: game?.additionalTooltip,
   };
 }
@@ -42,13 +47,18 @@ type MapPageProps = Parameters<ReturnType<typeof createMapPage>>[0];
 export function multiTenantMapPage() {
   return async (props: MapPageProps) => {
     const config = await getAppConfig();
-    const { additionalFilters, additionalComponents, additionalTooltip } =
-      getMapExtras(config);
+    const {
+      additionalFilters,
+      additionalComponents,
+      filterBarExtras,
+      additionalTooltip,
+    } = getMapExtras(config);
     const Page = createMapPage(
       config,
       additionalFilters,
       additionalTooltip,
       additionalComponents,
+      filterBarExtras,
     );
     return Page(props);
   };

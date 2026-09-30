@@ -1,5 +1,6 @@
 "use client";
 import { cn, useSettingsStore } from "@repo/lib";
+import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PaliaClock } from "./palia-clock";
 
@@ -34,6 +35,22 @@ export function usePaliaTime() {
   }, []);
 
   return timeFormated;
+}
+
+// Pill next to the floating "Filters" button (filterBarComponents): the clock
+// and its event timetable stay reachable with the filter panel hidden. A click
+// keeps the timetable open while the map is used.
+export function PaliaClockButton() {
+  const timeFormated = usePaliaTime();
+  return (
+    <PaliaClock
+      persistent
+      className="mx-0 h-8 min-w-0 rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm hover:bg-accent"
+    >
+      <Clock className="h-3.5 w-3.5" />
+      {timeFormated}
+    </PaliaClock>
+  );
 }
 
 export function PaliaTime() {

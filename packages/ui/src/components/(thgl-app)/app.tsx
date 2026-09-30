@@ -73,6 +73,7 @@ export function App({
   additionalFilters,
   lockedWindowComponents,
   additionalComponents,
+  filterBarExtras,
   globalFilters,
   version,
   isOverlay,
@@ -86,6 +87,7 @@ export function App({
   filters: FiltersConfig;
   lockedWindowComponents?: React.ReactNode;
   additionalComponents?: React.ReactNode;
+  filterBarExtras?: React.ReactNode;
   globalFilters?: GlobalFiltersConfig;
   additionalFilters?: React.ReactNode;
   version: Version;
@@ -352,6 +354,7 @@ export function App({
                         additionalFilters={additionalFilters}
                         iconsPath={version?.more.icons}
                         className="top-[40px] md:ml-0"
+                        filterBarExtras={filterBarExtras}
                         mapEnTitles={Object.fromEntries(
                           Object.keys(tiles).map((k) => [
                             k,

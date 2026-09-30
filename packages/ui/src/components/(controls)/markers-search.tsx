@@ -52,6 +52,7 @@ export function MarkersSearch({
   iconsPath,
   className,
   mapEnTitles,
+  filterBarExtras,
 }: {
   lastMapUpdate?: number;
   appName: string;
@@ -62,6 +63,8 @@ export function MarkersSearch({
   iconsPath: string;
   className?: string;
   mapEnTitles?: Record<string, string>;
+  /** Game widgets beside the floating "Filters" pill (Game.filterBarComponents). */
+  filterBarExtras?: ReactNode;
 }): JSX.Element {
   const t = useT();
   const {
@@ -147,21 +150,28 @@ export function MarkersSearch({
 
   return (
     <>
-      {/* Floating filter toggle when panel is hidden */}
-      <button
+      {/* Floating filter toggle (+ the game's filter-bar widgets) when panel is hidden */}
+      <div
+        data-testid="filter-bar"
         className={cn(
-          "fixed top-[64px] left-2 z-500 h-8 px-3 rounded-md border border-input bg-background shadow-sm flex items-center gap-1.5 text-xs font-medium cursor-pointer hover:bg-accent transition-all",
+          "fixed top-[64px] left-2 z-500 flex items-center gap-1.5 transition-all",
           panelVisible && "opacity-0 pointer-events-none",
           embed && "hidden",
           className,
         )}
-        onClick={toggleShowFilters}
-        type="button"
-        aria-label={t("markers.filters.toggleShow")}
       >
-        <SlidersHorizontal className="h-3.5 w-3.5" />
-        {t("markers.filters.label")}
-      </button>
+        <button
+          className="h-8 px-3 rounded-md border border-input bg-background shadow-sm flex items-center gap-1.5 text-xs font-medium cursor-pointer hover:bg-accent"
+          onClick={toggleShowFilters}
+          type="button"
+          aria-label={t("markers.filters.toggleShow")}
+        >
+          <SlidersHorizontal className="h-3.5 w-3.5" />
+          {t("markers.filters.label")}
+        </button>
+        {/* Unmounted while the panel shows, so a pinned popover closes with it. */}
+        {!panelVisible && filterBarExtras}
+      </div>
 
       <div
         className={cn(

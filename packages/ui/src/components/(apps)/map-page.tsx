@@ -200,6 +200,7 @@ export function createMapPage(
   additionalFilters?: ReactNode,
   additionalTooltip?: AdditionalTooltipType,
   additionalComponents?: ReactNode,
+  filterBarExtras?: ReactNode,
 ) {
   return async function Map({ params, searchParams }: MapPageProps) {
     const {
@@ -405,6 +406,7 @@ export function createMapPage(
                   appName={appConfig.name}
                   iconsPath={version.more.icons}
                   additionalFilters={additionalFilters}
+                  filterBarExtras={filterBarExtras}
                   mapEnTitles={Object.fromEntries(
                     Object.keys(version.data.tiles).map((k) => [
                       k,

@@ -29,7 +29,9 @@ export function createAppPage(isOverlay: boolean) {
 
     const [version, dynamicDict, globalDict] = await Promise.all([
       fetchVersion(game.id),
-      fetchDict(game.id, locale).catch(() => fetchDict(game.id, DEFAULT_LOCALE)),
+      fetchDict(game.id, locale).catch(() =>
+        fetchDict(game.id, DEFAULT_LOCALE),
+      ),
       getGlobalDictionary(locale),
     ]);
     const dict = { ...globalDict, ...dynamicDict } as Dict;
@@ -65,6 +67,11 @@ export function createAppPage(isOverlay: boolean) {
         additionalFilters={
           game.additionalFilters ? (
             <AdditionalContent items={game.additionalFilters} />
+          ) : null
+        }
+        filterBarExtras={
+          game.filterBarComponents ? (
+            <AdditionalContent items={game.filterBarComponents} />
           ) : null
         }
         additionalTooltip={game.additionalTooltip}

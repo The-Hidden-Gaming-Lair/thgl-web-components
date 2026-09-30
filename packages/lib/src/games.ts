@@ -752,6 +752,8 @@ export const games: Array<Game> = [
       "PaliaActiveWorlds",
       "PaliaGridToggle",
     ],
+    // Clock + event timetable reachable while the filter panel is hidden.
+    filterBarComponents: ["PaliaClockButton"],
     logo: `${TH_GL_URL}/global_icons/palia.webp`,
     companion: {
       baseURL: "/apps/palia",
@@ -1655,6 +1657,7 @@ export type AdditionalContent =
   | "PaliaGrid"
   | "PaliaGridToggle"
   | "PaliaTime"
+  | "PaliaClockButton"
   | "DuneDeepDesertGrid"
   | "DuneHeatmaps"
   | "CrimsonDesertZones"
@@ -1677,6 +1680,12 @@ export type Game = {
   lockedWindowComponents?: Array<AdditionalContent>;
   additionalComponents?: Array<AdditionalContent>;
   additionalFilters?: Array<AdditionalContent>;
+  /**
+   * Compact widgets shown next to the floating "Filters" pill while the filter
+   * panel is hidden, so a player can keep one open without the whole sidebar
+   * (e.g. Palia's event timetable).
+   */
+  filterBarComponents?: Array<AdditionalContent>;
   additionalTooltip?: Array<AdditionalTooltip>;
   /**
    * Per-game map<->in-game coordinate transform. Enables the "In-Game"

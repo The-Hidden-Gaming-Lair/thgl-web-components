@@ -15,6 +15,7 @@ import { APP_CONFIG } from "./config";
 import { App } from "@repo/ui/overwolf";
 import {
   PaliaActiveWorlds,
+  PaliaClockButton,
   PaliaGrid,
   PaliaGridToggle,
   PaliaTime,
@@ -50,6 +51,7 @@ if (el) {
             <PaliaGridToggle />
           </>
         }
+        filterBarExtras={<PaliaClockButton />}
         lockedWindowComponents={<PaliaTime />}
         additionalComponents={
           <>

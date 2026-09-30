@@ -786,11 +786,17 @@ export function PaliaClock({
   children,
   className,
   disabled,
+  persistent,
 }: {
   children: ReactNode;
   className?: string;
   /** Plain readout, no popover (e.g. the locked overlay window). */
   disabled?: boolean;
+  /**
+   * A click-pinned popover survives clicks outside (panning the map) and only
+   * closes on another click on the readout or Escape.
+   */
+  persistent?: boolean;
 }) {
   const config = usePaliaEvents();
   usePaliaEventAlerts(config);
@@ -884,6 +890,9 @@ export function PaliaClock({
         onMouseEnter={cancelClose}
         onMouseLeave={scheduleClose}
         onOpenAutoFocus={(e) => e.preventDefault()}
+        onInteractOutside={(e) => {
+          if (persistent && pinned) e.preventDefault();
+        }}
         // The content is portalled, but React events still bubble along the
         // REACT tree - i.e. into whatever the trigger is nested in (the "Your
         // World" sheet trigger in the companion app). Keep every click and

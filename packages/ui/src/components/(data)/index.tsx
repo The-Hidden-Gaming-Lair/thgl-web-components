@@ -33,7 +33,7 @@ export { PaliaWorldCodeRequest } from "./palia-world-code-request";
 export { PaliaGridToggle } from "./palia-grid-toggle";
 export { PaliaGrid } from "./palia-grid";
 export { PaliaWebGrid } from "./palia-web-grid";
-export { PaliaTime } from "./palia-time";
+export { PaliaClockButton, PaliaTime } from "./palia-time";
 export {
   PaliaWeeklyWants,
   VillagersWeeklyWants,
