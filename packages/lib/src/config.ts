@@ -1207,8 +1207,30 @@ export type TileLayer = {
   footprints?: [[number, number], [number, number]][];
   /** Dim the underlying tiles so the `overlay`(s) read as the active floor. */
   backdrop?: boolean;
+  /**
+   * YYYY-MM-DD the map first appeared (stamped by data-forge's writeTiles).
+   * Only list ORDER uses it (see sortMapNamesNewestFirst); maps that predate
+   * the stamp have none.
+   */
+  addedAt?: string;
 };
 export type TilesConfig = Record<string, TileLayer>;
+
+/**
+ * Order map names for LISTINGS (home cards, /maps): maps with an `addedAt`
+ * stamp first, newest first; unstamped maps after, in their config order.
+ * Never use this for the default map — that stays the first tiles key.
+ */
+export function sortMapNamesNewestFirst(
+  mapNames: string[],
+  tiles: TilesConfig,
+): string[] {
+  const stamped = mapNames
+    .filter((m) => tiles[m]?.addedAt)
+    .sort((a, b) => tiles[b]!.addedAt!.localeCompare(tiles[a]!.addedAt!));
+  const unstamped = mapNames.filter((m) => !tiles[m]?.addedAt);
+  return [...stamped, ...unstamped];
+}
 
 /**
  * Whether two maps share the same world — the same map, a layer of the other

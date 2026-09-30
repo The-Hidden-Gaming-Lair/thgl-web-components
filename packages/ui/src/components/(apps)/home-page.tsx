@@ -17,6 +17,7 @@ import {
   type IconSprite,
   localizePath,
   resolveForgeUrl,
+  sortMapNamesNewestFirst,
 } from "@repo/lib";
 import type { NavCardProps } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
@@ -142,44 +143,51 @@ export function createHomePage(appConfig: AppConfig) {
         Object.keys(version.data.tiles).filter(
           (m) => !version.data.tiles[m]?.layer,
         );
+    // Newest maps (tiles `addedAt`) first, so a patch's new map is among the
+    // first MAX_HOME_MAP_CARDS instead of appended past the cut.
+    const autoMapNames = sortMapNamesNewestFirst(
+      mapNames.filter((map) => {
+        const mapName = t(map);
+        const href = `/maps/${encodeURIComponent(mapName)}`;
+        return !internalLinkHrefs.has(href);
+      }),
+      version.data.tiles,
+    );
+    const newMapCount = autoMapNames.filter(
+      (map) => version.data.tiles[map]?.addedAt,
+    ).length;
     const mapCards: NavCardProps[] = await Promise.all(
-      mapNames
-        .filter((map) => {
-          const mapName = t(map);
-          const href = `/maps/${encodeURIComponent(mapName)}`;
-          return !internalLinkHrefs.has(href);
-        })
-        .map(async (map) => {
-          const mapName = t(map);
-          const tileUrl = version.data.tiles[map]?.url ?? "";
-          // Extract tile base path from URL like "/map-tiles/0305_Forest-b12cd6b0/{z}/{y}/{x}.webp"
-          const tileBase = tileUrl
-            .replace(/^\/map-tiles\//, "")
-            .replace(/\/\{z\}.*$/, "")
-            .replace(/-[0-9a-f]{16,}$/, "");
-          const mapLocCount = version.counts?.byMap?.[map] || 0;
-          const desc =
-            mapLocCount > 0
-              ? `${mapLocCount.toLocaleString()} locations`
-              : `Navigate ${mapName} with our interactive maps.`;
-          return {
-            title: `${mapName} Map`,
-            description: desc,
-            href: `/maps/${encodeURIComponent(mapName)}`,
-            iconName: "Map" as NavCardProps["iconName"],
-            // Resolve through the host-aware forge proxy so next/image's
-            // server-side optimizer fetches the correct origin: the local
-            // data-forge on *-dev hosts, the CDN otherwise. Without this the
-            // optimizer resolves the relative /__forge-cdn path against
-            // localhost:3100 (not the -dev tenant) and always hits prod.
-            bgImage: tileBase
-              ? await resolveForgeUrl(
-                  getPreviewImageUrl(appConfig.name, tileBase),
-                )
-              : undefined,
-            linkText: `Explore the ${mapName}`,
-          };
-        }),
+      autoMapNames.map(async (map) => {
+        const mapName = t(map);
+        const tileUrl = version.data.tiles[map]?.url ?? "";
+        // Extract tile base path from URL like "/map-tiles/0305_Forest-b12cd6b0/{z}/{y}/{x}.webp"
+        const tileBase = tileUrl
+          .replace(/^\/map-tiles\//, "")
+          .replace(/\/\{z\}.*$/, "")
+          .replace(/-[0-9a-f]{16,}$/, "");
+        const mapLocCount = version.counts?.byMap?.[map] || 0;
+        const desc =
+          mapLocCount > 0
+            ? `${mapLocCount.toLocaleString()} locations`
+            : `Navigate ${mapName} with our interactive maps.`;
+        return {
+          title: `${mapName} Map`,
+          description: desc,
+          href: `/maps/${encodeURIComponent(mapName)}`,
+          iconName: "Map" as NavCardProps["iconName"],
+          // Resolve through the host-aware forge proxy so next/image's
+          // server-side optimizer fetches the correct origin: the local
+          // data-forge on *-dev hosts, the CDN otherwise. Without this the
+          // optimizer resolves the relative /__forge-cdn path against
+          // localhost:3100 (not the -dev tenant) and always hits prod.
+          bgImage: tileBase
+            ? await resolveForgeUrl(
+                getPreviewImageUrl(appConfig.name, tileBase),
+              )
+            : undefined,
+          linkText: `Explore the ${mapName}`,
+        };
+      }),
     );
 
     const hasCompanionApp =
@@ -221,7 +229,12 @@ export function createHomePage(appConfig: AppConfig) {
     const featureCards = featureCardsAll.filter((l) => !l.previewOnly);
     const previewFeatureCards = featureCardsAll.filter((l) => l.previewOnly);
 
-    const allMapCards = [...internalMapCards, ...mapCards];
+    // New maps lead even the hand-picked internalLinks map cards.
+    const allMapCards = [
+      ...mapCards.slice(0, newMapCount),
+      ...internalMapCards,
+      ...mapCards.slice(newMapCount),
+    ];
     const totalMapCount = allMapCards.length;
 
     // Total locations: use counts from version if available, otherwise count filter types

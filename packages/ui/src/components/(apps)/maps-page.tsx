@@ -11,6 +11,7 @@ import {
   getT,
   localizePath,
   resolveForgeUrl,
+  sortMapNamesNewestFirst,
   translate,
 } from "@repo/lib";
 import { HeaderOffset, PageTitle } from "../(header)";
@@ -81,8 +82,12 @@ export function createMapsPage(appConfig: AppConfig) {
     // Only TOP-LEVEL maps get a listing card — interior floors (tagged with
     // `layer`) are reached via the parent map's LayerSelect, not as standalone
     // /maps pages (mirrors the in-map MapSelect filter).
-    const mapNames = Object.keys(version.data.tiles).filter(
-      (m) => !version.data.tiles[m]?.layer,
+    // Newest maps (tiles `addedAt`) first.
+    const mapNames = sortMapNamesNewestFirst(
+      Object.keys(version.data.tiles).filter(
+        (m) => !version.data.tiles[m]?.layer,
+      ),
+      version.data.tiles,
     );
 
     const countsByMap = version.counts?.byMap;
