@@ -34,7 +34,9 @@ export async function getUpdateMessages(appId: string) {
     let data = (await response.json()) as DiscordMessageData[];
 
     data = data.map((message) => {
-      let text = message.text;
+      // Discord `-#` subtext lines are the post footer (role, links, support, "get pinged");
+      // the web shows only the notes.
+      let text = message.text.replace(/^-# .*$\n?/gm, "").trimEnd();
 
       // Skip leading italic lines (role ping instructions like "_To get pinged..._")
       // These lines start with _ and end with _ followed by newline
