@@ -286,7 +286,8 @@ export function MarkerPanel({
         >
           <X className="w-4 h-4" />
         </button>
-        <h2 className="text-sm font-semibold truncate grow">
+        {/* Wraps instead of truncating: numbered names ("... No. 117") differ only at the end. */}
+        <h2 className="text-sm font-semibold grow min-w-0 break-words leading-snug">
           {spawn
             ? t(termId || spawn.type, { fallback: spawn.type })
             : "Loading..."}
