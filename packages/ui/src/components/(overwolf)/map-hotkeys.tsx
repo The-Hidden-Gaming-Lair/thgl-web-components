@@ -15,6 +15,7 @@ import {
 } from "@repo/lib";
 import { useCoordinates, useT } from "../(providers)";
 import { toast } from "sonner";
+import { cycleMapTransparency } from "../(desktop)/map-container";
 
 export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
   const map = useMap();
@@ -36,6 +37,8 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
         // Toggle show labels state
         const current = useGameState.getState().showLabelsActive;
         useGameState.getState().setShowLabelsActive(!current);
+      } else if (event.name === HOTKEYS.CYCLE_MAP_TRANSPARENCY) {
+        cycleMapTransparency();
       }
     };
     overwolf.settings.hotkeys.onPressed.addListener(handleHotkey);

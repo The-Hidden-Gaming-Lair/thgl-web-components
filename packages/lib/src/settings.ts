@@ -226,6 +226,26 @@ export type ColorBlindMode =
 
 export type LabelMode = "off" | "always" | "inRange" | "hotkey";
 
+/**
+ * The overlay minimap's Transparency modes (`mapFilter`), in the order the
+ * settings select lists them and the "Cycle Map Transparency" hotkey steps
+ * through them.
+ */
+export const MAP_FILTERS = [
+  { value: "none", label: "No Transparency" },
+  { value: "greyscale", label: "Greyscale" },
+  { value: "colorful", label: "Colorful" },
+  { value: "full", label: "Full Transparency" },
+] as const;
+
+export function nextMapFilter(mapFilter: string): string {
+  const index = MAP_FILTERS.findIndex((f) => f.value === mapFilter);
+  return MAP_FILTERS[(index + 1) % MAP_FILTERS.length].value;
+}
+
+/** Hotkeys that existing profiles get their default binding for on load. */
+const HOTKEYS_WITH_BACKFILLED_DEFAULT = ["cycle_map_transparency"];
+
 export type MapTransform = {
   borderRadius: string;
   transform: string;
@@ -243,6 +263,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     toggle_live_mode: "F5",
     toggle_overlay_fullscreen: "Shift+F9",
     show_labels: "Shift+F5",
+    cycle_map_transparency: "Shift+F7",
   },
   groupName: "",
   // Default to pure live (predicted hidden). Combined (predicted + live) is
@@ -520,6 +541,7 @@ export interface ProfileActions {
   setTransform: (id: string, transform: string) => void;
   setMapTransform: (mapTransform: MapTransform | null) => void;
   setMapFilter: (mapFilter: string) => void;
+  cycleMapFilter: () => void;
   setMapDarkness: (mapDarkness: number) => void;
   setWindowOpacity: (windowOpacity: number) => void;
   resetTransform: () => void;
@@ -1239,6 +1261,10 @@ export const useSettingsStore = create(
 
           setMapFilter: (mapFilter) => {
             updateSettings({ mapFilter });
+          },
+
+          cycleMapFilter: () => {
+            updateSettings({ mapFilter: nextMapFilter(get().mapFilter) });
           },
 
           setMapDarkness: (mapDarkness) => {
@@ -2186,6 +2212,20 @@ export const useSettingsStore = create(
             });
             merged.profiles = profiles;
             if (currentProfile) Object.assign(merged, currentProfile.settings);
+          }
+          // Profiles saved before a hotkey existed lack its key: give them the
+          // default binding. Only for hotkeys added after clearing started to
+          // persist as "" — older clears were stored as undefined (dropped by
+          // JSON), so a missing older key may be a deliberate clear.
+          if (merged.hotkeys) {
+            for (const key of HOTKEYS_WITH_BACKFILLED_DEFAULT) {
+              if (!(key in merged.hotkeys)) {
+                merged.hotkeys = {
+                  ...merged.hotkeys,
+                  [key]: DEFAULT_PROFILE_SETTINGS.hotkeys[key],
+                };
+              }
+            }
           }
 
           return merged;

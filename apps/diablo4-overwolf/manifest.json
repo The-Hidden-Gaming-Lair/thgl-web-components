@@ -139,6 +139,11 @@
         "title": "Toggle Labels",
         "action-type": "custom",
         "default": "Shift+F5"
+      },
+      "cycle_map_transparency": {
+        "title": "Cycle Map Transparency",
+        "action-type": "custom",
+        "default": "Shift+F7"
       }
     },
     "protocol_override_domains": {

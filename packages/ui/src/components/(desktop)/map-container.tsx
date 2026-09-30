@@ -10,13 +10,28 @@ import { Slider } from "../ui/slider";
 import { Switch } from "../ui/switch";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import Moveable from "react-moveable";
-import { cn, useSettingsStore } from "@repo/lib";
+import { cn, MAP_FILTERS, useSettingsStore } from "@repo/lib";
 import { Move, Settings, Maximize2, Minimize2 } from "lucide-react";
 import { useMap } from "../(interactive-map)/store";
 import { Toggle } from "../ui/toggle";
 import { Button } from "../(controls)";
 import { useT } from "../(providers)";
 import { toast } from "sonner";
+
+/**
+ * "Cycle Map Transparency" hotkey (THGLApp + Overwolf map-hotkeys): step to
+ * the next Transparency mode and say which one is active now.
+ */
+export function cycleMapTransparency() {
+  const settings = useSettingsStore.getState();
+  settings.cycleMapFilter();
+  const mapFilter = useSettingsStore.getState().mapFilter;
+  const label = MAP_FILTERS.find((f) => f.value === mapFilter)?.label;
+  toast(`Map Transparency: ${label ?? mapFilter}`, {
+    duration: 2000,
+    id: "map-transparency",
+  });
+}
 
 /**
  * The overlay minimap's setup toolbar: a fixed pill of icon buttons that never
@@ -138,10 +153,11 @@ function MinimapSettingsCard({
             <SelectValue placeholder="Transparency" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="none">No Transparency</SelectItem>
-            <SelectItem value="greyscale">Greyscale</SelectItem>
-            <SelectItem value="colorful">Colorful</SelectItem>
-            <SelectItem value="full">Full Transparency</SelectItem>
+            {MAP_FILTERS.map((f) => (
+              <SelectItem key={f.value} value={f.value}>
+                {f.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </label>

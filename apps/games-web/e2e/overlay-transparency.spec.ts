@@ -31,9 +31,7 @@ const setMapFilter = (page: Page, value: string) =>
     value,
   );
 
-test("overlay: switching back to Full Transparency removes the map tiles", async ({
-  page,
-}) => {
+const openOverlay = async (page: Page) => {
   await installFakeWebviewBridge(page);
   await page.goto(`${APP_BASE_URL}/apps/${GAME}/overlay`);
   // The overlay auto-hides until the host reports a player map.
@@ -59,6 +57,17 @@ test("overlay: switching back to Full Transparency removes the map tiles", async
     )
     .toBe(true);
   await waitForAppMapReady(page);
+};
+
+const mapFilter = (page: Page) =>
+  page.evaluate(
+    () => (window as any).__thgl.useSettingsStore.getState().mapFilter,
+  );
+
+test("overlay: switching back to Full Transparency removes the map tiles", async ({
+  page,
+}) => {
+  await openOverlay(page);
 
   await setMapFilter(page, "full");
   await expect.poll(() => tileLayerCount(page)).toBe(0);
@@ -70,4 +79,24 @@ test("overlay: switching back to Full Transparency removes the map tiles", async
     await setMapFilter(page, "full");
     await expect.poll(() => tileLayerCount(page)).toBe(0);
   }
+});
+
+test("overlay: the Cycle Map Transparency hotkey steps through the modes", async ({
+  page,
+}) => {
+  await openOverlay(page);
+  await setMapFilter(page, "none");
+
+  for (const mode of ["greyscale", "colorful", "full", "none"]) {
+    await emitWebviewMessage(page, {
+      action: "hotkey",
+      payload: { key: "SHIFT+F7", action: "cycle_map_transparency" },
+    });
+    await expect.poll(() => mapFilter(page)).toBe(mode);
+    await expect.poll(() => tileLayerCount(page)).toBe(mode === "full" ? 0 : 1);
+  }
+  // The app page mounts two <Toaster>s (layout + app), so the toast is in both.
+  await expect(
+    page.getByText("Map Transparency: No Transparency").first(),
+  ).toBeVisible();
 });

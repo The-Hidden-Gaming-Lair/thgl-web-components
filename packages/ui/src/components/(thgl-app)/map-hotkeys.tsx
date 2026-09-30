@@ -15,6 +15,7 @@ import {
 } from "@repo/lib";
 import { useCoordinates, useT } from "../(providers)";
 import { toast } from "sonner";
+import { cycleMapTransparency } from "../(desktop)/map-container";
 import { HOTKEYS, onWebviewMessage } from "@repo/lib/thgl-app";
 
 export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
@@ -47,6 +48,8 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
           // Toggle show labels state
           const current = useGameState.getState().showLabelsActive;
           useGameState.getState().setShowLabelsActive(!current);
+        } else if (hotkeyAction === HOTKEYS.CYCLE_MAP_TRANSPARENCY) {
+          cycleMapTransparency();
         }
       }
     });

@@ -117,6 +117,16 @@ export function THGLAppSettingsDialogContent({
               onClear={() => setRecordingName(null)}
             />
           </Label>
+          <Label className="flex items-center gap-2 justify-between">
+            Cycle Map Transparency
+            <Hotkey
+              name={HOTKEYS.CYCLE_MAP_TRANSPARENCY}
+              isActive={recordingName === HOTKEYS.CYCLE_MAP_TRANSPARENCY}
+              onStart={() => setRecordingName(HOTKEYS.CYCLE_MAP_TRANSPARENCY)}
+              onStop={() => setRecordingName(null)}
+              onClear={() => setRecordingName(null)}
+            />
+          </Label>
         </>
       )}
     </SettingsDialogContent>

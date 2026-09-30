@@ -224,21 +224,23 @@ export const APP_BASE_URL =
  */
 export async function installFakeWebviewBridge(page: Page) {
   await page.addInitScript(() => {
-    const listeners: ((e: { data: string }) => void)[] = [];
+    const listeners: ((e: { data: unknown }) => void)[] = [];
     const w = window as any;
     w.chrome = w.chrome || {};
     w.chrome.webview = {
-      addEventListener: (t: string, fn: (e: { data: string }) => void) => {
+      addEventListener: (t: string, fn: (e: { data: unknown }) => void) => {
         if (t === "message") listeners.push(fn);
       },
-      removeEventListener: (t: string, fn: (e: { data: string }) => void) => {
+      removeEventListener: (t: string, fn: (e: { data: unknown }) => void) => {
         const i = listeners.indexOf(fn);
         if (i >= 0) listeners.splice(i, 1);
       },
       postMessage: () => {},
       hostObjects: {},
+      // THGLApp posts with PostWebMessageAsJson, so listeners get the parsed
+      // object (onWebviewMessage, e.g. hotkeys, ignores strings).
       __emit: (data: unknown) => {
-        for (const fn of listeners) fn({ data: JSON.stringify(data) });
+        for (const fn of listeners) fn({ data });
         return listeners.length;
       },
     };

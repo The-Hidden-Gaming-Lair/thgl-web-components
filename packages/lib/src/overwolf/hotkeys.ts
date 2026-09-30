@@ -7,4 +7,5 @@ export const HOTKEYS = {
   TOGGLE_LIVE_MODE: "toggle_live_mode",
   TOGGLE_OVERLAY_FULLSCREEN: "toggle_overlay_fullscreen",
   SHOW_LABELS: "show_labels",
+  CYCLE_MAP_TRANSPARENCY: "cycle_map_transparency",
 };

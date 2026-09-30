@@ -176,7 +176,9 @@ export function Hotkey({
           aria-label="Clear hotkey"
           title="Clear hotkey"
           onClick={() => {
-            setHotkey(name, undefined as any);
+            // "" (not undefined) so the clear survives JSON persistence and
+            // a backfilled default hotkey doesn't come back on reload.
+            setHotkey(name, "");
             onStop?.();
             setRecording(false);
             setCurrentCombo(null);
