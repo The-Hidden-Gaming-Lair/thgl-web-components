@@ -47,6 +47,10 @@ const nextConfig = (phase) => ({
     // Persist Turbopack compiler artifacts to disk between dev runs for
     // faster cold starts after a restart (Next 16 beta).
     turbopackFileSystemCacheForDev: true,
+    // Drop Turbopack's in-memory build graph after every snapshot (it is on disk anyway, see
+    // above). The default 'auto' only evicts under memory pressure, so a dev server running for
+    // days grew to ~9.7 GB on a machine with plenty of free RAM (2026-10-01).
+    turbopackMemoryEviction: "full",
   },
   images: {
     // Next.js 16 blocks optimizing images served from local/private IPs by
