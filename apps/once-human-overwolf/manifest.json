@@ -157,8 +157,8 @@
     },
     "extra-objects": {
       "game-events": {
-        "file": "plugins/GameEventsPlugin.dll",
-        "class": "GameEventsPlugin.Overwolf"
+        "file": "plugins/THGLOverwolfPlugin.dll",
+        "class": "THGL.Overwolf.OnceHumanPlugin"
       },
       "discord": {
         "file": "plugins/DiscordRPCPlugin.dll",

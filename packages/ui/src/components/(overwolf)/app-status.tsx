@@ -52,9 +52,8 @@ export function AppStatus({ gameClassId }: { gameClassId: number }) {
     error === "Please run as administrator" ||
     error.includes("Access is denied") ||
     error.includes("Accès refusé");
-  const memoryAllocationError = error === "Memory allocation failed.";
 
-  if (isOverlayEnabled && !hasAdminError && !memoryAllocationError) {
+  if (isOverlayEnabled && !hasAdminError) {
     return null;
   }
 
@@ -98,10 +97,8 @@ export function AppStatus({ gameClassId }: { gameClassId: number }) {
               <DialogHeader>Missing Permissions</DialogHeader>
               <DialogDescription className="space-y-1">
                 <p>
-                  This app requires administrator rights and needs to be running
-                  on game start to function properly. Exit Overwolf, then run it
-                  as an administrator{" "}
-                  <span className="font-bold">before starting the game</span>.
+                  This app requires administrator rights to read the game. Exit
+                  Overwolf, then run it as an administrator.
                 </p>
                 <ul className="mb-4 list-disc list-inside">
                   <li>
@@ -134,18 +131,6 @@ export function AppStatus({ gameClassId }: { gameClassId: number }) {
                     <span className="italic">"Run as administrator"</span>.
                   </li>
                 </ul>
-              </DialogDescription>
-            </>
-          )}
-          {memoryAllocationError && (
-            <>
-              <DialogHeader>Restart the game</DialogHeader>
-              <DialogDescription className="space-y-1">
-                <p>
-                  This app requires to be running on game start to function
-                  properly. Exit the game, then start it again while this app is
-                  running.
-                </p>
               </DialogDescription>
             </>
           )}
