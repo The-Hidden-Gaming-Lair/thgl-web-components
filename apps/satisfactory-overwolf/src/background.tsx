@@ -1,28 +1,9 @@
-import { initBackground, initGameEventsPlugin } from "@repo/lib/overwolf";
+import { initBackground, initTHGLPlugin } from "@repo/lib/overwolf";
 import { APP_CONFIG } from "./config";
-import { fetchVersion } from "@repo/lib";
 
-const version = await fetchVersion(APP_CONFIG.name);
-const typesIdMap = version.data.typesIdMap;
-
-await initGameEventsPlugin(
-  {
-    processName: "FactoryGameSteam-Win64-Shipping",
-    moduleNames: [
-      "FactoryGameSteam-Core-Win64-Shipping.dll",
-      "FactoryGameSteam-Engine-Win64-Shipping.dll",
-    ],
-  },
-  Object.keys(typesIdMap),
-  undefined,
-  undefined,
-  (actor) => {
-    const x = actor.x;
-    const y = actor.y;
-    actor.x = y;
-    actor.y = x;
-  },
-);
+// Live reading and the map's (UE.Y, UE.X) coordinate swap for player + actors run inside
+// the unified THGL plugin (THGLOverwolfPlugin.dll, THGL.Overwolf.SatisfactoryPlugin).
+await initTHGLPlugin(APP_CONFIG.name);
 
 await initBackground(
   APP_CONFIG.gameClassId,
