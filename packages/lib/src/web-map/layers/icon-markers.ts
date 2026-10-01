@@ -743,7 +743,16 @@ export class IconMarkerLayer implements Layer {
   addSheet(
     name: string,
     source: string | HTMLImageElement | HTMLCanvasElement,
+    opts?: {
+      /**
+       * `false` for a multi-icon SPRITE SHEET (markers pick a cell via their rect). The
+       * atlas treats a packed sheet as ONE icon, so a small sheet (<= ATLAS_MAX_ICON, a game
+       * with few map icons) drew the whole sheet per marker. Default: atlas when small.
+       */
+      atlas?: boolean;
+    },
   ) {
+    if (opts?.atlas === false) this.noAtlas.add(name);
     if (
       source instanceof HTMLImageElement ||
       source instanceof HTMLCanvasElement
@@ -758,7 +767,7 @@ export class IconMarkerLayer implements Layer {
   copySheets(target: IconMarkerLayer) {
     for (const [name, img] of this.sheetImages) {
       if (!target.sheetImages.has(name)) {
-        target.addSheet(name, img);
+        target.addSheet(name, img, { atlas: !this.noAtlas.has(name) });
       }
     }
   }
@@ -779,6 +788,8 @@ export class IconMarkerLayer implements Layer {
   ) {
     // Don't atlas the default circle sheet — it's handled specially
     if (name === DEFAULT_CIRCLE_SHEET) return;
+    // Nor sprite sheets: the atlas can only map a marker to the WHOLE packed image.
+    if (this.noAtlas.has(name)) return;
     // Canvas elements are always ready
     if (source instanceof HTMLCanvasElement) {
       this.atlas.add(name, source);
@@ -1317,7 +1328,7 @@ export class IconMarkerLayer implements Layer {
         return null; // Still loading
       }
       // Image just loaded — try to pack into atlas now
-      if (!this.atlas.entries.has(name)) {
+      if (!this.atlas.entries.has(name) && !this.noAtlas.has(name)) {
         const atlasEntry = this.atlas.add(name, img);
         if (atlasEntry) {
           // Successfully packed — rebuild groups to use atlas page grouping
@@ -2101,6 +2112,7 @@ export class IconMarkerLayer implements Layer {
   }
 
   private failedSheets = new Set<string>(); // Track sheets that failed to load
+  private noAtlas = new Set<string>(); // Sprite sheets that must never be atlas-packed
 
   /** Callback injected by WebMap to request a redraw when icon sheets load */
   onSheetLoad?: () => void;

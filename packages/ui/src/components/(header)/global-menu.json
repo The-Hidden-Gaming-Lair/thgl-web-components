@@ -5,8 +5,8 @@
     "tags": ["interactive_map", "database"],
     "partners": [
       {
-        "title": "Gaming Tools",
-        "url": "https://aion2.gaming.tools/",
+        "title": "Server Status",
+        "url": "https://aion2.gaming.tools/server-status",
         "sprite": {
           "fileName": "partners-12933504499915422139.webp",
           "x": 2,

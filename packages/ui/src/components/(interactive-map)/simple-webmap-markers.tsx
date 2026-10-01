@@ -187,7 +187,8 @@ export function SimpleWebMarkers({
 
     // Load the icon sprite sheet
     const iconUrl = getIconsUrl(appName, "icons.webp", iconsPath);
-    markerLayer.addSheet("icons", iconUrl);
+    // A multi-icon sprite sheet: never atlas-packed (markers pick a cell by rect).
+    markerLayer.addSheet("icons", iconUrl, { atlas: false });
 
     // Build spawn map for lookups
     const spawnMap = new Map<string, SimpleSpawn>();
@@ -278,7 +279,7 @@ export function SimpleWebMarkers({
         if (isGameIconsSprite) {
           // Game-icons sprite sheet - use full URL as sheet name and register it
           sheetName = getIconsUrl(appName, iconUrl, iconsPath);
-          markerLayer.addSheet(sheetName, sheetName);
+          markerLayer.addSheet(sheetName, sheetName, { atlas: false });
           iconRect = {
             x: rawIcon.x ?? 0,
             y: rawIcon.y ?? 0,

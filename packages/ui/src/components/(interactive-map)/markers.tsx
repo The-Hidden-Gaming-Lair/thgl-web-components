@@ -1003,7 +1003,7 @@ function MarkersContent({
 
     // Load the icon sprite sheet
     const iconUrl = getIconsUrl(appName, "icons.webp", iconsPath);
-    markerLayer.addSheet("icons", iconUrl);
+    markerLayer.addSheet("icons", iconUrl, { atlas: false });
 
     // Load sprite sheet source image for CPU-side icon processing.
     // When loaded, each icon is individually processed using canvas 2D's
@@ -1231,7 +1231,7 @@ function MarkersContent({
         } else if (isGameIconsSprite) {
           // Game-icons sprite sheet - use full URL as sheet name and register it
           sheet = getIconsUrl(appName, iconUrlStr, iconsPath);
-          markerLayer.addSheet(sheet, sheet);
+          markerLayer.addSheet(sheet, sheet, { atlas: false });
           rect = {
             x: markerIcon.x as number,
             y: markerIcon.y as number,

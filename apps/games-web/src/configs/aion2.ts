@@ -6,11 +6,11 @@ export const aion2 = resolveAppConfig({
   supportedLocales: ["en", "de", "es", "fr", "ja", "ko", "pt-BR", "ru"],
   // No companion app: the client runs NCSoft's anti-cheat, so there is no live tracking.
   appUrl: null,
-  // Partner link (gaming.tools) — keep it next to our own /db.
+  // Partner link (gaming.tools server status) — keep it next to our own /db.
   externalLinks: [
     {
-      href: "https://aion2.gaming.tools/",
-      title: "Gaming Tools",
+      href: "https://aion2.gaming.tools/server-status",
+      title: "Server Status",
     },
   ],
   // No internalLinks for maps: the home page auto-generates map cards from the tiles.
