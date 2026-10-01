@@ -147,8 +147,12 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+    // A new release-notes post (`updates: true`, sent by data-forge's post-release-notes):
+    // the release-notes feed is a cached fetch, so expire it NOW - a stale-while-revalidate
+    // mark would hand the old feed to the very render that refills the purged edge.
+    if (body.updates === true) revalidateTag("discord-updates", { expire: 0 });
     // One wildcard covers every path + locale + query variant for the tenant.
-    // Pages are dynamic (no-store version.json) -> the re-render is fresh; no revalidateTag.
+    // Pages are dynamic (no-store version.json) -> the re-render is fresh.
     const purgeResult = await purgeBunny([`${game.web}/*`]);
     return Response.json({
       revalidated: true,

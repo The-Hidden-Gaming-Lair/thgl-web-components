@@ -27,8 +27,11 @@ export async function getUpdateMessages(appId: string) {
     const response = await fetch(
       `https://discord-bot.th.gl/api/updates/${appId}`,
       {
+        // Tagged so a new #app-updates post can expire it at once (/api/revalidate
+        // `{ game, updates: true }`); otherwise the 60 s revalidate serves the stale feed
+        // to the render that refills the purged edge cache, which then holds it for a day.
         // @ts-ignore
-        next: { revalidate: 60 },
+        next: { revalidate: 60, tags: ["discord-updates"] },
       },
     );
     let data = (await response.json()) as DiscordMessageData[];
