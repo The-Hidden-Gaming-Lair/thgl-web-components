@@ -25,6 +25,16 @@ export interface TileLayerOptions {
   bounds?: [[number, number], [number, number]]; // [[minX,minY],[maxX,maxY]] in map units
   transformation?: [number, number, number, number]; // [a,b,c,d]
   opacity?: number; // 0..1, default 1 — dim the tiles (e.g. layered-map backdrop)
+  /**
+   * Supply tile images programmatically instead of fetching `url` (e.g. tiles rendered
+   * client-side by a worker — Valheim's per-seed map). Same z/x/y addressing as the URL
+   * template; reject/throw to mark a tile failed (it is retried with backoff).
+   */
+  loadTileSource?: (key: {
+    z: number;
+    x: number;
+    y: number;
+  }) => Promise<ImageBitmap>;
 }
 
 interface TileKey {
@@ -510,9 +520,13 @@ export class TileLayer implements Layer {
     localX: number,
     localY: number,
   ): Promise<TileTex | null> {
-    const url = templateURL(this.opts.url, key, this.opts.subdomains);
     try {
-      const img = await loadImage(url, "anonymous");
+      const img = this.opts.loadTileSource
+        ? await this.opts.loadTileSource(key)
+        : await loadImage(
+            templateURL(this.opts.url, key, this.opts.subdomains),
+            "anonymous",
+          );
       // A lost context hands out null textures without throwing; a null
       // texture drawn later is a black tile that would never be re-requested.
       if (gl.isContextLost()) return null;
@@ -527,6 +541,8 @@ export class TileLayer implements Layer {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      if (typeof ImageBitmap !== "undefined" && img instanceof ImageBitmap)
+        img.close();
       gl.generateMipmap(gl.TEXTURE_2D);
       gl.texParameteri(
         gl.TEXTURE_2D,

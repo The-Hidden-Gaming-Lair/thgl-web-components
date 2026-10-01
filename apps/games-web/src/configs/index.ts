@@ -26,6 +26,7 @@ import { onceHuman } from "./once-human";
 import { palia } from "./palia";
 import { planetCrafter } from "./planet-crafter";
 import { graveyardKeeper2 } from "./graveyard-keeper-2";
+import { valheim } from "./valheim";
 import { palworld } from "./palworld";
 import { paxDei } from "./pax-dei";
 import { rsdragonwilds } from "./rsdragonwilds";
@@ -54,6 +55,7 @@ const ALL_CONFIGS: AppConfig[] = [
   aion2,
   planetCrafter,
   graveyardKeeper2,
+  valheim,
   aniimo,
   avowed,
   bloodOfDawnwalker,

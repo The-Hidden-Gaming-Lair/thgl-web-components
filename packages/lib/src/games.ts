@@ -1539,6 +1539,18 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "valheim",
+    discordId: "valheim",
+    title: "Valheim",
+    steamAppId: 892970,
+    logo: `${TH_GL_URL}/global_icons/valheim.webp`,
+    web: "https://valheim.th.gl",
+    // Per-seed procedural world: the seed panel + the worker-rendered seed map
+    additionalFilters: ["ValheimSeed"],
+    additionalComponents: ["ValheimSeedMap"],
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "songs-of-conquest",
     discordId: "songs-of-conquest",
     title: "Songs of Conquest",
@@ -1667,7 +1679,9 @@ export type AdditionalContent =
   | "CrimsonDesertZones"
   | "CrimsonDesertSaveImport"
   | "DragonSwordSaveImport"
-  | "SatisfactorySeed";
+  | "SatisfactorySeed"
+  | "ValheimSeed"
+  | "ValheimSeedMap";
 
 export type AdditionalTooltip = "InGameCoordinates" | "DuneAltitude";
 

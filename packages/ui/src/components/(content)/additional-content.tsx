@@ -14,6 +14,8 @@ import {
   PaliaWeeklyWants,
   PaliaWorldCodeRequest,
   SatisfactorySeed,
+  ValheimSeed,
+  ValheimSeedMap,
 } from "../(data)";
 
 import type { JSX } from "react";
@@ -33,6 +35,8 @@ const ADDITIONAL_CONTENT = {
   CrimsonDesertSaveImport: CrimsonDesertSaveImport,
   DragonSwordSaveImport: DragonSwordSaveImport,
   SatisfactorySeed: SatisfactorySeed,
+  ValheimSeed: ValheimSeed,
+  ValheimSeedMap: ValheimSeedMap,
 } as const;
 
 export type AdditionalContentType = ({

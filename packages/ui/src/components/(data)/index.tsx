@@ -18,6 +18,8 @@ export { DuneDeepDesertGrid } from "./dune-deep-desert-grid";
 export { DuneHeatmaps } from "./dune-heatmaps";
 export { CrimsonDesertZones } from "./crimson-desert-zones";
 export { SatisfactorySeed } from "./satisfactory-seed/satisfactory-seed";
+export { ValheimSeed } from "./valheim-seed/valheim-seed";
+export { ValheimSeedMap } from "./valheim-seed/valheim-seed-map";
 export { CrimsonDesertSaveImport } from "./crimson-desert-save-import";
 export { DragonSwordSaveImport } from "./dragonsword-save-import";
 export { SiteImport } from "./site-import";
