@@ -1215,13 +1215,6 @@ export const games: Array<Game> = [
       },
     },
     web: "https://wuthering.th.gl",
-    overwolf: {
-      id: "gjohaodckfkkodlmmmmeifkdkifddegkleppngad",
-      title: "Wuthering Waves Map",
-      protocol: "thgl-wuthering-waves",
-      url: "https://www.overwolf.com/app/Leon_Machens-Wuthering_Waves_Map",
-      supportsCopySecret: true,
-    },
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {

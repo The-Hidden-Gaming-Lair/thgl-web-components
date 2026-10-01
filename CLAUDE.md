@@ -295,17 +295,13 @@ Hotkeys for desktop apps (Overwolf and THGL Companion App) require updates in mu
 
 ### Overwolf Manifest Files
 
-All 9 Overwolf apps need identical hotkey configurations:
+All 5 Overwolf apps need identical hotkey configurations:
 
-- `apps/avowed-overwolf/manifest.json`
 - `apps/diablo4-overwolf/manifest.json`
-- `apps/hogwarts-legacy-overwolf/manifest.json`
 - `apps/once-human-overwolf/manifest.json`
 - `apps/palia-overwolf/manifest.json`
 - `apps/palworld-overwolf/manifest.json`
-- `apps/pax-dei-overwolf/manifest.json`
 - `apps/satisfactory-overwolf/manifest.json`
-- `apps/wuthering-waves-overwolf/manifest.json`
 
 ## Preview Access Features
 
