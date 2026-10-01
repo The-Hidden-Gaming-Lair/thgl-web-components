@@ -266,6 +266,17 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    // AION 2 (NCSoft). No companion block: the client runs NCSoft's anti-cheat, so there is no
+    // memory reading / live tracking — web map + database only.
+    id: "aion2",
+    discordId: "aion2",
+    title: "AION 2",
+    steamAppId: 3393110,
+    logo: `${TH_GL_URL}/global_icons/aion2.webp`,
+    web: "https://aion2.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "soulframe",
     discordId: "soulframe",
     title: "Soulframe",

@@ -1,4 +1,5 @@
 import { type AppConfig, isDevForgeHost } from "@repo/lib";
+import { aion2 } from "./aion2";
 import { aniimo } from "./aniimo";
 import { avowed } from "./avowed";
 import { bloodOfDawnwalker } from "./blood-of-dawnwalker";
@@ -50,6 +51,7 @@ import { wutheringWaves } from "./wuthering-waves";
  * Add a new game by importing its config and adding it to this array.
  */
 const ALL_CONFIGS: AppConfig[] = [
+  aion2,
   planetCrafter,
   graveyardKeeper2,
   aniimo,
