@@ -18,6 +18,14 @@
  */
 import { spawnSync } from "node:child_process";
 
+// Overwolf apps: every manifest plugin DLL committed + background.tsx on the matching
+// plugin API (the Satisfactory 1.22.1 release shipped without its plugin, 2026-10-01).
+const plugins = spawnSync("node scripts/check-overwolf-plugins.mjs", {
+  stdio: "inherit",
+  shell: true,
+});
+if (plugins.status !== 0) process.exit(plugins.status ?? 1);
+
 const result = spawnSync("bunx turbo run typecheck lint test --concurrency=2", {
   stdio: "inherit",
   shell: true,

@@ -16,6 +16,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - name: Check plugins are committed and match background.tsx
+        run: node scripts/check-overwolf-plugins.mjs palworld-overwolf
       - name: Build Overwolf app
         run: bunx turbo run build --filter=palworld-overwolf...
       - name: Release Overwolf app

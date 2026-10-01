@@ -24,6 +24,7 @@ import { spawnSync } from "node:child_process";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { checkApp } from "./check-overwolf-plugins.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const APPS_DIR = join(ROOT, "apps");
@@ -169,7 +170,29 @@ async function main() {
     return;
   }
 
-  // Bump mode
+  // Bump mode. Refuse when a manifest already has uncommitted edits: the bump commit
+  // would sweep them up (2026-10-01: another session's plugin switch rode along in an
+  // all-apps bump without its DLL and shipped Satisfactory 1.22.1 broken). And refuse
+  // when an app's plugin wiring is not shippable (check-overwolf-plugins.mjs).
+  const blockers = [];
+  for (const { app, path } of manifests) {
+    const rel = `apps/${app}/manifest.json`;
+    const diff = spawnSync("git", ["diff", "--quiet", "HEAD", "--", rel], {
+      cwd: ROOT,
+    });
+    if (diff.status === 1) {
+      blockers.push(
+        `${app}: ${rel} has uncommitted changes. Commit them (with their plugin/background files) or stash them first.`,
+      );
+    }
+    blockers.push(...checkApp(app));
+  }
+  if (blockers.length) {
+    console.error("Nothing was bumped:\n  " + blockers.join("\n  "));
+    process.exitCode = 1;
+    return;
+  }
+
   if (skipE2e) {
     console.warn("--skip-e2e: bumping WITHOUT running the map smoke suite.");
   } else if (!(await smokeSuitePasses())) {
