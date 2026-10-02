@@ -139,6 +139,7 @@ const SAVE_GROUPS = {
       "bell",
       "well",
       "greymane_shrine",
+      "witch_totem",
       "memory_fragment",
       "housing_move",
     ],
