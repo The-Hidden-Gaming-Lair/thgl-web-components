@@ -3,7 +3,14 @@
 import { ArrowLeft } from "lucide-react";
 import type { TilesConfig } from "@repo/lib";
 import { useUserStore, useUserStoreApi } from "../(providers)";
-import { cn, getTileLayerUrl, localizePath, useSettingsStore } from "@repo/lib";
+import {
+  cn,
+  getOverlayZoom,
+  getTileLayerUrl,
+  localizePath,
+  setOverlayZoom,
+  useSettingsStore,
+} from "@repo/lib";
 import {
   WebMap,
   TileLayer,
@@ -319,6 +326,13 @@ export function InteractiveMap({
       center = view.center;
       zoom = Number.isFinite(view.zoom) ? view.zoom! : defaultZoom;
     }
+    // The overlay minimap restores its own zoom (it's sized to line up with
+    // the game's minimap), independent of the desktop window's zoom.
+    const overlayZoom =
+      isOverlay && !keepView ? getOverlayZoom(mapName) : undefined;
+    if (overlayZoom !== undefined) {
+      zoom = Math.max(minZoom, Math.min(maxZoom, overlayZoom));
+    }
 
     // Create WebMap instance
     const webmap = new WebMap({
@@ -440,6 +454,10 @@ export function InteractiveMap({
         const c = webmap.getCenter();
         setViewByMap(persistViewMapName(), [c.lat, c.lng], webmap.getZoom());
       }, 3000);
+      // Immediately: an overlay closed with the game must not lose the zoom.
+      if (isOverlay) {
+        setOverlayZoom(persistViewMapName(), webmap.getZoom());
+      }
     });
 
     return () => {
@@ -449,6 +467,9 @@ export function InteractiveMap({
       // Save current view immediately on cleanup (navigation, unmount)
       const c = webmap.getCenter();
       setViewByMap(persistViewMapName(), [c.lat, c.lng], webmap.getZoom());
+      if (isOverlay) {
+        setOverlayZoom(persistViewMapName(), webmap.getZoom());
+      }
       setMap(null);
       webmap.destroy();
       if (containerRef.current && canvas.parentNode === containerRef.current) {

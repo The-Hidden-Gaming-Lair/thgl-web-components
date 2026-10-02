@@ -131,6 +131,45 @@ const getStorageName = () => {
   return "coordinates";
 };
 
+// The in-game overlay minimap keeps its OWN zoom per map. The overlay and the
+// desktop window share the user store's storage, but each window holds its
+// own in-memory copy and persists the whole blob — so the desktop window's
+// zoom overwrote the overlay's and every session the overlay had to be
+// re-zoomed to line up with the game's minimap. Only the overlay writes this
+// key, so nothing else can clobber it.
+const getOverlayZoomStorageName = () => `${getStorageName()}-overlay-zoom`;
+
+const readOverlayZooms = (): Record<string, number> => {
+  try {
+    const raw = localStorage.getItem(getOverlayZoomStorageName());
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+};
+
+export const getOverlayZoom = (mapName: string): number | undefined => {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+  const zoom = readOverlayZooms()[mapName];
+  return Number.isFinite(zoom) ? zoom : undefined;
+};
+
+export const setOverlayZoom = (mapName: string, zoom: number) => {
+  if (typeof window === "undefined" || !Number.isFinite(zoom)) {
+    return;
+  }
+  try {
+    const zooms = readOverlayZooms();
+    zooms[mapName] = zoom;
+    localStorage.setItem(getOverlayZoomStorageName(), JSON.stringify(zooms));
+  } catch {
+    // Storage access can throw (privacy mode/quota) — zoom just isn't kept.
+  }
+};
+
 export function createUserStore(
   view: View,
   mapNames: string[],
