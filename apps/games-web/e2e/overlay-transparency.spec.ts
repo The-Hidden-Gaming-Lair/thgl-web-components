@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import {
   APP_BASE_URL,
   CLAY,
+  CLAY_NODE_ID,
   GAME,
   MAPS,
   emitWebviewMessage,
@@ -156,4 +157,47 @@ test("overlay: the Reset Discovered Nodes hotkey clears discovered nodes and Und
     .first()
     .dispatchEvent("click");
   await expect.poll(discovered).toEqual(["e2e@1:2", "e2e@3:4"]);
+});
+
+test("overlay: Discover and Undiscover Nearest Node are separate hotkeys", async ({
+  page,
+}) => {
+  await openOverlay(page);
+  await page.evaluate((clay) => {
+    const t = (window as any).__thgl;
+    t.userStore.getState().setFilters([clay]);
+    // Predicted mode plots the (non-static) clay spawns.
+    t.useSettingsStore.getState().setLiveMode("predicted");
+    t.useSettingsStore.getState().setDiscoveredNodes([]);
+  }, CLAY.id);
+  const isDiscovered = () =>
+    page.evaluate(
+      (id) =>
+        (window as any).__thgl.useSettingsStore.getState().isDiscoveredNode(id),
+      CLAY_NODE_ID,
+    );
+  const press = async (action: "discover_node" | "undiscover_node") => {
+    await emitWebviewMessage(page, {
+      action: "hotkey",
+      payload: { key: "F10", action },
+    });
+    // The hotkeys share a 500 ms cooldown against key repeat.
+    await page.waitForTimeout(600);
+  };
+
+  // The player stands on the clay node.
+  await press("discover_node");
+  await expect.poll(isDiscovered).toBe(true);
+  // Discover never toggles back: the clay node stays discovered.
+  await press("discover_node");
+  await expect.poll(isDiscovered).toBe(true);
+
+  // With "hide discovered nodes" on, undiscover still finds the hidden node.
+  await page.evaluate(() => {
+    const s = (window as any).__thgl.useSettingsStore.getState();
+    if (!s.hideDiscoveredNodes) s.toggleHideDiscoveredNodes();
+  });
+  await press("undiscover_node");
+  await expect.poll(isDiscovered).toBe(false);
+  await expect(page.getByText("Undiscovered Clay").first()).toBeVisible();
 });

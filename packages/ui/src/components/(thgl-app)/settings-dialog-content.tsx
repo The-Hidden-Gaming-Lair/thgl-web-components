@@ -86,6 +86,16 @@ export function THGLAppSettingsDialogContent({
             />
           </Label>
           <Label className="flex items-center gap-2 justify-between">
+            Undiscover Nearest Node
+            <Hotkey
+              name={HOTKEYS.UNDISCOVER_NODE}
+              isActive={recordingName === HOTKEYS.UNDISCOVER_NODE}
+              onStart={() => setRecordingName(HOTKEYS.UNDISCOVER_NODE)}
+              onStop={() => setRecordingName(null)}
+              onClear={() => setRecordingName(null)}
+            />
+          </Label>
+          <Label className="flex items-center gap-2 justify-between">
             Cycle Live Mode
             <Hotkey
               name={HOTKEYS.TOGGLE_LIVE_MODE}

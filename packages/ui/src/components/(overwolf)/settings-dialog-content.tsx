@@ -49,6 +49,10 @@ export function OverwolfSettingsDialogContent({
         <Hotkey name={HOTKEYS.DISCOVER_NODE} gameClassId={gameClassId} />
       </Label>
       <Label className="flex items-center gap-2 justify-between">
+        Undiscover Nearest Node
+        <Hotkey name={HOTKEYS.UNDISCOVER_NODE} gameClassId={gameClassId} />
+      </Label>
+      <Label className="flex items-center gap-2 justify-between">
         Cycle Live Mode
         <Hotkey name={HOTKEYS.TOGGLE_LIVE_MODE} gameClassId={gameClassId} />
       </Label>

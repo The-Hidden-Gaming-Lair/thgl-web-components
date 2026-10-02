@@ -264,6 +264,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     zoom_out_app: "F8",
     toggle_lock_app: "F9",
     discover_node: "F10",
+    // Unbound by default: no free key that is safe across every game.
+    undiscover_node: "",
     toggle_live_mode: "F5",
     toggle_overlay_fullscreen: "Shift+F9",
     show_labels: "Shift+F5",

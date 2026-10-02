@@ -125,6 +125,10 @@
         "passthrough": true,
         "default": "F10"
       },
+      "undiscover_node": {
+        "title": "Undiscover Nearest Node",
+        "action-type": "custom"
+      },
       "toggle_live_mode": {
         "title": "Cycle Live Mode",
         "action-type": "custom",
