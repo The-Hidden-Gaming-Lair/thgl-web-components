@@ -93,7 +93,10 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
         // NPC/player on top of you can't steal the closest-node discovery.
         // Positioned types come from the full static set, so live-resolved
         // predictions still count as fixed (discoverable) in live mode.
-        const positionedTypes = getPositionedDiscoverTypes(searchableNodes);
+        const positionedTypes = getPositionedDiscoverTypes(
+          searchableNodes,
+          typesIdMap,
+        );
         const nodeSpawns = nodes
           .filter((node) => {
             // In the player's world = on the player's map OR a layer of it (the
@@ -126,7 +129,9 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
         if (typesIdMap) {
           const actors = useGameState.getState().actors || [];
           for (const actor of actors) {
-            const displayType = typesIdMap[actor.type];
+            const displayType =
+              typesIdMap[actor.type] ??
+              typesIdMap[actor.type.split("_Variant.")[0]];
             if (!displayType) continue;
             if (!filters.includes(displayType)) continue;
             // Live memory detection: only discoverable when the type resolves to

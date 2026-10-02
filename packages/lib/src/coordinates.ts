@@ -222,12 +222,27 @@ export type DiscoverMode = "enabled" | "predicted" | "disabled";
  * Pass the FULL static set (e.g. `searchableNodes`), NOT the live-mode-filtered
  * render list — in live mode a `live`-resolved type's predictions are dropped
  * from the rendered nodes, but it's still a positioned (fixed) type.
+ *
+ * Pass `typesIdMap` to also count live-only VARIANT types as positioned when
+ * their base class is: a `<Class>_Variant.<Id>` actor (Palia star-quality /
+ * infected forage) spawns at the same fixed spots as `<Class>`, but its own
+ * filter type has no static nodes of its own.
  */
 export const getPositionedDiscoverTypes = (
   nodes: { type: string }[],
+  typesIdMap?: Record<string, string> | null,
 ): Set<string> => {
   const positioned = new Set<string>();
   for (const node of nodes) positioned.add(node.type);
+  if (typesIdMap) {
+    for (const [classId, type] of Object.entries(typesIdMap)) {
+      if (positioned.has(type)) continue;
+      const variantIndex = classId.indexOf("_Variant.");
+      if (variantIndex === -1) continue;
+      const baseType = typesIdMap[classId.slice(0, variantIndex)];
+      if (baseType && positioned.has(baseType)) positioned.add(type);
+    }
+  }
   return positioned;
 };
 

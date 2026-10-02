@@ -1,5 +1,6 @@
 import {
   dbEntryIdOf,
+  getPositionedDiscoverTypes,
   getSpawnDiscoveryId,
   removeDiscoveredMatches,
 } from "./coordinates";
@@ -90,5 +91,32 @@ describe("dbEntryIdOf", () => {
   });
   test("no default falls back to the type id", () => {
     expect(dbEntryIdOf({ id: "coal@1:2", type: "coal" })).toBe("coal");
+  });
+});
+
+describe("getPositionedDiscoverTypes", () => {
+  const typesIdMap = {
+    BP_Beans_C: "beans",
+    "BP_Beans_C_Variant.StarQuality": "beans_star",
+    "BP_Beans_C_Variant.AmberEcho_Variant.EchoInfected": "beans_infected",
+    BP_Player_C: "player",
+    "BP_Player_C_Variant.Masked": "player_masked",
+  };
+
+  test("only types with static nodes without a typesIdMap", () => {
+    expect([...getPositionedDiscoverTypes([{ type: "beans" }])]).toEqual([
+      "beans",
+    ]);
+  });
+
+  test("variant types inherit their base class's static position", () => {
+    const positioned = getPositionedDiscoverTypes(
+      [{ type: "beans" }],
+      typesIdMap,
+    );
+    expect(positioned.has("beans_star")).toBe(true);
+    expect(positioned.has("beans_infected")).toBe(true);
+    expect(positioned.has("player")).toBe(false);
+    expect(positioned.has("player_masked")).toBe(false);
   });
 });

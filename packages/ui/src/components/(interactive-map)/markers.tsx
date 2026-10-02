@@ -556,8 +556,8 @@ function MarkersContent({
   // and therefore never become discoverable. Built from the FULL static set,
   // not the live-mode render list (which drops live-resolved predictions).
   const positionedTypes = useMemo(
-    () => getPositionedDiscoverTypes(searchableNodes),
-    [searchableNodes],
+    () => getPositionedDiscoverTypes(searchableNodes, typesIdMap),
+    [searchableNodes, typesIdMap],
   );
   const positionedTypesRef = useRef(positionedTypes);
   positionedTypesRef.current = positionedTypes;
