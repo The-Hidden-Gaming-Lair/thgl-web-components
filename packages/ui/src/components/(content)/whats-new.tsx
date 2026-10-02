@@ -97,7 +97,7 @@ function ChangelogContent({ content }: { content: string }) {
 
 // Release-note posts start with "## <Game> - <Title>"; lift that heading into the
 // card (without the game prefix the card header already shows) and keep the body.
-function splitGameUpdate(text: string, gameTitle: string) {
+export function splitGameUpdate(text: string, gameTitle: string) {
   const match = text.match(/^\s*#{1,6}\s+(.+)\n?/);
   if (!match) return { title: null, body: text };
   let title = match[1]!.trim();

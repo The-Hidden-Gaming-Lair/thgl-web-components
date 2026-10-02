@@ -11,4 +11,9 @@ export { NavGrid } from "./nav-grid";
 export { NavIcon } from "./nav-icon";
 export { PreviewImage } from "./preview-image";
 export { ReleaseNotes } from "./release-notes";
-export { WhatsNew, ChangelogList, type UpdateItem } from "./whats-new";
+export {
+  WhatsNew,
+  ChangelogList,
+  splitGameUpdate,
+  type UpdateItem,
+} from "./whats-new";

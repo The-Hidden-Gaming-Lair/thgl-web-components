@@ -11,7 +11,11 @@ import {
 } from "@repo/lib/thgl-app";
 import { useLocale, useT } from "@repo/ui/providers";
 import { ScrollArea } from "@repo/ui/controls";
-import { DiscordMessage, PreviewImage, Subtitle } from "@repo/ui/content";
+import {
+  DiscordMessage,
+  PreviewImage,
+  splitGameUpdate,
+} from "@repo/ui/content";
 import { Badge } from "@repo/ui/controls";
 import { Button, Switch, Label } from "@repo/ui/controls";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/controls";
@@ -329,37 +333,56 @@ export function GamePageClient({
               {t("game.noReleaseNotes")}
             </p>
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-4">
               {updateMessages.map((updateMessage) => {
-                const dateFormatted = new Date(
-                  updateMessage.timestamp,
-                ).toDateString();
-                const anchorId = formatAnchorId(dateFormatted);
+                const date = new Date(updateMessage.timestamp);
+                // Anchor format is shared with the Home "What's New" links
+                const anchorId = formatAnchorId(date.toDateString());
+                const { title, body } = splitGameUpdate(
+                  updateMessage.text,
+                  game.title,
+                );
                 return (
-                  <div
+                  <Card
                     key={updateMessage.timestamp}
                     id={anchorId}
-                    className="scroll-mt-28 space-y-2"
+                    className="scroll-mt-4"
                   >
-                    <Subtitle
-                      order={3}
-                      title={
-                        <Link href={`#${anchorId}`} className="hover:underline">
-                          {dateFormatted}
-                        </Link>
-                      }
-                    />
-                    <DiscordMessage className="text-left space-y-4">
-                      {updateMessage.text}
-                    </DiscordMessage>
-                    {updateMessage.images.length > 0 && (
-                      <div className="flex flex-wrap gap-4">
-                        {updateMessage.images.map((image) => (
-                          <PreviewImage key={image} src={image} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                    <CardHeader className="p-5 pb-3 space-y-1">
+                      <Link
+                        href={`#${anchorId}`}
+                        className="text-xs text-muted-foreground hover:underline w-fit"
+                      >
+                        {date.toLocaleDateString(locale, {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </Link>
+                      {title && (
+                        <CardTitle className="text-base leading-snug">
+                          {title}
+                        </CardTitle>
+                      )}
+                    </CardHeader>
+                    <CardContent className="p-5 pt-0 space-y-4">
+                      {body && (
+                        <DiscordMessage
+                          variant="compact"
+                          className="text-sm text-muted-foreground leading-relaxed"
+                        >
+                          {body}
+                        </DiscordMessage>
+                      )}
+                      {updateMessage.images.length > 0 && (
+                        <div className="flex flex-wrap gap-3">
+                          {updateMessage.images.map((image) => (
+                            <PreviewImage key={image} src={image} />
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
                 );
               })}
             </div>
