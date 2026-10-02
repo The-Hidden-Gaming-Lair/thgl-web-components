@@ -1,5 +1,6 @@
 import { type AppConfig, isDevForgeHost } from "@repo/lib";
 import { aion2 } from "./aion2";
+import { albionOnline } from "./albion-online";
 import { aniimo } from "./aniimo";
 import { avowed } from "./avowed";
 import { bloodOfDawnwalker } from "./blood-of-dawnwalker";
@@ -54,6 +55,7 @@ import { wutheringWaves } from "./wuthering-waves";
  */
 const ALL_CONFIGS: AppConfig[] = [
   aion2,
+  albionOnline,
   planetCrafter,
   graveyardKeeper2,
   valheim,

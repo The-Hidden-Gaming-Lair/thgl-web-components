@@ -362,6 +362,15 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    id: "albion-online",
+    discordId: "albion-online",
+    title: "Albion Online",
+    steamAppId: 761890,
+    logo: `${TH_GL_URL}/global_icons/albion-online.webp`,
+    web: "https://albiononline.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "delta-force",
     discordId: "delta-force",
     title: "Delta Force",
