@@ -116,6 +116,7 @@ export function App({
             filters={filters}
             staticDrawings={drawings}
             mapNames={Object.keys(tiles)}
+            tilesConfig={tiles}
             regions={regions}
             typesIdMap={typesIdMap}
             globalFilters={globalFilters}

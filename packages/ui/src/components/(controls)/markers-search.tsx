@@ -321,7 +321,12 @@ export function MarkersSearch({
             </div>
           )}
           <div className="shrink-0">
-            <Presets />
+            <Presets
+              maps={mapNames.map(({ name }) => ({
+                name,
+                label: t(name) || name,
+              }))}
+            />
             <Separator />
             <GlobalFilters />
           </div>

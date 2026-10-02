@@ -380,6 +380,7 @@ export function createMapPage(
               staticDrawings={version.data.drawings}
               filters={version.data.filters}
               mapNames={Object.keys(version.data.tiles)}
+              tilesConfig={version.data.tiles}
               useCbor
               regions={version.data.regions}
               typesIdMap={

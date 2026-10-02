@@ -36,6 +36,7 @@ import {
   type InGameCoordinates,
   buildPrivateIconLookups,
   resolvePrivateIcon,
+  type TilesConfig,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
 import { useStore } from "zustand";
@@ -44,6 +45,7 @@ import { useMapStore } from "../(interactive-map)/store";
 import { useStaticNodesTransformStore } from "./static-nodes-transform-store";
 import useSWRImmutable from "swr/immutable";
 import { toast } from "sonner";
+import { PresetMapAutoApply } from "./preset-auto-apply";
 
 export type NodesCoordinates = {
   type: string;
@@ -171,6 +173,7 @@ export function CoordinatesProvider({
   map,
   clusterPrecision = 0,
   inGameCoordinates,
+  tilesConfig,
 }: {
   children: React.ReactNode;
   staticNodes?: NodesCoordinates;
@@ -186,6 +189,11 @@ export function CoordinatesProvider({
   map?: string;
   clusterPrecision?: number;
   inGameCoordinates?: InGameCoordinates;
+  /**
+   * The game's tiles config. Only used to treat interior floors as part of
+   * their surface map for the per-map preset auto-apply.
+   */
+  tilesConfig?: TilesConfig;
 }): JSX.Element {
   const { t, dict, locale } = useI18n();
   // Create the user store once per provider instance (i.e. per request on
@@ -981,6 +989,12 @@ export function CoordinatesProvider({
           inGameCoordinates,
         }}
       >
+        <PresetMapAutoApply
+          enabled={isHydrated}
+          userStore={userStore}
+          globalFilters={globalFilters}
+          tilesConfig={tilesConfig}
+        />
         {children}
       </Context.Provider>
     </UserStoreContext.Provider>

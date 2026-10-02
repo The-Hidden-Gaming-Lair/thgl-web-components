@@ -46,6 +46,7 @@ import {
   recordHydrateDrops,
   recordRecentSync,
 } from "./filter-tombstones";
+import { bindPresetToMap, dropPresetBindings } from "./filter-presets";
 import { getAppIdFromPathname, getCurrentGameId } from "./games";
 
 export type LiveMode = "static" | "live" | "combined";
@@ -336,6 +337,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   // Palia: mute the "a player wants to join your world" join-code-request toast.
   worldCodeRequestsMuted: false,
   presets: {},
+  presetByMap: {},
   tempPrivateNode: null,
   recentPrivateNodeStyles: [],
   tempPrivateDrawing: null,
@@ -480,6 +482,12 @@ export type ProfileSettings = {
   displayDiscordActivityStatus: boolean;
   worldCodeRequestsMuted: boolean;
   presets: Record<string, string[] | FilterPreset>;
+  /**
+   * Per-map preset auto-apply (key = top-level mapName, value = preset name).
+   * One preset per map; switching to a bound map applies that preset like a
+   * manual selection. See resolveAutoApplyPreset() in filter-presets.ts.
+   */
+  presetByMap: Record<string, string>;
   tempPrivateNode: (Partial<PrivateNode> & { filter?: string }) | null;
   recentPrivateNodeStyles: PrivateNodeStyle[];
   tempPrivateDrawing: (Partial<Drawing> & { name?: string }) | null;
@@ -628,6 +636,9 @@ export interface ProfileActions {
   // Rebuild the presets map in the given key order (presets render in
   // insertion order). Names not listed are appended, keeping them safe.
   reorderPresets: (orderedNames: string[]) => void;
+  // Bind a preset to a map (replaces that map's previous binding) or clear
+  // the map's binding with `null`.
+  setPresetForMap: (mapName: string, presetName: string | null) => void;
   // Replace icon sizes and/or per-filter audio alerts wholesale (used when
   // applying a preset, so unset entries revert to defaults instead of
   // lingering). Only the provided categories are touched.
@@ -1799,7 +1810,11 @@ export const useSettingsStore = create(
             const state = get();
             const newPresets = { ...state.presets };
             delete newPresets[presetName];
-            updateSettings({ presets: newPresets });
+            // A deleted preset must not stay bound to any map.
+            updateSettings({
+              presets: newPresets,
+              presetByMap: dropPresetBindings(state.presetByMap, presetName),
+            });
           },
 
           reorderPresets: (orderedNames: string[]) => {
@@ -1813,6 +1828,19 @@ export const useSettingsStore = create(
               if (!(name in next)) next[name] = state.presets[name];
             }
             updateSettings({ presets: next });
+          },
+
+          setPresetForMap: (mapName, presetName) => {
+            const state = get();
+            // `?? {}` (inside bindPresetToMap) guards profiles persisted
+            // before this field existed.
+            updateSettings({
+              presetByMap: bindPresetToMap(
+                state.presetByMap,
+                mapName,
+                presetName,
+              ),
+            });
           },
 
           applyPresetSettings: (settings) => {

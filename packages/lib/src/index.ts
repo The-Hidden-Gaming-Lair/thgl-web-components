@@ -10,6 +10,7 @@ export * from "./dom";
 export * from "./env";
 export * from "./files";
 export * from "./filter-import";
+export * from "./filter-presets";
 export * from "./filters-mutations";
 export * from "./filters-stats";
 export * from "./game";

@@ -1,5 +1,6 @@
 import { REGION_FILTERS, useCoordinates } from "../(providers)";
-import { useUserStore, useT } from "../(providers)";
+import { useUserStore, useUserStoreApi, useT } from "../(providers)";
+import { applyFilterPreset } from "../(providers)/preset-auto-apply";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -20,12 +21,14 @@ import {
   Filter,
   Maximize2,
   Bell,
+  MapPin,
 } from "lucide-react";
 import { Input } from "../ui/input";
 import {
   cn,
   useSettingsStore,
   openFileOrFiles,
+  mapsForPreset,
   type FilterPreset,
 } from "@repo/lib";
 import { useMemo, useState, type JSX } from "react";
@@ -60,18 +63,33 @@ const sizeMapEq = (a: Map<string, number>, b: Map<string, number>) => {
   return true;
 };
 
-export function Presets(): JSX.Element {
+const EMPTY_PRESET_BY_MAP: Record<string, string> = {};
+
+export function Presets({
+  maps,
+}: {
+  /**
+   * Top-level maps a preset can auto-apply on. Omitted (or a single map) =
+   * the game has nothing to switch between, so the map binding is hidden.
+   */
+  maps?: { name: string; label: string }[];
+} = {}): JSX.Element {
   const t = useT();
   const coordinates = useCoordinates();
+  const userStore = useUserStoreApi();
   const { setFilters, filters, globalFilters, setGlobalFilters } =
     useUserStore();
   const presets = useSettingsStore((state) => state.presets);
   const addPreset = useSettingsStore((state) => state.addPreset);
   const removePreset = useSettingsStore((state) => state.removePreset);
   const reorderPresets = useSettingsStore((state) => state.reorderPresets);
-  const applyPresetSettings = useSettingsStore(
-    (state) => state.applyPresetSettings,
+  const presetByMap = useSettingsStore(
+    (state) => state.presetByMap ?? EMPTY_PRESET_BY_MAP,
   );
+  const setPresetForMap = useSettingsStore((state) => state.setPresetForMap);
+  const canBindMaps = !!maps && maps.length > 1;
+  const mapLabel = (mapName: string) =>
+    maps?.find((map) => map.name === mapName)?.label ?? (t(mapName) || mapName);
   // Snapshotted into a preset on save, restored on apply, compared for "active".
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const iconSizeByGroup = useSettingsStore((state) => state.iconSizeByGroup);
@@ -90,6 +108,8 @@ export function Presets(): JSX.Element {
   // Drag-to-reorder state: the preset being dragged and the row hovered over.
   const [dragName, setDragName] = useState<string | null>(null);
   const [dragOverName, setDragOverName] = useState<string | null>(null);
+  // The preset whose "auto-apply on maps" panel is open.
+  const [mapsOpenFor, setMapsOpenFor] = useState<string | null>(null);
 
   const allGlobalFilters = useMemo(
     () =>
@@ -185,23 +205,11 @@ export function Presets(): JSX.Element {
     return preset;
   };
 
+  // Shared with the per-map auto-apply, so both behave identically.
   const applyPreset = (preset: string[] | FilterPreset) => {
-    const normalized = normalize(preset);
-    if (normalized.filters) {
-      const { global, local } = splitFilters(normalized.filters);
-      setFilters(local);
-      setGlobalFilters(global.length === 0 ? defaultGlobalFilters : global);
-    }
-    applyPresetSettings({
-      iconSizes:
-        normalized.iconSizeByGroup !== undefined
-          ? {
-              baseIconSize: normalized.baseIconSize ?? 1,
-              iconSizeByGroup: normalized.iconSizeByGroup,
-              iconSizeByFilter: normalized.iconSizeByFilter ?? {},
-            }
-          : undefined,
-      audioAlertByFilter: normalized.audioAlertByFilter,
+    applyFilterPreset(preset, {
+      userStore,
+      globalFilters: coordinates.globalFilters,
     });
   };
 
@@ -456,132 +464,214 @@ export function Presets(): JSX.Element {
             <ChevronRight className="ml-0.5 h-2.5 w-2.5 shrink-0" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-72">
+        <DropdownMenuContent className={canBindMaps ? "w-80" : "w-72"}>
           {Object.entries(presets).map(([name, preset]) => {
             const active = isPresetActive(preset);
             const confirming = pendingDelete === name;
+            const boundMaps = canBindMaps
+              ? mapsForPreset(presetByMap, name).filter((mapName) =>
+                  maps!.some((map) => map.name === mapName),
+                )
+              : [];
+            const mapsOpen = canBindMaps && mapsOpenFor === name;
             return (
-              <div
-                key={name}
-                onDragOver={(event) => {
-                  if (!dragName || dragName === name) return;
-                  event.preventDefault();
-                  setDragOverName(name);
-                }}
-                onDrop={(event) => {
-                  event.preventDefault();
-                  handleDropOn(name);
-                }}
-                className={`flex items-center w-full rounded-sm transition-colors ${
-                  active ? "bg-primary/10" : ""
-                } ${
-                  dragOverName === name && dragName !== name
-                    ? "border-t-2 border-primary"
-                    : ""
-                } ${dragName === name ? "opacity-50" : ""}`}
-              >
-                <span
-                  draggable
-                  onDragStart={(event) => {
-                    setDragName(name);
-                    event.dataTransfer.effectAllowed = "move";
+              <div key={name}>
+                <div
+                  onDragOver={(event) => {
+                    if (!dragName || dragName === name) return;
+                    event.preventDefault();
+                    setDragOverName(name);
                   }}
-                  onDragEnd={clearDrag}
-                  onPointerDown={(event) => event.stopPropagation()}
-                  className="shrink-0 cursor-grab px-0.5 text-muted-foreground hover:text-foreground"
-                  title={t("presets.tooltip.drag")}
-                  aria-label={t("presets.tooltip.drag")}
-                >
-                  <GripVertical className="h-4 w-4" />
-                </span>
-                <DropdownMenuItem
-                  onClick={() => {
-                    applyPreset(preset);
-                    toast(t("presets.applied", { vars: { name } }));
+                  onDrop={(event) => {
+                    event.preventDefault();
+                    handleDropOn(name);
                   }}
-                  className="grow gap-2 min-w-0"
+                  className={`flex items-center w-full rounded-sm transition-colors ${
+                    active ? "bg-primary/10" : ""
+                  } ${
+                    dragOverName === name && dragName !== name
+                      ? "border-t-2 border-primary"
+                      : ""
+                  } ${dragName === name ? "opacity-50" : ""}`}
                 >
                   <span
-                    className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
-                      active ? "bg-primary" : "bg-transparent"
-                    }`}
-                    aria-hidden
-                  />
-                  <span className="flex flex-col min-w-0 leading-tight">
-                    <span
-                      className={`truncate ${active ? "text-primary" : ""}`}
-                    >
-                      {name}
-                    </span>
-                    <span className="truncate text-[10px] text-muted-foreground uppercase tracking-wide">
-                      {presetSummary(preset) || t("presets.cat.empty")}
-                    </span>
+                    draggable
+                    onDragStart={(event) => {
+                      setDragName(name);
+                      event.dataTransfer.effectAllowed = "move";
+                    }}
+                    onDragEnd={clearDrag}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    className="shrink-0 cursor-grab px-0.5 text-muted-foreground hover:text-foreground"
+                    title={t("presets.tooltip.drag")}
+                    aria-label={t("presets.tooltip.drag")}
+                  >
+                    <GripVertical className="h-4 w-4" />
                   </span>
-                </DropdownMenuItem>
-                {confirming ? (
-                  <>
-                    <Button
-                      className="shrink-0 text-destructive hover:text-destructive"
-                      variant="ghost"
-                      size="icon"
-                      title={t("presets.tooltip.confirmDelete")}
-                      aria-label={t("presets.tooltip.confirmDelete")}
-                      onClick={() => {
-                        removePreset(name);
-                        setPendingDelete(null);
-                      }}
-                      type="button"
-                    >
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      className="shrink-0"
-                      variant="ghost"
-                      size="icon"
-                      title={t("presets.tooltip.cancel")}
-                      aria-label={t("presets.tooltip.cancel")}
-                      onClick={() => setPendingDelete(null)}
-                      type="button"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      className="shrink-0 text-muted-foreground hover:text-primary"
-                      variant="ghost"
-                      size="icon"
-                      title={t("presets.tooltip.export")}
-                      aria-label={t("presets.tooltip.export")}
-                      onClick={() => exportPreset(name, preset)}
-                      type="button"
-                    >
-                      <Share2 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      className="shrink-0 text-muted-foreground hover:text-primary"
-                      variant="ghost"
-                      size="icon"
-                      title={t("presets.tooltip.update")}
-                      aria-label={t("presets.tooltip.update")}
-                      onClick={() => updatePreset(name, preset)}
-                      type="button"
-                    >
-                      <RotateCw className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      className="shrink-0 text-muted-foreground hover:text-destructive"
-                      variant="ghost"
-                      size="icon"
-                      title={t("presets.tooltip.delete")}
-                      aria-label={t("presets.tooltip.delete")}
-                      onClick={() => setPendingDelete(name)}
-                      type="button"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      applyPreset(preset);
+                      toast(t("presets.applied", { vars: { name } }));
+                    }}
+                    className="grow gap-2 min-w-0"
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
+                        active ? "bg-primary" : "bg-transparent"
+                      }`}
+                      aria-hidden
+                    />
+                    <span className="flex flex-col min-w-0 leading-tight">
+                      <span
+                        className={`truncate ${active ? "text-primary" : ""}`}
+                      >
+                        {name}
+                      </span>
+                      <span className="truncate text-[10px] text-muted-foreground uppercase tracking-wide">
+                        {presetSummary(preset) || t("presets.cat.empty")}
+                      </span>
+                      {boundMaps.length > 0 && (
+                        <span className="flex items-center gap-1 truncate text-[10px] text-muted-foreground">
+                          <MapPin className="h-2.5 w-2.5 shrink-0" />
+                          <span className="truncate">
+                            {boundMaps.map(mapLabel).join(", ")}
+                          </span>
+                        </span>
+                      )}
+                    </span>
+                  </DropdownMenuItem>
+                  {confirming ? (
+                    <>
+                      <Button
+                        className="shrink-0 text-destructive hover:text-destructive"
+                        variant="ghost"
+                        size="icon"
+                        title={t("presets.tooltip.confirmDelete")}
+                        aria-label={t("presets.tooltip.confirmDelete")}
+                        onClick={() => {
+                          removePreset(name);
+                          setPendingDelete(null);
+                        }}
+                        type="button"
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        className="shrink-0"
+                        variant="ghost"
+                        size="icon"
+                        title={t("presets.tooltip.cancel")}
+                        aria-label={t("presets.tooltip.cancel")}
+                        onClick={() => setPendingDelete(null)}
+                        type="button"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      {canBindMaps && (
+                        <Button
+                          className={cn(
+                            "shrink-0 hover:text-primary",
+                            mapsOpen || boundMaps.length > 0
+                              ? "text-primary"
+                              : "text-muted-foreground",
+                          )}
+                          variant="ghost"
+                          size="icon"
+                          title={t("presets.tooltip.maps", {
+                            fallback: "Auto-apply on maps",
+                          })}
+                          aria-label={t("presets.tooltip.maps", {
+                            fallback: "Auto-apply on maps",
+                          })}
+                          aria-expanded={mapsOpen}
+                          onClick={() => setMapsOpenFor(mapsOpen ? null : name)}
+                          type="button"
+                        >
+                          <MapPin className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button
+                        className="shrink-0 text-muted-foreground hover:text-primary"
+                        variant="ghost"
+                        size="icon"
+                        title={t("presets.tooltip.export")}
+                        aria-label={t("presets.tooltip.export")}
+                        onClick={() => exportPreset(name, preset)}
+                        type="button"
+                      >
+                        <Share2 className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        className="shrink-0 text-muted-foreground hover:text-primary"
+                        variant="ghost"
+                        size="icon"
+                        title={t("presets.tooltip.update")}
+                        aria-label={t("presets.tooltip.update")}
+                        onClick={() => updatePreset(name, preset)}
+                        type="button"
+                      >
+                        <RotateCw className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        className="shrink-0 text-muted-foreground hover:text-destructive"
+                        variant="ghost"
+                        size="icon"
+                        title={t("presets.tooltip.delete")}
+                        aria-label={t("presets.tooltip.delete")}
+                        onClick={() => setPendingDelete(name)}
+                        type="button"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </>
+                  )}
+                </div>
+                {mapsOpen && (
+                  <div className="flex flex-col gap-1.5 px-2 pb-2 pt-1">
+                    <p className="text-[10px] leading-snug text-muted-foreground">
+                      {t("presets.mapsHint", {
+                        fallback: "Apply this preset when you switch to:",
+                      })}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {maps!.map((map) => {
+                        const bound = presetByMap[map.name];
+                        const on = bound === name;
+                        const other =
+                          bound && !on && bound in presets ? bound : null;
+                        return (
+                          <button
+                            key={map.name}
+                            type="button"
+                            aria-pressed={on}
+                            title={
+                              other
+                                ? t("presets.mapReplaces", {
+                                    fallback: "Replaces {{name}} on this map",
+                                    vars: { name: other },
+                                  })
+                                : undefined
+                            }
+                            onClick={() =>
+                              setPresetForMap(map.name, on ? null : name)
+                            }
+                            className={cn(
+                              "flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                              on
+                                ? "border-primary/40 bg-primary/15 text-primary"
+                                : "border-border bg-transparent text-muted-foreground hover:text-foreground",
+                            )}
+                          >
+                            {on && <Check className="h-3 w-3" />}
+                            {map.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 )}
               </div>
             );

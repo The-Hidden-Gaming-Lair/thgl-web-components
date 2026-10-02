@@ -179,6 +179,7 @@ export function App({
             appName={appConfig.name}
             filters={filters}
             mapNames={Object.keys(tiles)}
+            tilesConfig={tiles}
             regions={regions}
             typesIdMap={fullTypesIdMap}
             globalFilters={globalFilters}
