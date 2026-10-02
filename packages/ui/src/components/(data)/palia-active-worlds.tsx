@@ -1,6 +1,6 @@
 "use client";
 
-import { isOverwolf, isThglApp, useGameState } from "@repo/lib";
+import { isOverwolf, isThglApp, useGameState, useHasMounted } from "@repo/lib";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../(controls)";
 import { Copy, Server, Clock } from "lucide-react";
@@ -70,7 +70,10 @@ export function PaliaActiveWorlds() {
   const paliaTime = usePaliaTime();
   // In-app only: the web has the /worlds page, so the sidebar there is just the
   // clock. In the overlay/desktop app it's the focused "Your World" panel.
-  const showPanel = isThglApp || isOverwolf;
+  // Both flags read `window` (false on the server), so decide only after mount
+  // or the app's first client render mismatches the SSR'd clock row.
+  const mounted = useHasMounted();
+  const showPanel = mounted && (isThglApp || isOverwolf);
   const myWorld =
     (myWorldId && data?.worlds.find((w) => w.id === myWorldId)) || null;
 
