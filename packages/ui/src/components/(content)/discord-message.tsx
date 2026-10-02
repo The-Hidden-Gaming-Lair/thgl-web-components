@@ -66,18 +66,45 @@ function replaceTimestampsWithJSX(content: string, locale: string) {
   });
 }
 
+// Small headings + tight lists for previews (e.g. dashboard "What's New" cards)
+function CompactHeading({ children }: { children?: React.ReactNode }) {
+  return (
+    <div className="text-sm font-semibold text-foreground mt-2 mb-0.5">
+      {children}
+    </div>
+  );
+}
+
+const compactHeadings = {
+  h1: CompactHeading,
+  h2: CompactHeading,
+  h3: CompactHeading,
+  h4: CompactHeading,
+  h5: CompactHeading,
+  h6: CompactHeading,
+  ul({ children }: { children?: React.ReactNode }) {
+    return <ul className="list-disc pl-4 space-y-1">{children}</ul>;
+  },
+  ol({ children }: { children?: React.ReactNode }) {
+    return <ol className="list-decimal pl-4 space-y-1">{children}</ol>;
+  },
+};
+
 export function DiscordMessage({
   children,
   className,
+  variant = "default",
 }: {
   children: string;
   className?: string;
+  variant?: "default" | "compact";
 }) {
   const locale = useLocale();
   const processed = replaceTimestampsWithJSX(children, locale);
+  const compact = variant === "compact";
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn(compact ? "space-y-1.5" : "space-y-4", className)}>
       <Markdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -110,8 +137,8 @@ export function DiscordMessage({
             return (
               <Link
                 className={cn(
-                  "inline-flex items-center gap-1 font-bold text-sm text-secondary-foreground",
-                  className,
+                  "inline-flex items-center gap-1 font-bold text-secondary-foreground",
+                  compact ? "text-xs align-middle" : "text-sm",
                 )}
                 href={href}
                 onClick={() => trackOutboundLinkClick(href)}
@@ -226,6 +253,7 @@ export function DiscordMessage({
             }
             return <span>{children}</span>;
           },
+          ...(compact ? compactHeadings : {}),
         }}
       >
         {processed}

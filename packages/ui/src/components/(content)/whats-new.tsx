@@ -95,6 +95,46 @@ function ChangelogContent({ content }: { content: string }) {
   );
 }
 
+// Release-note posts start with "## <Game> - <Title>"; lift that heading into the
+// card (without the game prefix the card header already shows) and keep the body.
+function splitGameUpdate(text: string, gameTitle: string) {
+  const match = text.match(/^\s*#{1,6}\s+(.+)\n?/);
+  if (!match) return { title: null, body: text };
+  let title = match[1]!.trim();
+  const prefix = `${gameTitle} - `;
+  if (title.toLowerCase().startsWith(prefix.toLowerCase())) {
+    title = title.slice(prefix.length);
+  }
+  return { title, body: text.slice(match[0].length).trim() };
+}
+
+function GameUpdatePreview({
+  text,
+  gameTitle,
+}: {
+  text: string;
+  gameTitle: string;
+}) {
+  const { title, body } = splitGameUpdate(text, gameTitle);
+  return (
+    <div className="space-y-1">
+      {title && (
+        <p className="font-medium text-foreground leading-snug">{title}</p>
+      )}
+      {body && (
+        <div className="relative max-h-40 overflow-hidden [mask-image:linear-gradient(to_bottom,black_70%,transparent)]">
+          <DiscordMessage
+            variant="compact"
+            className="text-sm text-muted-foreground"
+          >
+            {body}
+          </DiscordMessage>
+        </div>
+      )}
+    </div>
+  );
+}
+
 type WhatsNewProps = {
   updates: UpdateItem[];
   /** Base path for game links, defaults to "/dashboard/games" for thgl-app */
@@ -170,9 +210,10 @@ export function WhatsNew({
                 </div>
               </CardHeader>
               <CardContent className="pt-0 space-y-2">
-                <DiscordMessage className="text-sm text-muted-foreground line-clamp-3">
-                  {update.message.text}
-                </DiscordMessage>
+                <GameUpdatePreview
+                  text={update.message.text}
+                  gameTitle={update.game.title}
+                />
                 {showGameLinks && (
                   <Link
                     href={`${gameBasePath}/${update.game.id}#${new Date(update.message.timestamp).toDateString().toLowerCase().replace(/\s+/g, "-")}`}
