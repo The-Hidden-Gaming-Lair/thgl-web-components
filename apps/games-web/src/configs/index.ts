@@ -33,6 +33,7 @@ import { rsdragonwilds } from "./rsdragonwilds";
 import { satisfactory } from "./satisfactory";
 import { songsOfConquest } from "./songs-of-conquest";
 import { sinkingCity2 } from "./sinking-city-2";
+import { theFirstDescendant } from "./the-first-descendant";
 import { soulframe } from "./soulframe";
 import { deltaForce } from "./delta-force";
 import { whereWindsMeet } from "./where-winds-meet";
@@ -86,6 +87,7 @@ const ALL_CONFIGS: AppConfig[] = [
   satisfactory,
   songsOfConquest,
   sinkingCity2,
+  theFirstDescendant,
   soulframe,
   deltaForce,
   whereWindsMeet,

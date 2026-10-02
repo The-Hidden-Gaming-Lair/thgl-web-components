@@ -266,6 +266,17 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    // The First Descendant (Nexon). No companion block: online-only client with anti-cheat, so
+    // there is no memory reading / live tracking — web map + database only.
+    id: "the-first-descendant",
+    discordId: "the-first-descendant",
+    title: "The First Descendant",
+    steamAppId: 2074920,
+    logo: `${TH_GL_URL}/global_icons/the-first-descendant.webp`,
+    web: "https://thefirstdescendant.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     // AION 2 (NCSoft). No companion block: the client runs NCSoft's anti-cheat, so there is no
     // memory reading / live tracking — web map + database only.
     id: "aion2",
