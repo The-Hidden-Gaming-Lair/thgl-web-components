@@ -296,6 +296,9 @@ export function MarkersSearch({
                   month: "2-digit",
                   day: "2-digit",
                   year: "numeric",
+                  // Fixed zone: SSR runs in UTC, so a local-tz format
+                  // mismatches on hydration (React #418) near midnight.
+                  timeZone: "UTC",
                 })}
               </span>
             </div>

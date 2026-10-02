@@ -37,6 +37,8 @@ export function ReleaseNotes({
               year: "numeric",
               month: "long",
               day: "numeric",
+              // Fixed zone so SSR (UTC) and hydration render the same day.
+              timeZone: "UTC",
             })}
           </h3>
           <DiscordMessage className="text-left">
