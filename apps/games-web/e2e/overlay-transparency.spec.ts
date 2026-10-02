@@ -128,3 +128,32 @@ test("overlay: the Cycle Filter Presets hotkey applies the saved presets in orde
   await press();
   await expect.poll(filters).toEqual([CLAY.id]);
 });
+
+test("overlay: the Reset Discovered Nodes hotkey clears discovered nodes and Undo restores them", async ({
+  page,
+}) => {
+  await openOverlay(page);
+  const discovered = () =>
+    page.evaluate(
+      () => (window as any).__thgl.useSettingsStore.getState().discoveredNodes,
+    );
+  await page.evaluate(() => {
+    (window as any).__thgl.useSettingsStore
+      .getState()
+      .setDiscoveredNodes(["e2e@1:2", "e2e@3:4"]);
+  });
+
+  await emitWebviewMessage(page, {
+    action: "hotkey",
+    payload: { key: "SHIFT+F10", action: "reset_discovered_nodes" },
+  });
+  await expect.poll(discovered).toEqual([]);
+  await expect(page.getByText("Discovered nodes reset").first()).toBeVisible();
+
+  // The toast stack is still animating in; dispatch the click directly.
+  await page
+    .getByRole("button", { name: "Undo" })
+    .first()
+    .dispatchEvent("click");
+  await expect.poll(discovered).toEqual(["e2e@1:2", "e2e@3:4"]);
+});

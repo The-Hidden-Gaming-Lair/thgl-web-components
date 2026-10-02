@@ -269,6 +269,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     show_labels: "Shift+F5",
     cycle_map_transparency: "Shift+F7",
     cycle_filter_preset: "Shift+F8",
+    // Unbound by default: one stray press would wipe every discovered node.
+    reset_discovered_nodes: "",
   },
   groupName: "",
   // Default to pure live (predicted hidden). Combined (predicted + live) is

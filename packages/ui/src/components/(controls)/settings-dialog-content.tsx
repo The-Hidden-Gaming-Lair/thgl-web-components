@@ -38,6 +38,7 @@ import { playAlertSound, ALERT_SOUND_OPTIONS } from "./audio-alert";
 import { Section } from "./section";
 import { MapsSettingsSection } from "./maps-settings";
 import { SiteImport } from "../(data)/site-import";
+import { resetDiscoveredNodes } from "./reset-discovered";
 
 export function SettingsDialogContent({
   activeApp,
@@ -178,14 +179,7 @@ export function SettingsDialogContent({
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={() => {
-                  settingsStore.setDiscoveredNodes([]);
-                  toast.warning(
-                    t("discovered.resetDone", {
-                      fallback: "Discovered nodes reset",
-                    }),
-                  );
-                }}
+                onClick={() => resetDiscoveredNodes(t)}
               >
                 {t("common.reset", { fallback: "Reset" })}
               </Button>

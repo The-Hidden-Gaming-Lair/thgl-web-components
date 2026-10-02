@@ -149,6 +149,10 @@
         "title": "Cycle Filter Presets",
         "action-type": "custom",
         "default": "Shift+F8"
+      },
+      "reset_discovered_nodes": {
+        "title": "Reset Discovered Nodes",
+        "action-type": "custom"
       }
     },
     "protocol_override_domains": {

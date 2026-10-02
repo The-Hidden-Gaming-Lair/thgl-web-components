@@ -137,6 +137,16 @@ export function THGLAppSettingsDialogContent({
               onClear={() => setRecordingName(null)}
             />
           </Label>
+          <Label className="flex items-center gap-2 justify-between">
+            Reset Discovered Nodes
+            <Hotkey
+              name={HOTKEYS.RESET_DISCOVERED_NODES}
+              isActive={recordingName === HOTKEYS.RESET_DISCOVERED_NODES}
+              onStart={() => setRecordingName(HOTKEYS.RESET_DISCOVERED_NODES)}
+              onStop={() => setRecordingName(null)}
+              onClear={() => setRecordingName(null)}
+            />
+          </Label>
         </>
       )}
     </SettingsDialogContent>
