@@ -245,10 +245,20 @@ jobs:
         run: |
           set -uo pipefail
 
+          # Bunny rate-limits full pull-zone purges (HTTP 429). A purge that
+          # never lands leaves the pre-deploy HTML cached for a day, so retry
+          # with backoff and warn loudly if it still fails.
           purge() {
-            curl -s -o /dev/null -w "purge HTTP %{http_code}\n" -X POST \
-              -H "AccessKey: $API_KEY" \
-              "https://api.bunny.net/pullzone/$PULL_ZONE_ID/purgeCache"
+            for attempt in 1 2 3 4 5 6; do
+              code=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+                -H "AccessKey: $API_KEY" \
+                "https://api.bunny.net/pullzone/$PULL_ZONE_ID/purgeCache")
+              echo "purge HTTP $code (attempt $attempt)"
+              case "$code" in 2*) return 0 ;; esac
+              sleep $((attempt * 30))
+            done
+            echo "::warning::Edge purge failed (last HTTP $code); the edge may serve the old build's HTML for up to a day"
+            return 1
           }
 
           # Poll the live site until it stops returning the placeholder.
