@@ -16,10 +16,12 @@ import {
 import { useCoordinates, useT } from "../(providers)";
 import { toast } from "sonner";
 import { cycleMapTransparency } from "../(desktop)/map-container";
+import { cycleFilterPreset } from "../(providers)/preset-auto-apply";
 
 export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
   const map = useMap();
-  const { nodes, searchableNodes, typesIdMap } = useCoordinates();
+  const { nodes, searchableNodes, typesIdMap, globalFilters } =
+    useCoordinates();
   const userStoreApi = useUserStoreApi();
   const t = useT();
 
@@ -62,6 +64,19 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
       overwolf.settings.hotkeys.onPressed.removeListener(handleHotkey);
     };
   }, []);
+
+  // Not map-gated either: switching presets doesn't need the map instance.
+  useEffect(() => {
+    const handleHotkey = (event: overwolf.settings.hotkeys.OnPressedEvent) => {
+      if (event.name === HOTKEYS.CYCLE_FILTER_PRESET) {
+        cycleFilterPreset({ userStore: userStoreApi, globalFilters, t });
+      }
+    };
+    overwolf.settings.hotkeys.onPressed.addListener(handleHotkey);
+    return () => {
+      overwolf.settings.hotkeys.onPressed.removeListener(handleHotkey);
+    };
+  }, [userStoreApi, globalFilters, t]);
 
   useEffect(() => {
     let lastDiscoverTime = 0;

@@ -288,6 +288,7 @@ Hotkeys for desktop apps (Overwolf and THGL Companion App) require updates in mu
      toggle_overlay_fullscreen: "Shift+F9",
      show_labels: "Shift+F5",
      cycle_map_transparency: "Shift+F7",
+     cycle_filter_preset: "Shift+F8",
    },
    ```
 

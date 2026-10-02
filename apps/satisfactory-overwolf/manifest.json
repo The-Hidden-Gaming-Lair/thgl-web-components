@@ -143,6 +143,11 @@
         "title": "Cycle Map Transparency",
         "action-type": "custom",
         "default": "Shift+F7"
+      },
+      "cycle_filter_preset": {
+        "title": "Cycle Filter Presets",
+        "action-type": "custom",
+        "default": "Shift+F8"
       }
     },
     "protocol_override_domains": {

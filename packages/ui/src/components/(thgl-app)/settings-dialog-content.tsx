@@ -127,6 +127,16 @@ export function THGLAppSettingsDialogContent({
               onClear={() => setRecordingName(null)}
             />
           </Label>
+          <Label className="flex items-center gap-2 justify-between">
+            Cycle Filter Presets
+            <Hotkey
+              name={HOTKEYS.CYCLE_FILTER_PRESET}
+              isActive={recordingName === HOTKEYS.CYCLE_FILTER_PRESET}
+              onStart={() => setRecordingName(HOTKEYS.CYCLE_FILTER_PRESET)}
+              onStop={() => setRecordingName(null)}
+              onClear={() => setRecordingName(null)}
+            />
+          </Label>
         </>
       )}
     </SettingsDialogContent>

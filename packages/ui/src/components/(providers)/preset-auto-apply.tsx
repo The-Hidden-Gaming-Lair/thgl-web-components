@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { toast } from "sonner";
 import {
+  nextPresetName,
   planPresetApply,
   resolveAutoApplyPreset,
   useSettingsStore,
@@ -38,6 +39,36 @@ export function applyFilterPreset(
     user.setGlobalFilters(plan.filters.global);
   }
   useSettingsStore.getState().applyPresetSettings(plan.settings);
+}
+
+// The preset the hotkey applied last, so the next press moves on from it.
+let lastCycledPreset: string | null = null;
+
+/**
+ * "Cycle Filter Presets" hotkey (THGLApp + Overwolf map-hotkeys): apply the
+ * next saved preset in menu order and say which one is active now.
+ */
+export function cycleFilterPreset({
+  userStore,
+  globalFilters,
+  t,
+}: {
+  userStore: UserStore;
+  globalFilters: GlobalFiltersConfig;
+  t: ReturnType<typeof useT>;
+}): void {
+  const { presets } = useSettingsStore.getState();
+  const name = nextPresetName(Object.keys(presets), lastCycledPreset);
+  if (!name) {
+    toast(t("presets.emptyList"), { duration: 2000, id: "cycle-preset" });
+    return;
+  }
+  lastCycledPreset = name;
+  applyFilterPreset(presets[name], { userStore, globalFilters });
+  toast(t("presets.applied", { vars: { name } }), {
+    duration: 2000,
+    id: "cycle-preset",
+  });
 }
 
 /**

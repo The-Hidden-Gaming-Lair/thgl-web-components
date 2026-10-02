@@ -2,6 +2,7 @@ import {
   bindPresetToMap,
   dropPresetBindings,
   mapsForPreset,
+  nextPresetName,
   normalizeFilterPreset,
   planPresetApply,
   presetBindingMap,
@@ -176,5 +177,24 @@ describe("settings store", () => {
     const { profiles, currentProfileId } = useSettingsStore.getState();
     const profile = profiles.find((p) => p.id === currentProfileId);
     expect(profile?.settings.presetByMap).toEqual({});
+  });
+});
+
+describe("nextPresetName", () => {
+  const names = ["Mining", "Bugs", "Fish"];
+
+  it("steps through the presets in order and wraps around", () => {
+    expect(nextPresetName(names, "Mining")).toBe("Bugs");
+    expect(nextPresetName(names, "Bugs")).toBe("Fish");
+    expect(nextPresetName(names, "Fish")).toBe("Mining");
+  });
+
+  it("starts at the first preset when the current one is unknown", () => {
+    expect(nextPresetName(names, null)).toBe("Mining");
+    expect(nextPresetName(names, "Deleted")).toBe("Mining");
+  });
+
+  it("returns null without saved presets", () => {
+    expect(nextPresetName([], "Mining")).toBeNull();
   });
 });

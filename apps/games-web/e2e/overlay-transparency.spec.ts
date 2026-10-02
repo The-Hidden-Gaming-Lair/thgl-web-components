@@ -100,3 +100,31 @@ test("overlay: the Cycle Map Transparency hotkey steps through the modes", async
     page.getByText("Map Transparency: No Transparency").first(),
   ).toBeVisible();
 });
+
+test("overlay: the Cycle Filter Presets hotkey applies the saved presets in order", async ({
+  page,
+}) => {
+  await openOverlay(page);
+  await page.evaluate((clay) => {
+    const settings = (window as any).__thgl.useSettingsStore.getState();
+    settings.addPreset("E2E Clay", { filters: [clay] });
+    settings.addPreset("E2E Empty", { filters: [] });
+  }, CLAY.id);
+  const filters = () =>
+    page.evaluate(() => (window as any).__thgl.userStore.getState().filters);
+  const press = () =>
+    emitWebviewMessage(page, {
+      action: "hotkey",
+      payload: { key: "SHIFT+F8", action: "cycle_filter_preset" },
+    });
+
+  await press();
+  await expect.poll(filters).toEqual([CLAY.id]);
+  await expect(page.getByText("Applied: E2E Clay").first()).toBeVisible();
+  await press();
+  await expect.poll(filters).toEqual([]);
+  await expect(page.getByText("Applied: E2E Empty").first()).toBeVisible();
+  // Wraps around to the first preset.
+  await press();
+  await expect.poll(filters).toEqual([CLAY.id]);
+});

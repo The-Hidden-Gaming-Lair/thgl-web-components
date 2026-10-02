@@ -158,3 +158,17 @@ export function resolveAutoApplyPreset({
   if (prevMap && presetBindingMap(prevMap, tiles) === next) return null;
   return presetBoundToMap(presetByMap, presets, next);
 }
+
+/**
+ * The preset the "Cycle Filter Presets" hotkey applies next: the one after
+ * `current` in the saved (menu) order, wrapping around; the first one when
+ * `current` is unknown or was deleted. Null when no preset is saved.
+ */
+export function nextPresetName(
+  names: string[],
+  current: string | null | undefined,
+): string | null {
+  if (names.length === 0) return null;
+  const index = current ? names.indexOf(current) : -1;
+  return names[(index + 1) % names.length];
+}

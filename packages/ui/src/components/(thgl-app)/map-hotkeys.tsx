@@ -16,11 +16,13 @@ import {
 import { useCoordinates, useT } from "../(providers)";
 import { toast } from "sonner";
 import { cycleMapTransparency } from "../(desktop)/map-container";
+import { cycleFilterPreset } from "../(providers)/preset-auto-apply";
 import { HOTKEYS, onWebviewMessage } from "@repo/lib/thgl-app";
 
 export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
   const map = useMap();
-  const { nodes, searchableNodes, typesIdMap } = useCoordinates();
+  const { nodes, searchableNodes, typesIdMap, globalFilters } =
+    useCoordinates();
   const userStoreApi = useUserStoreApi();
   const t = useT();
 
@@ -77,6 +79,19 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
       }
     });
   }, []);
+
+  // Not map-gated either: switching presets doesn't need the map instance.
+  useEffect(() => {
+    if (!isThglApp) return;
+    return onWebviewMessage((message) => {
+      if (
+        message.action === "hotkey" &&
+        message.payload.action === HOTKEYS.CYCLE_FILTER_PRESET
+      ) {
+        cycleFilterPreset({ userStore: userStoreApi, globalFilters, t });
+      }
+    });
+  }, [userStoreApi, globalFilters, t]);
 
   useEffect(() => {
     if (!isThglApp) {

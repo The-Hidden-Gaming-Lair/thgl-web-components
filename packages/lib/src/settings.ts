@@ -245,7 +245,10 @@ export function nextMapFilter(mapFilter: string): string {
 }
 
 /** Hotkeys that existing profiles get their default binding for on load. */
-const HOTKEYS_WITH_BACKFILLED_DEFAULT = ["cycle_map_transparency"];
+const HOTKEYS_WITH_BACKFILLED_DEFAULT = [
+  "cycle_map_transparency",
+  "cycle_filter_preset",
+];
 
 export type MapTransform = {
   borderRadius: string;
@@ -265,6 +268,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     toggle_overlay_fullscreen: "Shift+F9",
     show_labels: "Shift+F5",
     cycle_map_transparency: "Shift+F7",
+    cycle_filter_preset: "Shift+F8",
   },
   groupName: "",
   // Default to pure live (predicted hidden). Combined (predicted + live) is
