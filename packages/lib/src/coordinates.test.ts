@@ -1,4 +1,6 @@
 import {
+  buildDiscoveryLookup,
+  checkLiveActorDiscovered,
   dbEntryIdOf,
   getPositionedDiscoverTypes,
   getSpawnDiscoveryId,
@@ -118,5 +120,33 @@ describe("getPositionedDiscoverTypes", () => {
     expect(positioned.has("beans_infected")).toBe(true);
     expect(positioned.has("player")).toBe(false);
     expect(positioned.has("player_masked")).toBe(false);
+  });
+});
+
+describe("checkLiveActorDiscovered", () => {
+  // Aniimo: the game reports opened chests as bare spawn ids ("e<staticId>"),
+  // while a live actor's marker id is position-based.
+  const lookup = buildDiscoveryLookup(["e55542889", "chest_basic@10.00:20.00"]);
+
+  it("matches a collected spawn id against the raw actor type", () => {
+    expect(
+      checkLiveActorDiscovered(
+        "chest_superior@1234.56:-789.01",
+        "e55542889",
+        lookup,
+      ),
+    ).toBe(true);
+  });
+
+  it("still matches the position-based live id", () => {
+    expect(
+      checkLiveActorDiscovered("chest_basic@10.00:20.00", "e1", lookup),
+    ).toBe(true);
+  });
+
+  it("is false for an uncollected actor", () => {
+    expect(
+      checkLiveActorDiscovered("chest_basic@50.00:60.00", "e88519886", lookup),
+    ).toBe(false);
   });
 });

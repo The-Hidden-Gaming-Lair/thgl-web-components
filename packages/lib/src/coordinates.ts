@@ -474,6 +474,21 @@ export const checkNodeDiscovered = (
 };
 
 /**
+ * Discovered check for a live (memory-read) actor. Its marker id is
+ * position-based (`type@x:y`), but games whose actor type IS the spawn id
+ * (Aniimo `e<staticId>`) report collected nodes as those bare spawn ids
+ * (characterData.collectedNodeIds) — so match the raw actor type too, or a
+ * collected chest whose entity is still loaded renders as unopened.
+ */
+export const checkLiveActorDiscovered = (
+  liveNodeId: string,
+  actorType: string,
+  lookup: ReturnType<typeof buildDiscoveryLookup>,
+): boolean =>
+  checkNodeDiscovered(liveNodeId, lookup) ||
+  lookup.discoveredSet.has(actorType);
+
+/**
  * Discovery id for one spawn of a filter-type node — the SAME derivation the
  * FilterTooltip discovered-count uses, extracted so counts and bulk
  * discover/undiscover actions can never disagree.

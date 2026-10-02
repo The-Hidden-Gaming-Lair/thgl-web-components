@@ -14,6 +14,7 @@ import { useMap } from "./store";
 import { rotateCoordinate } from "./rotation";
 import {
   buildDiscoveryLookup,
+  checkLiveActorDiscovered,
   checkNodeDiscovered,
   getPositionedDiscoverTypes,
   getPermanentTypes,
@@ -2384,7 +2385,11 @@ function MarkersContent({
         const nodeId = memberNodeId(rep);
         // A cluster counts as discovered only when every member is.
         const isDiscoveredFlag = members.every((a) =>
-          checkNodeDiscovered(memberNodeId(a), discoveryLookupRef.current),
+          checkLiveActorDiscovered(
+            memberNodeId(a),
+            a.type,
+            discoveryLookupRef.current,
+          ),
         );
         // hideDiscoveredNow + discovered → omit from seen so the remove loop
         // takes the marker off the layer. (If we added to seen first, the
