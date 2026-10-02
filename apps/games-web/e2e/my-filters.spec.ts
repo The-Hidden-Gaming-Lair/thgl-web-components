@@ -100,4 +100,30 @@ test.describe("my filters", () => {
       false,
     );
   });
+
+  test("picking a filter for a new node copies its latest node's look", async ({
+    page,
+  }) => {
+    await openMap(page, MAPS.kilima);
+    await page.evaluate((f) => {
+      const s = (window as any).__thgl.useSettingsStore.getState();
+      s.addMyFilter(f);
+      s.setTempPrivateNode({ mapName: f.nodes[0].mapName });
+    }, customFilter());
+
+    const dialog = page.getByRole("dialog");
+    await dialog.getByRole("combobox", { name: "Filter" }).click();
+    await page.getByRole("option", { name: FILTER_NAME }).click();
+
+    const temp = () =>
+      page.evaluate(() => {
+        const t = (window as any).__thgl.useSettingsStore.getState()
+          .tempPrivateNode;
+        return { filter: t?.filter, color: t?.color, radius: t?.radius };
+      });
+    await expect
+      .poll(temp)
+      .toEqual({ filter: FILTER_NAME, color: "#ff00ff", radius: 8 });
+    await expect(dialog.getByRole("button", { name: "#ff00ff" })).toBeVisible();
+  });
 });

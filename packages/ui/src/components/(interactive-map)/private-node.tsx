@@ -867,9 +867,24 @@ export function PrivateNode({
                   className="col-span-2 h-8"
                   filter={tempPrivateNode?.filter}
                   onFilterSelect={(filter) => {
-                    setTempPrivateNode({
-                      filter,
-                    });
+                    // A new node takes over the look of the filter's most
+                    // recent node, so a series of similar nodes needs no
+                    // re-styling. Editing an existing node keeps its look.
+                    const filterNodes = tempPrivateNode?.id
+                      ? undefined
+                      : myFilters.find((myFilter) => myFilter.name === filter)
+                          ?.nodes;
+                    const lastNode = filterNodes?.[filterNodes.length - 1];
+                    setTempPrivateNode(
+                      lastNode
+                        ? {
+                            filter,
+                            color: lastNode.color,
+                            icon: lastNode.icon,
+                            radius: lastNode.radius,
+                          }
+                        : { filter },
+                    );
                   }}
                 />
               </div>
