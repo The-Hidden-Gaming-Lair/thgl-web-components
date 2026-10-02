@@ -241,6 +241,7 @@ export class PlayerMarker {
       worldHeading: true, // ...but the rotation is a world heading: turn with the map
       isHighlighted: false,
       alwaysOnTop: true,
+      noHitTest: true, // clicks/hover pass through to the markers underneath
     };
   }
 

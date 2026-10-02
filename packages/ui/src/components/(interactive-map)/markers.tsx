@@ -271,29 +271,52 @@ export function Markers({
       return false;
     };
 
+    // Grace period before closing, so a slightly off path from the marker
+    // into the tooltip (e.g. to the Discovered toggle) doesn't close it.
+    const CLOSE_GRACE_MS = 300;
+    let closeTimer: ReturnType<typeof setTimeout> | null = null;
+    const cancelClose = () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+    };
+    const scheduleClose = () => {
+      if (closeTimer) return;
+      closeTimer = setTimeout(() => {
+        closeTimer = null;
+        setTooltipIsOpen(false);
+      }, CLOSE_GRACE_MS);
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       // Close tooltip if hovering over any UI overlay outside the map canvas and tooltip
       const target = e.target as HTMLElement;
       const canvas = containerRef.current?.querySelector("canvas");
       const isOverCanvas = canvas && canvas.contains(target);
       const isOverTooltip = tooltipRef.current?.contains(target);
-      if (!isOverCanvas && !isOverTooltip) {
-        setTooltipIsOpen(false);
+      if (isOverTooltip) {
+        cancelClose();
         return;
       }
-      if (!isInSafeZone(e)) {
-        setTooltipIsOpen(false);
+      if (!isOverCanvas || !isInSafeZone(e)) {
+        scheduleClose();
+      } else {
+        cancelClose();
       }
     };
 
-    // Small delay before adding listener to avoid immediate close
+    // Small delay before adding listener to avoid immediate close.
+    // Capture phase: the tooltip stops mousemove propagation, and a pending
+    // close must still be cancelled once the mouse is over it.
     const timeoutId = setTimeout(() => {
-      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mousemove", handleMouseMove, true);
     }, 50);
 
     return () => {
       clearTimeout(timeoutId);
-      document.removeEventListener("mousemove", handleMouseMove);
+      cancelClose();
+      document.removeEventListener("mousemove", handleMouseMove, true);
     };
   }, [tooltipIsOpen, tooltipData]);
 
