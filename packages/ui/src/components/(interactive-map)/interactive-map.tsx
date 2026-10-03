@@ -325,6 +325,11 @@ export function InteractiveMap({
     } else if (savedViewValid && view.center) {
       center = view.center;
       zoom = Number.isFinite(view.zoom) ? view.zoom! : defaultZoom;
+    } else if (Number.isFinite(view.zoom)) {
+      // Only the CENTER is unusable (e.g. a map-follow switch seeded with the
+      // previous map's position while the game was still loading): keep the
+      // remembered zoom, or every Egg Heist round would open fully zoomed out.
+      zoom = Math.max(minZoom, Math.min(maxZoom, view.zoom!));
     }
     // The overlay minimap restores its own zoom (it's sized to line up with
     // the game's minimap), independent of the desktop window's zoom.
