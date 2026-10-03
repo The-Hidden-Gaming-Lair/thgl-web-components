@@ -29,6 +29,8 @@ export function Hotkey({
   const [padHint, setPadHint] = useState<string | null>(null);
   const rafRef = useRef<number | null>(null);
   const gamepadPrevPressedRef = useRef<boolean[]>([]);
+  const gamepadComboRef = useRef<Set<string>>(new Set());
+  const [padCombo, setPadCombo] = useState<string | null>(null);
   const detectedPadIdRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -76,6 +78,8 @@ export function Hotkey({
     setDetectedPad(null);
     setPadHint(null);
     detectedPadIdRef.current = null;
+    gamepadComboRef.current.clear();
+    setPadCombo(null);
 
     // Gamepad capture via Gamepad API while recording
     const pollGamepad = () => {
@@ -100,34 +104,42 @@ export function Hotkey({
           );
         }
 
-        // Buttons: detect first newly pressed button
+        // Buttons: every button pressed while at least one is held joins the
+        // combo (hold LB, press A = LB+A); it is saved once all are released.
+        // Only "standard"-mapped pads have reliable indices that also match
+        // the XInput names the runtime fires on. For non-standard pads we
+        // deliberately DON'T assign a token the runtime could never fire —
+        // the Steam Input hint above tells the user how to fix it.
+        let anyHeld = false;
         for (let b = 0; b < pad.buttons.length; b++) {
           const btn = pad.buttons[b];
           const wasPressed =
             (gamepadPrevPressedRef.current as any)[`${i}:${b}`] === true;
           const nowPressed = !!btn.pressed || btn.value > 0.5;
-          if (!wasPressed && nowPressed) {
-            // Only "standard"-mapped pads have reliable indices that also match
-            // the XInput names the runtime fires on. For non-standard pads we
-            // deliberately DON'T assign a token the runtime could never fire —
-            // the Steam Input hint above tells the user how to fix it.
-            if (pad.mapping === "standard") {
-              const btnName = mapGamepadButtonToName(b);
-              if (btnName) {
-                setHotkey(nameArg(), btnName);
-                onStop?.();
-                setRecording(false);
-                setCurrentCombo(null);
-                setDetectedPad(null);
-                setPadHint(null);
-                return; // stop on first detection
-              }
+          if (nowPressed) anyHeld = true;
+          if (!wasPressed && nowPressed && pad.mapping === "standard") {
+            const btnName = mapGamepadButtonToName(b);
+            if (btnName) {
+              gamepadComboRef.current.add(btnName);
+              setPadCombo(buildGamepadCombo(gamepadComboRef.current));
+            } else {
               setPadHint(
                 `Button #${b} on this controller isn't a supported hotkey button.`,
               );
             }
           }
           (gamepadPrevPressedRef.current as any)[`${i}:${b}`] = nowPressed;
+        }
+        if (!anyHeld && gamepadComboRef.current.size > 0) {
+          setHotkey(nameArg(), buildGamepadCombo(gamepadComboRef.current));
+          gamepadComboRef.current.clear();
+          onStop?.();
+          setRecording(false);
+          setCurrentCombo(null);
+          setPadCombo(null);
+          setDetectedPad(null);
+          setPadHint(null);
+          return;
         }
 
         // D-pad sometimes maps as axes; but standard mapping uses buttons 12-15.
@@ -167,7 +179,7 @@ export function Hotkey({
           }}
         >
           {active
-            ? currentCombo || "Press keys or gamepad..."
+            ? currentCombo || padCombo || "Press keys or gamepad..."
             : hotkeys[name] || "Unassigned"}
         </Button>
         <Button
@@ -277,6 +289,31 @@ function normalizeKey(key: string): string {
     default:
       return key.toUpperCase();
   }
+}
+
+// Same canonical order as the app's GlobalHotkeyManager (kGamepadComboOrder),
+// so "hold LB, press A" and "hold A, press LB" save the same combo.
+const GAMEPAD_COMBO_ORDER = [
+  "GAMEPAD_LEFT_TRIGGER",
+  "GAMEPAD_RIGHT_TRIGGER",
+  "GAMEPAD_LEFT_SHOULDER",
+  "GAMEPAD_RIGHT_SHOULDER",
+  "GAMEPAD_BACK",
+  "GAMEPAD_START",
+  "GAMEPAD_LEFT_THUMB",
+  "GAMEPAD_RIGHT_THUMB",
+  "GAMEPAD_DPAD_UP",
+  "GAMEPAD_DPAD_DOWN",
+  "GAMEPAD_DPAD_LEFT",
+  "GAMEPAD_DPAD_RIGHT",
+  "GAMEPAD_A",
+  "GAMEPAD_B",
+  "GAMEPAD_X",
+  "GAMEPAD_Y",
+];
+
+function buildGamepadCombo(buttons: Set<string>): string {
+  return GAMEPAD_COMBO_ORDER.filter((b) => buttons.has(b)).join("+");
 }
 
 // Map standard Gamepad API button index to our names
