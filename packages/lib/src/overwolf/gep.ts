@@ -1,6 +1,7 @@
 import { EventBus, MESSAGES } from "./event-bus";
 import { getGameInfo, listenToGameLaunched, setFeatures } from "./games";
 import { ActorPlayer } from "./plugin";
+import { createDetectionTelemetry } from "./telemetry";
 
 declare global {
   interface Window {
@@ -11,9 +12,15 @@ declare global {
 export function listenToGEP(
   gameClassId: number,
   interestedInFeatures: string[],
+  // null = no position (menu / loading): counted as a failed read by the telemetry.
   gameInfoToPlayer: (gameInfo: any) => ActorPlayer | null,
+  // actors-api game id: report detection health (read success only, no positions).
+  telemetryGame?: string,
 ) {
   window.gameEventBus = new EventBus();
+  const telemetry = telemetryGame
+    ? createDetectionTelemetry(telemetryGame, gameClassId)
+    : null;
 
   let isActive = false;
 
@@ -26,6 +33,7 @@ export function listenToGEP(
       const latestGameInfo = await getGameInfo();
 
       const player = gameInfoToPlayer(latestGameInfo);
+      telemetry?.onPlayerRead(!!player, player?.mapName);
       if (!player) {
         setTimeout(refreshPlayerState, 50);
         return;
@@ -51,6 +59,7 @@ export function listenToGEP(
       }
       setTimeout(refreshPlayerState, 50);
     } catch (err) {
+      telemetry?.onPlayerRead(false);
       const errorMessage =
         err instanceof Error
           ? err.message

@@ -33,6 +33,9 @@ const prevPlayer: ActorPlayer = {
   r: 0,
 };
 let lastTerritory = 0;
+// Returned while the position is unchanged (listenToGEP dedupes it), so `null` only
+// means "no position" - what the detection telemetry counts as a failed read.
+let lastPlayer: ActorPlayer | null = null;
 
 listenToGEP(
   APP_CONFIG.gameClassId,
@@ -97,10 +100,12 @@ listenToGEP(
       // which is never read, so dungeons silently reported "Sanctuary".
       player.mapName = isWorldTerritory ? "Sanctuary" : "Dungeon";
       lastTerritory = map.territory;
+      lastPlayer = player;
       return player;
     }
-    return null;
+    return lastPlayer;
   },
+  APP_CONFIG.name,
 );
 
 await initBackground(
