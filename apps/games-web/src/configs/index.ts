@@ -46,6 +46,7 @@ import { starsandIsland } from "./starsand-island";
 import { subnautica2 } from "./subnautica-2";
 import { thglApp } from "./thgl-app";
 import { thglWeb } from "./thgl-web";
+import { minecraftDungeons2 } from "./minecraft-dungeons-2";
 import { witchspire } from "./witchspire";
 import { wutheringWaves } from "./wuthering-waves";
 
@@ -102,6 +103,7 @@ const ALL_CONFIGS: AppConfig[] = [
   thglApp,
   thglWeb,
   witchspire,
+  minecraftDungeons2,
   wutheringWaves,
 ];
 

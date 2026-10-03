@@ -362,6 +362,17 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    // Minecraft Dungeons II (Mojang / Double Eleven). Web map + database first; no companion
+    // block yet (live tracking not built yet).
+    id: "minecraft-dungeons-2",
+    discordId: "minecraft-dungeons-2",
+    title: "Minecraft Dungeons II",
+    steamAppId: 1912410,
+    logo: `${TH_GL_URL}/global_icons/minecraft-dungeons-2.webp`,
+    web: "https://minecraftdungeons2.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "albion-online",
     discordId: "albion-online",
     title: "Albion Online",
