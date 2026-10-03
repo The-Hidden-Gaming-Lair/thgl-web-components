@@ -370,6 +370,7 @@
   "settings.iconSizes": "Simge Boyutları",
   "settings.dynamicIconSize": "Dinamik simge boyutu (yakınlaştırmaya göre)",
   "settings.playerBelowMarkers": "Oyuncu simgesi işaretçilerin altında",
+  "settings.playerIconColor": "Oyuncu simgesi rengi",
   "settings.factor": "Çarpan",
   "settings.mapBehavior": "Harita Davranışı",
   "settings.zoomOnFilterChange": "Filtreler değişince haritayı yakınlaştır",

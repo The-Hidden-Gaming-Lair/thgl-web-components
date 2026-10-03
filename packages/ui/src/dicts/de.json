@@ -370,6 +370,7 @@
   "settings.iconSizes": "Symbolgrößen",
   "settings.dynamicIconSize": "Dynamische Symbolgröße (zoomabhängig)",
   "settings.playerBelowMarkers": "Spielersymbol unter den Markierungen",
+  "settings.playerIconColor": "Farbe des Spielersymbols",
   "settings.factor": "Faktor",
   "settings.mapBehavior": "Kartenverhalten",
   "settings.zoomOnFilterChange": "Karte bei Filteränderung zoomen",

@@ -370,6 +370,7 @@
   "settings.iconSizes": "圖示大小",
   "settings.dynamicIconSize": "動態圖示大小（隨縮放變化）",
   "settings.playerBelowMarkers": "玩家圖示顯示在標記下方",
+  "settings.playerIconColor": "玩家圖示顏色",
   "settings.factor": "倍率",
   "settings.mapBehavior": "地圖行為",
   "settings.zoomOnFilterChange": "變更篩選條件時縮放地圖",

@@ -370,6 +370,7 @@
   "settings.iconSizes": "Tamanhos de Ícone",
   "settings.dynamicIconSize": "Tamanho de ícone dinâmico (baseado no zoom)",
   "settings.playerBelowMarkers": "Ícone do jogador abaixo dos marcadores",
+  "settings.playerIconColor": "Cor do ícone do jogador",
   "settings.factor": "Fator",
   "settings.mapBehavior": "Comportamento do Mapa",
   "settings.zoomOnFilterChange": "Aplicar zoom ao mudar os filtros",

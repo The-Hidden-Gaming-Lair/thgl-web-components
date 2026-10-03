@@ -358,6 +358,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   dynamicIconSize: true,
   dynamicIconSizeFactor: 0.2,
   playerIconSize: 1,
+  playerIconColor: "",
   playerBelowMarkers: false,
   iconSizeByGroup: {},
   iconSizeByFilter: {},
@@ -510,6 +511,8 @@ export type ProfileSettings = {
   dynamicIconSize: boolean;
   dynamicIconSizeFactor: number;
   playerIconSize: number;
+  // Recolor the player icon ("#rrggbb"); "" keeps the game's own colors.
+  playerIconColor: string;
   // Draw the player icon underneath the map markers instead of on top
   // (nearby markers, e.g. fish while fishing, stay readable).
   playerBelowMarkers: boolean;
@@ -681,6 +684,7 @@ export interface ProfileActions {
   toggleDynamicIconSize: () => void;
   setDynamicIconSizeFactor: (factor: number) => void;
   setPlayerIconSize: (playerIconSize: number) => void;
+  setPlayerIconColor: (playerIconColor: string) => void;
   togglePlayerBelowMarkers: () => void;
   setIconSizeByGroup: (group: string, size: number) => void;
   setIconSizeByFilter: (id: string, size: number) => void;
@@ -1324,6 +1328,7 @@ export const useSettingsStore = create(
               transforms: {},
               mapTransform: null,
               playerIconSize: 1,
+              playerIconColor: "",
               playerBelowMarkers: false,
               baseIconSize: 1,
               dynamicIconSize: true,
@@ -1967,6 +1972,10 @@ export const useSettingsStore = create(
 
           setPlayerIconSize: (playerIconSize) => {
             updateSettings({ playerIconSize });
+          },
+
+          setPlayerIconColor: (playerIconColor) => {
+            updateSettings({ playerIconColor });
           },
 
           togglePlayerBelowMarkers: () => {

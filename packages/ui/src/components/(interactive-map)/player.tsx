@@ -25,6 +25,33 @@ function getPlayerLayer(map: GameMap | null, belowMarkers: boolean) {
   return map?.liveMarkerLayer ?? map?.markerLayer;
 }
 
+// Recolor the icon to `hex` ("#rrggbb" or "#rrggbbaa") while keeping its
+// shading: each pixel's luminance, relative to the brightest opaque pixel,
+// scales the chosen color. The main fill becomes exactly that color; dark
+// outlines and shadows stay dark. The alpha byte scales the icon's opacity.
+function applyPlayerIconColor(data: Uint8ClampedArray, hex: string) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  if (hex.length < 7 || [r, g, b].some(isNaN)) return;
+  const a = hex.length >= 9 ? parseInt(hex.slice(7, 9), 16) / 255 : 1;
+  const alpha = isNaN(a) ? 1 : a;
+  const lum = (i: number) =>
+    0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+  let maxLum = 0;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] > 128) maxLum = Math.max(maxLum, lum(i));
+  }
+  if (maxLum <= 0) return;
+  for (let i = 0; i < data.length; i += 4) {
+    const f = Math.min(1, lum(i) / maxLum);
+    data[i] = r * f;
+    data[i + 1] = g * f;
+    data[i + 2] = b * f;
+    data[i + 3] *= alpha;
+  }
+}
+
 export function Player({
   appName,
   player,
@@ -58,6 +85,9 @@ export function Player({
   const colorBlindSeverity = useSettingsStore(
     (state) => state.colorBlindSeverity,
   );
+  const playerIconColor = useSettingsStore(
+    (state) => state.playerIconColor ?? "",
+  );
 
   // Memoize icon URL and size to avoid recalculating on every render
   const iconUrl = useMemo(() => {
@@ -81,8 +111,9 @@ export function Player({
     iconUrl: string,
     mode: ColorBlindMode,
     severity: number,
+    color: string,
   ): Promise<HTMLImageElement> {
-    const cacheKey = `${iconUrl}:${mode}:${severity.toFixed(2)}`;
+    const cacheKey = `${iconUrl}:${mode}:${severity.toFixed(2)}:${color}`;
     const cached = iconImageCache.current.get(cacheKey);
     if (cached) {
       return cached;
@@ -97,24 +128,30 @@ export function Player({
       image.src = iconUrl;
     });
 
-    // If no color blind transform needed, return original
-    if (mode === "none" || severity <= 0) {
+    // If no recolor or color blind transform needed, return original
+    const colorBlind = mode !== "none" && severity > 0;
+    if (!color && !colorBlind) {
       iconImageCache.current.set(cacheKey, img);
       return img;
     }
 
-    // Apply color blind transform
+    // Apply the chosen icon color, then the color blind transform
     const canvas = document.createElement("canvas");
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
     const ctx = canvas.getContext("2d")!;
     ctx.drawImage(img, 0, 0);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    applyColorBlindTransform(
-      imageData.data,
-      mode as Exclude<ColorBlindMode, "none">,
-      severity,
-    );
+    if (color) {
+      applyPlayerIconColor(imageData.data, color);
+    }
+    if (colorBlind) {
+      applyColorBlindTransform(
+        imageData.data,
+        mode as Exclude<ColorBlindMode, "none">,
+        severity,
+      );
+    }
     ctx.putImageData(imageData, 0, 0);
 
     // Create a new image from the processed canvas
@@ -161,6 +198,7 @@ export function Player({
           iconUrl,
           colorBlindMode,
           colorBlindSeverity,
+          playerIconColor,
         );
       } catch (err) {
         if (cancelled) return;
@@ -175,6 +213,7 @@ export function Player({
             retryUrl,
             colorBlindMode,
             colorBlindSeverity,
+            playerIconColor,
           );
         } catch (err2) {
           console.error(
@@ -238,7 +277,7 @@ export function Player({
     };
   }, [map?.mapName, player?.mapName]);
 
-  // Update icon when size or color-blind mode changes
+  // Update icon when size, color or color-blind mode changes
   useEffect(() => {
     if (!marker.current) return;
     const run = async () => {
@@ -248,6 +287,7 @@ export function Player({
           iconUrl,
           colorBlindMode,
           colorBlindSeverity,
+          playerIconColor,
         );
       } catch (err) {
         console.warn(`[player] icon reload failed for ${iconUrl}`, err);
@@ -258,7 +298,7 @@ export function Player({
       marker.current?.setSize(size);
     };
     run();
-  }, [iconUrl, iconSize, colorBlindMode, colorBlindSeverity]);
+  }, [iconUrl, iconSize, colorBlindMode, colorBlindSeverity, playerIconColor]);
 
   // "Player icon below markers" toggled: move the existing marker to the other
   // layer (no re-creation, so the view is not re-centred).

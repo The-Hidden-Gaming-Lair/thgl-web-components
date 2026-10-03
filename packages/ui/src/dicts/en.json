@@ -379,6 +379,7 @@
   "settings.iconSizes": "Icon Sizes",
   "settings.dynamicIconSize": "Dynamic icon size (zoom-based)",
   "settings.playerBelowMarkers": "Player icon below markers",
+  "settings.playerIconColor": "Player icon color",
   "settings.factor": "Factor",
   "settings.mapBehavior": "Map Behavior",
   "settings.zoomOnFilterChange": "Zoom map on filters change",

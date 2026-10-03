@@ -370,6 +370,7 @@
   "settings.iconSizes": "ขนาดไอคอน",
   "settings.dynamicIconSize": "ขนาดไอคอนแบบไดนามิก (ตามระดับซูม)",
   "settings.playerBelowMarkers": "ไอคอนผู้เล่นอยู่ใต้เครื่องหมาย",
+  "settings.playerIconColor": "สีไอคอนผู้เล่น",
   "settings.factor": "ตัวคูณ",
   "settings.mapBehavior": "พฤติกรรมแผนที่",
   "settings.zoomOnFilterChange": "ซูมแผนที่เมื่อตัวกรองเปลี่ยน",

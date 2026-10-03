@@ -370,6 +370,7 @@
   "settings.iconSizes": "Rozmiary ikon",
   "settings.dynamicIconSize": "Dynamiczny rozmiar ikon (zależny od przybliżenia)",
   "settings.playerBelowMarkers": "Ikona gracza pod znacznikami",
+  "settings.playerIconColor": "Kolor ikony gracza",
   "settings.factor": "Współczynnik",
   "settings.mapBehavior": "Zachowanie mapy",
   "settings.zoomOnFilterChange": "Przybliżaj mapę przy zmianie filtrów",

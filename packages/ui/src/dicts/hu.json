@@ -367,6 +367,7 @@
   "settings.iconSizes": "Ikonméretek",
   "settings.dynamicIconSize": "Dinamikus ikonméret (nagyítás alapján)",
   "settings.playerBelowMarkers": "Játékos ikonja a jelölők alatt",
+  "settings.playerIconColor": "Játékosikon színe",
   "settings.factor": "Szorzó",
   "settings.mapBehavior": "Térkép viselkedése",
   "settings.zoomOnFilterChange": "Térkép nagyítása a szűrők változásakor",

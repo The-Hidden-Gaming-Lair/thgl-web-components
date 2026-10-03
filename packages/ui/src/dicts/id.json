@@ -379,6 +379,7 @@
   "settings.iconSizes": "Ukuran Ikon",
   "settings.dynamicIconSize": "Ukuran ikon dinamis (berdasarkan zoom)",
   "settings.playerBelowMarkers": "Ikon pemain di bawah penanda",
+  "settings.playerIconColor": "Warna ikon pemain",
   "settings.factor": "Faktor",
   "settings.mapBehavior": "Perilaku Peta",
   "settings.zoomOnFilterChange": "Zoom peta saat filter berubah",

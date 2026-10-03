@@ -539,6 +539,19 @@ export function SettingsDialogContent({
                 onCheckedChange={settingsStore.togglePlayerBelowMarkers}
               />
             </div>
+            <div className="flex items-center gap-2 justify-between mt-3">
+              <Label htmlFor="player-icon-color">
+                {t("settings.playerIconColor", {
+                  fallback: "Player icon color",
+                })}
+              </Label>
+              {/* Empty ("Clear color") keeps the game's own icon colors. */}
+              <ColorPicker
+                id="player-icon-color"
+                value={profileSettings.playerIconColor ?? ""}
+                onChange={settingsStore.setPlayerIconColor}
+              />
+            </div>
           </Section>
 
           {activeApp === "palia" && (
