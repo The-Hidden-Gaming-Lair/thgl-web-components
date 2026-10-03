@@ -33,7 +33,7 @@ export const heartopia = resolveAppConfig({
       linkText: "View forecast",
       iconName: "CloudSun",
       description:
-        "Hour-by-hour weather — plan around meteor showers, rainbows and storms.",
+        "Hour-by-hour weather, plus where Roaming Oak and Flawless Fluorite appear each day.",
     },
     {
       href: "/db/fish",

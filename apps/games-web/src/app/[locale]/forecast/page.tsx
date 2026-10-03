@@ -14,6 +14,7 @@ import {
   WeatherForecast,
   type WeatherData,
 } from "@/lib/forecast/weather-forecast";
+import { DailyRares, type DailyRaresData } from "@/lib/forecast/daily-rares";
 
 /**
  * Weather forecast — for tenants that ship a deterministic weather calendar at
@@ -27,6 +28,21 @@ async function fetchWeather(appName: string): Promise<WeatherData | null> {
   const res = await fetch(
     await resolveForgeUrl(
       `${DATA_FORGE_CDN_URL}/${appName}/config/weather.json`,
+    ),
+    { next: { revalidate: 300 } },
+  );
+  if (!res.ok) return null;
+  return res.json();
+}
+
+/** Optional daily-rares rotation (Heartopia Roaming Oak / Flawless Fluorite) — rendered above
+ *  the weather when the tenant ships `config/daily-rares.json`. */
+async function fetchDailyRares(
+  appName: string,
+): Promise<DailyRaresData | null> {
+  const res = await fetch(
+    await resolveForgeUrl(
+      `${DATA_FORGE_CDN_URL}/${appName}/config/daily-rares.json`,
     ),
     { next: { revalidate: 300 } },
   );
@@ -64,7 +80,10 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { locale = DEFAULT_LOCALE } = await params;
   const appConfig = await getAppConfig();
-  const data = await fetchWeather(appConfig.name);
+  const [data, rares] = await Promise.all([
+    fetchWeather(appConfig.name),
+    fetchDailyRares(appConfig.name),
+  ]);
   if (!data) notFound();
 
   return (
@@ -97,7 +116,27 @@ export default async function Page({ params }: PageProps) {
           </>
         }
         content={
-          <div className="text-left">
+          <div className="text-left space-y-6">
+            {rares && (
+              <DailyRares
+                data={rares}
+                locale={locale}
+                labels={{
+                  title: "Roaming Oak & Flawless Fluorite",
+                  intro:
+                    "Only one of each appears per day. Here is where to find them — click a spot to open it on the map.",
+                  today: "Today",
+                  date: "Date",
+                  near: "near",
+                  reset:
+                    "The spots change with the daily reset and repeat every 50 days.",
+                  types: {
+                    resource_oak: "Roaming Oak",
+                    resource_fluorite: "Flawless Fluorite",
+                  },
+                }}
+              />
+            )}
             <WeatherForecast
               data={data}
               locale={locale}
