@@ -363,6 +363,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   fitBoundsOnChange: false,
   myFilters: [],
   showGrid: false,
+  gridLabelSize: 1,
   showFilters: true,
   showInteriorLabelNames: true,
   // Peer Link / Mesh settings
@@ -513,6 +514,8 @@ export type ProfileSettings = {
   fitBoundsOnChange: boolean;
   myFilters: DrawingsAndNodes[];
   showGrid: boolean;
+  /** Scale factor for the map grid's cell labels (A1, B2, ...). */
+  gridLabelSize: number;
   showFilters: boolean;
   /**
    * Draw the interior NAME next to the layer button on the map ("Hunter's
@@ -701,6 +704,7 @@ export interface ProfileActions {
    */
   adoptLocalOnlyFilters: () => void;
   toggleShowGrid: () => void;
+  setGridLabelSize: (gridLabelSize: number) => void;
   toggleShowFilters: () => void;
   // Peer Link / Mesh settings
   setPeerCode: (code: string) => void;
@@ -1320,6 +1324,7 @@ export const useSettingsStore = create(
               dynamicIconSizeFactor: 0.2,
               iconSizeByFilter: {},
               iconSizeByGroup: {},
+              gridLabelSize: 1,
               // Accessibility
               colorBlindMode: "none",
               colorBlindSeverity: 1,
@@ -2169,6 +2174,10 @@ export const useSettingsStore = create(
             updateSettings({
               showGrid: !state.showGrid,
             });
+          },
+
+          setGridLabelSize: (gridLabelSize) => {
+            updateSettings({ gridLabelSize });
           },
 
           toggleShowFilters: () => {

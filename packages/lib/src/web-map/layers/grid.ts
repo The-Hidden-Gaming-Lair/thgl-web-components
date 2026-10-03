@@ -9,6 +9,8 @@ export interface GridLayerOptions {
   labelOpacity?: number;
   labelFormatter?: (row: number, col: number, divisions: number) => string;
   labelColor?: string;
+  /** Multiplies the on-screen label size (1 = default). */
+  labelScale?: number;
 }
 
 interface LabelData {
@@ -68,8 +70,11 @@ export class GridLayer implements Layer {
       opacity: options.opacity ?? 0.2,
       showLabels: options.showLabels ?? true,
       labelOpacity: options.labelOpacity ?? 0.8,
-      labelFormatter: options.labelFormatter ?? ((row, col) => `${String.fromCharCode(65 + row)}${col + 1}`),
+      labelFormatter:
+        options.labelFormatter ??
+        ((row, col) => `${String.fromCharCode(65 + row)}${col + 1}`),
       labelColor: options.labelColor ?? "#ffffff",
+      labelScale: options.labelScale ?? 1,
     };
   }
 
@@ -117,10 +122,19 @@ export class GridLayer implements Layer {
       }
     `;
 
-    this.lineProgram = this.createProgram(vertexShaderSource, fragmentShaderSource);
+    this.lineProgram = this.createProgram(
+      vertexShaderSource,
+      fragmentShaderSource,
+    );
     if (this.lineProgram) {
-      this.lineUniformLocations.view = this.gl.getUniformLocation(this.lineProgram, "u_view");
-      this.lineUniformLocations.color = this.gl.getUniformLocation(this.lineProgram, "u_color");
+      this.lineUniformLocations.view = this.gl.getUniformLocation(
+        this.lineProgram,
+        "u_view",
+      );
+      this.lineUniformLocations.color = this.gl.getUniformLocation(
+        this.lineProgram,
+        "u_color",
+      );
     }
   }
 
@@ -135,15 +149,27 @@ export class GridLayer implements Layer {
     this.lineVao = this.gl.createVertexArray();
     this.gl.bindVertexArray(this.lineVao);
 
-    const positionLocation = this.gl.getAttribLocation(this.lineProgram, "a_position");
+    const positionLocation = this.gl.getAttribLocation(
+      this.lineProgram,
+      "a_position",
+    );
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.lineVertexBuffer);
     this.gl.enableVertexAttribArray(positionLocation);
-    this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, false, 0, 0);
+    this.gl.vertexAttribPointer(
+      positionLocation,
+      2,
+      this.gl.FLOAT,
+      false,
+      0,
+      0,
+    );
 
     this.gl.bindVertexArray(null);
   }
 
-  private buildGridLines(projection: (latlng: [number, number]) => { x: number; y: number }): void {
+  private buildGridLines(
+    projection: (latlng: [number, number]) => { x: number; y: number },
+  ): void {
     if (!this.gl) return;
 
     const [[minLat, minLng], [maxLat, maxLng]] = this.options.bounds;
@@ -174,7 +200,11 @@ export class GridLayer implements Layer {
     this.lineVertexCount = lines.length / 2;
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.lineVertexBuffer);
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, this.lineVertices, this.gl.STATIC_DRAW);
+    this.gl.bufferData(
+      this.gl.ARRAY_BUFFER,
+      this.lineVertices,
+      this.gl.STATIC_DRAW,
+    );
   }
 
   // ==================== LABEL RENDERING ====================
@@ -208,11 +238,23 @@ export class GridLayer implements Layer {
       }
     `;
 
-    this.labelProgram = this.createProgram(vertexShaderSource, fragmentShaderSource);
+    this.labelProgram = this.createProgram(
+      vertexShaderSource,
+      fragmentShaderSource,
+    );
     if (this.labelProgram) {
-      this.labelUniformLocations.view = this.gl.getUniformLocation(this.labelProgram, "u_view");
-      this.labelUniformLocations.texture = this.gl.getUniformLocation(this.labelProgram, "u_texture");
-      this.labelUniformLocations.opacity = this.gl.getUniformLocation(this.labelProgram, "u_opacity");
+      this.labelUniformLocations.view = this.gl.getUniformLocation(
+        this.labelProgram,
+        "u_view",
+      );
+      this.labelUniformLocations.texture = this.gl.getUniformLocation(
+        this.labelProgram,
+        "u_texture",
+      );
+      this.labelUniformLocations.opacity = this.gl.getUniformLocation(
+        this.labelProgram,
+        "u_opacity",
+      );
     }
   }
 
@@ -228,15 +270,35 @@ export class GridLayer implements Layer {
     this.labelVao = this.gl.createVertexArray();
     this.gl.bindVertexArray(this.labelVao);
 
-    const positionLocation = this.gl.getAttribLocation(this.labelProgram, "a_position");
+    const positionLocation = this.gl.getAttribLocation(
+      this.labelProgram,
+      "a_position",
+    );
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.labelVertexBuffer);
     this.gl.enableVertexAttribArray(positionLocation);
-    this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, false, 0, 0);
+    this.gl.vertexAttribPointer(
+      positionLocation,
+      2,
+      this.gl.FLOAT,
+      false,
+      0,
+      0,
+    );
 
-    const texCoordLocation = this.gl.getAttribLocation(this.labelProgram, "a_texCoord");
+    const texCoordLocation = this.gl.getAttribLocation(
+      this.labelProgram,
+      "a_texCoord",
+    );
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.labelTexCoordBuffer);
     this.gl.enableVertexAttribArray(texCoordLocation);
-    this.gl.vertexAttribPointer(texCoordLocation, 2, this.gl.FLOAT, false, 0, 0);
+    this.gl.vertexAttribPointer(
+      texCoordLocation,
+      2,
+      this.gl.FLOAT,
+      false,
+      0,
+      0,
+    );
 
     this.gl.bindVertexArray(null);
   }
@@ -260,12 +322,13 @@ export class GridLayer implements Layer {
     const ctx = textCanvas.getContext("2d")!;
 
     // Measure text to determine cell size (in logical pixels)
-    const fontSize = 24;
+    // Rasterize larger labels at a matching resolution so they stay crisp
+    const fontSize = Math.round(24 * Math.max(1, this.options.labelScale));
     ctx.font = `bold ${fontSize}px Arial`;
     const maxLabel = "J10"; // Longest possible label
     const metrics = ctx.measureText(maxLabel);
-    this.charWidth = Math.ceil(metrics.width) + 8;
-    this.charHeight = fontSize + 8;
+    this.charWidth = Math.ceil(metrics.width + fontSize / 3);
+    this.charHeight = Math.ceil(fontSize + fontSize / 3);
 
     // Calculate atlas dimensions (arrange labels in a grid)
     const cols = Math.ceil(Math.sqrt(labels.length));
@@ -291,7 +354,10 @@ export class GridLayer implements Layer {
     ctx.textBaseline = "middle";
 
     // Render each label and store its texture coordinates
-    const labelTexCoords: Map<string, { u: number; v: number; w: number; h: number }> = new Map();
+    const labelTexCoords: Map<
+      string,
+      { u: number; v: number; w: number; h: number }
+    > = new Map();
 
     for (let i = 0; i < labels.length; i++) {
       const col = i % cols;
@@ -299,12 +365,11 @@ export class GridLayer implements Layer {
       const x = col * this.charWidth + this.charWidth / 2;
       const y = row * this.charHeight + this.charHeight / 2;
 
-      // Draw shadow
-      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-      ctx.fillText(labels[i], x + 1, y + 1);
-      ctx.fillText(labels[i], x - 1, y - 1);
-      ctx.fillText(labels[i], x + 1, y - 1);
-      ctx.fillText(labels[i], x - 1, y + 1);
+      // Dark outline keeps labels readable on bright map areas
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.9)";
+      ctx.lineWidth = fontSize / 6;
+      ctx.lineJoin = "round";
+      ctx.strokeText(labels[i], x, y);
 
       // Draw text with custom color
       const [lr, lg, lb] = this.parseColor(this.options.labelColor);
@@ -326,12 +391,35 @@ export class GridLayer implements Layer {
     // Create WebGL texture
     this.labelTexture = this.gl.createTexture();
     this.gl.bindTexture(this.gl.TEXTURE_2D, this.labelTexture);
-    this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, textCanvas);
+    this.gl.texImage2D(
+      this.gl.TEXTURE_2D,
+      0,
+      this.gl.RGBA,
+      this.gl.RGBA,
+      this.gl.UNSIGNED_BYTE,
+      textCanvas,
+    );
     this.gl.generateMipmap(this.gl.TEXTURE_2D);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR_MIPMAP_LINEAR);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+    this.gl.texParameteri(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_MIN_FILTER,
+      this.gl.LINEAR_MIPMAP_LINEAR,
+    );
+    this.gl.texParameteri(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_MAG_FILTER,
+      this.gl.LINEAR,
+    );
+    this.gl.texParameteri(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_WRAP_S,
+      this.gl.CLAMP_TO_EDGE,
+    );
+    this.gl.texParameteri(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_WRAP_T,
+      this.gl.CLAMP_TO_EDGE,
+    );
 
     // Store label data with texture coordinates
     const [[minLat, minLng], [maxLat, maxLng]] = this.options.bounds;
@@ -353,14 +441,17 @@ export class GridLayer implements Layer {
     }
   }
 
-  private buildLabelQuads(projection: (latlng: [number, number]) => { x: number; y: number }, zoom: number): void {
+  private buildLabelQuads(
+    projection: (latlng: [number, number]) => { x: number; y: number },
+    zoom: number,
+  ): void {
     if (!this.gl || this.labels.length === 0) return;
 
     const vertices: number[] = [];
     const texCoords: number[] = [];
 
     // Size of labels in CSS pixels (view matrix handles DPR scaling)
-    const size = 10;
+    const size = 10 * this.options.labelScale;
 
     for (const label of this.labels) {
       const center = projection([label.lat, label.lng]);
@@ -370,31 +461,29 @@ export class GridLayer implements Layer {
       // Quad vertices (two triangles)
       // Triangle 1
       vertices.push(
-        center.x - halfW, center.y - halfH,
-        center.x + halfW, center.y - halfH,
-        center.x - halfW, center.y + halfH,
+        center.x - halfW,
+        center.y - halfH,
+        center.x + halfW,
+        center.y - halfH,
+        center.x - halfW,
+        center.y + halfH,
       );
       // Triangle 2
       vertices.push(
-        center.x + halfW, center.y - halfH,
-        center.x + halfW, center.y + halfH,
-        center.x - halfW, center.y + halfH,
+        center.x + halfW,
+        center.y - halfH,
+        center.x + halfW,
+        center.y + halfH,
+        center.x - halfW,
+        center.y + halfH,
       );
 
       const { u, v, w, h } = label.texCoords;
       // Texture coordinates - standard mapping (canvas was pre-flipped)
       // Triangle 1: top-left, top-right, bottom-left
-      texCoords.push(
-        u, v + h,
-        u + w, v + h,
-        u, v,
-      );
+      texCoords.push(u, v + h, u + w, v + h, u, v);
       // Triangle 2: top-right, bottom-right, bottom-left
-      texCoords.push(
-        u + w, v + h,
-        u + w, v,
-        u, v,
-      );
+      texCoords.push(u + w, v + h, u + w, v, u, v);
     }
 
     this.labelVertices = new Float32Array(vertices);
@@ -402,15 +491,26 @@ export class GridLayer implements Layer {
     this.labelQuadCount = this.labels.length;
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.labelVertexBuffer);
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, this.labelVertices, this.gl.DYNAMIC_DRAW);
+    this.gl.bufferData(
+      this.gl.ARRAY_BUFFER,
+      this.labelVertices,
+      this.gl.DYNAMIC_DRAW,
+    );
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.labelTexCoordBuffer);
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, this.labelTexCoords, this.gl.STATIC_DRAW);
+    this.gl.bufferData(
+      this.gl.ARRAY_BUFFER,
+      this.labelTexCoords,
+      this.gl.STATIC_DRAW,
+    );
   }
 
   // ==================== SHARED UTILITIES ====================
 
-  private createProgram(vertexSource: string, fragmentSource: string): WebGLProgram | null {
+  private createProgram(
+    vertexSource: string,
+    fragmentSource: string,
+  ): WebGLProgram | null {
     if (!this.gl) return null;
 
     const vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER)!;
@@ -465,12 +565,22 @@ export class GridLayer implements Layer {
       gl.bindVertexArray(this.lineVao);
 
       if (this.lineUniformLocations.view) {
-        gl.uniformMatrix3fv(this.lineUniformLocations.view, false, state.viewMatrix);
+        gl.uniformMatrix3fv(
+          this.lineUniformLocations.view,
+          false,
+          state.viewMatrix,
+        );
       }
 
       if (this.lineUniformLocations.color) {
         const [r, g, b] = this.parseColor(this.options.color);
-        gl.uniform4f(this.lineUniformLocations.color, r, g, b, this.options.opacity);
+        gl.uniform4f(
+          this.lineUniformLocations.color,
+          r,
+          g,
+          b,
+          this.options.opacity,
+        );
       }
 
       gl.drawArrays(gl.LINES, 0, this.lineVertexCount);
@@ -478,12 +588,21 @@ export class GridLayer implements Layer {
     }
 
     // Render labels
-    if (this.options.showLabels && this.labelProgram && this.labelVao && this.labelQuadCount > 0) {
+    if (
+      this.options.showLabels &&
+      this.labelProgram &&
+      this.labelVao &&
+      this.labelQuadCount > 0
+    ) {
       gl.useProgram(this.labelProgram);
       gl.bindVertexArray(this.labelVao);
 
       if (this.labelUniformLocations.view) {
-        gl.uniformMatrix3fv(this.labelUniformLocations.view, false, state.viewMatrix);
+        gl.uniformMatrix3fv(
+          this.labelUniformLocations.view,
+          false,
+          state.viewMatrix,
+        );
       }
 
       if (this.labelUniformLocations.texture) {
@@ -493,7 +612,10 @@ export class GridLayer implements Layer {
       }
 
       if (this.labelUniformLocations.opacity) {
-        gl.uniform1f(this.labelUniformLocations.opacity, this.options.labelOpacity);
+        gl.uniform1f(
+          this.labelUniformLocations.opacity,
+          this.options.labelOpacity,
+        );
       }
 
       gl.drawArrays(gl.TRIANGLES, 0, this.labelQuadCount * 6);
@@ -510,7 +632,8 @@ export class GridLayer implements Layer {
       if (this.lineProgram) this.gl.deleteProgram(this.lineProgram);
 
       if (this.labelVertexBuffer) this.gl.deleteBuffer(this.labelVertexBuffer);
-      if (this.labelTexCoordBuffer) this.gl.deleteBuffer(this.labelTexCoordBuffer);
+      if (this.labelTexCoordBuffer)
+        this.gl.deleteBuffer(this.labelTexCoordBuffer);
       if (this.labelVao) this.gl.deleteVertexArray(this.labelVao);
       if (this.labelProgram) this.gl.deleteProgram(this.labelProgram);
       if (this.labelTexture) this.gl.deleteTexture(this.labelTexture);

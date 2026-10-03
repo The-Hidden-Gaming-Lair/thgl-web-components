@@ -49,6 +49,7 @@ const gridBoundsMap: Record<string, GridConfig> = {
 export function PaliaGrid({ force }: { force?: boolean }) {
   const map = useMapStore((state) => state.map);
   const showGrid = force || useSettingsStore((state) => state.showGrid);
+  const gridLabelSize = useSettingsStore((state) => state.gridLabelSize);
   const gridLayerRef = useRef<GridLayer | null>(null);
 
   useEffect(() => {
@@ -67,7 +68,8 @@ export function PaliaGrid({ force }: { force?: boolean }) {
       color: "#ffffff",
       opacity: 0.6,
       showLabels: true,
-      labelOpacity: 0.9,
+      labelOpacity: 1,
+      labelScale: gridLabelSize,
     });
 
     map.addLayer(gridLayer, { zIndex: 30 });
@@ -79,7 +81,7 @@ export function PaliaGrid({ force }: { force?: boolean }) {
         gridLayerRef.current = null;
       }
     };
-  }, [map, showGrid]);
+  }, [map, showGrid, gridLabelSize]);
 
   return <></>;
 }

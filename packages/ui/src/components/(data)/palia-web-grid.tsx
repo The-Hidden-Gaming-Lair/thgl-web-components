@@ -62,6 +62,7 @@ export function PaliaWebGrid({
   force?: boolean;
 }) {
   const showGrid = force || useSettingsStore((state) => state.showGrid);
+  const gridLabelSize = useSettingsStore((state) => state.gridLabelSize);
   const gridLayerRef = useRef<GridLayer | null>(null);
 
   useEffect(() => {
@@ -81,7 +82,8 @@ export function PaliaWebGrid({
       color: "#ffffff",
       opacity: 0.6,
       showLabels: true,
-      labelOpacity: 0.9,
+      labelOpacity: 1,
+      labelScale: gridLabelSize,
     });
 
     ref.webmap.addLayer(gridLayer, { zIndex: 30 });
@@ -93,7 +95,7 @@ export function PaliaWebGrid({
         gridLayerRef.current = null;
       }
     };
-  }, [mapRef.current?.webmap, mapName, showGrid]);
+  }, [mapRef.current?.webmap, mapName, showGrid, gridLabelSize]);
 
   return null;
 }
