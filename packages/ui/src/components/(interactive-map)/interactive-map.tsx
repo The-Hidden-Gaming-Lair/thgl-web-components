@@ -366,6 +366,14 @@ export function InteractiveMap({
     liveMarkerLayer.setDarkness(mapDarkness);
     webmap.addLayer(liveMarkerLayer, { zIndex: 101 });
 
+    // Player icon when "Player icon below markers" is on: drawn before both
+    // marker layers so nearby markers stay readable.
+    const playerUnderLayer = new IconMarkerLayer();
+    playerUnderLayer.setColorBlindMode(colorBlindMode);
+    playerUnderLayer.setColorBlindSeverity(colorBlindSeverity);
+    playerUnderLayer.setDarkness(mapDarkness);
+    webmap.addLayer(playerUnderLayer, { zIndex: 99 });
+
     // Create GameMap by extending WebMap with game-specific properties
     const gameMap = webmap as GameMap;
     gameMap.mapName = mapName;
@@ -375,6 +383,7 @@ export function InteractiveMap({
     ];
     gameMap.markerLayer = markerLayer;
     gameMap.liveMarkerLayer = liveMarkerLayer;
+    gameMap.playerUnderLayer = playerUnderLayer;
 
     // Apply rotation if specified (store on map instance for coordinate transforms)
     if (mapTileOptions.rotation) {
@@ -764,6 +773,11 @@ export function InteractiveMap({
       map.liveMarkerLayer.setColorBlindMode(colorBlindMode);
       map.liveMarkerLayer.setColorBlindSeverity(colorBlindSeverity);
       map.liveMarkerLayer.setDarkness(mapDarkness);
+    }
+    if (map?.playerUnderLayer) {
+      map.playerUnderLayer.setColorBlindMode(colorBlindMode);
+      map.playerUnderLayer.setColorBlindSeverity(colorBlindSeverity);
+      map.playerUnderLayer.setDarkness(mapDarkness);
     }
     map?.requestRedraw();
   }, [colorBlindMode, colorBlindSeverity, mapDarkness, map]);

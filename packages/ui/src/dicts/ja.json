@@ -369,6 +369,7 @@
   "settings.outlineThickness": "アウトラインの太さ",
   "settings.iconSizes": "アイコンサイズ",
   "settings.dynamicIconSize": "動的アイコンサイズ（ズーム連動）",
+  "settings.playerBelowMarkers": "プレイヤーアイコンをマーカーの下に表示",
   "settings.factor": "倍率",
   "settings.mapBehavior": "マップの動作",
   "settings.zoomOnFilterChange": "フィルター変更時にマップをズーム",

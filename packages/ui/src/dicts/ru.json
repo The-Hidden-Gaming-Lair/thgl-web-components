@@ -369,6 +369,7 @@
   "settings.outlineThickness": "Толщина обводки",
   "settings.iconSizes": "Размеры иконок",
   "settings.dynamicIconSize": "Динамический размер иконок (зависит от масштаба)",
+  "settings.playerBelowMarkers": "Значок игрока под метками",
   "settings.factor": "Коэффициент",
   "settings.mapBehavior": "Поведение карты",
   "settings.zoomOnFilterChange": "Масштабировать карту при изменении фильтров",

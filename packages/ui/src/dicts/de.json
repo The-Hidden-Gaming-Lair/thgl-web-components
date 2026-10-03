@@ -369,6 +369,7 @@
   "settings.outlineThickness": "Umrissstärke",
   "settings.iconSizes": "Symbolgrößen",
   "settings.dynamicIconSize": "Dynamische Symbolgröße (zoomabhängig)",
+  "settings.playerBelowMarkers": "Spielersymbol unter den Markierungen",
   "settings.factor": "Faktor",
   "settings.mapBehavior": "Kartenverhalten",
   "settings.zoomOnFilterChange": "Karte bei Filteränderung zoomen",

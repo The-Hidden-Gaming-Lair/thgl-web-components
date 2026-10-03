@@ -378,6 +378,7 @@
   "settings.outlineThickness": "Độ dày viền",
   "settings.iconSizes": "Kích thước biểu tượng",
   "settings.dynamicIconSize": "Kích thước biểu tượng động (theo mức thu phóng)",
+  "settings.playerBelowMarkers": "Biểu tượng người chơi bên dưới điểm đánh dấu",
   "settings.factor": "Hệ số",
   "settings.mapBehavior": "Hành vi bản đồ",
   "settings.zoomOnFilterChange": "Thu phóng bản đồ khi bộ lọc thay đổi",

@@ -14,6 +14,8 @@ export interface GameMapExtensions {
   markerLayer?: IconMarkerLayer;
   // Separate layer for live actors (frequent updates without invalidating static markers)
   liveMarkerLayer?: IconMarkerLayer;
+  // Player icon layer underneath both marker layers ("Player icon below markers")
+  playerUnderLayer?: IconMarkerLayer;
   // Underscore-prefixed aliases (used throughout components)
   _rotationRadians?: number;
   _rotationDegrees?: number;

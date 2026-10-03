@@ -358,6 +358,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   dynamicIconSize: true,
   dynamicIconSizeFactor: 0.2,
   playerIconSize: 1,
+  playerBelowMarkers: false,
   iconSizeByGroup: {},
   iconSizeByFilter: {},
   fitBoundsOnChange: false,
@@ -509,6 +510,9 @@ export type ProfileSettings = {
   dynamicIconSize: boolean;
   dynamicIconSizeFactor: number;
   playerIconSize: number;
+  // Draw the player icon underneath the map markers instead of on top
+  // (nearby markers, e.g. fish while fishing, stay readable).
+  playerBelowMarkers: boolean;
   iconSizeByGroup: Record<string, number>;
   iconSizeByFilter: Record<string, number>;
   fitBoundsOnChange: boolean;
@@ -677,6 +681,7 @@ export interface ProfileActions {
   toggleDynamicIconSize: () => void;
   setDynamicIconSizeFactor: (factor: number) => void;
   setPlayerIconSize: (playerIconSize: number) => void;
+  togglePlayerBelowMarkers: () => void;
   setIconSizeByGroup: (group: string, size: number) => void;
   setIconSizeByFilter: (id: string, size: number) => void;
   toggleFitBoundsOnChange: () => void;
@@ -1319,6 +1324,7 @@ export const useSettingsStore = create(
               transforms: {},
               mapTransform: null,
               playerIconSize: 1,
+              playerBelowMarkers: false,
               baseIconSize: 1,
               dynamicIconSize: true,
               dynamicIconSizeFactor: 0.2,
@@ -1961,6 +1967,10 @@ export const useSettingsStore = create(
 
           setPlayerIconSize: (playerIconSize) => {
             updateSettings({ playerIconSize });
+          },
+
+          togglePlayerBelowMarkers: () => {
+            updateSettings({ playerBelowMarkers: !get().playerBelowMarkers });
           },
 
           setIconSizeByGroup: (group, size) => {

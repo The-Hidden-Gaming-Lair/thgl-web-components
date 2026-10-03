@@ -378,6 +378,7 @@
   "settings.outlineThickness": "Ketebalan Garis Tepi",
   "settings.iconSizes": "Ukuran Ikon",
   "settings.dynamicIconSize": "Ukuran ikon dinamis (berdasarkan zoom)",
+  "settings.playerBelowMarkers": "Ikon pemain di bawah penanda",
   "settings.factor": "Faktor",
   "settings.mapBehavior": "Perilaku Peta",
   "settings.zoomOnFilterChange": "Zoom peta saat filter berubah",

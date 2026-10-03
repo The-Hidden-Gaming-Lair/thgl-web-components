@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, type JSX } from "react";
 import { useUserStore } from "../(providers)";
-import { useMap } from "./store";
+import { useMap, type GameMap } from "./store";
 import { PlayerMarker } from "./player-marker";
 import { rotateCoordinate } from "./rotation";
 import type { ActorPlayer } from "@repo/lib/overwolf";
@@ -17,6 +17,13 @@ import { useT } from "../(providers)";
 import { applyColorBlindTransform } from "./color-blind";
 import type { ColorBlindMode } from "@repo/lib";
 import { DrawingLayer } from "@repo/lib/web-map";
+
+// Live layer (above all markers) by default; the under-layer when the player
+// chose "Player icon below markers".
+function getPlayerLayer(map: GameMap | null, belowMarkers: boolean) {
+  if (belowMarkers && map?.playerUnderLayer) return map.playerUnderLayer;
+  return map?.liveMarkerLayer ?? map?.markerLayer;
+}
 
 export function Player({
   appName,
@@ -44,6 +51,9 @@ export function Player({
   );
   const baseIconSize = useSettingsStore((state) => state.baseIconSize);
   const playerIconSize = useSettingsStore((state) => state.playerIconSize);
+  const playerBelowMarkers = useSettingsStore(
+    (state) => state.playerBelowMarkers,
+  );
   const colorBlindMode = useSettingsStore((state) => state.colorBlindMode);
   const colorBlindSeverity = useSettingsStore(
     (state) => state.colorBlindSeverity,
@@ -122,7 +132,7 @@ export function Player({
   }
 
   useEffect(() => {
-    const playerLayer = map?.liveMarkerLayer ?? map?.markerLayer;
+    const playerLayer = getPlayerLayer(map, playerBelowMarkers);
     if (!map?.mapName || !playerLayer) {
       return;
     }
@@ -249,6 +259,16 @@ export function Player({
     };
     run();
   }, [iconUrl, iconSize, colorBlindMode, colorBlindSeverity]);
+
+  // "Player icon below markers" toggled: move the existing marker to the other
+  // layer (no re-creation, so the view is not re-centred).
+  useEffect(() => {
+    const layer = getPlayerLayer(map, playerBelowMarkers);
+    if (!marker.current || !layer) return;
+    marker.current.remove();
+    marker.current.addTo(layer);
+    map?.requestRedraw();
+  }, [map, playerBelowMarkers]);
 
   // Use stable primitives as deps so this effect only fires when the
   // player position actually changes, not on every game state emission.

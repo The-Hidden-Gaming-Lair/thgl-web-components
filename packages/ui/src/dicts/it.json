@@ -369,6 +369,7 @@
   "settings.outlineThickness": "Spessore del contorno",
   "settings.iconSizes": "Dimensioni delle Icone",
   "settings.dynamicIconSize": "Dimensione icona dinamica (in base allo zoom)",
+  "settings.playerBelowMarkers": "Icona del giocatore sotto i segnalini",
   "settings.factor": "Fattore",
   "settings.mapBehavior": "Comportamento della Mappa",
   "settings.zoomOnFilterChange": "Zoom della mappa al cambio dei filtri",

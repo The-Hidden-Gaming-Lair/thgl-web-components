@@ -366,6 +366,7 @@
   "settings.outlineThickness": "Tloušťka obrysu",
   "settings.iconSizes": "Velikosti ikon",
   "settings.dynamicIconSize": "Dynamická velikost ikon (podle přiblížení)",
+  "settings.playerBelowMarkers": "Ikona hráče pod značkami",
   "settings.factor": "Faktor",
   "settings.mapBehavior": "Chování mapy",
   "settings.zoomOnFilterChange": "Přiblížit mapu při změně filtrů",

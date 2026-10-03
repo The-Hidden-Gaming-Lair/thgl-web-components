@@ -369,6 +369,7 @@
   "settings.outlineThickness": "외곽선 두께",
   "settings.iconSizes": "아이콘 크기",
   "settings.dynamicIconSize": "동적 아이콘 크기 (확대 수준 기반)",
+  "settings.playerBelowMarkers": "플레이어 아이콘을 마커 아래에 표시",
   "settings.factor": "배율",
   "settings.mapBehavior": "지도 동작",
   "settings.zoomOnFilterChange": "필터 변경 시 지도 확대/이동",

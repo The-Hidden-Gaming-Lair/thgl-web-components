@@ -527,6 +527,18 @@ export function SettingsDialogContent({
                 />
               </div>
             )}
+            <div className="flex items-center justify-between mt-3">
+              <Label htmlFor="player-below-markers">
+                {t("settings.playerBelowMarkers", {
+                  fallback: "Player icon below markers",
+                })}
+              </Label>
+              <Switch
+                id="player-below-markers"
+                checked={profileSettings.playerBelowMarkers}
+                onCheckedChange={settingsStore.togglePlayerBelowMarkers}
+              />
+            </div>
           </Section>
 
           {activeApp === "palia" && (
