@@ -50,6 +50,20 @@ test.describe("player icon below markers", () => {
     expect(order.under).toBeLessThan(order.markers);
     expect(order.under).toBeLessThan(order.live);
 
+    // Same zoom sizing as the live layer, else the player icon shrinks when
+    // zoomed out (the layer default factor differs from the user setting).
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const map = (window as any).__thgl.useMapStore.getState().map;
+          return (
+            map.playerUnderLayer.dynamicSizeFactor ===
+            map.liveMarkerLayer.dynamicSizeFactor
+          );
+        }),
+      )
+      .toBe(true);
+
     await page.evaluate((p) => {
       const t = (window as any).__thgl;
       t.useSettingsStore.setState({ playerBelowMarkers: false });

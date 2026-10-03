@@ -1057,16 +1057,16 @@ function MarkersContent({
     markerLayer.setHighContrastColor(highContrastColor);
     markerLayer.setHighContrastThickness(highContrastThickness);
 
-    // Mirror settings to live marker layer
-    if (liveMarkerLayer) {
-      liveMarkerLayer.setColorBlindMode(colorBlindMode);
-      liveMarkerLayer.setColorBlindSeverity(colorBlindSeverity);
-      liveMarkerLayer.setDynamicSizeFactor(
-        dynamicIconSize ? dynamicIconSizeFactor : 0,
-      );
-      liveMarkerLayer.setHighContrastMode(highContrastMode);
-      liveMarkerLayer.setHighContrastColor(highContrastColor);
-      liveMarkerLayer.setHighContrastThickness(highContrastThickness);
+    // Mirror settings to the live marker layer and the player under-layer
+    // ("Player icon below markers"), so the player icon keeps the same size.
+    for (const layer of [liveMarkerLayer, map.playerUnderLayer]) {
+      if (!layer) continue;
+      layer.setColorBlindMode(colorBlindMode);
+      layer.setColorBlindSeverity(colorBlindSeverity);
+      layer.setDynamicSizeFactor(dynamicIconSize ? dynamicIconSizeFactor : 0);
+      layer.setHighContrastMode(highContrastMode);
+      layer.setHighContrastColor(highContrastColor);
+      layer.setHighContrastThickness(highContrastThickness);
     }
 
     const baseRadius = 12;
@@ -2744,11 +2744,11 @@ function MarkersContent({
     markerLayer.setHighContrastMode(highContrastMode);
     markerLayer.setHighContrastColor(highContrastColor);
     markerLayer.setHighContrastThickness(highContrastThickness);
-    const liveMarkerLayer = map?.liveMarkerLayer;
-    if (liveMarkerLayer) {
-      liveMarkerLayer.setHighContrastMode(highContrastMode);
-      liveMarkerLayer.setHighContrastColor(highContrastColor);
-      liveMarkerLayer.setHighContrastThickness(highContrastThickness);
+    for (const layer of [map.liveMarkerLayer, map.playerUnderLayer]) {
+      if (!layer) continue;
+      layer.setHighContrastMode(highContrastMode);
+      layer.setHighContrastColor(highContrastColor);
+      layer.setHighContrastThickness(highContrastThickness);
     }
     map.requestRedraw();
   }, [map, highContrastMode, highContrastColor, highContrastThickness]);
