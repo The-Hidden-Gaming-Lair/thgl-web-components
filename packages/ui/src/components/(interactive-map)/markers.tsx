@@ -45,7 +45,7 @@ import {
 } from "@repo/lib/web-map";
 import { SpatialGrid } from "./spatial-grid";
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
-import { toast } from "sonner";
+import { alertToast } from "../(controls)/alert-toast";
 import { AdditionalTooltipType } from "../(content)";
 import {
   isAudioAlertSuspended,
@@ -2816,7 +2816,7 @@ function MarkersContent({
         names.length <= 2
           ? names.join(", ")
           : `${names[0]} +${names.length - 1} more`;
-      toast(`🔔 ${label} nearby`);
+      alertToast(`🔔 ${label} nearby`);
     };
 
     // Positional mode: each alerting type re-pings on its own distance-scaled

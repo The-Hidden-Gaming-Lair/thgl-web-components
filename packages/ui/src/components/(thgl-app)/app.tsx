@@ -57,7 +57,8 @@ import { THGLMapAds } from "../(ads)";
 import { AdditionalTooltipType } from "../(content)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { setAlertToastOverlay } from "../(controls)/alert-toast";
 
 // Pre-release ("preview") gating lives in @repo/lib: PREVIEW_RELEASE_APPS gates web + companion;
 // PREVIEW_RELEASE_COMPANION_APPS gates ONLY the in-game companion (website open). This paywall uses
@@ -106,6 +107,7 @@ export function App({
   );
   const windowMode = useLiveState((state) => state.windowMode);
   const setWindowMode = useLiveState((state) => state.setWindowMode);
+  useEffect(() => setAlertToastOverlay(Boolean(isOverlay)), [isOverlay]);
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();

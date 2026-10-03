@@ -55,7 +55,8 @@ import { Ads400x600Desktop } from "./ads-400-600-desktop";
 import { AdditionalTooltipType } from "../(content)";
 import { MarkerPanel } from "../(data)";
 
-import type { JSX } from "react";
+import { useEffect, type JSX } from "react";
+import { setAlertToastOverlay } from "../(controls)/alert-toast";
 
 export function App({
   appConfig,
@@ -95,6 +96,10 @@ export function App({
   const isOverlay = useOverwolfState((state) => state.isOverlay);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  useEffect(
+    () => setAlertToastOverlay(Boolean(isOverlay && overlayMode)),
+    [isOverlay, overlayMode],
+  );
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();

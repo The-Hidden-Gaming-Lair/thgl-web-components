@@ -10,7 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { toast } from "sonner";
+import { alertToast } from "../(controls)/alert-toast";
 import { playAlertSound } from "../(controls)/audio-alert";
 import { useMap } from "../(interactive-map)/store";
 import { useI18n, useLocale, useT, useUserStore } from "../(providers)";
@@ -188,7 +188,7 @@ function usePaliaEventAlerts(config: PaliaEventsConfig | null) {
             playAlertSound(sound, volume);
             if (spoken) speak(message, locale, volume);
           }
-          if (notifications) toast(message, { id: key });
+          if (notifications) alertToast(message, { id: key });
         };
         const leadSeconds = (leadMinutes ?? 1) * 60;
         if (

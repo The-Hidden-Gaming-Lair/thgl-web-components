@@ -319,4 +319,38 @@ test.describe("audio alerts", () => {
     expect(only.freqs[0]).toBeCloseTo(523.25, 2);
     expect(only.freqs[1]).toBeCloseTo(659.25, 2);
   });
+
+  test("notification stays while the map window is unfocused, then times out after focus", async ({
+    page,
+  }) => {
+    // Second-screen mode: the map sits behind another window while the game
+    // has focus. The 5 s notice used to be gone before the player tabbed over.
+    await page.addInitScript(() => {
+      (window as any).__focused = false;
+      document.hasFocus = () => (window as any).__focused;
+    });
+    await installFakeAudio(page);
+    await openMap(page, MAPS.kilima);
+    await armAlerts(page, {
+      audioAlertPositional: false,
+      audioAlertNotifications: true,
+    });
+
+    await setPlayer(page, -1800, -90);
+    const notice = page.getByText(/🔔 .+ nearby/);
+    await expect(notice).toBeVisible({ timeout: 10_000 });
+
+    // Well past the normal 5 s lifetime: still there.
+    await page.waitForTimeout(7000);
+    await expect(notice).toBeVisible();
+
+    // The player tabs over: the normal timer starts now.
+    await page.evaluate(() => {
+      (window as any).__focused = true;
+      window.dispatchEvent(new Event("focus"));
+    });
+    await page.waitForTimeout(2000);
+    await expect(notice).toBeVisible();
+    await expect(notice).toBeHidden({ timeout: 8000 });
+  });
 });
