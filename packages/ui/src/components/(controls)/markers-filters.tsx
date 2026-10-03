@@ -16,6 +16,34 @@ type FilteredEntry = {
   valueFilter: Set<string> | null;
 };
 
+/** Below this length a query only matches names (descriptions are too noisy). */
+const MIN_CONTENTS_QUERY = 3;
+
+/**
+ * The line of a value's tags / description that matches the query, e.g. the
+ * "Sunstone (Rare)" drop of a Jadium node when searching "sunstone".
+ */
+function findContentsMatch(
+  t: ReturnType<typeof useT>,
+  id: string,
+  q: string,
+): string | undefined {
+  const tagsKey = `${id}_tags`;
+  const tags = t(tagsKey);
+  const texts = [tags === tagsKey ? "" : tags, t(id, { isDesc: true })];
+  for (const text of texts) {
+    if (!text) continue;
+    const hit = text
+      .replace(/{{.*?}}/g, "")
+      .replace(/<[^>]*>/g, "\n")
+      .split(/[\n,;]+/)
+      .map((s) => s.trim())
+      .find((s) => s.toLowerCase().includes(q));
+    if (hit) return hit.length > 40 ? hit.slice(0, 39) + "…" : hit;
+  }
+  return undefined;
+}
+
 export function MarkersFilters({
   appName,
   iconsPath,
@@ -67,11 +95,27 @@ export function MarkersFilters({
     return result;
   }, [filterDetails]);
 
-  const filteredEntries: FilteredEntry[] = useMemo(() => {
+  const { filteredEntries, contentsMatches } = useMemo(() => {
+    const contentsMatches = new Map<string, string>();
     if (!trimmedQuery) {
-      return entries.map((entry) => ({ entry, valueFilter: null }));
+      return {
+        filteredEntries: entries.map(
+          (entry): FilteredEntry => ({ entry, valueFilter: null }),
+        ),
+        contentsMatches,
+      };
     }
     const q = trimmedQuery;
+    // Values whose name matches, else whose tags / description (drops,
+    // contents) mention the query — those get the matched line as a hint.
+    const matchValues = (f: FiltersConfig[number]) =>
+      f.values.filter((v) => {
+        if ((t(v.id) || v.id).toLowerCase().includes(q)) return true;
+        if (q.length < MIN_CONTENTS_QUERY) return false;
+        const hit = findContentsMatch(t, v.id, q);
+        if (hit) contentsMatches.set(v.id, hit);
+        return !!hit;
+      });
     const result: FilteredEntry[] = [];
     for (const entry of entries) {
       if (entry.type === "category") {
@@ -91,9 +135,7 @@ export function MarkersFilters({
             innerMatchedGroups.push(f);
             continue;
           }
-          const matchingValues = f.values.filter((v) =>
-            (t(v.id) || v.id).toLowerCase().includes(q),
-          );
+          const matchingValues = matchValues(f);
           if (matchingValues.length) {
             innerMatchedGroups.push(f);
             matchingValues.forEach((v) => innerValueFilter.add(v.id));
@@ -113,9 +155,7 @@ export function MarkersFilters({
           result.push({ entry, valueFilter: null });
           continue;
         }
-        const matchingValues = f.values.filter((v) =>
-          (t(v.id) || v.id).toLowerCase().includes(q),
-        );
+        const matchingValues = matchValues(f);
         if (matchingValues.length) {
           result.push({
             entry,
@@ -124,7 +164,7 @@ export function MarkersFilters({
         }
       }
     }
-    return result;
+    return { filteredEntries: result, contentsMatches };
   }, [entries, trimmedQuery, t]);
 
   const totalGroups = useMemo(
@@ -181,6 +221,7 @@ export function MarkersFilters({
               iconsPath={iconsPath}
               forceOpen={isFiltering}
               valueFilter={valueFilter ?? undefined}
+              contentsMatches={contentsMatches}
             />
           ) : (
             <CollapsibleFilter
@@ -190,6 +231,7 @@ export function MarkersFilters({
               iconsPath={iconsPath}
               forceOpen={isFiltering}
               valueFilter={valueFilter ?? undefined}
+              contentsMatches={contentsMatches}
             />
           ),
         )}

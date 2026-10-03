@@ -18,6 +18,7 @@ export function CollapsibleCategory({
   iconsPath,
   forceOpen,
   valueFilter,
+  contentsMatches,
 }: {
   category: string;
   filters: FiltersConfig;
@@ -25,6 +26,7 @@ export function CollapsibleCategory({
   iconsPath?: string;
   forceOpen?: boolean;
   valueFilter?: Set<string>;
+  contentsMatches?: Map<string, string>;
 }) {
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -123,6 +125,7 @@ export function CollapsibleCategory({
               iconsPath={iconsPath}
               forceOpen={forceOpen}
               valueFilter={valueFilter}
+              contentsMatches={contentsMatches}
             />
           ))}
         </div>

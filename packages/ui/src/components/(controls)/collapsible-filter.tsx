@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FilterSettingsPopover } from "./filter-settings-popover";
 import { useT } from "../(providers)";
 import { useMemo } from "react";
-import { ChevronRight, FlaskConical } from "lucide-react";
+import { ChevronRight, FlaskConical, PackageSearch } from "lucide-react";
 
 export function CollapsibleFilter({
   appName,
@@ -17,12 +17,15 @@ export function CollapsibleFilter({
   iconsPath,
   forceOpen,
   valueFilter,
+  contentsMatches,
 }: {
   appName: string;
   filter: FiltersConfig[number];
   iconsPath?: string;
   forceOpen?: boolean;
   valueFilter?: Set<string>;
+  /** Value id → the drop / contents line the search matched (not the name). */
+  contentsMatches?: Map<string, string>;
 }) {
   const t = useT();
   const filters = useUserStore((state) => state.filters);
@@ -188,7 +191,22 @@ export function CollapsibleFilter({
                         }}
                       />
                     )}
-                    <span className="truncate">{t(f.id) || f.id}</span>
+                    {contentsMatches?.has(f.id) ? (
+                      <span className="flex flex-col min-w-0 text-left leading-tight">
+                        <span className="truncate">{t(f.id) || f.id}</span>
+                        <span className="flex items-center gap-1 text-[11px] text-primary/70 min-w-0">
+                          <PackageSearch
+                            className="h-3 w-3 shrink-0"
+                            aria-hidden
+                          />
+                          <span className="truncate">
+                            {contentsMatches.get(f.id)}
+                          </span>
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="truncate">{t(f.id) || f.id}</span>
+                    )}
                     {f.experimental && (
                       <FlaskConical
                         className="h-3.5 w-3.5 shrink-0 text-amber-500"
@@ -197,7 +215,11 @@ export function CollapsibleFilter({
                     )}
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="top">{t(f.id) || f.id}</TooltipContent>
+                <TooltipContent side="top">
+                  {t(f.id) || f.id}
+                  {contentsMatches?.has(f.id) &&
+                    ` · ${contentsMatches.get(f.id)}`}
+                </TooltipContent>
               </Tooltip>
               <div className="grow" />
               <FilterSettingsPopover
