@@ -3,9 +3,12 @@ import {
   CLAY,
   CLAY_NODE_ID,
   MAPS,
+  mapUrl,
   openMap,
   selectNode,
   toggleFilter,
+  userState,
+  waitForMapReady,
 } from "./fixtures";
 
 test.describe("marker panel", () => {
@@ -25,6 +28,32 @@ test.describe("marker panel", () => {
     await expect
       .poll(() => page.evaluate(() => decodeURIComponent(location.href)))
       .toContain(CLAY.id);
+  });
+
+  test("a deep link to a spot that is no marker centers the map there", async ({
+    page,
+  }) => {
+    // Codex "Found at" pins can name places that plot no marker (a villager schedule spot, a
+    // shop register): the map has nothing to select but must still open at that spot.
+    const node = `codex.place@${CLAY.spawn.lat}:${CLAY.spawn.lng}`;
+    await page.goto(
+      `${mapUrl(MAPS.kilima.title)}/place/${encodeURIComponent(node)}?id=${encodeURIComponent(node)}`,
+    );
+    await waitForMapReady(page, MAPS.kilima.key);
+    await expect
+      .poll(
+        () =>
+          page.evaluate(() => {
+            const map = (window as any).__thgl.useMapStore.getState().map;
+            return map.getCenterLatLng() as [number, number];
+          }),
+        { timeout: 15_000 },
+      )
+      .toEqual([
+        expect.closeTo(CLAY.spawn.lat, 0),
+        expect.closeTo(CLAY.spawn.lng, 0),
+      ]);
+    expect(await userState(page, "selectedNodeId")).toBeFalsy();
   });
 
   test("an unknown node id shows 'Node not found' instead of a broken panel", async ({

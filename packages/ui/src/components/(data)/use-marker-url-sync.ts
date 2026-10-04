@@ -55,12 +55,15 @@ export function useMarkerUrlSync(markerSlug: string | undefined) {
   const setSelectedNodeId = useUserStore((state) => state.setSelectedNodeId);
   const mapName = useUserStore((state) => state.mapName);
   const hasResolved = useRef(false);
+  // No-marker fallback: the map instance it centered + the map it was opened on.
+  const fallback = useRef<{ map: unknown; mapName: string } | null>(null);
   const resolvedSlug = useRef<string | undefined>(undefined);
   const initialTitle = useRef<string>("");
 
   // Reset when markerSlug changes
   if (markerSlug !== resolvedSlug.current) {
     hasResolved.current = false;
+    fallback.current = null;
   }
 
   // Store the original document title on mount
@@ -131,15 +134,28 @@ export function useMarkerUrlSync(markerSlug: string | undefined) {
     };
 
     const match = findInNodes();
-    if (!match) return;
-
-    // Select immediately
-    hasResolved.current = true;
-    resolvedSlug.current = markerSlug;
-    setSelectedNodeId(getNodeId(match));
+    let coords: [number, number];
+    if (match) {
+      // Select immediately
+      hasResolved.current = true;
+      resolvedSlug.current = markerSlug;
+      setSelectedNodeId(getNodeId(match));
+      coords = [match.p[0], match.p[1]];
+    } else {
+      // A codex "Found at" pin can name a spot that is no marker (a villager schedule spot, a
+      // shop register): still open the map THERE. Tracked per map INSTANCE — the map can be
+      // rebuilt right after load, keeping its old view — and only on the map the link opened
+      // (a later map switch is the user's). Not marked resolved, so a marker that turns up in
+      // later nodes is still selected.
+      const target = new URLSearchParams(location.search).get("id");
+      const [x, y] = (target?.split("@")[1]?.split(":") ?? []).map(Number);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+      if (fallback.current && fallback.current.mapName !== mapName) return;
+      resolvedSlug.current = markerSlug;
+      coords = [x, y];
+    }
 
     // Center and zoom map on spawn
-    const coords: [number, number] = [match.p[0], match.p[1]];
     const tryCenter = () => {
       const map = useMapStore.getState().map;
       if (!map) return false;
@@ -155,6 +171,15 @@ export function useMarkerUrlSync(markerSlug: string | undefined) {
       return true;
     };
 
+    if (!match) {
+      const centerInstance = () => {
+        const map = useMapStore.getState().map;
+        if (!map || fallback.current?.map === map) return;
+        if (tryCenter()) fallback.current = { map, mapName };
+      };
+      centerInstance();
+      return useMapStore.subscribe(centerInstance);
+    }
     if (!tryCenter()) {
       const unsub = useMapStore.subscribe(() => {
         if (tryCenter()) unsub();
