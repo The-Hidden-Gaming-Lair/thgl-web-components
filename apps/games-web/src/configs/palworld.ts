@@ -29,6 +29,14 @@ export const palworld = resolveAppConfig({
   // same-target link). The links below point at the database (codex) sections.
   internalLinks: [
     {
+      title: "Breeding Calculator",
+      description:
+        "Every breeding combo for the current version — pick two parents, find all parent pairs for a Pal, or plan the fewest eggs from the Pals you own.",
+      href: "/breeding",
+      iconName: "Heart",
+      linkText: "Open the Breeding Calculator",
+    },
+    {
       title: "Paldeck",
       description:
         "Every Pal with its elements, rarity, base stats and item drops — the full Paldeck.",
@@ -93,6 +101,10 @@ export const palworld = resolveAppConfig({
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search Pals, items…",
     sectionsInNav: true,
+    // One indexable /breeding/<palId> page per Paldeck entry (sitemap + codex link).
+    entryPages: [
+      { type: "paldeck", path: "/breeding", labelKey: "breeding.howToBreed" },
+    ],
     homeSections: [
       {
         href: "/db/paldeck",

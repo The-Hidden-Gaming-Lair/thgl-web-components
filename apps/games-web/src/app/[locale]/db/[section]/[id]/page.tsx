@@ -345,6 +345,20 @@ export default async function Page({ params }: { params: Params }) {
             </div>
           );
         })()}
+        {(appConfig.db?.entryPages ?? [])
+          .filter((page) => page.type === matchingType && page.labelKey)
+          .map((page) => (
+            <a
+              key={page.path}
+              href={localizePath(
+                `${page.path}/${encodeURIComponent(item.id)}`,
+                locale,
+              )}
+              className="mt-6 inline-block text-primary hover:underline"
+            >
+              {translate(dict, page.labelKey!, { vars: { name } })} →
+            </a>
+          ))}
         {/* On the map / Related / Was this accurate? / Tips & comments */}
         <EntryExtras
           appConfig={appConfig}

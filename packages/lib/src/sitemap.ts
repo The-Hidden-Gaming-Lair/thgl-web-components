@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import {
   AppConfig,
   DatabaseConfig,
+  type DbAppConfig,
   fetchDatabase,
   fetchDatabaseIndex,
   fetchDict,
@@ -315,7 +316,11 @@ export function createSitemapIndex(appConfig: AppConfig) {
         () => [] as DatabaseConfig,
       );
       const resolveSection = buildSectionResolver(appConfig);
-      const dbEntries = collectDbEntries(database, resolveSection);
+      const dbEntries = collectDbEntries(
+        database,
+        resolveSection,
+        appConfig.db.entryPages,
+      );
       dbChunks =
         dbEntries.length > 0
           ? Math.ceil(dbEntries.length / ENTRIES_PER_CHUNK)
@@ -374,12 +379,14 @@ function buildSectionResolver(
   };
 }
 
-/** Collect every (section, entityId) pair that has a detail page. */
+/** Collect the path of every database detail page, plus the tenant's
+ *  `db.entryPages` (per-entry tool pages such as `/breeding/<palId>`). */
 function collectDbEntries(
   database: DatabaseConfig,
   resolveSection: (catType: string) => string | null,
-): { section: string; id: string }[] {
-  const entries: { section: string; id: string }[] = [];
+  entryPages: DbAppConfig["entryPages"] = [],
+): string[] {
+  const entries: string[] = [];
   for (const cat of database) {
     if (cat.type.startsWith("_")) continue;
     // item_sets share routes with `items` (/db/artifacts/<id>); skip to
@@ -388,7 +395,15 @@ function collectDbEntries(
     const section = resolveSection(cat.type);
     if (!section) continue;
     for (const item of cat.items) {
-      entries.push({ section, id: item.id });
+      entries.push(`/db/${section}/${encodeURIComponent(item.id)}`);
+    }
+  }
+  for (const page of entryPages) {
+    for (const cat of database) {
+      if (cat.type !== page.type) continue;
+      for (const item of cat.items) {
+        entries.push(`${page.path}/${encodeURIComponent(item.id)}`);
+      }
     }
   }
   return entries;
@@ -458,7 +473,11 @@ export function createGenerateSitemaps(appConfig: AppConfig) {
         () => [] as DatabaseConfig,
       );
       const resolveSection = buildSectionResolver(appConfig);
-      const dbEntries = collectDbEntries(database, resolveSection);
+      const dbEntries = collectDbEntries(
+        database,
+        resolveSection,
+        appConfig.db.entryPages,
+      );
       dbChunks =
         dbEntries.length > 0
           ? Math.ceil(dbEntries.length / ENTRIES_PER_CHUNK)
@@ -716,13 +735,17 @@ export function createSitemap(appConfig: AppConfig) {
       const database = await fetchDatabaseForSitemap(appConfig.name).catch(
         () => [] as DatabaseConfig,
       );
-      const dbEntries = collectDbEntries(database, resolveSection);
+      const dbEntries = collectDbEntries(
+        database,
+        resolveSection,
+        appConfig.db.entryPages,
+      );
       const dbChunkIndex = id - dbStartId;
       const start = dbChunkIndex * ENTRIES_PER_CHUNK;
       const chunk = dbEntries.slice(start, start + ENTRIES_PER_CHUNK);
 
-      for (const { section, id: entityId } of chunk) {
-        addEntry(entries, `/db/${section}/${encodeURIComponent(entityId)}`, {
+      for (const path of chunk) {
+        addEntry(entries, path, {
           changeFrequency: "weekly",
           priority: 0.6,
         });

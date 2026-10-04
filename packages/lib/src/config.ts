@@ -113,6 +113,17 @@ export type DbAppConfig = {
     /** Optional description. If absent, falls back to the matching internalLink description. */
     description?: string;
   }>;
+  /**
+   * Extra per-entry pages outside /db, one per entry of a database type — e.g.
+   * Palworld's `/breeding/<palId>` for every `paldeck` entry. Feeds the sitemap
+   * and (with `labelKey`) a link on the /db entry page; the route lives in the app.
+   */
+  entryPages?: Array<{
+    type: string;
+    path: string;
+    /** Dict key (`{{name}}` = entry name) for a link from the /db entry page. */
+    labelKey?: string;
+  }>;
   /** Full-width links rendered below the section grid (e.g. Game Mechanics). */
   homeExtraLinks?: Array<{
     href: string;
