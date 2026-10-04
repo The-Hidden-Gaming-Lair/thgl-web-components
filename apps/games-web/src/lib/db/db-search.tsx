@@ -1,5 +1,6 @@
 "use client";
 
+import { gameApiUrl } from "@repo/lib";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
@@ -36,7 +37,7 @@ function fetchSearchIndex(
 ): Promise<{ entries: SearchEntry[]; iconsUrl: string }> {
   if (cachedData) return Promise.resolve(cachedData);
   if (fetchPromise) return fetchPromise;
-  fetchPromise = fetch(`/api/db/search-index?locale=${locale}`)
+  fetchPromise = fetch(gameApiUrl(`/api/db/search-index?locale=${locale}`))
     .then((res) => res.json())
     .then((data) => {
       cachedData = data;

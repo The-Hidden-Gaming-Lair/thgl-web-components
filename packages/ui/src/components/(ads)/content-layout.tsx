@@ -75,7 +75,7 @@ export function ContentLayout({
         // Fixed-height, internally-scrolling panes only at xl (sidebar visible);
         // below that the page scrolls normally — no nested scroll container
         // on phones.
-        <div className="relative container grid grid-rows-[auto_1fr] xl:h-[calc(100dvh-54px-16px)] px-4 pt-2 text-left xl:overflow-hidden">
+        <div className="relative container grid grid-rows-[auto_1fr] xl:h-[calc(100dvh-var(--header-h,54px)-16px)] px-4 pt-2 text-left xl:overflow-hidden">
           {/* Row 1: breadcrumb */}
           {header}
 

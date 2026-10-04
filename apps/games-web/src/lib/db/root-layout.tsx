@@ -26,6 +26,7 @@ import {
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
 import { SettingsDialogContent } from "@repo/ui/controls";
 import { DidYouKnowCompanionApp } from "@repo/ui/tips";
+import { AppSurfaceRoot } from "@repo/ui/thgl-app";
 import {
   getFullDbDictionary,
   getStaticDictionary,
@@ -72,7 +73,13 @@ function sliceClientDict(
  * Either flavour ships the full game dictionary (sliced for client) so
  * DB pages can resolve entity names without an additional fetch.
  */
-export function createDbRootLayout(appConfig: AppConfig) {
+export function createDbRootLayout(
+  appConfig: AppConfig,
+  options?: {
+    /** Render inside the companion app (app.th.gl/apps/<gameId>/…) instead of the website. */
+    appSurface?: { gameId: string };
+  },
+) {
   return async function RootLayout({
     children,
     params,
@@ -100,6 +107,21 @@ export function createDbRootLayout(appConfig: AppConfig) {
     const hasMap =
       !appConfig.db?.hideInteractiveMap &&
       Object.keys(version.data.tiles ?? {}).length > 0;
+
+    if (options?.appSurface) {
+      return (
+        <AppSurfaceRoot
+          appConfig={appConfig}
+          gameId={options.appSurface.gameId}
+          locale={locale}
+          dict={clientDict}
+          hasMap={hasMap}
+          hasGuides={hasFilters}
+        >
+          {children}
+        </AppSurfaceRoot>
+      );
+    }
 
     return (
       <html lang={locale}>

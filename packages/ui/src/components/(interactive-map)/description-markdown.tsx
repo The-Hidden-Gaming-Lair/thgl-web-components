@@ -4,17 +4,11 @@ import type { ReactNode } from "react";
 import { useCallback } from "react";
 import Markdown from "markdown-to-jsx";
 import Link from "next/link";
-import {
-  games,
-  getCurrentGameId,
-  isThglApp,
-  localizePath,
-  TH_GL_URL,
-  useHasMounted,
-} from "@repo/lib";
+import { localizePath, toAppSurfacePath } from "@repo/lib";
 import { openInBrowser } from "@repo/lib/thgl-app";
 import { useLocale, useT, useUserStoreApiOptional } from "../(providers)";
 import { useMapStore } from "./store";
+import { useAppLinkMode, type AppLinkMode } from "./db-entry-link";
 
 // Shared renderer for marker DESCRIPTIONS (used by both the hover tooltip and the click-through
 // details panel). Descriptions are markdown (`markdown-to-jsx`); the <a> override makes cross-links
@@ -27,11 +21,11 @@ import { useMapStore } from "./store";
 //   • other internal links (`/db/...`) — client-side <Link> (soft nav).
 //   • external links — new tab.
 //
-// Inside the companion app (app.th.gl/apps/<id>) every internal link is WRONG twice over: the app
-// tenant has no `/db` or `/maps` routes (404) and the page IS the map, so the soft nav replaces it
-// with no way back. There they open on the game's public site in the default browser via
-// "openInBrowser", exactly like the codex link (db-entry-link.tsx). Decided after mount only —
-// `isThglApp` is browser-only and deciding during the first render breaks hydration.
+// Inside the companion app the app tenant has no bare `/db` or `/maps` routes (404). Internal links
+// open the game's pages IN the app under /apps/<id>/… (content pages with a title bar + back
+// button); in the in-game overlay they open on the game's public site in the default browser via
+// "openInBrowser" — exactly like the codex link (db-entry-link.tsx, useAppLinkMode). Decided after
+// mount only — `isThglApp` is browser-only and deciding during the first render breaks hydration.
 
 function resolveMapLink(
   href: string,
@@ -83,10 +77,13 @@ function mdOptions(
   locale: string,
   t: (key: string, opts?: { fallback?: string }) => string,
   focusMarker: (nodeId: string) => void,
-  // Public site to send internal links to when running inside the app; null on web/Overwolf,
-  // where the same-origin soft nav is correct.
-  appSite: string | null,
+  // Inside the app: keep internal links in the app, or (overlay) send them to the public site.
+  // null on web/Overwolf, where the same-origin soft nav is correct.
+  mode: AppLinkMode,
 ) {
+  const appSite = mode?.kind === "browser" ? mode.site : null;
+  const inApp = (path: string) =>
+    mode?.kind === "app" ? toAppSurfacePath(path, mode.gameId, [locale]) : path;
   const linkClass =
     "text-amber-400 underline underline-offset-2 hover:text-amber-300";
   return {
@@ -102,7 +99,7 @@ function mdOptions(
         }) => {
           if (typeof href === "string" && href.startsWith("/maps/")) {
             const resolved = localizePath(resolveMapLink(href, t), locale);
-            const target = appSite ? `${appSite}${resolved}` : resolved;
+            const target = appSite ? `${appSite}${resolved}` : inApp(resolved);
             const m = href.match(/[?&]id=([^&]+)/);
             const nodeId = m ? decodeURIComponent(m[1]) : undefined;
             return (
@@ -157,7 +154,7 @@ function mdOptions(
             }
             return (
               <Link
-                href={path}
+                href={inApp(path)}
                 prefetch={false}
                 className={linkClass}
                 onClick={(e) => e.stopPropagation()}
@@ -188,13 +185,9 @@ export function DescriptionMarkdown({ children }: { children: string }) {
   const locale = useLocale();
   const t = useT();
   const focusMarker = useFocusMarker();
-  const mounted = useHasMounted();
-  const appSite =
-    mounted && isThglApp
-      ? (games.find((g) => g.id === getCurrentGameId())?.web ?? TH_GL_URL)
-      : null;
+  const mode = useAppLinkMode();
   return (
-    <Markdown options={mdOptions(locale, t, focusMarker, appSite)}>
+    <Markdown options={mdOptions(locale, t, focusMarker, mode)}>
       {children}
     </Markdown>
   );

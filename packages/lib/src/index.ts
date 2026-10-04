@@ -14,6 +14,7 @@ export * from "./filter-presets";
 export * from "./filters-mutations";
 export * from "./filters-stats";
 export * from "./game";
+export * from "./app-surface";
 export * from "./games";
 export * from "./hooks";
 export * from "./i18n";

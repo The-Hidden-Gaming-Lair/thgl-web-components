@@ -29,6 +29,7 @@ import {
   type UserStore,
   UserStoreState,
   searchParamsToView,
+  translate,
   GlobalFiltersConfig,
   Spawn,
   getApiUrl,
@@ -214,7 +215,21 @@ export function CoordinatesProvider({
         targetSearchParams[key] = value;
       });
       const params = window.location.pathname.split("/");
-      if (params.length > 2) {
+      // The companion app's map (/apps/<id>) has no /maps/<title> path: a map
+      // link opened in the app carries the title as ?mapTitle= (proxy.ts).
+      // Matched against the map names only: a whole-dict search can hit a
+      // shared "@pointer" key holding the same text.
+      const mapTitle = searchParams.get("mapTitle");
+      const titledMap =
+        mapTitle &&
+        mapNames.find(
+          (name) =>
+            tilesConfig?.[name]?.defaultTitle === mapTitle ||
+            translate(dict, name) === mapTitle,
+        );
+      if (titledMap) {
+        targetSearchParams.map = titledMap;
+      } else if (!mapTitle && params.length > 2) {
         const termEntry = Object.entries(dict).find(
           ([, value]) => value === decodeURIComponent(params[2]),
         );

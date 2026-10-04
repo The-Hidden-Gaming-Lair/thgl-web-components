@@ -1,5 +1,6 @@
 "use client";
 
+import { gameApiUrl } from "@repo/lib";
 import { useState, useRef, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -25,7 +26,7 @@ function fetchTooltip(
   const existing = pending.get(key);
   if (existing) return existing;
   const promise = fetch(
-    `/api/db/entity-tooltip?id=${entityId}&locale=${locale}`,
+    gameApiUrl(`/api/db/entity-tooltip?id=${entityId}&locale=${locale}`),
   )
     .then((res) => (res.ok ? res.json() : null))
     .then((d) => {

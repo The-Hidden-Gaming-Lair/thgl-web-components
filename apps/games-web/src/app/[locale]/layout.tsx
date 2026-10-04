@@ -2,7 +2,9 @@ import "@/styles/globals.css";
 import "@repo/ui/styles/globals.css";
 
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { APP_SURFACE_GAME_HEADER, APP_SURFACE_HEADER } from "@repo/lib";
 import {
   createRootLayout,
   createRootLayoutMetadata,
@@ -16,6 +18,18 @@ export const viewport = rootLayoutViewport;
 /** True on the deployed production build; false on the local dev server. */
 const isProd = process.env.NODE_ENV === "production";
 
+/**
+ * Game page rendered inside the companion app (app.th.gl/apps/<id>/<page>):
+ * proxy.ts tags the rewritten request (see @repo/lib app-surface.ts). Read from
+ * the request, never `isThglApp`, so server and client render the same chrome.
+ */
+async function getAppSurface(): Promise<{ gameId: string } | undefined> {
+  const h = await headers();
+  if (h.get(APP_SURFACE_HEADER) !== "app") return undefined;
+  const gameId = h.get(APP_SURFACE_GAME_HEADER);
+  return gameId ? { gameId } : undefined;
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getAppConfig();
   if (config.name === "thgl-app") return {};
@@ -23,6 +37,14 @@ export async function generateMetadata(): Promise<Metadata> {
   if (config.inDevelopment && isProd) {
     return {
       title: `${config.title} — Coming Soon`,
+      robots: { index: false, follow: false },
+    };
+  }
+  // App copies of the game's pages: the game site is the indexed original
+  // (canonical URLs resolve against its metadataBase).
+  if (await getAppSurface()) {
+    return {
+      ...createRootLayoutMetadata(config),
       robots: { index: false, follow: false },
     };
   }
@@ -67,8 +89,9 @@ export default async function Layout(
       </html>
     );
   }
+  const appSurface = await getAppSurface();
   const RootLayout = config.db
-    ? createDbRootLayout(config)
-    : createRootLayout(config);
+    ? createDbRootLayout(config, { appSurface })
+    : createRootLayout(config, { appSurface });
   return RootLayout(props);
 }

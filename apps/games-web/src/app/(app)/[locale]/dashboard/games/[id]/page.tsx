@@ -1,5 +1,6 @@
-import { games, getUpdateMessages } from "@repo/lib";
+import { fetchVersion, games, getUpdateMessages } from "@repo/lib";
 import { notFound } from "next/navigation";
+import { getAppConfigBySlug } from "@/configs";
 import { GamePageClient } from "./client";
 
 export default async function GamePage({
@@ -14,9 +15,25 @@ export default async function GamePage({
     notFound();
   }
 
-  const updateMessages = await getUpdateMessages(game.discordId);
+  // The game's codex / guides open as app windows (/apps/<id>/db, …) — same
+  // availability rules as the site nav (database: config.db; guides: filters).
+  const siteConfig = getAppConfigBySlug(game.id);
+  const [updateMessages, version] = await Promise.all([
+    getUpdateMessages(game.discordId),
+    siteConfig ? fetchVersion(game.id).catch(() => null) : null,
+  ]);
+  const appPages = {
+    db: !!siteConfig?.db,
+    guides: !!version && version.data.filters.length > 0,
+  };
 
-  return <GamePageClient game={game} updateMessages={updateMessages} />;
+  return (
+    <GamePageClient
+      game={game}
+      updateMessages={updateMessages}
+      appPages={appPages}
+    />
+  );
 }
 
 // No generateStaticParams: the parent (app)/[locale]/layout.tsx calls

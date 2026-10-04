@@ -8,8 +8,9 @@ import {
 } from "@repo/lib";
 import { AdditionalContent } from "@repo/ui/content";
 import { getGlobalDictionary } from "@repo/ui/dicts";
-import { App } from "@repo/ui/thgl-app";
+import { App, AppPagesNav } from "@repo/ui/thgl-app";
 import { notFound } from "next/navigation";
+import { getAppConfigBySlug } from "@/configs";
 
 export function createAppPage(isOverlay: boolean) {
   return async function ({
@@ -36,6 +37,8 @@ export function createAppPage(isOverlay: boolean) {
     ]);
     const dict = { ...globalDict, ...dynamicDict } as Dict;
     const domain = getAppDomain(game);
+    // The game's codex / guides / tools open as app pages (/apps/<id>/db, …).
+    const siteConfig = getAppConfigBySlug(game.id);
     return (
       <App
         appConfig={{
@@ -75,6 +78,16 @@ export function createAppPage(isOverlay: boolean) {
           ) : null
         }
         additionalTooltip={game.additionalTooltip}
+        pagesNav={
+          siteConfig && !isOverlay ? (
+            <AppPagesNav
+              appConfig={siteConfig}
+              gameId={game.id}
+              hasMap
+              hasGuides={version.data.filters.length > 0}
+            />
+          ) : null
+        }
       />
     );
   };

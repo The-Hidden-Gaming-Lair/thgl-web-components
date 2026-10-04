@@ -29,6 +29,7 @@ import {
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { DidYouKnowCompanionApp } from "../(tips)";
+import { AppSurfaceRoot } from "../(thgl-app)/app-surface-root";
 
 export const rootLayoutViewport: Viewport = {
   themeColor: "black",
@@ -45,7 +46,13 @@ export function createRootLayoutMetadata(appConfig: AppConfig): Metadata {
   };
 }
 
-export function createRootLayout(appConfig: AppConfig) {
+export function createRootLayout(
+  appConfig: AppConfig,
+  options?: {
+    /** Render inside the companion app (app.th.gl/apps/<gameId>/…) instead of the website. */
+    appSurface?: { gameId: string };
+  },
+) {
   return async function RootLayout({
     children,
     params,
@@ -90,6 +97,21 @@ export function createRootLayout(appConfig: AppConfig) {
     for (const group of version.data.filters) {
       addName(group.group);
       for (const value of group.values) addName(value.id);
+    }
+
+    if (options?.appSurface) {
+      return (
+        <AppSurfaceRoot
+          appConfig={appConfig}
+          gameId={options.appSurface.gameId}
+          locale={locale}
+          dict={dict}
+          hasMap={hasMap}
+          hasGuides
+        >
+          {children}
+        </AppSurfaceRoot>
+      );
     }
 
     return (

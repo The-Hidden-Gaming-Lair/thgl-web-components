@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { localizePath } from "@repo/lib";
+import { gameApiUrl, localizePath } from "@repo/lib";
 import { Search, X } from "lucide-react";
 
 type IconSprite = {
@@ -34,7 +34,7 @@ function loadGroups(src: string): Promise<SidebarGroup[]> {
   if (cached) return Promise.resolve(cached);
   const pending = inflight.get(src);
   if (pending) return pending;
-  const p = fetch(src)
+  const p = fetch(gameApiUrl(src))
     .then((r) => (r.ok ? r.json() : { groups: [] }))
     .then((d: { groups?: SidebarGroup[] }) => {
       const groups = d.groups ?? [];

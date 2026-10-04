@@ -31,6 +31,8 @@ import {
   XCircle,
   Loader2,
   Clock,
+  BookOpen,
+  ScrollText,
 } from "lucide-react";
 
 function formatAnchorId(dateStr: string) {
@@ -63,9 +65,12 @@ function formatTime(timestamp: number) {
 export function GamePageClient({
   game,
   updateMessages,
+  appPages,
 }: {
   game: Game;
   updateMessages: DiscordMessageData[];
+  /** Which of the game's pages exist as app windows (/apps/<id>/db, …). */
+  appPages: { db: boolean; guides: boolean };
 }) {
   const locale = useLocale();
   const t = useT();
@@ -129,6 +134,16 @@ export function GamePageClient({
     );
   };
 
+  // The game's codex / guides inside the app: a desktop window on
+  // /apps/<id>/<page> (app chrome + back button, see @repo/lib app-surface.ts).
+  const handleOpenPage = (page: "db" | "guides", label: string) => {
+    if (!game.companion?.desktopURL) return;
+    openDesktopWebView(
+      localizePath(`${game.companion.desktopURL}/${page}`, locale),
+      `${game.title} ${label}`,
+    );
+  };
+
   return (
     <ScrollArea className="h-full w-full">
       <div className="p-6 pb-20 space-y-6 max-w-4xl">
@@ -189,6 +204,33 @@ export function GamePageClient({
             >
               <Monitor className="h-4 w-4" />
               {t("game.openDesktop")}
+            </Button>
+          )}
+
+          {game.companion?.desktopURL && appPages.db && (
+            <Button
+              variant="outline"
+              onClick={() => handleOpenPage("db", t("database"))}
+              className="gap-2"
+            >
+              <BookOpen className="h-4 w-4" />
+              {t("database")}
+            </Button>
+          )}
+
+          {game.companion?.desktopURL && appPages.guides && (
+            <Button
+              variant="outline"
+              onClick={() =>
+                handleOpenPage(
+                  "guides",
+                  t("nav.guides", { fallback: "Guides" }),
+                )
+              }
+              className="gap-2"
+            >
+              <ScrollText className="h-4 w-4" />
+              {t("nav.guides", { fallback: "Guides" })}
             </Button>
           )}
 

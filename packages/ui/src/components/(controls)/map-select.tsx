@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "../ui/command";
 import { useState, type JSX } from "react";
-import { cn, localizePath, type TilesConfig } from "@repo/lib";
+import { cn, localizePath, useHasMounted, type TilesConfig } from "@repo/lib";
 import { ScrollArea } from "../ui/scroll-area";
 import { MapSettingsPopover } from "./map-settings-popover";
 
@@ -30,6 +30,7 @@ export function MapSelect({
   const setMapName = useUserStore((state) => state.setMapName);
   const t = useT();
   const locale = useLocale();
+  const mounted = useHasMounted();
 
   // When a layered interior is active, the MAIN selector still reflects the
   // parent surface (e.g. "Overworld") — the interior is chosen in the separate
@@ -55,8 +56,15 @@ export function MapSelect({
                 can differ from the SSR-rendered value (the store is a
                 module-level singleton reused across SSR requests). The client
                 value is the correct one, so suppress the expected text-only
-                hydration mismatch here rather than flashing a placeholder. */}
-            <span className="truncate font-medium" suppressHydrationWarning>
+                hydration mismatch here rather than flashing a placeholder.
+                A suppressed mismatch is never patched, so remount the label
+                once mounted (app map links pick the map via ?mapTitle=, which
+                the server can't see). */}
+            <span
+              key={mounted ? "client" : "server"}
+              className="truncate font-medium"
+              suppressHydrationWarning
+            >
               {t(selectedTopMap) || selectedTopMap}
             </span>
             <ChevronDown

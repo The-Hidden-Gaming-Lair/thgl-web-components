@@ -57,7 +57,7 @@ import { THGLMapAds } from "../(ads)";
 import { AdditionalTooltipType } from "../(content)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { setAlertToastOverlay } from "../(controls)/alert-toast";
 
 // Pre-release ("preview") gating lives in @repo/lib: PREVIEW_RELEASE_APPS gates web + companion;
@@ -79,6 +79,7 @@ export function App({
   version,
   isOverlay,
   additionalTooltip,
+  pagesNav,
 }: {
   appConfig: THGLAppConfig;
   dict: Dict;
@@ -94,6 +95,8 @@ export function App({
   version: Version;
   isOverlay?: boolean;
   additionalTooltip?: AdditionalTooltipType;
+  /** Database / Guides / Tools tabs (AppPagesNav) for the desktop window's title bar. */
+  pagesNav?: React.ReactNode;
 }) {
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
   const overlayFullscreen = useSettingsStore(
@@ -108,6 +111,13 @@ export function App({
   const windowMode = useLiveState((state) => state.windowMode);
   const setWindowMode = useLiveState((state) => state.setWindowMode);
   useEffect(() => setAlertToastOverlay(Boolean(isOverlay)), [isOverlay]);
+  // A map link opened from the app's codex arrives as /apps/<id>?id=<nodeId>
+  // (proxy.ts): select + center that marker like the website's marker URLs.
+  const [markerSlug, setMarkerSlug] = useState<string>();
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("id");
+    if (id) setMarkerSlug(id);
+  }, []);
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();
@@ -317,6 +327,7 @@ export function App({
                     )}
                   </TooltipContent>
                 </Tooltip>
+                {!isOverlay && pagesNav}
               </AppHeader>
             )}
             {/* Companion-app webview surface — the 2026-07-27 outage hit
@@ -372,6 +383,7 @@ export function App({
                       <>
                         <MarkerPanel
                           appName={appConfig.name}
+                          markerSlug={markerSlug}
                           additionalTooltip={additionalTooltip}
                           coordinateCopyFormat={
                             appConfig.markerOptions.coordinateCopyFormat

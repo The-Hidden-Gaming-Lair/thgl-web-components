@@ -69,5 +69,25 @@ interface MyWindow extends Window {
 declare let window: MyWindow;
 
 export function getNitroAds(): NitroAds {
-  return window.nitroAds;
+  // Website pages shown inside the companion app (app-surface-root.tsx) keep
+  // their ad slots but report as app inventory: platform "thgl-app" (the
+  // primary web/app discriminator in NitroPay reporting), view "content".
+  const nitroAds = window.nitroAds;
+  if (nitroAds && document.documentElement.dataset.thglSurface === "app") {
+    return new Proxy(nitroAds, {
+      get(target, prop, receiver) {
+        if (prop !== "createAd") return Reflect.get(target, prop, receiver);
+        return (id: string, options: NitroAdOptions) =>
+          target.createAd(id, {
+            ...options,
+            targeting: {
+              ...options.targeting,
+              platform: "thgl-app",
+              view: "content",
+            },
+          });
+      },
+    });
+  }
+  return nitroAds;
 }

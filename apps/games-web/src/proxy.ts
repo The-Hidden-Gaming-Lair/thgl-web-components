@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
+  APP_SURFACE_GAME_HEADER,
+  APP_SURFACE_HEADER,
   FORGE_API_PROXY_PATH,
   FORGE_CDN_PROXY_PATH,
   getForgeProxyTarget,
+  isAppContentPath,
+  parseAppPath,
+  toAppSurfacePath,
 } from "@repo/lib";
-import { getAppConfigByHost } from "./configs";
+import { getAppConfigByHost, getAppConfigBySlug } from "./configs";
 
 /**
  * Hostname-based multi-tenancy.
@@ -290,10 +295,99 @@ export function proxy(req: NextRequest) {
     }
   }
 
+  // Companion App content surface (see @repo/lib app-surface.ts): the game's
+  // codex / guides / tools inside the app WebView. /[locale/]apps/<id>/<page>
+  // renders the game tenant's /<page> route with the app chrome; the browser
+  // URL keeps the /apps/<id> prefix.
+  if (config.name === "thgl-app") {
+    const appPath = parseAppPath(path);
+    if (appPath && isAppContentPath(path)) {
+      const gameConfig = getAppConfigBySlug(appPath.gameId);
+      if (gameConfig) {
+        // The app map lives at /apps/<id> (it has no /maps routes): send map
+        // links there, the map title + marker id ride along as query params.
+        if (/^\/maps(\/|$)/.test(appPath.rest)) {
+          const title = appPath.rest.split("/")[2];
+          if (title) url.searchParams.set("mapTitle", safeDecode(title));
+          url.pathname = `${appPath.localePrefix}/apps/${appPath.gameId}`;
+          return NextResponse.redirect(url, 307);
+        }
+        url.pathname = `${appPath.localePrefix}${appPath.rest}`;
+        const headers = new Headers(req.headers);
+        headers.set("x-thgl-app", gameConfig.name);
+        headers.set(APP_SURFACE_HEADER, "app");
+        headers.set(APP_SURFACE_GAME_HEADER, appPath.gameId);
+        // App copies of the game's pages stay out of search results (pages
+        // may set their own `robots` metadata over the layout's noindex).
+        return NextResponse.rewrite(url, {
+          request: { headers },
+          headers: { "X-Robots-Tag": "noindex" },
+        });
+      }
+    }
+    // Safety net for a game link that escaped the /apps/<id> prefix (a
+    // router.push in page code, a server redirect): the app tenant has no such
+    // route, so re-prefix it from the page it was opened on. Never cacheable:
+    // the target depends on the Referer, not the URL.
+    if (!appPath) {
+      const target = escapedAppLinkTarget(path, req.headers.get("referer"));
+      if (target) {
+        url.pathname = target;
+        const res = NextResponse.redirect(url, 307);
+        res.headers.set("Cache-Control", "private, no-store");
+        return res;
+      }
+    }
+  }
+
   const headers = new Headers(req.headers);
   headers.set("x-thgl-app", config.name);
 
   return NextResponse.next({ request: { headers } });
+}
+
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+/**
+ * `/db/x` requested from an app content page (`/apps/<id>/…`) → `/apps/<id>/db/x`.
+ * Only paths whose first segment is a page of that game (db, guides, maps, its
+ * internalLinks tools) are re-prefixed; everything else falls through.
+ */
+function escapedAppLinkTarget(
+  path: string,
+  referer: string | null,
+): string | null {
+  if (!referer) return null;
+  let refererPath: string;
+  try {
+    refererPath = new URL(referer).pathname;
+  } catch {
+    return null;
+  }
+  const from = parseAppPath(refererPath);
+  if (!from) return null;
+  const gameConfig = getAppConfigBySlug(from.gameId);
+  if (!gameConfig) return null;
+  const target = toAppSurfacePath(
+    path,
+    from.gameId,
+    gameConfig.supportedLocales,
+  );
+  const parsed = parseAppPath(target);
+  const page = parsed?.rest.split("/")[1];
+  if (!parsed || !page) return null;
+  const pages = new Set(["db", "guides", "maps"]);
+  for (const link of gameConfig.internalLinks ?? []) {
+    const first = link.href.split(/[/?#]/)[1];
+    if (first) pages.add(first);
+  }
+  return pages.has(page) ? target : null;
 }
 
 /**

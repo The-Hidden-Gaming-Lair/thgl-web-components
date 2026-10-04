@@ -5,9 +5,11 @@ import { BookOpen } from "lucide-react";
 import {
   games,
   getCurrentGameId,
+  isAppOverlayPath,
   isThglApp,
   localizePath,
   TH_GL_URL,
+  toAppSurfacePath,
   useHasMounted,
 } from "@repo/lib";
 import { openInBrowser } from "@repo/lib/thgl-app";
@@ -19,12 +21,31 @@ import { useLocale, useT } from "../(providers)";
 // (per-instance entries — landmarks) or the type id (per-type entries — a bestiary species); the
 // caller passes whichever it is as `entryId`. Generic across all games.
 //
-// Inside the companion app (app.th.gl/apps/<id>, a WebView with no back button) the page IS the
-// map: a client-side route change would replace it with the codex page, and the app's WebView
-// guards cannot catch a Next <Link> click (it fires no navigation event). So in the app the entry
-// opens on the game's public site in the default browser via the "openInBrowser" action. Decided
-// after mount only — `isThglApp` is browser-only, and deciding on it during the first render made
-// the client disagree with the server HTML (the account-gate hydration lesson, resolveAccountGate).
+// Inside the companion app the codex opens IN the app, under app.th.gl/apps/<id>/db/… (the app's
+// content pages with their own title bar + back button, see @repo/lib app-surface.ts) — a bare
+// /db/… path would 404 on the app tenant. The in-game overlay stays map-only: there the entry opens
+// on the game's public site in the default browser ("openInBrowser"). Decided after mount only —
+// `isThglApp` is browser-only, and deciding on it during the first render made the client disagree
+// with the server HTML (the account-gate hydration lesson, resolveAccountGate).
+export type AppLinkMode =
+  | { kind: "app"; gameId: string }
+  | { kind: "browser"; site: string }
+  | null;
+
+/** How internal game links behave here: in-app (/apps/<id>/…), via the browser, or plain web (null). */
+export function useAppLinkMode(): AppLinkMode {
+  const mounted = useHasMounted();
+  if (!mounted || !isThglApp) return null;
+  const gameId = getCurrentGameId();
+  if (gameId && !isAppOverlayPath(window.location.pathname)) {
+    return { kind: "app", gameId };
+  }
+  return {
+    kind: "browser",
+    site: games.find((g) => g.id === gameId)?.web ?? TH_GL_URL,
+  };
+}
+
 export function DbEntryLink({
   section,
   entryId,
@@ -34,7 +55,7 @@ export function DbEntryLink({
 }) {
   const locale = useLocale();
   const t = useT();
-  const mounted = useHasMounted();
+  const mode = useAppLinkMode();
   if (!section || !entryId) return null;
   const path = localizePath(
     `/db/${section}/${encodeURIComponent(entryId)}`,
@@ -48,10 +69,8 @@ export function DbEntryLink({
       {t("db.viewInCodex", { fallback: "View in Codex" })}
     </>
   );
-  if (mounted && isThglApp) {
-    const gameId = getCurrentGameId();
-    const site = games.find((g) => g.id === gameId)?.web ?? TH_GL_URL;
-    const href = `${site}${path}`;
+  if (mode?.kind === "browser") {
+    const href = `${mode.site}${path}`;
     return (
       <a
         href={href}
@@ -70,7 +89,11 @@ export function DbEntryLink({
   }
   return (
     <Link
-      href={path}
+      href={
+        mode?.kind === "app"
+          ? toAppSurfacePath(path, mode.gameId, [locale])
+          : path
+      }
       prefetch={false}
       onClick={(e) => e.stopPropagation()}
       className={className}
