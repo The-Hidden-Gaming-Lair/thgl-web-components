@@ -4,6 +4,7 @@ import { View } from "./search-params";
 import { FiltersConfig, GlobalFiltersConfig } from "./config";
 import { DrawingsAndNodes } from "./settings";
 import { getAppIdFromPathname } from "./games";
+import { isEmbedPath } from "./embed";
 
 // Which data source the sidebar search results read from: "historical" =
 // the static/accumulated spawn locations, "live" = currently tracked live
@@ -108,6 +109,9 @@ const sanitizeViewByMap = (
 
 const getStorageName = () => {
   if (typeof window !== "undefined") {
+    // Embedded maps (other sites' iframes) never touch the visitor's own
+    // map state: same-site iframes would otherwise share this storage.
+    if (isEmbedPath(window.location.pathname)) return "thgl-embed-coordinates";
     // Locale-aware: /{locale}/apps/<id> must map to the SAME storage as
     // /apps/<id>, otherwise non-English languages share the generic fallback
     // while English gets the per-app storage (state "changes" with locale).

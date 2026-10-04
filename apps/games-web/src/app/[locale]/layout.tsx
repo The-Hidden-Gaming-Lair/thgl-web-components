@@ -4,8 +4,13 @@ import "@repo/ui/styles/globals.css";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { APP_SURFACE_GAME_HEADER, APP_SURFACE_HEADER } from "@repo/lib";
 import {
+  APP_SURFACE_GAME_HEADER,
+  APP_SURFACE_HEADER,
+  EMBED_SURFACE,
+} from "@repo/lib";
+import {
+  createEmbedRootLayout,
   createRootLayout,
   createRootLayoutMetadata,
   rootLayoutViewport,
@@ -30,6 +35,12 @@ async function getAppSurface(): Promise<{ gameId: string } | undefined> {
   return gameId ? { gameId } : undefined;
 }
 
+/** Embedded map (`<game>.th.gl/embed/maps/…` in another site's iframe), tagged by proxy.ts. */
+async function isEmbedSurface(): Promise<boolean> {
+  const h = await headers();
+  return h.get(APP_SURFACE_HEADER) === EMBED_SURFACE;
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getAppConfig();
   if (config.name === "thgl-app") return {};
@@ -42,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   // App copies of the game's pages: the game site is the indexed original
   // (canonical URLs resolve against its metadataBase).
-  if (await getAppSurface()) {
+  if ((await getAppSurface()) || (await isEmbedSurface())) {
     return {
       ...createRootLayoutMetadata(config),
       robots: { index: false, follow: false },
@@ -88,6 +99,9 @@ export default async function Layout(
         </body>
       </html>
     );
+  }
+  if (await isEmbedSurface()) {
+    return createEmbedRootLayout(config)(props);
   }
   const appSurface = await getAppSurface();
   const RootLayout = config.db

@@ -16,6 +16,7 @@ import { useT, useUserStore } from "../(providers)";
 import { CommunityFilters } from "./community-filters";
 import { AddSharedFilter } from "../(interactive-map)/add-shared-filter";
 import { UploadFilter } from "../(interactive-map)/upload-filter";
+import { EmbedMapDialog } from "../(interactive-map)/embed-map-dialog";
 import {
   Collapsible,
   CollapsibleContent,
@@ -26,6 +27,7 @@ import {
   ChevronRight,
   Clipboard,
   Cloud,
+  Code,
   CloudOff,
   CloudUpload,
   Copy,
@@ -305,6 +307,7 @@ function FilterRow({
   // The blob endpoint is 410-Gone now, so these are effectively local-only.
   const isLegacy = !!myFilter.url && !myFilter.id;
   const displayName = myFilter.name.replace(/my_\d+_/, "");
+  const [embedCode, setEmbedCode] = useState<string | null>(null);
   // Same marker stats the predefined-filter popover shows, for custom filters.
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
@@ -403,14 +406,15 @@ function FilterRow({
     }
   }
 
-  async function copyShareCode() {
+  /** The filter's share code, generated on first use (null + toast on failure). */
+  async function ensureShareCode(): Promise<string | null> {
     if (!myFilter.id) {
       toast.error(
         t("myFilters.notSyncedShort", {
           fallback: "Filter not yet synced to your account",
         }),
       );
-      return;
+      return null;
     }
     let code = myFilter.shareCode;
     if (!code) {
@@ -432,15 +436,21 @@ function FilterRow({
                 fallback: "Could not generate share code",
               });
         toast.error(msg);
-        return;
+        return null;
       }
     }
     if (!code) {
       toast.error(
         t("myFilters.noShareCode", { fallback: "No share code available" }),
       );
-      return;
+      return null;
     }
+    return code;
+  }
+
+  async function copyShareCode() {
+    const code = await ensureShareCode();
+    if (!code) return;
     await navigator.clipboard.writeText(code);
     toast(
       t("myFilters.shareCodeCopied", {
@@ -539,6 +549,19 @@ function FilterRow({
                         })}
                   </span>
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={async () => {
+                    const code = await ensureShareCode();
+                    if (code) setEmbedCode(code);
+                  }}
+                >
+                  <Code className="mr-2 h-4 w-4" />
+                  <span>
+                    {t("myFilters.embed", {
+                      fallback: "Embed on a website",
+                    })}
+                  </span>
+                </DropdownMenuItem>
                 {myFilter.shareCode && (
                   <DropdownMenuItem
                     onClick={() => callShare({ revokeCode: true })}
@@ -628,6 +651,13 @@ function FilterRow({
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+      {embedCode && (
+        <EmbedMapDialog
+          open
+          onClose={() => setEmbedCode(null)}
+          share={{ code: embedCode, name: displayName }}
+        />
+      )}
     </div>
   );
 }

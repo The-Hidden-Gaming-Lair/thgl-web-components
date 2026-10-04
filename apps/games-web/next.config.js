@@ -438,6 +438,23 @@ const nextConfig = (phase) => ({
         source: "/games/thgl-app/THGL_Installer.exe",
         headers: updateGateCache,
       },
+      // Third-party codex-tooltip script (public/tooltips.js). Stable URL that
+      // other sites embed, so it can't be immutable: browsers keep it a few
+      // hours, the edge a day (deploy purges it), SWR covers the refresh.
+      {
+        source: "/tooltips.js",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=14400, s-maxage=86400, stale-while-revalidate=86400",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=86400",
+          },
+        ],
+      },
       { source: "/dashboard/:path*", headers: shortCache },
       { source: "/:locale/dashboard/:path*", headers: shortCache },
       {

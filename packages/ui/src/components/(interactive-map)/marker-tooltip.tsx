@@ -434,8 +434,9 @@ function SingleItemTooltip({
         <DbEntryLink section={item.dbSection} entryId={item.dbEntryId} />
       )}
 
-      {/* Private node actions */}
-      {item.isPrivate && (
+      {/* Private node actions (not on simple maps / embeds: a shared filter
+          there isn't the visitor's to edit) */}
+      {item.isPrivate && !hideComments && (
         <PrivateNodeActions
           id={getDiscoveryId(item, latLng)}
           onClose={onClose}

@@ -10,6 +10,13 @@ export function Footer() {
           >
             Service Status
           </a>
+          {" · "}
+          <a
+            href="/developers"
+            className="text-gray-400 hover:text-gray-200 hover:underline"
+          >
+            Embeds &amp; Tooltips
+          </a>
         </p>
         <p className="text-sm text-gray-400">
           Built by{" "}

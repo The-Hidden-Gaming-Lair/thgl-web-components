@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
+  Code,
   Home,
   Locate,
   MapPin,
@@ -19,6 +20,7 @@ import {
 } from "@repo/lib";
 import type { WebMap } from "@repo/lib/web-map";
 import { useMap } from "../(interactive-map)/store";
+import { EmbedMapDialog } from "../(interactive-map)/embed-map-dialog";
 import { useCoordinatesOptional } from "../(providers)";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -331,7 +333,12 @@ export function MapControls({
   // Optional: MapControls also renders on the guide-page mini-map (SimpleWebMap)
   // where there is no CoordinatesProvider. Without a provider the in-game go-to
   // toggle simply doesn't appear.
-  const inGameCoordinates = useCoordinatesOptional()?.inGameCoordinates;
+  const coordinates = useCoordinatesOptional();
+  const inGameCoordinates = coordinates?.inGameCoordinates;
+  // "Embed this map" needs the full map context (filters, user store); the
+  // standalone SimpleWebMap and the in-game overlay don't offer it.
+  const canEmbed = !!coordinates && !isOverlay && !externalMap;
+  const [embedOpen, setEmbedOpen] = useState(false);
   const [useInGameGoto, setUseInGameGoto] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem("thgl:goto-ingame") === "1";
@@ -564,6 +571,21 @@ export function MapControls({
               {is3D ? "Switch to 2D" : "Switch to 3D"}
             </button>
 
+            {/* Embed on another website */}
+            {canEmbed && (
+              <button
+                type="button"
+                onClick={() => {
+                  setOverflowOpen(false);
+                  setEmbedOpen(true);
+                }}
+                className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
+                <Code className="h-4 w-4" />
+                Embed this map
+              </button>
+            )}
+
             {/* Reset view */}
             <button
               type="button"
@@ -655,6 +677,9 @@ export function MapControls({
           </div>
         </PopoverContent>
       </Popover>
+      {canEmbed && (
+        <EmbedMapDialog open={embedOpen} onClose={() => setEmbedOpen(false)} />
+      )}
     </div>
   );
 }

@@ -1,4 +1,10 @@
-import { games, type AppConfig } from "@repo/lib";
+import { headers } from "next/headers";
+import {
+  APP_SURFACE_HEADER,
+  EMBED_SURFACE,
+  games,
+  type AppConfig,
+} from "@repo/lib";
 import { createMapPage } from "@repo/ui/apps";
 import { AdditionalContent } from "@repo/ui/content";
 import { getAppConfig } from "./get-app-config";
@@ -47,6 +53,8 @@ type MapPageProps = Parameters<ReturnType<typeof createMapPage>>[0];
 export function multiTenantMapPage() {
   return async (props: MapPageProps) => {
     const config = await getAppConfig();
+    // proxy.ts tags /embed/maps/<Map> requests (see @repo/lib embed.ts).
+    const embed = (await headers()).get(APP_SURFACE_HEADER) === EMBED_SURFACE;
     const {
       additionalFilters,
       additionalComponents,
@@ -59,6 +67,7 @@ export function multiTenantMapPage() {
       additionalTooltip,
       additionalComponents,
       filterBarExtras,
+      { embed },
     );
     return Page(props);
   };

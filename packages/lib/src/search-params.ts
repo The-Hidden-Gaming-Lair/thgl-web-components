@@ -12,7 +12,7 @@ export function searchParamsToView(
 ): View {
   const view: View = {};
   try {
-    const { center, zoom, map, filters } = searchParams;
+    const { center, zoom, map, filters, types, hide } = searchParams;
     if (typeof map === "string") {
       view.map = map;
     }
@@ -42,6 +42,17 @@ export function searchParamsToView(
       } catch (e) {
         console.error(e);
       }
+    }
+    // Stable alternative to the index-encoded `filters` (embeds): plain filter
+    // value ids, comma-separated. Unknown ids are dropped.
+    if (typeof types === "string" && types) {
+      view.filters = types
+        .split(",")
+        .filter((id) => possibleFilters.includes(id));
+    } else if (typeof hide === "string" && hide) {
+      // The inverse (shorter when most types are shown): all except these.
+      const hidden = new Set(hide.split(","));
+      view.filters = possibleFilters.filter((id) => !hidden.has(id));
     }
   } catch (e) {}
   return view;

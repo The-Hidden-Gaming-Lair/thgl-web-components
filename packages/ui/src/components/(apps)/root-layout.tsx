@@ -46,6 +46,52 @@ export function createRootLayoutMetadata(appConfig: AppConfig): Metadata {
   };
 }
 
+/**
+ * Root layout of an embedded map (`<game>.th.gl/embed/maps/…`, see @repo/lib
+ * embed.ts): just the page, no header, footer, tips or ads. The map page adds
+ * its own "open the full map" link. Plausible counts embed loads under
+ * `platform: "embed"` (its referrer is the embedding page).
+ */
+export function createEmbedRootLayout(appConfig: AppConfig) {
+  return async function EmbedRootLayout({
+    children,
+    params,
+  }: {
+    children: React.ReactNode;
+    params: Promise<{ locale?: string }>;
+  }) {
+    const { locale = DEFAULT_LOCALE } = await params;
+    if (!isValidLocale(locale)) {
+      notFound();
+    }
+    const dict = await getStaticDictionary(appConfig.name, locale);
+    return (
+      <html lang={locale}>
+        <body
+          className={cn(
+            "font-sans dark min-h-dscreen bg-black text-white antialiased",
+            "inter-font-sans",
+          )}
+        >
+          <I18NProvider dict={dict} locale={locale}>
+            <TooltipProvider>
+              <main>{children}</main>
+            </TooltipProvider>
+          </I18NProvider>
+          <PlausibleTracker
+            apiHost="https://a.th.gl"
+            domain="thgl"
+            app={appConfig.name}
+            platform="embed"
+            locale={locale}
+          />
+          <Toaster />
+        </body>
+      </html>
+    );
+  };
+}
+
 export function createRootLayout(
   appConfig: AppConfig,
   options?: {

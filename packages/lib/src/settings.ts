@@ -48,6 +48,7 @@ import {
 } from "./filter-tombstones";
 import { bindPresetToMap, dropPresetBindings } from "./filter-presets";
 import { getAppIdFromPathname, getCurrentGameId } from "./games";
+import { isEmbedPath } from "./embed";
 
 export type LiveMode = "static" | "live" | "combined";
 /** Which map window a rotate-with-player toggle addresses. */
@@ -790,6 +791,9 @@ export interface SettingsStore extends ProfileSettings, ProfileActions {
 
 const getStorageName = () => {
   if (typeof window !== "undefined") {
+    // Embedded maps (other sites' iframes) never touch the visitor's own
+    // map state: same-site iframes would otherwise share this storage.
+    if (isEmbedPath(window.location.pathname)) return "thgl-embed-settings";
     // Locale-aware: /{locale}/apps/<id> must map to the SAME storage as
     // /apps/<id>, otherwise non-English languages share the generic fallback
     // while English gets the per-app storage (settings "change" with locale).

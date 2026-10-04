@@ -114,6 +114,12 @@ export function SiteFooter({
           >
             {t("privacy_policy")}
           </ExternalAnchor>
+          <ExternalAnchor
+            href="https://www.th.gl/developers"
+            className="hover:text-foreground"
+          >
+            {t("footer.embeds", { fallback: "Embeds & Tooltips" })}
+          </ExternalAnchor>
           <div className="[&>button]:inline [&>button]:w-auto [&>button]:p-0 [&>button]:hover:bg-transparent">
             <ScriptLoader>
               <ConsentLink />

@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   APP_SURFACE_GAME_HEADER,
   APP_SURFACE_HEADER,
+  EMBED_SURFACE,
   FORGE_API_PROXY_PATH,
   FORGE_CDN_PROXY_PATH,
   getForgeProxyTarget,
   isAppContentPath,
   parseAppPath,
+  parseEmbedPath,
   toAppSurfacePath,
 } from "@repo/lib";
 import { getAppConfigByHost, getAppConfigBySlug } from "./configs";
@@ -248,6 +250,8 @@ export function proxy(req: NextRequest) {
     config.name === "thgl-web" &&
     !path.startsWith("/www/") &&
     !path.startsWith("/games/thgl-web/") &&
+    path !== "/tooltips.js" && // Public codex-tooltip embed script
+    // (public/tooltips.js) — third-party sites load www.th.gl/tooltips.js.
     path !== "/favicon.ico" && // Shared root favicon (app/favicon.ico); a
     // nested app/www/favicon.ico is not a served route, so rewriting here 404s.
     !path.startsWith("/api/filters") && // Global API, lives at app/api/filters
@@ -338,6 +342,21 @@ export function proxy(req: NextRequest) {
         return res;
       }
     }
+  }
+
+  // Embeddable maps (see @repo/lib embed.ts): /[locale/]embed/maps/<Map> renders
+  // the tenant's /maps/<Map> route without the site chrome. The browser URL
+  // keeps the /embed prefix; the copies stay out of search results.
+  const embedPath = parseEmbedPath(path, config.supportedLocales);
+  if (embedPath) {
+    url.pathname = `${embedPath.localePrefix}${embedPath.mapPath}`;
+    const headers = new Headers(req.headers);
+    headers.set("x-thgl-app", config.name);
+    headers.set(APP_SURFACE_HEADER, EMBED_SURFACE);
+    return NextResponse.rewrite(url, {
+      request: { headers },
+      headers: { "X-Robots-Tag": "noindex" },
+    });
   }
 
   const headers = new Headers(req.headers);

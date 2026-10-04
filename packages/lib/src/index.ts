@@ -6,6 +6,7 @@ export * from "./config";
 export * from "./coordinates";
 export * from "./db-map-links";
 export * from "./discord";
+export * from "./embed";
 export * from "./dom";
 export * from "./env";
 export * from "./files";

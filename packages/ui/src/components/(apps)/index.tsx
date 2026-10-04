@@ -19,4 +19,5 @@ export {
   rootLayoutViewport,
   createRootLayoutMetadata,
   createRootLayout,
+  createEmbedRootLayout,
 } from "./root-layout";

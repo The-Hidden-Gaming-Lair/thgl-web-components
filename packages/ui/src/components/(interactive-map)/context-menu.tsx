@@ -6,7 +6,8 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 import { ShareMapView } from "./share-map-view";
-import { Forward } from "lucide-react";
+import { EmbedMapDialog } from "./embed-map-dialog";
+import { Code, Forward } from "lucide-react";
 import { useMap } from "./store";
 import { useSettingsStore } from "@repo/lib";
 
@@ -24,6 +25,7 @@ export function ContextMenu({
   domain: string;
 }) {
   const [openShowMapView, setOpenShowMapView] = useState(false);
+  const [openEmbed, setOpenEmbed] = useState(false);
   const map = useMap();
   const mapContainer = map?.getContainer()?.parentElement;
   const setTempPrivateNode = useSettingsStore(
@@ -72,6 +74,13 @@ export function ContextMenu({
             >
               <Forward className="mr-2 h-4 w-4" /> Share Map View URL
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setOpenEmbed(true);
+              }}
+            >
+              <Code className="mr-2 h-4 w-4" /> Embed Map on a Website
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
@@ -80,6 +89,11 @@ export function ContextMenu({
         open={openShowMapView}
         onClose={() => setOpenShowMapView(false)}
         mapName={mapName}
+        center={center}
+      />
+      <EmbedMapDialog
+        open={openEmbed}
+        onClose={() => setOpenEmbed(false)}
         center={center}
       />
     </>

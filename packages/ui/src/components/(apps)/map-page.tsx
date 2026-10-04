@@ -14,6 +14,7 @@ import {
 import { CoordinatesProvider, I18NProvider } from "../(providers)";
 import { HeaderOffset, PageTitle } from "../(header)";
 import { FullMapDynamic } from "../(dynamic)/full-map-dynamic";
+import { EmbedMap } from "../(dynamic)/embed-map";
 import { MarkersSearch } from "../(controls)/markers-search";
 import { FloatingAds } from "../(ads)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
@@ -201,7 +202,12 @@ export function createMapPage(
   additionalTooltip?: AdditionalTooltipType,
   additionalComponents?: ReactNode,
   filterBarExtras?: ReactNode,
+  options?: {
+    /** Embedded map (`/embed/maps/<Map>`, see @repo/lib embed.ts): map only. */
+    embed?: boolean;
+  },
 ) {
+  const embed = options?.embed ?? false;
   return async function Map({ params, searchParams }: MapPageProps) {
     const {
       locale = DEFAULT_LOCALE,
@@ -243,7 +249,7 @@ export function createMapPage(
       slugsChanged
     ) {
       let dest = localizePath(
-        `/maps/${encodeURIComponent(canonical.name)}`,
+        `${embed ? "/embed" : ""}/maps/${encodeURIComponent(canonical.name)}`,
         locale,
       );
       if (typeName) {
@@ -304,6 +310,47 @@ export function createMapPage(
       typeName && markerId
         ? `${baseMapUrl}/${encodeURIComponent(typeName)}/${encodeURIComponent(markerId)}`
         : undefined;
+
+    if (embed) {
+      const query = new URLSearchParams();
+      for (const key of ["center", "zoom", "types", "hide", "share"]) {
+        const value = sp[key];
+        if (typeof value === "string") query.set(key, value);
+      }
+      const qs = query.toString();
+      const fullMapUrl = qs ? `${baseMapUrl}?${qs}` : baseMapUrl;
+      return (
+        <I18NProvider dict={dict} locale={locale}>
+          <PreviewReleaseGuard appName={appConfig.name} title={appConfig.title}>
+            <CoordinatesProvider
+              appName={appConfig.name}
+              staticDrawings={version.data.drawings}
+              filters={version.data.filters}
+              mapNames={Object.keys(version.data.tiles)}
+              tilesConfig={version.data.tiles}
+              useCbor
+              regions={version.data.regions}
+              typesIdMap={{}}
+              nodesPaths={version.more.nodes}
+              globalFilters={version.data.globalFilters}
+              map={mapName}
+              clusterPrecision={appConfig.markerOptions?.clusterPrecision}
+              inGameCoordinates={appConfig.game?.inGameCoordinates}
+            >
+              <PageTitle title={mapTitle} />
+              <EmbedMap
+                appConfig={appConfig}
+                tilesConfig={version.data.tiles}
+                iconsPath={version.more.icons}
+                additionalTooltip={additionalTooltip}
+                fullMapUrl={fullMapUrl}
+                title={`${appConfig.title} ${t(mapName)}`}
+              />
+            </CoordinatesProvider>
+          </PreviewReleaseGuard>
+        </I18NProvider>
+      );
+    }
 
     return (
       <>
