@@ -247,13 +247,16 @@ type Shared = {
   locale: string;
 };
 
-function PalIcon({
+/** What the shared Pal icon / picker need (also used by the IV calculator). */
+export type PickerPal = Pick<BreedingPalInfo, "id" | "name" | "icon" | "dex">;
+
+export function PalIcon({
   pal,
   size = 40,
   appName,
   iconsHash,
 }: {
-  pal?: BreedingPalInfo;
+  pal?: PickerPal;
   size?: number;
   appName: string;
   iconsHash?: string;
@@ -304,7 +307,7 @@ function PalChip({
   );
 }
 
-function PalPicker({
+export function PalPicker({
   value,
   onChange,
   label,
@@ -317,7 +320,9 @@ function PalPicker({
   value?: string;
   onChange: (id: string) => void;
   label: string;
-} & Pick<Shared, "pals" | "byId" | "t" | "appName" | "iconsHash">) {
+  pals: PickerPal[];
+  byId: Map<string, PickerPal>;
+} & Pick<Shared, "t" | "appName" | "iconsHash">) {
   const [open, setOpen] = useState(false);
   const pal = value ? byId.get(value) : undefined;
   return (

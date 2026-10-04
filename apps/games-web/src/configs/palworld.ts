@@ -37,6 +37,13 @@ export const palworld = resolveAppConfig({
       linkText: "Open the Breeding Calculator",
     },
     {
+      title: "iv.navTitle",
+      description: "iv.navDescription",
+      href: "/iv-calculator",
+      iconName: "ChartLine",
+      linkText: "iv.navLinkText",
+    },
+    {
       title: "Paldeck",
       description:
         "Every Pal with its elements, rarity, base stats and item drops — the full Paldeck.",

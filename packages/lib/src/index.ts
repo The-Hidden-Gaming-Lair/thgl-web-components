@@ -31,6 +31,7 @@ export * from "./overlay-map-hide";
 export * from "./compact-overlay";
 export * from "./aniimo-team";
 export * from "./palworld-breeding";
+export * from "./palworld-stats";
 export * from "./peer-link-url";
 export * from "./planet-crafter-save";
 export * from "./preview-release";
