@@ -111,10 +111,11 @@ export const duetNightAbyss = resolveAppConfig({
     },
     {
       href: "/activities-tracker",
-      title: "Activities Tracker",
-      linkText: "Track Daily & Weekly Activities",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
       bgImage: "/games/thgl-web/activity-tracker.webp",
-      iconName: "SquareCheckBig",
+      iconName: "Activity",
     },
     {
       href: "/db/quests",

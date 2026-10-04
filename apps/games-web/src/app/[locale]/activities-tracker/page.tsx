@@ -1,132 +1,182 @@
-import { ContentLayout } from "@repo/ui/ads";
-import { JSONLDScript } from "@repo/ui/apps";
-import { Activities, ActivityReset, CustomActivities } from "@repo/ui/data";
-import { HeaderOffset, PageTitle } from "@repo/ui/header";
-import { ActivitiesProvider } from "@repo/ui/providers";
 import { type Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import {
+  ACTIVITIES_PATH,
+  DEFAULT_LOCALE,
+  getMetadataAlternates,
+  localizePath,
+  translate,
+  type ActivitiesConfig,
+} from "@repo/lib";
+import { getFullDbDictionary } from "@repo/ui/dicts";
+import { JSONLDScript } from "@repo/ui/apps";
+import { ContentLayout } from "@repo/ui/ads";
+import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import { getAppConfig } from "@/lib/get-app-config";
-import { ACTIVITIES_BY_GAME } from "@/data/activities";
+import { Breadcrumb } from "@/lib/db/breadcrumb";
+import { breadcrumbJsonLd } from "@/lib/db/json-ld";
+import {
+  activitiesDict,
+  activitiesLabels,
+  activitiesView,
+  formatClock,
+  loadActivities,
+  resetRows,
+  weekdayName,
+} from "@/lib/activities/data";
+import { ActivitiesTracker } from "@/lib/activities/tracker";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const config = await getAppConfig();
-  if (!ACTIVITIES_BY_GAME[config.name]) notFound();
+/**
+ * Daily & weekly activities tracker — for every game that ships
+ * `config/activities.json` (data-forge, inbox #320). Progress clears itself
+ * at the game's server reset; the page server-renders the intro, the reset
+ * times per region and the full list. Other games 404 here.
+ */
+type PageProps = { params: Promise<{ locale?: string }> };
 
-  const title = `Activities Tracker – The Hidden Gaming Lair`;
-  const description = `Track your progress and conquer the challenges of ${config.title} with this Activity Tracker. Monitor your achievements, quests, and milestones!`;
+function introVars(
+  config: ActivitiesConfig,
+  locale: string,
+  title: string,
+): Record<string, string> {
+  const r = config.reset;
   return {
-    alternates: { canonical: "/activities-tracker" },
+    title,
+    count: String(config.activities.length),
+    time: formatClock(locale, r.dailyHour, r.dailyMinute ?? 0),
+    weekday: weekdayName(locale, r.weeklyDay),
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale = DEFAULT_LOCALE } = await params;
+  const appConfig = await getAppConfig();
+  const config = await loadActivities(appConfig);
+  if (!config) notFound();
+  const dict = await getFullDbDictionary(appConfig.name, locale);
+  const vars = introVars(config, locale, appConfig.title);
+  const title = translate(dict, "activities.metaTitle", { vars });
+  const description = translate(dict, "activities.metaDescription", { vars });
+  const { canonical, languageAlternates } = getMetadataAlternates(
+    ACTIVITIES_PATH,
+    locale,
+    appConfig.supportedLocales,
+  );
+  return {
     title,
     description,
+    alternates: { canonical, languages: languageAlternates },
     openGraph: {
       title,
       description,
-      url: "/activities-tracker",
-      images: [
-        {
-          url: "/activities-tracker/opengraph-image.jpg",
-          alt: `${config.title} Activities Tracker`,
-        },
-      ],
+      url: canonical,
+      images: ["/opengraph-image.jpg"],
     },
   };
 }
 
-export default async function ActivitiesTracker() {
-  const config = await getAppConfig();
-  const activities = ACTIVITIES_BY_GAME[config.name];
-  if (!activities) notFound();
-
-  const baseUrl = `https://${config.domain}.th.gl`;
-  const description = `Track your progress and conquer the challenges of ${config.title} with this Activity Tracker. Monitor your achievements, quests, and milestones!`;
+export default async function Page({ params }: PageProps) {
+  const { locale = DEFAULT_LOCALE } = await params;
+  const appConfig = await getAppConfig();
+  const config = await loadActivities(appConfig);
+  if (!config) notFound();
+  const dict = activitiesDict(
+    config,
+    await getFullDbDictionary(appConfig.name, locale),
+    locale,
+  );
+  const vars = introVars(config, locale, appConfig.title);
+  const title = translate(dict, "activities.title");
+  const crumbs = [{ label: title }];
+  const url = `https://${appConfig.domain}.th.gl${localizePath(ACTIVITIES_PATH, locale)}`;
+  const view = activitiesView(config, dict);
+  const rows = resetRows(config, dict, locale, Date.now());
 
   return (
-    <>
+    <HeaderOffset full>
       <JSONLDScript
-        json={{
-          "@context": "https://schema.org",
-          "@type": "Article",
-          headline: "Activities Tracker – The Hidden Gaming Lair",
-          description,
-          author: {
-            "@type": "Organization",
-            name: "The Hidden Gaming Lair",
-            url: "https://www.th.gl",
-          },
-          publisher: {
-            "@type": "Organization",
-            name: "The Hidden Gaming Lair",
-            url: "https://www.th.gl",
-          },
-          mainEntityOfPage: `${baseUrl}/activities-tracker`,
-        }}
+        json={breadcrumbJsonLd({
+          appConfig,
+          homeLabel: dict["ui.nav_home"] || "Home",
+          crumbs,
+          url,
+          locale,
+        })}
       />
-      <JSONLDScript
-        json={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Home",
-              item: `${baseUrl}/`,
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Activities Tracker",
-              item: `${baseUrl}/activities-tracker`,
-            },
-          ],
-        }}
-      />
-      <ActivitiesProvider activities={activities}>
-        <HeaderOffset full>
-          <PageTitle title="Activities Tracker" />
-          <nav
-            aria-label="Breadcrumb"
-            className="text-xs text-muted-foreground px-4 py-2"
-          >
-            <ol className="flex items-center gap-1">
-              <li>
-                <Link
-                  href="/"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Home
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page">Activities Tracker</li>
-            </ol>
-          </nav>
-          <ContentLayout
-            id={config.name}
-            header={
-              <>
-                <h2 className="text-2xl">Activities Tracker</h2>
-                <p className="text-sm">
-                  This tracker puts you in control of your {config.title} journey.
-                  Customize and track the in-game activities and resources that
-                  matter most to you. Keep tabs on your progress and optimize your
-                  gameplay.
-                </p>
-              </>
-            }
-            content={
-              <div className="flex flex-col gap-4 grow">
-                <div className="ml-auto flex gap-2 mt-4">
-                  <CustomActivities />
-                  <ActivityReset />
-                </div>
-                <Activities />
+      <PageTitle title={translate(dict, "activities.metaTitle", { vars })} />
+      <div className="px-4 pt-2">
+        <Breadcrumb crumbs={crumbs} locale={locale} dict={dict} />
+      </div>
+      <ContentLayout
+        id={appConfig.name}
+        header={
+          <>
+            <h2 className="text-2xl">
+              {translate(dict, "activities.heading", { vars })}
+            </h2>
+            <p className="text-sm">
+              {translate(dict, "activities.intro", { vars })}
+            </p>
+          </>
+        }
+        content={
+          <div className="space-y-8 text-left">
+            <ActivitiesTracker
+              view={view}
+              labels={activitiesLabels(dict)}
+              locale={locale}
+            />
+            <section className="space-y-2">
+              <h2 className="text-lg font-semibold">
+                {translate(dict, "activities.resetTimes", { vars })}
+              </h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="text-xs text-muted-foreground">
+                    <tr>
+                      {rows.length > 1 && (
+                        <th className="py-1 pr-3 font-normal">
+                          {translate(dict, "activities.region")}
+                        </th>
+                      )}
+                      <th className="py-1 pr-3 font-normal">
+                        {translate(dict, "activities.dailyReset")}
+                      </th>
+                      <th className="py-1 pr-3 font-normal">
+                        {translate(dict, "activities.weeklyReset")}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((r) => (
+                      <tr key={r.id} className="border-t border-slate-800">
+                        {rows.length > 1 && (
+                          <td className="py-1.5 pr-3">{r.label}</td>
+                        )}
+                        <td className="py-1.5 pr-3">
+                          {translate(dict, "activities.serverTime", {
+                            vars: { time: r.daily, offset: r.offset },
+                          })}
+                        </td>
+                        <td className="py-1.5 pr-3">
+                          {translate(dict, "activities.serverTime", {
+                            vars: { time: r.weekly, offset: r.offset },
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            }
-          />
-        </HeaderOffset>
-      </ActivitiesProvider>
-    </>
+              <p className="text-xs text-muted-foreground">
+                {translate(dict, "activities.resetNote")}
+              </p>
+            </section>
+          </div>
+        }
+      />
+    </HeaderOffset>
   );
 }

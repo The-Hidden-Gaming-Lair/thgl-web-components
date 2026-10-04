@@ -15,8 +15,18 @@ export const wutheringWaves = resolveAppConfig({
     "zh-TW",
   ],
   appUrl: "https://www.th.gl/companion-app",
-  // No internalLinks: home page auto-generates a card for each map in
-  // version.data.tiles (Overworld, Lahai-Roi, Honami City, etc.).
+  // Maps are NOT listed here: the home page auto-generates a card for each map
+  // in version.data.tiles (Overworld, Lahai-Roi, Honami City, etc.).
+  internalLinks: [
+    {
+      href: "/activities-tracker",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      bgImage: "/games/thgl-web/activity-tracker.webp",
+      iconName: "Activity",
+    },
+  ],
   externalLinks: [],
   keywords: [
     "Echoes",

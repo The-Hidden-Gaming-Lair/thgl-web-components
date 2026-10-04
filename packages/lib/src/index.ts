@@ -10,6 +10,8 @@ export * from "./xp-planner";
 export * from "./xp-planner-data";
 export * from "./db-map-links";
 export * from "./checklist";
+export * from "./activities";
+export * from "./activities-data";
 export * from "./discord";
 export * from "./embed";
 export * from "./dom";

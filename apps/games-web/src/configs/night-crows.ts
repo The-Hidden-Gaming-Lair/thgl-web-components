@@ -14,11 +14,12 @@ export const nightCrows = resolveAppConfig({
       linkText: "Explore Maps",
     },
     {
-      title: "Activities Tracker",
-      description:
-        "Track your progress and conquer the challenges of Night Crows",
       href: "/activities-tracker",
-      iconName: "SquareCheckBig",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      bgImage: "/games/thgl-web/activity-tracker.webp",
+      iconName: "Activity",
     },
   ],
   externalLinks: [],

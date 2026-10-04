@@ -89,6 +89,14 @@ export const infinityNikki = resolveAppConfig({
       iconName: "SquareCheckBig",
       linkText: "checklist.navLinkText",
     },
+    {
+      href: "/activities-tracker",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      bgImage: "/games/thgl-web/activity-tracker.webp",
+      iconName: "Activity",
+    },
   ],
   externalLinks: [],
   keywords: [
