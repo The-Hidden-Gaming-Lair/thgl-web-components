@@ -89,7 +89,7 @@ export function createRobots(appConfig: AppConfig) {
 }
 
 /** Load dictionaries for all supported locales */
-async function loadAllDicts(
+export async function loadAllDicts(
   appName: string,
   locales: string[],
 ): Promise<Map<string, Record<string, string>>> {
@@ -279,7 +279,7 @@ async function collectNamedMarkers(
 }
 
 /** Helper to translate a term with a specific locale dictionary, falling back to English */
-function translateForLocale(
+export function translateForLocale(
   allDicts: Map<string, Record<string, string>> | undefined,
   enDict: Record<string, string>,
   locale: string,

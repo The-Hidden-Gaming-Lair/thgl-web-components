@@ -15,13 +15,15 @@ import {
   getMetadataAlternates,
   getT,
   getTypeFromVersion,
+  loadAllDicts,
   localizePath,
   resolveForgeUrl,
   SimpleSpawn,
+  translateForLocale,
 } from "@repo/lib";
 import { HeaderOffset, PageTitle } from "../(header)";
 import { ContentLayout } from "../(ads)";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { Subtitle } from "../(content)";
 import MapGuides from "../(data)/map-guides";
@@ -33,6 +35,24 @@ import { JSONLDScript } from "./json-ld-script";
 type PageProps = {
   params: Promise<{ locale?: string; type: string }>;
 };
+
+/**
+ * Per-locale guide path for a type/group id: the slug is the guide's name in
+ * that locale (English fallback), exactly as the sitemap lists it. Any other
+ * slug that resolves to the same guide (`/de/guides/Bloom` for `Blüte`) must
+ * name this one as canonical instead of competing with it as a duplicate.
+ */
+async function getGuidePathFn(
+  appConfig: AppConfig,
+  guideKey: string,
+): Promise<(locale: string) => string> {
+  const allDicts = await loadAllDicts(appConfig.name, [
+    ...new Set([DEFAULT_LOCALE, ...appConfig.supportedLocales]),
+  ]);
+  const enDict = allDicts.get(DEFAULT_LOCALE) ?? {};
+  return (locale) =>
+    `/guides/${encodeURIComponent(translateForLocale(allDicts, enDict, locale, guideKey))}`;
+}
 
 export function createGuidePageGenerateMetadata(appConfig: AppConfig) {
   return async function generateMetadata({
@@ -66,7 +86,7 @@ export function createGuidePageGenerateMetadata(appConfig: AppConfig) {
     });
 
     const { canonical, languageAlternates } = getMetadataAlternates(
-      `/guides/${type}`,
+      await getGuidePathFn(appConfig, guideTitle),
       locale,
       appConfig.supportedLocales,
     );
@@ -184,6 +204,26 @@ export function createGuidePage(appConfig: AppConfig) {
     } else {
       const groupId = getGroupFromVersion(version, type, dict);
       if (!groupId) {
+        // English slug under a locale prefix (indexed before the locale dict
+        // got a real translation, hreflang alternates, old links):
+        // `/de/guides/Chromite` → 308 to the localized `/de/guides/Chromit`.
+        if (locale !== DEFAULT_LOCALE) {
+          const enDict = await getFullDictionary(
+            appConfig.name,
+            DEFAULT_LOCALE,
+          );
+          const enId =
+            getAllTypesFromVersion(version, type, enDict)[0] ??
+            getGroupFromVersion(version, type, enDict);
+          if (enId) {
+            const path = (await getGuidePathFn(appConfig, enId))(locale);
+            if (
+              decodeURIComponent(path) !== `/guides/${decodeURIComponent(type)}`
+            ) {
+              permanentRedirect(localizePath(path, locale));
+            }
+          }
+        }
         return notFound();
       }
       guideId = groupId;
@@ -195,6 +235,7 @@ export function createGuidePage(appConfig: AppConfig) {
       queries = [`group=${groupId}`];
     }
     const guideTitle = t(guideId);
+    const guideUrl = `https://${appConfig.domain}.th.gl${localizePath((await getGuidePathFn(appConfig, guideId))(locale), locale)}`;
 
     // The server only needs the spawn COUNT and the MAPS for the intro text
     // and the map tabs; the spawns themselves are loaded by the client
@@ -284,7 +325,7 @@ export function createGuidePage(appConfig: AppConfig) {
             dateModified: version.createdAt
               ? new Date(version.createdAt).toISOString()
               : undefined,
-            mainEntityOfPage: `https://${appConfig.domain}.th.gl${localizePath(`/guides/${type}`, locale)}`,
+            mainEntityOfPage: guideUrl,
           }}
         />
         <JSONLDScript
@@ -340,7 +381,7 @@ export function createGuidePage(appConfig: AppConfig) {
                 "@type": "ListItem",
                 position: 3,
                 name: guideTitle,
-                item: `https://${appConfig.domain}.th.gl${localizePath(`/guides/${type}`, locale)}`,
+                item: guideUrl,
               },
             ],
           }}
