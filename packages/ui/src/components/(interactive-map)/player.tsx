@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, type JSX } from "react";
+import { useEffect, useMemo, useRef, useState, type JSX } from "react";
 import { useUserStore } from "../(providers)";
 import { useMap, type GameMap } from "./store";
 import { PlayerMarker } from "./player-marker";
@@ -70,6 +70,10 @@ export function Player({
 }): JSX.Element {
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
+  // Bumped when the marker is (re)created: creation awaits the icon load, so a
+  // player update that landed meanwhile (position, heading-up) re-applies once
+  // it exists instead of waiting for the next update.
+  const [markerVersion, setMarkerVersion] = useState(0);
   const setMapName = useUserStore((state) => state.setMapName);
   const t = useT();
   const followPlayerPosition = useSettingsStore((state) => state.followPlayer);
@@ -253,6 +257,7 @@ export function Player({
         });
         marker.current.setIcon(iconImage);
         marker.current.addTo(playerLayer);
+        setMarkerVersion((v) => v + 1);
       } else {
         marker.current.setIcon(iconImage);
         marker.current.setSize(size);
@@ -369,6 +374,7 @@ export function Player({
     rotateWithPlayer,
     tilesConfig,
     markerOptions.playerIconForward,
+    markerVersion,
   ]);
 
   // Leaving heading-up mode puts north back on top; while it is on, a manual
