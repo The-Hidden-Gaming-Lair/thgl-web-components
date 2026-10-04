@@ -16,7 +16,15 @@ export const graveyardKeeper2 = resolveAppConfig({
     "zh-CN",
   ],
   appUrl: "https://www.th.gl/companion-app",
-  internalLinks: [],
+  internalLinks: [
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
+  ],
   promoLinks: [],
   externalLinks: [],
   keywords: [
@@ -145,6 +153,21 @@ export const graveyardKeeper2 = resolveAppConfig({
         icon: "🏆",
         description: "All achievements and what unlocks them.",
       },
+      {
+        href: "/db/town-buildings",
+        type: "town-buildings",
+        titleFallback: "Town Buildings",
+        icon: "🏘️",
+        description:
+          "Town buildings, upgrades and repairs with their build costs.",
+      },
+      {
+        href: "/db/ingredient-groups",
+        type: "ingredient-groups",
+        titleFallback: "Ingredient Groups",
+        icon: "🧺",
+        description: "Recipe slots that accept any one of several items.",
+      },
     ],
     typeLabels: {
       items: "Items",
@@ -160,6 +183,8 @@ export const graveyardKeeper2 = resolveAppConfig({
       inspirations: "Inspirations",
       achievements: "Achievements",
       perks: "Perks",
+      "town-buildings": "Town Buildings",
+      "ingredient-groups": "Ingredient Groups",
     },
   },
 });

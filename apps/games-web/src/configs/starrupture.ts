@@ -57,6 +57,13 @@ export const starrupture = resolveAppConfig({
       iconName: "Bug",
       linkText: "Browse Corporations",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],

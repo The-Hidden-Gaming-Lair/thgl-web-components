@@ -18,7 +18,15 @@ export const planetCrafter = resolveAppConfig({
     "it",
   ],
   appUrl: null,
-  internalLinks: [],
+  internalLinks: [
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
+  ],
   promoLinks: [],
   externalLinks: [],
   keywords: [

@@ -44,6 +44,13 @@ export const witchspire = resolveAppConfig({
       iconName: "Axe",
       linkText: "Browse Enemies",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],

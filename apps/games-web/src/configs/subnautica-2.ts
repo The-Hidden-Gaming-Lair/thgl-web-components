@@ -68,6 +68,13 @@ export const subnautica2 = resolveAppConfig({
       iconName: "BookOpen",
       linkText: "Browse the Databank",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],

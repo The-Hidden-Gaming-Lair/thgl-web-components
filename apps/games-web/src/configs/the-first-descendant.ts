@@ -45,6 +45,13 @@ export const theFirstDescendant = resolveAppConfig({
       iconName: "Axe",
       linkText: "Browse Weapons",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],

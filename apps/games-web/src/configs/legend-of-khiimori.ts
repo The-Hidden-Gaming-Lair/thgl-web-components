@@ -57,6 +57,13 @@ export const legendOfKhiimori = resolveAppConfig({
       iconName: "Bug",
       linkText: "Browse Traits",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],

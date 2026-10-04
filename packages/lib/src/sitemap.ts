@@ -11,6 +11,7 @@ import {
 } from "./config";
 import { DEFAULT_LOCALE, localizePath, translate } from "./i18n";
 import { decodeFromBuffer } from "./cbor";
+import { craftingSitemapPaths } from "./crafting-data";
 import { type Spawn } from "./coordinates";
 
 /**
@@ -320,6 +321,7 @@ export function createSitemapIndex(appConfig: AppConfig) {
         database,
         resolveSection,
         appConfig.db.entryPages,
+        await craftingSitemapPaths(appConfig),
       );
       dbChunks =
         dbEntries.length > 0
@@ -385,6 +387,8 @@ function collectDbEntries(
   database: DatabaseConfig,
   resolveSection: (catType: string) => string | null,
   entryPages: DbAppConfig["entryPages"] = [],
+  /** Tool pages outside /db (e.g. `/crafting/<id>`), already resolved. */
+  extraPaths: string[] = [],
 ): string[] {
   const entries: string[] = [];
   for (const cat of database) {
@@ -406,6 +410,7 @@ function collectDbEntries(
       }
     }
   }
+  entries.push(...extraPaths);
   return entries;
 }
 
@@ -477,6 +482,7 @@ export function createGenerateSitemaps(appConfig: AppConfig) {
         database,
         resolveSection,
         appConfig.db.entryPages,
+        await craftingSitemapPaths(appConfig),
       );
       dbChunks =
         dbEntries.length > 0
@@ -755,6 +761,7 @@ export function createSitemap(appConfig: AppConfig) {
         database,
         resolveSection,
         appConfig.db.entryPages,
+        await craftingSitemapPaths(appConfig),
       );
       const dbChunkIndex = id - dbStartId;
       const start = dbChunkIndex * ENTRIES_PER_CHUNK;

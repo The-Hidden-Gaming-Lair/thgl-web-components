@@ -40,7 +40,8 @@ export type IconName =
   | "ChartLine"
   | "Vote"
   | "Activity"
-  | "Code";
+  | "Code"
+  | "Hammer";
 
 export type AppConfig = {
   name: string;

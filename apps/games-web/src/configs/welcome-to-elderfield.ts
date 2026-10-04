@@ -65,6 +65,13 @@ export const welcomeToElderfield = resolveAppConfig({
       iconName: "SquareCheckBig",
       linkText: "checklist.navLinkText",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Mysteries", "Villager Gifts", "Fishing", "Doors & Exits"],

@@ -37,6 +37,7 @@ import {
   Vote,
   Activity,
   Code,
+  Hammer,
 } from "lucide-react";
 
 const ICONS = {
@@ -77,6 +78,7 @@ const ICONS = {
   Vote: Vote,
   Activity: Activity,
   Code: Code,
+  Hammer: Hammer,
 } as const;
 
 export function NavIcon({

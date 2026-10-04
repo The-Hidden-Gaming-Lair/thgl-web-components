@@ -62,6 +62,13 @@ export const rsdragonwilds = resolveAppConfig({
       iconName: "SquareCheckBig",
       linkText: "checklist.navLinkText",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Chests", "Lore", "Quests", "Items", "Recipes", "Equipment"],

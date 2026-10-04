@@ -56,6 +56,13 @@ export const albionOnline = resolveAppConfig({
       iconName: "Shield",
       linkText: "Browse armor",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Zone Maps", "Resources", "Dungeons", "Roads of Avalon"],

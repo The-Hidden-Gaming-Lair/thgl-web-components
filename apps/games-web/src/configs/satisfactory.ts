@@ -70,6 +70,13 @@ export const satisfactory = resolveAppConfig({
       iconName: "PawPrint",
       linkText: "Browse Creatures",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   db: {
     heroSubtitle: "Game Database",

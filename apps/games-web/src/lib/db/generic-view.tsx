@@ -299,9 +299,18 @@ export function GenericEntityView({
     )
       ? (props._sections as EntitySection[])
       : undefined;
+  // An item's own recipe yield is a self-ref `products` (database-quality.md
+  // §5.1): shown as "makes ×N" next to "Crafted from", not as a link to itself.
+  const selfYield = (() => {
+    const refs = asDbRefList(props?.products);
+    return refs?.length && refs.every((r) => r.id === id)
+      ? (refs[0].count ?? 1)
+      : undefined;
+  })();
   // Remaining props, minus everything rendered in a dedicated section above.
   const remaining = Object.entries(props ?? {}).filter(
     ([k]) =>
+      !(k === "products" && selfYield !== undefined) &&
       // `_`-prefixed props are structured data consumed by per-game custom
       // views (e.g. SoC's skill pools / faction indexes); hide from generic UI.
       !k.startsWith("_") &&
@@ -815,6 +824,7 @@ export function GenericEntityView({
         <div className="mb-6 max-w-3xl">
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
             {L("db.craftedFrom", "Crafted from")}
+            {selfYield && selfYield > 1 ? ` · ×${selfYield}` : ""}
           </div>
           {refLinks(ingredients)}
         </div>

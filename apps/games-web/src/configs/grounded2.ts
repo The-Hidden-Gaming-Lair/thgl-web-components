@@ -26,6 +26,13 @@ export const grounded2 = resolveAppConfig({
       iconName: "SquareCheckBig",
       linkText: "checklist.navLinkText",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -108,6 +115,14 @@ export const grounded2 = resolveAppConfig({
         icon: "🗝️",
         description: "Notes, audio logs, optical disks and other key items.",
       },
+      {
+        href: "/db/alternate-recipes",
+        type: "alternate-recipes",
+        titleFallback: "Alternate Recipes",
+        icon: "🔀",
+        description:
+          "Other ways to craft rope, leather, slurries, glue and more, with their station.",
+      },
     ],
     typeLabels: {
       weapons: "Weapons & Tools",
@@ -120,6 +135,7 @@ export const grounded2 = resolveAppConfig({
       buildings: "Buildings",
       buggies: "Buggies",
       "key-items": "Key Items",
+      "alternate-recipes": "Alternate Recipes",
     },
   },
 });

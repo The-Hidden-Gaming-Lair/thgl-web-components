@@ -4,6 +4,8 @@ export * from "./changelog";
 export * from "./cbor";
 export * from "./config";
 export * from "./coordinates";
+export * from "./crafting";
+export * from "./crafting-data";
 export * from "./db-map-links";
 export * from "./checklist";
 export * from "./discord";

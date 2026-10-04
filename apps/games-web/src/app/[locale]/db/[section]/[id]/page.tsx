@@ -28,6 +28,7 @@ import { GenericEntityView } from "@/lib/db/generic-view";
 import { getPartnerEntryLink } from "@/lib/db/partner-links";
 import { PartnerLinkRow } from "@/lib/db/partner-link";
 import { EntryExtras } from "@/lib/db/entry-extras";
+import { loadCrafting } from "@/lib/crafting/data";
 import { SocEntityView } from "@/games/songs-of-conquest/entity-view";
 
 // Per-game detail-view overrides. Tenants not listed fall back to the generic
@@ -253,6 +254,9 @@ export default async function Page({ params }: { params: Params }) {
 
   const name = resolveDict(dict, id) || id;
   const desc = resolveDict(dict, `${id}_desc`);
+  // Crafted items link to their /crafting/<id> recipe page (opt-in tenants).
+  const crafting = await loadCrafting(appConfig);
+  const hasRecipePage = crafting?.graph.defaults[id] != null;
   const { plural: sectionLabel, singular } = getSectionLabels(
     appConfig,
     dict,
@@ -359,6 +363,17 @@ export default async function Page({ params }: { params: Params }) {
               {translate(dict, page.labelKey!, { vars: { name } })} →
             </a>
           ))}
+        {hasRecipePage && (
+          <a
+            href={localizePath(
+              `/crafting/${encodeURIComponent(item.id)}`,
+              locale,
+            )}
+            className="mt-6 block text-primary hover:underline"
+          >
+            {translate(dict, "crafting.dbLink", { vars: { name } })} →
+          </a>
+        )}
         {/* On the map / Related / Was this accurate? / Tips & comments */}
         <EntryExtras
           appConfig={appConfig}

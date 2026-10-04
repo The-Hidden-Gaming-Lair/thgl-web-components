@@ -91,6 +91,13 @@ export const palworld = resolveAppConfig({
       iconName: "SquareCheckBig",
       linkText: "checklist.navLinkText",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Tides of Terraria", "Feybreak", "Predator & Alpha Pals"],
