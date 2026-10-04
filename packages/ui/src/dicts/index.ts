@@ -53,6 +53,21 @@ const appDictionaries = {
     "zh-TW": () =>
       import("./dune-awakening.zh-TW.json").then((mod) => mod.default),
   },
+  aniimo: {
+    en: () => import("./aniimo.en.json").then((mod) => mod.default),
+    de: () => import("./aniimo.de.json").then((mod) => mod.default),
+    es: () => import("./aniimo.es.json").then((mod) => mod.default),
+    fr: () => import("./aniimo.fr.json").then((mod) => mod.default),
+    id: () => import("./aniimo.id.json").then((mod) => mod.default),
+    ja: () => import("./aniimo.ja.json").then((mod) => mod.default),
+    ko: () => import("./aniimo.ko.json").then((mod) => mod.default),
+    pt: () => import("./aniimo.pt.json").then((mod) => mod.default),
+    ru: () => import("./aniimo.ru.json").then((mod) => mod.default),
+    th: () => import("./aniimo.th.json").then((mod) => mod.default),
+    vi: () => import("./aniimo.vi.json").then((mod) => mod.default),
+    "zh-CN": () => import("./aniimo.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./aniimo.zh-TW.json").then((mod) => mod.default),
+  },
   drakantos: {
     en: () => import("./drakantos.en.json").then((mod) => mod.default),
   },

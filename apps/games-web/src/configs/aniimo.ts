@@ -18,7 +18,16 @@ export const aniimo = resolveAppConfig({
     "zh-TW",
   ],
   appUrl: "https://www.th.gl/companion-app",
-  internalLinks: [],
+  internalLinks: [
+    {
+      title: "Team Builder",
+      description:
+        "Build a team of four: element coverage of every skill, shared weaknesses, role balance, suggested picks, a counter finder for any element and the game's own recommended teams.",
+      href: "/team-builder",
+      iconName: "Users",
+      linkText: "Open the Team Builder",
+    },
+  ],
   promoLinks: [],
   externalLinks: [],
   keywords: [
@@ -40,6 +49,10 @@ export const aniimo = resolveAppConfig({
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search Aniimo, skills, items, quests…",
     sectionsInNav: true,
+    // One indexable /team-builder/<id> matchup page per Aniimo (sitemap + codex link).
+    entryPages: [
+      { type: "aniimo", path: "/team-builder", labelKey: "tb.entry.label" },
+    ],
     homeSections: [
       {
         href: "/db/aniimo",
@@ -77,6 +90,14 @@ export const aniimo = resolveAppConfig({
         titleFallback: "Type Chart",
         icon: "⚔️",
         description: "Damage multipliers between all nine elements.",
+      },
+      {
+        href: "/db/roles",
+        type: "roles",
+        titleFallback: "Roles",
+        icon: "🛡️",
+        description:
+          "The five combat roles and every Aniimo that fills each one.",
       },
       {
         href: "/db/shops",
