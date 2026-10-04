@@ -13,7 +13,24 @@
 
 export const ACTIVITIES_PATH = "/activities-tracker";
 
-export type ActivityFrequency = "daily" | "weekly" | "monthly";
+export type ActivityFrequency = "daily" | "weekly" | "monthly" | "cycle";
+
+/** The calendar periods (one shared clock each); "cycle" is per activity. */
+export type ActivityPeriod = Exclude<ActivityFrequency, "cycle">;
+
+/**
+ * Resets every `days` days, counted from `anchor` = the server-local date
+ * (YYYY-MM-DD) of one known reset, at the activity's reset time.
+ */
+export type ActivityCycle = {
+  anchor: string;
+  days: number;
+  /**
+   * Season change: the grid only runs from the anchor on; before it only
+   * these dates (ascending, before the anchor) are resets.
+   */
+  earlier?: string[];
+};
 
 export type ActivitiesRegion = {
   id: string;
@@ -46,6 +63,8 @@ export type ActivityDef = {
   legacy?: string[];
   /** Resets at a different time than the game default (same zone). */
   reset?: ActivityResetOverride;
+  /** With `frequency: "cycle"`: every N days from an anchor date. */
+  cycle?: ActivityCycle;
 };
 
 export type ActivityResetOverride = {
@@ -137,7 +156,7 @@ function fromWall(region: ActivitiesRegion, w: Wall): number {
 function resetTime(
   reset: ActivitiesReset,
   region: ActivitiesRegion,
-  frequency: ActivityFrequency,
+  frequency: ActivityPeriod,
 ): { h: number; mi: number } {
   const h = region.dailyHour ?? reset.dailyHour;
   const mi = region.dailyMinute ?? reset.dailyMinute ?? 0;
@@ -151,7 +170,7 @@ function resetTime(
 export function lastResetAt(
   reset: ActivitiesReset,
   region: ActivitiesRegion,
-  frequency: ActivityFrequency,
+  frequency: ActivityPeriod,
   now: number,
 ): number {
   const { h, mi } = resetTime(reset, region, frequency);
@@ -175,7 +194,7 @@ export function lastResetAt(
 export function nextResetAt(
   reset: ActivitiesReset,
   region: ActivitiesRegion,
-  frequency: ActivityFrequency,
+  frequency: ActivityPeriod,
   now: number,
 ): number {
   const last = lastResetAt(reset, region, frequency, now);
@@ -214,15 +233,79 @@ export function activityResetRule(
   };
 }
 
+const DAY_MS = 86_400_000;
+
+/**
+ * Last / next reset of an N-day cycle: the anchor date + k·days at the daily
+ * reset time of `rule`, in the region's wall clock (DST-safe).
+ */
+function cycleResets(
+  reset: ActivitiesReset,
+  region: ActivitiesRegion,
+  cycle: ActivityCycle,
+  now: number,
+): { last: number; next: number } {
+  const [y, m, d] = cycle.anchor.split("-").map(Number);
+  const days = Math.max(1, Math.floor(cycle.days));
+  const { h, mi } = resetTime(reset, region, "daily");
+  const anchorAt = fromWall(region, { y, m: m - 1, d, h, mi });
+  if (cycle.earlier?.length && now < anchorAt) {
+    const resets = cycle.earlier.map((date) => {
+      const [ey, em, ed] = date.split("-").map(Number);
+      return fromWall(region, { y: ey, m: em - 1, d: ed, h, mi });
+    });
+    resets.push(anchorAt);
+    const next = resets.find((at) => at > now)!;
+    const last = resets.filter((at) => at <= now).pop();
+    // Before the first listed reset: one step back on the old spacing.
+    return { last: last ?? resets[0] - days * DAY_MS, next };
+  }
+  const w = toWall(region, now);
+  const offset = Math.round(
+    (Date.UTC(w.y, w.m, w.d) - Date.UTC(y, m - 1, d)) / DAY_MS,
+  );
+  let k = Math.floor(offset / days);
+  const at = (n: number) =>
+    fromWall(region, { y, m: m - 1, d: d + n * days, h, mi });
+  if (at(k) > now) k -= 1;
+  return { last: at(k), next: at(k + 1) };
+}
+
+type ResetActivity = {
+  frequency: ActivityFrequency;
+  reset?: ActivityResetOverride;
+  cycle?: ActivityCycle;
+};
+
 /** Last server reset that clears this activity (honours its override). */
 export function activityLastReset(
   reset: ActivitiesReset,
   region: ActivitiesRegion,
-  activity: { frequency: ActivityFrequency; reset?: ActivityResetOverride },
+  activity: ResetActivity,
   now: number,
 ): number {
   const rule = activityResetRule(reset, region, activity.reset);
+  if (activity.frequency === "cycle") {
+    // A cycle without data never resets on its own (manual clear only).
+    if (!activity.cycle) return -Infinity;
+    return cycleResets(rule.reset, rule.region, activity.cycle, now).last;
+  }
   return lastResetAt(rule.reset, rule.region, activity.frequency, now);
+}
+
+/** Next server reset that clears this activity (honours its override). */
+export function activityNextReset(
+  reset: ActivitiesReset,
+  region: ActivitiesRegion,
+  activity: ResetActivity,
+  now: number,
+): number {
+  const rule = activityResetRule(reset, region, activity.reset);
+  if (activity.frequency === "cycle") {
+    if (!activity.cycle) return Infinity;
+    return cycleResets(rule.reset, rule.region, activity.cycle, now).next;
+  }
+  return nextResetAt(rule.reset, rule.region, activity.frequency, now);
 }
 
 /** Weekday (0 = Sunday) of the current game day = the day of the last daily reset. */
@@ -325,7 +408,7 @@ export type CustomActivity = {
   /** Free text; shown as its own group. */
   category: string;
   max: number;
-  frequency: ActivityFrequency;
+  frequency: ActivityPeriod;
 };
 
 export type ActivityTick = { n: number; at: number };
@@ -369,7 +452,7 @@ export function activitiesStorageKey(game: string): string {
 /** The pre-2026-10 tracker's zustand key (one per tenant origin). */
 export const LEGACY_ACTIVITIES_KEY = "activities";
 
-const FREQUENCIES: ActivityFrequency[] = ["daily", "weekly", "monthly"];
+const FREQUENCIES: ActivityPeriod[] = ["daily", "weekly", "monthly"];
 
 function str(v: unknown, max = 120): string | null {
   return typeof v === "string" && v.trim() ? v.trim().slice(0, max) : null;
@@ -489,10 +572,10 @@ export function visibleActivities(
 export function activityCount(
   state: ActivitiesState,
   activity: { id: string; frequency: ActivityFrequency; max: number },
-  lastReset: Record<ActivityFrequency, number>,
+  lastReset: Partial<Record<ActivityFrequency, number>>,
 ): number {
   const tick = state.progress[state.active]?.[activity.id];
-  if (!tick || tick.at < lastReset[activity.frequency]) return 0;
+  if (!tick || tick.at < (lastReset[activity.frequency] ?? Infinity)) return 0;
   return Math.min(tick.n, activity.max);
 }
 
@@ -522,10 +605,14 @@ export function clearFrequency(
   return { ...state, progress: { ...state.progress, [state.active]: next } };
 }
 
-/** Drop ticks older than every reset that could still count them. */
+/**
+ * Drop ticks older than every reset that could still count them. Pass the
+ * cycle activities' own last resets in `lastReset` too (as more values, e.g.
+ * `cycle` = the oldest of them) — a 6-week shop tick outlives the monthly.
+ */
 export function pruneProgress(
   state: ActivitiesState,
-  lastReset: Record<ActivityFrequency, number>,
+  lastReset: Partial<Record<ActivityFrequency, number>>,
 ): ActivitiesState {
   const oldest = Math.min(...Object.values(lastReset));
   let changed = false;

@@ -1,6 +1,7 @@
 import {
   activityCount,
   activityLastReset,
+  activityNextReset,
   cleanActivitiesState,
   emptyActivitiesState,
   exportActivitiesJson,
@@ -138,6 +139,95 @@ describe("reset clock", () => {
     expect(activityLastReset(reset, asia, { frequency: "daily" }, now)).toBe(
       lastResetAt(reset, asia, "daily", now),
     );
+  });
+
+  test("N-day cycles from an anchor date", () => {
+    // 14-day cycle anchored on Monday 2026-09-28 (04:00 Asia = 09-27 20:00 UTC).
+    const tower = {
+      frequency: "cycle" as const,
+      cycle: { anchor: "2026-09-28", days: 14 },
+    };
+    const iso = (n: number) => new Date(n).toISOString();
+    // Inside the first cycle.
+    let now = utc("2026-10-05T12:00:00Z");
+    expect(iso(activityLastReset(reset, asia, tower, now))).toBe(
+      "2026-09-27T20:00:00.000Z",
+    );
+    expect(iso(activityNextReset(reset, asia, tower, now))).toBe(
+      "2026-10-11T20:00:00.000Z",
+    );
+    // Reset day before 04:00 server time: still the old cycle.
+    now = utc("2026-10-11T19:59:00Z");
+    expect(iso(activityLastReset(reset, asia, tower, now))).toBe(
+      "2026-09-27T20:00:00.000Z",
+    );
+    now = utc("2026-10-11T20:00:00Z");
+    expect(iso(activityLastReset(reset, asia, tower, now))).toBe(
+      "2026-10-11T20:00:00.000Z",
+    );
+    // Dates before the anchor still land on the grid.
+    now = utc("2026-09-20T00:00:00Z");
+    expect(iso(activityLastReset(reset, asia, tower, now))).toBe(
+      "2026-09-13T20:00:00.000Z",
+    );
+    // Across a DST switch the wall clock time holds (04:00 EST in November).
+    const nyCycle = {
+      frequency: "cycle" as const,
+      cycle: { anchor: "2026-10-30", days: 3 },
+    };
+    now = utc("2026-11-03T12:00:00Z");
+    expect(iso(activityLastReset(reset, na, nyCycle, now))).toBe(
+      "2026-11-02T09:00:00.000Z",
+    );
+    expect(iso(activityNextReset(reset, na, nyCycle, now))).toBe(
+      "2026-11-05T09:00:00.000Z",
+    );
+    // Hour override applies to cycles too; a cycle without data never resets.
+    now = utc("2026-10-05T12:00:00Z");
+    expect(
+      iso(
+        activityLastReset(reset, asia, { ...tower, reset: { hour: 10 } }, now),
+      ),
+    ).toBe("2026-09-28T02:00:00.000Z");
+    expect(activityLastReset(reset, asia, { frequency: "cycle" }, now)).toBe(
+      -Infinity,
+    );
+  });
+
+  test("season change: listed resets before the anchor", () => {
+    // Old season reset 09-28, special cycle from 10-08, regular from 10-19.
+    const vaults = {
+      frequency: "cycle" as const,
+      cycle: {
+        anchor: "2026-10-19",
+        days: 14,
+        earlier: ["2026-09-28", "2026-10-08"],
+      },
+    };
+    const iso = (n: number) => new Date(n).toISOString();
+    const at = (s: string) => ({
+      last: iso(activityLastReset(reset, asia, vaults, utc(s))),
+      next: iso(activityNextReset(reset, asia, vaults, utc(s))),
+    });
+    // 10-05: no grid reset on 10-05, the next one is 10-08.
+    expect(at("2026-10-05T12:00:00Z")).toEqual({
+      last: "2026-09-27T20:00:00.000Z",
+      next: "2026-10-07T20:00:00.000Z",
+    });
+    expect(at("2026-10-10T12:00:00Z")).toEqual({
+      last: "2026-10-07T20:00:00.000Z",
+      next: "2026-10-18T20:00:00.000Z",
+    });
+    // From the anchor on, the regular 14-day grid.
+    expect(at("2026-10-25T12:00:00Z")).toEqual({
+      last: "2026-10-18T20:00:00.000Z",
+      next: "2026-11-01T20:00:00.000Z",
+    });
+    // Before the first listed reset: one old period back.
+    expect(at("2026-09-20T12:00:00Z")).toEqual({
+      last: "2026-09-13T20:00:00.000Z",
+      next: "2026-09-27T20:00:00.000Z",
+    });
   });
 
   test("guesses the closest region", () => {

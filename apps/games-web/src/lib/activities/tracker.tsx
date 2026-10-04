@@ -18,6 +18,7 @@ import {
   activitiesStorageKey,
   activityCount,
   activityLastReset,
+  activityNextReset,
   addCharacter,
   clearFrequency,
   customActivityId,
@@ -39,17 +40,20 @@ import {
   translate,
   type ActivitiesState,
   type ActivityFrequency,
+  type ActivityPeriod,
 } from "@repo/lib";
 import type { ActivitiesView, ActivityView } from "./data";
 
 type Labels = Record<string, string>;
 
-const FREQUENCIES: ActivityFrequency[] = ["daily", "weekly", "monthly"];
+const PERIODS: ActivityPeriod[] = ["daily", "weekly", "monthly"];
+const FREQUENCIES: ActivityFrequency[] = [...PERIODS, "cycle"];
 
 const FREQ_STYLE: Record<ActivityFrequency, string> = {
   daily: "text-emerald-300 border-emerald-700/60",
   weekly: "text-amber-300 border-amber-700/60",
   monthly: "text-sky-300 border-sky-700/60",
+  cycle: "text-violet-300 border-violet-700/60",
 };
 
 const CHIP = (active: boolean) =>
@@ -208,15 +212,28 @@ export function ActivitiesTracker({
       ),
     [view.activities, state?.custom],
   );
+  // Custom activities pick a calendar period (a cycle needs an anchor date).
+  const customPeriods = usedFrequencies.filter(
+    (f): f is ActivityPeriod => f !== "cycle",
+  );
 
   const resets = useMemo(() => {
     if (now === null) return null;
     const last = {} as Record<ActivityFrequency, number>;
     const next = {} as Record<ActivityFrequency, number>;
-    for (const f of FREQUENCIES) {
+    for (const f of PERIODS) {
       last[f] = lastResetAt(view.reset, region, f, now);
       next[f] = nextResetAt(view.reset, region, f, now);
     }
+    // Each cycle activity has its own clock: the card shows the soonest
+    // reset; pruning keeps ticks back to the oldest cycle start.
+    const cycles = view.activities.filter((a) => a.frequency === "cycle");
+    last.cycle = Math.min(
+      ...cycles.map((a) => activityLastReset(view.reset, region, a, now)),
+    );
+    next.cycle = Math.min(
+      ...cycles.map((a) => activityNextReset(view.reset, region, a, now)),
+    );
     return { last, next, weekday: gameWeekday(view.reset, region, now) };
     // Recompute when a reset passes (or the region changes), not every second.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -242,7 +259,9 @@ export function ActivitiesTracker({
   const count = useCallback(
     (a: Tracked) => {
       if (!state || !resets) return 0;
-      if (!a.reset || now === null) return activityCount(state, a, resets.last);
+      if ((!a.reset && !a.cycle) || now === null) {
+        return activityCount(state, a, resets.last);
+      }
       return activityCount(state, a, {
         ...resets.last,
         [a.frequency]: activityLastReset(view.reset, region, a, now),
@@ -318,6 +337,18 @@ export function ActivitiesTracker({
   /** "Resets 00:00 server time" / "Resets Friday 05:00 server time". */
   const resetHint = (a: Tracked) => {
     const r = view.reset;
+    if (a.frequency === "cycle" && a.cycle) {
+      const next =
+        now === null ? null : activityNextReset(r, region, a, now) - now;
+      return next === null
+        ? L("cycleEveryDays", "Every {{days}} days", {
+            days: `${a.cycle.days}`,
+          })
+        : L("cycleEveryIn", "Every {{days}} days, resets in {{time}}", {
+            days: `${a.cycle.days}`,
+            time: duration(next),
+          });
+    }
     const h = a.reset?.hour ?? region.dailyHour ?? r.dailyHour;
     const m =
       a.reset?.minute ??
@@ -571,7 +602,7 @@ export function ActivitiesTracker({
                       freqLabel={freqLabel}
                       L={L}
                       locale={locale}
-                      resetHint={a.reset ? resetHint(a) : undefined}
+                      resetHint={a.reset || a.cycle ? resetHint(a) : undefined}
                     />
                   ))}
                 </ul>
@@ -691,7 +722,7 @@ export function ActivitiesTracker({
           <AddCustom
             L={L}
             freqLabel={freqLabel}
-            frequencies={usedFrequencies.length ? usedFrequencies : ["daily"]}
+            frequencies={customPeriods.length ? customPeriods : ["daily"]}
             exists={(name) =>
               tracked.some(
                 (a) =>
@@ -991,20 +1022,20 @@ function AddCustom({
 }: {
   L: ReturnType<typeof useL>;
   freqLabel: (f: ActivityFrequency) => string;
-  frequencies: ActivityFrequency[];
+  frequencies: ActivityPeriod[];
   exists: (name: string) => boolean;
   onAdd: (c: {
     id: string;
     name: string;
     category: string;
     max: number;
-    frequency: ActivityFrequency;
+    frequency: ActivityPeriod;
   }) => void;
 }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [max, setMax] = useState(1);
-  const [frequency, setFrequency] = useState<ActivityFrequency>(frequencies[0]);
+  const [frequency, setFrequency] = useState<ActivityPeriod>(frequencies[0]);
   const [error, setError] = useState<string | null>(null);
   return (
     <form
@@ -1067,9 +1098,9 @@ function AddCustom({
         <select
           className={INPUT}
           value={frequency}
-          onChange={(e) => setFrequency(e.target.value as ActivityFrequency)}
+          onChange={(e) => setFrequency(e.target.value as ActivityPeriod)}
         >
-          {(["daily", "weekly", "monthly"] as ActivityFrequency[]).map((f) => (
+          {PERIODS.map((f) => (
             <option key={f} value={f}>
               {freqLabel(f)}
             </option>

@@ -5,6 +5,7 @@ import {
   regionOffsetMinutes,
   type ActivitiesConfig,
   type ActivitiesRegion,
+  type ActivityCycle,
   type ActivityFrequency,
   type ActivityResetOverride,
   type AppConfig,
@@ -46,6 +47,7 @@ export type ActivityView = {
   days?: number[];
   legacy?: string[];
   reset?: ActivityResetOverride;
+  cycle?: ActivityCycle;
 };
 
 export type ActivitiesView = {
@@ -86,6 +88,7 @@ export function activitiesView(
       days: a.days,
       legacy: a.legacy,
       reset: a.reset,
+      cycle: a.cycle,
     })),
     legacyRetired: config.legacyRetired,
     enNames: Object.fromEntries(
