@@ -801,27 +801,19 @@ What the apps never show is listed in our [fair-play rules](/faq/fair-play).
   },
   {
     id: "fair-play",
-    headline: "Fair play: what the live map never shows",
+    headline: "Fair play: no PvP player tracking, no hacks, no bots",
     question:
       "Do the apps give an unfair advantage? Will you show other players in PvP?",
     answer: `
 No. The maps and apps help you find things, but they never give you an edge over other players.
 
-**The rule:** the live map shows what the game already shows you, plus what anyone can look up in the game files (spawn points, loot tables, respawn timers).
+- **No enemy players in PvP.** We never show other players' positions in PvP.
+- **No hacks.** No speed hacks, teleports or anything else that changes the game.
+- **No bots.** Nothing plays for you: no auto fishing, auto farming or other automation.
 
-## What we never show
-- **Enemy players in PvP.** No positions, names, guilds or gear of other players in games with PvP.
-- **Things the game hides from you** to keep fights fair, like stealthed or invisible enemies or the contents of containers you haven't opened.
-- **Other players' live intel.** Positions other app users see are only turned into spawn points (where something *can* appear), never "this is up right now" alerts.
+**Peer Link** is fine: you and your friends can choose to share your own positions with each other, just like calling them out on voice chat.
 
-## What is allowed
-- **Peer Link with friends.** You and your friends can choose to share your own positions with each other. It's the same as calling them out on voice chat.
-- **Other players in non-competitive games.** In games where players don't compete, like Palia, other players can show on the map.
-
-## Developers come first
-The apps only read the game. They never change it and never play for you. Where a studio has reviewed the app (Funcom, Starry Studio, S6), we follow its conditions. If a developer asks us not to offer a live overlay, we don't.
-
-Think something on the map crosses the line? Tell us on [Discord](https://th.gl/discord).
+Think something crosses the line? Tell us on [Discord](https://th.gl/discord).
     `.trim(),
     labels: ["General", "Companion App", "Overwolf"],
   },
