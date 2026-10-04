@@ -21,3 +21,5 @@ private/
 # Playwright e2e artifacts
 e2e-report
 e2e-results
+# Playwright MCP screenshots (agent scratch)
+.playwright-mcp
