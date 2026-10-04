@@ -267,15 +267,38 @@ export function splitDuration(ms: number): {
   };
 }
 
-/** The region whose server clock is closest to the viewer's own offset. */
+// Viewer IANA zone prefix → server region ids that fit it.
+const CONTINENT_REGION_IDS: { zone: RegExp; ids: RegExp }[] = [
+  { zone: /^(Europe|Africa|Atlantic)[/]/, ids: /eu|global/i },
+  { zone: /^America[/]/, ids: /america|^na|^sa|^us/i },
+  {
+    zone: /^(Asia|Australia|Pacific|Indian)[/]/,
+    ids: /asia|sea|apac|hmt|hk|tw|jp|kr|oce/i,
+  },
+];
+
+/**
+ * The viewer's likely server: regions named for the viewer's continent
+ * (from the IANA zone, e.g. Europe/Berlin → an EU / NAEU server), then the
+ * one whose server clock is closest to the viewer's own offset.
+ */
 export function guessRegion(
   regions: ActivitiesRegion[],
   viewerOffsetMinutes: number,
   now: number,
+  viewerTimeZone?: string,
 ): ActivitiesRegion {
-  let best = regions[0];
+  let candidates = regions;
+  const rule = viewerTimeZone
+    ? CONTINENT_REGION_IDS.find((c) => c.zone.test(viewerTimeZone))
+    : undefined;
+  if (rule) {
+    const matching = regions.filter((r) => rule.ids.test(r.id));
+    if (matching.length) candidates = matching;
+  }
+  let best = candidates[0];
   let bestDiff = Infinity;
-  for (const r of regions) {
+  for (const r of candidates) {
     const diff = Math.abs(regionOffsetMinutes(r, now) - viewerOffsetMinutes);
     if (diff < bestDiff) {
       best = r;

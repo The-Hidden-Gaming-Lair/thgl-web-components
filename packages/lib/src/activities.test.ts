@@ -144,6 +144,18 @@ describe("reset clock", () => {
     const now = utc("2026-10-04T12:00:00Z");
     expect(guessRegion(reset.regions, 540, now).id).toBe("asia"); // Tokyo
     expect(guessRegion(reset.regions, -420, now).id).toBe("na"); // LA
+    // Night Crows: ASIA +8, NAEU -4, SA -3 → Berlin plays NAEU, Sao Paulo SA.
+    const nc = [
+      { id: "asia", name: "", utcOffsetMinutes: 480 },
+      { id: "naeu", name: "", utcOffsetMinutes: -240 },
+      { id: "sa", name: "", utcOffsetMinutes: -180 },
+    ];
+    expect(guessRegion(nc, 120, now, "Europe/Berlin").id).toBe("naeu");
+    expect(guessRegion(nc, -180, now, "America/Sao_Paulo").id).toBe("sa");
+    expect(guessRegion(nc, -240, now, "America/New_York").id).toBe("naeu");
+    expect(guessRegion(nc, 540, now, "Asia/Tokyo").id).toBe("asia");
+    // No continent match → closest offset.
+    expect(guessRegion(nc, 120, now, "Etc/GMT-2").id).toBe("sa");
   });
 
   test("formats offsets", () => {

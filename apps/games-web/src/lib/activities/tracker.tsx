@@ -193,6 +193,7 @@ export function ActivitiesTracker({
             view.reset.regions,
             -new Date(now).getTimezoneOffset(),
             now,
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
           ).id,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [view.reset.regions, now === null],
