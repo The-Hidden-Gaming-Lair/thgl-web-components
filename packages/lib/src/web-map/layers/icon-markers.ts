@@ -781,6 +781,11 @@ export class IconMarkerLayer implements Layer {
     this.tryAtlasPack(name, source);
   }
 
+  /** True when `name` is already registered with exactly this source, i.e. setSheet would only redraw it */
+  hasSheet(name: string, source: HTMLImageElement | HTMLCanvasElement) {
+    return this.sheetImages.get(name) === source;
+  }
+
   /** Attempt to pack a sheet image into the dynamic texture atlas */
   private tryAtlasPack(
     name: string,
@@ -1324,7 +1329,7 @@ export class IconMarkerLayer implements Layer {
           this.createDefaultCircleSheet(gl)
         );
       }
-      if (!img.complete) {
+      if (!img.complete || this.decodingImages.has(img)) {
         return null; // Still loading
       }
       // Image just loaded — try to pack into atlas now
@@ -1341,13 +1346,14 @@ export class IconMarkerLayer implements Layer {
     const w = isCanvas ? img.width : img.naturalWidth;
     const h = isCanvas ? img.height : img.naturalHeight;
 
-    return this.uploadTexture(gl, name, img, w, h);
+    const decoded = isCanvas ? undefined : this.decodedImages.get(img);
+    return this.uploadTexture(gl, name, decoded ?? img, w, h);
   }
 
   private uploadTexture(
     gl: WebGL2RenderingContext,
     name: string,
-    source: HTMLImageElement | HTMLCanvasElement,
+    source: HTMLImageElement | HTMLCanvasElement | ImageBitmap,
     w: number,
     h: number,
   ): SheetTex {
@@ -2117,13 +2123,32 @@ export class IconMarkerLayer implements Layer {
   /** Callback injected by WebMap to request a redraw when icon sheets load */
   onSheetLoad?: () => void;
 
+  /** Pixels of URL-loaded sheets decoded off the main thread (texImage2D from the element decodes on it) */
+  private decodedImages = new WeakMap<HTMLImageElement, ImageBitmap>();
+  /** URL sheets that are loaded but still decoding — ensureSheet waits for them */
+  private decodingImages = new WeakSet<HTMLImageElement>();
+
   private createImage(url: string) {
     const img = new Image();
     img.crossOrigin = "anonymous";
+    // Pending from the start: `complete` turns true before the onload task runs, and a frame
+    // in between would upload (and decode) the element on the main thread.
+    this.decodingImages.add(img);
     img.onload = () => {
-      this.onSheetLoad?.();
+      // From a Blob, createImageBitmap decodes on a worker. The fetch is an HTTP-cache hit.
+      fetch(url)
+        .then((res) => (res.ok ? res.blob() : Promise.reject()))
+        // Unpremultiplied like the element upload (WebGL ignores UNPACK_* flags for bitmaps)
+        .then((blob) => createImageBitmap(blob, { premultiplyAlpha: "none" }))
+        .then((bitmap) => this.decodedImages.set(img, bitmap))
+        .catch(() => {}) // upload from the element instead
+        .finally(() => {
+          this.decodingImages.delete(img);
+          this.onSheetLoad?.();
+        });
     };
     img.onerror = () => {
+      this.decodingImages.delete(img);
       for (const [name, source] of this.sheetImages) {
         if (source === img) {
           this.failedSheets.add(name);

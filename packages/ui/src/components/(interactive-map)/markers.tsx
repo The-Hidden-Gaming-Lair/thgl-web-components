@@ -63,6 +63,8 @@ import {
 import {
   getSourceImage,
   setSourceImage,
+  decodeSourceImage,
+  getDrawableSource,
   getProcessedImage,
   setProcessedImage,
   createProcessedImageKey,
@@ -832,7 +834,7 @@ function MarkersContent({
     // This isolates the icon from the atlas, preventing WebGL bilinear
     // filtering from bleeding adjacent icon pixels across boundaries.
     ctx.drawImage(
-      sourceImg,
+      getDrawableSource(sourceImg),
       rect.x,
       rect.y,
       rect.width,
@@ -872,7 +874,11 @@ function MarkersContent({
       cached = processSheetIcon(spriteSheetSource, rect);
       processedIconCache.current.set(processedKey, cached);
     }
-    layer.setSheet(processedKey, cached.canvas);
+    // Called once per marker: re-setting the same canvas would redraw it into the atlas and
+    // re-upload the whole atlas page every time (hundreds of ms on map load).
+    if (!layer.hasSheet(processedKey, cached.canvas)) {
+      layer.setSheet(processedKey, cached.canvas);
+    }
     return {
       sheet: processedKey,
       rect: {
@@ -1037,8 +1043,12 @@ function MarkersContent({
       const spriteImg = new Image();
       spriteImg.crossOrigin = "anonymous";
       spriteImg.onload = () => {
-        setSourceImage(iconUrl, spriteImg);
-        setIconLoadVersion((v) => v + 1);
+        // Decode off the main thread first: cutting icons from the bare element decoded the
+        // whole (multi-MB) sprite synchronously inside this effect (~90 ms long task).
+        decodeSourceImage(spriteImg).then(() => {
+          setSourceImage(iconUrl, spriteImg);
+          setIconLoadVersion((v) => v + 1);
+        });
       };
       spriteImg.src = iconUrl;
     }
