@@ -52,6 +52,60 @@ export const onceHuman = resolveAppConfig({
       linkText: "Explore the Endless Dream Map",
     },
     {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
+    {
+      href: "/db/materials",
+      title: "Materials",
+      description:
+        "Every crafting material - ores, ingots, parts, fuel - with its recipe, station and where it comes from.",
+      iconName: "Gift",
+      linkText: "Browse Materials",
+    },
+    {
+      href: "/db/consumables",
+      title: "Consumables",
+      description:
+        "Food, medicine, ammo, tactical items and feed with their recipes.",
+      iconName: "ChefHat",
+      linkText: "Browse Consumables",
+    },
+    {
+      href: "/db/gear",
+      title: "Gear",
+      description:
+        "Craftable weapons, armor and tools for every crafting tier with their material costs.",
+      iconName: "Shield",
+      linkText: "Browse Gear",
+    },
+    {
+      href: "/db/facilities",
+      title: "Facilities",
+      description:
+        "Workbenches, production facilities, furniture and Build Mode pieces with their material costs.",
+      iconName: "House",
+      linkText: "Browse Facilities",
+    },
+    {
+      href: "/db/vehicles",
+      title: "Vehicles",
+      description: "Vehicle parts and vehicles with their recipes.",
+      iconName: "Grid",
+      linkText: "Browse Vehicles",
+    },
+    {
+      href: "/db/alternate-recipes",
+      title: "Alternate Recipes",
+      description:
+        "Second ways to make an item and the recipes that change in a specific scenario.",
+      iconName: "ScrollText",
+      linkText: "Browse Alternate Recipes",
+    },
+    {
       href: "/db/mod-locations",
       title: "Mod Locations",
       iconName: "ArrowUp",
@@ -89,11 +143,59 @@ export const onceHuman = resolveAppConfig({
     },
   ],
   keywords: ["Ores", "Resources", "Riddles", "Deviants"],
-  topFilters: ["mystical_crate", "landscape_viewpoint_camera", "hoard_loot_crate"],
+  topFilters: [
+    "mystical_crate",
+    "landscape_viewpoint_camera",
+    "hoard_loot_crate",
+  ],
   db: {
     heroSubtitle: "Codex & Compendium",
-    searchPlaceholder: "Search remnants, records, weapons...",
+    searchPlaceholder: "Search items, recipes, remnants, weapons...",
     homeSections: [
+      {
+        href: "/db/materials",
+        type: "materials",
+        icon: "⛏",
+        titleFallback: "Materials",
+        description:
+          "Ores, ingots, parts and fuel with recipes, stations and sources.",
+      },
+      {
+        href: "/db/consumables",
+        type: "consumables",
+        icon: "🍲",
+        titleFallback: "Consumables",
+        description: "Food, medicine, ammo, tactical items and feed.",
+      },
+      {
+        href: "/db/gear",
+        type: "gear",
+        icon: "🛡",
+        titleFallback: "Gear",
+        description: "Craftable weapons, armor and tools per crafting tier.",
+      },
+      {
+        href: "/db/facilities",
+        type: "facilities",
+        icon: "🏗",
+        titleFallback: "Facilities",
+        description:
+          "Workbenches, production facilities, furniture and Build Mode pieces.",
+      },
+      {
+        href: "/db/vehicles",
+        type: "vehicles",
+        icon: "🚙",
+        titleFallback: "Vehicles",
+        description: "Vehicle parts and vehicles with their recipes.",
+      },
+      {
+        href: "/db/alternate-recipes",
+        type: "alternate-recipes",
+        icon: "📜",
+        titleFallback: "Alternate Recipes",
+        description: "Extra and scenario-specific recipes.",
+      },
       {
         href: "/db/weapons",
         type: "weapon",
@@ -139,12 +241,24 @@ export const onceHuman = resolveAppConfig({
       },
     ],
     typeLabels: {
+      materials: "Material",
+      consumables: "Consumable",
+      gear: "Gear",
+      facilities: "Facility",
+      vehicles: "Vehicle",
+      "alternate-recipes": "Recipe",
       weapon: "Weapon",
       remnants: "Remnant",
       regional_records: "Record",
       echoes_of_stardust: "Echo",
     },
     typeColors: {
+      materials: "bg-stone-800/60 text-stone-300",
+      consumables: "bg-lime-900/40 text-lime-400",
+      gear: "bg-sky-900/40 text-sky-400",
+      facilities: "bg-amber-900/40 text-amber-400",
+      vehicles: "bg-teal-900/40 text-teal-400",
+      "alternate-recipes": "bg-violet-900/40 text-violet-400",
       weapon: "bg-orange-900/40 text-orange-400",
       remnants: "bg-emerald-900/40 text-emerald-400",
       regional_records: "bg-cyan-900/40 text-cyan-400",

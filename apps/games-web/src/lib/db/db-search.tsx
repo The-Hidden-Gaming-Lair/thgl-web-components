@@ -257,7 +257,13 @@ export function DbSearch({
                         alt=""
                         role="presentation"
                         className="shrink-0 object-none"
-                        src={iconsUrl}
+                        src={
+                          // Sprite cells say "icons.webp"; standalone codex
+                          // icons carry their own resolved url.
+                          entry.icon.url && entry.icon.url !== "icons.webp"
+                            ? entry.icon.url
+                            : iconsUrl
+                        }
                         width={entry.icon.width}
                         height={entry.icon.height}
                         style={{
