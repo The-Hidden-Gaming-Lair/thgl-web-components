@@ -12,6 +12,7 @@ import {
 import { DEFAULT_LOCALE, localizePath, translate } from "./i18n";
 import { decodeFromBuffer } from "./cbor";
 import { craftingSitemapPaths } from "./crafting-data";
+import { xpPlannerSitemapPaths } from "./xp-planner-data";
 import { type Spawn } from "./coordinates";
 
 /**
@@ -321,7 +322,7 @@ export function createSitemapIndex(appConfig: AppConfig) {
         database,
         resolveSection,
         appConfig.db.entryPages,
-        await craftingSitemapPaths(appConfig),
+        await toolSitemapPaths(appConfig),
       );
       dbChunks =
         dbEntries.length > 0
@@ -379,6 +380,15 @@ function buildSectionResolver(
     }
     return null;
   };
+}
+
+/** Per-entry pages of the generic tools (`/crafting/<id>`, `/xp-planner/<skill>`). */
+async function toolSitemapPaths(appConfig: AppConfig): Promise<string[]> {
+  const [crafting, xp] = await Promise.all([
+    craftingSitemapPaths(appConfig),
+    xpPlannerSitemapPaths(appConfig),
+  ]);
+  return [...crafting, ...xp];
 }
 
 /** Collect the path of every database detail page, plus the tenant's
@@ -482,7 +492,7 @@ export function createGenerateSitemaps(appConfig: AppConfig) {
         database,
         resolveSection,
         appConfig.db.entryPages,
-        await craftingSitemapPaths(appConfig),
+        await toolSitemapPaths(appConfig),
       );
       dbChunks =
         dbEntries.length > 0
@@ -761,7 +771,7 @@ export function createSitemap(appConfig: AppConfig) {
         database,
         resolveSection,
         appConfig.db.entryPages,
-        await craftingSitemapPaths(appConfig),
+        await toolSitemapPaths(appConfig),
       );
       const dbChunkIndex = id - dbStartId;
       const start = dbChunkIndex * ENTRIES_PER_CHUNK;

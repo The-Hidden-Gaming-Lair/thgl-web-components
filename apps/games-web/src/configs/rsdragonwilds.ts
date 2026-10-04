@@ -69,6 +69,13 @@ export const rsdragonwilds = resolveAppConfig({
       iconName: "Hammer",
       linkText: "crafting.navLinkText",
     },
+    {
+      title: "xp.navTitle",
+      description: "xp.navDescription",
+      href: "/xp-planner",
+      iconName: "ChartLine",
+      linkText: "xp.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Chests", "Lore", "Quests", "Items", "Recipes", "Equipment"],
