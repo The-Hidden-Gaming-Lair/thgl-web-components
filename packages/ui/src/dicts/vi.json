@@ -488,5 +488,18 @@
   "db.meta.drops": "Rơi ra {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Tất cả {{count}} mục | Cơ sở dữ liệu {{game}}",
   "db.meta.sectionDesc": "Duyệt tất cả {{count}} {{section}} trong cơ sở dữ liệu {{game}} kèm chỉ số, nguồn gốc và địa điểm.",
-  "db.meta.includes": "Bao gồm {{names}} và nhiều hơn nữa."
+  "db.meta.includes": "Bao gồm {{names}} và nhiều hơn nữa.",
+  "nav.maps": "Bản đồ",
+  "nav.allMaps": "Tất cả bản đồ",
+  "nav.allCategories": "Tất cả danh mục",
+  "nav.guides": "Hướng dẫn",
+  "nav.tools": "Công cụ",
+  "nav.more": "Thêm",
+  "nav.menu": "Menu",
+  "nav.searchGames": "Tìm trò chơi…",
+  "nav.recent": "Gần đây",
+  "nav.new": "Mới",
+  "nav.allGames": "Tất cả trò chơi",
+  "nav.noGames": "Không tìm thấy trò chơi",
+  "nav.language": "Ngôn ngữ"
 }

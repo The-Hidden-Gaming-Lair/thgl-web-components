@@ -479,5 +479,18 @@
   "db.meta.drops": "Droppa {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Tutte le {{count}} Voci | Database {{game}}",
   "db.meta.sectionDesc": "Sfoglia tutti i {{count}} {{section}} nel database di {{game}} con statistiche, fonti e posizioni.",
-  "db.meta.includes": "Include {{names}} e altro."
+  "db.meta.includes": "Include {{names}} e altro.",
+  "nav.maps": "Mappe",
+  "nav.allMaps": "Tutte le mappe",
+  "nav.allCategories": "Tutte le categorie",
+  "nav.guides": "Guide",
+  "nav.tools": "Strumenti",
+  "nav.more": "Altro",
+  "nav.menu": "Menu",
+  "nav.searchGames": "Cerca giochi…",
+  "nav.recent": "Recenti",
+  "nav.new": "Nuovi",
+  "nav.allGames": "Tutti i giochi",
+  "nav.noGames": "Nessun gioco trovato",
+  "nav.language": "Lingua"
 }

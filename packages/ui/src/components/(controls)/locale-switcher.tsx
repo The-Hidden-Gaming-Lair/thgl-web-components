@@ -20,15 +20,18 @@ const LOCALE_LABELS: Record<string, string> = {
   "es-MX": "Español (México)",
   fr: "Français",
   hu: "Magyar",
+  id: "Bahasa Indonesia",
   it: "Italiano",
   ja: "日本語",
   ko: "한국어",
   pl: "Polski",
+  pt: "Português",
   "pt-BR": "Português (Brasil)",
   ru: "Русский",
   th: "ไทย",
   tr: "Türkçe",
   uk: "Українська",
+  vi: "Tiếng Việt",
   "zh-CN": "简体中文",
   "zh-TW": "繁體中文",
 };
@@ -51,7 +54,11 @@ export function LocaleSwitcher({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-1.5 text-xs font-medium">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1.5 text-xs font-medium"
+        >
           <Globe className="h-3 w-3 opacity-50" />
           {LOCALE_LABELS[current] ?? current}
         </Button>
@@ -127,7 +134,9 @@ export function LocaleSwitcherInline({
           }
         }
         const href =
-          "/" + segments.join("/") + (searchParams.size ? `?${searchParams}` : "");
+          "/" +
+          segments.join("/") +
+          (searchParams.size ? `?${searchParams}` : "");
         const isActive = locale === current;
         return (
           <Link

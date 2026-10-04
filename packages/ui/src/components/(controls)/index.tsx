@@ -1,6 +1,7 @@
 // Named exports for better tree-shaking
 export { Actions } from "./actions";
-export { Links } from "./links";
+export { Links, useNavGroups } from "./links";
+export { SiteFooter } from "./site-footer";
 export { ErrorBoundary } from "./error-boundary";
 export { LocaleSwitcher, LocaleSwitcherInline } from "./locale-switcher";
 export { Toaster } from "./toaster";

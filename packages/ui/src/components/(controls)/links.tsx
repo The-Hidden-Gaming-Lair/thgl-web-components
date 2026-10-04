@@ -9,7 +9,15 @@ import {
   GitHubIcon,
   RedditIcon,
 } from "../(header)";
-import { ExternalLink, MoreHorizontal, ChevronsUpDown } from "lucide-react";
+import { trackEvent } from "../(header)/plausible-tracker";
+import {
+  ChevronDown,
+  ExternalLink,
+  Globe,
+  Menu,
+  MoreHorizontal,
+  X,
+} from "lucide-react";
 import { AppConfig, localizePath, cn } from "@repo/lib";
 import { Badge } from "../ui/badge";
 import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
@@ -17,29 +25,205 @@ import { useI18n } from "../(providers)";
 import { ScriptLoader } from "../(ads)";
 import ConsentLink from "../(ads)/consent-link";
 
-const NAV_BEFORE = [
-  { href: "/", title: "home.title" },
-  { href: "/maps", title: "interactive_map" },
-] as const;
+/**
+ * Header navigation, grouped by what a page IS rather than one flat list:
+ *
+ *   Home | Map(s) ▾ | Database ▾ | Guides | Tools ▾   [In-Game App] [partners] [🌐] [⋯]
+ *
+ * Every group is derived from the tenant config — nothing per game to curate:
+ *   - Maps: `/maps` + every named `/maps/<map>` internalLink (plain
+ *     "Interactive Map" link when the game has no named map links).
+ *   - Database: `/db` ("All categories") + `db.homeSections` + `/db/*` internalLinks.
+ *   - Guides: `/guides` when the game has filters.
+ *   - Tools: every other internalLink (breeding, rummage pile, forecast, …);
+ *     a single tool renders inline instead of a one-item menu.
+ * Only groups the tenant has are rendered (map-only: Home | Map | Guides).
+ *
+ * Menus are always in the DOM (toggled with `hidden`), so every link stays in
+ * the server-rendered HTML for crawlers; below `md` the same groups render in
+ * a menu sheet. Clicks fire a "Nav: Click" Plausible event.
+ */
 
-const NAV_AFTER = [
-  { href: "/guides", title: "config.internalLinks.guides.title" },
-] as const;
-
-type MeasuredItem = {
+export type NavLink = {
   key: string;
-  label: string;
   href: string;
-  isActive: boolean;
-  isExternal?: boolean;
-  isLocale?: boolean;
-  isHome?: boolean;
+  label: string;
+  /** Active only on this exact path (index links like /maps, /db). */
+  exact?: boolean;
+  external?: boolean;
 };
+
+export type NavGroup = {
+  id: "home" | "maps" | "db" | "guides" | "tools";
+  label: string;
+  /** Single link (no menu). */
+  link?: NavLink;
+  /** Menu entries. */
+  items?: NavLink[];
+};
+
+const isExternalHref = (href: string) => /^https?:\/\//.test(href);
+
+function stripLocale(pathname: string, locale: string): string {
+  const prefix = `/${locale}`;
+  if (pathname === prefix) return "/";
+  if (pathname.startsWith(`${prefix}/`)) return pathname.slice(prefix.length);
+  return pathname;
+}
+
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function trackNavClick(group: string, href: string) {
+  trackEvent("Nav: Click", { props: { group, href } });
+}
+
+/**
+ * The tenant's navigation groups (see the comment above). Shared by the header
+ * and the site footer so both always list the same pages.
+ */
+export function useNavGroups({
+  appConfig,
+  hasMap,
+  hasGuides = true,
+  inlineLinks,
+}: {
+  appConfig: AppConfig;
+  hasMap: boolean;
+  hasGuides?: boolean;
+  inlineLinks?: number;
+}): NavGroup[] {
+  const { locale, t } = useI18n();
+  // Elite-only (previewOnly) links stay hidden from the nav until access resolves.
+  const previewGate = usePreviewReleaseGate();
+  return useMemo(() => {
+    const toLink = (href: string, label: string, exact?: boolean): NavLink => {
+      const external = isExternalHref(href);
+      const target = external ? href : localizePath(href, locale);
+      return { key: target, href: target, label, exact, external };
+    };
+    const appLinks =
+      appConfig.internalLinks?.filter(
+        (l) => l.href !== "/" && (!l.previewOnly || previewGate === "allow"),
+      ) ?? [];
+
+    const result: NavGroup[] = [
+      {
+        id: "home",
+        label: t("home.title"),
+        link: toLink("/", t("home.title"), true),
+      },
+    ];
+
+    if (hasMap) {
+      const named = appLinks.filter((l) => l.href.startsWith("/maps/"));
+      if (named.length === 0) {
+        result.push({
+          id: "maps",
+          label: t("interactive_map"),
+          link: toLink("/maps", t("interactive_map")),
+        });
+      } else {
+        result.push({
+          id: "maps",
+          label: t("nav.maps", { fallback: "Maps" }),
+          items: [
+            toLink("/maps", t("nav.allMaps", { fallback: "All Maps" }), true),
+            ...named.map((l) => toLink(l.href, t(l.title))),
+          ],
+        });
+      }
+    }
+
+    const db = appConfig.db;
+    if (db) {
+      const items: NavLink[] = [
+        toLink(
+          "/db",
+          t("nav.allCategories", { fallback: "All Categories" }),
+          true,
+        ),
+      ];
+      const seen = new Set(["/db"]);
+      for (const section of db.homeSections) {
+        if (seen.has(section.href)) continue;
+        seen.add(section.href);
+        // The section's display (plural) label — the same one the section's
+        // h1 / breadcrumb / title use. `typeLabels` is the SINGULAR entry
+        // label (search badges, entry titles), only a last resort here.
+        const label =
+          (section.titleKey ? t(section.titleKey) : undefined) ??
+          section.titleFallback ??
+          db.typeLabels?.[section.type] ??
+          section.type;
+        items.push(toLink(section.href, label));
+      }
+      for (const l of appLinks) {
+        if (!l.href.startsWith("/db") || seen.has(l.href)) continue;
+        seen.add(l.href);
+        items.push(toLink(l.href, t(l.title)));
+      }
+      result.push({ id: "db", label: t("database"), items });
+    }
+
+    if (hasGuides) {
+      const label = t("nav.guides", { fallback: "Guides" });
+      result.push({ id: "guides", label, link: toLink("/guides", label) });
+    }
+
+    const tools = appLinks
+      .filter(
+        (l) =>
+          !l.href.startsWith("/maps") &&
+          !l.href.startsWith("/db") &&
+          !l.href.startsWith("/guides"),
+      )
+      .map((l) => toLink(l.href, t(l.title)));
+    if (inlineLinks !== undefined) {
+      // Non-game sites (www): the first links inline, the rest under "More".
+      for (const link of tools.slice(0, inlineLinks)) {
+        result.push({ id: "tools", label: link.label, link });
+      }
+      if (tools.length > inlineLinks) {
+        result.push({
+          id: "tools",
+          label: t("nav.more", { fallback: "More" }),
+          items: tools.slice(inlineLinks),
+        });
+      }
+    } else if (tools.length === 1) {
+      result.push({ id: "tools", label: tools[0].label, link: tools[0] });
+    } else if (tools.length > 1) {
+      result.push({
+        id: "tools",
+        label: t("nav.tools", { fallback: "Tools" }),
+        items: tools,
+      });
+    }
+
+    return result;
+  }, [
+    appConfig.internalLinks,
+    appConfig.db,
+    hasMap,
+    hasGuides,
+    inlineLinks,
+    locale,
+    t,
+    previewGate,
+  ]);
+}
 
 export function Links({
   appConfig,
   hasMap,
   hasGuides = true,
+  inlineLinks,
   children,
   childrenDropdown,
 }: {
@@ -49,218 +233,92 @@ export function Links({
   /**
    * Whether the /guides section exists. Defaults to true (map games).
    * Database-only deployments (e.g. homm-olden-era) set this to false so
-   * the "All Guides" link is hidden from the header.
+   * the Guides link is hidden from the header.
    */
   hasGuides?: boolean;
+  /**
+   * Non-game sites (www): render the first N internalLinks as top-level tabs
+   * and the rest under "More" instead of grouping them as "Tools".
+   */
+  inlineLinks?: number;
+  /** Language switcher (dropdown) shown at the right of the nav. */
   children?: React.ReactNode;
+  /** Flat language list for the mobile menu sheet (falls back to `children`). */
   childrenDropdown?: React.ReactNode;
 }): JSX.Element {
   const pathname = usePathname() ?? "/";
   const { locale, t } = useI18n();
-  // Elite-only (previewOnly) links stay hidden from the nav until access resolves.
-  const previewGate = usePreviewReleaseGate();
-  const [overflowOpen, setOverflowOpen] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(100);
-  // Force re-render after hydration to fix active state mismatch
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
+  // Re-render after hydration so the active state matches the client path.
   const [, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const isItemActive = (item: MeasuredItem) => {
-    if (item.isExternal || item.isLocale) return false;
-    return item.isHome
-      ? pathname === "/" || pathname === `/${locale}`
-      : pathname.startsWith(item.href);
-  };
-  const containerRef = useRef<HTMLDivElement>(null);
-  const measureRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const groups = useNavGroups({ appConfig, hasMap, hasGuides, inlineLinks });
 
-  // Build nav items
-  const navItems = useMemo(() => {
-    const appLinks =
-      appConfig.internalLinks?.filter(
-        (l) =>
-          l.href !== "/" &&
-          !l.href.startsWith("/maps") &&
-          !l.href.startsWith("/guides") &&
-          // Hide Elite-only links unless preview access is granted.
-          (!l.previewOnly || previewGate === "allow"),
-      ) ?? [];
-
-    const before = NAV_BEFORE.filter(
-      (l) => l.href === "/" || (l.href === "/maps" && hasMap),
-    );
-    const after = hasGuides ? [...NAV_AFTER] : [];
-
-    // DB sections come before guides so "All Guides" is always last
-    const allLinks = [...before, ...appLinks];
-
-    const items = allLinks.map((l): MeasuredItem => {
-      const href = localizePath(l.href, locale);
-      return {
-        key: href,
-        href,
-        label: t(l.title),
-        isActive: false,
-        isHome: l.href === "/",
-      };
-    });
-
-    // Data-driven sections: opt-in, append every DB section not already linked
-    // above (de-duped by href). Keeps the nav in sync with `db.homeSections`
-    // without hand-curating each one in `internalLinks`.
-    if (appConfig.db?.sectionsInNav) {
-      const seen = new Set([...allLinks, ...after].map((l) => l.href));
-      for (const section of appConfig.db.homeSections) {
-        if (seen.has(section.href)) continue;
-        seen.add(section.href);
-        // The section's display (plural) label — the same one the section's
-        // h1 / breadcrumb / title use. `typeLabels` is the SINGULAR entry
-        // label (search badges, entry titles), only a last resort here.
-        const label =
-          (section.titleKey ? t(section.titleKey) : undefined) ??
-          section.titleFallback ??
-          appConfig.db.typeLabels?.[section.type] ??
-          section.type;
-        items.push({
-          key: localizePath(section.href, locale),
-          href: localizePath(section.href, locale),
-          label,
-          isActive: false,
-        });
-      }
-    }
-
-    // Guides always last
-    for (const l of after) {
-      items.push({
-        key: localizePath(l.href, locale),
-        href: localizePath(l.href, locale),
-        label: t(l.title),
-        isActive: false,
-      });
-    }
-
-    return items;
-  }, [
-    appConfig.internalLinks,
-    appConfig.db,
-    hasMap,
-    hasGuides,
-    locale,
-    t,
-    previewGate,
-  ]);
-
-  // Build external items: In-Game App first (most important), then partner links, then locale last
-  const externalItems = useMemo(() => {
-    const items: MeasuredItem[] = [];
+  // In-Game App first (most important), then partner links (never dropped).
+  const externals = useMemo(() => {
+    const items: NavLink[] = [];
     if (appConfig.appUrl) {
       items.push({
         key: appConfig.appUrl,
         href: appConfig.appUrl,
         label: t("links.inGameApp"),
-        isActive: false,
-        isExternal: true,
+        external: true,
       });
     }
     for (const { href, title } of appConfig.externalLinks ?? []) {
-      items.push({
-        key: href,
-        href,
-        label: t(title),
-        isActive: false,
-        isExternal: true,
-      });
-    }
-    if (children) {
-      items.push({
-        key: "__locale__",
-        href: "",
-        label: "English",
-        isActive: false,
-        isLocale: true,
-      });
+      items.push({ key: href, href, label: t(title), external: true });
     }
     return items;
-  }, [appConfig.externalLinks, appConfig.appUrl, children, t]);
+  }, [appConfig.externalLinks, appConfig.appUrl, t]);
 
-  // All items: nav first, then externals.
-  // Measurement goes left-to-right. When items don't fit, externals (at end) overflow first.
-  const allItems = useMemo(
-    () => [...navItems, ...externalItems],
-    [navItems, externalItems],
-  );
-  const navCount = navItems.length;
+  const path = safeDecode(stripLocale(pathname, locale));
+  const isLinkActive = (link: NavLink) => {
+    if (link.external) return false;
+    const href = safeDecode(stripLocale(link.href, locale));
+    if (link.exact || href === "/") return path === href;
+    return path === href || path.startsWith(`${href}/`);
+  };
+  const isGroupActive = (group: NavGroup) =>
+    group.link ? isLinkActive(group.link) : !!group.items?.some(isLinkActive);
 
-  // Measure how many items fit
+  // Close menus on outside click / Escape / navigation.
   useEffect(() => {
-    function measure() {
-      if (!containerRef.current || !measureRef.current) return;
-      const containerWidth = containerRef.current.offsetWidth;
-      const measuredChildren = measureRef.current.children;
-      let total = 0;
-      let count = 0;
-      const moreButtonWidth = 40;
-
-      for (let i = 0; i < measuredChildren.length; i++) {
-        const childWidth = (measuredChildren[i] as HTMLElement).offsetWidth + 4;
-        if (total + childWidth + moreButtonWidth > containerWidth) break;
-        total += childWidth;
-        count++;
-      }
-      setVisibleCount(Math.max(1, count));
-    }
-
-    measure();
-    const observer = new ResizeObserver(measure);
-    if (containerRef.current) observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  // Close on click outside
-  useEffect(() => {
-    if (!overflowOpen) return;
+    if (!openMenu && !sheetOpen) return;
     function handleClick(e: MouseEvent) {
       const target = e.target as Node;
       if (
-        !menuRef.current?.contains(target) &&
-        !mobileMenuRef.current?.contains(target)
-      ) {
-        setOverflowOpen(false);
-      }
+        navRef.current?.contains(target) ||
+        sheetRef.current?.contains(target) ||
+        mobileRef.current?.contains(target)
+      )
+        return;
+      setOpenMenu(null);
+      setSheetOpen(false);
+    }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      setOpenMenu(null);
+      setSheetOpen(false);
     }
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [overflowOpen]);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [openMenu, sheetOpen]);
 
-  // Close when navigating
   useEffect(() => {
-    setOverflowOpen(false);
+    setOpenMenu(null);
+    setSheetOpen(false);
   }, [pathname]);
 
-  // Split visible vs overflow
-  const visibleItems = allItems.slice(0, visibleCount);
-  const overflowItems = allItems.slice(visibleCount);
-  const hasOverflow = overflowItems.length > 0;
-  const overflowHasActive = overflowItems.some((item) => isItemActive(item));
-
-  // Check which externals are visible vs overflowed
-  const visibleExternals = visibleItems.filter(
-    (i) => i.isExternal || i.isLocale,
-  );
-  const overflowedExternals = overflowItems.filter(
-    (i) => i.isExternal || i.isLocale,
-  );
-  const visibleNavItems = visibleItems.filter(
-    (i) => !i.isExternal && !i.isLocale,
-  );
-  const overflowedNavItems = overflowItems.filter(
-    (i) => !i.isExternal && !i.isLocale,
-  );
-
-  const legalFooter = (
+  const legalLinks = (
     <>
       <ExternalAnchor
         className="block px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
@@ -274,226 +332,318 @@ export function Links({
       >
         {t("privacy_policy")}
       </ExternalAnchor>
+      <ScriptLoader>
+        <ConsentLink />
+      </ScriptLoader>
     </>
   );
 
-  const renderInlineItem = (item: MeasuredItem) => {
-    if (item.isLocale) {
-      return (
-        <div key={item.key} className="order-2">
-          {children}
-        </div>
-      );
-    }
-    if (item.isExternal) {
-      return (
+  const socialLinks = (
+    <div className="flex items-center justify-center gap-1.5 px-3 py-2">
+      {[
+        { href: "https://th.gl/discord", title: "Discord", Icon: DiscordIcon },
+        {
+          href: "https://github.com/The-Hidden-Gaming-Lair",
+          title: "GitHub",
+          Icon: GitHubIcon,
+        },
+        {
+          href: "https://www.reddit.com/r/TheHiddenGamingLair/",
+          title: "Reddit",
+          Icon: RedditIcon,
+        },
+      ].map(({ href, title, Icon }) => (
         <ExternalAnchor
-          key={item.key}
-          className="order-2 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border border-input bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors whitespace-nowrap"
-          href={item.href}
+          key={href}
+          className="h-8 w-8 inline-flex items-center justify-center rounded-md border border-input bg-background/50 hover:bg-accent transition-colors"
+          href={href}
+          title={title}
         >
-          {item.label}
-          <ExternalLink className="w-3 h-3 opacity-50" />
+          <Icon size={14} className="opacity-70" />
         </ExternalAnchor>
-      );
-    }
-    return (
-      <Link
-        key={item.key}
-        href={item.href}
+      ))}
+    </div>
+  );
+
+  const promoBadges = !!appConfig.promoLinks?.length && (
+    <div className="flex flex-wrap gap-1.5 px-3 py-2">
+      {appConfig.promoLinks.map(({ href, title }) => (
+        <Link key={href} href={localizePath(href, locale)}>
+          <Badge>{t(title)}</Badge>
+        </Link>
+      ))}
+    </div>
+  );
+
+  const renderMenuLink = (group: string, link: NavLink, className?: string) =>
+    link.external ? (
+      <ExternalAnchor
+        key={link.key}
+        href={link.href}
+        onClick={() => trackNavClick(group, link.href)}
         className={cn(
-          "order-1 text-xs px-2.5 py-1.5 rounded-md transition-colors whitespace-nowrap",
-          isItemActive(item)
-            ? "bg-amber-900/30 text-amber-400"
-            : "text-muted-foreground hover:text-foreground hover:bg-zinc-800",
+          "flex items-center gap-1.5 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors",
+          className,
         )}
       >
-        {item.label}
-      </Link>
-    );
-  };
-
-  const renderDropdownItem = (item: MeasuredItem) => {
-    if (item.isLocale) {
-      return (
-        <div key={item.key} className="px-1 py-1">
-          {childrenDropdown ?? children}
-        </div>
-      );
-    }
-    if (item.isExternal) {
-      return (
-        <ExternalAnchor
-          key={item.key}
-          className="flex items-center gap-1.5 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
-          href={item.href}
-        >
-          {item.label}
-          <ExternalLink className="w-3 h-3 opacity-50" />
-        </ExternalAnchor>
-      );
-    }
-    return (
+        {link.label}
+        <ExternalLink className="w-3 h-3 opacity-50 shrink-0" />
+      </ExternalAnchor>
+    ) : (
       <Link
-        key={item.key}
-        href={item.href}
+        key={link.key}
+        href={link.href}
+        onClick={() => trackNavClick(group, link.href)}
         className={cn(
           "block px-3 py-2 text-sm transition-colors",
-          isItemActive(item)
+          isLinkActive(link)
             ? "text-amber-400 bg-amber-900/20"
             : "text-muted-foreground hover:text-foreground hover:bg-zinc-800",
+          className,
         )}
       >
-        {item.label}
+        {link.label}
       </Link>
     );
-  };
 
-  const dropdownContent = (showAll = false, alignLeft = false) => {
-    // In showAll mode (mobile), show everything. Otherwise show only overflowed items.
-    const navToShow = showAll ? navItems : overflowedNavItems;
-    const extToShow = showAll ? externalItems : overflowedExternals;
+  const menuPanel =
+    "absolute top-full mt-1 font-medium rounded-lg border border-neutral-700 bg-zinc-900 shadow-2xl z-50 py-1 max-h-[min(70vh,600px)] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent";
 
+  const tabClass = (active: boolean, open = false) =>
+    cn(
+      "inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md transition-colors whitespace-nowrap",
+      active
+        ? "bg-amber-900/30 text-amber-400"
+        : open
+          ? "bg-zinc-800 text-foreground"
+          : "text-muted-foreground hover:text-foreground hover:bg-zinc-800",
+    );
+
+  const renderDesktopGroup = (group: NavGroup) => {
+    if (group.link) {
+      return (
+        <Link
+          key={group.link.key}
+          href={group.link.href}
+          onClick={() => trackNavClick(group.id, group.link!.href)}
+          className={tabClass(isGroupActive(group))}
+        >
+          {group.label}
+        </Link>
+      );
+    }
+    const items = group.items ?? [];
+    const open = openMenu === group.id;
+    // Long menus (Palia's database) flow into two columns.
+    const twoColumns = items.length > 10;
     return (
       <div
-        className={cn(
-          "absolute top-full mt-1 w-52 max-h-[min(70vh,600px)] overflow-y-auto rounded-lg border border-neutral-700 bg-zinc-900 shadow-2xl z-50 py-1 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-ring/50 [&::-webkit-scrollbar-track]:bg-transparent",
-          alignLeft ? "left-0" : "right-0",
-        )}
+        key={`${group.id}:${group.label}`}
+        className="relative"
+        onMouseEnter={() =>
+          openMenu && openMenu !== group.id && setOpenMenu(group.id)
+        }
       >
-        {navToShow.map(renderDropdownItem)}
-
-        {extToShow.length > 0 && (
-          <>
-            {navToShow.length > 0 && (
-              <div className="border-t border-neutral-800 my-1" />
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-haspopup="true"
+          onClick={() => setOpenMenu(open ? null : group.id)}
+          className={tabClass(isGroupActive(group), open)}
+        >
+          {group.label}
+          <ChevronDown
+            className={cn(
+              "w-3 h-3 opacity-60 transition-transform",
+              open && "rotate-180",
             )}
-            {extToShow.map(renderDropdownItem)}
-          </>
-        )}
-
-        {/* Promo links */}
-        {!!appConfig.promoLinks?.length && (
-          <div className="flex flex-wrap gap-1.5 px-3 py-2">
-            {appConfig.promoLinks.map(({ href, title }) => (
-              <Link key={href} href={localizePath(href, locale)}>
-                <Badge>{t(title)}</Badge>
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {/* Social icons */}
-        <div className="border-t border-neutral-800 my-1" />
-        <div className="flex items-center justify-center gap-1.5 px-3 py-2">
-          <ExternalAnchor
-            className="h-8 w-8 inline-flex items-center justify-center rounded-md border border-input bg-background/50 hover:bg-accent transition-colors"
-            href="https://th.gl/discord"
-            title="Discord"
-          >
-            <DiscordIcon size={14} className="opacity-70" />
-          </ExternalAnchor>
-          <ExternalAnchor
-            className="h-8 w-8 inline-flex items-center justify-center rounded-md border border-input bg-background/50 hover:bg-accent transition-colors"
-            href="https://github.com/The-Hidden-Gaming-Lair"
-            title="GitHub"
-          >
-            <GitHubIcon size={14} className="opacity-70" />
-          </ExternalAnchor>
-          <ExternalAnchor
-            className="h-8 w-8 inline-flex items-center justify-center rounded-md border border-input bg-background/50 hover:bg-accent transition-colors"
-            href="https://www.reddit.com/r/TheHiddenGamingLair/"
-            title="Reddit"
-          >
-            <RedditIcon size={14} className="opacity-70" />
-          </ExternalAnchor>
+          />
+        </button>
+        <div
+          className={cn(
+            menuPanel,
+            "left-0",
+            twoColumns ? "w-[26rem] grid grid-cols-2" : "w-56",
+            !open && "hidden",
+          )}
+        >
+          {items.map((link, i) =>
+            renderMenuLink(
+              group.id,
+              link,
+              // The index entry ("All maps" / "All categories") spans the row.
+              cn(
+                "truncate",
+                i === 0 &&
+                  link.exact &&
+                  twoColumns &&
+                  "col-span-2 border-b border-neutral-800 mb-1",
+                i === 0 &&
+                  link.exact &&
+                  !twoColumns &&
+                  "border-b border-neutral-800 mb-1",
+              ),
+            ),
+          )}
         </div>
-
-        <div className="border-t border-neutral-800 my-1" />
-        {legalFooter}
-        <ScriptLoader>
-          <ConsentLink />
-        </ScriptLoader>
       </div>
     );
   };
+
+  const moreOpen = openMenu === "__more__";
 
   return (
     <>
-      {/* Hidden measurer — nav items then external items */}
+      {/* Desktop (md+): grouped tabs */}
       <div
-        ref={measureRef}
-        className="flex items-center gap-1 absolute left-[-9999px] opacity-0 pointer-events-none"
-        aria-hidden
+        ref={navRef}
+        className="max-md:hidden flex flex-1 items-center gap-1 min-w-0"
       >
-        {allItems.map((item) => (
-          <span
-            key={item.key}
-            className={cn(
-              "text-xs px-2.5 py-1.5 whitespace-nowrap",
-              item.isExternal &&
-                "font-medium px-2.5 py-1.5 border border-transparent",
-            )}
+        <div className="flex items-center gap-0.5 min-w-0">
+          {groups.map(renderDesktopGroup)}
+        </div>
+
+        <div className="ml-auto flex items-center gap-1 shrink-0">
+          {/* Externals inline from lg; below that they live in the ⋯ menu. */}
+          {externals.map((link) => (
+            <ExternalAnchor
+              key={link.key}
+              href={link.href}
+              onClick={() => trackNavClick("external", link.href)}
+              className="max-lg:hidden inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border border-input bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors whitespace-nowrap"
+            >
+              {link.label}
+              <ExternalLink className="w-3 h-3 opacity-50" />
+            </ExternalAnchor>
+          ))}
+
+          {children && <div className="shrink-0">{children}</div>}
+
+          <div
+            className="relative"
+            onMouseEnter={() =>
+              openMenu && !moreOpen && setOpenMenu("__more__")
+            }
           >
-            {item.label}
-            {item.isExternal ? " ↗" : ""}
-          </span>
-        ))}
+            <button
+              type="button"
+              aria-label={t("nav.more", { fallback: "More" })}
+              aria-expanded={moreOpen}
+              onClick={() => setOpenMenu(moreOpen ? null : "__more__")}
+              className={tabClass(false, moreOpen)}
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+            <div
+              className={cn(menuPanel, "right-0 w-56", !moreOpen && "hidden")}
+            >
+              {externals.length > 0 && (
+                <div className="lg:hidden border-b border-neutral-800 mb-1 pb-1">
+                  {externals.map((link) => renderMenuLink("external", link))}
+                </div>
+              )}
+              {promoBadges}
+              {socialLinks}
+              <div className="border-t border-neutral-800 my-1" />
+              {legalLinks}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Mobile: page switcher */}
-      {/* min-w-0 + max-w-full: on narrow phones the label truncates instead of
-          pushing the header search over the settings/account buttons. */}
-      <div className="sm:hidden relative min-w-0" ref={mobileMenuRef}>
+      {/* Mobile (< md): one menu button → sheet with the same groups */}
+      <div ref={mobileRef} className="md:hidden relative min-w-0">
         {(() => {
-          const activeNav = navItems.find(isItemActive);
-          const activeLabel = activeNav?.label ?? navItems[0]?.label ?? "";
+          const active = groups.find(isGroupActive);
+          const activeLink = active?.items?.find(isLinkActive);
+          const label =
+            activeLink && !activeLink.exact
+              ? activeLink.label
+              : (active?.label ?? groups[0]?.label);
           return (
             <button
-              onClick={() => setOverflowOpen((v) => !v)}
+              type="button"
+              aria-expanded={sheetOpen}
+              aria-label={t("nav.menu", { fallback: "Menu" })}
+              onClick={() => setSheetOpen((v) => !v)}
               className={cn(
-                "flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border transition-colors max-w-[160px] min-w-0 w-full",
-                overflowOpen
+                "flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border transition-colors max-w-[180px] min-w-0 w-full",
+                sheetOpen
                   ? "border-amber-800/50 bg-amber-900/20 text-amber-400"
                   : "border-neutral-700 bg-zinc-900 text-foreground hover:border-neutral-600",
               )}
             >
-              <span className="truncate">{activeLabel}</span>
-              <ChevronsUpDown className="w-3.5 h-3.5 opacity-50 shrink-0" />
+              {sheetOpen ? (
+                <X className="w-3.5 h-3.5 shrink-0" />
+              ) : (
+                <Menu className="w-3.5 h-3.5 shrink-0" />
+              )}
+              <span className="truncate">{label}</span>
             </button>
           );
         })()}
-        {overflowOpen && dropdownContent(true, true)}
       </div>
 
-      {/* Desktop: inline items with CSS order (nav=1, externals=2, more=3) */}
-      <div
-        ref={containerRef}
-        className="flex-1 hidden sm:flex items-center gap-1 min-w-0 flex-wrap-reverse"
-        style={{ flexWrap: "nowrap" }}
-      >
-        {visibleItems.map(renderInlineItem)}
+      {sheetOpen && (
+        <div
+          ref={sheetRef}
+          className="md:hidden fixed left-0 right-0 top-[54px] font-medium max-h-[calc(100dvh-54px)] overflow-y-auto border-b border-neutral-700 bg-zinc-950 shadow-2xl z-50 py-2"
+        >
+          {groups.map((group) =>
+            group.link ? (
+              renderMenuLink(group.id, group.link, "text-base font-medium")
+            ) : (
+              <details
+                key={`${group.id}:${group.label}`}
+                open={isGroupActive(group) || (group.items?.length ?? 0) <= 6}
+                className="group/details"
+              >
+                <summary
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2 text-base font-medium cursor-pointer list-none [&::-webkit-details-marker]:hidden",
+                    isGroupActive(group) ? "text-amber-400" : "text-foreground",
+                  )}
+                >
+                  {group.label}
+                  <ChevronDown className="w-4 h-4 opacity-60 transition-transform group-open/details:rotate-180" />
+                </summary>
+                <div className="pl-3 border-l border-neutral-800 ml-3 mb-1">
+                  {group.items?.map((link) => renderMenuLink(group.id, link))}
+                </div>
+              </details>
+            ),
+          )}
 
-        {/* More/overflow button — always visible, order-3 pushes it between nav and externals visually */}
-        <div ref={menuRef} className="relative order-3">
-          <button
-            onClick={() => setOverflowOpen((v) => !v)}
-            aria-label="More navigation links"
-            className={cn(
-              "text-xs px-2 py-1.5 rounded-md transition-colors",
-              overflowHasActive
-                ? "bg-amber-900/30 text-amber-400"
-                : overflowOpen
-                  ? "bg-zinc-800 text-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-zinc-800",
-            )}
-          >
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
+          {externals.length > 0 && (
+            <>
+              <div className="border-t border-neutral-800 my-1" />
+              {externals.map((link) => renderMenuLink("external", link))}
+            </>
+          )}
 
-          {overflowOpen && dropdownContent(false)}
+          {(childrenDropdown ?? children) && (
+            <>
+              <div className="border-t border-neutral-800 my-1" />
+              {/* Up to 16 languages — collapsed so they don't bury the rest. */}
+              <details className="group/details">
+                <summary className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <span className="inline-flex items-center gap-2">
+                    <Globe className="w-4 h-4 opacity-60" />
+                    {t("nav.language", { fallback: "Language" })}
+                  </span>
+                  <ChevronDown className="w-4 h-4 opacity-60 transition-transform group-open/details:rotate-180" />
+                </summary>
+                <div className="px-2 py-1">{childrenDropdown ?? children}</div>
+              </details>
+            </>
+          )}
+
+          {promoBadges}
+          <div className="border-t border-neutral-800 my-1" />
+          {socialLinks}
+          {legalLinks}
         </div>
-      </div>
+      )}
     </>
   );
 }

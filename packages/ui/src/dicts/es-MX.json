@@ -479,5 +479,18 @@
   "db.meta.drops": "Suelta {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Las {{count}} Entradas | Base de Datos de {{game}}",
   "db.meta.sectionDesc": "Explora las {{count}} {{section}} de la base de datos de {{game}} con estadísticas, fuentes y ubicaciones.",
-  "db.meta.includes": "Incluye {{names}} y más."
+  "db.meta.includes": "Incluye {{names}} y más.",
+  "nav.maps": "Mapas",
+  "nav.allMaps": "Todos los mapas",
+  "nav.allCategories": "Todas las categorías",
+  "nav.guides": "Guías",
+  "nav.tools": "Herramientas",
+  "nav.more": "Más",
+  "nav.menu": "Menú",
+  "nav.searchGames": "Buscar juegos…",
+  "nav.recent": "Recientes",
+  "nav.new": "Nuevos",
+  "nav.allGames": "Todos los juegos",
+  "nav.noGames": "No se encontraron juegos",
+  "nav.language": "Idioma"
 }

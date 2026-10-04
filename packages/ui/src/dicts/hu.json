@@ -476,5 +476,18 @@
   "db.meta.drops": "Zsákmány: {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Mind a(z) {{count}} bejegyzés | {{game}} adatbázis",
   "db.meta.sectionDesc": "Böngészd a(z) {{game}} adatbázisában az összes {{count}} {{section}} elemet, statisztikákkal, forrásokkal és helyszínekkel együtt.",
-  "db.meta.includes": "Tartalmazza: {{names}} és még többet."
+  "db.meta.includes": "Tartalmazza: {{names}} és még többet.",
+  "nav.maps": "Térképek",
+  "nav.allMaps": "Összes térkép",
+  "nav.allCategories": "Összes kategória",
+  "nav.guides": "Útmutatók",
+  "nav.tools": "Eszközök",
+  "nav.more": "Több",
+  "nav.menu": "Menü",
+  "nav.searchGames": "Játékok keresése…",
+  "nav.recent": "Legutóbbi",
+  "nav.new": "Új",
+  "nav.allGames": "Összes játék",
+  "nav.noGames": "Nincs találat",
+  "nav.language": "Nyelv"
 }

@@ -479,5 +479,18 @@
   "db.meta.drops": "Düşürdükleri: {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Tüm {{count}} Giriş | {{game}} Veritabanı",
   "db.meta.sectionDesc": "{{game}} veritabanındaki tüm {{count}} {{section}} öğesini istatistikleri, kaynakları ve konumlarıyla birlikte inceleyin.",
-  "db.meta.includes": "{{names}} ve daha fazlasını içerir."
+  "db.meta.includes": "{{names}} ve daha fazlasını içerir.",
+  "nav.maps": "Haritalar",
+  "nav.allMaps": "Tüm Haritalar",
+  "nav.allCategories": "Tüm Kategoriler",
+  "nav.guides": "Rehberler",
+  "nav.tools": "Araçlar",
+  "nav.more": "Daha Fazla",
+  "nav.menu": "Menü",
+  "nav.searchGames": "Oyun ara…",
+  "nav.recent": "Son Kullanılanlar",
+  "nav.new": "Yeni",
+  "nav.allGames": "Tüm Oyunlar",
+  "nav.noGames": "Oyun bulunamadı",
+  "nav.language": "Dil"
 }

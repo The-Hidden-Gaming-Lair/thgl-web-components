@@ -479,5 +479,18 @@
   "db.meta.drops": "Dropa {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Todas as {{count}} Entradas | Banco de Dados de {{game}}",
   "db.meta.sectionDesc": "Veja todos os {{count}} {{section}} no banco de dados de {{game}} com estatísticas, fontes e locais.",
-  "db.meta.includes": "Inclui {{names}} e mais."
+  "db.meta.includes": "Inclui {{names}} e mais.",
+  "nav.maps": "Mapas",
+  "nav.allMaps": "Todos os mapas",
+  "nav.allCategories": "Todas as categorias",
+  "nav.guides": "Guias",
+  "nav.tools": "Ferramentas",
+  "nav.more": "Mais",
+  "nav.menu": "Menu",
+  "nav.searchGames": "Buscar jogos…",
+  "nav.recent": "Recentes",
+  "nav.new": "Novos",
+  "nav.allGames": "Todos os jogos",
+  "nav.noGames": "Nenhum jogo encontrado",
+  "nav.language": "Idioma"
 }

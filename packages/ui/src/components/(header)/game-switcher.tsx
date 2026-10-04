@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown, ExternalLink, LayoutGrid, Search } from "lucide-react";
 import { cn, isOverwolf } from "@repo/lib";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ScrollArea } from "../ui/scroll-area";
 import apps from "./global-menu.json";
+import { trackEvent } from "./plausible-tracker";
+import { useOptionalT } from "../(providers)/i18n-provider";
 
 // On games-web (and the THGL desktop app served from app.th.gl) the public
 // folder is shared across every tenant, so a relative path resolves on
@@ -21,6 +23,64 @@ const ICON_BASE_URL = isOverwolf
   : "/games/thgl-web/global_icons/";
 
 type AppEntry = (typeof apps)[number];
+
+// global-menu.json lists games newest-first (new games are added at the top).
+const NEW_COUNT = 4;
+const RECENT_COUNT = 4;
+// A cookie on `.th.gl`, not localStorage: every game is its own subdomain, so
+// per-origin storage would only ever "remember" the game you're on. Values are
+// bare subdomain labels ("palia.palworld") — no URLs/JSON in cookies, which
+// the WAF's SQLi rules have false-flagged before.
+const RECENT_COOKIE = "thgl_recent";
+
+/** A–Z key: "The Planet Crafter" sorts under P, not T. */
+const sortKey = (title: string) => title.replace(/^the\s+/i, "");
+
+const normalize = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+/** "https://palia.th.gl" → "palia" (the cookie stores these labels). */
+function appSlug(url: string): string {
+  try {
+    return new URL(url).hostname.split(".")[0].replace(/[^a-z0-9]/gi, "");
+  } catch {
+    return "";
+  }
+}
+
+function readRecent(): string[] {
+  try {
+    const match = document.cookie.match(
+      new RegExp(`(?:^|; )${RECENT_COOKIE}=([a-z0-9.]*)`, "i"),
+    );
+    return match?.[1] ? match[1].split(".").filter(Boolean) : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Remember the active game as most recent. */
+function rememberRecent(url: string) {
+  try {
+    const slug = appSlug(url);
+    if (!slug) return;
+    const next = [slug, ...readRecent().filter((s) => s !== slug)].slice(
+      0,
+      RECENT_COUNT + 1,
+    );
+    const host = window.location.hostname;
+    const domain =
+      host === "th.gl" || host.endsWith(".th.gl") ? "; domain=.th.gl" : "";
+    document.cookie = `${RECENT_COOKIE}=${next.join(".")}; path=/; max-age=31536000; SameSite=Lax${domain}`;
+  } catch {
+    // Cookies blocked (Overwolf sandbox, privacy mode): no recents.
+  }
+}
 
 type Sprite = {
   fileName: string;
@@ -122,8 +182,12 @@ export function GameSwitcher({
   compact?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [recentUrls, setRecentUrls] = useState<string[]>([]);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const t = useOptionalT();
 
-  const { activeAppData, otherApps } = useMemo(() => {
+  const { activeAppData, otherApps, newApps } = useMemo(() => {
     let active: AppEntry | undefined;
     const rest: AppEntry[] = [];
     for (const app of apps) {
@@ -133,9 +197,78 @@ export function GameSwitcher({
         rest.push(app);
       }
     }
-    rest.sort((a, b) => a.title.localeCompare(b.title));
-    return { activeAppData: active, otherApps: rest };
+    const newest = rest.slice(0, NEW_COUNT);
+    rest.sort((a, b) => sortKey(a.title).localeCompare(sortKey(b.title)));
+    return { activeAppData: active, otherApps: rest, newApps: newest };
   }, [activeApp]);
+
+  // Record the current game on every visit; read the list when opening.
+  useEffect(() => {
+    if (activeAppData) rememberRecent(activeAppData.url);
+  }, [activeAppData]);
+
+  useEffect(() => {
+    if (!open) {
+      setQuery("");
+      return;
+    }
+    setRecentUrls(readRecent());
+    // Focus after the popover mounted its content.
+    const id = requestAnimationFrame(() => searchRef.current?.focus());
+    return () => cancelAnimationFrame(id);
+  }, [open]);
+
+  const recentApps = useMemo(
+    () =>
+      recentUrls
+        .map((slug) => otherApps.find((app) => appSlug(app.url) === slug))
+        .filter((app): app is AppEntry => !!app)
+        .slice(0, RECENT_COUNT),
+    [recentUrls, otherApps],
+  );
+
+  const matches = useMemo(() => {
+    const q = normalize(query);
+    if (!q) return null;
+    return otherApps.filter((app) => normalize(app.title).includes(q));
+  }, [query, otherApps]);
+
+  const onPick = (app: AppEntry, from: string) => {
+    trackEvent("Game Switcher: Click", { props: { game: app.title, from } });
+    setOpen(false);
+  };
+
+  const renderGrid = (list: AppEntry[], from: string) => (
+    <div className="grid grid-cols-4 gap-1 px-2 pb-2">
+      {list.map((app) => (
+        <a
+          key={app.url}
+          href={app.url}
+          onClick={() => onPick(app, from)}
+          className={cn(
+            "group flex flex-col items-center gap-1 rounded-lg p-2",
+            "transition-colors hover:bg-white/8 focus-visible:bg-white/8 focus-visible:outline-none",
+          )}
+          title={app.title}
+        >
+          <GameIcon
+            app={app}
+            size={36}
+            className="border-2 border-transparent group-hover:border-white/30 transition-colors"
+          />
+          <span className="text-[10px] leading-tight text-center line-clamp-2 w-full text-muted-foreground group-hover:text-foreground">
+            {app.title}
+          </span>
+        </a>
+      ))}
+    </div>
+  );
+
+  const sectionTitle = (label: string) => (
+    <div className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      {label}
+    </div>
+  );
 
   return (
     <>
@@ -205,13 +338,15 @@ export function GameSwitcher({
                 }
               />
             ) : (
+              // No active game (www): a "games" grid glyph instead of a blank icon.
               <div
-                className={
-                  compact
-                    ? "w-[22px] h-[22px] rounded-full bg-muted"
-                    : "w-8 h-8 rounded-full bg-muted"
-                }
-              />
+                className={cn(
+                  "flex items-center justify-center rounded-full bg-muted text-muted-foreground",
+                  compact ? "w-[22px] h-[22px]" : "w-8 h-8",
+                )}
+              >
+                <LayoutGrid className={compact ? "h-3 w-3" : "h-4 w-4"} />
+              </div>
             )}
             <ChevronDown
               className={cn(
@@ -227,7 +362,26 @@ export function GameSwitcher({
           sideOffset={8}
           className="w-[340px] p-0 border-border/60 bg-background/95 backdrop-blur-xl"
         >
-          <ScrollArea className="h-[min(420px,70vh)]" type="always">
+          <div className="flex items-center gap-2 border-b border-border/40 px-3">
+            <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+            <input
+              ref={searchRef}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                // Enter opens the first match.
+                if (e.key === "Enter" && matches?.[0]) {
+                  onPick(matches[0], "search-enter");
+                  window.location.href = matches[0].url;
+                }
+              }}
+              placeholder={t("nav.searchGames", { fallback: "Search games…" })}
+              aria-label={t("nav.searchGames", { fallback: "Search games…" })}
+              className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            />
+          </div>
+          <ScrollArea className="h-[min(420px,65vh)]" type="always">
             {/* Active game + partners section */}
             {activeAppData && (
               <div className="border-b border-border/40 p-3">
@@ -271,30 +425,32 @@ export function GameSwitcher({
               </div>
             )}
 
-            {/* Game grid */}
-            <div className="grid grid-cols-4 gap-1 p-2">
-              {otherApps.map((app) => (
-                <a
-                  key={app.url}
-                  href={app.url}
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "group flex flex-col items-center gap-1 rounded-lg p-2",
-                    "transition-colors hover:bg-white/8",
-                  )}
-                  title={app.title}
-                >
-                  <GameIcon
-                    app={app}
-                    size={36}
-                    className="border-2 border-transparent group-hover:border-white/30 transition-colors"
-                  />
-                  <span className="text-[10px] leading-tight text-center line-clamp-2 w-full text-muted-foreground group-hover:text-foreground">
-                    {app.title}
-                  </span>
-                </a>
-              ))}
-            </div>
+            {matches ? (
+              matches.length > 0 ? (
+                <div className="pt-2">{renderGrid(matches, "search")}</div>
+              ) : (
+                <p className="px-3 py-6 text-center text-xs text-muted-foreground">
+                  {t("nav.noGames", { fallback: "No games found" })}
+                </p>
+              )
+            ) : (
+              <>
+                {recentApps.length > 0 && (
+                  <>
+                    {sectionTitle(t("nav.recent", { fallback: "Recent" }))}
+                    {renderGrid(recentApps, "recent")}
+                  </>
+                )}
+                {newApps.length > 0 && (
+                  <>
+                    {sectionTitle(t("nav.new", { fallback: "New" }))}
+                    {renderGrid(newApps, "new")}
+                  </>
+                )}
+                {sectionTitle(t("nav.allGames", { fallback: "All Games" }))}
+                {renderGrid(otherApps, "all")}
+              </>
+            )}
           </ScrollArea>
         </PopoverContent>
       </Popover>

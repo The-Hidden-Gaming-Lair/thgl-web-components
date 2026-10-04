@@ -476,5 +476,18 @@
   "db.meta.drops": "Upouští: {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Všechny {{count}} položky | Databáze {{game}}",
   "db.meta.sectionDesc": "Projděte si všechny {{count}} {{section}} v databázi {{game}} se statistikami, zdroji a místy výskytu.",
-  "db.meta.includes": "Zahrnuje: {{names}} a další."
+  "db.meta.includes": "Zahrnuje: {{names}} a další.",
+  "nav.maps": "Mapy",
+  "nav.allMaps": "Všechny mapy",
+  "nav.allCategories": "Všechny kategorie",
+  "nav.guides": "Návody",
+  "nav.tools": "Nástroje",
+  "nav.more": "Více",
+  "nav.menu": "Menu",
+  "nav.searchGames": "Hledat hry…",
+  "nav.recent": "Nedávné",
+  "nav.new": "Nové",
+  "nav.allGames": "Všechny hry",
+  "nav.noGames": "Žádné hry nenalezeny",
+  "nav.language": "Jazyk"
 }

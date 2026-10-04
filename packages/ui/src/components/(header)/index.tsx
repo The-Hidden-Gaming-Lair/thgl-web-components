@@ -1,15 +1,13 @@
 // Named exports for better tree-shaking
 export { Account } from "./account";
-export { AppDownload } from "./app-download-link";
 export { ExternalAnchor } from "./external-anchor";
-export { InteractiveMapLink } from "./interactive-map-link";
-export { NavMenu } from "./nav-menu";
 export { PageTitle } from "./page-title";
 export { Brand } from "./brand";
 export { GameSwitcher } from "./game-switcher";
+export { GAME_COUNT_LABEL } from "./game-count";
 export { Header } from "./header";
-export { HeaderLink } from "./header-link";
 export { HeaderOffset } from "./header-offset";
+export { FooterSlotProvider } from "./footer-slot";
 export { HeaderSwitch } from "./header-switch";
 export { NewVersionButton } from "./new-version-button";
 export {

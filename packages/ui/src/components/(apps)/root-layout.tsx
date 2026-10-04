@@ -8,6 +8,7 @@ import {
   Header,
   PlausibleTracker,
   StatusBanner,
+  FooterSlotProvider,
 } from "../(header)";
 import { I18NProvider, TooltipProvider } from "../(providers)";
 import {
@@ -17,6 +18,7 @@ import {
   NewVersionWatcher,
   Links,
   LocaleSwitcher,
+  SiteFooter,
 } from "../(controls)";
 import Link from "next/link";
 import {
@@ -71,6 +73,10 @@ export function createRootLayout(appConfig: AppConfig) {
       fetchVersion(appConfig.name),
     ]);
 
+    const hasMap =
+      !appConfig.db?.hideInteractiveMap &&
+      Object.keys(version.data.tiles ?? {}).length > 0;
+
     const dict: Record<string, string> = { ...staticDict };
     // Copy a name key plus, if its value is an @-pointer, the pointer target
     // (translate() resolves "@xxx" via dict["@xxx"], which would otherwise be
@@ -117,13 +123,7 @@ export function createRootLayout(appConfig: AppConfig) {
                 <Brand title={appConfig.domain} />
               </Link>
 
-              <Links
-                appConfig={appConfig}
-                hasMap={
-                  !appConfig.db?.hideInteractiveMap &&
-                  Object.keys(version.data.tiles ?? {}).length > 0
-                }
-              >
+              <Links appConfig={appConfig} hasMap={hasMap}>
                 {appConfig.supportedLocales.length > 1 && (
                   <Suspense>
                     <LocaleSwitcher
@@ -144,7 +144,11 @@ export function createRootLayout(appConfig: AppConfig) {
             />
 
             <TooltipProvider>
-              <main>{children}</main>
+              <FooterSlotProvider
+                footer={<SiteFooter appConfig={appConfig} hasMap={hasMap} />}
+              >
+                <main>{children}</main>
+              </FooterSlotProvider>
             </TooltipProvider>
 
             <DidYouKnowCompanionApp appConfig={appConfig} />

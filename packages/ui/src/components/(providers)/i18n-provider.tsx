@@ -114,5 +114,16 @@ export const useI18n = (): I18nContextValue => {
 // Hook to access translation function
 export const useT = (): TranslateFn => useI18n().t;
 
+// Translate where an I18NProvider may be absent (shared chrome like the game
+// switcher also renders in the Overwolf/desktop app shells): falls back to the
+// `fallback` text, else the key.
+export const useOptionalT = (): ((
+  term: string,
+  options?: { fallback?: string },
+) => string) => {
+  const context = useContext(I18nContext);
+  return context?.t ?? ((term, options) => options?.fallback ?? term);
+};
+
 // Hook to access locale
 export const useLocale = (): string => useI18n().locale;

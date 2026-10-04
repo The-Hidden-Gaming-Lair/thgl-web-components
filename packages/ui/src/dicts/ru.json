@@ -479,5 +479,18 @@
   "db.meta.drops": "Выпадает: {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Все {{count}} записей | База данных {{game}}",
   "db.meta.sectionDesc": "Просмотрите все {{count}} {{section}} в базе данных {{game}} со статистикой, источниками и локациями.",
-  "db.meta.includes": "Включает: {{names}} и другое."
+  "db.meta.includes": "Включает: {{names}} и другое.",
+  "nav.maps": "Карты",
+  "nav.allMaps": "Все карты",
+  "nav.allCategories": "Все категории",
+  "nav.guides": "Гайды",
+  "nav.tools": "Инструменты",
+  "nav.more": "Ещё",
+  "nav.menu": "Меню",
+  "nav.searchGames": "Поиск игр…",
+  "nav.recent": "Недавние",
+  "nav.new": "Новые",
+  "nav.allGames": "Все игры",
+  "nav.noGames": "Игры не найдены",
+  "nav.language": "Язык"
 }

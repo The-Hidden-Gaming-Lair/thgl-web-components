@@ -12,11 +12,13 @@ import {
   Account,
   PlausibleTracker,
   StatusBanner,
+  FooterSlotProvider,
 } from "@repo/ui/header";
 import {
   Links,
   LocaleSwitcher,
   LocaleSwitcherInline,
+  SiteFooter,
   AudioAlertUnlocker,
   NewVersionWatcher,
   Toaster,
@@ -95,6 +97,9 @@ export function createDbRootLayout(appConfig: AppConfig) {
     // Hybrid mode: game ships filters (and therefore /guides + Settings).
     // DB-only sites like homm have an empty filter list → drop both.
     const hasFilters = version.data.filters.length > 0;
+    const hasMap =
+      !appConfig.db?.hideInteractiveMap &&
+      Object.keys(version.data.tiles ?? {}).length > 0;
 
     return (
       <html lang={locale}>
@@ -140,10 +145,7 @@ export function createDbRootLayout(appConfig: AppConfig) {
                     </Suspense>
                   ) : undefined
                 }
-                hasMap={
-                  !appConfig.db?.hideInteractiveMap &&
-                  Object.keys(version.data.tiles ?? {}).length > 0
-                }
+                hasMap={hasMap}
                 hasGuides={hasFilters}
               >
                 {appConfig.supportedLocales.length > 1 && (
@@ -177,7 +179,17 @@ export function createDbRootLayout(appConfig: AppConfig) {
             />
 
             <TooltipProvider>
-              <main>{children}</main>
+              <FooterSlotProvider
+                footer={
+                  <SiteFooter
+                    appConfig={appConfig}
+                    hasMap={hasMap}
+                    hasGuides={hasFilters}
+                  />
+                }
+              >
+                <main>{children}</main>
+              </FooterSlotProvider>
             </TooltipProvider>
 
             <DidYouKnowCompanionApp appConfig={appConfig} />

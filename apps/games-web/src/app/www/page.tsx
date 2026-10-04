@@ -11,6 +11,7 @@ import {
   ChangelogEntry,
 } from "@repo/lib";
 import { WhatsNew } from "@repo/ui/content";
+import { GAME_COUNT_LABEL } from "@repo/ui/header";
 import { GameGrid } from "@/games/thgl-web/components/game-grid";
 import { blogEntries } from "@/games/thgl-web/lib/blog-entries";
 import { Download, Monitor, Gamepad2, Shield } from "lucide-react";
@@ -67,16 +68,14 @@ async function getWhatsNewUpdates() {
 
 export const metadata = {
   title: "TH.GL – Interactive Maps, Overlays & Gaming Tools",
-  description:
-    "Get in-game overlays, real-time position tracking, and interactive maps for 20+ games. Use the TH.GL Companion App or browser-based tools — completely free.",
+  description: `Get in-game overlays, real-time position tracking, and interactive maps for ${GAME_COUNT_LABEL} games. Use the TH.GL Companion App or browser-based tools — completely free.`,
   keywords:
     "gaming tools, interactive maps, game overlay, companion app, palworld map, dune awakening, once human, gaming companion, position tracking",
   alternates: { canonical: "/" },
   openGraph: {
     url: "/",
     title: "TH.GL – Gaming Overlays & Interactive Maps",
-    description:
-      "Real-time overlays, position tracking, and interactive maps for 20+ games. Lightweight companion app or browser-based tools.",
+    description: `Real-time overlays, position tracking, and interactive maps for ${GAME_COUNT_LABEL} games. Lightweight companion app or browser-based tools.`,
     images: [
       {
         url: "/games/thgl-web/images/overlay-palworld.webp",
@@ -102,8 +101,7 @@ export default async function HomePage() {
             name: "The Hidden Gaming Lair",
             alternateName: "TH.GL",
             url: "https://www.th.gl",
-            description:
-              "Interactive maps, in-game overlays, and real-time position tracking for 20+ games.",
+            description: `Interactive maps, in-game overlays, and real-time position tracking for ${GAME_COUNT_LABEL} games.`,
             publisher: {
               "@type": "Organization",
               name: "The Hidden Gaming Lair",
@@ -114,7 +112,7 @@ export default async function HomePage() {
       />
       {/* Hero Section */}
       <PageHero
-        badge="20+ Games Supported • 10,000+ Daily Users"
+        badge={`${GAME_COUNT_LABEL} Games Supported • 10,000+ Daily Users`}
         title={
           <>
             Interactive Maps & Overlays
@@ -236,7 +234,7 @@ export default async function HomePage() {
         />
         <FeatureCard
           icon="🎮"
-          title="20+ Games"
+          title={`${GAME_COUNT_LABEL} Games`}
           description="Supports popular titles like Palworld, Dune Awakening, Wuthering Waves, and more. New games added regularly."
         />
       </FeatureGrid>

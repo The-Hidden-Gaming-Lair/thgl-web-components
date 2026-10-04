@@ -479,5 +479,18 @@
   "db.meta.drops": "Випадає: {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Усі {{count}} записів | База даних {{game}}",
   "db.meta.sectionDesc": "Перегляньте всі {{count}} {{section}} у базі даних {{game}} зі статистикою, джерелами та локаціями.",
-  "db.meta.includes": "Включає: {{names}} та інше."
+  "db.meta.includes": "Включає: {{names}} та інше.",
+  "nav.maps": "Карти",
+  "nav.allMaps": "Усі карти",
+  "nav.allCategories": "Усі категорії",
+  "nav.guides": "Гайди",
+  "nav.tools": "Інструменти",
+  "nav.more": "Більше",
+  "nav.menu": "Меню",
+  "nav.searchGames": "Пошук ігор…",
+  "nav.recent": "Нещодавні",
+  "nav.new": "Нові",
+  "nav.allGames": "Усі ігри",
+  "nav.noGames": "Ігор не знайдено",
+  "nav.language": "Мова"
 }

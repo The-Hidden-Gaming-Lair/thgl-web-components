@@ -112,14 +112,6 @@ export function createDbHomePage(appConfig: AppConfig) {
               name: "The Hidden Gaming Lair",
               url: "https://www.th.gl",
             },
-            potentialAction: {
-              "@type": "SearchAction",
-              target: {
-                "@type": "EntryPoint",
-                urlTemplate: `${baseUrl}/db/units?q={search_term_string}`,
-              },
-              "query-input": "required name=search_term_string",
-            },
           }}
         />
         <HeaderOffset full>

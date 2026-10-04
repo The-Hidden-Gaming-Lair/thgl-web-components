@@ -1,6 +1,7 @@
 import type { ReactNode, JSX } from "react";
 import { cn } from "@repo/lib";
 import { ErrorBoundary, ScrollArea } from "../(controls)";
+import { FooterSlot } from "./footer-slot";
 
 export function HeaderOffset({
   children,
@@ -25,6 +26,7 @@ export function HeaderOffset({
       )}
     >
       <ErrorBoundary>{children}</ErrorBoundary>
+      {!bypass && <FooterSlot />}
     </ScrollArea>
   );
 }

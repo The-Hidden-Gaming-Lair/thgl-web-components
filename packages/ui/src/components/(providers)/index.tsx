@@ -24,7 +24,13 @@ export {
   type Database,
 } from "./database-provider";
 
-export { I18NProvider, useI18n, useT, useLocale } from "./i18n-provider";
+export {
+  I18NProvider,
+  useI18n,
+  useT,
+  useOptionalT,
+  useLocale,
+} from "./i18n-provider";
 
 export {
   UserStoreContext,

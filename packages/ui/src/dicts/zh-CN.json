@@ -479,5 +479,18 @@
   "db.meta.drops": "掉落{{names}}。",
   "db.meta.sectionTitle": "{{section}}：全部 {{count}} 个条目 | {{game}} 数据库",
   "db.meta.sectionDesc": "在{{game}}数据库中浏览全部 {{count}} 个{{section}}，包含属性、来源和位置信息。",
-  "db.meta.includes": "包含{{names}}等。"
+  "db.meta.includes": "包含{{names}}等。",
+  "nav.maps": "地图",
+  "nav.allMaps": "全部地图",
+  "nav.allCategories": "全部分类",
+  "nav.guides": "攻略",
+  "nav.tools": "工具",
+  "nav.more": "更多",
+  "nav.menu": "菜单",
+  "nav.searchGames": "搜索游戏…",
+  "nav.recent": "最近",
+  "nav.new": "新游戏",
+  "nav.allGames": "全部游戏",
+  "nav.noGames": "未找到游戏",
+  "nav.language": "语言"
 }

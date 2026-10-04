@@ -479,5 +479,18 @@
   "db.meta.drops": "掉落{{names}}。",
   "db.meta.sectionTitle": "{{section}}：全部 {{count}} 筆項目 | {{game}} 資料庫",
   "db.meta.sectionDesc": "在{{game}}資料庫中瀏覽全部 {{count}} 個{{section}}，包含數值、來源與位置資訊。",
-  "db.meta.includes": "包含{{names}}等。"
+  "db.meta.includes": "包含{{names}}等。",
+  "nav.maps": "地圖",
+  "nav.allMaps": "全部地圖",
+  "nav.allCategories": "全部分類",
+  "nav.guides": "攻略",
+  "nav.tools": "工具",
+  "nav.more": "更多",
+  "nav.menu": "選單",
+  "nav.searchGames": "搜尋遊戲…",
+  "nav.recent": "最近",
+  "nav.new": "新遊戲",
+  "nav.allGames": "全部遊戲",
+  "nav.noGames": "找不到遊戲",
+  "nav.language": "語言"
 }

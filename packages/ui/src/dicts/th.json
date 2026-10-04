@@ -479,5 +479,18 @@
   "db.meta.drops": "ดรอป {{names}}",
   "db.meta.sectionTitle": "{{section}}: ทั้งหมด {{count}} รายการ | {{game}} ฐานข้อมูล",
   "db.meta.sectionDesc": "สำรวจ {{section}} ทั้งหมด {{count}} รายการในฐานข้อมูล {{game}} พร้อมสถานะ แหล่งที่มา และตำแหน่ง",
-  "db.meta.includes": "รวมถึง {{names}} และอื่นๆ"
+  "db.meta.includes": "รวมถึง {{names}} และอื่นๆ",
+  "nav.maps": "แผนที่",
+  "nav.allMaps": "แผนที่ทั้งหมด",
+  "nav.allCategories": "หมวดหมู่ทั้งหมด",
+  "nav.guides": "คู่มือ",
+  "nav.tools": "เครื่องมือ",
+  "nav.more": "เพิ่มเติม",
+  "nav.menu": "เมนู",
+  "nav.searchGames": "ค้นหาเกม…",
+  "nav.recent": "ล่าสุด",
+  "nav.new": "ใหม่",
+  "nav.allGames": "เกมทั้งหมด",
+  "nav.noGames": "ไม่พบเกม",
+  "nav.language": "ภาษา"
 }

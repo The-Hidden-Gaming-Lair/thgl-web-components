@@ -488,5 +488,18 @@
   "db.meta.drops": "Drops {{names}}.",
   "db.meta.sectionTitle": "{{section}}: All {{count}} Entries | {{game}} Database",
   "db.meta.sectionDesc": "Browse all {{count}} {{section}} in the {{game}} database with stats, sources and locations.",
-  "db.meta.includes": "Includes {{names}} and more."
+  "db.meta.includes": "Includes {{names}} and more.",
+  "nav.maps": "Maps",
+  "nav.allMaps": "All Maps",
+  "nav.allCategories": "All Categories",
+  "nav.guides": "Guides",
+  "nav.tools": "Tools",
+  "nav.more": "More",
+  "nav.menu": "Menu",
+  "nav.searchGames": "Search games…",
+  "nav.recent": "Recent",
+  "nav.new": "New",
+  "nav.allGames": "All Games",
+  "nav.noGames": "No games found",
+  "nav.language": "Language"
 }

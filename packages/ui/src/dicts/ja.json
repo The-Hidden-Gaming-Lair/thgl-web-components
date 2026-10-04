@@ -479,5 +479,18 @@
   "db.meta.drops": "{{names}}をドロップ。",
   "db.meta.sectionTitle": "{{section}}：全 {{count}} 件のエントリー | {{game}} データベース",
   "db.meta.sectionDesc": "{{game}}データベースで、ステータス・入手方法・場所を含む全 {{count}} 件の{{section}}を閲覧。",
-  "db.meta.includes": "{{names}}など。"
+  "db.meta.includes": "{{names}}など。",
+  "nav.maps": "マップ",
+  "nav.allMaps": "すべてのマップ",
+  "nav.allCategories": "すべてのカテゴリ",
+  "nav.guides": "ガイド",
+  "nav.tools": "ツール",
+  "nav.more": "その他",
+  "nav.menu": "メニュー",
+  "nav.searchGames": "ゲームを検索…",
+  "nav.recent": "最近",
+  "nav.new": "新着",
+  "nav.allGames": "すべてのゲーム",
+  "nav.noGames": "ゲームが見つかりません",
+  "nav.language": "言語"
 }

@@ -488,5 +488,18 @@
   "db.meta.drops": "Menjatuhkan {{names}}.",
   "db.meta.sectionTitle": "{{section}}: Semua {{count}} Entri | Basis Data {{game}}",
   "db.meta.sectionDesc": "Jelajahi semua {{count}} {{section}} di basis data {{game}} lengkap dengan statistik, sumber, dan lokasi.",
-  "db.meta.includes": "Termasuk {{names}} dan lainnya."
+  "db.meta.includes": "Termasuk {{names}} dan lainnya.",
+  "nav.maps": "Peta",
+  "nav.allMaps": "Semua Peta",
+  "nav.allCategories": "Semua Kategori",
+  "nav.guides": "Panduan",
+  "nav.tools": "Alat",
+  "nav.more": "Lainnya",
+  "nav.menu": "Menu",
+  "nav.searchGames": "Cari game…",
+  "nav.recent": "Terbaru dibuka",
+  "nav.new": "Baru",
+  "nav.allGames": "Semua Game",
+  "nav.noGames": "Game tidak ditemukan",
+  "nav.language": "Bahasa"
 }
