@@ -3,6 +3,7 @@
 import {
   cn,
   isLiveReadingActive,
+  isPreviewFeatureEnabled,
   useAccountStore,
   useGameState,
   useSettingsStore,
@@ -271,7 +272,11 @@ export function StreamingReceiver({
     const shouldBeLive = Boolean(inPeer && meSenderId);
     if (shouldBeLive !== liveActive) {
       const hasPreview = useAccountStore.getState().perks.previewReleaseAccess;
-      setLiveMode(shouldBeLive ? (hasPreview ? "combined" : "live") : "static");
+      const combined = isPreviewFeatureEnabled(
+        "live-mode:combined",
+        hasPreview,
+      );
+      setLiveMode(shouldBeLive ? (combined ? "combined" : "live") : "static");
     }
   }, [
     inPeer,

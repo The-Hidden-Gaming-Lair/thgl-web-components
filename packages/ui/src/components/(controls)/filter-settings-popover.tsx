@@ -9,7 +9,7 @@ import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import {
   isApp,
-  PREVIEW_LIVE_MODES,
+  isPreviewFeatureEnabled,
   useAccountStore,
   useSettingsStore,
   type DiscoverMode,
@@ -189,10 +189,13 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
     }
   };
 
-  // Mirrors the global LiveModeControl gate: locked only while `combined` is in
-  // PREVIEW_LIVE_MODES (currently empty → public) and the user lacks access.
-  const combinedLocked =
-    !hasPreviewAccess && PREVIEW_LIVE_MODES.has("combined");
+  // Mirrors the global LiveModeControl gate: locked only while
+  // `live-mode:combined` is in PREVIEW_FEATURES (currently not → public) and
+  // the user lacks access.
+  const combinedLocked = !isPreviewFeatureEnabled(
+    "live-mode:combined",
+    hasPreviewAccess,
+  );
   // For groups, calculate if all/some/none have audio enabled
   const groupAudioState = useMemo(() => {
     if (!isGroup) return null;

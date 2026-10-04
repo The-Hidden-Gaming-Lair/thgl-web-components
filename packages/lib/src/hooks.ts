@@ -9,6 +9,7 @@ import { useAccountStore } from "./account";
 import { buildDiscoveryLookup, checkNodeDiscovered } from "./coordinates";
 import { isDebug, isLocalDev } from "./env";
 import { resolveAccountGate, type AccountGate } from "./account-gate";
+import { isPreviewFeature } from "./preview-release";
 
 /**
  * False during SSR **and during the first client render**, true from the second
@@ -57,6 +58,27 @@ export function useAccountGate(hasPermission: boolean): AccountGate {
     hasHydrated,
     hasPermission,
   });
+}
+
+/**
+ * Gate one feature from the PREVIEW_FEATURES registry (preview-release.ts).
+ * - `preview` — the feature is in preview: show `<PreviewBadge>` next to it.
+ * - `enabled` — usable (Elite, dev/debug host, or not a preview at all).
+ * - `locked`  — known to be denied: show it with a lock + the Elite upsell,
+ *   never a broken stub. False while "pending" (SSR / account not loaded), so
+ *   the lock never lands in the server HTML.
+ * Not in the registry (or since made public) → enabled, not preview.
+ */
+export function usePreviewFeature(id: string): {
+  preview: boolean;
+  enabled: boolean;
+  locked: boolean;
+} {
+  const hasPreviewAccess = useAccountStore((s) => s.perks.previewReleaseAccess);
+  const gate = useAccountGate(hasPreviewAccess);
+  const preview = isPreviewFeature(id);
+  if (!preview) return { preview, enabled: true, locked: false };
+  return { preview, enabled: gate === "allow", locked: gate === "deny" };
 }
 
 /**

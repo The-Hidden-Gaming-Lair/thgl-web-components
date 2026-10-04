@@ -2,6 +2,7 @@ import { Label } from "../ui/label";
 import { HOTKEYS } from "@repo/lib/thgl-app";
 import { FiltersConfig, THGLAppConfig, useCompactOverlay } from "@repo/lib";
 import { SettingsDialogContent } from "../(controls)/settings-dialog-content";
+import { PreviewBadge } from "../(controls)/preview-badge";
 import { Separator } from "../ui/separator";
 import { Hotkey } from "./hotkey";
 import { useState } from "react";
@@ -160,7 +161,10 @@ export function THGLAppSettingsDialogContent({
           </Label>
           {compactOverlay.available && (
             <Label className="flex items-center gap-2 justify-between">
-              Widgets Only Overlay
+              <span>
+                Widgets Only Overlay
+                {compactOverlay.preview && <PreviewBadge />}
+              </span>
               <Hotkey
                 name={HOTKEYS.TOGGLE_COMPACT_OVERLAY}
                 isActive={recordingName === HOTKEYS.TOGGLE_COMPACT_OVERLAY}

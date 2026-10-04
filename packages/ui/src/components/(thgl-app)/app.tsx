@@ -394,6 +394,7 @@ export function App({
                         isOverlay && compactOverlay.offered
                           ? {
                               locked: compactOverlay.locked,
+                              preview: compactOverlay.preview,
                               onToggle: compactOverlay.toggle,
                             }
                           : undefined

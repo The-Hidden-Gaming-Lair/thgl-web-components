@@ -3,6 +3,7 @@ import {
   cn,
   LIVE_MODE_VALUES,
   type LiveMode,
+  isPreviewFeatureEnabled,
   PREVIEW_LIVE_MODES,
   useAccountStore,
   useEffectiveLiveMode,
@@ -11,6 +12,7 @@ import {
 import { Lock } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useT } from "../(providers)";
+import { PreviewBadge, showPreviewUpsell } from "./preview-badge";
 
 const MODE_FALLBACK_LABEL: Record<LiveMode, string> = {
   static: "Predicted",
@@ -18,14 +20,13 @@ const MODE_FALLBACK_LABEL: Record<LiveMode, string> = {
   live: "Live",
 };
 
+const ELITE_LOCK_TEXT = "Elite supporter feature";
+
 const MODE_FALLBACK_DESC: Record<LiveMode, string> = {
   static: "Show predicted spawn locations only.",
-  combined:
-    "Show predicted spawns faded, plus live spawns in full color.",
+  combined: "Show predicted spawns faded, plus live spawns in full color.",
   live: "Show only live spawns.",
 };
-
-const ELITE_LOCK_TEXT = "Elite supporter feature";
 
 export function LiveModeControl({
   disabled,
@@ -59,8 +60,11 @@ export function LiveModeControl({
       aria-label={t("liveMode.label") || "Live mode"}
     >
       {LIVE_MODE_VALUES.map((mode, idx) => {
-        const requiresElite = PREVIEW_LIVE_MODES.has(mode);
-        const locked = requiresElite && !hasPreviewAccess;
+        const isPreview = PREVIEW_LIVE_MODES.has(mode);
+        const locked = !isPreviewFeatureEnabled(
+          `live-mode:${mode}`,
+          hasPreviewAccess,
+        );
         const active = !locked && effectiveLiveMode === mode;
         const label = t(`liveMode.${mode}`) || MODE_FALLBACK_LABEL[mode];
         const isMiddle = idx > 0 && idx < LIVE_MODE_VALUES.length - 1;
@@ -73,7 +77,10 @@ export function LiveModeControl({
                 aria-checked={active}
                 aria-disabled={locked}
                 onClick={() => {
-                  if (locked) return;
+                  if (locked) {
+                    showPreviewUpsell(`live-mode:${mode}`);
+                    return;
+                  }
                   setLiveMode(mode);
                 }}
                 disabled={disabled}
@@ -93,6 +100,7 @@ export function LiveModeControl({
                   <Lock className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
                 )}
                 {label}
+                {isPreview && !locked && <PreviewBadge className="ml-0.5" />}
               </button>
             </TooltipTrigger>
             <TooltipContent side="bottom" className="max-w-[220px]">

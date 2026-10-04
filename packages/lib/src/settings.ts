@@ -9,6 +9,7 @@ import {
   type DiscoverMode,
 } from "./coordinates";
 import { withStorageDOMEvents } from "./dom";
+import { isPreviewFeature } from "./preview-release";
 import {
   apiDeleteFilter,
   apiListFilters,
@@ -61,12 +62,15 @@ export const LIVE_MODE_VALUES: readonly LiveMode[] = [
 ] as const;
 
 /**
- * Live modes gated behind the preview-release (Elite) perk. Currently empty —
- * `combined` is public. Re-add a mode here to gate it again; every consumer
- * (global control, per-filter override, mode resolution) reads this set, so
- * gating/ungating is a one-line change.
+ * Live modes gated behind the preview-release (Elite) perk, derived from the
+ * PREVIEW_FEATURES registry (`live-mode:<mode>` ids, preview-release.ts).
+ * Currently empty — `combined` is public. Add `live-mode:combined` to the
+ * registry to gate it again; every consumer (global control, per-filter
+ * override, mode resolution) reads this set.
  */
-export const PREVIEW_LIVE_MODES: ReadonlySet<LiveMode> = new Set<LiveMode>();
+export const PREVIEW_LIVE_MODES: ReadonlySet<LiveMode> = new Set<LiveMode>(
+  LIVE_MODE_VALUES.filter((mode) => isPreviewFeature(`live-mode:${mode}`)),
+);
 
 export function isLiveReadingActive(liveMode: LiveMode): boolean {
   return liveMode !== "static";

@@ -1,18 +1,21 @@
 "use client";
 import { useMemo } from "react";
-import { useAccountStore } from "./account";
 import { isPointInsidePolygon, type Region } from "./coordinates";
 import { games, type CompactOverlayWidget } from "./games";
-import { useAccountGate } from "./hooks";
+import { usePreviewFeature } from "./hooks";
 import { useSettingsStore } from "./settings";
 
 const NO_WIDGETS: CompactOverlayWidget[] = [];
 
+/** PREVIEW_FEATURES id of Widgets Only (preview-release.ts). */
+export const COMPACT_OVERLAY_FEATURE = "widgets-only-overlay";
+
 /**
  * The overlay's "Widgets Only" mode for one game. `offered` = the game lists
- * `compactOverlay` widgets. `available` = offered AND the account has Preview
- * Release Access (Elite Supporter preview); `locked` = offered but denied (the
- * UI shows it with a lock + upsell). `active` = available and switched on;
+ * `compactOverlay` widgets. `available` = offered AND usable (while it is a
+ * preview feature: the account has Elite Preview Release Access); `locked` =
+ * offered but denied (the UI shows it with a lock + upsell); `preview` = still
+ * in preview (show the Preview badge). `active` = available and switched on;
  * only the in-game overlay window consumes it (desktop/web keep the map).
  */
 export function useCompactOverlay(appName: string) {
@@ -21,19 +24,17 @@ export function useCompactOverlay(appName: string) {
       games.find((game) => game.id === appName)?.compactOverlay ?? NO_WIDGETS,
     [appName],
   );
-  const hasPreviewAccess = useAccountStore(
-    (state) => state.perks.previewReleaseAccess,
-  );
-  const gate = useAccountGate(hasPreviewAccess);
+  const preview = usePreviewFeature(COMPACT_OVERLAY_FEATURE);
   const enabled = useSettingsStore((state) => state.compactOverlay ?? false);
   const toggle = useSettingsStore((state) => state.toggleCompactOverlay);
   const offered = widgets.length > 0;
-  const available = offered && gate === "allow";
+  const available = offered && preview.enabled;
   return {
     widgets,
     offered,
     available,
-    locked: offered && gate === "deny",
+    preview: preview.preview,
+    locked: offered && preview.locked,
     active: available && enabled,
     toggle,
   };

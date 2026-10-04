@@ -10,7 +10,12 @@ import { Slider } from "../ui/slider";
 import { Switch } from "../ui/switch";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import Moveable from "react-moveable";
-import { cn, MAP_FILTERS, useSettingsStore } from "@repo/lib";
+import {
+  cn,
+  COMPACT_OVERLAY_FEATURE,
+  MAP_FILTERS,
+  useSettingsStore,
+} from "@repo/lib";
 import {
   LayoutList,
   Lock,
@@ -21,7 +26,7 @@ import {
 } from "lucide-react";
 import { useMap } from "../(interactive-map)/store";
 import { Toggle } from "../ui/toggle";
-import { Button } from "../(controls)";
+import { Button, previewLockedText, showPreviewUpsell } from "../(controls)";
 import { useT } from "../(providers)";
 import { toast } from "sonner";
 
@@ -106,10 +111,10 @@ function MinimapToolbar({
           variant="secondary"
           onClick={() => {
             if (compactOverlay.locked) {
-              toast(COMPACT_OVERLAY_LOCKED_TEXT, {
-                duration: 6000,
-                id: "compact-overlay-locked",
-              });
+              showPreviewUpsell(
+                COMPACT_OVERLAY_FEATURE,
+                COMPACT_OVERLAY_DETAIL,
+              );
               return;
             }
             compactOverlay.onToggle();
@@ -117,8 +122,8 @@ function MinimapToolbar({
           aria-label="Widgets Only"
           title={
             compactOverlay.locked
-              ? COMPACT_OVERLAY_LOCKED_TEXT
-              : "Widgets Only (Preview): hide the map, keep a small widget panel"
+              ? `${previewLockedText(COMPACT_OVERLAY_FEATURE)} ${COMPACT_OVERLAY_DETAIL}`
+              : `Widgets Only${compactOverlay.preview ? " (Preview)" : ""}: hide the map, keep a small widget panel`
           }
         >
           <LayoutList className="w-4 h-4" />
@@ -273,10 +278,14 @@ function MinimapSettingsCard({
   );
 }
 
-export type CompactOverlayToggle = { locked: boolean; onToggle: () => void };
+export type CompactOverlayToggle = {
+  locked: boolean;
+  preview: boolean;
+  onToggle: () => void;
+};
 
-const COMPACT_OVERLAY_LOCKED_TEXT =
-  "Widgets Only is a Preview for Elite Supporters, coming to everyone later. It hides the map and keeps a small panel with this game's widgets.";
+const COMPACT_OVERLAY_DETAIL =
+  "It hides the map and keeps a small panel with this game's widgets.";
 
 export function MapContainer({
   children,

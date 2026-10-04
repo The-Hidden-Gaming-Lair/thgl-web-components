@@ -19,6 +19,11 @@ export {
 } from "./overlay-map-hide";
 export { LiveModeControl } from "./live-mode-control";
 export {
+  PreviewBadge,
+  previewLockedText,
+  showPreviewUpsell,
+} from "./preview-badge";
+export {
   playAlertSound,
   ALERT_SOUND_OPTIONS,
   initAudioAlertUnlock,

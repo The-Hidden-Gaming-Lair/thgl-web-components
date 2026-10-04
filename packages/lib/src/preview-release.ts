@@ -30,6 +30,58 @@ export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>([]);
 // longer Elite-gated.
 
 /**
+ * A FEATURE (not a whole game) in Elite Supporter preview: early access for
+ * features that need real-user testing before everyone gets them.
+ */
+export type PreviewFeature = {
+  /** Shown in upsell/lock texts: "<title> is a Preview for Elite Supporters". */
+  title: string;
+  /** ISO date the preview started. */
+  since: string;
+  /** ISO date it is planned to go public (a target, not a promise). */
+  plannedPublic?: string;
+  /** Inbox item that tracks the preview and its go-public date. */
+  inboxItem?: number;
+};
+
+/**
+ * THE registry of preview features. Gate a feature with `usePreviewFeature(id)`
+ * (hooks.ts) — or `isPreviewFeatureEnabled(id, hasPreviewAccess)` outside
+ * React — and mark it with `<PreviewBadge>` (packages/ui). To make a feature
+ * public, DELETE its entry here: every call site then reports it as a normal
+ * feature (enabled, no badge, no lock) — then clean up the call sites and add a
+ * "now available to everyone" release-notes line.
+ *
+ * Live modes use ids `live-mode:<mode>` (e.g. `live-mode:combined`), read by
+ * `PREVIEW_LIVE_MODES` in settings.ts.
+ */
+export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
+  "widgets-only-overlay": {
+    title: "Widgets Only",
+    since: "2026-10-04",
+    inboxItem: 169,
+  },
+  // "live-mode:combined" was an Elite preview; it is public now.
+};
+
+/** True while `id` is in preview (listed in PREVIEW_FEATURES). */
+export function isPreviewFeature(id: string): boolean {
+  return Object.prototype.hasOwnProperty.call(PREVIEW_FEATURES, id);
+}
+
+/**
+ * Pure access check for non-React call sites: a preview feature needs the
+ * Elite perk, everything else is open. React code uses `usePreviewFeature`,
+ * which also handles SSR/hydration and the local-dev bypass.
+ */
+export function isPreviewFeatureEnabled(
+  id: string,
+  hasPreviewAccess: boolean,
+): boolean {
+  return hasPreviewAccess || !isPreviewFeature(id);
+}
+
+/**
  * True if the WEB pages (map/db) are Elite-gated. Companion-only preview games are NOT gated here —
  * their website is open.
  */
