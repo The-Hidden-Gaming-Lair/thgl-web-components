@@ -58,6 +58,13 @@ export const welcomeToElderfield = resolveAppConfig({
       iconName: "Bug",
       linkText: "Browse the Bestiary",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Mysteries", "Villager Gifts", "Fishing", "Doors & Exits"],
@@ -70,6 +77,8 @@ export const welcomeToElderfield = resolveAppConfig({
     "shop",
   ],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "fish" }, { section: "bestiary" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items, villagers, fish…",
     sectionsInNav: true,

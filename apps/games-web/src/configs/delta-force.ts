@@ -36,6 +36,13 @@ export const deltaForce = resolveAppConfig({
       iconName: "Gift",
       linkText: "Browse Collectibles",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -49,6 +56,8 @@ export const deltaForce = resolveAppConfig({
   ],
   topFilters: ["extract", "keycard_room", "c_safe", "c_small_safe", "boss"],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "collectibles" }, { section: "keycards" }],
     heroSubtitle: "Keycards, collectibles, gear, weapons, attachments & ammo",
     searchPlaceholder: "Search items, keycards, ammo…",
     sectionsInNav: true,

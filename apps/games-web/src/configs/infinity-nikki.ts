@@ -82,6 +82,13 @@ export const infinityNikki = resolveAppConfig({
       bgImage: preview("14000000"),
       linkText: "View the Sea of Stars Map",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: [
@@ -91,6 +98,12 @@ export const infinityNikki = resolveAppConfig({
     "Outfit & clothing database",
   ],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [
+      { section: "outfit-sets" },
+      { section: "clothing" },
+      { section: "momo-wardrobe" },
+    ],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search outfits, clothing, items…",
     sectionsInNav: true,

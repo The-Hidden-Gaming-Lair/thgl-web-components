@@ -51,6 +51,13 @@ export const bloodOfDawnwalker = resolveAppConfig({
       iconName: "Sparkles",
       linkText: "Browse Perks",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -83,6 +90,8 @@ export const bloodOfDawnwalker = resolveAppConfig({
   // (data-mining/src/blood-of-dawnwalker/components.database.ts). Slugs avoid the
   // static /db/<folder> routes (items, weapons, creatures, ...).
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "readables" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items, recipes, monsters, quests, perks…",
     sectionsInNav: true,

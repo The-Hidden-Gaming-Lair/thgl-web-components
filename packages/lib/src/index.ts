@@ -5,6 +5,7 @@ export * from "./cbor";
 export * from "./config";
 export * from "./coordinates";
 export * from "./db-map-links";
+export * from "./checklist";
 export * from "./discord";
 export * from "./embed";
 export * from "./dom";

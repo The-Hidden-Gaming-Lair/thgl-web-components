@@ -18,11 +18,21 @@ export const grounded2 = resolveAppConfig({
   appUrl: "https://www.th.gl/companion-app",
   // Map cards (Brookhollow Park + The Abyss) are auto-generated from the map
   // list — no manual internalLinks map entries (they'd shadow the richer cards).
-  internalLinks: [],
+  internalLinks: [
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
+  ],
   promoLinks: [],
   externalLinks: [],
   keywords: ["Wonders", "Ominent Facilities", "Resources"],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "creatures" }, { section: "trinkets" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search weapons, armor, creatures, materials…",
     sectionsInNav: true,

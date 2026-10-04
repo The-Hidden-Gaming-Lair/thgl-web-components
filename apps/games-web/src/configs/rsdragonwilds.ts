@@ -55,10 +55,19 @@ export const rsdragonwilds = resolveAppConfig({
       iconName: "Bug",
       linkText: "Open the Bestiary",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Chests", "Lore", "Quests", "Items", "Recipes", "Equipment"],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "enemies" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items, equipment, recipes…",
     sectionsInNav: true,

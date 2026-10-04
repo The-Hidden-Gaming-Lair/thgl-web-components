@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
   fetchDatabaseIndex,
@@ -186,6 +187,19 @@ export default async function Page({ params }: PageProps) {
             fallback: "{{count}} entries",
             vars: { count: totalCount.toLocaleString(locale) },
           })}
+          {appConfig.db?.checklists?.some((c) => c.section === section) && (
+            <>
+              {" · "}
+              <Link
+                href={localizePath(`/checklist/${section}`, locale)}
+                className="text-amber-300 underline underline-offset-2 hover:text-amber-200"
+              >
+                {translate(dict, "checklist.openSectionChecklist", {
+                  fallback: "Track your progress in the checklist",
+                })}
+              </Link>
+            </>
+          )}
         </p>
         {(() => {
           const partner = getPartnerSectionLink(appConfig.name, section);

@@ -126,6 +126,18 @@ export type DbAppConfig = {
     /** Dict key (`{{name}}` = entry name) for a link from the /db entry page. */
     labelKey?: string;
   }>;
+  /**
+   * Codex sections that get a collection checklist (`/checklist/<section>`,
+   * hub at `/checklist`): every entry with a "have it" tick, progress, group /
+   * missing-only filters and links to its codex entry and map spawns. Only
+   * collectible sections (bestiaries, fish, outfits, lore…), never raw items.
+   * `section` is a `homeSections` slug (`/db/<section>`).
+   */
+  checklists?: Array<{
+    section: string;
+    /** Show each entry's `<id>_desc` under its name (achievements, titles). */
+    descriptions?: boolean;
+  }>;
   /** Full-width links rendered below the section grid (e.g. Game Mechanics). */
   homeExtraLinks?: Array<{
     href: string;

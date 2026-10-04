@@ -39,12 +39,21 @@ export const sinkingCity2 = resolveAppConfig({
       iconName: "BookOpen",
       linkText: "Read the Lore",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
   keywords: ["Lore", "Evidence", "Dream Essence", "Collectibles", "Arkham"],
   topFilters: ["lore", "evidence", "dream_essence"],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "lore" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items & lore…",
     sectionsInNav: true,

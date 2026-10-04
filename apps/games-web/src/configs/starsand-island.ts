@@ -25,6 +25,13 @@ export const starsandIsland = resolveAppConfig({
       bgImage: `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/MineCave_MainLand/preview.webp`,
       linkText: "Explore the Moonlit Forest Map",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -39,6 +46,8 @@ export const starsandIsland = resolveAppConfig({
   ],
   topFilters: ["chest_island", "campsite", "elf_stone"],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "codex" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items, recipes…",
     sectionsInNav: true,

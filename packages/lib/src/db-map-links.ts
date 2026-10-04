@@ -196,6 +196,47 @@ export function findFilterTypesForDbEntry({
 }
 
 /**
+ * `findFilterTypesForDbEntry` for many entries of ONE section at once: one
+ * pass over the filters builds the lookup, so a whole codex section (up to
+ * thousands of entries, e.g. the /checklist pages) costs O(entries + values)
+ * instead of O(entries × values). Same rules and result order.
+ */
+export function createFilterTypeLookup({
+  section,
+  filters,
+  enDict,
+}: {
+  section: string;
+  filters: FiltersConfig;
+  enDict: Record<string, string>;
+}): (id: string) => string[] {
+  const declared = new Map<string, string[]>();
+  const byName = new Map<string, string[]>();
+  const add = (map: Map<string, string[]>, key: string, typeId: string) => {
+    const list = map.get(key) ?? [];
+    if (!list.includes(typeId)) list.push(typeId);
+    map.set(key, list);
+  };
+  for (const f of filters) {
+    for (const v of f.values) {
+      if (v.no_map_markers || (v as { live_only?: boolean }).live_only) {
+        continue;
+      }
+      if (v.dbSection === section) add(declared, v.dbEntryId ?? v.id, v.id);
+      const name = normalizeLinkName(resolveTerm(enDict, v.id));
+      if (name.length >= MIN_NAME_LENGTH) add(byName, name, v.id);
+    }
+  }
+  return (id) => {
+    const own = declared.get(id);
+    if (own?.length) return [...own];
+    const name = normalizeLinkName(resolveTerm(enDict, id));
+    if (name.length < MIN_NAME_LENGTH) return [];
+    return [...(byName.get(name) ?? [])];
+  };
+}
+
+/**
  * `?filters=` value that opens the map with exactly these filter types on —
  * the same encoding the "Share map view" dialog produces (indices into the
  * sorted list of every filter value id; see search-params.ts).

@@ -91,6 +91,13 @@ export const heartopia = resolveAppConfig({
       iconName: "MapPin",
       description: "Stores, services and points of interest.",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -106,6 +113,13 @@ export const heartopia = resolveAppConfig({
     "Wildlife",
   ],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [
+      { section: "fish" },
+      { section: "insects" },
+      { section: "birds" },
+      { section: "flowers" },
+    ],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search fish, insects, recipes...",
     homeSections: [

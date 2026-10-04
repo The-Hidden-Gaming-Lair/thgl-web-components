@@ -595,6 +595,22 @@ export function createSitemap(appConfig: AppConfig) {
             priority: 0.7,
           });
         }
+        // Collection checklists: the hub plus one SEO page per section.
+        const checklists = (appConfig.db.checklists ?? []).filter((c) =>
+          appConfig.db!.homeSections.some((s) => s.href === `/db/${c.section}`),
+        );
+        if (checklists.length > 0) {
+          addEntry(entries, "/checklist", {
+            changeFrequency: "weekly",
+            priority: 0.7,
+          });
+          for (const c of checklists) {
+            addEntry(entries, `/checklist/${c.section}`, {
+              changeFrequency: "weekly",
+              priority: 0.7,
+            });
+          }
+        }
         // Only emit /db/artifacts/sets when the artifacts section exists,
         // so other future DB games don't get a dangling 404 entry.
         const hasArtifacts = appConfig.db.homeSections.some(

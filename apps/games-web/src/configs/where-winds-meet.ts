@@ -30,7 +30,15 @@ export const whereWindsMeet = resolveAppConfig({
   // it. (The previous entries also included a "Hidden Mountain Map" link, which
   // became a dead route when that map was merged into Hexi — the game treats
   // both clusters as one 河西大地图.) internalLinks is for guides and tools.
-  internalLinks: [],
+  internalLinks: [
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
+  ],
   promoLinks: [],
   externalLinks: [],
   keywords: [
@@ -46,6 +54,14 @@ export const whereWindsMeet = resolveAppConfig({
   // `wardrobe` are deliberately not `items`/`outfits`: those are static
   // /db/<slug> routes owned by other games and would 404 here.
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [
+      { section: "achievements", descriptions: true },
+      { section: "lore" },
+      { section: "wardrobe" },
+      { section: "titles", descriptions: true },
+      { section: "fish" },
+    ],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items, skills, lore…",
     sectionsInNav: true,

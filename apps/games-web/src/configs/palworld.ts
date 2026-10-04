@@ -84,6 +84,13 @@ export const palworld = resolveAppConfig({
       iconName: "Users",
       linkText: "Browse Base Visitors",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Tides of Terraria", "Feybreak", "Predator & Alpha Pals"],
@@ -98,6 +105,8 @@ export const palworld = resolveAppConfig({
     "skill_fruit",
   ],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>).
+    checklists: [{ section: "paldeck" }],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search Pals, items…",
     sectionsInNav: true,
