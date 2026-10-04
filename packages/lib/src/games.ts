@@ -796,6 +796,12 @@ export const games: Array<Game> = [
     ],
     // Clock + event timetable reachable while the filter panel is hidden.
     filterBarComponents: ["PaliaClockButton"],
+    compactOverlay: [
+      "CurrentZone",
+      "PaliaGridCell",
+      "PaliaTime",
+      "PaliaWeeklyWants",
+    ],
     logo: `${TH_GL_URL}/global_icons/palia.webp`,
     companion: {
       baseURL: "/apps/palia",
@@ -1716,6 +1722,17 @@ export type AdditionalContent =
 
 export type AdditionalTooltip = "InGameCoordinates" | "DuneAltitude";
 
+/**
+ * Widgets for the overlay's "Widgets Only" mode. Generic ones work for every
+ * game ("CurrentZone": the player's map + area); game-specific ones carry the
+ * game prefix.
+ */
+export type CompactOverlayWidget =
+  | "CurrentZone"
+  | "PaliaGridCell"
+  | "PaliaTime"
+  | "PaliaWeeklyWants";
+
 export type Game = {
   id: string;
   discordId: string;
@@ -1735,6 +1752,12 @@ export type Game = {
    * (e.g. Palia's event timetable).
    */
   filterBarComponents?: Array<AdditionalContent>;
+  /**
+   * Widgets of the overlay's "Widgets Only" mode (map hidden, a small movable
+   * panel instead). The mode is offered only for games that list widgets
+   * here, in this order. Elite Supporter preview. See compact-overlay.ts.
+   */
+  compactOverlay?: Array<CompactOverlayWidget>;
   additionalTooltip?: Array<AdditionalTooltip>;
   /**
    * Per-game map<->in-game coordinate transform. Enables the "In-Game"

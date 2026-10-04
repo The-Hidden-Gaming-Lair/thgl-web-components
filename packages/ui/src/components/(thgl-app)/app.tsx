@@ -12,13 +12,17 @@ import {
   translate,
   isCompanionPreviewApp,
   isInviteOnlyCompanion,
+  isThglApp,
   useAccountGate,
   useAccountStore,
+  useCompactOverlay,
   useOverlayMapHidden,
   useSettingsStore,
   Version,
 } from "@repo/lib";
 import {
+  HOTKEYS,
+  onWebviewMessage,
   useLiveState,
   setWindowMode as setWindowModeNative,
   WindowMode,
@@ -47,6 +51,7 @@ import { StatusBanner } from "../(header)/status-banner";
 import { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
 import { OverlayInputEvents } from "./overlay-input-events";
 import { AppMapDynamic } from "./app-map-dynamic";
+import { CompactOverlay } from "../(desktop)/compact-overlay";
 import { InitializeApp } from "./initialize-app";
 import { ResizeBorders } from "./resize-borders";
 import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons";
@@ -121,6 +126,22 @@ export function App({
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();
+  // "Widgets Only" overlay (Elite preview, games with `compactOverlay`).
+  const compactOverlay = useCompactOverlay(appConfig.name);
+  const toggleCompactOverlay = compactOverlay.toggle;
+  // Overlay window only: the mode doesn't exist on the desktop window, and a
+  // second listener there would toggle the shared setting back.
+  useEffect(() => {
+    if (!isThglApp || !isOverlay || !compactOverlay.available) return;
+    return onWebviewMessage((message) => {
+      if (
+        message.action === "hotkey" &&
+        message.payload.action === HOTKEYS.TOGGLE_COMPACT_OVERLAY
+      ) {
+        toggleCompactOverlay();
+      }
+    });
+  }, [isOverlay, compactOverlay.available, toggleCompactOverlay]);
   const hasPreviewAccess = useAccountStore(
     (state) => state.perks.previewReleaseAccess,
   );
@@ -349,6 +370,16 @@ export function App({
               <ErrorBoundary>
                 {isOverlay && overlayMapHidden ? (
                   <OverlayMapHiddenPill />
+                ) : isOverlay && compactOverlay.active ? (
+                  <>
+                    <CompactOverlay
+                      widgets={compactOverlay.widgets}
+                      onShowMap={compactOverlay.toggle}
+                    />
+                    {/* Drivers like Palia's world-code request toast keep
+                        running; map-bound ones no-op without a map. */}
+                    {additionalComponents}
+                  </>
                 ) : (
                   <>
                     <AppMapDynamic
@@ -359,6 +390,14 @@ export function App({
                       lockedWindow={lockedWindow}
                       additionalTooltip={additionalTooltip}
                       withoutLiveMode={withoutLiveMode}
+                      compactOverlay={
+                        isOverlay && compactOverlay.offered
+                          ? {
+                              locked: compactOverlay.locked,
+                              onToggle: compactOverlay.toggle,
+                            }
+                          : undefined
+                      }
                     />
                     {!lockedWindow && (
                       <MarkersSearch

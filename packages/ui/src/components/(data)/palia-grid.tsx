@@ -37,7 +37,8 @@ type GridConfig = {
   divisions?: number;
 };
 
-const gridBoundsMap: Record<string, GridConfig> = {
+// Also read by the Widgets Only overlay's grid-cell readout (PaliaGridCell).
+export const PALIA_GRID_BOUNDS: Record<string, GridConfig> = {
   VillageWorld: { bounds: villageGrid },
   AdventureZoneWorld: { bounds: bayGrid },
   MajiMarket: { bounds: fairgroundsGrid },
@@ -57,7 +58,7 @@ export function PaliaGrid({ force }: { force?: boolean }) {
       return;
     }
 
-    const config = gridBoundsMap[map.mapName];
+    const config = PALIA_GRID_BOUNDS[map.mapName];
     if (!config) {
       return;
     }

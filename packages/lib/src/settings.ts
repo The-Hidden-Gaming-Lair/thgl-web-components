@@ -274,6 +274,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     cycle_filter_preset: "Shift+F8",
     // Unbound by default: one stray press would wipe every discovered node.
     reset_discovered_nodes: "",
+    // Unbound by default: Elite preview, offered only for some games.
+    toggle_compact_overlay: "",
   },
   groupName: "",
   // Default to pure live (predicted hidden). Combined (predicted + live) is
@@ -283,6 +285,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   overlayMode: null,
   windowMode: null,
   overlayFullscreen: false,
+  compactOverlay: false,
+  compactOverlayTransform: null,
   lockedWindow: false,
   colorBlindMode: "none",
   colorBlindSeverity: 1,
@@ -416,6 +420,14 @@ export type ProfileSettings = {
   // when unset (older profiles), then to monitor-count auto-detection.
   windowMode: OverlayWindowMode | null;
   overlayFullscreen: boolean;
+  /**
+   * Overlay "Widgets Only" mode: the map is replaced by a small movable panel
+   * with the game's `compactOverlay` widgets. Profiles saved before it existed
+   * lack the key (read as false). See compact-overlay.ts.
+   */
+  compactOverlay: boolean;
+  /** CSS transform (translate) of the Widgets Only panel; null = default spot. */
+  compactOverlayTransform: string | null;
   lockedWindow: boolean;
   colorBlindMode: ColorBlindMode;
   colorBlindSeverity: number;
@@ -559,6 +571,8 @@ export interface ProfileActions {
   setOverlayMode: (overlayMode: boolean) => void;
   setWindowMode: (windowMode: OverlayWindowMode) => void;
   toggleOverlayFullscreen: () => void;
+  toggleCompactOverlay: () => void;
+  setCompactOverlayTransform: (transform: string | null) => void;
   toggleLockedWindow: () => void;
   setColorBlindMode: (mode: ColorBlindMode) => void;
   setColorBlindSeverity: (severity: number) => void;
@@ -1247,6 +1261,15 @@ export const useSettingsStore = create(
             });
           },
 
+          toggleCompactOverlay: () => {
+            const state = get();
+            updateSettings({ compactOverlay: !state.compactOverlay });
+          },
+
+          setCompactOverlayTransform: (transform) => {
+            updateSettings({ compactOverlayTransform: transform });
+          },
+
           toggleLockedWindow: () => {
             const state = get();
             updateSettings({
@@ -1377,6 +1400,8 @@ export const useSettingsStore = create(
               // Overlay window: a fullscreen or locked minimap is the usual
               // reason people reach for "reset" in the first place.
               overlayFullscreen: false,
+              compactOverlay: false,
+              compactOverlayTransform: null,
               lockedWindow: false,
             });
           },

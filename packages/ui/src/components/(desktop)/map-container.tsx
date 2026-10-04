@@ -11,7 +11,14 @@ import { Switch } from "../ui/switch";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import Moveable from "react-moveable";
 import { cn, MAP_FILTERS, useSettingsStore } from "@repo/lib";
-import { Move, Settings, Maximize2, Minimize2 } from "lucide-react";
+import {
+  LayoutList,
+  Lock,
+  Move,
+  Settings,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
 import { useMap } from "../(interactive-map)/store";
 import { Toggle } from "../ui/toggle";
 import { Button } from "../(controls)";
@@ -47,6 +54,7 @@ function MinimapToolbar({
   onToggleFullscreen,
   isEditMode,
   onEditModeChange,
+  compactOverlay,
 }: {
   className?: string;
   /** Drag handle for react-moveable; omitted in fullscreen (nothing to move). */
@@ -55,6 +63,8 @@ function MinimapToolbar({
   onToggleFullscreen: () => void;
   isEditMode: boolean;
   onEditModeChange: (editMode: boolean) => void;
+  /** Set = the game offers the "Widgets Only" mode (see compact-overlay.tsx). */
+  compactOverlay?: CompactOverlayToggle;
 }) {
   return (
     <div
@@ -89,6 +99,34 @@ function MinimapToolbar({
           <Maximize2 className="w-4 h-4" />
         )}
       </Button>
+      {compactOverlay && (
+        <Button
+          className="relative rounded-none"
+          size="icon"
+          variant="secondary"
+          onClick={() => {
+            if (compactOverlay.locked) {
+              toast(COMPACT_OVERLAY_LOCKED_TEXT, {
+                duration: 6000,
+                id: "compact-overlay-locked",
+              });
+              return;
+            }
+            compactOverlay.onToggle();
+          }}
+          aria-label="Widgets Only"
+          title={
+            compactOverlay.locked
+              ? COMPACT_OVERLAY_LOCKED_TEXT
+              : "Widgets Only (Preview): hide the map, keep a small widget panel"
+          }
+        >
+          <LayoutList className="w-4 h-4" />
+          {compactOverlay.locked && (
+            <Lock className="absolute right-0.5 bottom-0.5 h-2.5! w-2.5!" />
+          )}
+        </Button>
+      )}
       <Toggle
         className="rounded-none"
         aria-label="Toggle Map Settings"
@@ -235,12 +273,19 @@ function MinimapSettingsCard({
   );
 }
 
+export type CompactOverlayToggle = { locked: boolean; onToggle: () => void };
+
+const COMPACT_OVERLAY_LOCKED_TEXT =
+  "Widgets Only is a Preview for Elite Supporters, coming to everyone later. It hides the map and keeps a small panel with this game's widgets.";
+
 export function MapContainer({
   children,
   isOverlay,
+  compactOverlay,
 }: {
   children?: React.ReactNode;
   isOverlay: boolean;
+  compactOverlay?: CompactOverlayToggle;
 }) {
   const targetRef = useRef<HTMLButtonElement>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -394,6 +439,7 @@ export function MapContainer({
                 onToggleFullscreen={toggleOverlayFullscreen}
                 isEditMode={isEditMode}
                 onEditModeChange={setIsEditMode}
+                compactOverlay={compactOverlay}
               />
               {isEditMode && (
                 <MinimapSettingsCard
@@ -433,6 +479,7 @@ export function MapContainer({
               onToggleFullscreen={toggleOverlayFullscreen}
               isEditMode={isEditMode}
               onEditModeChange={setIsEditMode}
+              compactOverlay={compactOverlay}
             />
             {isEditMode && (
               <MinimapSettingsCard className="top-13" fullscreen={false} />

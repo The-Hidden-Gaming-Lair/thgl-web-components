@@ -21,6 +21,7 @@ export * from "./hooks";
 export * from "./i18n";
 export * from "./metadata";
 export * from "./overlay-map-hide";
+export * from "./compact-overlay";
 export * from "./palworld-breeding";
 export * from "./peer-link-url";
 export * from "./planet-crafter-save";

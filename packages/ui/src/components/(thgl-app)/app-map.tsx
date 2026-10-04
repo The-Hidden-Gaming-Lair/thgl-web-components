@@ -1,6 +1,7 @@
 "use client";
 import { THGLAppConfig, TilesConfig, Version } from "@repo/lib";
 import { MapContainer, StreamingSender } from "../(desktop)";
+import type { CompactOverlayToggle } from "../(desktop)/map-container";
 import {
   InteractiveMap,
   LiveNavmesh,
@@ -26,6 +27,8 @@ export type AppMapProps = {
   lockedWindow: boolean;
   additionalTooltip?: AdditionalTooltipType;
   withoutLiveMode: boolean;
+  /** Set = offer the "Widgets Only" button in the minimap toolbar. */
+  compactOverlay?: CompactOverlayToggle;
 };
 
 export function AppMap({
@@ -36,10 +39,11 @@ export function AppMap({
   lockedWindow,
   additionalTooltip,
   withoutLiveMode,
+  compactOverlay,
 }: AppMapProps): JSX.Element {
   return (
     <>
-      <MapContainer isOverlay={isOverlay}>
+      <MapContainer isOverlay={isOverlay} compactOverlay={compactOverlay}>
         <InteractiveMap
           appTitle={appConfig.title}
           domain={appConfig.domain}

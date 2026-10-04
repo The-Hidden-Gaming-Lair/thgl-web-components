@@ -1,6 +1,6 @@
 import { Label } from "../ui/label";
 import { HOTKEYS } from "@repo/lib/thgl-app";
-import { FiltersConfig, THGLAppConfig } from "@repo/lib";
+import { FiltersConfig, THGLAppConfig, useCompactOverlay } from "@repo/lib";
 import { SettingsDialogContent } from "../(controls)/settings-dialog-content";
 import { Separator } from "../ui/separator";
 import { Hotkey } from "./hotkey";
@@ -14,6 +14,7 @@ export function THGLAppSettingsDialogContent({
   filters: FiltersConfig;
 }) {
   const [recordingName, setRecordingName] = useState<string | null>(null);
+  const compactOverlay = useCompactOverlay(appConfig.name);
   return (
     <SettingsDialogContent
       activeApp={appConfig.name}
@@ -157,6 +158,18 @@ export function THGLAppSettingsDialogContent({
               onClear={() => setRecordingName(null)}
             />
           </Label>
+          {compactOverlay.available && (
+            <Label className="flex items-center gap-2 justify-between">
+              Widgets Only Overlay
+              <Hotkey
+                name={HOTKEYS.TOGGLE_COMPACT_OVERLAY}
+                isActive={recordingName === HOTKEYS.TOGGLE_COMPACT_OVERLAY}
+                onStart={() => setRecordingName(HOTKEYS.TOGGLE_COMPACT_OVERLAY)}
+                onStop={() => setRecordingName(null)}
+                onClear={() => setRecordingName(null)}
+              />
+            </Label>
+          )}
         </>
       )}
     </SettingsDialogContent>
