@@ -38,7 +38,9 @@ export type IconName =
   | "Shield"
   | "Sparkles"
   | "ChartLine"
-  | "Vote";
+  | "Vote"
+  | "Activity"
+  | "Code";
 
 export type AppConfig = {
   name: string;

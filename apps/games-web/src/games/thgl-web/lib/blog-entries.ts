@@ -12,6 +12,159 @@ export type BlogContentReference = string;
 
 export const blogEntries: BlogEntry[] = [
   {
+    id: "embed-maps-and-tooltips",
+    headline: "Put TH.GL Maps and Tooltips on Your Website",
+    title: "Free Embeddable Game Maps and Item Tooltips for Your Website",
+    description:
+      "Guide writers, bloggers and creators can now embed TH.GL interactive maps and add hover tooltips for items to their own sites. Free, no sign-up, no API key.",
+    date: "2026-10-04",
+    content: `
+If you write guides, run a fan site or a blog, you can now put TH.GL on your own pages: **interactive maps** you can embed with one line of code, and **item tooltips** that appear when your readers hover a link.
+
+Everything is free, also for commercial sites. No sign-up, no API key.
+
+Copy-paste code, live demos and all options are on the [**Embeds & Tooltips**](https://www.th.gl/developers) page.
+
+## Embed Any Map
+
+Every map on TH.GL can be embedded: markers, tooltips, zoom and pan, without our menus or ads.
+
+The easiest way:
+
+1. Open the map on its game site and set it up the way you want: move to the right spot, zoom in, and turn on only the markers your readers need.
+2. Open the **⋯** button in the map controls (or right-click the map) and choose **Embed this map**.
+3. Copy the code into your page.
+
+The embed starts exactly at your view and shows only the markers you had turned on. A guide about one boss or one resource route no longer has to send readers to a map full of everything else.
+
+**Your own markers and drawings:** if you are signed in, you can also embed a custom filter with your own markers and drawings. Open **My Filters**, open the filter's menu and choose **Embed on a website**.
+
+## Item Tooltips for Your Links
+
+Add one line to your page:
+
+\`\`\`html
+<script async src="https://www.th.gl/tooltips.js"></script>
+\`\`\`
+
+From then on, every link to a TH.GL database page shows a tooltip with the icon, name, type, description and key stats when someone hovers it. Your links stay normal links, so readers can still click through to the full entry.
+
+A few optional settings:
+
+- Show the item icon in front of each link
+- Color links by item rarity
+- Replace the link text with the item name
+- Pick a language for the tooltips
+
+Tooltips work for every game with a TH.GL database and in every language the game site has. The script sets no cookies and does no tracking.
+
+## The One Thing I Ask
+
+Keep the small TH.GL link under embedded maps. It is how readers find the full map, and it is the only thing I ask in return.
+
+Wikis like Fandom and wiki.gg don't allow outside iframes or scripts, so a plain link to the map or the database entry is the way to go there.
+
+## Questions or Ideas?
+
+If you use the embeds or tooltips somewhere, I'd love to see it. Questions, missing options or ideas are welcome in the [Discord](https://th.gl/discord).
+
+— DevLeon
+`.trim(),
+    contentReference: [
+      "embeds",
+      "tooltips",
+      "interactive maps",
+      "game database",
+      "Discord",
+    ],
+  },
+  {
+    id: "2026-update-25-new-games",
+    headline: "25 New Games and What Else Changed",
+    title: "TH.GL in 2026: 25 New Games, Game Databases and More",
+    description:
+      "It's been a while since the last post. Since then, TH.GL added interactive maps and databases for 25 new games, game databases in many languages, game stats, game requests, a service status page and embeddable maps.",
+    date: "2026-10-04",
+    content: `
+It's been quiet on this blog for almost a year. Not because nothing happened, but because I spent the time building instead of writing.
+
+Here's a summary of everything new on TH.GL since the last post.
+
+## 25 New Games
+
+TH.GL now has interactive maps, databases or tools for these games:
+
+- [**Crimson Desert**](https://crimsondesert.th.gl)
+- [**Heroes of Might & Magic: Olden Era**](https://oldenera.th.gl)
+- [**Gothic 1 Remake**](https://gothic1remake.th.gl)
+- [**Subnautica 2**](https://subnautica2.th.gl)
+- [**Witchspire**](https://witchspire.th.gl)
+- [**Neverness To Everness**](https://nte.th.gl)
+- [**Heartopia**](https://heartopia.th.gl)
+- [**DragonSword: Awakening**](https://dragonswordawakening.th.gl)
+- [**Enshrouded**](https://enshrouded.th.gl)
+- [**Star Rupture**](https://starrupture.th.gl)
+- [**The Planet Crafter**](https://planetcrafter.th.gl)
+- [**The Legend of Khiimori**](https://khiimori.th.gl)
+- [**Soul's Remnant**](https://soulsremnant.th.gl)
+- [**The Sinking City 2**](https://sinkingcity2.th.gl)
+- [**Where Winds Meet**](https://wherewindsmeet.th.gl)
+- [**The Blood of Dawnwalker**](https://bloodofdawnwalker.th.gl)
+- [**Aniimo**](https://aniimo.th.gl)
+- [**Graveyard Keeper 2**](https://graveyardkeeper2.th.gl)
+- [**Delta Force**](https://deltaforce.th.gl)
+- [**Welcome to Elderfield**](https://welcometoelderfield.th.gl)
+- [**AION 2**](https://aion2.th.gl)
+- [**Valheim**](https://valheim.th.gl)
+- [**Albion Online**](https://albiononline.th.gl)
+- [**The First Descendant**](https://thefirstdescendant.th.gl)
+- [**Minecraft Dungeons II**](https://minecraftdungeons2.th.gl)
+
+The full list of supported games is on the [**Gaming Apps**](https://www.th.gl/apps) page.
+
+## Game Databases
+
+Most games now have a **database** next to the map: items, creatures, characters, recipes and more, with stats, descriptions and where to find them. Many databases are available in the game's own languages.
+
+From a marker on the map you can jump to its database entry, and from a database entry back to the map with **Show on map**.
+
+## Companion App Updates
+
+The [**Companion App**](https://www.th.gl/companion-app) keeps growing. The newest addition: a game's **database, guides and tools** now open right inside the app, with back and forward buttons and a tab back to the map. In the desktop map window, "View in Codex" links open in the app instead of your browser.
+
+## Game Stats and Game Requests
+
+- [**Game Stats**](https://www.th.gl/stats) shows player counts, peaks, trends, Steam reviews and recent patches for every game TH.GL supports. The numbers update every 10 minutes.
+- [**Request a Game**](https://www.th.gl/requests) lets you request the game you want maps and tools for next, and vote for other requests. Votes help me pick what to build next.
+
+## Service Status
+
+If a map or the app doesn't load, check the [**Service Status**](https://www.th.gl/status) page first. It shows the live health of the TH.GL services and the live tracking for each game, plus any ongoing incidents.
+
+## Maps and Tooltips for Your Website
+
+Guide writers and creators can now embed TH.GL maps and add item tooltips to their own websites. More about that in [**this post**](https://www.th.gl/blog/embed-maps-and-tooltips).
+
+## Thank You
+
+All of this is possible because of the TH.GL community. If you'd like to support the project and remove ads, check out the [**Support Me**](https://www.th.gl/support-me) page. Sharing TH.GL with friends and on social media helps a lot too.
+
+Feedback and ideas are always welcome in the [Discord](https://th.gl/discord).
+
+— DevLeon
+`.trim(),
+    contentReference: [
+      "interactive maps",
+      "game database",
+      "THGL Companion App",
+      "game stats",
+      "game requests",
+      "service status",
+      "Discord",
+      "Support Me",
+    ],
+  },
+  {
     id: "ad-blockers-breaking-websites",
     headline: "Ad Blockers Are Breaking More Than Just Ads",
     title: "Why Ad Blockers Are Breaking TH.GL (And What You Should Know)",

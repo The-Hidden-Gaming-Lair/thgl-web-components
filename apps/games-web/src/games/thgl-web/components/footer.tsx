@@ -3,18 +3,12 @@ export function Footer() {
     <footer className="w-full px-6 py-4 text-gray-300 from-inherit">
       <div className="block text-center">
         <p>&copy; {new Date().getFullYear()} The Hidden Gaming Lair</p>
-        <p className="text-sm">
-          <a
-            href="/status"
-            className="text-gray-400 hover:text-gray-200 hover:underline"
-          >
+        <p className="text-sm text-gray-400">
+          <a href="/status" className="underline hover:text-gray-200">
             Service Status
           </a>
           {" · "}
-          <a
-            href="/developers"
-            className="text-gray-400 hover:text-gray-200 hover:underline"
-          >
+          <a href="/developers" className="underline hover:text-gray-200">
             Embeds &amp; Tooltips
           </a>
         </p>

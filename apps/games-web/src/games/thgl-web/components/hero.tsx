@@ -17,6 +17,7 @@ const titles: Record<string, string> = {
   "/support-me/account": "Thank you!",
   "/partner-program": "Partner Program",
   "/developers": "Embeds & Tooltips",
+  "/status": "Service Status",
   "/advertise": "Advertise",
   "/legal-notice": "Legal Notice",
   "/privacy-policy": "Privacy Policy",

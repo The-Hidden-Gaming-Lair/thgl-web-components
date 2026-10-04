@@ -49,6 +49,18 @@ export const appConfig: AppConfig = {
       iconName: "MessageSquare",
     },
     {
+      title: "Embeds & Tooltips",
+      href: "/developers",
+      description: "Embed maps and item tooltips on your own site.",
+      iconName: "Code",
+    },
+    {
+      title: "Service Status",
+      href: "/status",
+      description: "Live status of maps, apps and services.",
+      iconName: "Activity",
+    },
+    {
       title: "Partner Program",
       href: "/partner-program",
       description: "Partner with The Hidden Gaming Lair.",
