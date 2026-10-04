@@ -91,6 +91,17 @@ describe("dbEntryIdOf", () => {
       "item_coal",
     );
   });
+  test("provider-normalised id (= type) falls back to the type-level default", () => {
+    expect(
+      dbEntryIdOf(
+        {
+          id: "aristocrat_decor_makeuptable",
+          type: "aristocrat_decor_makeuptable",
+        },
+        "decor_rococo_20_furniture_makeup_table",
+      ),
+    ).toBe("decor_rococo_20_furniture_makeup_table");
+  });
   test("no default falls back to the type id", () => {
     expect(dbEntryIdOf({ id: "coal@1:2", type: "coal" })).toBe("coal");
   });

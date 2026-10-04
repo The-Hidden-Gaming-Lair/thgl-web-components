@@ -157,7 +157,14 @@ export function dbEntryIdOf(
 ): string {
   // `""` is NO_DB_ENTRY: a deliberate "this marker has no codex entry" — no link.
   if (spawn.dbEntryId !== undefined) return spawn.dbEntryId;
-  if (spawn.id && !spawn.id.startsWith(`${spawn.type}@`)) return spawn.id;
+  // The coordinates provider normalises id-less spawns to `id: spawn.id ?? node.type`, so an id
+  // equal to the type is no own id — fall through to the type-level default.
+  if (
+    spawn.id &&
+    spawn.id !== spawn.type &&
+    !spawn.id.startsWith(`${spawn.type}@`)
+  )
+    return spawn.id;
   return typeDbEntryId ?? spawn.type;
 }
 
