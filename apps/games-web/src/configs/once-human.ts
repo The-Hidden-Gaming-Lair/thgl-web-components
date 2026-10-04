@@ -59,6 +59,21 @@ export const onceHuman = resolveAppConfig({
       linkText: "crafting.navLinkText",
     },
     {
+      title: "blueprints.navTitle",
+      description: "blueprints.navDescription",
+      href: "/blueprints",
+      iconName: "Sparkles",
+      linkText: "blueprints.navLinkText",
+    },
+    {
+      href: "/db/blueprints",
+      title: "Blueprints",
+      description:
+        "Every weapon and armor blueprint with its Starchrom cost per star, fragments to fuse and the gear it crafts.",
+      iconName: "FileText",
+      linkText: "Browse Blueprints",
+    },
+    {
       href: "/db/materials",
       title: "Materials",
       description:
@@ -149,6 +164,14 @@ export const onceHuman = resolveAppConfig({
     "hoard_loot_crate",
   ],
   db: {
+    // One indexable /blueprints/<id> page per blueprint (sitemap + codex link).
+    entryPages: [
+      {
+        type: "blueprints",
+        path: "/blueprints",
+        labelKey: "blueprints.dbLink",
+      },
+    ],
     heroSubtitle: "Codex & Compendium",
     searchPlaceholder: "Search items, recipes, remnants, weapons...",
     homeSections: [
@@ -188,6 +211,14 @@ export const onceHuman = resolveAppConfig({
         icon: "🚙",
         titleFallback: "Vehicles",
         description: "Vehicle parts and vehicles with their recipes.",
+      },
+      {
+        href: "/db/blueprints",
+        type: "blueprints",
+        icon: "★",
+        titleFallback: "Blueprints",
+        description:
+          "Weapon and armor blueprints with the Starchrom price of every star.",
       },
       {
         href: "/db/alternate-recipes",
@@ -247,6 +278,7 @@ export const onceHuman = resolveAppConfig({
       facilities: "Facility",
       vehicles: "Vehicle",
       "alternate-recipes": "Recipe",
+      blueprints: "Blueprint",
       weapon: "Weapon",
       remnants: "Remnant",
       regional_records: "Record",
@@ -259,6 +291,7 @@ export const onceHuman = resolveAppConfig({
       facilities: "bg-amber-900/40 text-amber-400",
       vehicles: "bg-teal-900/40 text-teal-400",
       "alternate-recipes": "bg-violet-900/40 text-violet-400",
+      blueprints: "bg-yellow-900/40 text-yellow-400",
       weapon: "bg-orange-900/40 text-orange-400",
       remnants: "bg-emerald-900/40 text-emerald-400",
       regional_records: "bg-cyan-900/40 text-cyan-400",
