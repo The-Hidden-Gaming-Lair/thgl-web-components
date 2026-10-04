@@ -437,12 +437,19 @@ function PairList({
   pairs,
   ownedSet,
   ...s
-}: Pick<Shared, "byId" | "t" | "name" | "appName" | "iconsHash" | "locale"> & {
+}: Pick<
+  Shared,
+  "byId" | "t" | "name" | "appName" | "iconsHash" | "locale" | "breeder"
+> & {
   pairs: BreedingPair[];
   ownedSet?: Set<string>;
 }) {
   const [filter, setFilter] = useState("");
   const [onlyOwned, setOnlyOwned] = useState(false);
+  // Legendaries (IgnoreCombi) can be parents but are rarely at hand.
+  const [hideLegendary, setHideLegendary] = useState(false);
+  const legendary = (id: string) => !!s.breeder.data.pals[id]?.ignore;
+  const hasLegendary = pairs.some((p) => legendary(p.a) || legendary(p.b));
   const [limit, setLimit] = useState(PAIRS_PAGE);
   const { t, name } = s;
   const f = filter.trim().toLowerCase();
@@ -451,7 +458,8 @@ function PairList({
       (!f ||
         name(p.a).toLowerCase().includes(f) ||
         name(p.b).toLowerCase().includes(f)) &&
-      (!onlyOwned || (ownedSet?.has(p.a) && ownedSet?.has(p.b))),
+      (!onlyOwned || (ownedSet?.has(p.a) && ownedSet?.has(p.b))) &&
+      (!hideLegendary || (!legendary(p.a) && !legendary(p.b))),
   );
   return (
     <div className="space-y-2">
@@ -462,6 +470,16 @@ function PairList({
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
+        {hasLegendary && (
+          <label className="flex items-center gap-1 text-sm">
+            <input
+              type="checkbox"
+              checked={hideLegendary}
+              onChange={(e) => setHideLegendary(e.target.checked)}
+            />
+            {t("legendaryParents")}
+          </label>
+        )}
         {ownedSet && ownedSet.size > 0 && (
           <label className="flex items-center gap-1 text-sm">
             <input
