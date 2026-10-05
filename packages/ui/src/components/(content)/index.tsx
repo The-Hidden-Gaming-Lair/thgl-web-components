@@ -5,6 +5,7 @@ export {
   type AdditionalTooltipType,
 } from "./additional-tooltip";
 export { DiscordMessage } from "./discord-message";
+export { ArticleMarkdown, type ArticleLinkIcon } from "./article-markdown";
 export { Subtitle } from "./subtitle";
 export { NavCard, type NavCardProps } from "./nav-card";
 export { NavGrid } from "./nav-grid";

@@ -25,6 +25,7 @@ export * from "./filters-stats";
 export * from "./game";
 export * from "./app-surface";
 export * from "./games";
+export * from "./guides";
 export * from "./hooks";
 export * from "./i18n";
 export * from "./metadata";

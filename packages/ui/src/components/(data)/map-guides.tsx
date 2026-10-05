@@ -140,27 +140,29 @@ export default function MapGuides({
 
   return (
     <>
-      <ScrollArea orientation="horizontal" className="w-full max-w-[90vw]">
-        <div
-          className="flex items-center justify-center gap-4"
-          role="tablist"
-          aria-label="Maps"
-        >
-          {maps.map((map) => (
-            <Button
-              key={map}
-              variant={map === currentMap ? "default" : "secondary"}
-              role="tab"
-              aria-selected={map === currentMap}
-              asChild
-            >
-              <Link href={`?${createQueryString("map", map)}`}>
-                {labelFor(map)}
-              </Link>
-            </Button>
-          ))}
-        </div>
-      </ScrollArea>
+      {maps.length > 1 && (
+        <ScrollArea orientation="horizontal" className="w-full max-w-[90vw]">
+          <div
+            className="flex items-center justify-center gap-4"
+            role="tablist"
+            aria-label="Maps"
+          >
+            {maps.map((map) => (
+              <Button
+                key={map}
+                variant={map === currentMap ? "default" : "secondary"}
+                role="tab"
+                aria-selected={map === currentMap}
+                asChild
+              >
+                <Link href={`?${createQueryString("map", map)}`}>
+                  {labelFor(map)}
+                </Link>
+              </Button>
+            ))}
+          </div>
+        </ScrollArea>
+      )}
       {spawns ? (
         <MapProgress
           spawns={mapSpawns}

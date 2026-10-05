@@ -5,7 +5,9 @@ import {
   fetchDatabaseIndex,
   fetchDatabaseEntry,
   fetchDatabaseType,
+  fetchGuidesIndex,
   fetchVersion,
+  guidesForEntry,
   fetchTiles,
   getMetadataAlternates,
   localizePath,
@@ -199,10 +201,11 @@ export default async function Page({ params }: { params: Params }) {
     id,
   );
 
-  const [index, dict, version] = await Promise.all([
+  const [index, dict, version, writtenGuides] = await Promise.all([
     fetchDatabaseIndex(appConfig.name),
     getFullDbDictionary(appConfig.name, locale),
     fetchVersion(appConfig.name),
+    fetchGuidesIndex(appConfig.name),
   ]);
   const iconsHash = version.more.icons;
 
@@ -361,6 +364,18 @@ export default async function Page({ params }: { params: Params }) {
               className="mt-6 inline-block text-primary hover:underline"
             >
               {translate(dict, page.labelKey!, { vars: { name } })} →
+            </a>
+          ))}
+        {/* Written guides about / linking this entry (the guides are English; every locale links them). */}
+        {guidesForEntry(writtenGuides, matchingType, item.id)
+          .slice(0, 3)
+          .map((g) => (
+            <a
+              key={g.slug}
+              href={`/guides/${g.slug}`}
+              className="mt-6 block text-primary hover:underline"
+            >
+              {g.title} →
             </a>
           ))}
         {hasRecipePage && (

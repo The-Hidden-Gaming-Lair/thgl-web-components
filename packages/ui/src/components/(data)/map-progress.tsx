@@ -63,6 +63,7 @@ export default function MapProgress({
           highlightedIds={highlightedIds}
           appName={appName}
           additionalTooltip={additionalTooltip}
+          fitToSpawns
         />
       </Suspense>
       <div className="mb-4">
@@ -91,6 +92,7 @@ export default function MapProgress({
           onShowClick={setHighlightedIds}
           highlightedIds={highlightedIds}
           typeGroupLabels={typeGroupLabels}
+          appName={appName}
         />
       </div>
     </section>

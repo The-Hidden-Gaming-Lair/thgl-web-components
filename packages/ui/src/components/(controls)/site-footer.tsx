@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { JSX } from "react";
-import type { AppConfig } from "@repo/lib";
+import type { AppConfig, GuideNavLink } from "@repo/lib";
 import { ExternalAnchor } from "../(header)";
 import { useI18n } from "../(providers)";
 import { ScriptLoader } from "../(ads)";
@@ -21,14 +21,16 @@ export function SiteFooter({
   appConfig,
   hasMap,
   hasGuides = true,
+  guideLinks,
 }: {
   appConfig: AppConfig;
   hasMap: boolean;
   hasGuides?: boolean;
+  guideLinks?: GuideNavLink[];
 }): JSX.Element | null {
   const pathname = usePathname() ?? "/";
   const { t } = useI18n();
-  const groups = useNavGroups({ appConfig, hasMap, hasGuides });
+  const groups = useNavGroups({ appConfig, hasMap, hasGuides, guideLinks });
 
   // The interactive map fills the viewport — a footer would only add a scrollbar.
   if (/^\/(?:[a-zA-Z-]+\/)?maps\/[^/]+/.test(pathname)) return null;
