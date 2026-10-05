@@ -50,6 +50,16 @@ const nextConfig = (phase) => ({
   // public. The remaining BP failures (Topics API / third-party cookies /
   // cookie issues) are all the NitroPay ad stack, unfixable in our code.
   productionBrowserSourceMaps: true,
+  // Crawlers matching this get <title>/meta/canonical/hreflang rendered in the
+  // initial <head>. Others get streamed metadata: when generateMetadata is
+  // slower than the page shell (cold first render), Next injects it into <body>.
+  // Next's default list (copied from next/dist/shared/lib/router/utils/
+  // html-bots.js, 16.3) leaves out Googlebot because it runs JS; we want the
+  // complete head for it anyway (seen 2026-10-05: a team-builder page served to
+  // Googlebot with its title at the end of <body>). Added: Googlebot + the AI
+  // search fetchers from our logs.
+  htmlLimitedBots:
+    /[\w-]+-Google|Google-[\w-]+|Googlebot|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight|PerplexityBot|OAI-SearchBot|ChatGPT-User|Amzn-SearchBot/i,
   // Serve hashed build assets from the persistent static host instead of the
   // container. static.th.gl fronts the thgl-games-web-static storage zone,
   // which the deploy workflow populates assets-first (uploads .next/static
