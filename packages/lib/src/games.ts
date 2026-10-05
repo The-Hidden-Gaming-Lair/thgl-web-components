@@ -286,17 +286,14 @@ export const games: Array<Game> = [
     steamAppId: 3393110,
     logo: `${TH_GL_URL}/global_icons/aion2.webp`,
     companion: {
-      // Hidden in production builds until a THGLApp release carries the AION 2 detector and
-      // data-forge ships icons/player.webp.
-      inDevelopment: true,
       baseURL: "/apps/aion2",
       controllerURL: "/apps/aion2/controller",
       desktopURL: "/apps/aion2",
       overlayURL: "/apps/aion2/overlay",
       markerOptions: {
         radius: 6,
-        // Needs data-forge public\aion2\icons\player.webp, which the next aion2 extraction
-        // writes (the world-map arrow, turned to point right); without it no marker is drawn.
+        // data-forge public\aion2\icons\player.webp: the world-map arrow, saved turned to
+        // point right.
         playerIcon: "player.webp",
         playerIconForward: 90,
         imageSprite: true,
