@@ -145,11 +145,11 @@ Sharing is built in — sign in with a free account so your filter syncs, then o
     id: "import-progress-from-another-map-site",
     headline: "Import your progress from another map site",
     question:
-      "I already tracked chests and collectibles on another interactive map (like appsample or wuthering.gg). Can I import that progress into TH.GL?",
+      "I already tracked chests and collectibles on another interactive map (like appsample, wuthering.gg or ghzs666.com). Can I import that progress into TH.GL?",
     answer: `
 Yes — for supported games you can bring your found markers over in a one-time copy. It matches the other site's markers to the same locations on our map and marks them as **discovered** here.
 
-> Supported today for **Wuthering Waves**: **appsample** and **wuthering.gg**. More sites/games will follow.
+> Supported today for **Wuthering Waves**: **appsample**, **wuthering.gg** and the **ghzs666.com** (光环助手) map. More sites/games will follow.
 
 ## How to import
 1. On the TH.GL map, open **Settings → Discovered Nodes** and click **Import from another site**.
@@ -158,7 +158,7 @@ Yes — for supported games you can bring your found markers over in a one-time 
 
 ## Exporting (desktop only)
 The export runs in the other site's page, so it needs a desktop browser — mobile browsers have no developer console:
-1. Open the other map on a **computer**. For appsample, sign in with the same Google account. For wuthering.gg, use the **same browser** you marked your progress in, since it keeps that progress in the browser - or sign in to your wuthering.gg account first, then any browser works.
+1. Open the other map on a **computer**. For appsample, sign in with the same Google account. For wuthering.gg, use the **same browser** you marked your progress in, since it keeps that progress in the browser - or sign in to your wuthering.gg account first, then any browser works. For the ghzs666.com map, sign in with the account you marked with and wait for the map to load.
 2. Press **F12** → **Console** tab.
 3. Paste the snippet shown in the TH.GL import dialog and press **Enter**. (If the browser blocks the paste, type **allow pasting** first.)
 4. It downloads a small file with your found markers — upload that in the TH.GL import box, or copy what it prints in the Console and paste it.
