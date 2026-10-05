@@ -65,7 +65,10 @@ export function GlobalSearch({
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup heading="Games">
-                  {games
+                  {/* Copy first: an in-place sort reorders the shared registry
+                      for every later render in this process (it made the
+                      server render the app dashboard sidebar A-Z). */}
+                  {[...games]
                     .sort((a, b) => a.title.localeCompare(b.title))
                     .map((game) => (
                       <CommandItem key={game.id}>

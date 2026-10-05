@@ -110,6 +110,59 @@ test.describe("dashboard games list", () => {
     );
   });
 
+  test("hydrates without a mismatch, also after a www render", async ({
+    page,
+  }) => {
+    // The www header's global search once sorted the shared `games` registry
+    // IN PLACE, so after any www render the server rendered this list A-Z
+    // while the client rendered registry order: React #418 and a regenerated
+    // tree (inbox #390). Render www first, on the same dev server process.
+    await page.goto("http://www-dev.localhost:3100/", { waitUntil: "load" });
+
+    // The persisted store (sort, favourites, last played, collapsed) must
+    // not leak into the first client render either.
+    const errors: string[] = [];
+    const collect = (text: string) => {
+      if (/hydrat|#418|didn't match/i.test(text)) errors.push(text);
+    };
+    page.on("pageerror", (e) => collect(e.message));
+    page.on("console", (msg) => {
+      if (msg.type() === "error") collect(msg.text());
+    });
+    await installFakeWebviewBridge(page);
+    await seedAppState(page, {
+      sidebarExpanded: true,
+      gamesSort: "alpha",
+      favoriteGames: ["palia"],
+      lastPlayed: { palia: Date.now() },
+    });
+    await page.goto(DASHBOARD_URL, { waitUntil: "load" });
+    await waitForList(page);
+    await expect
+      .poll(() => companionIds(page).then((ids) => ids[0]))
+      .toBe("palia");
+    await expect(sortButton(page, "A-Z")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    // Collapsed: the persisted width wins too, still without a mismatch.
+    // (Written directly: the seed init script only runs once per tab.)
+    await page.evaluate(() =>
+      window.localStorage.setItem(
+        "thgl-app",
+        JSON.stringify({
+          state: { sidebarExpanded: false, lastPlayed: {} },
+          version: 3,
+        }),
+      ),
+    );
+    await page.reload({ waitUntil: "load" });
+    await expect(page.locator("aside")).toHaveClass(/w-\[60px\]/);
+    await page.waitForTimeout(2_000);
+    expect(errors, "hydration errors").toEqual([]);
+  });
+
   test("A-Z sorts by title and is remembered across a reload", async ({
     page,
   }) => {
