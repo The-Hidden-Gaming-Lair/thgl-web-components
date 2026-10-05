@@ -1,6 +1,12 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import {
+  activitiesStorageKey,
+  formatUtcOffset,
+  guessRegion,
+  parseActivitiesState,
+} from "@repo/lib";
 
 /** Shape of public/heartopia/config/weather.json (data-forge `weather` component). */
 export type WeatherData = {
@@ -99,6 +105,19 @@ const todayKey = () => {
   return n.getFullYear() * 10000 + (n.getMonth() + 1) * 100 + n.getDate();
 };
 
+/** A game server and its fixed clock (from the game's `config/activities.json` regions). */
+export type ForecastServer = {
+  id: string;
+  label: string;
+  utcOffsetMinutes: number;
+};
+
+/** Opt-in "also show my local time" (the forecast stays in server time, the way players talk). */
+type LocalTimePref = { on: boolean; server?: string };
+const localTimeKey = (game: string) => `thgl-forecast-local-time:${game}`;
+
+const pad2 = (n: number) => String(n).padStart(2, "0");
+
 function formatDate(
   locale: string,
   date: Date,
@@ -115,6 +134,8 @@ export function WeatherForecast({
   data,
   locale,
   labels,
+  game,
+  servers = [],
 }: {
   data: WeatherData;
   locale: string;
@@ -126,10 +147,63 @@ export function WeatherForecast({
     today: string;
     slots: string;
     variants: string;
+    localTime: string;
+    localTimeHint: string;
+    server: string;
+    yourTime: string;
   };
+  /** Tenant id: keys the saved local-time preference. */
+  game: string;
+  /** The game's servers; without them the local-time toggle is not shown. */
+  servers?: ForecastServer[];
 }) {
   const today = useSyncExternalStore(subscribeNoop, todayKey, () => 0);
   const year = today ? Math.floor(today / 10000) : new Date().getFullYear();
+
+  // Local-time preference, read after hydration. Default server: the one picked in the
+  // activities tracker, else the one closest to the viewer's clock (same guess as the tracker).
+  const [localPref, setLocalPref] = useState<LocalTimePref>({ on: false });
+  const [guessedServer, setGuessedServer] = useState<string | undefined>();
+  useEffect(() => {
+    if (!servers.length) return;
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(localTimeKey(game)) ?? "null",
+      ) as Partial<LocalTimePref> | null;
+      if (saved && typeof saved === "object")
+        setLocalPref({
+          on: saved.on === true,
+          server: typeof saved.server === "string" ? saved.server : undefined,
+        });
+      const tracker = parseActivitiesState(
+        localStorage.getItem(activitiesStorageKey(game)),
+      )?.region;
+      const now = Date.now();
+      setGuessedServer(
+        servers.some((s) => s.id === tracker)
+          ? tracker
+          : guessRegion(
+              servers.map((s) => ({ ...s, name: s.label })),
+              -new Date(now).getTimezoneOffset(),
+              now,
+              Intl.DateTimeFormat().resolvedOptions().timeZone,
+            ).id,
+      );
+    } catch {
+      // Storage blocked: the toggle still works for this visit.
+    }
+  }, [game, servers]);
+  const updateLocalPref = (next: LocalTimePref) => {
+    setLocalPref(next);
+    try {
+      localStorage.setItem(localTimeKey(game), JSON.stringify(next));
+    } catch {
+      // ignore
+    }
+  };
+  const server =
+    servers.find((s) => s.id === (localPref.server ?? guessedServer)) ??
+    servers[0];
 
   // (m*100+d) → calendar index.
   const indexByDay = useMemo(() => {
@@ -250,6 +324,28 @@ export function WeatherForecast({
     }
     return [...set];
   }, [cur, data.types]);
+
+  // Server hour of the selected day → the viewer's wall clock (their own zone incl. DST; the
+  // server clock is a fixed offset), with "+1d"/"−1d" when it lands on another local date.
+  const localClock = (hour: number) => {
+    if (!localPref.on || !server) return null;
+    const at =
+      Date.UTC(year, cur.m - 1, cur.d, hour) - server.utcOffsetMinutes * 60_000;
+    const t = new Date(at);
+    const shift = Math.round(
+      (Date.UTC(t.getFullYear(), t.getMonth(), t.getDate()) -
+        Date.UTC(year, cur.m - 1, cur.d)) /
+        86_400_000,
+    );
+    return `${pad2(t.getHours())}:${pad2(t.getMinutes())}${
+      shift ? ` ${shift > 0 ? "+" : "−"}${Math.abs(shift)}d` : ""
+    }`;
+  };
+  const viewerOffset = useSyncExternalStore(
+    subscribeNoop,
+    () => -new Date().getTimezoneOffset(),
+    () => 0,
+  );
 
   // Whether the selected day has a weather with variants (shows the legend line).
   const hasVariants = cur.h.some((w) => data.types[String(w)]?.variant);
@@ -470,9 +566,51 @@ export function WeatherForecast({
             →
           </button>
         </div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-          {labels.hourly}
-        </p>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {labels.hourly}
+          </p>
+          {server && (
+            <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              <label className="inline-flex cursor-pointer items-center gap-1.5">
+                <input
+                  type="checkbox"
+                  checked={localPref.on}
+                  onChange={(e) =>
+                    updateLocalPref({ ...localPref, on: e.target.checked })
+                  }
+                  className="accent-amber-500"
+                />
+                {labels.localTime}
+              </label>
+              {localPref.on && servers.length > 1 && (
+                <label className="inline-flex items-center gap-1.5">
+                  {labels.server}
+                  <select
+                    value={server.id}
+                    onChange={(e) =>
+                      updateLocalPref({ ...localPref, server: e.target.value })
+                    }
+                    className="rounded-md border border-border bg-background px-1.5 py-0.5 text-xs text-foreground"
+                  >
+                    {servers.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.label} ({formatUtcOffset(s.utcOffsetMinutes)})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
+          )}
+        </div>
+        {localPref.on && server && (
+          <p className="mb-3 text-xs text-muted-foreground">
+            {labels.localTimeHint
+              .replace("{server}", formatUtcOffset(server.utcOffsetMinutes))
+              .replace("{you}", formatUtcOffset(viewerOffset))}
+          </p>
+        )}
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4!">
           {SLOT_STARTS.map((start, k) => (
             <div key={start} className="space-y-1.5">
@@ -489,6 +627,7 @@ export function WeatherForecast({
                 const hour = start + j;
                 const m = meta(wid, hour);
                 const variant = data.types[String(wid)]?.variant;
+                const local = localClock(hour);
                 return (
                   <div
                     key={hour}
@@ -498,6 +637,15 @@ export function WeatherForecast({
                     <div className="min-w-0 flex-1">
                       <div className="text-xs text-muted-foreground tabular-nums">
                         {String(hour).padStart(2, "0")}:00
+                        {local && (
+                          <span
+                            className="text-amber-400/80"
+                            title={labels.yourTime}
+                          >
+                            {" · "}
+                            {local} {labels.yourTime}
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center gap-1.5">
                         <span className="truncate text-sm">

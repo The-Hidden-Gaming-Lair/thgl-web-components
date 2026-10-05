@@ -6,12 +6,14 @@ import {
   resolveForgeUrl,
   getMetadataAlternates,
   DEFAULT_LOCALE,
+  fetchActivitiesConfig,
 } from "@repo/lib";
 import { ContentLayout } from "@repo/ui/ads";
 import { HeaderOffset, PageTitle } from "@repo/ui/header";
 import { getAppConfig } from "@/lib/get-app-config";
 import {
   WeatherForecast,
+  type ForecastServer,
   type WeatherData,
 } from "@/lib/forecast/weather-forecast";
 import { DailyRares, type DailyRaresData } from "@/lib/forecast/daily-rares";
@@ -80,11 +82,29 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { locale = DEFAULT_LOCALE } = await params;
   const appConfig = await getAppConfig();
-  const [data, rares] = await Promise.all([
+  const [data, rares, activities] = await Promise.all([
     fetchWeather(appConfig.name),
     fetchDailyRares(appConfig.name),
+    fetchActivitiesConfig(appConfig.name).catch(() => null),
   ]);
   if (!data) notFound();
+  // The game's servers and their fixed clocks (the activities tracker's regions) for the
+  // optional "show my local time" line; regions on a DST zone (`tz`) are left out.
+  const servers: ForecastServer[] = (activities?.reset.regions ?? []).flatMap(
+    (r) =>
+      r.utcOffsetMinutes === undefined || r.tz !== undefined
+        ? []
+        : [
+            {
+              id: r.id,
+              label:
+                activities?.terms?.[locale]?.[r.name] ??
+                activities?.terms?.en?.[r.name] ??
+                r.id,
+              utcOffsetMinutes: r.utcOffsetMinutes,
+            },
+          ],
+  );
 
   return (
     <HeaderOffset full>
@@ -140,7 +160,14 @@ export default async function Page({ params }: PageProps) {
             <WeatherForecast
               data={data}
               locale={locale}
+              game={appConfig.name}
+              servers={servers}
               labels={{
+                localTime: "Also show my local time",
+                localTimeHint:
+                  "All times are server time ({server}), the way players share them. The second time is yours ({you}).",
+                server: "Server",
+                yourTime: "your time",
                 title: TITLE,
                 hourly: "Hourly forecast",
                 special: "Special weather",
