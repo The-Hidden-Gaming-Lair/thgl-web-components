@@ -6,6 +6,7 @@ export * from "./config";
 export * from "./coordinates";
 export * from "./crafting";
 export * from "./crafting-data";
+export * from "./crafting-lists";
 export * from "./xp-planner";
 export * from "./xp-planner-data";
 export * from "./db-map-links";
