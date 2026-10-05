@@ -18,6 +18,7 @@ import { breadcrumbJsonLd } from "@/lib/db/json-ld";
 import {
   blueprintLabels,
   fetchBlueprintData,
+  localizeBlueprintData,
   getBlueprintOptions,
 } from "@/lib/blueprints/data";
 import { BlueprintIconBox, BlueprintPlanner } from "@/lib/blueprints/planner";
@@ -58,12 +59,13 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { locale = DEFAULT_LOCALE } = await params;
   const appConfig = await getAppConfig();
-  const data = await fetchBlueprintData(appConfig.name);
-  if (!data) notFound();
+  const rawData = await fetchBlueprintData(appConfig.name);
+  if (!rawData) notFound();
   const [dict, version] = await Promise.all([
     getFullDbDictionary(appConfig.name, locale),
     fetchVersion(appConfig.name),
   ]);
+  const data = localizeBlueprintData(rawData, dict);
   const options = await getBlueprintOptions(appConfig.name, data, dict);
   const title = translate(dict, "blueprints.title");
   const crumbs = [{ label: title }];

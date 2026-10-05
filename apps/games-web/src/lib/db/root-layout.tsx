@@ -42,6 +42,7 @@ import {
   isValidLocale,
 } from "@repo/ui/dicts";
 import { DbSearch } from "@/lib/db/db-search";
+import { resolveDict } from "@/lib/db/resolve-dict";
 
 /**
  * Slice the client-shipped dict down to UI strings + the dict keys
@@ -200,11 +201,20 @@ export function createDbRootLayout(
               <DbSearch
                 locale={locale}
                 placeholder={
-                  dbConfig?.searchPlaceholder ??
+                  (dbConfig?.searchPlaceholder &&
+                    resolveDict(dict, dbConfig.searchPlaceholder)) ??
                   dict["db.searchPlaceholder"] ??
                   "Search..."
                 }
-                typeLabels={dbConfig?.typeLabels}
+                typeLabels={
+                  dbConfig?.typeLabels &&
+                  Object.fromEntries(
+                    Object.entries(dbConfig.typeLabels).map(([type, label]) => [
+                      type,
+                      resolveDict(dict, label),
+                    ]),
+                  )
+                }
                 typeColors={dbConfig?.typeColors}
               />
 

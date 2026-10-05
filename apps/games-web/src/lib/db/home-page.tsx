@@ -124,7 +124,8 @@ export function createDbHomePage(appConfig: AppConfig) {
                     {appConfig.title}
                   </h1>
                   <p className="text-lg text-amber-400">
-                    {dbConfig.heroSubtitle}
+                    {dbConfig.heroSubtitle &&
+                      resolveDict(dict, dbConfig.heroSubtitle)}
                   </p>
 
                   <div className="flex items-center justify-center gap-6 pt-2 text-muted-foreground flex-wrap">
@@ -174,7 +175,12 @@ export function createDbHomePage(appConfig: AppConfig) {
                   </div>
                 </div>
 
-                <HeroSearch placeholder={dbConfig.searchPlaceholder} />
+                <HeroSearch
+                  placeholder={
+                    dbConfig.searchPlaceholder &&
+                    resolveDict(dict, dbConfig.searchPlaceholder)
+                  }
+                />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
                   {dbConfig.homeSections.map((section) => {

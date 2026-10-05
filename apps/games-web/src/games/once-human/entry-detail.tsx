@@ -1,5 +1,10 @@
 import { fetchTiles, type TilesConfig } from "@repo/lib";
-import { WikiEntryDetail, type WikiItem, type WikiSection } from "@/lib/db/wiki";
+import { getStaticDictionary } from "@repo/ui/dicts";
+import {
+  WikiEntryDetail,
+  type WikiItem,
+  type WikiSection,
+} from "@/lib/db/wiki";
 import type { OnceHumanItemProps } from "./data";
 import { EntryMap } from "./entry-map";
 
@@ -54,10 +59,20 @@ export async function OnceHumanEntryDetail({
   locale?: string;
 }) {
   const p = item.props as OnceHumanItemProps;
+  const dict = await getStaticDictionary("once-human", locale);
   const metaRows: Array<{ label: string; value: string }> = [];
-  if (p.title1) metaRows.push({ label: "Author", value: p.title1 });
-  if (p.title2) metaRows.push({ label: "Location", value: p.title2 });
-  if (p.title3) metaRows.push({ label: "Date", value: p.title3 });
+  if (p.title1)
+    metaRows.push({
+      label: dict["oh.entry.author"] ?? "Author",
+      value: p.title1,
+    });
+  if (p.title2)
+    metaRows.push({
+      label: dict["oh.entry.location"] ?? "Location",
+      value: p.title2,
+    });
+  if (p.title3)
+    metaRows.push({ label: dict["oh.entry.date"] ?? "Date", value: p.title3 });
 
   let footer: React.ReactNode = null;
   if (hasLocation(p)) {

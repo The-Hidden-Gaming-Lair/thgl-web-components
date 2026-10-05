@@ -44,7 +44,11 @@ export function getSectionLabels(
     return v && v !== key ? v : undefined;
   };
   const link = appConfig.internalLinks?.find((l) => l.href === secCfg.href);
-  const typeLabel = appConfig.db?.typeLabels?.[secCfg.type];
+  const rawTypeLabel = appConfig.db?.typeLabels?.[secCfg.type];
+  // A typeLabel may be a dict key (Once Human); a resolved one is already the
+  // singular in the page's locale, so it skips the English `singularize`.
+  const localizedTypeLabel = resolved(rawTypeLabel);
+  const typeLabel = localizedTypeLabel ?? rawTypeLabel;
   const plural =
     resolved(secCfg.titleKey) ??
     resolved(link?.title) ??
@@ -53,7 +57,11 @@ export function getSectionLabels(
     typeLabel ??
     resolved(secCfg.type) ??
     section;
-  return { plural, singular: typeLabel ? singularize(typeLabel) : plural };
+  return {
+    plural,
+    singular:
+      localizedTypeLabel ?? (typeLabel ? singularize(typeLabel) : plural),
+  };
 }
 
 /**

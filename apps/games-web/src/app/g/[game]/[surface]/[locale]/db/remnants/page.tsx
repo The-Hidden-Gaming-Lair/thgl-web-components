@@ -5,27 +5,33 @@ import { WikiSectionHero, WikiSectionList, loadSection } from "@/lib/db/wiki";
 import { collectionPageJsonLd } from "@/lib/db/json-ld";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
 import { requireApp } from "@/lib/get-app-config";
-import { ONCE_HUMAN_SECTIONS } from "@/games/once-human/sections";
+import { localizedSection } from "@/games/once-human/sections";
 import { sectionMetadata } from "@/games/once-human/metadata";
 import { onceHuman } from "@/configs/once-human";
 
 type PageProps = { params: Promise<{ locale?: string }> };
 
-const SECTION = ONCE_HUMAN_SECTIONS.remnants;
+const SECTION_KEY = "remnants" as const;
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   await requireApp("once-human");
   const { locale = DEFAULT_LOCALE } = await params;
+  const SECTION = await localizedSection(SECTION_KEY, locale);
   return sectionMetadata(SECTION, locale);
 }
 
 export default async function Page({ params }: PageProps) {
   await requireApp("once-human");
   const { locale = DEFAULT_LOCALE } = await params;
+  const SECTION = await localizedSection(SECTION_KEY, locale);
   const groups = await loadSection("once-human", SECTION, locale);
   const totalCount = groups.reduce((s, g) => s + g.items.length, 0);
+  // Localized titles (loadSection applies the locale's text props).
+  const titles = new Map(
+    groups.flatMap((g) => g.items.map((i) => [i.id, i.props.title] as const)),
+  );
   const database = await fetchDatabase("once-human");
 
   return (
@@ -51,7 +57,9 @@ export default async function Page({ params }: PageProps) {
         database={database}
         typePrefixes={[SECTION.typePrefix]}
         resolveName={(item) =>
-          (item.props as { title?: string }).title ?? item.id
+          titles.get(item.id) ??
+          (item.props as { title?: string }).title ??
+          item.id
         }
         locale={locale}
       />

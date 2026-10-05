@@ -1,10 +1,7 @@
 /**
  * Resolve a dict value, following pointer references (values starting with @)
  */
-export function resolveDict(
-  dict: Record<string, string>,
-  key: string,
-): string {
+export function resolveDict(dict: Record<string, string>, key: string): string {
   const value = dict[key];
   if (!value) return key;
   if (value[0] === "@") {
@@ -32,4 +29,27 @@ export function resolveDictWithFallback(
     .replace(/^faction_/, "")
     .replace(/_/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/**
+ * Per-locale text props. `props` text is written once, in English; data-forge
+ * stores a game's own translation of `props[prop]` of entry `id` in the locale's
+ * dict as `<id>.<prop>` (`dbPropKey`). Returns the props with every translated
+ * text prop swapped in — the same object when the dict has none (e.g. en).
+ */
+export function localizeProps<T extends Record<string, unknown> | undefined>(
+  props: T,
+  id: string,
+  dict: Record<string, string> | undefined,
+): T {
+  if (!props || !dict) return props;
+  let out: Record<string, unknown> | undefined;
+  for (const [key, value] of Object.entries(props)) {
+    if (typeof value !== "string") continue;
+    const dictKey = `${id}.${key}`;
+    if (!dict[dictKey]) continue;
+    out ??= { ...props };
+    out[key] = resolveDict(dict, dictKey);
+  }
+  return (out ?? props) as T;
 }

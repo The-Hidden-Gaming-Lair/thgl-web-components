@@ -4,7 +4,11 @@ import {
   DEFAULT_LOCALE,
   fetchDatabase,
   getMetadataAlternates,
+  localizePath,
+  translate,
 } from "@repo/lib";
+import { getFullDbDictionary, getStaticDictionary } from "@repo/ui/dicts";
+import { localizeProps } from "@/lib/db/resolve-dict";
 import { JSONLDScript } from "@repo/ui/apps";
 import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
@@ -25,6 +29,16 @@ const TITLE = "All Weapons – The Hidden Gaming Lair";
 const DESCRIPTION =
   "Browse all weapons in Once Human with stats, types, and rarities. Find the best weapons for your build and optimize your loadout.";
 
+/** Page words in the locale (once-human UI dict `oh.weapons.*`; English fallback). */
+function weaponsText(dict: Record<string, string>) {
+  return {
+    title: dict["oh.weapons.metaTitle"] ?? TITLE,
+    description: dict["oh.weapons.metaDescription"] ?? DESCRIPTION,
+    heading: dict["oh.weapons.title"] ?? "All Weapons",
+    home: dict["ui.nav_home"] || "Home",
+  };
+}
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -41,11 +55,16 @@ export async function generateMetadata({
     locale,
     onceHuman.supportedLocales,
   );
+  const text = weaponsText(await getStaticDictionary("once-human", locale));
   return {
-    title: TITLE,
-    description: DESCRIPTION,
+    title: text.title,
+    description: text.description,
     alternates: { canonical, languages: languageAlternates },
-    openGraph: { title: TITLE, description: DESCRIPTION, url: canonical },
+    openGraph: {
+      title: text.title,
+      description: text.description,
+      url: canonical,
+    },
   };
 }
 
@@ -57,12 +76,19 @@ export default async function WeaponsPage({ params }: PageProps) {
       params: Promise.resolve({ ...p, section: "weapons" }),
     });
   }
-  const database = await fetchDatabase("once-human");
+  const { locale = DEFAULT_LOCALE } = await params;
+  const [database, dict] = await Promise.all([
+    fetchDatabase("once-human"),
+    getFullDbDictionary("once-human", locale),
+  ]);
+  const text = weaponsText(dict);
   const cat = database.find((c) => c.type === "weapon");
   const weapons: WeaponItem[] = (cat?.items ?? []).map((item) => ({
     id: item.id,
     icon: typeof item.icon === "string" ? item.icon : "",
-    name: (item.props as { name?: string }).name ?? item.id,
+    name:
+      localizeProps(item.props as { name?: string }, item.id, dict).name ??
+      item.id,
     quality: Number((item.props as { quality?: number }).quality ?? 1),
     durability: Number((item.props as { durability?: number }).durability ?? 0),
     weight: Number((item.props as { weight?: number }).weight ?? 0),
@@ -74,8 +100,8 @@ export default async function WeaponsPage({ params }: PageProps) {
         json={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: TITLE,
-          description: DESCRIPTION,
+          name: text.title,
+          description: text.description,
           url: "https://oncehuman.th.gl/db/weapons",
           mainEntity: {
             "@type": "ItemList",
@@ -97,13 +123,13 @@ export default async function WeaponsPage({ params }: PageProps) {
             {
               "@type": "ListItem",
               position: 1,
-              name: "Home",
+              name: text.home,
               item: "https://oncehuman.th.gl/",
             },
             {
               "@type": "ListItem",
               position: 2,
-              name: "All Weapons",
+              name: text.heading,
               item: "https://oncehuman.th.gl/db/weapons",
             },
           ],
@@ -121,28 +147,43 @@ export default async function WeaponsPage({ params }: PageProps) {
                 <ol className="flex items-center gap-1">
                   <li>
                     <Link
-                      href="/"
+                      href={localizePath("/", locale)}
                       className="hover:text-foreground transition-colors"
                     >
-                      Home
+                      {text.home}
                     </Link>
                   </li>
                   <li aria-hidden="true">/</li>
-                  <li aria-current="page">All Weapons</li>
+                  <li aria-current="page">{text.heading}</li>
                 </ol>
               </nav>
               <div>
                 <h1 className="text-3xl font-bold tracking-tight">
-                  All Weapons
+                  {text.heading}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {weapons.length} weapons across 5 rarities. Grouped by
-                  Legendary → Common.
+                  {translate(dict, "oh.weapons.summary", {
+                    fallback: `${weapons.length} weapons across 5 rarities. Grouped by Legendary → Common.`,
+                    vars: { count: String(weapons.length) },
+                  })}
                 </p>
               </div>
             </div>
           }
-          content={<WeaponsGrid weapons={weapons} />}
+          content={
+            <WeaponsGrid
+              weapons={weapons}
+              labels={{
+                rarity: Object.fromEntries(
+                  [1, 2, 3, 4, 5].flatMap((q) =>
+                    dict[`oh.rarity.${q}`] ? [[q, dict[`oh.rarity.${q}`]]] : [],
+                  ),
+                ),
+                durability: dict["oh.weapons.durability"],
+                weight: dict["oh.weapons.weight"],
+              }}
+            />
+          }
         />
       </HeaderOffset>
     </>

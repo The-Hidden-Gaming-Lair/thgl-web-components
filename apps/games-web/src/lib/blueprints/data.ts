@@ -23,6 +23,32 @@ export async function fetchBlueprintData(
   return res.json();
 }
 
+/**
+ * The currency + rarity names in the page's locale: data-forge sets them as dict
+ * terms (`money_<n>`, `blueprint_rarity_<q>`); the English config names are the
+ * fallback.
+ */
+export function localizeBlueprintData(
+  data: OnceHumanBlueprintData,
+  dict: Record<string, string>,
+): OnceHumanBlueprintData {
+  const term = (key: string, fallback: string) =>
+    dict[key] ? resolveDict(dict, key) : fallback;
+  return {
+    ...data,
+    currency: {
+      ...data.currency,
+      name: term(data.currency.id, data.currency.name),
+    },
+    rarities: Object.fromEntries(
+      Object.entries(data.rarities).map(([q, label]) => [
+        q,
+        term(`blueprint_rarity_${q}`, label),
+      ]),
+    ),
+  };
+}
+
 export type BlueprintIcon = {
   url: string;
   x: number;

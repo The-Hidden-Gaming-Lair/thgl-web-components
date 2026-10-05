@@ -62,7 +62,18 @@ export type WeaponItem = {
  * icon card. The weapons category is small enough (~100 items) to
  * render in one pass without virtualization.
  */
-export function WeaponsGrid({ weapons }: { weapons: WeaponItem[] }) {
+export function WeaponsGrid({
+  weapons,
+  labels,
+}: {
+  weapons: WeaponItem[];
+  /** Localized UI words (English fallbacks above / below). */
+  labels?: {
+    rarity?: Record<number, string>;
+    durability?: string;
+    weight?: string;
+  };
+}) {
   const byRarity = new Map<number, WeaponItem[]>();
   for (const w of weapons) {
     const r = Math.max(1, Math.min(5, Math.floor(w.quality ?? 1)));
@@ -83,7 +94,7 @@ export function WeaponsGrid({ weapons }: { weapons: WeaponItem[] }) {
           <section key={tier.quality} className="space-y-4">
             <header className="flex items-baseline justify-between border-b border-slate-800 pb-2">
               <h2 className={`text-lg font-semibold ${tier.heading}`}>
-                {tier.label}
+                {labels?.rarity?.[tier.quality] ?? tier.label}
               </h2>
               <span className="text-xs text-muted-foreground tabular-nums">
                 {list.length}
@@ -112,13 +123,13 @@ export function WeaponsGrid({ weapons }: { weapons: WeaponItem[] }) {
                     <span
                       className={`text-[10px] px-1.5 py-0.5 rounded shrink-0 border ${tier.pillClass}`}
                     >
-                      {tier.label}
+                      {labels?.rarity?.[tier.quality] ?? tier.label}
                     </span>
                   </div>
                   <dl className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-[11px] text-muted-foreground">
                     {typeof w.durability === "number" && (
                       <>
-                        <dt>Durability</dt>
+                        <dt>{labels?.durability ?? "Durability"}</dt>
                         <dd className="text-right text-foreground tabular-nums">
                           {w.durability}
                         </dd>
@@ -126,7 +137,7 @@ export function WeaponsGrid({ weapons }: { weapons: WeaponItem[] }) {
                     )}
                     {typeof w.weight === "number" && (
                       <>
-                        <dt>Weight</dt>
+                        <dt>{labels?.weight ?? "Weight"}</dt>
                         <dd className="text-right text-foreground tabular-nums">
                           {w.weight}
                         </dd>

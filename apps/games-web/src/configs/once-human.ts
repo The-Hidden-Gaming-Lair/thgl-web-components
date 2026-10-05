@@ -1,56 +1,23 @@
-import { resolveAppConfig, DATA_FORGE_CDN_URL } from "@repo/lib";
+import { resolveAppConfig } from "@repo/lib";
 
-// Inlined per-map preview URLs (getPreviewImageUrl would drag cbor-x
-// into middleware via @repo/lib).
-const preview = () =>
-  `${DATA_FORGE_CDN_URL}/once-human/map-tiles/default/preview.webp`;
-
+// Maps are NOT listed here: the home page auto-generates a card per map in
+// version.data.tiles (localized names). Link texts are once-human UI dict keys.
 export const onceHuman = resolveAppConfig({
   name: "once-human",
-  supportedLocales: ["en"],
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "fr",
+    "ja",
+    "ko",
+    "pt",
+    "ru",
+    "zh-CN",
+    "zh-TW",
+  ],
   appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
-    {
-      href: "/maps/Deviation%20Secure",
-      title: "Deviation Secure Map",
-      description: "Navigate Deviation Secure with our interactive maps.",
-      iconName: "Map",
-      bgImage: preview(),
-      linkText: "Explore the Deviation Secure Map",
-    },
-    {
-      href: "/maps/Manibus%20&%20Evolution's%20Call",
-      title: "Manibus Evolution's Call Map",
-      description:
-        "Navigate Manibus Evolution's Call with our interactive maps.",
-      iconName: "Map",
-      bgImage: preview(),
-      linkText: "Explore the Manibus Evolution's Call Map",
-    },
-    {
-      href: "/maps/Prismverse's%20Clash",
-      title: "Prismverse's Clash Map",
-      description: "Navigate Prismverse's Clash with our interactive maps.",
-      iconName: "Map",
-      bgImage: preview(),
-      linkText: "Explore the Prismverse's Clash Map",
-    },
-    {
-      href: "/maps/The%20Way%20of%20Winter",
-      title: "The Way of Winter Map",
-      description: "Navigate The Way of Winter with our interactive maps.",
-      iconName: "Map",
-      bgImage: preview(),
-      linkText: "Explore the The Way of Winter Map",
-    },
-    {
-      href: "/maps/Endless%20Dream",
-      title: "Endless Dream Map",
-      description: "Navigate Endless Dream with our interactive maps.",
-      iconName: "Map",
-      bgImage: preview(),
-      linkText: "Explore the Endless Dream Map",
-    },
     {
       title: "crafting.navTitle",
       description: "crafting.navDescription",
@@ -68,94 +35,88 @@ export const onceHuman = resolveAppConfig({
     },
     {
       href: "/db/blueprints",
-      title: "Blueprints",
-      description:
-        "Every weapon and armor blueprint with its Starchrom cost per star, fragments to fuse and the gear it crafts.",
+      title: "oh.link.blueprints_db.title",
+      description: "oh.link.blueprints_db.description",
       iconName: "FileText",
-      linkText: "Browse Blueprints",
+      linkText: "oh.link.blueprints_db.linkText",
     },
     {
       href: "/db/materials",
-      title: "Materials",
-      description:
-        "Every crafting material - ores, ingots, parts, fuel - with its recipe, station and where it comes from.",
+      title: "oh.link.materials.title",
+      description: "oh.link.materials.description",
       iconName: "Gift",
-      linkText: "Browse Materials",
+      linkText: "oh.link.materials.linkText",
     },
     {
       href: "/db/consumables",
-      title: "Consumables",
-      description:
-        "Food, medicine, ammo, tactical items and feed with their recipes.",
+      title: "oh.link.consumables.title",
+      description: "oh.link.consumables.description",
       iconName: "ChefHat",
-      linkText: "Browse Consumables",
+      linkText: "oh.link.consumables.linkText",
     },
     {
       href: "/db/gear",
-      title: "Gear",
-      description:
-        "Craftable weapons, armor and tools for every crafting tier with their material costs.",
+      title: "oh.link.gear.title",
+      description: "oh.link.gear.description",
       iconName: "Shield",
-      linkText: "Browse Gear",
+      linkText: "oh.link.gear.linkText",
     },
     {
       href: "/db/facilities",
-      title: "Facilities",
-      description:
-        "Workbenches, production facilities, furniture and Build Mode pieces with their material costs.",
+      title: "oh.link.facilities.title",
+      description: "oh.link.facilities.description",
       iconName: "House",
-      linkText: "Browse Facilities",
+      linkText: "oh.link.facilities.linkText",
     },
     {
       href: "/db/vehicles",
-      title: "Vehicles",
-      description: "Vehicle parts and vehicles with their recipes.",
+      title: "oh.link.vehicles.title",
+      description: "oh.link.vehicles.description",
       iconName: "Grid",
-      linkText: "Browse Vehicles",
+      linkText: "oh.link.vehicles.linkText",
     },
     {
       href: "/db/alternate-recipes",
-      title: "Alternate Recipes",
-      description:
-        "Second ways to make an item and the recipes that change in a specific scenario.",
+      title: "oh.link.alternate_recipes.title",
+      description: "oh.link.alternate_recipes.description",
       iconName: "ScrollText",
-      linkText: "Browse Alternate Recipes",
+      linkText: "oh.link.alternate_recipes.linkText",
     },
     {
       href: "/db/mod-locations",
-      title: "Mod Locations",
+      title: "oh.link.mod_locations.title",
       iconName: "ArrowUp",
-      linkText: "View Mod Locations",
+      linkText: "oh.link.mod_locations.linkText",
     },
     {
       href: "/db/deviant-locations",
-      title: "Deviant Locations",
+      title: "oh.link.deviant_locations.title",
       iconName: "Bug",
-      linkText: "View Deviant Locations",
+      linkText: "oh.link.deviant_locations.linkText",
     },
     {
       href: "/db/remnants",
-      title: "Remnants",
+      title: "oh.link.remnants.title",
       iconName: "NotepadText",
-      linkText: "View Remnants",
+      linkText: "oh.link.remnants.linkText",
     },
     {
       href: "/db/regional-records",
-      title: "Regional Records",
+      title: "oh.link.regional_records.title",
       iconName: "NotepadText",
-      linkText: "View Regional Records",
+      linkText: "oh.link.regional_records.linkText",
     },
     {
       href: "/db/echoes-of-stardust",
-      title: "Echoes Of Stardust",
+      title: "oh.link.echoes.title",
       iconName: "NotepadText",
-      linkText: "View Echoes Of Stardust",
+      linkText: "oh.link.echoes.linkText",
     },
     {
       href: "/db/weapons",
-      title: "Weapons",
+      title: "oh.link.weapons.title",
       iconName: "Axe",
-      linkText: "View Weapons",
+      linkText: "oh.link.weapons.linkText",
     },
   ],
   keywords: ["Ores", "Resources", "Riddles", "Deviants"],
@@ -173,60 +134,57 @@ export const onceHuman = resolveAppConfig({
         labelKey: "blueprints.dbLink",
       },
     ],
-    heroSubtitle: "Codex & Compendium",
-    searchPlaceholder: "Search items, recipes, remnants, weapons...",
+    heroSubtitle: "oh.db.heroSubtitle",
+    searchPlaceholder: "oh.db.searchPlaceholder",
     homeSections: [
       {
         href: "/db/materials",
         type: "materials",
         icon: "⛏",
         titleFallback: "Materials",
-        description:
-          "Ores, ingots, parts and fuel with recipes, stations and sources.",
+        description: "oh.section.materials.description",
       },
       {
         href: "/db/consumables",
         type: "consumables",
         icon: "🍲",
         titleFallback: "Consumables",
-        description: "Food, medicine, ammo, tactical items and feed.",
+        description: "oh.section.consumables.description",
       },
       {
         href: "/db/gear",
         type: "gear",
         icon: "🛡",
         titleFallback: "Gear",
-        description: "Craftable weapons, armor and tools per crafting tier.",
+        description: "oh.section.gear.description",
       },
       {
         href: "/db/facilities",
         type: "facilities",
         icon: "🏗",
         titleFallback: "Facilities",
-        description:
-          "Workbenches, production facilities, furniture and Build Mode pieces.",
+        description: "oh.section.facilities.description",
       },
       {
         href: "/db/vehicles",
         type: "vehicles",
         icon: "🚙",
         titleFallback: "Vehicles",
-        description: "Vehicle parts and vehicles with their recipes.",
+        description: "oh.section.vehicles.description",
       },
       {
         href: "/db/blueprints",
         type: "blueprints",
         icon: "★",
         titleFallback: "Blueprints",
-        description:
-          "Weapon and armor blueprints with the Starchrom price of every star.",
+        description: "oh.section.blueprints_db.description",
       },
       {
         href: "/db/alternate-recipes",
         type: "alternate-recipes",
         icon: "📜",
         titleFallback: "Alternate Recipes",
-        description: "Extra and scenario-specific recipes.",
+        description: "oh.section.alternate_recipes.description",
       },
       {
         href: "/db/weapons",
@@ -259,31 +217,29 @@ export const onceHuman = resolveAppConfig({
     homeExtraLinks: [
       {
         href: "/db/mod-locations",
-        title: "Mod Locations",
-        description:
-          "Comprehensive list of mod drop locations, item types, enemy types, and map regions.",
+        title: "oh.extra.mod_locations.title",
+        description: "oh.extra.mod_locations.description",
         icon: "⬆",
       },
       {
         href: "/db/deviant-locations",
-        title: "Deviant Locations",
-        description:
-          "Where to find each Deviant, what type they are, and what they like.",
+        title: "oh.extra.deviant_locations.title",
+        description: "oh.extra.deviant_locations.description",
         icon: "🐛",
       },
     ],
     typeLabels: {
-      materials: "Material",
-      consumables: "Consumable",
-      gear: "Gear",
-      facilities: "Facility",
-      vehicles: "Vehicle",
-      "alternate-recipes": "Recipe",
-      blueprints: "Blueprint",
-      weapon: "Weapon",
-      remnants: "Remnant",
-      regional_records: "Record",
-      echoes_of_stardust: "Echo",
+      materials: "oh.type.materials",
+      consumables: "oh.type.consumables",
+      gear: "oh.type.gear",
+      facilities: "oh.type.facilities",
+      vehicles: "oh.type.vehicles",
+      "alternate-recipes": "oh.type.alternate_recipes",
+      blueprints: "oh.type.blueprints",
+      weapon: "oh.type.weapon",
+      remnants: "oh.type.remnants",
+      regional_records: "oh.type.regional_records",
+      echoes_of_stardust: "oh.type.echoes_of_stardust",
     },
     typeColors: {
       materials: "bg-stone-800/60 text-stone-300",
@@ -298,6 +254,5 @@ export const onceHuman = resolveAppConfig({
       regional_records: "bg-cyan-900/40 text-cyan-400",
       echoes_of_stardust: "bg-indigo-900/40 text-indigo-400",
     },
-    languageCount: 1,
   },
 });

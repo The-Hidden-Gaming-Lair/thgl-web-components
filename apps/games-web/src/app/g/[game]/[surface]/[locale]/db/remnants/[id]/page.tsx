@@ -5,14 +5,14 @@ import { JSONLDScript } from "@repo/ui/apps";
 import { excerpt, findEntry } from "@/lib/db/wiki";
 import { entityPageJsonLd } from "@/lib/db/json-ld";
 import { requireApp } from "@/lib/get-app-config";
-import { ONCE_HUMAN_SECTIONS } from "@/games/once-human/sections";
+import { localizedSection } from "@/games/once-human/sections";
 import { OnceHumanEntryDetail } from "@/games/once-human/entry-detail";
 import { entryMetadata } from "@/games/once-human/metadata";
 import { onceHuman } from "@/configs/once-human";
 
 type Params = Promise<{ id: string; locale?: string }>;
 
-const SECTION = ONCE_HUMAN_SECTIONS.remnants;
+const SECTION_KEY = "remnants" as const;
 
 export async function generateMetadata({
   params,
@@ -21,6 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   await requireApp("once-human");
   const { id, locale = DEFAULT_LOCALE } = await params;
+  const SECTION = await localizedSection(SECTION_KEY, locale);
   const found = await findEntry("once-human", SECTION, id, locale);
   if (!found) return {};
   const summary = excerpt(found.item.props.content ?? "", 160);
@@ -30,6 +31,7 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: Params }) {
   await requireApp("once-human");
   const { id, locale = DEFAULT_LOCALE } = await params;
+  const SECTION = await localizedSection(SECTION_KEY, locale);
   const found = await findEntry("once-human", SECTION, id, locale);
   if (!found) notFound();
 

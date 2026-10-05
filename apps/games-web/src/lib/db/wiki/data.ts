@@ -1,5 +1,5 @@
 import { fetchDatabase, fetchDbDict, type DatabaseConfig } from "@repo/lib";
-import { resolveDict } from "@/lib/db/resolve-dict";
+import { localizeProps, resolveDict } from "@/lib/db/resolve-dict";
 import type { WikiItem, WikiItemProps, WikiSection } from "./types";
 
 /**
@@ -63,7 +63,12 @@ export async function loadSection(
       id: i.id,
       type: cat.type,
       category: label,
-      props: i.props as WikiItemProps,
+      // Title / content in the page's locale where the data carries a translation.
+      props: localizeProps(
+        i.props as WikiItemProps,
+        i.id,
+        localeDict ?? undefined,
+      ),
     }));
 
     return { category: { type: cat.type, label }, items };

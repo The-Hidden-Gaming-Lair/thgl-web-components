@@ -8,7 +8,7 @@ import {
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { DbLocationMap } from "@/lib/db/db-location-map";
 import { DbEmbeddedMap, type EmbeddedMapSpawn } from "@/lib/db/db-embedded-map";
-import { resolveDict } from "@/lib/db/resolve-dict";
+import { localizeProps, resolveDict } from "@/lib/db/resolve-dict";
 import { formatBool } from "@/lib/db/seo";
 import {
   FilterableRefs,
@@ -208,7 +208,7 @@ export function GenericEntityView({
   desc,
   groupLabel,
   icon,
-  props,
+  props: rawProps,
   iconsHash,
   appName,
   locale = "en",
@@ -249,6 +249,8 @@ export function GenericEntityView({
    *  carries as bare `{id, section}` (names live in the per-locale dict). */
   dict?: Record<string, string>;
 }) {
+  // Text props in the page's locale where the data carries a translation.
+  const props = localizeProps(rawProps, id, dict);
   // DbRefs carry no baked name (names resolve per-locale from the dict). The
   // dict wins; a legacy baked (English) `name` is only a fallback, then the id.
   const refName = (r: { id: string; name?: string }) =>

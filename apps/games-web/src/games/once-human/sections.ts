@@ -1,3 +1,4 @@
+import { getStaticDictionary } from "@repo/ui/dicts";
 import type { WikiSection } from "@/lib/db/wiki";
 
 /**
@@ -41,3 +42,20 @@ export const ONCE_HUMAN_SECTIONS = {
 } as const satisfies Record<string, WikiSection>;
 
 export type OnceHumanSectionKey = keyof typeof ONCE_HUMAN_SECTIONS;
+
+/**
+ * A section with its label + tagline in the page's locale (once-human UI dict
+ * `oh.wiki.<key>.label` / `.tagline`; English above is the fallback).
+ */
+export async function localizedSection(
+  key: OnceHumanSectionKey,
+  locale: string,
+): Promise<WikiSection> {
+  const dict = await getStaticDictionary("once-human", locale);
+  const section: WikiSection = ONCE_HUMAN_SECTIONS[key];
+  return {
+    ...section,
+    label: dict[`oh.wiki.${key}.label`] ?? section.label,
+    tagline: dict[`oh.wiki.${key}.tagline`] ?? section.tagline,
+  };
+}

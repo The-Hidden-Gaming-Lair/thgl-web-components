@@ -73,6 +73,15 @@ const appDictionaries = {
   },
   "once-human": {
     en: () => import("./once-human.en.json").then((mod) => mod.default),
+    de: () => import("./once-human.de.json").then((mod) => mod.default),
+    es: () => import("./once-human.es.json").then((mod) => mod.default),
+    fr: () => import("./once-human.fr.json").then((mod) => mod.default),
+    ja: () => import("./once-human.ja.json").then((mod) => mod.default),
+    ko: () => import("./once-human.ko.json").then((mod) => mod.default),
+    pt: () => import("./once-human.pt.json").then((mod) => mod.default),
+    ru: () => import("./once-human.ru.json").then((mod) => mod.default),
+    "zh-CN": () => import("./once-human.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./once-human.zh-TW.json").then((mod) => mod.default),
   },
   palia: {
     en: () => import("./palia.en.json").then((mod) => mod.default),

@@ -19,6 +19,7 @@ import { resolveDict } from "@/lib/db/resolve-dict";
 import {
   blueprintLabels,
   fetchBlueprintData,
+  localizeBlueprintData,
   getBlueprintOptions,
 } from "@/lib/blueprints/data";
 import { BlueprintIconBox, BlueprintPlanner } from "@/lib/blueprints/planner";
@@ -42,7 +43,7 @@ async function load(locale: string, rawId: string) {
   const bp = data?.blueprints[id];
   if (!data || !bp) notFound();
   const dict = await getFullDbDictionary(appConfig.name, locale);
-  return { id, appConfig, data, bp, dict };
+  return { id, appConfig, data: localizeBlueprintData(data, dict), bp, dict };
 }
 
 export async function generateMetadata({
