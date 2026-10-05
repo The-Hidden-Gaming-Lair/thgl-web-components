@@ -89,31 +89,35 @@ const WUTHERINGGG_SNIPPET = `(() => {
   } catch (err) { alert('Export failed: ' + err.message); }
 })();`;
 
-// The 光环助手 (ghzs666.com) map runs on static-web.ghzs.com and keeps marked
-// points in localStorage under `mc-leafsIds…` keys (guest, archive link and
-// signed-in user each get one; signing in merges the cloud marks into them on
-// page load), each a JSON array of point ids. Marking needs an account there,
-// so the snippet also reads the cloud marks the way the site does: GET /marks
-// with the `pw_token` cookie as Token header ({ mark_id, marks }), or the
-// archive link's /marks/<mc-marksId> (an id array). It unions everything.
-// Downloads a file for the same reasons as above.
+// The 光环助手 (ghzs666.com) map comes in two front ends over the same point
+// database and marks API: the international www.ghzs666.com/wutheringwaves-map
+// (Google sign-in, localStorage prefix `wuthering-`, token cookie `wm_token`)
+// and the Chinese static-web.ghzs.com/cspage_pro/mingchao-map.html (prefix
+// `mc-`, cookie `pw_token`). Marked points sit in `<prefix>leafsIds…` keys
+// (guest, archive link and signed-in user each get one), each a JSON array of
+// point ids. Marking needs an account, so the snippet also reads the cloud
+// marks the way the site does: GET /marks with the token cookie as Token header
+// ({ mark_id, marks }), or the archive link's /marks/<prefix>marksId (an id
+// array). It unions everything. Downloads a file for the same reasons as above.
 const GHZS_SNIPPET = `(async () => {
   try {
     const ids = new Set();
     const add = (list) => (Array.isArray(list) ? list : []).forEach(id => ids.add(String(id)));
+    const prefixes = ['wuthering-', 'mc-'];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (!k || k.indexOf('mc-leafsIds') !== 0) continue;
+      if (!k || !prefixes.some(p => k.indexOf(p + 'leafsIds') === 0)) continue;
       try { add(JSON.parse(localStorage.getItem(k))); } catch (e) {}
     }
     const api = 'https://api-wiki-game.ghzs.com/v1d0/web/kurogame-mc/map/marks';
-    const token = (document.cookie.match(/(?:^|; )pw_token=([^;]*)/) || [])[1];
-    const markId = localStorage.getItem('mc-marksId');
+    const cookie = (name) => (document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')) || [])[1];
+    const token = cookie('wm_token') || cookie('pw_token');
+    const markId = localStorage.getItem('wuthering-marksId') || localStorage.getItem('mc-marksId');
     try {
       if (token) { const r = await fetch(api, { headers: { Token: decodeURIComponent(token) } }); if (r.ok) add(((await r.json()) || {}).marks); }
       else if (markId) { const r = await fetch(api + '/' + markId); if (r.ok) add(await r.json()); }
     } catch (e) { console.warn('Could not read the cloud marks, using the ones in this browser', e); }
-    if (!ids.size) { alert('No marked points found. Open static-web.ghzs.com/cspage_pro/mingchao-map.html, sign in with the account you marked with, wait for the map to load, then run this again.'); return; }
+    if (!ids.size) { alert('No marked points found. Open www.ghzs666.com/wutheringwaves-map, sign in with the account you marked with, wait for the map to load, then run this again.'); return; }
     const payload = JSON.stringify([...ids]);
     console.log('%cTH.GL export (' + ids.size + ' markers) — you can also copy the array below and paste it into TH.GL:', 'font-weight:bold');
     console.log(payload);
@@ -161,9 +165,9 @@ export const IMPORT_SOURCES: ImportSource[] = [
     id: "ghzs",
     name: "光环助手 / ghzs666.com (鸣潮互动地图)",
     games: ["wuthering-waves"],
-    siteUrl: "https://static-web.ghzs.com/cspage_pro/mingchao-map.html",
+    siteUrl: "https://www.ghzs666.com/wutheringwaves-map",
     steps: [
-      "Open the ghzs666.com Wuthering Waves map (static-web.ghzs.com/cspage_pro/mingchao-map.html) on a computer, sign in with the account you marked your points with, and wait for the map to load.",
+      "Open the ghzs666.com Wuthering Waves map on a computer (www.ghzs666.com/wutheringwaves-map, or the Chinese static-web.ghzs.com/cspage_pro/mingchao-map.html if you marked there), sign in with the account you marked your points with, and wait for the map to load.",
       "Press F12 to open DevTools, then click the Console tab.",
       "Paste the snippet below and press Enter. (If the browser blocks the paste, type “allow pasting” first, then paste again.)",
       "It downloads a thgl-map-progress.json file — upload it below (or copy the array it prints in the Console and paste it).",
