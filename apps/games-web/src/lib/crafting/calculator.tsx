@@ -6,10 +6,13 @@ import {
   craftableIds,
   formatCraftItems,
   formatRecipeChoice,
+  ingredientId,
   parseCraftItems,
+  parsePrice,
   parseRecipeChoice,
   planCrafting,
   RAW_CHOICE,
+  slotKey,
   type CraftDbCategory,
   type CraftingGraph,
   type CraftTarget,
@@ -21,6 +24,8 @@ import {
   CraftTree,
   ItemLabel,
   MapLink,
+  SellerChips,
+  SlotHint,
   StationChips,
   craftT,
   formatQty,
@@ -57,6 +62,8 @@ export function CraftingCalculator({
   const [error, setError] = useState(false);
   const [targets, setTargets] = useState<CraftTarget[]>([]);
   const [choice, setChoice] = useState<RecipeChoice>({});
+  /** Raw materials the player buys instead of gathering. */
+  const [buy, setBuy] = useState<string[]>([]);
   const [query, setQuery] = useState("");
   const [tab, setTab] = useState<Tab>("list");
   const [copied, setCopied] = useState(false);
@@ -94,6 +101,18 @@ export function CraftingCalculator({
       parseCraftItems(raw("items")).filter((x) => graph.byProduct[x.id]),
     );
     setChoice(parseRecipeChoice(raw("r"), graph));
+    setBuy(
+      (raw("buy") ?? "")
+        .split(",")
+        .map((p) => {
+          try {
+            return decodeURIComponent(p);
+          } catch {
+            return "";
+          }
+        })
+        .filter((id) => id && graph.sectionOf[id] !== undefined),
+    );
     const tabParam = raw("tab");
     if (tabParam === "steps" || tabParam === "tree") setTab(tabParam);
     setHydrated(true);
@@ -106,6 +125,7 @@ export function CraftingCalculator({
     if (targets.length) parts.push(`items=${formatCraftItems(targets)}`);
     const r = graph ? formatRecipeChoice(choice, graph) : "";
     if (r) parts.push(`r=${r}`);
+    if (buy.length) parts.push(`buy=${buy.map(encodeURIComponent).join(",")}`);
     if (tab !== "list") parts.push(`tab=${tab}`);
     const { origin, pathname } = window.location;
     return `${origin}${pathname}${parts.length ? `?${parts.join("&")}` : ""}`;
@@ -115,7 +135,7 @@ export function CraftingCalculator({
     if (!hydrated) return;
     window.history.replaceState(null, "", shareUrl());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hydrated, targets, choice, tab]);
+  }, [hydrated, targets, choice, buy, tab]);
 
   const options = useMemo(() => {
     if (!graph) return [];
@@ -138,6 +158,30 @@ export function CraftingCalculator({
       graph && targets.length ? planCrafting(graph, targets, choice) : null,
     [graph, targets, choice],
   );
+
+  /** Price of one unit from the first seller with a readable price. */
+  const unitPrice = (id: string) => {
+    for (const s of payload?.items[id]?.sellers ?? []) {
+      const p = parsePrice(s.price);
+      if (p) return p;
+    }
+    return null;
+  };
+  /** Currency → total for the raw materials ticked "buy". */
+  const buyTotals = useMemo(() => {
+    const totals = new Map<string, number>();
+    for (const l of plan?.raw ?? []) {
+      if (!buy.includes(l.id)) continue;
+      const p = unitPrice(l.id);
+      if (p)
+        totals.set(
+          p.currency,
+          (totals.get(p.currency) ?? 0) + p.amount * l.qty,
+        );
+    }
+    return [...totals];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan, buy, payload]);
 
   if (error) {
     return <p className="text-sm text-red-400">{t("loadError")}</p>;
@@ -214,7 +258,7 @@ export function CraftingCalculator({
     const r = graph!.recipes[i];
     const station = r.stations.map((s) => stationLabel(s, infos)).join(", ");
     const ings = r.ingredients
-      .map((g) => `${g.count}× ${name(g.id)}`)
+      .map((g) => `${g.count}× ${g.any ? g.any.group : name(g.id)}`)
       .join(", ");
     return station ? `${station}: ${ings}` : ings;
   }
@@ -366,10 +410,93 @@ export function CraftingCalculator({
                         label={t("showOnMap")}
                       />
                       {graph.byProduct[l.id] && recipePicker(l.id, true)}
+                      {infos[l.id]?.sellers && (
+                        <span className="flex w-full flex-wrap items-center gap-2 pl-[4.75rem]">
+                          <SellerChips
+                            info={infos[l.id]}
+                            locale={locale}
+                            label={t("soldBy")}
+                          />
+                          {unitPrice(l.id) && (
+                            <label className="inline-flex items-center gap-1 text-xs">
+                              <input
+                                type="checkbox"
+                                checked={buy.includes(l.id)}
+                                onChange={(e) =>
+                                  setBuy((prev) =>
+                                    e.target.checked
+                                      ? [...prev, l.id]
+                                      : prev.filter((x) => x !== l.id),
+                                  )
+                                }
+                              />
+                              {buy.includes(l.id)
+                                ? t("buyCost", {
+                                    cost: `${formatQty(unitPrice(l.id)!.amount * l.qty, locale)} ${unitPrice(l.id)!.currency}`,
+                                  })
+                                : t("buy")}
+                            </label>
+                          )}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
+                {buyTotals.length > 0 && (
+                  <p className="mt-2 text-sm">
+                    <span className="text-muted-foreground">
+                      {t("buyTotal")}
+                    </span>{" "}
+                    <span className="font-medium text-amber-200">
+                      {buyTotals
+                        .map(([cur, n]) => `${formatQty(n, locale)} ${cur}`)
+                        .join(" · ")}
+                    </span>
+                  </p>
+                )}
               </div>
+              {plan.slots.length > 0 && (
+                <div>
+                  <h3 className="mb-1 text-sm font-semibold">
+                    {t("anyOfTitle")}
+                  </h3>
+                  <p className="mb-1 text-xs text-muted-foreground">
+                    {t("anyOfHint")}
+                  </p>
+                  <ul className="divide-y rounded-md border">
+                    {plan.slots.map((s) => (
+                      <li
+                        key={s.group}
+                        className="flex flex-wrap items-center gap-x-3 gap-y-1 px-2 py-1.5 text-sm"
+                      >
+                        <span className="w-16 shrink-0 text-right font-mono tabular-nums text-amber-200">
+                          {formatQty(s.qty, locale)}×
+                        </span>
+                        <SlotHint group={s.group} />
+                        <select
+                          aria-label={s.group}
+                          className="h-7 max-w-full rounded border bg-background px-1 text-xs"
+                          value={s.id}
+                          onChange={(e) =>
+                            pick(
+                              slotKey(s.group),
+                              e.target.value === graph.slots[s.group]?.[0]
+                                ? ""
+                                : e.target.value,
+                            )
+                          }
+                        >
+                          {(graph.slots[s.group] ?? []).map((m) => (
+                            <option key={m} value={m}>
+                              {name(m)}
+                            </option>
+                          ))}
+                        </select>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {plan.stations.length > 0 && (
                 <div>
                   <h3 className="mb-1 text-sm font-semibold">
@@ -446,7 +573,7 @@ export function CraftingCalculator({
                         {r.ingredients
                           .map(
                             (g) =>
-                              `${formatQty(g.count * c.crafts, locale)}× ${name(g.id)}`,
+                              `${formatQty(g.count * c.crafts, locale)}× ${name(ingredientId(g, choice))}`,
                           )
                           .join(" · ")}
                       </span>

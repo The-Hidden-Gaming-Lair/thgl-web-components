@@ -10,15 +10,27 @@
  * - when explicit recipes (with `products`) make an item, the item's own
  *   `ingredients` are a mirror of them and ignored;
  * - stations come as `craftedIn` / `craftedAt` / `producedIn` DbRefs, or the
- *   display strings `craftable.station` / `Station`.
+ *   display strings `craftable.station` / `Station`;
+ * - ingredient refs that share a `group` are ONE "any of" slot (Palia "Any
+ *   Fish"): any member satisfies it, the first member is the default and the
+ *   player swaps it with `choice[slotKey(group)]`.
  *
  * Everything here is side-effect free (no fetch, no DOM) so it runs and is
  * tested on both sides. The XP planner (#305) reuses `planCrafting` for the
  * material cost of a training method.
  */
 
-/** A stack of one entry: `count` of `id` (an entry of db section `section`). */
-export type CraftRef = { id: string; section: string; count: number };
+/**
+ * A stack of one entry: `count` of `id` (an entry of db section `section`).
+ * `any` = an "any of" ingredient slot: `id` is its default member and
+ * `options` every member (default first).
+ */
+export type CraftRef = {
+  id: string;
+  section: string;
+  count: number;
+  any?: { group: string; options: { id: string; section: string }[] };
+};
 
 /** Where a recipe is made: a db entry (linkable) or a display label. */
 export type CraftStation =
@@ -49,15 +61,39 @@ export type CraftingGraph = {
   usedIn: Record<string, number[]>;
   /** Every id seen (product, ingredient, station) → its db section. */
   sectionOf: Record<string, string>;
+  /** "Any of" slot group → its member ids (default first). */
+  slots: Record<string, string[]>;
 };
 
 /** Minimal db shapes this module reads (structurally `DatabaseConfig`). */
 export type CraftDbEntry = { id: string; props?: Record<string, unknown> };
 export type CraftDbCategory = { type: string; items: CraftDbEntry[] };
 
-type RawRef = { id?: unknown; section?: unknown; count?: unknown };
+type RawRef = {
+  id?: unknown;
+  section?: unknown;
+  count?: unknown;
+  group?: unknown;
+};
 
-function toRefs(value: unknown, fallbackSection?: string): CraftRef[] {
+/** Choice key of an "any of" slot (item ids never start with `~`). */
+export function slotKey(group: string): string {
+  return `~${group}`;
+}
+
+/** The item an ingredient resolves to under `choice` (slot pick or itself). */
+export function ingredientId(g: CraftRef, choice: RecipeChoice = {}): string {
+  if (!g.any) return g.id;
+  const pick = choice[slotKey(g.any.group)];
+  return pick && g.any.options.some((o) => o.id === pick) ? pick : g.id;
+}
+
+function toRefs(
+  value: unknown,
+  fallbackSection?: string,
+  /** Merge refs sharing a `group` into one "any of" slot (ingredients). */
+  slots = false,
+): CraftRef[] {
   const list = Array.isArray(value)
     ? value
     : value && typeof value === "object" && "list" in value
@@ -76,8 +112,24 @@ function toRefs(value: unknown, fallbackSection?: string): CraftRef[] {
     if (!section) continue;
     const n = typeof raw.count === "number" ? raw.count : Number(raw.count);
     const count = Number.isFinite(n) && n > 0 ? n : 1;
+    if (slots && typeof raw.group === "string" && raw.group) {
+      const group = raw.group;
+      const slot = out.find((r) => r.any?.group === group);
+      if (slot) {
+        if (!slot.any!.options.some((o) => o.id === raw.id))
+          slot.any!.options.push({ id: raw.id, section });
+      } else {
+        out.push({
+          id: raw.id,
+          section,
+          count,
+          any: { group, options: [{ id: raw.id, section }] },
+        });
+      }
+      continue;
+    }
     // The same ingredient listed twice (rare data quirk) = one stack.
-    const prev = out.find((r) => r.id === raw.id);
+    const prev = out.find((r) => r.id === raw.id && !r.any);
     if (prev) prev.count += count;
     else out.push({ id: raw.id, section, count });
   }
@@ -155,7 +207,7 @@ export function buildCraftingGraph(
       sectionOf[entry.id] ??= cat.type;
       const props = entry.props;
       if (!props) continue;
-      const ingredients = toRefs(props.ingredients, cat.type);
+      const ingredients = toRefs(props.ingredients, cat.type, true);
       if (!ingredients.length) continue;
       const products = toRefs(props.products, cat.type);
       if (!products.length && recipeSection) continue;
@@ -185,15 +237,25 @@ export function buildCraftingGraph(
 
   const byProduct: Record<string, number[]> = {};
   const usedIn: Record<string, number[]> = {};
+  const slots: Record<string, string[]> = {};
   recipes.forEach((r, i) => {
     for (const p of r.products) {
       sectionOf[p.id] ??= p.section;
       (byProduct[p.id] ??= []).push(i);
     }
     for (const ing of r.ingredients) {
-      sectionOf[ing.id] ??= ing.section;
-      const list = (usedIn[ing.id] ??= []);
-      if (list[list.length - 1] !== i) list.push(i);
+      // A slot is "used in" for every member.
+      const members = ing.any?.options ?? [ing];
+      for (const m of members) {
+        sectionOf[m.id] ??= m.section;
+        const list = (usedIn[m.id] ??= []);
+        if (list[list.length - 1] !== i) list.push(i);
+      }
+      if (ing.any) {
+        const all = (slots[ing.any.group] ??= []);
+        for (const m of ing.any.options)
+          if (!all.includes(m.id)) all.push(m.id);
+      }
     }
     for (const s of r.stations) if (s.id) sectionOf[s.id] ??= s.section;
   });
@@ -245,7 +307,7 @@ export function buildCraftingGraph(
           );
         }) ?? null);
   }
-  return { recipes, byProduct, defaults, usedIn, sectionOf };
+  return { recipes, byProduct, defaults, usedIn, sectionOf, slots };
 }
 
 /** Recipes that take an item apart again — never a default. */
@@ -306,8 +368,8 @@ export type CraftStep = {
   crafts: number;
   /** Amount one craft makes. */
   yield: number;
-  /** Inputs for `crafts` runs. */
-  children: { id: string; section: string; qty: number }[];
+  /** Inputs for `crafts` runs (`group` = an "any of" slot, resolved). */
+  children: { id: string; section: string; qty: number; group?: string }[];
 };
 
 /** One level of the tree: what making `qty` of `id` takes. */
@@ -332,11 +394,15 @@ export function craftStep(
     recipe: ri,
     crafts,
     yield: y,
-    children: recipe.ingredients.map((g) => ({
-      id: g.id,
-      section: g.section,
-      qty: g.count * crafts,
-    })),
+    children: recipe.ingredients.map((g) => {
+      const use = ingredientId(g, choice);
+      return {
+        id: use,
+        section: graph.sectionOf[use] ?? g.section,
+        qty: g.count * crafts,
+        ...(g.any ? { group: g.any.group } : {}),
+      };
+    }),
   };
 }
 
@@ -361,7 +427,11 @@ export type CraftPlan = {
   surplus: CraftPlanLine[];
   /** Items whose recipe loops back to an ancestor — counted as raw there. */
   cycles: string[];
+  /** "Any of" slots in the plan: the member used and the total amount. */
+  slots: CraftPlanSlot[];
 };
+
+export type CraftPlanSlot = { group: string; id: string; qty: number };
 
 /**
  * The whole shopping list for `targets`, aggregated across the tree so a
@@ -387,7 +457,9 @@ export function planCrafting(
       state.set(id, 1);
       const ri = chosenRecipe(graph, id, choice);
       const inputs =
-        ri === undefined ? [] : graph.recipes[ri].ingredients.map((g) => g.id);
+        ri === undefined
+          ? []
+          : graph.recipes[ri].ingredients.map((g) => ingredientId(g, choice));
       stack.push({ id, next: 0, inputs });
     };
     push(root);
@@ -419,6 +491,7 @@ export function planCrafting(
   const crafted: CraftPlanCraft[] = [];
   const surplus = new Map<string, number>();
   const stationCrafts = new Map<string, { station: CraftStation; n: number }>();
+  const slotUse = new Map<string, CraftPlanSlot>();
   for (let k = order.length - 1; k >= 0; k--) {
     const id = order[k];
     const need = demand.get(id) ?? 0;
@@ -446,8 +519,14 @@ export function planCrafting(
     }
     for (const g of recipe.ingredients) {
       const n = g.count * crafts;
-      if (backEdges.has(`${id}\u0000${g.id}`)) add(raw, g.id, n);
-      else add(demand, g.id, n);
+      const use = ingredientId(g, choice);
+      if (g.any) {
+        const prev = slotUse.get(g.any.group);
+        if (prev) prev.qty += n;
+        else slotUse.set(g.any.group, { group: g.any.group, id: use, qty: n });
+      }
+      if (backEdges.has(`${id}\u0000${use}`)) add(raw, use, n);
+      else add(demand, use, n);
     }
     for (const s of recipe.stations) {
       const key = s.id ?? `label:${s.label}`;
@@ -471,6 +550,7 @@ export function planCrafting(
       .sort((a, b) => b.crafts - a.crafts),
     surplus: lines(surplus),
     cycles: [...cycles],
+    slots: [...slotUse.values()],
   };
 }
 
@@ -486,7 +566,10 @@ export function craftDepth(
   seen.add(id);
   let max = 0;
   for (const g of graph.recipes[ri].ingredients) {
-    max = Math.max(max, craftDepth(graph, g.id, choice, seen));
+    max = Math.max(
+      max,
+      craftDepth(graph, ingredientId(g, choice), choice, seen),
+    );
   }
   seen.delete(id);
   return max + 1;
@@ -545,11 +628,13 @@ export function parseRecipeChoice(
     } catch {
       continue;
     }
-    if (
-      graph &&
-      !(graph.byProduct[id] ?? []).some((i) => graph.recipes[i].key === key)
-    )
-      continue;
+    if (graph) {
+      const slot = id.startsWith("~") ? graph.slots[id.slice(1)] : undefined;
+      const ok = slot
+        ? slot.includes(key)
+        : (graph.byProduct[id] ?? []).some((i) => graph.recipes[i].key === key);
+      if (!ok) continue;
+    }
     out[id] = key;
   }
   return out;
@@ -561,10 +646,11 @@ export function formatRecipeChoice(
   graph?: CraftingGraph,
 ): string {
   return Object.entries(choice)
-    .filter(
-      ([id, key]) =>
-        !graph || graph.recipes[graph.byProduct[id]?.[0] ?? -1]?.key !== key,
-    )
+    .filter(([id, key]) => {
+      if (!graph) return true;
+      if (id.startsWith("~")) return graph.slots[id.slice(1)]?.[0] !== key;
+      return graph.recipes[graph.byProduct[id]?.[0] ?? -1]?.key !== key;
+    })
     .map(([id, key]) => `${encodeURIComponent(id)}:${encodeURIComponent(key)}`)
     .join(",");
 }

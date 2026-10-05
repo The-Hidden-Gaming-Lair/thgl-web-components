@@ -91,6 +91,13 @@ export const palia = resolveAppConfig({
       iconName: "Gift",
       bgImage: "/games/palia/weekly-wants.webp",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   keywords: ["Rummage Pile", "Plushies", "Elderwood"],
   db: {

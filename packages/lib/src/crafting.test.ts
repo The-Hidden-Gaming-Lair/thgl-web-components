@@ -12,8 +12,10 @@ import {
   planCrafting,
   readStations,
   recipesFor,
+  slotKey,
   type CraftDbCategory,
 } from "./crafting";
+import { parsePrice } from "./crafting-data";
 
 const ref = (id: string, count?: number, section = "items") => ({
   id,
@@ -362,5 +364,121 @@ describe("crafting", () => {
     expect(formatRecipeChoice({ ...choice, plank: "plank" }, graph)).toBe(
       "ingot:recipe_slag",
     );
+  });
+
+  // Palia "Any Catfish": refs sharing a `group` are ONE slot, not all needed.
+  describe("any-of slots", () => {
+    const slotDb: CraftDbCategory[] = [
+      {
+        type: "recipes",
+        items: [
+          {
+            id: "recipe_dinner",
+            props: {
+              ingredients: [
+                { ...ref("catfish_a", 2, "fish"), group: "Any Catfish" },
+                { ...ref("catfish_b", 2, "fish"), group: "Any Catfish" },
+                ref("flour", undefined, "inventory"),
+              ],
+              products: [ref("dinner", 3, "inventory")],
+            },
+          },
+          {
+            id: "recipe_soup",
+            props: {
+              ingredients: [
+                {
+                  ...ref("catfish_a", undefined, "fish"),
+                  group: "Any Catfish",
+                },
+                {
+                  ...ref("catfish_c", undefined, "fish"),
+                  group: "Any Catfish",
+                },
+              ],
+              products: [ref("soup", undefined, "inventory")],
+            },
+          },
+        ],
+      },
+    ];
+    const g = buildCraftingGraph(slotDb);
+
+    it("merges a group into one slot with the first member as default", () => {
+      const r = g.recipes.find((x) => x.key === "recipe_dinner")!;
+      expect(r.ingredients).toHaveLength(2);
+      expect(r.ingredients[0]).toMatchObject({ id: "catfish_a", count: 2 });
+      expect(r.ingredients[0].any?.options.map((o) => o.id)).toEqual([
+        "catfish_a",
+        "catfish_b",
+      ]);
+      expect(g.slots["Any Catfish"]).toEqual([
+        "catfish_a",
+        "catfish_b",
+        "catfish_c",
+      ]);
+      expect(g.sectionOf.catfish_b).toBe("fish");
+      expect(g.usedIn.catfish_b).toHaveLength(1);
+      expect(g.usedIn.catfish_a).toHaveLength(2);
+    });
+
+    it("plans one slot amount and honours the pick", () => {
+      const plan = planCrafting(g, [
+        { id: "dinner", qty: 10 },
+        { id: "soup", qty: 1 },
+      ]);
+      // 4 crafts × 2 + 1 = 9 of the default member, nothing of the others.
+      expect(plan.raw).toEqual([
+        { id: "catfish_a", section: "fish", qty: 9 },
+        { id: "flour", section: "inventory", qty: 4 },
+      ]);
+      expect(plan.slots).toEqual([
+        { group: "Any Catfish", id: "catfish_a", qty: 9 },
+      ]);
+      // catfish_c is not an option for the dinner: the dinner keeps its default.
+      const picked = planCrafting(
+        g,
+        [
+          { id: "dinner", qty: 3 },
+          { id: "soup", qty: 1 },
+        ],
+        {
+          [slotKey("Any Catfish")]: "catfish_b",
+        },
+      );
+      expect(picked.raw).toEqual([
+        { id: "catfish_b", section: "fish", qty: 2 },
+        { id: "catfish_a", section: "fish", qty: 1 },
+        { id: "flour", section: "inventory", qty: 1 },
+      ]);
+      expect(
+        craftStep(g, "dinner", 3, { "~Any Catfish": "catfish_b" }).children[0],
+      ).toEqual({
+        id: "catfish_b",
+        section: "fish",
+        qty: 2,
+        group: "Any Catfish",
+      });
+    });
+
+    it("round-trips slot picks in the share param", () => {
+      const choice = parseRecipeChoice(
+        "~Any%20Catfish:catfish_c,~Any%20Catfish:nope",
+        g,
+      );
+      expect(choice).toEqual({ "~Any Catfish": "catfish_c" });
+      expect(formatRecipeChoice(choice, g)).toBe("~Any%20Catfish:catfish_c");
+      expect(formatRecipeChoice({ "~Any Catfish": "catfish_a" }, g)).toBe("");
+    });
+  });
+
+  it("parses price labels", () => {
+    expect(parsePrice("190 gold")).toEqual({ amount: 190, currency: "gold" });
+    expect(parsePrice("1,200 Fishing Medals")).toEqual({
+      amount: 1200,
+      currency: "Fishing Medals",
+    });
+    expect(parsePrice("free")).toBeNull();
+    expect(parsePrice(undefined)).toBeNull();
   });
 });

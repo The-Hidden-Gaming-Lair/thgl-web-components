@@ -31,6 +31,8 @@ import {
   CraftTree,
   ItemLabel,
   MapLink,
+  SellerChips,
+  SlotHint,
   StationChips,
   craftT,
   formatQty,
@@ -74,7 +76,7 @@ function ingredientText(
   return recipe.ingredients
     .map(
       (g) =>
-        `${(g.count * crafts).toLocaleString(locale)}× ${resolveDict(dict, g.id)}`,
+        `${(g.count * crafts).toLocaleString(locale)}× ${g.any ? g.any.group : resolveDict(dict, g.id)}`,
     )
     .join(", ");
 }
@@ -284,6 +286,15 @@ export default async function Page({ params }: PageProps) {
                       locale={locale}
                       label={t("showOnMap")}
                     />
+                    {infos[l.id]?.sellers && (
+                      <span className="w-full pl-[4.75rem]">
+                        <SellerChips
+                          info={infos[l.id]}
+                          locale={locale}
+                          label={t("soldBy")}
+                        />
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -397,7 +408,10 @@ function RecipeCard({
       </div>
       <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
         {recipe.ingredients.map((g) => (
-          <li key={g.id} className="flex items-center gap-2 text-sm">
+          <li
+            key={`${g.any?.group ?? ""}|${g.id}`}
+            className="flex flex-wrap items-center gap-2 text-sm"
+          >
             <span className="w-12 shrink-0 text-right font-mono tabular-nums text-amber-200">
               {formatQty(g.count, common.locale)}×
             </span>
@@ -411,6 +425,12 @@ function RecipeCard({
                   : undefined
               }
             />
+            {g.any && g.any.options.length > 1 && (
+              <span className="text-xs text-muted-foreground">
+                <SlotHint group={g.any.group} />{" "}
+                {t("anyOfCount", { count: g.any.options.length })}
+              </span>
+            )}
           </li>
         ))}
       </ul>
