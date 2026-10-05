@@ -22,6 +22,7 @@ import {
   SiteFooter,
   AudioAlertUnlocker,
   NewVersionWatcher,
+  ThemeScript,
   Toaster,
 } from "@repo/ui/controls";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
@@ -125,13 +126,14 @@ export function createDbRootLayout(
     }
 
     return (
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
             "inter-font-sans",
           )}
         >
+          <ThemeScript />
           <NavigationProgress />
           <I18NProvider dict={clientDict} locale={locale}>
             <Header

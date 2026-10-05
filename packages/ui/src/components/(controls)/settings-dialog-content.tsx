@@ -13,6 +13,9 @@ import {
   openFileOrFiles,
   FiltersConfig,
   isApp,
+  setTheme,
+  useTheme,
+  type Theme,
 } from "@repo/lib";
 import { useT } from "../(providers)";
 import { Label } from "../ui/label";
@@ -64,6 +67,7 @@ export function SettingsDialogContent({
 }) {
   const settingsStore = useSettingsStore();
   const profileSettings = useSettingsStore((state) => state);
+  const theme = useTheme();
   const t = useT();
   return (
     <DialogContent
@@ -323,6 +327,42 @@ export function SettingsDialogContent({
           <Section
             title={t("settings.accessibility", { fallback: "Accessibility" })}
           >
+            <div className="flex items-center gap-2 justify-between">
+              <div>
+                <Label htmlFor="theme">
+                  {t("settings.theme", { fallback: "Theme" })}
+                </Label>
+                <p className="text-muted-foreground text-xs">
+                  {t("settings.theme.description", {
+                    fallback:
+                      "Colors of the menus and pages on all THGL sites and apps.",
+                  })}
+                </p>
+              </div>
+              <Select
+                value={theme}
+                onValueChange={(value) => setTheme(value as Theme)}
+              >
+                <SelectTrigger id="theme" className="w-[180px] h-8 shrink-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="dark">
+                    {t("settings.theme.dark", { fallback: "Dark" })}
+                  </SelectItem>
+                  <SelectItem value="light">
+                    {t("settings.theme.light", { fallback: "Light" })}
+                  </SelectItem>
+                  <SelectItem value="black">
+                    {t("settings.theme.black", { fallback: "Black (OLED)" })}
+                  </SelectItem>
+                  <SelectItem value="system">
+                    {t("settings.theme.system", { fallback: "System" })}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Separator className="opacity-30" />
             <div className="flex items-center gap-2 justify-between">
               <Label htmlFor="color-blind-mode">
                 {t("settings.colorBlindMode", { fallback: "Color Blind Mode" })}

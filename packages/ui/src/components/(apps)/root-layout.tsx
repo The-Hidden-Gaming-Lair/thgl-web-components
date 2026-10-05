@@ -19,6 +19,7 @@ import {
   Links,
   LocaleSwitcher,
   SiteFooter,
+  ThemeScript,
 } from "../(controls)";
 import Link from "next/link";
 import {
@@ -67,13 +68,14 @@ export function createEmbedRootLayout(appConfig: AppConfig) {
     }
     const dict = await getStaticDictionary(appConfig.name, locale);
     return (
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
             "inter-font-sans",
           )}
         >
+          <ThemeScript />
           <NavigationProgress />
           <I18NProvider dict={dict} locale={locale}>
             <TooltipProvider>
@@ -163,13 +165,14 @@ export function createRootLayout(
     }
 
     return (
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
             "inter-font-sans",
           )}
         >
+          <ThemeScript />
           <NavigationProgress />
           <I18NProvider dict={dict} locale={locale}>
             <Header

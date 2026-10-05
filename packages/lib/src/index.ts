@@ -43,6 +43,8 @@ export * from "./private-icons";
 export * from "./resilient-fetch";
 export * from "./search-params";
 export * from "./settings";
+export * from "./theme";
+export * from "./theme-hooks";
 export * from "./filters-api";
 export * from "./sitemap";
 export * from "./status";
