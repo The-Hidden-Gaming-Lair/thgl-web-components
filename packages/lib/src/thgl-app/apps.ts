@@ -49,9 +49,16 @@ export function updateHotkeys(hotkeys: Record<string, string>) {
   });
 }
 
+export function updateHotkeyBlocking(blocked: string[]) {
+  return postWebviewMessage({
+    action: "updateHotkeyBlocking",
+    payload: { blocked },
+  });
+}
+
 // Sync current hotkeys from settings store to C++
 function syncHotkeysToNative() {
-  const hotkeys = useSettingsStore.getState().hotkeys;
+  const { hotkeys, hotkeyPassthrough } = useSettingsStore.getState();
   // Filter out empty values but keep the action->combo mapping
   const filteredHotkeys: Record<string, string> = {};
   for (const [action, combo] of Object.entries(hotkeys)) {
@@ -63,6 +70,12 @@ function syncHotkeysToNative() {
     console.log("Syncing hotkeys to native:", filteredHotkeys);
     updateHotkeys(filteredHotkeys).catch(console.error);
   }
+  // Every hotkey not set to "Send key to game" is swallowed in the game.
+  // Apps before 20.1.0 don't know the action and keep passing every key.
+  const blocked = Object.keys(hotkeys).filter(
+    (action) => !hotkeyPassthrough?.[action],
+  );
+  updateHotkeyBlocking(blocked).catch(() => {});
 }
 
 export function updateActorTypeFilters(types: string[], processName?: string) {
@@ -530,6 +543,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
     // Sync hotkeys to C++ after store hydration and on changes.
     // Uses a delayed confirmation re-sync to handle WebView2 IPC timing.
     let prevHotkeys = useSettingsStore.getState().hotkeys;
+    let prevPassthrough = useSettingsStore.getState().hotkeyPassthrough;
     let hasSynced = false;
     let confirmTimer: ReturnType<typeof setTimeout> | null = null;
     const syncWithConfirm = () => {
@@ -541,14 +555,20 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
       if (!hasSynced && useSettingsStore.getState()._hasHydrated) {
         hasSynced = true;
         prevHotkeys = useSettingsStore.getState().hotkeys;
+        prevPassthrough = useSettingsStore.getState().hotkeyPassthrough;
         syncWithConfirm();
       }
     };
     trySyncInitial();
     useSettingsStore.subscribe((state) => {
       trySyncInitial();
-      if (hasSynced && state.hotkeys !== prevHotkeys) {
+      if (
+        hasSynced &&
+        (state.hotkeys !== prevHotkeys ||
+          state.hotkeyPassthrough !== prevPassthrough)
+      ) {
         prevHotkeys = state.hotkeys;
+        prevPassthrough = state.hotkeyPassthrough;
         syncWithConfirm();
       }
     });

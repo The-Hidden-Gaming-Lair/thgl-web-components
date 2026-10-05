@@ -215,6 +215,10 @@ export type WEBVIEW_SEND_MESSAGE =
       payload: Record<string, string>; // { "toggle_app": "F6", "toggle_lock_app": "F9", ... }
     }
   | {
+      action: "updateHotkeyBlocking";
+      payload: { blocked: string[] }; // actions whose key is not sent to the game
+    }
+  | {
       action: "clickthroughOverlayWebView";
       payload: {
         clickthrough: boolean;

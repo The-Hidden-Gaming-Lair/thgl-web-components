@@ -279,6 +279,10 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     // Unbound by default: Elite preview, offered only for some games.
     toggle_compact_overlay: "",
   },
+  // Like the Overwolf manifest `passthrough` flag (default false): a hotkey
+  // press is NOT sent to the game unless its action is true here. The THGL
+  // Overwolf apps pass only Discover Node through, so does the app.
+  hotkeyPassthrough: { discover_node: true },
   groupName: "",
   // Default to pure live (predicted hidden). Combined (predicted + live) is
   // opt-in. Before Combined was public it was downgraded to live for non-elite
@@ -415,6 +419,8 @@ export type OverlayWindowMode = "overlay" | "desktop" | "both";
 
 export type ProfileSettings = {
   hotkeys: Record<string, string>;
+  /** Per hotkey action: true = the key also reaches the game (THGLApp). */
+  hotkeyPassthrough: Record<string, boolean>;
   groupName: string;
   liveMode: LiveMode;
   // Legacy binary preference, kept as a mirror of `windowMode` for backward
@@ -575,6 +581,7 @@ export type ProfileSettings = {
 export interface ProfileActions {
   setHotkey: (key: string, value: string) => void;
   setHotkeys: (hotkeys: Record<string, string>) => void;
+  setHotkeyPassthrough: (key: string, passthrough: boolean) => void;
   setGroupName: (groupName: string) => void;
   setLiveMode: (liveMode: LiveMode) => void;
   cycleLiveMode: () => void;
@@ -1232,6 +1239,16 @@ export const useSettingsStore = create(
 
           setHotkeys: (hotkeys) => {
             updateSettings({ hotkeys });
+          },
+
+          setHotkeyPassthrough: (key, passthrough) => {
+            const state = get();
+            updateSettings({
+              hotkeyPassthrough: {
+                ...state.hotkeyPassthrough,
+                [key]: passthrough,
+              },
+            });
           },
 
           setGroupName: (groupName) => {
