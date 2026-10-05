@@ -13,6 +13,10 @@ export async function register() {
   const { setRequestHostResolver } = await import("@repo/lib");
   const { headers } = await import("next/headers");
   setRequestHostResolver(async () => (await headers()).get("host"));
+  if (process.env.NODE_ENV === "production") {
+    const { startPodHealth } = await import("@/lib/pod-health");
+    startPodHealth();
+  }
 }
 
 /**

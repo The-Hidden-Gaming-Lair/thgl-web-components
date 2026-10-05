@@ -382,6 +382,25 @@ const nextConfig = (phase) => ({
         headers: shortCache,
       },
       { source: "/status", headers: shortCache },
+      // Per-user responses. The games-web pull zone does NOT vary its cache by
+      // cookie (removed 2026-10-05 — every signed-in visitor had a private copy
+      // of every page and always hit the origin), so anything whose output
+      // depends on the userId cookie must be no-store. Page renders never read
+      // the cookie except the account pages above and these admin surfaces.
+      // Incoming paths + their /www rewrites.
+      ...[
+        "/api/status/admin",
+        "/admin/:path*",
+        "/www/admin/:path*",
+        "/api/admin/:path*",
+        "/www/api/admin/:path*",
+      ].map((source) => ({
+        source,
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      })),
       { source: "/www/status", headers: shortCache },
       // The cron-triggered runner has side effects and an Authorization
       // gate — a cached 401/response would wedge the whole checker.

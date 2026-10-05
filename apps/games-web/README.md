@@ -129,11 +129,17 @@ Next appends a unique `?_rsc=<hash>` param to client navigations, and
 the pull zone sets `CacheKeyHeaders=rsc` so the request header is part
 of the Bunny cache key.
 
-Short-TTL exceptions (60s): `/dashboard/*` (per-user, additionally
-varied at the edge by the `userId` cookie via the pull zone's cookie
-vary) and the palia-api-driven pages (`/leaderboard`, `/rummage-pile`,
-`/weekly-wants`) whose localized variants rely on expiry rather than
-the `/api/revalidate` purge.
+Short-TTL exceptions (60s): `/dashboard/*` and the palia-api-driven pages
+(`/leaderboard`, `/rummage-pile`, `/weekly-wants`) whose localized variants
+rely on expiry rather than the `/api/revalidate` purge.
+
+The edge cache is SHARED by every visitor: the pull zone does not vary on
+cookies (the `userId` cookie vary was removed 2026-10-05 — it gave each
+signed-in user a private copy of every page, so supporters always hit the
+origin). A response that depends on who is signed in must be `no-store`
+(account/controller/redirect pages, `/api/patreon`, admin routes — see
+`next.config.js`); per-user UI on a shared page renders client-side
+(e.g. the status page's admin panel asks `/api/status/admin`).
 
 ## Adding a new tenant
 

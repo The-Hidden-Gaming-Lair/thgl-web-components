@@ -1,5 +1,4 @@
-import { requireStatusAdmin } from "@/lib/status-admin";
-import { StatusAdminPanel } from "./status-admin-panel";
+import { StatusAdminGate } from "./status-admin-gate";
 import { buildStatusDocument } from "@/lib/status-document";
 import { type StatusDocument, type StatusState } from "@repo/lib";
 
@@ -59,10 +58,7 @@ function Uptime({ value }: { value: number | null }) {
 }
 
 export default async function StatusPage() {
-  const [result, adminId] = await Promise.all([
-    buildStatusDocument().catch(() => null),
-    requireStatusAdmin(),
-  ]);
+  const result = await buildStatusDocument().catch(() => null);
   const doc: StatusDocument | null = result?.doc ?? null;
 
   if (!doc) {
@@ -237,8 +233,8 @@ export default async function StatusPage() {
         </div>
       )}
 
-      {/* Admin panel */}
-      {adminId && <StatusAdminPanel doc={doc} />}
+      {/* Admin panel — checked client-side, the page is shared-cached */}
+      <StatusAdminGate doc={doc} />
     </section>
   );
 }
