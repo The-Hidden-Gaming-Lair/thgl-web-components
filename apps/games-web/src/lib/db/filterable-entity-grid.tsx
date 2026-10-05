@@ -28,6 +28,8 @@ export type GridItem = {
   /** Icon + link of the group, when the group id is itself a DB entry. */
   groupIcon?: IconSprite;
   groupHref?: string;
+  /** Entry of another section listed in this group (links there, not `/db/<section>`). */
+  href?: string;
 };
 
 /** Above this many groups the category chips become a dropdown. */
@@ -208,7 +210,7 @@ export function FilterableEntityGrid({
                       >
                         <Link
                           href={localizePath(
-                            `/db/${section}/${item.id}`,
+                            item.href ?? `/db/${section}/${item.id}`,
                             locale,
                           )}
                           prefetch={false}

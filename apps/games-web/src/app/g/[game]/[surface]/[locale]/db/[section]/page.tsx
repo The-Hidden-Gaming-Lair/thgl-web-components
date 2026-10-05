@@ -76,6 +76,20 @@ function sectionCategories<T extends { type: string }>(
   );
 }
 
+/** Insert each group's `groupRefs` items right after that group's last item. */
+function withGroupRefs(
+  items: GridItem[],
+  extra: Map<string, GridItem[]>,
+): GridItem[] {
+  if (!extra.size) return items;
+  const last = new Map(items.map((it, idx) => [it.groupId, idx]));
+  return items.flatMap((it, idx) =>
+    last.get(it.groupId) === idx
+      ? [it, ...(extra.get(it.groupId) ?? [])]
+      : [it],
+  );
+}
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -172,6 +186,60 @@ export default async function Page({ params }: PageProps) {
     }
   }
 
+  // `groupRefs`: list each group entry's refs of that prop (e.g. a Descendant's
+  // Transcendent modules) inside its group, linking to their own section.
+  const groupRefItems = new Map<string, GridItem[]>();
+  if (secCfg.groupRefs) {
+    const key = secCfg.groupRefs;
+    const fullCats = await Promise.all(
+      database
+        .filter((cat) => cat.items.some((i) => groupIds.has(i.id)))
+        .map((cat) => fetchFullPropsCategory(appConfig.name, cat)),
+    );
+    const refsByGroup = new Map<string, { id: string; section: string }[]>();
+    for (const cat of fullCats)
+      for (const i of cat.items) {
+        const refs = groupIds.has(i.id) ? i.props?.[key] : undefined;
+        if (Array.isArray(refs)) refsByGroup.set(i.id, refs);
+      }
+    const targetIds = new Set(
+      [...refsByGroup.values()].flat().map((r) => r.id),
+    );
+    const targetCats = database.filter((cat) =>
+      cat.items.some((i) => targetIds.has(i.id)),
+    );
+    const targets = new Map<
+      string,
+      { icon?: GridItem["icon"]; color?: string; text?: string }
+    >();
+    for (const cat of await Promise.all(
+      targetCats.map((cat) => fetchFullPropsCategory(appConfig.name, cat)),
+    ))
+      for (const i of cat.items)
+        if (targetIds.has(i.id))
+          targets.set(i.id, {
+            icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+            color: rarityColor(i.props),
+            text: flattenPropsText(i.props) || undefined,
+          });
+    for (const [groupId, refs] of refsByGroup)
+      groupRefItems.set(
+        groupId,
+        refs
+          .filter((r) => targets.has(r.id))
+          .map((r) => ({
+            id: r.id,
+            name: resolveDict(dict, r.id),
+            groupId,
+            groupLabel: resolveDictWithFallback(dict, groupId, groupId),
+            groupIcon: groupEntries.get(groupId)?.icon,
+            groupHref: groupEntries.get(groupId)?.href,
+            href: `/db/${r.section}/${r.id}`,
+            ...targets.get(r.id),
+          })),
+      );
+  }
+
   const { plural: label } = getSectionLabels(appConfig, dict, secCfg, section);
   const iconsHash = version.more.icons;
   const totalCount = data.reduce((sum, cat) => sum + cat.items.length, 0);
@@ -251,22 +319,25 @@ export default async function Page({ params }: PageProps) {
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-6">
         <FilterableEntityGrid
-          items={data.flatMap((cat) =>
-            cat.items.map((i) => ({
-              id: i.id,
-              icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
-              groupId: i.groupId ?? "other",
-              name: resolveDict(dict, i.id),
-              groupLabel: resolveDictWithFallback(
-                dict,
-                i.groupId ?? "other",
-                i.groupId ?? "other",
-              ),
-              text: textById.get(i.id),
-              color: colorById.get(i.id),
-              groupIcon: groupEntries.get(i.groupId ?? "")?.icon,
-              groupHref: groupEntries.get(i.groupId ?? "")?.href,
-            })),
+          items={withGroupRefs(
+            data.flatMap((cat) =>
+              cat.items.map((i) => ({
+                id: i.id,
+                icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+                groupId: i.groupId ?? "other",
+                name: resolveDict(dict, i.id),
+                groupLabel: resolveDictWithFallback(
+                  dict,
+                  i.groupId ?? "other",
+                  i.groupId ?? "other",
+                ),
+                text: textById.get(i.id),
+                color: colorById.get(i.id),
+                groupIcon: groupEntries.get(i.groupId ?? "")?.icon,
+                groupHref: groupEntries.get(i.groupId ?? "")?.href,
+              })),
+            ),
+            groupRefItems,
           )}
           section={section}
           locale={locale}

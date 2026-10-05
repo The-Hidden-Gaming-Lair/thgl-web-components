@@ -111,6 +111,12 @@ export type DbAppConfig = {
      * for exact matches alongside.
      */
     typePrefix?: string;
+    /**
+     * When a list group's id is itself a DB entry (e.g. abilities grouped per
+     * Descendant), also list that entry's refs under this prop key inside the
+     * group, linking to their own section (e.g. `transcendentModules`).
+     */
+    groupRefs?: string;
     /** Glyph rendered to the left of the card title. */
     icon: string;
     /** Optional description. If absent, falls back to the matching internalLink description. */
