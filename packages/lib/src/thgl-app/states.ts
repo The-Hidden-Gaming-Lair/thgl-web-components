@@ -6,7 +6,7 @@ import type { DriverHealth } from "./driver-health";
 import { RunningGame } from "./games";
 import type { GamesSort } from "../games";
 import { AppVersion, CompatRunAsAdminFlag } from "./version";
-import { CloseAction, GpuFlag } from "./webview";
+import { CloseAction, DiscordPresenceSettings, GpuFlag } from "./webview";
 
 export type ConnectedClient = {
   id: number;
@@ -51,6 +51,9 @@ export const useLiveState = create<{
   setCompatRunAsAdminFlag: (state: CompatRunAsAdminFlag) => void;
   locale: string;
   setLocale: (locale: string) => void;
+  // Discord Rich Presence settings; null = app older than the feature.
+  discordPresence: DiscordPresenceSettings | null;
+  setDiscordPresence: (settings: DiscordPresenceSettings | null) => void;
   // Game runs in exclusive fullscreen - the overlay can't render over it
   exclusiveFullscreen: boolean;
   setExclusiveFullscreen: (exclusive: boolean) => void;
@@ -80,6 +83,8 @@ export const useLiveState = create<{
   setCompatRunAsAdminFlag: (state) => set({ compatRunAsAdminFlag: state }),
   locale: "en",
   setLocale: (locale) => set({ locale }),
+  discordPresence: null,
+  setDiscordPresence: (settings) => set({ discordPresence: settings }),
   exclusiveFullscreen: false,
   setExclusiveFullscreen: (exclusive) =>
     set({ exclusiveFullscreen: exclusive }),

@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "ปิด \"เรียกใช้ในฐานะผู้ดูแลระบบเสมอ\" ก่อน",
   "settings.relaunchDesc": "รีสตาร์ทแอปด้วยระดับสิทธิ์อีกแบบ หน้าต่างแผนที่ที่เปิดอยู่จะถูกปิด",
   "settings.compatFlagRemoved": "เซสชันนี้ถูกเปิดผ่านตัวเลือกความเข้ากันได้ของ Windows \"เรียกใช้โปรแกรมนี้ในฐานะผู้ดูแลระบบ\" ซึ่งไม่รองรับ การตั้งค่านี้ถูกลบแล้ว รีสตาร์ทแอปเพื่อเรียกใช้ตามปกติ",
-  "settings.compatFlagPresent": "แอปถูกตั้งค่าตัวเลือกความเข้ากันได้ของ Windows \"เรียกใช้โปรแกรมนี้ในฐานะผู้ดูแลระบบ\" ซึ่งไม่รองรับ โปรดยกเลิกการเลือกใน คุณสมบัติ > ความเข้ากันได้ แล้วรีสตาร์ทแอป"
+  "settings.compatFlagPresent": "แอปถูกตั้งค่าตัวเลือกความเข้ากันได้ของ Windows \"เรียกใช้โปรแกรมนี้ในฐานะผู้ดูแลระบบ\" ซึ่งไม่รองรับ โปรดยกเลิกการเลือกใน คุณสมบัติ > ความเข้ากันได้ แล้วรีสตาร์ทแอป",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "แสดงเกมที่คุณเล่นบน Discord",
+  "settings.discord.enabledDesc": "โปรไฟล์ Discord ของคุณจะแสดงเกมที่คุณเล่นด้วย Companion App และปุ่ม \"Get The App\" เฉพาะตอนที่เกมที่รองรับกำลังทำงาน",
+  "settings.discord.location": "แสดงแผนที่",
+  "settings.discord.region": "แสดงภูมิภาค",
+  "settings.discord.regionPvp": "แสดงภูมิภาคในเกม PvP",
+  "settings.discord.regionPvpDesc": "ปิดไว้เป็นค่าเริ่มต้น เพื่อไม่ให้ใครรู้ว่าคุณอยู่ที่ไหนในพื้นที่ PvP",
+  "settings.discord.progress": "แสดงความคืบหน้าการค้นพบ",
+  "settings.discord.progressDesc": "เลือกมาร์กเกอร์ที่จะนับได้ในการตั้งค่าแผนที่ของแต่ละเกม",
+  "settings.discord.elapsed": "แสดงเวลาที่ผ่านไป",
+  "settings.discord.mapButton": "แสดงปุ่ม \"เปิดแผนที่\"",
+  "settings.discord.locked": "Discord Rich Presence เป็นเวอร์ชันพรีวิวสำหรับ Elite Supporter และจะเปิดให้ทุกคนในภายหลัง",
+  "settings.discord.unlock": "ปลดล็อก"
 }

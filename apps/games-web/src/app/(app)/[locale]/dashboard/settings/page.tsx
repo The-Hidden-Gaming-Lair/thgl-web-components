@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Shield,
   Globe,
+  Lock,
 } from "lucide-react";
 import {
   ScrollArea,
@@ -21,6 +22,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  PreviewBadge,
+  showPreviewUpsell,
 } from "@repo/ui/controls";
 import {
   addScheduledTask,
@@ -36,8 +39,10 @@ import {
   getIsTaskInstalled,
   GpuFlag,
   CloseAction,
+  DiscordPresenceSettings,
+  setDiscordPresence,
 } from "@repo/lib/thgl-app";
-import { localizePath } from "@repo/lib";
+import { localizePath, usePreviewFeature } from "@repo/lib";
 import { useLocale, useT } from "@repo/ui/providers";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -92,6 +97,124 @@ const CLOSE_ACTION_KEYS: Record<CloseAction, { label: string; desc: string }> =
       desc: "settings.closeAction.exitDesc",
     },
   };
+
+const DISCORD_PRESENCE_FEATURE = "discord-presence";
+
+// Sub-toggles of Settings > Discord, in display order. The "Get The App" button
+// has no toggle: it is always on the card while presence is on.
+const DISCORD_TOGGLES: {
+  key: Exclude<keyof DiscordPresenceSettings, "enabled">;
+  label: string;
+  desc?: string;
+  parent?: keyof DiscordPresenceSettings;
+}[] = [
+  { key: "showLocation", label: "settings.discord.location" },
+  {
+    key: "showRegion",
+    label: "settings.discord.region",
+    parent: "showLocation",
+  },
+  {
+    key: "showRegionInPvp",
+    label: "settings.discord.regionPvp",
+    desc: "settings.discord.regionPvpDesc",
+    parent: "showLocation",
+  },
+  {
+    key: "showProgress",
+    label: "settings.discord.progress",
+    desc: "settings.discord.progressDesc",
+  },
+  { key: "showElapsed", label: "settings.discord.elapsed" },
+  { key: "showMapButton", label: "settings.discord.mapButton" },
+];
+
+function DiscordSettings() {
+  const t = useT();
+  const access = usePreviewFeature(DISCORD_PRESENCE_FEATURE);
+  const settings = useLiveState((state) => state.discordPresence);
+  const setSettingsState = useLiveState((state) => state.setDiscordPresence);
+  // Apps before the feature don't report the settings.
+  if (!settings) return null;
+  const update = (patch: Partial<DiscordPresenceSettings>) => {
+    setDiscordPresence(patch)
+      .then((res) => setSettingsState(res.data))
+      .catch(console.error);
+  };
+  return (
+    <div className="rounded-lg border bg-card p-4 space-y-4">
+      <h3 className="text-sm font-semibold">
+        {t("settings.discord.title")}
+        {access.preview && <PreviewBadge />}
+      </h3>
+      {access.locked ? (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs text-muted-foreground">
+            {t("settings.discord.locked")}
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => showPreviewUpsell(DISCORD_PRESENCE_FEATURE)}
+          >
+            <Lock className="w-3.5 h-3.5 mr-1.5" />
+            {t("settings.discord.unlock")}
+          </Button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label
+                htmlFor="discord-enabled"
+                className="text-sm font-normal cursor-pointer"
+              >
+                {t("settings.discord.enabled")}
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                {t("settings.discord.enabledDesc")}
+              </p>
+            </div>
+            <Switch
+              id="discord-enabled"
+              checked={settings.enabled}
+              onCheckedChange={(checked) => update({ enabled: checked })}
+            />
+          </div>
+          {settings.enabled && (
+            <>
+              <div className="border-t" />
+              {DISCORD_TOGGLES.map(({ key, label, desc, parent }) => (
+                <div
+                  key={key}
+                  className="flex items-center justify-between gap-3"
+                >
+                  <div className={parent ? "space-y-0.5 pl-4" : "space-y-0.5"}>
+                    <Label
+                      htmlFor={`discord-${key}`}
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      {t(label)}
+                    </Label>
+                    {desc && (
+                      <p className="text-xs text-muted-foreground">{t(desc)}</p>
+                    )}
+                  </div>
+                  <Switch
+                    id={`discord-${key}`}
+                    checked={settings[key]}
+                    disabled={parent ? !settings[parent] : false}
+                    onCheckedChange={(checked) => update({ [key]: checked })}
+                  />
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 const GPU_FLAGS: GpuFlag[] = [
   "none",
@@ -394,6 +517,8 @@ export default function SettingsPage() {
             </p>
           </div>
         </div>
+
+        <DiscordSettings />
 
         {/* Info Note */}
         <div className="rounded-lg border bg-muted/50 p-4">

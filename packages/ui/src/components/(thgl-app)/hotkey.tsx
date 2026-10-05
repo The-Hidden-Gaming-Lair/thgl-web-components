@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import { useSettingsStore } from "@repo/lib";
 import { HOTKEYS } from "@repo/lib/thgl-app";
 
@@ -19,6 +20,12 @@ export function Hotkey({
 }) {
   const hotkeys = useSettingsStore((state) => state.hotkeys);
   const setHotkey = useSettingsStore((state) => state.setHotkey);
+  const passthrough = useSettingsStore(
+    (state) => !!state.hotkeyPassthrough?.[name],
+  );
+  const setHotkeyPassthrough = useSettingsStore(
+    (state) => state.setHotkeyPassthrough,
+  );
 
   const [recording, setRecording] = useState(false);
   const [currentCombo, setCurrentCombo] = useState<string | null>(null);
@@ -200,6 +207,24 @@ export function Hotkey({
           <X className="h-3.5 w-3.5" />
         </Button>
       </div>
+      {/* Keyboard only: the app can't hold a gamepad button back from the game. */}
+      {!active && hotkeys[name] && !hotkeys[name].startsWith("GAMEPAD_") ? (
+        <span
+          className="flex cursor-pointer items-center gap-1.5 text-[11px] font-normal text-muted-foreground"
+          title="Off: the game does not get this key while the app uses it. On: the game gets the key too."
+          onClick={(e) => {
+            e.preventDefault();
+            setHotkeyPassthrough(name, !passthrough);
+          }}
+        >
+          <Checkbox
+            checked={passthrough}
+            aria-label="Send key to game"
+            className="h-3.5 w-3.5"
+          />
+          Send key to game
+        </span>
+      ) : null}
       {active && detectedPad ? (
         <p className="max-w-[240px] text-right text-[10px] text-muted-foreground">
           🎮 {detectedPad.id.replace(/\s*\([^)]*\)\s*$/, "")}

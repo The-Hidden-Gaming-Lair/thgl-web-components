@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "Turn off \"Always run as administrator\" first",
   "settings.relaunchDesc": "Restarts the app with the other privilege level. Open map windows close.",
   "settings.compatFlagRemoved": "This session was started through Windows Compatibility \"Run as administrator\", which is not supported. The setting was removed. Restart the app to run it normally.",
-  "settings.compatFlagPresent": "Windows Compatibility \"Run as administrator\" is set for the app and is not supported. Uncheck it under Properties > Compatibility and restart the app."
+  "settings.compatFlagPresent": "Windows Compatibility \"Run as administrator\" is set for the app and is not supported. Uncheck it under Properties > Compatibility and restart the app.",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "Show what you play on Discord",
+  "settings.discord.enabledDesc": "Your Discord profile shows the game you play with the Companion App and a \"Get The App\" button, only while a supported game is running.",
+  "settings.discord.location": "Show map",
+  "settings.discord.region": "Show region",
+  "settings.discord.regionPvp": "Show region in PvP games",
+  "settings.discord.regionPvpDesc": "Off by default, so nobody can tell where you are in a PvP area.",
+  "settings.discord.progress": "Show discovery progress",
+  "settings.discord.progressDesc": "Choose which markers to count in each game's map settings.",
+  "settings.discord.elapsed": "Show elapsed time",
+  "settings.discord.mapButton": "Show \"Open Map\" button",
+  "settings.discord.locked": "Discord Rich Presence is a Preview for Elite Supporters, coming to everyone later.",
+  "settings.discord.unlock": "Unlock"
 }

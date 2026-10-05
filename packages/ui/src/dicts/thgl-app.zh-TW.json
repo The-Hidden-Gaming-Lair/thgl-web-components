@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "請先關閉「一律以系統管理員身分執行」",
   "settings.relaunchDesc": "以另一種權限層級重新啟動應用程式。已開啟的地圖視窗將會關閉。",
   "settings.compatFlagRemoved": "本次工作階段是透過 Windows 相容性選項「以系統管理員身分執行此程式」啟動的，此方式不受支援。該設定已移除。請重新啟動應用程式以正常執行。",
-  "settings.compatFlagPresent": "應用程式已設定 Windows 相容性選項「以系統管理員身分執行此程式」，此方式不受支援。請在「內容 > 相容性」取消勾選，然後重新啟動應用程式。"
+  "settings.compatFlagPresent": "應用程式已設定 Windows 相容性選項「以系統管理員身分執行此程式」，此方式不受支援。請在「內容 > 相容性」取消勾選，然後重新啟動應用程式。",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "在 Discord 上顯示你正在玩的遊戲",
+  "settings.discord.enabledDesc": "你的 Discord 個人檔案會顯示你用 Companion App 玩的遊戲和一個「Get The App」按鈕，僅在支援的遊戲執行時顯示。",
+  "settings.discord.location": "顯示地圖",
+  "settings.discord.region": "顯示區域",
+  "settings.discord.regionPvp": "在 PvP 遊戲中顯示區域",
+  "settings.discord.regionPvpDesc": "預設關閉，這樣別人無法知道你在 PvP 區域的位置。",
+  "settings.discord.progress": "顯示探索進度",
+  "settings.discord.progressDesc": "在每個遊戲的地圖設定中選擇要計算的標記。",
+  "settings.discord.elapsed": "顯示經過時間",
+  "settings.discord.mapButton": "顯示「開啟地圖」按鈕",
+  "settings.discord.locked": "Discord Rich Presence 是 Elite Supporter 的預覽功能，之後會向所有人開放。",
+  "settings.discord.unlock": "解鎖"
 }

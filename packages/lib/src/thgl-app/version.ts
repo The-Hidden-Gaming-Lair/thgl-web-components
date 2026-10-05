@@ -1,4 +1,10 @@
-import { postWebviewMessage, GpuFlag, CloseAction } from "./webview";
+import {
+  postWebviewMessage,
+  GpuFlag,
+  CloseAction,
+  DiscordPresenceHints,
+  DiscordPresenceSettings,
+} from "./webview";
 import { WindowMode } from "./apps";
 import type { DriverHealth } from "./driver-health";
 import type { ConnectedClient } from "./states";
@@ -23,6 +29,8 @@ export type InitialState = {
   exclusiveFullscreen?: boolean;
   closeAction: CloseAction;
   locale: string;
+  // Discord Rich Presence settings (apps before the feature omit it).
+  discordPresence?: DiscordPresenceSettings;
   connectedClients?: ConnectedClient[];
   // True when the app stripped the Windows Compatibility "Run as
   // administrator" flag for its exe at startup (it forces UAC elevation on
@@ -139,6 +147,20 @@ export function setWorldCodeRequestsMuted(muted: boolean) {
   return postWebviewMessage({
     action: "setWorldCodeRequestsMuted",
     payload: { muted },
+  });
+}
+
+export function setDiscordPresence(settings: Partial<DiscordPresenceSettings>) {
+  return postWebviewMessage<DiscordPresenceSettings>({
+    action: "setDiscordPresence",
+    payload: settings,
+  });
+}
+
+export function setDiscordPresenceHints(hints: DiscordPresenceHints | null) {
+  return postWebviewMessage({
+    action: "setDiscordPresenceHints",
+    payload: { hints },
   });
 }
 

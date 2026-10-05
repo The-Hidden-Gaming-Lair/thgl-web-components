@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "Сначала отключите «Всегда запускать от имени администратора»",
   "settings.relaunchDesc": "Перезапускает приложение с другим уровнем прав. Открытые окна карты будут закрыты.",
   "settings.compatFlagRemoved": "Этот сеанс был запущен через параметр совместимости Windows «Запускать от имени администратора», который не поддерживается. Параметр был удалён. Перезапустите приложение, чтобы оно работало в обычном режиме.",
-  "settings.compatFlagPresent": "Для приложения включён параметр совместимости Windows «Запускать от имени администратора», который не поддерживается. Снимите флажок в Свойства > Совместимость и перезапустите приложение."
+  "settings.compatFlagPresent": "Для приложения включён параметр совместимости Windows «Запускать от имени администратора», который не поддерживается. Снимите флажок в Свойства > Совместимость и перезапустите приложение.",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "Показывать в Discord, во что вы играете",
+  "settings.discord.enabledDesc": "Ваш профиль Discord показывает игру, в которую вы играете с Companion App, и кнопку \"Get The App\", только пока запущена поддерживаемая игра.",
+  "settings.discord.location": "Показывать карту",
+  "settings.discord.region": "Показывать регион",
+  "settings.discord.regionPvp": "Показывать регион в PvP-играх",
+  "settings.discord.regionPvpDesc": "По умолчанию выключено, чтобы никто не знал, где вы находитесь в PvP-зоне.",
+  "settings.discord.progress": "Показывать прогресс исследования",
+  "settings.discord.progressDesc": "Какие метки считать, выбирается в настройках карты каждой игры.",
+  "settings.discord.elapsed": "Показывать время в игре",
+  "settings.discord.mapButton": "Показывать кнопку \"Открыть карту\"",
+  "settings.discord.locked": "Discord Rich Presence — предварительная версия для Elite Supporter, позже станет доступна всем.",
+  "settings.discord.unlock": "Разблокировать"
 }

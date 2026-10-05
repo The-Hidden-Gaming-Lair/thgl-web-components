@@ -215,6 +215,10 @@ export type WEBVIEW_SEND_MESSAGE =
       payload: Record<string, string>; // { "toggle_app": "F6", "toggle_lock_app": "F9", ... }
     }
   | {
+      action: "updateHotkeyBlocking";
+      payload: { blocked: string[] }; // actions whose key is not sent to the game
+    }
+  | {
       action: "clickthroughOverlayWebView";
       payload: {
         clickthrough: boolean;
@@ -311,6 +315,21 @@ export type WEBVIEW_SEND_MESSAGE =
       };
     }
   | {
+      // Dashboard > Settings > Discord (partial update, persisted by the app)
+      action: "setDiscordPresence";
+      payload: Partial<DiscordPresenceSettings>;
+    }
+  | {
+      action: "getDiscordPresenceStatus";
+      payload: {};
+    }
+  | {
+      // Card content from a game window; the app takes the game from the
+      // window's URL. null = no presence (e.g. preview not available).
+      action: "setDiscordPresenceHints";
+      payload: { hints: DiscordPresenceHints | null };
+    }
+  | {
       action: "setLocale";
       payload: {
         locale: string;
@@ -328,6 +347,29 @@ export type WEBVIEW_SEND_MESSAGE =
       action: "captureGameScreenshot";
       payload: {};
     };
+
+// Discord Rich Presence settings (THGLApp settings.h DiscordPresenceSettings).
+// The "Get The App" button has no setting: it is always on the card.
+export type DiscordPresenceSettings = {
+  enabled: boolean;
+  showLocation: boolean;
+  showRegion: boolean;
+  showRegionInPvp: boolean;
+  showProgress: boolean;
+  showElapsed: boolean;
+  showMapButton: boolean;
+};
+
+// What a game window knows about the session; the app builds the card from it
+// plus the settings above (THGLApp discord_presence.cpp).
+export type DiscordPresenceHints = {
+  title: string;
+  imageUrl?: string;
+  mapUrl?: string;
+  mapTitle?: string;
+  regionTitle?: string;
+  progress?: { label: string; found: number; total: number };
+};
 
 // GPU acceleration flags for WebView2
 // These flags help troubleshoot display issues on multi-monitor setups

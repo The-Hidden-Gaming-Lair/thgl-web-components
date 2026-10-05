@@ -1,10 +1,28 @@
 import { Label } from "../ui/label";
 import { HOTKEYS } from "@repo/lib/thgl-app";
-import { FiltersConfig, THGLAppConfig, useCompactOverlay } from "@repo/lib";
+import {
+  FiltersConfig,
+  THGLAppConfig,
+  useCompactOverlay,
+  usePreviewFeature,
+  useSettingsStore,
+} from "@repo/lib";
 import { SettingsDialogContent } from "../(controls)/settings-dialog-content";
 import { PreviewBadge } from "../(controls)/preview-badge";
 import { Separator } from "../ui/separator";
 import { Hotkey } from "./hotkey";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useT } from "../(providers)";
+import {
+  DISCORD_PRESENCE_FEATURE,
+  useDiscoveryProgress,
+} from "./discord-presence-hints";
 import { useState } from "react";
 
 export function THGLAppSettingsDialogContent({
@@ -22,6 +40,7 @@ export function THGLAppSettingsDialogContent({
       withoutTraceLines={appConfig.withoutOverlayMode}
       filters={filters}
     >
+      <DiscordProgressSetting filters={filters} />
       <Separator />
       <h4 className="text-md font-semibold">In-Game Hotkeys</h4>
       {appConfig.withoutOverlayMode ? (
@@ -167,5 +186,58 @@ export function THGLAppSettingsDialogContent({
         </>
       )}
     </SettingsDialogContent>
+  );
+}
+
+/**
+ * Which discovery progress the Discord card shows for this game. The other
+ * Discord settings are app-wide (Dashboard > Settings > Discord).
+ */
+function DiscordProgressSetting({ filters }: { filters: FiltersConfig }) {
+  const t = useT();
+  const access = usePreviewFeature(DISCORD_PRESENCE_FEATURE);
+  const progressGroup = useSettingsStore((s) => s.discordProgressGroup);
+  const setProgressGroup = useSettingsStore((s) => s.setDiscordProgressGroup);
+  const counts = useDiscoveryProgress(filters);
+  if (!access.enabled) return null;
+  const groups = filters.filter((filter) => counts.get(filter.group)?.total);
+  return (
+    <>
+      <Separator />
+      <h4 className="text-md font-semibold">
+        Discord Rich Presence
+        {access.preview && <PreviewBadge />}
+      </h4>
+      <Label className="flex items-center gap-2 justify-between">
+        Progress shown on Discord
+        <Select
+          value={progressGroup ?? "auto"}
+          onValueChange={(value) =>
+            setProgressGroup(value === "auto" ? null : value)
+          }
+        >
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="auto">Auto (most discovered)</SelectItem>
+            <SelectItem value="none">None</SelectItem>
+            {groups.map((filter) => {
+              const count = counts.get(filter.group)!;
+              return (
+                <SelectItem key={filter.group} value={filter.group}>
+                  {t(filter.group, { fallback: filter.group })} ({count.found}/
+                  {count.total})
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </Label>
+      <p className="text-muted-foreground text-xs">
+        Shows "found / total" of these markers on your Discord profile while you
+        play. More Discord options are in the app&apos;s Settings.
+      </p>
+    </>
   );
 }

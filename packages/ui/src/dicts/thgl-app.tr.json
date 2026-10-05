@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "Önce \"Her zaman yönetici olarak çalıştır\" seçeneğini kapat",
   "settings.relaunchDesc": "Uygulamayı diğer yetki düzeyiyle yeniden başlatır. Açık harita pencereleri kapanır.",
   "settings.compatFlagRemoved": "Bu oturum, desteklenmeyen Windows uyumluluk seçeneği \"Yönetici olarak çalıştır\" ile başlatıldı. Ayar kaldırıldı. Normal çalıştırmak için uygulamayı yeniden başlat.",
-  "settings.compatFlagPresent": "Uygulama için Windows uyumluluk seçeneği \"Yönetici olarak çalıştır\" ayarlı ve bu desteklenmiyor. Özellikler > Uyumluluk altında işaretini kaldırıp uygulamayı yeniden başlat."
+  "settings.compatFlagPresent": "Uygulama için Windows uyumluluk seçeneği \"Yönetici olarak çalıştır\" ayarlı ve bu desteklenmiyor. Özellikler > Uyumluluk altında işaretini kaldırıp uygulamayı yeniden başlat.",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "Ne oynadığını Discord'da göster",
+  "settings.discord.enabledDesc": "Discord profilin, Companion App ile oynadığın oyunu ve bir \"Get The App\" düğmesini yalnızca desteklenen bir oyun çalışırken gösterir.",
+  "settings.discord.location": "Haritayı göster",
+  "settings.discord.region": "Bölgeyi göster",
+  "settings.discord.regionPvp": "PvP oyunlarında bölgeyi göster",
+  "settings.discord.regionPvpDesc": "Varsayılan olarak kapalı, böylece kimse PvP alanında nerede olduğunu bilemez.",
+  "settings.discord.progress": "Keşif ilerlemesini göster",
+  "settings.discord.progressDesc": "Hangi işaretlerin sayılacağını her oyunun harita ayarlarından seç.",
+  "settings.discord.elapsed": "Geçen süreyi göster",
+  "settings.discord.mapButton": "\"Haritayı Aç\" düğmesini göster",
+  "settings.discord.locked": "Discord Rich Presence, Elite Supporter'lar için bir önizlemedir ve daha sonra herkese açılacak.",
+  "settings.discord.unlock": "Kilidi aç"
 }
