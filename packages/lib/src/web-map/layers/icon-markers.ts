@@ -368,6 +368,18 @@ in float v_layered;
 in float v_renderMode;
 in vec4 v_tint;
 out vec4 outColor;
+// Signed distance from p to the line through a-b, positive on the side away
+// from cen (the triangle centroid). max() over the 3 edges = triangle SDF.
+float triEdgeDist(vec2 p, vec2 a, vec2 b, vec2 cen){
+  vec2 e = b - a;
+  vec2 n = normalize(vec2(e.y, -e.x));
+  if (dot(n, cen - a) > 0.0) n = -n;
+  return dot(p - a, n);
+}
+float triDist(vec2 p, vec2 a, vec2 b, vec2 c){
+  vec2 cen = (a + b + c) / 3.0;
+  return max(max(triEdgeDist(p, a, b, cen), triEdgeDist(p, b, c, cen)), triEdgeDist(p, c, a, cen));
+}
 // 7-segment helpers for tiny digit rendering — anti-aliased
 float hseg(vec2 uv, float y){
   float thickness = 0.18;
@@ -532,7 +544,11 @@ void main(){
     // base half-width; the user's arrow size scales it independently of the
     // icon size (capped so the arrow stays inside the quad)
     float base = min((0.07 + 0.02*zMag) * u_zArrowScale, 0.3);
-    float gap = 0.02;                // gap from edge
+    // Dark outline around the white arrow, in screen pixels so it stays
+    // visible at small icon sizes and separates overlapping markers' arrows
+    float px = fwidth(uv.x);
+    float ow = px * (1.0 + 0.5 * u_zArrowScale);
+    float gap = 0.02 + ow;           // gap from edge (outline stays inside the quad)
     vec2 vA, vB, vC;                 // triangle vertices
     if (dir > 0.0) {
       // Above: point up, located just above icon
@@ -547,35 +563,13 @@ void main(){
       vB = vec2(0.5 - base, yTip - base);   // left base
       vC = vec2(0.5 + base, yTip - base);   // right base
     }
-    // Barycentric
-    vec2 e0 = vB - vA, e1 = vC - vA, vp = uv - vA;
-    float d00 = dot(e0,e0); float d01 = dot(e0,e1); float d11 = dot(e1,e1);
-    float d20 = dot(vp,e0); float d21 = dot(vp,e1);
-    float inv = 1.0 / max(d00*d11 - d01*d01, 1e-6);
-    float vv = (d11 * d20 - d01 * d21) * inv;
-    float ww = (d00 * d21 - d01 * d20) * inv;
-    float uu = 1.0 - vv - ww;
-    // Anti-aliased triangle fill using barycentric signed distance
-    float triDist = min(min(uu,vv),ww);
-    float aa = fwidth(uv.x) * 1.5;
-    float inside = smoothstep(-aa, aa, triDist);
-    // Edge distance for outline
-    float edge = min(min(vv, ww), uu);
-    // Shadow under arrow
-    vec2 shOfs = vec2(0.007, 0.007) * u_zArrowScale;
-    vec2 vps = uv - shOfs - vA;
-    float vvs = (d11 * dot(vps,e0) - d01 * dot(vps,e1)) * inv;
-    float wws = (d00 * dot(vps,e1) - d01 * dot(vps,e0)) * inv;
-    float uus = 1.0 - vvs - wws;
-    float shTriDist = min(min(uus,vvs),wws);
-    float shInside = smoothstep(-aa, aa, shTriDist);
-    draw = mix(draw, vec3(0.0), shInside * 0.35);
-    overlayAlpha = max(overlayAlpha, shInside * 0.35);
-    // Stroke + fill (limit stroke to triangle vicinity)
-    float stroke = inside * (1.0 - smoothstep(0.012, 0.016, edge));
-    float fill = inside;
+    // Anti-aliased triangle SDF (uv units, negative inside)
+    float sd = triDist(uv, vA, vB, vC);
+    float aa = px * 0.75;
+    float fill = 1.0 - smoothstep(-aa, aa, sd);
+    float stroke = 1.0 - smoothstep(ow - aa, ow + aa, sd);
     vec3 arrowCol = vec3(1.0);
-    // Apply stroke then fill
+    // Outline (behind) then fill
     draw = mix(draw, vec3(0.0), stroke);
     draw = mix(draw, arrowCol, fill);
     overlayAlpha = max(overlayAlpha, max(stroke, fill));
