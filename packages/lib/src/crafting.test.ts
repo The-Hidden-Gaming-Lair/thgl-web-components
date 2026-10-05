@@ -251,6 +251,41 @@ describe("crafting", () => {
     ]);
   });
 
+  it("uses the stock first: an intermediate in stock is not crafted", () => {
+    // 2 bows = 6 planks (12 wood) + 4 string (2 crafts, 6 fiber).
+    const plan = planCrafting(graph, [{ id: "bow", qty: 2 }], {}, { plank: 4 });
+    expect(plan.raw).toEqual([
+      { id: "fiber", section: "items", qty: 6 },
+      { id: "wood", section: "items", qty: 4 },
+    ]);
+    expect(plan.crafted.find((c) => c.id === "plank")).toMatchObject({
+      qty: 2,
+      crafts: 2,
+    });
+    expect(plan.fromStock).toEqual([{ id: "plank", section: "items", qty: 4 }]);
+  });
+
+  it("stock covers a whole item and raw materials, never more than needed", () => {
+    const plan = planCrafting(
+      graph,
+      [{ id: "bow", qty: 1 }],
+      {},
+      { plank: 10, fiber: 1 },
+    );
+    expect(plan.crafted.some((c) => c.id === "plank")).toBe(false);
+    expect(plan.raw).toEqual([{ id: "fiber", section: "items", qty: 2 }]);
+    expect(plan.fromStock).toEqual([
+      { id: "plank", section: "items", qty: 3 },
+      { id: "fiber", section: "items", qty: 1 },
+    ]);
+    // A stocked target is only crafted for the rest.
+    expect(
+      planCrafting(graph, [{ id: "bow", qty: 3 }], {}, { bow: 2 }).crafted.find(
+        (c) => c.id === "bow",
+      ),
+    ).toMatchObject({ qty: 1, crafts: 1 });
+  });
+
   it("normalizes the station shapes", () => {
     expect(readStations({ craftable: { station: "Forge" } })).toEqual([
       { label: "Forge" },

@@ -429,7 +429,12 @@ export type CraftPlan = {
   cycles: string[];
   /** "Any of" slots in the plan: the member used and the total amount. */
   slots: CraftPlanSlot[];
+  /** Taken from the player's stock instead of gathered / crafted. */
+  fromStock: CraftPlanLine[];
 };
+
+/** Item id → amount the player already has (used before crafting). */
+export type CraftStock = Record<string, number>;
 
 export type CraftPlanSlot = { group: string; id: string; qty: number };
 
@@ -437,12 +442,15 @@ export type CraftPlanSlot = { group: string; id: string; qty: number };
  * The whole shopping list for `targets`, aggregated across the tree so a
  * shared intermediate is crafted in whole batches once (not rounded up per
  * branch). A recipe that leads back to an item already being expanded (a
- * cycle) stops there: that input is counted as raw.
+ * cycle) stops there: that input is counted as raw. `stock` is used up
+ * first at every item (102 Stone Brick in stock → only the rest is crafted,
+ * and only their Stone gathered).
  */
 export function planCrafting(
   graph: CraftingGraph,
   targets: CraftTarget[],
   choice: RecipeChoice = {},
+  stock: CraftStock = {},
 ): CraftPlan {
   // 1. DFS over chosen recipes: post-order + back edges (cycles).
   const order: string[] = [];
@@ -492,9 +500,19 @@ export function planCrafting(
   const surplus = new Map<string, number>();
   const stationCrafts = new Map<string, { station: CraftStation; n: number }>();
   const slotUse = new Map<string, CraftPlanSlot>();
+  const used = new Map<string, number>();
+  /** What is still needed of `n` × `id` after using the stock. */
+  const afterStock = (id: string, n: number) => {
+    const have = stock[id];
+    if (!(have > 0)) return n;
+    const take = Math.min(n, have - (used.get(id) ?? 0));
+    if (take <= 0) return n;
+    add(used, id, take);
+    return n - take;
+  };
   for (let k = order.length - 1; k >= 0; k--) {
     const id = order[k];
-    const need = demand.get(id) ?? 0;
+    const need = afterStock(id, demand.get(id) ?? 0);
     if (need <= 0) continue;
     const section = graph.sectionOf[id] ?? "";
     const ri = chosenRecipe(graph, id, choice);
@@ -525,7 +543,7 @@ export function planCrafting(
         if (prev) prev.qty += n;
         else slotUse.set(g.any.group, { group: g.any.group, id: use, qty: n });
       }
-      if (backEdges.has(`${id}\u0000${use}`)) add(raw, use, n);
+      if (backEdges.has(`${id}\u0000${use}`)) add(raw, use, afterStock(use, n));
       else add(demand, use, n);
     }
     for (const s of recipe.stations) {
@@ -551,6 +569,7 @@ export function planCrafting(
     surplus: lines(surplus),
     cycles: [...cycles],
     slots: [...slotUse.values()],
+    fromStock: lines(used),
   };
 }
 
