@@ -43,3 +43,22 @@ test("theme setting switches and persists", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "black");
   expect(await bodyLightness(page)).toBeLessThan(10);
 });
+
+// www has no Settings dialog: the header Theme select sets the same cookie.
+const WWW_BASE_URL = "http://www-dev.localhost:3100";
+
+test("www header theme select switches and persists", async ({ page }) => {
+  await page.goto(WWW_BASE_URL);
+  await expect(page.locator("html")).not.toHaveAttribute(
+    "data-theme",
+    /light|black/,
+  );
+
+  await page.getByRole("combobox", { name: "Theme" }).click();
+  await page.getByRole("option", { name: "Light" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  expect(await bodyLightness(page)).toBeGreaterThan(200);
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+});
