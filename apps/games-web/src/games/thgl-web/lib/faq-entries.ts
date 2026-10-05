@@ -370,6 +370,8 @@ Overwolf apps can't sign in directly, so you unlock them with a one-time **secre
 3. Scroll down to the **Unlock Overwolf Apps** section, find your game's card, and click **Unlock App** (one click). If the app doesn't open, click **Copy Secret** instead.
 4. In the app, open the account window (profile/heart icon), **paste the secret**, and click **Unlock**.
 
+**"No active subscriptions" in Overwolf's Settings > Subscriptions?** That's normal. That page only lists purchases made through Overwolf itself, never a Patreon membership. Your supporter status shows in the app's own account window (profile/heart icon) once you've unlocked it with the secret.
+
 Still stuck? Patreon occasionally has brief connection issues — wait a few minutes and try again.
 
 **Related:** [Discord supporter role](/faq/discord-supporter-role).
