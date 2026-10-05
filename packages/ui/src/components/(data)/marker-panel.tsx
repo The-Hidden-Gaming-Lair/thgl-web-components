@@ -266,7 +266,8 @@ export function MarkerPanel({
   const desc = useMemo(() => {
     if (!spawn) return "";
     if (spawn.description) return spawn.description.replace("\n", "<br>");
-    if (termId) return t(termId, { isDesc: true, fallback: "" });
+    // Like the marker tooltip: a spawn id without its own description falls back to its type's.
+    if (termId) return t(termId, { isDesc: true, fallback: spawn.type });
     return "";
   }, [spawn, termId, t]);
 
