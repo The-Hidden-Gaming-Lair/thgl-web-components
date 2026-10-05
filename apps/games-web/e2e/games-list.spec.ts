@@ -74,6 +74,19 @@ const waitForList = async (page: Page) => {
   await expect
     .poll(() => companionIds(page).then((ids) => ids.length))
     .toBeGreaterThan(3);
+  // Under full-suite load the SSR'd buttons are visible before React has
+  // hydrated them, and an early click is silently lost. Hydrated nodes carry
+  // React's `__reactProps$…` key - wait for it on the star buttons.
+  await expect
+    .poll(() =>
+      page
+        .locator(`${ROW} button`)
+        .first()
+        .evaluate((el) =>
+          Object.keys(el).some((k) => k.startsWith("__reactProps")),
+        ),
+    )
+    .toBe(true);
 };
 
 test.describe("dashboard games list", () => {
