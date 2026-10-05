@@ -23,6 +23,12 @@ export function IconSizes({ filters }: { filters: FiltersConfig }) {
   const setPlayerIconSize = useSettingsStore(
     (state) => state.setPlayerIconSize,
   );
+  const heightArrowSize = useSettingsStore(
+    (state) => state.heightArrowSize ?? 1,
+  );
+  const setHeightArrowSize = useSettingsStore(
+    (state) => state.setHeightArrowSize,
+  );
   const iconSizeByFilter = useSettingsStore((state) => state.iconSizeByFilter);
   const setIconSizeByFilter = useSettingsStore(
     (state) => state.setIconSizeByFilter,
@@ -58,6 +64,19 @@ export function IconSizes({ filters }: { filters: FiltersConfig }) {
         step={0.1}
         min={MIN_ICON_SIZE}
         max={MAX_ICON_SIZE}
+      />
+
+      <Label htmlFor="heightArrowSize">Height Arrow Size (▲/▼)</Label>
+      <Slider
+        id="heightArrowSize"
+        className="col-span-2 h-8 p-0"
+        value={[heightArrowSize]}
+        onValueChange={(values) => {
+          setHeightArrowSize(values[0]);
+        }}
+        step={0.1}
+        min={0.5}
+        max={3}
       />
 
       <Collapsible className="col-span-3" open={open} onOpenChange={setOpen}>

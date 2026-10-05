@@ -356,6 +356,7 @@ uniform int u_hc_mode; // 0=off, 1=on
 uniform vec4 u_hc_color; // outline RGBA
 uniform float u_hc_thickness; // outline thickness in texels (1-6)
 uniform float u_dark; // Dark Map strength 0..1: softens white glyphs to off-white
+uniform float u_zArrowScale; // height arrow (▲/▼) size relative to the icon, 1 = default
 in vec2 v_uv;
 in vec2 v_localUv;  // 0..1 across entire quad
 in vec2 v_uvMin;    // UV min bounds for atlas sub-rect
@@ -528,7 +529,9 @@ void main(){
   float dir = (zTop > 0.5 ? 1.0 : (zBottom > 0.5 ? -1.0 : 0.0));
   if (abs(dir) > 0.5) {
     // Size and placement (kept subtle)
-    float base = 0.07 + 0.02*zMag;   // base half-width
+    // base half-width; the user's arrow size scales it independently of the
+    // icon size (capped so the arrow stays inside the quad)
+    float base = min((0.07 + 0.02*zMag) * u_zArrowScale, 0.3);
     float gap = 0.02;                // gap from edge
     vec2 vA, vB, vC;                 // triangle vertices
     if (dir > 0.0) {
@@ -559,7 +562,7 @@ void main(){
     // Edge distance for outline
     float edge = min(min(vv, ww), uu);
     // Shadow under arrow
-    vec2 shOfs = vec2(0.007, 0.007);
+    vec2 shOfs = vec2(0.007, 0.007) * u_zArrowScale;
     vec2 vps = uv - shOfs - vA;
     float vvs = (d11 * dot(vps,e0) - d01 * dot(vps,e1)) * inv;
     float wws = (d00 * dot(vps,e1) - d01 * dot(vps,e0)) * inv;
@@ -739,6 +742,8 @@ export class IconMarkerLayer implements Layer {
   private u_hc_mode_loc: WebGLUniformLocation | null = null;
   private u_hc_color_loc: WebGLUniformLocation | null = null;
   private u_hc_thickness_loc: WebGLUniformLocation | null = null;
+  private heightArrowScale: number = 1;
+  private u_zArrowScale_loc: WebGLUniformLocation | null = null;
 
   addSheet(
     name: string,
@@ -942,6 +947,11 @@ export class IconMarkerLayer implements Layer {
 
   setHighContrastThickness(thickness: number) {
     this.highContrastThickness = Math.max(1, Math.min(6, thickness));
+  }
+
+  /** Size of the height arrows (▲/▼) relative to the icon, independent of icon size. */
+  setHeightArrowScale(scale: number) {
+    this.heightArrowScale = Math.max(0.5, Math.min(3, scale));
   }
 
   private cbModeToInt(mode: ColorBlindMode): number {
@@ -1178,6 +1188,10 @@ export class IconMarkerLayer implements Layer {
     this.u_hc_thickness_loc = gl.getUniformLocation(
       this.program!,
       "u_hc_thickness",
+    );
+    this.u_zArrowScale_loc = gl.getUniformLocation(
+      this.program!,
+      "u_zArrowScale",
     );
   }
 
@@ -1469,6 +1483,7 @@ export class IconMarkerLayer implements Layer {
     gl.uniform1i(this.u_hc_mode_loc, this.highContrastMode ? 1 : 0);
     gl.uniform4fv(this.u_hc_color_loc, this.highContrastColor);
     gl.uniform1f(this.u_hc_thickness_loc, this.highContrastThickness);
+    gl.uniform1f(this.u_zArrowScale_loc, this.heightArrowScale);
 
     // Use the EXACT same view matrix as the webmap to prevent positioning drift
     // This ensures icons are perfectly anchored during rotation and perspective changes
