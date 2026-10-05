@@ -160,7 +160,11 @@ export function useNavGroups({
         // h1 / breadcrumb / title use. `typeLabels` is the SINGULAR entry
         // label (search badges, entry titles), only a last resort here.
         const label =
-          (section.titleKey ? t(section.titleKey) : undefined) ??
+          // A titleKey can be a game data term (not in the nav's UI dict):
+          // fall back to the English title instead of showing the raw key.
+          (section.titleKey
+            ? t(section.titleKey, { fallback: section.titleFallback })
+            : undefined) ??
           section.titleFallback ??
           db.typeLabels?.[section.type] ??
           section.type;

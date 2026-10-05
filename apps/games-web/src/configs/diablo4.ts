@@ -5,7 +5,22 @@ const preview = (mapId: string) =>
 
 export const diablo4 = resolveAppConfig({
   name: "diablo4",
-  supportedLocales: ["en"],
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "es-MX",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "tr",
+    "zh-CN",
+    "zh-TW",
+  ],
   appUrl: "https://www.th.gl/companion-app",
   withoutLiveMode: true,
   internalLinks: [
@@ -34,6 +49,13 @@ export const diablo4 = resolveAppConfig({
       iconName: "Gift",
       linkText: "Browse Unique Items",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   externalLinks: [],
   keywords: ["Dungeons", "World Events", "Strongholds", "Nightmare Dungeons"],
@@ -48,6 +70,16 @@ export const diablo4 = resolveAppConfig({
     "sideQuests",
   ],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>): the map's
+    // collectibles, one codex entry per marker (data-forge diablo4 index.ts).
+    checklists: [
+      { section: "altars_of_lilith", descriptions: true },
+      { section: "tenets_of_akarat", descriptions: true },
+      { section: "chronicles_of_creation", descriptions: true },
+      { section: "waypoints_list", descriptions: true },
+      { section: "strongholds_list", descriptions: true },
+      { section: "dungeons_list", descriptions: true },
+    ],
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search aspects, gems, runes…",
     sectionsInNav: true,
@@ -55,6 +87,7 @@ export const diablo4 = resolveAppConfig({
       {
         href: "/db/aspects",
         type: "aspects",
+        titleKey: "aspects",
         titleFallback: "Aspects",
         icon: "📖",
         description:
@@ -78,6 +111,7 @@ export const diablo4 = resolveAppConfig({
       {
         href: "/db/gems",
         type: "gems",
+        titleKey: "gems",
         titleFallback: "Gems",
         icon: "💠",
         description: "All gems by type and quality tier.",
@@ -85,6 +119,7 @@ export const diablo4 = resolveAppConfig({
       {
         href: "/db/runes",
         type: "runes",
+        titleKey: "runes",
         titleFallback: "Runes",
         icon: "🔮",
         description: "Condition and Invocation runes with power values.",
@@ -92,6 +127,7 @@ export const diablo4 = resolveAppConfig({
       {
         href: "/db/glyphs",
         type: "glyphs",
+        titleKey: "glyphs",
         titleFallback: "Paragon Glyphs",
         icon: "⭐",
         description: "Paragon Glyphs by attribute and bonus effect.",
@@ -110,6 +146,55 @@ export const diablo4 = resolveAppConfig({
         icon: "🔰",
         description: "Horadric Seals by quality tier.",
       },
+      // Collectibles — titles/labels are data-forge dict terms (game strings).
+      {
+        href: "/db/altars_of_lilith",
+        type: "altars_of_lilith",
+        titleKey: "altars_of_lilith",
+        titleFallback: "Altars of Lilith",
+        icon: "🗿",
+        description: "Every Altar of Lilith with its stat reward, by region.",
+      },
+      {
+        href: "/db/tenets_of_akarat",
+        type: "tenets_of_akarat",
+        titleKey: "tenets_of_akarat",
+        titleFallback: "Tenets of Akarat",
+        icon: "📿",
+        description: "Every Tenet of Akarat in Nahantu.",
+      },
+      {
+        href: "/db/chronicles_of_creation",
+        type: "chronicles_of_creation",
+        titleKey: "chronicles_of_creation",
+        titleFallback: "Chronicles of Creation",
+        icon: "📘",
+        description: "Every Chronicle of Creation in Skovos.",
+      },
+      {
+        href: "/db/waypoints_list",
+        type: "waypoints_list",
+        titleKey: "waypoints_list",
+        titleFallback: "Waypoints",
+        icon: "🌀",
+        description: "Every Waypoint, by region.",
+      },
+      {
+        href: "/db/strongholds_list",
+        type: "strongholds_list",
+        titleKey: "strongholds_list",
+        titleFallback: "Strongholds",
+        icon: "🏰",
+        description: "Every Stronghold, by region.",
+      },
+      {
+        href: "/db/dungeons_list",
+        type: "dungeons_list",
+        titleKey: "dungeons_list",
+        titleFallback: "Dungeons",
+        icon: "🕳️",
+        description: "Every Dungeon with its location, by region.",
+      },
     ],
     typeLabels: {
       aspects: "Aspect",
@@ -120,6 +205,12 @@ export const diablo4 = resolveAppConfig({
       glyphs: "Paragon Glyph",
       temper_manuals: "Temper Manual",
       seals: "Horadric Seal",
+      altars_of_lilith: "altars_of_lilith_one",
+      tenets_of_akarat: "tenets_of_akarat_one",
+      chronicles_of_creation: "chronicles_of_creation_one",
+      waypoints_list: "waypoints_list_one",
+      strongholds_list: "strongholds_list_one",
+      dungeons_list: "dungeons_list_one",
     },
   },
 });
