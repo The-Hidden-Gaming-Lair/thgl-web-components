@@ -8,7 +8,8 @@ import { DATA_FORGE_CDN_URL, fetchJsonWithMemoryCache } from "./config";
  */
 export type GuideBlock =
   | { type: "md"; md: string }
-  | { type: "map"; types: string[] }
+  /** `maps`: maps the types spawn on, most spawns first (absent in older builds) */
+  | { type: "map"; types: string[]; maps?: string[] }
   | { type: "recipe"; section: string; id: string }
   | { type: "item"; section: string; id: string };
 

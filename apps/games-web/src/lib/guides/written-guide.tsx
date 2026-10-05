@@ -238,7 +238,12 @@ export async function WrittenGuidePage({
             {block.md}
           </ArticleMarkdown>
         );
-      case "map":
+      case "map": {
+        // Multi-map games: open on the map with the most spawns of these types.
+        const blockMaps = (block.maps ?? []).filter((m) =>
+          tileNames.includes(m),
+        );
+        const maps = blockMaps.length ? blockMaps : [defaultMapName];
         return (
           <div key={i} className="my-6">
             <MapGuides
@@ -254,9 +259,10 @@ export async function WrittenGuidePage({
                   iconOf(type) as SimpleSpawn["icon"],
                 ]),
               )}
-              defaultMapName={defaultMapName}
-              maps={[defaultMapName]}
-              mapLabels={{ [defaultMapName]: t(defaultMapName) }}
+              localMapState
+              defaultMapName={maps[0]}
+              maps={maps}
+              mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
               tiles={version.data.tiles}
               additionalTooltip={
                 games.find((g) => g.id === appConfig.name)?.additionalTooltip ??
@@ -266,6 +272,7 @@ export async function WrittenGuidePage({
             />
           </div>
         );
+      }
       case "recipe":
         return (
           <RecipeCard

@@ -9,7 +9,7 @@ import {
 } from "@repo/lib";
 import MapProgress from "./map-progress";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -31,6 +31,7 @@ export default function MapGuides({
   tiles,
   additionalTooltip,
   typeGroupLabels,
+  localMapState = false,
 }: {
   appName: string;
   locale: string;
@@ -55,18 +56,25 @@ export default function MapGuides({
   tiles: TilesConfig;
   additionalTooltip?: AdditionalTooltipType;
   typeGroupLabels?: Record<string, string>;
+  /**
+   * Keep the selected map in component state instead of `?map=` — for pages
+   * that embed several maps (written guides), where one URL param would force
+   * every embed onto the same map.
+   */
+  localMapState?: boolean;
 }) {
   const t = useT();
   const searchParams = useSearchParams();
-  const mapParam = searchParams.get("map");
-  const currentMap = mapParam || maps[0];
+  const mapParam = localMapState ? null : searchParams.get("map");
+  const [localMap, setLocalMap] = useState(maps[0]);
+  const currentMap = localMapState ? localMap : mapParam || maps[0];
 
   // Defensive fallback for legacy callers that don't pass mapLabels
   // (single-tenant apps shipping the full dict still translate via t()).
   const labelFor = (m: string) => mapLabels?.[m] ?? t(m);
 
   useEffect(() => {
-    if (!mapParam) {
+    if (!localMapState && !mapParam) {
       history.replaceState(
         null,
         "",
@@ -153,11 +161,16 @@ export default function MapGuides({
                 variant={map === currentMap ? "default" : "secondary"}
                 role="tab"
                 aria-selected={map === currentMap}
-                asChild
+                asChild={!localMapState}
+                onClick={localMapState ? () => setLocalMap(map) : undefined}
               >
-                <Link href={`?${createQueryString("map", map)}`}>
-                  {labelFor(map)}
-                </Link>
+                {localMapState ? (
+                  labelFor(map)
+                ) : (
+                  <Link href={`?${createQueryString("map", map)}`}>
+                    {labelFor(map)}
+                  </Link>
+                )}
               </Button>
             ))}
           </div>
