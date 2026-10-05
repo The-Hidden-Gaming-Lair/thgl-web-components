@@ -61,6 +61,13 @@ export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
     since: "2026-10-04",
     inboxItem: 169,
   },
+  // Companion App: the game window sends no presence hints without access,
+  // so the app shows no Discord card (discord-presence-hints.tsx).
+  "discord-presence": {
+    title: "Discord Rich Presence",
+    since: "2026-10-05",
+    inboxItem: 444,
+  },
   // "live-mode:combined" was an Elite preview; it is public now.
 };
 

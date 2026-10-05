@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "먼저 \"항상 관리자 권한으로 실행\"을 끄세요",
   "settings.relaunchDesc": "다른 권한 수준으로 앱을 다시 시작합니다. 열려 있는 지도 창은 닫힙니다.",
   "settings.compatFlagRemoved": "이 세션은 Windows 호환성 옵션 \"관리자 권한으로 이 프로그램 실행\"으로 시작되었으며, 이 방식은 지원되지 않습니다. 해당 설정은 제거되었습니다. 앱을 다시 시작하면 정상적으로 실행됩니다.",
-  "settings.compatFlagPresent": "앱에 Windows 호환성 옵션 \"관리자 권한으로 이 프로그램 실행\"이 설정되어 있으며, 지원되지 않습니다. 속성 > 호환성에서 체크를 해제하고 앱을 다시 시작하세요."
+  "settings.compatFlagPresent": "앱에 Windows 호환성 옵션 \"관리자 권한으로 이 프로그램 실행\"이 설정되어 있으며, 지원되지 않습니다. 속성 > 호환성에서 체크를 해제하고 앱을 다시 시작하세요.",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "플레이 중인 게임을 Discord에 표시",
+  "settings.discord.enabledDesc": "Companion App으로 플레이 중인 게임과 \"Get The App\" 버튼을 Discord 프로필에 표시합니다. 지원되는 게임이 실행 중일 때만 표시됩니다.",
+  "settings.discord.location": "지도 표시",
+  "settings.discord.region": "지역 표시",
+  "settings.discord.regionPvp": "PvP 게임에서 지역 표시",
+  "settings.discord.regionPvpDesc": "PvP 지역에서 위치가 드러나지 않도록 기본값은 꺼짐입니다.",
+  "settings.discord.progress": "발견 진행도 표시",
+  "settings.discord.progressDesc": "각 게임의 지도 설정에서 셀 마커를 선택하세요.",
+  "settings.discord.elapsed": "경과 시간 표시",
+  "settings.discord.mapButton": "\"지도 열기\" 버튼 표시",
+  "settings.discord.locked": "Discord Rich Presence는 Elite Supporter용 미리보기이며, 나중에 모두에게 제공됩니다.",
+  "settings.discord.unlock": "잠금 해제"
 }

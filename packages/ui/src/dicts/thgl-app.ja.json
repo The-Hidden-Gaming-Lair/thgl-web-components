@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "先に「常に管理者として実行」をオフにしてください",
   "settings.relaunchDesc": "別の権限レベルでアプリを再起動します。開いているマップウィンドウは閉じられます。",
   "settings.compatFlagRemoved": "このセッションはWindowsの互換性オプション「管理者としてこのプログラムを実行する」で起動されましたが、この方法はサポートされていません。設定は削除されました。アプリを再起動すると通常どおり実行されます。",
-  "settings.compatFlagPresent": "アプリにWindowsの互換性オプション「管理者としてこのプログラムを実行する」が設定されていますが、サポートされていません。プロパティ > 互換性でチェックを外し、アプリを再起動してください。"
+  "settings.compatFlagPresent": "アプリにWindowsの互換性オプション「管理者としてこのプログラムを実行する」が設定されていますが、サポートされていません。プロパティ > 互換性でチェックを外し、アプリを再起動してください。",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "プレイ中のゲームをDiscordに表示",
+  "settings.discord.enabledDesc": "Companion Appでプレイ中のゲームと「Get The App」ボタンをDiscordプロフィールに表示します。対応ゲームの起動中のみ表示されます。",
+  "settings.discord.location": "マップを表示",
+  "settings.discord.region": "地域を表示",
+  "settings.discord.regionPvp": "PvPゲームで地域を表示",
+  "settings.discord.regionPvpDesc": "PvPエリアでの居場所が分からないよう、初期設定ではオフです。",
+  "settings.discord.progress": "発見の進捗を表示",
+  "settings.discord.progressDesc": "数えるマーカーは各ゲームのマップ設定で選べます。",
+  "settings.discord.elapsed": "経過時間を表示",
+  "settings.discord.mapButton": "「マップを開く」ボタンを表示",
+  "settings.discord.locked": "Discord Rich PresenceはElite Supporter向けのプレビューです。後日すべての方に公開されます。",
+  "settings.discord.unlock": "ロック解除"
 }

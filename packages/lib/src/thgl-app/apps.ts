@@ -490,6 +490,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           liveState.setExclusiveFullscreen(data.exclusiveFullscreen ?? false);
           liveState.setCloseAction(data.closeAction ?? "ask");
           liveState.setLocale(data.locale ?? "en");
+          liveState.setDiscordPresence(data.discordPresence ?? null);
           if (data.connectedClients) {
             liveState.setConnectedClients(data.connectedClients);
           }

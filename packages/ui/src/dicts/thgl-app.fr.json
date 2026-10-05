@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "Désactivez d'abord « Toujours exécuter en tant qu'administrateur »",
   "settings.relaunchDesc": "Redémarre l'application avec l'autre niveau de privilèges. Les fenêtres de carte ouvertes se ferment.",
   "settings.compatFlagRemoved": "Cette session a été lancée via l'option de compatibilité Windows « Exécuter en tant qu'administrateur », qui n'est pas prise en charge. Le paramètre a été supprimé. Redémarrez l'application pour l'exécuter normalement.",
-  "settings.compatFlagPresent": "L'option de compatibilité Windows « Exécuter en tant qu'administrateur » est activée pour l'application et n'est pas prise en charge. Décochez-la dans Propriétés > Compatibilité et redémarrez l'application."
+  "settings.compatFlagPresent": "L'option de compatibilité Windows « Exécuter en tant qu'administrateur » est activée pour l'application et n'est pas prise en charge. Décochez-la dans Propriétés > Compatibilité et redémarrez l'application.",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "Afficher sur Discord ce à quoi tu joues",
+  "settings.discord.enabledDesc": "Ton profil Discord affiche le jeu auquel tu joues avec la Companion App et un bouton \"Get The App\", uniquement pendant qu'un jeu pris en charge est lancé.",
+  "settings.discord.location": "Afficher la carte",
+  "settings.discord.region": "Afficher la région",
+  "settings.discord.regionPvp": "Afficher la région dans les jeux PvP",
+  "settings.discord.regionPvpDesc": "Désactivé par défaut, pour que personne ne sache où tu es dans une zone PvP.",
+  "settings.discord.progress": "Afficher la progression de découverte",
+  "settings.discord.progressDesc": "Choisis les marqueurs à compter dans les paramètres de carte de chaque jeu.",
+  "settings.discord.elapsed": "Afficher le temps écoulé",
+  "settings.discord.mapButton": "Afficher le bouton \"Ouvrir la carte\"",
+  "settings.discord.locked": "Discord Rich Presence est un aperçu pour les Elite Supporters, bientôt disponible pour tous.",
+  "settings.discord.unlock": "Débloquer"
 }

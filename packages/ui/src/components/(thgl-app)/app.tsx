@@ -57,6 +57,7 @@ import { ResizeBorders } from "./resize-borders";
 import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { UnlockButton } from "./unlock-button";
 import { MapHotkeys } from "./map-hotkeys";
+import { DiscordPresenceHintsSender } from "./discord-presence-hints";
 import { THGLAppSettingsDialogContent } from "./settings-dialog-content";
 import { THGLMapAds } from "../(ads)";
 import { AdditionalTooltipType } from "../(content)";
@@ -452,6 +453,10 @@ export function App({
               />
             )}
             <MapHotkeys tilesConfig={tiles} />
+            <DiscordPresenceHintsSender
+              appName={appConfig.name}
+              filters={filters}
+            />
             {isOverlay && <OverlayInputEvents />}
             {isOverlay && <ExclusiveFullscreenDialog />}
           </CoordinatesProvider>

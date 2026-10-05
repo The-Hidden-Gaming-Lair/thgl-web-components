@@ -144,5 +144,18 @@
   "settings.relaunchNormalBlocked": "Desactiva primero «Ejecutar siempre como administrador»",
   "settings.relaunchDesc": "Reinicia la aplicación con el otro nivel de privilegios. Las ventanas de mapa abiertas se cierran.",
   "settings.compatFlagRemoved": "Esta sesión se inició mediante la opción de compatibilidad de Windows «Ejecutar como administrador», que no es compatible. La opción se eliminó. Reinicia la aplicación para ejecutarla con normalidad.",
-  "settings.compatFlagPresent": "La opción de compatibilidad de Windows «Ejecutar como administrador» está activada para la aplicación y no es compatible. Desmárcala en Propiedades > Compatibilidad y reinicia la aplicación."
+  "settings.compatFlagPresent": "La opción de compatibilidad de Windows «Ejecutar como administrador» está activada para la aplicación y no es compatible. Desmárcala en Propiedades > Compatibilidad y reinicia la aplicación.",
+  "settings.discord.title": "Discord",
+  "settings.discord.enabled": "Mostrar en Discord a qué juegas",
+  "settings.discord.enabledDesc": "Tu perfil de Discord muestra el juego al que juegas con la Companion App y un botón \"Get The App\", solo mientras se ejecuta un juego compatible.",
+  "settings.discord.location": "Mostrar mapa",
+  "settings.discord.region": "Mostrar región",
+  "settings.discord.regionPvp": "Mostrar región en juegos PvP",
+  "settings.discord.regionPvpDesc": "Desactivado por defecto, para que nadie sepa dónde estás en una zona PvP.",
+  "settings.discord.progress": "Mostrar progreso de descubrimiento",
+  "settings.discord.progressDesc": "Elige qué marcadores contar en los ajustes del mapa de cada juego.",
+  "settings.discord.elapsed": "Mostrar tiempo transcurrido",
+  "settings.discord.mapButton": "Mostrar botón \"Abrir mapa\"",
+  "settings.discord.locked": "Discord Rich Presence es una vista previa para Elite Supporters y llegará a todos más adelante.",
+  "settings.discord.unlock": "Desbloquear"
 }

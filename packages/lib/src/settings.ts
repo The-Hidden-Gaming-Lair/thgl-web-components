@@ -293,6 +293,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   overlayFullscreen: false,
   compactOverlay: false,
   compactOverlayTransform: null,
+  discordProgressGroup: null,
   lockedWindow: false,
   colorBlindMode: "none",
   colorBlindSeverity: 1,
@@ -438,6 +439,13 @@ export type ProfileSettings = {
   compactOverlay: boolean;
   /** CSS transform (translate) of the Widgets Only panel; null = default spot. */
   compactOverlayTransform: string | null;
+  /**
+   * Companion App Discord Rich Presence: the filter group whose discovered
+   * count is shown ("12 / 200 Chests found"). null (or missing in older
+   * profiles) = auto, the group with the most discovered nodes; "none" = no
+   * progress line. See discord-presence-hints.tsx.
+   */
+  discordProgressGroup: string | null;
   lockedWindow: boolean;
   colorBlindMode: ColorBlindMode;
   colorBlindSeverity: number;
@@ -590,6 +598,7 @@ export interface ProfileActions {
   toggleOverlayFullscreen: () => void;
   toggleCompactOverlay: () => void;
   setCompactOverlayTransform: (transform: string | null) => void;
+  setDiscordProgressGroup: (group: string | null) => void;
   toggleLockedWindow: () => void;
   setColorBlindMode: (mode: ColorBlindMode) => void;
   setColorBlindSeverity: (severity: number) => void;
@@ -1297,6 +1306,10 @@ export const useSettingsStore = create(
 
           setCompactOverlayTransform: (transform) => {
             updateSettings({ compactOverlayTransform: transform });
+          },
+
+          setDiscordProgressGroup: (group) => {
+            updateSettings({ discordProgressGroup: group });
           },
 
           toggleLockedWindow: () => {
