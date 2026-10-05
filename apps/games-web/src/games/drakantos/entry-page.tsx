@@ -15,7 +15,7 @@ import { resolveDict } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import GenericEntryPage, {
   generateMetadata as genericEntryMetadata,
-} from "@/app/[locale]/db/[section]/[id]/page";
+} from "@/app/g/[game]/[surface]/[locale]/db/[section]/[id]/page";
 
 type Params = Promise<{ id: string; locale?: string }>;
 

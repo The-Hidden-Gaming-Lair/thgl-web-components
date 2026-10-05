@@ -1,5 +1,7 @@
 import { localizePath } from "@repo/lib";
 import { fetchDatabase } from "@repo/lib";
+import { onceHuman } from "@/configs/once-human";
+import { buildGenericSearchIndex } from "@/lib/db/generic-search-index";
 import { loadAllWikiItemsForOnceHuman } from "./data";
 
 const APP_NAME = "once-human";
@@ -49,5 +51,25 @@ export async function buildOnceHumanSearchIndex(locale: string) {
     };
   });
 
-  return { entries: [...wikiEntries, ...weaponEntries], iconsUrl: "" };
+  // Items, gear, facilities and recipes (the crafting codex sections): the
+  // generic per-entry index, limited to those sections. Their icons are
+  // standalone files with absolute urls, so the empty sprite url is fine.
+  const codexTypes = new Set(
+    (onceHuman.db?.homeSections ?? [])
+      .map((s) => s.type)
+      .filter(
+        (t) =>
+          t !== "weapon" &&
+          t !== "remnants" &&
+          t !== "regional_records" &&
+          t !== "echoes_of_stardust",
+      ),
+  );
+  const codex = await buildGenericSearchIndex(onceHuman, locale);
+  const codexEntries = codex.entries.filter((e) => codexTypes.has(e.type));
+
+  return {
+    entries: [...wikiEntries, ...weaponEntries, ...codexEntries],
+    iconsUrl: "",
+  };
 }

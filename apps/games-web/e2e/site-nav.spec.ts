@@ -57,10 +57,15 @@ test("game switcher searches and remembers recent games", async ({
     { name: "thgl_recent", value: "palworld", url: BASE_URL },
   ]);
   await page.goto(`${BASE_URL}/`);
-  await page.getByRole("button", { name: "Switch game" }).click();
-
   const popover = page.locator("[data-radix-popper-content-wrapper]");
-  await expect(popover.getByText("Recent", { exact: true })).toBeVisible();
+  // Under full-suite load the first click can land before the header has
+  // hydrated and is lost - retry the click until the popover opens.
+  await expect(async () => {
+    await page.getByRole("button", { name: "Switch game" }).click();
+    await expect(popover.getByText("Recent", { exact: true })).toBeVisible({
+      timeout: 3000,
+    });
+  }).toPass({ timeout: 30000 });
   await expect(popover.getByTitle("Palworld").first()).toBeVisible();
 
   const search = popover.getByRole("searchbox");

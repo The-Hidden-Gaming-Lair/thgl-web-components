@@ -9,7 +9,7 @@ import { EntityGrid } from "@/lib/db/entity-grid";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
 import GenericSectionPage, {
   generateMetadata as genericSectionMetadata,
-} from "@/app/[locale]/db/[section]/page";
+} from "@/app/g/[game]/[surface]/[locale]/db/[section]/page";
 
 type PageProps = { params: Promise<{ locale?: string }> };
 

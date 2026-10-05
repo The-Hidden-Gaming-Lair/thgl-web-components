@@ -24,6 +24,16 @@ import { games } from "@repo/lib";
 import { applyInvitePerks, getInvitesBestEffort } from "@/lib/invites";
 
 /**
+ * Readable text for a failed Patreon call — the unlock dialog toasts `error`
+ * for every status other than 403/404, so a bare status shows nothing.
+ */
+function patreonFailureText(status: number) {
+  return status >= 500
+    ? "Patreon is not responding right now, please try again later"
+    : "Patreon sign-in expired, please sign in again on www.th.gl";
+}
+
+/**
  * Cookie-free secret verification: takes a userId secret (legacy or
  * enriched), refreshes the Patreon token, and returns perks + a re-minted
  * enriched secret.
@@ -147,10 +157,16 @@ export async function verifySecretPOST(request: NextRequest) {
           (await refreshTokenResponse.json()) as PatreonToken;
       }
       if (!refreshTokenResponse.ok) {
-        return Response.json(refreshTokenResult, {
-          status: refreshTokenResponse.status,
-          headers: CORS_HEADERS,
-        });
+        return Response.json(
+          {
+            ...refreshTokenResult,
+            error: patreonFailureText(refreshTokenResponse.status),
+          },
+          {
+            status: refreshTokenResponse.status,
+            headers: CORS_HEADERS,
+          },
+        );
       }
       await setTokenBestEffort("[patreon/verify]", userId, refreshTokenResult);
       patreonTokenRefreshed = refreshTokenResult;
@@ -160,7 +176,7 @@ export async function verifySecretPOST(request: NextRequest) {
     const currentUserResult = (await currentUserResponse.json()) as PatreonUser;
     if (!currentUserResponse.ok) {
       return Response.json(
-        { userId },
+        { userId, error: patreonFailureText(currentUserResponse.status) },
         {
           status: currentUserResponse.status,
           headers: CORS_HEADERS,

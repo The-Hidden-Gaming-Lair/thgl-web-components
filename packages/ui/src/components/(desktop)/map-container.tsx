@@ -8,7 +8,14 @@ import {
 } from "../ui/select";
 import { Slider } from "../ui/slider";
 import { Switch } from "../ui/switch";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type RefObject,
+} from "react";
 import Moveable from "react-moveable";
 import {
   cn,
@@ -54,6 +61,7 @@ export function cycleMapTransparency() {
  */
 function MinimapToolbar({
   className,
+  style,
   moveRef,
   fullscreen,
   onToggleFullscreen,
@@ -62,6 +70,7 @@ function MinimapToolbar({
   compactOverlay,
 }: {
   className?: string;
+  style?: CSSProperties;
   /** Drag handle for react-moveable; omitted in fullscreen (nothing to move). */
   moveRef?: RefObject<HTMLButtonElement | null>;
   fullscreen: boolean;
@@ -77,6 +86,7 @@ function MinimapToolbar({
         "absolute z-10 left-1/2 -translate-x-1/2 flex overflow-hidden rounded-lg bg-card shadow-md",
         className,
       )}
+      style={style}
     >
       {moveRef && (
         <Button
@@ -148,9 +158,11 @@ function MinimapToolbar({
 /** Card under the toolbar with the minimap's own settings (edit mode). */
 function MinimapSettingsCard({
   className,
+  style,
   fullscreen,
 }: {
   className?: string;
+  style?: CSSProperties;
   fullscreen: boolean;
 }) {
   const t = useT();
@@ -182,6 +194,7 @@ function MinimapSettingsCard({
         "flex flex-col gap-3 text-xs",
         className,
       )}
+      style={style}
       // The container is the react-moveable target: keep wheel/pointer
       // interactions on the card from reaching the map underneath.
       onPointerDown={(e) => e.stopPropagation()}
@@ -278,6 +291,11 @@ function MinimapSettingsCard({
   );
 }
 
+/** Toolbar offset inside the minimap (was `top-2`). */
+const TOOLBAR_MIN_TOP = 8;
+/** Window y the toolbar must not go above: the 32px app header + a gap. */
+const TOOLBAR_HEADER_CLEARANCE = 36;
+
 export type CompactOverlayToggle = {
   locked: boolean;
   preview: boolean;
@@ -310,6 +328,15 @@ export function MapContainer({
     toggleOverlayFullscreen,
   } = useSettingsStore();
   const [isEditMode, setIsEditMode] = useState(false);
+  // The minimap may sit flush with the top of the screen (#362), but while
+  // unlocked the 32px app header (z-999999) covers that strip — push the
+  // toolbar + settings card down so the drag handle stays reachable.
+  const [toolbarTop, setToolbarTop] = useState(TOOLBAR_MIN_TOP);
+  const updateToolbarTop = (el: HTMLElement | null) => {
+    if (!el) return;
+    const top = el.getBoundingClientRect().top;
+    setToolbarTop(Math.max(TOOLBAR_MIN_TOP, TOOLBAR_HEADER_CLEARANCE - top));
+  };
   const moveableRef = useRef<Moveable>(null);
   const fullscreenHotkey = useSettingsStore(
     (state) => state.hotkeys.toggle_overlay_fullscreen,
@@ -374,6 +401,10 @@ export function MapContainer({
       height: "300px",
     });
   }, [mapTransform, _hasHydrated]);
+
+  useLayoutEffect(() => {
+    updateToolbarTop(mapContainerRef.current);
+  }, [mapTransform, lockedWindow, overlayFullscreen, _hasHydrated]);
 
   // Invalidate map size when toggling fullscreen to force a resize
   useEffect(() => {
@@ -482,7 +513,7 @@ export function MapContainer({
         {!lockedWindow && (
           <>
             <MinimapToolbar
-              className="top-2"
+              style={{ top: toolbarTop }}
               moveRef={targetRef}
               fullscreen={false}
               onToggleFullscreen={toggleOverlayFullscreen}
@@ -491,7 +522,10 @@ export function MapContainer({
               compactOverlay={compactOverlay}
             />
             {isEditMode && (
-              <MinimapSettingsCard className="top-13" fullscreen={false} />
+              <MinimapSettingsCard
+                style={{ top: toolbarTop + 44 }}
+                fullscreen={false}
+              />
             )}
           </>
         )}
@@ -516,7 +550,7 @@ export function MapContainer({
           throttleDrag={1}
           resizable={isEditMode}
           hideDefaultLines
-          bounds={{ left: 0, top: 24, right: 0, bottom: 0, position: "css" }}
+          bounds={{ left: 0, top: 0, right: 0, bottom: 0, position: "css" }}
           snappable
           origin={false}
           roundPadding={15}
@@ -534,6 +568,7 @@ export function MapContainer({
           }}
           onRender={(e) => {
             e.target.style.cssText += e.cssText;
+            updateToolbarTop(e.target as HTMLElement);
           }}
           onRenderEnd={(e) => {
             setMapTransform({

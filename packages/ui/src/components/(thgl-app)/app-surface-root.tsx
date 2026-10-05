@@ -6,8 +6,14 @@ import {
   StatusBanner,
 } from "../(header)";
 import { I18NProvider, TooltipProvider } from "../(providers)";
-import { AudioAlertUnlocker, NewVersionWatcher, Toaster } from "../(controls)";
+import {
+  AudioAlertUnlocker,
+  NewVersionWatcher,
+  ThemeScript,
+  Toaster,
+} from "../(controls)";
 import { AppContentShell } from "./app-content-shell";
+import { NavigationProgress } from "../(apps)/navigation-progress";
 
 /**
  * Root <html> for a game page rendered inside the companion app
@@ -38,6 +44,7 @@ export function AppSurfaceRoot({
   return (
     <html
       lang={locale}
+      suppressHydrationWarning
       data-thgl-surface="app"
       style={{ "--header-h": "32px" } as CSSProperties}
     >
@@ -47,6 +54,8 @@ export function AppSurfaceRoot({
           "inter-font-sans",
         )}
       >
+        <ThemeScript />
+        <NavigationProgress />
         <I18NProvider dict={dict} locale={locale}>
           <TooltipProvider>
             <AppContentShell

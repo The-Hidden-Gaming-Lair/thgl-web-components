@@ -1,17 +1,36 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  addCraftList,
   buildCraftingGraph,
   craftableIds,
+  craftListsStorageKey,
+  craftListTargets,
+  craftQueryParam,
+  emptyCraftListsState,
+  MAX_CRAFT_LISTS,
+  mergeCraftTargets,
+  newCraftListId,
+  nextCraftListName,
+  parseCraftListsState,
+  removeCraftList,
+  renameCraftList,
+  saveCraftListQuery,
+  serializeCraftListsState,
+  type CraftListsState,
   formatCraftItems,
   formatRecipeChoice,
+  ingredientId,
   parseCraftItems,
+  parsePrice,
   parseRecipeChoice,
   planCrafting,
   RAW_CHOICE,
+  slotKey,
   type CraftDbCategory,
   type CraftingGraph,
+  type CraftStock,
   type CraftTarget,
   type RecipeChoice,
 } from "@repo/lib";
@@ -21,6 +40,8 @@ import {
   CraftTree,
   ItemLabel,
   MapLink,
+  SellerChips,
+  SlotHint,
   StationChips,
   craftT,
   formatQty,
@@ -37,11 +58,56 @@ type Tab = "list" | "steps" | "tree";
 
 const MAX_RESULTS = 40;
 
+/** The saved lists of one game, kept in localStorage (synced across tabs). */
+function useCraftLists(game: string) {
+  const key = craftListsStorageKey(game);
+  const [lists, setLists] = useState<CraftListsState | null>(null);
+
+  useEffect(() => {
+    try {
+      setLists(parseCraftListsState(localStorage.getItem(key)));
+    } catch {
+      setLists(emptyCraftListsState());
+    }
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== key) return;
+      setLists((prev) => {
+        const next = parseCraftListsState(e.newValue);
+        // Another tab must not switch this tab's open list.
+        const keep = next.lists.some((l) => l.id === prev?.active);
+        return { ...next, active: keep ? prev!.active : null };
+      });
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [key]);
+
+  const updateLists = useCallback(
+    (fn: (s: CraftListsState) => CraftListsState) =>
+      setLists((prev) => {
+        if (!prev) return prev;
+        const next = fn(prev);
+        if (next === prev) return prev;
+        try {
+          localStorage.setItem(key, serializeCraftListsState(next));
+        } catch {
+          // Storage full or blocked: the lists still work for this visit.
+        }
+        return next;
+      }),
+    [key],
+  );
+
+  return { lists, updateLists };
+}
+
 /**
  * The /crafting calculator: pick items × quantity → raw shopping list, build
  * steps with stations, and an expandable tree. Everything runs on the client
  * over `/api/db/crafting` with the lib's pure crafting logic; the state lives
  * in the URL (?items=id:qty,…&r=item:recipe,…) so a plan can be shared.
+ * Named lists are saved per game in localStorage (`thgl-crafting-lists:<game>`,
+ * same query format); the open list saves every change.
  */
 export function CraftingCalculator({
   labels,
@@ -57,10 +123,21 @@ export function CraftingCalculator({
   const [error, setError] = useState(false);
   const [targets, setTargets] = useState<CraftTarget[]>([]);
   const [choice, setChoice] = useState<RecipeChoice>({});
+  /** Items the player buys instead of gathering / crafting. */
+  const [buy, setBuy] = useState<string[]>([]);
+  /** Items the player already has (used before crafting). */
+  const [have, setHave] = useState<CraftStock>({});
   const [query, setQuery] = useState("");
   const [tab, setTab] = useState<Tab>("list");
   const [copied, setCopied] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const { lists, updateLists } = useCraftLists(appName);
+  const activeList = lists?.lists.find((l) => l.id === lists.active) ?? null;
+  /** Name field: the open list's name (rename), else the name to save as. */
+  const [nameDraft, setNameDraft] = useState("");
+  useEffect(() => {
+    setNameDraft(activeList?.name ?? "");
+  }, [activeList?.id, activeList?.name]);
 
   useEffect(() => {
     let alive = true;
@@ -80,42 +157,95 @@ export function CraftingCalculator({
   const infos = payload?.items ?? {};
   const name = (id: string) => infos[id]?.name ?? id;
 
-  // URL → state once the graph is known (ids are validated against it).
-  useEffect(() => {
-    if (!graph || hydrated) return;
+  /** A plan query (`items=…&r=…&buy=…&have=…`) → state; ids are validated. */
+  const readPlan = (query: string, g: CraftingGraph) => {
     // Raw (still-encoded) values: the parsers decode each id themselves.
-    const raw = (key: string) =>
-      window.location.search
-        .slice(1)
-        .split("&")
-        .find((p) => p.startsWith(`${key}=`))
-        ?.slice(key.length + 1) ?? null;
-    setTargets(
-      parseCraftItems(raw("items")).filter((x) => graph.byProduct[x.id]),
-    );
-    setChoice(parseRecipeChoice(raw("r"), graph));
-    const tabParam = raw("tab");
-    if (tabParam === "steps" || tabParam === "tree") setTab(tabParam);
-    setHydrated(true);
-  }, [graph, hydrated]);
+    const raw = (key: string) => craftQueryParam(query, key);
+    return {
+      targets: parseCraftItems(raw("items")).filter((x) => g.byProduct[x.id]),
+      choice: parseRecipeChoice(raw("r"), g),
+      buy: (raw("buy") ?? "")
+        .split(",")
+        .map((p) => {
+          try {
+            return decodeURIComponent(p);
+          } catch {
+            return "";
+          }
+        })
+        .filter((id) => id && g.sectionOf[id] !== undefined),
+      have: Object.fromEntries(
+        parseCraftItems(raw("have"))
+          .filter((x) => g.sectionOf[x.id] !== undefined)
+          .map((x) => [x.id, x.qty]),
+      ) as CraftStock,
+    };
+  };
+  const applyPlan = (query: string, g: CraftingGraph) => {
+    const p = readPlan(query, g);
+    setTargets(p.targets);
+    setChoice(p.choice);
+    setBuy(p.buy);
+    setHave(p.have);
+  };
 
-  const shareUrl = () => {
+  /** The plan part of the share link: everything but the tab. */
+  const planQuery = () => {
     // Built by hand: the formatters already encode each id, and `:` / `,`
     // stay readable in the shared link.
     const parts: string[] = [];
     if (targets.length) parts.push(`items=${formatCraftItems(targets)}`);
     const r = graph ? formatRecipeChoice(choice, graph) : "";
     if (r) parts.push(`r=${r}`);
-    if (tab !== "list") parts.push(`tab=${tab}`);
+    if (buy.length) parts.push(`buy=${buy.map(encodeURIComponent).join(",")}`);
+    const stock = Object.entries(have).map(([id, qty]) => ({ id, qty }));
+    if (stock.length) parts.push(`have=${formatCraftItems(stock)}`);
+    return parts.join("&");
+  };
+
+  // URL (or the list that was open last) → state once the graph is known.
+  useEffect(() => {
+    if (!graph || hydrated || !lists) return;
+    const search = window.location.search;
+    const fromUrl = ["items", "r", "buy", "have"].some(
+      (k) => craftQueryParam(search, k) !== null,
+    );
+    const active = lists.lists.find((l) => l.id === lists.active);
+    if (!fromUrl && active) {
+      applyPlan(active.query, graph);
+    } else {
+      applyPlan(search, graph);
+      // A shared link that is not the open list starts an unsaved plan.
+      if (
+        active &&
+        search.replace(/^\?/, "").split("&tab=")[0] !== active.query
+      )
+        updateLists((s) => ({ ...s, active: null }));
+    }
+    const tabParam = craftQueryParam(search, "tab");
+    if (tabParam === "steps" || tabParam === "tree") setTab(tabParam);
+    setHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graph, hydrated, lists]);
+
+  const shareUrl = () => {
+    const query = [planQuery(), tab !== "list" ? `tab=${tab}` : ""]
+      .filter(Boolean)
+      .join("&");
     const { origin, pathname } = window.location;
-    return `${origin}${pathname}${parts.length ? `?${parts.join("&")}` : ""}`;
+    return `${origin}${pathname}${query ? `?${query}` : ""}`;
   };
 
   useEffect(() => {
     if (!hydrated) return;
     window.history.replaceState(null, "", shareUrl());
+    // The open list follows every change.
+    const query = planQuery();
+    updateLists((s) =>
+      s.active ? saveCraftListQuery(s, s.active, query, Date.now()) : s,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hydrated, targets, choice, tab]);
+  }, [hydrated, targets, choice, buy, have, tab]);
 
   const options = useMemo(() => {
     if (!graph) return [];
@@ -133,11 +263,44 @@ export function CraftingCalculator({
       .slice(0, MAX_RESULTS);
   }, [options, query]);
 
+  /** A bought item is not crafted: it becomes a shopping-list line. */
+  const planChoice = useMemo<RecipeChoice>(() => {
+    const next = { ...choice };
+    for (const id of buy) if (graph?.byProduct[id]) next[id] = RAW_CHOICE;
+    return next;
+  }, [graph, choice, buy]);
+
   const plan = useMemo(
     () =>
-      graph && targets.length ? planCrafting(graph, targets, choice) : null,
-    [graph, targets, choice],
+      graph && targets.length
+        ? planCrafting(graph, targets, planChoice, have)
+        : null,
+    [graph, targets, planChoice, have],
   );
+
+  /** Price of one unit from the first seller with a readable price. */
+  const unitPrice = (id: string) => {
+    for (const s of payload?.items[id]?.sellers ?? []) {
+      const p = parsePrice(s.price);
+      if (p) return p;
+    }
+    return null;
+  };
+  /** Currency → total for the materials ticked "buy". */
+  const buyTotals = useMemo(() => {
+    const totals = new Map<string, number>();
+    for (const l of plan?.raw ?? []) {
+      if (!buy.includes(l.id)) continue;
+      const p = unitPrice(l.id);
+      if (p)
+        totals.set(
+          p.currency,
+          (totals.get(p.currency) ?? 0) + p.amount * l.qty,
+        );
+    }
+    return [...totals];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan, buy, payload]);
 
   if (error) {
     return <p className="text-sm text-red-400">{t("loadError")}</p>;
@@ -179,6 +342,100 @@ export function CraftingCalculator({
     locale,
   };
 
+  const saveAsList = () => {
+    const id = newCraftListId(lists?.lists ?? []);
+    updateLists(
+      (s) =>
+        addCraftList(
+          s,
+          nameDraft.trim() ||
+            nextCraftListName(s.lists, (n) => t("lists.defaultName", { n })),
+          planQuery(),
+          Date.now(),
+          id,
+        ) ?? s,
+    );
+  };
+  const commitRename = () => {
+    if (!activeList) return;
+    if (!nameDraft.trim()) setNameDraft(activeList.name);
+    else updateLists((s) => renameCraftList(s, activeList.id, nameDraft));
+  };
+  const openList = (id: string) => {
+    const list = lists?.lists.find((l) => l.id === id);
+    if (!list) return;
+    applyPlan(list.query, graph);
+    updateLists((s) => ({ ...s, active: id }));
+  };
+  const newList = () => {
+    setTargets([]);
+    setChoice({});
+    setBuy([]);
+    setHave({});
+    updateLists((s) => ({ ...s, active: null }));
+  };
+  /** Add another list's items (and its recipe / buy picks) to this plan. */
+  const addListToPlan = (id: string) => {
+    const list = lists?.lists.find((l) => l.id === id);
+    if (!list) return;
+    const other = readPlan(list.query, graph);
+    setTargets((prev) => mergeCraftTargets(prev, other.targets));
+    setChoice((prev) => ({ ...other.choice, ...prev }));
+    setBuy((prev) => [...new Set([...prev, ...other.buy])]);
+    setHave((prev) => ({ ...other.have, ...prev }));
+  };
+  const deleteList = (id: string, listName: string) => {
+    if (!window.confirm(t("lists.deleteConfirm", { name: listName }))) return;
+    updateLists((s) => removeCraftList(s, id));
+  };
+  const listsFull = (lists?.lists.length ?? 0) >= MAX_CRAFT_LISTS;
+
+  const toggleBuy = (id: string, on: boolean) =>
+    setBuy((prev) => (on ? [...prev, id] : prev.filter((x) => x !== id)));
+  /** "Buy instead" tick with the cost of `qty`, for items a shop sells. */
+  const buyToggle = (id: string, qty: number) => {
+    const price = unitPrice(id);
+    if (!price) return null;
+    const on = buy.includes(id);
+    return (
+      <label className="inline-flex items-center gap-1 text-xs">
+        <input
+          type="checkbox"
+          checked={on}
+          onChange={(e) => toggleBuy(id, e.target.checked)}
+        />
+        {on
+          ? t("buyCost", {
+              cost: `${formatQty(price.amount * qty, locale)} ${price.currency}`,
+            })
+          : t("buy")}
+      </label>
+    );
+  };
+  /** "In stock" amount: used before gathering / crafting this item. */
+  const stockInput = (id: string) => (
+    <label className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+      {t("inStock")}
+      <input
+        type="number"
+        min={0}
+        inputMode="numeric"
+        className="h-7 w-16 rounded border bg-background px-1 text-xs tabular-nums text-foreground"
+        value={have[id] ?? ""}
+        placeholder="0"
+        onChange={(e) => {
+          const n = Math.min(1_000_000, Math.floor(Number(e.target.value)));
+          setHave((prev) => {
+            const next = { ...prev };
+            if (n > 0) next[id] = n;
+            else delete next[id];
+            return next;
+          });
+        }}
+      />
+    </label>
+  );
+
   const recipePicker = (id: string, allowGather: boolean) => {
     const list = graph.byProduct[id] ?? [];
     const def = graph.defaults[id];
@@ -214,13 +471,104 @@ export function CraftingCalculator({
     const r = graph!.recipes[i];
     const station = r.stations.map((s) => stationLabel(s, infos)).join(", ");
     const ings = r.ingredients
-      .map((g) => `${g.count}× ${name(g.id)}`)
+      .map((g) => `${g.count}× ${g.any ? g.any.group : name(g.id)}`)
       .join(", ");
     return station ? `${station}: ${ings}` : ings;
   }
 
   return (
     <div className="space-y-6">
+      {/* Saved lists */}
+      <section className="space-y-2 rounded-md border p-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="text-sm font-semibold">{t("lists.title")}</h2>
+          <input
+            type="text"
+            maxLength={60}
+            aria-label={t("lists.name")}
+            placeholder={t("lists.name")}
+            className="h-8 min-w-0 flex-1 rounded border bg-background px-2 text-sm sm:max-w-64"
+            value={nameDraft}
+            onChange={(e) => setNameDraft(e.target.value)}
+            onBlur={commitRename}
+            onKeyDown={(e) => {
+              if (e.key !== "Enter") return;
+              if (activeList) commitRename();
+              else if (targets.length && !listsFull) saveAsList();
+            }}
+          />
+          {activeList ? (
+            <span className="text-xs text-muted-foreground">
+              {t("lists.saved")}
+            </span>
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={!targets.length || listsFull}
+              title={listsFull ? t("lists.full", { max: MAX_CRAFT_LISTS }) : ""}
+              onClick={saveAsList}
+            >
+              {t("lists.save")}
+            </Button>
+          )}
+          {(activeList || targets.length > 0) && (
+            <Button size="sm" variant="ghost" onClick={newList}>
+              {t("lists.new")}
+            </Button>
+          )}
+        </div>
+        {lists && lists.lists.length > 0 ? (
+          <ul className="flex flex-wrap gap-2">
+            {lists.lists.map((l) => {
+              const isActive = l.id === lists.active;
+              const count = craftListTargets(l).length;
+              return (
+                <li
+                  key={l.id}
+                  className={`flex items-center rounded-md border text-sm ${isActive ? "border-amber-300 bg-amber-300/10" : ""}`}
+                >
+                  <button
+                    type="button"
+                    aria-pressed={isActive}
+                    title={t("lists.open", { name: l.name })}
+                    className="max-w-56 truncate px-2 py-1 hover:text-amber-300"
+                    onClick={() => openList(l.id)}
+                  >
+                    {l.name}{" "}
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                      ({count})
+                    </span>
+                  </button>
+                  {!isActive && count > 0 && (
+                    <button
+                      type="button"
+                      title={t("lists.addTitle", { name: l.name })}
+                      aria-label={t("lists.addTitle", { name: l.name })}
+                      className="h-7 rounded px-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                      onClick={() => addListToPlan(l.id)}
+                    >
+                      {t("lists.add")}
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    title={t("lists.delete", { name: l.name })}
+                    aria-label={t("lists.delete", { name: l.name })}
+                    className="h-7 w-7 rounded text-muted-foreground hover:bg-accent hover:text-foreground"
+                    onClick={() => deleteList(l.id, l.name)}
+                  >
+                    ×
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="text-xs text-muted-foreground">{t("lists.hint")}</p>
+        )}
+      </section>
+
       {/* Picker */}
       <section className="space-y-2">
         <label className="block text-sm font-medium" htmlFor="craft-search">
@@ -365,11 +713,101 @@ export function CraftingCalculator({
                         locale={locale}
                         label={t("showOnMap")}
                       />
-                      {graph.byProduct[l.id] && recipePicker(l.id, true)}
+                      {graph.byProduct[l.id] &&
+                        !buy.includes(l.id) &&
+                        recipePicker(l.id, true)}
+                      {stockInput(l.id)}
+                      {infos[l.id]?.sellers && (
+                        <span className="flex w-full flex-wrap items-center gap-2 pl-[4.75rem]">
+                          <SellerChips
+                            info={infos[l.id]}
+                            locale={locale}
+                            label={t("soldBy")}
+                          />
+                          {buyToggle(l.id, l.qty)}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
+                {buyTotals.length > 0 && (
+                  <p className="mt-2 text-sm">
+                    <span className="text-muted-foreground">
+                      {t("buyTotal")}
+                    </span>{" "}
+                    <span className="font-medium text-amber-200">
+                      {buyTotals
+                        .map(([cur, n]) => `${formatQty(n, locale)} ${cur}`)
+                        .join(" · ")}
+                    </span>
+                  </p>
+                )}
               </div>
+              {plan.fromStock.length > 0 && (
+                <div>
+                  <h3 className="mb-1 text-sm font-semibold">
+                    {t("fromStock")}
+                  </h3>
+                  <ul className="divide-y rounded-md border">
+                    {plan.fromStock.map((l) => (
+                      <li
+                        key={l.id}
+                        className="flex flex-wrap items-center gap-x-3 gap-y-1 px-2 py-1.5 text-sm"
+                      >
+                        <span className="w-16 shrink-0 text-right font-mono tabular-nums text-muted-foreground">
+                          {formatQty(l.qty, locale)}×
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <ItemLabel id={l.id} info={infos[l.id]} {...common} />
+                        </span>
+                        {stockInput(l.id)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {plan.slots.length > 0 && (
+                <div>
+                  <h3 className="mb-1 text-sm font-semibold">
+                    {t("anyOfTitle")}
+                  </h3>
+                  <p className="mb-1 text-xs text-muted-foreground">
+                    {t("anyOfHint")}
+                  </p>
+                  <ul className="divide-y rounded-md border">
+                    {plan.slots.map((s) => (
+                      <li
+                        key={s.group}
+                        className="flex flex-wrap items-center gap-x-3 gap-y-1 px-2 py-1.5 text-sm"
+                      >
+                        <span className="w-16 shrink-0 text-right font-mono tabular-nums text-amber-200">
+                          {formatQty(s.qty, locale)}×
+                        </span>
+                        <SlotHint group={s.group} />
+                        <select
+                          aria-label={s.group}
+                          className="h-7 max-w-full rounded border bg-background px-1 text-xs"
+                          value={s.id}
+                          onChange={(e) =>
+                            pick(
+                              slotKey(s.group),
+                              e.target.value === graph.slots[s.group]?.[0]
+                                ? ""
+                                : e.target.value,
+                            )
+                          }
+                        >
+                          {(graph.slots[s.group] ?? []).map((m) => (
+                            <option key={m} value={m}>
+                              {name(m)}
+                            </option>
+                          ))}
+                        </select>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {plan.stations.length > 0 && (
                 <div>
                   <h3 className="mb-1 text-sm font-semibold">
@@ -446,11 +884,14 @@ export function CraftingCalculator({
                         {r.ingredients
                           .map(
                             (g) =>
-                              `${formatQty(g.count * c.crafts, locale)}× ${name(g.id)}`,
+                              `${formatQty(g.count * c.crafts, locale)}× ${name(ingredientId(g, planChoice))}`,
                           )
                           .join(" · ")}
                       </span>
                       {recipePicker(c.id, !targets.some((x) => x.id === c.id))}
+                      {stockInput(c.id)}
+                      {!targets.some((x) => x.id === c.id) &&
+                        buyToggle(c.id, c.qty)}
                     </div>
                   </li>
                 );
@@ -466,7 +907,7 @@ export function CraftingCalculator({
                   id={x.id}
                   qty={x.qty}
                   graph={graph}
-                  choice={choice}
+                  choice={planChoice}
                   infos={infos}
                   labels={labels}
                   {...common}

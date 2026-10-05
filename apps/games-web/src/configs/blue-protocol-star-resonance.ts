@@ -111,10 +111,10 @@ export const blueProtocolStarResonance = resolveAppConfig({
     },
     {
       href: "/activities-tracker",
-      title: "Activities Tracker",
-      linkText: "Track Daily & Weekly Activities",
-      bgImage: "/games/thgl-web/activity-tracker.webp",
-      iconName: "SquareCheckBig",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      iconName: "Activity",
     },
     {
       href: "/db/story",

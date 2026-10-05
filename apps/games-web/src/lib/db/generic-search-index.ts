@@ -67,10 +67,16 @@ export async function buildGenericSearchIndex(
           );
           const section = sectionByType.get(category.type) ?? category.type;
           return category.items.map((item) => {
-            const icon =
+            const raw =
               item.icon && typeof item.icon === "object"
                 ? (item.icon as IconSprite)
                 : undefined;
+            // Standalone codex icons (`db/<id>.webp`, Infinity Nikki, Once
+            // Human) are not in the sprite: ship their own absolute url.
+            const icon =
+              raw && raw.url !== "icons.webp" && !/^(https?:|\/)/.test(raw.url)
+                ? { ...raw, url: getIconsUrl(appConfig.name, raw.url) }
+                : raw;
             return {
               id: item.id,
               name: resolveDict(dict, item.id),

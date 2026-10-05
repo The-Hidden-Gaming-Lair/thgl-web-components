@@ -31,7 +31,7 @@ const LINK = "text-amber-300 underline underline-offset-2 hover:text-amber-200";
 const MAX_RELATED = 8;
 
 /** `search?…&summary=1`: spawn count + maps (null = the API did not answer). */
-async function fetchSummary(
+export async function fetchSummary(
   appName: string,
   query: string,
 ): Promise<{ count: number; maps: string[] } | null> {

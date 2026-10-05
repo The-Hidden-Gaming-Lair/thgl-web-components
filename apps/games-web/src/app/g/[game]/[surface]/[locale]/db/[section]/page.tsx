@@ -1,0 +1,361 @@
+import { type Metadata } from "next";
+import Link from "next/link";
+import { notFound, permanentRedirect } from "next/navigation";
+import {
+  fetchDatabaseIndex,
+  fetchVersion,
+  getMetadataAlternates,
+  localizePath,
+  translate,
+  DEFAULT_LOCALE,
+} from "@repo/lib";
+import { getFullDbDictionary } from "@repo/ui/dicts";
+import { JSONLDScript } from "@repo/ui/apps";
+import { getAppConfig } from "@/lib/get-app-config";
+import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
+import { breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/db/json-ld";
+import {
+  buildSectionDescription,
+  buildSectionTitle,
+  getSectionLabels,
+} from "@/lib/db/seo";
+import { Breadcrumb } from "@/lib/db/breadcrumb";
+import {
+  FilterableEntityGrid,
+  type GridItem,
+} from "@/lib/db/filterable-entity-grid";
+import { getPartnerSectionLink } from "@/lib/db/partner-links";
+import { PartnerLinkRow } from "@/lib/db/partner-link";
+import {
+  fetchFullPropsCategory,
+  flattenPropsText,
+  rarityColor,
+} from "@/lib/db/props-text";
+
+/**
+ * Generic DB section listing. Works for any tenant that defines `db` in its
+ * AppConfig — the section slug is matched against `db.homeSections`. Static
+ * per-section routes (homm/drakantos/etc.) still take precedence over this
+ * dynamic segment; this catches everything else (e.g. Gothic's weapon/armor/…).
+ */
+type PageProps = { params: Promise<{ locale?: string; section: string }> };
+
+async function resolveSection(section: string, locale: string) {
+  const appConfig = await getAppConfig();
+  const db = appConfig.db;
+  if (!db) notFound();
+  const secCfg = db.homeSections.find(
+    (s) => s.href === `/db/${section}` || s.type === section,
+  );
+  if (!secCfg) {
+    // An old per-category slug folded into a parent section via extraTypes
+    // (e.g. /db/weapon → /db/items). 308-redirect to keep old URLs alive.
+    const parent = db.homeSections.find((s) =>
+      (s.extraTypes ?? []).includes(section),
+    );
+    if (parent) permanentRedirect(localizePath(parent.href, locale));
+    notFound();
+  }
+  return { appConfig, db, secCfg };
+}
+
+type SectionCfg = NonNullable<
+  Awaited<ReturnType<typeof getAppConfig>>["db"]
+>["homeSections"][number];
+
+/** Categories of the database index that belong to this section. */
+function sectionCategories<T extends { type: string }>(
+  database: T[],
+  secCfg: SectionCfg,
+): T[] {
+  const types = [secCfg.type, ...(secCfg.extraTypes ?? [])];
+  return database.filter(
+    (cat) =>
+      types.includes(cat.type) ||
+      (secCfg.typePrefix ? cat.type.startsWith(secCfg.typePrefix) : false),
+  );
+}
+
+/** Insert each group's `groupRefs` items right after that group's last item. */
+function withGroupRefs(
+  items: GridItem[],
+  extra: Map<string, GridItem[]>,
+): GridItem[] {
+  if (!extra.size) return items;
+  const last = new Map(items.map((it, idx) => [it.groupId, idx]));
+  return items.flatMap((it, idx) =>
+    last.get(it.groupId) === idx
+      ? [it, ...(extra.get(it.groupId) ?? [])]
+      : [it],
+  );
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale = DEFAULT_LOCALE, section } = await params;
+  const { appConfig, secCfg } = await resolveSection(section, locale);
+  const [dict, database] = await Promise.all([
+    getFullDbDictionary(appConfig.name, locale),
+    fetchDatabaseIndex(appConfig.name).catch(() => []),
+  ]);
+  const { plural: label } = getSectionLabels(appConfig, dict, secCfg, section);
+  const cats = sectionCategories(database, secCfg);
+  const count = cats.reduce((sum, cat) => sum + cat.items.length, 0);
+  const title = count
+    ? buildSectionTitle(dict, label, count, appConfig.title)
+    : `${label} | ${appConfig.title}`;
+  const description = buildSectionDescription(
+    dict,
+    label,
+    count,
+    appConfig.title,
+    cats.flatMap((cat) =>
+      cat.items.slice(0, 4).map((i) => resolveDict(dict, i.id)),
+    ),
+  );
+  const { canonical, languageAlternates } = getMetadataAlternates(
+    `/db/${section}`,
+    locale,
+    appConfig.supportedLocales,
+  );
+  return {
+    title,
+    description,
+    alternates: { canonical, languages: languageAlternates },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      images: ["/opengraph-image.jpg"],
+    },
+  };
+}
+
+export default async function Page({ params }: PageProps) {
+  const { locale = DEFAULT_LOCALE, section } = await params;
+  const { appConfig, secCfg } = await resolveSection(section, locale);
+  const [dict, database, version] = await Promise.all([
+    getFullDbDictionary(appConfig.name, locale),
+    fetchDatabaseIndex(appConfig.name),
+    fetchVersion(appConfig.name),
+  ]);
+
+  const data = sectionCategories(database, secCfg);
+  if (!data.length) notFound();
+
+  // Flattened effect text per item id, so the grid's filter can match effects
+  // ("Ranged Offence") and not just names. The slim index drops props — pull
+  // them from the per-type files.
+  const textById = new Map<string, string>();
+  const colorById = new Map<string, string>();
+  await Promise.all(
+    data.map(async (cat) => {
+      const full = await fetchFullPropsCategory(appConfig.name, cat);
+      for (const item of full.items) {
+        const text = flattenPropsText(item.props);
+        if (text) textById.set(item.id, text);
+        const color = rarityColor(item.props);
+        if (color) colorById.set(item.id, color);
+      }
+    }),
+  );
+
+  // A group whose id is itself a DB entry (e.g. abilities grouped per
+  // Descendant) gets that entry's icon + link in its header.
+  const groupIds = new Set(
+    data.flatMap((cat) => cat.items.map((i) => i.groupId)),
+  );
+  const groupEntries = new Map<
+    string,
+    { icon?: GridItem["icon"]; href?: string }
+  >();
+  for (const cat of database) {
+    const owner = appConfig.db?.homeSections.find(
+      (s) =>
+        s.type === cat.type ||
+        (s.extraTypes ?? []).includes(cat.type) ||
+        (s.typePrefix ? cat.type.startsWith(s.typePrefix) : false),
+    );
+    for (const i of cat.items) {
+      if (!groupIds.has(i.id)) continue;
+      groupEntries.set(i.id, {
+        icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+        href: owner ? `${owner.href}/${i.id}` : undefined,
+      });
+    }
+  }
+
+  // `groupRefs`: list each group entry's refs of that prop (e.g. a Descendant's
+  // Transcendent modules) inside its group, linking to their own section.
+  const groupRefItems = new Map<string, GridItem[]>();
+  if (secCfg.groupRefs) {
+    const key = secCfg.groupRefs;
+    const fullCats = await Promise.all(
+      database
+        .filter((cat) => cat.items.some((i) => groupIds.has(i.id)))
+        .map((cat) => fetchFullPropsCategory(appConfig.name, cat)),
+    );
+    const refsByGroup = new Map<string, { id: string; section: string }[]>();
+    for (const cat of fullCats)
+      for (const i of cat.items) {
+        const refs = groupIds.has(i.id) ? i.props?.[key] : undefined;
+        if (Array.isArray(refs)) refsByGroup.set(i.id, refs);
+      }
+    const targetIds = new Set(
+      [...refsByGroup.values()].flat().map((r) => r.id),
+    );
+    const targetCats = database.filter((cat) =>
+      cat.items.some((i) => targetIds.has(i.id)),
+    );
+    const targets = new Map<
+      string,
+      { icon?: GridItem["icon"]; color?: string; text?: string }
+    >();
+    for (const cat of await Promise.all(
+      targetCats.map((cat) => fetchFullPropsCategory(appConfig.name, cat)),
+    ))
+      for (const i of cat.items)
+        if (targetIds.has(i.id))
+          targets.set(i.id, {
+            icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+            color: rarityColor(i.props),
+            text: flattenPropsText(i.props) || undefined,
+          });
+    for (const [groupId, refs] of refsByGroup)
+      groupRefItems.set(
+        groupId,
+        refs
+          .filter((r) => targets.has(r.id))
+          .map((r) => ({
+            id: r.id,
+            name: resolveDict(dict, r.id),
+            groupId,
+            groupLabel: resolveDictWithFallback(dict, groupId, groupId),
+            groupIcon: groupEntries.get(groupId)?.icon,
+            groupHref: groupEntries.get(groupId)?.href,
+            href: `/db/${r.section}/${r.id}`,
+            ...targets.get(r.id),
+          })),
+      );
+  }
+
+  const { plural: label } = getSectionLabels(appConfig, dict, secCfg, section);
+  const iconsHash = version.more.icons;
+  const totalCount = data.reduce((sum, cat) => sum + cat.items.length, 0);
+  const jsonLdItems = data.flatMap((cat) =>
+    cat.items.map((i) => ({ id: i.id, name: resolveDict(dict, i.id) })),
+  );
+  const crumbs = [
+    {
+      label: translate(dict, "db.database", { fallback: "Database" }),
+      href: "/db",
+    },
+    { label },
+  ];
+  const pageUrl = `https://${appConfig.domain}.th.gl${localizePath(`/db/${section}`, locale)}`;
+
+  return (
+    <>
+      <JSONLDScript
+        json={collectionPageJsonLd({
+          appConfig,
+          section,
+          sectionLabel: label,
+          description: buildSectionDescription(
+            dict,
+            label,
+            totalCount,
+            appConfig.title,
+            jsonLdItems.slice(0, 4).map((i) => i.name),
+          ),
+          items: jsonLdItems,
+          locale,
+        })}
+      />
+      <JSONLDScript
+        json={breadcrumbJsonLd({
+          appConfig,
+          homeLabel: dict["ui.nav_home"] || "Home",
+          crumbs,
+          url: pageUrl,
+          locale,
+        })}
+      />
+      <div className="max-w-7xl mx-auto px-4 pt-6">
+        <Breadcrumb crumbs={crumbs} locale={locale} dict={dict} />
+        <h1 className="text-2xl font-bold mb-2">{label}</h1>
+        <p className="text-sm text-muted-foreground mb-3">
+          {translate(dict, "db.entriesCount", {
+            fallback: "{{count}} entries",
+            vars: { count: totalCount.toLocaleString(locale) },
+          })}
+          {appConfig.db?.checklists?.some((c) => c.section === section) && (
+            <>
+              {" · "}
+              <Link
+                href={localizePath(`/checklist/${section}`, locale)}
+                className="text-amber-300 underline underline-offset-2 hover:text-amber-200"
+              >
+                {translate(dict, "checklist.openSectionChecklist", {
+                  fallback: "Track your progress in the checklist",
+                })}
+              </Link>
+            </>
+          )}
+        </p>
+        {(() => {
+          const partner = getPartnerSectionLink(appConfig.name, section);
+          if (!partner) return null;
+          return (
+            <div className="mb-6">
+              <PartnerLinkRow
+                link={partner}
+                label={`${label} build guides on ${partner.name}`}
+              />
+            </div>
+          );
+        })()}
+      </div>
+      <div className="max-w-7xl mx-auto px-4 pb-6">
+        <FilterableEntityGrid
+          items={withGroupRefs(
+            data.flatMap((cat) =>
+              cat.items.map((i) => ({
+                id: i.id,
+                icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+                groupId: i.groupId ?? "other",
+                name: resolveDict(dict, i.id),
+                groupLabel: resolveDictWithFallback(
+                  dict,
+                  i.groupId ?? "other",
+                  i.groupId ?? "other",
+                ),
+                text: textById.get(i.id),
+                color: colorById.get(i.id),
+                groupIcon: groupEntries.get(i.groupId ?? "")?.icon,
+                groupHref: groupEntries.get(i.groupId ?? "")?.href,
+              })),
+            ),
+            groupRefItems,
+          )}
+          section={section}
+          locale={locale}
+          iconsHash={iconsHash}
+          appName={appConfig.name}
+        />
+      </div>
+    </>
+  );
+}
+
+// Cached in Next's page cache (cache-handler.cjs): rendered once per pod and
+// game data version, then served without re-rendering — see
+// src/lib/route-params.ts. No dynamic APIs below this route; plain fetches stay
+// uncached so a re-render after a data update always sees fresh data.
+export const dynamic = "force-static";
+export const fetchCache = "default-no-store";
+export const revalidate = 86400;
+export async function generateStaticParams() {
+  return [];
+}

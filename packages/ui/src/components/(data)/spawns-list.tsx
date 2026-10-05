@@ -1,16 +1,58 @@
 "use client";
-import { getNodeId, type SimpleSpawn, useSettingsStore } from "@repo/lib";
+import {
+  getIconsUrl,
+  getNodeId,
+  type SimpleSpawn,
+  useSettingsStore,
+} from "@repo/lib";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
 import { useT } from "../(providers)";
 import { Check, ImageUpscale, X } from "lucide-react";
+
+/** A type's sprite icon at a fixed ~24px box (sprite cells are 64px or larger). */
+function SpawnIcon({
+  icon,
+  appName,
+}: {
+  icon: SimpleSpawn["icon"];
+  appName: string;
+}) {
+  if (!icon) return <span className="size-6 shrink-0" aria-hidden />;
+  if (typeof icon === "string")
+    return (
+      <img
+        src={getIconsUrl(appName, icon, "/icons/icons.webp")}
+        alt=""
+        className="size-6 shrink-0 object-contain"
+      />
+    );
+  return (
+    <img
+      src={getIconsUrl(appName, icon.url, "/icons/icons.webp")}
+      alt=""
+      width={icon.width}
+      height={icon.height}
+      className="shrink-0 object-none"
+      style={{
+        width: icon.width,
+        height: icon.height,
+        objectPosition: `-${icon.x ?? 0}px -${icon.y ?? 0}px`,
+        zoom: 24 / (icon.width || 64),
+      }}
+    />
+  );
+}
 
 export function SpawnsList({
   spawns,
   onShowClick,
   highlightedIds,
   typeGroupLabels,
+  appName,
 }: {
+  /** For the type icons; rows render without icons when omitted. */
+  appName?: string;
   spawns: SimpleSpawn[];
   onShowClick: (spawnIDs: string[]) => void;
   highlightedIds: string[];
@@ -97,11 +139,11 @@ export function SpawnsList({
   });
 
   return (
-    <div className="flex flex-col gap-1 max-w-2xl w-full">
+    <div className="flex flex-col gap-4 max-w-2xl w-full">
       {sections.map((section, si) => (
-        <div key={section.label ?? si}>
+        <div key={section.label ?? si} className="flex flex-col gap-1.5">
           {section.label && (
-            <h4 className="text-sm font-semibold text-muted-foreground mt-4 mb-1.5 px-1 border-b border-border/50 pb-1">
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground px-1">
               {section.label}
             </h4>
           )}
@@ -121,18 +163,27 @@ export function SpawnsList({
             // "Night Sky Temple") are separate rows — key them the same way.
             const key = `${groupSpawns[0]?.type ?? ""}::${name}`;
             return (
-              <div key={key} className="flex gap-2 items-center">
-                <div className="relative grow overflow-hidden">
-                  <p className="text-md font-bold px-2 py-2 text-shadow truncate">
-                    <span className="truncate">{name}</span>
-                    <span className="text-xs ml-2 font-normal">
-                      ({progress}/{max})
+              <div
+                key={key}
+                className={
+                  "flex gap-2 items-center rounded-md border bg-card px-2 py-1.5" +
+                  (isHighlighted ? " border-primary" : "")
+                }
+              >
+                {appName && (
+                  <SpawnIcon icon={groupSpawns[0]?.icon} appName={appName} />
+                )}
+                <div className="grow min-w-0">
+                  <p className="flex items-baseline gap-2 text-sm">
+                    <span className="font-semibold truncate">{name}</span>
+                    <span className="ml-auto shrink-0 text-xs tabular-nums text-muted-foreground">
+                      {progress}/{max}
                     </span>
                   </p>
                   <Progress
                     value={progress}
                     max={max}
-                    className="absolute inset-0 h-full -z-10 rounded-md"
+                    className="mt-1 h-1.5"
                     aria-label={`${name}: ${progress} of ${max}`}
                   />
                 </div>
@@ -147,8 +198,8 @@ export function SpawnsList({
                     );
                   }}
                   disabled={isMax}
-                  className="shrink-0"
-                  variant={isMax ? "ghost" : "outline"}
+                  className="shrink-0 size-8"
+                  variant="ghost"
                   aria-label={markDiscoveredLabel}
                   title={markDiscoveredLabel}
                 >
@@ -167,8 +218,8 @@ export function SpawnsList({
                     );
                   }}
                   disabled={progress === 0}
-                  className="shrink-0"
-                  variant="destructive"
+                  className="shrink-0 size-8 text-destructive hover:text-destructive"
+                  variant="ghost"
                   aria-label={resetProgressLabel}
                   title={resetProgressLabel}
                 >
@@ -179,7 +230,7 @@ export function SpawnsList({
                   onClick={() =>
                     onShowClick(isHighlighted ? [] : groupSpawnIds)
                   }
-                  className="shrink-0"
+                  className="shrink-0 size-8"
                   variant={isHighlighted ? "secondary" : "ghost"}
                   aria-label={highlightLabel}
                   title={highlightLabel}

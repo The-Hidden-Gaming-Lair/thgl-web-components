@@ -86,6 +86,63 @@ function buildGames(
   );
 }
 
+/**
+ * The on-demand fallback renders three cache-busted tenant roots plus
+ * app.th.gl — all on this same origin. /api/status takes ~1k req/min from
+ * every open tab's status banner, so running the fallback per request
+ * turned a DB hiccup into ~4k extra uncached SSR renders/min exactly when
+ * the origin was already struggling (2026-10-05 06:11–06:17 UTC outage).
+ * One shared run per process, reused for FALLBACK_TTL_MS.
+ */
+const FALLBACK_TTL_MS = 30_000;
+let fallbackCache: { at: number; promise: Promise<StatusDocument> } | null =
+  null;
+
+function onDemandStatusDocument(
+  owPromise: Promise<Record<string, StatusState | null> | null>,
+): Promise<StatusDocument> {
+  if (fallbackCache && Date.now() - fallbackCache.at < FALLBACK_TTL_MS) {
+    return fallbackCache.promise;
+  }
+  const promise = buildOnDemandDocument(owPromise);
+  fallbackCache = { at: Date.now(), promise };
+  promise.catch(() => {
+    if (fallbackCache?.promise === promise) fallbackCache = null;
+  });
+  return promise;
+}
+
+async function buildOnDemandDocument(
+  owPromise: Promise<Record<string, StatusState | null> | null>,
+): Promise<StatusDocument> {
+  const [checks, ow] = await Promise.all([runAllChecks(), owPromise]);
+  const components = checks.map((c) => ({
+    id: c.component,
+    label: COMPONENT_LABELS[c.component] ?? c.component,
+    state: c.state,
+    latencyMs: c.latencyMs,
+    detail: c.detail,
+    uptime24h: null,
+    uptime7d: null,
+  }));
+  const games = buildGames(ow, []);
+  return {
+    state: overallState({
+      componentStates: components.map((c) => c.state),
+      gameStates: games.flatMap((g) => [
+        g.owEvents ?? "operational",
+        g.liveMode?.state ?? "operational",
+      ]),
+      activeIncidentSeverities: [],
+    }),
+    updatedAt: Math.floor(Date.now() / 1000),
+    components,
+    games,
+    incidents: [],
+    provisional: true,
+  };
+}
+
 export async function buildStatusDocument(): Promise<StatusDocumentResult> {
   const owPromise = checkOwEvents().catch(() => null);
 
@@ -129,37 +186,12 @@ export async function buildStatusDocument(): Promise<StatusDocumentResult> {
     };
     return { doc, degradedMode: false };
   } catch (err) {
-    // DB down: compute live, serve uncached.
+    // DB down: compute live (shared per process, see onDemandStatusDocument).
     console.error(
       "[status-document] DB read failed — on-demand fallback:",
       err,
     );
-    const [checks, ow] = await Promise.all([runAllChecks(), owPromise]);
-    const components = checks.map((c) => ({
-      id: c.component,
-      label: COMPONENT_LABELS[c.component] ?? c.component,
-      state: c.state,
-      latencyMs: c.latencyMs,
-      detail: c.detail,
-      uptime24h: null,
-      uptime7d: null,
-    }));
-    const games = buildGames(ow, []);
-    const doc: StatusDocument = {
-      state: overallState({
-        componentStates: components.map((c) => c.state),
-        gameStates: games.flatMap((g) => [
-          g.owEvents ?? "operational",
-          g.liveMode?.state ?? "operational",
-        ]),
-        activeIncidentSeverities: [],
-      }),
-      updatedAt: Math.floor(Date.now() / 1000),
-      components,
-      games,
-      incidents: [],
-      provisional: true,
-    };
+    const doc = await onDemandStatusDocument(owPromise);
     return { doc, degradedMode: true };
   }
 }

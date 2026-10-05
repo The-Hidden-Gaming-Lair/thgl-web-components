@@ -18,7 +18,7 @@ import {
   MoreHorizontal,
   X,
 } from "lucide-react";
-import { AppConfig, localizePath, cn } from "@repo/lib";
+import { AppConfig, localizePath, cn, type GuideNavLink } from "@repo/lib";
 import { Badge } from "../ui/badge";
 import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 import { useI18n } from "../(providers)";
@@ -92,11 +92,14 @@ export function useNavGroups({
   hasMap,
   hasGuides = true,
   inlineLinks,
+  guideLinks,
 }: {
   appConfig: AppConfig;
   hasMap: boolean;
   hasGuides?: boolean;
   inlineLinks?: number;
+  /** Written guides — when present, "Guides" becomes a menu (All Guides + these). */
+  guideLinks?: GuideNavLink[];
 }): NavGroup[] {
   const { locale, t } = useI18n();
   // Elite-only (previewOnly) links stay hidden from the nav until access resolves.
@@ -173,7 +176,22 @@ export function useNavGroups({
 
     if (hasGuides) {
       const label = t("nav.guides", { fallback: "Guides" });
-      result.push({ id: "guides", label, link: toLink("/guides", label) });
+      if (guideLinks?.length) {
+        result.push({
+          id: "guides",
+          label,
+          items: [
+            toLink(
+              "/guides",
+              t("nav.allGuides", { fallback: "All Guides" }),
+              true,
+            ),
+            ...guideLinks.map((g) => toLink(g.href, g.label)),
+          ],
+        });
+      } else {
+        result.push({ id: "guides", label, link: toLink("/guides", label) });
+      }
     }
 
     const tools = appLinks
@@ -213,6 +231,7 @@ export function useNavGroups({
     hasMap,
     hasGuides,
     inlineLinks,
+    guideLinks,
     locale,
     t,
     previewGate,
@@ -224,6 +243,7 @@ export function Links({
   hasMap,
   hasGuides = true,
   inlineLinks,
+  guideLinks,
   children,
   childrenDropdown,
 }: {
@@ -241,6 +261,8 @@ export function Links({
    * and the rest under "More" instead of grouping them as "Tools".
    */
   inlineLinks?: number;
+  /** Written guides for the "Guides" menu (see useNavGroups). */
+  guideLinks?: GuideNavLink[];
   /** Language switcher (dropdown) shown at the right of the nav. */
   children?: React.ReactNode;
   /** Flat language list for the mobile menu sheet (falls back to `children`). */
@@ -257,7 +279,13 @@ export function Links({
   const [, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const groups = useNavGroups({ appConfig, hasMap, hasGuides, inlineLinks });
+  const groups = useNavGroups({
+    appConfig,
+    hasMap,
+    hasGuides,
+    inlineLinks,
+    guideLinks,
+  });
 
   // In-Game App first (most important), then partner links (never dropped).
   const externals = useMemo(() => {

@@ -73,6 +73,7 @@ export const rsdragonwilds = resolveAppConfig({
       title: "xp.navTitle",
       description: "xp.navDescription",
       href: "/xp-planner",
+      bgImage: "/games/thgl-web/tools/xp-planner.webp",
       iconName: "ChartLine",
       linkText: "xp.navLinkText",
     },

@@ -2,13 +2,6 @@
 
 // Named exports for better tree-shaking
 export {
-  ActivitiesProvider,
-  useActivities,
-  useActivitiesStore,
-  type Activity,
-} from "./activities-provider";
-
-export {
   CoordinatesProvider,
   useCoordinates,
   useCoordinatesOptional,

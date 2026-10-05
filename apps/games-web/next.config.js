@@ -1,9 +1,48 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
+
+// proxy.ts tells English paths (/db/…) from locale paths (/de/db/…) by the
+// top-level folders of the game route tree, listed in
+// src/lib/game-route-segments.json. A new top-level page folder that is not in
+// that list would be read as a locale and 404 — fail the build/dev start instead.
+// Same for the static /db/<folder> routes (src/lib/game-db-segments.json): the
+// proxy's db alias redirect must never pre-empt one of them.
+for (const [folder, listFile] of [
+  [
+    "./src/app/g/[game]/[surface]/[locale]/",
+    "./src/lib/game-route-segments.json",
+  ],
+  [
+    "./src/app/g/[game]/[surface]/[locale]/db/",
+    "./src/lib/game-db-segments.json",
+  ],
+]) {
+  const onDisk = readdirSync(new URL(folder, import.meta.url), {
+    withFileTypes: true,
+  })
+    .filter((d) => d.isDirectory() && !d.name.startsWith("["))
+    .map((d) => d.name)
+    .sort();
+  const listed = JSON.parse(
+    readFileSync(new URL(listFile, import.meta.url), "utf8"),
+  ).sort();
+  if (JSON.stringify(onDisk) !== JSON.stringify(listed)) {
+    throw new Error(
+      `${listFile} is out of sync with the folders in ${folder}\n` +
+        `  on disk: ${onDisk.join(", ")}\n  listed:  ${listed.join(", ")}`,
+    );
+  }
+}
 
 /** @type {(phase: string) => import('next').NextConfig} */
 const nextConfig = (phase) => ({
   // Standalone output for Docker container deployment
   output: "standalone",
+  // In-memory, size-bounded, data-version-aware cache for the cached game
+  // routes (/db/*): see cache-handler.cjs. Other cache entries go to Next's
+  // default file-system cache unchanged.
+  cacheHandler: fileURLToPath(new URL("./cache-handler.cjs", import.meta.url)),
   // Ship source maps for the client bundle in production. Fixes Lighthouse's
   // `valid-source-maps` Best-Practices audit (large first-party chunks were
   // flagged as missing maps). No user-facing cost — browsers only fetch the
@@ -11,6 +50,16 @@ const nextConfig = (phase) => ({
   // public. The remaining BP failures (Topics API / third-party cookies /
   // cookie issues) are all the NitroPay ad stack, unfixable in our code.
   productionBrowserSourceMaps: true,
+  // Crawlers matching this get <title>/meta/canonical/hreflang rendered in the
+  // initial <head>. Others get streamed metadata: when generateMetadata is
+  // slower than the page shell (cold first render), Next injects it into <body>.
+  // Next's default list (copied from next/dist/shared/lib/router/utils/
+  // html-bots.js, 16.3) leaves out Googlebot because it runs JS; we want the
+  // complete head for it anyway (seen 2026-10-05: a team-builder page served to
+  // Googlebot with its title at the end of <body>). Added: Googlebot + the AI
+  // search fetchers from our logs.
+  htmlLimitedBots:
+    /[\w-]+-Google|Google-[\w-]+|Googlebot|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight|PerplexityBot|OAI-SearchBot|ChatGPT-User|Amzn-SearchBot/i,
   // Serve hashed build assets from the persistent static host instead of the
   // container. static.th.gl fronts the thgl-games-web-static storage zone,
   // which the deploy workflow populates assets-first (uploads .next/static
@@ -382,6 +431,25 @@ const nextConfig = (phase) => ({
         headers: shortCache,
       },
       { source: "/status", headers: shortCache },
+      // Per-user responses. The games-web pull zone does NOT vary its cache by
+      // cookie (removed 2026-10-05 — every signed-in visitor had a private copy
+      // of every page and always hit the origin), so anything whose output
+      // depends on the userId cookie must be no-store. Page renders never read
+      // the cookie except the account pages above and these admin surfaces.
+      // Incoming paths + their /www rewrites.
+      ...[
+        "/api/status/admin",
+        "/admin/:path*",
+        "/www/admin/:path*",
+        "/api/admin/:path*",
+        "/www/api/admin/:path*",
+      ].map((source) => ({
+        source,
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      })),
       { source: "/www/status", headers: shortCache },
       // The cron-triggered runner has side effects and an Authorization
       // gate — a cached 401/response would wedge the whole checker.

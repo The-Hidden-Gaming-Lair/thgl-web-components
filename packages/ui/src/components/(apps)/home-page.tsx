@@ -591,7 +591,10 @@ export function createHomePage(appConfig: AppConfig) {
                 )}
 
                 {/* 4. Feature cards (non-map, non-guide internal links) */}
-                {featureCards.length > 0 && <NavGrid cards={featureCards} />}
+                <NavGrid
+                  cards={featureCards}
+                  title={t("nav.tools", { fallback: "Tools" })}
+                />
                 {/* Elite-only feature cards — hidden from non-preview visitors */}
                 {previewFeatureCards.length > 0 && (
                   <PreviewReleaseOnly>

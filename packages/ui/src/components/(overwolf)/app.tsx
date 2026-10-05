@@ -9,6 +9,7 @@ import {
   RegionsConfig,
   TilesConfig,
   translate,
+  useApplyTheme,
   useOverlayMapHidden,
   useSettingsStore,
   Version,
@@ -103,6 +104,7 @@ export function App({
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();
+  useApplyTheme();
 
   return (
     <div

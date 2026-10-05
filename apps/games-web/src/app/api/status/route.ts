@@ -8,7 +8,12 @@ const CACHED = {
   ...CORS,
   "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
 };
-const UNCACHED = { ...CORS, "Cache-Control": "no-store" };
+// Degraded (DB unreachable) docs are provisional, so keep them short-lived —
+// but never no-store: every banner poll would then reach the origin.
+const DEGRADED = {
+  ...CORS,
+  "Cache-Control": "public, s-maxage=15, stale-while-revalidate=60",
+};
 
 // No request object is used, so Next would otherwise statically
 // optimize this route and serve a build-time snapshot. Freshness comes
@@ -18,7 +23,7 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 25;
 export async function GET() {
   const { doc, degradedMode } = await buildStatusDocument();
-  return Response.json(doc, { headers: degradedMode ? UNCACHED : CACHED });
+  return Response.json(doc, { headers: degradedMode ? DEGRADED : CACHED });
 }
 
 export function OPTIONS() {

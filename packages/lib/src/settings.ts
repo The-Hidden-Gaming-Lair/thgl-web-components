@@ -367,6 +367,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   dynamicIconSize: true,
   dynamicIconSizeFactor: 0.2,
   playerIconSize: 1,
+  heightArrowSize: 1,
   playerIconColor: "",
   playerBelowMarkers: false,
   iconSizeByGroup: {},
@@ -528,6 +529,9 @@ export type ProfileSettings = {
   dynamicIconSize: boolean;
   dynamicIconSizeFactor: number;
   playerIconSize: number;
+  // Size of the height arrows (▲/▼) on markers relative to the icon, so they
+  // stay readable with small icons. 1 = default.
+  heightArrowSize: number;
   // Recolor the player icon ("#rrggbb"); "" keeps the game's own colors.
   playerIconColor: string;
   // Draw the player icon underneath the map markers instead of on top
@@ -703,6 +707,7 @@ export interface ProfileActions {
   toggleDynamicIconSize: () => void;
   setDynamicIconSizeFactor: (factor: number) => void;
   setPlayerIconSize: (playerIconSize: number) => void;
+  setHeightArrowSize: (heightArrowSize: number) => void;
   setPlayerIconColor: (playerIconColor: string) => void;
   togglePlayerBelowMarkers: () => void;
   setIconSizeByGroup: (group: string, size: number) => void;
@@ -1345,6 +1350,7 @@ export const useSettingsStore = create(
               transforms: {},
               mapTransform: null,
               playerIconSize: 1,
+              heightArrowSize: 1,
               baseIconSize: 1,
               dynamicIconSize: true,
               dynamicIconSizeFactor: 0.2,
@@ -1359,6 +1365,7 @@ export const useSettingsStore = create(
               transforms: {},
               mapTransform: null,
               playerIconSize: 1,
+              heightArrowSize: 1,
               playerIconColor: "",
               playerBelowMarkers: false,
               baseIconSize: 1,
@@ -2005,6 +2012,12 @@ export const useSettingsStore = create(
 
           setPlayerIconSize: (playerIconSize) => {
             updateSettings({ playerIconSize });
+          },
+
+          setHeightArrowSize: (heightArrowSize) => {
+            updateSettings({
+              heightArrowSize: Math.max(0.5, Math.min(3, heightArrowSize)),
+            });
           },
 
           setPlayerIconColor: (playerIconColor) => {

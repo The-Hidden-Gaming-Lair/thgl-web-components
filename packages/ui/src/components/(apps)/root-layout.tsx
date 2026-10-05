@@ -19,6 +19,7 @@ import {
   Links,
   LocaleSwitcher,
   SiteFooter,
+  ThemeScript,
 } from "../(controls)";
 import Link from "next/link";
 import {
@@ -30,6 +31,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { DidYouKnowCompanionApp } from "../(tips)";
 import { AppSurfaceRoot } from "../(thgl-app)/app-surface-root";
+import { NavigationProgress } from "./navigation-progress";
 
 export const rootLayoutViewport: Viewport = {
   themeColor: "black",
@@ -66,13 +68,15 @@ export function createEmbedRootLayout(appConfig: AppConfig) {
     }
     const dict = await getStaticDictionary(appConfig.name, locale);
     return (
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
             "inter-font-sans",
           )}
         >
+          <ThemeScript />
+          <NavigationProgress />
           <I18NProvider dict={dict} locale={locale}>
             <TooltipProvider>
               <main>{children}</main>
@@ -161,13 +165,15 @@ export function createRootLayout(
     }
 
     return (
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
             "inter-font-sans",
           )}
         >
+          <ThemeScript />
+          <NavigationProgress />
           <I18NProvider dict={dict} locale={locale}>
             <Header
               activeApp={appConfig.title}

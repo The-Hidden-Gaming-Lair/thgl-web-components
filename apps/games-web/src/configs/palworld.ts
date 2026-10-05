@@ -33,8 +33,17 @@ export const palworld = resolveAppConfig({
       description:
         "Every breeding combo for the current version — pick two parents, find all parent pairs for a Pal, or plan the fewest eggs from the Pals you own.",
       href: "/breeding",
+      bgImage: "/games/thgl-web/tools/breeding.webp",
       iconName: "Heart",
       linkText: "Open the Breeding Calculator",
+    },
+    {
+      title: "iv.navTitle",
+      description: "iv.navDescription",
+      href: "/iv-calculator",
+      bgImage: "/games/thgl-web/tools/iv-calculator.webp",
+      iconName: "ChartLine",
+      linkText: "iv.navLinkText",
     },
     {
       title: "Paldeck",

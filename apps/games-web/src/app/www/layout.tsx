@@ -1,4 +1,5 @@
 import "@/games/thgl-web/styles/globals.css";
+import { NavigationProgress } from "@repo/ui/apps";
 import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/exo2.css";
 
@@ -10,7 +11,7 @@ import enDictGlobal from "@repo/ui/dicts/en.json" assert { type: "json" };
 import { Footer } from "@/games/thgl-web/components/footer";
 import { HeroBackground } from "@/games/thgl-web/components/hero-background";
 import { cn } from "@/games/thgl-web/lib/utils";
-import { ErrorBoundary } from "@repo/ui/controls";
+import { ErrorBoundary, ThemeScript } from "@repo/ui/controls";
 import { Header } from "@/games/thgl-web/components/header";
 
 export const metadata = {
@@ -33,7 +34,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html className="scroll-smooth" lang="en">
+    <html className="scroll-smooth" lang="en" suppressHydrationWarning>
       <head>
         <PlausibleTracker
           apiHost="https://a.th.gl"
@@ -44,6 +45,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className={cn("font-exo2", "dark text-slate-50 min-h-screen")}>
+        <ThemeScript />
+        <NavigationProgress />
         <I18NProvider dict={enDictGlobal}>
           {/* Refreshes the persisted account store (perks + profile) so
               the header account icon reflects the real sign-in state. */}
