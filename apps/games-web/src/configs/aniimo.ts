@@ -35,6 +35,13 @@ export const aniimo = resolveAppConfig({
       linkText: "evo.navLinkText",
     },
     {
+      title: "prismana.navTitle",
+      description: "prismana.navDescription",
+      href: "/prismana",
+      iconName: "Flower",
+      linkText: "prismana.navLinkText",
+    },
+    {
       href: "/activities-tracker",
       title: "activities.navTitle",
       description: "activities.navDescription",

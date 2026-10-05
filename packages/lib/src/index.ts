@@ -31,6 +31,7 @@ export * from "./overlay-map-hide";
 export * from "./compact-overlay";
 export * from "./aniimo-team";
 export * from "./aniimo-evolutions";
+export * from "./aniimo-prismana";
 export * from "./palworld-breeding";
 export * from "./palworld-stats";
 export * from "./once-human-blueprints";
