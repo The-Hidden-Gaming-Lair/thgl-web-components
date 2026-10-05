@@ -49,11 +49,95 @@ const originHost = (r?: RequestInfo) => {
   }
 };
 
+// ---- inbound request timing (what the origin spends per page type) -----------
+// Bunny's access logs carry no response time, so this is the only per-route
+// latency source. Class = first path segment after the locale (+ " rsc" for
+// client navigations / " pf" for prefetches); `slow` keeps the slowest
+// requests of the minute with host + path so individual pages can be found.
+type Timing = { n: number; total: number[]; ttfb: number[] };
+let timings = new Map<string, Timing>();
+let slow: { ms: number; ttfb: number; status: number; url: string }[] = [];
+let inflight = 0;
+let inflightMax = 0;
+const SAMPLE_CAP = 400;
+const SLOW_KEEP = 8;
+const LOCALE_SEG = /^[a-z]{2}(-[A-Za-z]{2,4})?$/;
+
+function routeClass(url: string, headers: Record<string, unknown>): string {
+  const path = url.split("?")[0];
+  const seg = path.split("/").filter(Boolean);
+  if (seg.length && LOCALE_SEG.test(seg[0]) && seg[0] !== "db") seg.shift();
+  let c = seg.length ? `/${seg[0]}` : "/";
+  if (seg[0] === "api" || seg[0] === "_next") c += `/${seg[1] ?? ""}`;
+  if (headers["next-router-prefetch"]) c += " pf";
+  else if (headers["rsc"] === "1") c += " rsc";
+  return c;
+}
+
+const pct = (a: number[], p: number) => {
+  if (!a.length) return 0;
+  const s = [...a].sort((x, y) => x - y);
+  return Math.round(
+    s[Math.min(s.length - 1, Math.floor((p / 100) * s.length))],
+  );
+};
+
 let started = false;
 
 export function startPodHealth() {
   if (started) return;
   started = true;
+
+  diagnostics_channel.subscribe("http.server.request.start", (msg) => {
+    const { request, response } = msg as {
+      request: {
+        url?: string;
+        headers: Record<string, unknown>;
+      };
+      response: {
+        statusCode: number;
+        writeHead: (...a: unknown[]) => unknown;
+        once: (ev: string, fn: () => void) => void;
+      };
+    };
+    const t0 = performance.now();
+    let ttfb = 0;
+    inflight++;
+    if (inflight > inflightMax) inflightMax = inflight;
+    const writeHead = response.writeHead;
+    response.writeHead = function (this: unknown, ...a: unknown[]) {
+      if (!ttfb) ttfb = performance.now() - t0;
+      return writeHead.apply(this, a);
+    };
+    let doneOnce = false;
+    const done = () => {
+      if (doneOnce) return;
+      doneOnce = true;
+      inflight--;
+      const ms = performance.now() - t0;
+      const url = request.url ?? "/";
+      const cls = routeClass(url, request.headers);
+      let t = timings.get(cls);
+      if (!t) timings.set(cls, (t = { n: 0, total: [], ttfb: [] }));
+      t.n++;
+      if (t.total.length < SAMPLE_CAP) {
+        t.total.push(ms);
+        t.ttfb.push(ttfb || ms);
+      }
+      if (slow.length < SLOW_KEEP || ms > slow[slow.length - 1].ms) {
+        slow.push({
+          ms: Math.round(ms),
+          ttfb: Math.round(ttfb || ms),
+          status: response.statusCode,
+          url: `${String(request.headers.host ?? "")}${url}`.slice(0, 140),
+        });
+        slow.sort((a, b) => b.ms - a.ms);
+        slow.length = Math.min(slow.length, SLOW_KEEP);
+      }
+    };
+    response.once("finish", done);
+    response.once("close", done);
+  });
 
   diagnostics_channel.subscribe("undici:client:connected", (msg) => {
     const { connectParams, socket } = msg as {
@@ -106,6 +190,35 @@ export function startPodHealth() {
         rssMB: Math.round(mem.rss / 1048576),
       })}`,
     );
+    // Page types ranked by origin time spent this minute (n × mean).
+    const routes = [...timings]
+      .map(([cls, t]) => {
+        const mean = t.total.reduce((a, b) => a + b, 0) / (t.total.length || 1);
+        return { cls, t, spent: t.n * mean };
+      })
+      .sort((a, b) => b.spent - a.spent)
+      .slice(0, 15);
+    console.log(
+      `[pod-timing] ${JSON.stringify({
+        inflightMax,
+        routes: Object.fromEntries(
+          routes.map(({ cls, t }) => [
+            cls,
+            {
+              n: t.n,
+              p50: pct(t.total, 50),
+              p95: pct(t.total, 95),
+              max: pct(t.total, 100),
+              ttfb50: pct(t.ttfb, 50),
+            },
+          ]),
+        ),
+        slow,
+      })}`,
+    );
+    timings = new Map();
+    slow = [];
+    inflightMax = inflight;
     connectOk = new Map();
     connectErr = new Map();
     reqStarted = new Map();
