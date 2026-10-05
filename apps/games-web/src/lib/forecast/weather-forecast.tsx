@@ -466,7 +466,10 @@ export function WeatherForecast({
           {monthCells.days.map((c) => {
             const isSel = c.i === day;
             const isToday = c.i === todayIndex;
-            const special = c.h.some((w) => data.types[String(w)]?.special);
+            // Dot = the day has a weather the find-next buttons cover (snow/heat/petals too).
+            const special = c.h.some((w) =>
+              (SPECIAL_CATS as readonly string[]).includes(catOf(w)),
+            );
             const slots = slotSummary(c.h);
             return (
               <button
@@ -500,18 +503,16 @@ export function WeatherForecast({
                   {slots.map((s, k) => {
                     const cat = catOf(s.wid);
                     // Plain sky (sunny/cloudy/clear night) recedes so the weathers players
-                    // plan around stand out at a glance; special ones get the amber chip.
+                    // plan around stand out at a glance; every other weather (rain, snow,
+                    // heat and petals too) gets the amber chip.
                     const plain = cat === "clear" || cat === "cloud";
-                    const special = data.types[String(s.wid)]?.special;
                     return (
                       <span
                         key={k}
                         className={`rounded-sm px-px ${
                           plain
                             ? "opacity-35 grayscale"
-                            : special
-                              ? "bg-amber-500/25 ring-1 ring-amber-500/70"
-                              : ""
+                            : "bg-amber-500/25 ring-1 ring-amber-500/70"
                         }`}
                       >
                         {meta(s.wid, s.hour).emoji}
