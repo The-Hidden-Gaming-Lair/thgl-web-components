@@ -4,8 +4,12 @@ export const aion2 = resolveAppConfig({
   name: "aion2",
   // The client ships eight text languages (L10N/Text/<culture>/L10NString).
   supportedLocales: ["en", "de", "es", "fr", "ja", "ko", "pt-BR", "ru"],
-  // No companion app: the client runs NCSoft's anti-cheat, so there is no live tracking.
-  appUrl: null,
+  // Companion app: local player position only (verified live on AION 2 Steam build
+  // 25719316, 2026-10-05).
+  appUrl: "https://www.th.gl/companion-app",
+  // Mixed game (PvP in the Abyss, rifts, battlefields): no live types, see data-forge
+  // docs\FAIR_PLAY_RULES.md. Same setup as Diablo IV.
+  withoutLiveMode: true,
   // Partner link (gaming.tools server status) — keep it next to our own /db.
   externalLinks: [
     {

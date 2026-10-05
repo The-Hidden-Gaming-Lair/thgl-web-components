@@ -277,13 +277,49 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
-    // AION 2 (NCSoft). No companion block: the client runs NCSoft's anti-cheat, so there is no
-    // memory reading / live tracking — web map + database only.
+    // AION 2 (NCSoft). Kernel-driver reads past NCGuard verified live on 2026-10-05 (Steam
+    // build 25719316): position, map name and heading are correct in World_L_Starter. Scope is
+    // the local player position only (Mixed game, fair-play R1/R3).
     id: "aion2",
     discordId: "aion2",
     title: "AION 2",
     steamAppId: 3393110,
     logo: `${TH_GL_URL}/global_icons/aion2.webp`,
+    companion: {
+      baseURL: "/apps/aion2",
+      controllerURL: "/apps/aion2/controller",
+      desktopURL: "/apps/aion2",
+      overlayURL: "/apps/aion2/overlay",
+      markerOptions: {
+        radius: 6,
+        // data-forge public\aion2\icons\player.webp: the world-map arrow, saved turned to
+        // point right.
+        playerIcon: "player.webp",
+        playerIconForward: 90,
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "AION 2",
+          // Steam build: a stub and the real game both run as AION2.exe; THGLApp picks the
+          // child with the window (verified 2026-10-05). NCSoft Purple build's exe not checked.
+          processNames: ["AION2.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://aion2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
