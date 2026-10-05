@@ -4,7 +4,7 @@ import {
   generateEntryMetadata,
   generateGroupMetadata,
 } from "@/games/homm-olden-era/metadata";
-import { requireApp } from "@/lib/get-app-config";
+import { getAppConfig, requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { DatabaseEntryContent } from "@/games/homm-olden-era/database-entry";
@@ -12,19 +12,34 @@ import {
   getGroupData,
   GroupPageContent,
 } from "@/games/homm-olden-era/group-page";
+import GenericEntityPage, {
+  generateMetadata as genericEntityMetadata,
+} from "../../[section]/[id]/page";
 
 type Params = Promise<{ id: string; locale?: string }>;
 
+// Reserved-slug delegation (see ../layout.tsx): non-HoMM tenants get the generic entity page.
+const HOMM = "homm-olden-era";
 const TYPES = ["spells"];
 const GROUP_PREFIX = "ui.school_";
 const SECTION = "spells";
+
+const withSection = async (params: Params) => ({
+  ...(await params),
+  section: SECTION,
+});
 
 export async function generateMetadata({
   params,
 }: {
   params: Params;
 }): Promise<Metadata> {
-  await requireApp("homm-olden-era");
+  const app = await getAppConfig();
+  if (app.name !== HOMM) {
+    return genericEntityMetadata({
+      params: Promise.resolve(await withSection(params)),
+    });
+  }
   const { id, locale = DEFAULT_LOCALE } = await params;
   const groupData = await getGroupData(TYPES, id);
   if (groupData)
@@ -33,7 +48,13 @@ export async function generateMetadata({
 }
 
 export default async function EntryPage({ params }: { params: Params }) {
-  const appConfig = await requireApp("homm-olden-era");
+  const app = await getAppConfig();
+  if (app.name !== HOMM) {
+    return GenericEntityPage({
+      params: Promise.resolve(await withSection(params)),
+    });
+  }
+  const appConfig = await requireApp(HOMM);
   const { id, locale = DEFAULT_LOCALE } = await params;
   const groupData = await getGroupData(TYPES, id);
 

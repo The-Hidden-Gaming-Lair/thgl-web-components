@@ -25,7 +25,11 @@ export const PREVIEW_RELEASE_APPS = new Set<string>([
 ]);
 
 /** Games whose IN-GAME COMPANION is Elite-only, but whose WEBSITE is public. */
-export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>([]);
+export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>([
+  // baldurs-gate-ee: new 2026-10-05 — live mode verified on one save (tutorial area); Elite
+  // preview until players confirm it across the campaign and Siege of Dragonspear.
+  "baldurs-gate-ee",
+]);
 // enshrouded fully opened 2026-09-13 — live chest/item tracking landed; app no
 // longer Elite-gated.
 

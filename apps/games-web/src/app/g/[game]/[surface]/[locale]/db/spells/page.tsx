@@ -6,24 +6,45 @@ import {
   DEFAULT_LOCALE,
 } from "@repo/lib";
 import { generateCategoryMetadata } from "@/games/homm-olden-era/metadata";
-import { requireApp } from "@/lib/get-app-config";
+import { getAppConfig, requireApp } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
 import { EntityGrid } from "@/lib/db/entity-grid";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
+import GenericSectionPage, {
+  generateMetadata as genericSectionMetadata,
+} from "../[section]/page";
 
+// Reserved-slug delegation (see layout.tsx): non-HoMM tenants get the generic section page.
+const HOMM = "homm-olden-era";
 type PageProps = { params: Promise<{ locale?: string }> };
+
+const withSection = async (params: PageProps["params"]) => ({
+  ...(await params),
+  section: "spells",
+});
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  await requireApp("homm-olden-era");
+  const app = await getAppConfig();
+  if (app.name !== HOMM) {
+    return genericSectionMetadata({
+      params: Promise.resolve(await withSection(params)),
+    });
+  }
   const { locale = DEFAULT_LOCALE } = await params;
   return generateCategoryMetadata(locale, "spells");
 }
 
 export default async function Page({ params }: PageProps) {
-  const appConfig = await requireApp("homm-olden-era");
+  const app = await getAppConfig();
+  if (app.name !== HOMM) {
+    return GenericSectionPage({
+      params: Promise.resolve(await withSection(params)),
+    });
+  }
+  const appConfig = await requireApp(HOMM);
   const { locale = DEFAULT_LOCALE } = await params;
   const [dict, database, version] = await Promise.all([
     fetchDbDict(appConfig.name, locale),

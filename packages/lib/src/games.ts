@@ -409,6 +409,47 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
+    // Baldur's Gate: Enhanced Edition + Siege of Dragonspear (Beamdog, Infinity Engine EE).
+    // Live mode: THGLApp reads the engine's own object table (offline single-player).
+    id: "baldurs-gate-ee",
+    discordId: "baldurs-gate-ee",
+    title: "Baldur's Gate: Enhanced Edition",
+    steamAppId: 228280,
+    logo: `${TH_GL_URL}/global_icons/baldurs-gate-ee.webp`,
+    companion: {
+      baseURL: "/apps/baldurs-gate-ee",
+      controllerURL: "/apps/baldurs-gate-ee/controller",
+      desktopURL: "/apps/baldurs-gate-ee",
+      overlayURL: "/apps/baldurs-gate-ee/overlay",
+      markerOptions: {
+        radius: 6,
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 50,
+          zDistance: 1000,
+        },
+      },
+      games: [
+        {
+          title: "Baldur's Gate: Enhanced Edition",
+          processNames: ["Baldur.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
+    web: "https://baldursgateee.th.gl",
+    patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
+  },
+  {
     id: "albion-online",
     discordId: "albion-online",
     title: "Albion Online",

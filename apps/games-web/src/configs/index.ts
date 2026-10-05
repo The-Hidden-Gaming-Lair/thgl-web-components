@@ -3,6 +3,7 @@ import { aion2 } from "./aion2";
 import { albionOnline } from "./albion-online";
 import { aniimo } from "./aniimo";
 import { avowed } from "./avowed";
+import { baldursGateEE } from "./baldurs-gate-ee";
 import { bloodOfDawnwalker } from "./blood-of-dawnwalker";
 import { blueProtocolStarResonance } from "./blue-protocol-star-resonance";
 import { chronoOdyssey } from "./chrono-odyssey";
@@ -62,6 +63,7 @@ const ALL_CONFIGS: AppConfig[] = [
   valheim,
   aniimo,
   avowed,
+  baldursGateEE,
   bloodOfDawnwalker,
   blueProtocolStarResonance,
   chronoOdyssey,
