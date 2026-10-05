@@ -277,13 +277,50 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
-    // AION 2 (NCSoft). No companion block: the client runs NCSoft's anti-cheat, so there is no
-    // memory reading / live tracking — web map + database only.
+    // AION 2 (NCSoft). Companion block prepared 2026-10-04, BEFORE the release build could be
+    // started: kernel-driver reads past NCGuard are not proven yet. Scope is the local player
+    // position only (Mixed game, fair-play R1/R3); the tenant config keeps `appUrl: null`
+    // until that is verified live.
     id: "aion2",
     discordId: "aion2",
     title: "AION 2",
     steamAppId: 3393110,
     logo: `${TH_GL_URL}/global_icons/aion2.webp`,
+    companion: {
+      baseURL: "/apps/aion2",
+      controllerURL: "/apps/aion2/controller",
+      desktopURL: "/apps/aion2",
+      overlayURL: "/apps/aion2/overlay",
+      markerOptions: {
+        radius: 6,
+        // TODO before shipping: data-forge has no aion2 `icons/player.webp` yet (the
+        // extraction's player sprite lookup came back empty), and `playerIconForward`
+        // must be set from that image once it exists.
+        playerIcon: "player.webp",
+        imageSprite: true,
+        zPos: {
+          xyMaxDistance: 10000,
+          zDistance: 400,
+        },
+      },
+      games: [
+        {
+          title: "AION 2",
+          // Stub + real game share this name (Steam Playtest, 2026-09). Confirm on the
+          // release build; add the NCSoft Purple build's exe if it differs.
+          processNames: ["AION2.exe"],
+        },
+      ],
+      defaultHotkeys: {
+        [HOTKEYS.TOGGLE_APP]: "F6",
+        [HOTKEYS.TOGGLE_LOCK_APP]: "F9",
+        [HOTKEYS.ZOOM_IN_APP]: "F7",
+        [HOTKEYS.ZOOM_OUT_APP]: "F8",
+        [HOTKEYS.DISCOVER_NODE]: "F10",
+        [HOTKEYS.TOGGLE_LIVE_MODE]: "F5",
+        [HOTKEYS.TOGGLE_OVERLAY_FULLSCREEN]: "SHIFT+F9",
+      },
+    },
     web: "https://aion2.th.gl",
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
