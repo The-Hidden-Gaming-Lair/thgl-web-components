@@ -20,10 +20,17 @@ import {
   getSectionLabels,
 } from "@/lib/db/seo";
 import { Breadcrumb } from "@/lib/db/breadcrumb";
-import { FilterableEntityGrid } from "@/lib/db/filterable-entity-grid";
+import {
+  FilterableEntityGrid,
+  type GridItem,
+} from "@/lib/db/filterable-entity-grid";
 import { getPartnerSectionLink } from "@/lib/db/partner-links";
 import { PartnerLinkRow } from "@/lib/db/partner-link";
-import { fetchFullPropsCategory, flattenPropsText } from "@/lib/db/props-text";
+import {
+  fetchFullPropsCategory,
+  flattenPropsText,
+  rarityColor,
+} from "@/lib/db/props-text";
 
 /**
  * Generic DB section listing. Works for any tenant that defines `db` in its
@@ -127,15 +134,43 @@ export default async function Page({ params }: PageProps) {
   // ("Ranged Offence") and not just names. The slim index drops props — pull
   // them from the per-type files.
   const textById = new Map<string, string>();
+  const colorById = new Map<string, string>();
   await Promise.all(
     data.map(async (cat) => {
       const full = await fetchFullPropsCategory(appConfig.name, cat);
       for (const item of full.items) {
         const text = flattenPropsText(item.props);
         if (text) textById.set(item.id, text);
+        const color = rarityColor(item.props);
+        if (color) colorById.set(item.id, color);
       }
     }),
   );
+
+  // A group whose id is itself a DB entry (e.g. abilities grouped per
+  // Descendant) gets that entry's icon + link in its header.
+  const groupIds = new Set(
+    data.flatMap((cat) => cat.items.map((i) => i.groupId)),
+  );
+  const groupEntries = new Map<
+    string,
+    { icon?: GridItem["icon"]; href?: string }
+  >();
+  for (const cat of database) {
+    const owner = appConfig.db?.homeSections.find(
+      (s) =>
+        s.type === cat.type ||
+        (s.extraTypes ?? []).includes(cat.type) ||
+        (s.typePrefix ? cat.type.startsWith(s.typePrefix) : false),
+    );
+    for (const i of cat.items) {
+      if (!groupIds.has(i.id)) continue;
+      groupEntries.set(i.id, {
+        icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
+        href: owner ? `${owner.href}/${i.id}` : undefined,
+      });
+    }
+  }
 
   const { plural: label } = getSectionLabels(appConfig, dict, secCfg, section);
   const iconsHash = version.more.icons;
@@ -228,6 +263,9 @@ export default async function Page({ params }: PageProps) {
                 i.groupId ?? "other",
               ),
               text: textById.get(i.id),
+              color: colorById.get(i.id),
+              groupIcon: groupEntries.get(i.groupId ?? "")?.icon,
+              groupHref: groupEntries.get(i.groupId ?? "")?.href,
             })),
           )}
           section={section}
