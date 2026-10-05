@@ -16,6 +16,7 @@ import {
   buildDiscoveryLookup,
   checkLiveActorDiscovered,
   checkNodeDiscovered,
+  findRespawnedDiscoveredNodes,
   getPositionedDiscoverTypes,
   getPermanentTypes,
   getAppUrl,
@@ -114,6 +115,11 @@ function computeRelativeZPos(
  * an alarm; the nearest types win.
  */
 const MAX_SIMULTANEOUS_ALERT_TYPES = 3;
+
+// Addresses of respawning-type actors that were available (not harvested) in
+// the previous live pass — see findRespawnedDiscoveredNodes. Module-level so a
+// map switch / remount doesn't make every standing node look freshly spawned.
+let respawnAvailableActors = new Set<number>();
 
 /** The nearest in-range marker of one filter type: squared distance + its (rotated) position. */
 type NearestAlert = { dSq: number; lat: number; lng: number };
@@ -2143,6 +2149,54 @@ function MarkersContent({
           // Adds to discoveredNodes (all discovery logic applies) AND
           // autoDiscoveredNodes (so the tooltip can flag it as auto-discovered).
           useSettingsStore.getState().markAutoDiscovered(newlyCollected);
+        }
+      }
+
+      // Respawned nodes: a discovered spot of a respawning type (ore, trees,
+      // forage — never chests/effigies) whose actor comes back after being
+      // harvested gets undiscovered again. Same mode independence as above.
+      // The available set is tracked even with the setting off, so turning it
+      // on doesn't treat every node that is standing right now as respawned.
+      {
+        const autoRadius = markerOptions.liveConfirmRadius ?? 0;
+        const grid = spatialGridRef.current;
+        const { available, respawned } = findRespawnedDiscoveredNodes({
+          actors: actorsList,
+          previouslyAvailable: respawnAvailableActors,
+          typesIdMap,
+          positionedTypes: positionedTypesRef.current,
+          permanentTypes: permanentTypesRef.current,
+          isDiscovered: (id) =>
+            checkNodeDiscovered(id, discoveryLookupRef.current),
+          // Coarse live types (Enshrouded "chest"): the nearest static node
+          // within the confirm radius, like auto-discovery above.
+          resolveNodeId:
+            autoRadius > 0 && grid
+              ? (actor) => {
+                  let bestD2 = autoRadius * autoRadius;
+                  let id: string | undefined;
+                  for (const cand of grid.getNearby(
+                    actor.x,
+                    actor.y,
+                    autoRadius,
+                  )) {
+                    const dx = cand.latLng[0] - actor.x;
+                    const dy = cand.latLng[1] - actor.y;
+                    const d2 = dx * dx + dy * dy;
+                    if (d2 <= bestD2) {
+                      bestD2 = d2;
+                      id = cand.id;
+                    }
+                  }
+                  return id;
+                }
+              : undefined,
+        });
+        respawnAvailableActors = available;
+        if (settingsState.autoResetRespawned && respawned.length > 0) {
+          // One store update; the discoveredNodes subscription re-runs this
+          // pass, which finds nothing new (the available set is already set).
+          useSettingsStore.getState().setDiscoveredNodesBulk(respawned, false);
         }
       }
 

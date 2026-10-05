@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Masquer les nœuds découverts",
   "settings.autoDiscover": "Découvrir automatiquement les objets collectés",
   "settings.autoDiscover.description": "Marque automatiquement comme découverts les objets déjà collectés en jeu (par ex. les effigies). Désactiver cette option rétablit ceux qu'elle a ajoutés.",
+  "settings.autoResetRespawned": "Réinitialiser les nœuds découverts à leur réapparition",
+  "settings.autoResetRespawned.description": "Lorsque l'application en jeu voit réapparaître un nœud de ressource découvert (minerai, arbres, cueillette), il est marqué comme non découvert. Les trouvailles uniques comme les coffres restent découvertes.",
   "settings.myFilters.title": "Mes Filtres",
   "settings.myFilters.description": "Vous avez {{count}} filtres.",
   "settings.backupRestore": "Sauvegarde et Restauration",

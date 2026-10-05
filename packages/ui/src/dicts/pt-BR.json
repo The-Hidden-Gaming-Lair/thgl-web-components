@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Ocultar Pontos Descobertos",
   "settings.autoDiscover": "Descobrir automaticamente itens coletados",
   "settings.autoDiscover.description": "Marca automaticamente como descobertos os itens que você já coletou no jogo (ex.: efígies). Desativar remove as marcações adicionadas por esta função.",
+  "settings.autoResetRespawned": "Redefinir nós descobertos quando reaparecerem",
+  "settings.autoResetRespawned.description": "Quando o app no jogo vê um nó de recurso descoberto (minério, árvores, coleta) aparecer de novo, ele é marcado como não descoberto. Achados únicos como baús continuam descobertos.",
   "settings.myFilters.title": "Meus Filtros",
   "settings.myFilters.description": "Você tem {{count}} filtros.",
   "settings.backupRestore": "Backup e Restauração",

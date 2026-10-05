@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Nascondi nodi scoperti",
   "settings.autoDiscover": "Scopri automaticamente gli oggetti raccolti",
   "settings.autoDiscover.description": "Segna automaticamente come scoperti gli oggetti già raccolti in gioco (ad es. le effigi). Disattivandolo, quelli aggiunti automaticamente vengono ripristinati.",
+  "settings.autoResetRespawned": "Reimposta i nodi scoperti quando ricompaiono",
+  "settings.autoResetRespawned.description": "Quando l'app in gioco vede ricomparire un nodo risorsa scoperto (minerale, alberi, raccolta), viene segnato come non scoperto. I ritrovamenti unici come i forzieri restano scoperti.",
   "settings.myFilters.title": "I Miei Filtri",
   "settings.myFilters.description": "Hai {{count}} filtri.",
   "settings.backupRestore": "Backup e Ripristino",

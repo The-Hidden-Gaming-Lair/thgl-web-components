@@ -423,6 +423,8 @@
   "settings.hideDiscovered": "Skrýt objevené body",
   "settings.autoDiscover": "Automaticky objevovat sebrané předměty",
   "settings.autoDiscover.description": "Automaticky označí předměty, které jste již ve hře sebrali (např. sošky), jako objevené. Vypnutí zruší označení přidaná touto funkcí.",
+  "settings.autoResetRespawned": "Obnovit objevené uzly, když se znovu objeví",
+  "settings.autoResetRespawned.description": "Když aplikace ve hře uvidí, že se objevený zdrojový uzel (ruda, stromy, sběr) znovu objevil, označí se jako neobjevený. Jednorázové nálezy, jako jsou truhly, zůstanou objevené.",
   "settings.myFilters.title": "Moje filtry",
   "settings.myFilters.description": "Máte {{count}} filtrů.",
   "settings.backupRestore": "Zálohování a obnovení",

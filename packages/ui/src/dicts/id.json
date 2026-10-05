@@ -435,6 +435,8 @@
   "settings.hideDiscovered": "Sembunyikan Titik yang Ditemukan",
   "settings.autoDiscover": "Temukan otomatis item yang dikumpulkan",
   "settings.autoDiscover.description": "Tandai item yang sudah kamu kumpulkan dalam game (mis. efigi) sebagai ditemukan secara otomatis. Mematikannya akan memulihkan yang telah ditambahkannya.",
+  "settings.autoResetRespawned": "Atur ulang node yang ditemukan saat muncul kembali",
+  "settings.autoResetRespawned.description": "Saat aplikasi dalam game melihat node sumber daya yang sudah ditemukan (bijih, pohon, bahan kumpulan) muncul kembali, node itu ditandai belum ditemukan. Temuan sekali saja seperti peti tetap ditemukan.",
   "settings.myFilters.title": "Filter Saya",
   "settings.myFilters.description": "Kamu memiliki {{count}} filter.",
   "settings.backupRestore": "Cadangkan & Pulihkan",

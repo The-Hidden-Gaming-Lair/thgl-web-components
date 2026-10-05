@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Ocultar nodos descubiertos",
   "settings.autoDiscover": "Descubrir automáticamente los objetos recogidos",
   "settings.autoDiscover.description": "Marca automáticamente como descubiertos los objetos que ya recogiste en el juego (p. ej. efigies). Al desactivarlo se restauran los que añadió.",
+  "settings.autoResetRespawned": "Restablecer nodos descubiertos al reaparecer",
+  "settings.autoResetRespawned.description": "Cuando la app del juego ve que un nodo de recursos descubierto (mineral, árboles, recolección) vuelve a aparecer, se marca como no descubierto. Los hallazgos únicos como los cofres siguen descubiertos.",
   "settings.myFilters.title": "Mis Filtros",
   "settings.myFilters.description": "Tienes {{count}} filtros.",
   "settings.backupRestore": "Copia de Seguridad y Restauración",

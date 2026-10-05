@@ -13,13 +13,15 @@ import type { NodesCoordinates, useT } from "../(providers)";
 
 /**
  * The "Discover Nearest Node" / "Undiscover Nearest Node" hotkeys (THGLApp +
- * Overwolf map-hotkeys). Separate keys instead of one toggle: discover only
- * picks undiscovered nodes (so nodes close together can be discovered one
- * after another), undiscover only picks discovered ones (so it works even with
- * "hide discovered nodes" on, where a stray press used to leave no way back).
+ * Overwolf map-hotkeys). Discover TOGGLES the nearest node: pressed on an
+ * undiscovered node it discovers it, on a discovered one it undiscovers it.
+ * With "hide discovered nodes" on it only picks undiscovered nodes, so a
+ * hidden discovered node next to you can't be undiscovered by a press you
+ * can't see the target of. Undiscover only picks discovered nodes and works
+ * with hidden ones too (the way back from a stray press).
  */
 export function discoverNearestNode({
-  discover,
+  mode,
   filters,
   nodes,
   searchableNodes,
@@ -27,7 +29,7 @@ export function discoverNearestNode({
   tilesConfig,
   t,
 }: {
-  discover: boolean;
+  mode: "toggle" | "undiscover";
   filters: string[];
   nodes: NodesCoordinates;
   searchableNodes: NodesCoordinates;
@@ -44,6 +46,7 @@ export function discoverNearestNode({
     setDiscoverNode,
     discoverModeByFilter,
     audioAlertRange,
+    hideDiscoveredNodes,
   } = useSettingsStore.getState();
   // Per-type Discover-Nearest mode (user override, else positioned-type
   // default). `disabled` drops the type entirely; `predicted` keeps static
@@ -119,8 +122,12 @@ export function discoverNearestNode({
   }
   const { spawns, distance } = nodeSpawns.reduce(
     (nearest, spawn) => {
-      // Discover skips discovered nodes, undiscover skips undiscovered ones.
-      if (isDiscoveredNode(getNodeId(spawn as Spawn)) === discover) {
+      // Undiscover skips undiscovered nodes; the toggle skips discovered
+      // ones only while they are hidden.
+      const discovered = isDiscoveredNode(getNodeId(spawn as Spawn));
+      if (
+        mode === "undiscover" ? !discovered : discovered && hideDiscoveredNodes
+      ) {
         return nearest;
       }
       const distance = Math.sqrt(
@@ -143,14 +150,18 @@ export function discoverNearestNode({
   // labels). Beyond it — or with no candidate at all (distance stays Infinity)
   // — report nothing nearby instead of marking a node across the map.
   if (distance > audioAlertRange) {
-    toast(discover ? "No nearby node found" : "No discovered node nearby", {
-      duration: 2000,
-    });
+    toast(
+      mode === "toggle" ? "No nearby node found" : "No discovered node nearby",
+      {
+        duration: 2000,
+      },
+    );
     return;
   }
   // Overlapping spawns can share coordinates; mark the whole batch at the
-  // nearest distance the same way.
+  // nearest distance the same way (the first one's state decides).
   const nodeIds = spawns.map((spawn) => getNodeId(spawn as Spawn));
+  const discover = mode === "toggle" && !isDiscoveredNode(nodeIds[0]!);
   nodeIds.forEach((nodeId) => setDiscoverNode(nodeId, discover));
   spawns.forEach((spawn, index) => {
     // Prefer the spawn's own name (e.g. "Chayne's Room"); fall back to the

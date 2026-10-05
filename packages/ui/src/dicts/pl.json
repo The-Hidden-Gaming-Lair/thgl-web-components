@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Ukryj odkryte punkty",
   "settings.autoDiscover": "Automatycznie odkrywaj zebrane przedmioty",
   "settings.autoDiscover.description": "Automatycznie oznacza jako odkryte przedmioty zebrane już w grze (np. posążki). Wyłączenie cofa oznaczenia dodane przez tę funkcję.",
+  "settings.autoResetRespawned": "Resetuj odkryte węzły po odrodzeniu",
+  "settings.autoResetRespawned.description": "Gdy aplikacja w grze zobaczy, że odkryty węzeł zasobów (ruda, drzewa, zbieractwo) pojawił się ponownie, zostanie oznaczony jako nieodkryty. Jednorazowe znaleziska, takie jak skrzynie, pozostają odkryte.",
   "settings.myFilters.title": "Moje filtry",
   "settings.myFilters.description": "Masz {{count}} filtrów.",
   "settings.backupRestore": "Kopia zapasowa i przywracanie",

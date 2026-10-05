@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "발견된 노드 숨기기",
   "settings.autoDiscover": "수집한 아이템 자동 발견",
   "settings.autoDiscover.description": "게임 내에서 이미 수집한 아이템(예: 조각상)을 자동으로 발견됨으로 표시합니다. 끄면 자동으로 추가된 항목이 원래대로 돌아갑니다.",
+  "settings.autoResetRespawned": "리스폰 시 발견한 노드 초기화",
+  "settings.autoResetRespawned.description": "게임 내 앱이 발견한 자원 노드(광석, 나무, 채집물)가 다시 생성된 것을 확인하면 미발견으로 표시합니다. 상자처럼 한 번만 얻는 것은 발견 상태로 유지됩니다.",
   "settings.myFilters.title": "내 필터",
   "settings.myFilters.description": "{{count}}개의 필터가 있습니다.",
   "settings.backupRestore": "백업 및 복원",

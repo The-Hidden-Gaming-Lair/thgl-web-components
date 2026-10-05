@@ -78,13 +78,6 @@ export function OverwolfSettingsDialogContent({
         Cycle Filter Presets
         <Hotkey name={HOTKEYS.CYCLE_FILTER_PRESET} gameClassId={gameClassId} />
       </Label>
-      <Label className="flex items-center gap-2 justify-between">
-        Reset Discovered Nodes
-        <Hotkey
-          name={HOTKEYS.RESET_DISCOVERED_NODES}
-          gameClassId={gameClassId}
-        />
-      </Label>
       <Separator />
       <h4 className="text-md font-semibold">Performance</h4>
       <div className="flex items-center gap-2 justify-between">

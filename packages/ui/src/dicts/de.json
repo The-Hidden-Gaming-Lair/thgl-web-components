@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Entdeckte Knoten ausblenden",
   "settings.autoDiscover": "Eingesammelte Objekte automatisch entdecken",
   "settings.autoDiscover.description": "Markiert Objekte, die du im Spiel bereits eingesammelt hast (z. B. Effigien), automatisch als entdeckt. Beim Ausschalten werden die automatisch markierten wieder zurückgesetzt.",
+  "settings.autoResetRespawned": "Entdeckte Knoten beim Respawn zurücksetzen",
+  "settings.autoResetRespawned.description": "Wenn die In-Game-App sieht, dass ein entdeckter Ressourcenknoten (Erz, Bäume, Sammelgut) wieder erscheint, wird er als nicht entdeckt markiert. Einmalige Funde wie Truhen bleiben entdeckt.",
   "settings.myFilters.title": "Meine Filter",
   "settings.myFilters.description": "Du hast {{count}} Filter.",
   "settings.backupRestore": "Backup & Wiederherstellung",

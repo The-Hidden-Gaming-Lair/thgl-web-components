@@ -10,5 +10,4 @@ export const HOTKEYS = {
   SHOW_LABELS: "show_labels",
   CYCLE_MAP_TRANSPARENCY: "cycle_map_transparency",
   CYCLE_FILTER_PRESET: "cycle_filter_preset",
-  RESET_DISCOVERED_NODES: "reset_discovered_nodes",
 };

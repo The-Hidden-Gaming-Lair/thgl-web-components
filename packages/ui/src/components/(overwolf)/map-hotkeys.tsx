@@ -10,7 +10,6 @@ import {
 import { useCoordinates, useT } from "../(providers)";
 import { cycleMapTransparency } from "../(desktop)/map-container";
 import { cycleFilterPreset } from "../(providers)/preset-auto-apply";
-import { resetDiscoveredNodes } from "../(controls)/reset-discovered";
 import { discoverNearestNode } from "../(controls)/discover-nearest";
 
 export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
@@ -60,14 +59,11 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
     };
   }, []);
 
-  // Not map-gated either: switching presets / resetting discovered nodes
-  // doesn't need the map instance.
+  // Not map-gated either: switching presets doesn't need the map instance.
   useEffect(() => {
     const handleHotkey = (event: overwolf.settings.hotkeys.OnPressedEvent) => {
       if (event.name === HOTKEYS.CYCLE_FILTER_PRESET) {
         cycleFilterPreset({ userStore: userStoreApi, globalFilters, t });
-      } else if (event.name === HOTKEYS.RESET_DISCOVERED_NODES) {
-        resetDiscoveredNodes(t);
       }
     };
     overwolf.settings.hotkeys.onPressed.addListener(handleHotkey);
@@ -93,7 +89,7 @@ export function MapHotkeys({ tilesConfig }: { tilesConfig: TilesConfig }) {
       }
       lastDiscoverTime = now;
       discoverNearestNode({
-        discover: event.name === HOTKEYS.DISCOVER_NODE,
+        mode: event.name === HOTKEYS.DISCOVER_NODE ? "toggle" : "undiscover",
         filters: userStoreApi.getState().filters,
         nodes,
         searchableNodes,

@@ -435,6 +435,8 @@
   "settings.hideDiscovered": "Ẩn điểm đã khám phá",
   "settings.autoDiscover": "Tự động khám phá vật phẩm đã thu thập",
   "settings.autoDiscover.description": "Tự động đánh dấu các vật phẩm bạn đã thu thập trong game (vd. tượng nhỏ) là đã khám phá. Tắt tính năng này sẽ khôi phục những mục nó đã thêm.",
+  "settings.autoResetRespawned": "Đặt lại nút đã khám phá khi hồi sinh",
+  "settings.autoResetRespawned.description": "Khi ứng dụng trong game thấy một nút tài nguyên đã khám phá (quặng, cây, đồ hái lượm) xuất hiện lại, nút đó được đánh dấu là chưa khám phá. Những thứ chỉ tìm được một lần như rương vẫn giữ trạng thái đã khám phá.",
   "settings.myFilters.title": "Bộ lọc của tôi",
   "settings.myFilters.description": "Bạn có {{count}} bộ lọc.",
   "settings.backupRestore": "Sao lưu & Khôi phục",

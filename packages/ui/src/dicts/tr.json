@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "Keşfedilen Noktaları Gizle",
   "settings.autoDiscover": "Toplanan öğeleri otomatik keşfet",
   "settings.autoDiscover.description": "Oyun içinde zaten topladığınız öğeleri (ör. heykelcikler) otomatik olarak keşfedildi olarak işaretler. Kapatıldığında eklediklerini geri alır.",
+  "settings.autoResetRespawned": "Keşfedilen düğümleri yeniden doğduğunda sıfırla",
+  "settings.autoResetRespawned.description": "Oyun içi uygulama keşfedilmiş bir kaynak düğümünün (maden, ağaç, toplanabilir) yeniden ortaya çıktığını gördüğünde düğüm keşfedilmemiş olarak işaretlenir. Sandıklar gibi tek seferlik buluntular keşfedilmiş kalır.",
   "settings.myFilters.title": "Filtrelerim",
   "settings.myFilters.description": "{{count}} filtreniz var.",
   "settings.backupRestore": "Yedekleme ve Geri Yükleme",

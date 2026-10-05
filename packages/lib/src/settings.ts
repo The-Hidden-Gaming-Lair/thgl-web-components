@@ -276,8 +276,6 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
     show_labels: "Shift+F5",
     cycle_map_transparency: "Shift+F7",
     cycle_filter_preset: "Shift+F8",
-    // Unbound by default: one stray press would wipe every discovered node.
-    reset_discovered_nodes: "",
     // Unbound by default: Elite preview, offered only for some games.
     toggle_compact_overlay: "",
   },
@@ -306,6 +304,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   hideDiscoveredNodes: false,
   autoDiscoveredNodes: [],
   autoDiscoverCollected: true,
+  autoResetRespawned: true,
   actorsPollingRate: 100,
   showTraceLine: true,
   followPlayer: true,
@@ -454,6 +453,9 @@ export type ProfileSettings = {
   autoDiscoveredNodes: string[];
   // User opt-out for memory-driven auto-discovery of collected items.
   autoDiscoverCollected: boolean;
+  // Undiscover a respawning node (ore, trees, forage — not one-time finds like
+  // chests) when the live app sees it spawn again at a discovered spot.
+  autoResetRespawned: boolean;
   actorsPollingRate: number;
   showTraceLine: boolean;
   followPlayer: boolean;
@@ -611,6 +613,7 @@ export interface ProfileActions {
   // discovery logic applies) and autoDiscoveredNodes (so the UI can flag them).
   markAutoDiscovered: (nodeIds: string[]) => void;
   setAutoDiscoverCollected: (enabled: boolean) => void;
+  setAutoResetRespawned: (enabled: boolean) => void;
   setActorsPollingRate: (actorsPollingRate: number) => void;
   toggleShowTraceLine: () => void;
   toggleFollowPlayer: () => void;
@@ -1590,6 +1593,10 @@ export const useSettingsStore = create(
               ),
               autoDiscoveredNodes: [],
             });
+          },
+
+          setAutoResetRespawned: (enabled: boolean) => {
+            updateSettings({ autoResetRespawned: enabled });
           },
 
           setActorsPollingRate: (actorsPollingRate: number) => {

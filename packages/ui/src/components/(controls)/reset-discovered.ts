@@ -4,9 +4,8 @@ import type { useT } from "../(providers)";
 
 /**
  * Clears every discovered node of the active game, with an Undo action on the
- * toast. Shared by the settings Reset button and the "Reset Discovered Nodes"
- * hotkey (THGLApp + Overwolf map-hotkeys), where a stray key press must not
- * cost the user their progress.
+ * toast, so a stray click on the settings Reset button doesn't cost the user
+ * their progress.
  */
 export function resetDiscoveredNodes(t: ReturnType<typeof useT>): void {
   const { discoveredNodes, setDiscoveredNodes } = useSettingsStore.getState();

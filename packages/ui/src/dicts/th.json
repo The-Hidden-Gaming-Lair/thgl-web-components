@@ -426,6 +426,8 @@
   "settings.hideDiscovered": "ซ่อนหมุดที่ค้นพบแล้ว",
   "settings.autoDiscover": "ค้นพบไอเทมที่เก็บแล้วโดยอัตโนมัติ",
   "settings.autoDiscover.description": "ทำเครื่องหมายไอเทมที่คุณเก็บแล้วในเกม (เช่น รูปปั้น) ว่าค้นพบแล้วโดยอัตโนมัติ การปิดจะคืนค่ารายการที่ถูกเพิ่มไว้",
+  "settings.autoResetRespawned": "รีเซ็ตโหนดที่ค้นพบแล้วเมื่อเกิดใหม่",
+  "settings.autoResetRespawned.description": "เมื่อแอปในเกมเห็นว่าโหนดทรัพยากรที่ค้นพบแล้ว (แร่ ต้นไม้ ของเก็บ) เกิดขึ้นใหม่ จะถูกทำเครื่องหมายว่ายังไม่ค้นพบ ของที่พบได้ครั้งเดียวอย่างหีบจะยังคงค้นพบอยู่",
   "settings.myFilters.title": "ตัวกรองของฉัน",
   "settings.myFilters.description": "คุณมี {{count}} ตัวกรอง",
   "settings.backupRestore": "สำรองและกู้คืน",

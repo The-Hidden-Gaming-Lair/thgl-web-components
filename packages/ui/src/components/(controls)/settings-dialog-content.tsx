@@ -223,6 +223,26 @@ export function SettingsDialogContent({
                 onCheckedChange={settingsStore.setAutoDiscoverCollected}
               />
             </div>
+            <div className="flex items-center justify-between">
+              <div className="pr-2">
+                <Label htmlFor="auto-reset-respawned">
+                  {t("settings.autoResetRespawned", {
+                    fallback: "Reset discovered nodes when they respawn",
+                  })}
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  {t("settings.autoResetRespawned.description", {
+                    fallback:
+                      "When the in-game app sees a discovered resource node (ore, trees, forage) spawn again, it is marked undiscovered. One-time finds like chests stay discovered.",
+                  })}
+                </p>
+              </div>
+              <Switch
+                id="auto-reset-respawned"
+                checked={settingsStore.autoResetRespawned}
+                onCheckedChange={settingsStore.setAutoResetRespawned}
+              />
+            </div>
           </Section>
 
           {/* My Filters */}

@@ -130,36 +130,7 @@ test("overlay: the Cycle Filter Presets hotkey applies the saved presets in orde
   await expect.poll(filters).toEqual([CLAY.id]);
 });
 
-test("overlay: the Reset Discovered Nodes hotkey clears discovered nodes and Undo restores them", async ({
-  page,
-}) => {
-  await openOverlay(page);
-  const discovered = () =>
-    page.evaluate(
-      () => (window as any).__thgl.useSettingsStore.getState().discoveredNodes,
-    );
-  await page.evaluate(() => {
-    (window as any).__thgl.useSettingsStore
-      .getState()
-      .setDiscoveredNodes(["e2e@1:2", "e2e@3:4"]);
-  });
-
-  await emitWebviewMessage(page, {
-    action: "hotkey",
-    payload: { key: "SHIFT+F10", action: "reset_discovered_nodes" },
-  });
-  await expect.poll(discovered).toEqual([]);
-  await expect(page.getByText("Discovered nodes reset").first()).toBeVisible();
-
-  // The toast stack is still animating in; dispatch the click directly.
-  await page
-    .getByRole("button", { name: "Undo" })
-    .first()
-    .dispatchEvent("click");
-  await expect.poll(discovered).toEqual(["e2e@1:2", "e2e@3:4"]);
-});
-
-test("overlay: Discover and Undiscover Nearest Node are separate hotkeys", async ({
+test("overlay: Discover Nearest Node toggles, Undiscover reaches hidden nodes", async ({
   page,
 }) => {
   await openOverlay(page);
@@ -185,19 +156,90 @@ test("overlay: Discover and Undiscover Nearest Node are separate hotkeys", async
     await page.waitForTimeout(600);
   };
 
-  // The player stands on the clay node.
+  // The player stands on the clay node: discover toggles it on and off.
   await press("discover_node");
   await expect.poll(isDiscovered).toBe(true);
-  // Discover never toggles back: the clay node stays discovered.
+  await press("discover_node");
+  await expect.poll(isDiscovered).toBe(false);
+  await expect(page.getByText("Undiscovered Clay").first()).toBeVisible();
   await press("discover_node");
   await expect.poll(isDiscovered).toBe(true);
 
-  // With "hide discovered nodes" on, undiscover still finds the hidden node.
+  // With "hide discovered nodes" on, discover skips the hidden node (it can't
+  // be seen), but undiscover still finds it.
   await page.evaluate(() => {
     const s = (window as any).__thgl.useSettingsStore.getState();
     if (!s.hideDiscoveredNodes) s.toggleHideDiscoveredNodes();
   });
+  await press("discover_node");
+  await expect.poll(isDiscovered).toBe(true);
   await press("undiscover_node");
   await expect.poll(isDiscovered).toBe(false);
   await expect(page.getByText("Undiscovered Clay").first()).toBeVisible();
+});
+
+test("overlay: a discovered resource node resets when it respawns", async ({
+  page,
+}) => {
+  await openOverlay(page);
+  await page.evaluate(() => {
+    (window as any).__thgl.useSettingsStore.getState().setDiscoveredNodes([]);
+  });
+  const isDiscovered = () =>
+    page.evaluate(
+      (id) =>
+        (window as any).__thgl.useSettingsStore.getState().isDiscoveredNode(id),
+      CLAY_NODE_ID,
+    );
+  const setDiscovered = (discovered: boolean) =>
+    page.evaluate(
+      ([id, d]) =>
+        (window as any).__thgl.useSettingsStore
+          .getState()
+          .setDiscoverNode(id, d),
+      [CLAY_NODE_ID, discovered] as const,
+    );
+  const clayActor = (hidden: boolean) =>
+    emitWebviewMessage(page, {
+      action: "staticActors",
+      payload: [
+        {
+          address: "7001",
+          type: CLAY.actorClass,
+          x: CLAY.spawn.lat,
+          y: CLAY.spawn.lng,
+          z: 0,
+          r: 0,
+          mapName: MAPS.kilima.key,
+          hidden,
+        },
+      ],
+    });
+
+  // Discovered while the node is still standing: no respawn, stays discovered.
+  await clayActor(false);
+  await setDiscovered(true);
+  await clayActor(false);
+  await page.waitForTimeout(300);
+  expect(await isDiscovered()).toBe(true);
+
+  // Harvested (depleted), then it comes back: reset.
+  await clayActor(true);
+  await page.waitForTimeout(300);
+  expect(await isDiscovered()).toBe(true);
+  await clayActor(false);
+  await expect.poll(isDiscovered).toBe(false);
+
+  // With the setting off a respawn keeps the node discovered.
+  await page.evaluate(() => {
+    (window as any).__thgl.useSettingsStore
+      .getState()
+      .setAutoResetRespawned(false);
+  });
+  await setDiscovered(true);
+  await clayActor(true);
+  await page.waitForTimeout(300);
+  await clayActor(false);
+  await page.waitForTimeout(300);
+  expect(await isDiscovered()).toBe(true);
 });
