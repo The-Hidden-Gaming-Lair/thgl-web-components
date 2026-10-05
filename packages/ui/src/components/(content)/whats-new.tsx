@@ -204,7 +204,10 @@ export function WhatsNew({
                     />
                     <span className="font-medium">{update.game.title}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
+                  <span
+                    className="text-xs text-muted-foreground"
+                    suppressHydrationWarning
+                  >
                     {new Date(update.message.timestamp).toLocaleDateString()}
                   </span>
                 </div>
@@ -243,7 +246,10 @@ export function WhatsNew({
                     </span>
                   </div>
                   {update.date && (
-                    <span className="text-xs text-muted-foreground">
+                    <span
+                      className="text-xs text-muted-foreground"
+                      suppressHydrationWarning
+                    >
                       {new Date(update.date).toLocaleDateString()}
                     </span>
                   )}
@@ -316,7 +322,10 @@ export function ChangelogList({
                   </span>
                 </div>
                 {entry.date && (
-                  <span className="text-xs text-muted-foreground">
+                  <span
+                    className="text-xs text-muted-foreground"
+                    suppressHydrationWarning
+                  >
                     {new Date(entry.date).toLocaleDateString()}
                   </span>
                 )}
