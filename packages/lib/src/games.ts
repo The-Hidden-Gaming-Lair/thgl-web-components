@@ -277,17 +277,17 @@ export const games: Array<Game> = [
     patreonTierIDs: DEFAULT_PATREON_TIER_IDS,
   },
   {
-    // AION 2 (NCSoft). Companion block prepared 2026-10-04, BEFORE the release build could be
-    // started: kernel-driver reads past NCGuard are not proven yet. Scope is the local player
-    // position only (Mixed game, fair-play R1/R3); the tenant config keeps `appUrl: null`
-    // until that is verified live.
+    // AION 2 (NCSoft). Kernel-driver reads past NCGuard verified live on 2026-10-05 (Steam
+    // build 25719316): position, map name and heading are correct in World_L_Starter. Scope is
+    // the local player position only (Mixed game, fair-play R1/R3).
     id: "aion2",
     discordId: "aion2",
     title: "AION 2",
     steamAppId: 3393110,
     logo: `${TH_GL_URL}/global_icons/aion2.webp`,
     companion: {
-      // Hidden in production builds until the detector's reads are verified on the release build.
+      // Hidden in production builds until a THGLApp release carries the AION 2 detector and
+      // data-forge ships icons/player.webp.
       inDevelopment: true,
       baseURL: "/apps/aion2",
       controllerURL: "/apps/aion2/controller",
@@ -295,10 +295,10 @@ export const games: Array<Game> = [
       overlayURL: "/apps/aion2/overlay",
       markerOptions: {
         radius: 6,
-        // TODO before shipping: data-forge has no aion2 `icons/player.webp` yet (the
-        // extraction's player sprite lookup came back empty), and `playerIconForward`
-        // must be set from that image once it exists.
+        // Needs data-forge public\aion2\icons\player.webp, which the next aion2 extraction
+        // writes (the world-map arrow, turned to point right); without it no marker is drawn.
         playerIcon: "player.webp",
+        playerIconForward: 90,
         imageSprite: true,
         zPos: {
           xyMaxDistance: 10000,
@@ -308,8 +308,8 @@ export const games: Array<Game> = [
       games: [
         {
           title: "AION 2",
-          // Stub + real game share this name (Steam Playtest, 2026-09). Confirm on the
-          // release build; add the NCSoft Purple build's exe if it differs.
+          // Steam build: a stub and the real game both run as AION2.exe; THGLApp picks the
+          // child with the window (verified 2026-10-05). NCSoft Purple build's exe not checked.
           processNames: ["AION2.exe"],
         },
       ],
