@@ -5,18 +5,22 @@ import { BASE_URL, MAPS, mapUrl } from "./fixtures";
  * SSR renders in UTC; a client component that formats a date in the
  * visitor's time zone mismatches on hydration (React #418) whenever the two
  * calendar days differ. UTC+14 and UTC-11 together guarantee that at least
- * one of them is on a different day than UTC at any hour.
+ * one of them is on a different day than UTC at any hour. A bare
+ * toLocaleDateString() also mismatches on the visitor's LOCALE (SSR formats
+ * en-US), so the browser runs de-DE too.
  */
 const TIME_ZONES = ["Pacific/Kiritimati", "Pacific/Pago_Pago"];
+const LOCALE = "de-DE";
 
 const PAGES = [
   { name: "home", url: `${BASE_URL}/` },
   { name: "map", url: mapUrl(MAPS.kilima.title) },
+  { name: "www home", url: "http://www-dev.localhost:3100/" },
 ];
 
 for (const timezoneId of TIME_ZONES) {
   test.describe(`hydration in ${timezoneId}`, () => {
-    test.use({ timezoneId });
+    test.use({ timezoneId, locale: LOCALE });
 
     for (const { name, url } of PAGES) {
       test(`${name} page hydrates without a text mismatch`, async ({
