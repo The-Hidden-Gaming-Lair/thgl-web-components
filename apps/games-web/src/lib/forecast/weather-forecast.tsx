@@ -398,10 +398,30 @@ export function WeatherForecast({
                     />
                   )}
                 </span>
-                <span className="mt-auto grid grid-cols-2 gap-x-0.5 gap-y-1 text-xs leading-none sm:flex sm:flex-wrap sm:gap-y-0 sm:text-base">
-                  {slots.map((s, k) => (
-                    <span key={k}>{meta(s.wid, s.hour).emoji}</span>
-                  ))}
+                {/* `!` on the sm: utilities for the same cascade reason as the month jump row:
+                    without it the base `grid` wins and desktop shows a stretched 2×2 grid. */}
+                <span className="mt-auto grid grid-cols-2 gap-x-0.5 gap-y-1 text-xs leading-none sm:flex! sm:flex-wrap! sm:gap-0.5! sm:text-base!">
+                  {slots.map((s, k) => {
+                    const cat = catOf(s.wid);
+                    // Plain sky (sunny/cloudy/clear night) recedes so the weathers players
+                    // plan around stand out at a glance; special ones get the amber chip.
+                    const plain = cat === "clear" || cat === "cloud";
+                    const special = data.types[String(s.wid)]?.special;
+                    return (
+                      <span
+                        key={k}
+                        className={`rounded-sm px-px ${
+                          plain
+                            ? "opacity-35 grayscale"
+                            : special
+                              ? "bg-amber-500/25 ring-1 ring-amber-500/70"
+                              : ""
+                        }`}
+                      >
+                        {meta(s.wid, s.hour).emoji}
+                      </span>
+                    );
+                  })}
                 </span>
               </button>
             );
