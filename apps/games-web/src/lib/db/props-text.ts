@@ -38,6 +38,16 @@ export function flattenPropsText(
   return parts.join(" · ");
 }
 
+/** The item's rarity colour (`props.rarity = {label, color}` from data-forge), if any. */
+export function rarityColor(
+  props: Record<string, unknown> | undefined,
+): string | undefined {
+  const r = props?.rarity as { label?: unknown; color?: unknown } | undefined;
+  return r && typeof r.label === "string" && typeof r.color === "string"
+    ? r.color
+    : undefined;
+}
+
 /**
  * The slim `database.index.json` strips `props` (bar opt-in lite props), so
  * effect text must come from the per-type `database.<type>.json` file.

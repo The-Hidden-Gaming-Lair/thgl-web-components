@@ -38,6 +38,13 @@ export const whereWindsMeet = resolveAppConfig({
       iconName: "SquareCheckBig",
       linkText: "checklist.navLinkText",
     },
+    {
+      href: "/activities-tracker",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      iconName: "Activity",
+    },
   ],
   promoLinks: [],
   externalLinks: [],

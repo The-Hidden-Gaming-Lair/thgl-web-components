@@ -41,6 +41,8 @@ export type CraftItemInfo = {
   db?: string;
   /** Map (single-map games) or location guide path, when it has spawns. */
   map?: string;
+  /** Shops selling it (codex `soldBy`): name, codex path, price label. */
+  sellers?: { name: string; db?: string; price?: string }[];
 };
 
 /**
@@ -89,11 +91,22 @@ export function craftItemInfos(
           ? `/maps/${encodeURIComponent(singleMap)}?filters=${encodeURIComponent(param)}`
           : `/guides/${encodeURIComponent(translate(dict, typeIds[0]))}`;
     }
+    const sellers = data.sellers[id]?.map((s) => {
+      const shopSlug = slugByType.get(s.section);
+      return {
+        name: resolveDict(dict, s.id),
+        db: shopSlug
+          ? `/db/${shopSlug}/${encodeURIComponent(s.id)}`
+          : undefined,
+        price: s.price,
+      };
+    });
     out[id] = {
       name: resolveDict(dict, id),
       icon: icons.get(id),
       db: slug ? `/db/${slug}/${encodeURIComponent(id)}` : undefined,
       map,
+      ...(sellers?.length ? { sellers } : {}),
     };
   }
   return out;

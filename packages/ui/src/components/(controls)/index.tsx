@@ -30,6 +30,7 @@ export {
 } from "./audio-alert";
 export type { AudioAlertSound } from "./audio-alert";
 export { AudioAlertUnlocker } from "./audio-alert-unlocker";
+export { ThemeScript } from "./theme-script";
 
 // UI components
 export {

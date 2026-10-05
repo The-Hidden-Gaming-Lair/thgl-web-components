@@ -47,12 +47,19 @@ const RECIPE_PROPS = [
 
 function slimRef(r: unknown) {
   if (!r || typeof r !== "object") return r;
-  const { id, section, count } = r as {
+  const { id, section, count, group } = r as {
     id?: unknown;
     section?: unknown;
     count?: unknown;
+    group?: unknown;
   };
-  return count && count !== 1 ? { id, section, count } : { id, section };
+  return {
+    id,
+    section,
+    ...(count && count !== 1 ? { count } : {}),
+    // `group` on ingredients = an "any of" slot (crafting.ts).
+    ...(typeof group === "string" && group ? { group } : {}),
+  };
 }
 
 function slimProp(value: unknown): unknown {
@@ -94,10 +101,70 @@ export function slimCraftingSource(
   return out;
 }
 
+/** A shop that sells an item, with its price label ("190 gold"), if any. */
+export type CraftSeller = { id: string; section: string; price?: string };
+
+/**
+ * `soldBy` refs (codex shape: shop DbRefs, `tooltip` = price label) of every
+ * item in the graph — the calculator's buy-or-gather choice.
+ */
+export function craftingSellers(
+  categories: DatabaseConfig,
+  graph: CraftingGraph,
+): Record<string, CraftSeller[]> {
+  const out: Record<string, CraftSeller[]> = {};
+  for (const cat of categories) {
+    for (const item of cat.items) {
+      if (graph.sectionOf[item.id] === undefined) continue;
+      const soldBy = (item.props as Record<string, unknown> | undefined)
+        ?.soldBy;
+      const list = Array.isArray(soldBy)
+        ? soldBy
+        : soldBy && typeof soldBy === "object" && "list" in soldBy
+          ? (soldBy as { list: unknown }).list
+          : [];
+      if (!Array.isArray(list)) continue;
+      const sellers: CraftSeller[] = [];
+      for (const r of list as {
+        id?: unknown;
+        section?: unknown;
+        tooltip?: unknown;
+      }[]) {
+        if (typeof r?.id !== "string" || typeof r.section !== "string")
+          continue;
+        if (sellers.some((s) => s.id === r.id)) continue;
+        sellers.push({
+          id: r.id,
+          section: r.section,
+          ...(typeof r.tooltip === "string" && r.tooltip
+            ? { price: r.tooltip }
+            : {}),
+        });
+      }
+      if (sellers.length) out[item.id] = sellers;
+    }
+  }
+  return out;
+}
+
+/** "1,200 Fishing Medals" → `{ amount: 1200, currency: "Fishing Medals" }`. */
+export function parsePrice(
+  label: string | undefined,
+): { amount: number; currency: string } | null {
+  const m = label?.trim().match(/^(\d[\d,]*(?:\.\d+)?)\s+(\S.*)$/);
+  if (!m) return null;
+  const amount = Number(m[1].replace(/,/g, ""));
+  return Number.isFinite(amount) && amount > 0
+    ? { amount, currency: m[2] }
+    : null;
+}
+
 export type CraftingData = {
   /** Slim recipe entries (what the client rebuilds the graph from). */
   source: CraftDbCategory[];
   graph: CraftingGraph;
+  /** Item id → shops selling it (codex `soldBy`), for buy-or-gather. */
+  sellers: Record<string, CraftSeller[]>;
   /** The database index (names come from the dict, icons from here). */
   index: DatabaseConfig;
   /** Map filter types with spawns for an entry (`section/id` → type ids). */
@@ -170,10 +237,10 @@ async function load(appName: string): Promise<CraftingData> {
   const full = await Promise.all(
     types.map((c) => fetchDatabaseType(appName, c.type).catch(() => null)),
   );
-  const source = slimCraftingSource(
-    full.filter((c): c is DatabaseConfig[number] => !!c),
-  );
+  const loaded = full.filter((c): c is DatabaseConfig[number] => !!c);
+  const source = slimCraftingSource(loaded);
   const graph = buildCraftingGraph(source);
+  const sellers = craftingSellers(loaded, graph);
   // Map spawns are only for "show on map" links — NOT a gather default:
   // placed structures, wrecks and loot crates are map markers too.
   const mapTypes = craftingMapTypes(
@@ -182,7 +249,7 @@ async function load(appName: string): Promise<CraftingData> {
     version?.counts?.byType,
     enDict,
   );
-  return { source, graph, index, mapTypes };
+  return { source, graph, sellers, index, mapTypes };
 }
 
 /**

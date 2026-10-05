@@ -1,11 +1,19 @@
 import "@/styles/globals.css";
+import { NavigationProgress } from "@repo/ui/apps";
 import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/inter.css";
 
 import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { AppConfig, cn, DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
+import {
+  AppConfig,
+  cn,
+  DEFAULT_LOCALE,
+  fetchGuidesIndex,
+  fetchVersion,
+  guideNavLinks,
+} from "@repo/lib";
 import {
   Header,
   Brand,
@@ -21,6 +29,7 @@ import {
   SiteFooter,
   AudioAlertUnlocker,
   NewVersionWatcher,
+  ThemeScript,
   Toaster,
 } from "@repo/ui/controls";
 import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
@@ -104,6 +113,11 @@ export function createDbRootLayout(
     // Hybrid mode: game ships filters (and therefore /guides + Settings).
     // DB-only sites like homm have an empty filter list → drop both.
     const hasFilters = version.data.filters.length > 0;
+    // Written guides are English-only — other locales keep the plain Guides link.
+    const guideLinks =
+      hasFilters && locale === DEFAULT_LOCALE
+        ? guideNavLinks(await fetchGuidesIndex(appConfig.name), appConfig.title)
+        : undefined;
     const hasMap =
       !appConfig.db?.hideInteractiveMap &&
       Object.keys(version.data.tiles ?? {}).length > 0;
@@ -124,13 +138,15 @@ export function createDbRootLayout(
     }
 
     return (
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={cn(
             "font-sans dark min-h-dscreen bg-black text-white antialiased",
             "inter-font-sans",
           )}
         >
+          <ThemeScript />
+          <NavigationProgress />
           <I18NProvider dict={clientDict} locale={locale}>
             <Header
               activeApp={appConfig.title}
@@ -169,6 +185,7 @@ export function createDbRootLayout(
                 }
                 hasMap={hasMap}
                 hasGuides={hasFilters}
+                guideLinks={guideLinks}
               >
                 {appConfig.supportedLocales.length > 1 && (
                   <Suspense>
@@ -207,6 +224,7 @@ export function createDbRootLayout(
                     appConfig={appConfig}
                     hasMap={hasMap}
                     hasGuides={hasFilters}
+                    guideLinks={guideLinks}
                   />
                 }
               >

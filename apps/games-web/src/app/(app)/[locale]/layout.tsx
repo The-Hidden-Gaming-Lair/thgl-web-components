@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { NavigationProgress } from "@repo/ui/apps";
 import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/inter.css";
 
@@ -9,6 +10,7 @@ import { I18NProvider, TooltipProvider } from "@repo/ui/providers";
 import {
   AudioAlertUnlocker,
   NewVersionWatcher,
+  ThemeScript,
   Toaster,
 } from "@repo/ui/controls";
 import {
@@ -52,13 +54,15 @@ export default async function RootLayout({
   const dict = { ...globalDict, ...appDict };
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={cn(
           "font-sans dark h-dscreen bg-transparent text-white antialiased select-none overflow-hidden flex",
           "inter-font-sans",
         )}
       >
+        <ThemeScript />
+        <NavigationProgress />
         <I18NProvider dict={dict} locale={locale}>
           <TooltipProvider>
             <main className="grow min-h-0">{children}</main>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AccountLink } from "./account-link";
 import { GlobalSearch } from "./global-search";
+import { ThemeSelect } from "./theme-select";
 import { appConfig } from "@/games/thgl-web/lib/config";
 import { blogEntries } from "@/games/thgl-web/lib/blog-entries";
 import { faqEntries } from "@/games/thgl-web/lib/faq-entries";
@@ -49,6 +50,7 @@ export function Header() {
         />
         <div className="flex shrink-0 items-center gap-3">
           <GlobalSearch blogMeta={blogSearchMeta} faqMeta={faqSearchMeta} />
+          <ThemeSelect />
           <AccountLink />
         </div>
       </nav>

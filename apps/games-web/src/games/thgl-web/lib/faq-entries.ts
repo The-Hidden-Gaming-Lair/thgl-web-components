@@ -145,11 +145,11 @@ Sharing is built in — sign in with a free account so your filter syncs, then o
     id: "import-progress-from-another-map-site",
     headline: "Import your progress from another map site",
     question:
-      "I already tracked chests and collectibles on another interactive map (like appsample or wuthering.gg). Can I import that progress into TH.GL?",
+      "I already tracked chests and collectibles on another interactive map (like appsample, wuthering.gg or ghzs666.com). Can I import that progress into TH.GL?",
     answer: `
 Yes — for supported games you can bring your found markers over in a one-time copy. It matches the other site's markers to the same locations on our map and marks them as **discovered** here.
 
-> Supported today for **Wuthering Waves**: **appsample** and **wuthering.gg**. More sites/games will follow.
+> Supported today for **Wuthering Waves**: **appsample**, **wuthering.gg** and the **ghzs666.com** (光环助手) map. More sites/games will follow.
 
 ## How to import
 1. On the TH.GL map, open **Settings → Discovered Nodes** and click **Import from another site**.
@@ -158,7 +158,7 @@ Yes — for supported games you can bring your found markers over in a one-time 
 
 ## Exporting (desktop only)
 The export runs in the other site's page, so it needs a desktop browser — mobile browsers have no developer console:
-1. Open the other map on a **computer**. For appsample, sign in with the same Google account. For wuthering.gg, use the **same browser** you marked your progress in, since it keeps that progress in the browser - or sign in to your wuthering.gg account first, then any browser works.
+1. Open the other map on a **computer**. For appsample, sign in with the same Google account. For wuthering.gg, use the **same browser** you marked your progress in, since it keeps that progress in the browser - or sign in to your wuthering.gg account first, then any browser works. For the ghzs666.com map, sign in with the account you marked with and wait for the map to load.
 2. Press **F12** → **Console** tab.
 3. Paste the snippet shown in the TH.GL import dialog and press **Enter**. (If the browser blocks the paste, type **allow pasting** first.)
 4. It downloads a small file with your found markers — upload that in the TH.GL import box, or copy what it prints in the Console and paste it.
@@ -369,6 +369,8 @@ Overwolf apps can't sign in directly, so you unlock them with a one-time **secre
 2. Open the [account page](/support-me/account). If a big **Authenticate with Patreon** button shows, click it and sign in. Already signed in? The page shows your account details instead — no button, nothing to do here.
 3. Scroll down to the **Unlock Overwolf Apps** section, find your game's card, and click **Unlock App** (one click). If the app doesn't open, click **Copy Secret** instead.
 4. In the app, open the account window (profile/heart icon), **paste the secret**, and click **Unlock**.
+
+**"No active subscriptions" in Overwolf's Settings > Subscriptions?** That's normal. That page only lists purchases made through Overwolf itself, never a Patreon membership. Your supporter status shows in the app's own account window (profile/heart icon) once you've unlocked it with the secret.
 
 Still stuck? Patreon occasionally has brief connection issues — wait a few minutes and try again.
 

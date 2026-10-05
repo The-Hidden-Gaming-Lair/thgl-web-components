@@ -2,7 +2,7 @@
 // invoked from a multi-tenant `/db/story` route that's shared with other
 // apps (currently Drakantos). The BPSR-specific JSON-LD, hero, list, and
 // entry-detail components are unchanged — only the calling shape moves
-// out of `app/[locale]/db/story/...` and into this module.
+// out of `app/g/[game]/[surface]/[locale]/db/story/...` and into this module.
 
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -21,19 +21,23 @@ import { blueProtocolStarResonance } from "@/configs/blue-protocol-star-resonanc
 
 const SECTION = BPSR_SECTIONS.story;
 
-export async function bpsrStoryMetadata(
-  locale: string,
-): Promise<Metadata> {
+export async function bpsrStoryMetadata(locale: string): Promise<Metadata> {
   return sectionMetadata(SECTION, locale);
 }
 
-export async function BpsrStoryListPage({ locale = DEFAULT_LOCALE }: { locale?: string }) {
+export async function BpsrStoryListPage({
+  locale = DEFAULT_LOCALE,
+}: {
+  locale?: string;
+}) {
   const rawGroups = await loadSection(SECTION, locale);
   const groups = rawGroups.map((g) => ({
     ...g,
     items: [...g.items].sort((a, b) => {
-      const ao = typeof a.props.phaseOrder === "number" ? a.props.phaseOrder : 0;
-      const bo = typeof b.props.phaseOrder === "number" ? b.props.phaseOrder : 0;
+      const ao =
+        typeof a.props.phaseOrder === "number" ? a.props.phaseOrder : 0;
+      const bo =
+        typeof b.props.phaseOrder === "number" ? b.props.phaseOrder : 0;
       return ao - bo;
     }),
   }));

@@ -108,6 +108,53 @@ export function MapLink({
   );
 }
 
+/** "Sold by" chips: shop (codex link) + price label. */
+export function SellerChips({
+  info,
+  locale,
+  label,
+}: {
+  info?: CraftItemInfo;
+  locale: string;
+  label: string;
+}) {
+  if (!info?.sellers?.length) return null;
+  const cls =
+    "rounded border border-slate-700 bg-slate-900/60 px-1.5 py-0.5 text-[11px]";
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+      {label}
+      {info.sellers.map((s) => {
+        const text = s.price ? `${s.name} · ${s.price}` : s.name;
+        return s.db ? (
+          <Link
+            key={s.name}
+            href={localizePath(s.db, locale)}
+            prefetch={false}
+            className={`${cls} hover:border-amber-700/70`}
+          >
+            {text}
+          </Link>
+        ) : (
+          <span key={s.name} className={cls}>
+            {text}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+/** Small "Any Catfish" tag next to an ingredient that fills an any-of slot. */
+export function SlotHint({ group }: { group?: string }) {
+  if (!group) return null;
+  return (
+    <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[11px] text-slate-300">
+      {group}
+    </span>
+  );
+}
+
 export function stationLabel(
   s: CraftStation,
   infos: Record<string, CraftItemInfo>,
@@ -192,6 +239,7 @@ export function CraftTree({
 function TreeNode({
   id,
   qty,
+  group,
   depth,
   ancestors,
   budget,
@@ -199,6 +247,7 @@ function TreeNode({
 }: TreeProps & {
   id: string;
   qty: number;
+  group?: string;
   depth: number;
   ancestors: string[];
   budget: { left: number };
@@ -223,6 +272,7 @@ function TreeNode({
         locale={locale}
         size={20}
       />
+      <SlotHint group={group} />
       {recipe && step && (
         <span className="text-xs text-muted-foreground">
           {step.yield > 1
@@ -281,10 +331,11 @@ function TreeNode({
         <ul className="ml-4 border-l border-slate-800 pl-2">
           {step.children.map((c) => (
             <TreeNode
-              key={c.id}
+              key={`${c.group ?? ""}|${c.id}`}
               {...props}
               id={c.id}
               qty={c.qty}
+              group={c.group}
               depth={depth + 1}
               ancestors={next}
               budget={budget}

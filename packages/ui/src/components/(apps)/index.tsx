@@ -21,3 +21,4 @@ export {
   createRootLayout,
   createEmbedRootLayout,
 } from "./root-layout";
+export { NavigationProgress } from "./navigation-progress";

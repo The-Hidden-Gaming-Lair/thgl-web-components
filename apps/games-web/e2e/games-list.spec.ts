@@ -74,6 +74,19 @@ const waitForList = async (page: Page) => {
   await expect
     .poll(() => companionIds(page).then((ids) => ids.length))
     .toBeGreaterThan(3);
+  // Under full-suite load the SSR'd buttons are visible before React has
+  // hydrated them, and an early click is silently lost. Hydrated nodes carry
+  // React's `__reactProps$…` key - wait for it on the star buttons.
+  await expect
+    .poll(() =>
+      page
+        .locator(`${ROW} button`)
+        .first()
+        .evaluate((el) =>
+          Object.keys(el).some((k) => k.startsWith("__reactProps")),
+        ),
+    )
+    .toBe(true);
 };
 
 test.describe("dashboard games list", () => {
@@ -154,11 +167,20 @@ test.describe("dashboard games list", () => {
     await expect(page.getByText("Favorites", { exact: true })).toHaveCount(0);
 
     const star = starFor(page, target);
-    await star.hover();
-    await star.click();
+    // Under full-suite load the first click can land before the sidebar has
+    // hydrated and is lost - retry until it registers (only while still
+    // unpressed, so a slow first click is never toggled back off).
+    await expect(async () => {
+      if ((await star.getAttribute("aria-pressed")) !== "true") {
+        await star.hover();
+        await star.click();
+      }
+      await expect(star).toHaveAttribute("aria-pressed", "true", {
+        timeout: 3000,
+      });
+    }).toPass({ timeout: 30000 });
 
     await expect(page.getByText("Favorites", { exact: true })).toBeVisible();
-    await expect(star).toHaveAttribute("aria-pressed", "true");
     await expect
       .poll(() => companionIds(page).then((ids) => ids[0]))
       .toBe(target);

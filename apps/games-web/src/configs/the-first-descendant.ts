@@ -52,6 +52,13 @@ export const theFirstDescendant = resolveAppConfig({
       iconName: "Hammer",
       linkText: "crafting.navLinkText",
     },
+    {
+      href: "/activities-tracker",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      iconName: "Activity",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -92,9 +99,10 @@ export const theFirstDescendant = resolveAppConfig({
         href: "/db/abilities",
         type: "abilities",
         titleFallback: "Abilities",
+        groupRefs: "transcendentModules",
         icon: "✨",
         description:
-          "Every Descendant ability with cooldown, cost and description.",
+          "Every Descendant ability with cooldown, cost and description, next to the Descendant's Transcendent modules.",
       },
       {
         href: "/db/weapons",

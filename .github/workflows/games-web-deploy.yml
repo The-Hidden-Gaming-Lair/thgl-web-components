@@ -284,24 +284,25 @@ jobs:
             echo "::warning::App did not report healthy within ~15min; purging anyway"
           fi
 
-          # Purge once now to evict any placeholder cached during rollout.
-          purge
-          # Magic Containers roll out per-region; a region that lagged
-          # could re-cache the placeholder just after our first purge.
-          # A second purge 60s later closes that window.
-          sleep 60
-          purge
-          echo "Edge cache purged"
-
-          # Build-skew straggler: even after the two purges above, an edge can
-          # (re)cache the OLD build's HTML while the previous container instance
-          # is still draining. Pages carry s-maxage=86400, so a straggler cached
-          # after our last purge would stick for a DAY. (Old-build chunks keep
-          # resolving thanks to the persistent static storage, so a straggler is
-          # "old but working" — this purge is about freshness, not breakage.)
-          # Instead of guessing a drain window, probe /api/build-id (no-store, so
-          # every request reaches an origin instance) until only the new SHA
-          # answers — 6 consecutive hits ≈ the old instance is gone — then purge.
+          # ONE purge per deploy, after the old instance has drained (2026-10-05).
+          # This used to purge three times (now, +60s, after drain). Each full
+          # purge turns every edge request into an origin MISS landing on freshly
+          # started pods; at ~12 deploys/day that was 36 cold stampedes. The
+          # first two purges only existed to evict Bunny's "We're deploying"
+          # placeholder; the container now has startup/readiness probes on
+          # /api/build-id, so a pod gets no traffic before Next.js answers and
+          # the placeholder isn't served during a rollout. The single purge
+          # below also evicts any placeholder that slipped through.
+          #
+          # Build-skew straggler: an edge can (re)cache the OLD build's HTML
+          # while the previous container instance is still draining. Pages carry
+          # s-maxage=86400, so a straggler cached after the purge would stick for
+          # a DAY. (Old-build chunks keep resolving thanks to the persistent
+          # static storage, so a straggler is "old but working" — this purge is
+          # about freshness, not breakage.) Instead of guessing a drain window,
+          # probe /api/build-id (cache-busted, so every request reaches an origin
+          # instance) until only the new SHA answers — 6 consecutive hits ≈ the
+          # old instance is gone — then purge.
           echo "Waiting for old container instance to drain (probing /api/build-id)..."
           consec=0
           drained=0
@@ -321,7 +322,7 @@ jobs:
             echo "::warning::Drain not confirmed within ~5min (old build may still serve); purging anyway"
           fi
           purge
-          echo "Drain-window purge done"
+          echo "Edge cache purged"
 
       # Retention: drop static files from builds that stopped being current
       # >60 days ago. Safe ordering: the upload step re-PUT every file of the

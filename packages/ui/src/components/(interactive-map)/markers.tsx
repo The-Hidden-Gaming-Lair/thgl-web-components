@@ -539,6 +539,7 @@ function MarkersContent({
     highContrastMode,
     highContrastColor,
     highContrastThickness,
+    heightArrowSize,
   } = useSettingsStore(
     useShallow((state) => ({
       colorBlindMode: state.colorBlindMode,
@@ -546,6 +547,8 @@ function MarkersContent({
       highContrastMode: state.highContrastMode,
       highContrastColor: state.highContrastColor,
       highContrastThickness: state.highContrastThickness,
+      // Profiles saved before this setting existed have no key at all.
+      heightArrowSize: state.heightArrowSize ?? 1,
     })),
   );
   const discoveryLookup = useMemo(
@@ -1066,6 +1069,7 @@ function MarkersContent({
     markerLayer.setHighContrastMode(highContrastMode);
     markerLayer.setHighContrastColor(highContrastColor);
     markerLayer.setHighContrastThickness(highContrastThickness);
+    markerLayer.setHeightArrowScale(heightArrowSize);
 
     // Mirror settings to the live marker layer and the player under-layer
     // ("Player icon below markers"), so the player icon keeps the same size.
@@ -1077,6 +1081,7 @@ function MarkersContent({
       layer.setHighContrastMode(highContrastMode);
       layer.setHighContrastColor(highContrastColor);
       layer.setHighContrastThickness(highContrastThickness);
+      layer.setHeightArrowScale(heightArrowSize);
     }
 
     const baseRadius = 12;
@@ -2747,21 +2752,29 @@ function MarkersContent({
     iconLoadVersion,
   ]);
 
-  // Update high contrast uniforms without rebuilding markers
+  // Update high contrast + height arrow uniforms without rebuilding markers
   useEffect(() => {
     const markerLayer = map?.markerLayer;
     if (!markerLayer) return;
     markerLayer.setHighContrastMode(highContrastMode);
     markerLayer.setHighContrastColor(highContrastColor);
     markerLayer.setHighContrastThickness(highContrastThickness);
+    markerLayer.setHeightArrowScale(heightArrowSize);
     for (const layer of [map.liveMarkerLayer, map.playerUnderLayer]) {
       if (!layer) continue;
       layer.setHighContrastMode(highContrastMode);
       layer.setHighContrastColor(highContrastColor);
       layer.setHighContrastThickness(highContrastThickness);
+      layer.setHeightArrowScale(heightArrowSize);
     }
     map.requestRedraw();
-  }, [map, highContrastMode, highContrastColor, highContrastThickness]);
+  }, [
+    map,
+    highContrastMode,
+    highContrastColor,
+    highContrastThickness,
+    heightArrowSize,
+  ]);
 
   // Flipping positional mode mid-approach must not inherit the other mode's
   // state: positional leaves the latch set (it uses it for the one-shot

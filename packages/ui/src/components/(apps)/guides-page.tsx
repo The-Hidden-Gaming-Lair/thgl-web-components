@@ -4,6 +4,7 @@ import {
   AppConfig,
   DEFAULT_LOCALE,
   fetchDict,
+  fetchGuidesIndex,
   fetchVersion,
   getIconsUrl,
   getMetadataAlternates,
@@ -72,10 +73,12 @@ export function createGuidesPageGenerateMetadata(appConfig: AppConfig) {
 export function createGuidesPage(appConfig: AppConfig) {
   return async function GuidesPage({ params }: PageProps) {
     const { locale = DEFAULT_LOCALE } = await params;
-    const [dict, version, enDict] = await Promise.all([
+    const [dict, version, enDict, writtenGuides] = await Promise.all([
       getFullDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
       fetchDict(appConfig.name),
+      // Written guides are English-only for now.
+      locale === DEFAULT_LOCALE ? fetchGuidesIndex(appConfig.name) : [],
     ]);
     const t = getT(dict);
 
@@ -237,74 +240,103 @@ export function createGuidesPage(appConfig: AppConfig) {
               </>
             }
             content={
-              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                {allGuides.map((guide) => (
-                  <li
-                    key={guide.type}
-                    className="border rounded-lg p-4 hover:shadow transition"
-                  >
-                    <Link
-                      href={localizePath(
-                        `/guides/${encodeURIComponent(t(guide.type, { fallback: translate(enDict, guide.type) }))}`,
-                        locale,
-                      )}
-                      className="block"
+              <>
+                {writtenGuides.length > 0 && (
+                  <section className="mt-6 text-left">
+                    <h2 className="text-xl font-bold border-b pb-2 mb-4">
+                      Written guides
+                    </h2>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {writtenGuides.map((g) => (
+                        <li key={g.slug}>
+                          <Link
+                            href={`/guides/${g.slug}`}
+                            className="block h-full border rounded-lg p-4 hover:bg-accent transition"
+                          >
+                            <span className="block font-semibold">
+                              {g.title}
+                            </span>
+                            <span className="block text-sm text-muted-foreground mt-1">
+                              {g.description}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <h2 className="text-xl font-bold border-b pb-2 mt-10">
+                      Location guides
+                    </h2>
+                  </section>
+                )}
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                  {allGuides.map((guide) => (
+                    <li
+                      key={guide.type}
+                      className="border rounded-lg p-4 hover:shadow transition"
                     >
-                      <div className="flex items-center gap-2 mb-2 text-left">
-                        {guide.icon && (
-                          <img
-                            alt=""
-                            role="presentation"
-                            className="shrink-0 object-none mt-0.5"
-                            src={getIconsUrl(
-                              appConfig.name,
-                              guide.icon.url,
-                              version.more.icons,
-                            )}
-                            width={guide.icon.width}
-                            height={guide.icon.height}
-                            style={{
-                              // width/height in CSS so the `img { height: auto }`
-                              // preflight can't reclip the wrong cell; adaptive zoom
-                              // so small-source icons match 64px ones (cells are now
-                              // packed at native size, not a fixed 64px).
-                              width: guide.icon.width,
-                              height: guide.icon.height,
-                              objectPosition: `-${guide.icon.x}px -${guide.icon.y}px`,
-                              zoom: 22 / (guide.icon.width || 64),
-                            }}
-                          />
+                      <Link
+                        href={localizePath(
+                          `/guides/${encodeURIComponent(t(guide.type, { fallback: translate(enDict, guide.type) }))}`,
+                          locale,
                         )}
-                        <div>
-                          <h2 className="text-lg font-semibold">
-                            {guide.label}
-                          </h2>
-                          {guide.locationCount > 0 && (
-                            <span className="text-xs text-muted-foreground">
-                              {guide.locationCount.toLocaleString()} locations
-                            </span>
+                        className="block"
+                      >
+                        <div className="flex items-center gap-2 mb-2 text-left">
+                          {guide.icon && (
+                            <img
+                              alt=""
+                              role="presentation"
+                              className="shrink-0 object-none mt-0.5"
+                              src={getIconsUrl(
+                                appConfig.name,
+                                guide.icon.url,
+                                version.more.icons,
+                              )}
+                              width={guide.icon.width}
+                              height={guide.icon.height}
+                              style={{
+                                // width/height in CSS so the `img { height: auto }`
+                                // preflight can't reclip the wrong cell; adaptive zoom
+                                // so small-source icons match 64px ones (cells are now
+                                // packed at native size, not a fixed 64px).
+                                width: guide.icon.width,
+                                height: guide.icon.height,
+                                objectPosition: `-${guide.icon.x}px -${guide.icon.y}px`,
+                                zoom: 22 / (guide.icon.width || 64),
+                              }}
+                            />
                           )}
+                          <div>
+                            <h2 className="text-lg font-semibold">
+                              {guide.label}
+                            </h2>
+                            {guide.locationCount > 0 && (
+                              <span className="text-xs text-muted-foreground">
+                                {guide.locationCount.toLocaleString()} locations
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <p className="text-sm text-muted-foreground text-left">
-                        {guide.description}
-                      </p>
-                      {guide.groups.length > 1 && (
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {guide.groups.map((g) => (
-                            <span
-                              key={g}
-                              className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
-                            >
-                              {g}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+                        <p className="text-sm text-muted-foreground text-left">
+                          {guide.description}
+                        </p>
+                        {guide.groups.length > 1 && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {guide.groups.map((g) => (
+                              <span
+                                key={g}
+                                className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
+                              >
+                                {g}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
             }
           />
         </HeaderOffset>

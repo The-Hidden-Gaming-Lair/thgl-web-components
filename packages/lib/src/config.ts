@@ -111,6 +111,12 @@ export type DbAppConfig = {
      * for exact matches alongside.
      */
     typePrefix?: string;
+    /**
+     * When a list group's id is itself a DB entry (e.g. abilities grouped per
+     * Descendant), also list that entry's refs under this prop key inside the
+     * group, linking to their own section (e.g. `transcendentModules`).
+     */
+    groupRefs?: string;
     /** Glyph rendered to the left of the card title. */
     icon: string;
     /** Optional description. If absent, falls back to the matching internalLink description. */
@@ -496,6 +502,8 @@ type MemoryFetchOptions<T> = {
   onNotFound?: () => T | undefined;
   ttlMs?: number;
   immutable?: boolean;
+  /** Called whenever fresh data is stored — the first load and every background refresh. */
+  onFresh?: (data: T) => void;
 };
 
 function storeMemoryFetchEntry(url: string, entry: MemoryFetchEntry) {
@@ -558,6 +566,7 @@ function loadIntoMemoryCache<T>(
       expiresAt: expiresAt(),
       bytes: text.length,
     });
+    options?.onFresh?.(data);
     return data;
   })().finally(() => {
     memoryFetchInflight.delete(url);
@@ -591,13 +600,38 @@ export async function fetchJsonWithMemoryCache<T>(
   return loadIntoMemoryCache(url, options);
 }
 
+/**
+ * Called with every version.json a render actually uses. games-web's server
+ * registers one so its page cache can stamp each cached page with the data
+ * version it was rendered from and drop it once the game's data changes.
+ */
+type VersionObserver = (appName: string, versionId: string) => void;
+// On globalThis (not module state) for the same reason as the request-host
+// resolver below: the registering module may not share module instances with
+// the RSC server graph that calls fetchVersion.
+const VERSION_OBSERVER_KEY = "__thglVersionObserver";
+export function setVersionObserver(fn: VersionObserver | null) {
+  (globalThis as Record<string, unknown>)[VERSION_OBSERVER_KEY] = fn;
+}
+
 export async function fetchVersion(appName: string): Promise<Version> {
-  return fetchJsonWithMemoryCache<Version>(
+  const observe = (v: Version | undefined) => {
+    const observer = (globalThis as Record<string, unknown>)[
+      VERSION_OBSERVER_KEY
+    ] as VersionObserver | null | undefined;
+    if (observer && v?.id) observer(appName, v.id);
+  };
+  const version = await fetchJsonWithMemoryCache<Version>(
     getAppUrl(appName, "/version.json"),
     {
       ttlMs: process.env.NODE_ENV === "development" ? 0 : MEMORY_FETCH_TTL_MS,
+      // A background refresh (stale-while-revalidate) reports the new version
+      // as soon as it lands, not only on the next call.
+      onFresh: observe,
     },
   );
+  observe(version);
+  return version;
 }
 
 /**
@@ -1056,11 +1090,12 @@ export async function fetchDatabaseEntry(
 }
 
 export async function fetchTiles(appName: string): Promise<TilesConfig> {
-  const res = await fetch(
-    await resolveForgeUrl(`${DATA_FORGE_CDN_URL}/${appName}/config/tiles.json`),
-    { next: { revalidate: 60 } },
+  // Same per-process memory cache as the other data files. A Next data-cache
+  // fetch (`next: { revalidate: 60 }`) here capped every cached page that
+  // shows a map (codex entries) at a 60 s revalidate.
+  return fetchJsonWithMemoryCache<TilesConfig>(
+    `${DATA_FORGE_CDN_URL}/${appName}/config/tiles.json`,
   );
-  return res.json();
 }
 
 export type GlobalFiltersConfig = Array<{

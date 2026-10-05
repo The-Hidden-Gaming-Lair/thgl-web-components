@@ -12,6 +12,7 @@ import {
 import { DEFAULT_LOCALE, localizePath, translate } from "./i18n";
 import { decodeFromBuffer } from "./cbor";
 import { craftingSitemapPaths } from "./crafting-data";
+import { fetchGuidesIndex } from "./guides";
 import { xpPlannerSitemapPaths } from "./xp-planner-data";
 import { type Spawn } from "./coordinates";
 
@@ -560,6 +561,18 @@ export function createSitemap(appConfig: AppConfig) {
         changeFrequency: "daily",
         priority: 0.9,
       });
+
+      // Written guides (data-forge config/guides.json) — English-only pages, so no
+      // locale variants/alternates; lastModified is the guide's own update date.
+      for (const guide of await fetchGuidesIndex(appConfig.name)) {
+        const url = `https://${appConfig.domain}.th.gl/guides/${guide.slug}`;
+        entries.set(url, {
+          url,
+          lastModified: new Date(guide.updated),
+          changeFrequency: "weekly",
+          priority: 0.8,
+        });
+      }
 
       if (mapNames.length > 0) {
         addEntry(entries, "/maps", {

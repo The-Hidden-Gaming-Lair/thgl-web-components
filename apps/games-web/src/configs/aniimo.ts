@@ -24,8 +24,32 @@ export const aniimo = resolveAppConfig({
       description:
         "Build a team of four: element coverage of every skill, shared weaknesses, role balance, suggested picks, a counter finder for any element and the game's own recommended teams.",
       href: "/team-builder",
+      bgImage: "/games/thgl-web/tools/team-builder.webp",
       iconName: "Users",
       linkText: "Open the Team Builder",
+    },
+    {
+      title: "evo.navTitle",
+      description: "evo.navDescription",
+      href: "/evolutions",
+      bgImage: "/games/thgl-web/tools/evolutions.webp",
+      iconName: "Sparkles",
+      linkText: "evo.navLinkText",
+    },
+    {
+      title: "prismana.navTitle",
+      description: "prismana.navDescription",
+      href: "/prismana",
+      bgImage: "/games/thgl-web/tools/prismana.webp",
+      iconName: "Flower",
+      linkText: "prismana.navLinkText",
+    },
+    {
+      href: "/activities-tracker",
+      title: "activities.navTitle",
+      description: "activities.navDescription",
+      linkText: "activities.navLinkText",
+      iconName: "Activity",
     },
   ],
   promoLinks: [],
@@ -49,9 +73,11 @@ export const aniimo = resolveAppConfig({
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search Aniimo, skills, items, quests…",
     sectionsInNav: true,
-    // One indexable /team-builder/<id> matchup page per Aniimo (sitemap + codex link).
+    // One indexable /team-builder/<id> matchup page and /evolutions/<id> evolution page
+    // per Aniimo (sitemap + codex link).
     entryPages: [
       { type: "aniimo", path: "/team-builder", labelKey: "tb.entry.label" },
+      { type: "aniimo", path: "/evolutions", labelKey: "evo.entry.label" },
     ],
     homeSections: [
       {
