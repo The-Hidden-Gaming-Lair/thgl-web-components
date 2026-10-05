@@ -287,6 +287,8 @@ export const games: Array<Game> = [
     steamAppId: 3393110,
     logo: `${TH_GL_URL}/global_icons/aion2.webp`,
     companion: {
+      // Hidden in production builds until the detector's reads are verified on the release build.
+      inDevelopment: true,
       baseURL: "/apps/aion2",
       controllerURL: "/apps/aion2/controller",
       desktopURL: "/apps/aion2",
