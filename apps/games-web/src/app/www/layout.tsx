@@ -1,4 +1,5 @@
 import "@/games/thgl-web/styles/globals.css";
+import { NavigationProgress } from "@repo/ui/apps";
 import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/exo2.css";
 
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className={cn("font-exo2", "dark text-slate-50 min-h-screen")}>
+        <NavigationProgress />
         <I18NProvider dict={enDictGlobal}>
           {/* Refreshes the persisted account store (perks + profile) so
               the header account icon reflects the real sign-in state. */}

@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { NavigationProgress } from "@repo/ui/apps";
 import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/inter.css";
 
@@ -131,6 +132,7 @@ export function createDbRootLayout(
             "inter-font-sans",
           )}
         >
+          <NavigationProgress />
           <I18NProvider dict={clientDict} locale={locale}>
             <Header
               activeApp={appConfig.title}

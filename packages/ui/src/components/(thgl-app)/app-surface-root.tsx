@@ -8,6 +8,7 @@ import {
 import { I18NProvider, TooltipProvider } from "../(providers)";
 import { AudioAlertUnlocker, NewVersionWatcher, Toaster } from "../(controls)";
 import { AppContentShell } from "./app-content-shell";
+import { NavigationProgress } from "../(apps)/navigation-progress";
 
 /**
  * Root <html> for a game page rendered inside the companion app
@@ -47,6 +48,7 @@ export function AppSurfaceRoot({
           "inter-font-sans",
         )}
       >
+        <NavigationProgress />
         <I18NProvider dict={dict} locale={locale}>
           <TooltipProvider>
             <AppContentShell

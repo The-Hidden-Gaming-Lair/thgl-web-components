@@ -30,6 +30,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { DidYouKnowCompanionApp } from "../(tips)";
 import { AppSurfaceRoot } from "../(thgl-app)/app-surface-root";
+import { NavigationProgress } from "./navigation-progress";
 
 export const rootLayoutViewport: Viewport = {
   themeColor: "black",
@@ -73,6 +74,7 @@ export function createEmbedRootLayout(appConfig: AppConfig) {
             "inter-font-sans",
           )}
         >
+          <NavigationProgress />
           <I18NProvider dict={dict} locale={locale}>
             <TooltipProvider>
               <main>{children}</main>
@@ -168,6 +170,7 @@ export function createRootLayout(
             "inter-font-sans",
           )}
         >
+          <NavigationProgress />
           <I18NProvider dict={dict} locale={locale}>
             <Header
               activeApp={appConfig.title}

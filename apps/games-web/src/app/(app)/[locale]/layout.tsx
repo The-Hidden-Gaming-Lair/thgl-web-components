@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { NavigationProgress } from "@repo/ui/apps";
 import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/inter.css";
 
@@ -59,6 +60,7 @@ export default async function RootLayout({
           "inter-font-sans",
         )}
       >
+        <NavigationProgress />
         <I18NProvider dict={dict} locale={locale}>
           <TooltipProvider>
             <main className="grow min-h-0">{children}</main>
