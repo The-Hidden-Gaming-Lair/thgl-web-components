@@ -5,9 +5,11 @@ import { resolveAppConfig, DATA_FORGE_CDN_URL } from "@repo/lib";
 const preview = (mapId: string) =>
   `${DATA_FORGE_CDN_URL}/duet-night-abyss/map-tiles/${mapId}/preview.webp`;
 
+// Locales = the six client languages (data-forge duet-night-abyss/localization.ts,
+// TextMap_I18n).
 export const duetNightAbyss = resolveAppConfig({
   name: "duet-night-abyss",
-  supportedLocales: ["en"],
+  supportedLocales: ["en", "fr", "ja", "ko", "zh-CN", "zh-TW"],
   appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
@@ -122,15 +124,152 @@ export const duetNightAbyss = resolveAppConfig({
       linkText: "Browse All Quests",
       iconName: "BookOpen",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
   keywords: ["DNA", "Geniemon", "Chests", "Collectibles", "Readables"],
   topFilters: ["geniemon_zisha"],
   db: {
-    heroSubtitle: "Quest Compendium",
-    searchPlaceholder: "Search quests...",
+    // Collection checklists: the map's collectibles and the game's own
+    // collection logs (fish, Geniemon, achievements).
+    checklists: [
+      { section: "readables" },
+      { section: "music" },
+      { section: "fish" },
+      { section: "geniemons", descriptions: false },
+      { section: "achievements", descriptions: true },
+    ],
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search characters, weapons, Demon Wedges, items…",
+    sectionsInNav: true,
     homeSections: [
+      {
+        href: "/db/characters",
+        type: "characters",
+        titleKey: "characters",
+        titleFallback: "Characters",
+        icon: "🧑",
+        description:
+          "Every playable character with element, weapon mastery, base stats, skills and ascension materials.",
+      },
+      {
+        href: "/db/weaponry",
+        type: "weaponry",
+        titleKey: "weaponry",
+        titleFallback: "Weapons",
+        icon: "⚔️",
+        description:
+          "Melee and ranged weapons with base stats, passive effect per refinement and ascension materials.",
+      },
+      {
+        href: "/db/demon_wedges",
+        type: "demon_wedges",
+        titleKey: "demon_wedges",
+        titleFallback: "Demon Wedges",
+        icon: "🔷",
+        description:
+          "Every Demon Wedge with its effect at max level, tolerance, track and rarity variants.",
+      },
+      {
+        href: "/db/geniemons",
+        type: "geniemons",
+        titleKey: "geniemons",
+        titleFallback: "Geniemon",
+        icon: "🐾",
+        description: "Geniemon companions and where to find them on the map.",
+      },
+      {
+        href: "/db/inventory",
+        type: "inventory",
+        titleKey: "inventory",
+        titleFallback: "Items",
+        icon: "🎒",
+        description:
+          "Materials, consumables and currencies with what they craft, ascend and where they come from.",
+      },
+      {
+        href: "/db/forging",
+        type: "forging",
+        titleKey: "forging",
+        titleFallback: "Forging",
+        icon: "🔨",
+        description:
+          "Foundry recipes with ingredients, coin cost and forging time, cross-linked to each product.",
+      },
+      {
+        href: "/db/enemies",
+        type: "enemies",
+        titleKey: "enemies",
+        titleFallback: "Enemies",
+        icon: "👹",
+        description: "The enemy archive with base stats, element and drops.",
+      },
+      {
+        href: "/db/fish",
+        type: "fish",
+        titleKey: "fish",
+        titleFallback: "Fish",
+        icon: "🐟",
+        description:
+          "Every fish with size, difficulty, sell value and fishing spots.",
+      },
+      {
+        href: "/db/readables",
+        type: "readables",
+        titleKey: "readables",
+        titleFallback: "Reading",
+        icon: "📖",
+        description:
+          "Books, notes and treasure maps with their full text and map spots.",
+      },
+      {
+        href: "/db/music",
+        type: "music",
+        titleKey: "music",
+        titleFallback: "Sheet Music",
+        icon: "🎼",
+        description: "Every piece of sheet music and where to collect it.",
+      },
+      {
+        href: "/db/accessories",
+        type: "accessories",
+        titleKey: "accessories",
+        titleFallback: "Accessories",
+        icon: "🎀",
+        description:
+          "Character accessories with how to get them and Foundry recipes.",
+      },
+      {
+        href: "/db/encyclopedia",
+        type: "encyclopedia",
+        titleKey: "encyclopedia",
+        titleFallback: "Encyclopedia",
+        icon: "📚",
+        description:
+          "The in-game encyclopedia: factions, characters, customs and civilisation, with related entries.",
+      },
+      {
+        href: "/db/achievements",
+        type: "achievements",
+        titleKey: "achievements",
+        titleFallback: "Achievements",
+        icon: "🏆",
+        description: "Every achievement with its goal and rewards.",
+      },
       {
         href: "/db/quests",
         // Quests live across one exact category (`mainquests`) plus three
@@ -144,9 +283,24 @@ export const duetNightAbyss = resolveAppConfig({
         ],
         icon: "📜",
         titleFallback: "Quests",
+        description:
+          "Main story and side quests with prerequisites and rewards.",
       },
     ],
     typeLabels: {
+      characters: "Character",
+      weaponry: "Weapon",
+      demon_wedges: "Demon Wedge",
+      geniemons: "Geniemon",
+      inventory: "Item",
+      forging: "Recipe",
+      enemies: "Enemy",
+      fish: "Fish",
+      readables: "Readable",
+      music: "Sheet Music",
+      accessories: "Accessory",
+      encyclopedia: "Encyclopedia",
+      achievements: "Achievement",
       mainquests: "Main Quest",
       sidequests_character: "Character Quest",
       sidequests_story: "Story Quest",
@@ -158,6 +312,5 @@ export const duetNightAbyss = resolveAppConfig({
       sidequests_story: "bg-purple-900/40 text-purple-400",
       sidequests_world: "bg-emerald-900/40 text-emerald-400",
     },
-    languageCount: 1,
   },
 });

@@ -1,4 +1,4 @@
-import { fetchDatabase, type DatabaseConfig } from "@repo/lib";
+import { fetchDatabaseType, type DatabaseConfig } from "@repo/lib";
 
 const APP_NAME = "duet-night-abyss";
 
@@ -14,14 +14,20 @@ const QUEST_TYPES = [
   "sidequests_world",
 ] as const;
 
-export const QUEST_CATEGORY_LABEL: Record<(typeof QUEST_TYPES)[number], string> = {
+export const QUEST_CATEGORY_LABEL: Record<
+  (typeof QUEST_TYPES)[number],
+  string
+> = {
   mainquests: "Main Quests",
   sidequests_character: "Character Quests",
   sidequests_story: "Story Quests",
   sidequests_world: "World Quests",
 };
 
-export const QUEST_CATEGORY_ACCENT: Record<(typeof QUEST_TYPES)[number], string> = {
+export const QUEST_CATEGORY_ACCENT: Record<
+  (typeof QUEST_TYPES)[number],
+  string
+> = {
   mainquests: "text-amber-400 border-amber-800/50 bg-amber-900/20",
   sidequests_character: "text-blue-400 border-blue-800/50 bg-blue-900/20",
   sidequests_story: "text-purple-400 border-purple-800/50 bg-purple-900/20",
@@ -115,10 +121,13 @@ export async function loadQuests(): Promise<{
   chains: Map<string, Quest[]>;
   byId: Map<string, Quest>;
 }> {
-  const database: DatabaseConfig = await fetchDatabase(APP_NAME);
+  // The codex ships split (database.<type>.json, no monolith since inbox #411).
+  const categories: DatabaseConfig = await Promise.all(
+    QUEST_TYPES.map((t) => fetchDatabaseType(APP_NAME, t)),
+  );
 
-  const groups = QUEST_TYPES.map((t) => {
-    const cat = database.find((c) => c.type === t);
+  const groups = QUEST_TYPES.map((t, i) => {
+    const cat = categories[i];
     const quests: Quest[] = (cat?.items ?? []).map((i) => ({
       id: i.id,
       type: t,
