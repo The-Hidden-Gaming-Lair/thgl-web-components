@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { type AppConfig } from "@repo/lib";
 import { getAppConfigBySlug, getAppConfigByHost } from "@/configs";
+import { getRouteGame } from "@/lib/route-params";
 
 /**
  * Header name used by middleware.ts to communicate the resolved app slug
@@ -25,13 +26,23 @@ export async function requireApp(name: string): Promise<AppConfig> {
  * Resolve the AppConfig for the current request.
  *
  * Order of resolution:
- * 1. `x-thgl-app` header set by middleware (production path)
- * 2. Fallback: parse the `host` header directly (handles cases where
+ * 1. The `[game]` root param of the internal game route (/g/[game]/…, see
+ *    route-params.ts) — every game page. Works in cached renders, where
+ *    headers() is empty.
+ * 2. `x-thgl-app` header set by proxy.ts (API routes, the app/www tenants)
+ * 3. Fallback: parse the `host` header directly (handles cases where
  *    middleware didn't run, e.g. /opengraph-image routes)
  *
- * Calls notFound() if no app matches the hostname.
+ * Calls notFound() if no app matches.
  */
 export async function getAppConfig(): Promise<AppConfig> {
+  const routeGame = await getRouteGame();
+  if (routeGame) {
+    const config = getAppConfigBySlug(routeGame);
+    if (config) return config;
+    notFound();
+  }
+
   const h = await headers();
 
   const slug = h.get(APP_SLUG_HEADER);

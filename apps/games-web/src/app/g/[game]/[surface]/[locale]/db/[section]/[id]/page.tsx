@@ -1,0 +1,405 @@
+import { type ComponentType } from "react";
+import { type Metadata } from "next";
+import { notFound, permanentRedirect } from "next/navigation";
+import {
+  fetchDatabaseIndex,
+  fetchDatabaseEntry,
+  fetchDatabaseType,
+  fetchVersion,
+  fetchTiles,
+  getMetadataAlternates,
+  localizePath,
+  translate,
+  type TilesConfig,
+  DEFAULT_LOCALE,
+} from "@repo/lib";
+import { getFullDbDictionary } from "@repo/ui/dicts";
+import { JSONLDScript } from "@repo/ui/apps";
+import { getAppConfig } from "@/lib/get-app-config";
+import { resolveDict } from "@/lib/db/resolve-dict";
+import { breadcrumbJsonLd, entityPageJsonLd } from "@/lib/db/json-ld";
+import {
+  buildEntityDescription,
+  buildEntityTitle,
+  getSectionLabels,
+} from "@/lib/db/seo";
+import { Breadcrumb } from "@/lib/db/breadcrumb";
+import { GenericEntityView } from "@/lib/db/generic-view";
+import { getPartnerEntryLink } from "@/lib/db/partner-links";
+import { PartnerLinkRow } from "@/lib/db/partner-link";
+import { EntryExtras } from "@/lib/db/entry-extras";
+import { loadCrafting } from "@/lib/crafting/data";
+import { SocEntityView } from "@/games/songs-of-conquest/entity-view";
+
+// Per-game detail-view overrides. Tenants not listed fall back to the generic
+// view. SoC adds structured sections (skill pools, faction indexes) on top and
+// resolves cross-link / variant names per-locale from the passed `dict`.
+const DETAIL_VIEWS: Record<string, ComponentType<any>> = {
+  "songs-of-conquest": SocEntityView,
+};
+
+/**
+ * Generic DB entry (detail) page — tenant-resolved counterpart of the
+ * per-game entry-page factories. Validates the id belongs to one of the
+ * section's database types, then renders the shared GenericEntityView.
+ */
+type Params = Promise<{ id: string; locale?: string; section: string }>;
+type IconSprite = {
+  url: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+// Map tiles for the embedded location map, fetched once per app and cached at
+// the module level (the tile config doesn't change at runtime).
+const tilesCache = new Map<string, Promise<TilesConfig>>();
+function getTiles(appName: string): Promise<TilesConfig> {
+  let p = tilesCache.get(appName);
+  if (!p) {
+    p = fetchTiles(appName);
+    tilesCache.set(appName, p);
+  }
+  return p;
+}
+
+/**
+ * Load one entry, preferring its per-entry file.
+ *
+ * Categories flagged `entries` in the index ship `config/database.<type>/<id>.json`,
+ * so we can skip downloading and parsing the whole type (up to 1.3 MB) just to pick
+ * one item out of it. Anything else — an unflagged category, an older game not yet
+ * regenerated, or a per-entry file that 404s — falls back to the full type file, so
+ * this never turns a working page into a 404.
+ */
+async function loadEntry(
+  appName: string,
+  cat: { type: string; entries?: boolean } | undefined,
+  type: string,
+  id: string,
+) {
+  if (cat?.entries) {
+    const entry = await fetchDatabaseEntry(appName, type, id);
+    if (entry) return entry;
+  }
+  const full = await fetchDatabaseType(appName, type);
+  return full.items.find((i) => i.id === id);
+}
+
+async function resolveSection(section: string, locale: string, id: string) {
+  const appConfig = await getAppConfig();
+  if (!appConfig.db) notFound();
+  const secCfg = appConfig.db.homeSections.find(
+    (s) => s.href === `/db/${section}` || s.type === section,
+  );
+  if (!secCfg) {
+    // Old per-category slug folded into a parent section via extraTypes
+    // (e.g. /db/weapon/<id> → /db/items/<id>). 308-redirect.
+    const parent = appConfig.db.homeSections.find((s) =>
+      (s.extraTypes ?? []).includes(section),
+    );
+    if (parent) permanentRedirect(localizePath(`${parent.href}/${id}`, locale));
+    notFound();
+  }
+  const types = [secCfg.type, ...(secCfg.extraTypes ?? [])];
+  return { appConfig, secCfg, types };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { id, locale = DEFAULT_LOCALE, section } = await params;
+  const { appConfig, secCfg } = await resolveSection(section, locale, id);
+  const dict = await getFullDbDictionary(appConfig.name, locale);
+  const name = resolveDict(dict, id) || id;
+  const { singular } = getSectionLabels(appConfig, dict, secCfg, section);
+  const rawDesc = resolveDict(dict, `${id}_desc`);
+  const entryDesc =
+    rawDesc && rawDesc !== `${id}_desc` && rawDesc !== id ? rawDesc : undefined;
+
+  // Pull the entry's props (cached fetch shared with the page) for a rich,
+  // data-driven description. Best-effort — fall back to a simple line.
+  let props: Record<string, any> | undefined;
+  // A missing entry (an old link, a typo) is a 404 page — title it as one instead of echoing
+  // the raw id. Only when the index actually loaded and lacks the id: a failed fetch keeps the
+  // simple fallback, never a false "not found".
+  let indexLoaded = false;
+  let matched = false;
+  try {
+    const index = await fetchDatabaseIndex(appConfig.name);
+    indexLoaded = true;
+    const secTypes = [secCfg.type, ...(secCfg.extraTypes ?? [])];
+    const matchingType =
+      index.find(
+        (cat) =>
+          secTypes.includes(cat.type) && cat.items.some((i) => i.id === id),
+      )?.type ?? index.find((cat) => cat.items.some((i) => i.id === id))?.type;
+    if (matchingType) {
+      matched = true;
+      const entry = await loadEntry(
+        appConfig.name,
+        index.find((cat) => cat.type === matchingType),
+        matchingType,
+        id,
+      );
+      props = entry?.props as Record<string, any> | undefined;
+    }
+  } catch {
+    /* fall back to the simple description */
+  }
+
+  if (indexLoaded && !matched) {
+    return {
+      title: `Page Not Found - ${appConfig.title}`,
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = buildEntityTitle({
+    dict,
+    name,
+    singular,
+    game: appConfig.title,
+    props,
+  });
+  const description = buildEntityDescription({
+    dict,
+    name,
+    singular,
+    game: appConfig.title,
+    desc: entryDesc,
+    props,
+  });
+  const { canonical, languageAlternates } = getMetadataAlternates(
+    `/db/${section}/${id}`,
+    locale,
+    appConfig.supportedLocales,
+  );
+  return {
+    title,
+    description,
+    alternates: { canonical, languages: languageAlternates },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      images: ["/opengraph-image.jpg"],
+    },
+  };
+}
+
+export default async function Page({ params }: { params: Params }) {
+  const { id, locale = DEFAULT_LOCALE, section } = await params;
+  const { appConfig, secCfg, types } = await resolveSection(
+    section,
+    locale,
+    id,
+  );
+
+  const [index, dict, version] = await Promise.all([
+    fetchDatabaseIndex(appConfig.name),
+    getFullDbDictionary(appConfig.name, locale),
+    fetchVersion(appConfig.name),
+  ]);
+  const iconsHash = version.more.icons;
+
+  // id → sprite icon for every DB entry, so cross-links (sold-by / sells) can
+  // show the target's icon.
+  const icons: Record<string, IconSprite> = {};
+  for (const cat of index) {
+    for (const it of cat.items) {
+      if (it.icon && typeof it.icon === "object") {
+        icons[it.id] = it.icon as IconSprite;
+      }
+    }
+  }
+
+  // Prefer a category within THIS section's types (ids can repeat across types
+  // — e.g. SoC's faction "arleon" and town "arleon"), then fall back to any.
+  const matchingType =
+    index.find(
+      (cat) => types.includes(cat.type) && cat.items.some((i) => i.id === id),
+    )?.type ?? index.find((cat) => cat.items.some((i) => i.id === id))?.type;
+  if (
+    !matchingType ||
+    (!types.includes(matchingType) &&
+      !(secCfg.typePrefix && matchingType.startsWith(secCfg.typePrefix)))
+  ) {
+    notFound();
+  }
+
+  const item = await loadEntry(
+    appConfig.name,
+    index.find((cat) => cat.type === matchingType),
+    matchingType,
+    id,
+  );
+  if (!item) notFound();
+
+  // Fetch map tiles when this entry embeds a map — either specific locations to
+  // plot, or a whole-level embed (a map entry's own interactive view).
+  const entryProps = item.props as
+    | {
+        locations?: { list?: unknown[] };
+        embeddedMap?: { mapName?: string };
+      }
+    | undefined;
+  const needsTiles = Boolean(
+    entryProps?.locations?.list?.length || entryProps?.embeddedMap?.mapName,
+  );
+  const tiles = needsTiles ? await getTiles(appConfig.name) : undefined;
+
+  const name = resolveDict(dict, id) || id;
+  const desc = resolveDict(dict, `${id}_desc`);
+  // Crafted items link to their /crafting/<id> recipe page (opt-in tenants).
+  const crafting = await loadCrafting(appConfig);
+  const hasRecipePage = crafting?.graph.defaults[id] != null;
+  const { plural: sectionLabel, singular } = getSectionLabels(
+    appConfig,
+    dict,
+    secCfg,
+    section,
+  );
+  const groupId = (item as { groupId?: string }).groupId;
+  const groupLabel = groupId ? resolveDict(dict, groupId) : undefined;
+  // Per-entry files omit `icon` (see fetchDatabaseEntry), so fall back to the
+  // id -> icon map already built from the index above.
+  const icon =
+    item.icon && typeof item.icon === "object"
+      ? (item.icon as IconSprite)
+      : icons[id];
+
+  const hasDesc = desc && desc !== `${id}_desc` && desc !== id;
+  const crumbs = [
+    {
+      label: translate(dict, "db.database", { fallback: "Database" }),
+      href: "/db",
+    },
+    { label: sectionLabel, href: `/db/${section}` },
+    { label: name },
+  ];
+  const pageUrl = `https://${appConfig.domain}.th.gl${localizePath(`/db/${section}/${encodeURIComponent(item.id)}`, locale)}`;
+  return (
+    <>
+      <JSONLDScript
+        json={entityPageJsonLd({
+          appConfig,
+          section,
+          sectionLabel,
+          entityId: item.id,
+          entityName: name,
+          description: buildEntityDescription({
+            dict,
+            name,
+            singular,
+            game: appConfig.title,
+            desc: hasDesc ? desc : undefined,
+            props: item.props as Record<string, unknown> | undefined,
+          }),
+          locale,
+        })}
+      />
+      <JSONLDScript
+        json={breadcrumbJsonLd({
+          appConfig,
+          homeLabel: dict["ui.nav_home"] || "Home",
+          crumbs,
+          url: pageUrl,
+          locale,
+        })}
+      />
+      <div className="max-w-7xl mx-auto px-4 pt-6">
+        <Breadcrumb crumbs={crumbs} locale={locale} dict={dict} />
+      </div>
+      <div className="max-w-7xl mx-auto px-4 pb-6">
+        {(() => {
+          const DetailView = DETAIL_VIEWS[appConfig.name] ?? GenericEntityView;
+          return (
+            <DetailView
+              id={item.id}
+              name={name}
+              desc={desc}
+              groupLabel={groupLabel}
+              icon={icon}
+              props={item.props as Record<string, unknown> | undefined}
+              iconsHash={iconsHash}
+              appName={appConfig.name}
+              locale={locale}
+              icons={icons}
+              tiles={tiles}
+              filters={version.data.filters}
+              dict={dict}
+            />
+          );
+        })()}
+        {(() => {
+          // Partner counterpart for this entry (e.g. a resonator's build guide),
+          // rendered after the entity so our own content stays the page's lead.
+          const partner = getPartnerEntryLink(appConfig.name, section, item.id);
+          if (!partner) return null;
+          return (
+            <div className="mt-6">
+              <PartnerLinkRow
+                link={partner}
+                label={`${name} build guide on ${partner.name}`}
+              />
+            </div>
+          );
+        })()}
+        {(appConfig.db?.entryPages ?? [])
+          .filter((page) => page.type === matchingType && page.labelKey)
+          .map((page) => (
+            <a
+              key={page.path}
+              href={localizePath(
+                `${page.path}/${encodeURIComponent(item.id)}`,
+                locale,
+              )}
+              className="mt-6 inline-block text-primary hover:underline"
+            >
+              {translate(dict, page.labelKey!, { vars: { name } })} →
+            </a>
+          ))}
+        {hasRecipePage && (
+          <a
+            href={localizePath(
+              `/crafting/${encodeURIComponent(item.id)}`,
+              locale,
+            )}
+            className="mt-6 block text-primary hover:underline"
+          >
+            {translate(dict, "crafting.dbLink", { vars: { name } })} →
+          </a>
+        )}
+        {/* On the map / Related / Was this accurate? / Tips & comments */}
+        <EntryExtras
+          appConfig={appConfig}
+          section={section}
+          id={item.id}
+          name={name}
+          type={matchingType}
+          groupId={groupId}
+          props={item.props as Record<string, unknown> | undefined}
+          index={index}
+          dict={dict}
+          locale={locale}
+          version={version}
+        />
+      </div>
+    </>
+  );
+}
+
+// Cached in Next's page cache (cache-handler.cjs): rendered once per pod and
+// game data version, then served without re-rendering — see
+// src/lib/route-params.ts. No dynamic APIs below this route; plain fetches stay
+// uncached so a re-render after a data update always sees fresh data.
+export const dynamic = "force-static";
+export const fetchCache = "default-no-store";
+export const revalidate = 86400;
+export async function generateStaticParams() {
+  return [];
+}

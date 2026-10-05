@@ -2,16 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   APP_SURFACE_GAME_HEADER,
   APP_SURFACE_HEADER,
+  DEFAULT_LOCALE,
   EMBED_SURFACE,
   FORGE_API_PROXY_PATH,
   FORGE_CDN_PROXY_PATH,
   getForgeProxyTarget,
   isAppContentPath,
+  isDevForgeHost,
   parseAppPath,
   parseEmbedPath,
   toAppSurfacePath,
 } from "@repo/lib";
 import { getAppConfigByHost, getAppConfigBySlug } from "./configs";
+import gameRouteSegments from "./lib/game-route-segments.json";
+import gameDbSegments from "./lib/game-db-segments.json";
 
 /**
  * Hostname-based multi-tenancy.
@@ -31,6 +35,18 @@ import { getAppConfigByHost, getAppConfigBySlug } from "./configs";
  */
 export function proxy(req: NextRequest) {
   const host = req.headers.get("host") || "";
+
+  // The internal game route (/g/<game>/<surface>/<locale>/…) is only reachable
+  // through the rewrites below — never directly, or a game's pages would also
+  // be served on foreign hosts (*.b-cdn.net, bare IPs) as duplicate content.
+  // A rewrite whose origin differs from the server's own URL is proxied over
+  // HTTP and re-enters this function; those carry the per-process marker.
+  if (req.nextUrl.pathname.startsWith("/g/")) {
+    if (req.headers.get(INTERNAL_ROUTE_HEADER) === INTERNAL_ROUTE_TOKEN) {
+      return NextResponse.next();
+    }
+    return new NextResponse(null, { status: 404 });
+  }
 
   // Redirect the apex domain (th.gl) to the canonical www host. Both
   // resolve to the same Bunny pull zone, but having two hostnames
@@ -316,17 +332,34 @@ export function proxy(req: NextRequest) {
           url.pathname = `${appPath.localePrefix}/apps/${appPath.gameId}`;
           return NextResponse.redirect(url, 307);
         }
-        url.pathname = `${appPath.localePrefix}${appPath.rest}`;
+        // Same target the db page's own redirect produced (unprefixed by
+        // /apps/<id>; the escaped-link safety net below re-prefixes it).
+        const alias = dbAliasTarget(
+          gameConfig,
+          `${appPath.localePrefix}${appPath.rest}`,
+        );
+        if (alias) {
+          url.pathname = alias;
+          url.search = "";
+          return NextResponse.redirect(url, 308);
+        }
         const headers = new Headers(req.headers);
         headers.set("x-thgl-app", gameConfig.name);
         headers.set(APP_SURFACE_HEADER, "app");
         headers.set(APP_SURFACE_GAME_HEADER, appPath.gameId);
         // App copies of the game's pages stay out of search results (pages
         // may set their own `robots` metadata over the layout's noindex).
-        return NextResponse.rewrite(url, {
-          request: { headers },
-          headers: { "X-Robots-Tag": "noindex" },
-        });
+        return rewriteToGameRoute(
+          url,
+          gameRoutePath(
+            gameConfig.name,
+            "app",
+            `${appPath.localePrefix}${appPath.rest}`,
+            isDevForgeHost(host),
+          ),
+          headers,
+          { "X-Robots-Tag": "noindex" },
+        );
       }
     }
     // Safety net for a game link that escaped the /apps/<id> prefix (a
@@ -349,20 +382,148 @@ export function proxy(req: NextRequest) {
   // keeps the /embed prefix; the copies stay out of search results.
   const embedPath = parseEmbedPath(path, config.supportedLocales);
   if (embedPath) {
-    url.pathname = `${embedPath.localePrefix}${embedPath.mapPath}`;
     const headers = new Headers(req.headers);
     headers.set("x-thgl-app", config.name);
     headers.set(APP_SURFACE_HEADER, EMBED_SURFACE);
-    return NextResponse.rewrite(url, {
-      request: { headers },
-      headers: { "X-Robots-Tag": "noindex" },
-    });
+    return rewriteToGameRoute(
+      url,
+      gameRoutePath(
+        config.name,
+        "embed",
+        `${embedPath.localePrefix}${embedPath.mapPath}`,
+        isDevForgeHost(host),
+      ),
+      headers,
+      { "X-Robots-Tag": "noindex" },
+    );
   }
 
   const headers = new Headers(req.headers);
   headers.set("x-thgl-app", config.name);
 
+  // Game pages → the internal /g/[game]/[surface]/[locale] route (see
+  // src/lib/route-params.ts). Root-level routes (API, sitemaps, llms.txt,
+  // public assets) and the app/www tenants keep their own trees.
+  if (
+    config.name !== "thgl-app" &&
+    !GAME_ROUTE_PASSTHROUGH.has(path.split("/")[1] ?? "")
+  ) {
+    const alias = dbAliasTarget(config, path);
+    if (alias) {
+      url.pathname = alias;
+      url.search = "";
+      return NextResponse.redirect(url, 308);
+    }
+    return rewriteToGameRoute(
+      url,
+      gameRoutePath(config.name, "web", path, isDevForgeHost(host)),
+      headers,
+    );
+  }
+
   return NextResponse.next({ request: { headers } });
+}
+
+/**
+ * First path segments of a game host that are NOT game pages: they resolve to
+ * routes at the app root (src/app/api, sitemap*, llms.txt) or public files
+ * (public/games, public/tooltips.js, app/favicon.ico), so they must not be
+ * rewritten into the /g tree. (`/_next` and `/robots.txt` never reach the proxy.)
+ */
+const GAME_ROUTE_PASSTHROUGH = new Set([
+  "api",
+  "sitemap.xml",
+  "sitemap",
+  "llms.txt",
+  "games",
+  "tooltips.js",
+  "favicon.ico",
+]);
+
+/** Marks requests this proxy rewrote onto /g (see the guard at the top). Random per process, so it can't be forged. */
+const INTERNAL_ROUTE_HEADER = "x-thgl-route";
+const INTERNAL_ROUTE_TOKEN = crypto.randomUUID();
+
+/** Rewrite a game request onto the internal /g route. */
+function rewriteToGameRoute(
+  url: NextRequest["nextUrl"],
+  pathname: string,
+  headers: Headers,
+  responseHeaders?: Record<string, string>,
+): NextResponse {
+  url.pathname = pathname;
+  headers.set(INTERNAL_ROUTE_HEADER, INTERNAL_ROUTE_TOKEN);
+  return NextResponse.rewrite(url, {
+    request: { headers },
+    ...(responseHeaders ? { headers: responseHeaders } : {}),
+  });
+}
+
+/** Top-level folders of src/app/g/[game]/[surface]/[locale] (checked against disk at build, next.config.js). */
+const GAME_TOP_SEGMENTS = new Set<string>(gameRouteSegments);
+/** Static folders under …/[locale]/db (checked against disk at build, next.config.js). */
+const GAME_DB_SEGMENTS = new Set<string>(gameDbSegments);
+
+/**
+ * `/db/<alias>[/<id>]` where <alias> is an old per-category slug folded into a
+ * parent section (`extraTypes` in the game's db config) → the parent section,
+ * exactly as the db pages' resolveSection() does (308, query dropped, `en`
+ * unprefixed). Done here, before rendering, because the db pages are cached
+ * (force-static) and Next emits a redirect thrown from a cached page with a
+ * duplicated Location header. Returns null when the path is not such an alias.
+ */
+function dbAliasTarget(
+  config: NonNullable<ReturnType<typeof getAppConfigByHost>>,
+  path: string,
+): string | null {
+  const sections = config.db?.homeSections;
+  if (!sections) return null;
+  const segs = path.split("/").filter(Boolean);
+  let localePrefix = "";
+  if (segs[0] !== undefined && !GAME_TOP_SEGMENTS.has(segs[0])) {
+    const locale = segs.shift()!;
+    // An unsupported locale 404s in the layout — leave it to the render.
+    if (!config.supportedLocales.includes(locale)) return null;
+    localePrefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+  }
+  if (segs[0] !== "db" || !segs[1] || segs.length > 3) return null;
+  const section = segs[1];
+  if (GAME_DB_SEGMENTS.has(section)) return null;
+  if (sections.some((s) => s.href === `/db/${section}` || s.type === section)) {
+    return null;
+  }
+  const parent = sections.find((s) => (s.extraTypes ?? []).includes(section));
+  if (!parent) return null;
+  return `${localePrefix}${parent.href}${segs[2] ? `/${segs[2]}` : ""}`;
+}
+
+/**
+ * Public game path → internal route path. Mirrors how Next routed the old
+ * `(en)` + `[locale]` trees: a first segment that is one of the route folders
+ * (or the bare root) is an English page; anything else is the locale segment,
+ * validated by the root layout (unknown → 404, exactly as before).
+ *
+ *   /db/items/x        → /g/palia/web/en/db/items/x
+ *   /de/db/items/x     → /g/palia/web/de/db/items/x
+ *   /                  → /g/palia/web/en
+ *   /de                → /g/palia/web/de
+ */
+function gameRoutePath(
+  gameName: string,
+  surface: "web" | "app" | "embed",
+  path: string,
+  devForge: boolean,
+): string {
+  const segs = path.split("/").filter(Boolean);
+  const first = segs[0];
+  const locale =
+    first === undefined || GAME_TOP_SEGMENTS.has(first) ? "en" : segs.shift()!;
+  const rest = segs.length ? `/${segs.join("/")}` : "";
+  const s =
+    devForge && process.env.NODE_ENV === "development"
+      ? `${surface}-dev`
+      : surface;
+  return `/g/${gameName}/${s}/${locale}${rest}`;
 }
 
 function safeDecode(value: string): string {

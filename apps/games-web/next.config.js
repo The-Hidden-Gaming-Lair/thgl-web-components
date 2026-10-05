@@ -1,9 +1,48 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
+
+// proxy.ts tells English paths (/db/…) from locale paths (/de/db/…) by the
+// top-level folders of the game route tree, listed in
+// src/lib/game-route-segments.json. A new top-level page folder that is not in
+// that list would be read as a locale and 404 — fail the build/dev start instead.
+// Same for the static /db/<folder> routes (src/lib/game-db-segments.json): the
+// proxy's db alias redirect must never pre-empt one of them.
+for (const [folder, listFile] of [
+  [
+    "./src/app/g/[game]/[surface]/[locale]/",
+    "./src/lib/game-route-segments.json",
+  ],
+  [
+    "./src/app/g/[game]/[surface]/[locale]/db/",
+    "./src/lib/game-db-segments.json",
+  ],
+]) {
+  const onDisk = readdirSync(new URL(folder, import.meta.url), {
+    withFileTypes: true,
+  })
+    .filter((d) => d.isDirectory() && !d.name.startsWith("["))
+    .map((d) => d.name)
+    .sort();
+  const listed = JSON.parse(
+    readFileSync(new URL(listFile, import.meta.url), "utf8"),
+  ).sort();
+  if (JSON.stringify(onDisk) !== JSON.stringify(listed)) {
+    throw new Error(
+      `${listFile} is out of sync with the folders in ${folder}\n` +
+        `  on disk: ${onDisk.join(", ")}\n  listed:  ${listed.join(", ")}`,
+    );
+  }
+}
 
 /** @type {(phase: string) => import('next').NextConfig} */
 const nextConfig = (phase) => ({
   // Standalone output for Docker container deployment
   output: "standalone",
+  // In-memory, size-bounded, data-version-aware cache for the cached game
+  // routes (/db/*): see cache-handler.cjs. Other cache entries go to Next's
+  // default file-system cache unchanged.
+  cacheHandler: fileURLToPath(new URL("./cache-handler.cjs", import.meta.url)),
   // Ship source maps for the client bundle in production. Fixes Lighthouse's
   // `valid-source-maps` Best-Practices audit (large first-party chunks were
   // flagged as missing maps). No user-facing cost — browsers only fetch the

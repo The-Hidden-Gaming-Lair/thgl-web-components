@@ -100,6 +100,9 @@ export function startPodHealth() {
         once: (ev: string, fn: () => void) => void;
       };
     };
+    // A proxy rewrite that Next forwards over HTTP to itself (see proxy.ts)
+    // re-enters here; the outer request already counts it.
+    if (request.headers["x-thgl-route"]) return;
     const t0 = performance.now();
     let ttfb = 0;
     inflight++;

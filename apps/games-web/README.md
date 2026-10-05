@@ -13,7 +13,7 @@ header in middleware and resolving the right `AppConfig`.
 
 | Tenant                   | Host                                                                                                                                                                                                                                                                                                         | Source on disk                             |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
-| games-web (per-game)     | `{slug}.th.gl` (palia, avowed, once-human, BPSR, homm-olden-era, diablo4, DNA, conan-exiles, crimson-desert, dune-awakening, grounded2, hogwarts-legacy, infinity-nikki, night-crows, palworld, pax-dei, rsdragonwilds, satisfactory, soulframe, soulmask, starsand-island, wuthering-waves, chrono-odyssey) | `app/(en)/…`, `app/[locale]/…`             |
+| games-web (per-game)     | `{slug}.th.gl` (palia, avowed, once-human, BPSR, homm-olden-era, diablo4, DNA, conan-exiles, crimson-desert, dune-awakening, grounded2, hogwarts-legacy, infinity-nikki, night-crows, palworld, pax-dei, rsdragonwilds, satisfactory, soulframe, soulmask, starsand-island, wuthering-waves, chrono-odyssey) | `app/g/[game]/[surface]/[locale]/…`        |
 | THGLApp WebView2 surface | `app.th.gl`                                                                                                                                                                                                                                                                                                  | `app/(app)/(en)/…`, `app/(app)/[locale]/…` |
 | Marketing site           | `www.th.gl` (apex `th.gl` 308-redirects here)                                                                                                                                                                                                                                                                | `app/www/…`                                |
 
@@ -23,13 +23,27 @@ first subdomain (`palia.th.gl` → `palia`, `www.th.gl` → `www`, etc.).
 
 ## How routing works
 
-1. `middleware.ts` reads the `Host` header → `getAppConfigByHost` →
-   sets `x-thgl-app` request header downstream.
+1. `proxy.ts` reads the `Host` header → `getAppConfigByHost` →
+   sets `x-thgl-app` request header downstream, and REWRITES game pages
+   onto the internal route `/g/<game>/<surface>/<locale>/<path>`
+   (`palia.th.gl/de/db/x` → `/g/palia/web/de/db/x`; Companion App copies
+   use surface `app`, embedded maps `embed`). Public URLs never change;
+   `/g/…` requested directly is a 404.
 2. Server components / route handlers call `getAppConfig()` (or the
    stricter `requireApp("name")`) from `src/lib/get-app-config.ts`,
-   which reads the header and returns the matching config.
+   which reads the `[game]` ROOT param (`next/root-params`, see
+   `src/lib/route-params.ts`) inside the game tree, else the header.
 3. Routes that should only serve one tenant guard with
    `await requireApp("thgl-app")` and `notFound()` other tenants.
+
+Why the game is a route param and not only a header: `headers()` makes a
+page dynamic, so before 2026-10 every game page re-rendered on every edge
+miss. With the game in the route, pages can be cached by Next. `/db/*` is
+(`force-static` + on-demand ISR, `cache-handler.cjs`: in-memory, size-capped,
+re-rendered when the game's data version changes). A new top-level page
+folder must be added to `src/lib/game-route-segments.json` (the proxy uses
+the list to tell `/db/…` from `/de/…`; `next.config.js` fails the build if
+they differ).
 
 ### Route groups
 
@@ -38,8 +52,7 @@ classes isolated:
 
 ```
 app/
-  (en)/              ← games-web tenants, en routes (root layout)
-  [locale]/          ← games-web tenants, localized routes (root layout)
+  g/[game]/[surface]/[locale]/  ← games-web tenants (root layout), reached only via the proxy rewrite
   (app)/(en)/        ← thgl-app dashboard, en (root layout)
   (app)/[locale]/    ← thgl-app dashboard, localized (root layout)
   www/               ← thgl-web marketing site (root layout)

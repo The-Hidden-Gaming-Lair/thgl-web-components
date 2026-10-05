@@ -9,11 +9,12 @@ import { palia } from "@/configs/palia";
  *      `sync:bunny` pings this after mirroring a game's data to the CDN,
  *      so that game's tenant pages re-render with the new data
  *      immediately instead of waiting out their (now long) s-maxage.
- *      The content pages are dynamic (they fetch `version.json` with
- *      `cache: "no-store"`), so the next render always picks up fresh
- *      data on its own — we only need the Bunny EDGE purge, no
- *      `revalidateTag`. This is what lets us cache pages long and stay
- *      fresh: revalidate ONLY the tenant whose data actually changed.
+ *      Dynamic pages read `version.json` on every render; the cached
+ *      /db pages (cache-handler.cjs) are stamped with the data version
+ *      they were rendered from and re-render once it changes — on every
+ *      pod by itself. So we only need the Bunny EDGE purge (twice, see
+ *      below), no `revalidateTag`: revalidate ONLY the tenant whose data
+ *      actually changed.
  *
  *   2. **Palia live data** (`{ tag: "leaderboard" | ... }`) — the
  *      upstream palia-api pings this on leaderboard / rummage-pile /
@@ -152,8 +153,14 @@ export async function POST(request: Request) {
     // mark would hand the old feed to the very render that refills the purged edge.
     if (body.updates === true) revalidateTag("discord-updates", { expire: 0 });
     // One wildcard covers every path + locale + query variant for the tenant.
-    // Pages are dynamic (no-store version.json) -> the re-render is fresh.
     const purgeResult = await purgeBunny([`${game.web}/*`]);
+    // ...and once more after every pod has seen the new data version. Pods
+    // learn about it within ~30-90 s (version.json memory cache, page-cache
+    // version check in cache-handler.cjs); an edge refill inside that window
+    // could otherwise pin the previous data at the edge for the 1-day page TTL.
+    setTimeout(() => {
+      purgeBunny([`${game.web}/*`]).catch(() => {});
+    }, 150_000);
     return Response.json({
       revalidated: true,
       game: game.id,
