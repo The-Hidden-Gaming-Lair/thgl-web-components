@@ -63,14 +63,17 @@ export function ValheimSeed() {
   useEffect(() => setSeedText(seed), [seed]);
 
   // The URL is the shareable source of truth: apply ?seed= / ?wgv= on mount.
+  // A link without (or with an unknown) ?wgv= means the current generation;
+  // Number(null) is 0, which would silently pick Legacy (v0).
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     const s = p.get("seed");
     if (s) {
       setSeed(s);
       setSeedText(s);
-      const v = Number(p.get("wgv"));
-      if (VERSIONS.some((x) => x.value === v)) setWorldGenVersion(v);
+      const w = p.get("wgv");
+      const v = w === null || w === "" ? NaN : Number(w);
+      setWorldGenVersion(VERSIONS.some((x) => x.value === v) ? v : 2);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
