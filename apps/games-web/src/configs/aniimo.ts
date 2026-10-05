@@ -28,6 +28,13 @@ export const aniimo = resolveAppConfig({
       linkText: "Open the Team Builder",
     },
     {
+      title: "evo.navTitle",
+      description: "evo.navDescription",
+      href: "/evolutions",
+      iconName: "Sparkles",
+      linkText: "evo.navLinkText",
+    },
+    {
       href: "/activities-tracker",
       title: "activities.navTitle",
       description: "activities.navDescription",
@@ -57,9 +64,11 @@ export const aniimo = resolveAppConfig({
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search Aniimo, skills, items, quests…",
     sectionsInNav: true,
-    // One indexable /team-builder/<id> matchup page per Aniimo (sitemap + codex link).
+    // One indexable /team-builder/<id> matchup page and /evolutions/<id> evolution page
+    // per Aniimo (sitemap + codex link).
     entryPages: [
       { type: "aniimo", path: "/team-builder", labelKey: "tb.entry.label" },
+      { type: "aniimo", path: "/evolutions", labelKey: "evo.entry.label" },
     ],
     homeSections: [
       {
