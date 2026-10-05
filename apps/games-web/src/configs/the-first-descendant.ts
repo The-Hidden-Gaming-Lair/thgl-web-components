@@ -57,7 +57,6 @@ export const theFirstDescendant = resolveAppConfig({
       title: "activities.navTitle",
       description: "activities.navDescription",
       linkText: "activities.navLinkText",
-      bgImage: "/games/thgl-web/activity-tracker.webp",
       iconName: "Activity",
     },
   ],

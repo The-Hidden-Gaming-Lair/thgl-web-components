@@ -65,7 +65,7 @@ export const palia = resolveAppConfig({
       description: "config.internalLinks.rummagePile.description",
       linkText: "config.internalLinks.rummagePile.linkText",
       iconName: "MapPin",
-      bgImage: "/games/palia/rummage-pile.webp",
+      bgImage: "/games/thgl-web/tools/rummage-pile.webp",
     },
     {
       href: "/worlds",
@@ -73,7 +73,7 @@ export const palia = resolveAppConfig({
       description: "config.internalLinks.activeWorlds.description",
       linkText: "config.internalLinks.activeWorlds.linkText",
       iconName: "Server",
-      bgImage: "/games/palia/rummage-pile.webp",
+      bgImage: "/games/thgl-web/tools/worlds.webp",
     },
     {
       href: "/leaderboard",
@@ -81,7 +81,7 @@ export const palia = resolveAppConfig({
       description: "config.internalLinks.leaderboard.description",
       linkText: "config.internalLinks.leaderboard.linkText",
       iconName: "Trophy",
-      bgImage: "/games/palia/leaderboard.webp",
+      bgImage: "/games/thgl-web/tools/leaderboard.webp",
     },
     {
       href: "/weekly-wants",
@@ -89,7 +89,7 @@ export const palia = resolveAppConfig({
       description: "config.internalLinks.weeklyWants.description",
       linkText: "config.internalLinks.weeklyWants.linkText",
       iconName: "Gift",
-      bgImage: "/games/palia/weekly-wants.webp",
+      bgImage: "/games/thgl-web/tools/weekly-wants.webp",
     },
     {
       title: "crafting.navTitle",

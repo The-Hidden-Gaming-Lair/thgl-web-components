@@ -7,18 +7,10 @@ export const nightCrows = resolveAppConfig({
   withoutLiveMode: true,
   internalLinks: [
     {
-      href: "/",
-      title: "Maps",
-      description: "Explore Night Crows Interactive Maps",
-      iconName: "Map",
-      linkText: "Explore Maps",
-    },
-    {
       href: "/activities-tracker",
       title: "activities.navTitle",
       description: "activities.navDescription",
       linkText: "activities.navLinkText",
-      bgImage: "/games/thgl-web/activity-tracker.webp",
       iconName: "Activity",
     },
   ],

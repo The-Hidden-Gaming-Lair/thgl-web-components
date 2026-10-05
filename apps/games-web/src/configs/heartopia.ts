@@ -29,6 +29,7 @@ export const heartopia = resolveAppConfig({
   internalLinks: [
     {
       href: "/forecast",
+      bgImage: "/games/thgl-web/tools/forecast.webp",
       title: "Weather Forecast",
       linkText: "View forecast",
       iconName: "CloudSun",
@@ -103,7 +104,6 @@ export const heartopia = resolveAppConfig({
       title: "activities.navTitle",
       description: "activities.navDescription",
       linkText: "activities.navLinkText",
-      bgImage: "/games/thgl-web/activity-tracker.webp",
       iconName: "Activity",
     },
   ],

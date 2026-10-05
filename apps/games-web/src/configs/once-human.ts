@@ -62,6 +62,7 @@ export const onceHuman = resolveAppConfig({
       title: "blueprints.navTitle",
       description: "blueprints.navDescription",
       href: "/blueprints",
+      bgImage: "/games/thgl-web/tools/blueprints.webp",
       iconName: "Sparkles",
       linkText: "blueprints.navLinkText",
     },
