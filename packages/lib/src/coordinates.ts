@@ -429,7 +429,10 @@ export type DoneWhenAllRules = ReadonlyMap<string, readonly string[]>;
  * Collects the done-when-all rules of a node set. Each rule is keyed by both
  * ids a spawn is addressed by: {@link getNodeId} (markers, tooltips, the
  * discovered toggle) and {@link getSpawnDiscoveryId} (filter counts, discover
- * all), which differ for spawn ids that contain `@`.
+ * all). Both keep an id that contains `@` unchanged, so for those spawns the
+ * two keys are the same; they still differ for a private spawn without `@` and
+ * for a spawn without an id (`getNodeId` falls back to the type on an empty
+ * id, `getSpawnDiscoveryId` only on a missing one).
  */
 export const collectDoneWhenAllRules = (
   nodes: {
@@ -610,6 +613,11 @@ export const checkLiveActorDiscovered = (
  * Discovery id for one spawn of a filter-type node — the SAME derivation the
  * FilterTooltip discovered-count uses, extracted so counts and bulk
  * discover/undiscover actions can never disagree.
+ *
+ * A private spawn, or a spawn whose id already contains `@` (an addressed id
+ * such as `q_1101010@1101010s1g1`), keeps its id unchanged — the same rule as
+ * {@link getNodeId}, so the marker and the filter counts address it by one id.
+ * Every other spawn gets `<id or type>@<x>:<y>`.
  */
 export const getSpawnDiscoveryId = (
   nodeType: string,
@@ -619,7 +627,7 @@ export const getSpawnDiscoveryId = (
     p: [number, number] | [number, number, number];
   },
 ): string =>
-  spawn.isPrivate && spawn.id
+  spawn.id && (spawn.isPrivate || spawn.id.includes("@"))
     ? spawn.id
     : `${spawn.id ?? nodeType}@${spawn.p[0]}:${spawn.p[1]}`;
 

@@ -8,8 +8,9 @@ import type { DrawingsAndNodes } from "./settings";
  * A custom marker can be recorded as discovered under EITHER of two keys,
  * because two code paths disagree about how to address a private spawn:
  *
- *   - `getSpawnDiscoveryId` returns the bare `spawn.id` for a private spawn.
- *     The filter tooltip and "discover all" use it.
+ *   - `getSpawnDiscoveryId` returns the bare `spawn.id` for a private spawn
+ *     (and for any id that already contains `@`). The filter tooltip and
+ *     "discover all" use it.
  *   - the map's own marker tooltip builds `${id}@${lat}:${lng}` and has no
  *     private-spawn branch at all, so ticking a marker off ON THE MAP — the
  *     way users actually do it — stores the coordinate form.
