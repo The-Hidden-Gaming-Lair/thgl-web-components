@@ -183,14 +183,21 @@ const nextConfig = (phase) => ({
     // stale window — cap it at 60s (same budget as version.json / the config JSONs)
     // so a data update always reaches the browser within a minute. The edge keeps
     // its day-cache + SWR (CDN-Cache-Control below) for origin protection.
+    //
+    // EDGE TTL 1 h + stale-while-revalidate 1 day (2026-10-06): deploys no longer
+    // purge the whole pull zone (.github/workflows/games-web-deploy.yml +
+    // apps/games-web/scripts/purge-plan.mjs purge only the sites whose own files
+    // changed). Shared page code reaches every edge within ~1 h instead: after an
+    // hour the edge serves its copy instantly and re-renders in the background,
+    // so the cache never goes cold the way 18-30 full purges a day kept it.
     const pageCache = [
       {
         key: "Cache-Control",
-        value: "public, max-age=0, s-maxage=86400, stale-while-revalidate=60",
+        value: "public, max-age=0, s-maxage=3600, stale-while-revalidate=60",
       },
       {
         key: "CDN-Cache-Control",
-        value: "public, s-maxage=86400, stale-while-revalidate=86400",
+        value: "public, s-maxage=3600, stale-while-revalidate=86400",
       },
     ];
     // User-specific (dashboard, cookie-varied) and palia-api-driven pages

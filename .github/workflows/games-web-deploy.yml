@@ -14,6 +14,12 @@ on:
       - "bun.lock"
       - "turbo.json"
   workflow_dispatch:
+    inputs:
+      purge:
+        description: "Edge purge after the rollout: auto = only the sites whose own files changed (scripts/purge-plan.mjs), full = whole pull zone, none = skip"
+        type: choice
+        options: [auto, full, none]
+        default: auto
 
 concurrency:
   group: deploy-games-web
@@ -33,6 +39,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history: the purge plan diffs the live build's commit against this one.
+          fetch-depth: 0
+
+      # The build that is live BEFORE this rollout, for the purge plan (only the
+      # sites whose own files changed get purged). Cache-busted so it reaches a pod.
+      - name: Record live build
+        run: |
+          prev=$(curl -fsS --max-time 15 "https://www.th.gl/api/build-id?drain=prev-${GITHUB_RUN_ID}" 2>/dev/null | jq -r '.sha // empty' 2>/dev/null || true)
+          echo "Live build before this deploy: ${prev:-unknown}"
+          echo "PREV_SHA=${prev}" >> "$GITHUB_ENV"
 
       # Hard gate: the repo-tracked installer must carry an Authenticode
       # signature from our EV cert before it ships inside the image (it is
@@ -242,6 +259,7 @@ jobs:
           # response header). Override via repo var if it ever changes.
           PULL_ZONE_ID: ${{ vars.BUNNY_GAMES_WEB_PULLZONE_ID || '5829962' }}
           PROBE_URL: "https://www.th.gl/"
+          PURGE_INPUT: ${{ inputs.purge || 'auto' }}
         run: |
           set -uo pipefail
 
@@ -321,8 +339,43 @@ jobs:
           else
             echo "::warning::Drain not confirmed within ~5min (old build may still serve); purging anyway"
           fi
-          purge
-          echo "Edge cache purged"
+          # Purge only what this deploy changed (2026-10-06). A full purge on
+          # every deploy (18-30 a day) kept the edge cold: hit rate 65% -> 36%
+          # in three days. scripts/purge-plan.mjs diffs the previous live build
+          # against this one: server-only changes purge nothing, a site's own
+          # files purge that site (one wildcard per host), shared page code
+          # refreshes via the 1 h page TTL (next.config.js). Unknown previous
+          # build = full purge. Manual runs can force `full` or `none`.
+          mode_in="${PURGE_INPUT:-auto}"
+          if [ "$mode_in" = "full" ]; then
+            plan='{"mode":"full","reason":"manual: purge=full","urls":[]}'
+          elif [ "$mode_in" = "none" ]; then
+            plan='{"mode":"none","reason":"manual: purge=none","urls":[]}'
+          else
+            plan=$(node apps/games-web/scripts/purge-plan.mjs "${PREV_SHA:-}" "$GITHUB_SHA" 2>/dev/null || echo '{"mode":"full","reason":"purge plan failed","urls":[]}')
+          fi
+          mode=$(echo "$plan" | jq -r '.mode')
+          echo "Purge plan: $mode - $(echo "$plan" | jq -r '.reason')"
+          case "$mode" in
+            full)
+              purge
+              echo "Edge cache purged (full)"
+              ;;
+            tenants)
+              for url in $(echo "$plan" | jq -r '.urls[]'); do
+                for attempt in 1 2 3 4 5 6; do
+                  code=$(curl -s -o /dev/null -w "%{http_code}" -X POST                     -H "AccessKey: $API_KEY"                     "https://api.bunny.net/purge?url=$(jq -rn --arg u "$url" '$u|@uri')&async=false")
+                  echo "purge $url HTTP $code (attempt $attempt)"
+                  case "$code" in 2*) break ;; esac
+                  sleep $((attempt * 2))
+                done
+                sleep 1 # wildcard purges are rate-limited to ~1/s per account
+              done
+              ;;
+            *)
+              echo "Nothing to purge"
+              ;;
+          esac
 
       # Retention: drop static files from builds that stopped being current
       # >60 days ago. Safe ordering: the upload step re-PUT every file of the
