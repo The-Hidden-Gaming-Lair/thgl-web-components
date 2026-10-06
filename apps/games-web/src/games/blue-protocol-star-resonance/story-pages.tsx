@@ -5,12 +5,17 @@
 // out of `app/g/[game]/[surface]/[locale]/db/story/...` and into this module.
 
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
-import { DEFAULT_LOCALE, fetchDatabase } from "@repo/lib";
+import { notFound, permanentRedirect } from "next/navigation";
+import { DEFAULT_LOCALE, localizePath } from "@repo/lib";
 import { JSONLDScript } from "@repo/ui/apps";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
 import { collectionPageJsonLd, entityPageJsonLd } from "@/lib/db/json-ld";
-import { loadSection, findEntry } from "./data";
+import {
+  findEntry,
+  groupsAsDatabase,
+  legacyEntryId,
+  loadSection,
+} from "./data";
 import { BPSR_SECTIONS } from "./sections";
 import { SectionHero } from "./section-hero";
 import { SectionList } from "./section-list";
@@ -42,7 +47,7 @@ export async function BpsrStoryListPage({
     }),
   }));
   const totalCount = groups.reduce((s, g) => s + g.items.length, 0);
-  const database = await fetchDatabase("blue-protocol-star-resonance");
+  const database = groupsAsDatabase(SECTION, groups);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
@@ -99,7 +104,12 @@ export async function BpsrStoryEntryPage({
   locale?: string;
 }) {
   const found = await findEntry(SECTION, id, locale);
-  if (!found) notFound();
+  if (!found) {
+    const current = await legacyEntryId(SECTION, id);
+    if (current)
+      permanentRedirect(localizePath(`${SECTION.href}/${current}`, locale));
+    notFound();
+  }
   const summary = excerpt(found.item.props.content ?? "", 200);
   return (
     <>

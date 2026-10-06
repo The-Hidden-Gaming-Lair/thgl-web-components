@@ -1,10 +1,13 @@
 import { type Metadata } from "next";
-import { DEFAULT_LOCALE, fetchDatabase } from "@repo/lib";
+import { DEFAULT_LOCALE } from "@repo/lib";
 import { JSONLDScript } from "@repo/ui/apps";
 import { requireApp } from "@/lib/get-app-config";
 import { SectionJsonLd } from "@/lib/db/section-jsonld";
 import { collectionPageJsonLd } from "@/lib/db/json-ld";
-import { loadSection } from "@/games/blue-protocol-star-resonance/data";
+import {
+  groupsAsDatabase,
+  loadSection,
+} from "@/games/blue-protocol-star-resonance/data";
 import { BPSR_SECTIONS } from "@/games/blue-protocol-star-resonance/sections";
 import { SectionHero } from "@/games/blue-protocol-star-resonance/section-hero";
 import { SectionList } from "@/games/blue-protocol-star-resonance/section-list";
@@ -28,7 +31,7 @@ export default async function Page({ params }: PageProps) {
   const { locale = DEFAULT_LOCALE } = await params;
   const groups = await loadSection(SECTION, locale);
   const totalCount = groups.reduce((s, g) => s + g.items.length, 0);
-  const database = await fetchDatabase("blue-protocol-star-resonance");
+  const database = groupsAsDatabase(SECTION, groups);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">

@@ -1,4 +1,9 @@
-import { fetchDatabase, fetchDbDict, type DatabaseConfig } from "@repo/lib";
+import {
+  fetchDatabaseIndex,
+  fetchDatabaseType,
+  fetchDbDict,
+  type DatabaseConfig,
+} from "@repo/lib";
 import { localizeProps, resolveDict } from "@/lib/db/resolve-dict";
 import type { WikiItem, WikiItemProps, WikiSection } from "./types";
 
@@ -18,6 +23,48 @@ export function humanizeCategory(catType: string, typePrefix: string): string {
     .trim();
 }
 
+type WikiCategory = DatabaseConfig[number] & {
+  /** The database type the items live in, when `type` is a group id. */
+  sourceType?: string;
+};
+
+/**
+ * The full categories of every type the sections cover. Split databases
+ * (`database.index.json` + one file per type) load only those types; a
+ * monolith `database.json` is the fallback inside both fetchers.
+ */
+async function fetchSectionTypes(
+  appName: string,
+  sections: WikiSection[],
+): Promise<WikiCategory[]> {
+  const index = await fetchDatabaseIndex(appName);
+  const types = index
+    .map((cat) => cat.type)
+    .filter(
+      (type) =>
+        !type.startsWith("_") &&
+        sections.some((s) => type.startsWith(s.typePrefix)),
+    );
+  return Promise.all(types.map((type) => fetchDatabaseType(appName, type)));
+}
+
+/** One category per `groupId` (items without one stay in their type). */
+function splitByGroupId(categories: WikiCategory[]): WikiCategory[] {
+  const out = new Map<string, WikiCategory>();
+  for (const cat of categories) {
+    for (const item of cat.items) {
+      const type = item.groupId ?? cat.type;
+      let group = out.get(type);
+      if (!group) {
+        group = { type, items: [], sourceType: cat.type };
+        out.set(type, group);
+      }
+      group.items.push(item);
+    }
+  }
+  return [...out.values()];
+}
+
 /**
  * Fetch all items belonging to a wiki section, keyed by category. Each
  * category is a `database.json` row whose `type` starts with the
@@ -30,7 +77,7 @@ export async function loadSection(
   locale = "en",
 ): Promise<{ category: { type: string; label: string }; items: WikiItem[] }[]> {
   const [database, enDict, localeDict] = await Promise.all([
-    fetchDatabase(appName),
+    fetchSectionTypes(appName, [section]),
     fetchDbDict(appName),
     locale === "en"
       ? Promise.resolve(null as Record<string, string> | null)
@@ -39,8 +86,13 @@ export async function loadSection(
 
   const dict = localeDict ?? enDict;
 
-  const matching = database
-    .filter((cat) => cat.type.startsWith(section.typePrefix))
+  const matching = (
+    section.groupByGroupId ? splitByGroupId(database) : database
+  )
+    .filter(
+      (cat) =>
+        cat.type.startsWith(section.typePrefix) || section.groupByGroupId,
+    )
     .sort((a, b) => {
       const la =
         resolveDict(enDict, a.type) !== a.type
@@ -61,7 +113,7 @@ export async function loadSection(
 
     const items: WikiItem[] = cat.items.map((i) => ({
       id: i.id,
-      type: cat.type,
+      type: cat.sourceType ?? cat.type,
       category: label,
       // Title / content in the page's locale where the data carries a translation.
       props: localizeProps(
@@ -129,8 +181,10 @@ export async function loadAllWikiItems(
     title: string;
   }>
 > {
-  const database: DatabaseConfig = await fetchDatabase(appName);
-  const enDict = await fetchDbDict(appName);
+  const [database, enDict] = await Promise.all([
+    fetchSectionTypes(appName, sections),
+    fetchDbDict(appName),
+  ]);
   const out: Array<{
     id: string;
     href: string;
@@ -141,23 +195,25 @@ export async function loadAllWikiItems(
   }> = [];
 
   for (const cat of database) {
-    if (cat.type.startsWith("_")) continue;
     const section = sections.find((s) => cat.type.startsWith(s.typePrefix));
     if (!section) continue;
-    const category =
-      resolveDict(enDict, cat.type) !== cat.type
-        ? resolveDict(enDict, cat.type)
-        : humanizeCategory(cat.type, section.typePrefix);
-    for (const item of cat.items) {
-      const props = item.props as WikiItemProps;
-      out.push({
-        id: item.id,
-        href: section.href,
-        label: section.label,
-        type: cat.type,
-        category,
-        title: props.title ?? item.id,
-      });
+    const categories = section.groupByGroupId ? splitByGroupId([cat]) : [cat];
+    for (const group of categories) {
+      const category =
+        resolveDict(enDict, group.type) !== group.type
+          ? resolveDict(enDict, group.type)
+          : humanizeCategory(group.type, section.typePrefix);
+      for (const item of group.items) {
+        const props = item.props as WikiItemProps;
+        out.push({
+          id: item.id,
+          href: section.href,
+          label: section.label,
+          type: cat.type,
+          category,
+          title: props.title ?? item.id,
+        });
+      }
     }
   }
   return out;

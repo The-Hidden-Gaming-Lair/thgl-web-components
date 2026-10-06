@@ -1,10 +1,13 @@
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
-import { DEFAULT_LOCALE } from "@repo/lib";
+import { notFound, permanentRedirect } from "next/navigation";
+import { DEFAULT_LOCALE, localizePath } from "@repo/lib";
 import { JSONLDScript } from "@repo/ui/apps";
 import { requireApp } from "@/lib/get-app-config";
 import { entityPageJsonLd } from "@/lib/db/json-ld";
-import { findEntry } from "@/games/blue-protocol-star-resonance/data";
+import {
+  findEntry,
+  legacyEntryId,
+} from "@/games/blue-protocol-star-resonance/data";
 import { BPSR_SECTIONS } from "@/games/blue-protocol-star-resonance/sections";
 import { EntryDetail } from "@/games/blue-protocol-star-resonance/entry-detail";
 import { entryMetadata } from "@/games/blue-protocol-star-resonance/metadata";
@@ -32,7 +35,12 @@ export default async function Page({ params }: { params: Params }) {
   await requireApp("blue-protocol-star-resonance");
   const { id, locale = DEFAULT_LOCALE } = await params;
   const found = await findEntry(SECTION, id, locale);
-  if (!found) notFound();
+  if (!found) {
+    const current = await legacyEntryId(SECTION, id);
+    if (current)
+      permanentRedirect(localizePath(`${SECTION.href}/${current}`, locale));
+    notFound();
+  }
 
   const summary = excerpt(found.item.props.content ?? "", 200);
 

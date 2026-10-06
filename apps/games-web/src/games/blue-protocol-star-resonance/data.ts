@@ -1,3 +1,4 @@
+import type { DatabaseConfig } from "@repo/lib";
 import {
   findEntry as findEntryGeneric,
   loadAllWikiItems,
@@ -28,6 +29,41 @@ export function loadSection(section: WikiSection, locale = "en") {
 
 export function findEntry(section: WikiSection, id: string, locale = "en") {
   return findEntryGeneric(APP_NAME, section, id, locale);
+}
+
+/**
+ * Entry ids before the 2026-10 codex rework were the bare table ids
+ * (`/db/reading-books/1001`); they now carry a section prefix. Returns the
+ * current id for an old one that still exists, for a permanent redirect.
+ */
+const LEGACY_ID_PREFIX: Record<string, string> = {
+  dictionary: "dict_",
+  "reading-books": "book_",
+  story: "story_",
+};
+export async function legacyEntryId(
+  section: WikiSection,
+  id: string,
+): Promise<string | undefined> {
+  const prefix = LEGACY_ID_PREFIX[section.typePrefix];
+  if (!prefix || !/^\d+$/.test(id)) return undefined;
+  const found = await findEntryGeneric(APP_NAME, section, `${prefix}${id}`);
+  return found ? `${prefix}${id}` : undefined;
+}
+
+/** The loaded section as a database slice (for SectionJsonLd). */
+export function groupsAsDatabase(
+  section: WikiSection,
+  groups: Awaited<ReturnType<typeof loadSection>>,
+): DatabaseConfig {
+  return [
+    {
+      type: section.typePrefix,
+      items: groups.flatMap((g) =>
+        g.items.map((i) => ({ id: i.id, props: i.props })),
+      ),
+    },
+  ];
 }
 
 /** Flat item list for the header search index. */

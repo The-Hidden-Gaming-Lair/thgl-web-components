@@ -20,6 +20,12 @@ export type WikiSection = {
    * belongs to this section.
    */
   typePrefix: string;
+  /**
+   * The section is ONE database type whose entries carry a `groupId`: the
+   * categories are the groups (label = the group's dict term) instead of the
+   * `<prefix>_<subgroup>` types.
+   */
+  groupByGroupId?: boolean;
   /** Extra keywords appended to the page-level metadata. */
   keywords?: string[];
 };

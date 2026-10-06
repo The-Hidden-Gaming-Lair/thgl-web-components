@@ -1,8 +1,8 @@
 import type { WikiSection } from "@/lib/db/wiki";
 
 /**
- * BPSR wiki sections. Each entry pulls items from every
- * `database.json` category whose `type` starts with `typePrefix`.
+ * BPSR wiki sections: one database type each (`dictionary`, `reading-books`,
+ * `story`), its categories are the entries' groups.
  */
 export const BPSR_SECTIONS = {
   dictionary: {
@@ -12,8 +12,15 @@ export const BPSR_SECTIONS = {
       "An encyclopedia of lore, concepts, and historical events in Blue Protocol: Star Resonance.",
     icon: "📚",
     accent: "text-cyan-400 border-cyan-800/50 bg-cyan-900/20",
-    typePrefix: "dictionary_",
-    keywords: ["Lore Dictionary", "Encyclopedia", "World Lore", "History", "Concepts"],
+    typePrefix: "dictionary",
+    groupByGroupId: true,
+    keywords: [
+      "Lore Dictionary",
+      "Encyclopedia",
+      "World Lore",
+      "History",
+      "Concepts",
+    ],
   },
   "reading-books": {
     href: "/db/reading-books",
@@ -22,8 +29,15 @@ export const BPSR_SECTIONS = {
       "A comprehensive collection of books, letters, posters, and records found throughout Blue Protocol: Star Resonance.",
     icon: "📖",
     accent: "text-amber-400 border-amber-800/50 bg-amber-900/20",
-    typePrefix: "reading_books_",
-    keywords: ["Reading Books", "Lore Books", "Travel Guides", "Letters", "Collectibles"],
+    typePrefix: "reading-books",
+    groupByGroupId: true,
+    keywords: [
+      "Reading Books",
+      "Lore Books",
+      "Travel Guides",
+      "Letters",
+      "Collectibles",
+    ],
   },
   story: {
     href: "/db/story",
@@ -32,8 +46,15 @@ export const BPSR_SECTIONS = {
       "Follow the epic story of Blue Protocol: Star Resonance through detailed episode summaries and quest phases.",
     icon: "✦",
     accent: "text-indigo-400 border-indigo-800/50 bg-indigo-900/20",
-    typePrefix: "story_episode_",
-    keywords: ["Story Episodes", "Main Story", "Quest Phases", "Lore", "Campaign"],
+    typePrefix: "story",
+    groupByGroupId: true,
+    keywords: [
+      "Story Episodes",
+      "Main Story",
+      "Quest Phases",
+      "Lore",
+      "Campaign",
+    ],
   },
 } as const satisfies Record<string, WikiSection>;
 

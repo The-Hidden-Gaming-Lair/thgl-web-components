@@ -117,22 +117,18 @@ export const blueProtocolStarResonance = resolveAppConfig({
       iconName: "Activity",
     },
     {
-      href: "/db/story",
-      title: "Story Episodes",
-      linkText: "Follow the Story Episodes",
-      iconName: "BookOpen",
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
     },
     {
-      href: "/db/reading-books",
-      title: "Reading Books",
-      linkText: "Explore all Reading Books",
-      iconName: "BookOpen",
-    },
-    {
-      href: "/db/dictionary",
-      title: "Lore Dictionary",
-      linkText: "Browse the Lore Dictionary",
-      iconName: "BookOpen",
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
     },
   ],
   promoLinks: [],
@@ -140,13 +136,122 @@ export const blueProtocolStarResonance = resolveAppConfig({
   keywords: ["BPSR", "Bosses", "Guides", "Maps", "Rare Spawns", "Engram Hubs"],
   topFilters: ["monster_ignisor", "camera_point", "wind_barrier"],
   db: {
-    heroSubtitle: "Lore Codex",
-    searchPlaceholder: "Search dictionary, books, story...",
+    // Collection checklists (/checklist, /checklist/<section>): the game's own
+    // collections - reading material, the fishing log, Monster Hunt, Battle
+    // Imagines and mounts.
+    checklists: [
+      { section: "reading-books" },
+      { section: "fish" },
+      { section: "monsters" },
+      { section: "imagines" },
+      { section: "mounts" },
+    ],
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search items, gear, recipes, monsters…",
+    sectionsInNav: true,
     homeSections: [
+      {
+        href: "/db/inventory",
+        type: "inventory",
+        titleKey: "inventory",
+        titleFallback: "Items",
+        icon: "🎒",
+        description:
+          "Consumables, materials, gems and growth items with the recipes, shops, monsters and gathering spots behind them.",
+      },
+      {
+        href: "/db/equipment",
+        type: "equipment",
+        titleKey: "equipment",
+        titleFallback: "Gear",
+        icon: "🛡️",
+        description:
+          "Weapons, armor and accessories with gear score, class, base attributes and where they drop or are crafted.",
+      },
+      {
+        href: "/db/recipes",
+        type: "recipes",
+        titleKey: "recipes",
+        titleFallback: "Recipes",
+        icon: "⚒️",
+        description:
+          "Life Skill recipes, gear forging and Battle Imagine crafting with ingredients, yield and Focus cost.",
+      },
+      {
+        href: "/db/imagines",
+        type: "imagines",
+        titleKey: "imagines",
+        titleFallback: "Battle Imagine",
+        icon: "✨",
+        description:
+          "Every Battle Imagine with its skill, modifications and the monster it resonates with.",
+      },
+      {
+        href: "/db/monsters",
+        type: "monsters",
+        titleKey: "monsters",
+        titleFallback: "Monster Hunt",
+        icon: "👹",
+        description:
+          "The Monster Hunt list: where each monster lives, its hunt rewards and every spot on the map.",
+      },
+      {
+        href: "/db/dungeons",
+        type: "dungeons",
+        titleKey: "dungeons",
+        titleFallback: "Dungeons",
+        icon: "🏰",
+        description:
+          "Dungeons and raids with their modes, recommended ability score, party size and rewards.",
+      },
+      {
+        href: "/db/gathering",
+        type: "gathering",
+        titleKey: "gathering",
+        titleFallback: "Gathering",
+        icon: "🌿",
+        description:
+          "Life Skill gathering nodes with their yields, Focus cost and every node on the map.",
+      },
+      {
+        href: "/db/fish",
+        type: "fish",
+        titleKey: "fish",
+        titleFallback: "Fish",
+        icon: "🐟",
+        description:
+          "Fish and ocean finds with size, fishing spots, the bait that catches them and what they cook into.",
+      },
+      {
+        href: "/db/mounts",
+        type: "mounts",
+        titleKey: "mounts",
+        titleFallback: "Mounts",
+        icon: "🐗",
+        description: "Mount Imagines with their speed and skins.",
+      },
+      {
+        href: "/db/furniture",
+        type: "furniture",
+        titleKey: "furniture",
+        titleFallback: "Furniture",
+        icon: "🪑",
+        description:
+          "Homestead furniture with the materials to craft it and the Homestead EXP it gives.",
+      },
+      {
+        href: "/db/shops",
+        type: "shops",
+        titleKey: "shops",
+        titleFallback: "Shops",
+        icon: "🏪",
+        description:
+          "Exchange shops and what they sell, with the price in Luno, tokens or materials.",
+      },
       {
         href: "/db/dictionary",
         type: "dictionary",
-        typePrefix: "dictionary_",
+        titleKey: "dictionary",
         icon: "📚",
         titleFallback: "Lore Dictionary",
         description:
@@ -154,8 +259,8 @@ export const blueProtocolStarResonance = resolveAppConfig({
       },
       {
         href: "/db/reading-books",
-        type: "reading_books",
-        typePrefix: "reading_books_",
+        type: "reading-books",
+        titleKey: "reading-books",
         icon: "📖",
         titleFallback: "Reading Books",
         description:
@@ -163,22 +268,17 @@ export const blueProtocolStarResonance = resolveAppConfig({
       },
       {
         href: "/db/story",
-        type: "story_episode",
-        typePrefix: "story_episode_",
+        type: "story",
+        titleKey: "story",
         icon: "✦",
         titleFallback: "Story Episodes",
         description: "The main story, episode by episode.",
       },
     ],
-    typeLabels: {
-      dictionary: "Dictionary",
-      reading_books: "Book",
-      story_episode: "Story",
-    },
     typeColors: {
       dictionary: "bg-cyan-900/40 text-cyan-400",
-      reading_books: "bg-amber-900/40 text-amber-400",
-      story_episode: "bg-indigo-900/40 text-indigo-400",
+      "reading-books": "bg-amber-900/40 text-amber-400",
+      story: "bg-indigo-900/40 text-indigo-400",
     },
     languageCount: 5,
   },
