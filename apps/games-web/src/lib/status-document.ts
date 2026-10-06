@@ -143,7 +143,32 @@ async function buildOnDemandDocument(
   };
 }
 
-export async function buildStatusDocument(): Promise<StatusDocumentResult> {
+/**
+ * One shared build per process, reused for DOC_TTL_MS. A build runs five DB
+ * queries (24 h + 7 d uptime scans over the check history: thousands of rows)
+ * plus an Overwolf fetch. The edge cache used to absorb the banner polls, but
+ * with Origin Shield off every edge PoP x ~60 tenant hostnames misses its own
+ * copy: /api/status went from ~4 to ~900 origin req/min and Bunny DB reads
+ * from ~50M to 5.8 BILLION rows/h (2026-10-06 19:00 UTC). Now each pod builds
+ * at most twice a minute, whatever the request volume.
+ */
+const DOC_TTL_MS = 30_000;
+let docCache: { at: number; promise: Promise<StatusDocumentResult> } | null =
+  null;
+
+export function buildStatusDocument(): Promise<StatusDocumentResult> {
+  if (docCache && Date.now() - docCache.at < DOC_TTL_MS) {
+    return docCache.promise;
+  }
+  const promise = buildFreshStatusDocument();
+  docCache = { at: Date.now(), promise };
+  promise.catch(() => {
+    if (docCache?.promise === promise) docCache = null;
+  });
+  return promise;
+}
+
+async function buildFreshStatusDocument(): Promise<StatusDocumentResult> {
   const owPromise = checkOwEvents().catch(() => null);
 
   try {
