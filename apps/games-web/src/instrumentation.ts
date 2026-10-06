@@ -16,7 +16,55 @@ export async function register() {
   if (process.env.NODE_ENV === "production") {
     const { startPodHealth } = await import("@/lib/pod-health");
     startPodHealth();
+    compactNetworkErrorLogs();
   }
+}
+
+const NETWORK_CODES = new Set([
+  "ETIMEDOUT",
+  "ECONNRESET",
+  "ECONNREFUSED",
+  "ENOTFOUND",
+  "EAI_AGAIN",
+  "UND_ERR_CONNECT_TIMEOUT",
+  "UND_ERR_SOCKET",
+  "UND_ERR_HEADERS_TIMEOUT",
+  "UND_ERR_BODY_TIMEOUT",
+]);
+
+/** `fetch failed` and friends: the code of the underlying network failure, else null. */
+function networkErrorCode(value: unknown): string | null {
+  if (!(value instanceof Error)) return null;
+  const cause = (value as { cause?: { code?: string; errors?: unknown[] } })
+    .cause;
+  const code =
+    cause?.code ??
+    (cause?.errors?.[0] as { code?: string } | undefined)?.code ??
+    (value as { code?: string }).code;
+  if (code && NETWORK_CODES.has(code)) return code;
+  return value.message === "fetch failed" ? (code ?? "fetch failed") : null;
+}
+
+/**
+ * A network blip makes every SSR render that awaits cdn.th.gl fail, and Next
+ * prints each as a ~20-line stack (plus onRequestError's own copy). On
+ * 2026-10-06 that was ~40k log lines in 85 min, drowning the [pod-health] lines
+ * the incident tooling reads. One line per error keeps the signal: the route
+ * comes from onRequestError, the per-host failure counts from [pod-health].
+ */
+function compactNetworkErrorLogs() {
+  const original = console.error.bind(console);
+  console.error = (...args: unknown[]) => {
+    const err = args.find((a) => networkErrorCode(a));
+    if (err) {
+      const e = err as Error & { digest?: string };
+      original(
+        `[net-error] ${e.name}: ${e.message} code=${networkErrorCode(e)} digest=${e.digest ?? "none"}`,
+      );
+      return;
+    }
+    original(...args);
+  };
 }
 
 /**
@@ -70,7 +118,7 @@ export const onRequestError: Instrumentation.onRequestError = async (
     `[onRequestError] digest=${e.digest ?? "none"} routePath=${context.routePath ?? "?"} routeType=${context.routeType ?? "?"} routerKind=${context.routerKind ?? "?"} method=${request.method} path=${request.path} host=${host}`,
   );
   console.error(`  message: ${e.message}`);
-  if (e.stack) {
+  if (e.stack && !networkErrorCode(e)) {
     console.error(`  stack:\n${e.stack}`);
   }
 };

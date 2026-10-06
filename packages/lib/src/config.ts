@@ -495,8 +495,20 @@ type MemoryFetchEntry = { data: unknown; expiresAt: number; bytes: number };
 const memoryFetchCache = new Map<string, MemoryFetchEntry>();
 const memoryFetchInflight = new Map<string, Promise<unknown>>();
 const MEMORY_FETCH_TTL_MS = 60_000;
-const MEMORY_FETCH_MAX_BYTES = 256 * 1024 * 1024;
+// Budget in estimated HEAP bytes, not JSON text: a parsed dict/database object
+// takes roughly 3x its text length (string headers, object shapes, hash
+// tables). Counting text let 256 MB of text grow to ~1 GB of heap.
+const MEMORY_FETCH_MAX_BYTES = 512 * 1024 * 1024;
+const PARSED_BYTES_PER_CHAR = 3;
 let memoryFetchBytes = 0;
+
+/** Size of the per-process JSON memory cache, for the [pod-health] log line. */
+export function memoryFetchCacheStats() {
+  return {
+    entries: memoryFetchCache.size,
+    mb: Math.round(memoryFetchBytes / 1048576),
+  };
+}
 
 type MemoryFetchOptions<T> = {
   onNotFound?: () => T | undefined;
@@ -564,7 +576,7 @@ function loadIntoMemoryCache<T>(
     storeMemoryFetchEntry(url, {
       data,
       expiresAt: expiresAt(),
-      bytes: text.length,
+      bytes: text.length * PARSED_BYTES_PER_CHAR,
     });
     options?.onFresh?.(data);
     return data;
@@ -953,13 +965,13 @@ async function fetchDbTerms(
   return fetchDbTerms(appName, "en");
 }
 
-const dbDictMerges = new Map<
-  string,
-  {
-    dict: Record<string, string>;
-    terms: Record<string, string>;
-    merged: Record<string, string>;
-  }
+// Keyed weakly on the cached inputs: a merge lives exactly as long as both
+// inputs are still in the memory fetch cache. A strong per-game/locale Map kept
+// every evicted dict + terms + merge alive, bypassing the cache's byte budget
+// (IL pods pinned at the V8 heap limit, 2026-10-06 outage).
+const dbDictMerges = new WeakMap<
+  Record<string, string>,
+  WeakMap<Record<string, string>, Record<string, string>>
 >();
 
 /**
@@ -979,13 +991,10 @@ export async function fetchDbDict(
   ]);
   if (!terms) return dict;
   // Both inputs come from the memory cache, so reuse the merge while they're unchanged.
-  const key = `${appName}|${locale}`;
-  const cached = dbDictMerges.get(key);
-  if (cached && cached.dict === dict && cached.terms === terms) {
-    return cached.merged;
-  }
-  const merged = { ...dict, ...terms };
-  dbDictMerges.set(key, { dict, terms, merged });
+  let byTerms = dbDictMerges.get(dict);
+  if (!byTerms) dbDictMerges.set(dict, (byTerms = new WeakMap()));
+  let merged = byTerms.get(terms);
+  if (!merged) byTerms.set(terms, (merged = { ...dict, ...terms }));
   return merged;
 }
 

@@ -15,13 +15,24 @@
  *   el                       — event-loop delay (ms). High = CPU/GC-starved pod,
  *                              which ALSO shows up as connect timeouts.
  *   heapMB / rssMB           — memory, for GC pressure.
+ *   heapLimitMB              — V8's ceiling. heapMB pinned near it = the pod
+ *                              spends its time in GC (the 2026-10-06 outage:
+ *                              IL pods at ~2.1 of ~2.2 GB, event loop stalled
+ *                              6-11 s, liveness probe restart loop).
+ *   extMB                    — off-heap buffers (gzip page cache lives here).
+ *   gc                       — GC pauses this minute: count, total + max ms.
+ *   cache                    — page cache (cache-handler.cjs) and JSON memory
+ *                              cache (@repo/lib) sizes in MB.
  *
  * Node's built-in fetch is undici; it publishes these diagnostics channels.
  * Read the lines with the MC logs API (`/mc/apps/{id}/logs`, grep pod-health)
  * or `scripts/analyze-origin-incident.ts --mc` in data-forge.
  */
 import diagnostics_channel from "node:diagnostics_channel";
-import { monitorEventLoopDelay } from "node:perf_hooks";
+import { readFileSync } from "node:fs";
+import { monitorEventLoopDelay, PerformanceObserver } from "node:perf_hooks";
+import { getHeapStatistics } from "node:v8";
+import { memoryFetchCacheStats } from "@repo/lib";
 import type { Socket } from "node:net";
 
 const INTERVAL_MS = 60_000;
@@ -172,6 +183,22 @@ export function startPodHealth() {
   const el = monitorEventLoopDelay({ resolution: 20 });
   el.enable();
 
+  let gcCount = 0;
+  let gcMs = 0;
+  let gcMax = 0;
+  new PerformanceObserver((list) => {
+    for (const e of list.getEntries()) {
+      gcCount++;
+      gcMs += e.duration;
+      if (e.duration > gcMax) gcMax = e.duration;
+    }
+  }).observe({ entryTypes: ["gc"] });
+
+  const heapLimitMB = Math.round(getHeapStatistics().heap_size_limit / 1048576);
+  console.log(
+    `[pod-health] start ${JSON.stringify({ heapLimitMB, containerMemMB: containerMemMB() })}`,
+  );
+
   const top = (m: Map<string, number>, n = 8) =>
     Object.fromEntries([...m].sort((a, b) => b[1] - a[1]).slice(0, n));
   const ms = (ns: number) => Math.round(ns / 1e6);
@@ -190,7 +217,14 @@ export function startPodHealth() {
           max: ms(el.max),
         },
         heapMB: Math.round(mem.heapUsed / 1048576),
+        heapLimitMB,
         rssMB: Math.round(mem.rss / 1048576),
+        extMB: Math.round(mem.external / 1048576),
+        gc: { n: gcCount, ms: Math.round(gcMs), max: Math.round(gcMax) },
+        cache: {
+          pageMB: pageCacheMB(),
+          jsonMB: memoryFetchCacheStats().mb,
+        },
       })}`,
     );
     // Page types ranked by origin time spent this minute (n × mean).
@@ -227,5 +261,33 @@ export function startPodHealth() {
     reqStarted = new Map();
     reqFailed = new Map();
     el.reset();
+    gcCount = 0;
+    gcMs = 0;
+    gcMax = 0;
   }, INTERVAL_MS).unref();
+}
+
+/** cache-handler.cjs publishes its size on globalThis (it loads outside the bundle). */
+function pageCacheMB(): number | undefined {
+  const bytes = (globalThis as { __thglPageCacheBytes?: number })
+    .__thglPageCacheBytes;
+  return bytes === undefined ? undefined : Math.round(bytes / 1048576);
+}
+
+/** cgroup v2 / v1 memory limit of this container, if readable. */
+function containerMemMB(): number | undefined {
+  for (const f of [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+  ]) {
+    try {
+      const n = Number(readFileSync(f, "utf8").trim());
+      if (Number.isFinite(n) && n > 0 && n < 2 ** 60) {
+        return Math.round(n / 1048576);
+      }
+    } catch {
+      // not this cgroup layout
+    }
+  }
+  return undefined;
 }
