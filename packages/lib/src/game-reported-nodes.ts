@@ -22,21 +22,26 @@
  * Migration: the first report of a set with no ownership record yet adopts
  * the marks the old add-only `collectedNodeIds` path wrote, but only for a set
  * listed in {@link LEGACY_MIGRATION_ID_PREFIXES} and only the ids with that
- * set's prefix. Every other set (`quests`, `strongholds`, anything new) starts
- * with an empty record, so a set that happens to arrive first cannot adopt and
- * then remove another set's legacy marks.
+ * set's prefix. A set that is not in the table starts with an empty record.
+ * Each set adopts only ids with its own prefix, so a set that arrives first
+ * cannot adopt and then remove another set's legacy marks.
  */
 
 /** Consecutive reports an owned id must be missing from before it is removed. */
 export const GAME_REPORTED_REMOVE_AFTER_MISSES = 2;
 
 /**
- * Sets whose ids the old add-only `collectedNodeIds` path wrote, with the id
- * prefix they own. Only these sets migrate legacy marks, and only ids that
- * start with their prefix.
+ * Sets whose ids can reach `autoDiscoveredNodes` through the old add-only
+ * `collectedNodeIds` path, with the id prefix each set owns. THGLApp mirrors
+ * every set into `collectedNodeIds` "for older frontends", and a site without
+ * set support stores those ids add-only. The prefixes must not overlap, so
+ * each set adopts only its own legacy marks. A new set that THGLApp also
+ * mirrors into `collectedNodeIds` needs an entry here.
  */
 export const LEGACY_MIGRATION_ID_PREFIXES: Readonly<Record<string, string>> = {
   empyrean_traces: "empyrean_trace_",
+  quests: "q_",
+  strongholds: "stronghold_done_",
 };
 
 export type GameReportedNodes = Record<string, string[]>;
