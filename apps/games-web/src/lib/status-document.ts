@@ -144,6 +144,35 @@ async function buildOnDemandDocument(
 }
 
 /**
+ * Uptime percentages, recomputed at most every UPTIME_TTL_MS per process.
+ * They count every check row in the window: 10 components x one check a
+ * minute = ~115k index rows per build (24 h + 7 d), and a percentage over a
+ * week barely moves in 10 minutes. Shared via globalThis because Next bundles
+ * this module into more than one server layer.
+ */
+const UPTIME_TTL_MS = 10 * 60_000;
+type Uptime = {
+  uptime24h: Record<string, number | null>;
+  uptime7d: Record<string, number | null>;
+};
+function cachedUptime(): Promise<Uptime> {
+  const g = globalThis as {
+    __thglStatusUptime?: { at: number; promise: Promise<Uptime> } | null;
+  };
+  const cur = g.__thglStatusUptime;
+  if (cur && Date.now() - cur.at < UPTIME_TTL_MS) return cur.promise;
+  const promise = Promise.all([
+    getUptime(COMPONENT_IDS, 24 * 3600),
+    getUptime(COMPONENT_IDS, 7 * 24 * 3600),
+  ]).then(([uptime24h, uptime7d]) => ({ uptime24h, uptime7d }));
+  g.__thglStatusUptime = { at: Date.now(), promise };
+  promise.catch(() => {
+    if (g.__thglStatusUptime?.promise === promise) g.__thglStatusUptime = null;
+  });
+  return promise;
+}
+
+/**
  * One shared build per process, reused for DOC_TTL_MS. A build runs five DB
  * queries (24 h + 7 d uptime scans over the check history: thousands of rows)
  * plus an Overwolf fetch. The edge cache used to absorb the banner polls, but
@@ -172,13 +201,13 @@ async function buildFreshStatusDocument(): Promise<StatusDocumentResult> {
   const owPromise = checkOwEvents().catch(() => null);
 
   try {
-    const [history, uptime24h, uptime7d, incidents, flags] = await Promise.all([
-      getRecentRawStates(COMPONENT_IDS),
-      getUptime(COMPONENT_IDS, 24 * 3600),
-      getUptime(COMPONENT_IDS, 7 * 24 * 3600),
-      getIncidents(),
-      getGameFlags(),
-    ]);
+    const [history, { uptime24h, uptime7d }, incidents, flags] =
+      await Promise.all([
+        getRecentRawStates(COMPONENT_IDS),
+        cachedUptime(),
+        getIncidents(),
+        getGameFlags(),
+      ]);
     const ow = await owPromise;
     const components = COMPONENT_IDS.map((id) => {
       const raw = (history[id] ?? []) as StatusState[];
