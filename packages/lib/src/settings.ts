@@ -5,6 +5,7 @@ import {
   buildDiscoveryLookup,
   checkNodeDiscovered,
   coordsMatch,
+  getDoneWhenAllVersion,
   removeDiscoveredMatches,
   type DiscoverMode,
 } from "./coordinates";
@@ -1078,6 +1079,10 @@ let cachedDiscoveredNodes: string[] | null = null;
 let autoDiscoveredCache: Map<string, boolean> | null = null;
 let autoDiscoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
 let cachedAutoDiscoveredNodes: string[] | null = null;
+// Both caches also depend on the loaded markers' done-when-all rules
+// (coordinates.ts), which change with the map, not with discoveredNodes.
+let cachedRulesVersion = -1;
+let cachedAutoRulesVersion = -1;
 
 export const useSettingsStore = create(
   subscribeWithSelector(
@@ -1458,8 +1463,12 @@ export const useSettingsStore = create(
             // changed. Matching (exact / base-id / coordinate-with-tolerance)
             // lives in coordinates.ts so this selector, the marker render path,
             // and the discover/undiscover writes all agree.
-            if (cachedDiscoveredNodes !== discoveredNodes) {
+            if (
+              cachedDiscoveredNodes !== discoveredNodes ||
+              cachedRulesVersion !== getDoneWhenAllVersion()
+            ) {
               cachedDiscoveredNodes = discoveredNodes;
+              cachedRulesVersion = getDoneWhenAllVersion();
               discoveredCache = new Map();
               discoveryLookup = buildDiscoveryLookup(discoveredNodes);
             }
@@ -1479,8 +1488,12 @@ export const useSettingsStore = create(
             const state = get();
             const autoDiscoveredNodes = state.autoDiscoveredNodes;
             if (autoDiscoveredNodes.length === 0) return false;
-            if (cachedAutoDiscoveredNodes !== autoDiscoveredNodes) {
+            if (
+              cachedAutoDiscoveredNodes !== autoDiscoveredNodes ||
+              cachedAutoRulesVersion !== getDoneWhenAllVersion()
+            ) {
               cachedAutoDiscoveredNodes = autoDiscoveredNodes;
+              cachedAutoRulesVersion = getDoneWhenAllVersion();
               autoDiscoveredCache = new Map();
               autoDiscoveryLookup = buildDiscoveryLookup(autoDiscoveredNodes);
             }

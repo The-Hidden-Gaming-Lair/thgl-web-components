@@ -1,4 +1,5 @@
 import { useGameState } from "../game";
+import { createLiveFocusTracker } from "../live-focus";
 import type { Actor } from "../overwolf/plugin";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
@@ -279,6 +280,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
 
   const gameState = useGameState.getState();
   const liveState = useLiveState.getState();
+  const liveFocus = createLiveFocusTracker(gameState.setHighlightSpawnIDs);
 
   // Listen for direct WebView messages from C++
   if (typeof window !== "undefined" && window.chrome?.webview) {
@@ -367,6 +369,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 gameState.setStaticActors(staticActors);
               }
             } else if (message.action === "characterData") {
+              // Markers to focus (AION 2: open quest objectives), see live-focus.ts.
+              liveFocus.apply(message.payload);
               gameState.setCharacter(message.payload);
               // Nodes the game itself reports as collected (e.g. Aniimo's server-synced
               // map-mark status: opened chests / picked-up Lumin Amber, account-wide).
