@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "例如 2504",
   "iv.note.attack": "攻击是状态界面上的数值（远程攻击）。个体值范围为 0 到 100，每点使能力值提高 0.3%。",
   "iv.note.buffs": "请在帕鲁终端或帕鲁在队伍中时查看能力值，不要计入食物、伙伴技能或属性加成。",
-  "iv.build": "游戏数据：版本 {{build}}"
+  "iv.build": "游戏数据：版本 {{build}}",
+  "catchBonus.title": "捕获奖励",
+  "catchBonus.onlyIncomplete": "仅显示捕获少于 5 次的帕鲁",
+  "catchBonus.badges": "在帕鲁图标上显示捕获次数 (x/5)",
+  "catchBonus.needsApp": "运行 Companion App 玩一次幻兽帕鲁，它会读取你捕获每种帕鲁的次数。",
+  "catchBonus.summary": "来自你上次的游戏：{{count}} 种帕鲁已捕获 5 次或以上。"
 }

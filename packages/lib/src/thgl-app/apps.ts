@@ -1,5 +1,6 @@
 import { useGameState } from "../game";
 import type { Actor } from "../overwolf/plugin";
+import { rememberPalCaptureCounts } from "../pal-capture";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
 import { useLiveState, useTHGLAppState } from "./states";
@@ -371,6 +372,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               }
             } else if (message.action === "characterData") {
               gameState.setCharacter(message.payload);
+              rememberPalCaptureCounts(message.payload);
               // Nodes the game itself reports as collected (e.g. Aniimo's server-synced
               // map-mark status: opened chests / picked-up Lumin Amber, account-wide).
               // Plain spawn ids — discovery matches a node's base id — so they apply in

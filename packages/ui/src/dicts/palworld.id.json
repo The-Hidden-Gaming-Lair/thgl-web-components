@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "mis. 2504",
   "iv.note.attack": "Serangan adalah nilai di layar status (serangan jarak jauh). IV berkisar 0 sampai 100; tiap poin menambah 0,3% pada statistik.",
   "iv.note.buffs": "Baca statistik di Palbox atau saat Pal ada di tim, tanpa bonus makanan, skill partner, atau elemen.",
-  "iv.build": "Data game: build {{build}}"
+  "iv.build": "Data game: build {{build}}",
+  "catchBonus.title": "Bonus tangkapan",
+  "catchBonus.onlyIncomplete": "Hanya Pal yang ditangkap kurang dari 5 kali",
+  "catchBonus.badges": "Tampilkan tangkapan di ikon Pal (x/5)",
+  "catchBonus.needsApp": "Mainkan Palworld sekali dengan Companion App berjalan, maka aplikasi membaca berapa kali kamu menangkap setiap Pal.",
+  "catchBonus.summary": "Dari sesi terakhirmu: {{count}} Pal ditangkap 5 kali atau lebih."
 }

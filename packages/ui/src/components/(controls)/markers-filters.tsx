@@ -6,6 +6,7 @@ import { MyFilters } from "./my-filters";
 import { CollapsibleFilter } from "./collapsible-filter";
 import { CollapsibleCategory } from "./collapsible-category";
 import { RegionFilters } from "./region-filters";
+import { PalCaptureFilters } from "./pal-capture-filters";
 
 type FilterEntry =
   | { type: "filter"; filter: FiltersConfig[number] }
@@ -208,6 +209,7 @@ export function MarkersFilters({
         <>
           <MyFilters />
           <RegionFilters />
+          {appName === "palworld" && <PalCaptureFilters />}
         </>
       )}
       <div className="flex flex-col w-[200px] md:w-[300px] lg:w-full">

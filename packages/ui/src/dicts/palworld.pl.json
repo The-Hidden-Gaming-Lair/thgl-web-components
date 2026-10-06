@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "np. 2504",
   "iv.note.attack": "Atak to wartość z ekranu statusu (atak dystansowy). IV wynoszą od 0 do 100; każdy punkt dodaje 0,3% do statystyki.",
   "iv.note.buffs": "Odczytaj statystyki w Palboksie lub z Palem w drużynie, bez bonusów z jedzenia, umiejętności partnera czy żywiołu.",
-  "iv.build": "Dane gry: build {{build}}"
+  "iv.build": "Dane gry: build {{build}}",
+  "catchBonus.title": "Bonus za złapanie",
+  "catchBonus.onlyIncomplete": "Tylko Pale złapane mniej niż 5 razy",
+  "catchBonus.badges": "Pokaż złapania na ikonach Pali (x/5)",
+  "catchBonus.needsApp": "Zagraj raz w Palworld z uruchomioną Companion App, a odczyta, ile razy złapałeś każdego Pala.",
+  "catchBonus.summary": "Z ostatniej sesji: {{count}} Pali złapanych 5 razy lub więcej."
 }

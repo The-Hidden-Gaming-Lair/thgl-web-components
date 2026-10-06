@@ -36,8 +36,12 @@ import {
   buildPrivateIconLookups,
   resolvePrivateIcon,
   dbEntryIdOf,
+  normalizePalCaptureCounts,
+  palCaughtCount,
+  PAL_CAPTURE_BONUS_MAX,
 } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
+import { shallow } from "zustand/shallow";
 import {
   DrawingLayer,
   IconMarkerLayer,
@@ -499,8 +503,14 @@ function MarkersContent({
     tempPrivateNodeId,
     labelModeByFilter,
     labelTextSize,
+    palCaptureBadges,
+    palCaptureOnlyIncomplete,
+    palCaptureCounts,
   } = useSettingsStore(
     useShallow((state) => ({
+      palCaptureBadges: state.palCaptureBadges,
+      palCaptureOnlyIncomplete: state.palCaptureOnlyIncomplete,
+      palCaptureCounts: state.palCaptureCounts,
       hideDiscoveredNodes: state.hideDiscoveredNodes,
       discoveredNodes: state.discoveredNodes,
       setDiscoverNode: state.setDiscoverNode,
@@ -1098,6 +1108,7 @@ function MarkersContent({
     // except for copies flagged `offLayer` (a marker the game shows on every floor
     // of an area, plotted on a floor that is not its own — Nikki checkpoints).
     const onLayerMap = !!tilesConfig[map.mapName]?.layer?.parent;
+    const palCounts = normalizePalCaptureCounts(palCaptureCounts);
     const markerInstances: IconMarkerInstance[] = [];
     const newSpawnMap = new Map<string, Spawn>();
     // Track raw Z values for height visualization without player
@@ -1137,6 +1148,21 @@ function MarkersContent({
       }
 
       if (isDiscovered && hideDiscoveredNodes) {
+        return;
+      }
+
+      // Palworld catch bonus (inbox #112): hide species caught 5 times when the
+      // filter is on, badge the rest with "x/5".
+      const caught = palCaughtCount(
+        spawn.type,
+        typeToGroup.get(spawn.type),
+        palCounts,
+      );
+      if (
+        caught !== null &&
+        caught >= PAL_CAPTURE_BONUS_MAX &&
+        palCaptureOnlyIncomplete
+      ) {
         return;
       }
 
@@ -1411,6 +1437,10 @@ function MarkersContent({
         // Show a layer badge on the overworld for spawns that live inside a
         // layered interior (they are also mirrored into the "Underground" map).
         layered: !!spawn.layer && (!onLayerMap || !!spawn.offLayer),
+        captureCount:
+          palCaptureBadges && caught !== null && caught < PAL_CAPTURE_BONUS_MAX
+            ? caught
+            : undefined,
         spiderOffsetX,
         spiderOffsetY,
       };
@@ -1931,6 +1961,9 @@ function MarkersContent({
     spawns,
     sharedMyFilters,
     hideDiscoveredNodes,
+    palCaptureBadges,
+    palCaptureOnlyIncomplete,
+    palCaptureCounts,
     discoveryLookup,
     tempPrivateNodeId,
     selectedNodeId,
@@ -2258,6 +2291,11 @@ function MarkersContent({
       const iconSizeByGroupNow = settingsState.iconSizeByGroup;
       const iconSizeByFilterNow = settingsState.iconSizeByFilter;
       const hideDiscoveredNow = settingsState.hideDiscoveredNodes;
+      const palCountsNow = normalizePalCaptureCounts(
+        settingsState.palCaptureCounts,
+      );
+      const palBadgesNow = settingsState.palCaptureBadges;
+      const palOnlyIncompleteNow = settingsState.palCaptureOnlyIncomplete;
       const setDiscoverNodeFn = settingsState.setDiscoverNode;
       const playerNow = useGameState.getState().player;
 
@@ -2482,6 +2520,23 @@ function MarkersContent({
         // takes the marker off the layer. (If we added to seen first, the
         // marker would stay rendered with stale state.)
         if (isDiscoveredFlag && hideDiscoveredNow) continue;
+        // Palworld catch bonus (inbox #112), same as the static pipeline.
+        const caught = palCaughtCount(
+          displayType,
+          typeToGroup.get(displayType),
+          palCountsNow,
+        );
+        if (
+          caught !== null &&
+          caught >= PAL_CAPTURE_BONUS_MAX &&
+          palOnlyIncompleteNow
+        ) {
+          continue;
+        }
+        const captureCount =
+          palBadgesNow && caught !== null && caught < PAL_CAPTURE_BONUS_MAX
+            ? caught
+            : undefined;
         seen.add(id);
 
         const toSpawn = (a: LiveActor): Spawn => ({
@@ -2565,6 +2620,7 @@ function MarkersContent({
             (existing.spiderOffsetY ?? 0) !== unit.spiderOffsetY ||
             (existing.zPos ?? null) !== zPos ||
             existing.z !== zValue ||
+            existing.captureCount !== captureCount ||
             existing.size !== size;
           if (posChanged || flagsChanged) {
             liveMarkerLayer.updateMarker(id, {
@@ -2579,6 +2635,7 @@ function MarkersContent({
               spiderOffsetY: unit.spiderOffsetY,
               z: zValue,
               zPos,
+              captureCount,
             });
             dirty = true;
           }
@@ -2652,6 +2709,7 @@ function MarkersContent({
           keepUpright: true,
           z: zValue,
           zPos,
+          captureCount,
         };
         liveMarkerLayer.add(instance);
 
@@ -2807,6 +2865,16 @@ function MarkersContent({
       (s) => s.flashDespawningNodes,
       processActors,
     );
+    const unsubPalCapture = useSettingsStore.subscribe(
+      (s) =>
+        [
+          s.palCaptureBadges,
+          s.palCaptureOnlyIncomplete,
+          s.palCaptureCounts,
+        ] as const,
+      processActors,
+      { equalityFn: shallow },
+    );
     // Expose for the static rebuild to re-apply live suppression immediately (see liveReprocessRef).
     liveReprocessRef.current = processActors;
 
@@ -2830,6 +2898,7 @@ function MarkersContent({
       unsubIconSizeByGroup();
       unsubIconSizeByFilter();
       unsubFlashDespawning();
+      unsubPalCapture();
       if (despawnTimer) clearTimeout(despawnTimer);
       const ids = Array.from(liveSpawnMapRef.current.keys());
       for (const id of ids) liveMarkerLayer.unregisterAllEventHandlers(id);

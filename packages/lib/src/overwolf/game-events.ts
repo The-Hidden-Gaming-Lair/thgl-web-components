@@ -1,4 +1,5 @@
 import { useGameState } from "../game";
+import { rememberPalCaptureCounts } from "../pal-capture";
 import type { Actor, ActorPlayer } from "./plugin";
 import { MESSAGES, type EventBus } from "./event-bus";
 
@@ -84,6 +85,7 @@ export async function listenToGameEvents(): Promise<void> {
       }
       case MESSAGES.CHARACTER:
         setCharacter(value);
+        rememberPalCaptureCounts(value);
         break;
       case MESSAGES.DUNGEON_NAVMESH:
         // Dungeon floor plan from the plugin poll (background window) -> this window's store,

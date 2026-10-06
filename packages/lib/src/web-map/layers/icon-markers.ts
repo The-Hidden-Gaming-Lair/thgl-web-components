@@ -200,6 +200,9 @@ export interface IconMarkerInstance {
   tint?: string; // optional color tint (hex string like "#FF0000" or "#FF0000CC")
   isStacked?: boolean; // show indicator for multiple spawns at same location
   layered?: boolean; // spawn belongs to a layered interior — show a layer badge
+  // Palworld catch bonus: how often the player caught this species (0..4) — drawn
+  // as an "x/5" badge (bottom-left). Undefined = no badge.
+  captureCount?: number;
   spiderOffsetX?: number; // screen-space X offset in device px for spiderfied clusters
   spiderOffsetY?: number; // screen-space Y offset in device px for spiderfied clusters
 }
@@ -217,7 +220,7 @@ in vec4 a_uv;       // uv origin (xy) and size (zw)
 in float a_disc;    // per-instance state: 0 normal, 0.5 muted, 1.0 discovered
 in vec2 a_flags;    // x: normalized height, y: zpos(-1/0/1)
 in float a_count;   // 1=single, 2=stacked (multiple spawns at same location)
-in float a_layered; // 1=spawn is inside a layered interior (show layer badge)
+in float a_layered; // bit 1 = spawn is inside a layered interior (show layer badge); floor(/2)-1 = catch badge count (-1 = none)
 in float a_angle;   // rotation in radians
 in float a_renderMode; // 0=icon, 1=height stem
 in float a_keepUpright; // 1=billboard mode, 2=billboard + world heading, 0=use own rotation
@@ -422,6 +425,32 @@ float sdSegment(vec2 p, vec2 a, vec2 b){
   float h = clamp(dot(pa,ba)/dot(ba,ba), 0.0, 1.0);
   return length(pa - ba*h);
 }
+// Proper 7-segment digit (half-height verticals) as stroked line segments, for the
+// catch badge. uv = cell-local 0..1 (+y down). Returns coverage alpha.
+float digit7(int d, vec2 uv){
+  float w = 0.13;
+  float aa = (fwidth(uv.x) + fwidth(uv.y)) * 0.75;
+  vec2 tl = vec2(0.2, 0.12), tr = vec2(0.8, 0.12);
+  vec2 ml = vec2(0.2, 0.5),  mr = vec2(0.8, 0.5);
+  vec2 bl = vec2(0.2, 0.88), br = vec2(0.8, 0.88);
+  // a top, b top-right, c bottom-right, d bottom, e bottom-left, f top-left, g middle
+  bool A = d!=1 && d!=4;
+  bool B = d!=5 && d!=6;
+  bool C = d!=2;
+  bool D = d!=1 && d!=4 && d!=7;
+  bool E = d==0 || d==2 || d==6 || d==8;
+  bool F = d!=1 && d!=2 && d!=3 && d!=7;
+  bool G = d!=0 && d!=1 && d!=7;
+  float dist = 10.0;
+  if (A) dist = min(dist, sdSegment(uv, tl, tr));
+  if (B) dist = min(dist, sdSegment(uv, tr, mr));
+  if (C) dist = min(dist, sdSegment(uv, mr, br));
+  if (D) dist = min(dist, sdSegment(uv, bl, br));
+  if (E) dist = min(dist, sdSegment(uv, ml, bl));
+  if (F) dist = min(dist, sdSegment(uv, tl, ml));
+  if (G) dist = min(dist, sdSegment(uv, ml, mr));
+  return 1.0 - smoothstep(w * 0.5 - aa, w * 0.5 + aa, dist);
+}
 // Lucide "Layers" glyph (filled diamond over a chevron), used for the per-marker
 // layer badge so it matches the "Layered Map" selector icon. c = center in quad
 // UV (0..1, +y down), s = half-extent. Returns coverage alpha in [0,1].
@@ -603,10 +632,49 @@ void main(){
     overlayAlpha = max(overlayAlpha, cross);
   }
 
+  // Catch badge (bottom-left corner) — "x/5" for a Palworld species the player
+  // has caught fewer than 5 times (the catch EXP bonus). Dark pill, amber digits.
+  float captureCount = floor(v_layered / 2.0 + 0.25) - 1.0;
+  if (captureCount > -0.5) {
+    vec2 pMin = vec2(0.0, 0.70);
+    vec2 pMax = vec2(0.64, 1.0);
+    float aa = fwidth(uv.x) * 1.5;
+    vec2 pc = (pMin + pMax) * 0.5;
+    vec2 ph = (pMax - pMin) * 0.5;
+    float r = ph.y;
+    vec2 q = abs(uv - pc) - (ph - vec2(r));
+    float dPill = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+    float pill = 1.0 - smoothstep(-aa, aa, dPill);
+    draw = mix(draw, vec3(0.05), pill * 0.85);
+    overlayAlpha = max(overlayAlpha, pill * 0.85);
+    // Three glyph cells: digit, slash, 5.
+    float cw = 0.15;
+    float ch = 0.22;
+    float x0 = 0.095;
+    float y0 = 0.74;
+    float glyph = 0.0;
+    vec2 c0 = (uv - vec2(x0, y0)) / vec2(cw, ch);
+    if (c0.x >= 0.0 && c0.x <= 1.0 && c0.y >= 0.0 && c0.y <= 1.0) {
+      glyph = max(glyph, digit7(int(captureCount + 0.5), c0));
+    }
+    vec2 c1 = (uv - vec2(x0 + cw, y0)) / vec2(cw, ch);
+    if (c1.x >= 0.0 && c1.x <= 1.0 && c1.y >= 0.0 && c1.y <= 1.0) {
+      float ds = sdSegment(c1, vec2(0.75, 0.12), vec2(0.25, 0.88));
+      float saa = (fwidth(c1.x) + fwidth(c1.y)) * 0.75;
+      glyph = max(glyph, 1.0 - smoothstep(0.065 - saa, 0.065 + saa, ds));
+    }
+    vec2 c2 = (uv - vec2(x0 + cw * 2.0, y0)) / vec2(cw, ch);
+    if (c2.x >= 0.0 && c2.x <= 1.0 && c2.y >= 0.0 && c2.y <= 1.0) {
+      glyph = max(glyph, digit7(5, c2));
+    }
+    draw = mix(draw, vec3(1.0, 0.78, 0.25), glyph);
+    overlayAlpha = max(overlayAlpha, glyph);
+  }
+
   // Layer badge (bottom-right corner) — marks spawns that live inside a layered
   // interior. Uses the lucide "Layers" glyph so it matches the "Layered Map"
   // selector icon, tinted cyan to stay distinct from the top-left count cross.
-  if (v_layered > 0.5) {
+  if (mod(v_layered, 2.0) > 0.5) {
     vec2 bc = vec2(0.77, 0.76);
     float bs = 0.20;
     float sh = layersBadge(uv - vec2(0.024, 0.024), bc, bs); // drop shadow
@@ -1677,7 +1745,10 @@ export class IconMarkerLayer implements Layer {
         flags[visCount * 2 + 0] = normalizedHeight;
         flags[visCount * 2 + 1] = direction;
         counts[visCount] = m.isStacked ? 2 : 1;
-        layered[visCount] = m.layered ? 1 : 0;
+        // Packed: bit 1 = layer badge, floor(/2)-1 = catch badge count.
+        layered[visCount] =
+          (m.layered ? 1 : 0) +
+          (m.captureCount !== undefined ? 2 * (m.captureCount + 1) : 0);
         const angle = m.rotation ?? 0;
         angles[visCount] = angle;
         keepUprights[visCount] =
