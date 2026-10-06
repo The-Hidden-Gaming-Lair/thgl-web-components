@@ -59,6 +59,7 @@ export function DbLocationMap({
   appName,
   filters,
   locale = "en",
+  iconsPath,
 }: {
   locations: DbLocation[];
   mapName: string;
@@ -66,6 +67,8 @@ export function DbLocationMap({
   appName: string;
   filters?: FiltersConfig;
   locale?: string;
+  /** Content-hashed sprite path (`version.more.icons`). */
+  iconsPath?: string;
 }) {
   const router = useRouter();
   const spawns: SimpleSpawn[] = locations.map((l) => ({
@@ -96,6 +99,7 @@ export function DbLocationMap({
         mapName={mapName}
         tiles={tiles}
         appName={appName}
+        iconsPath={iconsPath}
         onClick={(spawn) => {
           const href = hrefByNode.get(spawn.id);
           if (href) router.push(href);

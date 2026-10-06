@@ -23,6 +23,7 @@ export default function MapProgress({
   appName,
   additionalTooltip,
   typeGroupLabels,
+  iconsPath,
 }: {
   map: string;
   /**
@@ -35,6 +36,8 @@ export default function MapProgress({
   appName: string;
   additionalTooltip?: AdditionalTooltipType;
   typeGroupLabels?: Record<string, string>;
+  /** Content-hashed sprite path (`version.more.icons`). */
+  iconsPath?: string;
 }) {
   const t = useT();
   const locale = useLocale();
@@ -64,6 +67,7 @@ export default function MapProgress({
           appName={appName}
           additionalTooltip={additionalTooltip}
           fitToSpawns
+          iconsPath={iconsPath}
         />
       </Suspense>
       <div className="mb-4">
@@ -93,6 +97,7 @@ export default function MapProgress({
           highlightedIds={highlightedIds}
           typeGroupLabels={typeGroupLabels}
           appName={appName}
+          iconsPath={iconsPath}
         />
       </div>
     </section>

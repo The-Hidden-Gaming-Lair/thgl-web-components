@@ -14,22 +14,24 @@ import { Check, ImageUpscale, X } from "lucide-react";
 function SpawnIcon({
   icon,
   appName,
+  iconsPath,
 }: {
   icon: SimpleSpawn["icon"];
   appName: string;
+  iconsPath: string;
 }) {
   if (!icon) return <span className="size-6 shrink-0" aria-hidden />;
   if (typeof icon === "string")
     return (
       <img
-        src={getIconsUrl(appName, icon, "/icons/icons.webp")}
+        src={getIconsUrl(appName, icon, iconsPath)}
         alt=""
         className="size-6 shrink-0 object-contain"
       />
     );
   return (
     <img
-      src={getIconsUrl(appName, icon.url, "/icons/icons.webp")}
+      src={getIconsUrl(appName, icon.url, iconsPath)}
       alt=""
       width={icon.width}
       height={icon.height}
@@ -50,9 +52,14 @@ export function SpawnsList({
   highlightedIds,
   typeGroupLabels,
   appName,
+  iconsPath = "/icons/icons.webp",
 }: {
   /** For the type icons; rows render without icons when omitted. */
   appName?: string;
+  /** Content-hashed sprite path (`version.more.icons`). The unhashed
+   *  `/icons/icons.webp` is cached `immutable` but overwritten on every
+   *  re-extraction, so browsers keep an old sprite and show wrong cells. */
+  iconsPath?: string;
   spawns: SimpleSpawn[];
   onShowClick: (spawnIDs: string[]) => void;
   highlightedIds: string[];
@@ -171,7 +178,11 @@ export function SpawnsList({
                 }
               >
                 {appName && (
-                  <SpawnIcon icon={groupSpawns[0]?.icon} appName={appName} />
+                  <SpawnIcon
+                    icon={groupSpawns[0]?.icon}
+                    appName={appName}
+                    iconsPath={iconsPath}
+                  />
                 )}
                 <div className="grow min-w-0">
                   <p className="flex items-baseline gap-2 text-sm">

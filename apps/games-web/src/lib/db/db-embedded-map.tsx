@@ -39,12 +39,15 @@ export function DbEmbeddedMap({
   tiles,
   appName,
   filters,
+  iconsPath,
 }: {
   mapName: string;
   spawns: EmbeddedMapSpawn[];
   tiles: TilesConfig;
   appName: string;
   filters?: FiltersConfig;
+  /** Content-hashed sprite path (`version.more.icons`). */
+  iconsPath?: string;
 }) {
   // No tiles registered for this map → nothing to embed.
   if (!tiles?.[mapName]) return null;
@@ -72,6 +75,7 @@ export function DbEmbeddedMap({
       mapName={mapName}
       tiles={tiles}
       appName={appName}
+      iconsPath={iconsPath}
     />
   );
 }

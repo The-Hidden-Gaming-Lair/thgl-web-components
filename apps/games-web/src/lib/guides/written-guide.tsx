@@ -314,6 +314,7 @@ export async function WrittenGuidePage({
                 ]),
               )}
               localMapState
+              iconsPath={iconsHash}
               defaultMapName={maps[0]}
               maps={maps}
               mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}

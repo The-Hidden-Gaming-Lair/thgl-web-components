@@ -557,6 +557,7 @@ export function GenericEntityView({
             tiles={tiles}
             appName={appName}
             filters={filters}
+            iconsPath={iconsHash}
           />
         </div>
       )}
@@ -736,6 +737,7 @@ export function GenericEntityView({
               appName={appName}
               filters={filters}
               locale={locale}
+              iconsPath={iconsHash}
             />
           ) : (
             // Fallback (no tiles): a flat list of coordinate links.

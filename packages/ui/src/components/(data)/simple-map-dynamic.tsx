@@ -18,6 +18,7 @@ export default function SimpleMapDynamic({
   additionalTooltip,
   onClick,
   fitToSpawns,
+  iconsPath = "/icons/icons.webp",
 }: {
   mapName: string;
   spawns: SimpleSpawn[];
@@ -30,6 +31,10 @@ export default function SimpleMapDynamic({
   onClick?: (spawn: SimpleSpawn) => void;
   /** Zoom to the spawns instead of the whole map (see SimpleWebMarkers). */
   fitToSpawns?: boolean;
+  /** Content-hashed sprite path (`version.more.icons`). The unhashed
+   *  `/icons/icons.webp` is cached `immutable` but overwritten on every
+   *  re-extraction, so browsers keep an old sprite and show wrong cells. */
+  iconsPath?: string;
 }): JSX.Element {
   const mapRef = useRef<SimpleWebMapRef | null>(null);
   // Bounding box of the spawns, padded by 10% so edge markers aren't clipped.
@@ -60,7 +65,7 @@ export default function SimpleMapDynamic({
         spawns={spawns}
         appName={appName}
         highlightedIds={highlightedIds}
-        iconsPath="/icons/icons.webp"
+        iconsPath={iconsPath}
         additionalTooltip={additionalTooltip}
         mapRef={mapRef}
         onClick={onClick}

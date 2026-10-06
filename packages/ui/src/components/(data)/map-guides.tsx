@@ -32,6 +32,7 @@ export default function MapGuides({
   additionalTooltip,
   typeGroupLabels,
   localMapState = false,
+  iconsPath,
 }: {
   appName: string;
   locale: string;
@@ -62,6 +63,8 @@ export default function MapGuides({
    * every embed onto the same map.
    */
   localMapState?: boolean;
+  /** Content-hashed sprite path (`version.more.icons`). */
+  iconsPath?: string;
 }) {
   const t = useT();
   const searchParams = useSearchParams();
@@ -185,6 +188,7 @@ export default function MapGuides({
           appName={appName}
           additionalTooltip={additionalTooltip}
           typeGroupLabels={typeGroupLabels}
+          iconsPath={iconsPath}
         />
       ) : (
         <section className="mb-8" aria-busy="true">

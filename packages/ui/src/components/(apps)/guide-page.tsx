@@ -485,6 +485,7 @@ export function createGuidePage(appConfig: AppConfig) {
                   maps={maps}
                   mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
                   tiles={version.data.tiles}
+                  iconsPath={version.more.icons}
                   additionalTooltip={
                     games.find((g) => g.id === appConfig.name)
                       ?.additionalTooltip ?? appConfig.game?.additionalTooltip
