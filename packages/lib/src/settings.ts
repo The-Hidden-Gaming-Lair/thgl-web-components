@@ -9,6 +9,7 @@ import {
   type DiscoverMode,
 } from "./coordinates";
 import { withStorageDOMEvents } from "./dom";
+import { diffGameReportedSet } from "./game-reported-nodes";
 import { isPreviewFeature } from "./preview-release";
 import {
   apiDeleteFilter,
@@ -308,6 +309,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   discoveredNodes: [],
   hideDiscoveredNodes: false,
   autoDiscoveredNodes: [],
+  gameReportedNodes: {},
   autoDiscoverCollected: true,
   autoResetRespawned: true,
   actorsPollingRate: 100,
@@ -465,6 +467,12 @@ export type ProfileSettings = {
   // tracked separately so the UI can flag them as auto-discovered and so opting
   // out can undo exactly those without touching manually-discovered nodes.
   autoDiscoveredNodes: string[];
+  // Ids the game reported as collected for the CURRENT character, per set
+  // (characterData.collectedNodeSets, e.g. "empyrean_traces"): the subset of
+  // discoveredNodes/autoDiscoveredNodes this mechanism added and owns, so a
+  // later complete report can remove exactly those (another character's
+  // marks) without touching anything else. See game-reported-nodes.ts.
+  gameReportedNodes: Record<string, string[]>;
   // User opt-out for memory-driven auto-discovery of collected items.
   autoDiscoverCollected: boolean;
   // Undiscover a respawning node (ore, trees, forage — not one-time finds like
@@ -628,6 +636,11 @@ export interface ProfileActions {
   // Mark nodes discovered from live memory — adds to BOTH discoveredNodes (so all
   // discovery logic applies) and autoDiscoveredNodes (so the UI can flag them).
   markAutoDiscovered: (nodeIds: string[]) => void;
+  // Apply one game report of a named set (characterData.collectedNodeSets):
+  // the COMPLETE collected list for the current character. Adds what is new,
+  // removes owned ids the game no longer reports (after two consecutive
+  // reports), one store write at most. Ignored while autoDiscoverCollected is off.
+  applyGameReportedSet: (setName: string, reportedIds: string[]) => void;
   setAutoDiscoverCollected: (enabled: boolean) => void;
   setAutoResetRespawned: (enabled: boolean) => void;
   setActorsPollingRate: (actorsPollingRate: number) => void;
@@ -1078,6 +1091,9 @@ let cachedDiscoveredNodes: string[] | null = null;
 let autoDiscoveredCache: Map<string, boolean> | null = null;
 let autoDiscoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
 let cachedAutoDiscoveredNodes: string[] | null = null;
+// In-memory miss counters of applyGameReportedSet (NOT persisted), keyed by
+// profile + set: how many consecutive reports each owned id was missing from.
+const gameReportedMisses = new Map<string, Map<string, number>>();
 
 export const useSettingsStore = create(
   subscribeWithSelector(
@@ -1606,6 +1622,37 @@ export const useSettingsStore = create(
             });
           },
 
+          applyGameReportedSet: (setName: string, reportedIds: string[]) => {
+            const state = get();
+            if (!state.autoDiscoverCollected) return;
+            // Read all three inputs (discoveredNodes, autoDiscoveredNodes and
+            // the gameReportedNodes ownership record) from the current
+            // PROFILE snapshot, not the flat root: a profile saved before a
+            // field existed lacks the key, and switching to it leaves the
+            // previous profile's value at the root. Missing = not recorded
+            // yet → empty for the node lists; the helper migrates the record.
+            const profile = state.profiles.find(
+              (p) => p.id === state.currentProfileId,
+            );
+            const missKey = `${state.currentProfileId}\u0000${setName}`;
+            const { update, misses } = diffGameReportedSet({
+              setName,
+              reportedIds,
+              discoveredNodes: profile
+                ? (profile.settings.discoveredNodes ?? [])
+                : state.discoveredNodes,
+              autoDiscoveredNodes: profile
+                ? (profile.settings.autoDiscoveredNodes ?? [])
+                : state.autoDiscoveredNodes,
+              gameReportedNodes: profile
+                ? profile.settings.gameReportedNodes
+                : state.gameReportedNodes,
+              misses: gameReportedMisses.get(missKey),
+            });
+            gameReportedMisses.set(missKey, misses);
+            if (update) updateSettings(update);
+          },
+
           setAutoDiscoverCollected: (enabled: boolean) => {
             const state = get();
             if (enabled) {
@@ -1614,14 +1661,18 @@ export const useSettingsStore = create(
             }
             // Opting out un-discovers exactly what auto-discovery added (tracked in
             // autoDiscoveredNodes) so those nodes reappear, and clears the tag set.
-            // Manually-discovered nodes are untouched.
+            // Manually-discovered nodes are untouched. The game-reported ownership
+            // record goes too: turning it back on re-adds everything on the next
+            // report.
             const auto = new Set(state.autoDiscoveredNodes);
+            gameReportedMisses.clear();
             updateSettings({
               autoDiscoverCollected: false,
               discoveredNodes: state.discoveredNodes.filter(
                 (id) => !auto.has(id),
               ),
               autoDiscoveredNodes: [],
+              gameReportedNodes: {},
             });
           },
 

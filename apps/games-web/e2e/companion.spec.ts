@@ -23,6 +23,11 @@ import {
  *    must follow the player's mapName and place the player marker.
  *  - 85560d573 / be8e61b1b: live actors delivered through the message path
  *    render on the live layer and go away with their map.
+ *  - d0480826 "game-reported collected marks follow the current character":
+ *    a `characterData.collectedNodeSets` set replaces the game-reported marks
+ *    of that set (an owned id goes after two reports without it), never
+ *    touches a hand-made mark, and ignores the legacy `collectedNodeIds` sent
+ *    alongside it; a legacy-only payload (Aniimo) still adds as before.
  */
 const player = (map: string, x: number, y: number) => ({
   action: "player",
@@ -105,5 +110,88 @@ test.describe("companion surface", () => {
         liveMarkers(page).then((m) => m.some((i) => i.id === "player")),
       )
       .toBe(true);
+  });
+
+  test("game-reported collected sets follow the character, hand marks and the legacy path stay", async ({
+    page,
+  }) => {
+    await installFakeWebviewBridge(page);
+    await page.goto(`${APP_BASE_URL}/apps/${GAME}`);
+    await waitForAppMapReady(page);
+
+    const settings = () =>
+      page.evaluate(() => {
+        const s = (window as any).__thgl.useSettingsStore.getState();
+        const profile = s.profiles.find(
+          (p: any) => p.id === s.currentProfileId,
+        );
+        return {
+          discoveredNodes: s.discoveredNodes as string[],
+          autoDiscoveredNodes: s.autoDiscoveredNodes as string[],
+          gameReportedNodes: s.gameReportedNodes as Record<string, string[]>,
+          profileGameReportedNodes: profile?.settings.gameReportedNodes as
+            | Record<string, string[]>
+            | undefined,
+        };
+      });
+    const characterData = (payload: Record<string, unknown>) =>
+      emitWebviewMessage(page, { action: "characterData", payload });
+    const HAND_MARK = "e2e_trace_1@100:200";
+
+    // (a) Auto-discovery on, and a hand-made mark on a trace pin.
+    await page.evaluate((handMark) => {
+      const s = (window as any).__thgl.useSettingsStore.getState();
+      if (!s.autoDiscoverCollected) s.setAutoDiscoverCollected(true);
+      s.toggleDiscoveredNode(handMark);
+    }, HAND_MARK);
+    await expect
+      .poll(() => settings().then((s) => s.discoveredNodes))
+      .toContain(HAND_MARK);
+
+    // (b) A complete set for the current character. The legacy
+    // collectedNodeIds sent alongside it is ignored.
+    await characterData({
+      collectedNodeIds: ["e2e_legacy"],
+      collectedNodeSets: { empyrean_traces: ["e2e_trace_1", "e2e_trace_2"] },
+    });
+    await expect
+      .poll(() => settings().then((s) => s.gameReportedNodes.empyrean_traces))
+      .toEqual(["e2e_trace_1", "e2e_trace_2"]);
+    let snap = await settings();
+    expect(snap.discoveredNodes).toEqual(
+      expect.arrayContaining(["e2e_trace_1", "e2e_trace_2"]),
+    );
+    expect(snap.autoDiscoveredNodes).toEqual(
+      expect.arrayContaining(["e2e_trace_1", "e2e_trace_2"]),
+    );
+    expect(snap.discoveredNodes).not.toContain("e2e_legacy");
+    expect(snap.profileGameReportedNodes).toEqual(snap.gameReportedNodes);
+
+    // (c) Another character's set, first report: e2e_trace_1 is missing
+    // once, which is not enough to remove it; e2e_trace_3 is added.
+    const otherCharacter = {
+      collectedNodeSets: { empyrean_traces: ["e2e_trace_2", "e2e_trace_3"] },
+    };
+    await characterData(otherCharacter);
+    await expect
+      .poll(() => settings().then((s) => s.discoveredNodes))
+      .toContain("e2e_trace_3");
+    expect((await settings()).discoveredNodes).toContain("e2e_trace_1");
+
+    // (d) Second report without it: e2e_trace_1 goes, the hand mark stays.
+    await characterData(otherCharacter);
+    await expect
+      .poll(() => settings().then((s) => s.discoveredNodes))
+      .not.toContain("e2e_trace_1");
+    snap = await settings();
+    expect(snap.autoDiscoveredNodes).not.toContain("e2e_trace_1");
+    expect(snap.gameReportedNodes.empyrean_traces).not.toContain("e2e_trace_1");
+    expect(snap.discoveredNodes).toContain(HAND_MARK);
+
+    // (e) A legacy-only payload (Aniimo) still adds through the old path.
+    await characterData({ collectedNodeIds: ["e2e_legacy"] });
+    await expect
+      .poll(() => settings().then((s) => s.discoveredNodes))
+      .toContain("e2e_legacy");
   });
 });

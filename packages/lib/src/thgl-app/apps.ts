@@ -368,12 +368,39 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               }
             } else if (message.action === "characterData") {
               gameState.setCharacter(message.payload);
+              // Named sets of collected nodes, each the COMPLETE list for the
+              // character being played (AION 2 "empyrean_traces"): a present key
+              // replaces that set, so the marks follow the character; an absent
+              // key = unknown, that set is left alone. When sets are sent, the
+              // legacy collectedNodeIds (still sent for old frontends) is ignored.
+              const collectedSets = message.payload?.collectedNodeSets;
+              const hasCollectedSets =
+                typeof collectedSets === "object" &&
+                collectedSets !== null &&
+                !Array.isArray(collectedSets);
+              if (hasCollectedSets) {
+                const settings = useSettingsStore.getState();
+                if (settings.autoDiscoverCollected) {
+                  for (const [setName, ids] of Object.entries(collectedSets)) {
+                    if (
+                      Array.isArray(ids) &&
+                      ids.every((id) => typeof id === "string")
+                    ) {
+                      settings.applyGameReportedSet(setName, ids);
+                    }
+                  }
+                }
+              }
               // Nodes the game itself reports as collected (e.g. Aniimo's server-synced
               // map-mark status: opened chests / picked-up Lumin Amber, account-wide).
               // Plain spawn ids — discovery matches a node's base id — so they apply in
               // every live mode and to pins that are not loaded or filtered out.
               const collected = message.payload?.collectedNodeIds;
-              if (Array.isArray(collected) && collected.length > 0) {
+              if (
+                !hasCollectedSets &&
+                Array.isArray(collected) &&
+                collected.length > 0
+              ) {
                 const settings = useSettingsStore.getState();
                 if (settings.autoDiscoverCollected) {
                   const known = new Set(settings.discoveredNodes);
