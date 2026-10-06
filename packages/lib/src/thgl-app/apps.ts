@@ -1,4 +1,5 @@
 import { useGameState } from "../game";
+import { createLiveFocusTracker } from "../live-focus";
 import type { Actor } from "../overwolf/plugin";
 import { rememberPalCaptureCounts } from "../pal-capture";
 import { useSettingsStore } from "../settings";
@@ -283,6 +284,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
 
   const gameState = useGameState.getState();
   const liveState = useLiveState.getState();
+  const liveFocus = createLiveFocusTracker(gameState.setHighlightSpawnIDs);
 
   // Listen for direct WebView messages from C++
   if (typeof window !== "undefined" && window.chrome?.webview) {
@@ -371,14 +373,43 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 gameState.setStaticActors(staticActors);
               }
             } else if (message.action === "characterData") {
+              // Markers to focus (AION 2: open quest objectives), see live-focus.ts.
+              liveFocus.apply(message.payload);
               gameState.setCharacter(message.payload);
               rememberPalCaptureCounts(message.payload);
+              // Named sets of collected nodes, each the COMPLETE list for the
+              // character being played (AION 2 "empyrean_traces"): a present key
+              // replaces that set, so the marks follow the character; an absent
+              // key = unknown, that set is left alone. When sets are sent, the
+              // legacy collectedNodeIds (still sent for old frontends) is ignored.
+              const collectedSets = message.payload?.collectedNodeSets;
+              const hasCollectedSets =
+                typeof collectedSets === "object" &&
+                collectedSets !== null &&
+                !Array.isArray(collectedSets);
+              if (hasCollectedSets) {
+                const settings = useSettingsStore.getState();
+                if (settings.autoDiscoverCollected) {
+                  for (const [setName, ids] of Object.entries(collectedSets)) {
+                    if (
+                      Array.isArray(ids) &&
+                      ids.every((id) => typeof id === "string")
+                    ) {
+                      settings.applyGameReportedSet(setName, ids);
+                    }
+                  }
+                }
+              }
               // Nodes the game itself reports as collected (e.g. Aniimo's server-synced
               // map-mark status: opened chests / picked-up Lumin Amber, account-wide).
               // Plain spawn ids — discovery matches a node's base id — so they apply in
               // every live mode and to pins that are not loaded or filtered out.
               const collected = message.payload?.collectedNodeIds;
-              if (Array.isArray(collected) && collected.length > 0) {
+              if (
+                !hasCollectedSets &&
+                Array.isArray(collected) &&
+                collected.length > 0
+              ) {
                 const settings = useSettingsStore.getState();
                 if (settings.autoDiscoverCollected) {
                   const known = new Set(settings.discoveredNodes);

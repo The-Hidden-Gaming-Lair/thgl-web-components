@@ -408,13 +408,127 @@ export const coordsMatch = (a: string, b: string): boolean => {
 };
 
 /**
+ * "Done when all": a marker that stands for several things (e.g. one quest
+ * giver marker for all quests that NPC hands out) counts as discovered when
+ * EVERY id it lists is discovered.
+ *
+ * Wire contract (data-forge): the spawn's existing `data` field carries
+ * `data.doneWhenAll = ["q_1101010", "q_1101020"]`. Each listed id is matched
+ * with the normal discovered rules (exact id, base id before `@`, coordinates),
+ * so a bare `q_1101010` from `characterData.collectedNodeIds` satisfies it. The
+ * marker is discovered if it is discovered itself OR all listed ids are; an
+ * empty list never counts as done. Description templates ignore the key (no
+ * `{{doneWhenAll}}` placeholder uses it).
+ */
+export const DONE_WHEN_ALL_KEY = "doneWhenAll";
+
+/** Node ids of the loaded markers → the ids that must all be discovered. */
+export type DoneWhenAllRules = ReadonlyMap<string, readonly string[]>;
+
+/**
+ * Collects the done-when-all rules of a node set. Each rule is keyed by both
+ * ids a spawn is addressed by: {@link getNodeId} (markers, tooltips, the
+ * discovered toggle) and {@link getSpawnDiscoveryId} (filter counts, discover
+ * all). Both keep an id that contains `@` unchanged, so for those spawns the
+ * two keys are the same; they still differ for a private spawn without `@` and
+ * for a spawn without an id (`getNodeId` falls back to the type on an empty
+ * id, `getSpawnDiscoveryId` only on a missing one).
+ */
+export const collectDoneWhenAllRules = (
+  nodes: {
+    type: string;
+    spawns: {
+      id?: string;
+      isPrivate?: boolean;
+      p: [number, number] | [number, number, number];
+      data?: Record<string, string[]>;
+    }[];
+  }[],
+): Map<string, string[]> => {
+  const rules = new Map<string, string[]>();
+  for (const node of nodes) {
+    for (const spawn of node.spawns) {
+      const required = spawn.data?.[DONE_WHEN_ALL_KEY];
+      if (!Array.isArray(required) || required.length === 0) continue;
+      const ids = required.filter(
+        (id): id is string => typeof id === "string" && id.length > 0,
+      );
+      if (ids.length === 0) continue;
+      // getNodeId's derivation, for a spawn that has not been normalized yet.
+      const sid = spawn.id || node.type;
+      const nodeId = sid.includes("@")
+        ? sid
+        : `${sid}@${spawn.p[0]}:${spawn.p[1]}`;
+      rules.set(nodeId, ids);
+      rules.set(getSpawnDiscoveryId(node.type, spawn), ids);
+    }
+  }
+  return rules;
+};
+
+// The rules of the markers currently loaded. Discovered checks run in many
+// places that only know a node id (store selector, tooltips, counts), so the
+// rules live next to the matcher instead of being threaded through every
+// caller. Set by the CoordinatesProvider whenever its static nodes change.
+let doneWhenAllRules: DoneWhenAllRules = new Map();
+let doneWhenAllVersion = 0;
+
+const sameRules = (a: DoneWhenAllRules, b: DoneWhenAllRules): boolean => {
+  if (a.size !== b.size) return false;
+  for (const [key, ids] of a) {
+    const other = b.get(key);
+    if (!other || other.length !== ids.length) return false;
+    for (let i = 0; i < ids.length; i++) if (ids[i] !== other[i]) return false;
+  }
+  return true;
+};
+
+/** Replaces the active done-when-all rules (no-op when unchanged). */
+export const setDoneWhenAllRules = (rules: DoneWhenAllRules): void => {
+  if (sameRules(rules, doneWhenAllRules)) return;
+  doneWhenAllRules = rules;
+  doneWhenAllVersion++;
+};
+
+/**
+ * Bumped whenever the done-when-all rules change, so result caches keyed only
+ * on `discoveredNodes` (settings.isDiscoveredNode) know to rebuild.
+ */
+export const getDoneWhenAllVersion = (): number => doneWhenAllVersion;
+
+/**
+ * True when `nodeId` has a done-when-all rule and every listed id is
+ * discovered. Pure: the rules are passed in.
+ */
+export const isDoneWhenAll = (
+  nodeId: string,
+  rules: DoneWhenAllRules,
+  lookup: ReturnType<typeof buildDiscoveryLookup>,
+): boolean => {
+  if (rules.size === 0) return false;
+  const required = rules.get(nodeId);
+  if (!required || required.length === 0) return false;
+  return required.every((id) => matchesDiscovered(id, lookup));
+};
+
+/**
  * Check if a node is discovered using pre-built lookup structures.
  * Matches by:
  * 1. Exact ID match
  * 2. Base ID match (type without coordinates)
  * 3. Coordinate match (backward compat + tolerance for float/precision drift)
+ * 4. Done when all: the node lists ids that are all discovered
+ *    (see {@link DONE_WHEN_ALL_KEY})
  */
 export const checkNodeDiscovered = (
+  nodeId: string,
+  lookup: ReturnType<typeof buildDiscoveryLookup>,
+): boolean =>
+  matchesDiscovered(nodeId, lookup) ||
+  isDoneWhenAll(nodeId, doneWhenAllRules, lookup);
+
+/** Rules 1-3 of {@link checkNodeDiscovered}: the node's own discovered state. */
+const matchesDiscovered = (
   nodeId: string,
   lookup: ReturnType<typeof buildDiscoveryLookup>,
 ): boolean => {
@@ -499,6 +613,11 @@ export const checkLiveActorDiscovered = (
  * Discovery id for one spawn of a filter-type node — the SAME derivation the
  * FilterTooltip discovered-count uses, extracted so counts and bulk
  * discover/undiscover actions can never disagree.
+ *
+ * A private spawn, or a spawn whose id already contains `@` (an addressed id
+ * such as `q_1101010@1101010s1g1`), keeps its id unchanged — the same rule as
+ * {@link getNodeId}, so the marker and the filter counts address it by one id.
+ * Every other spawn gets `<id or type>@<x>:<y>`.
  */
 export const getSpawnDiscoveryId = (
   nodeType: string,
@@ -508,7 +627,7 @@ export const getSpawnDiscoveryId = (
     p: [number, number] | [number, number, number];
   },
 ): string =>
-  spawn.isPrivate && spawn.id
+  spawn.id && (spawn.isPrivate || spawn.id.includes("@"))
     ? spawn.id
     : `${spawn.id ?? nodeType}@${spawn.p[0]}:${spawn.p[1]}`;
 
@@ -531,8 +650,10 @@ export const removeDiscoveredMatches = (
     const atIndex = id.indexOf("@");
     if (atIndex !== -1) baseIds.add(id.slice(0, atIndex));
   }
+  // The node's own matching only: a done-when-all rule describes a marker, not
+  // a stored entry, and must not widen what "Undiscover all" removes.
   const kept = discoveredNodes.filter(
-    (id) => !baseIds.has(id) && !checkNodeDiscovered(id, lookup),
+    (id) => !baseIds.has(id) && !matchesDiscovered(id, lookup),
   );
   return kept.length === discoveredNodes.length ? discoveredNodes : kept;
 };

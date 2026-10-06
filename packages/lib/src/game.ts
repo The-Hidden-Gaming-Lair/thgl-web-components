@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import type { ActorPlayer, Actor } from "./overwolf/plugin";
+import { replaceHighlightIds } from "./live-focus";
 
 /**
  * A live-read dungeon floor plan: the walkable navmesh polygons (fan-triangulated
@@ -59,7 +60,11 @@ export const useGameState = create(
     applyStaticActorsDelta: (added: Actor[], removed: string[]) => void;
     error: string | null;
     setError: (error: string | null) => void;
+    /** Node ids (getNodeId) drawn enlarged and shown even when their filter is off. */
     highlightSpawnIDs: string[];
+    /** Replaces the whole set (live focus, see live-focus.ts); keeps the
+     * reference when the ids are unchanged. */
+    setHighlightSpawnIDs: (ids: string[]) => void;
     addHighlightSpawnIDs: (id: string[]) => void;
     removeHighlightSpawnIDs: (id: string[]) => void;
     isUpdatingApp: boolean;
@@ -140,6 +145,14 @@ export const useGameState = create(
     error: null,
     setError: (error) => set({ error }),
     highlightSpawnIDs: [],
+    setHighlightSpawnIDs: (ids) =>
+      set((state) => {
+        const next = replaceHighlightIds(state.highlightSpawnIDs, ids);
+        // Same ids: return the state itself so zustand skips the update.
+        return next === state.highlightSpawnIDs
+          ? state
+          : { highlightSpawnIDs: next };
+      }),
     addHighlightSpawnIDs: (id) =>
       set((state) => ({
         highlightSpawnIDs: Array.from(

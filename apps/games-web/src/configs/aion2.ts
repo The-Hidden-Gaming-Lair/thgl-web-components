@@ -4,11 +4,13 @@ export const aion2 = resolveAppConfig({
   name: "aion2",
   // The client ships eight text languages (L10N/Text/<culture>/L10NString).
   supportedLocales: ["en", "de", "es", "fr", "ja", "ko", "pt-BR", "ru"],
-  // Companion app: local player position plus live gathering nodes and monsters on the faction
-  // overworld maps only (Mixed game: nothing live in the Abyss, dungeons, battlefields or
-  // arenas, never other players or Hidden Cubes), and collected Empyrean Traces marked
-  // discovered (characterData.collectedNodeIds). The detector enforces it, see data-forge
-  // docs\FAIR_PLAY_RULES.md.
+  // Companion app: the own character's position on every map the web plots; live gathering
+  // nodes and monsters on the six faction overworld maps only (Mixed game: nothing live in the
+  // Abyss, dungeons, battlefields or arenas, never other players or Hidden Cubes); the own
+  // character's collected Empyrean Traces, finished quests and cleared Strongholds marked
+  // discovered per character (characterData.collectedNodeSets, @repo/lib game-reported-nodes.ts)
+  // and open quests' objectives highlighted (characterData.focusNodeIds, live-focus.ts). The
+  // detector enforces it, see data-forge docs\FAIR_PLAY_RULES.md (AION 2 row).
   appUrl: "https://www.th.gl/companion-app",
   // Partner link (gaming.tools server status) — keep it next to our own /db.
   externalLinks: [

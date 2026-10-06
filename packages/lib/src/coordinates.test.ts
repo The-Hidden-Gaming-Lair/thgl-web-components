@@ -1,11 +1,137 @@
 import {
   buildDiscoveryLookup,
   checkLiveActorDiscovered,
+  checkNodeDiscovered,
+  collectDoneWhenAllRules,
   dbEntryIdOf,
+  getDoneWhenAllVersion,
+  getNodeId,
   getPositionedDiscoverTypes,
   getSpawnDiscoveryId,
+  isDoneWhenAll,
   removeDiscoveredMatches,
+  setDoneWhenAllRules,
 } from "./coordinates";
+
+describe("done when all", () => {
+  // One quest giver marker standing for two quests; objective markers of a
+  // quest carry ids like q_1101010@s2g1 and are done through the base-id rule.
+  const nodes = [
+    {
+      type: "quest_giver",
+      spawns: [
+        {
+          id: "quest_giver@npc_100",
+          p: [1, 2] as [number, number],
+          data: { doneWhenAll: ["q_1101010", "q_1101020"] },
+        },
+        {
+          // id-less spawn: addressed by type + position
+          p: [5, 6] as [number, number],
+          data: { doneWhenAll: ["q_1101030"] },
+        },
+        { id: "quest_giver@npc_200", p: [3, 4] as [number, number] },
+      ],
+    },
+  ];
+  const rules = collectDoneWhenAllRules(nodes);
+
+  afterEach(() => setDoneWhenAllRules(new Map()));
+
+  it("collects rules under the node id and the discovery id", () => {
+    expect(rules.get("quest_giver@npc_100")).toEqual([
+      "q_1101010",
+      "q_1101020",
+    ]);
+    // getSpawnDiscoveryId (the filter counts) keeps an "@" id unchanged, so
+    // it addresses the marker by the same key.
+    expect(
+      getSpawnDiscoveryId("quest_giver", {
+        id: "quest_giver@npc_100",
+        p: [1, 2],
+      }),
+    ).toBe("quest_giver@npc_100");
+    expect(rules.has("quest_giver@npc_100@1:2")).toBe(false);
+    expect(rules.get("quest_giver@5:6")).toEqual(["q_1101030"]);
+    expect(rules.has("quest_giver@npc_200")).toBe(false);
+  });
+
+  it("ignores empty or malformed lists", () => {
+    expect(
+      collectDoneWhenAllRules([
+        {
+          type: "t",
+          spawns: [
+            { id: "t@a", p: [0, 0], data: { doneWhenAll: [] } },
+            { id: "t@b", p: [0, 0], data: { doneWhenAll: [""] } },
+            { id: "t@c", p: [0, 0], data: { level: ["5"] } },
+          ],
+        },
+      ]).size,
+    ).toBe(0);
+  });
+
+  it("is done only when every listed id is discovered", () => {
+    const one = buildDiscoveryLookup(["q_1101010"]);
+    const both = buildDiscoveryLookup(["q_1101010", "q_1101020"]);
+    expect(isDoneWhenAll("quest_giver@npc_100", rules, one)).toBe(false);
+    expect(isDoneWhenAll("quest_giver@npc_100", rules, both)).toBe(true);
+    expect(isDoneWhenAll("quest_giver@npc_200", rules, both)).toBe(false);
+  });
+
+  it("matches listed ids with the normal rules (base id before @)", () => {
+    const r = new Map([["giver@x", ["q_1@s1g1", "q_2"]]]);
+    // q_1 discovered as a bare quest id marks q_1@s1g1 through its base id.
+    expect(
+      isDoneWhenAll("giver@x", r, buildDiscoveryLookup(["q_1", "q_2"])),
+    ).toBe(true);
+  });
+
+  it("feeds checkNodeDiscovered once the rules are set", () => {
+    const lookup = buildDiscoveryLookup(["q_1101010", "q_1101020"]);
+    expect(checkNodeDiscovered("quest_giver@npc_100", lookup)).toBe(false);
+    const before = getDoneWhenAllVersion();
+    setDoneWhenAllRules(rules);
+    expect(getDoneWhenAllVersion()).toBe(before + 1);
+    expect(checkNodeDiscovered("quest_giver@npc_100", lookup)).toBe(true);
+    expect(
+      checkNodeDiscovered(
+        getSpawnDiscoveryId("quest_giver", {
+          id: "quest_giver@npc_100",
+          p: [1, 2],
+        }),
+        lookup,
+      ),
+    ).toBe(true);
+    // Unrelated markers keep their own rules.
+    expect(checkNodeDiscovered("quest_giver@npc_200", lookup)).toBe(false);
+    // A manual mark of the marker itself still counts.
+    expect(
+      checkNodeDiscovered(
+        "quest_giver@npc_100",
+        buildDiscoveryLookup(["quest_giver@npc_100"]),
+      ),
+    ).toBe(true);
+  });
+
+  it("does not bump the version for identical rules", () => {
+    setDoneWhenAllRules(rules);
+    const v = getDoneWhenAllVersion();
+    setDoneWhenAllRules(collectDoneWhenAllRules(nodes));
+    expect(getDoneWhenAllVersion()).toBe(v);
+  });
+
+  it("does not widen Undiscover all", () => {
+    setDoneWhenAllRules(rules);
+    // A manual mark of the giver stays when only its quests are targeted.
+    expect(
+      removeDiscoveredMatches(
+        ["quest_giver@npc_100"],
+        ["q_1101010", "q_1101020"],
+      ),
+    ).toEqual(["quest_giver@npc_100"]);
+  });
+});
 
 describe("getSpawnDiscoveryId", () => {
   it("uses spawn.id for private spawns", () => {
@@ -28,6 +154,54 @@ describe("getSpawnDiscoveryId", () => {
     expect(getSpawnDiscoveryId("iron_ore", { p: [10.5, -3] })).toBe(
       "iron_ore@10.5:-3",
     );
+  });
+
+  it("keeps a non-coordinate @ id unchanged", () => {
+    expect(
+      getSpawnDiscoveryId("quest_episode_objective", {
+        id: "q_1101010@1101010s1g1",
+        p: [10.5, -3],
+      }),
+    ).toBe("q_1101010@1101010s1g1");
+  });
+
+  it("keeps a coordinate @ id unchanged", () => {
+    expect(
+      getSpawnDiscoveryId("crafting_anvil", {
+        id: "crafting_anvil@123.00:456.00",
+        p: [123, 456],
+      }),
+    ).toBe("crafting_anvil@123.00:456.00");
+  });
+
+  describe("round trip with getNodeId", () => {
+    const type = "quest_episode_objective";
+    const spawns = [
+      { id: "q_1101010@1101010s1g1", p: [10.5, -3] as [number, number] },
+      {
+        id: "crafting_anvil@123.00:456.00",
+        p: [123, 456] as [number, number],
+      },
+      { id: "iron_ore_1", p: [10.5, -3] as [number, number] },
+    ];
+
+    it.each(spawns)("marker id finds the discovery id ($id)", (spawn) => {
+      expect(
+        checkNodeDiscovered(
+          getNodeId({ ...spawn, type }),
+          buildDiscoveryLookup([getSpawnDiscoveryId(type, spawn)]),
+        ),
+      ).toBe(true);
+    });
+
+    it.each(spawns)("discovery id finds the marker id ($id)", (spawn) => {
+      expect(
+        checkNodeDiscovered(
+          getSpawnDiscoveryId(type, spawn),
+          buildDiscoveryLookup([getNodeId({ ...spawn, type })]),
+        ),
+      ).toBe(true);
+    });
   });
 });
 
