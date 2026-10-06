@@ -218,10 +218,12 @@ const nextConfig = (phase) => ({
         value: "public, s-maxage=600, stale-while-revalidate=600",
       },
     ];
-    // The companion-app auto-update gate: version.txt + THGL_Installer.exe. These MUST NOT ride
-    // the 15-min page cache. A stale version.txt makes clients keep polling the old version; worse,
-    // if version.txt goes fresh while the installer edge copy is still the old build (or vice
-    // versa), clients see a version the installer can't deliver and get stuck in an update loop.
+    // The companion-app auto-update gate: version.txt + THGL_Installer.exe + manifest.bin. These
+    // MUST NOT ride the 15-min page cache. A stale version.txt makes clients keep polling the old
+    // version; worse, if version.txt goes fresh while the installer edge copy is still the old build
+    // (or vice versa), clients see a version the installer can't deliver and get stuck in an update
+    // loop. A stale manifest.bin (the signed driver allowlist) makes the driver reject the NEW app
+    // build until the edge copy expires (inbox #661/#662: a day at the page s-maxage).
     // Very short + tiny SWR so a release propagates in ~30s and the two files always flip together
     // (both served from the same container). No `stale-while-revalidate` sprawl here on purpose.
     const updateGateCache = [
@@ -502,7 +504,9 @@ const nextConfig = (phase) => ({
       // /games/thgl-app/*, so cover both the incoming and rewritten paths.
       { source: "/version.txt", headers: updateGateCache },
       { source: "/THGL_Installer.exe", headers: updateGateCache },
+      { source: "/manifest.bin", headers: updateGateCache },
       { source: "/games/thgl-app/version.txt", headers: updateGateCache },
+      { source: "/games/thgl-app/manifest.bin", headers: updateGateCache },
       {
         source: "/games/thgl-app/THGL_Installer.exe",
         headers: updateGateCache,
