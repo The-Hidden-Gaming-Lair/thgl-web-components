@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  isPreviewFeature,
+  previewFilterId,
+  useAccountGate,
+  useAccountStore,
+} from "@repo/lib";
 import { updateActorTypeFilters } from "@repo/lib/thgl-app";
 import { useEffect, useMemo } from "react";
 import { useUserStore } from "../(providers)";
@@ -10,22 +16,31 @@ import { useUserStore } from "../(providers)";
 const NONE_SENTINEL = "__none__";
 
 export function ActorTypeFilter({
+  appName,
   typesIdMap,
 }: {
+  appName: string;
   typesIdMap: Record<string, string>;
 }) {
   const filters = useUserStore((state) => state.filters);
+  // Live filters in Elite preview are only requested with access ("allow").
+  const previewAllowed =
+    useAccountGate(useAccountStore((s) => s.perks.previewReleaseAccess)) ===
+    "allow";
 
   // Only request types whose mapped filter value is currently enabled — the
   // native reader skips everything else before touching game memory, so
   // disabling a filter genuinely stops its memory reads and payload cost.
   const types = useMemo(() => {
     const enabled = new Set(filters);
-    const result = Object.keys(typesIdMap).filter((key) =>
-      enabled.has(typesIdMap[key]),
+    const result = Object.keys(typesIdMap).filter(
+      (key) =>
+        enabled.has(typesIdMap[key]) &&
+        (previewAllowed ||
+          !isPreviewFeature(previewFilterId(appName, typesIdMap[key]))),
     );
     return result.length > 0 ? result : [NONE_SENTINEL];
-  }, [typesIdMap, filters]);
+  }, [appName, typesIdMap, filters, previewAllowed]);
 
   useEffect(() => {
     // Debounced: toggling a filter group fires many store updates back-to-back,

@@ -57,7 +57,7 @@ export type PreviewFeature = {
  * "now available to everyone" release-notes line.
  *
  * Live modes use ids `live-mode:<mode>` (e.g. `live-mode:combined`), read by
- * `PREVIEW_LIVE_MODES` in settings.ts.
+ * `PREVIEW_LIVE_MODES` in settings.ts. Filter values use `previewFilterId()`.
  */
 export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
   "widgets-only-overlay": {
@@ -73,7 +73,23 @@ export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
     inboxItem: 444,
   },
   // "live-mode:combined" was an Elite preview; it is public now.
+  // Palworld live filter: Lucky Pals (THGLApp reads IsRarePal). Locked accounts
+  // see the filter with a lock; the app is never asked for its types.
+  "filter:palworld:lucky_pal": {
+    title: "Lucky Pals",
+    since: "2026-10-06",
+    inboxItem: 111,
+  },
 };
+
+/**
+ * Preview id of one filter value: `filter:<app>:<filterId>`. A live filter in
+ * preview is shown with a Preview badge, can't be enabled without access, and
+ * its types are not requested from the app (ActorTypeFilter).
+ */
+export function previewFilterId(appName: string, filterId: string): string {
+  return `filter:${appName}:${filterId}`;
+}
 
 /** True while `id` is in preview (listed in PREVIEW_FEATURES). */
 export function isPreviewFeature(id: string): boolean {

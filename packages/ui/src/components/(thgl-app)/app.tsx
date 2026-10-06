@@ -227,7 +227,10 @@ export function App({
           >
             {/* Inside CoordinatesProvider: reads the user's enabled filters so the
                 native reader only scans/serializes the types actually in use. */}
-            <ActorTypeFilter typesIdMap={fullTypesIdMap} />
+            <ActorTypeFilter
+              appName={appConfig.name}
+              typesIdMap={fullTypesIdMap}
+            />
             {lockedWindow ? (
               <UnlockButton
                 onClick={toggleLockedWindow}

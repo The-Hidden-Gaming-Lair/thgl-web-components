@@ -1,5 +1,13 @@
 import { useUserStore } from "../(providers)";
-import { cn, FiltersConfig, getIconsUrl } from "@repo/lib";
+import {
+  cn,
+  FiltersConfig,
+  getIconsUrl,
+  isPreviewFeature,
+  previewFilterId,
+  useAccountGate,
+  useAccountStore,
+} from "@repo/lib";
 import {
   Collapsible,
   CollapsibleContent,
@@ -9,7 +17,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FilterSettingsPopover } from "./filter-settings-popover";
 import { useT } from "../(providers)";
 import { useMemo } from "react";
-import { ChevronRight, FlaskConical, PackageSearch } from "lucide-react";
+import { ChevronRight, FlaskConical, Lock, PackageSearch } from "lucide-react";
+import { PreviewBadge, showPreviewUpsell } from "./preview-badge";
 
 export function CollapsibleFilter({
   appName,
@@ -31,6 +40,10 @@ export function CollapsibleFilter({
   const filters = useUserStore((state) => state.filters);
   const setFilters = useUserStore((state) => state.setFilters);
   const toggleFilter = useUserStore((state) => state.toggleFilter);
+  // Filter values in Elite preview (PREVIEW_FEATURES `filter:<app>:<id>`).
+  const previewGate = useAccountGate(
+    useAccountStore((s) => s.perks.previewReleaseAccess),
+  );
   // Open/collapsed is persisted per game (all groups start collapsed on first
   // visit; the user's expansions stick). `forceOpen` (search match) overrides
   // without writing to the store — the search-driven expansion is transient.
@@ -140,95 +153,109 @@ export function CollapsibleFilter({
             return (t(a.id) || a.id).localeCompare(t(b.id) || b.id);
           })
 
-          .map((f) => (
-            <div
-              key={f.id}
-              className="flex grow items-center md:basis-1/2 pr-2 min-w-0"
-            >
-              <Tooltip delayDuration={300} disableHoverableContent>
-                <TooltipTrigger asChild>
-                  <button
-                    className={cn(
-                      "flex gap-2 items-center transition-colors hover:text-primary p-2 truncate min-w-0",
-                      {
-                        "text-muted-foreground": !filters.includes(f.id),
-                      },
-                    )}
-                    onClick={() => {
-                      toggleFilter(f.id);
-                    }}
-                    type="button"
-                  >
-                    {typeof f.icon === "string" ? (
-                      <img
-                        alt=""
-                        className="h-5 w-5 shrink-0"
-                        height={20}
-                        src={getIconsUrl(appName, f.icon, iconsPath)}
-                        width={20}
-                      />
-                    ) : (
-                      <img
-                        alt=""
-                        role="presentation"
-                        className="shrink-0 object-none"
-                        src={getIconsUrl(appName, f.icon.url, iconsPath)}
-                        width={f.icon.width}
-                        height={f.icon.height}
-                        style={{
-                          // width/height in CSS (not just attrs) so the global
-                          // `img { height: auto }` preflight can't recompute the
-                          // box from the full sheet and clip the wrong cell.
-                          width: f.icon.width,
-                          height: f.icon.height,
-                          objectPosition: `-${f.icon.x}px -${f.icon.y}px`,
-                          // Sprite cells are packed at native size now (a cap, not
-                          // a fixed 64px), so a fixed zoom rendered small-source
-                          // icons (e.g. Lifmunk Effigy, 35px) smaller than their
-                          // 64px neighbours. Scale each icon to a uniform ~22px box
-                          // by its own width instead.
-                          zoom: 22 / (f.icon.width || 64),
-                        }}
-                      />
-                    )}
-                    {contentsMatches?.has(f.id) ? (
-                      <span className="flex flex-col min-w-0 text-left leading-tight">
-                        <span className="truncate">{t(f.id) || f.id}</span>
-                        <span className="flex items-center gap-1 text-[11px] text-primary/70 min-w-0">
-                          <PackageSearch
-                            className="h-3 w-3 shrink-0"
-                            aria-hidden
-                          />
-                          <span className="truncate">
-                            {contentsMatches.get(f.id)}
+          .map((f) => {
+            const previewId = previewFilterId(appName, f.id);
+            const preview = isPreviewFeature(previewId);
+            const locked = preview && previewGate === "deny";
+            return (
+              <div
+                key={f.id}
+                className="flex grow items-center md:basis-1/2 pr-2 min-w-0"
+              >
+                <Tooltip delayDuration={300} disableHoverableContent>
+                  <TooltipTrigger asChild>
+                    <button
+                      className={cn(
+                        "flex gap-2 items-center transition-colors hover:text-primary p-2 truncate min-w-0",
+                        {
+                          "text-muted-foreground":
+                            locked || !filters.includes(f.id),
+                        },
+                      )}
+                      onClick={() => {
+                        if (locked) {
+                          showPreviewUpsell(previewId);
+                          return;
+                        }
+                        toggleFilter(f.id);
+                      }}
+                      type="button"
+                    >
+                      {typeof f.icon === "string" ? (
+                        <img
+                          alt=""
+                          className="h-5 w-5 shrink-0"
+                          height={20}
+                          src={getIconsUrl(appName, f.icon, iconsPath)}
+                          width={20}
+                        />
+                      ) : (
+                        <img
+                          alt=""
+                          role="presentation"
+                          className="shrink-0 object-none"
+                          src={getIconsUrl(appName, f.icon.url, iconsPath)}
+                          width={f.icon.width}
+                          height={f.icon.height}
+                          style={{
+                            // width/height in CSS (not just attrs) so the global
+                            // `img { height: auto }` preflight can't recompute the
+                            // box from the full sheet and clip the wrong cell.
+                            width: f.icon.width,
+                            height: f.icon.height,
+                            objectPosition: `-${f.icon.x}px -${f.icon.y}px`,
+                            // Sprite cells are packed at native size now (a cap, not
+                            // a fixed 64px), so a fixed zoom rendered small-source
+                            // icons (e.g. Lifmunk Effigy, 35px) smaller than their
+                            // 64px neighbours. Scale each icon to a uniform ~22px box
+                            // by its own width instead.
+                            zoom: 22 / (f.icon.width || 64),
+                          }}
+                        />
+                      )}
+                      {contentsMatches?.has(f.id) ? (
+                        <span className="flex flex-col min-w-0 text-left leading-tight">
+                          <span className="truncate">{t(f.id) || f.id}</span>
+                          <span className="flex items-center gap-1 text-[11px] text-primary/70 min-w-0">
+                            <PackageSearch
+                              className="h-3 w-3 shrink-0"
+                              aria-hidden
+                            />
+                            <span className="truncate">
+                              {contentsMatches.get(f.id)}
+                            </span>
                           </span>
                         </span>
-                      </span>
-                    ) : (
-                      <span className="truncate">{t(f.id) || f.id}</span>
-                    )}
-                    {f.experimental && (
-                      <FlaskConical
-                        className="h-3.5 w-3.5 shrink-0 text-amber-500"
-                        aria-label={t("filters.experimental")}
-                      />
-                    )}
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  {t(f.id) || f.id}
-                  {contentsMatches?.has(f.id) &&
-                    ` · ${contentsMatches.get(f.id)}`}
-                </TooltipContent>
-              </Tooltip>
-              <div className="grow" />
-              <FilterSettingsPopover
-                filterId={f.id}
-                filterLabel={t(f.id) || f.id}
-                noMapMarkers={f.no_map_markers}
-              />
-            </div>
-          ))}
+                      ) : (
+                        <span className="truncate">{t(f.id) || f.id}</span>
+                      )}
+                      {f.experimental && (
+                        <FlaskConical
+                          className="h-3.5 w-3.5 shrink-0 text-amber-500"
+                          aria-label={t("filters.experimental")}
+                        />
+                      )}
+                      {locked && (
+                        <Lock className="h-3 w-3 shrink-0" aria-hidden />
+                      )}
+                      {preview && <PreviewBadge className="ml-0 shrink-0" />}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">
+                    {t(f.id) || f.id}
+                    {contentsMatches?.has(f.id) &&
+                      ` · ${contentsMatches.get(f.id)}`}
+                  </TooltipContent>
+                </Tooltip>
+                <div className="grow" />
+                <FilterSettingsPopover
+                  filterId={f.id}
+                  filterLabel={t(f.id) || f.id}
+                  noMapMarkers={f.no_map_markers}
+                />
+              </div>
+            );
+          })}
       </CollapsibleContent>
     </Collapsible>
   );
