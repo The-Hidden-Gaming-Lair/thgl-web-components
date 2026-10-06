@@ -2,8 +2,42 @@ import {
   isPreviewFeature,
   isPreviewFeatureEnabled,
   PREVIEW_FEATURES,
+  previewFilterId,
+  selectRequestedActorTypes,
 } from "./preview-release";
 import { PREVIEW_LIVE_MODES } from "./settings";
+
+describe("preview filters", () => {
+  const typesIdMap = {
+    BP_SheepBall_C: "sheepball",
+    "BP_SheepBall_C_Variant.Lucky": "lucky_pal",
+  };
+
+  it("Palworld Lucky Pals is a preview filter", () => {
+    expect(isPreviewFeature(previewFilterId("palworld", "lucky_pal"))).toBe(
+      true,
+    );
+  });
+
+  it("a preview live filter is only requested with access", () => {
+    const enabled = ["sheepball", "lucky_pal"];
+    expect(
+      selectRequestedActorTypes("palworld", typesIdMap, enabled, false),
+    ).toEqual(["BP_SheepBall_C"]);
+    expect(
+      selectRequestedActorTypes("palworld", typesIdMap, enabled, true),
+    ).toEqual(["BP_SheepBall_C", "BP_SheepBall_C_Variant.Lucky"]);
+  });
+
+  it("disabled filters and other games are unaffected", () => {
+    expect(
+      selectRequestedActorTypes("palworld", typesIdMap, ["sheepball"], true),
+    ).toEqual(["BP_SheepBall_C"]);
+    expect(
+      selectRequestedActorTypes("palia", typesIdMap, ["lucky_pal"], false),
+    ).toEqual(["BP_SheepBall_C_Variant.Lucky"]);
+  });
+});
 
 describe("preview features", () => {
   it("a registered feature needs Elite preview access", () => {

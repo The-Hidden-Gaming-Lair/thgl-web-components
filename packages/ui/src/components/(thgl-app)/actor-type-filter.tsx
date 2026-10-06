@@ -1,8 +1,7 @@
 "use client";
 
 import {
-  isPreviewFeature,
-  previewFilterId,
+  selectRequestedActorTypes,
   useAccountGate,
   useAccountStore,
 } from "@repo/lib";
@@ -32,12 +31,11 @@ export function ActorTypeFilter({
   // native reader skips everything else before touching game memory, so
   // disabling a filter genuinely stops its memory reads and payload cost.
   const types = useMemo(() => {
-    const enabled = new Set(filters);
-    const result = Object.keys(typesIdMap).filter(
-      (key) =>
-        enabled.has(typesIdMap[key]) &&
-        (previewAllowed ||
-          !isPreviewFeature(previewFilterId(appName, typesIdMap[key]))),
+    const result = selectRequestedActorTypes(
+      appName,
+      typesIdMap,
+      filters,
+      previewAllowed,
     );
     return result.length > 0 ? result : [NONE_SENTINEL];
   }, [appName, typesIdMap, filters, previewAllowed]);

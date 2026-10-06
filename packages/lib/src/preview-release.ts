@@ -91,6 +91,25 @@ export function previewFilterId(appName: string, filterId: string): string {
   return `filter:${appName}:${filterId}`;
 }
 
+/**
+ * The actor classes to request from the app: those whose filter value is
+ * enabled, minus live filters in preview unless `previewAllowed`.
+ */
+export function selectRequestedActorTypes(
+  appName: string,
+  typesIdMap: Record<string, string>,
+  enabledFilters: Iterable<string>,
+  previewAllowed: boolean,
+): string[] {
+  const enabled = new Set(enabledFilters);
+  return Object.keys(typesIdMap).filter(
+    (key) =>
+      enabled.has(typesIdMap[key]) &&
+      (previewAllowed ||
+        !isPreviewFeature(previewFilterId(appName, typesIdMap[key]))),
+  );
+}
+
 /** True while `id` is in preview (listed in PREVIEW_FEATURES). */
 export function isPreviewFeature(id: string): boolean {
   return Object.prototype.hasOwnProperty.call(PREVIEW_FEATURES, id);
