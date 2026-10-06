@@ -492,30 +492,42 @@ export function getOpenGraphImageUrl(appName: string, mapName: string): string {
  * renders don't double-fetch.
  */
 type MemoryFetchEntry = { data: unknown; expiresAt: number; bytes: number };
-const memoryFetchCache = new Map<string, MemoryFetchEntry>();
-const memoryFetchInflight = new Map<string, Promise<unknown>>();
+// Next bundles this module into several server layers (RSC, SSR, route
+// handlers, instrumentation: 4-5 copies per pod, [pod-health] jsonCopies
+// 2026-10-06). Module-level Maps gave each copy its own cache, so every pod
+// fetched, parsed and held each 10 MB dict up to 5 times. The state lives on
+// globalThis so all copies share one cache and one byte budget.
+type MemoryFetchState = {
+  cache: Map<string, MemoryFetchEntry>;
+  inflight: Map<string, Promise<unknown>>;
+  bytes: number;
+  copies: number;
+};
+const memoryFetch = ((
+  globalThis as { __thglMemoryFetch?: MemoryFetchState }
+).__thglMemoryFetch ??= {
+  cache: new Map(),
+  inflight: new Map(),
+  bytes: 0,
+  copies: 0,
+});
+memoryFetch.copies++;
+const memoryFetchCache = memoryFetch.cache;
+const memoryFetchInflight = memoryFetch.inflight;
 const MEMORY_FETCH_TTL_MS = 60_000;
 // Budget in estimated HEAP bytes, not JSON text: a parsed dict/database object
 // takes roughly 3x its text length (string headers, object shapes, hash
-// tables). 768 MB keeps the old effective capacity (~256 MB of text) but
-// makes the number honest.
-const MEMORY_FETCH_MAX_BYTES = 768 * 1024 * 1024;
+// tables). One shared cache now, so 1 GB here replaces 4-5 x 768 MB.
+const MEMORY_FETCH_MAX_BYTES = 1024 * 1024 * 1024;
 const PARSED_BYTES_PER_CHAR = 3;
-let memoryFetchBytes = 0;
 
-// Next bundles this module into more than one server layer, each with its own
-// copy of the cache; [pod-health] (imported from instrumentation, yet another
-// copy) sums every registered copy via globalThis.
-const jsonCaches = ((
-  globalThis as { __thglJsonCaches?: Set<() => number> }
-).__thglJsonCaches ??= new Set());
-jsonCaches.add(() => memoryFetchBytes);
-
-/** JSON memory cache size summed over every module copy, for [pod-health]. */
+/** Shared JSON memory cache size, for the [pod-health] log line. */
 export function memoryFetchCacheStats() {
-  let bytes = 0;
-  for (const read of jsonCaches) bytes += read();
-  return { copies: jsonCaches.size, mb: Math.round(bytes / 1048576) };
+  return {
+    copies: memoryFetch.copies,
+    entries: memoryFetchCache.size,
+    mb: Math.round(memoryFetch.bytes / 1048576),
+  };
 }
 
 type MemoryFetchOptions<T> = {
@@ -529,16 +541,16 @@ type MemoryFetchOptions<T> = {
 function storeMemoryFetchEntry(url: string, entry: MemoryFetchEntry) {
   const previous = memoryFetchCache.get(url);
   if (previous) {
-    memoryFetchBytes -= previous.bytes;
+    memoryFetch.bytes -= previous.bytes;
     memoryFetchCache.delete(url);
   }
   memoryFetchCache.set(url, entry);
-  memoryFetchBytes += entry.bytes;
+  memoryFetch.bytes += entry.bytes;
   // Map iteration is insertion order and hits re-insert, so this walks LRU-first.
   for (const [key, oldest] of memoryFetchCache) {
-    if (memoryFetchBytes <= MEMORY_FETCH_MAX_BYTES || key === url) break;
+    if (memoryFetch.bytes <= MEMORY_FETCH_MAX_BYTES || key === url) break;
     memoryFetchCache.delete(key);
-    memoryFetchBytes -= oldest.bytes;
+    memoryFetch.bytes -= oldest.bytes;
   }
 }
 

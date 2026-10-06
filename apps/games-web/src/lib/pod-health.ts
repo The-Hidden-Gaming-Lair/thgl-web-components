@@ -226,6 +226,7 @@ export function startPodHealth() {
         cache: {
           pageMB: pageCacheMB(),
           jsonMB: json.mb,
+          jsonEntries: json.entries,
           jsonCopies: json.copies,
         },
       })}`,
