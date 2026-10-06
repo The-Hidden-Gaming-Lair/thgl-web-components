@@ -50,6 +50,10 @@ ENV NEXT_PUBLIC_CLIENT_SHA=$CLIENT_SHA
 ENV NODE_ENV=production
 ENV PORT=3100
 ENV HOSTNAME=0.0.0.0
+# Bigger young generation: SSR allocates heavily (10 MB codex dicts per locale),
+# and the default 16 MB semi-space ran ~10 scavenges/s, 4-6 s of GC per pod-minute
+# ([pod-health] gc, 2026-10-06). The container has 32 GB; heap limit stays default.
+ENV NODE_OPTIONS=--max-semi-space-size=64
 
 # Next.js standalone output bundles all required deps
 COPY --from=builder /repo/apps/games-web/.next/standalone ./

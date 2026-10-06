@@ -6,7 +6,7 @@
  * (.next/server/app) with no eviction. Crawlers touch ~600k distinct /db paths
  * a day, which would fill the pods' 10 GB ephemeral storage. This keeps game
  * pages in memory instead: gzip-compressed, LRU-evicted by total size
- * (PAGE_CACHE_MAX_MB, default 512). Everything else (fetch cache, tags used by
+ * (PAGE_CACHE_MAX_MB, default 1024). Everything else (fetch cache, tags used by
  * palia's leaderboard pages, non-/g routes) is delegated to Next's own
  * FileSystemCache, unchanged.
  *
@@ -25,7 +25,7 @@ const { gzipSync, gunzipSync } = require("node:zlib");
 const FileSystemCache =
   require("next/dist/server/lib/incremental-cache/file-system-cache").default;
 
-const MAX_BYTES = (Number(process.env.PAGE_CACHE_MAX_MB) || 512) * 1048576;
+const MAX_BYTES = (Number(process.env.PAGE_CACHE_MAX_MB) || 1024) * 1048576;
 const VERSION_REFRESH_MS = 30_000;
 const GAME_KEY = /^\/g\/([^/]+)\//;
 const STATS_INTERVAL_MS = 60_000;

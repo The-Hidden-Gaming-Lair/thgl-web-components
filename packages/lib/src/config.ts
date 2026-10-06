@@ -497,17 +497,25 @@ const memoryFetchInflight = new Map<string, Promise<unknown>>();
 const MEMORY_FETCH_TTL_MS = 60_000;
 // Budget in estimated HEAP bytes, not JSON text: a parsed dict/database object
 // takes roughly 3x its text length (string headers, object shapes, hash
-// tables). Counting text let 256 MB of text grow to ~1 GB of heap.
-const MEMORY_FETCH_MAX_BYTES = 512 * 1024 * 1024;
+// tables). 768 MB keeps the old effective capacity (~256 MB of text) but
+// makes the number honest.
+const MEMORY_FETCH_MAX_BYTES = 768 * 1024 * 1024;
 const PARSED_BYTES_PER_CHAR = 3;
 let memoryFetchBytes = 0;
 
-/** Size of the per-process JSON memory cache, for the [pod-health] log line. */
+// Next bundles this module into more than one server layer, each with its own
+// copy of the cache; [pod-health] (imported from instrumentation, yet another
+// copy) sums every registered copy via globalThis.
+const jsonCaches = ((
+  globalThis as { __thglJsonCaches?: Set<() => number> }
+).__thglJsonCaches ??= new Set());
+jsonCaches.add(() => memoryFetchBytes);
+
+/** JSON memory cache size summed over every module copy, for [pod-health]. */
 export function memoryFetchCacheStats() {
-  return {
-    entries: memoryFetchCache.size,
-    mb: Math.round(memoryFetchBytes / 1048576),
-  };
+  let bytes = 0;
+  for (const read of jsonCaches) bytes += read();
+  return { copies: jsonCaches.size, mb: Math.round(bytes / 1048576) };
 }
 
 type MemoryFetchOptions<T> = {
@@ -968,7 +976,7 @@ async function fetchDbTerms(
 // Keyed weakly on the cached inputs: a merge lives exactly as long as both
 // inputs are still in the memory fetch cache. A strong per-game/locale Map kept
 // every evicted dict + terms + merge alive, bypassing the cache's byte budget
-// (IL pods pinned at the V8 heap limit, 2026-10-06 outage).
+// (Infinity Nikki alone: ~10 MB codex dict per locale x 12 locales).
 const dbDictMerges = new WeakMap<
   Record<string, string>,
   WeakMap<Record<string, string>, Record<string, string>>

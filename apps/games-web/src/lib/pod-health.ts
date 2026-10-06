@@ -15,12 +15,12 @@
  *   el                       — event-loop delay (ms). High = CPU/GC-starved pod,
  *                              which ALSO shows up as connect timeouts.
  *   heapMB / rssMB           — memory, for GC pressure.
- *   heapLimitMB              — V8's ceiling. heapMB pinned near it = the pod
- *                              spends its time in GC (the 2026-10-06 outage:
- *                              IL pods at ~2.1 of ~2.2 GB, event loop stalled
- *                              6-11 s, liveness probe restart loop).
- *   extMB                    — off-heap buffers (gzip page cache lives here).
+ *   heapLimitMB              — V8's ceiling (4144 MB in prod; container 32 GB).
  *   gc                       — GC pauses this minute: count, total + max ms.
+ *                              2026-10-06 outage: IL pods at 2+ GB heap, el p99
+ *                              300-500 ms, then 6-11 s stalls and a liveness-
+ *                              probe restart loop.
+ *   extMB / abMB            — off-heap memory / its ArrayBuffer part (gzip page cache, fetch bodies).
  *   cache                    — page cache (cache-handler.cjs) and JSON memory
  *                              cache (@repo/lib) sizes in MB.
  *
@@ -205,6 +205,7 @@ export function startPodHealth() {
 
   setInterval(() => {
     const mem = process.memoryUsage();
+    const json = memoryFetchCacheStats();
     const open = [...openByHost.values()].reduce((a, b) => a + b, 0);
     console.log(
       `[pod-health] ${JSON.stringify({
@@ -220,10 +221,12 @@ export function startPodHealth() {
         heapLimitMB,
         rssMB: Math.round(mem.rss / 1048576),
         extMB: Math.round(mem.external / 1048576),
+        abMB: Math.round(mem.arrayBuffers / 1048576),
         gc: { n: gcCount, ms: Math.round(gcMs), max: Math.round(gcMax) },
         cache: {
           pageMB: pageCacheMB(),
-          jsonMB: memoryFetchCacheStats().mb,
+          jsonMB: json.mb,
+          jsonCopies: json.copies,
         },
       })}`,
     );
