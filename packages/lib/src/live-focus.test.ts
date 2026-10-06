@@ -73,11 +73,25 @@ describe("createLiveFocusTracker", () => {
     expect(setIds.mock.calls).toEqual([[["a"]], [["b"]]]);
   });
 
-  it("clears its focus when a payload lacks the field", () => {
+  it("keeps the focus when a payload lacks the field, and it clears after staleMs", () => {
     const setIds = jest.fn();
     const focus = createLiveFocusTracker(setIds, 1000);
     focus.apply({ focusNodeIds: ["a"] });
-    focus.apply({ collectedNodeIds: ["x"] });
+    jest.advanceTimersByTime(600);
+    focus.apply({ collectedNodeIds: ["x"] }); // does not re-arm the timer
+    expect(setIds.mock.calls).toEqual([[["a"]]]);
+    jest.advanceTimersByTime(300);
+    expect(setIds).toHaveBeenCalledTimes(1);
+    jest.advanceTimersByTime(100);
+    expect(setIds).toHaveBeenLastCalledWith([]);
+    expect(setIds).toHaveBeenCalledTimes(2);
+  });
+
+  it("clears the focus on an explicit empty list", () => {
+    const setIds = jest.fn();
+    const focus = createLiveFocusTracker(setIds, 1000);
+    focus.apply({ focusNodeIds: ["a"] });
+    focus.apply({ focusNodeIds: [] });
     expect(setIds).toHaveBeenLastCalledWith([]);
   });
 

@@ -5,6 +5,7 @@ import {
   collectDoneWhenAllRules,
   dbEntryIdOf,
   getDoneWhenAllVersion,
+  getNodeId,
   getPositionedDiscoverTypes,
   getSpawnDiscoveryId,
   isDoneWhenAll,
@@ -42,11 +43,15 @@ describe("done when all", () => {
       "q_1101010",
       "q_1101020",
     ]);
-    // getSpawnDiscoveryId form, used by the filter counts
-    expect(rules.get("quest_giver@npc_100@1:2")).toEqual([
-      "q_1101010",
-      "q_1101020",
-    ]);
+    // getSpawnDiscoveryId (the filter counts) keeps an "@" id unchanged, so
+    // it addresses the marker by the same key.
+    expect(
+      getSpawnDiscoveryId("quest_giver", {
+        id: "quest_giver@npc_100",
+        p: [1, 2],
+      }),
+    ).toBe("quest_giver@npc_100");
+    expect(rules.has("quest_giver@npc_100@1:2")).toBe(false);
     expect(rules.get("quest_giver@5:6")).toEqual(["q_1101030"]);
     expect(rules.has("quest_giver@npc_200")).toBe(false);
   });
@@ -89,7 +94,15 @@ describe("done when all", () => {
     setDoneWhenAllRules(rules);
     expect(getDoneWhenAllVersion()).toBe(before + 1);
     expect(checkNodeDiscovered("quest_giver@npc_100", lookup)).toBe(true);
-    expect(checkNodeDiscovered("quest_giver@npc_100@1:2", lookup)).toBe(true);
+    expect(
+      checkNodeDiscovered(
+        getSpawnDiscoveryId("quest_giver", {
+          id: "quest_giver@npc_100",
+          p: [1, 2],
+        }),
+        lookup,
+      ),
+    ).toBe(true);
     // Unrelated markers keep their own rules.
     expect(checkNodeDiscovered("quest_giver@npc_200", lookup)).toBe(false);
     // A manual mark of the marker itself still counts.
@@ -141,6 +154,54 @@ describe("getSpawnDiscoveryId", () => {
     expect(getSpawnDiscoveryId("iron_ore", { p: [10.5, -3] })).toBe(
       "iron_ore@10.5:-3",
     );
+  });
+
+  it("keeps a non-coordinate @ id unchanged", () => {
+    expect(
+      getSpawnDiscoveryId("quest_episode_objective", {
+        id: "q_1101010@1101010s1g1",
+        p: [10.5, -3],
+      }),
+    ).toBe("q_1101010@1101010s1g1");
+  });
+
+  it("keeps a coordinate @ id unchanged", () => {
+    expect(
+      getSpawnDiscoveryId("crafting_anvil", {
+        id: "crafting_anvil@123.00:456.00",
+        p: [123, 456],
+      }),
+    ).toBe("crafting_anvil@123.00:456.00");
+  });
+
+  describe("round trip with getNodeId", () => {
+    const type = "quest_episode_objective";
+    const spawns = [
+      { id: "q_1101010@1101010s1g1", p: [10.5, -3] as [number, number] },
+      {
+        id: "crafting_anvil@123.00:456.00",
+        p: [123, 456] as [number, number],
+      },
+      { id: "iron_ore_1", p: [10.5, -3] as [number, number] },
+    ];
+
+    it.each(spawns)("marker id finds the discovery id ($id)", (spawn) => {
+      expect(
+        checkNodeDiscovered(
+          getNodeId({ ...spawn, type }),
+          buildDiscoveryLookup([getSpawnDiscoveryId(type, spawn)]),
+        ),
+      ).toBe(true);
+    });
+
+    it.each(spawns)("discovery id finds the marker id ($id)", (spawn) => {
+      expect(
+        checkNodeDiscovered(
+          getSpawnDiscoveryId(type, spawn),
+          buildDiscoveryLookup([getNodeId({ ...spawn, type })]),
+        ),
+      ).toBe(true);
+    });
   });
 });
 
