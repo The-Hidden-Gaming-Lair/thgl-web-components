@@ -33,7 +33,31 @@ import { resolveDict } from "@/lib/db/resolve-dict";
  * this route falls back to when no written guide has the slug.
  */
 
-type DbRef = { id: string; section: string; count?: number };
+/** `group`: alternatives for ONE ingredient slot (Palia "Any Fish": any one of them). */
+type DbRef = { id: string; section: string; count?: number; group?: string };
+
+/** Options of a grouped slot shown on the card; the rest link to the recipe's codex page. */
+const GROUP_PREVIEW = 4;
+
+/** Ingredient slots: refs sharing a `group` are one slot, every other ref its own. */
+function ingredientSlots(refs: DbRef[]): DbRef[][] {
+  const slots: DbRef[][] = [];
+  const byGroup = new Map<string, DbRef[]>();
+  for (const r of refs) {
+    if (!r.group) {
+      slots.push([r]);
+      continue;
+    }
+    const slot = byGroup.get(r.group);
+    if (slot) slot.push(r);
+    else {
+      const next = [r];
+      byGroup.set(r.group, next);
+      slots.push(next);
+    }
+  }
+  return slots;
+}
 type DbEntry = { id: string; props?: Record<string, unknown> };
 
 const guideUrl = (appConfig: AppConfig, slug: string) =>
@@ -138,16 +162,46 @@ async function RecipeCard({
         )}
       </figcaption>
       <div className="flex flex-wrap items-center gap-2">
-        {ingredients.map((r, i) => (
-          <span key={r.id} className="inline-flex items-center gap-2">
+        {ingredientSlots(ingredients).map((slot, i) => (
+          <span key={slot[0].id} className="inline-flex items-center gap-2">
             {i > 0 && <span className="text-muted-foreground">+</span>}
-            <RefChip
-              r={r}
-              name={name(r.id)}
-              icon={icons[r.id]}
-              appName={appName}
-              iconsHash={iconsHash}
-            />
+            {slot.length === 1 ? (
+              <RefChip
+                r={slot[0]}
+                name={name(slot[0].id)}
+                icon={icons[slot[0].id]}
+                appName={appName}
+                iconsHash={iconsHash}
+              />
+            ) : (
+              <span className="inline-flex flex-wrap items-center gap-1.5 rounded-md border border-dashed px-2 py-1 text-sm">
+                <span className="font-semibold">
+                  {(slot[0].count ?? 1) > 1 ? `${slot[0].count}× ` : ""}
+                  {slot[0].group}
+                </span>
+                <span className="text-muted-foreground">(any one of:</span>
+                {slot.slice(0, GROUP_PREVIEW).map((r) => (
+                  <RefChip
+                    key={r.id}
+                    r={{ ...r, count: undefined }}
+                    name={name(r.id)}
+                    icon={icons[r.id]}
+                    appName={appName}
+                    iconsHash={iconsHash}
+                  />
+                ))}
+                {slot.length > GROUP_PREVIEW ? (
+                  <Link
+                    href={`/db/${block.section}/${encodeURIComponent(block.id)}`}
+                    className="text-muted-foreground underline hover:text-foreground"
+                  >
+                    +{slot.length - GROUP_PREVIEW} more)
+                  </Link>
+                ) : (
+                  <span className="text-muted-foreground">)</span>
+                )}
+              </span>
+            )}
           </span>
         ))}
         <span className="px-1 text-muted-foreground" aria-label="makes">
