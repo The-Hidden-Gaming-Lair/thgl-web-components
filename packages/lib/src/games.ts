@@ -278,8 +278,10 @@ export const games: Array<Game> = [
   },
   {
     // AION 2 (NCSoft). Kernel-driver reads past NCGuard verified live on 2026-10-05 (Steam
-    // build 25719316): position, map name and heading are correct in World_L_Starter. Scope is
-    // the local player position only (Mixed game, fair-play R1/R3).
+    // build 25719316): position, map name and heading are correct in World_L_Starter. Scope:
+    // the local player plus live gathering nodes and monsters on the faction overworld maps,
+    // and collected Empyrean Traces, enforced in the THGLApp detector (Mixed game, fair-play
+    // R1/R2/R3).
     id: "aion2",
     discordId: "aion2",
     title: "AION 2",
