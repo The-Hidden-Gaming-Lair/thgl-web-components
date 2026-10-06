@@ -37,7 +37,7 @@ import { SettingsDialogContent } from "@repo/ui/controls";
 import { DidYouKnowCompanionApp } from "@repo/ui/tips";
 import { AppSurfaceRoot } from "@repo/ui/thgl-app";
 import {
-  getFullDbDictionary,
+  getDbNamesDictionary,
   getStaticDictionary,
   isValidLocale,
 } from "@repo/ui/dicts";
@@ -104,7 +104,7 @@ export function createDbRootLayout(
     }
 
     const [dict, staticDict, version] = await Promise.all([
-      getFullDbDictionary(appConfig.name, locale),
+      getDbNamesDictionary(appConfig.name, locale),
       getStaticDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
     ]);

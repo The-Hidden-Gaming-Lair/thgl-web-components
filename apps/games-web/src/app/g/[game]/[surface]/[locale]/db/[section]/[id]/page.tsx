@@ -5,6 +5,7 @@ import {
   fetchDatabaseIndex,
   fetchDatabaseEntry,
   fetchDatabaseType,
+  fetchDbDescription,
   fetchGuidesIndex,
   fetchVersion,
   guidesForEntry,
@@ -15,7 +16,7 @@ import {
   type TilesConfig,
   DEFAULT_LOCALE,
 } from "@repo/lib";
-import { getFullDbDictionary } from "@repo/ui/dicts";
+import { getDbNamesDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
 import { resolveDict } from "@/lib/db/resolve-dict";
@@ -89,6 +90,25 @@ async function loadEntry(
   return full.items.find((i) => i.id === id);
 }
 
+/**
+ * The entry's description. The names dict (getDbNamesDictionary) leaves codex
+ * descriptions out, so they come from their shard; games that don't split their
+ * codex dict still have them in the dict itself.
+ */
+async function entryDescription(
+  appName: string,
+  locale: string,
+  dict: Record<string, string>,
+  id: string,
+): Promise<string | undefined> {
+  const fromDict = resolveDict(dict, `${id}_desc`);
+  const desc =
+    fromDict !== `${id}_desc`
+      ? fromDict
+      : await fetchDbDescription(appName, locale, id).catch(() => undefined);
+  return desc && desc !== `${id}_desc` && desc !== id ? desc : undefined;
+}
+
 async function resolveSection(section: string, locale: string, id: string) {
   const appConfig = await getAppConfig();
   if (!appConfig.db) notFound();
@@ -115,12 +135,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id, locale = DEFAULT_LOCALE, section } = await params;
   const { appConfig, secCfg } = await resolveSection(section, locale, id);
-  const dict = await getFullDbDictionary(appConfig.name, locale);
+  const dict = await getDbNamesDictionary(appConfig.name, locale);
   const name = resolveDict(dict, id) || id;
   const { singular } = getSectionLabels(appConfig, dict, secCfg, section);
-  const rawDesc = resolveDict(dict, `${id}_desc`);
-  const entryDesc =
-    rawDesc && rawDesc !== `${id}_desc` && rawDesc !== id ? rawDesc : undefined;
+  const entryDesc = await entryDescription(appConfig.name, locale, dict, id);
 
   // Pull the entry's props (cached fetch shared with the page) for a rich,
   // data-driven description. Best-effort — fall back to a simple line.
@@ -203,7 +221,7 @@ export default async function Page({ params }: { params: Params }) {
 
   const [index, dict, version, writtenGuides] = await Promise.all([
     fetchDatabaseIndex(appConfig.name),
-    getFullDbDictionary(appConfig.name, locale),
+    getDbNamesDictionary(appConfig.name, locale),
     fetchVersion(appConfig.name),
     fetchGuidesIndex(appConfig.name),
   ]);
@@ -256,7 +274,7 @@ export default async function Page({ params }: { params: Params }) {
   const tiles = needsTiles ? await getTiles(appConfig.name) : undefined;
 
   const name = resolveDict(dict, id) || id;
-  const desc = resolveDict(dict, `${id}_desc`);
+  const desc = await entryDescription(appConfig.name, locale, dict, id);
   // Crafted items link to their /crafting/<id> recipe page (opt-in tenants).
   const crafting = await loadCrafting(appConfig);
   const hasRecipePage = crafting?.graph.defaults[id] != null;
@@ -275,7 +293,7 @@ export default async function Page({ params }: { params: Params }) {
       ? (item.icon as IconSprite)
       : icons[id];
 
-  const hasDesc = desc && desc !== `${id}_desc` && desc !== id;
+  const hasDesc = Boolean(desc);
   const crumbs = [
     {
       label: translate(dict, "db.database", { fallback: "Database" }),

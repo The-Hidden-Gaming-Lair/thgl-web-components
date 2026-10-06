@@ -1,4 +1,4 @@
-import { Dict, fetchDbDict, fetchDict } from "@repo/lib";
+import { Dict, fetchDbDict, fetchDbNamesDict, fetchDict } from "@repo/lib";
 import "server-only";
 
 // Global dictionary files per locale.
@@ -190,7 +190,7 @@ export async function getAppDictionary(
 ): Promise<Dict> {
   const app = appDictionaries[appName as keyof typeof appDictionaries];
   if (!app) {
-    return {};
+    return EMPTY;
   }
 
   const dictLoader =
@@ -203,8 +203,26 @@ export async function getAppDictionary(
     console.warn(
       `[i18n] Failed to load ${locale} dictionary for ${appName}, falling back to English`,
     );
-    return (await app.en?.()) || {};
+    return (await app.en?.()) || EMPTY;
   }
+}
+
+/**
+ * `{ ...a, ...b }`, memoized on the identity of both inputs. Every render used to
+ * spread the game dict (Infinity Nikki: ~50k keys with the codex terms) into a
+ * fresh object: real CPU per request and a multi-MB allocation for the GC. The
+ * inputs come from module imports and @repo/lib's memory cache, so they stay the
+ * same object until the data changes; the WeakMaps let old merges go with them.
+ * Callers must treat the result as read-only (they all copy before editing).
+ */
+const merges = new WeakMap<Dict, WeakMap<Dict, Dict>>();
+const EMPTY: Dict = {};
+function mergeDicts(a: Dict, b: Dict): Dict {
+  let byB = merges.get(a);
+  if (!byB) merges.set(a, (byB = new WeakMap()));
+  let merged = byB.get(b);
+  if (!merged) byB.set(b, (merged = { ...a, ...b }));
+  return merged;
 }
 
 export async function getStaticDictionary(
@@ -215,10 +233,7 @@ export async function getStaticDictionary(
     getAppDictionary(appName, locale),
     getGlobalDictionary(locale),
   ]);
-  return {
-    ...appDict,
-    ...globalDict,
-  };
+  return mergeDicts(appDict, globalDict);
 }
 
 export async function getFullDictionary(
@@ -229,10 +244,7 @@ export async function getFullDictionary(
     getStaticDictionary(appName, locale),
     fetchDict(appName, locale),
   ]);
-  return {
-    ...staticDict,
-    ...dict,
-  };
+  return mergeDicts(staticDict, dict);
 }
 
 /** getFullDictionary for /db pages — includes the game's split-out codex terms
@@ -245,8 +257,19 @@ export async function getFullDbDictionary(
     getStaticDictionary(appName, locale),
     fetchDbDict(appName, locale),
   ]);
-  return {
-    ...staticDict,
-    ...dict,
-  };
+  return mergeDicts(staticDict, dict);
+}
+
+/** getFullDbDictionary without codex descriptions (see fetchDbNamesDict) — the
+ *  /db layout and detail pages; a detail page reads its own text with
+ *  fetchDbDescription. */
+export async function getDbNamesDictionary(
+  appName: string,
+  locale: string,
+): Promise<Dict> {
+  const [staticDict, dict] = await Promise.all([
+    getStaticDictionary(appName, locale),
+    fetchDbNamesDict(appName, locale),
+  ]);
+  return mergeDicts(staticDict, dict);
 }

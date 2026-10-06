@@ -1019,6 +1019,82 @@ export async function fetchDbDict(
 }
 
 /**
+ * Description shards per locale (`dicts/db/desc/<locale>/<bucket>.json`). MUST
+ * match `DB_DESC_BUCKETS` in data-forge `data-mining/src/lib/dicts.ts`.
+ */
+export const DB_DESC_BUCKETS = 64;
+
+/** Bucket file name of a `<id>_desc` key. Mirror of data-forge's dbDescBucket. */
+export function dbDescBucket(key: string): string {
+  let h = 5381;
+  for (let i = 0; i < key.length; i++) {
+    h = (Math.imul(h, 33) ^ key.charCodeAt(i)) >>> 0;
+  }
+  return (h % DB_DESC_BUCKETS).toString(16).padStart(2, "0");
+}
+
+/** A locale's split-out codex file, falling back to English; null = none published. */
+async function fetchDbSplitFile(
+  appName: string,
+  locale: string,
+  path: (locale: string) => string,
+): Promise<Record<string, string> | null> {
+  for (const loc of locale === "en" ? ["en"] : [locale, "en"]) {
+    const { url, immutable } = await withContentHash(
+      appName,
+      `${DATA_FORGE_CDN_URL}/${appName}/dicts/db/${path(loc)}`,
+    );
+    const file = await fetchJsonWithMemoryCache<Record<string, string> | null>(
+      url,
+      { onNotFound: () => null, immutable },
+    );
+    if (file) return file;
+  }
+  return null;
+}
+
+/**
+ * fetchDbDict WITHOUT the codex descriptions — for the /db hot path (layout +
+ * detail pages). data-forge writes `dicts/db/names/<locale>.json` next to the
+ * full codex dict; descriptions are ~90% of it (Infinity Nikki th: 10.4 MB full
+ * vs 0.95 MB names). Read a description with fetchDbDescription. Games without
+ * a names file (no split, or not regenerated yet) get the full fetchDbDict.
+ */
+export async function fetchDbNamesDict(
+  appName: string,
+  locale: string = "en",
+): Promise<Record<string, string>> {
+  const [dict, names] = await Promise.all([
+    fetchDict(appName, locale),
+    fetchDbSplitFile(appName, locale, (l) => `names/${l}.json`),
+  ]);
+  if (!names) return fetchDbDict(appName, locale);
+  let byNames = dbDictMerges.get(dict);
+  if (!byNames) dbDictMerges.set(dict, (byNames = new WeakMap()));
+  let merged = byNames.get(names);
+  if (!merged) byNames.set(names, (merged = { ...dict, ...names }));
+  return merged;
+}
+
+/**
+ * One codex description (`<id>_desc`) from its shard, for pages built on
+ * fetchDbNamesDict. Undefined when the game has no shards or no such text.
+ */
+export async function fetchDbDescription(
+  appName: string,
+  locale: string,
+  id: string,
+): Promise<string | undefined> {
+  const key = `${id}_desc`;
+  const shard = await fetchDbSplitFile(
+    appName,
+    locale,
+    (l) => `desc/${l}/${dbDescBucket(key)}.json`,
+  );
+  return shard?.[key];
+}
+
+/**
  * Database files go through the memory cache pinned to the content hash, so a
  * crawl across thousands of /db pages costs one CDN fetch per file per server
  * per data update instead of one every minute.
