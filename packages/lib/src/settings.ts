@@ -1625,10 +1625,12 @@ export const useSettingsStore = create(
           applyGameReportedSet: (setName: string, reportedIds: string[]) => {
             const state = get();
             if (!state.autoDiscoverCollected) return;
-            // Read the ownership record from the current PROFILE, not the
-            // flat root: a profile saved before this field existed lacks the
-            // key, and switching to it leaves the previous profile's value at
-            // the root. Missing = not recorded yet → the helper migrates.
+            // Read all three inputs (discoveredNodes, autoDiscoveredNodes and
+            // the gameReportedNodes ownership record) from the current
+            // PROFILE snapshot, not the flat root: a profile saved before a
+            // field existed lacks the key, and switching to it leaves the
+            // previous profile's value at the root. Missing = not recorded
+            // yet → empty for the node lists; the helper migrates the record.
             const profile = state.profiles.find(
               (p) => p.id === state.currentProfileId,
             );
@@ -1636,8 +1638,12 @@ export const useSettingsStore = create(
             const { update, misses } = diffGameReportedSet({
               setName,
               reportedIds,
-              discoveredNodes: state.discoveredNodes,
-              autoDiscoveredNodes: state.autoDiscoveredNodes,
+              discoveredNodes: profile
+                ? (profile.settings.discoveredNodes ?? [])
+                : state.discoveredNodes,
+              autoDiscoveredNodes: profile
+                ? (profile.settings.autoDiscoveredNodes ?? [])
+                : state.autoDiscoveredNodes,
               gameReportedNodes: profile
                 ? profile.settings.gameReportedNodes
                 : state.gameReportedNodes,
