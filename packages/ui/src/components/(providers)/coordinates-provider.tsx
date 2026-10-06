@@ -36,7 +36,9 @@ import {
   MIN_SEARCH_QUERY_LENGTH,
   type InGameCoordinates,
   buildPrivateIconLookups,
+  collectDoneWhenAllRules,
   resolvePrivateIcon,
+  setDoneWhenAllRules,
   type TilesConfig,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
@@ -384,6 +386,14 @@ export function CoordinatesProvider({
         : rawStaticNodes,
     [rawStaticNodes, staticNodesTransform],
   );
+
+  // Markers that count as discovered when every id in `data.doneWhenAll` is
+  // (coordinates.ts). Registered during render, before the children's
+  // discovered checks run; client only, the rules are module state.
+  useMemo(() => {
+    if (typeof window === "undefined") return;
+    setDoneWhenAllRules(collectDoneWhenAllRules(staticNodes));
+  }, [staticNodes]);
 
   const {
     data: publicSearchSpawnsByKeyword,
@@ -811,24 +821,30 @@ export function CoordinatesProvider({
       const newSpawns: Spawn[] = [];
       const spawnsByCoordinate = new Map<string, Spawn>();
       const selectedNodeId = state.selectedNodeId;
+      // Focused markers (live data, e.g. open quest objectives) show even when
+      // their filter is off, like the selected marker.
+      const highlightIds = useGameState.getState().highlightSpawnIDs;
+      const highlighted =
+        highlightIds.length > 0 ? new Set(highlightIds) : null;
 
       currentNodes.forEach((node) => {
         if (node.mapName && node.mapName !== state.mapName) return;
         const isFilterActive = state.filters.includes(node.type);
 
-        // Filter off but a spawn in this node is selected: include just that one.
-        if (!isFilterActive && selectedNodeId) {
-          const selectedSpawnData = node.spawns.find((s) => {
+        // Filter off but a spawn in this node is selected or focused: include
+        // just those.
+        if (!isFilterActive && (selectedNodeId || highlighted)) {
+          for (const s of node.spawns) {
             const sid = s.id ?? node.type;
             const nodeId = sid.includes("@")
               ? sid
               : `${sid}@${s.p[0]}:${s.p[1]}`;
-            return nodeId === selectedNodeId;
-          });
-          if (selectedSpawnData) {
+            if (nodeId !== selectedNodeId && !highlighted?.has(nodeId)) {
+              continue;
+            }
             const spawn = {
-              ...selectedSpawnData,
-              id: selectedSpawnData.id ?? node.type,
+              ...s,
+              id: sid,
               mapName: node.mapName,
               type: node.type,
             } as Spawn;
@@ -839,6 +855,8 @@ export function CoordinatesProvider({
               spawnsByCoordinate.get(key)!.cluster!.push(spawn);
             }
             newSpawns.push(spawn);
+            // Only the selected marker: the first match, as before.
+            if (!highlighted) break;
           }
           return;
         }
@@ -967,6 +985,13 @@ export function CoordinatesProvider({
       ),
       userStore.subscribe(
         (s) => s.selectedNodeId,
+        () => refreshMapSpawns(userStore.getState()),
+      ),
+      // Focused markers bypass the filters (processNodes). The store keeps the
+      // array reference while the ids stay the same, so a repeated live payload
+      // does not rebuild the marker layer.
+      useGameState.subscribe(
+        (s) => s.highlightSpawnIDs,
         () => refreshMapSpawns(userStore.getState()),
       ),
     ];
