@@ -49,10 +49,13 @@ export const replaceHighlightIds = (
 
 /**
  * Applies the focus of each `characterData` payload through `setIds`:
- * - payload with `focusNodeIds` → replace the set, (re)arm the stale timer;
- * - payload without it → clear the set, but only if live focus set it, so a
- *   game that never sends focus does not wipe highlights from elsewhere;
- * - no payload with focus for `staleMs` → clear (game closed / app gone).
+ * - payload with `focusNodeIds` → replace the set (an explicit `[]` clears
+ *   it), (re)arm the stale timer;
+ * - payload without it → keep the current focus and leave the timer running
+ *   (AION 2 leaves the field out when one quest-log read fails; that is no
+ *   "no open quests"), and never touch highlights set from elsewhere;
+ * - no payload with focus for `staleMs` → clear, but only if live focus set
+ *   it (game closed / app gone).
  */
 export const createLiveFocusTracker = (
   setIds: (ids: string[]) => void,
@@ -75,10 +78,9 @@ export const createLiveFocusTracker = (
   return {
     apply(payload: unknown) {
       const focus = readFocusNodeIds(payload);
-      if (focus === null) {
-        clear();
-        return;
-      }
+      // No field: keep the focus; only the stale timer (armed by payloads
+      // that carry the field) drops it.
+      if (focus === null) return;
       if (timer !== null) clearTimeout(timer);
       active = true;
       setIds(focus);

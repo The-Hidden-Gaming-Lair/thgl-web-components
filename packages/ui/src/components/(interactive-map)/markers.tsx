@@ -1108,6 +1108,13 @@ function MarkersContent({
       latLng: [number, number];
     }>(100);
 
+    // Node id of a stack member (same rule for the discovered and the
+    // highlight check).
+    const clusterNodeId = (a: NonNullable<Spawn["cluster"]>[number]) =>
+      a.id?.includes("@") ? a.id : `${a.id || a.type}@${a.p[0]}:${a.p[1]}`;
+    // Built once per rebuild, not per spawn: live focus can hold many ids.
+    const highlightSet = new Set(highlightSpawnIDs);
+
     const handleSpawn = (spawn: Spawn) => {
       if (spawn.mapName && spawn.mapName !== map.mapName) {
         return;
@@ -1123,13 +1130,7 @@ function MarkersContent({
       if (isStacked && isDiscovered) {
         if (
           spawn.cluster!.some(
-            (a) =>
-              !checkNodeDiscovered(
-                a.id?.includes("@")
-                  ? a.id
-                  : `${a.id || a.type}@${a.p[0]}:${a.p[1]}`,
-                discoveryLookup,
-              ),
+            (a) => !checkNodeDiscovered(clusterNodeId(a), discoveryLookup),
           )
         ) {
           isDiscovered = false;
@@ -1145,8 +1146,13 @@ function MarkersContent({
       );
       newSpawnMap.set(id, spawn);
 
+      // A stack is highlighted when any of its members is (a focused quest
+      // objective can sit in a stack with other markers).
       const isHighlighted =
-        highlightSpawnIDs.includes(nodeId) || selectedNodeId === nodeId;
+        highlightSet.has(nodeId) ||
+        selectedNodeId === nodeId ||
+        (isStacked &&
+          spawn.cluster!.some((a) => highlightSet.has(clusterNodeId(a))));
 
       const icon = icons.get(spawn.type);
       const iconBaseSize = icon?.size ?? 1;
