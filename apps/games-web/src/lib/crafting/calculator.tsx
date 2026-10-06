@@ -36,6 +36,7 @@ import {
 } from "@repo/lib";
 import { Button } from "@repo/ui/controls";
 import type { CraftItemInfo } from "./data";
+import { PricePanel, PriceTag, useCraftPrices } from "./prices";
 import {
   CraftTree,
   ItemLabel,
@@ -113,10 +114,13 @@ export function CraftingCalculator({
   labels,
   appName,
   locale,
+  market,
 }: {
   labels: Record<string, string>;
   appName: string;
   locale: string;
+  /** Live market prices (tenant `craftingMarket`). */
+  market?: "aodp";
 }) {
   const t = craftT(labels);
   const [payload, setPayload] = useState<Payload | null>(null);
@@ -301,6 +305,16 @@ export function CraftingCalculator({
     return [...totals];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [plan, buy, payload]);
+
+  const rawIds = useMemo(() => plan?.raw.map((l) => l.id) ?? [], [plan]);
+  const targetIds = useMemo(() => targets.map((x) => x.id), [targets]);
+  const prices = useCraftPrices({
+    game: appName,
+    market,
+    infos,
+    buyIds: rawIds,
+    sellIds: targetIds,
+  });
 
   if (error) {
     return <p className="text-sm text-red-400">{t("loadError")}</p>;
@@ -659,6 +673,15 @@ export function CraftingCalculator({
                   />
                 </span>
                 {recipePicker(x.id, false)}
+                {prices && (
+                  <PriceTag
+                    price={prices.sell(x.id)}
+                    qty={x.qty}
+                    prices={prices}
+                    labels={labels}
+                    locale={locale}
+                  />
+                )}
                 <button
                   type="button"
                   aria-label={t("remove")}
@@ -717,6 +740,15 @@ export function CraftingCalculator({
                         !buy.includes(l.id) &&
                         recipePicker(l.id, true)}
                       {stockInput(l.id)}
+                      {prices && (
+                        <PriceTag
+                          price={prices.buy(l.id)}
+                          qty={l.qty}
+                          prices={prices}
+                          labels={labels}
+                          locale={locale}
+                        />
+                      )}
                       {infos[l.id]?.sellers && (
                         <span className="flex w-full flex-wrap items-center gap-2 pl-[4.75rem]">
                           <SellerChips
@@ -743,6 +775,16 @@ export function CraftingCalculator({
                   </p>
                 )}
               </div>
+              {prices && (
+                <PricePanel
+                  prices={prices}
+                  raw={plan.raw}
+                  targets={targets}
+                  name={name}
+                  labels={labels}
+                  locale={locale}
+                />
+              )}
               {plan.fromStock.length > 0 && (
                 <div>
                   <h3 className="mb-1 text-sm font-semibold">

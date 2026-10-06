@@ -1,5 +1,6 @@
 export * from "./account";
 export * from "./account-gate";
+export * from "./aodp";
 export * from "./changelog";
 export * from "./cbor";
 export * from "./config";

@@ -104,6 +104,7 @@ export default async function Page({ params }: PageProps) {
               labels={craftingLabels(dict)}
               appName={appConfig.name}
               locale={locale}
+              market={appConfig.craftingMarket}
             />
             <section className="space-y-2">
               <h2 className="text-lg font-semibold">
