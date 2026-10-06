@@ -43,6 +43,8 @@ export type CraftItemInfo = {
   map?: string;
   /** Shops selling it (codex `soldBy`): name, codex path, price label. */
   sellers?: { name: string; db?: string; price?: string }[];
+  /** What one unit sells for at a vendor (codex `Sell Price`). */
+  sell?: number;
 };
 
 /**
@@ -107,6 +109,7 @@ export function craftItemInfos(
       db: slug ? `/db/${slug}/${encodeURIComponent(id)}` : undefined,
       map,
       ...(sellers?.length ? { sellers } : {}),
+      ...(data.sellPrices[id] ? { sell: data.sellPrices[id] } : {}),
     };
   }
   return out;

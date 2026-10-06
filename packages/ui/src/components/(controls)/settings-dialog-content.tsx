@@ -243,6 +243,26 @@ export function SettingsDialogContent({
                 onCheckedChange={settingsStore.setAutoResetRespawned}
               />
             </div>
+            <div className="flex items-center justify-between">
+              <div className="pr-2">
+                <Label htmlFor="flash-despawning-nodes">
+                  {t("settings.flashDespawningNodes", {
+                    fallback: "Flash nodes that are about to despawn",
+                  })}
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  {t("settings.flashDespawningNodes.description", {
+                    fallback:
+                      "When the in-game app sees a node's despawn countdown (e.g. Palia ore and forage), its marker flashes like it does in the game: slowly in the last 30 seconds, faster in the last 10.",
+                  })}
+                </p>
+              </div>
+              <Switch
+                id="flash-despawning-nodes"
+                checked={settingsStore.flashDespawningNodes}
+                onCheckedChange={settingsStore.setFlashDespawningNodes}
+              />
+            </div>
           </Section>
 
           {/* My Filters */}

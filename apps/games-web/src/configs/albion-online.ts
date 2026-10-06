@@ -21,6 +21,8 @@ export const albionOnline = resolveAppConfig({
   ],
   appUrl: null,
   withoutLiveMode: true,
+  // Market prices in the crafting calculator (Albion Online Data Project).
+  craftingMarket: "aodp",
   // No manual "/maps/..." internalLinks — the home page auto-generates the map
   // cards from version.data.tiles. The links below point at the database.
   internalLinks: [

@@ -147,6 +147,35 @@ export function craftingSellers(
   return out;
 }
 
+/**
+ * Static vendor sell-price props (data-forge writes "Sell Price"; Duet Night
+ * Abyss "Sell Value"). Only these: a bare "Price" / "Value" is a shop price in
+ * some games and an internal score in others.
+ */
+const SELL_PRICE_PROPS = ["Sell Price", "Sell Value"] as const;
+
+/** Item id → what one unit sells for (a numeric sell-price prop). */
+export function craftingSellPrices(
+  categories: DatabaseConfig,
+  graph: CraftingGraph,
+): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const cat of categories) {
+    for (const item of cat.items) {
+      if (graph.sectionOf[item.id] === undefined) continue;
+      const props = item.props as Record<string, unknown> | undefined;
+      for (const k of SELL_PRICE_PROPS) {
+        const v = props?.[k];
+        if (typeof v === "number" && Number.isFinite(v) && v > 0) {
+          out[item.id] = v;
+          break;
+        }
+      }
+    }
+  }
+  return out;
+}
+
 /** "1,200 Fishing Medals" → `{ amount: 1200, currency: "Fishing Medals" }`. */
 export function parsePrice(
   label: string | undefined,
@@ -165,6 +194,8 @@ export type CraftingData = {
   graph: CraftingGraph;
   /** Item id → shops selling it (codex `soldBy`), for buy-or-gather. */
   sellers: Record<string, CraftSeller[]>;
+  /** Item id → static vendor sell price (`Sell Price` prop), if any. */
+  sellPrices: Record<string, number>;
   /** The database index (names come from the dict, icons from here). */
   index: DatabaseConfig;
   /** Map filter types with spawns for an entry (`section/id` → type ids). */
@@ -241,6 +272,7 @@ async function load(appName: string): Promise<CraftingData> {
   const source = slimCraftingSource(loaded);
   const graph = buildCraftingGraph(source);
   const sellers = craftingSellers(loaded, graph);
+  const sellPrices = craftingSellPrices(loaded, graph);
   // Map spawns are only for "show on map" links — NOT a gather default:
   // placed structures, wrecks and loot crates are map markers too.
   const mapTypes = craftingMapTypes(
@@ -249,7 +281,7 @@ async function load(appName: string): Promise<CraftingData> {
     version?.counts?.byType,
     enDict,
   );
-  return { source, graph, sellers, index, mapTypes };
+  return { source, graph, sellers, sellPrices, index, mapTypes };
 }
 
 /**

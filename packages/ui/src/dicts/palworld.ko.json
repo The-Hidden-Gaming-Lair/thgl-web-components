@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "예: 2504",
   "iv.note.attack": "공격은 상태 화면의 수치(원거리 공격)입니다. IV는 0~100이며 1포인트마다 능력치가 0.3% 오릅니다.",
   "iv.note.buffs": "음식, 파트너 스킬, 속성 버프 없이 팰 박스나 파티에 있는 팰의 능력치를 확인하세요.",
-  "iv.build": "게임 데이터: 빌드 {{build}}"
+  "iv.build": "게임 데이터: 빌드 {{build}}",
+  "catchBonus.title": "포획 보너스",
+  "catchBonus.onlyIncomplete": "5회 미만으로 포획한 팰만",
+  "catchBonus.badges": "팰 아이콘에 포획 횟수 표시 (x/5)",
+  "catchBonus.needsApp": "컴패니언 앱을 실행한 채로 팰월드를 한 번 플레이하면 각 팰의 포획 횟수를 읽어옵니다.",
+  "catchBonus.summary": "마지막 게임 세션 기준: {{count}}종의 팰을 5회 이상 포획했습니다."
 }

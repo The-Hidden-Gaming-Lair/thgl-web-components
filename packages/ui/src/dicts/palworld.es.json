@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "p. ej. 2504",
   "iv.note.attack": "El ataque es el valor de la pantalla de estado (ataque a distancia). Los IV van de 0 a 100; cada punto suma un 0,3 % a la estadística.",
   "iv.note.buffs": "Mira las estadísticas en el Palbox o con el Pal en tu equipo, sin bonificaciones de comida, habilidad de compañero ni elemento.",
-  "iv.build": "Datos del juego: build {{build}}"
+  "iv.build": "Datos del juego: build {{build}}",
+  "catchBonus.title": "Bonificación de captura",
+  "catchBonus.onlyIncomplete": "Solo Pals capturados menos de 5 veces",
+  "catchBonus.badges": "Mostrar capturas en los iconos de Pals (x/5)",
+  "catchBonus.needsApp": "Juega a Palworld una vez con la Companion App abierta y leerá cuántas veces capturaste cada Pal.",
+  "catchBonus.summary": "De tu última sesión: {{count}} Pals capturados 5 veces o más."
 }

@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "e.g. 2504",
   "iv.note.attack": "Attack is the value on the status screen (shot attack). IVs go from 0 to 100; each point adds 0.3% to the stat.",
   "iv.note.buffs": "Read the stats in the Palbox or with the Pal in your party, without food, partner-skill or element buffs.",
-  "iv.build": "Game data: build {{build}}"
+  "iv.build": "Game data: build {{build}}",
+  "catchBonus.title": "Catch bonus",
+  "catchBonus.onlyIncomplete": "Only Pals caught fewer than 5 times",
+  "catchBonus.badges": "Show catches on Pal icons (x/5)",
+  "catchBonus.needsApp": "Play Palworld with the Companion App running once, and it reads how often you caught each Pal.",
+  "catchBonus.summary": "Pals caught 5 times or more (last game session): {{count}}"
 }

@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "z. B. 2504",
   "iv.note.attack": "Angriff ist der Wert im Statusbildschirm (Fernangriff). IVs gehen von 0 bis 100; jeder Punkt erhöht den Wert um 0,3 %.",
   "iv.note.buffs": "Lies die Werte in der Palbox oder mit dem Pal im Team ab, ohne Essens-, Partnerfähigkeits- oder Element-Boni.",
-  "iv.build": "Spieldaten: Build {{build}}"
+  "iv.build": "Spieldaten: Build {{build}}",
+  "catchBonus.title": "Fangbonus",
+  "catchBonus.onlyIncomplete": "Nur Pals, die weniger als 5-mal gefangen wurden",
+  "catchBonus.badges": "Fänge auf Pal-Icons anzeigen (x/5)",
+  "catchBonus.needsApp": "Spiele Palworld einmal mit laufender Companion App, dann liest sie aus, wie oft du jeden Pal gefangen hast.",
+  "catchBonus.summary": "Aus deiner letzten Spielsitzung: {{count}} Pals mindestens 5-mal gefangen."
 }

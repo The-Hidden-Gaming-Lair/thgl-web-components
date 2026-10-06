@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "örn. 2504",
   "iv.note.attack": "Saldırı, durum ekranındaki değerdir (uzaktan saldırı). IV'ler 0 ile 100 arasındadır; her puan değere %0,3 ekler.",
   "iv.note.buffs": "Değerleri Palbox'ta ya da Pal ekibindeyken, yemek, partner yeteneği veya element bonusları olmadan oku.",
-  "iv.build": "Oyun verisi: sürüm {{build}}"
+  "iv.build": "Oyun verisi: sürüm {{build}}",
+  "catchBonus.title": "Yakalama bonusu",
+  "catchBonus.onlyIncomplete": "Sadece 5 kereden az yakalanan Pal'ler",
+  "catchBonus.badges": "Pal simgelerinde yakalamaları göster (x/5)",
+  "catchBonus.needsApp": "Companion App açıkken Palworld'ü bir kez oyna, her Pal'i kaç kez yakaladığını okusun.",
+  "catchBonus.summary": "Son oyun oturumundan: {{count}} Pal 5 veya daha fazla kez yakalandı."
 }

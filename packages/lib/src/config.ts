@@ -78,6 +78,11 @@ export type AppConfig = {
   /** Featured filter IDs to highlight on the home page. If not set, first filters are shown. */
   topFilters?: string[];
   /**
+   * Live market prices in the crafting calculator. `"aodp"` = the Albion
+   * Online Data Project's crowd-sourced price API (Albion only).
+   */
+  craftingMarket?: "aodp";
+  /**
    * Database-mode settings. When set, the app renders as a DB site
    * (custom landing page with entity counts, header search instead of
    * settings) rather than a map site. Used by homm-olden-era and

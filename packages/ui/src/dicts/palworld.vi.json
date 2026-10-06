@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "vd. 2504",
   "iv.note.attack": "Tấn công là giá trị trên màn hình trạng thái (tấn công tầm xa). IV từ 0 đến 100; mỗi điểm cộng 0,3% vào chỉ số.",
   "iv.note.buffs": "Xem chỉ số trong Palbox hoặc khi Pal ở trong đội, không có buff từ đồ ăn, kỹ năng đồng hành hay nguyên tố.",
-  "iv.build": "Dữ liệu game: bản {{build}}"
+  "iv.build": "Dữ liệu game: bản {{build}}",
+  "catchBonus.title": "Thưởng bắt",
+  "catchBonus.onlyIncomplete": "Chỉ Pal bắt được ít hơn 5 lần",
+  "catchBonus.badges": "Hiện số lần bắt trên biểu tượng Pal (x/5)",
+  "catchBonus.needsApp": "Chơi Palworld một lần khi Companion App đang chạy, ứng dụng sẽ đọc số lần bạn đã bắt mỗi Pal.",
+  "catchBonus.summary": "Từ phiên chơi gần nhất: {{count}} Pal đã bắt 5 lần trở lên."
 }

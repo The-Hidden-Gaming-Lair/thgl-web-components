@@ -36,8 +36,12 @@ import {
   buildPrivateIconLookups,
   resolvePrivateIcon,
   dbEntryIdOf,
+  normalizePalCaptureCounts,
+  palCaughtCount,
+  PAL_CAPTURE_BONUS_MAX,
 } from "@repo/lib";
 import { useShallow } from "zustand/react/shallow";
+import { shallow } from "zustand/shallow";
 import {
   DrawingLayer,
   IconMarkerLayer,
@@ -499,8 +503,14 @@ function MarkersContent({
     tempPrivateNodeId,
     labelModeByFilter,
     labelTextSize,
+    palCaptureBadges,
+    palCaptureOnlyIncomplete,
+    palCaptureCounts,
   } = useSettingsStore(
     useShallow((state) => ({
+      palCaptureBadges: state.palCaptureBadges,
+      palCaptureOnlyIncomplete: state.palCaptureOnlyIncomplete,
+      palCaptureCounts: state.palCaptureCounts,
       hideDiscoveredNodes: state.hideDiscoveredNodes,
       discoveredNodes: state.discoveredNodes,
       setDiscoverNode: state.setDiscoverNode,
@@ -1098,6 +1108,7 @@ function MarkersContent({
     // except for copies flagged `offLayer` (a marker the game shows on every floor
     // of an area, plotted on a floor that is not its own — Nikki checkpoints).
     const onLayerMap = !!tilesConfig[map.mapName]?.layer?.parent;
+    const palCounts = normalizePalCaptureCounts(palCaptureCounts);
     const markerInstances: IconMarkerInstance[] = [];
     const newSpawnMap = new Map<string, Spawn>();
     // Track raw Z values for height visualization without player
@@ -1138,6 +1149,21 @@ function MarkersContent({
       }
 
       if (isDiscovered && hideDiscoveredNodes) {
+        return;
+      }
+
+      // Palworld catch bonus (inbox #112): hide species caught 5 times when the
+      // filter is on, badge the rest with "x/5".
+      const caught = palCaughtCount(
+        spawn.type,
+        typeToGroup.get(spawn.type),
+        palCounts,
+      );
+      if (
+        caught !== null &&
+        caught >= PAL_CAPTURE_BONUS_MAX &&
+        palCaptureOnlyIncomplete
+      ) {
         return;
       }
 
@@ -1417,6 +1443,10 @@ function MarkersContent({
         // Show a layer badge on the overworld for spawns that live inside a
         // layered interior (they are also mirrored into the "Underground" map).
         layered: !!spawn.layer && (!onLayerMap || !!spawn.offLayer),
+        captureCount:
+          palCaptureBadges && caught !== null && caught < PAL_CAPTURE_BONUS_MAX
+            ? caught
+            : undefined,
         spiderOffsetX,
         spiderOffsetY,
       };
@@ -1937,6 +1967,9 @@ function MarkersContent({
     spawns,
     sharedMyFilters,
     hideDiscoveredNodes,
+    palCaptureBadges,
+    palCaptureOnlyIncomplete,
+    palCaptureCounts,
     discoveryLookup,
     tempPrivateNodeId,
     selectedNodeId,
@@ -2092,7 +2125,21 @@ function MarkersContent({
       if (changed) map.requestRedraw();
     };
 
+    // Despawn-warning blink (actor.despawnAt): the game flashes a node for its last
+    // 30 s, faster for the last 10 s. Nothing else changes while a node counts down,
+    // so the pass re-runs itself on a timer while any countdown is running or due.
+    let despawnTimer: ReturnType<typeof setTimeout> | null = null;
+    const DESPAWN_WARN_MS = 30_000;
+    const DESPAWN_FAST_MS = 10_000;
+    // A node still in memory this long after its despawn time is a stale copy the
+    // game no longer shows: stop blinking, keep it faded.
+    const DESPAWN_STALE_MS = 30_000;
+
     const processActors = () => {
+      if (despawnTimer) {
+        clearTimeout(despawnTimer);
+        despawnTimer = null;
+      }
       const actorsList = useGameState.getState().actors || [];
       const userState = userStoreApi.getState();
       const settingsState = useSettingsStore.getState();
@@ -2250,6 +2297,11 @@ function MarkersContent({
       const iconSizeByGroupNow = settingsState.iconSizeByGroup;
       const iconSizeByFilterNow = settingsState.iconSizeByFilter;
       const hideDiscoveredNow = settingsState.hideDiscoveredNodes;
+      const palCountsNow = normalizePalCaptureCounts(
+        settingsState.palCaptureCounts,
+      );
+      const palBadgesNow = settingsState.palCaptureBadges;
+      const palOnlyIncompleteNow = settingsState.palCaptureOnlyIncomplete;
       const setDiscoverNodeFn = settingsState.setDiscoverNode;
       const playerNow = useGameState.getState().player;
 
@@ -2420,6 +2472,10 @@ function MarkersContent({
       // (e.g. two pickups <1 unit apart) each suppress their own marker, not a neighbour's.
       const liveConfirmRadius = markerOptions.liveConfirmRadius ?? 0;
       const suppressStatic = new Set<string>();
+      const flashDespawningNow = settingsState.flashDespawningNodes;
+      const nowMs = Date.now();
+      // Earliest moment the pass must re-run for a despawn blink (Infinity = never).
+      let nextDespawnTick = Infinity;
 
       for (const unit of units) {
         const { id, displayType, members } = unit;
@@ -2470,6 +2526,23 @@ function MarkersContent({
         // takes the marker off the layer. (If we added to seen first, the
         // marker would stay rendered with stale state.)
         if (isDiscoveredFlag && hideDiscoveredNow) continue;
+        // Palworld catch bonus (inbox #112), same as the static pipeline.
+        const caught = palCaughtCount(
+          displayType,
+          typeToGroup.get(displayType),
+          palCountsNow,
+        );
+        if (
+          caught !== null &&
+          caught >= PAL_CAPTURE_BONUS_MAX &&
+          palOnlyIncompleteNow
+        ) {
+          continue;
+        }
+        const captureCount =
+          palBadgesNow && caught !== null && caught < PAL_CAPTURE_BONUS_MAX
+            ? caught
+            : undefined;
         seen.add(id);
 
         const toSpawn = (a: LiveActor): Spawn => ({
@@ -2493,9 +2566,34 @@ function MarkersContent({
         const newIsSelected = selectedNodeIdNow === nodeId;
         // While a search result is selected, actors of other types fade like
         // predicted spawns in combined mode — only the selection stays full.
-        const liveMuted =
+        let liveMuted =
           selectedSearchType !== undefined &&
           displayType !== selectedSearchType;
+        if (flashDespawningNow) {
+          // A stack despawns with its first member.
+          let despawnAt = Infinity;
+          for (const a of members) {
+            if (a.despawnAt && a.despawnAt < despawnAt) despawnAt = a.despawnAt;
+          }
+          if (despawnAt !== Infinity) {
+            const remaining = despawnAt - nowMs;
+            if (remaining < -DESPAWN_STALE_MS) {
+              liveMuted = true;
+            } else if (remaining <= DESPAWN_WARN_MS) {
+              const period = remaining <= DESPAWN_FAST_MS ? 250 : 500;
+              if (Math.floor(nowMs / period) % 2 === 1) liveMuted = true;
+              nextDespawnTick = Math.min(
+                nextDespawnTick,
+                (Math.floor(nowMs / period) + 1) * period,
+              );
+            } else {
+              nextDespawnTick = Math.min(
+                nextDespawnTick,
+                despawnAt - DESPAWN_WARN_MS,
+              );
+            }
+          }
+        }
 
         const { zPos, zValue } = computeRelativeZPos(
           spawn.p[2],
@@ -2528,6 +2626,7 @@ function MarkersContent({
             (existing.spiderOffsetY ?? 0) !== unit.spiderOffsetY ||
             (existing.zPos ?? null) !== zPos ||
             existing.z !== zValue ||
+            existing.captureCount !== captureCount ||
             existing.size !== size;
           if (posChanged || flagsChanged) {
             liveMarkerLayer.updateMarker(id, {
@@ -2542,6 +2641,7 @@ function MarkersContent({
               spiderOffsetY: unit.spiderOffsetY,
               z: zValue,
               zPos,
+              captureCount,
             });
             dirty = true;
           }
@@ -2615,6 +2715,7 @@ function MarkersContent({
           keepUpright: true,
           z: zValue,
           zPos,
+          captureCount,
         };
         liveMarkerLayer.add(instance);
 
@@ -2686,6 +2787,13 @@ function MarkersContent({
         ...newSpawns,
       ]);
       if (dirty) map.requestRedraw();
+
+      if (nextDespawnTick !== Infinity) {
+        despawnTimer = setTimeout(
+          processActors,
+          Math.max(16, nextDespawnTick - Date.now()),
+        );
+      }
     };
 
     // Subscribe ONLY to the state that genuinely affects what live markers
@@ -2759,6 +2867,20 @@ function MarkersContent({
       (s) => s.iconSizeByFilter,
       processActors,
     );
+    const unsubFlashDespawning = useSettingsStore.subscribe(
+      (s) => s.flashDespawningNodes,
+      processActors,
+    );
+    const unsubPalCapture = useSettingsStore.subscribe(
+      (s) =>
+        [
+          s.palCaptureBadges,
+          s.palCaptureOnlyIncomplete,
+          s.palCaptureCounts,
+        ] as const,
+      processActors,
+      { equalityFn: shallow },
+    );
     // Expose for the static rebuild to re-apply live suppression immediately (see liveReprocessRef).
     liveReprocessRef.current = processActors;
 
@@ -2781,6 +2903,9 @@ function MarkersContent({
       unsubBaseIconSize();
       unsubIconSizeByGroup();
       unsubIconSizeByFilter();
+      unsubFlashDespawning();
+      unsubPalCapture();
+      if (despawnTimer) clearTimeout(despawnTimer);
       const ids = Array.from(liveSpawnMapRef.current.keys());
       for (const id of ids) liveMarkerLayer.unregisterAllEventHandlers(id);
       if (ids.length > 0) liveMarkerLayer.removeMany(ids);

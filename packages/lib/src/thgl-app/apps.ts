@@ -1,6 +1,7 @@
 import { useGameState } from "../game";
 import { createLiveFocusTracker } from "../live-focus";
 import type { Actor } from "../overwolf/plugin";
+import { rememberPalCaptureCounts } from "../pal-capture";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
 import { useLiveState, useTHGLAppState } from "./states";
@@ -246,6 +247,7 @@ function actorsChanged(
     y: number;
     z: number;
     hidden?: boolean;
+    despawnAt?: number;
   }[],
   next: {
     address: number;
@@ -253,6 +255,7 @@ function actorsChanged(
     y: number;
     z: number;
     hidden?: boolean;
+    despawnAt?: number;
   }[],
 ): boolean {
   if (prev.length !== next.length) return true;
@@ -264,7 +267,8 @@ function actorsChanged(
       a.x !== b.x ||
       a.y !== b.y ||
       a.z !== b.z ||
-      a.hidden !== b.hidden
+      a.hidden !== b.hidden ||
+      a.despawnAt !== b.despawnAt
     ) {
       return true;
     }
@@ -372,6 +376,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               // Markers to focus (AION 2: open quest objectives), see live-focus.ts.
               liveFocus.apply(message.payload);
               gameState.setCharacter(message.payload);
+              rememberPalCaptureCounts(message.payload);
               // Named sets of collected nodes, each the COMPLETE list for the
               // character being played (AION 2 "empyrean_traces"): a present key
               // replaces that set, so the marks follow the character; an absent

@@ -93,5 +93,10 @@
   "iv.valuePlaceholder": "例如 2504",
   "iv.note.attack": "攻擊是狀態畫面上的數值（遠程攻擊）。個體值範圍為 0 到 100，每點使能力值提高 0.3%。",
   "iv.note.buffs": "請在帕魯終端或帕魯在隊伍中時查看能力值，不要計入食物、夥伴技能或屬性加成。",
-  "iv.build": "遊戲資料：版本 {{build}}"
+  "iv.build": "遊戲資料：版本 {{build}}",
+  "catchBonus.title": "捕獲獎勵",
+  "catchBonus.onlyIncomplete": "僅顯示捕獲少於 5 次的帕魯",
+  "catchBonus.badges": "在帕魯圖示上顯示捕獲次數 (x/5)",
+  "catchBonus.needsApp": "執行 Companion App 玩一次幻獸帕魯，它會讀取你捕獲每種帕魯的次數。",
+  "catchBonus.summary": "來自你上次的遊戲：{{count}} 種帕魯已捕獲 5 次或以上。"
 }

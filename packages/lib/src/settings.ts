@@ -313,6 +313,10 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   gameReportedNodes: {},
   autoDiscoverCollected: true,
   autoResetRespawned: true,
+  flashDespawningNodes: true,
+  palCaptureBadges: true,
+  palCaptureOnlyIncomplete: false,
+  palCaptureCounts: null,
   actorsPollingRate: 100,
   showTraceLine: true,
   followPlayer: true,
@@ -479,6 +483,15 @@ export type ProfileSettings = {
   // Undiscover a respawning node (ore, trees, forage — not one-time finds like
   // chests) when the live app sees it spawn again at a discovered spot.
   autoResetRespawned: boolean;
+  // Blink live markers whose despawn countdown is running (actor.despawnAt), like
+  // the game flashes a node in its last 30 s (faster in the last 10 s).
+  flashDespawningNodes: boolean;
+  // Palworld catch bonus (inbox #112): an "x/5" badge on Pal markers and an
+  // optional filter that hides species already caught 5 times. The counts are the
+  // last ones the Companion App read ({palId: count}), kept after the game closes.
+  palCaptureBadges: boolean;
+  palCaptureOnlyIncomplete: boolean;
+  palCaptureCounts: Record<string, number> | null;
   actorsPollingRate: number;
   showTraceLine: boolean;
   followPlayer: boolean;
@@ -644,6 +657,10 @@ export interface ProfileActions {
   applyGameReportedSet: (setName: string, reportedIds: string[]) => void;
   setAutoDiscoverCollected: (enabled: boolean) => void;
   setAutoResetRespawned: (enabled: boolean) => void;
+  setFlashDespawningNodes: (enabled: boolean) => void;
+  setPalCaptureBadges: (enabled: boolean) => void;
+  setPalCaptureOnlyIncomplete: (enabled: boolean) => void;
+  setPalCaptureCounts: (counts: Record<string, number> | null) => void;
   setActorsPollingRate: (actorsPollingRate: number) => void;
   toggleShowTraceLine: () => void;
   toggleFollowPlayer: () => void;
@@ -1691,6 +1708,22 @@ export const useSettingsStore = create(
 
           setAutoResetRespawned: (enabled: boolean) => {
             updateSettings({ autoResetRespawned: enabled });
+          },
+
+          setFlashDespawningNodes: (enabled: boolean) => {
+            updateSettings({ flashDespawningNodes: enabled });
+          },
+
+          setPalCaptureBadges: (enabled: boolean) => {
+            updateSettings({ palCaptureBadges: enabled });
+          },
+
+          setPalCaptureOnlyIncomplete: (enabled: boolean) => {
+            updateSettings({ palCaptureOnlyIncomplete: enabled });
+          },
+
+          setPalCaptureCounts: (counts: Record<string, number> | null) => {
+            updateSettings({ palCaptureCounts: counts });
           },
 
           setActorsPollingRate: (actorsPollingRate: number) => {
