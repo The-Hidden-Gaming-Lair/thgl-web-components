@@ -17,7 +17,7 @@ test("guide map loads the hashed icon sprite, not icons.webp", async ({
     const path = new URL(req.url()).pathname;
     if (/\/icons\/icons(\.[0-9a-f]+)?\.webp$/.test(path)) sprites.push(path);
   });
-  await page.goto(`${BASE_URL}/guides/how-to-make-leather`);
+  await page.goto(`${BASE_URL}/guides/how-to-make-fish-stew`);
   await expect
     .poll(() => sprites.some((p) => /icons\.[0-9a-f]{32}\.webp$/.test(p)), {
       timeout: 30_000,
