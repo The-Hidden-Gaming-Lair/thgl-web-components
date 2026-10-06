@@ -1,5 +1,6 @@
 import {
   GAME_REPORTED_REMOVE_AFTER_MISSES,
+  LEGACY_MIGRATION_ID_PREFIXES,
   diffGameReportedSet,
   type GameReportedNodes,
 } from "./game-reported-nodes";
@@ -101,45 +102,169 @@ describe("diffGameReportedSet", () => {
   });
 
   it("migrates the add-only leftovers: adopts bare auto ids, never '@' ids", () => {
+    const T1 = "empyrean_trace_1";
+    const T9 = "empyrean_trace_9";
     const s = state({
-      discoveredNodes: ["t1", "t9", "effigy@3:4", "t1@5:6"],
-      autoDiscoveredNodes: ["t1", "t9", "effigy@3:4"],
+      discoveredNodes: [T1, T9, "effigy@3:4", `${T1}@5:6`],
+      autoDiscoveredNodes: [T1, T9, "effigy@3:4", `${T9}@7:8`],
       gameReportedNodes: undefined,
     });
-    const first = report(s, SET, ["t1"]);
+    const first = report(s, SET, [T1]);
     // Record created (adoption), nothing added or removed yet.
     expect(first.added).toEqual([]);
     expect(first.removed).toEqual([]);
     expect(first.update).toEqual({
-      gameReportedNodes: { [SET]: ["t1", "t9"] },
+      gameReportedNodes: { [SET]: [T1, T9] },
     });
-    // t9 (the other character's leftover) goes after the second miss.
-    report(s, SET, ["t1"]);
-    expect(s.discoveredNodes).toEqual(["t1", "effigy@3:4", "t1@5:6"]);
-    expect(s.autoDiscoveredNodes).toEqual(["t1", "effigy@3:4"]);
-    expect(s.gameReportedNodes).toEqual({ [SET]: ["t1"] });
+    // T9 (the other character's leftover) goes after the second miss.
+    report(s, SET, [T1]);
+    expect(s.discoveredNodes).toEqual([T1, "effigy@3:4", `${T1}@5:6`]);
+    expect(s.autoDiscoveredNodes).toEqual([T1, "effigy@3:4", `${T9}@7:8`]);
+    expect(s.gameReportedNodes).toEqual({ [SET]: [T1] });
   });
 
   it("migration does not adopt ids another set owns", () => {
+    const T1 = "empyrean_trace_1";
+    const T2 = "empyrean_trace_2";
     const s = state({
-      discoveredNodes: ["q1", "t1"],
-      autoDiscoveredNodes: ["q1", "t1"],
-      gameReportedNodes: { quests: ["q1"] },
+      discoveredNodes: ["q1", T1, T2],
+      autoDiscoveredNodes: ["q1", T1, T2],
+      // Malformed but possible: another set already owns a trace id.
+      gameReportedNodes: { quests: ["q1", T2] },
     });
-    report(s, SET, ["t1"]);
-    expect(s.gameReportedNodes).toEqual({ quests: ["q1"], [SET]: ["t1"] });
+    report(s, SET, [T1]);
+    expect(s.gameReportedNodes).toEqual({
+      quests: ["q1", T2],
+      [SET]: [T1],
+    });
   });
 
   it("an existing empty record is not re-migrated", () => {
+    const T9 = "empyrean_trace_9";
     const s = state({
-      discoveredNodes: ["t9"],
-      autoDiscoveredNodes: ["t9"],
+      discoveredNodes: [T9],
+      autoDiscoveredNodes: [T9],
       gameReportedNodes: { [SET]: [] },
     });
     const r = report(s, SET, []);
     expect(r.update).toBeNull();
     report(s, SET, []);
-    expect(s.discoveredNodes).toEqual(["t9"]);
+    expect(s.discoveredNodes).toEqual([T9]);
+  });
+
+  describe("legacy migration is limited to the set that owns the prefix", () => {
+    const LEGACY = ["empyrean_trace_1", "empyrean_trace_2", "empyrean_trace_3"];
+    const legacyState = () =>
+      state({
+        discoveredNodes: [...LEGACY, "e123", "manual@1:2"],
+        autoDiscoveredNodes: [...LEGACY, "e123", "boss@3:4"],
+        gameReportedNodes: undefined,
+      });
+
+    it("maps empyrean_traces to the empyrean_trace_ prefix only", () => {
+      expect(LEGACY_MIGRATION_ID_PREFIXES).toEqual({
+        empyrean_traces: "empyrean_trace_",
+      });
+    });
+
+    it("(a) a set without a legacy prefix adopts nothing and leaves legacy marks alone", () => {
+      const s = legacyState();
+      const first = report(s, "quests", ["q_1"]);
+      expect(first.removed).toEqual([]);
+      expect(s.gameReportedNodes).toEqual({ quests: ["q_1"] });
+      const second = report(s, "quests", ["q_1"]);
+      expect(second.removed).toEqual([]);
+      expect(second.update).toBeNull();
+      // A third report too: nothing of the legacy set is ever counted.
+      expect(report(s, "quests", ["q_1"]).removed).toEqual([]);
+      expect(s.discoveredNodes).toEqual([
+        ...LEGACY,
+        "e123",
+        "manual@1:2",
+        "q_1",
+      ]);
+      expect(s.autoDiscoveredNodes).toEqual([
+        ...LEGACY,
+        "e123",
+        "boss@3:4",
+        "q_1",
+      ]);
+    });
+
+    it("a set without a legacy prefix and an empty first report writes an empty record", () => {
+      const s = legacyState();
+      const r = report(s, "strongholds", []);
+      expect(r.update).toEqual({ gameReportedNodes: { strongholds: [] } });
+      expect(r.removed).toEqual([]);
+    });
+
+    it("(b) the first trace report after quests adopts the legacy trace marks and removes only the unreported ones after two misses", () => {
+      const s = legacyState();
+      report(s, "quests", ["q_1"]);
+      report(s, "quests", ["q_1"]);
+      const first = report(s, SET, ["empyrean_trace_1", "empyrean_trace_2"]);
+      expect(first.added).toEqual([]);
+      expect(first.removed).toEqual([]);
+      expect(s.gameReportedNodes).toEqual({
+        quests: ["q_1"],
+        [SET]: LEGACY,
+      });
+      const second = report(s, SET, ["empyrean_trace_1", "empyrean_trace_2"]);
+      expect(second.removed).toEqual(["empyrean_trace_3"]);
+      expect(s.discoveredNodes).toEqual([
+        "empyrean_trace_1",
+        "empyrean_trace_2",
+        "e123",
+        "manual@1:2",
+        "q_1",
+      ]);
+      expect(s.autoDiscoveredNodes).toEqual([
+        "empyrean_trace_1",
+        "empyrean_trace_2",
+        "e123",
+        "boss@3:4",
+        "q_1",
+      ]);
+      expect(s.gameReportedNodes).toEqual({
+        quests: ["q_1"],
+        [SET]: ["empyrean_trace_1", "empyrean_trace_2"],
+      });
+    });
+
+    it("(c) empyrean_traces never adopts a bare non-trace legacy id", () => {
+      const s = legacyState();
+      report(s, SET, []);
+      expect(s.gameReportedNodes).toEqual({ [SET]: LEGACY });
+      report(s, SET, []);
+      expect(s.gameReportedNodes).toEqual({ [SET]: [] });
+      expect(s.discoveredNodes).toEqual(["e123", "manual@1:2"]);
+      expect(s.autoDiscoveredNodes).toEqual(["e123", "boss@3:4"]);
+      report(s, SET, []);
+      report(s, SET, []);
+      expect(s.discoveredNodes).toContain("e123");
+      expect(s.autoDiscoveredNodes).toContain("e123");
+    });
+
+    it("(d) quests arriving before traces never blinks a trace mark", () => {
+      const s = legacyState();
+      const results = [
+        report(s, "quests", ["q_1"]),
+        report(s, "quests", ["q_1"]),
+        report(s, SET, LEGACY),
+        report(s, SET, LEGACY),
+      ];
+      for (const r of results) {
+        expect(r.removed).toEqual([]);
+        expect(
+          r.added.filter((id) => id.startsWith("empyrean_trace_")),
+        ).toEqual([]);
+      }
+      for (const id of LEGACY) {
+        expect(s.discoveredNodes).toContain(id);
+        expect(s.autoDiscoveredNodes).toContain(id);
+      }
+      expect(s.gameReportedNodes).toEqual({ quests: ["q_1"], [SET]: LEGACY });
+    });
   });
 
   it("removes by exact string and leaves 'id@x:y' marks alone", () => {

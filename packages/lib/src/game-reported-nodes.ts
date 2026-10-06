@@ -18,10 +18,26 @@
  * {@link GAME_REPORTED_REMOVE_AFTER_MISSES} consecutive reports of its set, so
  * one partial memory read does not make marks blink out and back. The miss
  * counters are in memory only (the caller keeps them, they are not persisted).
+ *
+ * Migration: the first report of a set with no ownership record yet adopts
+ * the marks the old add-only `collectedNodeIds` path wrote, but only for a set
+ * listed in {@link LEGACY_MIGRATION_ID_PREFIXES} and only the ids with that
+ * set's prefix. Every other set (`quests`, `strongholds`, anything new) starts
+ * with an empty record, so a set that happens to arrive first cannot adopt and
+ * then remove another set's legacy marks.
  */
 
 /** Consecutive reports an owned id must be missing from before it is removed. */
 export const GAME_REPORTED_REMOVE_AFTER_MISSES = 2;
+
+/**
+ * Sets whose ids the old add-only `collectedNodeIds` path wrote, with the id
+ * prefix they own. Only these sets migrate legacy marks, and only ids that
+ * start with their prefix.
+ */
+export const LEGACY_MIGRATION_ID_PREFIXES: Readonly<Record<string, string>> = {
+  empyrean_traces: "empyrean_trace_",
+};
 
 export type GameReportedNodes = Record<string, string[]>;
 
@@ -84,17 +100,30 @@ export function diffGameReportedSet({
     );
   } else {
     // Migration: before this record existed, the add-only path wrote the
-    // reported ids (bare spawn ids, no "@") into autoDiscoveredNodes. Adopt
-    // those so the first complete report can clean up another character's
-    // leftovers. Every other writer of autoDiscoveredNodes (the live actor
-    // flag) stores "@" ids, and hand-made marks are never in that list.
-    owned = [
-      ...new Set(
-        autoDiscoveredNodes.filter(
-          (id) => !id.includes("@") && !ownedElsewhere.has(id),
-        ),
-      ),
-    ];
+    // reported ids (bare spawn ids, no "@") into autoDiscoveredNodes. A set
+    // that replaced that path adopts the unowned bare ids with ITS prefix, so
+    // the first complete report can clean up another character's leftovers.
+    // Every other writer of autoDiscoveredNodes (the live actor flag) stores
+    // "@" ids, and hand-made marks are never in that list. A set without a
+    // legacy prefix adopts nothing: the old path never wrote its marks.
+    const prefix = Object.prototype.hasOwnProperty.call(
+      LEGACY_MIGRATION_ID_PREFIXES,
+      setName,
+    )
+      ? LEGACY_MIGRATION_ID_PREFIXES[setName]
+      : undefined;
+    owned = prefix
+      ? [
+          ...new Set(
+            autoDiscoveredNodes.filter(
+              (id) =>
+                id.startsWith(prefix) &&
+                !id.includes("@") &&
+                !ownedElsewhere.has(id),
+            ),
+          ),
+        ]
+      : [];
   }
 
   const reported = new Set(reportedIds);
