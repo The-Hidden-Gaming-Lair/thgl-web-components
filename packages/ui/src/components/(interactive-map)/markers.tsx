@@ -2086,7 +2086,21 @@ function MarkersContent({
       if (changed) map.requestRedraw();
     };
 
+    // Despawn-warning blink (actor.despawnAt): the game flashes a node for its last
+    // 30 s, faster for the last 10 s. Nothing else changes while a node counts down,
+    // so the pass re-runs itself on a timer while any countdown is running or due.
+    let despawnTimer: ReturnType<typeof setTimeout> | null = null;
+    const DESPAWN_WARN_MS = 30_000;
+    const DESPAWN_FAST_MS = 10_000;
+    // A node still in memory this long after its despawn time is a stale copy the
+    // game no longer shows: stop blinking, keep it faded.
+    const DESPAWN_STALE_MS = 30_000;
+
     const processActors = () => {
+      if (despawnTimer) {
+        clearTimeout(despawnTimer);
+        despawnTimer = null;
+      }
       const actorsList = useGameState.getState().actors || [];
       const userState = userStoreApi.getState();
       const settingsState = useSettingsStore.getState();
@@ -2414,6 +2428,10 @@ function MarkersContent({
       // (e.g. two pickups <1 unit apart) each suppress their own marker, not a neighbour's.
       const liveConfirmRadius = markerOptions.liveConfirmRadius ?? 0;
       const suppressStatic = new Set<string>();
+      const flashDespawningNow = settingsState.flashDespawningNodes;
+      const nowMs = Date.now();
+      // Earliest moment the pass must re-run for a despawn blink (Infinity = never).
+      let nextDespawnTick = Infinity;
 
       for (const unit of units) {
         const { id, displayType, members } = unit;
@@ -2487,9 +2505,34 @@ function MarkersContent({
         const newIsSelected = selectedNodeIdNow === nodeId;
         // While a search result is selected, actors of other types fade like
         // predicted spawns in combined mode — only the selection stays full.
-        const liveMuted =
+        let liveMuted =
           selectedSearchType !== undefined &&
           displayType !== selectedSearchType;
+        if (flashDespawningNow) {
+          // A stack despawns with its first member.
+          let despawnAt = Infinity;
+          for (const a of members) {
+            if (a.despawnAt && a.despawnAt < despawnAt) despawnAt = a.despawnAt;
+          }
+          if (despawnAt !== Infinity) {
+            const remaining = despawnAt - nowMs;
+            if (remaining < -DESPAWN_STALE_MS) {
+              liveMuted = true;
+            } else if (remaining <= DESPAWN_WARN_MS) {
+              const period = remaining <= DESPAWN_FAST_MS ? 250 : 500;
+              if (Math.floor(nowMs / period) % 2 === 1) liveMuted = true;
+              nextDespawnTick = Math.min(
+                nextDespawnTick,
+                (Math.floor(nowMs / period) + 1) * period,
+              );
+            } else {
+              nextDespawnTick = Math.min(
+                nextDespawnTick,
+                despawnAt - DESPAWN_WARN_MS,
+              );
+            }
+          }
+        }
 
         const { zPos, zValue } = computeRelativeZPos(
           spawn.p[2],
@@ -2680,6 +2723,13 @@ function MarkersContent({
         ...newSpawns,
       ]);
       if (dirty) map.requestRedraw();
+
+      if (nextDespawnTick !== Infinity) {
+        despawnTimer = setTimeout(
+          processActors,
+          Math.max(16, nextDespawnTick - Date.now()),
+        );
+      }
     };
 
     // Subscribe ONLY to the state that genuinely affects what live markers
@@ -2753,6 +2803,10 @@ function MarkersContent({
       (s) => s.iconSizeByFilter,
       processActors,
     );
+    const unsubFlashDespawning = useSettingsStore.subscribe(
+      (s) => s.flashDespawningNodes,
+      processActors,
+    );
     // Expose for the static rebuild to re-apply live suppression immediately (see liveReprocessRef).
     liveReprocessRef.current = processActors;
 
@@ -2775,6 +2829,8 @@ function MarkersContent({
       unsubBaseIconSize();
       unsubIconSizeByGroup();
       unsubIconSizeByFilter();
+      unsubFlashDespawning();
+      if (despawnTimer) clearTimeout(despawnTimer);
       const ids = Array.from(liveSpawnMapRef.current.keys());
       for (const id of ids) liveMarkerLayer.unregisterAllEventHandlers(id);
       if (ids.length > 0) liveMarkerLayer.removeMany(ids);

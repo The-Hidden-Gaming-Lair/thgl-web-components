@@ -452,6 +452,8 @@
   "settings.autoDiscover.description": "Marca automáticamente como descubiertos los objetos que ya recogiste en el juego (p. ej. efigies). Al desactivarlo se restauran los que añadió.",
   "settings.autoResetRespawned": "Restablecer nodos descubiertos al reaparecer",
   "settings.autoResetRespawned.description": "Cuando la app del juego ve que un nodo de recursos descubierto (mineral, árboles, recolección) vuelve a aparecer, se marca como no descubierto. Los hallazgos únicos como los cofres siguen descubiertos.",
+  "settings.flashDespawningNodes": "Hacer parpadear los nodos que están a punto de desaparecer",
+  "settings.flashDespawningNodes.description": "Cuando la app del juego ve la cuenta atrás de desaparición de un nodo (p. ej. mineral y recolección en Palia), su marcador parpadea como en el juego: despacio en los últimos 30 segundos, más rápido en los últimos 10.",
   "settings.myFilters.title": "Mis Filtros",
   "settings.myFilters.description": "Tienes {{count}} filtros.",
   "settings.backupRestore": "Copia de Seguridad y Restauración",

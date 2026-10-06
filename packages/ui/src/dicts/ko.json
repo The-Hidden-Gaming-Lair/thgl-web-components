@@ -452,6 +452,8 @@
   "settings.autoDiscover.description": "게임 내에서 이미 수집한 아이템(예: 조각상)을 자동으로 발견됨으로 표시합니다. 끄면 자동으로 추가된 항목이 원래대로 돌아갑니다.",
   "settings.autoResetRespawned": "리스폰 시 발견한 노드 초기화",
   "settings.autoResetRespawned.description": "게임 내 앱이 발견한 자원 노드(광석, 나무, 채집물)가 다시 생성된 것을 확인하면 미발견으로 표시합니다. 상자처럼 한 번만 얻는 것은 발견 상태로 유지됩니다.",
+  "settings.flashDespawningNodes": "곧 사라질 노드 깜빡이기",
+  "settings.flashDespawningNodes.description": "게임 내 앱이 노드의 사라짐 카운트다운을 감지하면(예: Palia의 광석과 채집물) 게임에서처럼 마커가 깜빡입니다. 마지막 30초에는 천천히, 마지막 10초에는 더 빠르게 깜빡입니다.",
   "settings.myFilters.title": "내 필터",
   "settings.myFilters.description": "{{count}}개의 필터가 있습니다.",
   "settings.backupRestore": "백업 및 복원",

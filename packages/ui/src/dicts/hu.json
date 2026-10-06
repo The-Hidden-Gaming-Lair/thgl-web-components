@@ -449,6 +449,8 @@
   "settings.autoDiscover.description": "A játékban már begyűjtött tárgyakat (pl. szobrokat) automatikusan felfedezettként jelöli. Kikapcsolása visszaállítja az általa hozzáadottakat.",
   "settings.autoResetRespawned": "Felfedezett csomópontok visszaállítása újraéledéskor",
   "settings.autoResetRespawned.description": "Ha a játékon belüli alkalmazás azt látja, hogy egy felfedezett nyersanyag-csomópont (érc, fák, gyűjtögetés) újra megjelent, felfedezetlennek jelöli. Az egyszeri találatok, például a ládák, felfedezettek maradnak.",
+  "settings.flashDespawningNodes": "Hamarosan eltűnő csomópontok villogtatása",
+  "settings.flashDespawningNodes.description": "Ha a játékon belüli alkalmazás látja egy csomópont eltűnési visszaszámlálását (pl. érc és gyűjtögetés a Paliában), a jelölője úgy villog, mint a játékban: lassan az utolsó 30 másodpercben, gyorsabban az utolsó 10-ben.",
   "settings.myFilters.title": "Saját szűrők",
   "settings.myFilters.description": "{{count}} szűrőd van.",
   "settings.backupRestore": "Biztonsági mentés és visszaállítás",

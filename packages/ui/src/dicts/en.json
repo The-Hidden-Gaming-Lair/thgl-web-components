@@ -461,6 +461,8 @@
   "settings.autoDiscover.description": "Mark items you already collected in-game (e.g. effigies) as discovered automatically. Turning this off restores the ones it added.",
   "settings.autoResetRespawned": "Reset discovered nodes when they respawn",
   "settings.autoResetRespawned.description": "When the in-game app sees a discovered resource node (ore, trees, forage) spawn again, it is marked undiscovered. One-time finds like chests stay discovered.",
+  "settings.flashDespawningNodes": "Flash nodes that are about to despawn",
+  "settings.flashDespawningNodes.description": "When the in-game app sees a node's despawn countdown (e.g. Palia ore and forage), its marker flashes like it does in the game: slowly in the last 30 seconds, faster in the last 10.",
   "settings.myFilters.title": "My Filters",
   "settings.myFilters.description": "You have {{count}} filters.",
   "settings.backupRestore": "Backup & Restore",

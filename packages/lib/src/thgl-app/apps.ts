@@ -245,6 +245,7 @@ function actorsChanged(
     y: number;
     z: number;
     hidden?: boolean;
+    despawnAt?: number;
   }[],
   next: {
     address: number;
@@ -252,6 +253,7 @@ function actorsChanged(
     y: number;
     z: number;
     hidden?: boolean;
+    despawnAt?: number;
   }[],
 ): boolean {
   if (prev.length !== next.length) return true;
@@ -263,7 +265,8 @@ function actorsChanged(
       a.x !== b.x ||
       a.y !== b.y ||
       a.z !== b.z ||
-      a.hidden !== b.hidden
+      a.hidden !== b.hidden ||
+      a.despawnAt !== b.despawnAt
     ) {
       return true;
     }

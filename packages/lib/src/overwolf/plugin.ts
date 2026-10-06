@@ -61,6 +61,8 @@ export type Actor = {
   // Memory reader flagged this actor as already collected (e.g. a picked-up
   // effigy). The frontend permanently marks the node discovered.
   discovered?: boolean;
+  // Unix ms when the game despawns this actor (running despawn countdown).
+  despawnAt?: number;
 };
 export type GameEventsPlugin = {
   UpdateProcess?: (

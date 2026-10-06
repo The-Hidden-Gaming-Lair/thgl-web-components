@@ -452,6 +452,8 @@
   "settings.autoDiscover.description": "Oyun içinde zaten topladığınız öğeleri (ör. heykelcikler) otomatik olarak keşfedildi olarak işaretler. Kapatıldığında eklediklerini geri alır.",
   "settings.autoResetRespawned": "Keşfedilen düğümleri yeniden doğduğunda sıfırla",
   "settings.autoResetRespawned.description": "Oyun içi uygulama keşfedilmiş bir kaynak düğümünün (maden, ağaç, toplanabilir) yeniden ortaya çıktığını gördüğünde düğüm keşfedilmemiş olarak işaretlenir. Sandıklar gibi tek seferlik buluntular keşfedilmiş kalır.",
+  "settings.flashDespawningNodes": "Kaybolmak üzere olan düğümleri yanıp söndür",
+  "settings.flashDespawningNodes.description": "Oyun içi uygulama bir düğümün kaybolma geri sayımını gördüğünde (ör. Palia'da maden ve toplanabilirler), işaretçisi oyundaki gibi yanıp söner: son 30 saniyede yavaş, son 10 saniyede daha hızlı.",
   "settings.myFilters.title": "Filtrelerim",
   "settings.myFilters.description": "{{count}} filtreniz var.",
   "settings.backupRestore": "Yedekleme ve Geri Yükleme",

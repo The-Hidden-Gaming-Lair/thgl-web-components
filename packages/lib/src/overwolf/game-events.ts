@@ -22,7 +22,8 @@ function actorsChanged(prev: Actor[], next: Actor[]): boolean {
       a.x !== b.x ||
       a.y !== b.y ||
       a.z !== b.z ||
-      a.hidden !== b.hidden
+      a.hidden !== b.hidden ||
+      a.despawnAt !== b.despawnAt
     ) {
       return true;
     }

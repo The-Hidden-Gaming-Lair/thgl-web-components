@@ -452,6 +452,8 @@
   "settings.autoDiscover.description": "Marca automaticamente como descobertos os itens que você já coletou no jogo (ex.: efígies). Desativar remove as marcações adicionadas por esta função.",
   "settings.autoResetRespawned": "Redefinir nós descobertos quando reaparecerem",
   "settings.autoResetRespawned.description": "Quando o app no jogo vê um nó de recurso descoberto (minério, árvores, coleta) aparecer de novo, ele é marcado como não descoberto. Achados únicos como baús continuam descobertos.",
+  "settings.flashDespawningNodes": "Piscar nós que estão prestes a desaparecer",
+  "settings.flashDespawningNodes.description": "Quando o app no jogo vê a contagem regressiva de desaparecimento de um nó (ex.: minério e coleta em Palia), o marcador pisca como no jogo: devagar nos últimos 30 segundos, mais rápido nos últimos 10.",
   "settings.myFilters.title": "Meus Filtros",
   "settings.myFilters.description": "Você tem {{count}} filtros.",
   "settings.backupRestore": "Backup e Restauração",

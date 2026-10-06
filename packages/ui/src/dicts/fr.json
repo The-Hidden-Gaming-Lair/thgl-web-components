@@ -452,6 +452,8 @@
   "settings.autoDiscover.description": "Marque automatiquement comme découverts les objets déjà collectés en jeu (par ex. les effigies). Désactiver cette option rétablit ceux qu'elle a ajoutés.",
   "settings.autoResetRespawned": "Réinitialiser les nœuds découverts à leur réapparition",
   "settings.autoResetRespawned.description": "Lorsque l'application en jeu voit réapparaître un nœud de ressource découvert (minerai, arbres, cueillette), il est marqué comme non découvert. Les trouvailles uniques comme les coffres restent découvertes.",
+  "settings.flashDespawningNodes": "Faire clignoter les nœuds sur le point de disparaître",
+  "settings.flashDespawningNodes.description": "Lorsque l'application en jeu voit le compte à rebours de disparition d'un nœud (p. ex. minerai et cueillette dans Palia), son marqueur clignote comme dans le jeu : lentement pendant les 30 dernières secondes, plus vite pendant les 10 dernières.",
   "settings.myFilters.title": "Mes Filtres",
   "settings.myFilters.description": "Vous avez {{count}} filtres.",
   "settings.backupRestore": "Sauvegarde et Restauration",

@@ -310,6 +310,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   autoDiscoveredNodes: [],
   autoDiscoverCollected: true,
   autoResetRespawned: true,
+  flashDespawningNodes: true,
   actorsPollingRate: 100,
   showTraceLine: true,
   followPlayer: true,
@@ -470,6 +471,9 @@ export type ProfileSettings = {
   // Undiscover a respawning node (ore, trees, forage — not one-time finds like
   // chests) when the live app sees it spawn again at a discovered spot.
   autoResetRespawned: boolean;
+  // Blink live markers whose despawn countdown is running (actor.despawnAt), like
+  // the game flashes a node in its last 30 s (faster in the last 10 s).
+  flashDespawningNodes: boolean;
   actorsPollingRate: number;
   showTraceLine: boolean;
   followPlayer: boolean;
@@ -630,6 +634,7 @@ export interface ProfileActions {
   markAutoDiscovered: (nodeIds: string[]) => void;
   setAutoDiscoverCollected: (enabled: boolean) => void;
   setAutoResetRespawned: (enabled: boolean) => void;
+  setFlashDespawningNodes: (enabled: boolean) => void;
   setActorsPollingRate: (actorsPollingRate: number) => void;
   toggleShowTraceLine: () => void;
   toggleFollowPlayer: () => void;
@@ -1627,6 +1632,10 @@ export const useSettingsStore = create(
 
           setAutoResetRespawned: (enabled: boolean) => {
             updateSettings({ autoResetRespawned: enabled });
+          },
+
+          setFlashDespawningNodes: (enabled: boolean) => {
+            updateSettings({ flashDespawningNodes: enabled });
           },
 
           setActorsPollingRate: (actorsPollingRate: number) => {

@@ -53,6 +53,9 @@ export type Actor = {
   // Memory reader flags this actor as already collected (e.g. a picked-up
   // Palworld effigy). The frontend permanently marks the node discovered.
   discovered?: boolean;
+  // Unix ms when the game despawns this actor (a running despawn countdown, e.g.
+  // a Palia node that flashes in-game for its last 30 s). Absent = none.
+  despawnAt?: number;
 };
 
 export type GameSessionUpdate = {

@@ -452,6 +452,8 @@
   "settings.autoDiscover.description": "自動將你在遊戲內已收集的物品（如雕像）標記為已發現。關閉後會還原由此功能新增的標記。",
   "settings.autoResetRespawned": "資源重生時重設已發現節點",
   "settings.autoResetRespawned.description": "當遊戲內 App 偵測到已發現的資源節點（礦石、樹木、採集物）重新生成時，會將其標示為未發現。寶箱等一次性發現會保持已發現狀態。",
+  "settings.flashDespawningNodes": "讓即將消失的節點閃爍",
+  "settings.flashDespawningNodes.description": "當遊戲內 App 偵測到節點的消失倒數（例如 Palia 的礦石和採集物）時，其標記會像遊戲中一樣閃爍：最後 30 秒慢閃，最後 10 秒快閃。",
   "settings.myFilters.title": "我的篩選條件",
   "settings.myFilters.description": "你有 {{count}} 個篩選條件。",
   "settings.backupRestore": "備份與還原",
