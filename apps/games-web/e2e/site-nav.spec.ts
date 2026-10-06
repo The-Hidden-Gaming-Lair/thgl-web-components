@@ -35,9 +35,8 @@ test("header groups render server-side and the active group is highlighted", asy
   await expect(database).toHaveClass(/text-amber-400/);
   await expect(header.getByRole("button", { name: /^Maps/ })).toBeVisible();
   await expect(header.getByRole("button", { name: /^Tools/ })).toBeVisible();
-  await expect(
-    header.getByRole("link", { name: "Guides", exact: true }),
-  ).toBeVisible();
+  // Palia has written guides, so "Guides" is a menu (All Guides + articles), not a link.
+  await expect(header.getByRole("button", { name: /^Guides/ })).toBeVisible();
 
   await database.click();
   const fish = header.getByRole("link", { name: "Fish", exact: true });
