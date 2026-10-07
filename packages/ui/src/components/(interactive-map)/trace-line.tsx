@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useMap } from "./store";
 import { rotateCoordinate } from "./rotation";
 import { useSettingsStore, useGameState } from "@repo/lib";
-import type { ActorPlayer } from "@repo/lib/overwolf";
+import { playerAnchor, type ActorPlayer } from "@repo/lib/overwolf";
 import { DrawingLayer, IconMarkerLayer } from "@repo/lib/web-map";
 
 /** Create a solid-color circle canvas (no border) for trace dots */
@@ -60,9 +60,13 @@ export function TraceLine() {
 
       const isOnMap = !player.mapName || player.mapName === map.mapName;
       if (!isOnMap) return;
+      // Party games report the camera as the player: the trace records where the party
+      // (its leader) has been, not where the player looked.
+      if (player.camera && !player.party?.length) return;
+      const anchor = playerAnchor(player);
 
       // Only count actual player position changes for rate limiting
-      const posKey = `${player.x},${player.y}`;
+      const posKey = `${anchor.x},${anchor.y}`;
       if (posKey === lastPlayerPosRef.current) return;
       lastPlayerPosRef.current = posKey;
 
@@ -71,12 +75,12 @@ export function TraceLine() {
       updateCountRef.current = 0;
 
       // Apply rotation to player position if configured
-      let playerPosition: [number, number] = [player.x, player.y];
+      let playerPosition: [number, number] = [anchor.x, anchor.y];
       const rotationDegrees = map._rotationDegrees;
       const rotationCenter = map._rotationCenter;
       if (rotationDegrees && rotationCenter) {
         playerPosition = rotateCoordinate(
-          [player.x, player.y],
+          [anchor.x, anchor.y],
           rotationDegrees,
           rotationCenter,
         );

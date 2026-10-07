@@ -425,6 +425,7 @@ export const games: Array<Game> = [
       overlayURL: "/apps/baldurs-gate-ee/overlay",
       markerOptions: {
         radius: 6,
+        // Party game: the live player is the CAMERA (not drawn); members get portrait markers.
         playerIcon: "player.webp",
         imageSprite: true,
         zPos: {

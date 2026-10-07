@@ -206,6 +206,8 @@ let prevPlayer: {
   r: number | null;
   mapName?: string;
   terraformStage?: string;
+  camera?: boolean;
+  party?: unknown[];
 } | null = null;
 let prevActors: {
   address: number;
@@ -304,7 +306,10 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
                 p.z !== prevPlayer.z ||
                 p.r !== prevPlayer.r ||
                 p.mapName !== prevPlayer.mapName ||
-                p.terraformStage !== prevPlayer.terraformStage
+                p.terraformStage !== prevPlayer.terraformStage ||
+                p.camera !== prevPlayer.camera ||
+                // Party games: the camera can stand still while the party walks.
+                JSON.stringify(p.party) !== JSON.stringify(prevPlayer.party)
               ) {
                 prevPlayer = p;
                 gameState.setPlayer({

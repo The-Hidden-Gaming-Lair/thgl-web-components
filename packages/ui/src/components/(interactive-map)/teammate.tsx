@@ -17,12 +17,15 @@ export function Teammate({
   markerOptions,
   iconsPath,
   tilesConfig,
+  icon,
 }: {
   appName: string;
   player: RemotePlayer;
   markerOptions: MarkerOptions;
   iconsPath: string;
   tilesConfig: TilesConfig;
+  /** Icon file under the game's /icons (default: the player icon); "" = just the colour disc. */
+  icon?: string;
 }): JSX.Element {
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
@@ -112,6 +115,59 @@ export function Teammate({
 
     iconImageCache.current.set(cacheKey, processedImg);
     return processedImg;
+  }
+
+  /** A plain coloured disc (party members without a game portrait). */
+  async function buildDiscImage(tint: string): Promise<HTMLImageElement> {
+    const cacheKey = `disc:${tint}`;
+    const cached = iconImageCache.current.get(cacheKey);
+    if (cached) return cached;
+    const size = 64;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d")!;
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2 - 4, 0, Math.PI * 2);
+    ctx.fillStyle = tint;
+    ctx.fill();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "rgba(0,0,0,0.55)";
+    ctx.stroke();
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error("teammate-disc"));
+      image.src = canvas.toDataURL();
+    });
+    iconImageCache.current.set(cacheKey, img);
+    return img;
+  }
+
+  /**
+   * The marker image: `icon` (default the player icon) on the member's colour disc. An empty
+   * `icon` - or one that does not load (a party member's custom portrait that the game data
+   * does not have) - draws just the coloured disc.
+   */
+  async function loadIcon(): Promise<HTMLImageElement> {
+    const tint = player.color ?? "#f2c14e";
+    if (icon === "") return buildDiscImage(tint);
+    const iconFile = icon ?? markerOptions.playerIcon;
+    const iconName = iconFile
+      ? `/icons/${iconFile}`
+      : "https://th.gl/global_icons/player.png";
+    const iconUrl = getIconsUrl(appName, iconName, iconsPath);
+    try {
+      return await buildIconImage(
+        iconUrl,
+        colorBlindMode,
+        colorBlindSeverity,
+        player.color,
+      );
+    } catch (err) {
+      if (icon === undefined) throw err;
+      return buildDiscImage(tint);
+    }
   }
 
   // Render the peer's name as a text label anchored above their marker.
@@ -205,17 +261,7 @@ export function Teammate({
 
     const run = async () => {
       // Use a different icon for teammates
-      const iconName = markerOptions.playerIcon
-        ? `/icons/${markerOptions.playerIcon}`
-        : "https://th.gl/global_icons/player.png";
-      const iconUrl = getIconsUrl(appName, iconName, iconsPath);
-
-      const iconImage = await buildIconImage(
-        iconUrl,
-        colorBlindMode,
-        colorBlindSeverity,
-        player.color,
-      );
+      const iconImage = await loadIcon();
 
       const tile = tilesConfig[map.mapName];
       const rotationOffset = tile?.rotation?.angle;
@@ -291,17 +337,7 @@ export function Teammate({
   useEffect(() => {
     if (!marker.current) return;
     const run = async () => {
-      const iconName = markerOptions.playerIcon
-        ? `/icons/${markerOptions.playerIcon}`
-        : "https://th.gl/global_icons/player.png";
-      const iconUrl = getIconsUrl(appName, iconName, iconsPath);
-
-      const iconImage = await buildIconImage(
-        iconUrl,
-        colorBlindMode,
-        colorBlindSeverity,
-        player.color,
-      );
+      const iconImage = await loadIcon();
       marker.current?.setIcon(iconImage);
       const size = Math.max(10, Math.round(30 * baseIconSize * playerIconSize));
       marker.current?.setSize(size);
@@ -313,6 +349,7 @@ export function Teammate({
     colorBlindMode,
     colorBlindSeverity,
     player.color,
+    icon,
   ]);
 
   useThrottledEffect(

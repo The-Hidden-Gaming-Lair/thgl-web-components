@@ -28,6 +28,7 @@ import {
   LiveNavmesh,
   LivePlayer,
   LiveTeammates,
+  LiveParty,
   Markers,
   PrivateDrawing,
   PrivateNode,
@@ -230,6 +231,12 @@ export function App({
                     isOverlay={Boolean(isOverlay)}
                   />
                   <LiveTeammates
+                    markerOptions={appConfig.markerOptions}
+                    appName={appConfig.name}
+                    iconsPath={version?.more.icons}
+                    tilesConfig={tiles}
+                  />
+                  <LiveParty
                     markerOptions={appConfig.markerOptions}
                     appName={appConfig.name}
                     iconsPath={version?.more.icons}

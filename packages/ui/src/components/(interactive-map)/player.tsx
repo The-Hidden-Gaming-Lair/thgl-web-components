@@ -189,6 +189,13 @@ export function Player({
     // mutating the marker after this effect has been cleaned up / superseded.
     let cancelled = false;
 
+    // Party games report the CAMERA as the player: no marker (the party members are drawn by
+    // LiveParty), but the map still centres on it once.
+    if (player.camera) {
+      map.setCenter([player.x, player.y]);
+      return;
+    }
+
     const run = async () => {
       // Load the player icon. Previously this `await` could reject (image
       // `onerror` — a transient network failure, a cached 404, or a CORS-tainted
@@ -280,7 +287,7 @@ export function Player({
       marker.current?.remove();
       marker.current = null;
     };
-  }, [map?.mapName, player?.mapName]);
+  }, [map?.mapName, player?.mapName, player?.camera]);
 
   // Update icon when size, color or color-blind mode changes
   useEffect(() => {
@@ -321,10 +328,18 @@ export function Player({
   const py = player?.y;
   const pr = player?.r;
   const pMap = player?.mapName;
-  const rotateWithPlayer = followPlayerPosition && rotateMapWithPlayer;
+  // A camera (party games) has no heading to turn the map with.
+  const rotateWithPlayer =
+    followPlayerPosition && rotateMapWithPlayer && !player?.camera;
 
   useEffect(() => {
-    if (!map?.mapName || px == null || py == null || !marker.current) {
+    // A camera (party games) has no marker but is still followed.
+    if (
+      !map?.mapName ||
+      px == null ||
+      py == null ||
+      (!marker.current && !player?.camera)
+    ) {
       return;
     }
 
@@ -341,7 +356,7 @@ export function Player({
     }
 
     // Update player marker position (DOM marker with CSS transition, cheap)
-    marker.current.updatePosition({
+    marker.current?.updatePosition({
       ...player,
       x: playerPosition[0],
       y: playerPosition[1],

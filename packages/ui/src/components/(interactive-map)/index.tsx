@@ -16,3 +16,4 @@ export { TraceLine } from "./trace-line";
 export type { GameMap, GameMapExtensions } from "./store";
 export { useMapStore, useMap } from "./store";
 export { LiveTeammates } from "./live-teammates";
+export { LiveParty } from "./live-party";

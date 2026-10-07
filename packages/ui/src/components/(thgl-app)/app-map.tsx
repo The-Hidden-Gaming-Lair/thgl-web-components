@@ -7,6 +7,7 @@ import {
   LiveNavmesh,
   LivePlayer,
   LiveTeammates,
+  LiveParty,
   Markers,
   PrivateDrawing,
   PrivateNode,
@@ -94,6 +95,12 @@ export function AppMap({
       />
       <LiveNavmesh />
       <LiveTeammates
+        markerOptions={appConfig.markerOptions}
+        appName={appConfig.name}
+        iconsPath={version?.more.icons}
+        tilesConfig={tileOptions}
+      />
+      <LiveParty
         markerOptions={appConfig.markerOptions}
         appName={appConfig.name}
         iconsPath={version?.more.icons}

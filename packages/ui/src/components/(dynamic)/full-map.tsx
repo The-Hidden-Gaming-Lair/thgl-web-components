@@ -6,6 +6,7 @@ import {
   Regions,
   LivePlayer,
   LiveTeammates,
+  LiveParty,
   TraceLine,
   PrivateNode,
   PrivateDrawing,
@@ -65,6 +66,12 @@ export function FullMap({
             tilesConfig={tilesConfig}
           />
           <LiveTeammates
+            appName={appConfig.name}
+            markerOptions={appConfig.markerOptions ?? MARKER_OPTIONS}
+            iconsPath={iconsPath}
+            tilesConfig={tilesConfig}
+          />
+          <LiveParty
             appName={appConfig.name}
             markerOptions={appConfig.markerOptions ?? MARKER_OPTIONS}
             iconsPath={iconsPath}

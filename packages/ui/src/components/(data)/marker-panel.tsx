@@ -16,6 +16,7 @@ import { DescriptionMarkdown } from "../(interactive-map)/description-markdown";
 import { DbEntryLink } from "../(interactive-map)/db-entry-link";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { playerAnchor } from "@repo/lib/overwolf";
 
 function formatCoordinates(
   coords: [number, number] | [number, number, number],
@@ -229,8 +230,9 @@ export function MarkerPanel({
     () =>
       player && spawn
         ? Math.sqrt(
-            Math.pow(player.x - spawn.p[0], 2) +
-              Math.pow(player.y - spawn.p[1], 2) +
+            // Party games: measure from the party leader, not the camera.
+            Math.pow(playerAnchor(player).x - spawn.p[0], 2) +
+              Math.pow(playerAnchor(player).y - spawn.p[1], 2) +
               Math.pow(
                 player.z - (spawn.p.length === 3 ? spawn.p[2] : player.z),
                 2,
