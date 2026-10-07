@@ -34,6 +34,73 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "infinity-nikki": {
+    en: () => import("./infinity-nikki.en.json").then((mod) => mod.default),
+    de: () => import("./infinity-nikki.de.json").then((mod) => mod.default),
+    es: () => import("./infinity-nikki.es.json").then((mod) => mod.default),
+    fr: () => import("./infinity-nikki.fr.json").then((mod) => mod.default),
+    id: () => import("./infinity-nikki.id.json").then((mod) => mod.default),
+    it: () => import("./infinity-nikki.it.json").then((mod) => mod.default),
+    ja: () => import("./infinity-nikki.ja.json").then((mod) => mod.default),
+    ko: () => import("./infinity-nikki.ko.json").then((mod) => mod.default),
+    pt: () => import("./infinity-nikki.pt.json").then((mod) => mod.default),
+    th: () => import("./infinity-nikki.th.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./infinity-nikki.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./infinity-nikki.zh-TW.json").then((mod) => mod.default),
+  },
+  grounded2: {
+    en: () => import("./grounded2.en.json").then((mod) => mod.default),
+    de: () => import("./grounded2.de.json").then((mod) => mod.default),
+    es: () => import("./grounded2.es.json").then((mod) => mod.default),
+    "es-MX": () => import("./grounded2.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./grounded2.fr.json").then((mod) => mod.default),
+    it: () => import("./grounded2.it.json").then((mod) => mod.default),
+    ja: () => import("./grounded2.ja.json").then((mod) => mod.default),
+    ko: () => import("./grounded2.ko.json").then((mod) => mod.default),
+    "pt-BR": () => import("./grounded2.pt-BR.json").then((mod) => mod.default),
+    "zh-CN": () => import("./grounded2.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./grounded2.zh-TW.json").then((mod) => mod.default),
+  },
+  "hogwarts-legacy": {
+    en: () => import("./hogwarts-legacy.en.json").then((mod) => mod.default),
+    de: () => import("./hogwarts-legacy.de.json").then((mod) => mod.default),
+    es: () => import("./hogwarts-legacy.es.json").then((mod) => mod.default),
+    "es-MX": () =>
+      import("./hogwarts-legacy.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./hogwarts-legacy.fr.json").then((mod) => mod.default),
+    it: () => import("./hogwarts-legacy.it.json").then((mod) => mod.default),
+    ja: () => import("./hogwarts-legacy.ja.json").then((mod) => mod.default),
+    ko: () => import("./hogwarts-legacy.ko.json").then((mod) => mod.default),
+    pl: () => import("./hogwarts-legacy.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./hogwarts-legacy.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./hogwarts-legacy.ru.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./hogwarts-legacy.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./hogwarts-legacy.zh-TW.json").then((mod) => mod.default),
+  },
+  "legend-of-khiimori": {
+    en: () => import("./legend-of-khiimori.en.json").then((mod) => mod.default),
+    de: () => import("./legend-of-khiimori.de.json").then((mod) => mod.default),
+    es: () => import("./legend-of-khiimori.es.json").then((mod) => mod.default),
+    fr: () => import("./legend-of-khiimori.fr.json").then((mod) => mod.default),
+    it: () => import("./legend-of-khiimori.it.json").then((mod) => mod.default),
+    ja: () => import("./legend-of-khiimori.ja.json").then((mod) => mod.default),
+    ko: () => import("./legend-of-khiimori.ko.json").then((mod) => mod.default),
+    pl: () => import("./legend-of-khiimori.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./legend-of-khiimori.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./legend-of-khiimori.ru.json").then((mod) => mod.default),
+    tr: () => import("./legend-of-khiimori.tr.json").then((mod) => mod.default),
+    uk: () => import("./legend-of-khiimori.uk.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./legend-of-khiimori.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./legend-of-khiimori.zh-Hant.json").then((mod) => mod.default),
+  },
   "neverness-to-everness": {
     en: () =>
       import("./neverness-to-everness.en.json").then((mod) => mod.default),

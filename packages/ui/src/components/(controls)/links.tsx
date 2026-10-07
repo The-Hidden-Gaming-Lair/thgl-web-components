@@ -165,6 +165,7 @@ export function useNavGroups({
         // The section's display (plural) label — the same one the section's
         // h1 / breadcrumb / title use. `typeLabels` is the SINGULAR entry
         // label (search badges, entry titles), only a last resort here.
+        const typeLabel = db.typeLabels?.[section.type];
         const label =
           // A titleKey can be a game data term (not in the nav's UI dict):
           // fall back to the English title instead of showing the raw key.
@@ -172,7 +173,8 @@ export function useNavGroups({
             ? t(section.titleKey, { fallback: section.titleFallback })
             : undefined) ??
           section.titleFallback ??
-          db.typeLabels?.[section.type] ??
+          // typeLabels may be config.* app-dict keys (tenant-config-i18n.ts).
+          (typeLabel ? t(typeLabel) : undefined) ??
           section.type;
         items.push(toLink(section.href, label));
       }

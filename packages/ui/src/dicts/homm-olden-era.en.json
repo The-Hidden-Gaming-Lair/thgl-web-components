@@ -28,5 +28,20 @@
   "config.internalLinks.maps.linkText": "Browse Maps",
   "config.internalLinks.mechanics.title": "Game Mechanics",
   "config.internalLinks.mechanics.description": "How combat stats, luck, morale, and damage formulas work.",
-  "config.internalLinks.mechanics.linkText": "Learn Mechanics"
+  "config.internalLinks.mechanics.linkText": "Learn Mechanics",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search units, heroes, spells...",
+  "config.db.typeLabels.units": "Unit",
+  "config.db.typeLabels.heroes": "Hero",
+  "config.db.typeLabels.spells": "Spell",
+  "config.db.typeLabels.items": "Artifact",
+  "config.db.typeLabels.item_sets": "Item Set",
+  "config.db.typeLabels.skills": "Skill",
+  "config.db.typeLabels.sub_skills": "Sub-Skill",
+  "config.db.typeLabels.specializations": "Specialization",
+  "config.db.typeLabels.factions": "Faction",
+  "config.db.typeLabels.faction_laws": "Faction Law",
+  "config.db.typeLabels.buildings": "Building",
+  "config.db.typeLabels.map_objects": "Map Object",
+  "config.db.typeLabels.maps": "Map"
 }

@@ -71,8 +71,8 @@ export const hogwartsLegacy: AppConfig = {
       { section: "conjurations" },
       { section: "challenges", descriptions: true },
     ],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search spells, gear, beasts, quests…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
@@ -81,8 +81,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "spells",
         titleFallback: "Spells",
         icon: "🪄",
-        description:
-          "Every spell with cooldown and range, the talents that upgrade it and where it is needed.",
+        description: "config.db.spells.description",
       },
       {
         href: "/db/talents",
@@ -90,8 +89,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "talents",
         titleFallback: "Talents",
         icon: "⭐",
-        description:
-          "All talents by tree with the level they unlock at and the spell or potion they upgrade.",
+        description: "config.db.talents.description",
       },
       {
         href: "/db/gear",
@@ -99,8 +97,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "gear",
         titleFallback: "Gear",
         icon: "🧥",
-        description:
-          "Every robe, hat, mask, scarf and glove with its rarities, value and the quest or challenge that gives it.",
+        description: "config.db.gear.description",
       },
       {
         href: "/db/traits",
@@ -108,8 +105,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "traits",
         titleFallback: "Traits",
         icon: "🧵",
-        description:
-          "Gear traits for the Enchanted Loom with the beast materials they need.",
+        description: "config.db.traits.description",
       },
       {
         href: "/db/potions",
@@ -117,7 +113,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "potions",
         titleFallback: "Potions",
         icon: "🧪",
-        description: "Potion recipes with ingredients and brewing time.",
+        description: "config.db.potions.description",
       },
       {
         href: "/db/plants",
@@ -125,8 +121,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "plants",
         titleFallback: "Plants",
         icon: "🌱",
-        description:
-          "Plants for the Room of Requirement with growth time, pot size and yield.",
+        description: "config.db.plants.description",
       },
       {
         href: "/db/ingredients",
@@ -134,8 +129,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "ingredients",
         titleFallback: "Ingredients",
         icon: "🍄",
-        description:
-          "Ingredients and beast products: what drops them and which potions and traits use them.",
+        description: "config.db.ingredients.description",
       },
       {
         href: "/db/beasts",
@@ -143,8 +137,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "beasts",
         titleFallback: "Beasts",
         icon: "🦄",
-        description:
-          "Rescuable beasts with their products and every beast den on the map.",
+        description: "config.db.beasts.description",
       },
       {
         href: "/db/enemies",
@@ -152,8 +145,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "enemies",
         titleFallback: "Enemies",
         icon: "🕷️",
-        description:
-          "Enemies and infamous foes with their combat traits, dungeons and map locations.",
+        description: "config.db.enemies.description",
       },
       {
         href: "/db/dungeons",
@@ -161,8 +153,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "dungeons",
         titleFallback: "Dungeons",
         icon: "🏰",
-        description:
-          "Caves, castles and mines with the spells you need, the enemies inside and their resources.",
+        description: "config.db.dungeons.description",
       },
       {
         href: "/db/quests",
@@ -170,8 +161,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "quests",
         titleFallback: "Quests",
         icon: "📜",
-        description:
-          "Main, side and relationship quests and assignments with rewards and where they start.",
+        description: "config.db.quests.description",
       },
       {
         href: "/db/challenges",
@@ -179,7 +169,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "challenges",
         titleFallback: "Challenges",
         icon: "🏆",
-        description: "Field Guide challenges with every tier and its reward.",
+        description: "config.db.challenges.description",
       },
       {
         href: "/db/field_guide",
@@ -187,8 +177,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "field_guide",
         titleFallback: "Revelio Pages",
         icon: "📖",
-        description:
-          "All 150 Field Guide pages of Hogwarts, Hogsmeade and the Highlands with their spot on the map.",
+        description: "config.db.field_guide.description",
       },
       {
         href: "/db/conjurations",
@@ -196,8 +185,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "conjurations",
         titleFallback: "Conjurations",
         icon: "🪑",
-        description:
-          "Room of Requirement conjurations: price and where to get each spellcraft.",
+        description: "config.db.conjurations.description",
       },
       {
         href: "/db/brooms",
@@ -205,7 +193,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "brooms",
         titleFallback: "Brooms",
         icon: "🧹",
-        description: "Every broom with its price and where to get it.",
+        description: "config.db.brooms.description",
       },
       {
         href: "/db/wand_handles",
@@ -213,7 +201,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "wand_handles",
         titleFallback: "Wand Handles",
         icon: "✨",
-        description: "Wand handles from collection chests and quests.",
+        description: "config.db.wand_handles.description",
       },
       {
         href: "/db/merlin_trials",
@@ -221,7 +209,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "merlin_trials",
         titleFallback: "Merlin Trials",
         icon: "🗿",
-        description: "All 95 Merlin Trials on the map.",
+        description: "config.db.merlin_trials.description",
       },
       {
         href: "/db/demiguise_statues",
@@ -229,7 +217,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "demiguise_statues",
         titleFallback: "Demiguise Statues",
         icon: "🌙",
-        description: "Every Demiguise Statue and its moon.",
+        description: "config.db.demiguise_statues.description",
       },
       {
         href: "/db/astronomy_tables",
@@ -237,7 +225,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "astronomy_tables",
         titleFallback: "Astronomy Tables",
         icon: "🔭",
-        description: "Every Astronomy Table on the map.",
+        description: "config.db.astronomy_tables.description",
       },
       {
         href: "/db/ancient_magic_hotspots",
@@ -245,7 +233,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "ancient_magic_hotspots",
         titleFallback: "Ancient Magic Hotspots",
         icon: "💫",
-        description: "Every Ancient Magic Hotspot on the map.",
+        description: "config.db.ancient_magic_hotspots.description",
       },
       {
         href: "/db/treasure_vaults",
@@ -253,7 +241,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "treasure_vaults",
         titleFallback: "Treasure Vaults",
         icon: "💰",
-        description: "Every Treasure Vault on the map.",
+        description: "config.db.treasure_vaults.description",
       },
       {
         href: "/db/balloon_challenges",
@@ -261,7 +249,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "balloon_challenges",
         titleFallback: "Balloon Sets",
         icon: "🎈",
-        description: "Every set of balloons to pop on your broom.",
+        description: "config.db.balloon_challenges.description",
       },
       {
         href: "/db/landing_platforms",
@@ -269,7 +257,7 @@ export const hogwartsLegacy: AppConfig = {
         titleKey: "landing_platforms",
         titleFallback: "Landing Platforms",
         icon: "🛬",
-        description: "Every broom Landing Platform on the map.",
+        description: "config.db.landing_platforms.description",
       },
     ],
   },

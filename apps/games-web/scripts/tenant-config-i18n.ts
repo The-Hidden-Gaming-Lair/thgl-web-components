@@ -70,10 +70,22 @@ function parseConfig(tenant: string) {
     ) {
       config = node.arguments[0];
     }
+    // `export const x: AppConfig = {...}` (hogwarts-legacy)
+    if (
+      ts.isVariableDeclaration(node) &&
+      node.type?.getText(sf) === "AppConfig" &&
+      node.initializer &&
+      ts.isObjectLiteralExpression(node.initializer)
+    ) {
+      config = node.initializer;
+    }
     if (!config) ts.forEachChild(node, visit);
   };
   visit(sf);
-  if (!config) throw new Error(`${tenant}: no resolveAppConfig({...}) found`);
+  if (!config)
+    throw new Error(
+      `${tenant}: no resolveAppConfig({...}) or AppConfig literal found`,
+    );
   return { path, text, sf, config };
 }
 
