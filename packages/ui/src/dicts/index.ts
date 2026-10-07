@@ -34,6 +34,20 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  heartopia: {
+    en: () => import("./heartopia.en.json").then((mod) => mod.default),
+    "zh-CN": () => import("./heartopia.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./heartopia.zh-TW.json").then((mod) => mod.default),
+    de: () => import("./heartopia.de.json").then((mod) => mod.default),
+    fr: () => import("./heartopia.fr.json").then((mod) => mod.default),
+    ja: () => import("./heartopia.ja.json").then((mod) => mod.default),
+    ko: () => import("./heartopia.ko.json").then((mod) => mod.default),
+    es: () => import("./heartopia.es.json").then((mod) => mod.default),
+    pt: () => import("./heartopia.pt.json").then((mod) => mod.default),
+    th: () => import("./heartopia.th.json").then((mod) => mod.default),
+    ru: () => import("./heartopia.ru.json").then((mod) => mod.default),
+    id: () => import("./heartopia.id.json").then((mod) => mod.default),
+  },
   "infinity-nikki": {
     en: () => import("./infinity-nikki.en.json").then((mod) => mod.default),
     de: () => import("./infinity-nikki.de.json").then((mod) => mod.default),
