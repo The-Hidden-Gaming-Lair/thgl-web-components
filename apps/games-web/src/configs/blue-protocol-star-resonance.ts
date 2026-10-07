@@ -249,6 +249,48 @@ export const blueProtocolStarResonance = resolveAppConfig({
           "Exchange shops and what they sell, with the price in Luno, tokens or materials.",
       },
       {
+        href: "/db/wardrobe",
+        type: "wardrobe",
+        titleKey: "wardrobe",
+        titleFallback: "Wardrobe",
+        icon: "👗",
+        description:
+          "Outfits, fashion pieces and accessories with their Fashion Score, advanced styles, the Designs that craft them and how to get them.",
+      },
+      {
+        href: "/db/weapon-skins",
+        type: "weapon-skins",
+        titleKey: "weapon-skins",
+        titleFallback: "Weapon Skins",
+        icon: "🗡️",
+        description: "Weapon appearances for every class and how to get them.",
+      },
+      {
+        href: "/db/emotes",
+        type: "emotes",
+        titleKey: "emotes",
+        titleFallback: "Emotes",
+        icon: "💃",
+        description: "Every emote and where to unlock it.",
+      },
+      {
+        href: "/db/personalization",
+        type: "personalization",
+        titleKey: "personalization",
+        titleFallback: "Personalization",
+        icon: "🖼️",
+        description:
+          "Avatars, avatar frames, namecards, badges and profile backgrounds with how to unlock them.",
+      },
+      {
+        href: "/db/titles",
+        type: "titles",
+        titleKey: "titles",
+        titleFallback: "Titles",
+        icon: "🏷️",
+        description: "Player titles and how to earn them.",
+      },
+      {
         href: "/db/dictionary",
         type: "dictionary",
         titleKey: "dictionary",
