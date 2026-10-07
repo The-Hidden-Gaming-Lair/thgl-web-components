@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.exiledLands.title": "Exiled Lands 地图",
+  "config.internalLinks.isleOfSiptah.title": "Isle of Siptah 地图",
+  "config.db.heroSubtitle": "游戏数据库",
+  "config.db.searchPlaceholder": "搜索物品、知识、表情…",
+  "config.db.inventory.description": "武器、护甲、工具、消耗品和建筑部件的属性、配方与制作台。",
+  "config.db.knowledge.description": "所有知识的等级、知识点、前置条件及解锁的配方。",
+  "config.db.journeys.description": "Exiled Lands 与 Isle of Siptah 的旅程步骤、经验和奖励。",
+  "config.db.perks.description": "属性天赋及解锁所需的点数。",
+  "config.db.emotes.description": "按类别列出的所有表情，以及地图上表情拾取物的位置。"
+}

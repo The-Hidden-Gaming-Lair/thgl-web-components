@@ -32,6 +32,12 @@ export type GridItem = {
   href?: string;
 };
 
+const DEFAULT_LABELS = {
+  filter: "Filter by name or effect…",
+  all: "All",
+  shown: "{{count}} shown",
+};
+
 /** Above this many groups the category chips become a dropdown. */
 const MAX_GROUP_CHIPS = 12;
 
@@ -50,6 +56,7 @@ export function FilterableEntityGrid({
   iconsHash,
   appName,
   groupHeadersOnly = false,
+  labels = DEFAULT_LABELS,
 }: {
   items: GridItem[];
   section: string;
@@ -58,6 +65,8 @@ export function FilterableEntityGrid({
   appName: string;
   /** Show every group as a headed section, without the group chips/dropdown. */
   groupHeadersOnly?: boolean;
+  /** UI strings in the page's locale (`shown` carries `{{count}}`). */
+  labels?: { filter: string; all: string; shown: string };
 }) {
   const [query, setQuery] = useState("");
   const [group, setGroup] = useState<string | null>(null);
@@ -120,7 +129,7 @@ export function FilterableEntityGrid({
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Filter by name or effect…"
+          placeholder={labels.filter}
           className="h-8 w-48 rounded border border-slate-700 bg-slate-900/60 px-2.5 text-sm text-slate-200 outline-none focus:border-amber-700/70"
         />
         {!groupHeadersOnly && groups.length > MAX_GROUP_CHIPS && (
@@ -129,7 +138,9 @@ export function FilterableEntityGrid({
             onChange={(e) => setGroup(e.target.value || null)}
             className="h-8 rounded border border-slate-700 bg-slate-900/60 px-2 text-sm text-slate-200 outline-none focus:border-amber-700/70"
           >
-            <option value="">All ({items.length})</option>
+            <option value="">
+              {labels.all} ({items.length})
+            </option>
             {groups.map((g) => (
               <option key={g.id} value={g.id}>
                 {g.label} ({g.count})
@@ -146,7 +157,7 @@ export function FilterableEntityGrid({
                 onClick={() => setGroup(null)}
                 className={chip(group === null)}
               >
-                All
+                {labels.all}
               </button>
               {groups.map((g) => (
                 <button
@@ -162,7 +173,10 @@ export function FilterableEntityGrid({
             </div>
           )}
         <span className="ml-auto text-xs text-muted-foreground">
-          {filtered.length.toLocaleString()} shown
+          {labels.shown.replace(
+            "{{count}}",
+            filtered.length.toLocaleString(locale),
+          )}
         </span>
       </div>
 

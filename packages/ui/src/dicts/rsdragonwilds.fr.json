@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "Objets",
+  "config.internalLinks.inventory.description": "Parcourez toutes les ressources, consommables et composants par catégorie — avec icônes, descriptions et recettes de fabrication.",
+  "config.internalLinks.inventory.linkText": "Ouvrir la base de données des objets",
+  "config.internalLinks.equipment.title": "Équipement",
+  "config.internalLinks.equipment.description": "Armes, armures et outils avec statistiques de combat — dégâts, emplacements et compétences utilisées.",
+  "config.internalLinks.equipment.linkText": "Ouvrir la base de données de l'équipement",
+  "config.internalLinks.recipes.title": "Recettes",
+  "config.internalLinks.recipes.description": "Toutes les recettes de fabrication par station, avec des ingrédients liés à chaque objet.",
+  "config.internalLinks.recipes.linkText": "Ouvrir la base de données des recettes",
+  "config.internalLinks.enemies.title": "Ennemis",
+  "config.internalLinks.enemies.description": "Les créatures et boss que vous affronterez dans Ashenfall.",
+  "config.internalLinks.enemies.linkText": "Ouvrir le bestiaire",
+  "config.db.heroSubtitle": "Base de données du jeu",
+  "config.db.searchPlaceholder": "Rechercher objets, équipement, recettes…",
+  "config.db.inventory.description": "Ressources, consommables et composants.",
+  "config.db.equipment.description": "Armes, armures et outils avec statistiques.",
+  "config.db.recipes.description": "Recettes de fabrication par station, avec ingrédients.",
+  "config.db.enemies.description": "Créatures et boss de tout Ashenfall.",
+  "config.db.typeLabels.inventory": "Objet",
+  "config.db.typeLabels.equipment": "Équipement",
+  "config.db.typeLabels.recipes": "Recette",
+  "config.db.typeLabels.enemies": "Ennemi"
+}

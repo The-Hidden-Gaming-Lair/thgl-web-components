@@ -169,6 +169,61 @@ export default function TermsOfService(): JSX.Element {
             </a>
             . Perks remain available for the duration of an active membership.
           </p>
+          <p>
+            Subscriptions can also be purchased through Tebex, which sells them
+            as merchant of record. Billing, renewal, cancellation and refunds of
+            these purchases are handled by Tebex under{" "}
+            <a
+              href="https://checkout.tebex.io/terms"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              Tebex&apos;s terms
+            </a>
+            ; you can manage or cancel your subscription in Tebex&apos;s payment
+            history portal. A Tebex purchase is linked to a supporter key shown
+            on your account page: keep it safe, as it is the only way to restore
+            your perks in another browser or on another device. Perks remain
+            available until the end of the paid period.
+          </p>
+          {/* Required verbatim by Tebex (creator onboarding). */}
+          <p id="tebex">
+            We partner with Tebex Limited (
+            <a
+              href="https://www.tebex.io"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              www.tebex.io
+            </a>
+            ), who are the official merchant of digital content produced by us.
+            If you wish to purchase licenses to use digital content we produce,
+            you must do so through Tebex as our licensed reseller and merchant
+            of record. In order to make any such purchase from Tebex, you must
+            agree to their terms, available at{" "}
+            <a
+              href="https://checkout.tebex.io/terms"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              https://checkout.tebex.io/terms
+            </a>
+            . If you have any queries about a purchase made through Tebex,
+            including but not limited to refund requests, technical issues or
+            billing enquiries, you should contact Tebex support at{" "}
+            <a
+              href="https://www.tebex.io/contact/checkout"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              https://www.tebex.io/contact/checkout
+            </a>{" "}
+            in the first instance.
+          </p>
         </div>
       </section>
       <hr className="border-border" />

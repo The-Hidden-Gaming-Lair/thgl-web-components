@@ -37,7 +37,8 @@ export function createAppPage(isOverlay: boolean) {
     ]);
     const dict = { ...globalDict, ...dynamicDict } as Dict;
     const domain = getAppDomain(game);
-    // The game's codex / guides / tools open as app pages (/apps/<id>/db, …).
+    // The game's codex / guides / tools open in the map window's codex pane
+    // (desktop and overlay), framing the app pages (/apps/<id>/db, …).
     const siteConfig = getAppConfigBySlug(game.id);
     return (
       <App
@@ -79,7 +80,7 @@ export function createAppPage(isOverlay: boolean) {
         }
         additionalTooltip={game.additionalTooltip}
         pagesNav={
-          siteConfig && !isOverlay ? (
+          siteConfig ? (
             <AppPagesNav
               appConfig={siteConfig}
               gameId={game.id}

@@ -46,7 +46,7 @@ import { MarkersSearch } from "../(controls)/markers-search";
 import { AppHeader } from "./app-header";
 import { PreviewReleaseGate } from "./preview-release-gate";
 import { InviteOnlyGate } from "./invite-only-gate";
-import { GameSwitcher } from "../(header)/game-switcher";
+import { GameBadge } from "../(header)/game-switcher";
 import { StatusBanner } from "../(header)/status-banner";
 import { ExclusiveFullscreenDialog } from "./exclusive-fullscreen-dialog";
 import { OverlayInputEvents } from "./overlay-input-events";
@@ -63,6 +63,13 @@ import { THGLMapAds } from "../(ads)";
 import { AdditionalTooltipType } from "../(content)";
 import { MarkerPanel, ZoneDetailsPanel } from "../(data)";
 import { ActorTypeFilter } from "./actor-type-filter";
+import { isCodexFrame } from "./codex-frame";
+import {
+  CodexNavigationButtons,
+  CodexPane,
+  CodexPaneProvider,
+  useCodexPane,
+} from "./codex-pane";
 import { useEffect, useMemo, useState } from "react";
 import { setAlertToastOverlay } from "../(controls)/alert-toast";
 
@@ -70,7 +77,19 @@ import { setAlertToastOverlay } from "../(controls)/alert-toast";
 // PREVIEW_RELEASE_COMPANION_APPS gates ONLY the in-game companion (website open). This paywall uses
 // isCompanionPreviewApp (either set); the web map/db guard uses isPreviewReleaseApp (full only).
 
-export function App({
+/**
+ * The map window (desktop and overlay). The codex pane (codex-pane.tsx) shares
+ * its title bar, so its provider wraps the whole window.
+ */
+export function App(props: React.ComponentProps<typeof AppWindow>) {
+  return (
+    <CodexPaneProvider>
+      <AppWindow {...props} />
+    </CodexPaneProvider>
+  );
+}
+
+function AppWindow({
   appConfig,
   dict,
   filters,
@@ -101,10 +120,14 @@ export function App({
   version: Version;
   isOverlay?: boolean;
   additionalTooltip?: AdditionalTooltipType;
-  /** Database / Guides / Tools tabs (AppPagesNav) for the desktop window's title bar. */
+  /** Database / Guides / Tools tabs (AppPagesNav) for the title bar; they open the codex pane. */
   pagesNav?: React.ReactNode;
 }) {
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
+  // Codex pane open: it covers the window below the title bar, and the title
+  // bar shows the codex controls instead of the map's.
+  const codexPane = useCodexPane();
+  const codexOpen = Boolean(pagesNav && codexPane?.open);
   const overlayFullscreen = useSettingsStore(
     (state) => state.overlayFullscreen,
   );
@@ -123,6 +146,17 @@ export function App({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("id");
     if (id) setMarkerSlug(id);
+    // The map page loaded inside the codex pane (a map redirect the frame's
+    // link interceptor could not catch): hand it to the map window instead.
+    if (isCodexFrame()) {
+      window.parent.postMessage(
+        {
+          type: "thgl-codex:show-on-map",
+          href: window.location.pathname + window.location.search,
+        },
+        window.location.origin,
+      );
+    }
   }, []);
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
@@ -241,7 +275,8 @@ export function App({
             ) : (
               <AppHeader
                 isOverlay={isOverlay}
-                title={<GameSwitcher activeApp={appConfig.title} compact />}
+                title={<GameBadge activeApp={appConfig.title} />}
+                className={codexOpen ? "bg-zinc-950" : undefined}
                 settingsDialogContent={
                   <THGLAppSettingsDialogContent
                     appConfig={appConfig}
@@ -249,110 +284,127 @@ export function App({
                   />
                 }
               >
-                <Button
-                  onClick={toggleLockedWindow}
-                  size="xs"
-                  onMouseDown={(e) => e.stopPropagation()}
-                >
-                  {lockedWindow ? <EyeOpenIcon /> : <EyeNoneIcon />}
-                  <span className="ml-1 hidden md:block">Hide Controls</span>
-                </Button>
+                {codexOpen ? (
+                  <>
+                    <CodexNavigationButtons />
+                    {pagesNav}
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      onClick={toggleLockedWindow}
+                      size="xs"
+                      onMouseDown={(e) => e.stopPropagation()}
+                    >
+                      {lockedWindow ? <EyeOpenIcon /> : <EyeNoneIcon />}
+                      <span className="ml-1 hidden md:block">
+                        Hide Controls
+                      </span>
+                    </Button>
 
-                <Tooltip delayDuration={200} disableHoverableContent>
-                  <TooltipTrigger asChild>
-                    <div className="flex items-center">
-                      <div className="flex rounded-md overflow-hidden border border-gray-600">
-                        <button
-                          className={cn(
-                            "px-2 py-0.5 text-xs transition-colors",
-                            windowMode === "overlay"
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-gray-800 hover:bg-gray-700 text-gray-300",
-                          )}
-                          onClick={() => {
-                            setWindowMode("overlay");
-                            setWindowModeNative("overlay").catch(console.error);
-                          }}
-                          onMouseDown={(e) => e.stopPropagation()}
-                          disabled={appConfig.withoutOverlayMode}
-                        >
-                          Overlay
-                        </button>
-                        <button
-                          className={cn(
-                            "px-2 py-0.5 text-xs transition-colors border-x border-gray-600",
-                            windowMode === "desktop"
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-gray-800 hover:bg-gray-700 text-gray-300",
-                          )}
-                          onClick={() => {
-                            setWindowMode("desktop");
-                            setWindowModeNative("desktop").catch(console.error);
-                          }}
-                          onMouseDown={(e) => e.stopPropagation()}
-                        >
-                          Desktop
-                        </button>
-                        <button
-                          className={cn(
-                            "px-2 py-0.5 text-xs transition-colors",
-                            windowMode === "both"
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-gray-800 hover:bg-gray-700 text-gray-300",
-                          )}
-                          onClick={() => {
-                            setWindowMode("both");
-                            setWindowModeNative("both").catch(console.error);
-                          }}
-                          onMouseDown={(e) => e.stopPropagation()}
-                          disabled={appConfig.withoutOverlayMode}
-                        >
-                          Both
-                        </button>
-                      </div>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="w-64" side="bottom">
-                    <p>
-                      <strong>Overlay:</strong> Shows map overlay on top of the
-                      game.
-                    </p>
-                    <p className="mt-1">
-                      <strong>Desktop:</strong> Opens in a separate window (2nd
-                      screen).
-                    </p>
-                    <p className="mt-1">
-                      <strong>Both:</strong> Opens both overlay and desktop
-                      window.
-                    </p>
-                    {appConfig.withoutOverlayMode && (
-                      <p className="text-red-500 mt-1">
-                        The overlay mode is not supported for this game.
-                      </p>
-                    )}
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip delayDuration={200} disableHoverableContent>
-                  <TooltipTrigger asChild>
-                    <div>
-                      <LiveModeControl disabled={withoutLiveMode} />
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="w-64" side="bottom">
-                    <p>
-                      The live mode shows the current locations of some nodes on
-                      the map in a limited range. Disable it to see the spawn
-                      locations instead. Check the filter tooltip for the live
-                      mode support.
-                    </p>
-                    {withoutLiveMode && (
-                      <p className="text-red-500">
-                        The live mode is not supported for this game.
-                      </p>
-                    )}
-                  </TooltipContent>
-                </Tooltip>
-                {!isOverlay && pagesNav}
+                    <Tooltip delayDuration={200} disableHoverableContent>
+                      <TooltipTrigger asChild>
+                        <div className="flex items-center">
+                          <div className="flex rounded-md overflow-hidden border border-gray-600">
+                            <button
+                              className={cn(
+                                "px-2 py-0.5 text-xs transition-colors",
+                                windowMode === "overlay"
+                                  ? "bg-primary text-primary-foreground"
+                                  : "bg-gray-800 hover:bg-gray-700 text-gray-300",
+                              )}
+                              onClick={() => {
+                                setWindowMode("overlay");
+                                setWindowModeNative("overlay").catch(
+                                  console.error,
+                                );
+                              }}
+                              onMouseDown={(e) => e.stopPropagation()}
+                              disabled={appConfig.withoutOverlayMode}
+                            >
+                              Overlay
+                            </button>
+                            <button
+                              className={cn(
+                                "px-2 py-0.5 text-xs transition-colors border-x border-gray-600",
+                                windowMode === "desktop"
+                                  ? "bg-primary text-primary-foreground"
+                                  : "bg-gray-800 hover:bg-gray-700 text-gray-300",
+                              )}
+                              onClick={() => {
+                                setWindowMode("desktop");
+                                setWindowModeNative("desktop").catch(
+                                  console.error,
+                                );
+                              }}
+                              onMouseDown={(e) => e.stopPropagation()}
+                            >
+                              Desktop
+                            </button>
+                            <button
+                              className={cn(
+                                "px-2 py-0.5 text-xs transition-colors",
+                                windowMode === "both"
+                                  ? "bg-primary text-primary-foreground"
+                                  : "bg-gray-800 hover:bg-gray-700 text-gray-300",
+                              )}
+                              onClick={() => {
+                                setWindowMode("both");
+                                setWindowModeNative("both").catch(
+                                  console.error,
+                                );
+                              }}
+                              onMouseDown={(e) => e.stopPropagation()}
+                              disabled={appConfig.withoutOverlayMode}
+                            >
+                              Both
+                            </button>
+                          </div>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="w-64" side="bottom">
+                        <p>
+                          <strong>Overlay:</strong> Shows map overlay on top of
+                          the game.
+                        </p>
+                        <p className="mt-1">
+                          <strong>Desktop:</strong> Opens in a separate window
+                          (2nd screen).
+                        </p>
+                        <p className="mt-1">
+                          <strong>Both:</strong> Opens both overlay and desktop
+                          window.
+                        </p>
+                        {appConfig.withoutOverlayMode && (
+                          <p className="text-red-500 mt-1">
+                            The overlay mode is not supported for this game.
+                          </p>
+                        )}
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip delayDuration={200} disableHoverableContent>
+                      <TooltipTrigger asChild>
+                        <div>
+                          <LiveModeControl disabled={withoutLiveMode} />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="w-64" side="bottom">
+                        <p>
+                          The live mode shows the current locations of some
+                          nodes on the map in a limited range. Disable it to see
+                          the spawn locations instead. Check the filter tooltip
+                          for the live mode support.
+                        </p>
+                        {withoutLiveMode && (
+                          <p className="text-red-500">
+                            The live mode is not supported for this game.
+                          </p>
+                        )}
+                      </TooltipContent>
+                    </Tooltip>
+                    {pagesNav}
+                  </>
+                )}
               </AppHeader>
             )}
             {/* Companion-app webview surface — the 2026-07-27 outage hit
@@ -440,6 +492,15 @@ export function App({
                   </>
                 )}
               </ErrorBoundary>
+              {/* Codex / guides / tools from the title-bar tabs, over the map
+                  (the map stays mounted). "Hide Controls" closes it. */}
+              {pagesNav && (
+                <CodexPane
+                  tiles={tiles}
+                  disabled={lockedWindow}
+                  onSelectMarker={setMarkerSlug}
+                />
+              )}
             </div>
             {/* Elite Supporter paywall over the full app — non-modal so the
                 header, hotkeys and the window-unlock button stay functional. */}

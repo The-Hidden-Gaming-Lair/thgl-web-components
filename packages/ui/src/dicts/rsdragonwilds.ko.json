@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "아이템",
+  "config.internalLinks.inventory.description": "모든 자원, 소모품, 부품을 카테고리별로 — 아이콘, 설명, 제작 레시피 포함.",
+  "config.internalLinks.inventory.linkText": "아이템 데이터베이스 열기",
+  "config.internalLinks.equipment.title": "장비",
+  "config.internalLinks.equipment.description": "전투 능력치가 포함된 무기, 방어구, 도구 — 피해량, 슬롯, 사용 스킬.",
+  "config.internalLinks.equipment.linkText": "장비 데이터베이스 열기",
+  "config.internalLinks.recipes.title": "레시피",
+  "config.internalLinks.recipes.description": "제작대별 모든 제작 레시피, 재료는 각 아이템과 연결됩니다.",
+  "config.internalLinks.recipes.linkText": "레시피 데이터베이스 열기",
+  "config.internalLinks.enemies.title": "적",
+  "config.internalLinks.enemies.description": "Ashenfall에서 마주칠 생물과 보스.",
+  "config.internalLinks.enemies.linkText": "도감 열기",
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "아이템, 장비, 레시피 검색…",
+  "config.db.inventory.description": "자원, 소모품, 부품.",
+  "config.db.equipment.description": "능력치가 포함된 무기, 방어구, 도구.",
+  "config.db.recipes.description": "제작대별 제작 레시피와 재료.",
+  "config.db.enemies.description": "Ashenfall 전역의 생물과 보스.",
+  "config.db.typeLabels.inventory": "아이템",
+  "config.db.typeLabels.equipment": "장비",
+  "config.db.typeLabels.recipes": "레시피",
+  "config.db.typeLabels.enemies": "적"
+}

@@ -170,11 +170,13 @@ export function createMapsPage(appConfig: AppConfig) {
                           href={localizePath("/", locale)}
                           className="hover:text-foreground transition-colors"
                         >
-                          Home
+                          {t("home.title")}
                         </Link>
                       </li>
                       <li aria-hidden="true">/</li>
-                      <li aria-current="page">Maps</li>
+                      <li aria-current="page">
+                        {t("nav.maps", { fallback: "Maps" })}
+                      </li>
                     </ol>
                   </nav>
                   <Subtitle
@@ -223,12 +225,18 @@ export function createMapsPage(appConfig: AppConfig) {
                         <span className="text-xs text-muted-foreground shrink-0">
                           {map.locationCount > 0 && (
                             <>
-                              {map.locationCount.toLocaleString()} locations
+                              {t("home.mapLocations", {
+                                fallback: "{{count}} locations",
+                                vars: {
+                                  count:
+                                    map.locationCount.toLocaleString(locale),
+                                },
+                              })}{" "}
                               ·{" "}
                             </>
                           )}
                           <span className="group-hover:text-primary transition-colors">
-                            Explore →
+                            {t("home.explore", { fallback: "Explore" })} →
                           </span>
                         </span>
                       </div>
@@ -240,8 +248,14 @@ export function createMapsPage(appConfig: AppConfig) {
                   <div className="space-y-6 mt-4">
                     {totalLocations && (
                       <p className="text-sm text-muted-foreground text-center">
-                        {totalLocations.toLocaleString()} total locations across{" "}
-                        {maps.length} maps
+                        {t("maps.totalLocations", {
+                          fallback:
+                            "{{count}} total locations across {{maps}} maps",
+                          vars: {
+                            count: totalLocations.toLocaleString(locale),
+                            maps: String(maps.length),
+                          },
+                        })}
                       </p>
                     )}
                     {mapsWithImage.length > 0 && (

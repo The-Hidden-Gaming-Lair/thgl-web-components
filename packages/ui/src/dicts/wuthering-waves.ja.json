@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "共鳴者、武器、音骸、アイテムを検索…",
+  "config.db.resonators.description": "属性とレアリティ別のプレイアブルキャラクター。",
+  "config.db.resonators.title": "共鳴者",
+  "config.db.weapons.description": "種類とレアリティ別の武器。",
+  "config.db.weapons.title": "武器",
+  "config.db.echoes.description": "コスト、スキル、ハーモニー効果つきの収集できる音骸。",
+  "config.db.echoes.title": "音骸",
+  "config.db.sonatas.description": "音骸のセット効果と、それを発動する音骸。",
+  "config.db.sonatas.title": "ハーモニー効果",
+  "config.db.enemies.description": "世界各地のモンスターとボス。",
+  "config.db.enemies.title": "敵",
+  "config.db.inventory.description": "素材、消耗品、資源。",
+  "config.db.inventory.title": "アイテム",
+  "config.db.typeLabels.resonators": "共鳴者",
+  "config.db.typeLabels.weapons": "武器",
+  "config.db.typeLabels.echoes": "音骸",
+  "config.db.typeLabels.sonatas": "ハーモニー効果",
+  "config.db.typeLabels.enemies": "敵",
+  "config.db.typeLabels.inventory": "アイテム"
+}

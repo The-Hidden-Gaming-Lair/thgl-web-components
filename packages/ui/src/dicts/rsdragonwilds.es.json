@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "Objetos",
+  "config.internalLinks.inventory.description": "Explora todos los recursos, consumibles y componentes por categoría, con iconos, descripciones y recetas de fabricación.",
+  "config.internalLinks.inventory.linkText": "Abrir la base de datos de objetos",
+  "config.internalLinks.equipment.title": "Equipo",
+  "config.internalLinks.equipment.description": "Armas, armaduras y herramientas con estadísticas de combate: daño, ranuras y las habilidades que usan.",
+  "config.internalLinks.equipment.linkText": "Abrir la base de datos de equipo",
+  "config.internalLinks.recipes.title": "Recetas",
+  "config.internalLinks.recipes.description": "Todas las recetas de fabricación por estación, con ingredientes enlazados a cada objeto.",
+  "config.internalLinks.recipes.linkText": "Abrir la base de datos de recetas",
+  "config.internalLinks.enemies.title": "Enemigos",
+  "config.internalLinks.enemies.description": "Criaturas y jefes a los que te enfrentarás en Ashenfall.",
+  "config.internalLinks.enemies.linkText": "Abrir el bestiario",
+  "config.db.heroSubtitle": "Base de datos del juego",
+  "config.db.searchPlaceholder": "Buscar objetos, equipo, recetas…",
+  "config.db.inventory.description": "Recursos, consumibles y componentes.",
+  "config.db.equipment.description": "Armas, armaduras y herramientas con estadísticas.",
+  "config.db.recipes.description": "Recetas de fabricación por estación, con ingredientes.",
+  "config.db.enemies.description": "Criaturas y jefes de todo Ashenfall.",
+  "config.db.typeLabels.inventory": "Objeto",
+  "config.db.typeLabels.equipment": "Equipo",
+  "config.db.typeLabels.recipes": "Receta",
+  "config.db.typeLabels.enemies": "Enemigo"
+}

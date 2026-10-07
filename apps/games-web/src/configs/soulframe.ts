@@ -25,36 +25,33 @@ export const soulframe = resolveAppConfig({
   internalLinks: [
     {
       title: "Midrath Map",
-      description: "Navigate Soulframe's Midrath with our interactive maps.",
+      description: "config.internalLinks.maps-Midrath.description",
       href: "/maps/Midrath",
       iconName: "Map",
       // Inlined getPreviewImageUrl("soulframe", "Midrath", "2")
       bgImage: `${DATA_FORGE_CDN_URL}/soulframe/map-tiles/Midrath/preview.webp?v=2`,
-      linkText: "Explore the Midrath Map",
+      linkText: "config.internalLinks.maps-Midrath.linkText",
     },
     {
-      title: "Locations",
-      description:
-        "Every named place in Midrath, its World Trees, dungeons and enclaves, with lore and map positions.",
+      title: "config.internalLinks.landmarks.title",
+      description: "config.internalLinks.landmarks.description",
       href: "/db/landmarks",
       iconName: "MapPin",
-      linkText: "Browse Locations",
+      linkText: "config.internalLinks.landmarks.linkText",
     },
     {
-      title: "Foes",
-      description:
-        "The Ode, Mendicants, corrupted creatures and bosses of Midrath — where they spawn and which dungeons they guard.",
+      title: "config.internalLinks.foes.title",
+      description: "config.internalLinks.foes.description",
       href: "/db/foes",
       iconName: "Axe",
-      linkText: "Browse Foes",
+      linkText: "config.internalLinks.foes.linkText",
     },
     {
-      title: "Wildlife",
-      description:
-        "Midrath's animals and their rare Glimmering variants, with where to find them.",
+      title: "config.internalLinks.wildlife.title",
+      description: "config.internalLinks.wildlife.description",
       href: "/db/wildlife",
       iconName: "PawPrint",
-      linkText: "Browse Wildlife",
+      linkText: "config.internalLinks.wildlife.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -76,8 +73,8 @@ export const soulframe = resolveAppConfig({
       { section: "foes" },
       { section: "wildlife" },
     ],
-    heroSubtitle: "Codex: locations, foes & wildlife",
-    searchPlaceholder: "Search locations, foes, wildlife…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
@@ -87,8 +84,7 @@ export const soulframe = resolveAppConfig({
         titleKey: "landmarks",
         titleFallback: "Locations",
         icon: "🗺️",
-        description:
-          "Named places of Midrath, World Trees, dungeons and enclaves.",
+        description: "config.db.landmarks.description",
       },
       {
         href: "/db/foes",
@@ -97,7 +93,7 @@ export const soulframe = resolveAppConfig({
         titleKey: "foes",
         titleFallback: "Foes",
         icon: "⚔️",
-        description: "Ode, Mendicants, corrupted creatures and bosses.",
+        description: "config.db.foes.description",
       },
       {
         href: "/db/wildlife",
@@ -106,14 +102,14 @@ export const soulframe = resolveAppConfig({
         titleKey: "wildlife",
         titleFallback: "Wildlife",
         icon: "🦌",
-        description: "Animals of Midrath and their Glimmering variants.",
+        description: "config.db.wildlife.description",
       },
     ],
     // Singular (what ONE entry is) — singularize("Foes") would give "Fo".
     typeLabels: {
-      landmarks: "Location",
-      foes: "Foe",
-      wildlife: "Animal",
+      landmarks: "config.db.typeLabels.landmarks",
+      foes: "config.db.typeLabels.foes",
+      wildlife: "config.db.typeLabels.wildlife",
     },
   },
 });

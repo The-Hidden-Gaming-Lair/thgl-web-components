@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "สำรวจ Midrath ของ Soulframe ด้วยแผนที่แบบอินเทอร์แอคทีฟของเรา",
+  "config.internalLinks.maps-Midrath.linkText": "สำรวจแผนที่ Midrath",
+  "config.internalLinks.landmarks.title": "สถานที่",
+  "config.internalLinks.landmarks.description": "ทุกสถานที่ที่มีชื่อใน Midrath ทั้งต้นไม้โลก ดันเจียน และนิคม พร้อมเรื่องราวและตำแหน่งบนแผนที่",
+  "config.internalLinks.landmarks.linkText": "ดูสถานที่",
+  "config.internalLinks.foes.title": "ศัตรู",
+  "config.internalLinks.foes.description": "Ode, Mendicants, สิ่งมีชีวิตที่ถูกทำให้เสื่อมทราม และบอสของ Midrath — จุดเกิดและดันเจียนที่พวกมันเฝ้า",
+  "config.internalLinks.foes.linkText": "ดูศัตรู",
+  "config.internalLinks.wildlife.title": "สัตว์ป่า",
+  "config.internalLinks.wildlife.description": "สัตว์ของ Midrath และสายพันธุ์เรืองแสงที่หายาก พร้อมแหล่งที่พบ",
+  "config.internalLinks.wildlife.linkText": "ดูสัตว์ป่า",
+  "config.db.heroSubtitle": "โคเด็กซ์: สถานที่ ศัตรู และสัตว์ป่า",
+  "config.db.searchPlaceholder": "ค้นหาสถานที่ ศัตรู สัตว์ป่า…",
+  "config.db.landmarks.description": "สถานที่ที่มีชื่อใน Midrath ต้นไม้โลก ดันเจียน และนิคม",
+  "config.db.foes.description": "Ode, Mendicants, สิ่งมีชีวิตที่เสื่อมทราม และบอส",
+  "config.db.wildlife.description": "สัตว์ของ Midrath และสายพันธุ์เรืองแสง",
+  "config.db.typeLabels.landmarks": "สถานที่",
+  "config.db.typeLabels.foes": "ศัตรู",
+  "config.db.typeLabels.wildlife": "สัตว์"
+}

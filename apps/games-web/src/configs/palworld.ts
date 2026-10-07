@@ -29,13 +29,12 @@ export const palworld = resolveAppConfig({
   // same-target link). The links below point at the database (codex) sections.
   internalLinks: [
     {
-      title: "Breeding Calculator",
-      description:
-        "Every breeding combo for the current version — pick two parents, find all parent pairs for a Pal, or plan the fewest eggs from the Pals you own.",
+      title: "breeding.title",
+      description: "config.internalLinks.breeding.description",
       href: "/breeding",
       bgImage: "/games/thgl-web/tools/breeding.webp",
       iconName: "Heart",
-      linkText: "Open the Breeding Calculator",
+      linkText: "config.internalLinks.breeding.linkText",
     },
     {
       title: "iv.navTitle",
@@ -46,52 +45,46 @@ export const palworld = resolveAppConfig({
       linkText: "iv.navLinkText",
     },
     {
-      title: "Paldeck",
-      description:
-        "Every Pal with its elements, rarity, base stats and item drops — the full Paldeck.",
+      title: "config.internalLinks.paldeck.title",
+      description: "config.internalLinks.paldeck.description",
       href: "/db/paldeck",
       iconName: "Bug",
-      linkText: "Browse the Paldeck",
+      linkText: "config.internalLinks.paldeck.linkText",
     },
     {
-      title: "Items",
-      description:
-        "Browse every Palworld item by category — materials, food, gear and consumables — with stats, weight, price and recipes.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "Every crafting recipe with its ingredients and work amount, cross-linked to each item.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "BookOpen",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
-      title: "Technology",
-      description:
-        "The technology tree — every unlock with its tier, point cost and what it grants.",
+      title: "config.internalLinks.technology.title",
+      description: "config.internalLinks.technology.description",
       href: "/db/technology",
       iconName: "Grid",
-      linkText: "Browse Technology",
+      linkText: "config.internalLinks.technology.linkText",
     },
     {
-      title: "Base Invaders",
-      description:
-        "Every base raid — the raiders (Syndicate, cultists, wild Pals…) that attack your base by biome and security grade, with waves and rosters.",
+      title: "config.internalLinks.invaders.title",
+      description: "config.internalLinks.invaders.description",
       href: "/db/invaders",
       iconName: "Axe",
-      linkText: "Browse Base Invaders",
+      linkText: "config.internalLinks.invaders.linkText",
     },
     {
-      title: "Base Visitors",
-      description:
-        "Traveling merchants and visitors that come to your base — caravans, ambassadors and reward NPCs — by biome and grade.",
+      title: "config.internalLinks.visitors.title",
+      description: "config.internalLinks.visitors.description",
       href: "/db/visitors",
       iconName: "Users",
-      linkText: "Browse Base Visitors",
+      linkText: "config.internalLinks.visitors.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -123,8 +116,8 @@ export const palworld = resolveAppConfig({
   db: {
     // Collection checklists (/checklist, /checklist/<section>).
     checklists: [{ section: "paldeck" }],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search Pals, items…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     // One indexable /breeding/<palId> page per Paldeck entry (sitemap + codex link).
     entryPages: [
@@ -134,54 +127,59 @@ export const palworld = resolveAppConfig({
       {
         href: "/db/paldeck",
         type: "paldeck",
+        titleKey: "config.internalLinks.paldeck.title",
         titleFallback: "Paldeck",
         icon: "🐾",
-        description: "Every Pal — elements, stats and drops.",
+        description: "config.db.paldeck.description",
       },
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "🎒",
-        description: "Materials, food, gear and consumables.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "📜",
-        description: "Crafting recipes with ingredients and work amount.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/technology",
         type: "technology",
+        titleKey: "config.internalLinks.technology.title",
         titleFallback: "Technology",
         icon: "🔧",
-        description: "The tech tree — tiers, costs and unlocks.",
+        description: "config.db.technology.description",
       },
       {
         href: "/db/invaders",
         type: "invaders",
+        titleKey: "config.internalLinks.invaders.title",
         titleFallback: "Base Invaders",
         icon: "⚔️",
-        description:
-          "Base raids by biome and security grade — waves and rosters.",
+        description: "config.db.invaders.description",
       },
       {
         href: "/db/visitors",
         type: "visitors",
+        titleKey: "config.internalLinks.visitors.title",
         titleFallback: "Base Visitors",
         icon: "🧳",
-        description: "Traveling merchants and visitors to your base.",
+        description: "config.db.visitors.description",
       },
     ],
     typeLabels: {
-      paldeck: "Pal",
-      inventory: "Items",
-      recipes: "Recipe",
-      technology: "Technology",
-      invaders: "Raid",
-      visitors: "Visitor",
+      paldeck: "config.db.typeLabels.paldeck",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
+      technology: "config.db.typeLabels.technology",
+      invaders: "config.db.typeLabels.invaders",
+      visitors: "config.db.typeLabels.visitors",
     },
   },
 });

@@ -21,48 +21,47 @@ export const avowed = resolveAppConfig({
   // internalLink targets the same /maps/<name>.
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Browse every Avowed item by category — weapons, armor, accessories, food, consumables, ingredients and more — with descriptions and cooking recipes.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "Every cooking recipe in Avowed — ingredients cross-linked to each item, with yields.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "ScrollText",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
   ],
   externalLinks: [],
   keywords: ["God Totems", "Unique Weapons"],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "🗡️",
-        description:
-          "Weapons, armor, accessories, food, consumables and materials.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "📜",
-        description: "Cooking recipes with ingredients and yields.",
+        description: "config.db.recipes.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      recipes: "Recipe",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
     },
   },
 });

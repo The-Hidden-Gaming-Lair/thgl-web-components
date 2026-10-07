@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "공명자, 무기, 에코, 아이템 검색…",
+  "config.db.resonators.description": "속성과 희귀도별 플레이 가능한 캐릭터.",
+  "config.db.resonators.title": "공명자",
+  "config.db.weapons.description": "종류와 희귀도별 무기.",
+  "config.db.weapons.title": "무기",
+  "config.db.echoes.description": "코스트, 스킬, 화음 세트가 있는 수집형 에코.",
+  "config.db.echoes.title": "에코",
+  "config.db.sonatas.description": "에코 세트 효과와 이를 부여하는 에코.",
+  "config.db.sonatas.title": "화음",
+  "config.db.enemies.description": "세계 곳곳의 몬스터와 보스.",
+  "config.db.enemies.title": "적",
+  "config.db.inventory.description": "재료, 소모품, 자원.",
+  "config.db.inventory.title": "아이템",
+  "config.db.typeLabels.resonators": "공명자",
+  "config.db.typeLabels.weapons": "무기",
+  "config.db.typeLabels.echoes": "에코",
+  "config.db.typeLabels.sonatas": "화음",
+  "config.db.typeLabels.enemies": "적",
+  "config.db.typeLabels.inventory": "아이템"
+}

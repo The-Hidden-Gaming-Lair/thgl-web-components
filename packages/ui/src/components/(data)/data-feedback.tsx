@@ -216,7 +216,7 @@ export function DataFeedback({
               disabled={sending || !text.trim()}
             >
               {sending
-                ? "Sending..."
+                ? t("feedback.sending", { fallback: "Sending..." })
                 : t("feedback.send", { fallback: "Send" })}
             </Button>
             <Button

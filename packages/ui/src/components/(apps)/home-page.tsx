@@ -8,6 +8,7 @@ import {
   AppConfig,
   DEFAULT_LOCALE,
   fetchDatabaseIndex,
+  fetchDict,
   fetchVersion,
   getIconsUrl,
   getMetadataAlternates,
@@ -16,8 +17,12 @@ import {
   getUpdateMessages,
   type IconSprite,
   localizePath,
+  mapLinkTitle,
+  mapNameEntries,
+  mapTileKeyFromHref,
   resolveForgeUrl,
   sortMapNamesNewestFirst,
+  translate,
 } from "@repo/lib";
 import type { NavCardProps } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
@@ -35,8 +40,17 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
     params,
   }: PageProps): Promise<Metadata> {
     const { locale = DEFAULT_LOCALE } = await params;
-    const dict = await getStaticDictionary(appConfig.name, locale);
-    const t = getT(dict);
+    const [dict, version, mapDict, enDict] = await Promise.all([
+      getStaticDictionary(appConfig.name, locale),
+      fetchVersion(appConfig.name),
+      fetchDict(appConfig.name, locale),
+      fetchDict(appConfig.name),
+    ]);
+    // + localized map names for the map links (mapLinkTitle).
+    const t = getT({
+      ...dict,
+      ...mapNameEntries(Object.keys(version.data.tiles ?? {}), mapDict, enDict),
+    });
 
     // Featured sections for the "Explore {{features}} in {{title}}…" meta
     // description. Prefer curated internalLinks; fall back to the game's
@@ -46,7 +60,7 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
       appConfig.internalLinks?.filter((l) => !l.previewOnly) ?? [];
     const featureSource =
       seoLinks.length > 0
-        ? seoLinks.slice(0, 3).map((link) => t(link.title))
+        ? seoLinks.slice(0, 3).map((link) => mapLinkTitle(t, link))
         : appConfig.keywords.slice(0, 3).map((k) => t(k));
     const features = featureSource.join(", ");
 
@@ -92,16 +106,35 @@ export function createHomePage(appConfig: AppConfig) {
     // database sections as the same polished card grid the DB-only home uses, instead
     // of plain feature rows. Fetch the index only when there are sections to count.
     const dbSections = appConfig.db?.homeSections ?? [];
-    const [dict, updateMessages, version, database] = await Promise.all([
-      getFullDictionary(appConfig.name, locale),
-      getUpdateMessages(appConfig.name),
-      fetchVersion(appConfig.name),
-      dbSections.length
-        ? fetchDatabaseIndex(appConfig.name).catch(() => [])
-        : Promise.resolve([]),
-    ]);
+    const [dict, updateMessages, version, database, enDict] = await Promise.all(
+      [
+        getFullDictionary(appConfig.name, locale),
+        getUpdateMessages(appConfig.name),
+        fetchVersion(appConfig.name),
+        dbSections.length
+          ? fetchDatabaseIndex(appConfig.name).catch(() => [])
+          : Promise.resolve([]),
+        fetchDict(appConfig.name),
+      ],
+    );
 
-    const t = getT(dict);
+    // + localized map names for the internalLinks map cards (mapLinkTitle).
+    const t = getT({
+      ...dict,
+      ...mapNameEntries(Object.keys(version.data.tiles ?? {}), dict, enDict),
+    });
+    const formatCount = (n: number) => n.toLocaleString(locale);
+    // Map cards show their description only when it is a location count; the
+    // localized label doesn't always start with the number ("Мест: 1 234").
+    const countLabels = new Set<string>();
+    const locationsLabel = (n: number) => {
+      const label = t("home.mapLocations", {
+        fallback: "{{count}} locations",
+        vars: { count: formatCount(n) },
+      });
+      countLabels.add(label);
+      return label;
+    };
 
     // Resolve a dict value, following @-pointers, falling back to the raw string
     // (mirrors the DB home's resolveDict so plain-string titles/descriptions pass through).
@@ -126,7 +159,7 @@ export function createHomePage(appConfig: AppConfig) {
       appConfig.internalLinks
         ?.filter((l) => !l.previewOnly)
         .slice(0, 3)
-        .map((link) => t(link.title))
+        .map((link) => mapLinkTitle(t, link))
         .join(", ") ?? "";
 
     const keywords = appConfig.keywords?.map((k) => t(k)).join(", ") ?? "";
@@ -145,12 +178,12 @@ export function createHomePage(appConfig: AppConfig) {
         );
     // Newest maps (tiles `addedAt`) first, so a patch's new map is among the
     // first MAX_HOME_MAP_CARDS instead of appended past the cut.
+    // Map URLs use the English name on every locale (like the /maps cards);
+    // t(map) is localized, so it can't be matched against internalLinks hrefs.
+    const mapHref = (map: string) =>
+      `/maps/${encodeURIComponent(translate(enDict, map) || map)}`;
     const autoMapNames = sortMapNamesNewestFirst(
-      mapNames.filter((map) => {
-        const mapName = t(map);
-        const href = `/maps/${encodeURIComponent(mapName)}`;
-        return !internalLinkHrefs.has(href);
-      }),
+      mapNames.filter((map) => !internalLinkHrefs.has(mapHref(map))),
       version.data.tiles,
     );
     const newMapCount = autoMapNames.filter(
@@ -168,12 +201,18 @@ export function createHomePage(appConfig: AppConfig) {
         const mapLocCount = version.counts?.byMap?.[map] || 0;
         const desc =
           mapLocCount > 0
-            ? `${mapLocCount.toLocaleString()} locations`
-            : `Navigate ${mapName} with our interactive maps.`;
+            ? locationsLabel(mapLocCount)
+            : t("home.mapNavigate", {
+                fallback: "Navigate {{map}} with our interactive maps.",
+                vars: { map: mapName },
+              });
         return {
-          title: `${mapName} Map`,
+          title: t("nav.mapTitle", {
+            fallback: "{{map}} Map",
+            vars: { map: mapName },
+          }),
           description: desc,
-          href: `/maps/${encodeURIComponent(mapName)}`,
+          href: mapHref(map),
           iconName: "Map" as NavCardProps["iconName"],
           // Resolve through the host-aware forge proxy so next/image's
           // server-side optimizer fetches the correct origin: the local
@@ -185,7 +224,10 @@ export function createHomePage(appConfig: AppConfig) {
                 getPreviewImageUrl(appConfig.name, tileBase),
               )
             : undefined,
-          linkText: `Explore the ${mapName}`,
+          linkText: t("home.mapExplore", {
+            fallback: "Explore the {{map}}",
+            vars: { map: mapName },
+          }),
         };
       }),
     );
@@ -195,24 +237,17 @@ export function createHomePage(appConfig: AppConfig) {
 
     // Split internalLinks into map cards, guide links, and other feature cards
     // Enrich map cards with location counts from version.counts.byMap
-    const mapNameToKey = new Map<string, string>();
-    for (const tileKey of Object.keys(version.data.tiles)) {
-      mapNameToKey.set(t(tileKey), tileKey);
-    }
+    const tileKeys = Object.keys(version.data.tiles);
     const internalMapCards: NavCardProps[] =
       appConfig.internalLinks
         ?.filter((link) => link.href?.startsWith("/maps/"))
         .map((link) => {
-          const mapDisplayName = decodeURIComponent(
-            link.href.replace("/maps/", ""),
-          );
-          const tileKey = mapNameToKey.get(mapDisplayName);
+          const tileKey = mapTileKeyFromHref(link.href, tileKeys, enDict);
           const locCount = tileKey && version.counts?.byMap?.[tileKey];
           return {
             ...link,
-            description: locCount
-              ? `${locCount.toLocaleString()} locations`
-              : link.description,
+            title: mapLinkTitle(t, link),
+            description: locCount ? locationsLabel(locCount) : link.description,
           };
         }) ?? [];
     // Feature cards: non-map, non-guide links (e.g. "Weapons", "Deviant Locations").
@@ -361,7 +396,9 @@ export function createHomePage(appConfig: AppConfig) {
                         {totalMapCount}
                       </div>
                       <div className="text-xs uppercase tracking-wider">
-                        {totalMapCount === 1 ? "Map" : "Maps"}
+                        {totalMapCount === 1
+                          ? t("home.stats.map", { fallback: "Map" })
+                          : t("nav.maps", { fallback: "Maps" })}
                       </div>
                     </div>
                   )}
@@ -371,11 +408,17 @@ export function createHomePage(appConfig: AppConfig) {
                       <div className="text-center px-3 py-1">
                         <div className="text-lg font-semibold text-foreground tabular-nums">
                           {totalLocations
-                            ? totalLocations.toLocaleString()
+                            ? formatCount(totalLocations)
                             : totalLocationTypes}
                         </div>
                         <div className="text-xs uppercase tracking-wider">
-                          {totalLocations ? "Locations" : "Location Types"}
+                          {totalLocations
+                            ? t("home.stats.locations", {
+                                fallback: "Locations",
+                              })
+                            : t("home.stats.locationTypes", {
+                                fallback: "Location Types",
+                              })}
                         </div>
                       </div>
                     </>
@@ -385,14 +428,16 @@ export function createHomePage(appConfig: AppConfig) {
                       <div className="h-8 w-px bg-muted" />
                       <div className="text-center px-3 py-1">
                         <div className="text-sm font-medium text-foreground">
-                          {lastUpdated.toLocaleDateString("en", {
+                          {lastUpdated.toLocaleDateString(locale, {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
                           })}
                         </div>
                         <div className="text-xs uppercase tracking-wider">
-                          Last Updated
+                          {t("home.stats.lastUpdated", {
+                            fallback: "Last Updated",
+                          })}
                         </div>
                       </div>
                     </>
@@ -413,14 +458,19 @@ export function createHomePage(appConfig: AppConfig) {
                     </span>
                     <span className="text-sm text-left">
                       <strong className="text-foreground block text-sm">
-                        In-Game Companion App
+                        {t("home.companion.title", {
+                          fallback: "In-Game Companion App",
+                        })}
                       </strong>
                       <span className="text-xs text-muted-foreground">
-                        Live overlay with player tracking and auto-discovery
+                        {t("home.companion.description", {
+                          fallback:
+                            "Live overlay with player tracking and auto-discovery",
+                        })}
                       </span>
                     </span>
                     <span className="text-primary text-xs ml-auto shrink-0 group-hover:underline">
-                      Get it free →
+                      {t("home.companion.cta", { fallback: "Get it free" })} →
                     </span>
                   </a>
                 )}
@@ -464,11 +514,14 @@ export function createHomePage(appConfig: AppConfig) {
                                   </span>
                                   <span className="text-xs text-muted-foreground shrink-0">
                                     {card.description &&
-                                      /^\d/.test(card.description) && (
+                                      countLabels.has(card.description) && (
                                         <>{card.description} · </>
                                       )}
                                     <span className="group-hover:text-primary transition-colors">
-                                      Explore →
+                                      {t("home.explore", {
+                                        fallback: "Explore",
+                                      })}{" "}
+                                      →
                                     </span>
                                   </span>
                                 </div>
@@ -490,11 +543,14 @@ export function createHomePage(appConfig: AppConfig) {
                                   </span>
                                   <span className="text-xs text-muted-foreground shrink-0">
                                     {card.description &&
-                                      /^\d/.test(card.description) && (
+                                      countLabels.has(card.description) && (
                                         <>{card.description} · </>
                                       )}
                                     <span className="group-hover:text-primary transition-colors">
-                                      Explore →
+                                      {t("home.explore", {
+                                        fallback: "Explore",
+                                      })}{" "}
+                                      →
                                     </span>
                                   </span>
                                 </div>
@@ -523,7 +579,7 @@ export function createHomePage(appConfig: AppConfig) {
                 {dbSections.length > 0 && (
                   <div className="space-y-2">
                     <h2 className="text-xs uppercase tracking-wider text-muted-foreground">
-                      Database
+                      {t("database")}
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
                       {dbSections
@@ -639,7 +695,7 @@ export function createHomePage(appConfig: AppConfig) {
                             <div className="text-[10px] text-muted-foreground">
                               {filter.group}
                               {filter.locationCount > 0 &&
-                                ` · ${filter.locationCount.toLocaleString()}`}
+                                ` · ${formatCount(filter.locationCount)}`}
                             </div>
                           </div>
                         </Link>
@@ -649,7 +705,7 @@ export function createHomePage(appConfig: AppConfig) {
                       href={localizePath("/guides", locale)}
                       className="inline-flex items-center gap-2 rounded-md border border-muted/50 px-4 py-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
                     >
-                      View all guides →
+                      {t("guides.viewAll", { fallback: "View all guides" })} →
                     </Link>
                   </div>
                 )}

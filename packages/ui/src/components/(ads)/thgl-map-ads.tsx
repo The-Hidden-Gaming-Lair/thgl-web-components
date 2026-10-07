@@ -5,6 +5,7 @@ import { ScriptLoader } from "./nitro-script";
 import { THGLAppConfig } from "@repo/lib";
 import dynamic from "next/dynamic";
 import { IS_DEMO_MODE } from "./constants";
+import { AdSlot } from "./house-ad";
 
 const MovableAdsContainer = dynamic(
   () =>
@@ -323,7 +324,7 @@ function AdSlots({ id, adFormat }: { id: string; adFormat: AdFormat }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: STACK_GAP }}>
       {slotIds(id, adFormat).map((slotId) => (
-        <div
+        <AdSlot
           key={slotId}
           // Clamp the NitroPay-injected creative (and its iframe) to the box —
           // NitroPay occasionally serves a creative larger than the requested

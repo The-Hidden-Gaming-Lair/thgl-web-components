@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "Objets",
+  "config.internalLinks.inventory.description": "Tous les objets d'Avowed par catégorie (armes, armures, accessoires, nourriture, consommables, ingrédients et plus) avec descriptions et recettes de cuisine.",
+  "config.internalLinks.inventory.linkText": "Ouvrir la base de données des objets",
+  "config.internalLinks.recipes.title": "Recettes",
+  "config.internalLinks.recipes.description": "Toutes les recettes de cuisine d'Avowed, ingrédients liés à chaque objet, avec leur rendement.",
+  "config.internalLinks.recipes.linkText": "Parcourir les recettes",
+  "config.db.heroSubtitle": "Base de données du jeu",
+  "config.db.searchPlaceholder": "Rechercher des objets…",
+  "config.db.inventory.description": "Armes, armures, accessoires, nourriture, consommables et matériaux.",
+  "config.db.recipes.description": "Recettes de cuisine avec ingrédients et rendement.",
+  "config.db.typeLabels.inventory": "Objet",
+  "config.db.typeLabels.recipes": "Recette"
+}

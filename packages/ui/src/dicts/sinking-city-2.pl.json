@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Przedmioty i kodeks",
+  "config.internalLinks.items.description": "Broń, przedmioty użytkowe i przedmioty fabularne z The Sinking City 2 — z ikonami i opisami.",
+  "config.internalLinks.items.linkText": "Otwórz bazę przedmiotów",
+  "config.internalLinks.lore.title": "Fabuła",
+  "config.internalLinks.lore.description": "Wszystkie dokumenty, notatki i listy do znalezienia w zalanym Arkham.",
+  "config.internalLinks.lore.linkText": "Czytaj fabułę",
+  "config.db.heroSubtitle": "Baza danych gry",
+  "config.db.searchPlaceholder": "Szukaj przedmiotów i fabuły…",
+  "config.db.items.description": "Broń, przedmioty użytkowe, amunicja i przedmioty fabularne.",
+  "config.db.items.title": "Przedmioty",
+  "config.db.lore.description": "Dokumenty, notatki i listy z całego Arkham.",
+  "config.db.evidence.description": "Wskazówki i dowody odkryte podczas śledztw.",
+  "config.db.evidence.title": "Dowody",
+  "config.db.cases.description": "Sprawy i ich rozstrzygnięcia.",
+  "config.db.cases.title": "Sprawy",
+  "config.db.typeLabels.items": "Przedmiot",
+  "config.db.typeLabels.lore": "Fabuła",
+  "config.db.typeLabels.evidence": "Dowód",
+  "config.db.typeLabels.cases": "Sprawa"
+}

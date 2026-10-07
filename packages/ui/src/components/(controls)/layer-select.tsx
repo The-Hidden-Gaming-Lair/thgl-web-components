@@ -47,7 +47,11 @@ function buildAreas(
     });
   }
   const areas = [...byGroup.values()];
-  for (const a of areas) a.floors.sort((x, y) => x.floor - y.floor);
+  for (const a of areas) {
+    a.floors.sort((x, y) => x.floor - y.floor);
+    // a one-floor area (a planet's single "Underground" map) is named, not "Floor 1"
+    if (a.floors.length === 1) a.floors[0]!.label = a.label;
+  }
   areas.sort((a, b) => a.label.localeCompare(b.label));
   return areas;
 }

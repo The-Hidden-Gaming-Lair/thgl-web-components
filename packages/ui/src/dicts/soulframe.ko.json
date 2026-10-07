@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "인터랙티브 지도로 Soulframe의 Midrath를 탐험하세요.",
+  "config.internalLinks.maps-Midrath.linkText": "Midrath 지도 탐험하기",
+  "config.internalLinks.landmarks.title": "장소",
+  "config.internalLinks.landmarks.description": "Midrath의 모든 이름 있는 장소, 세계수, 던전, 거주지 — 배경 이야기와 지도 위치 포함.",
+  "config.internalLinks.landmarks.linkText": "장소 보기",
+  "config.internalLinks.foes.title": "적",
+  "config.internalLinks.foes.description": "Midrath의 오드, 멘디컨트, 타락한 생물, 보스 — 출현 위치와 지키는 던전.",
+  "config.internalLinks.foes.linkText": "적 보기",
+  "config.internalLinks.wildlife.title": "야생동물",
+  "config.internalLinks.wildlife.description": "Midrath의 동물과 희귀한 빛나는 변종, 그리고 찾는 곳.",
+  "config.internalLinks.wildlife.linkText": "야생동물 보기",
+  "config.db.heroSubtitle": "코덱스: 장소, 적, 야생동물",
+  "config.db.searchPlaceholder": "장소, 적, 야생동물 검색…",
+  "config.db.landmarks.description": "Midrath의 이름 있는 장소, 세계수, 던전, 거주지.",
+  "config.db.foes.description": "오드, 멘디컨트, 타락한 생물, 보스.",
+  "config.db.wildlife.description": "Midrath의 동물과 빛나는 변종.",
+  "config.db.typeLabels.landmarks": "장소",
+  "config.db.typeLabels.foes": "적",
+  "config.db.typeLabels.wildlife": "동물"
+}

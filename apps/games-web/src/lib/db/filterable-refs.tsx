@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { localizePath } from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
+import { EntityTooltip } from "@/lib/db/entity-tooltip";
 
 export type IconSprite = {
   url: string;
@@ -78,7 +79,20 @@ export function FilterableRefs({
         : "bg-slate-800/80 text-slate-300 hover:bg-slate-700"
     }`;
 
-  const pill = (r: FilterableRef) => (
+  // A ref without its own tooltip text shows the linked entry's hover card.
+  const pill = (r: FilterableRef) =>
+    r.tooltip ? (
+      pillLink(r)
+    ) : (
+      <EntityTooltip
+        key={`${r.section}/${r.id}`}
+        entityId={r.id}
+        locale={locale}
+      >
+        {pillLink(r)}
+      </EntityTooltip>
+    );
+  const pillLink = (r: FilterableRef) => (
     <Link
       key={`${r.section}/${r.id}`}
       href={localizePath(`/db/${r.section}/${r.id}`, locale)}

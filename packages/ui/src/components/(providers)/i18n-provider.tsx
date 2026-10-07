@@ -5,6 +5,7 @@ import {
   Fragment,
   useCallback,
   useContext,
+  useMemo,
   type ReactNode,
   type JSX,
 } from "react";
@@ -95,11 +96,9 @@ export function I18NProvider({
     [dict],
   );
 
-  return (
-    <I18nContext.Provider value={{ dict, locale, t }}>
-      {children}
-    </I18nContext.Provider>
-  );
+  // Stable value: CoordinatesProvider re-provides the dict for the whole map tree.
+  const value = useMemo(() => ({ dict, locale, t }), [dict, locale, t]);
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
 // Hook to access i18n context

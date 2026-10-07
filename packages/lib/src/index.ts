@@ -48,6 +48,7 @@ export * from "./preview-release";
 export * from "./private-icons";
 export * from "./resilient-fetch";
 export * from "./respawn-reset";
+export * from "./route-planner";
 export * from "./search-params";
 export * from "./settings";
 export * from "./theme";

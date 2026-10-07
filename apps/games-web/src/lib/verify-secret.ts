@@ -22,6 +22,7 @@ import {
 } from "@/lib/test-supporter";
 import { games } from "@repo/lib";
 import { applyInvitePerks, getInvitesBestEffort } from "@/lib/invites";
+import { isTebexUserId, resolveTebexAccount } from "@/lib/tebex";
 
 /**
  * Readable text for a failed Patreon call — the unlock dialog toasts `error`
@@ -85,6 +86,38 @@ export async function verifySecretPOST(request: NextRequest) {
           email: TEST_SUPPORTER_EMAIL,
           // Invites still come from the DB so the gate is testable in dev.
           invites: await getInvitesBestEffort("[patreon/verify]", userId),
+        },
+        { headers: CORS_HEADERS },
+      );
+    }
+
+    // Tebex-purchased account (lib/tebex.ts): perks come from the webhook-fed
+    // entitlement table, not Patreon. The secret never carries a token, so it
+    // is returned unrotated.
+    if (isTebexUserId(userId)) {
+      const tebex = await resolveTebexAccount(userId, game);
+      if (!tebex) {
+        return Response.json(
+          { error: "Entitlement store unavailable" },
+          { status: 503, headers: CORS_HEADERS },
+        );
+      }
+      const invites = await getInvitesBestEffort("[patreon/verify]", userId);
+      if (!tebex.isSupporter && !invites?.length) {
+        return Response.json(
+          { error: "User is not a supporter", invites },
+          { status: 403, headers: CORS_HEADERS },
+        );
+      }
+      return Response.json(
+        {
+          ...applyInvitePerks(tebex.perks, invites),
+          secret: requestBody.userId,
+          expiresIn: 2678400,
+          decryptedUserId: userId,
+          email: tebex.email,
+          isSpecial: false,
+          invites,
         },
         { headers: CORS_HEADERS },
       );

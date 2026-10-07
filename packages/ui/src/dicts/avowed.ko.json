@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "아이템",
+  "config.internalLinks.inventory.description": "Avowed의 모든 아이템을 분류별로 확인하세요. 무기, 방어구, 장신구, 음식, 소모품, 재료 등 설명과 요리법 포함.",
+  "config.internalLinks.inventory.linkText": "아이템 데이터베이스 열기",
+  "config.internalLinks.recipes.title": "요리법",
+  "config.internalLinks.recipes.description": "Avowed의 모든 요리법. 재료는 각 아이템과 연결되어 있으며 생산량도 표시합니다.",
+  "config.internalLinks.recipes.linkText": "요리법 보기",
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "아이템 검색…",
+  "config.db.inventory.description": "무기, 방어구, 장신구, 음식, 소모품, 재료.",
+  "config.db.recipes.description": "요리법의 재료와 생산량.",
+  "config.db.typeLabels.inventory": "아이템",
+  "config.db.typeLabels.recipes": "요리법"
+}

@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "Przedmioty",
+  "config.internalLinks.inventory.description": "Wszystkie przedmioty z Avowed według kategorii – broń, pancerze, akcesoria, jedzenie, przedmioty użytkowe, składniki i więcej – z opisami i przepisami kulinarnymi.",
+  "config.internalLinks.inventory.linkText": "Otwórz bazę przedmiotów",
+  "config.internalLinks.recipes.title": "Przepisy",
+  "config.internalLinks.recipes.description": "Wszystkie przepisy kulinarne z Avowed – składniki powiązane z każdym przedmiotem, z liczbą wytwarzanych porcji.",
+  "config.internalLinks.recipes.linkText": "Przeglądaj przepisy",
+  "config.db.heroSubtitle": "Baza danych gry",
+  "config.db.searchPlaceholder": "Szukaj przedmiotów…",
+  "config.db.inventory.description": "Broń, pancerze, akcesoria, jedzenie, przedmioty użytkowe i materiały.",
+  "config.db.recipes.description": "Przepisy kulinarne ze składnikami i liczbą porcji.",
+  "config.db.typeLabels.inventory": "Przedmiot",
+  "config.db.typeLabels.recipes": "Przepis"
+}

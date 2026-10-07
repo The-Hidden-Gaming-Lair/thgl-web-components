@@ -174,6 +174,29 @@ export default function PrivacyPolicy(): JSX.Element {
             for details. The data exchange with Patreon takes place when you
             actively initiate the sign-in (Art. 6(1)(b) GDPR).
           </p>
+          <p>
+            Alternatively, you can subscribe via{" "}
+            <strong className="text-foreground">Tebex</strong> (card, PayPal,
+            Alipay and other payment methods). Tebex Limited (United Kingdom)
+            sells the subscription as merchant of record and processes your
+            payment details; I never see them. When you start a checkout, a
+            random account ID is created for you and stored in the same
+            authentication cookie described above; your IP address is passed to
+            Tebex to create the checkout (fraud prevention and tax country).
+            After your purchase, Tebex sends me your email address, the
+            purchased tier, the subscription status and its renewal date, which
+            I store linked to that account ID to unlock your perks. Legal basis:
+            Art. 6(1)(b) GDPR. See the{" "}
+            <a
+              href="https://checkout.tebex.io/privacy"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              Tebex Privacy Policy
+            </a>{" "}
+            for how Tebex processes your data.
+          </p>
         </div>
       </section>
       <hr className="border-border" />

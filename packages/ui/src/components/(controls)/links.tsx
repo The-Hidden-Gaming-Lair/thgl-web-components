@@ -18,7 +18,13 @@ import {
   MoreHorizontal,
   X,
 } from "lucide-react";
-import { AppConfig, localizePath, cn, type GuideNavLink } from "@repo/lib";
+import {
+  AppConfig,
+  localizePath,
+  cn,
+  mapLinkTitle,
+  type GuideNavLink,
+} from "@repo/lib";
 import { Badge } from "../ui/badge";
 import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 import { useI18n } from "../(providers)";
@@ -137,7 +143,7 @@ export function useNavGroups({
           label: t("nav.maps", { fallback: "Maps" }),
           items: [
             toLink("/maps", t("nav.allMaps", { fallback: "All Maps" }), true),
-            ...named.map((l) => toLink(l.href, t(l.title))),
+            ...named.map((l) => toLink(l.href, mapLinkTitle(t, l))),
           ],
         });
       }

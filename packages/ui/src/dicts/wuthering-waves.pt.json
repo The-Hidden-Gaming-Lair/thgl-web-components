@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "Base de dados do jogo",
+  "config.db.searchPlaceholder": "Pesquisar ressonadores, armas, ecos, itens…",
+  "config.db.resonators.description": "Personagens jogáveis por elemento e raridade.",
+  "config.db.resonators.title": "Ressonadores",
+  "config.db.weapons.description": "Armas por tipo e raridade.",
+  "config.db.weapons.title": "Armas",
+  "config.db.echoes.description": "Ecos colecionáveis com custo, habilidades e conjuntos de sonata.",
+  "config.db.echoes.title": "Ecos",
+  "config.db.sonatas.description": "Bónus de conjunto de ecos e os ecos que os concedem.",
+  "config.db.sonatas.title": "Sonatas",
+  "config.db.enemies.description": "Monstros e chefes de todo o mundo.",
+  "config.db.enemies.title": "Inimigos",
+  "config.db.inventory.description": "Materiais, consumíveis e recursos.",
+  "config.db.inventory.title": "Itens",
+  "config.db.typeLabels.resonators": "Ressonador",
+  "config.db.typeLabels.weapons": "Arma",
+  "config.db.typeLabels.echoes": "Eco",
+  "config.db.typeLabels.sonatas": "Sonata",
+  "config.db.typeLabels.enemies": "Inimigo",
+  "config.db.typeLabels.inventory": "Item"
+}

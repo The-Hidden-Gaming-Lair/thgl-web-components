@@ -32,6 +32,7 @@ import {
 } from "react";
 import { useMapStore, type GameMap } from "./store";
 import { useTerraformStage } from "../(controls)/terraform-stage-select";
+import { useSelectedMapLayout } from "../(controls)/map-layout-select";
 import { ContextMenu } from "./context-menu";
 import { useLocale, useT } from "../(providers)";
 
@@ -125,6 +126,8 @@ export function InteractiveMap({
           | undefined
       )?.stages?.[selectedStage]?.url
     : undefined;
+  // Generated-layout swap (Dune Deep Desert, MapLayoutSelect): same bounds, other tiles.
+  const layoutTileUrl = useSelectedMapLayout(tileOptions, mapName)?.url;
 
   // Descend into an interior layer (shared by the on-map shapes + their labels).
   const enterLayer = useCallback(
@@ -550,7 +553,10 @@ export function InteractiveMap({
       return;
     }
 
-    const url = getTileLayerUrl(appName, stageTileUrl ?? mapTileOptions.url);
+    const url = getTileLayerUrl(
+      appName,
+      stageTileUrl ?? layoutTileUrl ?? mapTileOptions.url,
+    );
     const opacity = mapTileOptions.backdrop ? 0.4 : 1;
     // The transparency modes only make sense over the game (in-game overlay);
     // on web/desktop the tiles are always drawn as they are.
@@ -611,6 +617,7 @@ export function InteractiveMap({
     map,
     mapTileOptions,
     stageTileUrl,
+    layoutTileUrl,
     colorBlindMode,
     colorBlindSeverity,
     mapDarkness,

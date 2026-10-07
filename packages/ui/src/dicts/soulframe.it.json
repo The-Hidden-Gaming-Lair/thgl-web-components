@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "Esplora Midrath di Soulframe con le nostre mappe interattive.",
+  "config.internalLinks.maps-Midrath.linkText": "Esplora la mappa di Midrath",
+  "config.internalLinks.landmarks.title": "Luoghi",
+  "config.internalLinks.landmarks.description": "Ogni luogo con nome di Midrath, i suoi Alberi del Mondo, dungeon ed enclavi, con storia e posizioni sulla mappa.",
+  "config.internalLinks.landmarks.linkText": "Sfoglia i luoghi",
+  "config.internalLinks.foes.title": "Nemici",
+  "config.internalLinks.foes.description": "L'Ode, i Mendicants, le creature corrotte e i boss di Midrath — dove compaiono e quali dungeon custodiscono.",
+  "config.internalLinks.foes.linkText": "Sfoglia i nemici",
+  "config.internalLinks.wildlife.title": "Fauna",
+  "config.internalLinks.wildlife.description": "Gli animali di Midrath e le loro rare varianti scintillanti, con dove trovarli.",
+  "config.internalLinks.wildlife.linkText": "Sfoglia la fauna",
+  "config.db.heroSubtitle": "Codex: luoghi, nemici e fauna",
+  "config.db.searchPlaceholder": "Cerca luoghi, nemici, fauna…",
+  "config.db.landmarks.description": "Luoghi con nome di Midrath, Alberi del Mondo, dungeon ed enclavi.",
+  "config.db.foes.description": "Ode, Mendicants, creature corrotte e boss.",
+  "config.db.wildlife.description": "Animali di Midrath e le loro varianti scintillanti.",
+  "config.db.typeLabels.landmarks": "Luogo",
+  "config.db.typeLabels.foes": "Nemico",
+  "config.db.typeLabels.wildlife": "Animale"
+}

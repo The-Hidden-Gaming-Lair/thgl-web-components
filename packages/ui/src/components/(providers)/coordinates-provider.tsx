@@ -10,7 +10,7 @@ import {
   type JSX,
 } from "react";
 import Fuse from "fuse.js";
-import { useI18n } from ".";
+import { I18NProvider, useI18n } from ".";
 import {
   decodeFromBuffer,
   isLiveReadingActive,
@@ -41,6 +41,8 @@ import {
   collectDoneWhenAllRules,
   collectKnownNodeIds,
   collectPrivateNodeIds,
+  getFocusMode,
+  isSpawnShownByFocus,
   resolvePrivateIcon,
   setDoneWhenAllRules,
   setKnownNodeIds,
@@ -55,6 +57,7 @@ import { useStaticNodesTransformStore } from "./static-nodes-transform-store";
 import useSWRImmutable from "swr/immutable";
 import { toast } from "sonner";
 import { PresetMapAutoApply } from "./preset-auto-apply";
+import { useSelectedMapLayout } from "../(controls)/map-layout-select";
 
 export type NodesCoordinates = {
   type: string;
@@ -204,7 +207,7 @@ export function CoordinatesProvider({
    */
   tilesConfig?: TilesConfig;
 }): JSX.Element {
-  const { t, dict, locale } = useI18n();
+  const { dict: baseDict, locale } = useI18n();
   // Create the user store once per provider instance (i.e. per request on
   // the server, per mount on the client) and share it via UserStoreContext.
   // This replaces the old module-level singleton, which leaked one tenant's
@@ -233,12 +236,12 @@ export function CoordinatesProvider({
         mapNames.find(
           (name) =>
             tilesConfig?.[name]?.defaultTitle === mapTitle ||
-            translate(dict, name) === mapTitle,
+            translate(baseDict, name) === mapTitle,
         );
       if (titledMap) {
         targetSearchParams.map = titledMap;
       } else if (!mapTitle && params.length > 2) {
-        const termEntry = Object.entries(dict).find(
+        const termEntry = Object.entries(baseDict).find(
           ([, value]) => value === decodeURIComponent(params[2]),
         );
         if (termEntry) {
@@ -315,7 +318,7 @@ export function CoordinatesProvider({
       const mapSegment = decodeURIComponent(segments[mapsIndex + 1]);
       if (!mapSegment) return;
       const key = mapNames.find(
-        (k) => k === mapSegment || (dict[k] ?? k) === mapSegment,
+        (k) => k === mapSegment || (baseDict[k] ?? k) === mapSegment,
       );
       if (!key) return;
       const state = userStore.getState();
@@ -325,10 +328,38 @@ export function CoordinatesProvider({
     };
     window.addEventListener("popstate", syncMapFromLocation);
     return () => window.removeEventListener("popstate", syncMapFromLocation);
-  }, [dict, mapNames, userStore]);
+  }, [baseDict, mapNames, userStore]);
+
+  // A picked generated layout (Dune Deep Desert, MapLayoutSelect) brings its own
+  // node blob and a dict patch with its position-keyed names; undefined = the
+  // map's own data.
+  const mapLayout = useSelectedMapLayout(tilesConfig, mapName);
+  const layoutNodesPath = mapLayout?.nodes;
+  const { data: layoutDict } = useSWRImmutable(
+    mapLayout ? ["/api/layout-dict", mapLayout.dicts, locale] : null,
+    async () => {
+      const response = await fetch(
+        getAppUrl(appName, mapLayout!.dicts.replace("{locale}", locale)),
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch layout dict: ${response.statusText}`);
+      }
+      return (await response.json()) as Record<string, string>;
+    },
+    { onError: (error) => console.error(error) },
+  );
+  const dict = useMemo(
+    () => (mapLayout && layoutDict ? { ...baseDict, ...layoutDict } : baseDict),
+    [baseDict, layoutDict, mapLayout],
+  );
+  const t = useCallback(
+    (term: string, options?: { fallback?: string }) =>
+      translate(dict, term, options),
+    [dict],
+  );
 
   const { data: staticNodesByMap } = useSWRImmutable(
-    mapName ? ["/api/nodes", mapName] : null,
+    mapName ? ["/api/nodes", mapName, layoutNodesPath] : null,
     async () => {
       if (!mapName) {
         return emptyObject as Record<string, NodesCoordinates>;
@@ -341,7 +372,7 @@ export function CoordinatesProvider({
         };
       }
       if (useCbor) {
-        const url = getAppUrl(appName, nodesPaths[mapName]);
+        const url = getAppUrl(appName, layoutNodesPath ?? nodesPaths[mapName]);
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(
@@ -859,27 +890,30 @@ export function CoordinatesProvider({
       const newSpawns: Spawn[] = [];
       const spawnsByCoordinate = new Map<string, Spawn>();
       const selectedNodeId = state.selectedNodeId;
-      // Focused markers (live data, e.g. open quest objectives) show even when
-      // their filter is off, like the selected marker.
-      const highlightIds = useGameState.getState().highlightSpawnIDs;
-      const highlighted =
-        highlightIds.length > 0 ? new Set(highlightIds) : null;
+      // Live focus (see live-focus.ts) gates spawns with `data.focusMode`
+      // (isSpawnShownByFocus). It no longer bypasses an off filter; only the
+      // selected marker does.
+      const { highlightSpawnIDs: highlightIds, liveFocusActive } =
+        useGameState.getState();
+      const focusState = {
+        filterOn: true,
+        selectedNodeId,
+        focused: highlightIds.length > 0 ? new Set(highlightIds) : null,
+        liveFocusActive,
+      };
+      // getNodeId's derivation, for a spawn that has not been normalized yet.
+      const nodeIdOf = (s: { p: number[] }, sid: string) =>
+        sid.includes("@") ? sid : `${sid}@${s.p[0]}:${s.p[1]}`;
 
       currentNodes.forEach((node) => {
         if (node.mapName && node.mapName !== state.mapName) return;
         const isFilterActive = state.filters.includes(node.type);
 
-        // Filter off but a spawn in this node is selected or focused: include
-        // just those.
-        if (!isFilterActive && (selectedNodeId || highlighted)) {
+        // Filter off but a spawn in this node is selected: include just that.
+        if (!isFilterActive && selectedNodeId) {
           for (const s of node.spawns) {
             const sid = s.id ?? node.type;
-            const nodeId = sid.includes("@")
-              ? sid
-              : `${sid}@${s.p[0]}:${s.p[1]}`;
-            if (nodeId !== selectedNodeId && !highlighted?.has(nodeId)) {
-              continue;
-            }
+            if (nodeIdOf(s, sid) !== selectedNodeId) continue;
             const spawn = {
               ...s,
               id: sid,
@@ -893,8 +927,8 @@ export function CoordinatesProvider({
               spawnsByCoordinate.get(key)!.cluster!.push(spawn);
             }
             newSpawns.push(spawn);
-            // Only the selected marker: the first match, as before.
-            if (!highlighted) break;
+            // Only the selected marker: the first match.
+            break;
           }
           return;
         }
@@ -903,6 +937,19 @@ export function CoordinatesProvider({
         const nodePredicted = node.predicted;
         const nodeMuted = node.muted;
         node.spawns.forEach((s) => {
+          // Focus-gated spawns (AION 2 quest markers); the node id is only
+          // built for those.
+          if (
+            s.data &&
+            getFocusMode(s.data) !== undefined &&
+            !isSpawnShownByFocus(
+              nodeIdOf(s, s.id ?? node.type),
+              s.data,
+              focusState,
+            )
+          ) {
+            return;
+          }
           const spawn = {
             ...s,
             id: s.id ?? node.type,
@@ -1025,11 +1072,15 @@ export function CoordinatesProvider({
         (s) => s.selectedNodeId,
         () => refreshMapSpawns(userStore.getState()),
       ),
-      // Focused markers bypass the filters (processNodes). The store keeps the
-      // array reference while the ids stay the same, so a repeated live payload
-      // does not rebuild the marker layer.
+      // Live focus gates spawns with `data.focusMode` (processNodes). The
+      // store keeps the array reference while the ids stay the same, so a
+      // repeated live payload does not rebuild the marker layer.
       useGameState.subscribe(
         (s) => s.highlightSpawnIDs,
+        () => refreshMapSpawns(userStore.getState()),
+      ),
+      useGameState.subscribe(
+        (s) => s.liveFocusActive,
         () => refreshMapSpawns(userStore.getState()),
       ),
     ];
@@ -1073,7 +1124,10 @@ export function CoordinatesProvider({
           globalFilters={globalFilters}
           tilesConfig={tilesConfig}
         />
-        {children}
+        {/* Always wrapped (same tree shape), so picking a layout doesn't remount the map. */}
+        <I18NProvider dict={dict} locale={locale}>
+          {children}
+        </I18NProvider>
       </Context.Provider>
     </UserStoreContext.Provider>
   );

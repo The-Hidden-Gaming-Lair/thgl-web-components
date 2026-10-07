@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "Przemierzaj Midrath z Soulframe dzięki naszym interaktywnym mapom.",
+  "config.internalLinks.maps-Midrath.linkText": "Odkryj mapę Midrath",
+  "config.internalLinks.landmarks.title": "Miejsca",
+  "config.internalLinks.landmarks.description": "Każde nazwane miejsce w Midrath, jego Drzewa Świata, lochy i enklawy, z opowieściami i pozycjami na mapie.",
+  "config.internalLinks.landmarks.linkText": "Przeglądaj miejsca",
+  "config.internalLinks.foes.title": "Wrogowie",
+  "config.internalLinks.foes.description": "Ode, Mendicants, spaczone stworzenia i bossowie Midrath — gdzie się pojawiają i których lochów strzegą.",
+  "config.internalLinks.foes.linkText": "Przeglądaj wrogów",
+  "config.internalLinks.wildlife.title": "Zwierzęta",
+  "config.internalLinks.wildlife.description": "Zwierzęta Midrath i ich rzadkie lśniące odmiany, z miejscami występowania.",
+  "config.internalLinks.wildlife.linkText": "Przeglądaj zwierzęta",
+  "config.db.heroSubtitle": "Kodeks: miejsca, wrogowie i zwierzęta",
+  "config.db.searchPlaceholder": "Szukaj miejsc, wrogów, zwierząt…",
+  "config.db.landmarks.description": "Nazwane miejsca Midrath, Drzewa Świata, lochy i enklawy.",
+  "config.db.foes.description": "Ode, Mendicants, spaczone stworzenia i bossowie.",
+  "config.db.wildlife.description": "Zwierzęta Midrath i ich lśniące odmiany.",
+  "config.db.typeLabels.landmarks": "Miejsce",
+  "config.db.typeLabels.foes": "Wróg",
+  "config.db.typeLabels.wildlife": "Zwierzę"
+}

@@ -11,7 +11,10 @@ import {
   getNodeId,
   getPositionedDiscoverTypes,
   getSpawnDiscoveryId,
+  getFocusMode,
   isDoneWhenAll,
+  isSpawnFocused,
+  isSpawnShownByFocus,
   removeDiscoveredMatches,
   setDoneWhenAllRules,
   setKnownNodeIds,
@@ -922,5 +925,112 @@ describe("checkLiveActorDiscovered", () => {
     expect(
       checkLiveActorDiscovered("chest_basic@50.00:60.00", "e88519886", lookup),
     ).toBe(false);
+  });
+});
+
+describe("focus-gated spawns (data.focusMode / focusWhenAny)", () => {
+  // AION 2 quests: objective / turn-in markers are `only`, quest givers `live`
+  // and list the quests they hand out.
+  const objective = {
+    nodeId: "q_1102080@1102080s3g1",
+    data: { focusMode: ["only"] },
+  };
+  const giver = {
+    nodeId: "quest_regional@spawner_7.regional",
+    data: { focusMode: ["live"], focusWhenAny: ["q_1202051", "q_1202052"] },
+  };
+  const plain = { nodeId: "chest@1:2", data: { tier: ["gold"] } };
+
+  const show = (
+    spawn: { nodeId: string; data?: Record<string, string[]> },
+    {
+      filterOn = true,
+      selectedNodeId = null as string | null,
+      focus = [] as string[],
+      liveFocusActive = false,
+    } = {},
+  ) =>
+    isSpawnShownByFocus(spawn.nodeId, spawn.data, {
+      filterOn,
+      selectedNodeId,
+      focused: focus.length ? new Set(focus) : null,
+      liveFocusActive,
+    });
+
+  it("reads only the known focus modes", () => {
+    expect(getFocusMode(objective.data)).toBe("only");
+    expect(getFocusMode(giver.data)).toBe("live");
+    expect(getFocusMode(plain.data)).toBeUndefined();
+    expect(getFocusMode({ focusMode: ["sometimes"] })).toBeUndefined();
+    expect(getFocusMode(undefined)).toBeUndefined();
+  });
+
+  it("matches the node id or any focusWhenAny id", () => {
+    const set = new Set(["q_1202052", "q_1102080@1102080s3g1"]);
+    expect(isSpawnFocused(objective.nodeId, objective.data, set)).toBe(true);
+    expect(isSpawnFocused(giver.nodeId, giver.data, set)).toBe(true);
+    expect(isSpawnFocused(plain.nodeId, plain.data, set)).toBe(false);
+    expect(isSpawnFocused(giver.nodeId, giver.data, null)).toBe(false);
+    expect(isSpawnFocused(giver.nodeId, giver.data, new Set())).toBe(false);
+  });
+
+  it("leaves spawns without focusMode as before", () => {
+    expect(show(plain)).toBe(true);
+    expect(show(plain, { liveFocusActive: true })).toBe(true);
+    expect(show({ nodeId: "x@1:2" }, { liveFocusActive: true })).toBe(true);
+    expect(show(plain, { filterOn: false })).toBe(false);
+  });
+
+  it("shows `only` spawns only while focused", () => {
+    expect(show(objective)).toBe(false);
+    expect(show(objective, { liveFocusActive: true })).toBe(false);
+    expect(
+      show(objective, { liveFocusActive: true, focus: ["q_other@x"] }),
+    ).toBe(false);
+    expect(
+      show(objective, { liveFocusActive: true, focus: [objective.nodeId] }),
+    ).toBe(true);
+  });
+
+  it("shows `live` spawns without live focus, else only when focused", () => {
+    expect(show(giver)).toBe(true); // web / no app / game closed
+    expect(show(giver, { liveFocusActive: true })).toBe(false); // focus = []
+    expect(show(giver, { liveFocusActive: true, focus: ["q_9999999"] })).toBe(
+      false,
+    );
+    expect(show(giver, { liveFocusActive: true, focus: [giver.nodeId] })).toBe(
+      true,
+    );
+    expect(show(giver, { liveFocusActive: true, focus: ["q_1202051"] })).toBe(
+      true,
+    );
+  });
+
+  it("hides a focused spawn when its filter is off", () => {
+    expect(
+      show(objective, {
+        filterOn: false,
+        liveFocusActive: true,
+        focus: [objective.nodeId],
+      }),
+    ).toBe(false);
+    expect(
+      show(giver, {
+        filterOn: false,
+        liveFocusActive: true,
+        focus: ["q_1202051"],
+      }),
+    ).toBe(false);
+  });
+
+  it("always shows the selected marker", () => {
+    expect(show(objective, { selectedNodeId: objective.nodeId })).toBe(true);
+    expect(
+      show(giver, { selectedNodeId: giver.nodeId, liveFocusActive: true }),
+    ).toBe(true);
+    expect(
+      show(objective, { filterOn: false, selectedNodeId: objective.nodeId }),
+    ).toBe(true);
+    expect(show(objective, { selectedNodeId: "other@1:2" })).toBe(false);
   });
 });

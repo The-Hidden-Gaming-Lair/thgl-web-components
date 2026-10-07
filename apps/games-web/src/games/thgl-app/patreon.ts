@@ -13,6 +13,7 @@ import {
 } from "@/lib/test-supporter";
 import { tiers } from "./tiers";
 import { applyInvitePerks, getInvitesBestEffort } from "@/lib/invites";
+import { isTebexUserId, resolveTebexAccount } from "@/lib/tebex";
 
 interface App {
   id: string;
@@ -298,6 +299,19 @@ export async function getAccount(): Promise<THGLAccount | null> {
     account.perks = { ...TEST_SUPPORTER_PERKS };
     // Invites still come from the DB so the invite gate is testable in dev.
     account.invites = await getInvitesBestEffort("[getAccount]", id);
+    return account;
+  }
+
+  // Tebex-purchased account (lib/tebex.ts): entitlement table instead of
+  // Patreon; `null` (DB unreachable) = unknown, same as a token-store outage.
+  if (isTebexUserId(id)) {
+    const tebex = await resolveTebexAccount(id);
+    if (!tebex) return null;
+    account.userId = userId.value;
+    account.decryptedUserId = id;
+    account.email = tebex.email;
+    account.invites = await getInvitesBestEffort("[getAccount]", id);
+    account.perks = applyInvitePerks(tebex.perks, account.invites);
     return account;
   }
 

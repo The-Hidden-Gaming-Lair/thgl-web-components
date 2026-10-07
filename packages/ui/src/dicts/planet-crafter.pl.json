@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "Baza danych gry",
+  "config.db.searchPlaceholder": "Szukaj przedmiotów i budynków…",
+  "config.db.inventory.description": "Surowce, wyposażenie, jedzenie, nasiona, fauna i bezpieczniki — z przepisami, progami odblokowania i wartościami handlowymi.",
+  "config.db.inventory.title": "Przedmioty",
+  "config.db.buildings.description": "Maszyny, budowa bazy i meble — z tempem terraformowania na sekundę, zużyciem energii, przepisami i ulepszeniami poziomów.",
+  "config.db.buildings.title": "Budynki",
+  "config.db.typeLabels.inventory": "Przedmiot",
+  "config.db.typeLabels.buildings": "Budynek"
+}

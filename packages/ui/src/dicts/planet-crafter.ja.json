@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテムと建物を検索…",
+  "config.db.inventory.description": "資源、装備、食料、種、野生生物、ヒューズ — クラフトレシピ、アンロック条件、取引価値付き。",
+  "config.db.inventory.title": "アイテム",
+  "config.db.buildings.description": "機械、拠点建築、家具 — 毎秒のテラフォーミング量、消費電力、レシピ、ティアアップグレード付き。",
+  "config.db.buildings.title": "建物",
+  "config.db.typeLabels.inventory": "アイテム",
+  "config.db.typeLabels.buildings": "建物"
+}

@@ -7,6 +7,7 @@ export {
   useNodeComments,
 } from "./comments";
 export { PageComments } from "./page-comments";
+export { EntityTooltip } from "./entity-tooltip";
 export { default as MapGuides } from "./map-guides";
 export { DataFeedback } from "./data-feedback";
 export { DataTable, type ColumnDef } from "./data-table";

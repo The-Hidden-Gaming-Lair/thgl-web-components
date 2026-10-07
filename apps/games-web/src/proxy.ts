@@ -284,7 +284,9 @@ export function proxy(req: NextRequest) {
     // are www-tenant-only in prod.
   ) {
     url.pathname = `/www${path}`;
-    return NextResponse.rewrite(url);
+    return NextResponse.rewrite(url, {
+      headers: { [CDN_TAG_HEADER]: "t-thgl-web" },
+    });
   }
 
   // Once-human: legacy section URLs (/weapons, /remnants, etc.) moved
@@ -324,6 +326,15 @@ export function proxy(req: NextRequest) {
     if (appPath && isAppContentPath(path)) {
       const gameConfig = getAppConfigBySlug(appPath.gameId);
       if (gameConfig) {
+        // Game API calls from app content pages (gameApiUrl in @repo/lib):
+        // /apps/<id>/api/db/x → the root /api/db/x handler, resolved to the
+        // game by the x-thgl-app header (the API is not part of the /g tree).
+        if (appPath.rest.startsWith("/api/")) {
+          url.pathname = appPath.rest;
+          const headers = new Headers(req.headers);
+          headers.set("x-thgl-app", gameConfig.name);
+          return NextResponse.rewrite(url, { request: { headers } });
+        }
         // The app map lives at /apps/<id> (it has no /maps routes): send map
         // links there, the map title + marker id ride along as query params.
         if (/^\/maps(\/|$)/.test(appPath.rest)) {
@@ -421,7 +432,29 @@ export function proxy(req: NextRequest) {
     );
   }
 
-  return NextResponse.next({ request: { headers } });
+  const res = NextResponse.next({ request: { headers } });
+  // The Companion App's own pages (dashboard etc.): purged as one site.
+  if (config.name === "thgl-app" && !path.startsWith("/api/")) {
+    res.headers.set(CDN_TAG_HEADER, "t-thgl-app");
+  }
+  return res;
+}
+
+/**
+ * Bunny cache tags (one `purgeCache` call with `CacheTag` evicts every cached
+ * copy zone-wide). The deploy purge plan (scripts/purge-plan.mjs) maps changed
+ * files onto these, so a deploy purges only the pages it changed:
+ *   g             every game page (website, Companion App content, embeds)
+ *   t-<app>       one app's pages
+ *   r-<section>   one route section on every site: the first folder under
+ *                 src/app/g/[game]/[surface]/[locale] (r-db, r-maps, ...),
+ *                 r-home for the locale root
+ */
+const CDN_TAG_HEADER = "CDN-Tag";
+function gameRouteTags(internalPath: string): string {
+  // /g/<game>/<surface>/<locale>[/<section>/...]
+  const [, , game, , , section] = internalPath.split("/");
+  return `g,t-${game},r-${section || "home"}`;
 }
 
 /**
@@ -455,7 +488,7 @@ function rewriteToGameRoute(
   headers.set(INTERNAL_ROUTE_HEADER, INTERNAL_ROUTE_TOKEN);
   return NextResponse.rewrite(url, {
     request: { headers },
-    ...(responseHeaders ? { headers: responseHeaders } : {}),
+    headers: { ...responseHeaders, [CDN_TAG_HEADER]: gameRouteTags(pathname) },
   });
 }
 

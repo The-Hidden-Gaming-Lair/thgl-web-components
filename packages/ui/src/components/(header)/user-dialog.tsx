@@ -19,6 +19,7 @@ import { Badge, Button } from "../(controls)";
 import { Separator } from "../ui/separator";
 import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
+import { restoreUserIdCookie } from "./user-id-cookie";
 import { Input } from "../ui/input";
 import { useMemo, useState } from "react";
 import {
@@ -269,6 +270,9 @@ function UnauthenticatedView() {
             avatarUrl: null,
             invites,
           });
+          // 403 = a valid account without a paid tier (e.g. a free Tebex
+          // account) - still signed in, so server pages need the cookie too.
+          if (!isOverwolf) restoreUserIdCookie(userId);
           toast("User is not a subscriber");
         } else if (response.status === 404) {
           account.setAccount({
@@ -301,6 +305,9 @@ function UnauthenticatedView() {
           avatarUrl: null,
           invites,
         });
+        // Web / Companion App: server-rendered pages read the cookie, so
+        // write it now instead of waiting for the next-load self-heal.
+        if (!isOverwolf) restoreUserIdCookie(body.secret ?? userId);
         toast("Subscription enabled");
       }
     } catch {
@@ -365,6 +372,35 @@ function UnauthenticatedView() {
       <Button className="w-full" asChild>
         <a href={authUrl}>Already a supporter? Sign In</a>
       </Button>
+
+      {/* Supporter Key (web + Companion App): accounts without a Patreon login
+          (Tebex purchases) restore their perks with the key from their account
+          page. Stored like a pasted Overwolf secret; the userId cookie is then
+          restored from it by the session self-heal (restoreUserIdCookie).
+          Collapsed and provider-neutral on purpose (soft launch). */}
+      {!isOverwolf && (
+        <details className="text-xs">
+          <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+            Have a Supporter Key?
+          </summary>
+          <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
+            <Input
+              value={userId}
+              onChange={(e) => setUserId(e.target.value.trim())}
+              placeholder="Paste your Supporter Key"
+              className="text-xs h-8"
+            />
+            <Button
+              type="submit"
+              size="sm"
+              className="h-8 shrink-0"
+              disabled={userId.length === 0 || loading}
+            >
+              Unlock
+            </Button>
+          </form>
+        </details>
+      )}
 
       {/* Overwolf secret form — Overwolf can't sign in directly, so users
           unlock with a one-time secret copied from the web account page.

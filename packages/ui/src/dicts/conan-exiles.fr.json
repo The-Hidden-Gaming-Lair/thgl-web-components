@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.exiledLands.title": "Carte des Exiled Lands",
+  "config.internalLinks.isleOfSiptah.title": "Carte de l'Isle of Siptah",
+  "config.db.heroSubtitle": "Base de données du jeu",
+  "config.db.searchPlaceholder": "Rechercher objets, savoirs, emotes…",
+  "config.db.inventory.description": "Armes, armures, outils, consommables et pièces de construction avec statistiques, recettes et stations d'artisanat.",
+  "config.db.knowledge.description": "Chaque savoir avec son niveau, ses points de savoir, ses prérequis et les recettes qu'il débloque.",
+  "config.db.journeys.description": "Étapes du voyage, XP et récompenses pour les Exiled Lands et l'Isle of Siptah.",
+  "config.db.perks.description": "Les bonus d'attributs et les points nécessaires pour les débloquer.",
+  "config.db.emotes.description": "Toutes les emotes par catégorie et où trouver leurs objets sur la carte."
+}

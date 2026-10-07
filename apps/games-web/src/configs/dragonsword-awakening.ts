@@ -71,7 +71,7 @@ export const dragonswordAwakening = resolveAppConfig({
   ],
   db: {
     heroSubtitle: "Game Database",
-    searchPlaceholder: "Search the database…",
+    searchPlaceholder: "db.searchAll",
     sectionsInNav: true,
     homeSections: [
       {

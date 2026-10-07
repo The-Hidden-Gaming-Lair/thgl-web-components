@@ -46,7 +46,7 @@ export const enshrouded = resolveAppConfig({
   // level and resolved locations. Backed by data-forge `database.questlog.json`.
   db: {
     heroSubtitle: "Game Database",
-    searchPlaceholder: "Search the database…",
+    searchPlaceholder: "db.searchAll",
     sectionsInNav: true,
     homeSections: [
       {

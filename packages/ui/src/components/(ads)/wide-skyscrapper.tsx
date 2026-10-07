@@ -6,6 +6,7 @@ import { AdFreeContainer } from "./ad-free-container";
 import { cn } from "@repo/lib";
 import { IS_DEMO_MODE } from "./constants";
 import { AdPlaceholder } from "./ad-placeholder";
+import { AdSlot } from "./house-ad";
 
 // Wide screens get 300px rails holding stacked 300x250 rectangles (they
 // earn more per screen area than one 300x600). A rectangle is only created
@@ -102,12 +103,12 @@ function RailSlot({
   }, [id, targeting?.game, targeting?.platform, mediaQuery]);
 
   return (
-    <div
+    <AdSlot
+      id={id}
       className={cn(
         "bg-zinc-800/30 text-gray-500 flex-col justify-center text-center",
         className,
       )}
-      id={id}
     />
   );
 }

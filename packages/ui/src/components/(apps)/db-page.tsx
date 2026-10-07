@@ -154,13 +154,13 @@ export function createDbPage(appConfig: AppConfig) {
               {
                 "@type": "ListItem",
                 position: 1,
-                name: "Home",
+                name: t("home.title"),
                 item: `https://${appConfig.domain}.th.gl${localizePath("/", locale)}`,
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Database",
+                name: t("db.database", { fallback: "Database" }),
                 item: `https://${appConfig.domain}.th.gl${localizePath("/db", locale)}`,
               },
             ],
@@ -189,15 +189,17 @@ export function createDbPage(appConfig: AppConfig) {
                           href={localizePath("/", locale)}
                           className="hover:text-foreground transition-colors"
                         >
-                          Home
+                          {t("home.title")}
                         </Link>
                       </li>
                       <li aria-hidden="true">/</li>
-                      <li aria-current="page">Database</li>
+                      <li aria-current="page">
+                        {t("db.database", { fallback: "Database" })}
+                      </li>
                     </ol>
                   </nav>
                   <Subtitle
-                    title={t("db.title", {
+                    title={t("db.pageTitle", {
                       vars: { title: appConfig.title },
                       fallback: `${appConfig.title} Database`,
                     })}
@@ -206,12 +208,21 @@ export function createDbPage(appConfig: AppConfig) {
                     {t("db.description", {
                       vars: {
                         title: appConfig.title,
-                        count: String(sections.length),
+                        count: sections.length.toLocaleString(locale),
                       },
                       fallback: `Browse all ${sections.length} database categories for ${appConfig.title}.`,
                     })}
                   </p>
-                  <DbGlobalSearch items={searchItems} locale={locale} />
+                  <DbGlobalSearch
+                    items={searchItems}
+                    locale={locale}
+                    placeholder={t("db.searchAll", {
+                      fallback: "Search the database…",
+                    })}
+                    noMatchesText={t("db.noMatches", {
+                      fallback: "No matches.",
+                    })}
+                  />
                 </>
               }
               content={

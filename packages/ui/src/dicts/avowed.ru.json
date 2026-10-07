@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "Предметы",
+  "config.internalLinks.inventory.description": "Все предметы Avowed по категориям — оружие, доспехи, аксессуары, еда, расходники, ингредиенты и многое другое — с описаниями и кулинарными рецептами.",
+  "config.internalLinks.inventory.linkText": "Открыть базу предметов",
+  "config.internalLinks.recipes.title": "Рецепты",
+  "config.internalLinks.recipes.description": "Все кулинарные рецепты Avowed — ингредиенты со ссылками на каждый предмет и выход блюда.",
+  "config.internalLinks.recipes.linkText": "Смотреть рецепты",
+  "config.db.heroSubtitle": "База данных игры",
+  "config.db.searchPlaceholder": "Поиск предметов…",
+  "config.db.inventory.description": "Оружие, доспехи, аксессуары, еда, расходники и материалы.",
+  "config.db.recipes.description": "Кулинарные рецепты с ингредиентами и выходом.",
+  "config.db.typeLabels.inventory": "Предмет",
+  "config.db.typeLabels.recipes": "Рецепт"
+}

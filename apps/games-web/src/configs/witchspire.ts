@@ -13,36 +13,32 @@ export const witchspire = resolveAppConfig({
   // is suppressed when an internalLink already targets the same /maps/<name>.
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Browse every Witchspire item by category — wands, potions, food, tools, rings and resources — with rarity, descriptions and crafting recipes.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "Every crafting recipe in Witchspire, grouped by station — ingredients, amounts and refine time, cross-linked to each item.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "BookOpen",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
-      title: "Familiars",
-      description:
-        "Every catchable familiar in Witchspire, with portraits — the creatures you bond with and grow.",
+      title: "config.internalLinks.familiars.title",
+      description: "config.internalLinks.familiars.description",
       href: "/db/familiars",
       iconName: "Bug",
-      linkText: "Browse Familiars",
+      linkText: "config.internalLinks.familiars.linkText",
     },
     {
-      title: "Enemies",
-      description:
-        "Froblins, Ancients and bosses you'll face across the Flying Islands.",
+      title: "config.internalLinks.enemies.title",
+      description: "config.internalLinks.enemies.description",
       href: "/db/enemies",
       iconName: "Axe",
-      linkText: "Browse Enemies",
+      linkText: "config.internalLinks.enemies.linkText",
     },
     {
       title: "crafting.navTitle",
@@ -68,44 +64,48 @@ export const witchspire = resolveAppConfig({
     "mineral_copper",
   ],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "🧪",
-        description: "Resources, equipment, wands, amulets and consumables.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "📜",
-        description: "Crafting recipes by station, with ingredients and time.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/familiars",
         type: "familiars",
+        titleKey: "config.internalLinks.familiars.title",
         titleFallback: "Familiars",
         icon: "🐾",
-        description: "Catchable creatures you bond with and grow.",
+        description: "config.db.familiars.description",
       },
       {
         href: "/db/enemies",
         type: "enemies",
+        titleKey: "config.internalLinks.enemies.title",
         titleFallback: "Enemies",
         icon: "⚔️",
-        description: "Froblins, Ancients and bosses across the islands.",
+        description: "config.db.enemies.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      recipes: "Recipe",
-      familiars: "Familiars",
-      enemies: "Enemies",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
+      familiars: "config.db.typeLabels.familiars",
+      enemies: "config.db.typeLabels.enemies",
     },
   },
 });

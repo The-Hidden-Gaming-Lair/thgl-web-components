@@ -2057,7 +2057,8 @@ export function getCurrentGameId(): string | null {
     const ext = window.location.hostname;
     return games.find((g) => g.overwolf?.id === ext)?.id ?? null;
   }
-  let sub = window.location.hostname.split(".")[0];
+  // Dev tenants are served as `<domain>-dev.localhost`.
+  let sub = window.location.hostname.split(".")[0].replace(/-dev$/, "");
   if (!sub || ["www", "app", "localhost", "127", "0"].includes(sub))
     return null;
   // Map the tenant subdomain back to the canonical id; fall back to the raw

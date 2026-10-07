@@ -61,6 +61,22 @@ describe("useGameState.setHighlightSpawnIDs", () => {
   });
 });
 
+describe("useGameState.setLiveFocusActive", () => {
+  afterEach(() => useGameState.setState({ liveFocusActive: false }));
+
+  it("sets the flag and leaves the store untouched when unchanged", () => {
+    const listener = jest.fn();
+    const unsub = useGameState.subscribe(listener);
+    useGameState.getState().setLiveFocusActive(false);
+    expect(listener).not.toHaveBeenCalled();
+    useGameState.getState().setLiveFocusActive(true);
+    useGameState.getState().setLiveFocusActive(true);
+    unsub();
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(useGameState.getState().liveFocusActive).toBe(true);
+  });
+});
+
 describe("createLiveFocusTracker", () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(() => jest.useRealTimers());
@@ -102,6 +118,37 @@ describe("createLiveFocusTracker", () => {
     focus.apply(null);
     jest.advanceTimersByTime(5000);
     expect(setIds).not.toHaveBeenCalled();
+  });
+
+  it("reports live focus active on change only; [] keeps it active, stale clears it", () => {
+    const setIds = jest.fn();
+    const setActive = jest.fn();
+    const focus = createLiveFocusTracker(setIds, 1000, setActive);
+    expect(focus.isActive()).toBe(false);
+
+    focus.apply({ collectedNodeIds: ["x"] }); // no field: stays inactive
+    expect(focus.isActive()).toBe(false);
+    expect(setActive).not.toHaveBeenCalled();
+
+    focus.apply({ focusNodeIds: ["a"] });
+    expect(focus.isActive()).toBe(true);
+    expect(setActive.mock.calls).toEqual([[true]]);
+
+    focus.apply({ focusNodeIds: [] }); // "no open quests" is still live focus
+    focus.apply({ focusNodeIds: ["b"] });
+    expect(focus.isActive()).toBe(true);
+    expect(setActive).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(1000);
+    expect(focus.isActive()).toBe(false);
+    expect(setActive.mock.calls).toEqual([[true], [false]]);
+    expect(setIds).toHaveBeenLastCalledWith([]);
+
+    focus.apply({ focusNodeIds: [] }); // a new payload re-activates it
+    expect(setActive).toHaveBeenLastCalledWith(true);
+    focus.clear();
+    expect(setActive).toHaveBeenLastCalledWith(false);
+    expect(setActive).toHaveBeenCalledTimes(4);
   });
 
   it("drops a stale focus when the messages stop (game closed)", () => {

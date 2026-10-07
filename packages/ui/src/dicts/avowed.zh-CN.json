@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "物品",
+  "config.internalLinks.inventory.description": "按类别浏览《宣誓》中的所有物品：武器、护甲、饰品、食物、消耗品、食材等，附说明和烹饪配方。",
+  "config.internalLinks.inventory.linkText": "打开物品数据库",
+  "config.internalLinks.recipes.title": "配方",
+  "config.internalLinks.recipes.description": "《宣誓》中的所有烹饪配方，食材链接到对应物品，并标明产量。",
+  "config.internalLinks.recipes.linkText": "浏览配方",
+  "config.db.heroSubtitle": "游戏数据库",
+  "config.db.searchPlaceholder": "搜索物品…",
+  "config.db.inventory.description": "武器、护甲、饰品、食物、消耗品和材料。",
+  "config.db.recipes.description": "烹饪配方的食材和产量。",
+  "config.db.typeLabels.inventory": "物品",
+  "config.db.typeLabels.recipes": "配方"
+}

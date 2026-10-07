@@ -1,0 +1,17 @@
+{
+  "config.internalLinks.maps-Starsand%20Island.description": "Navigate Starsand Island with our interactive map featuring resources, shops, fishing spots, and more.",
+  "config.internalLinks.maps-Starsand%20Island.linkText": "Explore the Island Map",
+  "config.internalLinks.maps-Moonlit%20Forest.description": "Explore the Moonlit Forest cave with campsites, chests, gravecrystals, and relics.",
+  "config.internalLinks.maps-Moonlit%20Forest.linkText": "Explore the Moonlit Forest Map",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items, recipes…",
+  "config.db.inventory.description": "Every item by category — collectibles, food, fish, seeds, clothing, furniture and materials.",
+  "config.db.inventory.title": "Items",
+  "config.db.recipes.description": "Crafting and cooking formulas, with ingredients and station, cross-linked to each item.",
+  "config.db.recipes.title": "Recipes",
+  "config.db.codex.description": "The in-game encyclopedia — fish, sea creatures, animals and collectibles you discover.",
+  "config.db.codex.title": "Codex",
+  "config.db.typeLabels.inventory": "Item",
+  "config.db.typeLabels.recipes": "Recipe",
+  "config.db.typeLabels.codex": "Codex"
+}

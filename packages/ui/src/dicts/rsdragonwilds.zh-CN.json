@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "物品",
+  "config.internalLinks.inventory.description": "按类别浏览所有资源、消耗品和组件——附带图标、描述和制作配方。",
+  "config.internalLinks.inventory.linkText": "打开物品数据库",
+  "config.internalLinks.equipment.title": "装备",
+  "config.internalLinks.equipment.description": "武器、护甲和工具的战斗属性——伤害、槽位以及所用技能。",
+  "config.internalLinks.equipment.linkText": "打开装备数据库",
+  "config.internalLinks.recipes.title": "配方",
+  "config.internalLinks.recipes.description": "按工作台分类的所有制作配方，材料链接到对应物品。",
+  "config.internalLinks.recipes.linkText": "打开配方数据库",
+  "config.internalLinks.enemies.title": "敌人",
+  "config.internalLinks.enemies.description": "你将在 Ashenfall 遭遇的生物和首领。",
+  "config.internalLinks.enemies.linkText": "打开图鉴",
+  "config.db.heroSubtitle": "游戏数据库",
+  "config.db.searchPlaceholder": "搜索物品、装备、配方…",
+  "config.db.inventory.description": "资源、消耗品和组件。",
+  "config.db.equipment.description": "附带属性的武器、护甲和工具。",
+  "config.db.recipes.description": "按工作台分类的制作配方及材料。",
+  "config.db.enemies.description": "Ashenfall 各地的生物和首领。",
+  "config.db.typeLabels.inventory": "物品",
+  "config.db.typeLabels.equipment": "装备",
+  "config.db.typeLabels.recipes": "配方",
+  "config.db.typeLabels.enemies": "敌人"
+}

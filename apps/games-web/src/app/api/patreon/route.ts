@@ -28,6 +28,7 @@ import {
 } from "@/games/thgl-web/lib/patreon";
 import { games } from "@repo/lib";
 import { applyInvitePerks, getInvitesBestEffort } from "@/lib/invites";
+import { isTebexUserId, resolveTebexAccount } from "@/lib/tebex";
 
 /**
  * Account-perks refresh.
@@ -100,6 +101,42 @@ export async function GET(request: NextRequest) {
           invites: await getInvitesBestEffort("[api/patreon]", userId),
         },
         { headers },
+      );
+    }
+
+    // Tebex-purchased account (lib/tebex.ts): entitlement table instead of
+    // Patreon. Re-sets the userId cookie so the 31-day session slides like
+    // a Patreon one (the credential is the same JWT-of-plain-id).
+    if (isTebexUserId(userId)) {
+      const tebex = await resolveTebexAccount(userId, game);
+      if (!tebex) {
+        return Response.json(
+          { error: "Entitlement store unavailable" },
+          { status: 503, headers },
+        );
+      }
+      const responseHeaders = new Headers(headers);
+      responseHeaders.append(
+        "Set-Cookie",
+        toCookieString(sign(userId, process.env.JWT_SECRET!), 2678400),
+      );
+      const invites = await getInvitesBestEffort("[api/patreon]", userId);
+      if (!tebex.isSupporter && !invites?.length) {
+        return Response.json(
+          { error: "User is not a supporter", invites },
+          { status: 403, headers: responseHeaders },
+        );
+      }
+      return Response.json(
+        {
+          ...applyInvitePerks(tebex.perks, invites),
+          expiresIn: 2678400,
+          decryptedUserId: userId,
+          email: tebex.email,
+          isSpecial: false,
+          invites,
+        },
+        { headers: responseHeaders },
       );
     }
 

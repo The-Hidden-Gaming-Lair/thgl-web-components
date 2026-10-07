@@ -58,11 +58,14 @@ export function AppHeader({
   children,
   isOverlay,
   settingsDialogContent,
+  className,
 }: {
   title?: React.ReactNode;
   children: React.ReactNode;
   isOverlay?: boolean;
   settingsDialogContent?: JSX.Element;
+  /** Extra classes for the bar (e.g. an opaque background over the codex pane). */
+  className?: string;
 }) {
   const account = useAccountStore();
   const isRunningAsAdmin = useLiveState((state) => state.isRunningAsAdmin);
@@ -163,6 +166,7 @@ export function AppHeader({
       <header
         className={cn(
           "px-2 h-[32px] fixed left-0 right-0 top-0 border-b bg-linear-to-b backdrop-blur-2xl border-neutral-800 bg-zinc-800/30 flex items-center pointer-events-auto z-999999",
+          className,
         )}
         onDoubleClick={() => {
           window.chrome.webview.postMessage("maximize");

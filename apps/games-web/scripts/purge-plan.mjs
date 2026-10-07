@@ -2,39 +2,39 @@
 // @ts-check
 /**
  * Decide what a games-web deploy has to purge from the Bunny edge (pull zone
- * 5829962, every *.th.gl tenant) instead of emptying the whole zone.
+ * 5829962, every *.th.gl tenant), so a deploy shows its changes immediately
+ * without emptying the whole zone.
  *
  * Why: every deploy used to run a FULL purge. At 18-30 deploys a day the edge
- * cache never warmed up: the hit rate fell from 65% to 36% in three days
- * (2026-10-04..06) and every purge sent the whole site's traffic to freshly
- * started pods. Pages are safe to keep: old builds' chunks stay on
- * static.th.gl, so cached HTML of an older build still works.
+ * cache never warmed up (hit rate 65% -> 36%, 2026-10-04..06). Pages are safe
+ * to keep: old builds' chunks stay on static.th.gl, so older cached HTML works.
  *
- * Classification of the files changed between the live build and the new one:
- *   - none:   server-only code that never reaches page HTML (API routes,
- *             instrumentation, cache handler, tests, scripts, docs, the Docker
- *             image). Nothing to purge.
- *   - tenant: one site's own files (configs/<tenant>.ts, games/<game>/**,
- *             packages/ui/src/dicts/<app>.<locale>.json). Purge that site only
- *             (`https://<host>/*`, one wildcard per host).
- *   - shared: everything else that renders pages (packages/ui, packages/lib,
- *             layouts, shared routes, public assets). Game sites are NOT
- *             purged: page edge TTL is 1 h with stale-while-revalidate
- *             (next.config.js), so they refresh in the background while the
- *             cache stays warm. `purge: full` on a manual run forces it.
- *             The Companion App host (app.th.gl, thgl-app tenant) IS purged:
- *             its pages are the app's overlay/desktop UI, and SWR=86400 kept
- *             app.th.gl/apps/palia/overlay on a >1 h old build after a
- *             shared-only deploy (inbox #704, 2026-10-07).
+ * Every page response carries a Bunny `CDN-Tag` header (src/proxy.ts):
+ *   g             every game page (website, Companion App content, embeds)
+ *   t-<app>       one app's pages (t-palia, t-thgl-web = www, t-thgl-app)
+ *   r-<section>   one route section on every site (r-db, r-maps, r-home, ...)
+ * and one tag purge evicts every cached copy zone-wide.
+ *
+ * For each file changed between the live build and the new one:
+ *   - server-only files (API routes, instrumentation, scripts, tests, docs): nothing
+ *   - a site's own files (configs/<app>.ts, games/<app>/**, dicts/<app>.*.json,
+ *     public/games/<app>/**): that site (host wildcard + tag t-<app>)
+ *   - route files under src/app: the tag of their route (r-db, g for the game
+ *     layout, t-thgl-web for www, t-thgl-app for the Companion App's own pages)
+ *   - any other source file: the routes whose files import it, via the static
+ *     import graph (import-graph.mjs, barrels resolved per imported name).
+ *     Reached by no route = nothing to purge.
+ *   - routing/build-wide files (proxy, next.config, package manifests, global
+ *     CSS/Tailwind, changed public assets) or anything unmappable: FULL purge.
  *
  * Usage (CI): node apps/games-web/scripts/purge-plan.mjs <prevSha> <newSha>
- * prints {mode: "none"|"tenants"|"full", reason, urls, files}.
- * Falls back to "full" when prevSha is unknown (first deploy, shallow clone).
+ * prints {mode: "none"|"purge"|"full", reason, urls, tags, files}.
+ * The graph is built from the checked-out tree (= newSha in CI).
  */
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildGraph, fsReader, listSourceFiles } from "./import-graph.mjs";
 
 const ROOT = join(
   fileURLToPath(new URL(".", import.meta.url)),
@@ -46,6 +46,7 @@ const ROOT = join(
 const NONE = [
   /^apps\/games-web\/src\/app\/api\//,
   /^apps\/games-web\/src\/app\/www\/api\//,
+  /^apps\/games-web\/src\/app\/(robots\.ts|sitemap|sitemap\.xml|llms\.txt)\b/,
   /^apps\/games-web\/src\/instrumentation\.ts$/,
   /^apps\/games-web\/src\/lib\/pod-health\.ts$/,
   /^apps\/games-web\/src\/lib\/status-(document|checks|db)\.ts$/,
@@ -58,30 +59,76 @@ const NONE = [
   /\.(test|spec)\.[cm]?[jt]sx?$/,
   /\.md$/,
   /^\.github\//,
+  // Other apps in the monorepo (Overwolf apps, desktop): not served by games-web.
+  /^apps\/(?!games-web\/)/,
+  /^turbo\.json$/,
+  /^packages\/config-(typescript|eslint)\//,
+  /(^|\/)(tsconfig[^/]*\.json|eslint\.config\.[cm]?js|\.prettierrc[^/]*)$/,
 ];
 
-/** Tenant id of the Companion App's own site (configs/thgl-app.ts, app.th.gl). */
-const COMPANION_APP = "thgl-app";
+/** Files whose change affects every page: full purge. */
+const FULL = [
+  /^apps\/games-web\/src\/proxy\.ts$/,
+  /^apps\/games-web\/next\.config\.js$/,
+  /(^|\/)package\.json$/,
+  /^bun\.lock$/,
+  /^apps\/games-web\/(tailwind|postcss)\.config\.[cm]?[jt]s$/,
+  /^packages\/config-tailwind\//,
+  /\.css$/,
+];
 
 /**
- * @param {string} file repo-relative path, forward slashes
- * @returns {{kind: "none"} | {kind: "tenant", app: string} | {kind: "shared"}}
+ * Tenant-owned files (not traced through the graph: configs/index.ts imports
+ * every config, so the graph would wrongly reach every route).
+ * @param {string} file
+ * @returns {string | null}
  */
-export function classify(file) {
-  if (NONE.some((re) => re.test(file))) return { kind: "none" };
+export function tenantOf(file) {
   let m = file.match(/^apps\/games-web\/src\/configs\/([^/]+)\.ts$/);
-  if (m && m[1] !== "index") return { kind: "tenant", app: m[1] };
+  if (m && m[1] !== "index") return m[1];
   m = file.match(/^apps\/games-web\/src\/games\/([^/]+)\//);
-  if (m) return { kind: "tenant", app: m[1] };
+  if (m) return m[1];
   m = file.match(/^packages\/ui\/src\/dicts\/([a-z0-9-]+)\.[A-Za-z-]+\.json$/);
-  if (m) return { kind: "tenant", app: m[1] };
-  return { kind: "shared" };
+  if (m) return m[1];
+  m = file.match(/^apps\/games-web\/public\/games\/([^/]+)\//);
+  if (m) return m[1];
+  return null;
+}
+
+const LOCALE_ROOT = "apps/games-web/src/app/g/[game]/[surface]/[locale]/";
+
+/**
+ * The purge tag of a route file under src/app (what src/proxy.ts tags its
+ * responses with), "none" for non-page routes, "full" when unknown.
+ * @param {string} file
+ * @returns {string | null} null = not a route file
+ */
+export function routeTag(file) {
+  if (!file.startsWith("apps/games-web/src/app/")) return null;
+  const rel = file.slice("apps/games-web/src/app/".length);
+  if (
+    /^(api|www\/api)\//.test(rel) ||
+    /^(robots\.ts|sitemap|llms\.txt)/.test(rel)
+  )
+    return "none";
+  if (file.startsWith(LOCALE_ROOT)) {
+    const rest = file.slice(LOCALE_ROOT.length);
+    if (!rest.includes("/"))
+      return /^(page|opengraph-image|twitter-image)\./.test(rest)
+        ? "r-home"
+        : "g";
+    return `r-${rest.split("/")[0]}`;
+  }
+  if (rel.startsWith("g/")) return "g";
+  if (rel.startsWith("www/")) return "t-thgl-web";
+  if (rel.startsWith("(app)/")) return "t-thgl-app";
+  return "full";
 }
 
 /**
  * App id -> public origin. games.ts `web:` for games; `domain:` in the app's
  * config for the non-game tenants (www, app).
- * @param {(path: string) => string | null} read file content at the new commit
+ * @param {(path: string) => string | null} read
  * @returns {Map<string, string>}
  */
 export function tenantHosts(read) {
@@ -99,24 +146,62 @@ export function tenantHosts(read) {
 }
 
 /**
- * @param {string[]} files
- * @param {(path: string) => string | null} read
+ * @param {{ path: string, status: string }[]} changes git name-status (A/M/D/R...)
+ * @param {(path: string) => string | null} read file at the new commit
+ * @param {{ reachedFrom: (f: string) => Set<string> }} graph
  */
-export function plan(files, read) {
-  const hosts = tenantHosts(read);
+export function plan(changes, read, graph) {
+  const files = changes.map((c) => c.path);
+  const tags = new Set();
   const apps = new Set();
-  const shared = [];
-  for (const f of files) {
-    const c = classify(f);
-    if (c.kind === "tenant") apps.add(c.app);
-    else if (c.kind === "shared") shared.push(f);
+  /** @type {string[]} */
+  const fullBecause = [];
+  const traced = [];
+  for (const { path, status } of changes) {
+    if (NONE.some((re) => re.test(path))) continue;
+    if (FULL.some((re) => re.test(path))) {
+      fullBecause.push(path);
+      continue;
+    }
+    const app = tenantOf(path);
+    if (app) {
+      apps.add(app);
+      continue;
+    }
+    if (path.startsWith("apps/games-web/public/")) {
+      // A new public file is never cached yet; a changed one is served on every host.
+      if (status !== "A") fullBecause.push(path);
+      continue;
+    }
+    const own = routeTag(path);
+    if (own) {
+      if (own === "full") fullBecause.push(path);
+      else if (own !== "none") tags.add(own);
+      continue;
+    }
+    if (!/^(apps\/games-web\/src|packages\/(ui|lib)\/src)\//.test(path)) {
+      fullBecause.push(path); // outside every known area: be safe
+      continue;
+    }
+    if (status === "D") continue; // its importers changed too and are traced
+    traced.push(path);
+    for (const f of graph.reachedFrom(path)) {
+      const t = routeTag(f);
+      if (t === "full") fullBecause.push(`${path} (via ${f})`);
+      else if (t && t !== "none") tags.add(t);
+    }
   }
-  // Shared page code also renders the Companion App UI: purge its host so the
-  // app never runs an old build for hours (inbox #704).
-  const tenantApps = [...apps];
-  if (shared.length) apps.add(COMPANION_APP);
+  if (fullBecause.length) {
+    return {
+      mode: "full",
+      reason: `affects every page: ${fullBecause.slice(0, 3).join(", ")}${fullBecause.length > 3 ? ", ..." : ""}`,
+      urls: [],
+      tags: [],
+      files,
+    };
+  }
+  const hosts = tenantHosts(read);
   const urls = [];
-  const unknown = [];
   for (const app of apps) {
     let host = hosts.get(app);
     if (!host) {
@@ -124,33 +209,53 @@ export function plan(files, read) {
       const d = cfg.match(/^\s*domain:\s*"([a-z0-9-]+)"/m);
       if (d) host = `https://${d[1]}.th.gl`;
     }
-    if (host) urls.push(`${host}/*`);
-    else unknown.push(app);
+    if (!host)
+      return {
+        mode: "full",
+        reason: `unmapped tenant: ${app}`,
+        urls: [],
+        tags: [],
+        files,
+      };
+    urls.push(`${host}/*`); // pages cached before CDN-Tag existed
+    tags.add(`t-${app}`); // its Companion App / embed copies
   }
-  if (unknown.length) {
-    // A tenant file we can't map to a host: purge everything rather than
-    // leave that site stale for an hour.
-    return {
-      mode: "full",
-      reason: `unmapped tenant(s): ${unknown.join(", ")}`,
-      urls: [],
-      files,
-    };
-  }
+  // The `g` tag covers every r-* section.
+  const tagList = tags.has("g")
+    ? ["g", ...[...tags].filter((t) => !t.startsWith("r-") && t !== "g")]
+    : [...tags];
   const reason = [
-    tenantApps.length ? `tenant files for ${tenantApps.join(", ")}` : null,
-    shared.length
-      ? `${shared.length} shared file(s): Companion App purged, game sites refresh via the 1 h edge TTL`
+    apps.size ? `site files: ${[...apps].join(", ")}` : null,
+    tagList.length ? `tags: ${tagList.sort().join(", ")}` : null,
+    traced.length && !tags.size && !apps.size
+      ? `${traced.length} shared file(s) reached no page route`
       : null,
   ]
     .filter(Boolean)
     .join("; ");
   return {
-    mode: urls.length ? "tenants" : "none",
+    mode: urls.length || tagList.length ? "purge" : "none",
     reason: reason || "only server-side files changed",
     urls: urls.sort(),
+    tags: tagList.sort(),
+    purgeTags: tagList.flatMap(purgePatterns).sort(),
     files,
   };
+}
+
+/**
+ * Bunny stores a CDN-Tag header value as ONE tag (no comma splitting: a purge of
+ * "r-db" leaves "g,t-palia,r-db" cached - verified 2026-10-07), but CacheTag
+ * purges accept `*` wildcards. Game pages carry "g,t-<app>,r-<section>"; www and
+ * the Companion App's own pages carry a single "t-<app>".
+ * @param {string} tag
+ * @returns {string[]}
+ */
+export function purgePatterns(tag) {
+  if (tag === "g") return ["g,*"];
+  if (tag.startsWith("r-")) return [`*,${tag}`];
+  if (tag.startsWith("t-")) return [`*,${tag},*`, tag];
+  return [tag];
 }
 
 const isMain =
@@ -162,8 +267,9 @@ if (isMain) {
       cwd: ROOT,
       encoding: "utf8",
       maxBuffer: 64 << 20,
+      stdio: ["ignore", "pipe", "ignore"],
     });
-  const out = (o) => console.log(JSON.stringify(o));
+  const out = (/** @type {object} */ o) => console.log(JSON.stringify(o));
   let known = false;
   try {
     known =
@@ -178,20 +284,24 @@ if (isMain) {
       mode: "full",
       reason: `previous build ${prev || "(none)"} not found in git`,
       urls: [],
+      tags: [],
       files: [],
     });
   } else {
-    const files = git("diff", "--name-only", `${prev}..${next}`)
+    const changes = git(
+      "diff",
+      "--name-status",
+      "--no-renames",
+      `${prev}..${next}`,
+    )
       .split("\n")
-      .filter(Boolean);
-    const read = (/** @type {string} */ p) => {
-      try {
-        return git("show", `${next}:${p}`);
-      } catch {
-        const abs = join(ROOT, p);
-        return existsSync(abs) ? readFileSync(abs, "utf8") : null;
-      }
-    };
-    out(plan(files, read));
+      .filter(Boolean)
+      .map((l) => {
+        const [status, path] = l.split("\t");
+        return { status: status[0], path };
+      });
+    const read = fsReader(ROOT);
+    const graph = buildGraph({ files: listSourceFiles(ROOT), read });
+    out(plan(changes, read, graph));
   }
 }

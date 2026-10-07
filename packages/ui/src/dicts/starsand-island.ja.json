@@ -1,0 +1,17 @@
+{
+  "config.internalLinks.maps-Starsand%20Island.description": "資源、ショップ、釣りスポットなどを網羅したインタラクティブマップでスターサンド・アイランドを探索しよう。",
+  "config.internalLinks.maps-Starsand%20Island.linkText": "島のマップを見る",
+  "config.internalLinks.maps-Moonlit%20Forest.description": "キャンプ地、宝箱、グレイブクリスタル、遺物がある月明かりの森の洞窟を探索しよう。",
+  "config.internalLinks.maps-Moonlit%20Forest.linkText": "月明かりの森のマップを見る",
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテム、レシピを検索…",
+  "config.db.inventory.description": "カテゴリ別の全アイテム — コレクション、料理、魚、種、服、家具、素材。",
+  "config.db.inventory.title": "アイテム",
+  "config.db.recipes.description": "クラフトと料理のレシピ。材料と作業台付きで、各アイテムにリンク。",
+  "config.db.recipes.title": "レシピ",
+  "config.db.codex.description": "ゲーム内の図鑑 — 発見した魚、海の生き物、動物、コレクション。",
+  "config.db.codex.title": "図鑑",
+  "config.db.typeLabels.inventory": "アイテム",
+  "config.db.typeLabels.recipes": "レシピ",
+  "config.db.typeLabels.codex": "図鑑"
+}

@@ -346,6 +346,15 @@ export default async function Page({ params }: PageProps) {
           groupHeadersOnly={
             appConfig.db?.groupHeaderSections?.includes(section) ?? false
           }
+          labels={{
+            filter: translate(dict, "db.filterPlaceholder", {
+              fallback: "Filter by name or effect…",
+            }),
+            all: translate(dict, "db.all", { fallback: "All" }),
+            shown: translate(dict, "db.shownCount", {
+              fallback: "{{count}} shown",
+            }),
+          }}
         />
       </div>
     </>

@@ -34,6 +34,399 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "neverness-to-everness": {
+    en: () =>
+      import("./neverness-to-everness.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./neverness-to-everness.de.json").then((mod) => mod.default),
+    es: () =>
+      import("./neverness-to-everness.es.json").then((mod) => mod.default),
+    fr: () =>
+      import("./neverness-to-everness.fr.json").then((mod) => mod.default),
+    ja: () =>
+      import("./neverness-to-everness.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./neverness-to-everness.ko.json").then((mod) => mod.default),
+    ru: () =>
+      import("./neverness-to-everness.ru.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./neverness-to-everness.zh-CN.json").then((mod) => mod.default),
+  },
+  "minecraft-dungeons-2": {
+    en: () =>
+      import("./minecraft-dungeons-2.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./minecraft-dungeons-2.de.json").then((mod) => mod.default),
+    es: () =>
+      import("./minecraft-dungeons-2.es.json").then((mod) => mod.default),
+    fr: () =>
+      import("./minecraft-dungeons-2.fr.json").then((mod) => mod.default),
+    it: () =>
+      import("./minecraft-dungeons-2.it.json").then((mod) => mod.default),
+    ja: () =>
+      import("./minecraft-dungeons-2.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./minecraft-dungeons-2.ko.json").then((mod) => mod.default),
+    pl: () =>
+      import("./minecraft-dungeons-2.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./minecraft-dungeons-2.pt-BR.json").then((mod) => mod.default),
+    ru: () =>
+      import("./minecraft-dungeons-2.ru.json").then((mod) => mod.default),
+    tr: () =>
+      import("./minecraft-dungeons-2.tr.json").then((mod) => mod.default),
+    uk: () =>
+      import("./minecraft-dungeons-2.uk.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./minecraft-dungeons-2.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./minecraft-dungeons-2.zh-TW.json").then((mod) => mod.default),
+  },
+  soulframe: {
+    en: () => import("./soulframe.en.json").then((mod) => mod.default),
+    de: () => import("./soulframe.de.json").then((mod) => mod.default),
+    es: () => import("./soulframe.es.json").then((mod) => mod.default),
+    fr: () => import("./soulframe.fr.json").then((mod) => mod.default),
+    it: () => import("./soulframe.it.json").then((mod) => mod.default),
+    ja: () => import("./soulframe.ja.json").then((mod) => mod.default),
+    ko: () => import("./soulframe.ko.json").then((mod) => mod.default),
+    pl: () => import("./soulframe.pl.json").then((mod) => mod.default),
+    "pt-BR": () => import("./soulframe.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./soulframe.ru.json").then((mod) => mod.default),
+    th: () => import("./soulframe.th.json").then((mod) => mod.default),
+    tr: () => import("./soulframe.tr.json").then((mod) => mod.default),
+    uk: () => import("./soulframe.uk.json").then((mod) => mod.default),
+    "zh-CN": () => import("./soulframe.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./soulframe.zh-TW.json").then((mod) => mod.default),
+  },
+  "songs-of-conquest": {
+    en: () => import("./songs-of-conquest.en.json").then((mod) => mod.default),
+    ru: () => import("./songs-of-conquest.ru.json").then((mod) => mod.default),
+    cs: () => import("./songs-of-conquest.cs.json").then((mod) => mod.default),
+    fr: () => import("./songs-of-conquest.fr.json").then((mod) => mod.default),
+    de: () => import("./songs-of-conquest.de.json").then((mod) => mod.default),
+    it: () => import("./songs-of-conquest.it.json").then((mod) => mod.default),
+    pl: () => import("./songs-of-conquest.pl.json").then((mod) => mod.default),
+    es: () => import("./songs-of-conquest.es.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./songs-of-conquest.zh-CN.json").then((mod) => mod.default),
+    ja: () => import("./songs-of-conquest.ja.json").then((mod) => mod.default),
+    ko: () => import("./songs-of-conquest.ko.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./songs-of-conquest.pt-BR.json").then((mod) => mod.default),
+    uk: () => import("./songs-of-conquest.uk.json").then((mod) => mod.default),
+  },
+  "sinking-city-2": {
+    en: () => import("./sinking-city-2.en.json").then((mod) => mod.default),
+    de: () => import("./sinking-city-2.de.json").then((mod) => mod.default),
+    fr: () => import("./sinking-city-2.fr.json").then((mod) => mod.default),
+    es: () => import("./sinking-city-2.es.json").then((mod) => mod.default),
+    it: () => import("./sinking-city-2.it.json").then((mod) => mod.default),
+    ja: () => import("./sinking-city-2.ja.json").then((mod) => mod.default),
+    ko: () => import("./sinking-city-2.ko.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./sinking-city-2.pt-BR.json").then((mod) => mod.default),
+    pl: () => import("./sinking-city-2.pl.json").then((mod) => mod.default),
+    tr: () => import("./sinking-city-2.tr.json").then((mod) => mod.default),
+    uk: () => import("./sinking-city-2.uk.json").then((mod) => mod.default),
+    cs: () => import("./sinking-city-2.cs.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./sinking-city-2.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./sinking-city-2.zh-TW.json").then((mod) => mod.default),
+  },
+  satisfactory: {
+    en: () => import("./satisfactory.en.json").then((mod) => mod.default),
+    cs: () => import("./satisfactory.cs.json").then((mod) => mod.default),
+    de: () => import("./satisfactory.de.json").then((mod) => mod.default),
+    es: () => import("./satisfactory.es.json").then((mod) => mod.default),
+    "es-MX": () =>
+      import("./satisfactory.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./satisfactory.fr.json").then((mod) => mod.default),
+    hu: () => import("./satisfactory.hu.json").then((mod) => mod.default),
+    id: () => import("./satisfactory.id.json").then((mod) => mod.default),
+    it: () => import("./satisfactory.it.json").then((mod) => mod.default),
+    ja: () => import("./satisfactory.ja.json").then((mod) => mod.default),
+    ko: () => import("./satisfactory.ko.json").then((mod) => mod.default),
+    pl: () => import("./satisfactory.pl.json").then((mod) => mod.default),
+    pt: () => import("./satisfactory.pt.json").then((mod) => mod.default),
+    ru: () => import("./satisfactory.ru.json").then((mod) => mod.default),
+    th: () => import("./satisfactory.th.json").then((mod) => mod.default),
+    tr: () => import("./satisfactory.tr.json").then((mod) => mod.default),
+    uk: () => import("./satisfactory.uk.json").then((mod) => mod.default),
+    vi: () => import("./satisfactory.vi.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./satisfactory.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./satisfactory.zh-TW.json").then((mod) => mod.default),
+  },
+  "planet-crafter": {
+    en: () => import("./planet-crafter.en.json").then((mod) => mod.default),
+    fr: () => import("./planet-crafter.fr.json").then((mod) => mod.default),
+    es: () => import("./planet-crafter.es.json").then((mod) => mod.default),
+    pt: () => import("./planet-crafter.pt.json").then((mod) => mod.default),
+    de: () => import("./planet-crafter.de.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./planet-crafter.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./planet-crafter.zh-TW.json").then((mod) => mod.default),
+    ja: () => import("./planet-crafter.ja.json").then((mod) => mod.default),
+    ko: () => import("./planet-crafter.ko.json").then((mod) => mod.default),
+    pl: () => import("./planet-crafter.pl.json").then((mod) => mod.default),
+    ru: () => import("./planet-crafter.ru.json").then((mod) => mod.default),
+    tr: () => import("./planet-crafter.tr.json").then((mod) => mod.default),
+    it: () => import("./planet-crafter.it.json").then((mod) => mod.default),
+  },
+  "the-first-descendant": {
+    en: () =>
+      import("./the-first-descendant.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./the-first-descendant.de.json").then((mod) => mod.default),
+    fr: () =>
+      import("./the-first-descendant.fr.json").then((mod) => mod.default),
+    es: () =>
+      import("./the-first-descendant.es.json").then((mod) => mod.default),
+    it: () =>
+      import("./the-first-descendant.it.json").then((mod) => mod.default),
+    pl: () =>
+      import("./the-first-descendant.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./the-first-descendant.pt-BR.json").then((mod) => mod.default),
+    ru: () =>
+      import("./the-first-descendant.ru.json").then((mod) => mod.default),
+    ja: () =>
+      import("./the-first-descendant.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./the-first-descendant.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./the-first-descendant.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./the-first-descendant.zh-TW.json").then((mod) => mod.default),
+  },
+  "souls-remnant": {
+    en: () => import("./souls-remnant.en.json").then((mod) => mod.default),
+    de: () => import("./souls-remnant.de.json").then((mod) => mod.default),
+    es: () => import("./souls-remnant.es.json").then((mod) => mod.default),
+    "es-MX": () =>
+      import("./souls-remnant.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./souls-remnant.fr.json").then((mod) => mod.default),
+    id: () => import("./souls-remnant.id.json").then((mod) => mod.default),
+    it: () => import("./souls-remnant.it.json").then((mod) => mod.default),
+    pl: () => import("./souls-remnant.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./souls-remnant.pt-BR.json").then((mod) => mod.default),
+    tr: () => import("./souls-remnant.tr.json").then((mod) => mod.default),
+    ja: () => import("./souls-remnant.ja.json").then((mod) => mod.default),
+    ko: () => import("./souls-remnant.ko.json").then((mod) => mod.default),
+    ru: () => import("./souls-remnant.ru.json").then((mod) => mod.default),
+    th: () => import("./souls-remnant.th.json").then((mod) => mod.default),
+    vi: () => import("./souls-remnant.vi.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./souls-remnant.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./souls-remnant.zh-TW.json").then((mod) => mod.default),
+  },
+  starrupture: {
+    en: () => import("./starrupture.en.json").then((mod) => mod.default),
+    de: () => import("./starrupture.de.json").then((mod) => mod.default),
+    es: () => import("./starrupture.es.json").then((mod) => mod.default),
+    fr: () => import("./starrupture.fr.json").then((mod) => mod.default),
+    ja: () => import("./starrupture.ja.json").then((mod) => mod.default),
+    ko: () => import("./starrupture.ko.json").then((mod) => mod.default),
+    pl: () => import("./starrupture.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./starrupture.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./starrupture.ru.json").then((mod) => mod.default),
+    th: () => import("./starrupture.th.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./starrupture.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./starrupture.zh-Hant.json").then((mod) => mod.default),
+  },
+  "subnautica-2": {
+    en: () => import("./subnautica-2.en.json").then((mod) => mod.default),
+    de: () => import("./subnautica-2.de.json").then((mod) => mod.default),
+    es: () => import("./subnautica-2.es.json").then((mod) => mod.default),
+    fr: () => import("./subnautica-2.fr.json").then((mod) => mod.default),
+    it: () => import("./subnautica-2.it.json").then((mod) => mod.default),
+    ja: () => import("./subnautica-2.ja.json").then((mod) => mod.default),
+    ko: () => import("./subnautica-2.ko.json").then((mod) => mod.default),
+    pt: () => import("./subnautica-2.pt.json").then((mod) => mod.default),
+    ru: () => import("./subnautica-2.ru.json").then((mod) => mod.default),
+    uk: () => import("./subnautica-2.uk.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./subnautica-2.zh-CN.json").then((mod) => mod.default),
+  },
+  "starsand-island": {
+    en: () => import("./starsand-island.en.json").then((mod) => mod.default),
+    ja: () => import("./starsand-island.ja.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./starsand-island.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./starsand-island.zh-TW.json").then((mod) => mod.default),
+  },
+  soulmask: {
+    de: () => import("./soulmask.de.json").then((mod) => mod.default),
+    en: () => import("./soulmask.en.json").then((mod) => mod.default),
+    es: () => import("./soulmask.es.json").then((mod) => mod.default),
+    fr: () => import("./soulmask.fr.json").then((mod) => mod.default),
+    ja: () => import("./soulmask.ja.json").then((mod) => mod.default),
+    ko: () => import("./soulmask.ko.json").then((mod) => mod.default),
+    "pt-BR": () => import("./soulmask.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./soulmask.ru.json").then((mod) => mod.default),
+    "zh-CN": () => import("./soulmask.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./soulmask.zh-TW.json").then((mod) => mod.default),
+  },
+  "wuthering-waves": {
+    en: () => import("./wuthering-waves.en.json").then((mod) => mod.default),
+    de: () => import("./wuthering-waves.de.json").then((mod) => mod.default),
+    es: () => import("./wuthering-waves.es.json").then((mod) => mod.default),
+    fr: () => import("./wuthering-waves.fr.json").then((mod) => mod.default),
+    ja: () => import("./wuthering-waves.ja.json").then((mod) => mod.default),
+    ko: () => import("./wuthering-waves.ko.json").then((mod) => mod.default),
+    pt: () => import("./wuthering-waves.pt.json").then((mod) => mod.default),
+    th: () => import("./wuthering-waves.th.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./wuthering-waves.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./wuthering-waves.zh-TW.json").then((mod) => mod.default),
+  },
+  "where-winds-meet": {
+    en: () => import("./where-winds-meet.en.json").then((mod) => mod.default),
+    de: () => import("./where-winds-meet.de.json").then((mod) => mod.default),
+    fr: () => import("./where-winds-meet.fr.json").then((mod) => mod.default),
+    es: () => import("./where-winds-meet.es.json").then((mod) => mod.default),
+    ja: () => import("./where-winds-meet.ja.json").then((mod) => mod.default),
+    ko: () => import("./where-winds-meet.ko.json").then((mod) => mod.default),
+    ru: () => import("./where-winds-meet.ru.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./where-winds-meet.pt-BR.json").then((mod) => mod.default),
+    th: () => import("./where-winds-meet.th.json").then((mod) => mod.default),
+    vi: () => import("./where-winds-meet.vi.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./where-winds-meet.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./where-winds-meet.zh-Hant.json").then((mod) => mod.default),
+  },
+  "welcome-to-elderfield": {
+    en: () =>
+      import("./welcome-to-elderfield.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./welcome-to-elderfield.de.json").then((mod) => mod.default),
+    es: () =>
+      import("./welcome-to-elderfield.es.json").then((mod) => mod.default),
+    fr: () =>
+      import("./welcome-to-elderfield.fr.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./welcome-to-elderfield.pt-BR.json").then((mod) => mod.default),
+    ru: () =>
+      import("./welcome-to-elderfield.ru.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./welcome-to-elderfield.zh-CN.json").then((mod) => mod.default),
+  },
+  valheim: {
+    en: () => import("./valheim.en.json").then((mod) => mod.default),
+    cs: () => import("./valheim.cs.json").then((mod) => mod.default),
+    de: () => import("./valheim.de.json").then((mod) => mod.default),
+    es: () => import("./valheim.es.json").then((mod) => mod.default),
+    fr: () => import("./valheim.fr.json").then((mod) => mod.default),
+    hu: () => import("./valheim.hu.json").then((mod) => mod.default),
+    it: () => import("./valheim.it.json").then((mod) => mod.default),
+    ja: () => import("./valheim.ja.json").then((mod) => mod.default),
+    ko: () => import("./valheim.ko.json").then((mod) => mod.default),
+    pl: () => import("./valheim.pl.json").then((mod) => mod.default),
+    "pt-BR": () => import("./valheim.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./valheim.ru.json").then((mod) => mod.default),
+    th: () => import("./valheim.th.json").then((mod) => mod.default),
+    tr: () => import("./valheim.tr.json").then((mod) => mod.default),
+    uk: () => import("./valheim.uk.json").then((mod) => mod.default),
+    "zh-CN": () => import("./valheim.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./valheim.zh-TW.json").then((mod) => mod.default),
+  },
+  witchspire: {
+    en: () => import("./witchspire.en.json").then((mod) => mod.default),
+  },
+  "albion-online": {
+    en: () => import("./albion-online.en.json").then((mod) => mod.default),
+    de: () => import("./albion-online.de.json").then((mod) => mod.default),
+    es: () => import("./albion-online.es.json").then((mod) => mod.default),
+    fr: () => import("./albion-online.fr.json").then((mod) => mod.default),
+    it: () => import("./albion-online.it.json").then((mod) => mod.default),
+    pl: () => import("./albion-online.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./albion-online.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./albion-online.ru.json").then((mod) => mod.default),
+    tr: () => import("./albion-online.tr.json").then((mod) => mod.default),
+    id: () => import("./albion-online.id.json").then((mod) => mod.default),
+    ja: () => import("./albion-online.ja.json").then((mod) => mod.default),
+    ko: () => import("./albion-online.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./albion-online.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./albion-online.zh-TW.json").then((mod) => mod.default),
+  },
+  "baldurs-gate-ee": {
+    en: () => import("./baldurs-gate-ee.en.json").then((mod) => mod.default),
+    cs: () => import("./baldurs-gate-ee.cs.json").then((mod) => mod.default),
+    de: () => import("./baldurs-gate-ee.de.json").then((mod) => mod.default),
+    es: () => import("./baldurs-gate-ee.es.json").then((mod) => mod.default),
+    fr: () => import("./baldurs-gate-ee.fr.json").then((mod) => mod.default),
+    hu: () => import("./baldurs-gate-ee.hu.json").then((mod) => mod.default),
+    it: () => import("./baldurs-gate-ee.it.json").then((mod) => mod.default),
+    ja: () => import("./baldurs-gate-ee.ja.json").then((mod) => mod.default),
+    ko: () => import("./baldurs-gate-ee.ko.json").then((mod) => mod.default),
+    pl: () => import("./baldurs-gate-ee.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./baldurs-gate-ee.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./baldurs-gate-ee.ru.json").then((mod) => mod.default),
+    tr: () => import("./baldurs-gate-ee.tr.json").then((mod) => mod.default),
+    uk: () => import("./baldurs-gate-ee.uk.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./baldurs-gate-ee.zh-CN.json").then((mod) => mod.default),
+  },
+  avowed: {
+    en: () => import("./avowed.en.json").then((mod) => mod.default),
+    de: () => import("./avowed.de.json").then((mod) => mod.default),
+    es: () => import("./avowed.es.json").then((mod) => mod.default),
+    fr: () => import("./avowed.fr.json").then((mod) => mod.default),
+    it: () => import("./avowed.it.json").then((mod) => mod.default),
+    ja: () => import("./avowed.ja.json").then((mod) => mod.default),
+    ko: () => import("./avowed.ko.json").then((mod) => mod.default),
+    pl: () => import("./avowed.pl.json").then((mod) => mod.default),
+    pt: () => import("./avowed.pt.json").then((mod) => mod.default),
+    ru: () => import("./avowed.ru.json").then((mod) => mod.default),
+    "zh-CN": () => import("./avowed.zh-CN.json").then((mod) => mod.default),
+  },
+  aion2: {
+    en: () => import("./aion2.en.json").then((mod) => mod.default),
+    de: () => import("./aion2.de.json").then((mod) => mod.default),
+    es: () => import("./aion2.es.json").then((mod) => mod.default),
+    fr: () => import("./aion2.fr.json").then((mod) => mod.default),
+    ja: () => import("./aion2.ja.json").then((mod) => mod.default),
+    ko: () => import("./aion2.ko.json").then((mod) => mod.default),
+    "pt-BR": () => import("./aion2.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./aion2.ru.json").then((mod) => mod.default),
+  },
+  "blood-of-dawnwalker": {
+    en: () =>
+      import("./blood-of-dawnwalker.en.json").then((mod) => mod.default),
+  },
+  "conan-exiles": {
+    en: () => import("./conan-exiles.en.json").then((mod) => mod.default),
+    de: () => import("./conan-exiles.de.json").then((mod) => mod.default),
+    es: () => import("./conan-exiles.es.json").then((mod) => mod.default),
+    fr: () => import("./conan-exiles.fr.json").then((mod) => mod.default),
+    it: () => import("./conan-exiles.it.json").then((mod) => mod.default),
+    ja: () => import("./conan-exiles.ja.json").then((mod) => mod.default),
+    ko: () => import("./conan-exiles.ko.json").then((mod) => mod.default),
+    pl: () => import("./conan-exiles.pl.json").then((mod) => mod.default),
+    pt: () => import("./conan-exiles.pt.json").then((mod) => mod.default),
+    ru: () => import("./conan-exiles.ru.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./conan-exiles.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./conan-exiles.zh-Hant.json").then((mod) => mod.default),
+  },
   "dune-awakening": {
     en: () => import("./dune-awakening.en.json").then((mod) => mod.default),
     de: () => import("./dune-awakening.de.json").then((mod) => mod.default),
@@ -142,6 +535,8 @@ const appDictionaries = {
     pt: () => import("./rsdragonwilds.pt.json").then((mod) => mod.default),
     "zh-CN": () =>
       import("./rsdragonwilds.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./rsdragonwilds.zh-TW.json").then((mod) => mod.default),
   },
   "thgl-app": {
     en: () => import("./thgl-app.en.json").then((mod) => mod.default),

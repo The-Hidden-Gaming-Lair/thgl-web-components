@@ -41,30 +41,30 @@ export const planetCrafter = resolveAppConfig({
   ],
   topFilters: ["Iridium", "Aluminium", "golden", "data_log", "fusion_reactor"],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items and buildings…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.db.inventory.title",
         titleFallback: "Items",
         icon: "🎒",
-        description:
-          "Resources, equipment, food, seeds, wildlife and fuses — with crafting recipes, unlock thresholds and trade values.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/buildings",
         type: "buildings",
+        titleKey: "config.db.buildings.title",
         titleFallback: "Buildings",
         icon: "🏭",
-        description:
-          "Machines, base building and furniture — with terraforming rates per second, energy use, recipes and tier upgrades.",
+        description: "config.db.buildings.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      buildings: "Buildings",
+      inventory: "config.db.typeLabels.inventory",
+      buildings: "config.db.typeLabels.buildings",
     },
   },
 });

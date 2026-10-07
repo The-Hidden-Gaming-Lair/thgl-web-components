@@ -24,20 +24,18 @@ export const sinkingCity2 = resolveAppConfig({
   appUrl: null,
   internalLinks: [
     {
-      title: "Items & Codex",
-      description:
-        "Browse The Sinking City 2's weapons, consumables and quest objects — with icons and descriptions.",
+      title: "config.internalLinks.items.title",
+      description: "config.internalLinks.items.description",
       href: "/db/items",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.items.linkText",
     },
     {
-      title: "Lore",
-      description:
-        "Every lore document, note and letter you can find across flooded Arkham.",
+      title: "config.internalLinks.lore.title",
+      description: "config.internalLinks.lore.description",
       href: "/db/lore",
       iconName: "BookOpen",
-      linkText: "Read the Lore",
+      linkText: "config.internalLinks.lore.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -54,44 +52,48 @@ export const sinkingCity2 = resolveAppConfig({
   db: {
     // Collection checklists (/checklist, /checklist/<section>).
     checklists: [{ section: "lore" }],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items & lore…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/items",
         type: "items",
+        titleKey: "config.db.items.title",
         titleFallback: "Items",
         icon: "🧰",
-        description: "Weapons, consumables, ammunition and quest objects.",
+        description: "config.db.items.description",
       },
       {
         href: "/db/lore",
         type: "lore",
+        titleKey: "config.internalLinks.lore.title",
         titleFallback: "Lore",
         icon: "📖",
-        description: "Documents, notes and letters found across Arkham.",
+        description: "config.db.lore.description",
       },
       {
         href: "/db/evidence",
         type: "evidence",
+        titleKey: "config.db.evidence.title",
         titleFallback: "Evidence",
         icon: "🔍",
-        description: "Clues and evidence uncovered during investigations.",
+        description: "config.db.evidence.description",
       },
       {
         href: "/db/cases",
         type: "cases",
+        titleKey: "config.db.cases.title",
         titleFallback: "Cases",
         icon: "🗂️",
-        description: "Investigation cases and their conclusions.",
+        description: "config.db.cases.description",
       },
     ],
     typeLabels: {
-      items: "Items",
-      lore: "Lore",
-      evidence: "Evidence",
-      cases: "Cases",
+      items: "config.db.typeLabels.items",
+      lore: "config.db.typeLabels.lore",
+      evidence: "config.db.typeLabels.evidence",
+      cases: "config.db.typeLabels.cases",
     },
   },
 });

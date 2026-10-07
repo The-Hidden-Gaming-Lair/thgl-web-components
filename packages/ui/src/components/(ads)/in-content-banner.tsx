@@ -4,6 +4,7 @@ import { getNitroAds } from "./nitro-pay";
 import { AdFreeContainer } from "./ad-free-container";
 import { IS_DEMO_MODE } from "./constants";
 import { AdPlaceholder } from "./ad-placeholder";
+import { AdSlot } from "./house-ad";
 
 // In-content banners switch from their phone size to a 728x90 leaderboard
 // when the CONTENT column (not the viewport) has room for it: with the
@@ -110,10 +111,10 @@ function BannerSlot({
 
   return (
     <AdFreeContainer className="w-fit mx-auto">
-      <div
+      <AdSlot
+        id={id}
         className="rounded bg-zinc-800/30 flex flex-col justify-center text-gray-500"
         style={size}
-        id={id}
       />
     </AdFreeContainer>
   );

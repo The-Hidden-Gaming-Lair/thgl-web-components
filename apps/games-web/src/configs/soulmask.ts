@@ -19,29 +19,28 @@ export const soulmask = resolveAppConfig({
     {
       title: "Cloud Mist Forest Map",
       description:
-        "Navigate Soulmask's Cloud Mist Forest with our interactive map.",
+        "config.internalLinks.maps-Cloud%20Mist%20Forest.description",
       href: "/maps/Cloud%20Mist%20Forest",
       iconName: "Map",
       // Inlined getPreviewImageUrl("soulmask", "Level01")
       bgImage: `${DATA_FORGE_CDN_URL}/soulmask/map-tiles/Level01/preview.webp`,
-      linkText: "Explore the Cloud Mist Forest Map",
+      linkText: "config.internalLinks.maps-Cloud%20Mist%20Forest.linkText",
     },
     {
       title: "Shifting Sands Map",
-      description:
-        "Navigate Soulmask's Shifting Sands with our interactive map.",
+      description: "config.internalLinks.maps-Shifting%20Sands.description",
       href: "/maps/Shifting%20Sands",
       iconName: "Map",
       // Inlined getPreviewImageUrl("soulmask", "DLC_Level01")
       bgImage: `${DATA_FORGE_CDN_URL}/soulmask/map-tiles/DLC_Level01/preview.webp`,
-      linkText: "Explore the Shifting Sands Map",
+      linkText: "config.internalLinks.maps-Shifting%20Sands.linkText",
     },
   ],
   promoLinks: [],
   externalLinks: [
     {
       href: "https://soulmask.gaming.tools/",
-      title: "Database",
+      title: "database",
     },
   ],
   keywords: [

@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "Gegenstände",
+  "config.internalLinks.inventory.description": "Alle Ressourcen, Verbrauchsgüter und Komponenten nach Kategorie — mit Symbolen, Beschreibungen und Herstellungsrezepten.",
+  "config.internalLinks.inventory.linkText": "Gegenstandsdatenbank öffnen",
+  "config.internalLinks.equipment.title": "Ausrüstung",
+  "config.internalLinks.equipment.description": "Waffen, Rüstungen und Werkzeuge mit Kampfwerten — Schaden, Slots und die genutzten Fertigkeiten.",
+  "config.internalLinks.equipment.linkText": "Ausrüstungsdatenbank öffnen",
+  "config.internalLinks.recipes.title": "Rezepte",
+  "config.internalLinks.recipes.description": "Jedes Herstellungsrezept nach Station, mit Zutaten, die zu jedem Gegenstand verlinkt sind.",
+  "config.internalLinks.recipes.linkText": "Rezeptdatenbank öffnen",
+  "config.internalLinks.enemies.title": "Gegner",
+  "config.internalLinks.enemies.description": "Kreaturen und Bosse, denen du in Ashenfall begegnest.",
+  "config.internalLinks.enemies.linkText": "Bestiarium öffnen",
+  "config.db.heroSubtitle": "Spieldatenbank",
+  "config.db.searchPlaceholder": "Gegenstände, Ausrüstung, Rezepte suchen…",
+  "config.db.inventory.description": "Ressourcen, Verbrauchsgüter und Komponenten.",
+  "config.db.equipment.description": "Waffen, Rüstungen und Werkzeuge mit Werten.",
+  "config.db.recipes.description": "Herstellungsrezepte nach Station, mit Zutaten.",
+  "config.db.enemies.description": "Kreaturen und Bosse in ganz Ashenfall.",
+  "config.db.typeLabels.inventory": "Gegenstand",
+  "config.db.typeLabels.equipment": "Ausrüstung",
+  "config.db.typeLabels.recipes": "Rezept",
+  "config.db.typeLabels.enemies": "Gegner"
+}

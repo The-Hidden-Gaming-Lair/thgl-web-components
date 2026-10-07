@@ -86,6 +86,22 @@ export function createRobots(appConfig: AppConfig) {
           ],
           disallow: "/",
         },
+        {
+          // Crawlers with no search or referral value that grew 2-30x in
+          // 2026-10 and crawl the uncacheable long tail (/db, /guides x every
+          // locale): GoogleOther is Google's research crawler (does NOT feed
+          // Search; Googlebot is unaffected), the rest are SEO-tool / unknown
+          // crawlers. All of them honour robots.txt.
+          userAgent: [
+            "GoogleOther",
+            "AhrefsBot",
+            "ShapBot",
+            "SemrushBot",
+            "KeenableBot",
+            "LinkupBot",
+          ],
+          disallow: "/",
+        },
       ],
       sitemap: `https://${appConfig.domain}.th.gl/sitemap.xml`,
     };

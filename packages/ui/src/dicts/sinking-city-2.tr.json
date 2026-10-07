@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Eşyalar ve Kodeks",
+  "config.internalLinks.items.description": "The Sinking City 2'deki silahlar, sarf malzemeleri ve görev nesneleri — simgeler ve açıklamalarla.",
+  "config.internalLinks.items.linkText": "Eşya veritabanını aç",
+  "config.internalLinks.lore.title": "Hikâye",
+  "config.internalLinks.lore.description": "Sular altındaki Arkham'da bulabileceğin her belge, not ve mektup.",
+  "config.internalLinks.lore.linkText": "Hikâyeyi oku",
+  "config.db.heroSubtitle": "Oyun Veritabanı",
+  "config.db.searchPlaceholder": "Eşya ve hikâye ara…",
+  "config.db.items.description": "Silahlar, sarf malzemeleri, cephane ve görev nesneleri.",
+  "config.db.items.title": "Eşyalar",
+  "config.db.lore.description": "Arkham'ın dört bir yanında bulunan belgeler, notlar ve mektuplar.",
+  "config.db.evidence.description": "Soruşturmalar sırasında ortaya çıkan ipuçları ve kanıtlar.",
+  "config.db.evidence.title": "Kanıtlar",
+  "config.db.cases.description": "Soruşturma vakaları ve sonuçları.",
+  "config.db.cases.title": "Vakalar",
+  "config.db.typeLabels.items": "Eşya",
+  "config.db.typeLabels.lore": "Hikâye",
+  "config.db.typeLabels.evidence": "Kanıt",
+  "config.db.typeLabels.cases": "Vaka"
+}

@@ -131,6 +131,88 @@ export function getT(dict: Record<string, string>) {
   return t;
 }
 
+/**
+ * Label of an internalLinks map entry. A plain English config title of the
+ * standard "<Name> Map" form that the dict doesn't translate falls back to the
+ * localized `nav.mapTitle` template ("{{map}} Map" → "<Name> Karte"), so map
+ * links read naturally on every locale without per-tenant keys (inbox #755).
+ * For a `/maps/<English name>` link the name is the localized map name the
+ * /maps cards show, read from the `mapName:` entries (see mapNameEntries), so
+ * nav and cards agree (inbox #766).
+ */
+export function mapLinkTitle(
+  t: (
+    key: string,
+    options?: { fallback?: string; vars?: Record<string, string> },
+  ) => string,
+  link: { title: string; href: string },
+): string {
+  const { title, href } = link;
+  const translated = t(title);
+  if (translated !== title || !title.endsWith(" Map")) return translated;
+  const mapName = mapNameFromHref(href);
+  const nameKey = mapName && `${MAP_NAME_KEY_PREFIX}${mapName}`;
+  const localizedMap = nameKey ? t(nameKey) : undefined;
+  return t("nav.mapTitle", {
+    fallback: "{{map}} Map",
+    vars: {
+      map:
+        localizedMap && localizedMap !== nameKey
+          ? localizedMap
+          : title.slice(0, -" Map".length),
+    },
+  });
+}
+
+const MAP_NAME_KEY_PREFIX = "mapName:";
+
+/**
+ * Dict entries mapping a map's English name (the `/maps/<name>` URL segment,
+ * see the maps page) to its localized name — `mapName:<English>` → name — for
+ * mapLinkTitle. Tile keys are game ids, so links can't look them up directly.
+ * Only maps whose name differs from English get an entry.
+ */
+export function mapNameEntries(
+  tileKeys: string[],
+  dict: Dict,
+  enDict: Dict,
+): Record<string, string> {
+  const entries: Record<string, string> = {};
+  for (const key of tileKeys) {
+    const enName = translate(enDict, key);
+    const name = translate(dict, key);
+    if (enName && name && name !== enName)
+      entries[`${MAP_NAME_KEY_PREFIX}${enName}`] = name;
+  }
+  return entries;
+}
+
+/**
+ * Tile key of a `/maps/<English name>` link. Hrefs carry the English map name,
+ * so this matches against the English dict — never the localized name, which
+ * misses on every other locale (inbox #765).
+ */
+export function mapTileKeyFromHref(
+  href: string,
+  tileKeys: string[],
+  enDict: Dict,
+): string | undefined {
+  const mapName = mapNameFromHref(href);
+  if (!mapName) return undefined;
+  return tileKeys.find((key) => (translate(enDict, key) || key) === mapName);
+}
+
+/** The map name of a `/maps/<name>` link (decoded), else undefined. */
+export function mapNameFromHref(href: string): string | undefined {
+  const match = /^\/maps\/([^/?#]+)/.exec(href);
+  if (!match) return undefined;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return match[1];
+  }
+}
+
 export function localizePath(
   href: string,
   locale: string,

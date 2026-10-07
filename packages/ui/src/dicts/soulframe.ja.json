@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "インタラクティブマップで Soulframe の Midrath を探索。",
+  "config.internalLinks.maps-Midrath.linkText": "Midrath のマップを探索",
+  "config.internalLinks.landmarks.title": "場所",
+  "config.internalLinks.landmarks.description": "Midrath のすべての名所、世界樹、ダンジョン、エンクレイヴ — 伝承とマップ上の位置付き。",
+  "config.internalLinks.landmarks.linkText": "場所を見る",
+  "config.internalLinks.foes.title": "敵",
+  "config.internalLinks.foes.description": "Midrath のオード、メンディカント、穢れた生物、ボス — 出現場所と守るダンジョン。",
+  "config.internalLinks.foes.linkText": "敵を見る",
+  "config.internalLinks.wildlife.title": "野生動物",
+  "config.internalLinks.wildlife.description": "Midrath の動物と希少な輝く変種、その生息地。",
+  "config.internalLinks.wildlife.linkText": "野生動物を見る",
+  "config.db.heroSubtitle": "コーデックス: 場所、敵、野生動物",
+  "config.db.searchPlaceholder": "場所、敵、野生動物を検索…",
+  "config.db.landmarks.description": "Midrath の名所、世界樹、ダンジョン、エンクレイヴ。",
+  "config.db.foes.description": "オード、メンディカント、穢れた生物、ボス。",
+  "config.db.wildlife.description": "Midrath の動物と輝く変種。",
+  "config.db.typeLabels.landmarks": "場所",
+  "config.db.typeLabels.foes": "敵",
+  "config.db.typeLabels.wildlife": "動物"
+}

@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "ฐานข้อมูลเกม",
+  "config.db.searchPlaceholder": "ค้นหา Resonator อาวุธ Echo ไอเทม…",
+  "config.db.resonators.description": "ตัวละครที่เล่นได้ แยกตามธาตุและความหายาก",
+  "config.db.resonators.title": "Resonator",
+  "config.db.weapons.description": "อาวุธแยกตามประเภทและความหายาก",
+  "config.db.weapons.title": "อาวุธ",
+  "config.db.echoes.description": "Echo ที่สะสมได้ พร้อมคอสต์ สกิล และเซ็ต Sonata",
+  "config.db.echoes.title": "Echo",
+  "config.db.sonatas.description": "โบนัสเซ็ต Echo และ Echo ที่มอบโบนัสนั้น",
+  "config.db.sonatas.title": "Sonata",
+  "config.db.enemies.description": "มอนสเตอร์และบอสทั่วโลก",
+  "config.db.enemies.title": "ศัตรู",
+  "config.db.inventory.description": "วัตถุดิบ ของใช้สิ้นเปลือง และทรัพยากร",
+  "config.db.inventory.title": "ไอเทม",
+  "config.db.typeLabels.resonators": "Resonator",
+  "config.db.typeLabels.weapons": "อาวุธ",
+  "config.db.typeLabels.echoes": "Echo",
+  "config.db.typeLabels.sonatas": "Sonata",
+  "config.db.typeLabels.enemies": "ศัตรู",
+  "config.db.typeLabels.inventory": "ไอเทม"
+}

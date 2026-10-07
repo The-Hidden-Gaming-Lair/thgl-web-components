@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "Spieldatenbank",
+  "config.db.searchPlaceholder": "Resonatoren, Waffen, Echos, Gegenstände suchen…",
+  "config.db.resonators.description": "Spielbare Charaktere nach Element und Seltenheit.",
+  "config.db.resonators.title": "Resonatoren",
+  "config.db.weapons.description": "Waffen nach Typ und Seltenheit.",
+  "config.db.weapons.title": "Waffen",
+  "config.db.echoes.description": "Sammelbare Echos mit Kosten, Fähigkeiten und Sonaten-Sets.",
+  "config.db.echoes.title": "Echos",
+  "config.db.sonatas.description": "Echo-Setboni und die Echos, die sie gewähren.",
+  "config.db.sonatas.title": "Sonaten",
+  "config.db.enemies.description": "Monster und Bosse in der ganzen Welt.",
+  "config.db.enemies.title": "Gegner",
+  "config.db.inventory.description": "Materialien, Verbrauchsgüter und Ressourcen.",
+  "config.db.inventory.title": "Gegenstände",
+  "config.db.typeLabels.resonators": "Resonator",
+  "config.db.typeLabels.weapons": "Waffe",
+  "config.db.typeLabels.echoes": "Echo",
+  "config.db.typeLabels.sonatas": "Sonate",
+  "config.db.typeLabels.enemies": "Gegner",
+  "config.db.typeLabels.inventory": "Gegenstand"
+}

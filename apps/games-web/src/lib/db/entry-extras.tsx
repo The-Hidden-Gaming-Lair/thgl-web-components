@@ -16,6 +16,7 @@ import {
 import { DataFeedback, PageComments } from "@repo/ui/data";
 import { resolveDict } from "./resolve-dict";
 import { SpriteIcon } from "./sprite-icon";
+import { EntityTooltip } from "./entity-tooltip";
 
 type IconSprite = {
   url: string;
@@ -128,13 +129,15 @@ async function OnTheMap({
         {translate(dict, "db.onTheMap", { fallback: "On the map" })}
       </h2>
       <p className="mt-2 text-sm">
-        {translate(dict, "db.onTheMapCount", {
-          fallback:
-            count === 1
-              ? "{{name}} has 1 known location"
-              : "{{name}} has {{count}} known locations",
-          vars: { name, count: count.toLocaleString(locale) },
-        })}
+        {count === 1
+          ? translate(dict, "db.onTheMapCountOne", {
+              fallback: "{{name}} has 1 known location",
+              vars: { name },
+            })
+          : translate(dict, "db.onTheMapCount", {
+              fallback: "{{name}} has {{count}} known locations",
+              vars: { name, count: count.toLocaleString(locale) },
+            })}
         {maps.length > 1 &&
           ` ${translate(dict, "db.onTheMapMaps", {
             fallback: "across {{maps}} maps",
@@ -204,25 +207,31 @@ function RelatedEntries({
               : undefined;
           return (
             <li key={item.id}>
-              <Link
-                href={localizePath(
-                  `/db/${section}/${encodeURIComponent(item.id)}`,
-                  locale,
-                )}
-                className="flex items-center gap-2 rounded-md border border-slate-800 px-2 py-1.5 text-sm hover:border-slate-600 hover:bg-slate-900"
+              <EntityTooltip
+                entityId={item.id}
+                locale={locale}
+                className="block w-full"
               >
-                {icon && (
-                  <SpriteIcon
-                    icon={icon}
-                    appName={appName}
-                    size={24}
-                    iconsHash={iconsHash}
-                  />
-                )}
-                <span className="truncate">
-                  {resolveDict(dict, item.id) || item.id}
-                </span>
-              </Link>
+                <Link
+                  href={localizePath(
+                    `/db/${section}/${encodeURIComponent(item.id)}`,
+                    locale,
+                  )}
+                  className="flex items-center gap-2 rounded-md border border-slate-800 px-2 py-1.5 text-sm hover:border-slate-600 hover:bg-slate-900"
+                >
+                  {icon && (
+                    <SpriteIcon
+                      icon={icon}
+                      appName={appName}
+                      size={24}
+                      iconsHash={iconsHash}
+                    />
+                  )}
+                  <span className="truncate">
+                    {resolveDict(dict, item.id) || item.id}
+                  </span>
+                </Link>
+              </EntityTooltip>
             </li>
           );
         })}
