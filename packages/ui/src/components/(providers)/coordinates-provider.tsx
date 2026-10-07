@@ -10,7 +10,7 @@ import {
   type JSX,
 } from "react";
 import Fuse from "fuse.js";
-import { useI18n } from ".";
+import { I18NProvider, useI18n } from ".";
 import {
   decodeFromBuffer,
   isLiveReadingActive,
@@ -49,6 +49,7 @@ import { useStaticNodesTransformStore } from "./static-nodes-transform-store";
 import useSWRImmutable from "swr/immutable";
 import { toast } from "sonner";
 import { PresetMapAutoApply } from "./preset-auto-apply";
+import { useSelectedMapLayout } from "../(controls)/map-layout-select";
 
 export type NodesCoordinates = {
   type: string;
@@ -198,7 +199,7 @@ export function CoordinatesProvider({
    */
   tilesConfig?: TilesConfig;
 }): JSX.Element {
-  const { t, dict, locale } = useI18n();
+  const { dict: baseDict, locale } = useI18n();
   // Create the user store once per provider instance (i.e. per request on
   // the server, per mount on the client) and share it via UserStoreContext.
   // This replaces the old module-level singleton, which leaked one tenant's
@@ -227,12 +228,12 @@ export function CoordinatesProvider({
         mapNames.find(
           (name) =>
             tilesConfig?.[name]?.defaultTitle === mapTitle ||
-            translate(dict, name) === mapTitle,
+            translate(baseDict, name) === mapTitle,
         );
       if (titledMap) {
         targetSearchParams.map = titledMap;
       } else if (!mapTitle && params.length > 2) {
-        const termEntry = Object.entries(dict).find(
+        const termEntry = Object.entries(baseDict).find(
           ([, value]) => value === decodeURIComponent(params[2]),
         );
         if (termEntry) {
@@ -309,7 +310,7 @@ export function CoordinatesProvider({
       const mapSegment = decodeURIComponent(segments[mapsIndex + 1]);
       if (!mapSegment) return;
       const key = mapNames.find(
-        (k) => k === mapSegment || (dict[k] ?? k) === mapSegment,
+        (k) => k === mapSegment || (baseDict[k] ?? k) === mapSegment,
       );
       if (!key) return;
       const state = userStore.getState();
@@ -319,10 +320,38 @@ export function CoordinatesProvider({
     };
     window.addEventListener("popstate", syncMapFromLocation);
     return () => window.removeEventListener("popstate", syncMapFromLocation);
-  }, [dict, mapNames, userStore]);
+  }, [baseDict, mapNames, userStore]);
+
+  // A picked generated layout (Dune Deep Desert, MapLayoutSelect) brings its own
+  // node blob and a dict patch with its position-keyed names; undefined = the
+  // map's own data.
+  const mapLayout = useSelectedMapLayout(tilesConfig, mapName);
+  const layoutNodesPath = mapLayout?.nodes;
+  const { data: layoutDict } = useSWRImmutable(
+    mapLayout ? ["/api/layout-dict", mapLayout.dicts, locale] : null,
+    async () => {
+      const response = await fetch(
+        getAppUrl(appName, mapLayout!.dicts.replace("{locale}", locale)),
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch layout dict: ${response.statusText}`);
+      }
+      return (await response.json()) as Record<string, string>;
+    },
+    { onError: (error) => console.error(error) },
+  );
+  const dict = useMemo(
+    () => (mapLayout && layoutDict ? { ...baseDict, ...layoutDict } : baseDict),
+    [baseDict, layoutDict, mapLayout],
+  );
+  const t = useCallback(
+    (term: string, options?: { fallback?: string }) =>
+      translate(dict, term, options),
+    [dict],
+  );
 
   const { data: staticNodesByMap } = useSWRImmutable(
-    mapName ? ["/api/nodes", mapName] : null,
+    mapName ? ["/api/nodes", mapName, layoutNodesPath] : null,
     async () => {
       if (!mapName) {
         return emptyObject as Record<string, NodesCoordinates>;
@@ -335,7 +364,7 @@ export function CoordinatesProvider({
         };
       }
       if (useCbor) {
-        const url = getAppUrl(appName, nodesPaths[mapName]);
+        const url = getAppUrl(appName, layoutNodesPath ?? nodesPaths[mapName]);
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(
@@ -1035,7 +1064,10 @@ export function CoordinatesProvider({
           globalFilters={globalFilters}
           tilesConfig={tilesConfig}
         />
-        {children}
+        {/* Always wrapped (same tree shape), so picking a layout doesn't remount the map. */}
+        <I18NProvider dict={dict} locale={locale}>
+          {children}
+        </I18NProvider>
       </Context.Provider>
     </UserStoreContext.Provider>
   );
