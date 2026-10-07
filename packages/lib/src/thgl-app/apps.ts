@@ -1,5 +1,5 @@
 import { useGameState } from "../game";
-import { createLiveFocusTracker } from "../live-focus";
+import { createLiveFocusTracker, LIVE_FOCUS_STALE_MS } from "../live-focus";
 import type { Actor } from "../overwolf/plugin";
 import { rememberPalCaptureCounts } from "../pal-capture";
 import { useSettingsStore } from "../settings";
@@ -286,7 +286,11 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
 
   const gameState = useGameState.getState();
   const liveState = useLiveState.getState();
-  const liveFocus = createLiveFocusTracker(gameState.setHighlightSpawnIDs);
+  const liveFocus = createLiveFocusTracker(
+    gameState.setHighlightSpawnIDs,
+    LIVE_FOCUS_STALE_MS,
+    gameState.setLiveFocusActive,
+  );
 
   // Listen for direct WebView messages from C++
   if (typeof window !== "undefined" && window.chrome?.webview) {

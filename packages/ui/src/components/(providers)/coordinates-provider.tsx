@@ -37,6 +37,8 @@ import {
   type InGameCoordinates,
   buildPrivateIconLookups,
   collectDoneWhenAllRules,
+  getFocusMode,
+  isSpawnShownByFocus,
   resolvePrivateIcon,
   setDoneWhenAllRules,
   type TilesConfig,
@@ -850,27 +852,30 @@ export function CoordinatesProvider({
       const newSpawns: Spawn[] = [];
       const spawnsByCoordinate = new Map<string, Spawn>();
       const selectedNodeId = state.selectedNodeId;
-      // Focused markers (live data, e.g. open quest objectives) show even when
-      // their filter is off, like the selected marker.
-      const highlightIds = useGameState.getState().highlightSpawnIDs;
-      const highlighted =
-        highlightIds.length > 0 ? new Set(highlightIds) : null;
+      // Live focus (see live-focus.ts) gates spawns with `data.focusMode`
+      // (isSpawnShownByFocus). It no longer bypasses an off filter; only the
+      // selected marker does.
+      const { highlightSpawnIDs: highlightIds, liveFocusActive } =
+        useGameState.getState();
+      const focusState = {
+        filterOn: true,
+        selectedNodeId,
+        focused: highlightIds.length > 0 ? new Set(highlightIds) : null,
+        liveFocusActive,
+      };
+      // getNodeId's derivation, for a spawn that has not been normalized yet.
+      const nodeIdOf = (s: { p: number[] }, sid: string) =>
+        sid.includes("@") ? sid : `${sid}@${s.p[0]}:${s.p[1]}`;
 
       currentNodes.forEach((node) => {
         if (node.mapName && node.mapName !== state.mapName) return;
         const isFilterActive = state.filters.includes(node.type);
 
-        // Filter off but a spawn in this node is selected or focused: include
-        // just those.
-        if (!isFilterActive && (selectedNodeId || highlighted)) {
+        // Filter off but a spawn in this node is selected: include just that.
+        if (!isFilterActive && selectedNodeId) {
           for (const s of node.spawns) {
             const sid = s.id ?? node.type;
-            const nodeId = sid.includes("@")
-              ? sid
-              : `${sid}@${s.p[0]}:${s.p[1]}`;
-            if (nodeId !== selectedNodeId && !highlighted?.has(nodeId)) {
-              continue;
-            }
+            if (nodeIdOf(s, sid) !== selectedNodeId) continue;
             const spawn = {
               ...s,
               id: sid,
@@ -884,8 +889,8 @@ export function CoordinatesProvider({
               spawnsByCoordinate.get(key)!.cluster!.push(spawn);
             }
             newSpawns.push(spawn);
-            // Only the selected marker: the first match, as before.
-            if (!highlighted) break;
+            // Only the selected marker: the first match.
+            break;
           }
           return;
         }
@@ -894,6 +899,19 @@ export function CoordinatesProvider({
         const nodePredicted = node.predicted;
         const nodeMuted = node.muted;
         node.spawns.forEach((s) => {
+          // Focus-gated spawns (AION 2 quest markers); the node id is only
+          // built for those.
+          if (
+            s.data &&
+            getFocusMode(s.data) !== undefined &&
+            !isSpawnShownByFocus(
+              nodeIdOf(s, s.id ?? node.type),
+              s.data,
+              focusState,
+            )
+          ) {
+            return;
+          }
           const spawn = {
             ...s,
             id: s.id ?? node.type,
@@ -1016,11 +1034,15 @@ export function CoordinatesProvider({
         (s) => s.selectedNodeId,
         () => refreshMapSpawns(userStore.getState()),
       ),
-      // Focused markers bypass the filters (processNodes). The store keeps the
-      // array reference while the ids stay the same, so a repeated live payload
-      // does not rebuild the marker layer.
+      // Live focus gates spawns with `data.focusMode` (processNodes). The
+      // store keeps the array reference while the ids stay the same, so a
+      // repeated live payload does not rebuild the marker layer.
       useGameState.subscribe(
         (s) => s.highlightSpawnIDs,
+        () => refreshMapSpawns(userStore.getState()),
+      ),
+      useGameState.subscribe(
+        (s) => s.liveFocusActive,
         () => refreshMapSpawns(userStore.getState()),
       ),
     ];
