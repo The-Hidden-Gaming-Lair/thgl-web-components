@@ -80,7 +80,7 @@ export const baldursGateEE = resolveAppConfig({
     heroSubtitle: "Game Database",
     searchPlaceholder: "Search items, spells, creatures, characters…",
     sectionsInNav: true,
-    groupHeaderSections: ["characters"],
+    groupHeaderSections: ["characters", "quests"],
     homeSections: [
       {
         href: "/db/inventory",

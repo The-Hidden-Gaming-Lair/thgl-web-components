@@ -6,6 +6,7 @@ import {
   type FiltersConfig,
 } from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
+import { EntityTooltip } from "@/lib/db/entity-tooltip";
 import { DbLocationMap } from "@/lib/db/db-location-map";
 import { DbEmbeddedMap, type EmbeddedMapSpawn } from "@/lib/db/db-embedded-map";
 import { localizeProps, resolveDict } from "@/lib/db/resolve-dict";
@@ -388,6 +389,20 @@ export function GenericEntityView({
 
   const refPill = (r: DbRef) => {
     const ic = icons?.[r.id];
+    // A ref without its own tooltip text shows the linked entry's hover card (stats/description).
+    if (!r.tooltip)
+      return (
+        <EntityTooltip
+          key={`${r.section}/${r.id}`}
+          entityId={r.id}
+          locale={locale}
+        >
+          {refPillLink(r, ic)}
+        </EntityTooltip>
+      );
+    return refPillLink(r, ic);
+  };
+  const refPillLink = (r: DbRef, ic: IconSprite | undefined) => {
     return (
       <Link
         key={`${r.section}/${r.id}`}
@@ -450,35 +465,40 @@ export function GenericEntityView({
       {refs.map((r) => {
         const ic = icons?.[r.id];
         const label = refName(r);
+        // Hover card of the linked entry (an item's stats), like the entity grids.
         return (
-          <Link
+          <EntityTooltip
             key={`${r.section}/${r.id}`}
-            href={localizePath(`/db/${r.section}/${r.id}`, locale)}
-            prefetch={false}
-            title={label}
-            className="group flex w-16 flex-col items-center gap-1"
+            entityId={r.id}
+            locale={locale}
           >
-            <span className="relative flex h-12 w-12 items-center justify-center rounded border border-slate-700 bg-slate-900/60 transition-colors group-hover:border-amber-700/70 group-hover:bg-slate-900">
-              {ic ? (
-                <SpriteIcon
-                  icon={ic}
-                  appName={appName}
-                  size={36}
-                  iconsHash={iconsHash}
-                />
-              ) : (
-                <span className="text-[9px] text-slate-600">?</span>
-              )}
-              {typeof r.count === "number" && r.count > 1 && (
-                <span className="absolute -bottom-1 -right-1 rounded bg-slate-950/90 px-1 font-mono text-[10px] leading-tight text-amber-300 ring-1 ring-slate-700">
-                  ×{r.count}
-                </span>
-              )}
-            </span>
-            <span className="line-clamp-2 text-center text-[10px] leading-tight text-slate-300 group-hover:text-amber-300">
-              {label}
-            </span>
-          </Link>
+            <Link
+              href={localizePath(`/db/${r.section}/${r.id}`, locale)}
+              prefetch={false}
+              className="group flex w-16 flex-col items-center gap-1"
+            >
+              <span className="relative flex h-12 w-12 items-center justify-center rounded border border-slate-700 bg-slate-900/60 transition-colors group-hover:border-amber-700/70 group-hover:bg-slate-900">
+                {ic ? (
+                  <SpriteIcon
+                    icon={ic}
+                    appName={appName}
+                    size={36}
+                    iconsHash={iconsHash}
+                  />
+                ) : (
+                  <span className="text-[9px] text-slate-600">?</span>
+                )}
+                {typeof r.count === "number" && r.count > 1 && (
+                  <span className="absolute -bottom-1 -right-1 rounded bg-slate-950/90 px-1 font-mono text-[10px] leading-tight text-amber-300 ring-1 ring-slate-700">
+                    ×{r.count}
+                  </span>
+                )}
+              </span>
+              <span className="line-clamp-2 text-center text-[10px] leading-tight text-slate-300 group-hover:text-amber-300">
+                {label}
+              </span>
+            </Link>
+          </EntityTooltip>
         );
       })}
     </div>

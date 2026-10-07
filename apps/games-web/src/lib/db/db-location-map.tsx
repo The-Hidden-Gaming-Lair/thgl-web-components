@@ -36,6 +36,8 @@ type DbLocation = {
   x: number;
   y: number;
   label: string;
+  /** The marker's own icon (a character's portrait) when it differs from its type's. */
+  icon?: { url: string; x: number; y: number; width: number; height: number };
 };
 
 /** Deep link to one location on the full map — the same URL the no-tiles
@@ -80,7 +82,9 @@ export function DbLocationMap({
     // to the raw type id ("medic", "manual"). Same reason as `db-embedded-map.tsx`.
     label: l.label,
     type: l.type,
-    icon: getIconFromFilters(filters, l.type),
+    icon: l.icon
+      ? { name: l.type, ...l.icon }
+      : getIconFromFilters(filters, l.type),
     // The map renderer expects [lat, lng]-style [y, x]; data-forge stores
     // x = worldX, y = worldY, and the node id is `type@y:x`.
     p: [l.y, l.x],
