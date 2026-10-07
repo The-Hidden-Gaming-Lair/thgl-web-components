@@ -1062,7 +1062,8 @@ function MarkersContent({
     const m = new Map<string, string>();
     filters.forEach((g) => {
       g.values.forEach((v) => {
-        if (v.dbSection && v.dbEntryId) m.set(v.id, v.dbEntryId);
+        // "" (NO_DB_ENTRY) counts: it says the type's live actors have no entry.
+        if (v.dbSection && v.dbEntryId !== undefined) m.set(v.id, v.dbEntryId);
       });
     });
     return m;
@@ -1870,6 +1871,8 @@ function MarkersContent({
         {
           id: nodeId,
           termId: (s.name ?? s.id ?? s.type).replace(/my_\d+_/, ""),
+          // A live actor's in-game name is already the display text.
+          label: s.source === "live" && s.name ? s.name : undefined,
           description: s.description,
           type: s.type,
           group,
@@ -1901,6 +1904,10 @@ function MarkersContent({
                 stackedSpawn.id ??
                 stackedSpawn.type
               ).replace(/my_\d+_/, ""),
+              label:
+                stackedSpawn.source === "live" && stackedSpawn.name
+                  ? stackedSpawn.name
+                  : undefined,
               description: stackedSpawn.description,
               type: stackedSpawn.type,
               group: stackedGroup,
@@ -2678,6 +2685,8 @@ function MarkersContent({
           address: a.address,
           source: "live",
           ...(a.spawnId ? liveTwinRef.current(a.spawnId) : undefined),
+          // The game's own name for it (a named character), when it has no static twin.
+          ...(a.name && !a.spawnId ? { name: a.name } : undefined),
         });
         const spawn: Spawn = {
           ...toSpawn(rep),

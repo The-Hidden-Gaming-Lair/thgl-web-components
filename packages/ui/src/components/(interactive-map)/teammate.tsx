@@ -259,9 +259,14 @@ export function Teammate({
       return;
     }
 
+    // An area change can hand us a new map/marker layer: a run that resolves after its
+    // cleanup must not add a marker to a layer nobody removes it from.
+    let cancelled = false;
+    const markerLayer = map.markerLayer;
     const run = async () => {
       // Use a different icon for teammates
       const iconImage = await loadIcon();
+      if (cancelled) return;
 
       const tile = tilesConfig[map.mapName];
       const rotationOffset = tile?.rotation?.angle;
@@ -291,7 +296,7 @@ export function Teammate({
           size,
         });
         marker.current.setIcon(iconImage);
-        marker.current.addTo(map.markerLayer!);
+        marker.current.addTo(markerLayer);
       } else {
         marker.current.setIcon(iconImage);
         marker.current.setSize(size);
@@ -308,14 +313,15 @@ export function Teammate({
     run();
 
     return () => {
+      cancelled = true;
       marker.current?.remove();
       marker.current = null;
       if (labelIdRef.current) {
-        map.markerLayer?.remove(labelIdRef.current);
+        markerLayer.remove(labelIdRef.current);
         labelIdRef.current = null;
       }
     };
-  }, [map?.mapName, player?.mapName]);
+  }, [map, map?.markerLayer, map?.mapName, player?.mapName]);
 
   // Re-render the name label when its inputs change.
   useEffect(() => {

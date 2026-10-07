@@ -75,6 +75,9 @@ export type Actor = {
   // Id of the static spawn this actor IS (e.g. Baldur's Gate EE `container@AR2600_1412:2690`):
   // the live marker takes that spawn's id, name, codex link and footprint, and hides exactly it.
   spawnId?: string;
+  // In-game display name (Baldur's Gate EE creatures, in the player's game language): the live
+  // marker's title when the actor has no static twin.
+  name?: string;
 };
 export type GameEventsPlugin = {
   UpdateProcess?: (
