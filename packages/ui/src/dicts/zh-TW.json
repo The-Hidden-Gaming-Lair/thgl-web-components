@@ -942,5 +942,17 @@
   "home.companion.description": "即時疊加層，支援玩家追蹤與自動發現",
   "home.companion.cta": "免費取得",
   "guides.viewAll": "查看所有攻略",
-  "maps.totalLocations": "{{maps}} 張地圖共 {{count}} 個地點"
+  "maps.totalLocations": "{{maps}} 張地圖共 {{count}} 個地點",
+  "houseAd.companion.title": "遊戲內的{{game}}地圖",
+  "houseAd.companion.body": "以疊加層或在第二螢幕上查看你的即時位置。",
+  "houseAd.companion.cta": "取得免費應用程式",
+  "houseAd.partner.title": "gaming.tools 上的{{game}}",
+  "houseAd.partner.body": "來自我們合作夥伴的更多資料庫與工具。",
+  "houseAd.partner.cta": "前往 gaming.tools",
+  "houseAd.discord.title": "加入 THGL Discord",
+  "houseAd.discord.body": "地圖更新、意見回饋與社群協助。",
+  "houseAd.discord.cta": "加入 Discord",
+  "houseAd.adfree.title": "移除廣告",
+  "houseAd.adfree.body": "移除廣告並支持 THGL 的開發。",
+  "houseAd.adfree.cta": "移除廣告"
 }

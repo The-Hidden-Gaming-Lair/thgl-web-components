@@ -942,5 +942,17 @@
   "home.companion.description": "Nakładka na żywo ze śledzeniem gracza i automatycznym odkrywaniem",
   "home.companion.cta": "Pobierz za darmo",
   "guides.viewAll": "Zobacz wszystkie poradniki",
-  "maps.totalLocations": "Łącznie {{count}} lokalizacji na {{maps}} mapach"
+  "maps.totalLocations": "Łącznie {{count}} lokalizacji na {{maps}} mapach",
+  "houseAd.companion.title": "Mapa {{game}} w grze",
+  "houseAd.companion.body": "Zobacz swoją pozycję na żywo jako nakładkę lub na drugim ekranie.",
+  "houseAd.companion.cta": "Pobierz darmową aplikację",
+  "houseAd.partner.title": "{{game}} na gaming.tools",
+  "houseAd.partner.body": "Więcej baz danych i narzędzi od naszego partnera.",
+  "houseAd.partner.cta": "Odwiedź gaming.tools",
+  "houseAd.discord.title": "Dołącz do Discorda THGL",
+  "houseAd.discord.body": "Aktualizacje map, opinie i pomoc od społeczności.",
+  "houseAd.discord.cta": "Dołącz do Discorda",
+  "houseAd.adfree.title": "Bez reklam",
+  "houseAd.adfree.body": "Usuń reklamy i wesprzyj rozwój THGL.",
+  "houseAd.adfree.cta": "Usuń reklamy"
 }

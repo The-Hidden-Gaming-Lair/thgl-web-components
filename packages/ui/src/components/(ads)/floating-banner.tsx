@@ -5,6 +5,7 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { AdFreeContainer } from "./ad-free-container";
 import { IS_DEMO_MODE } from "./constants";
 import { AdPlaceholder } from "./ad-placeholder";
+import { AdSlot } from "./house-ad";
 
 const smallMediaQuery = "(min-width: 768px)";
 const bigMediaQuery = "(min-width: 1250px)";
@@ -114,7 +115,7 @@ function FloatingBannerInner({
     <AdFreeContainer className="fixed bottom-2 right-2">
       <div className="flex flex-col" style={{ gap: GAP }}>
         {slots.map((slotId) => (
-          <div key={slotId} id={slotId} className="h-[250px] w-[300px]" />
+          <AdSlot key={slotId} id={slotId} className="h-[250px] w-[300px]" />
         ))}
       </div>
     </AdFreeContainer>

@@ -942,5 +942,17 @@
   "home.companion.description": "Оверлей у реальному часі з відстеженням гравця та автовиявленням",
   "home.companion.cta": "Отримати безкоштовно",
   "guides.viewAll": "Усі гайди",
-  "maps.totalLocations": "Усього місць: {{count}} на мапах: {{maps}}"
+  "maps.totalLocations": "Усього місць: {{count}} на мапах: {{maps}}",
+  "houseAd.companion.title": "Мапа {{game}} у грі",
+  "houseAd.companion.body": "Переглядайте свою позицію в реальному часі — оверлей або другий екран.",
+  "houseAd.companion.cta": "Отримати безкоштовно",
+  "houseAd.partner.title": "{{game}} на gaming.tools",
+  "houseAd.partner.body": "Більше баз даних та інструментів від нашого партнера.",
+  "houseAd.partner.cta": "Відкрити gaming.tools",
+  "houseAd.discord.title": "Приєднуйтесь до Discord THGL",
+  "houseAd.discord.body": "Оновлення мап, відгуки та допомога спільноти.",
+  "houseAd.discord.cta": "Приєднатися",
+  "houseAd.adfree.title": "Без реклами",
+  "houseAd.adfree.body": "Вимкніть рекламу та підтримайте розробку THGL.",
+  "houseAd.adfree.cta": "Прибрати рекламу"
 }

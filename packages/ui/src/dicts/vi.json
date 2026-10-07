@@ -942,5 +942,17 @@
   "home.companion.description": "Overlay trực tiếp với theo dõi người chơi và tự động khám phá",
   "home.companion.cta": "Tải miễn phí",
   "guides.viewAll": "Xem tất cả hướng dẫn",
-  "maps.totalLocations": "Tổng cộng {{count}} địa điểm trên {{maps}} bản đồ"
+  "maps.totalLocations": "Tổng cộng {{count}} địa điểm trên {{maps}} bản đồ",
+  "houseAd.companion.title": "Bản đồ {{game}} trong game",
+  "houseAd.companion.body": "Xem vị trí trực tiếp dưới dạng lớp phủ hoặc trên màn hình thứ hai.",
+  "houseAd.companion.cta": "Tải ứng dụng miễn phí",
+  "houseAd.partner.title": "{{game}} trên gaming.tools",
+  "houseAd.partner.body": "Thêm cơ sở dữ liệu và công cụ từ đối tác của chúng tôi.",
+  "houseAd.partner.cta": "Truy cập gaming.tools",
+  "houseAd.discord.title": "Tham gia Discord THGL",
+  "houseAd.discord.body": "Cập nhật bản đồ, góp ý và trợ giúp từ cộng đồng.",
+  "houseAd.discord.cta": "Tham gia Discord",
+  "houseAd.adfree.title": "Không quảng cáo",
+  "houseAd.adfree.body": "Gỡ quảng cáo và ủng hộ việc phát triển THGL.",
+  "houseAd.adfree.cta": "Gỡ quảng cáo"
 }

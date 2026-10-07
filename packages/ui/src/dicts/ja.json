@@ -942,5 +942,17 @@
   "home.companion.description": "プレイヤー追跡と自動発見機能付きのライブオーバーレイ",
   "home.companion.cta": "無料で入手",
   "guides.viewAll": "すべてのガイドを見る",
-  "maps.totalLocations": "{{maps}}マップに合計{{count}}か所"
+  "maps.totalLocations": "{{maps}}マップに合計{{count}}か所",
+  "houseAd.companion.title": "ゲーム内で{{game}}マップ",
+  "houseAd.companion.body": "オーバーレイまたはセカンドスクリーンでライブ位置を表示。",
+  "houseAd.companion.cta": "無料アプリを入手",
+  "houseAd.partner.title": "gaming.toolsの{{game}}",
+  "houseAd.partner.body": "パートナーによるデータベースとツール。",
+  "houseAd.partner.cta": "gaming.toolsへ",
+  "houseAd.discord.title": "THGLのDiscordに参加",
+  "houseAd.discord.body": "マップの更新情報、フィードバック、コミュニティのサポート。",
+  "houseAd.discord.cta": "Discordに参加",
+  "houseAd.adfree.title": "広告なしで使う",
+  "houseAd.adfree.body": "広告を非表示にしてTHGLの開発を応援しよう。",
+  "houseAd.adfree.cta": "広告を消す"
 }

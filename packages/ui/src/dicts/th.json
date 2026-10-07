@@ -942,5 +942,17 @@
   "home.companion.description": "โอเวอร์เลย์สดพร้อมติดตามผู้เล่นและค้นพบอัตโนมัติ",
   "home.companion.cta": "รับฟรี",
   "guides.viewAll": "ดูคู่มือทั้งหมด",
-  "maps.totalLocations": "รวม {{count}} ตำแหน่งใน {{maps}} แผนที่"
+  "maps.totalLocations": "รวม {{count}} ตำแหน่งใน {{maps}} แผนที่",
+  "houseAd.companion.title": "แผนที่ {{game}} ในเกม",
+  "houseAd.companion.body": "ดูตำแหน่งสดของคุณแบบโอเวอร์เลย์หรือบนหน้าจอที่สอง",
+  "houseAd.companion.cta": "รับแอปฟรี",
+  "houseAd.partner.title": "{{game}} บน gaming.tools",
+  "houseAd.partner.body": "ฐานข้อมูลและเครื่องมือเพิ่มเติมจากพาร์ทเนอร์ของเรา",
+  "houseAd.partner.cta": "ไปที่ gaming.tools",
+  "houseAd.discord.title": "เข้าร่วม Discord ของ THGL",
+  "houseAd.discord.body": "อัปเดตแผนที่ ข้อเสนอแนะ และความช่วยเหลือจากชุมชน",
+  "houseAd.discord.cta": "เข้าร่วม Discord",
+  "houseAd.adfree.title": "ไม่มีโฆษณา",
+  "houseAd.adfree.body": "ลบโฆษณาและสนับสนุนการพัฒนา THGL",
+  "houseAd.adfree.cta": "ลบโฆษณา"
 }

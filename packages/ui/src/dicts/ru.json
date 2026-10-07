@@ -942,5 +942,17 @@
   "home.companion.description": "Оверлей в реальном времени с отслеживанием игрока и автообнаружением",
   "home.companion.cta": "Скачать бесплатно",
   "guides.viewAll": "Все гайды",
-  "maps.totalLocations": "Всего мест: {{count}} на картах: {{maps}}"
+  "maps.totalLocations": "Всего мест: {{count}} на картах: {{maps}}",
+  "houseAd.companion.title": "Карта {{game}} в игре",
+  "houseAd.companion.body": "Смотрите свою позицию в реальном времени — оверлей или второй экран.",
+  "houseAd.companion.cta": "Скачать бесплатно",
+  "houseAd.partner.title": "{{game}} на gaming.tools",
+  "houseAd.partner.body": "Больше баз данных и инструментов от нашего партнёра.",
+  "houseAd.partner.cta": "Открыть gaming.tools",
+  "houseAd.discord.title": "Присоединяйтесь к Discord THGL",
+  "houseAd.discord.body": "Обновления карт, отзывы и помощь сообщества.",
+  "houseAd.discord.cta": "Присоединиться",
+  "houseAd.adfree.title": "Без рекламы",
+  "houseAd.adfree.body": "Отключите рекламу и поддержите разработку THGL.",
+  "houseAd.adfree.cta": "Убрать рекламу"
 }

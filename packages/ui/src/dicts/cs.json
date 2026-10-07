@@ -942,5 +942,17 @@
   "home.companion.description": "Živý overlay se sledováním hráče a automatickým objevováním",
   "home.companion.cta": "Získat zdarma",
   "guides.viewAll": "Zobrazit všechny návody",
-  "maps.totalLocations": "Celkem {{count}} míst na {{maps}} mapách"
+  "maps.totalLocations": "Celkem {{count}} míst na {{maps}} mapách",
+  "houseAd.companion.title": "Mapa {{game}} ve hře",
+  "houseAd.companion.body": "Sledujte svou živou pozici jako overlay nebo na druhé obrazovce.",
+  "houseAd.companion.cta": "Získat aplikaci zdarma",
+  "houseAd.partner.title": "{{game}} na gaming.tools",
+  "houseAd.partner.body": "Další databáze a nástroje od našeho partnera.",
+  "houseAd.partner.cta": "Navštívit gaming.tools",
+  "houseAd.discord.title": "Připojte se k THGL Discordu",
+  "houseAd.discord.body": "Novinky v mapách, zpětná vazba a pomoc od komunity.",
+  "houseAd.discord.cta": "Připojit se",
+  "houseAd.adfree.title": "Bez reklam",
+  "houseAd.adfree.body": "Odstraňte reklamy a podpořte vývoj THGL.",
+  "houseAd.adfree.cta": "Odstranit reklamy"
 }

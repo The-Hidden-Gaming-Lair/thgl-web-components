@@ -1,3 +1,4 @@
+import { reportAdRender } from "./ad-fill";
 import { IS_DEMO_MODE } from "./constants";
 
 export type UserDataEncoding = "PLAIN" | "SHA-1" | "SHA-256";
@@ -79,6 +80,17 @@ function renderDemoAd(id: string, options: NitroAdOptions): void {
   const holder = document.getElementById(id);
   if (!holder) return;
   if (options.mediaQuery && !window.matchMedia(options.mediaQuery).matches) {
+    return;
+  }
+  // localStorage DEMO_ADS_NOFILL=true: every slot reports a no-fill, so the
+  // house ads (house-ad.tsx) show instead.
+  let noFill = false;
+  try {
+    noFill = localStorage.getItem("DEMO_ADS_NOFILL") === "true";
+  } catch {}
+  if (noFill) {
+    holder.replaceChildren();
+    reportAdRender(id, true);
     return;
   }
   const sizes = (options.sizes ?? []).map(([w, h]) => [Number(w), Number(h)]);

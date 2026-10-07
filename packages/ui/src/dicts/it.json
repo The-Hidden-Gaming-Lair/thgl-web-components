@@ -942,5 +942,17 @@
   "home.companion.description": "Overlay dal vivo con tracciamento del giocatore e scoperta automatica",
   "home.companion.cta": "Scaricala gratis",
   "guides.viewAll": "Vedi tutte le guide",
-  "maps.totalLocations": "{{count}} posizioni totali su {{maps}} mappe"
+  "maps.totalLocations": "{{count}} posizioni totali su {{maps}} mappe",
+  "houseAd.companion.title": "Mappa di {{game}} in gioco",
+  "houseAd.companion.body": "Vedi la tua posizione in tempo reale come overlay o su un secondo schermo.",
+  "houseAd.companion.cta": "Scarica l'app gratuita",
+  "houseAd.partner.title": "{{game}} su gaming.tools",
+  "houseAd.partner.body": "Altri database e strumenti dal nostro partner.",
+  "houseAd.partner.cta": "Visita gaming.tools",
+  "houseAd.discord.title": "Unisciti al Discord di THGL",
+  "houseAd.discord.body": "Aggiornamenti delle mappe, feedback e aiuto dalla community.",
+  "houseAd.discord.cta": "Unisciti a Discord",
+  "houseAd.adfree.title": "Niente pubblicità",
+  "houseAd.adfree.body": "Rimuovi la pubblicità e sostieni lo sviluppo di THGL.",
+  "houseAd.adfree.cta": "Rimuovi pubblicità"
 }

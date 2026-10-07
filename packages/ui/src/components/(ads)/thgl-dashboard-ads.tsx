@@ -4,6 +4,7 @@ import { getNitroAds } from "./nitro-pay";
 import { ScriptLoader } from "./nitro-script";
 import { AdFreeContainer } from "./ad-free-container";
 import { IS_DEMO_MODE } from "./constants";
+import { AdSlot } from "./house-ad";
 
 // The dashboard column stacks independent rectangle slots (each its own
 // auction + refresh) as far as the window height allows. Slots that would sit
@@ -120,7 +121,7 @@ function NitroPaySlot({ id, slot }: { id: string; slot: number }) {
 
 function SlotBox({ id }: { id: string }) {
   return (
-    <div
+    <AdSlot
       id={id}
       // Clamp the NitroPay-injected creative (and its iframe) to the box —
       // same guard as THGLMapAds.

@@ -5,6 +5,7 @@ import { useEffect, type JSX } from "react";
 import { getNitroAds } from "./nitro-pay";
 import { IS_DEMO_MODE } from "./constants";
 import { AdPlaceholder } from "./ad-placeholder";
+import { AdSlot } from "./house-ad";
 
 const smallMediaQuery = "(min-width: 768px)";
 export function FloatingMobileBanner({
@@ -80,9 +81,9 @@ export function FloatingMobileBanner({
   }
   return (
     <AdFreeContainer className="fixed bottom-0 left-0 z-99999">
-      <div
-        className="rounded h-[50px] w-[320px] bg-zinc-800/30 flex flex-col justify-center text-gray-500"
+      <AdSlot
         id={bannerId}
+        className="rounded h-[50px] w-[320px] bg-zinc-800/30 flex flex-col justify-center text-gray-500"
       />
     </AdFreeContainer>
   );

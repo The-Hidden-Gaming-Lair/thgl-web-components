@@ -942,5 +942,17 @@
   "home.companion.description": "Élő overlay játékoskövetéssel és automatikus felfedezéssel",
   "home.companion.cta": "Szerezd meg ingyen",
   "guides.viewAll": "Összes útmutató",
-  "maps.totalLocations": "Összesen {{count}} helyszín {{maps}} térképen"
+  "maps.totalLocations": "Összesen {{count}} helyszín {{maps}} térképen",
+  "houseAd.companion.title": "{{game}} térkép a játékban",
+  "houseAd.companion.body": "Kövesse élő pozícióját overlayként vagy második képernyőn.",
+  "houseAd.companion.cta": "Ingyenes alkalmazás",
+  "houseAd.partner.title": "{{game}} a gaming.tools oldalon",
+  "houseAd.partner.body": "További adatbázisok és eszközök partnerünktől.",
+  "houseAd.partner.cta": "gaming.tools megnyitása",
+  "houseAd.discord.title": "Csatlakozz a THGL Discordhoz",
+  "houseAd.discord.body": "Térképfrissítések, visszajelzések és segítség a közösségtől.",
+  "houseAd.discord.cta": "Csatlakozás",
+  "houseAd.adfree.title": "Reklámmentesen",
+  "houseAd.adfree.body": "Távolítsd el a reklámokat, és támogasd a THGL fejlesztését.",
+  "houseAd.adfree.cta": "Reklámok eltávolítása"
 }

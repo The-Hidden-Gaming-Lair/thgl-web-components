@@ -942,5 +942,17 @@
   "home.companion.description": "플레이어 추적과 자동 발견 기능이 있는 실시간 오버레이",
   "home.companion.cta": "무료로 받기",
   "guides.viewAll": "모든 가이드 보기",
-  "maps.totalLocations": "{{maps}}개 지도에 총 {{count}}개 위치"
+  "maps.totalLocations": "{{maps}}개 지도에 총 {{count}}개 위치",
+  "houseAd.companion.title": "게임 내 {{game}} 지도",
+  "houseAd.companion.body": "오버레이 또는 보조 화면으로 실시간 위치를 확인하세요.",
+  "houseAd.companion.cta": "무료 앱 받기",
+  "houseAd.partner.title": "gaming.tools의 {{game}}",
+  "houseAd.partner.body": "파트너가 제공하는 더 많은 데이터베이스와 도구.",
+  "houseAd.partner.cta": "gaming.tools 방문",
+  "houseAd.discord.title": "THGL Discord 참여",
+  "houseAd.discord.body": "지도 업데이트, 피드백, 커뮤니티 도움.",
+  "houseAd.discord.cta": "Discord 참여",
+  "houseAd.adfree.title": "광고 없이 이용",
+  "houseAd.adfree.body": "광고를 제거하고 THGL 개발을 후원하세요.",
+  "houseAd.adfree.cta": "광고 제거"
 }

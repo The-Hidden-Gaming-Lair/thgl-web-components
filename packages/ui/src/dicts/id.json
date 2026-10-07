@@ -942,5 +942,17 @@
   "home.companion.description": "Overlay langsung dengan pelacakan pemain dan penemuan otomatis",
   "home.companion.cta": "Dapatkan gratis",
   "guides.viewAll": "Lihat semua panduan",
-  "maps.totalLocations": "Total {{count}} lokasi di {{maps}} peta"
+  "maps.totalLocations": "Total {{count}} lokasi di {{maps}} peta",
+  "houseAd.companion.title": "Peta {{game}} di dalam game",
+  "houseAd.companion.body": "Lihat posisi langsungmu sebagai overlay atau di layar kedua.",
+  "houseAd.companion.cta": "Dapatkan aplikasi gratis",
+  "houseAd.partner.title": "{{game}} di gaming.tools",
+  "houseAd.partner.body": "Lebih banyak database dan alat dari partner kami.",
+  "houseAd.partner.cta": "Kunjungi gaming.tools",
+  "houseAd.discord.title": "Gabung ke Discord THGL",
+  "houseAd.discord.body": "Pembaruan peta, masukan, dan bantuan dari komunitas.",
+  "houseAd.discord.cta": "Gabung Discord",
+  "houseAd.adfree.title": "Bebas iklan",
+  "houseAd.adfree.body": "Hapus iklan dan dukung pengembangan THGL.",
+  "houseAd.adfree.cta": "Hapus iklan"
 }
