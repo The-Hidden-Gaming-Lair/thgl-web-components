@@ -71,6 +71,9 @@ export function LiveParty({
           iconsPath={iconsPath}
           tilesConfig={tilesConfig}
           icon={icon}
+          // The portrait art has a transparent margin: 1.3x renders the face as large as the
+          // map's character markers (filter size 1.2).
+          sizeScale={1.3}
         />
       ))}
     </>

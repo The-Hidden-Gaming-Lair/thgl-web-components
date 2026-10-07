@@ -8,6 +8,7 @@ import { localizePath, toAppSurfacePath } from "@repo/lib";
 import { openInBrowser } from "@repo/lib/thgl-app";
 import { useLocale, useT, useUserStoreApiOptional } from "../(providers)";
 import { useMapStore } from "./store";
+import { EntityTooltip } from "../(data)/entity-tooltip";
 import { useAppLinkMode, type AppLinkMode } from "./db-entry-link";
 
 // Shared renderer for marker DESCRIPTIONS (used by both the hover tooltip and the click-through
@@ -133,10 +134,24 @@ function mdOptions(
             );
           }
           if (typeof href === "string" && href.startsWith("/")) {
+            // A codex link (`/db/<section>/<id>`) shows that entry's hover card (an item's stats
+            // in a container's loot list), like the codex pages do.
+            const dbId = /^\/db\/[^/]+\/([^/?#]+)/.exec(href)?.[1];
+            const withCard = (el: ReactNode) =>
+              dbId ? (
+                <EntityTooltip
+                  entityId={decodeURIComponent(dbId)}
+                  locale={locale}
+                >
+                  {el}
+                </EntityTooltip>
+              ) : (
+                el
+              );
             const path = localizePath(href, locale);
             if (appSite) {
               const target = `${appSite}${path}`;
-              return (
+              return withCard(
                 <a
                   href={target}
                   target="_blank"
@@ -149,10 +164,10 @@ function mdOptions(
                   }}
                 >
                   {children}
-                </a>
+                </a>,
               );
             }
-            return (
+            return withCard(
               <Link
                 href={inApp(path)}
                 prefetch={false}
@@ -160,7 +175,7 @@ function mdOptions(
                 onClick={(e) => e.stopPropagation()}
               >
                 {children}
-              </Link>
+              </Link>,
             );
           }
           return (

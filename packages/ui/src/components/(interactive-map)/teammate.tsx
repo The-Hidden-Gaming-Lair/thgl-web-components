@@ -18,6 +18,7 @@ export function Teammate({
   iconsPath,
   tilesConfig,
   icon,
+  sizeScale = 1,
 }: {
   appName: string;
   player: RemotePlayer;
@@ -26,6 +27,8 @@ export function Teammate({
   tilesConfig: TilesConfig;
   /** Icon file under the game's /icons (default: the player icon); "" = just the colour disc. */
   icon?: string;
+  /** Marker size factor (party members match the game's character markers). */
+  sizeScale?: number;
 }): JSX.Element {
   const map = useMap();
   const marker = useRef<PlayerMarker | null>(null);
@@ -231,7 +234,8 @@ export function Teammate({
 
     // Offset the label just above the marker icon (icon size is in device px).
     const iconSizeDevice =
-      Math.max(10, Math.round(30 * baseIconSize * playerIconSize)) * dpr;
+      Math.max(10, Math.round(30 * baseIconSize * playerIconSize * sizeScale)) *
+      dpr;
     // Re-add to pick up new sheet/size when the name or text size changes.
     markerLayer.remove(labelId);
     markerLayer.add({
@@ -284,7 +288,10 @@ export function Teammate({
       }
 
       // Slightly smaller size for teammates (30px base instead of 36px)
-      const size = Math.max(10, Math.round(30 * baseIconSize * playerIconSize));
+      const size = Math.max(
+        10,
+        Math.round(30 * baseIconSize * playerIconSize * sizeScale),
+      );
 
       if (!marker.current) {
         // Use a unique ID for each teammate based on their peer ID or name
@@ -345,7 +352,10 @@ export function Teammate({
     const run = async () => {
       const iconImage = await loadIcon();
       marker.current?.setIcon(iconImage);
-      const size = Math.max(10, Math.round(30 * baseIconSize * playerIconSize));
+      const size = Math.max(
+        10,
+        Math.round(30 * baseIconSize * playerIconSize * sizeScale),
+      );
       marker.current?.setSize(size);
     };
     run();
