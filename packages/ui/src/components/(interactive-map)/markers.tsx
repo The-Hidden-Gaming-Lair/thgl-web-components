@@ -771,10 +771,13 @@ function MarkersContent({
     liveTwinsRef.current = null;
     classTwinsRef.current = null;
   }
+  // Both indexes are built lazily and only from what a game actually ships: the id index the
+  // first time an actor names a spawn (only games whose detector sends spawnIds), the class
+  // index only allocates for spawns that carry a `liveClass` - so a live-mode game without
+  // either pays one cheap scan, not an object per dynamic spawn.
   const liveTwin = (spawnId: string): LiveTwin | undefined => {
     if (!liveTwinsRef.current) {
       const byId = new Map<string, LiveTwin>();
-      const byClass = new Map<string, { id: string; p: [number, number] }[]>();
       for (const node of searchableNodesRef.current) {
         if (node.static) continue;
         for (const s of node.spawns) {
@@ -786,18 +789,28 @@ function MarkersContent({
             data: s.data,
             icon: s.icon,
           });
-          if (s.liveClass && node.mapName) {
-            const k = `${node.mapName}|${classKey(s.liveClass)}`;
-            const list = byClass.get(k) ?? [];
-            list.push({ id: s.id, p: [s.p[0], s.p[1]] });
-            byClass.set(k, list);
-          }
         }
       }
       liveTwinsRef.current = byId;
-      classTwinsRef.current = byClass;
     }
     return liveTwinsRef.current.get(spawnId);
+  };
+  const classTwins = () => {
+    if (!classTwinsRef.current) {
+      const byClass = new Map<string, { id: string; p: [number, number] }[]>();
+      for (const node of searchableNodesRef.current) {
+        if (node.static || !node.mapName) continue;
+        for (const s of node.spawns) {
+          if (!s.liveClass || !s.id) continue;
+          const k = `${node.mapName}|${classKey(s.liveClass)}`;
+          const list = byClass.get(k) ?? [];
+          list.push({ id: s.id, p: [s.p[0], s.p[1]] });
+          byClass.set(k, list);
+        }
+      }
+      classTwinsRef.current = byClass;
+    }
+    return classTwinsRef.current;
   };
   /**
    * A live actor without a `spawnId` whose class names a static spawn (`spawn.liveClass`, e.g. a
@@ -815,8 +828,9 @@ function MarkersContent({
     a: A,
   ): A => {
     if (a.spawnId || !a.mapName) return a;
-    if (!classTwinsRef.current) liveTwin("");
-    const list = classTwinsRef.current?.get(`${a.mapName}|${classKey(a.type)}`);
+    const index = classTwins();
+    if (index.size === 0) return a;
+    const list = index.get(`${a.mapName}|${classKey(a.type)}`);
     if (!list?.length) return a;
     let best = list[0];
     let bestD = Infinity;

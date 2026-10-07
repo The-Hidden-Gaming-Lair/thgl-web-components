@@ -366,6 +366,7 @@ export function Teammate({
     colorBlindSeverity,
     player.color,
     icon,
+    sizeScale,
   ]);
 
   useThrottledEffect(
