@@ -467,6 +467,66 @@ type LiveTwin = Pick<Spawn, "dbEntryId" | "shape" | "data">;
 
 const DEFAULT_SHAPE_COLOR = "#E8D9A8";
 
+/** One drawn outline, hit-tested on hover/click like the marker it belongs to. */
+type ShapeHit = {
+  markerId: string;
+  latLng: [number, number];
+  positions: [number, number][];
+  box: [number, number, number, number];
+  area: number;
+};
+
+function shapeHit(
+  markerId: string,
+  latLng: [number, number],
+  positions: [number, number][],
+): ShapeHit {
+  let minA = Infinity;
+  let minB = Infinity;
+  let maxA = -Infinity;
+  let maxB = -Infinity;
+  let area = 0;
+  for (let i = 0; i < positions.length; i++) {
+    const [a, b] = positions[i];
+    const [a2, b2] = positions[(i + 1) % positions.length];
+    if (a < minA) minA = a;
+    if (a > maxA) maxA = a;
+    if (b < minB) minB = b;
+    if (b > maxB) maxB = b;
+    area += a * b2 - a2 * b;
+  }
+  return {
+    markerId,
+    latLng,
+    positions,
+    box: [minA, minB, maxA, maxB],
+    area: Math.abs(area / 2),
+  };
+}
+
+/** The smallest outline containing the point (nested shapes: the inner one wins). */
+function hitShape(hits: ShapeHit[], p: [number, number]): ShapeHit | undefined {
+  let best: ShapeHit | undefined;
+  for (const h of hits) {
+    const [minA, minB, maxA, maxB] = h.box;
+    if (p[0] < minA || p[0] > maxA || p[1] < minB || p[1] > maxB) continue;
+    if (best && h.area >= best.area) continue;
+    let inside = false;
+    const pts = h.positions;
+    for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+      const [ai, bi] = pts[i];
+      const [aj, bj] = pts[j];
+      if (
+        bi > p[1] !== bj > p[1] &&
+        p[0] < ((aj - ai) * (p[1] - bi)) / (bj - bi) + ai
+      )
+        inside = !inside;
+    }
+    if (inside) best = h;
+  }
+  return best;
+}
+
 /**
  * Sync one footprint layer to the wanted outlines (id → polygon + colour). The layer is
  * created on first need (above regions/drawings, below the marker layers 100/101).
@@ -711,6 +771,10 @@ function MarkersContent({
     return liveTwinsRef.current.get(spawnId);
   };
   const liveTwinRef = useRef(liveTwin);
+  // Outlines currently drawn, per layer, for hover/click hit-testing.
+  const staticShapeHitsRef = useRef<ShapeHit[]>([]);
+  const liveShapeHitsRef = useRef<ShapeHit[]>([]);
+  const showSpawnShapes = useSettingsStore((s) => s.showSpawnShapes ?? true);
   // The live pass hid static spawns by `spawnId` last time (so it must un-hide them).
   const idSuppressedRef = useRef(false);
   liveTwinRef.current = liveTwin;
@@ -2033,21 +2097,27 @@ function MarkersContent({
         string,
         { positions: [number, number][]; color: string }
       >();
+      const hits: ShapeHit[] = [];
       const rotate = (q: [number, number]): [number, number] =>
         rotationCache ? rotationCache.getRotated(q[0], q[1]) : q;
-      for (const spawn of newSpawnMap.values()) {
+      for (const [markerId, spawn] of showSpawnShapes ? newSpawnMap : []) {
         if (spawn.muted) continue;
         for (const s of [spawn, ...(spawn.cluster ?? [])]) {
           if (!s.shape || s.shape.length < 3) continue;
+          const positions = s.shape.map(rotate);
           wanted.set(
             `${map.mapName}:${getNodeId({ ...s, type: spawn.type })}`,
             {
-              positions: s.shape.map(rotate),
+              positions,
               color: shapeColorByType.get(spawn.type) ?? DEFAULT_SHAPE_COLOR,
             },
           );
+          hits.push(
+            shapeHit(markerId, rotate([spawn.p[0], spawn.p[1]]), positions),
+          );
         }
       }
+      staticShapeHitsRef.current = hits;
       syncShapeLayer(map, staticShapeLayerRef, wanted);
     }
 
@@ -2062,9 +2132,33 @@ function MarkersContent({
     // Handle map click to close tooltip and deselect node
     // When a marker is clicked, justClickedMarkerRef is set to prevent
     // the generic map click from undoing the selection.
-    const handleMapClick = () => {
+    const handleMapClick = (e?: { latlng?: [number, number] }) => {
       if (justClickedMarkerRef.current) {
         justClickedMarkerRef.current = false;
+        return;
+      }
+      // A click inside an outline acts like a click on its marker.
+      const hit = e?.latlng
+        ? (hitShape(liveShapeHitsRef.current, e.latlng) ??
+          hitShape(staticShapeHitsRef.current, e.latlng))
+        : undefined;
+      if (hit) {
+        if (tooltipDelayRef.current) {
+          clearTimeout(tooltipDelayRef.current);
+          tooltipDelayRef.current = null;
+        }
+        const isMobile = window.innerWidth < 768;
+        if (!isMobile)
+          showTooltipForMarkerRef.current?.({
+            id: hit.markerId,
+            latLng: hit.latLng,
+            size: 0,
+          } as IconMarkerInstance);
+        const s = spawnMapRef.current.get(hit.markerId);
+        if (s && !s.address) {
+          const nodeId = getNodeId(s);
+          onClick(selectedNodeId === nodeId ? null : nodeId);
+        }
         return;
       }
       onTooltipOpen(false);
@@ -2111,7 +2205,45 @@ function MarkersContent({
     iconLoadVersion, // Re-run when images finish loading to apply processed icons
     sharedIconLookups, // Re-resolve stale shared private icon coords
     shapeColorByType,
+    showSpawnShapes,
   ]);
+
+  // Hovering an outline (`spawn.shape`) opens its marker's tooltip, like hovering the icon.
+  // Icons inside an outline still win: the icon layer's own hover runs after this one.
+  useEffect(() => {
+    if (!map) return;
+    let hovered: string | undefined;
+    const onMove = (e: { latlng?: [number, number] }) => {
+      if (!e.latlng) return;
+      if (
+        !staticShapeHitsRef.current.length &&
+        !liveShapeHitsRef.current.length
+      )
+        return;
+      const hit =
+        hitShape(liveShapeHitsRef.current, e.latlng) ??
+        hitShape(staticShapeHitsRef.current, e.latlng);
+      if (hit?.markerId === hovered) return;
+      hovered = hit?.markerId;
+      if (tooltipDelayRef.current) {
+        clearTimeout(tooltipDelayRef.current);
+        tooltipDelayRef.current = null;
+      }
+      if (!hit) return;
+      tooltipDelayRef.current = setTimeout(() => {
+        tooltipDelayRef.current = null;
+        showTooltipForMarkerRef.current?.({
+          id: hit.markerId,
+          latLng: hit.latLng,
+          size: 0,
+        } as IconMarkerInstance);
+      }, 200);
+    };
+    map.on("mousemove", onMove);
+    return () => {
+      map.off("mousemove", onMove);
+    };
+  }, [map]);
 
   // Player-relative height arrows (up/down elevation indicators).
   //
@@ -2380,6 +2512,7 @@ function MarkersContent({
       if (!isLiveActive) {
         syncRangeCircles([]);
         syncShapeLayer(map, liveShapeLayerRef, new Map());
+        liveShapeHitsRef.current = [];
         // Static/predicted mode: un-hide any statics we suppressed while live/combined was active.
         if (
           ((markerOptions.liveConfirmRadius ?? 0) > 0 ||
@@ -2925,17 +3058,24 @@ function MarkersContent({
           string,
           { positions: [number, number][]; color: string }
         >();
-        for (const spawn of newSpawns.values()) {
+        const hits: ShapeHit[] = [];
+        const rotate = (q: [number, number]): [number, number] =>
+          rotationCache ? rotationCache.getRotated(q[0], q[1]) : q;
+        const shapesOn = settingsState.showSpawnShapes ?? true;
+        for (const [markerId, spawn] of shapesOn ? newSpawns : []) {
           for (const s of [spawn, ...(spawn.cluster ?? [])]) {
             if (!s.shape || s.shape.length < 3) continue;
+            const positions = s.shape.map(rotate);
             wanted.set(`${currentMapName}:live:${s.id}`, {
-              positions: s.shape.map((q) =>
-                rotationCache ? rotationCache.getRotated(q[0], q[1]) : q,
-              ),
+              positions,
               color: shapeColorByType.get(spawn.type) ?? DEFAULT_SHAPE_COLOR,
             });
+            hits.push(
+              shapeHit(markerId, rotate([spawn.p[0], spawn.p[1]]), positions),
+            );
           }
         }
+        liveShapeHitsRef.current = hits;
         syncShapeLayer(map, liveShapeLayerRef, wanted);
       }
 
@@ -3029,6 +3169,10 @@ function MarkersContent({
       (s) => s.flashDespawningNodes,
       processActors,
     );
+    const unsubSpawnShapes = useSettingsStore.subscribe(
+      (s) => s.showSpawnShapes,
+      processActors,
+    );
     const unsubPalCapture = useSettingsStore.subscribe(
       (s) =>
         [
@@ -3062,6 +3206,7 @@ function MarkersContent({
       unsubIconSizeByGroup();
       unsubIconSizeByFilter();
       unsubFlashDespawning();
+      unsubSpawnShapes();
       unsubPalCapture();
       if (despawnTimer) clearTimeout(despawnTimer);
       const ids = Array.from(liveSpawnMapRef.current.keys());

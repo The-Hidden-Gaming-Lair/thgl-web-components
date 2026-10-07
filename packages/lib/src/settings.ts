@@ -389,6 +389,7 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   gridLabelSize: 1,
   showFilters: true,
   showInteriorLabelNames: true,
+  showSpawnShapes: true,
   // Peer Link / Mesh settings
   peerCode: "",
   lastMeSenderId: "",
@@ -590,6 +591,11 @@ export type ProfileSettings = {
    * Independent of the lock rule, which hides the buttons entirely.
    */
   showInteriorLabelNames: boolean;
+  /**
+   * Draw the outlines (footprints) of objects that have one - containers, traps and
+   * inspectable spots in Baldur's Gate EE. Hovering an outline shows its marker tooltip.
+   */
+  showSpawnShapes: boolean;
   // Peer Link / Mesh settings
   peerCode: string;
   lastMeSenderId: string;
@@ -716,6 +722,7 @@ export interface ProfileActions {
   setHideOverlayOnMap: (mapName: string, hide: boolean) => void;
   setHideOverlayWithoutMap: (hide: boolean) => void;
   setShowInteriorLabelNames: (show: boolean) => void;
+  setShowSpawnShapes: (show: boolean) => void;
   setLabelTextSize: (size: number) => void;
   setShowLabelsHotkey: (key: string) => void;
   setDisplayDiscordActivityStatus: (
@@ -1974,6 +1981,10 @@ export const useSettingsStore = create(
 
           setShowInteriorLabelNames: (show) => {
             updateSettings({ showInteriorLabelNames: show });
+          },
+
+          setShowSpawnShapes: (show) => {
+            updateSettings({ showSpawnShapes: show });
           },
 
           setLabelTextSize: (size: number) => {

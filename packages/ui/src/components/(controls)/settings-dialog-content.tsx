@@ -717,6 +717,26 @@ export function SettingsDialogContent({
                     onCheckedChange={settingsStore.setShowInteriorLabelNames}
                   />
                 </div>
+                <div className="flex items-center justify-between">
+                  <div className="pr-2">
+                    <Label htmlFor="show-spawn-shapes">
+                      {t("settings.showSpawnShapes", {
+                        fallback: "Show object outlines",
+                      })}
+                    </Label>
+                    <p className="text-xs text-muted-foreground">
+                      {t("settings.showSpawnShapes.description", {
+                        fallback:
+                          "Draws the shape of containers, traps and other objects that have one, like the game highlights them. Hover an outline to see its details.",
+                      })}
+                    </p>
+                  </div>
+                  <Switch
+                    id="show-spawn-shapes"
+                    checked={profileSettings.showSpawnShapes ?? true}
+                    onCheckedChange={settingsStore.setShowSpawnShapes}
+                  />
+                </div>
               </Section>
 
               {/* Per-Map Settings (all surfaces; null for single-map games) */}
