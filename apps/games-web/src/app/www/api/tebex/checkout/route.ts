@@ -8,6 +8,7 @@ import {
   isTebexTierKey,
   isTebexUserId,
   newTebexUserId,
+  resolveTebexAccount,
 } from "@/lib/tebex";
 
 // Plain <form method="post"> target on /support-me/tebex: resolves (or creates) the
@@ -44,9 +45,14 @@ export async function POST(request: NextRequest) {
     }
   }
   const isNewAccount = !userId;
-  // The Free package only creates the account - an existing one has it.
+  // The Free package only creates the account - skip it when the account
+  // already holds an entitlement (a cancelled paid checkout leaves a cookie
+  // but no entitlement, so that one still gets the Free checkout).
   if (!isNewAccount && tier === "free") {
-    return Response.redirect(`${origin}/support-me/account`, 303);
+    const existing = await resolveTebexAccount(userId!);
+    if (existing?.entitlements.length) {
+      return Response.redirect(`${origin}/support-me/account`, 303);
+    }
   }
   userId ??= newTebexUserId();
 
