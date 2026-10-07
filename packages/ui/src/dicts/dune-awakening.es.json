@@ -28,6 +28,8 @@
   "config.internalLinks.scavengers.title": "Guía de Carroñeros",
   "config.internalLinks.scavengers.linkText": "Descubre todas las Ubicaciones de Carroñeros",
   "config.promo.save10.title": "Ahorra un 10% en Servidores Privados",
-  "config.external.database.title": "Base de Datosg",
-  "config.keywords.trainers": "Entrenadores"
+  "config.external.database.title": "Base de Datos",
+  "config.keywords.trainers": "Entrenadores",
+  "config.keywords.trials": "Pruebas",
+  "config.keywords.resources": "Recursos"
 }

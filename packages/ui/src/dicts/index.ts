@@ -34,6 +34,22 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "conan-exiles": {
+    en: () => import("./conan-exiles.en.json").then((mod) => mod.default),
+    de: () => import("./conan-exiles.de.json").then((mod) => mod.default),
+    es: () => import("./conan-exiles.es.json").then((mod) => mod.default),
+    fr: () => import("./conan-exiles.fr.json").then((mod) => mod.default),
+    it: () => import("./conan-exiles.it.json").then((mod) => mod.default),
+    ja: () => import("./conan-exiles.ja.json").then((mod) => mod.default),
+    ko: () => import("./conan-exiles.ko.json").then((mod) => mod.default),
+    pl: () => import("./conan-exiles.pl.json").then((mod) => mod.default),
+    pt: () => import("./conan-exiles.pt.json").then((mod) => mod.default),
+    ru: () => import("./conan-exiles.ru.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./conan-exiles.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./conan-exiles.zh-Hant.json").then((mod) => mod.default),
+  },
   "dune-awakening": {
     en: () => import("./dune-awakening.en.json").then((mod) => mod.default),
     de: () => import("./dune-awakening.de.json").then((mod) => mod.default),

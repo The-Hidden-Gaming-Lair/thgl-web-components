@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.exiledLands.title": "Карта Exiled Lands",
+  "config.internalLinks.isleOfSiptah.title": "Карта Isle of Siptah",
+  "config.db.heroSubtitle": "База данных игры",
+  "config.db.searchPlaceholder": "Поиск предметов, знаний, эмоций…",
+  "config.db.inventory.description": "Оружие, броня, инструменты, расходники и элементы построек с характеристиками, рецептами и верстаками.",
+  "config.db.knowledge.description": "Все знания с уровнем, очками знаний, требованиями и открываемыми рецептами.",
+  "config.db.journeys.description": "Этапы путешествия, опыт и награды для Exiled Lands и Isle of Siptah.",
+  "config.db.perks.description": "Перки характеристик и очки, нужные для их открытия.",
+  "config.db.emotes.description": "Все эмоции по категориям и где найти их предметы на карте."
+}

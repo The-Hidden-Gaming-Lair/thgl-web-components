@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.exiledLands.title": "Exiled Lands Map",
+  "config.internalLinks.isleOfSiptah.title": "Isle of Siptah Map",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items, knowledge, emotes…",
+  "config.db.inventory.description": "Weapons, armor, tools, consumables and building pieces with stats, recipes and crafting stations.",
+  "config.db.knowledge.description": "Every feat with its level, knowledge points, prerequisites and the recipes it unlocks.",
+  "config.db.journeys.description": "Journey steps, XP and rewards for the Exiled Lands and the Isle of Siptah.",
+  "config.db.perks.description": "Attribute perks and the points needed to unlock them.",
+  "config.db.emotes.description": "All emotes by category and where to find the emote pickups on the map."
+}

@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.exiledLands.title": "Exiled Lands マップ",
+  "config.internalLinks.isleOfSiptah.title": "Isle of Siptah マップ",
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテム、知識、エモートを検索…",
+  "config.db.inventory.description": "武器、防具、道具、消耗品、建築パーツのステータス、レシピ、作業台。",
+  "config.db.knowledge.description": "すべての知識の習得レベル、知識ポイント、前提条件、解放されるレシピ。",
+  "config.db.journeys.description": "Exiled Lands と Isle of Siptah の旅のステップ、経験値、報酬。",
+  "config.db.perks.description": "能力値のパークと解放に必要なポイント。",
+  "config.db.emotes.description": "カテゴリ別の全エモートと、マップ上のエモート入手場所。"
+}

@@ -19,7 +19,7 @@ export const conanExiles = resolveAppConfig({
   appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
-      title: "Exiled Lands Map",
+      title: "config.internalLinks.exiledLands.title",
       description:
         "Navigate the Exiled Lands in Conan Exiles Enhanced (UE5). Find camps, dungeons, caves, vistas, wildlife, NPC factions, iron ore deposits, and more.",
       href: "/maps/Exiled%20Lands",
@@ -31,7 +31,7 @@ export const conanExiles = resolveAppConfig({
       linkText: "Explore the Exiled Lands",
     },
     {
-      title: "Isle of Siptah Map",
+      title: "config.internalLinks.isleOfSiptah.title",
       description:
         "Explore the Isle of Siptah in Conan Exiles Enhanced. Find vaults, surge altars, camps, wildlife, and resource clusters.",
       href: "/maps/Isle%20of%20Siptah",
@@ -44,7 +44,7 @@ export const conanExiles = resolveAppConfig({
   externalLinks: [
     {
       href: "https://conanexiles.gaming.tools/",
-      title: "Database",
+      title: "database",
     },
   ],
   // Keywords used in <meta name="keywords">, page descriptions, and OG tags.
@@ -81,8 +81,8 @@ export const conanExiles = resolveAppConfig({
     "res_crystal",
   ],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, knowledge, emotes…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
@@ -91,8 +91,7 @@ export const conanExiles = resolveAppConfig({
         titleKey: "inventory",
         titleFallback: "Items",
         icon: "⚔️",
-        description:
-          "Weapons, armor, tools, consumables and building pieces with stats, recipes and crafting stations.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/knowledge",
@@ -100,8 +99,7 @@ export const conanExiles = resolveAppConfig({
         titleKey: "knowledge",
         titleFallback: "Knowledge",
         icon: "📜",
-        description:
-          "Every feat with its level, knowledge points, prerequisites and the recipes it unlocks.",
+        description: "config.db.knowledge.description",
       },
       {
         href: "/db/journeys",
@@ -109,8 +107,7 @@ export const conanExiles = resolveAppConfig({
         titleKey: "journeys",
         titleFallback: "Journeys",
         icon: "🧭",
-        description:
-          "Journey steps, XP and rewards for the Exiled Lands and the Isle of Siptah.",
+        description: "config.db.journeys.description",
       },
       {
         href: "/db/perks",
@@ -118,7 +115,7 @@ export const conanExiles = resolveAppConfig({
         titleKey: "perks",
         titleFallback: "Perks",
         icon: "💪",
-        description: "Attribute perks and the points needed to unlock them.",
+        description: "config.db.perks.description",
       },
       {
         href: "/db/emotes",
@@ -126,8 +123,7 @@ export const conanExiles = resolveAppConfig({
         titleKey: "emotes",
         titleFallback: "Emotes",
         icon: "🎭",
-        description:
-          "All emotes by category and where to find the emote pickups on the map.",
+        description: "config.db.emotes.description",
       },
     ],
     // Section labels come from the per-locale dict terms (inventory, knowledge, …).

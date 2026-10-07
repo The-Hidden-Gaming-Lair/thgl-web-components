@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.exiledLands.title": "Exiled Lands 지도",
+  "config.internalLinks.isleOfSiptah.title": "Isle of Siptah 지도",
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "아이템, 지식, 감정 표현 검색…",
+  "config.db.inventory.description": "무기, 방어구, 도구, 소모품, 건축 부품의 능력치, 제작법, 제작대.",
+  "config.db.knowledge.description": "모든 지식의 레벨, 지식 포인트, 선행 조건, 해금되는 제작법.",
+  "config.db.journeys.description": "Exiled Lands와 Isle of Siptah의 여정 단계, 경험치, 보상.",
+  "config.db.perks.description": "능력치 특전과 해금에 필요한 포인트.",
+  "config.db.emotes.description": "카테고리별 모든 감정 표현과 지도에서 감정 표현 아이템을 찾을 수 있는 위치."
+}
