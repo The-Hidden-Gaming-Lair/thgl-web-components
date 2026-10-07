@@ -37,6 +37,10 @@ import { Button, previewLockedText, showPreviewUpsell } from "../(controls)";
 import { useT } from "../(providers)";
 import { toast } from "sonner";
 
+/** How often the overlay "map is fullscreen" hint has been shown (localStorage). */
+const FULLSCREEN_HINT_KEY = "thgl:overlay-fullscreen-hint-shown";
+const FULLSCREEN_HINT_MAX_SHOWS = 3;
+
 /**
  * "Cycle Map Transparency" hotkey (THGLApp + Overwolf map-hotkeys): step to
  * the next Transparency mode and say which one is active now.
@@ -345,12 +349,30 @@ export function MapContainer({
   // A fullscreen minimap with no obvious way back is a recurring support case:
   // the hotkey sits next to the "Hide Controls" one and the state persists, so
   // people restart into a map that covers the whole game. Say how to leave it
-  // every time fullscreen turns on, and once at startup when it already is.
+  // when fullscreen turns on, and at startup when it already is. Only the first
+  // few times, closable, and at the bottom: people who toggle fullscreen while
+  // planning a route had it covering the top buttons every time (inbox #702).
   useEffect(() => {
     if (!isOverlay || !_hasHydrated || !overlayFullscreen) return;
+    const shown = Number(localStorage.getItem(FULLSCREEN_HINT_KEY)) || 0;
+    if (shown >= FULLSCREEN_HINT_MAX_SHOWS) return;
+    localStorage.setItem(FULLSCREEN_HINT_KEY, String(shown + 1));
     toast(
       `The map is fullscreen. Press ${fullscreenHotkey || "the fullscreen hotkey"} or click the two-arrows button at the top to shrink it back.`,
-      { duration: 8000, id: "overlay-fullscreen-hint" },
+      {
+        duration: 6000,
+        id: "overlay-fullscreen-hint",
+        position: "bottom-center",
+        closeButton: true,
+        action: {
+          label: "Don't show again",
+          onClick: () =>
+            localStorage.setItem(
+              FULLSCREEN_HINT_KEY,
+              String(FULLSCREEN_HINT_MAX_SHOWS),
+            ),
+        },
+      },
     );
   }, [isOverlay, _hasHydrated, overlayFullscreen, fullscreenHotkey]);
 
