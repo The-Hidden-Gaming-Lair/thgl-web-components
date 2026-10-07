@@ -27,8 +27,7 @@ export const conanExiles = resolveAppConfig({
       // Inlined getPreviewImageUrl("conan-exiles", "ExiledLands", "2"):
       // middleware imports configs, so any helper from @repo/lib would
       // drag cbor-x into Edge Runtime (forbidden — uses dynamic eval).
-      bgImage:
-        `${DATA_FORGE_CDN_URL}/conan-exiles/map-tiles/ExiledLands/preview.webp?v=2`,
+      bgImage: `${DATA_FORGE_CDN_URL}/conan-exiles/map-tiles/ExiledLands/preview.webp?v=2`,
       linkText: "Explore the Exiled Lands",
     },
     {
@@ -37,8 +36,7 @@ export const conanExiles = resolveAppConfig({
         "Explore the Isle of Siptah in Conan Exiles Enhanced. Find vaults, surge altars, camps, wildlife, and resource clusters.",
       href: "/maps/Isle%20of%20Siptah",
       iconName: "Map",
-      bgImage:
-        `${DATA_FORGE_CDN_URL}/conan-exiles/map-tiles/IsleOfSiptah/preview.webp?v=2`,
+      bgImage: `${DATA_FORGE_CDN_URL}/conan-exiles/map-tiles/IsleOfSiptah/preview.webp?v=2`,
       linkText: "Explore the Isle of Siptah",
     },
   ],
@@ -82,4 +80,51 @@ export const conanExiles = resolveAppConfig({
     "res_iron_ore",
     "res_crystal",
   ],
+  db: {
+    heroSubtitle: "Game Database",
+    searchPlaceholder: "Search items, knowledge, emotes…",
+    sectionsInNav: true,
+    homeSections: [
+      {
+        href: "/db/inventory",
+        type: "inventory",
+        titleFallback: "Items",
+        icon: "⚔️",
+        description:
+          "Weapons, armor, tools, consumables and building pieces with stats, recipes and crafting stations.",
+      },
+      {
+        href: "/db/knowledge",
+        type: "knowledge",
+        titleFallback: "Knowledge",
+        icon: "📜",
+        description:
+          "Every feat with its level, knowledge points, prerequisites and the recipes it unlocks.",
+      },
+      {
+        href: "/db/journeys",
+        type: "journeys",
+        titleFallback: "Journeys",
+        icon: "🧭",
+        description:
+          "Journey steps, XP and rewards for the Exiled Lands and the Isle of Siptah.",
+      },
+      {
+        href: "/db/perks",
+        type: "perks",
+        titleFallback: "Perks",
+        icon: "💪",
+        description: "Attribute perks and the points needed to unlock them.",
+      },
+      {
+        href: "/db/emotes",
+        type: "emotes",
+        titleFallback: "Emotes",
+        icon: "🎭",
+        description:
+          "All emotes by category and where to find the emote pickups on the map.",
+      },
+    ],
+    // Section labels come from the per-locale dict terms (inventory, knowledge, …).
+  },
 });
