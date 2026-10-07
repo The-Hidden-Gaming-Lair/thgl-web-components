@@ -36,9 +36,12 @@ import {
   MIN_SEARCH_QUERY_LENGTH,
   type InGameCoordinates,
   buildPrivateIconLookups,
+  clearKnownNodeIds,
   collectDoneWhenAllRules,
+  collectKnownNodeIds,
   resolvePrivateIcon,
   setDoneWhenAllRules,
+  setKnownNodeIds,
   type TilesConfig,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
@@ -387,13 +390,26 @@ export function CoordinatesProvider({
     [rawStaticNodes, staticNodesTransform],
   );
 
-  // Markers that count as discovered when every id in `data.doneWhenAll` is
-  // (coordinates.ts). Registered during render, before the children's
-  // discovered checks run; client only, the rules are module state.
-  useMemo(() => {
-    if (typeof window === "undefined") return;
+  // Markers that count as discovered when every id in `data.doneWhenAll` is,
+  // and the ids of the loaded static markers, so a mark of one marker never
+  // marks another one by position (coordinates.ts). Registered during render,
+  // before the children's discovered checks run; client only, both are module
+  // state.
+  const knownNodeIds = useMemo(() => {
+    if (typeof window === "undefined") return null;
     setDoneWhenAllRules(collectDoneWhenAllRules(staticNodes));
+    const known = collectKnownNodeIds(staticNodes);
+    setKnownNodeIds(known);
+    return known;
   }, [staticNodes]);
+  // On unmount the known ids are emptied again (if no newer provider replaced
+  // them), so a page without a map does not match against this map's ids. The
+  // effect sets them too: a remount (React strict mode) runs the cleanup first.
+  useEffect(() => {
+    if (!knownNodeIds) return;
+    setKnownNodeIds(knownNodeIds);
+    return () => clearKnownNodeIds(knownNodeIds);
+  }, [knownNodeIds]);
 
   const {
     data: publicSearchSpawnsByKeyword,

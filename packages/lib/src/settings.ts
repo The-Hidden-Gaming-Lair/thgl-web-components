@@ -4,7 +4,6 @@ import { useAccountStore } from "./account";
 import {
   buildDiscoveryLookup,
   checkNodeDiscovered,
-  coordsMatch,
   getDoneWhenAllVersion,
   removeDiscoveredMatches,
   type DiscoverMode,
@@ -1549,32 +1548,11 @@ export const useSettingsStore = create(
             const discoveredNodes = state.discoveredNodes;
             const isDiscovered = state.isDiscoveredNode(nodeId);
 
-            // Parse nodeId once for coordinate matching
-            const nodeCoords = nodeId.includes("@")
-              ? nodeId.slice(nodeId.indexOf("@") + 1)
-              : null;
-
+            // Untick: drop every mark that makes this node discovered (exact,
+            // base id, old alias, the live/static id of the same node) and
+            // nothing of another marker (coordinates.ts).
             const updatedNodes = isDiscovered
-              ? discoveredNodes.filter((id) => {
-                  // Exact match
-                  if (id === nodeId) {
-                    return false;
-                  }
-                  // Base ID match (type without coordinates)
-                  if (nodeId.includes("@") && nodeId.split("@")[0] === id) {
-                    return false;
-                  }
-                  // Coordinate match (backward compat + tolerance) so
-                  // undiscovering matches a node stored at a slightly different
-                  // float (live memory read vs static extracted coords).
-                  if (nodeCoords && id.includes("@")) {
-                    const idCoords = id.slice(id.indexOf("@") + 1);
-                    if (coordsMatch(idCoords, nodeCoords)) {
-                      return false;
-                    }
-                  }
-                  return true;
-                })
+              ? removeDiscoveredMatches(discoveredNodes, [nodeId])
               : [...new Set([...discoveredNodes, nodeId])];
 
             updateSettings({ discoveredNodes: updatedNodes });
@@ -1583,34 +1561,11 @@ export const useSettingsStore = create(
           setDiscoverNode: (nodeId, discovered) => {
             const state = get();
 
-            // Parse nodeId once for coordinate matching
-            const nodeCoords = nodeId.includes("@")
-              ? nodeId.slice(nodeId.indexOf("@") + 1)
-              : null;
-
             updateSettings({
               discoveredNodes: discovered
                 ? [...new Set([...state.discoveredNodes, nodeId])]
-                : state.discoveredNodes.filter((id) => {
-                    // Exact match
-                    if (id === nodeId) {
-                      return false;
-                    }
-                    // Base ID match (type without coordinates)
-                    if (nodeId.includes("@") && nodeId.split("@")[0] === id) {
-                      return false;
-                    }
-                    // Coordinate match (backward compat + tolerance) so
-                    // undiscovering matches a node stored at a slightly
-                    // different float (live memory read vs static coords).
-                    if (nodeCoords && id.includes("@")) {
-                      const idCoords = id.slice(id.indexOf("@") + 1);
-                      if (coordsMatch(idCoords, nodeCoords)) {
-                        return false;
-                      }
-                    }
-                    return true;
-                  }),
+                : // Same removal as the untick in toggleDiscoveredNode.
+                  removeDiscoveredMatches(state.discoveredNodes, [nodeId]),
             });
           },
 

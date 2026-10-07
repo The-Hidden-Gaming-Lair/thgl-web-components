@@ -2,7 +2,9 @@ import {
   buildDiscoveryLookup,
   checkLiveActorDiscovered,
   checkNodeDiscovered,
+  clearKnownNodeIds,
   collectDoneWhenAllRules,
+  collectKnownNodeIds,
   dbEntryIdOf,
   getDoneWhenAllVersion,
   getNodeId,
@@ -11,6 +13,7 @@ import {
   isDoneWhenAll,
   removeDiscoveredMatches,
   setDoneWhenAllRules,
+  setKnownNodeIds,
 } from "./coordinates";
 
 describe("done when all", () => {
@@ -243,6 +246,369 @@ describe("removeDiscoveredMatches", () => {
   it("returns the same array reference when nothing matches", () => {
     const existing = ["chest@1:2"];
     expect(removeDiscoveredMatches(existing, ["iron_ore@5:6"])).toBe(existing);
+  });
+});
+
+describe("discovered marks", () => {
+  const discovered = (nodeId: string, marks: string[]) =>
+    checkNodeDiscovered(nodeId, buildDiscoveryLookup(marks));
+
+  /** Registers the static markers of a test map: [type, id | undefined, p]. */
+  const knownMap = (
+    spawns: [string, string | undefined, [number, number]][],
+  ) => {
+    const byType = new Map<string, { id?: string; p: [number, number] }[]>();
+    for (const [type, id, p] of spawns) {
+      const list = byType.get(type) ?? [];
+      list.push(id === undefined ? { p } : { id, p });
+      byType.set(type, list);
+    }
+    setKnownNodeIds(
+      collectKnownNodeIds(
+        [...byType].map(([type, spawns]) => ({ type, spawns })),
+      ),
+    );
+  };
+
+  afterEach(() => setKnownNodeIds({ ids: new Map(), types: new Set() }));
+
+  describe("coordinates after @ must be real numbers", () => {
+    // parseFloat read "1_74" as 1: (1, 0) vs (1, 1) / (1, 0).
+    it("an event id like 1_74:0 is not a position", () => {
+      expect(discovered("forage@1_26:1", ["monster@1_74:0"])).toBe(false);
+      expect(discovered("equipment@1_40:0", ["monster@1_74:0"])).toBe(false);
+      expect(discovered("monster@1_74:0", ["monster@1_74:0"])).toBe(true);
+    });
+
+    // The third component is part of the identity (Crimson Desert).
+    it("x:y:0, x:y:1, x:y:2 are three nodes", () => {
+      const mark = "faction_quest@-10606.27:-1748.08:0";
+      expect(discovered("faction_quest@-10606.27:-1748.08:1", [mark])).toBe(
+        false,
+      );
+      expect(discovered("faction_quest@-10606.27:-1748.08:2", [mark])).toBe(
+        false,
+      );
+      expect(discovered(mark, [mark])).toBe(true);
+    });
+
+    it("an exponent is a number (Infinity Nikki)", () => {
+      // live read of the same node at toFixed(2)
+      expect(
+        discovered("Floral Cloth@12250.00:0.00", [
+          "Floral Cloth@12250:9.999999974752427e-7",
+        ]),
+      ).toBe(true);
+    });
+  });
+
+  describe("marks of current static markers stay on their marker", () => {
+    // Discover all / a tick of one filter greyed another filter's marker
+    // within 1 unit.
+    it("does not mark another filter's marker within 1 unit", () => {
+      knownMap([
+        ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+        ["copper_ore", "copper_ore@10.9:20", [10.9, 20]],
+      ]);
+      expect(discovered("copper_ore@10.9:20", ["iron_ore@10.5:20"])).toBe(
+        false,
+      );
+    });
+
+    // The same for the swapped legacy reading (Graveyard Keeper 2:
+    // locked_door@-0.175:-10.92 marked tree@-11.40:0.04).
+    it("does not mark through the swapped reading of a current id", () => {
+      knownMap([
+        ["locked_door", "locked_door@-0.175:-10.92", [-0.175, -10.92]],
+        ["tree", "tree@-11.40:0.04", [-11.4, 0.04]],
+      ]);
+      expect(
+        discovered("tree@-11.40:0.04", ["locked_door@-0.175:-10.92"]),
+      ).toBe(false);
+    });
+
+    // Albion: same tile text, different filters.
+    it("does not mark another filter's marker with the same tail text", () => {
+      knownMap([
+        ["castle", "castle@z4314:132:-122", [132, -122]],
+        ["territory", "territory@z4314:132:-122", [132, -122]],
+      ]);
+      expect(
+        discovered("territory@z4314:132:-122", ["castle@z4314:132:-122"]),
+      ).toBe(false);
+    });
+
+    // Two spawns of one filter 0.4 apart are two markers (CHOICE 1).
+    it("does not mark a neighbour of the same filter", () => {
+      knownMap([
+        ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+        ["iron_ore", "iron_ore@10.9:20", [10.9, 20]],
+      ]);
+      expect(discovered("iron_ore@10.9:20", ["iron_ore@10.5:20"])).toBe(false);
+    });
+
+    it("bumps the rules version when the known ids change", () => {
+      const before = getDoneWhenAllVersion();
+      knownMap([["iron_ore", undefined, [1, 2]]]);
+      expect(getDoneWhenAllVersion()).toBe(before + 1);
+    });
+
+    // No CoordinatesProvider (guide page) or the map's nodes are not loaded
+    // yet: only ids with the same base match by position.
+    describe("with no markers registered", () => {
+      it("does not mark another filter's marker", () => {
+        expect(discovered("copper_ore@10.9:20", ["iron_ore@10.5:20"])).toBe(
+          false,
+        );
+        expect(discovered("tree@1.00:2.00", ["ore@1.00:2.00@1:2"])).toBe(false);
+      });
+
+      it("still links a live mark to the static id of the same type", () => {
+        expect(
+          discovered("pal@-92745:361345", ["pal@-92744.91:361344.72"]),
+        ).toBe(true);
+      });
+
+      it("does not delete another filter's mark", () => {
+        expect(
+          removeDiscoveredMatches(
+            ["iron_ore@10.5:20", "copper_ore@10.9:20"],
+            ["iron_ore@10.5:20"],
+          ),
+        ).toEqual(["copper_ore@10.9:20"]);
+      });
+    });
+
+    it("empties the known ids only for the provider that set them", () => {
+      const map = () =>
+        collectKnownNodeIds([
+          {
+            type: "iron_ore",
+            spawns: [{ id: "iron_ore@10.5:20", p: [10.5, 20] }],
+          },
+          {
+            type: "copper_ore",
+            spawns: [{ id: "copper_ore@10.9:20", p: [10.9, 20] }],
+          },
+        ]);
+      const first = map();
+      const second = map();
+      setKnownNodeIds(first);
+      setKnownNodeIds(second);
+      // The old provider unmounts after the new one rendered: second stays.
+      clearKnownNodeIds(first);
+      expect(discovered("iron_ore@10.5:20", ["copper_ore@10.60:20.00"])).toBe(
+        false,
+      );
+      // An id from before a type rename marks it.
+      expect(discovered("copper_ore@10.9:20", ["old_ore@10.9:20"])).toBe(true);
+      clearKnownNodeIds(second);
+      // Empty now: a renamed type no longer matches, the same base does.
+      expect(discovered("copper_ore@10.9:20", ["old_ore@10.9:20"])).toBe(false);
+      expect(discovered("copper_ore@10.9:20", ["copper_ore@10.60:20.00"])).toBe(
+        true,
+      );
+    });
+
+    // A live actor and a live mark (neither a static id) of two filters.
+    it("does not mark a live marker of another filter with a live mark", () => {
+      knownMap([
+        ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+        ["copper_ore", "copper_ore@10.9:20", [10.9, 20]],
+      ]);
+      expect(
+        discovered("copper_ore@30.20:40.00", ["iron_ore@30.00:40.00"]),
+      ).toBe(false);
+      expect(discovered("iron_ore@30.20:40.00", ["iron_ore@30.00:40.00"])).toBe(
+        true,
+      );
+      // a live actor of a type with no static spawns here still links
+      expect(discovered("pal@30.20:40.00", ["renamed_pal@30.00:40.00"])).toBe(
+        true,
+      );
+    });
+  });
+
+  describe("one node addressed by two ids still matches", () => {
+    beforeEach(() =>
+      knownMap([
+        ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+        // own spawn id, marker id chest_123@<p>
+        ["chest", "chest_123", [5.123456, 6.456789]],
+        // Palworld-style rounded static id, live reads are ~0.3 off
+        ["pal", "pal@-92745:361345", [-92744.91, 361344.72]],
+      ]),
+    );
+
+    it("live mark (toFixed(2), float noise) marks the static marker", () => {
+      expect(discovered("iron_ore@10.5:20", ["iron_ore@10.90:20.00"])).toBe(
+        true,
+      );
+      expect(discovered("pal@-92745:361345", ["pal@-92744.91:361344.72"])).toBe(
+        true,
+      );
+    });
+
+    it("static tick marks the live marker", () => {
+      expect(discovered("iron_ore@10.90:20.00", ["iron_ore@10.5:20"])).toBe(
+        true,
+      );
+      expect(discovered("pal@-92744.91:361344.72", ["pal@-92745:361345"])).toBe(
+        true,
+      );
+    });
+
+    it("live id with the filter type matches a spawn with its own id", () => {
+      expect(
+        discovered("chest_123@5.123456:6.456789", ["chest@5.12:6.46"]),
+      ).toBe(true);
+      expect(
+        discovered("chest@5.12:6.46", ["chest_123@5.123456:6.456789"]),
+      ).toBe(true);
+    });
+
+    it("an id from before a type rename marks the renamed marker", () => {
+      expect(discovered("iron_ore@10.5:20", ["old_ore@10.5:20"])).toBe(true);
+    });
+
+    it("an old raw z:x id marks the current x:z id", () => {
+      knownMap([["ore", "ore@-45.68:123.46", [123.456789, -45.678901]]]);
+      expect(
+        discovered("ore@-45.68:123.46", ["ore@123.456789:-45.678901"]),
+      ).toBe(true);
+    });
+
+    it("Aniimo bare spawn ids and AION 2 base ids still match", () => {
+      expect(discovered("q_1102150@1102150s2g1", ["q_1102150"])).toBe(true);
+      expect(
+        discovered("q_1102150@1102150s2g1", ["q_1102150@1102150s2g1"]),
+      ).toBe(true);
+      expect(
+        discovered("q_1102150@1102150s3g1", ["q_1102150@1102150s2g1"]),
+      ).toBe(false);
+    });
+  });
+
+  describe("old <id>@x:y marks (Discover all before web PR #23)", () => {
+    beforeEach(() =>
+      knownMap([
+        ["ore", "ore@1.00:2.00", [1, 2]],
+        ["tree", "tree@1.00:2.00", [1, 2]],
+        ["quest_episode_objective", "q_1@1s1g1", [10, 20]],
+      ]),
+    );
+
+    it("marks its own marker", () => {
+      expect(discovered("ore@1.00:2.00", ["ore@1.00:2.00@1:2"])).toBe(true);
+    });
+
+    // Matched every marker at the same spot.
+    it("does not mark another filter at the same spot", () => {
+      expect(discovered("tree@1.00:2.00", ["ore@1.00:2.00@1:2"])).toBe(false);
+    });
+
+    // Never matched since PR #23 (CHOICE 2).
+    it("marks an addressed id (AION 2 objective)", () => {
+      expect(discovered("q_1@1s1g1", ["q_1@1s1g1@10:20"])).toBe(true);
+    });
+
+    it("is removed by Undiscover all of its filter", () => {
+      expect(
+        removeDiscoveredMatches(["ore@1.00:2.00@1:2"], ["ore@1.00:2.00"]),
+      ).toEqual([]);
+    });
+  });
+
+  describe("Undiscover all removes only the selected filter's entries", () => {
+    beforeEach(() =>
+      knownMap([
+        ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+        ["copper_ore", "copper_ore@10.9:20", [10.9, 20]],
+        ["ore", "ore@-45.68:123.46", [123.456789, -45.678901]],
+      ]),
+    );
+
+    // The neighbour's own tick was deleted.
+    it("keeps another filter's tick within 1 unit", () => {
+      expect(
+        removeDiscoveredMatches(
+          ["iron_ore@10.5:20", "copper_ore@10.9:20"],
+          ["iron_ore@10.5:20"],
+        ),
+      ).toEqual(["copper_ore@10.9:20"]);
+    });
+
+    it("removes the live mark of the same node", () => {
+      expect(
+        removeDiscoveredMatches(["iron_ore@10.90:20.00"], ["iron_ore@10.5:20"]),
+      ).toEqual([]);
+    });
+
+    // Another filter's live mark (CHOICE 3).
+    it("keeps another filter's live mark", () => {
+      expect(
+        removeDiscoveredMatches(
+          ["copper_ore@10.60:20.00"],
+          ["iron_ore@10.5:20"],
+        ),
+      ).toEqual(["copper_ore@10.60:20.00"]);
+    });
+
+    // The swapped reading was only checked one way.
+    it("removes an old raw z:x mark of the target", () => {
+      expect(
+        removeDiscoveredMatches(
+          ["ore@123.456789:-45.678901"],
+          ["ore@-45.68:123.46"],
+        ),
+      ).toEqual([]);
+    });
+
+    it("removes a map tick of a custom marker (bare target)", () => {
+      expect(
+        removeDiscoveredMatches(["my_node@1:2", "other@1:2"], ["my_node"]),
+      ).toEqual(["other@1:2"]);
+    });
+  });
+
+  // settings.ts setDiscoverNode(id, false) / toggleDiscoveredNode untick call
+  // removeDiscoveredMatches(discoveredNodes, [nodeId]).
+  describe("single untick", () => {
+    beforeEach(() =>
+      knownMap([
+        ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+        ["copper_ore", "copper_ore@10.9:20", [10.9, 20]],
+      ]),
+    );
+
+    it("removes the marker's own, base-id and live marks only", () => {
+      expect(
+        removeDiscoveredMatches(
+          [
+            "iron_ore@10.5:20",
+            "iron_ore@10.70:20.10",
+            "iron_ore",
+            "copper_ore@10.9:20",
+            "copper_ore@10.80:20.00",
+            "chest@100:200",
+          ],
+          ["iron_ore@10.5:20"],
+        ),
+      ).toEqual([
+        "copper_ore@10.9:20",
+        "copper_ore@10.80:20.00",
+        "chest@100:200",
+      ]);
+    });
+
+    it("unticking a live marker removes the static tick of its node", () => {
+      expect(
+        removeDiscoveredMatches(
+          ["iron_ore@10.5:20", "copper_ore@10.9:20"],
+          ["iron_ore@10.60:20.00"],
+        ),
+      ).toEqual(["copper_ore@10.9:20"]);
+    });
   });
 });
 

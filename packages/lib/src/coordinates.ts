@@ -291,34 +291,56 @@ export const resolveDiscoverMode = (
 ): DiscoverMode =>
   overrides[type] ?? (positionedTypes.has(type) ? "enabled" : "predicted");
 
+// ---------------------------------------------------------------------------
+// Discovered marks
+//
+// A stored mark (`discoveredNodes`) is the id of the marker that was ticked:
+// `<id or type>@<x>:<y>`, an addressed id like `q_1101010@1101010s1g1`, or a
+// bare id (`iron_ore`, a game-reported `e55542889`). A marker counts as
+// discovered when a mark is its own id, its bare base id, an old alias of it,
+// or — to bridge two ids of ONE node (live actor id vs static id, an id from
+// before a type rename, an old raw-float id) — a mark at the same coordinates.
+// The coordinate matches never join two different current markers (see
+// crossIdAllowed and the known static ids below).
+// ---------------------------------------------------------------------------
+
 /**
- * Round a node-id coordinate string ("x:y", optionally with extra components)
- * to 2-decimal precision. The same physical node can be addressed at different
- * precisions depending on mode: the live-actor marker pipeline keys actors at
- * toFixed(2), while static/predicted ids carry full-precision data coords.
- * Discovery matching compares the normalized form so discovering a node in one
- * mode is recognized in the other. Distinct nodes are never within 0.01 world
- * units, so this widens no real buckets.
+ * A real number as JavaScript prints it: optional minus, digits with an
+ * optional fraction, optional exponent (`9.999999974752427e-7` occurs in the
+ * Infinity Nikki data). `parseFloat` alone is too loose: it reads the event id
+ * `1_74` as 1 and `1102010s1g1` as 1102010.
  */
-export const normalizeNodeCoords = (coords: string): string => {
+const COORD_NUMBER = /^-?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i;
+
+/**
+ * The coordinates in the part of a node id after `@` ("x:y", or "x:y:i" where
+ * the third part is part of the identity, e.g. Crimson Desert
+ * `faction_quest@x:y:0`/`:1`/`:2`). Null unless there are at least two
+ * ":"-parts and EVERY part is a real number: Welcome to Elderfield
+ * `monster@1_74:0` or AION 2 `q_1101010@1101010s1g1` are names, not positions.
+ */
+export const parseNodeCoords = (coords: string): number[] | null => {
   const parts = coords.split(":");
-  if (parts.length < 2) return coords;
-  const x = parseFloat(parts[0]);
-  const y = parseFloat(parts[1]);
-  if (isNaN(x) || isNaN(y)) return coords;
-  return `${x.toFixed(2)}:${y.toFixed(2)}`;
+  if (parts.length < 2) return null;
+  for (const part of parts) if (!COORD_NUMBER.test(part)) return null;
+  return parts.map(Number);
 };
 
 /**
- * Build discovery lookup structures from an array of discovered node IDs.
- * Used for O(1) lookups in hot paths like markers rendering.
- *
- * Returns:
- * - discoveredSet: Set of all discovered node IDs for exact matching
- * - discoveredCoords: Set of coordinate strings (x:y) for backward compatibility
- *   when type IDs change but coordinates remain the same
- * - splitCache: Map to cache nodeId.split("@") results to avoid repeated string ops
+ * Round a node-id coordinate string to 2-decimal precision, every component
+ * (a third component stays: it tells apart several nodes at one spot). The
+ * same physical node can be addressed at different precisions depending on
+ * mode: the live-actor marker pipeline keys actors at toFixed(2), while
+ * static/predicted ids carry full-precision data coords. Discovery matching
+ * compares the normalized form so discovering a node in one mode is recognized
+ * in the other. Returns the input unchanged when it is not strictly numeric
+ * (see {@link parseNodeCoords}).
  */
+export const normalizeNodeCoords = (coords: string): string => {
+  const parsed = parseNodeCoords(coords);
+  return parsed ? parsed.map((v) => v.toFixed(2)).join(":") : coords;
+};
+
 /**
  * World-unit tolerance for matching a node's coordinate against a discovered
  * one. The SAME physical node can be addressed by two slightly different floats
@@ -326,8 +348,9 @@ export const normalizeNodeCoords = (coords: string): string => {
  * round-trip / precision noise (e.g. ~0.03 at Palworld's ±1M magnitudes, from
  * float32 ulp). Those can round to different `toFixed(2)` strings when they
  * straddle a rounding boundary, which broke exact/normalized string matching.
- * Matching within 1 unit bridges that noise; distinct game objects are always
- * many units apart, so this never merges different nodes.
+ * Matching within 1 unit bridges that noise. Distinct markers CAN be closer
+ * than that (Dune pickups, Palworld ores next to trees), which is why the
+ * tolerance match only joins two ids of one node (see crossIdAllowed).
  */
 export const COORD_MATCH_TOLERANCE = 1;
 
@@ -336,81 +359,449 @@ export const COORD_MATCH_TOLERANCE = 1;
 const coordBucketKey = (x: number, y: number): string =>
   `${Math.floor(x / COORD_MATCH_TOLERANCE)}:${Math.floor(y / COORD_MATCH_TOLERANCE)}`;
 
+// ---------------------------------------------------------------------------
+// Open choices (owner). Each is one constant; flipping it switches the rule.
+// ---------------------------------------------------------------------------
+
+/**
+ * CHOICE 1 — may two CURRENT static markers of the SAME filter match each
+ * other by position (same coordinates / 2-decimal form / within 1 unit)?
+ * - false (1a, active): never. Two spawns are two markers, also within one
+ *   filter (two iron ores 0.4 apart are ticked one by one).
+ * - true (1b): yes within one filter type, as on origin/main; never across
+ *   filters.
+ */
+const STATIC_SAME_FILTER_POSITION_MATCH = false;
+
+/**
+ * CHOICE 2 — which old `<id>@<x>:<y>` marks (stored by "Discover all" before
+ * web PR #23 for a spawn whose id already had "@") stand for `<id>`?
+ * - true (2a, active): every one whose text after the LAST "@" is two numbers.
+ * - false (2b): only when `<id>` itself is `type@x:y` (its text after its first
+ *   "@" is numeric); marks of other addressed ids (AION 2
+ *   `q_…@1101010s1g1@x:y`, Albion `zone@world:1000@x:y`, Diablo 4
+ *   `campaignQuests:…@-75.57,120.57@x:y`) then stay unmatched, as on
+ *   origin/main.
+ */
+const OLD_MARK_ALIAS_FOR_EVERY_ID = true;
+
+/**
+ * CHOICE 3 — the filter-type gate in {@link crossIdAllowed}: when one side of
+ * a coordinate match is a current static marker and the other is not (a live
+ * actor id, an id from older data), the other side must not name a DIFFERENT
+ * filter of the loaded map by its base id (a live `copper_ore@…` mark is the
+ * copper ore's, not the iron ore's 0.4 units away). Likewise two ids that are
+ * both not current (a live actor and a live mark) do not match when their base
+ * ids are two different filters of the loaded map.
+ * - true (3a, active): gate on.
+ * - false (3b, design "R1"): any non-current id matches any marker at its
+ *   position.
+ */
+const OLD_ID_FILTER_TYPE_GATE = true;
+
+// ---------------------------------------------------------------------------
+// Known static ids of the loaded map
+// ---------------------------------------------------------------------------
+
+/**
+ * The static markers of the loaded map: every id a static spawn is addressed by
+ * ({@link getNodeId} and {@link getSpawnDiscoveryId}) → its filter type. Set by
+ * the CoordinatesProvider next to the done-when-all rules.
+ *
+ * Why: the coordinate matches exist to bridge two ids of ONE node. Two ids
+ * that are both CURRENT static ids are two different markers, so a mark of one
+ * never marks the other by position. Without this, "Discover all" on one filter
+ * greyed every other filter's marker within 1 unit, and "Undiscover all"
+ * deleted those markers' own marks.
+ *
+ * Empty (no CoordinatesProvider on the page, e.g. the guide-page progress
+ * list, or the map's nodes are not loaded yet): which ids are markers is
+ * unknown, so a coordinate match only joins two ids with the same base (text
+ * before "@"): a live `iron_ore@…` read and the static `iron_ore@…`, an old
+ * raw-float id of the same type. Never two filters' ids (see crossIdAllowed).
+ */
+export type KnownNodes = {
+  /** id → filter type; null when one id is listed under several filters
+   *  (Dune Awakening: 18,983 pickups), then the type gate passes. */
+  ids: ReadonlyMap<string, string | null>;
+  /** Filter types with static spawns on the loaded map. */
+  types: ReadonlySet<string>;
+};
+
+// The known ids of the markers currently loaded. Module state like the
+// done-when-all rules below, for the same reason: discovered checks run in
+// many places that only know a node id. Set client-side only (the
+// CoordinatesProvider skips it during SSR), so it never leaks between tenants
+// on the server.
+const NO_KNOWN_NODES: KnownNodes = { ids: new Map(), types: new Set() };
+let knownNodes: KnownNodes = NO_KNOWN_NODES;
+
+type KnownNodeSet = {
+  type: string;
+  spawns: {
+    id?: string;
+    isPrivate?: boolean;
+    p: [number, number] | [number, number, number];
+  }[];
+}[];
+
+const buildKnownNodes = (nodes: KnownNodeSet): KnownNodes => {
+  const ids = new Map<string, string | null>();
+  const types = new Set<string>();
+  const add = (id: string, type: string) => {
+    const had = ids.get(id);
+    ids.set(id, had === undefined || had === type ? type : null);
+  };
+  for (const node of nodes) {
+    for (const spawn of node.spawns) {
+      // A private spawn is the user's own marker; its marks keep today's
+      // matching.
+      if (spawn.isPrivate) continue;
+      types.add(node.type);
+      // getNodeId's derivation, for a spawn that has not been normalized yet.
+      const sid = spawn.id || node.type;
+      add(
+        sid.includes("@") ? sid : `${sid}@${spawn.p[0]}:${spawn.p[1]}`,
+        node.type,
+      );
+      // getSpawnDiscoveryId gives the same id unless the id is empty, or the
+      // type stands in for a missing id and has "@".
+      if (!spawn.id && (spawn.id === "" || sid.includes("@")))
+        add(getSpawnDiscoveryId(node.type, spawn), node.type);
+    }
+  }
+  return { ids, types };
+};
+
+/**
+ * Collects the known static ids of a node set (see {@link KnownNodes}).
+ * Built on first use: only a coordinate match reads them, so a user without
+ * marks near the map's markers never pays for it (~200 ms on a 355k-spawn Dune
+ * Awakening map, ~100 ms on Pax Dei).
+ */
+export const collectKnownNodeIds = (nodes: KnownNodeSet): KnownNodes => {
+  let built: KnownNodes | null = null;
+  const get = () => (built ??= buildKnownNodes(nodes));
+  return {
+    get ids() {
+      return get().ids;
+    },
+    get types() {
+      return get().types;
+    },
+  };
+};
+
+/** Replaces the known static ids (bumps the discovery rules version). */
+export const setKnownNodeIds = (known: KnownNodes): void => {
+  if (known === knownNodes) return;
+  knownNodes = known;
+  discoveryRulesVersion++;
+};
+
+/**
+ * Empties the known static ids if they are still `known` (the provider that
+ * set them unmounts). A newer set, from a provider that rendered in the
+ * meantime, stays. Without this a page without a map (guide page) would use
+ * the ids of the map the user came from.
+ */
+export const clearKnownNodeIds = (known: KnownNodes): void => {
+  if (knownNodes === known) setKnownNodeIds(NO_KNOWN_NODES);
+};
+
+// ---------------------------------------------------------------------------
+// Lookup and matching
+// ---------------------------------------------------------------------------
+
+/** A stored mark, as the coordinate indexes keep it. */
+type MarkEntry = {
+  /** The stored string. */
+  mark: string;
+  /** The id the mark stands for: the mark, or for an old `<id>@x:y` mark of
+   *  an id with "@" that id. */
+  id: string;
+  /** Entry is the swapped (legacy z:x) reading of the mark. */
+  swapped?: boolean;
+};
+type MarkPoint = [x: number, y: number, entry: MarkEntry];
+
+/** A queried node id, split once per lookup (see `splitCache`). */
+type SplitNodeId = {
+  base: string;
+  coords: string;
+  /** {@link parseNodeCoords} of `coords`. */
+  parsed: number[] | null;
+  /** {@link normalizeNodeCoords} of `coords`. */
+  normalized: string;
+};
+
+/**
+ * Build discovery lookup structures from the stored marks. Used for O(1)
+ * lookups in hot paths like markers rendering.
+ *
+ * Returns:
+ * - discoveredSet: every stored mark, for exact and base-id matches
+ * - aliases: id → old marks that stand for it. Before web PR #23, "Discover
+ *   all" stored `<id>@<x>:<y>` for a spawn whose id already had "@"
+ *   (`q_1101010@1101010s1g1@x:y`, `valheim_ore@1:2@1:2`); the text before the
+ *   last "@" is that spawn's id (see CHOICE 2).
+ * - discoveredCoords: coordinate string (as stored, 2-decimal form, swapped
+ *   legacy form) → marks carrying it, for renamed types and cross-precision ids
+ * - discoveredGrid: spatial grid of the marks' points for the tolerance match
+ * - splitCache: queried node id → its parts, to avoid repeated string ops
+ */
 export const buildDiscoveryLookup = (discoveredNodes: string[]) => {
   const discoveredSet = new Set(discoveredNodes);
-  const discoveredCoords = new Set<string>();
-  // Spatial grid of discovered points for the tolerance match (see
-  // COORD_MATCH_TOLERANCE). Keeps the check O(1) via a 3x3 bucket scan.
-  const discoveredGrid = new Map<string, Array<[number, number]>>();
-  const addPoint = (x: number, y: number) => {
-    if (isNaN(x) || isNaN(y)) return;
+  const aliases = new Map<string, string[]>();
+  const discoveredCoords = new Map<string, MarkEntry[]>();
+  const discoveredGrid = new Map<string, MarkPoint[]>();
+  const addCoords = (key: string, entry: MarkEntry) => {
+    const list = discoveredCoords.get(key);
+    if (list) list.push(entry);
+    else discoveredCoords.set(key, [entry]);
+  };
+  const addPoint = (x: number, y: number, entry: MarkEntry) => {
     const key = coordBucketKey(x, y);
     const bucket = discoveredGrid.get(key);
-    if (bucket) bucket.push([x, y]);
-    else discoveredGrid.set(key, [[x, y]]);
+    if (bucket) bucket.push([x, y, entry]);
+    else discoveredGrid.set(key, [[x, y, entry]]);
   };
 
-  for (const id of discoveredNodes) {
-    if (id.includes("@")) {
-      const atIndex = id.indexOf("@");
-      const coords = id.slice(atIndex + 1);
-      discoveredCoords.add(coords);
-      // Index the precision-normalized form too, so a node discovered at one
-      // precision (e.g. a live actor at toFixed(2)) matches the same node
-      // addressed at another (e.g. its full-precision static/predicted id).
-      discoveredCoords.add(normalizeNodeCoords(coords));
-
-      const parts = coords.split(":");
-      if (parts.length === 2) {
-        const a = parseFloat(parts[0]);
-        const b = parseFloat(parts[1]);
-        addPoint(a, b);
-
-        // Backward compatibility: old node IDs used raw float precision in z:x
-        // order (from getNodeId fallback), while current extraction uses
-        // .toFixed(2) in x:z order. Detect old-format IDs (>2 decimal places)
-        // and also index the swapped coordinates so they match.
-        const hasExcessPrecision = parts.some((p) => {
-          const dot = p.indexOf(".");
-          return dot !== -1 && p.length - dot - 1 > 2;
-        });
-        if (hasExcessPrecision && !isNaN(a) && !isNaN(b)) {
-          discoveredCoords.add(`${b.toFixed(2)}:${a.toFixed(2)}`);
-          addPoint(b, a);
-        }
+  for (const mark of discoveredNodes) {
+    const atIndex = mark.indexOf("@");
+    if (atIndex === -1) continue;
+    let id = mark;
+    let tail = mark.slice(atIndex + 1);
+    let coords = parseNodeCoords(tail);
+    const lastAt = mark.lastIndexOf("@");
+    if (lastAt !== atIndex) {
+      const lastTail = mark.slice(lastAt + 1);
+      const lastCoords = parseNodeCoords(lastTail);
+      const prefix = mark.slice(0, lastAt);
+      if (lastCoords && lastCoords.length === 2 && isOldMarkPrefix(prefix)) {
+        id = prefix;
+        const list = aliases.get(id);
+        if (list) list.push(mark);
+        else aliases.set(id, [mark]);
+        tail = lastTail;
+        coords = lastCoords;
       }
+    }
+    const entry: MarkEntry = { mark, id };
+    // The coordinate text as stored: renamed types keep it (also for
+    // non-numeric tails like Elderfield's `1_74:0`).
+    addCoords(tail, entry);
+    if (!coords) continue;
+    // The precision-normalized form, so a node discovered at one precision
+    // (a live actor at toFixed(2)) matches the same node addressed at another
+    // (its full-precision static/predicted id).
+    addCoords(normalizeNodeCoords(tail), entry);
+    if (coords.length !== 2) continue;
+    const [a, b] = coords;
+    addPoint(a, b, entry);
+    // Backward compatibility: old node IDs used raw float precision in z:x
+    // order (getNodeId fallback), current extraction uses .toFixed(2) in x:z
+    // order. Index the swapped reading of an id with >2 decimals; it only
+    // counts for a mark that is not a current id (see crossIdAllowed).
+    const hasExcessPrecision = tail.split(":").some((p) => {
+      const dot = p.indexOf(".");
+      return dot !== -1 && p.length - dot - 1 > 2 && !/e/i.test(p);
+    });
+    if (hasExcessPrecision) {
+      const swapped: MarkEntry = { mark, id, swapped: true };
+      addCoords(`${b.toFixed(2)}:${a.toFixed(2)}`, swapped);
+      addPoint(b, a, swapped);
     }
   }
 
   return {
     discoveredSet,
+    aliases,
     discoveredCoords,
     discoveredGrid,
-    splitCache: new Map<string, [string, string]>(),
+    splitCache: new Map<string, SplitNodeId>(),
   };
 };
 
-/**
- * True if two "x:y" coordinate strings address the same physical node — exact,
- * precision-normalized, or within {@link COORD_MATCH_TOLERANCE}. Use this for
- * one-off coordinate comparisons (e.g. removing a discovered id); the hot render
- * path uses {@link buildDiscoveryLookup}/{@link checkNodeDiscovered} instead.
- */
-export const coordsMatch = (a: string, b: string): boolean => {
-  if (a === b) return true;
-  if (normalizeNodeCoords(a) === normalizeNodeCoords(b)) return true;
-  const pa = a.split(":");
-  const pb = b.split(":");
-  if (pa.length < 2 || pb.length < 2) return false;
-  const ax = parseFloat(pa[0]);
-  const ay = parseFloat(pa[1]);
-  const bx = parseFloat(pb[0]);
-  const by = parseFloat(pb[1]);
-  if (isNaN(ax) || isNaN(ay) || isNaN(bx) || isNaN(by)) return false;
-  const dx = ax - bx;
-  const dy = ay - by;
-  return dx * dx + dy * dy <= COORD_MATCH_TOLERANCE * COORD_MATCH_TOLERANCE;
+type DiscoveryLookup = ReturnType<typeof buildDiscoveryLookup>;
+
+/** CHOICE 2: does the text before the last "@" of an old mark name its id? */
+const isOldMarkPrefix = (prefix: string): boolean =>
+  OLD_MARK_ALIAS_FOR_EVERY_ID ||
+  parseNodeCoords(prefix.slice(prefix.indexOf("@") + 1)) !== null;
+
+const baseOf = (id: string): string => {
+  const at = id.indexOf("@");
+  return at === -1 ? id : id.slice(0, at);
 };
+
+/**
+ * CHOICE 3, the filter-type gate: one side of a coordinate match is the current
+ * static id `knownId` of filter `knownType`, the other side `otherId` is not a
+ * current id. Allowed unless `otherId`'s base names a different filter of the
+ * loaded map.
+ */
+const otherIdFitsStaticMarker = (
+  knownId: string,
+  knownType: string | null,
+  otherId: string,
+): boolean => {
+  // One id listed under several filters: no single filter to compare with.
+  if (knownType === null) return true;
+  const otherBase = baseOf(otherId);
+  return (
+    !knownNodes.types.has(otherBase) ||
+    otherBase === knownType ||
+    otherBase === baseOf(knownId)
+  );
+};
+
+/**
+ * May a coordinate match (not exact id / base id / alias) join node id `q` and
+ * the mark `entry`? Only when they can be two ids of ONE node:
+ * - at least one of them is not a current static id (a live actor id, an id
+ *   from an older data version) — CHOICE 1 for two current ids of one filter;
+ * - if one is a current static id, the other does not name a DIFFERENT filter
+ *   of this map by its base id (CHOICE 3);
+ * - a swapped legacy reading only counts for a mark that is not a current id;
+ * - if neither is a current static id (a live actor vs a live mark), they do
+ *   not name two different filters of this map by their base ids (CHOICE 3).
+ * With no known ids registered (see {@link KnownNodes}) only two ids with the
+ * same base match.
+ */
+const crossIdAllowed = (q: string, entry: MarkEntry): boolean => {
+  const { ids, types } = knownNodes;
+  if (ids.size === 0) return baseOf(q) === baseOf(entry.id);
+  const markType = ids.get(entry.id);
+  // A swapped (legacy z:x) reading only exists for old ids.
+  if (entry.swapped && markType !== undefined) return false;
+  const qType = ids.get(q);
+  if (qType !== undefined && markType !== undefined)
+    // Two current static ids are two markers (CHOICE 1).
+    return (
+      STATIC_SAME_FILTER_POSITION_MATCH && qType !== null && qType === markType
+    );
+  if (!OLD_ID_FILTER_TYPE_GATE) return true;
+  if (qType === undefined && markType === undefined) {
+    const qBase = baseOf(q);
+    const markBase = baseOf(entry.id);
+    return qBase === markBase || !types.has(qBase) || !types.has(markBase);
+  }
+  return qType !== undefined
+    ? otherIdFitsStaticMarker(q, qType, entry.id)
+    : otherIdFitsStaticMarker(entry.id, markType ?? null, q);
+};
+
+/** Called per matching mark; returns true to stop the scan. */
+type MarkVisitor = (mark: string) => boolean;
+const stopAtFirstMark: MarkVisitor = () => true;
+
+const visitCoordEntries = (
+  nodeId: string,
+  entries: MarkEntry[] | undefined,
+  visit: MarkVisitor,
+): boolean => {
+  if (!entries) return false;
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    if (
+      entry.mark !== nodeId &&
+      crossIdAllowed(nodeId, entry) &&
+      visit(entry.mark)
+    )
+      return true;
+  }
+  return false;
+};
+
+/**
+ * Visits the stored marks that make `nodeId` discovered (rules 1-3 of
+ * {@link checkNodeDiscovered}): exact id, an old alias mark, the bare base id
+ * (text before "@"), then the coordinate matches {@link crossIdAllowed} lets
+ * through. Returns true as soon as `visit` returns true. Allocates nothing on
+ * the discovered-check path except the per-lookup split cache entry.
+ */
+const scanMatchingMarks = (
+  nodeId: string,
+  lookup: DiscoveryLookup,
+  visit: MarkVisitor,
+): boolean => {
+  const { discoveredSet, aliases, discoveredCoords, discoveredGrid } = lookup;
+  if (discoveredSet.size === 0) return false;
+  if (discoveredSet.has(nodeId) && visit(nodeId)) return true;
+  if (aliases.size > 0) {
+    const old = aliases.get(nodeId);
+    if (old) for (const mark of old) if (visit(mark)) return true;
+  }
+  if (!nodeId.includes("@")) return false;
+  // No mark has coordinates: only the base id can match (no split needed).
+  if (discoveredCoords.size === 0) {
+    const base = nodeId.slice(0, nodeId.indexOf("@"));
+    return discoveredSet.has(base) && visit(base);
+  }
+
+  let split = lookup.splitCache.get(nodeId);
+  if (!split) {
+    const atIndex = nodeId.indexOf("@");
+    const coords = nodeId.slice(atIndex + 1);
+    const parsed = parseNodeCoords(coords);
+    split = {
+      base: nodeId.slice(0, atIndex),
+      coords,
+      parsed,
+      normalized: parsed ? parsed.map((v) => v.toFixed(2)).join(":") : coords,
+    };
+    lookup.splitCache.set(nodeId, split);
+  }
+  const { base, coords, parsed, normalized } = split;
+
+  // Base ID match (type without coordinates)
+  if (discoveredSet.has(base) && visit(base)) return true;
+
+  // Coordinate match: the coordinates as stored (renamed type), then the
+  // precision-normalized form (live toFixed(2) vs static full precision).
+  if (visitCoordEntries(nodeId, discoveredCoords.get(coords), visit))
+    return true;
+  if (!parsed) return false;
+  if (
+    normalized !== coords &&
+    visitCoordEntries(nodeId, discoveredCoords.get(normalized), visit)
+  )
+    return true;
+
+  // Tolerance match (see COORD_MATCH_TOLERANCE). Bucket size == tolerance, so
+  // the 3x3 neighbourhood scan is exhaustive and O(1).
+  if (discoveredGrid.size > 0) {
+    const x = parsed[0];
+    const y = parsed[1];
+    const bx = Math.floor(x / COORD_MATCH_TOLERANCE);
+    const by = Math.floor(y / COORD_MATCH_TOLERANCE);
+    const tolSq = COORD_MATCH_TOLERANCE * COORD_MATCH_TOLERANCE;
+    for (let gx = bx - 1; gx <= bx + 1; gx++) {
+      for (let gy = by - 1; gy <= by + 1; gy++) {
+        const bucket = discoveredGrid.get(`${gx}:${gy}`);
+        if (!bucket) continue;
+        for (let i = 0; i < bucket.length; i++) {
+          const [px, py, entry] = bucket[i];
+          const dx = px - x;
+          const dy = py - y;
+          if (
+            dx * dx + dy * dy <= tolSq &&
+            entry.mark !== nodeId &&
+            crossIdAllowed(nodeId, entry) &&
+            visit(entry.mark)
+          )
+            return true;
+        }
+      }
+    }
+  }
+  return false;
+};
+
+/** Rules 1-3 of {@link checkNodeDiscovered}: the node's own discovered state. */
+const matchesDiscovered = (nodeId: string, lookup: DiscoveryLookup): boolean =>
+  scanMatchingMarks(nodeId, lookup, stopAtFirstMark);
 
 /**
  * "Done when all": a marker that stands for several things (e.g. one quest
@@ -476,7 +867,8 @@ export const collectDoneWhenAllRules = (
 // rules live next to the matcher instead of being threaded through every
 // caller. Set by the CoordinatesProvider whenever its static nodes change.
 let doneWhenAllRules: DoneWhenAllRules = new Map();
-let doneWhenAllVersion = 0;
+// Bumped when the done-when-all rules or the known static ids change.
+let discoveryRulesVersion = 0;
 
 const sameRules = (a: DoneWhenAllRules, b: DoneWhenAllRules): boolean => {
   if (a.size !== b.size) return false;
@@ -492,14 +884,15 @@ const sameRules = (a: DoneWhenAllRules, b: DoneWhenAllRules): boolean => {
 export const setDoneWhenAllRules = (rules: DoneWhenAllRules): void => {
   if (sameRules(rules, doneWhenAllRules)) return;
   doneWhenAllRules = rules;
-  doneWhenAllVersion++;
+  discoveryRulesVersion++;
 };
 
 /**
- * Bumped whenever the done-when-all rules change, so result caches keyed only
- * on `discoveredNodes` (settings.isDiscoveredNode) know to rebuild.
+ * Bumped whenever the discovery rules change — the done-when-all rules or the
+ * known static ids — so result caches keyed only on `discoveredNodes`
+ * (settings.isDiscoveredNode / isAutoDiscoveredNode) know to rebuild.
  */
-export const getDoneWhenAllVersion = (): number => doneWhenAllVersion;
+export const getDoneWhenAllVersion = (): number => discoveryRulesVersion;
 
 /**
  * True when `nodeId` has a done-when-all rule and every listed id is
@@ -508,7 +901,7 @@ export const getDoneWhenAllVersion = (): number => doneWhenAllVersion;
 export const isDoneWhenAll = (
   nodeId: string,
   rules: DoneWhenAllRules,
-  lookup: ReturnType<typeof buildDiscoveryLookup>,
+  lookup: DiscoveryLookup,
 ): boolean => {
   if (rules.size === 0) return false;
   const required = rules.get(nodeId);
@@ -519,85 +912,20 @@ export const isDoneWhenAll = (
 /**
  * Check if a node is discovered using pre-built lookup structures.
  * Matches by:
- * 1. Exact ID match
+ * 1. Exact ID match, or an old `<id>@x:y` mark of the id (alias)
  * 2. Base ID match (type without coordinates)
- * 3. Coordinate match (backward compat + tolerance for float/precision drift)
+ * 3. Coordinate match (renamed type, live vs static precision, tolerance for
+ *    float drift, legacy z:x order) — only between two ids of one node, see
+ *    crossIdAllowed
  * 4. Done when all: the node lists ids that are all discovered
  *    (see {@link DONE_WHEN_ALL_KEY})
  */
 export const checkNodeDiscovered = (
   nodeId: string,
-  lookup: ReturnType<typeof buildDiscoveryLookup>,
+  lookup: DiscoveryLookup,
 ): boolean =>
   matchesDiscovered(nodeId, lookup) ||
   isDoneWhenAll(nodeId, doneWhenAllRules, lookup);
-
-/** Rules 1-3 of {@link checkNodeDiscovered}: the node's own discovered state. */
-const matchesDiscovered = (
-  nodeId: string,
-  lookup: ReturnType<typeof buildDiscoveryLookup>,
-): boolean => {
-  const { discoveredSet, discoveredCoords, discoveredGrid, splitCache } =
-    lookup;
-
-  // Fast path: no @ means simple ID
-  if (!nodeId.includes("@")) {
-    return discoveredSet.has(nodeId);
-  }
-
-  // Fast path: exact match
-  if (discoveredSet.has(nodeId)) return true;
-
-  // Get cached split or compute and cache
-  let cached = splitCache.get(nodeId);
-  if (!cached) {
-    const atIndex = nodeId.indexOf("@");
-    cached = [nodeId.slice(0, atIndex), nodeId.slice(atIndex + 1)];
-    splitCache.set(nodeId, cached);
-  }
-
-  const [baseId, coords] = cached;
-
-  // Check base ID match (type without coordinates)
-  if (discoveredSet.has(baseId)) return true;
-
-  // Check coordinate match (backward compatibility), then the precision-
-  // normalized form so cross-mode (live toFixed(2) vs static full-precision)
-  // ids for the same node match.
-  if (discoveredCoords.has(coords)) return true;
-  if (discoveredCoords.has(normalizeNodeCoords(coords))) return true;
-
-  // Tolerance match: the same physical node can be addressed by slightly
-  // different floats (live memory read vs extracted static value) that round to
-  // different strings — see COORD_MATCH_TOLERANCE. Treat as discovered if any
-  // discovered point lies within tolerance. Bucket size == tolerance, so the
-  // 3x3 neighbourhood scan is exhaustive and O(1).
-  if (discoveredGrid.size > 0) {
-    const parts = coords.split(":");
-    if (parts.length >= 2) {
-      const x = parseFloat(parts[0]);
-      const y = parseFloat(parts[1]);
-      if (!isNaN(x) && !isNaN(y)) {
-        const bx = Math.floor(x / COORD_MATCH_TOLERANCE);
-        const by = Math.floor(y / COORD_MATCH_TOLERANCE);
-        const tolSq = COORD_MATCH_TOLERANCE * COORD_MATCH_TOLERANCE;
-        for (let gx = bx - 1; gx <= bx + 1; gx++) {
-          for (let gy = by - 1; gy <= by + 1; gy++) {
-            const bucket = discoveredGrid.get(`${gx}:${gy}`);
-            if (!bucket) continue;
-            for (const [px, py] of bucket) {
-              const dx = px - x;
-              const dy = py - y;
-              if (dx * dx + dy * dy <= tolSq) return true;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return false;
-};
 
 /**
  * Discovered check for a live (memory-read) actor. Its marker id is
@@ -609,7 +937,7 @@ const matchesDiscovered = (
 export const checkLiveActorDiscovered = (
   liveNodeId: string,
   actorType: string,
-  lookup: ReturnType<typeof buildDiscoveryLookup>,
+  lookup: DiscoveryLookup,
 ): boolean =>
   checkNodeDiscovered(liveNodeId, lookup) ||
   lookup.discoveredSet.has(actorType);
@@ -637,28 +965,41 @@ export const getSpawnDiscoveryId = (
     : `${spawn.id ?? nodeType}@${spawn.p[0]}:${spawn.p[1]}`;
 
 /**
- * One-pass bulk removal for "Undiscover all": drops every discovered entry that
- * addresses one of the target ids — exact, legacy-format, or within
- * {@link COORD_MATCH_TOLERANCE} — plus bare base-id entries of the targeted
- * types (a stored bare `iron_ore` marks all iron_ore discovered). Mirrors the
- * per-id removal in settings.ts setDiscoverNode, but O(existing + targets)
- * instead of one filter pass per target. Returns the input array unchanged if
- * nothing matches.
+ * Removal for "Undiscover all" (setDiscoveredNodesBulk), a single untick
+ * (setDiscoverNode(id, false), toggleDiscoveredNode) and the respawn reset:
+ * drops every stored mark that makes one of the target ids discovered (rules
+ * 1-3 of {@link checkNodeDiscovered}: exact, old alias form, bare base id, and
+ * the coordinate matches that join two ids of one node), plus marks
+ * `<target>@…` of a bare target (a custom marker ticked on the map). A mark of
+ * another current marker is never removed, however close. A done-when-all rule
+ * describes a marker, not a stored mark, and does not widen the removal.
+ * Returns the input array unchanged if nothing matches.
  */
 export const removeDiscoveredMatches = (
   discoveredNodes: string[],
   targetIds: string[],
 ): string[] => {
-  const lookup = buildDiscoveryLookup(targetIds);
-  const baseIds = new Set<string>();
-  for (const id of targetIds) {
-    const atIndex = id.indexOf("@");
-    if (atIndex !== -1) baseIds.add(id.slice(0, atIndex));
+  if (discoveredNodes.length === 0 || targetIds.length === 0)
+    return discoveredNodes;
+  const lookup = buildDiscoveryLookup(discoveredNodes);
+  const remove = new Set<string>();
+  const collect: MarkVisitor = (mark) => {
+    remove.add(mark);
+    return false;
+  };
+  const bareTargets = new Set<string>();
+  for (const target of targetIds) {
+    if (!target.includes("@")) bareTargets.add(target);
+    scanMatchingMarks(target, lookup, collect);
   }
-  // The node's own matching only: a done-when-all rule describes a marker, not
-  // a stored entry, and must not widen what "Undiscover all" removes.
   const kept = discoveredNodes.filter(
-    (id) => !baseIds.has(id) && !matchesDiscovered(id, lookup),
+    (id) =>
+      !remove.has(id) &&
+      !(
+        bareTargets.size > 0 &&
+        id.includes("@") &&
+        bareTargets.has(baseOf(id))
+      ),
   );
   return kept.length === discoveredNodes.length ? discoveredNodes : kept;
 };
