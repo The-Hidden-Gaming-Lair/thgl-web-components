@@ -463,7 +463,7 @@ const TooltipPositioner = React.forwardRef<
 });
 
 /** The static-spawn fields a live actor inherits when it names its spawn (`actor.spawnId`). */
-type LiveTwin = Pick<Spawn, "dbEntryId" | "shape" | "data">;
+type LiveTwin = Pick<Spawn, "dbEntryId" | "shape" | "data"> & { type: string };
 
 const DEFAULT_SHAPE_COLOR = "#E8D9A8";
 
@@ -764,7 +764,14 @@ function MarkersContent({
       const byId = new Map<string, LiveTwin>();
       for (const node of searchableNodesRef.current) {
         if (node.static) continue;
-        for (const s of node.spawns) if (s.id?.includes("@")) byId.set(s.id, s);
+        for (const s of node.spawns)
+          if (s.id?.includes("@"))
+            byId.set(s.id, {
+              type: node.type,
+              dbEntryId: s.dbEntryId,
+              shape: s.shape,
+              data: s.data,
+            });
       }
       liveTwinsRef.current = byId;
     }
@@ -2106,6 +2113,14 @@ function MarkersContent({
         if (spawn.muted) continue;
         for (const s of [spawn, ...(spawn.cluster ?? [])]) {
           if (!s.shape || s.shape.length < 3) continue;
+          // A discovered (looted, disarmed) object keeps its faded marker but loses its outline.
+          if (
+            checkNodeDiscovered(
+              getNodeId({ ...s, type: spawn.type }),
+              discoveryLookup,
+            )
+          )
+            continue;
           const positions = s.shape.map(rotate);
           wanted.set(
             `${map.mapName}:${getNodeId({ ...s, type: spawn.type })}`,
@@ -2209,43 +2224,6 @@ function MarkersContent({
     shapeColorByType,
     showSpawnShapes,
   ]);
-
-  // Hovering an outline (`spawn.shape`) opens its marker's tooltip, like hovering the icon.
-  // Icons inside an outline still win: the icon layer's own hover runs after this one.
-  useEffect(() => {
-    if (!map) return;
-    let hovered: string | undefined;
-    const onMove = (e: { latlng?: [number, number] }) => {
-      if (!e.latlng) return;
-      if (
-        !staticShapeHitsRef.current.length &&
-        !liveShapeHitsRef.current.length
-      )
-        return;
-      const hit =
-        hitShape(liveShapeHitsRef.current, e.latlng) ??
-        hitShape(staticShapeHitsRef.current, e.latlng);
-      if (hit?.markerId === hovered) return;
-      hovered = hit?.markerId;
-      if (tooltipDelayRef.current) {
-        clearTimeout(tooltipDelayRef.current);
-        tooltipDelayRef.current = null;
-      }
-      if (!hit) return;
-      tooltipDelayRef.current = setTimeout(() => {
-        tooltipDelayRef.current = null;
-        showTooltipForMarkerRef.current?.({
-          id: hit.markerId,
-          latLng: hit.latLng,
-          size: 0,
-        } as IconMarkerInstance);
-      }, 200);
-    };
-    map.on("mousemove", onMove);
-    return () => {
-      map.off("mousemove", onMove);
-    };
-  }, [map]);
 
   // Player-relative height arrows (up/down elevation indicators).
   //
@@ -2611,10 +2589,15 @@ function MarkersContent({
         // Respect that — otherwise we render markers for entities the game
         // has hidden.
         if (actor.hidden) continue;
-        const displayType =
+        const mappedType =
           typesIdMap[actor.type] ??
           typesIdMap[actor.type.split("_Variant.")[0]];
-        if (!displayType) continue;
+        if (!mappedType) continue;
+        // An actor that names its static spawn is shown as that spawn's type (Baldur's Gate EE:
+        // the detector reports every container as CONTAINER, its spawn may be a locked_container).
+        const displayType =
+          (actor.spawnId && liveTwinRef.current(actor.spawnId)?.type) ||
+          mappedType;
         if (
           !activeFilters.has(displayType) &&
           displayType !== selectedSearchType
@@ -3067,6 +3050,7 @@ function MarkersContent({
         for (const [markerId, spawn] of shapesOn ? newSpawns : []) {
           for (const s of [spawn, ...(spawn.cluster ?? [])]) {
             if (!s.shape || s.shape.length < 3) continue;
+            if (checkNodeDiscovered(s.id, discoveryLookupRef.current)) continue;
             const positions = s.shape.map(rotate);
             wanted.set(`${currentMapName}:live:${s.id}`, {
               positions,

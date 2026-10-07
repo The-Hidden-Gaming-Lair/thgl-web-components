@@ -104,7 +104,26 @@ type DbRef = {
   count?: number;
   group?: string;
   tooltip?: string;
+  /** This ref's row in a table-shaped ref list (see `asRefTable`). */
+  cells?: (string | number)[];
 };
+
+/** A ref list shipped as `{ columns, list }` whose refs carry `cells`: rendered as a table
+ *  (item + one column per entry of `columns`), e.g. a store's goods with price and stock. */
+function asRefTable(
+  v: unknown,
+): { columns: string[]; list: DbRef[] } | undefined {
+  if (typeof v !== "object" || v === null || Array.isArray(v)) return undefined;
+  const o = v as { columns?: unknown; list?: unknown };
+  if (
+    !Array.isArray(o.columns) ||
+    !o.columns.every((c) => typeof c === "string") ||
+    !isDbRefArray(o.list) ||
+    !(o.list as DbRef[]).some((r) => Array.isArray(r.cells))
+  )
+    return undefined;
+  return { columns: o.columns as string[], list: o.list as DbRef[] };
+}
 
 function isDbRefArray(v: unknown): v is DbRef[] {
   return (
@@ -279,6 +298,7 @@ export function GenericEntityView({
   // Cross-links to other DB entries, rendered as their own link sections.
   const soldBy = asDbRefList(props?.soldBy);
   const sells = asDbRefList(props?.sells);
+  const sellsTable = asRefTable(props?.sells);
   const drops = asDbRefList(props?.drops); // creature → item drops
   const droppedBy = asDbRefList(props?.droppedBy); // item → creatures
   const ingredients = asDbRefList(props?.ingredients); // crafted item → its ingredients
@@ -458,6 +478,64 @@ export function GenericEntityView({
     refs.length >= 3 && refs.every((r) => icons?.[r.id])
       ? iconGrid(refs)
       : renderRefs(refs);
+
+  const refTable = (t: { columns: string[]; list: DbRef[] }) => (
+    <div className="border border-slate-800 rounded overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="bg-slate-900/60">
+            {[L("db.item", "Item"), ...t.columns].map((c, i) => (
+              <th
+                key={i}
+                className={`px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground ${i === 0 ? "text-left" : "text-right"}`}
+              >
+                {c}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {t.list.map((r) => {
+            const ic = icons?.[r.id];
+            return (
+              <tr
+                key={`${r.section}/${r.id}`}
+                className="border-t border-slate-800/50 first:border-t-0 hover:bg-slate-900/40"
+              >
+                <td className="px-3 py-1">
+                  <Link
+                    href={localizePath(`/db/${r.section}/${r.id}`, locale)}
+                    prefetch={false}
+                    className="inline-flex items-center gap-2 text-slate-200 hover:text-amber-300"
+                  >
+                    {ic && (
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center">
+                        <SpriteIcon
+                          icon={ic}
+                          appName={appName}
+                          size={24}
+                          iconsHash={iconsHash}
+                        />
+                      </span>
+                    )}
+                    {refName(r)}
+                  </Link>
+                </td>
+                {t.columns.map((_, j) => (
+                  <td
+                    key={j}
+                    className="px-3 py-1 text-right font-medium text-slate-100 whitespace-nowrap"
+                  >
+                    {r.cells?.[j] ?? ""}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
 
   const refLinks = (refs: DbRef[]) => {
     // No group field → flat list (existing behavior for all other games).
@@ -809,7 +887,7 @@ export function GenericEntityView({
                   count: String(sells.length),
                 })}
           </div>
-          {refLinks(sells)}
+          {sellsTable ? refTable(sellsTable) : refLinks(sells)}
         </div>
       )}
 

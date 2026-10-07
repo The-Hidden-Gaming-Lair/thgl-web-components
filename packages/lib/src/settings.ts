@@ -593,7 +593,7 @@ export type ProfileSettings = {
   showInteriorLabelNames: boolean;
   /**
    * Draw the outlines (footprints) of objects that have one - containers, traps and
-   * inspectable spots in Baldur's Gate EE. Hovering an outline shows its marker tooltip.
+   * inspectable spots in Baldur's Gate EE. Clicking an outline selects its marker.
    */
   showSpawnShapes: boolean;
   // Peer Link / Mesh settings

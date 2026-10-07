@@ -727,7 +727,7 @@ export function SettingsDialogContent({
                     <p className="text-xs text-muted-foreground">
                       {t("settings.showSpawnShapes.description", {
                         fallback:
-                          "Draws the shape of containers, traps and other objects that have one, like the game highlights them. Hover an outline to see its details.",
+                          "Draws the shape of containers, traps and other objects that have one, like the game highlights them. Discovered ones lose their outline.",
                       })}
                     </p>
                   </div>
