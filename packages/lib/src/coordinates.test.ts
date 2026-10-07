@@ -690,6 +690,29 @@ describe("discovered marks", () => {
       });
     });
 
+    // Palworld egg_common_large, Palia .Magical trees: a variant filter with
+    // static spawns on the map is a filter of its own there.
+    it("a variant with static spawns on the map is its own filter there", () => {
+      register(
+        [
+          ["garlic", "garlic@50:50", [50, 50]],
+          ["garlic_star", "garlic_star@70:70", [70, 70]],
+        ],
+        ["garlic", "garlic_star"],
+        { BP_Garlic_C: "garlic", "BP_Garlic_C_Variant.Star": "garlic_star" },
+      );
+      expect(discovered("garlic@50:50", ["garlic_star@50.00:50.00"])).toBe(
+        false,
+      );
+      expect(discovered("garlic_star@70:70", ["garlic@70.00:70.00"])).toBe(
+        false,
+      );
+      // its own live mark still marks it
+      expect(discovered("garlic_star@70:70", ["garlic_star@70.20:70.00"])).toBe(
+        true,
+      );
+    });
+
     describe("still links two ids of one node", () => {
       beforeEach(() =>
         register(

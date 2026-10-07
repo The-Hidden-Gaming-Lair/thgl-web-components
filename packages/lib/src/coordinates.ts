@@ -450,8 +450,9 @@ export type KnownNodes = {
    *  another map, live-only types) and the types of the loaded map's static
    *  spawns. */
   types: ReadonlySet<string>;
-  /** Live-only variant filter type → its base types
-   *  ({@link collectVariantBaseTypes}); the gate counts a variant as its base. */
+  /** Variant filter type without static spawns on the loaded map → its base
+   *  types ({@link collectVariantBaseTypes}); the gate counts such a variant
+   *  as its base. */
   variantBases?: ReadonlyMap<string, readonly string[]>;
 };
 
@@ -494,11 +495,14 @@ const buildKnownNodes = (
     ids.set(id, had === undefined || had === type ? type : null);
   };
   addNodeSetIds(nodes, add, types);
-  return {
-    ids,
-    types,
-    variantBases: collectVariantBaseTypes(opts?.typesIdMap),
-  };
+  // A variant counts as its base only where it is live-only: a variant filter
+  // with static spawns on this map (Palworld `egg_common_large`, Palia
+  // `….Magical` trees) is a filter of its own here, and a live mark of it
+  // must not grey its base's marker next to it (CHOICE 3).
+  const variantBases = collectVariantBaseTypes(opts?.typesIdMap);
+  for (const node of nodes)
+    if (node.spawns.length > 0) variantBases.delete(node.type);
+  return { ids, types, variantBases };
 };
 
 /** Adds both ids every spawn of `nodes` is addressed by, and its type. */
