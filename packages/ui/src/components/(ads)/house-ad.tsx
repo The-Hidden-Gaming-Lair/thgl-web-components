@@ -34,8 +34,10 @@ type HouseCard = {
 
 const DISCORD_URL = "https://th.gl/discord";
 
-// Illustrations in the tool-card style: `<key>.webp` (600x500, rectangles)
-// and `<key>-thumb.webp` (192x192, banners). Text stays HTML (translated).
+// Illustrations in the tool-card style, one per card and slot shape:
+// `<key>.webp` (600x500, rectangles), `<key>-8x1.webp` (728x90),
+// `<key>-6x1.webp` (320x50), `<key>-3x1.webp` (320x100), all 2x.
+// Text stays HTML (translated).
 const ART_PATH = "/games/thgl-web/house-ads";
 
 /** The current game's gaming.tools page from the game switcher's partner list. */
@@ -148,20 +150,32 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
   const card = cards[round % cards.length];
   if (!card) return null;
 
-  // 728x90 / 320x100 / 320x50 lay out in a row with the art as a square
-  // thumbnail; rectangles and skyscrapers put the text over the painting.
+  // Rectangles and skyscrapers: painting on top, text on a fade below.
+  // Banners: a wide painting made for the banner's ratio, subject on the
+  // right, text over the dark left side.
   const row = !!box && box.h < 150;
-  const showBody = !box || !row || box.h >= 85;
-  const showCta = !box || !row || box.w >= 468;
+  const ratio = box ? box.w / box.h : 1;
+  const showBody = !row || (!!box && box.h >= 85);
+  const showCta = !row || (!!box && box.h >= 85 && box.w >= 468);
+  // Phone banners (320 wide): the text keeps to the left half, clear of the art.
+  const narrow = row && !!box && box.w < 468;
   const art = `${ART_PATH}/${card.key}`;
   const content = (
     <Layout row={row}>
       {row ? (
-        <img
-          src={`${art}-thumb.webp`}
-          alt=""
-          className="h-full aspect-square shrink-0 object-cover"
-        />
+        <>
+          <img
+            src={`${art}-${ratio >= 7 ? "8x1" : ratio >= 4.5 ? "6x1" : "3x1"}.webp`}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-right transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+          <div
+            className={cn(
+              "absolute inset-y-0 left-0 bg-linear-to-r from-card from-40% via-card/75 to-transparent",
+              narrow ? "w-[80%]" : "w-[70%]",
+            )}
+          />
+        </>
       ) : (
         <>
           <img
@@ -175,13 +189,19 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
       <div
         className={cn(
           "relative min-w-0",
-          row ? "flex-1 text-left" : "space-y-1",
+          row
+            ? cn("text-left", narrow ? "max-w-[56%]" : "max-w-[62%]")
+            : "space-y-1",
         )}
       >
         <p
           className={cn(
             "font-semibold leading-tight [text-shadow:0_1px_4px_rgb(0_0_0/0.9)]",
-            row ? "truncate text-sm" : "text-base",
+            row
+              ? narrow
+                ? "line-clamp-2 text-[13px]"
+                : "truncate text-sm"
+              : "text-base",
           )}
         >
           {card.title}
@@ -190,18 +210,27 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
           <p
             className={cn(
               "text-muted-foreground leading-snug",
-              row ? "line-clamp-2 text-xs" : "text-sm",
+              row
+                ? narrow
+                  ? "line-clamp-2 text-[11px]"
+                  : "line-clamp-2 text-xs"
+                : "text-sm",
             )}
           >
             {card.body}
           </p>
         )}
+        {showCta && (
+          <p
+            className={cn(
+              "text-xs font-medium text-primary group-hover:underline",
+              row ? "pt-0.5" : "pt-1.5",
+            )}
+          >
+            {card.cta} →
+          </p>
+        )}
       </div>
-      {showCta && (
-        <span className="relative shrink-0 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">
-          {card.cta}
-        </span>
-      )}
     </Layout>
   );
 
@@ -247,9 +276,7 @@ function Layout({ row, children }: { row: boolean; children: ReactNode }) {
     <div
       className={cn(
         "flex h-full w-full items-center",
-        row
-          ? "gap-3 pr-3 transition-colors group-hover:bg-primary/10"
-          : "flex-col justify-end gap-2.5 p-4 text-center",
+        row ? "px-3" : "flex-col justify-end p-4 text-center",
       )}
     >
       {children}
