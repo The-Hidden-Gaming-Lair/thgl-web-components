@@ -35,20 +35,31 @@ jobs:
     permissions:
       contents: read
       packages: write
+      actions: read # purge plan: head SHA of the last successful deploy
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Full history: the purge plan diffs the live build's commit against this one.
+          # Full history: the purge plan diffs the last purged build against this one.
           fetch-depth: 0
 
-      # The build that is live BEFORE this rollout, for the purge plan (only the
-      # sites whose own files changed get purged). Cache-busted so it reaches a pod.
-      - name: Record live build
+      # The purge plan diffs against the last deploy that COMPLETED (its purge ran),
+      # not the live build: a run cancelled by a newer push can flip the
+      # container and die before its purge step (2026-10-07: 3eaf57a8d and
+      # 3d28d3652 went live unpurged), so diffing against the live build would
+      # skip those changes. Falls back to the live build, then to a full purge.
+      - name: Record previous purged build
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          prev=$(curl -fsS --max-time 15 "https://www.th.gl/api/build-id?drain=prev-${GITHUB_RUN_ID}" 2>/dev/null | jq -r '.sha // empty' 2>/dev/null || true)
-          echo "Live build before this deploy: ${prev:-unknown}"
+          prev=$(curl -fsS --max-time 15 -H "Authorization: Bearer $GH_TOKEN"             "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/games-web-deploy.yml/runs?per_page=30"             2>/dev/null | jq -r '[.workflow_runs[] | select(.conclusion == "success" and .head_branch == "main")][0].head_sha // empty' 2>/dev/null || true)
+          # (the API's status=/branch= filters return weeks-old runs: filter here)
+          if [ -z "$prev" ]; then
+            prev=$(curl -fsS --max-time 15 "https://www.th.gl/api/build-id?drain=prev-${GITHUB_RUN_ID}" 2>/dev/null | jq -r '.sha // empty' 2>/dev/null || true)
+            echo "No successful deploy found via API; using the live build"
+          fi
+          echo "Previous purged build: ${prev:-unknown}"
           echo "PREV_SHA=${prev}" >> "$GITHUB_ENV"
 
       # Hard gate: the repo-tracked installer must carry an Authenticode
