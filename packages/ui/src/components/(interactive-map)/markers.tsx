@@ -1335,11 +1335,13 @@ function MarkersContent({
       newSpawnMap.set(id, spawn);
 
       // A stack is highlighted when any of its members is (a focused quest
-      // objective can sit in a stack with other markers).
+      // objective can sit in a stack with other markers). The member scan
+      // only runs while something is highlighted.
       const isHighlighted =
         highlightSet.has(nodeId) ||
         selectedNodeId === nodeId ||
         (isStacked &&
+          highlightSet.size > 0 &&
           spawn.cluster!.some((a) => highlightSet.has(clusterNodeId(a))));
 
       const icon = icons.get(spawn.type);
