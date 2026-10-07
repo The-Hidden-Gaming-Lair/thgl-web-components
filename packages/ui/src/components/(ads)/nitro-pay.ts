@@ -87,7 +87,9 @@ function renderDemoAd(id: string, options: NitroAdOptions): void {
   let noFill = false;
   try {
     noFill = localStorage.getItem("DEMO_ADS_NOFILL") === "true";
-  } catch {}
+  } catch {
+    // Storage blocked: draw the demo placeholder.
+  }
   if (noFill) {
     holder.replaceChildren();
     reportAdRender(id, true);
