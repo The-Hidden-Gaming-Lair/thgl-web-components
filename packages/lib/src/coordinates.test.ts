@@ -571,6 +571,142 @@ describe("discovered marks", () => {
     });
   });
 
+  // The gate knows every filter of the game, not only the loaded map's static
+  // types, and counts a live-only variant filter as its base filter.
+  describe("filter-type gate over the game's filters", () => {
+    const register = (
+      spawns: [string, string, [number, number]][],
+      filterIds: string[],
+      typesIdMap?: Record<string, string>,
+    ) => {
+      const byType = new Map<string, { id: string; p: [number, number] }[]>();
+      for (const [type, id, p] of spawns) {
+        const list = byType.get(type) ?? [];
+        list.push({ id, p });
+        byType.set(type, list);
+      }
+      setKnownNodeIds(
+        collectKnownNodeIds(
+          [...byType].map(([type, spawns]) => ({ type, spawns })),
+          {
+            filters: [{ values: filterIds.map((id) => ({ id })) }],
+            typesIdMap,
+          },
+        ),
+      );
+    };
+
+    // Albion: a chest_veteran mark made on map z3337 greyed the wildlife
+    // marker 1 unit away on z3220, and Undiscover all of wildlife deleted it.
+    describe("a mark made on another map", () => {
+      beforeEach(() =>
+        register(
+          [["wildlife", "wildlife@-314:-314", [-314, -314]]],
+          ["wildlife", "chest_veteran"],
+        ),
+      );
+      const mark = "chest_veteran@-314:-315";
+
+      it("does not grey another filter's marker", () => {
+        expect(discovered("wildlife@-314:-314", [mark])).toBe(false);
+      });
+
+      it("is kept by Undiscover all of that marker's filter", () => {
+        expect(removeDiscoveredMatches([mark], ["wildlife@-314:-314"])).toEqual(
+          [mark],
+        );
+      });
+    });
+
+    // Palia: star-quality forage is a live-only filter with no static spawns.
+    describe("a live-only variant filter", () => {
+      const typesIdMap = {
+        BP_Garlic_C: "garlic",
+        "BP_Garlic_C_Variant.Star": "garlic_star",
+        BP_Moth_C: "bug_moth",
+      };
+      beforeEach(() =>
+        register(
+          [
+            ["garlic", "garlic@50:50", [50, 50]],
+            ["bug_moth", "bug_moth@50:50", [50, 50]],
+          ],
+          ["garlic", "garlic_star", "bug_moth"],
+          typesIdMap,
+        ),
+      );
+      const star = "garlic_star@50.00:50.00";
+
+      it("still greys its base filter's marker", () => {
+        expect(discovered("garlic@50:50", [star])).toBe(true);
+        expect(discovered(star, ["garlic@50:50"])).toBe(true);
+      });
+
+      it("does not grey another filter's marker", () => {
+        expect(discovered("bug_moth@50:50", [star])).toBe(false);
+      });
+
+      // The respawn reset unticks the star actor's id: a manual tick of the
+      // moth there was deleted without any user action.
+      it("unticking the variant keeps another filter's tick", () => {
+        expect(removeDiscoveredMatches(["bug_moth@50:50"], [star])).toEqual([
+          "bug_moth@50:50",
+        ]);
+      });
+
+      it("Undiscover all of another filter keeps the variant's mark", () => {
+        expect(removeDiscoveredMatches([star], ["bug_moth@50:50"])).toEqual([
+          star,
+        ]);
+      });
+
+      // Neither id is a static marker: a live star actor and a live moth mark.
+      it("a live variant actor and another filter's live mark do not match", () => {
+        expect(
+          discovered("garlic_star@60.00:60.00", ["bug_moth@60.20:60.00"]),
+        ).toBe(false);
+        expect(
+          discovered("bug_moth@60.20:60.00", ["garlic_star@60.00:60.00"]),
+        ).toBe(false);
+        // the variant and its base do
+        expect(
+          discovered("garlic_star@60.00:60.00", ["garlic@60.20:60.00"]),
+        ).toBe(true);
+      });
+    });
+
+    describe("still links two ids of one node", () => {
+      beforeEach(() =>
+        register(
+          [
+            ["iron_ore", "iron_ore@10.5:20", [10.5, 20]],
+            ["ore", "ore@-45.68:123.46", [123.456789, -45.678901]],
+          ],
+          ["iron_ore", "copper_ore", "ore"],
+        ),
+      );
+
+      it("a renamed type (base no filter) at the same coordinates", () => {
+        expect(discovered("iron_ore@10.5:20", ["old_ore@10.5:20"])).toBe(true);
+      });
+
+      it("a live id of the same type with float noise", () => {
+        expect(discovered("iron_ore@10.5:20", ["iron_ore@10.90:20.30"])).toBe(
+          true,
+        );
+        expect(discovered("iron_ore@10.90:20.30", ["iron_ore@10.5:20"])).toBe(
+          true,
+        );
+      });
+
+      it("an old raw z:x id (Crimson Desert)", () => {
+        expect(
+          discovered("ore@-45.68:123.46", ["ore@123.456789:-45.678901"]),
+        ).toBe(true);
+      });
+    });
+  });
+
   // settings.ts setDiscoverNode(id, false) / toggleDiscoveredNode untick call
   // removeDiscoveredMatches(discoveredNodes, [nodeId]).
   describe("single untick", () => {

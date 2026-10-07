@@ -236,9 +236,7 @@ export type DiscoverMode = "enabled" | "predicted" | "disabled";
  * from the rendered nodes, but it's still a positioned (fixed) type.
  *
  * Pass `typesIdMap` to also count live-only VARIANT types as positioned when
- * their base class is: a `<Class>_Variant.<Id>` actor (Palia star-quality /
- * infected forage) spawns at the same fixed spots as `<Class>`, but its own
- * filter type has no static nodes of its own.
+ * their base class is (see {@link collectVariantBaseTypes}).
  */
 export const getPositionedDiscoverTypes = (
   nodes: { type: string }[],
@@ -246,16 +244,38 @@ export const getPositionedDiscoverTypes = (
 ): Set<string> => {
   const positioned = new Set<string>();
   for (const node of nodes) positioned.add(node.type);
-  if (typesIdMap) {
-    for (const [classId, type] of Object.entries(typesIdMap)) {
-      if (positioned.has(type)) continue;
-      const variantIndex = classId.indexOf("_Variant.");
-      if (variantIndex === -1) continue;
-      const baseType = typesIdMap[classId.slice(0, variantIndex)];
-      if (baseType && positioned.has(baseType)) positioned.add(type);
-    }
+  for (const [type, bases] of collectVariantBaseTypes(typesIdMap)) {
+    if (!positioned.has(type) && bases.some((base) => positioned.has(base)))
+      positioned.add(type);
   }
   return positioned;
+};
+
+/**
+ * Live-only VARIANT filter types → their base filter types. A
+ * `<Class>_Variant.<Id>` actor (Palia star-quality / infected forage, Palworld
+ * lucky pals) spawns at the same fixed spots as `<Class>`, but its own filter
+ * type has no static nodes of its own. The base type is the typesIdMap entry
+ * of `<Class>`; a variant type that several classes share (Palworld
+ * `lucky_pal`) has several bases. A variant mapped to its base type itself is
+ * no variant type. One derivation for auto-discover, the respawn reset
+ * (getPositionedDiscoverTypes) and the discovered matcher's filter-type gate.
+ */
+export const collectVariantBaseTypes = (
+  typesIdMap?: Record<string, string> | null,
+): Map<string, string[]> => {
+  const bases = new Map<string, string[]>();
+  if (!typesIdMap) return bases;
+  for (const [classId, type] of Object.entries(typesIdMap)) {
+    const variantIndex = classId.indexOf("_Variant.");
+    if (variantIndex === -1) continue;
+    const baseType = typesIdMap[classId.slice(0, variantIndex)];
+    if (!baseType || baseType === type) continue;
+    const list = bases.get(type);
+    if (!list) bases.set(type, [baseType]);
+    else if (!list.includes(baseType)) list.push(baseType);
+  }
+  return bases;
 };
 
 /**
@@ -388,11 +408,13 @@ const OLD_MARK_ALIAS_FOR_EVERY_ID = true;
 /**
  * CHOICE 3 — the filter-type gate in {@link crossIdAllowed}: when one side of
  * a coordinate match is a current static marker and the other is not (a live
- * actor id, an id from older data), the other side must not name a DIFFERENT
- * filter of the loaded map by its base id (a live `copper_ore@…` mark is the
- * copper ore's, not the iron ore's 0.4 units away). Likewise two ids that are
- * both not current (a live actor and a live mark) do not match when their base
- * ids are two different filters of the loaded map.
+ * actor id, an id from older data, a mark made on another map), the other
+ * side must not name a DIFFERENT filter of the game by its base id (a live
+ * `copper_ore@…` mark is the copper ore's, not the iron ore's 0.4 units
+ * away). Likewise two ids that are both not current (a live actor and a live
+ * mark) do not match when their base ids are two different filters of the
+ * game. A live-only variant filter counts as its base filter (Palia
+ * `garlic_star` is a `garlic`, see {@link collectVariantBaseTypes}).
  * - true (3a, active): gate on.
  * - false (3b, design "R1"): any non-current id matches any marker at its
  *   position.
@@ -424,8 +446,13 @@ export type KnownNodes = {
   /** id → filter type; null when one id is listed under several filters
    *  (Dune Awakening: 18,983 pickups), then the type gate passes. */
   ids: ReadonlyMap<string, string | null>;
-  /** Filter types with static spawns on the loaded map. */
+  /** The filter types the gate knows: every filter of the game (marks made on
+   *  another map, live-only types) and the types of the loaded map's static
+   *  spawns. */
   types: ReadonlySet<string>;
+  /** Live-only variant filter type → its base types
+   *  ({@link collectVariantBaseTypes}); the gate counts a variant as its base. */
+  variantBases?: ReadonlyMap<string, readonly string[]>;
 };
 
 // The known ids of the markers currently loaded. Module state like the
@@ -445,9 +472,23 @@ type KnownNodeSet = {
   }[];
 }[];
 
-const buildKnownNodes = (nodes: KnownNodeSet): KnownNodes => {
+/** What {@link collectKnownNodeIds} needs of the game's config. */
+export type KnownNodeOptions = {
+  /** The game's filters (every filter value id joins the gate). */
+  filters?: readonly { values: readonly { id: string }[] }[];
+  /** The game's typesIdMap (variant filter types → base types). */
+  typesIdMap?: Record<string, string> | null;
+};
+
+const buildKnownNodes = (
+  nodes: KnownNodeSet,
+  opts: KnownNodeOptions | undefined,
+): KnownNodes => {
   const ids = new Map<string, string | null>();
   const types = new Set<string>();
+  if (opts?.filters)
+    for (const filter of opts.filters)
+      for (const value of filter.values) types.add(value.id);
   const add = (id: string, type: string) => {
     const had = ids.get(id);
     ids.set(id, had === undefined || had === type ? type : null);
@@ -470,24 +511,36 @@ const buildKnownNodes = (nodes: KnownNodeSet): KnownNodes => {
         add(getSpawnDiscoveryId(node.type, spawn), node.type);
     }
   }
-  return { ids, types };
+  return {
+    ids,
+    types,
+    variantBases: collectVariantBaseTypes(opts?.typesIdMap),
+  };
 };
 
 /**
- * Collects the known static ids of a node set (see {@link KnownNodes}).
+ * Collects the known static ids of a node set (see {@link KnownNodes}), with
+ * the game's filters and typesIdMap for the filter-type gate (without them
+ * the gate only knows the node set's own types).
  * Built on first use: only a coordinate match reads them, so a user without
  * marks near the map's markers never pays for it (~200 ms on a 355k-spawn Dune
  * Awakening map, ~100 ms on Pax Dei).
  */
-export const collectKnownNodeIds = (nodes: KnownNodeSet): KnownNodes => {
+export const collectKnownNodeIds = (
+  nodes: KnownNodeSet,
+  opts?: KnownNodeOptions,
+): KnownNodes => {
   let built: KnownNodes | null = null;
-  const get = () => (built ??= buildKnownNodes(nodes));
+  const get = () => (built ??= buildKnownNodes(nodes, opts));
   return {
     get ids() {
       return get().ids;
     },
     get types() {
       return get().types;
+    },
+    get variantBases() {
+      return get().variantBases;
     },
   };
 };
@@ -636,10 +689,27 @@ const baseOf = (id: string): string => {
 };
 
 /**
+ * Are two filter types one family for the gate: the same type, or a live-only
+ * variant type and its base (Palia `garlic_star` and `garlic`), or two
+ * variants of one base? family(t) = the variant's base types, else t itself.
+ */
+const sameFamily = (a: string, b: string): boolean => {
+  if (a === b) return true;
+  const bases = knownNodes.variantBases;
+  if (!bases || bases.size === 0) return false;
+  const fa = bases.get(a);
+  const fb = bases.get(b);
+  if (!fa) return fb !== undefined && fb.includes(a);
+  if (!fb) return fa.includes(b);
+  for (const base of fa) if (fb.includes(base)) return true;
+  return false;
+};
+
+/**
  * CHOICE 3, the filter-type gate: one side of a coordinate match is the current
  * static id `knownId` of filter `knownType`, the other side `otherId` is not a
  * current id. Allowed unless `otherId`'s base names a different filter of the
- * loaded map.
+ * game (a variant counts as its base filter, see {@link sameFamily}).
  */
 const otherIdFitsStaticMarker = (
   knownId: string,
@@ -651,7 +721,7 @@ const otherIdFitsStaticMarker = (
   const otherBase = baseOf(otherId);
   return (
     !knownNodes.types.has(otherBase) ||
-    otherBase === knownType ||
+    sameFamily(otherBase, knownType) ||
     otherBase === baseOf(knownId)
   );
 };
@@ -662,10 +732,11 @@ const otherIdFitsStaticMarker = (
  * - at least one of them is not a current static id (a live actor id, an id
  *   from an older data version) — CHOICE 1 for two current ids of one filter;
  * - if one is a current static id, the other does not name a DIFFERENT filter
- *   of this map by its base id (CHOICE 3);
+ *   of the game by its base id (CHOICE 3);
  * - a swapped legacy reading only counts for a mark that is not a current id;
  * - if neither is a current static id (a live actor vs a live mark), they do
- *   not name two different filters of this map by their base ids (CHOICE 3).
+ *   not name two different filters of the game by their base ids (CHOICE 3).
+ * A live-only variant filter counts as its base filter for both checks.
  * With no known ids registered (see {@link KnownNodes}) only two ids with the
  * same base match.
  */
@@ -685,7 +756,9 @@ const crossIdAllowed = (q: string, entry: MarkEntry): boolean => {
   if (qType === undefined && markType === undefined) {
     const qBase = baseOf(q);
     const markBase = baseOf(entry.id);
-    return qBase === markBase || !types.has(qBase) || !types.has(markBase);
+    return (
+      !types.has(qBase) || !types.has(markBase) || sameFamily(qBase, markBase)
+    );
   }
   return qType !== undefined
     ? otherIdFitsStaticMarker(q, qType, entry.id)
