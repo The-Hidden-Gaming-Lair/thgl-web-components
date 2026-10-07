@@ -129,13 +129,15 @@ async function OnTheMap({
         {translate(dict, "db.onTheMap", { fallback: "On the map" })}
       </h2>
       <p className="mt-2 text-sm">
-        {translate(dict, "db.onTheMapCount", {
-          fallback:
-            count === 1
-              ? "{{name}} has 1 known location"
-              : "{{name}} has {{count}} known locations",
-          vars: { name, count: count.toLocaleString(locale) },
-        })}
+        {count === 1
+          ? translate(dict, "db.onTheMapCountOne", {
+              fallback: "{{name}} has 1 known location",
+              vars: { name },
+            })
+          : translate(dict, "db.onTheMapCount", {
+              fallback: "{{name}} has {{count}} known locations",
+              vars: { name, count: count.toLocaleString(locale) },
+            })}
         {maps.length > 1 &&
           ` ${translate(dict, "db.onTheMapMaps", {
             fallback: "across {{maps}} maps",

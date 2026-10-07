@@ -88,6 +88,7 @@ export const conanExiles = resolveAppConfig({
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "inventory",
         titleFallback: "Items",
         icon: "⚔️",
         description:
@@ -96,6 +97,7 @@ export const conanExiles = resolveAppConfig({
       {
         href: "/db/knowledge",
         type: "knowledge",
+        titleKey: "knowledge",
         titleFallback: "Knowledge",
         icon: "📜",
         description:
@@ -104,6 +106,7 @@ export const conanExiles = resolveAppConfig({
       {
         href: "/db/journeys",
         type: "journeys",
+        titleKey: "journeys",
         titleFallback: "Journeys",
         icon: "🧭",
         description:
@@ -112,6 +115,7 @@ export const conanExiles = resolveAppConfig({
       {
         href: "/db/perks",
         type: "perks",
+        titleKey: "perks",
         titleFallback: "Perks",
         icon: "💪",
         description: "Attribute perks and the points needed to unlock them.",
@@ -119,6 +123,7 @@ export const conanExiles = resolveAppConfig({
       {
         href: "/db/emotes",
         type: "emotes",
+        titleKey: "emotes",
         titleFallback: "Emotes",
         icon: "🎭",
         description:

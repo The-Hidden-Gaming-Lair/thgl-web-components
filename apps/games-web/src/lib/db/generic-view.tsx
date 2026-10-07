@@ -835,8 +835,9 @@ export function GenericEntityView({
               count: String(locations.total),
               noun:
                 locations.total === 1
-                  ? (locations.noun ?? L("db.location", "location"))
-                  : (locations.nounPlural ?? L("db.locations", "locations")),
+                  ? (dictText(locations.noun) ?? L("db.location", "location"))
+                  : (dictText(locations.nounPlural) ??
+                    L("db.locations", "locations")),
             })}
           </div>
           {tiles ? (
@@ -849,6 +850,10 @@ export function GenericEntityView({
               filters={filters}
               locale={locale}
               iconsPath={iconsHash}
+              hint={L(
+                "db.mapHint",
+                "Click a marker to open it on the full map.",
+              )}
             />
           ) : (
             // Fallback (no tiles): a flat list of coordinate links.
@@ -930,7 +935,7 @@ export function GenericEntityView({
             {L("db.craftableAt", "Craftable at")}
           </div>
           <span className="inline-flex items-center rounded border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-amber-300">
-            {craftable.station}
+            {dictText(craftable.station)}
           </span>
         </div>
       )}

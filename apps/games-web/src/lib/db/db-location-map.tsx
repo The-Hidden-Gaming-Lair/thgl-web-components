@@ -62,6 +62,7 @@ export function DbLocationMap({
   filters,
   locale = "en",
   iconsPath,
+  hint = "Click a marker to open it on the full map.",
 }: {
   locations: DbLocation[];
   mapName: string;
@@ -71,6 +72,8 @@ export function DbLocationMap({
   locale?: string;
   /** Content-hashed sprite path (`version.more.icons`). */
   iconsPath?: string;
+  /** The caption under the map, in the page's locale. */
+  hint?: string;
 }) {
   const router = useRouter();
   const spawns: SimpleSpawn[] = locations.map((l) => ({
@@ -109,9 +112,7 @@ export function DbLocationMap({
           if (href) router.push(href);
         }}
       />
-      <p className="mt-2 text-xs text-muted-foreground">
-        Click a marker to open it on the full map.
-      </p>
+      <p className="mt-2 text-xs text-muted-foreground">{hint}</p>
     </>
   );
 }
