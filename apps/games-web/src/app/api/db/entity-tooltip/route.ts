@@ -2,6 +2,15 @@ import { NextResponse } from "next/server";
 import { fetchDatabaseIndex, fetchDatabaseType, fetchDbDict } from "@repo/lib";
 import { getAppConfig } from "@/lib/get-app-config";
 
+/** Longest description a hover card shows; longer text is cut at a line or word end. */
+const MAX_TOOLTIP_DESC = 320;
+function capTooltipText(text: string): string {
+  if (text.length <= MAX_TOOLTIP_DESC) return text;
+  const head = text.slice(0, MAX_TOOLTIP_DESC);
+  const cut = Math.max(head.lastIndexOf("\n"), head.lastIndexOf(" "));
+  return `${head.slice(0, cut > MAX_TOOLTIP_DESC * 0.6 ? cut : MAX_TOOLTIP_DESC).trimEnd()}…`;
+}
+
 function resolveDict(dict: Record<string, string>, key: string): string {
   const value = dict[key];
   if (!value) return key;
@@ -312,6 +321,18 @@ export async function GET(request: Request) {
     }
   }
   if (hasDesc) desc = stripHtml(desc);
+
+  // A hover card says what the entry DOES, not its lore: an entry can ship that as the string
+  // prop `_tooltip` (translated like any string prop, `<id>._tooltip`), e.g. a Baldur's Gate EE
+  // item's statistics block. Whatever remains is capped so no card turns into a wall of text.
+  const tipProp = (item.props as Record<string, unknown> | undefined)?._tooltip;
+  if (typeof tipProp === "string" && tipProp) {
+    const tipKey = `${dictKey}._tooltip`;
+    const localized = resolveDict(dict, tipKey);
+    desc = localized && localized !== tipKey ? localized : tipProp;
+    hasDesc = true;
+  }
+  if (hasDesc) desc = capTooltipText(desc);
 
   const bonuses: string[] = [];
   // Item sets store `bonuses` as `[{ requiredItems, desc, effects[] }, ...]`,
