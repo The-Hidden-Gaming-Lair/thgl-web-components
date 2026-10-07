@@ -26,36 +26,32 @@ export const starrupture = resolveAppConfig({
   // The DB section internalLinks below use display-name-safe /db/<slug> hrefs.
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Every item in Star Rupture — resources, consumables, blueprints and valuables — with crafting recipes and where to find them.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "BookOpen",
-      linkText: "Browse Items",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "The full crafting graph — inputs, outputs, the station that makes each recipe, and what unlocks it.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "Axe",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
-      title: "Buildings",
-      description:
-        "Every structure you can build on Arcadia-7 — extractors, factories, power, storage and defenses — with build cost and the recipes they produce.",
+      title: "config.internalLinks.stations.title",
+      description: "config.internalLinks.stations.description",
       href: "/db/stations",
       iconName: "Grid",
-      linkText: "Browse Buildings",
+      linkText: "config.internalLinks.stations.linkText",
     },
     {
-      title: "Corporations",
-      description:
-        "The corporate tech trees — each level's Data Point cost and the buildings and items it unlocks.",
+      title: "config.internalLinks.corporations.title",
+      description: "config.internalLinks.corporations.description",
       href: "/db/corporations",
       iconName: "Bug",
-      linkText: "Browse Corporations",
+      linkText: "config.internalLinks.corporations.linkText",
     },
     {
       title: "crafting.navTitle",
@@ -76,48 +72,49 @@ export const starrupture = resolveAppConfig({
   ],
   topFilters: ["res_titanium", "found_drone", "loc_monolith"],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, recipes, buildings, LEMs…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "📦",
-        description:
-          "Every resource, consumable, blueprint and valuable — with recipes and locations.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "⚙️",
-        description:
-          "The crafting graph — inputs, outputs, station and unlock cost.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/stations",
         type: "stations",
+        titleKey: "config.internalLinks.stations.title",
         titleFallback: "Buildings",
         icon: "🏭",
-        description:
-          "Extractors, factories, power, storage and defenses — cost, corp unlock and recipes produced.",
+        description: "config.db.stations.description",
       },
       {
         href: "/db/corporations",
         type: "corporations",
+        titleKey: "config.internalLinks.corporations.title",
         titleFallback: "Corporations",
         icon: "🏢",
-        description:
-          "Corporate tech trees — Data Point cost per level and what each level unlocks.",
+        description: "config.db.corporations.description",
       },
       {
         href: "/db/lems",
         type: "lems",
+        titleKey: "config.db.lems.title",
         titleFallback: "LEMs",
         icon: "🔷",
-        description: "Combat & Survival LEM mods — effect, magnitude and tier.",
+        description: "config.db.lems.description",
       },
       // "aliens" + "lore" sections removed in game Update 2 (build 25052139):
       // DT_Encyclopedia dropped all non-building rows (placeholder codex deleted).
@@ -125,28 +122,30 @@ export const starrupture = resolveAppConfig({
       {
         href: "/db/audiologs",
         type: "audiologs",
+        titleKey: "config.db.audiologs.title",
         titleFallback: "Audiologs",
         icon: "🎙️",
-        description: "Recovered audio logs and the story they tell.",
+        description: "config.db.audiologs.description",
       },
       {
         href: "/db/datapads",
         type: "datapads",
+        titleKey: "config.db.datapads.title",
         titleFallback: "Data Pads",
         icon: "💾",
-        description: "Collectible data pads scattered across the map.",
+        description: "config.db.datapads.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      recipes: "Recipes",
-      stations: "Buildings",
-      corporations: "Corporations",
-      lems: "LEMs",
-      aliens: "Aliens & Fauna",
-      audiologs: "Audiologs",
-      datapads: "Data Pads",
-      lore: "Lore",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
+      stations: "config.db.typeLabels.stations",
+      corporations: "config.db.typeLabels.corporations",
+      lems: "config.db.typeLabels.lems",
+      aliens: "config.db.typeLabels.aliens",
+      audiologs: "config.db.typeLabels.audiologs",
+      datapads: "config.db.typeLabels.datapads",
+      lore: "config.db.typeLabels.lore",
     },
   },
 });

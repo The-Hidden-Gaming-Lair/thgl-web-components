@@ -7,23 +7,21 @@ export const starsandIsland = resolveAppConfig({
   internalLinks: [
     {
       title: "Starsand Island Map",
-      description:
-        "Navigate Starsand Island with our interactive map featuring resources, shops, fishing spots, and more.",
+      description: "config.internalLinks.maps-Starsand%20Island.description",
       href: "/maps/Starsand%20Island",
       iconName: "Map",
       // Inlined getPreviewImageUrl("starsand-island", "StarSandIsland")
       bgImage: `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/StarSandIsland/preview.webp`,
-      linkText: "Explore the Island Map",
+      linkText: "config.internalLinks.maps-Starsand%20Island.linkText",
     },
     {
       title: "Moonlit Forest Map",
-      description:
-        "Explore the Moonlit Forest cave with campsites, chests, gravecrystals, and relics.",
+      description: "config.internalLinks.maps-Moonlit%20Forest.description",
       href: "/maps/Moonlit%20Forest",
       iconName: "Map",
       // Inlined getPreviewImageUrl("starsand-island", "MineCave_MainLand")
       bgImage: `${DATA_FORGE_CDN_URL}/starsand-island/map-tiles/MineCave_MainLand/preview.webp`,
-      linkText: "Explore the Moonlit Forest Map",
+      linkText: "config.internalLinks.maps-Moonlit%20Forest.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -55,39 +53,39 @@ export const starsandIsland = resolveAppConfig({
   db: {
     // Collection checklists (/checklist, /checklist/<section>).
     checklists: [{ section: "codex" }],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, recipes…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.db.inventory.title",
         titleFallback: "Items",
         icon: "🎒",
-        description:
-          "Every item by category — collectibles, food, fish, seeds, clothing, furniture and materials.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.db.recipes.title",
         titleFallback: "Recipes",
         icon: "🍳",
-        description:
-          "Crafting and cooking formulas, with ingredients and station, cross-linked to each item.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/codex",
         type: "codex",
+        titleKey: "config.db.codex.title",
         titleFallback: "Codex",
         icon: "📖",
-        description:
-          "The in-game encyclopedia — fish, sea creatures, animals and collectibles you discover.",
+        description: "config.db.codex.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      recipes: "Recipe",
-      codex: "Codex",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
+      codex: "config.db.typeLabels.codex",
     },
   },
 });

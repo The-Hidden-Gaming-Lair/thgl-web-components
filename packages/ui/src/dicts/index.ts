@@ -34,6 +34,106 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "the-first-descendant": {
+    en: () =>
+      import("./the-first-descendant.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./the-first-descendant.de.json").then((mod) => mod.default),
+    fr: () =>
+      import("./the-first-descendant.fr.json").then((mod) => mod.default),
+    es: () =>
+      import("./the-first-descendant.es.json").then((mod) => mod.default),
+    it: () =>
+      import("./the-first-descendant.it.json").then((mod) => mod.default),
+    pl: () =>
+      import("./the-first-descendant.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./the-first-descendant.pt-BR.json").then((mod) => mod.default),
+    ru: () =>
+      import("./the-first-descendant.ru.json").then((mod) => mod.default),
+    ja: () =>
+      import("./the-first-descendant.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./the-first-descendant.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./the-first-descendant.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./the-first-descendant.zh-TW.json").then((mod) => mod.default),
+  },
+  "souls-remnant": {
+    en: () => import("./souls-remnant.en.json").then((mod) => mod.default),
+    de: () => import("./souls-remnant.de.json").then((mod) => mod.default),
+    es: () => import("./souls-remnant.es.json").then((mod) => mod.default),
+    "es-MX": () =>
+      import("./souls-remnant.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./souls-remnant.fr.json").then((mod) => mod.default),
+    id: () => import("./souls-remnant.id.json").then((mod) => mod.default),
+    it: () => import("./souls-remnant.it.json").then((mod) => mod.default),
+    pl: () => import("./souls-remnant.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./souls-remnant.pt-BR.json").then((mod) => mod.default),
+    tr: () => import("./souls-remnant.tr.json").then((mod) => mod.default),
+    ja: () => import("./souls-remnant.ja.json").then((mod) => mod.default),
+    ko: () => import("./souls-remnant.ko.json").then((mod) => mod.default),
+    ru: () => import("./souls-remnant.ru.json").then((mod) => mod.default),
+    th: () => import("./souls-remnant.th.json").then((mod) => mod.default),
+    vi: () => import("./souls-remnant.vi.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./souls-remnant.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./souls-remnant.zh-TW.json").then((mod) => mod.default),
+  },
+  starrupture: {
+    en: () => import("./starrupture.en.json").then((mod) => mod.default),
+    de: () => import("./starrupture.de.json").then((mod) => mod.default),
+    es: () => import("./starrupture.es.json").then((mod) => mod.default),
+    fr: () => import("./starrupture.fr.json").then((mod) => mod.default),
+    ja: () => import("./starrupture.ja.json").then((mod) => mod.default),
+    ko: () => import("./starrupture.ko.json").then((mod) => mod.default),
+    pl: () => import("./starrupture.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./starrupture.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./starrupture.ru.json").then((mod) => mod.default),
+    th: () => import("./starrupture.th.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./starrupture.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./starrupture.zh-Hant.json").then((mod) => mod.default),
+  },
+  "subnautica-2": {
+    en: () => import("./subnautica-2.en.json").then((mod) => mod.default),
+    de: () => import("./subnautica-2.de.json").then((mod) => mod.default),
+    es: () => import("./subnautica-2.es.json").then((mod) => mod.default),
+    fr: () => import("./subnautica-2.fr.json").then((mod) => mod.default),
+    it: () => import("./subnautica-2.it.json").then((mod) => mod.default),
+    ja: () => import("./subnautica-2.ja.json").then((mod) => mod.default),
+    ko: () => import("./subnautica-2.ko.json").then((mod) => mod.default),
+    pt: () => import("./subnautica-2.pt.json").then((mod) => mod.default),
+    ru: () => import("./subnautica-2.ru.json").then((mod) => mod.default),
+    uk: () => import("./subnautica-2.uk.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./subnautica-2.zh-CN.json").then((mod) => mod.default),
+  },
+  "starsand-island": {
+    en: () => import("./starsand-island.en.json").then((mod) => mod.default),
+    ja: () => import("./starsand-island.ja.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./starsand-island.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./starsand-island.zh-TW.json").then((mod) => mod.default),
+  },
+  soulmask: {
+    de: () => import("./soulmask.de.json").then((mod) => mod.default),
+    en: () => import("./soulmask.en.json").then((mod) => mod.default),
+    es: () => import("./soulmask.es.json").then((mod) => mod.default),
+    fr: () => import("./soulmask.fr.json").then((mod) => mod.default),
+    ja: () => import("./soulmask.ja.json").then((mod) => mod.default),
+    ko: () => import("./soulmask.ko.json").then((mod) => mod.default),
+    "pt-BR": () => import("./soulmask.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./soulmask.ru.json").then((mod) => mod.default),
+    "zh-CN": () => import("./soulmask.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./soulmask.zh-TW.json").then((mod) => mod.default),
+  },
   "wuthering-waves": {
     en: () => import("./wuthering-waves.en.json").then((mod) => mod.default),
     de: () => import("./wuthering-waves.de.json").then((mod) => mod.default),

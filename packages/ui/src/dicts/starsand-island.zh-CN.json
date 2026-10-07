@@ -1,0 +1,17 @@
+{
+  "config.internalLinks.maps-Starsand%20Island.description": "使用我们的互动地图探索星砂岛，涵盖资源、商店、钓鱼点等。",
+  "config.internalLinks.maps-Starsand%20Island.linkText": "查看岛屿地图",
+  "config.internalLinks.maps-Moonlit%20Forest.description": "探索月光森林洞穴，包含营地、宝箱、墓晶和遗物。",
+  "config.internalLinks.maps-Moonlit%20Forest.linkText": "查看月光森林地图",
+  "config.db.heroSubtitle": "游戏数据库",
+  "config.db.searchPlaceholder": "搜索物品、配方…",
+  "config.db.inventory.description": "按分类列出所有物品——收藏品、食物、鱼类、种子、服装、家具和材料。",
+  "config.db.inventory.title": "物品",
+  "config.db.recipes.description": "制作与烹饪配方，含材料和工作台，并链接到每个物品。",
+  "config.db.recipes.title": "配方",
+  "config.db.codex.description": "游戏内图鉴——你发现的鱼类、海洋生物、动物和收藏品。",
+  "config.db.codex.title": "图鉴",
+  "config.db.typeLabels.inventory": "物品",
+  "config.db.typeLabels.recipes": "配方",
+  "config.db.typeLabels.codex": "图鉴"
+}
