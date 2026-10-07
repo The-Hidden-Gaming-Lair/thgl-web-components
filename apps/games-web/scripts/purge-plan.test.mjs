@@ -19,6 +19,8 @@ const files = {
   ].join("\n"),
   "apps/games-web/src/configs/thgl-web.ts":
     'export const thglWeb = {\n  name: "thgl-web",\n  domain: "www",\n};',
+  "apps/games-web/src/configs/thgl-app.ts":
+    'export const thglApp = resolveAppConfig({\n  name: "thgl-app",\n  domain: "app",\n});',
 };
 const read = (p) => files[p] ?? null;
 
@@ -71,7 +73,7 @@ test("server-only change purges nothing", () => {
   assert.deepEqual(p.urls, []);
 });
 
-test("tenant change purges only that site; shared files ride the TTL", () => {
+test("tenant change purges that site; shared files purge only the Companion App", () => {
   const p = plan(
     [
       "apps/games-web/src/configs/palia.ts",
@@ -82,10 +84,18 @@ test("tenant change purges only that site; shared files ride the TTL", () => {
   );
   assert.equal(p.mode, "tenants");
   assert.deepEqual(p.urls, [
+    "https://app.th.gl/*",
     "https://duneawakening.th.gl/*",
     "https://palia.th.gl/*",
   ]);
+  assert.match(p.reason, /tenant files for palia, dune-awakening/);
   assert.match(p.reason, /1 shared file/);
+});
+
+test("shared-only change purges the Companion App host (#704)", () => {
+  const p = plan(["packages/ui/src/components/x.tsx"], read);
+  assert.equal(p.mode, "tenants");
+  assert.deepEqual(p.urls, ["https://app.th.gl/*"]);
 });
 
 test("non-game tenant maps via its config domain", () => {

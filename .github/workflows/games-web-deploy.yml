@@ -344,7 +344,9 @@ jobs:
           # in three days. scripts/purge-plan.mjs diffs the previous live build
           # against this one: server-only changes purge nothing, a site's own
           # files purge that site (one wildcard per host), shared page code
-          # refreshes via the 1 h page TTL (next.config.js). Unknown previous
+          # purges the Companion App host app.th.gl (inbox #704: SWR kept its
+          # overlay on an old build >1 h) and refreshes the game sites via the
+          # 1 h page TTL (next.config.js). Unknown previous
           # build = full purge. Manual runs can force `full` or `none`.
           mode_in="${PURGE_INPUT:-auto}"
           if [ "$mode_in" = "full" ]; then

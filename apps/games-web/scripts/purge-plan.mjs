@@ -18,10 +18,14 @@
  *             packages/ui/src/dicts/<app>.<locale>.json). Purge that site only
  *             (`https://<host>/*`, one wildcard per host).
  *   - shared: everything else that renders pages (packages/ui, packages/lib,
- *             layouts, shared routes, public assets). NOT purged: page edge
- *             TTL is 1 h with stale-while-revalidate (next.config.js), so
- *             shared changes reach every edge within ~1 h while the cache
- *             stays warm. `purge: full` on a manual run forces it.
+ *             layouts, shared routes, public assets). Game sites are NOT
+ *             purged: page edge TTL is 1 h with stale-while-revalidate
+ *             (next.config.js), so they refresh in the background while the
+ *             cache stays warm. `purge: full` on a manual run forces it.
+ *             The Companion App host (app.th.gl, thgl-app tenant) IS purged:
+ *             its pages are the app's overlay/desktop UI, and SWR=86400 kept
+ *             app.th.gl/apps/palia/overlay on a >1 h old build after a
+ *             shared-only deploy (inbox #704, 2026-10-07).
  *
  * Usage (CI): node apps/games-web/scripts/purge-plan.mjs <prevSha> <newSha>
  * prints {mode: "none"|"tenants"|"full", reason, urls, files}.
@@ -55,6 +59,9 @@ const NONE = [
   /\.md$/,
   /^\.github\//,
 ];
+
+/** Tenant id of the Companion App's own site (configs/thgl-app.ts, app.th.gl). */
+const COMPANION_APP = "thgl-app";
 
 /**
  * @param {string} file repo-relative path, forward slashes
@@ -104,6 +111,10 @@ export function plan(files, read) {
     if (c.kind === "tenant") apps.add(c.app);
     else if (c.kind === "shared") shared.push(f);
   }
+  // Shared page code also renders the Companion App UI: purge its host so the
+  // app never runs an old build for hours (inbox #704).
+  const tenantApps = [...apps];
+  if (shared.length) apps.add(COMPANION_APP);
   const urls = [];
   const unknown = [];
   for (const app of apps) {
@@ -127,9 +138,9 @@ export function plan(files, read) {
     };
   }
   const reason = [
-    urls.length ? `tenant files for ${[...apps].join(", ")}` : null,
+    tenantApps.length ? `tenant files for ${tenantApps.join(", ")}` : null,
     shared.length
-      ? `${shared.length} shared file(s) refresh via the 1 h edge TTL`
+      ? `${shared.length} shared file(s): Companion App purged, game sites refresh via the 1 h edge TTL`
       : null,
   ]
     .filter(Boolean)
