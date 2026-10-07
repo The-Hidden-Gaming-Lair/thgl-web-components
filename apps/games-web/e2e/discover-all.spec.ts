@@ -10,10 +10,15 @@ import { BASE_URL, GAME, MAPS, openMap } from "./fixtures";
  * Discover all on filter X greyed filter Y's markers on the same spot, and
  * Undiscover all on X deleted the user's own ticks on Y's markers there.
  *
- * The pair is found at runtime from the drawn static markers, not hard-coded:
- * Palia stacks several bug filters on one spawn point (e.g. Kilima Night Moth,
- * Common Blue Butterfly and Princess Ladybug at the same coordinates), so a
- * filter X with neighbours of two other filters on two separate spots exists.
+ * The markers are picked at runtime from the drawn static markers, not
+ * hard-coded: X is the first filter in sorted order with two markers of other
+ * filters (one filter or two) within 1 map unit of its own markers, on two
+ * spots more than 1 unit apart. On Kilima that is a fishing water plane (Lake
+ * Village) whose markers sit on the same coordinates (distance 0) as markers
+ * of another water plane filter (River Village).
+ * This test checks one such case in the real page; the unit tests in
+ * packages/lib/src/coordinates.test.ts cover the tolerance grid (same spot,
+ * 2-decimal form, within 1 unit, swapped legacy order).
  */
 
 type Pick = {
