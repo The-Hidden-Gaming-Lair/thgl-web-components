@@ -12,7 +12,9 @@ import {
   DEFAULT_LOCALE,
   fetchGuidesIndex,
   fetchVersion,
+  fetchDict,
   guideNavLinks,
+  mapNameEntries,
 } from "@repo/lib";
 import {
   Header,
@@ -108,13 +110,23 @@ export function createDbRootLayout(
       notFound();
     }
 
-    const [dict, staticDict, version] = await Promise.all([
+    const [dict, staticDict, version, mapDict, enMapDict] = await Promise.all([
       getDbNamesDictionary(appConfig.name, locale),
       getStaticDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
+      fetchDict(appConfig.name, locale),
+      fetchDict(appConfig.name),
     ]);
 
-    const clientDict = sliceClientDict(appConfig, dict, staticDict);
+    const clientDict = {
+      ...sliceClientDict(appConfig, dict, staticDict),
+      // Localized map names for the nav "Maps" menu (mapLinkTitle, inbox #766).
+      ...mapNameEntries(
+        Object.keys(version.data.tiles ?? {}),
+        mapDict,
+        enMapDict,
+      ),
+    };
     const dbConfig = appConfig.db;
     // Hybrid mode: game ships filters (and therefore /guides + Settings).
     // DB-only sites like homm have an empty filter list → drop both.

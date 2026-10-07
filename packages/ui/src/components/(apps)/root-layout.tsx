@@ -1,6 +1,13 @@
 import "../../fonts/inter.css";
 
-import { AppConfig, cn, DEFAULT_LOCALE, fetchVersion } from "@repo/lib";
+import {
+  AppConfig,
+  cn,
+  DEFAULT_LOCALE,
+  fetchDict,
+  fetchVersion,
+  mapNameEntries,
+} from "@repo/lib";
 import type { Metadata, Viewport } from "next";
 import {
   Account,
@@ -124,10 +131,11 @@ export function createRootLayout(
     // Active Alerts list, Per-Filter Icon Sizes) need to resolve filter names.
     // So augment the static UI dict with names only — a small, descriptions-
     // free slice — instead of the whole dict.
-    const [staticDict, fullDict, version] = await Promise.all([
+    const [staticDict, fullDict, version, enDict] = await Promise.all([
       getStaticDictionary(appConfig.name, locale),
       getFullDictionary(appConfig.name, locale),
       fetchVersion(appConfig.name),
+      fetchDict(appConfig.name),
     ]);
 
     const hasMap =
@@ -148,6 +156,11 @@ export function createRootLayout(
       addName(group.group);
       for (const value of group.values) addName(value.id);
     }
+    // Localized map names for the nav "Maps" menu (mapLinkTitle, inbox #766).
+    Object.assign(
+      dict,
+      mapNameEntries(Object.keys(version.data.tiles ?? {}), fullDict, enDict),
+    );
 
     if (options?.appSurface) {
       return (

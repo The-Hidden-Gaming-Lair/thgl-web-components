@@ -8,6 +8,7 @@ import {
   AppConfig,
   DEFAULT_LOCALE,
   fetchDatabaseIndex,
+  fetchDict,
   fetchVersion,
   getIconsUrl,
   getMetadataAlternates,
@@ -17,6 +18,7 @@ import {
   type IconSprite,
   localizePath,
   mapLinkTitle,
+  mapNameEntries,
   resolveForgeUrl,
   sortMapNamesNewestFirst,
 } from "@repo/lib";
@@ -36,8 +38,17 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
     params,
   }: PageProps): Promise<Metadata> {
     const { locale = DEFAULT_LOCALE } = await params;
-    const dict = await getStaticDictionary(appConfig.name, locale);
-    const t = getT(dict);
+    const [dict, version, mapDict, enDict] = await Promise.all([
+      getStaticDictionary(appConfig.name, locale),
+      fetchVersion(appConfig.name),
+      fetchDict(appConfig.name, locale),
+      fetchDict(appConfig.name),
+    ]);
+    // + localized map names for the map links (mapLinkTitle).
+    const t = getT({
+      ...dict,
+      ...mapNameEntries(Object.keys(version.data.tiles ?? {}), mapDict, enDict),
+    });
 
     // Featured sections for the "Explore {{features}} in {{title}}…" meta
     // description. Prefer curated internalLinks; fall back to the game's
@@ -47,7 +58,7 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
       appConfig.internalLinks?.filter((l) => !l.previewOnly) ?? [];
     const featureSource =
       seoLinks.length > 0
-        ? seoLinks.slice(0, 3).map((link) => mapLinkTitle(t, link.title))
+        ? seoLinks.slice(0, 3).map((link) => mapLinkTitle(t, link))
         : appConfig.keywords.slice(0, 3).map((k) => t(k));
     const features = featureSource.join(", ");
 
@@ -93,16 +104,23 @@ export function createHomePage(appConfig: AppConfig) {
     // database sections as the same polished card grid the DB-only home uses, instead
     // of plain feature rows. Fetch the index only when there are sections to count.
     const dbSections = appConfig.db?.homeSections ?? [];
-    const [dict, updateMessages, version, database] = await Promise.all([
-      getFullDictionary(appConfig.name, locale),
-      getUpdateMessages(appConfig.name),
-      fetchVersion(appConfig.name),
-      dbSections.length
-        ? fetchDatabaseIndex(appConfig.name).catch(() => [])
-        : Promise.resolve([]),
-    ]);
+    const [dict, updateMessages, version, database, enDict] = await Promise.all(
+      [
+        getFullDictionary(appConfig.name, locale),
+        getUpdateMessages(appConfig.name),
+        fetchVersion(appConfig.name),
+        dbSections.length
+          ? fetchDatabaseIndex(appConfig.name).catch(() => [])
+          : Promise.resolve([]),
+        fetchDict(appConfig.name),
+      ],
+    );
 
-    const t = getT(dict);
+    // + localized map names for the internalLinks map cards (mapLinkTitle).
+    const t = getT({
+      ...dict,
+      ...mapNameEntries(Object.keys(version.data.tiles ?? {}), dict, enDict),
+    });
     const formatCount = (n: number) => n.toLocaleString(locale);
     // Map cards show their description only when it is a location count; the
     // localized label doesn't always start with the number ("Мест: 1 234").
@@ -139,7 +157,7 @@ export function createHomePage(appConfig: AppConfig) {
       appConfig.internalLinks
         ?.filter((l) => !l.previewOnly)
         .slice(0, 3)
-        .map((link) => mapLinkTitle(t, link.title))
+        .map((link) => mapLinkTitle(t, link))
         .join(", ") ?? "";
 
     const keywords = appConfig.keywords?.map((k) => t(k)).join(", ") ?? "";
@@ -232,7 +250,7 @@ export function createHomePage(appConfig: AppConfig) {
           const locCount = tileKey && version.counts?.byMap?.[tileKey];
           return {
             ...link,
-            title: mapLinkTitle(t, link.title),
+            title: mapLinkTitle(t, link),
             description: locCount ? locationsLabel(locCount) : link.description,
           };
         }) ?? [];

@@ -143,7 +143,7 @@ export function useNavGroups({
           label: t("nav.maps", { fallback: "Maps" }),
           items: [
             toLink("/maps", t("nav.allMaps", { fallback: "All Maps" }), true),
-            ...named.map((l) => toLink(l.href, mapLinkTitle(t, l.title))),
+            ...named.map((l) => toLink(l.href, mapLinkTitle(t, l))),
           ],
         });
       }
