@@ -8,6 +8,7 @@ import {
   playerAnchor,
   useGameState,
   useSettingsStore,
+  withoutUnfilledPlaceholders,
 } from "@repo/lib";
 import { SidePanel } from "./side-panel";
 import { useCoordinates, useT } from "../(providers)";
@@ -276,6 +277,7 @@ export function MarkerPanel({
     if (spawn.description) return spawn.description.replace("\n", "<br>");
     // Like the marker tooltip: a spawn id without its own description falls back to its
     // type's, with the spawn's template data filled in (type descriptions can be templates).
+    // Placeholders a spawn without that data cannot fill are not shown.
     const vars: Record<string, string> | undefined = spawn.data
       ? Object.fromEntries(
           Object.entries(spawn.data).map(([key, values]) => [
@@ -284,7 +286,10 @@ export function MarkerPanel({
           ]),
         )
       : undefined;
-    if (termId) return t(termId, { isDesc: true, fallback: spawn.type, vars });
+    if (termId)
+      return withoutUnfilledPlaceholders(
+        t(termId, { isDesc: true, fallback: spawn.type, vars }),
+      );
     return "";
   }, [spawn, termId, t]);
 

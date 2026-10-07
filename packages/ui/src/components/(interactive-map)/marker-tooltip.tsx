@@ -1,4 +1,10 @@
-import { API_FORGE_URL, useGameState, useSettingsStore, cn } from "@repo/lib";
+import {
+  API_FORGE_URL,
+  useGameState,
+  useSettingsStore,
+  cn,
+  withoutUnfilledPlaceholders,
+} from "@repo/lib";
 import { useMemo } from "react";
 import { useT } from "../(providers)";
 import { DescriptionMarkdown } from "./description-markdown";
@@ -355,7 +361,10 @@ function SingleItemTooltip({
           ]),
         )
       : undefined;
-    return t(item.termId, { isDesc: true, fallback: item.type, vars });
+    // Placeholders a spawn without template data cannot fill are not shown.
+    return withoutUnfilledPlaceholders(
+      t(item.termId, { isDesc: true, fallback: item.type, vars }),
+    );
   }, [item, t]);
 
   return (
@@ -494,7 +503,9 @@ function ClusterTooltip({
           ]),
         )
       : undefined;
-    return t(item.termId, { isDesc: true, fallback: item.type, vars });
+    return withoutUnfilledPlaceholders(
+      t(item.termId, { isDesc: true, fallback: item.type, vars }),
+    );
   }, [items, t]);
 
   const toggleAll = () => {

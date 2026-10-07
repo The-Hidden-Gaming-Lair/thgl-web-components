@@ -29,6 +29,7 @@ export * from "./games";
 export * from "./guides";
 export * from "./hooks";
 export * from "./i18n";
+export * from "./marker-description";
 export * from "./metadata";
 export * from "./overlay-map-hide";
 export * from "./compact-overlay";
