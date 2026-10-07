@@ -424,7 +424,8 @@ export const games: Array<Game> = [
       desktopURL: "/apps/baldurs-gate-ee",
       overlayURL: "/apps/baldurs-gate-ee/overlay",
       markerOptions: {
-        radius: 6,
+        // 10% above the usual 6: the small in-game sprites and round creature markers read better.
+        radius: 6.6,
         // Party game: the live player is the CAMERA (not drawn); members get portrait markers.
         playerIcon: "player.webp",
         imageSprite: true,
