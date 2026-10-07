@@ -133,6 +133,8 @@ export type Spawn = {
   /** Footprint polygon in map coordinates (same space as `p`), drawn as an outline under
    * the marker - the in-game hover outline of a container or trap (Baldur's Gate EE). */
   shape?: [number, number][];
+  /** Map (tiles key) this marker leads to - a door, a world-map location. The tooltip links to it. */
+  mapLink?: string;
   data?: Record<string, string[]>;
   /** Screen-space X offset in device px for spiderfied mixed-type clusters */
   spiderOffsetX?: number;

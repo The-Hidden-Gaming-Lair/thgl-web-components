@@ -20,6 +20,7 @@ import { Comments } from "./comments";
 import { DataFeedback } from "./data-feedback";
 import { DescriptionMarkdown } from "../(interactive-map)/description-markdown";
 import { DbEntryLink } from "../(interactive-map)/db-entry-link";
+import { MapLink } from "../(interactive-map)/map-link";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
@@ -384,6 +385,14 @@ export function MarkerPanel({
               <>
                 <Separator />
                 <DbEntryLink section={dbSection} entryId={dbEntryId} />
+              </>
+            )}
+
+            {/* Where it leads */}
+            {spawn.mapLink && (
+              <>
+                <Separator />
+                <MapLink mapName={spawn.mapLink} />
               </>
             )}
 

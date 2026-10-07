@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useT } from "../(providers)";
 import { DescriptionMarkdown } from "./description-markdown";
 import { DbEntryLink } from "./db-entry-link";
+import { MapLink } from "./map-link";
 import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Comment } from "../(data)";
 import {
@@ -40,6 +41,8 @@ export type TooltipItem = {
   dbSection?: string;
   /** Codex entry key — the raw spawn id (per-instance) or the type (per-type). */
   dbEntryId?: string;
+  /** Map this marker leads to (`spawn.mapLink`): a "Go to" link. */
+  mapLink?: string;
 };
 
 export type TooltipItems = TooltipItem[];
@@ -433,6 +436,9 @@ function SingleItemTooltip({
       {item.dbSection && item.dbEntryId && (
         <DbEntryLink section={item.dbSection} entryId={item.dbEntryId} />
       )}
+
+      {/* Where it leads */}
+      {item.mapLink && <MapLink mapName={item.mapLink} />}
 
       {/* Private node actions (not on simple maps / embeds: a shared filter
           there isn't the visitor's to edit) */}

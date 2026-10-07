@@ -1951,6 +1951,7 @@ function MarkersContent({
           // Codex entry key (dbEntryIdOf): explicit `dbEntryId`, else the id when it is an
           // entry id, else the type — a position-derived id (`type@x:y`) is skipped.
           dbEntryId: dbEntryIdOf(s, typeToDbEntryId.get(s.type)),
+          mapLink: s.mapLink,
         },
       ];
 
@@ -1986,6 +1987,7 @@ function MarkersContent({
                 stackedSpawn,
                 typeToDbEntryId.get(stackedSpawn.type),
               ),
+              mapLink: stackedSpawn.mapLink,
             };
           }),
         );
