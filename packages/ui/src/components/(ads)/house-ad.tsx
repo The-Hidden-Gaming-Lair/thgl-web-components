@@ -5,7 +5,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type ComponentType,
   type CSSProperties,
   type JSX,
   type ReactNode,
@@ -19,16 +18,13 @@ import {
   TH_GL_URL,
   useAccountStore,
 } from "@repo/lib";
-import { ExternalLink, Gamepad2, HeartHandshake } from "lucide-react";
 import { useT } from "../(providers)";
-import { DiscordIcon } from "../(header)/social-icons";
 import { trackEvent } from "../(header)/plausible-tracker";
 import globalMenu from "../(header)/global-menu.json";
 import { useAdBlankRound } from "./ad-fill";
 
 type HouseCard = {
   key: "companion" | "partner" | "discord" | "adfree";
-  Icon: ComponentType<{ className?: string }>;
   title: string;
   body: string;
   cta: string;
@@ -38,9 +34,9 @@ type HouseCard = {
 
 const DISCORD_URL = "https://th.gl/discord";
 
-function DiscordGlyph({ className }: { className?: string }) {
-  return <DiscordIcon size={24} className={className} />;
-}
+// Illustrations in the tool-card style: `<key>.webp` (600x500, rectangles)
+// and `<key>-thumb.webp` (192x192, banners). Text stays HTML (translated).
+const ART_PATH = "/games/thgl-web/house-ads";
 
 /** The current game's gaming.tools page from the game switcher's partner list. */
 function partnerUrl(web: string | undefined): string | null {
@@ -75,7 +71,6 @@ function useHouseCards(): HouseCard[] {
     ) {
       cards.push({
         key: "companion",
-        Icon: Gamepad2,
         title: t("houseAd.companion.title", {
           fallback: "{{game}} map in-game",
           vars: { game: title },
@@ -93,7 +88,6 @@ function useHouseCards(): HouseCard[] {
     if (partner) {
       cards.push({
         key: "partner",
-        Icon: ExternalLink,
         title: t("houseAd.partner.title", {
           fallback: "{{game}} on gaming.tools",
           vars: { game: title },
@@ -108,7 +102,6 @@ function useHouseCards(): HouseCard[] {
 
     cards.push({
       key: "discord",
-      Icon: DiscordGlyph,
       title: t("houseAd.discord.title", { fallback: "Join the THGL Discord" }),
       body: t("houseAd.discord.body", {
         fallback: "Map updates, feedback and help from the community.",
@@ -119,7 +112,6 @@ function useHouseCards(): HouseCard[] {
 
     cards.push({
       key: "adfree",
-      Icon: HeartHandshake,
       title: t("houseAd.adfree.title", { fallback: "Go ad-free" }),
       body: t("houseAd.adfree.body", {
         fallback: "Remove ads and support the development of THGL.",
@@ -156,20 +148,39 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
   const card = cards[round % cards.length];
   if (!card) return null;
 
-  // 728x90 / 320x100 / 320x50 lay out in a row; rectangles and
-  // skyscrapers stack.
+  // 728x90 / 320x100 / 320x50 lay out in a row with the art as a square
+  // thumbnail; rectangles and skyscrapers put the text over the painting.
   const row = !!box && box.h < 150;
   const showBody = !box || !row || box.h >= 85;
   const showCta = !box || !row || box.w >= 468;
+  const art = `${ART_PATH}/${card.key}`;
   const content = (
     <Layout row={row}>
-      <card.Icon
-        className={cn("shrink-0 text-primary", row ? "h-6 w-6" : "h-10 w-10")}
-      />
-      <div className={cn("min-w-0", row ? "flex-1 text-left" : "space-y-1")}>
+      {row ? (
+        <img
+          src={`${art}-thumb.webp`}
+          alt=""
+          className="h-full aspect-square shrink-0 object-cover"
+        />
+      ) : (
+        <>
+          <img
+            src={`${art}.webp`}
+            alt=""
+            className="absolute inset-x-0 top-0 h-[78%] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-x-0 bottom-0 h-[65%] bg-linear-to-t from-card from-45% via-card/80 to-transparent" />
+        </>
+      )}
+      <div
+        className={cn(
+          "relative min-w-0",
+          row ? "flex-1 text-left" : "space-y-1",
+        )}
+      >
         <p
           className={cn(
-            "font-semibold leading-tight",
+            "font-semibold leading-tight [text-shadow:0_1px_4px_rgb(0_0_0/0.9)]",
             row ? "truncate text-sm" : "text-base",
           )}
         >
@@ -187,7 +198,7 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
         )}
       </div>
       {showCta && (
-        <span className="shrink-0 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">
+        <span className="relative shrink-0 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">
           {card.cta}
         </span>
       )}
@@ -195,7 +206,7 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
   );
 
   const className =
-    "absolute inset-0 z-1 block overflow-hidden rounded bg-card text-card-foreground bg-linear-to-br from-primary/15 to-transparent transition-colors hover:from-primary/25";
+    "group absolute inset-0 z-1 block overflow-hidden rounded bg-card text-card-foreground";
   const style: CSSProperties = { cursor: "pointer" };
   const onClick = () => {
     trackEvent("House Ad: Click", { props: { card: card.key } });
@@ -236,7 +247,9 @@ function Layout({ row, children }: { row: boolean; children: ReactNode }) {
     <div
       className={cn(
         "flex h-full w-full items-center",
-        row ? "gap-3 px-3" : "flex-col justify-center gap-3 p-4 text-center",
+        row
+          ? "gap-3 pr-3 transition-colors group-hover:bg-primary/10"
+          : "flex-col justify-end gap-2.5 p-4 text-center",
       )}
     >
       {children}
