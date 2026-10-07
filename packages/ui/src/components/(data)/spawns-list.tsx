@@ -69,7 +69,9 @@ export function SpawnsList({
   useSettingsStore((state) => state.discoveredNodes);
   const t = useT();
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
-  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
+  const setDiscoveredNodesBulk = useSettingsStore(
+    (state) => state.setDiscoveredNodesBulk,
+  );
 
   // Build sections of spawn entries, grouped by type and optionally by group label.
   // Groups by type ID (not display name) so different filter types with the same
@@ -204,9 +206,8 @@ export function SpawnsList({
                     // getNodeId, not raw s.id: for id-less spawns the raw id is
                     // the bare type, and checkNodeDiscovered's base-id match
                     // would mark the ENTIRE type discovered on every map.
-                    groupSpawns.forEach((s) =>
-                      setDiscoverNode(getNodeId(s), true),
-                    );
+                    // One store update for the whole group.
+                    setDiscoveredNodesBulk(groupSpawns.map(getNodeId), true);
                   }}
                   disabled={isMax}
                   className="shrink-0 size-8"
@@ -224,9 +225,8 @@ export function SpawnsList({
                       !confirm(`Reset all ${progress} discovered ${name}?`)
                     )
                       return;
-                    groupSpawns.forEach((s) =>
-                      setDiscoverNode(getNodeId(s), false),
-                    );
+                    // One removal pass over the marks for the whole group.
+                    setDiscoveredNodesBulk(groupSpawns.map(getNodeId), false);
                   }}
                   disabled={progress === 0}
                   className="shrink-0 size-8 text-destructive hover:text-destructive"

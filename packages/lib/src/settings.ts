@@ -1119,6 +1119,44 @@ let cachedAutoDiscoveredNodes: string[] | null = null;
 // (coordinates.ts), which change with the map, not with discoveredNodes.
 let cachedRulesVersion = -1;
 let cachedAutoRulesVersion = -1;
+
+/**
+ * The shared lookup of `discoveredNodes` (built once per array, like the
+ * isDiscoveredNode result cache it resets), so an untick reuses it instead of
+ * indexing every mark again.
+ */
+function getDiscoveryLookup(
+  discoveredNodes: string[],
+): ReturnType<typeof buildDiscoveryLookup> {
+  if (
+    !discoveryLookup ||
+    cachedDiscoveredNodes !== discoveredNodes ||
+    cachedRulesVersion !== getDoneWhenAllVersion()
+  ) {
+    cachedDiscoveredNodes = discoveredNodes;
+    cachedRulesVersion = getDoneWhenAllVersion();
+    discoveredCache = new Map();
+    discoveryLookup = buildDiscoveryLookup(discoveredNodes);
+  }
+  return discoveryLookup;
+}
+
+/** The same for `autoDiscoveredNodes` (isAutoDiscoveredNode). */
+function getAutoDiscoveryLookup(
+  autoDiscoveredNodes: string[],
+): ReturnType<typeof buildDiscoveryLookup> {
+  if (
+    !autoDiscoveryLookup ||
+    cachedAutoDiscoveredNodes !== autoDiscoveredNodes ||
+    cachedAutoRulesVersion !== getDoneWhenAllVersion()
+  ) {
+    cachedAutoDiscoveredNodes = autoDiscoveredNodes;
+    cachedAutoRulesVersion = getDoneWhenAllVersion();
+    autoDiscoveredCache = new Map();
+    autoDiscoveryLookup = buildDiscoveryLookup(autoDiscoveredNodes);
+  }
+  return autoDiscoveryLookup;
+}
 // In-memory miss counters of applyGameReportedSet (NOT persisted), keyed by
 // profile + set: how many consecutive reports each owned id was missing from.
 const gameReportedMisses = new Map<string, Map<string, number>>();
@@ -1502,15 +1540,7 @@ export const useSettingsStore = create(
             // changed. Matching (exact / base-id / coordinate-with-tolerance)
             // lives in coordinates.ts so this selector, the marker render path,
             // and the discover/undiscover writes all agree.
-            if (
-              cachedDiscoveredNodes !== discoveredNodes ||
-              cachedRulesVersion !== getDoneWhenAllVersion()
-            ) {
-              cachedDiscoveredNodes = discoveredNodes;
-              cachedRulesVersion = getDoneWhenAllVersion();
-              discoveredCache = new Map();
-              discoveryLookup = buildDiscoveryLookup(discoveredNodes);
-            }
+            const lookup = getDiscoveryLookup(discoveredNodes);
 
             // Return cached result if available
             const cached = discoveredCache!.get(nodeId);
@@ -1518,7 +1548,7 @@ export const useSettingsStore = create(
               return cached;
             }
 
-            const result = checkNodeDiscovered(nodeId, discoveryLookup!);
+            const result = checkNodeDiscovered(nodeId, lookup);
             discoveredCache!.set(nodeId, result);
             return result;
           },
@@ -1527,18 +1557,10 @@ export const useSettingsStore = create(
             const state = get();
             const autoDiscoveredNodes = state.autoDiscoveredNodes;
             if (autoDiscoveredNodes.length === 0) return false;
-            if (
-              cachedAutoDiscoveredNodes !== autoDiscoveredNodes ||
-              cachedAutoRulesVersion !== getDoneWhenAllVersion()
-            ) {
-              cachedAutoDiscoveredNodes = autoDiscoveredNodes;
-              cachedAutoRulesVersion = getDoneWhenAllVersion();
-              autoDiscoveredCache = new Map();
-              autoDiscoveryLookup = buildDiscoveryLookup(autoDiscoveredNodes);
-            }
+            const lookup = getAutoDiscoveryLookup(autoDiscoveredNodes);
             const cached = autoDiscoveredCache!.get(nodeId);
             if (cached !== undefined) return cached;
-            const result = checkNodeDiscovered(nodeId, autoDiscoveryLookup!);
+            const result = checkNodeDiscovered(nodeId, lookup);
             autoDiscoveredCache!.set(nodeId, result);
             return result;
           },
@@ -1552,7 +1574,11 @@ export const useSettingsStore = create(
             // base id, old alias, the live/static id of the same node) and
             // nothing of another marker (coordinates.ts).
             const updatedNodes = isDiscovered
-              ? removeDiscoveredMatches(discoveredNodes, [nodeId])
+              ? removeDiscoveredMatches(
+                  discoveredNodes,
+                  [nodeId],
+                  getDiscoveryLookup(discoveredNodes),
+                )
               : [...new Set([...discoveredNodes, nodeId])];
 
             updateSettings({ discoveredNodes: updatedNodes });
@@ -1565,7 +1591,11 @@ export const useSettingsStore = create(
               discoveredNodes: discovered
                 ? [...new Set([...state.discoveredNodes, nodeId])]
                 : // Same removal as the untick in toggleDiscoveredNode.
-                  removeDiscoveredMatches(state.discoveredNodes, [nodeId]),
+                  removeDiscoveredMatches(
+                    state.discoveredNodes,
+                    [nodeId],
+                    getDiscoveryLookup(state.discoveredNodes),
+                  ),
             });
           },
 
@@ -1594,11 +1624,16 @@ export const useSettingsStore = create(
               discoveredNodes: removeDiscoveredMatches(
                 state.discoveredNodes,
                 nodeIds,
+                getDiscoveryLookup(state.discoveredNodes),
               ),
-              autoDiscoveredNodes: removeDiscoveredMatches(
-                state.autoDiscoveredNodes,
-                nodeIds,
-              ),
+              autoDiscoveredNodes:
+                state.autoDiscoveredNodes.length === 0
+                  ? state.autoDiscoveredNodes
+                  : removeDiscoveredMatches(
+                      state.autoDiscoveredNodes,
+                      nodeIds,
+                      getAutoDiscoveryLookup(state.autoDiscoveredNodes),
+                    ),
             });
           },
 

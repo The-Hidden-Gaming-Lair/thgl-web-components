@@ -245,6 +245,19 @@ describe("removeDiscoveredMatches", () => {
     ).toEqual(["iron_ore@500:500"]);
   });
 
+  it("gives the same result with a lookup built from the same array", () => {
+    const marks = ["iron_ore@10.50:20.00", "iron_ore", "chest@1:2"];
+    const lookup = buildDiscoveryLookup(marks);
+    expect(
+      removeDiscoveredMatches(marks, ["iron_ore@10.5:20"], lookup),
+    ).toEqual(removeDiscoveredMatches(marks, ["iron_ore@10.5:20"]));
+    // the lookup stays usable for the next call on the same array
+    expect(removeDiscoveredMatches(marks, ["chest@1:2"], lookup)).toEqual([
+      "iron_ore@10.50:20.00",
+      "iron_ore",
+    ]);
+  });
+
   it("returns the same array reference when nothing matches", () => {
     const existing = ["chest@1:2"];
     expect(removeDiscoveredMatches(existing, ["iron_ore@5:6"])).toBe(existing);

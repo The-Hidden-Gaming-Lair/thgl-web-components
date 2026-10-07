@@ -1110,14 +1110,19 @@ export const getSpawnDiscoveryId = (
  * another current marker is never removed, however close. A done-when-all rule
  * describes a marker, not a stored mark, and does not widen the removal.
  * Returns the input array unchanged if nothing matches.
+ *
+ * `lookup`, when given, must be {@link buildDiscoveryLookup} of this same
+ * `discoveredNodes` array (settings.ts passes its cached one, so a single
+ * untick does not index every mark again).
  */
 export const removeDiscoveredMatches = (
   discoveredNodes: string[],
   targetIds: string[],
+  lookup?: DiscoveryLookup,
 ): string[] => {
   if (discoveredNodes.length === 0 || targetIds.length === 0)
     return discoveredNodes;
-  const lookup = buildDiscoveryLookup(discoveredNodes);
+  lookup ??= buildDiscoveryLookup(discoveredNodes);
   const remove = new Set<string>();
   const collect: MarkVisitor = (mark) => {
     remove.add(mark);
