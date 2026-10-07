@@ -324,6 +324,15 @@ export function proxy(req: NextRequest) {
     if (appPath && isAppContentPath(path)) {
       const gameConfig = getAppConfigBySlug(appPath.gameId);
       if (gameConfig) {
+        // Game API calls from app content pages (gameApiUrl in @repo/lib):
+        // /apps/<id>/api/db/x → the root /api/db/x handler, resolved to the
+        // game by the x-thgl-app header (the API is not part of the /g tree).
+        if (appPath.rest.startsWith("/api/")) {
+          url.pathname = appPath.rest;
+          const headers = new Headers(req.headers);
+          headers.set("x-thgl-app", gameConfig.name);
+          return NextResponse.rewrite(url, { request: { headers } });
+        }
         // The app map lives at /apps/<id> (it has no /maps routes): send map
         // links there, the map title + marker id ride along as query params.
         if (/^\/maps(\/|$)/.test(appPath.rest)) {

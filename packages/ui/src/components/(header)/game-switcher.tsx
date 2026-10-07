@@ -174,6 +174,20 @@ function GameIcon({
   );
 }
 
+/**
+ * The active game's icon without the switcher: the companion app's window is
+ * bound to the game it was opened for (its links would leave the app).
+ */
+export function GameBadge({ activeApp }: { activeApp: string }) {
+  const app = apps.find((entry) => entry.title === activeApp);
+  if (!app) return null;
+  return (
+    <span title={app.title} className="flex">
+      <GameIcon app={app} size={22} className="border border-primary" />
+    </span>
+  );
+}
+
 export function GameSwitcher({
   activeApp,
   compact,

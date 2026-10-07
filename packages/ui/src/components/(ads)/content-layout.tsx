@@ -75,7 +75,10 @@ export function ContentLayout({
         // Fixed-height, internally-scrolling panes only at xl (sidebar visible);
         // below that the page scrolls normally — no nested scroll container
         // on phones.
-        <div className="relative container grid grid-rows-[auto_1fr] xl:h-[calc(100dvh-var(--header-h,54px)-16px)] px-4 pt-2 text-left xl:overflow-hidden">
+        // min-w-0 (both variants): a flex item between the ad rails must be
+        // allowed to shrink below its content (wide rows like a guide's map
+        // buttons), or it pushes past the right edge at 1024-1280px.
+        <div className="relative container min-w-0 grid grid-rows-[auto_1fr] xl:h-[calc(100dvh-var(--header-h,54px)-16px)] px-4 pt-2 text-left xl:overflow-hidden">
           {/* Row 1: breadcrumb */}
           {header}
 
@@ -118,7 +121,7 @@ export function ContentLayout({
           </div>
         </div>
       ) : (
-        <div className="relative container p-4 text-center space-y-4 mb-48">
+        <div className="relative container min-w-0 p-4 text-center space-y-4 mb-48">
           {header}
 
           {/* Top Banner */}

@@ -3,7 +3,7 @@ export { Account } from "./account";
 export { ExternalAnchor } from "./external-anchor";
 export { PageTitle } from "./page-title";
 export { Brand } from "./brand";
-export { GameSwitcher } from "./game-switcher";
+export { GameBadge, GameSwitcher } from "./game-switcher";
 export { GAME_COUNT_LABEL } from "./game-count";
 export { Header } from "./header";
 export { HeaderOffset } from "./header-offset";

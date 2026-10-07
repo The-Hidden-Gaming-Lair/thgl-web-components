@@ -13,6 +13,7 @@ import {
   Toaster,
 } from "../(controls)";
 import { AppContentShell } from "./app-content-shell";
+import { CODEX_FRAME_SCRIPT, CODEX_FRAME_STYLE } from "./codex-frame";
 import { NavigationProgress } from "../(apps)/navigation-progress";
 
 /**
@@ -55,6 +56,10 @@ export function AppSurfaceRoot({
         )}
       >
         <ThemeScript />
+        {/* Codex pane inside the map window (codex-pane.tsx): swap the window
+            title bar for the frame bar before first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: CODEX_FRAME_SCRIPT }} />
+        <style dangerouslySetInnerHTML={{ __html: CODEX_FRAME_STYLE }} />
         <NavigationProgress />
         <I18NProvider dict={dict} locale={locale}>
           <TooltipProvider>

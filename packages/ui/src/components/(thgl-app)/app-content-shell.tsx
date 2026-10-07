@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, Map as MapIcon } from "lucide-react";
@@ -24,6 +24,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { AppHeader } from "./app-header";
+import {
+  isCodexFrame,
+  isCodexFrameMessage,
+  type CodexFrameMessage,
+} from "./codex-frame";
+import { useCodexPane } from "./codex-pane";
 import { InitializeApp } from "./initialize-app";
 import { NavigationButtons } from "./navigation-buttons";
 import { ResizeBorders } from "./resize-borders";
@@ -47,33 +53,43 @@ export function AppContentShell({
   hasGuides: boolean;
 }) {
   const mounted = useHasMounted();
+  // Inside the map window's codex pane (codex-pane.tsx) the map window owns the
+  // app bridge, the title bar and the window edges.
+  const framed = mounted && isCodexFrame();
   return (
     <>
-      <InitializeApp />
+      {mounted && !framed && <InitializeApp />}
       <AppLinkInterceptor
         gameId={gameId}
         locales={appConfig.supportedLocales}
       />
-      <AppHeader title={appConfig.title}>
-        <NavigationButtons />
-        <AppPagesNav
-          appConfig={appConfig}
-          gameId={gameId}
-          hasMap={hasMap}
-          hasGuides={hasGuides}
-          showMapTab
-        />
-      </AppHeader>
+      {/* Hidden inside the codex pane before first paint (CODEX_FRAME_SCRIPT,
+          app-surface-root.tsx): the map window's title bar serves the frame. */}
+      <div className="thgl-window-chrome">
+        <AppHeader title={appConfig.title}>
+          <NavigationButtons />
+          <AppPagesNav
+            appConfig={appConfig}
+            gameId={gameId}
+            hasMap={hasMap}
+            hasGuides={hasGuides}
+            showMapTab
+          />
+        </AppHeader>
+      </div>
+      {framed && <CodexFrameBridge />}
       {/* Window edges only exist in the app's frameless window. */}
-      {mounted && isThglApp && <ResizeBorders />}
+      {mounted && isThglApp && !framed && <ResizeBorders />}
     </>
   );
 }
 
 /**
  * The game's page groups as compact title-bar tabs, linking to the app copies
- * (/apps/<id>/db, …). Also rendered in the desktop map window's title bar
- * (app.tsx `pagesNav`), where the map tab is left out.
+ * (/apps/<id>/db, …). Also rendered in the map window's title bar (app.tsx
+ * `pagesNav`): there a CodexPaneProvider is mounted and the tabs open the pages
+ * in the codex pane over the map instead of navigating the window, with the
+ * map tab closing the pane.
  */
 export function AppPagesNav({
   appConfig,
@@ -90,6 +106,7 @@ export function AppPagesNav({
 }) {
   const { locale, t } = useI18n();
   const pathname = usePathname() ?? "/";
+  const pane = useCodexPane();
   const locales = appConfig.supportedLocales;
   const groups = useNavGroups({ appConfig, hasMap, hasGuides });
   const hasAppMap = useMemo(
@@ -115,7 +132,11 @@ export function AppPagesNav({
 
   // usePathname may report the rewritten route (/db/x) or the browser URL
   // (/apps/<id>/db/x); compare in the prefixed form either way.
-  const current = toAppSurfacePath(pathname, gameId, locales);
+  const current = pane
+    ? pane.open
+      ? pane.currentPath.split(/[?#]/)[0]
+      : ""
+    : toAppSurfacePath(pathname, gameId, locales);
   const isActive = (link: NavLink) =>
     !link.external &&
     (link.exact
@@ -131,6 +152,13 @@ export function AppPagesNav({
     );
   const track = (group: string, href: string) =>
     trackEvent("Nav: Click", { props: { group, href, surface: "thgl-app" } });
+  const onLinkClick = (e: React.MouseEvent, group: string, link: NavLink) => {
+    track(group, link.href);
+    if (pane && !link.external) {
+      e.preventDefault();
+      pane.openPath(link.href);
+    }
+  };
 
   return (
     <div
@@ -139,7 +167,21 @@ export function AppPagesNav({
       onMouseDown={(e) => e.stopPropagation()}
       onDoubleClick={(e) => e.stopPropagation()}
     >
-      {showMapTab && hasAppMap && (
+      {/* Codex pane open: back to the map (closed, the map IS the view). */}
+      {pane?.open && (
+        <button
+          type="button"
+          className={tabClass(false)}
+          onClick={() => {
+            track("maps", "codex-pane-close");
+            pane.close();
+          }}
+        >
+          <MapIcon className="h-3 w-3" />
+          {t("interactive_map")}
+        </button>
+      )}
+      {!pane && showMapTab && hasAppMap && (
         // A plain <a>: the map page has its own root layout (full navigation).
         <a
           href={toAppSurfacePath(localizePath("/", locale), gameId, locales)}
@@ -157,7 +199,7 @@ export function AppPagesNav({
             href={group.link.href}
             prefetch={false}
             className={tabClass(isActive(group.link))}
-            onClick={() => track(group.id, group.link!.href)}
+            onClick={(e) => onLinkClick(e, group.id, group.link!)}
           >
             {group.label}
           </Link>
@@ -174,21 +216,39 @@ export function AppPagesNav({
               className="z-9999999 max-h-[70vh] overflow-y-auto sidebar-scroll"
               onMouseDown={(e) => e.stopPropagation()}
             >
-              {group.items.map((link) => (
-                <DropdownMenuItem key={link.key} asChild>
-                  <Link
-                    href={link.href}
-                    prefetch={false}
+              {group.items.map((link) =>
+                // Codex pane: select the item (a prevented link click would
+                // also cancel Radix's select, leaving the menu open).
+                pane && !link.external ? (
+                  <DropdownMenuItem
+                    key={link.key}
                     className={cn(
                       "cursor-pointer text-xs",
                       isActive(link) && "text-amber-400",
                     )}
-                    onClick={() => track(group.id, link.href)}
+                    onSelect={() => {
+                      track(group.id, link.href);
+                      pane.openPath(link.href);
+                    }}
                   >
                     {link.label}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem key={link.key} asChild>
+                    <Link
+                      href={link.href}
+                      prefetch={false}
+                      className={cn(
+                        "cursor-pointer text-xs",
+                        isActive(link) && "text-amber-400",
+                      )}
+                      onClick={(e) => onLinkClick(e, group.id, link)}
+                    >
+                      {link.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ),
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         ) : null,
@@ -251,6 +311,9 @@ function AppLinkInterceptor({
       // /maps redirect do not.
       if (parsed?.rest && !parsed.rest.startsWith("/maps")) {
         router.push(target);
+      } else if (isCodexFrame()) {
+        // Codex pane: the map is already open in the parent window.
+        postToMapWindow({ type: "thgl-codex:show-on-map", href: target });
       } else {
         window.location.assign(target);
       }
@@ -258,5 +321,83 @@ function AppLinkInterceptor({
     window.addEventListener("click", onClick, true);
     return () => window.removeEventListener("click", onClick, true);
   }, [router, gameId, locales]);
+  return null;
+}
+
+function postToMapWindow(message: CodexFrameMessage) {
+  window.parent.postMessage(message, window.location.origin);
+}
+
+/**
+ * Frame end of the codex pane (codex-pane.tsx), no UI: reports the URL and
+ * whether the frame can go back / forward (the map window's title bar shows
+ * the buttons), follows "navigate" / "history" and forwards Esc as "close".
+ *
+ * Back / forward count only this frame's navigations: the iframe shares the
+ * window's session history, so a plain history.back() past the first codex
+ * page would navigate the map window itself.
+ */
+function CodexFrameBridge() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const depthRef = useRef({ back: 0, forward: 0 });
+  const pendingRef = useRef<"back" | "forward" | null>(null);
+  const firstRef = useRef(true);
+
+  useEffect(() => {
+    const depth = depthRef.current;
+    if (firstRef.current) {
+      firstRef.current = false;
+    } else if (pendingRef.current === "back") {
+      depth.back = Math.max(0, depth.back - 1);
+      depth.forward += 1;
+    } else if (pendingRef.current === "forward") {
+      depth.back += 1;
+      depth.forward = Math.max(0, depth.forward - 1);
+    } else {
+      depth.back += 1;
+      depth.forward = 0;
+    }
+    pendingRef.current = null;
+    postToMapWindow({
+      type: "thgl-codex:location",
+      path: window.location.pathname + window.location.search,
+      canGoBack: depth.back > 0,
+      canGoForward: depth.forward > 0,
+    });
+  }, [pathname]);
+
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin || e.source !== window.parent)
+        return;
+      if (!isCodexFrameMessage(e.data)) return;
+      if (e.data.type === "thgl-codex:navigate") {
+        router.push(e.data.href);
+      } else if (e.data.type === "thgl-codex:history") {
+        const depth = depthRef.current;
+        if (e.data.direction === "back" && depth.back > 0) {
+          pendingRef.current = "back";
+          router.back();
+        } else if (e.data.direction === "forward" && depth.forward > 0) {
+          pendingRef.current = "forward";
+          router.forward();
+        }
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !e.defaultPrevented) {
+        postToMapWindow({ type: "thgl-codex:close" });
+      }
+    };
+    window.addEventListener("message", onMessage);
+    window.addEventListener("keydown", onKeyDown);
+    postToMapWindow({ type: "thgl-codex:ready" });
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [router]);
+
   return null;
 }
