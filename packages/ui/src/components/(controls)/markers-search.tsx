@@ -37,6 +37,7 @@ import {
 import { Separator } from "../ui/separator";
 import { MapSelect } from "./map-select";
 import { LayerSelect } from "./layer-select";
+import { MapLayoutSelect } from "./map-layout-select";
 import { TerraformStageSelect } from "./terraform-stage-select";
 import { Presets } from "./presets";
 import { GlobalFilters } from "./global-filters";
@@ -319,6 +320,8 @@ export function MarkersSearch({
                 <LayerSelect tileOptions={tileOptions} />
                 {/* Terraform-stage backdrop picker — only where a map has `.stages`. */}
                 <TerraformStageSelect tileOptions={tileOptions} />
+                {/* Generated-layout picker (Dune Deep Desert) — only where a map has `.layouts`. */}
+                <MapLayoutSelect tileOptions={tileOptions} />
               </div>
               <Separator />
             </div>
