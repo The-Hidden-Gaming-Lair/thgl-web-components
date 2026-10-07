@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "Исследуйте Мидрат из Soulframe с помощью наших интерактивных карт.",
+  "config.internalLinks.maps-Midrath.linkText": "Открыть карту Мидрата",
+  "config.internalLinks.landmarks.title": "Локации",
+  "config.internalLinks.landmarks.description": "Все именованные места Мидрата, его Мировые деревья, подземелья и анклавы — с лором и позициями на карте.",
+  "config.internalLinks.landmarks.linkText": "Смотреть локации",
+  "config.internalLinks.foes.title": "Враги",
+  "config.internalLinks.foes.description": "Оды, Мендиканты, осквернённые существа и боссы Мидрата — где они появляются и какие подземелья охраняют.",
+  "config.internalLinks.foes.linkText": "Смотреть врагов",
+  "config.internalLinks.wildlife.title": "Животные",
+  "config.internalLinks.wildlife.description": "Животные Мидрата и их редкие мерцающие разновидности — с местами обитания.",
+  "config.internalLinks.wildlife.linkText": "Смотреть животных",
+  "config.db.heroSubtitle": "Кодекс: локации, враги и животные",
+  "config.db.searchPlaceholder": "Поиск локаций, врагов, животных…",
+  "config.db.landmarks.description": "Именованные места Мидрата, Мировые деревья, подземелья и анклавы.",
+  "config.db.foes.description": "Оды, Мендиканты, осквернённые существа и боссы.",
+  "config.db.wildlife.description": "Животные Мидрата и их мерцающие разновидности.",
+  "config.db.typeLabels.landmarks": "Локация",
+  "config.db.typeLabels.foes": "Враг",
+  "config.db.typeLabels.wildlife": "Животное"
+}

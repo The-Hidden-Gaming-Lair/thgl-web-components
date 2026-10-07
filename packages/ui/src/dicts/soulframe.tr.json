@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "Soulframe'in Midrath bölgesini etkileşimli haritalarımızla keşfet.",
+  "config.internalLinks.maps-Midrath.linkText": "Midrath haritasını keşfet",
+  "config.internalLinks.landmarks.title": "Konumlar",
+  "config.internalLinks.landmarks.description": "Midrath'taki her adlandırılmış yer, Dünya Ağaçları, zindanlar ve yerleşimler — hikâye ve harita konumlarıyla.",
+  "config.internalLinks.landmarks.linkText": "Konumlara göz at",
+  "config.internalLinks.foes.title": "Düşmanlar",
+  "config.internalLinks.foes.description": "Midrath'ın Ode'ları, Mendicant'ları, yozlaşmış yaratıkları ve bossları — nerede ortaya çıktıkları ve hangi zindanları korudukları.",
+  "config.internalLinks.foes.linkText": "Düşmanlara göz at",
+  "config.internalLinks.wildlife.title": "Yaban Hayatı",
+  "config.internalLinks.wildlife.description": "Midrath'ın hayvanları ve nadir parıldayan varyantları, nerede bulunacaklarıyla birlikte.",
+  "config.internalLinks.wildlife.linkText": "Yaban hayatına göz at",
+  "config.db.heroSubtitle": "Kodeks: konumlar, düşmanlar ve yaban hayatı",
+  "config.db.searchPlaceholder": "Konum, düşman, hayvan ara…",
+  "config.db.landmarks.description": "Midrath'ın adlandırılmış yerleri, Dünya Ağaçları, zindanlar ve yerleşimler.",
+  "config.db.foes.description": "Ode, Mendicant'lar, yozlaşmış yaratıklar ve bosslar.",
+  "config.db.wildlife.description": "Midrath'ın hayvanları ve parıldayan varyantları.",
+  "config.db.typeLabels.landmarks": "Konum",
+  "config.db.typeLabels.foes": "Düşman",
+  "config.db.typeLabels.wildlife": "Hayvan"
+}

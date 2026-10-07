@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Items & Codex",
+  "config.internalLinks.items.description": "Browse The Sinking City 2's weapons, consumables and quest objects — with icons and descriptions.",
+  "config.internalLinks.items.linkText": "Open the Items database",
+  "config.internalLinks.lore.title": "Lore",
+  "config.internalLinks.lore.description": "Every lore document, note and letter you can find across flooded Arkham.",
+  "config.internalLinks.lore.linkText": "Read the Lore",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items & lore…",
+  "config.db.items.description": "Weapons, consumables, ammunition and quest objects.",
+  "config.db.items.title": "Items",
+  "config.db.lore.description": "Documents, notes and letters found across Arkham.",
+  "config.db.evidence.description": "Clues and evidence uncovered during investigations.",
+  "config.db.evidence.title": "Evidence",
+  "config.db.cases.description": "Investigation cases and their conclusions.",
+  "config.db.cases.title": "Cases",
+  "config.db.typeLabels.items": "Item",
+  "config.db.typeLabels.lore": "Lore",
+  "config.db.typeLabels.evidence": "Evidence",
+  "config.db.typeLabels.cases": "Case"
+}

@@ -25,35 +25,32 @@ export const rsdragonwilds = resolveAppConfig({
   // localized map title, e.g. /maps/Ashenfall).
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Browse every resource, consumable and component by category — with icons, descriptions and crafting recipes.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Equipment",
-      description:
-        "Weapons, armour and tools with combat stats — damage, slots and the skills they use.",
+      title: "config.internalLinks.equipment.title",
+      description: "config.internalLinks.equipment.description",
       href: "/db/equipment",
       iconName: "Axe",
-      linkText: "Open the Equipment database",
+      linkText: "config.internalLinks.equipment.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "Every crafting recipe by station, with ingredients cross-linked to each item.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "BookOpen",
-      linkText: "Open the Recipes database",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
-      title: "Enemies",
-      description: "Creatures and bosses you'll face across Ashenfall.",
+      title: "config.internalLinks.enemies.title",
+      description: "config.internalLinks.enemies.description",
       href: "/db/enemies",
       iconName: "Bug",
-      linkText: "Open the Bestiary",
+      linkText: "config.internalLinks.enemies.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -83,44 +80,48 @@ export const rsdragonwilds = resolveAppConfig({
   db: {
     // Collection checklists (/checklist, /checklist/<section>).
     checklists: [{ section: "enemies" }],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, equipment, recipes…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "🎒",
-        description: "Resources, consumables and components.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/equipment",
         type: "equipment",
+        titleKey: "config.internalLinks.equipment.title",
         titleFallback: "Equipment",
         icon: "⚔️",
-        description: "Weapons, armour and tools with stats.",
+        description: "config.db.equipment.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "📜",
-        description: "Crafting recipes by station, with ingredients.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/enemies",
         type: "enemies",
+        titleKey: "config.internalLinks.enemies.title",
         titleFallback: "Enemies",
         icon: "💀",
-        description: "Creatures and bosses across Ashenfall.",
+        description: "config.db.enemies.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      equipment: "Equipment",
-      recipes: "Recipe",
-      enemies: "Enemies",
+      inventory: "config.db.typeLabels.inventory",
+      equipment: "config.db.typeLabels.equipment",
+      recipes: "config.db.typeLabels.recipes",
+      enemies: "config.db.typeLabels.enemies",
     },
   },
 });

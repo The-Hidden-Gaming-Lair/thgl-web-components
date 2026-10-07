@@ -31,44 +31,39 @@ export const satisfactory = resolveAppConfig({
   // yet after it — a partial list splits the database links around "All Guides".
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Browse every Satisfactory item and resource — parts, equipment, ammo and fuels — with stack sizes, energy values, sink points and crafting cross-links.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Buildings",
-      description:
-        "All buildable structures — production machines, power generators, logistics and architecture — with power stats and build costs.",
+      title: "config.internalLinks.structures.title",
+      description: "config.internalLinks.structures.description",
       href: "/db/structures",
       iconName: "House",
-      linkText: "Browse Buildings",
+      linkText: "config.internalLinks.structures.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "Every machine and workshop recipe, grouped by building — ingredients, products, crafting time and output per minute.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "BookOpen",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
-      title: "Schematics",
-      description:
-        "Milestones, MAM research, alternate recipes and the AWESOME Shop — costs and everything they unlock.",
+      title: "config.internalLinks.schematics.title",
+      description: "config.internalLinks.schematics.description",
       href: "/db/schematics",
       iconName: "ScrollText",
-      linkText: "Browse Schematics",
+      linkText: "config.internalLinks.schematics.linkText",
     },
     {
-      title: "Creatures",
-      description:
-        "The fauna of MASSAGE-2(A-B)b — health, damage, gas resistance and drops.",
+      title: "config.internalLinks.fauna.title",
+      description: "config.internalLinks.fauna.description",
       href: "/db/fauna",
       iconName: "PawPrint",
-      linkText: "Browse Creatures",
+      linkText: "config.internalLinks.fauna.linkText",
     },
     {
       title: "crafting.navTitle",
@@ -79,56 +74,57 @@ export const satisfactory = resolveAppConfig({
     },
   ],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, buildings, recipes…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "📦",
-        description:
-          "Parts, resources, equipment, ammo and fuels — with stack sizes, energy values and sink points.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/structures",
         type: "structures",
+        titleKey: "config.internalLinks.structures.title",
         titleFallback: "Buildings",
         icon: "🏭",
-        description:
-          "Production machines, generators, logistics and architecture — with power stats and build costs.",
+        description: "config.db.structures.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "📜",
-        description:
-          "Machine and workshop recipes by building — ingredients, products and output per minute.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/schematics",
         type: "schematics",
+        titleKey: "config.internalLinks.schematics.title",
         titleFallback: "Schematics",
         icon: "🔬",
-        description:
-          "Milestones, MAM research, alternate recipes and the AWESOME Shop — costs and unlocks.",
+        description: "config.db.schematics.description",
       },
       {
         href: "/db/fauna",
         type: "fauna",
+        titleKey: "config.internalLinks.fauna.title",
         titleFallback: "Creatures",
         icon: "🐗",
-        description: "The fauna of MASSAGE-2(A-B)b — health, damage and drops.",
+        description: "config.db.fauna.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      structures: "Buildings",
-      recipes: "Recipe",
-      schematics: "Schematics",
-      fauna: "Creatures",
+      inventory: "config.db.typeLabels.inventory",
+      structures: "config.db.typeLabels.structures",
+      recipes: "config.db.typeLabels.recipes",
+      schematics: "config.db.typeLabels.schematics",
+      fauna: "config.db.typeLabels.fauna",
     },
   },
 });

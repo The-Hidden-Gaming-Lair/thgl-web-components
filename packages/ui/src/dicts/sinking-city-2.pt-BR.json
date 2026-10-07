@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Itens e códex",
+  "config.internalLinks.items.description": "As armas, consumíveis e objetos de missão de The Sinking City 2 — com ícones e descrições.",
+  "config.internalLinks.items.linkText": "Abrir o banco de dados de itens",
+  "config.internalLinks.lore.title": "História",
+  "config.internalLinks.lore.description": "Todos os documentos, notas e cartas que você pode encontrar na Arkham inundada.",
+  "config.internalLinks.lore.linkText": "Ler a história",
+  "config.db.heroSubtitle": "Banco de dados do jogo",
+  "config.db.searchPlaceholder": "Buscar itens e história…",
+  "config.db.items.description": "Armas, consumíveis, munição e objetos de missão.",
+  "config.db.items.title": "Itens",
+  "config.db.lore.description": "Documentos, notas e cartas encontrados por toda Arkham.",
+  "config.db.evidence.description": "Pistas e provas descobertas durante as investigações.",
+  "config.db.evidence.title": "Provas",
+  "config.db.cases.description": "Casos de investigação e suas conclusões.",
+  "config.db.cases.title": "Casos",
+  "config.db.typeLabels.items": "Item",
+  "config.db.typeLabels.lore": "História",
+  "config.db.typeLabels.evidence": "Prova",
+  "config.db.typeLabels.cases": "Caso"
+}

@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "アイテム",
+  "config.internalLinks.inventory.description": "すべての資源、消耗品、素材をカテゴリ別に — アイコン、説明、クラフトレシピ付き。",
+  "config.internalLinks.inventory.linkText": "アイテムデータベースを開く",
+  "config.internalLinks.equipment.title": "装備",
+  "config.internalLinks.equipment.description": "武器、防具、ツールの戦闘ステータス — ダメージ、スロット、使用スキル。",
+  "config.internalLinks.equipment.linkText": "装備データベースを開く",
+  "config.internalLinks.recipes.title": "レシピ",
+  "config.internalLinks.recipes.description": "作業台ごとのすべてのクラフトレシピ。素材は各アイテムにリンク。",
+  "config.internalLinks.recipes.linkText": "レシピデータベースを開く",
+  "config.internalLinks.enemies.title": "敵",
+  "config.internalLinks.enemies.description": "Ashenfallで遭遇するクリーチャーとボス。",
+  "config.internalLinks.enemies.linkText": "モンスター図鑑を開く",
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテム、装備、レシピを検索…",
+  "config.db.inventory.description": "資源、消耗品、素材。",
+  "config.db.equipment.description": "ステータス付きの武器、防具、ツール。",
+  "config.db.recipes.description": "作業台ごとのクラフトレシピと素材。",
+  "config.db.enemies.description": "Ashenfall全域のクリーチャーとボス。",
+  "config.db.typeLabels.inventory": "アイテム",
+  "config.db.typeLabels.equipment": "装備",
+  "config.db.typeLabels.recipes": "レシピ",
+  "config.db.typeLabels.enemies": "敵"
+}

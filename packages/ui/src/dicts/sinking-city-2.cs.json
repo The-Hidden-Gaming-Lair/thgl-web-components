@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Předměty a kodex",
+  "config.internalLinks.items.description": "Zbraně, spotřební předměty a úkolové předměty z The Sinking City 2 — s ikonami a popisy.",
+  "config.internalLinks.items.linkText": "Otevřít databázi předmětů",
+  "config.internalLinks.lore.title": "Příběh",
+  "config.internalLinks.lore.description": "Všechny dokumenty, poznámky a dopisy, které najdete v zatopeném Arkhamu.",
+  "config.internalLinks.lore.linkText": "Číst příběh",
+  "config.db.heroSubtitle": "Herní databáze",
+  "config.db.searchPlaceholder": "Hledat předměty a příběh…",
+  "config.db.items.description": "Zbraně, spotřební předměty, munice a úkolové předměty.",
+  "config.db.items.title": "Předměty",
+  "config.db.lore.description": "Dokumenty, poznámky a dopisy z celého Arkhamu.",
+  "config.db.evidence.description": "Stopy a důkazy odhalené během vyšetřování.",
+  "config.db.evidence.title": "Důkazy",
+  "config.db.cases.description": "Vyšetřované případy a jejich závěry.",
+  "config.db.cases.title": "Případy",
+  "config.db.typeLabels.items": "Předmět",
+  "config.db.typeLabels.lore": "Příběh",
+  "config.db.typeLabels.evidence": "Důkaz",
+  "config.db.typeLabels.cases": "Případ"
+}

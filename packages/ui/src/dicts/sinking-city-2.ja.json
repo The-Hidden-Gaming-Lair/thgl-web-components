@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "アイテムと記録",
+  "config.internalLinks.items.description": "The Sinking City 2 の武器、消耗品、クエストアイテム — アイコンと説明付き。",
+  "config.internalLinks.items.linkText": "アイテムデータベースを開く",
+  "config.internalLinks.lore.title": "伝承",
+  "config.internalLinks.lore.description": "水没したアーカムで見つかるすべての文書、メモ、手紙。",
+  "config.internalLinks.lore.linkText": "伝承を読む",
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテムと伝承を検索…",
+  "config.db.items.description": "武器、消耗品、弾薬、クエストアイテム。",
+  "config.db.items.title": "アイテム",
+  "config.db.lore.description": "アーカム各地で見つかる文書、メモ、手紙。",
+  "config.db.evidence.description": "調査中に見つけた手がかりと証拠。",
+  "config.db.evidence.title": "証拠",
+  "config.db.cases.description": "調査事件とその結論。",
+  "config.db.cases.title": "事件",
+  "config.db.typeLabels.items": "アイテム",
+  "config.db.typeLabels.lore": "伝承",
+  "config.db.typeLabels.evidence": "証拠",
+  "config.db.typeLabels.cases": "事件"
+}

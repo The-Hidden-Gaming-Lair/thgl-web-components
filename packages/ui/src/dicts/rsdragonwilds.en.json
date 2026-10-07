@@ -1,1 +1,24 @@
-{}
+{
+  "config.internalLinks.inventory.title": "Items",
+  "config.internalLinks.inventory.description": "Browse every resource, consumable and component by category — with icons, descriptions and crafting recipes.",
+  "config.internalLinks.inventory.linkText": "Open the Items database",
+  "config.internalLinks.equipment.title": "Equipment",
+  "config.internalLinks.equipment.description": "Weapons, armour and tools with combat stats — damage, slots and the skills they use.",
+  "config.internalLinks.equipment.linkText": "Open the Equipment database",
+  "config.internalLinks.recipes.title": "Recipes",
+  "config.internalLinks.recipes.description": "Every crafting recipe by station, with ingredients cross-linked to each item.",
+  "config.internalLinks.recipes.linkText": "Open the Recipes database",
+  "config.internalLinks.enemies.title": "Enemies",
+  "config.internalLinks.enemies.description": "Creatures and bosses you'll face across Ashenfall.",
+  "config.internalLinks.enemies.linkText": "Open the Bestiary",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items, equipment, recipes…",
+  "config.db.inventory.description": "Resources, consumables and components.",
+  "config.db.equipment.description": "Weapons, armour and tools with stats.",
+  "config.db.recipes.description": "Crafting recipes by station, with ingredients.",
+  "config.db.enemies.description": "Creatures and bosses across Ashenfall.",
+  "config.db.typeLabels.inventory": "Item",
+  "config.db.typeLabels.equipment": "Equipment",
+  "config.db.typeLabels.recipes": "Recipe",
+  "config.db.typeLabels.enemies": "Enemy"
+}

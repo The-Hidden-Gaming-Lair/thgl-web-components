@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "游戏数据库",
+  "config.db.searchPlaceholder": "搜索物品和建筑…",
+  "config.db.inventory.description": "资源、装备、食物、种子、动物和保险丝——附带制作配方、解锁阈值和交易价值。",
+  "config.db.inventory.title": "物品",
+  "config.db.buildings.description": "机器、基地建造和家具——附带每秒地球化速率、能耗、配方和等级升级。",
+  "config.db.buildings.title": "建筑",
+  "config.db.typeLabels.inventory": "物品",
+  "config.db.typeLabels.buildings": "建筑"
+}

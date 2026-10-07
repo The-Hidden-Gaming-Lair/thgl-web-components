@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "아이템 및 건물 검색…",
+  "config.db.inventory.description": "자원, 장비, 음식, 씨앗, 야생동물, 퓨즈 — 제작 레시피, 잠금 해제 기준치, 거래 가치 포함.",
+  "config.db.inventory.title": "아이템",
+  "config.db.buildings.description": "기계, 기지 건설, 가구 — 초당 테라포밍 수치, 에너지 사용량, 레시피, 티어 업그레이드 포함.",
+  "config.db.buildings.title": "건물",
+  "config.db.typeLabels.inventory": "아이템",
+  "config.db.typeLabels.buildings": "건물"
+}

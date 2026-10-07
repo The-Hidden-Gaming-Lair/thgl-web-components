@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Gegenstände & Kodex",
+  "config.internalLinks.items.description": "Waffen, Verbrauchsgüter und Questobjekte aus The Sinking City 2 — mit Symbolen und Beschreibungen.",
+  "config.internalLinks.items.linkText": "Gegenstandsdatenbank öffnen",
+  "config.internalLinks.lore.title": "Hintergrundwissen",
+  "config.internalLinks.lore.description": "Alle Dokumente, Notizen und Briefe, die du im überfluteten Arkham finden kannst.",
+  "config.internalLinks.lore.linkText": "Hintergrundwissen lesen",
+  "config.db.heroSubtitle": "Spieldatenbank",
+  "config.db.searchPlaceholder": "Gegenstände & Hintergrundwissen suchen…",
+  "config.db.items.description": "Waffen, Verbrauchsgüter, Munition und Questobjekte.",
+  "config.db.items.title": "Gegenstände",
+  "config.db.lore.description": "Dokumente, Notizen und Briefe aus ganz Arkham.",
+  "config.db.evidence.description": "Hinweise und Beweise, die bei Ermittlungen aufgedeckt werden.",
+  "config.db.evidence.title": "Beweise",
+  "config.db.cases.description": "Ermittlungsfälle und ihre Schlussfolgerungen.",
+  "config.db.cases.title": "Fälle",
+  "config.db.typeLabels.items": "Gegenstand",
+  "config.db.typeLabels.lore": "Hintergrundwissen",
+  "config.db.typeLabels.evidence": "Beweis",
+  "config.db.typeLabels.cases": "Fall"
+}

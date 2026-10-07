@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.maps-Midrath.description": "使用我们的互动地图探索 Soulframe 的 Midrath。",
+  "config.internalLinks.maps-Midrath.linkText": "探索 Midrath 地图",
+  "config.internalLinks.landmarks.title": "地点",
+  "config.internalLinks.landmarks.description": "Midrath 的所有命名地点、世界之树、地下城和聚居地，附带背景故事和地图位置。",
+  "config.internalLinks.landmarks.linkText": "浏览地点",
+  "config.internalLinks.foes.title": "敌人",
+  "config.internalLinks.foes.description": "Midrath 的 Ode、Mendicants、腐化生物和首领——出没位置及其守护的地下城。",
+  "config.internalLinks.foes.linkText": "浏览敌人",
+  "config.internalLinks.wildlife.title": "野生动物",
+  "config.internalLinks.wildlife.description": "Midrath 的动物及其稀有的闪耀变种，附带出没地点。",
+  "config.internalLinks.wildlife.linkText": "浏览野生动物",
+  "config.db.heroSubtitle": "图鉴：地点、敌人和野生动物",
+  "config.db.searchPlaceholder": "搜索地点、敌人、野生动物…",
+  "config.db.landmarks.description": "Midrath 的命名地点、世界之树、地下城和聚居地。",
+  "config.db.foes.description": "Ode、Mendicants、腐化生物和首领。",
+  "config.db.wildlife.description": "Midrath 的动物及其闪耀变种。",
+  "config.db.typeLabels.landmarks": "地点",
+  "config.db.typeLabels.foes": "敌人",
+  "config.db.typeLabels.wildlife": "动物"
+}

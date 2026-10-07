@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "Base de dados do jogo",
+  "config.db.searchPlaceholder": "Pesquisar itens e construções…",
+  "config.db.inventory.description": "Recursos, equipamento, comida, sementes, fauna e fusíveis — com receitas de fabrico, limiares de desbloqueio e valores de troca.",
+  "config.db.inventory.title": "Itens",
+  "config.db.buildings.description": "Máquinas, construção de base e mobília — com taxas de terraformação por segundo, consumo de energia, receitas e melhorias de nível.",
+  "config.db.buildings.title": "Construções",
+  "config.db.typeLabels.inventory": "Item",
+  "config.db.typeLabels.buildings": "Construção"
+}

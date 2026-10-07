@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "아이템 및 코덱스",
+  "config.internalLinks.items.description": "The Sinking City 2의 무기, 소모품, 퀘스트 물품 — 아이콘과 설명 포함.",
+  "config.internalLinks.items.linkText": "아이템 데이터베이스 열기",
+  "config.internalLinks.lore.title": "설정",
+  "config.internalLinks.lore.description": "물에 잠긴 아캄에서 찾을 수 있는 모든 문서, 메모, 편지.",
+  "config.internalLinks.lore.linkText": "설정 읽기",
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "아이템 및 설정 검색…",
+  "config.db.items.description": "무기, 소모품, 탄약, 퀘스트 물품.",
+  "config.db.items.title": "아이템",
+  "config.db.lore.description": "아캄 곳곳에서 발견되는 문서, 메모, 편지.",
+  "config.db.evidence.description": "수사 중에 밝혀낸 단서와 증거.",
+  "config.db.evidence.title": "증거",
+  "config.db.cases.description": "수사 사건과 그 결론.",
+  "config.db.cases.title": "사건",
+  "config.db.typeLabels.items": "아이템",
+  "config.db.typeLabels.lore": "설정",
+  "config.db.typeLabels.evidence": "증거",
+  "config.db.typeLabels.cases": "사건"
+}

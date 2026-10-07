@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items and buildings…",
+  "config.db.inventory.description": "Resources, equipment, food, seeds, wildlife and fuses — with crafting recipes, unlock thresholds and trade values.",
+  "config.db.inventory.title": "Items",
+  "config.db.buildings.description": "Machines, base building and furniture — with terraforming rates per second, energy use, recipes and tier upgrades.",
+  "config.db.buildings.title": "Buildings",
+  "config.db.typeLabels.inventory": "Item",
+  "config.db.typeLabels.buildings": "Building"
+}

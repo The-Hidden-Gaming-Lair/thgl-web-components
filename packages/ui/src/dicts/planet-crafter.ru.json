@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "База данных игры",
+  "config.db.searchPlaceholder": "Поиск предметов и построек…",
+  "config.db.inventory.description": "Ресурсы, снаряжение, еда, семена, фауна и предохранители — с рецептами крафта, порогами открытия и торговой стоимостью.",
+  "config.db.inventory.title": "Предметы",
+  "config.db.buildings.description": "Машины, строительство базы и мебель — со скоростью терраформирования в секунду, энергопотреблением, рецептами и улучшениями уровней.",
+  "config.db.buildings.title": "Постройки",
+  "config.db.typeLabels.inventory": "Предмет",
+  "config.db.typeLabels.buildings": "Постройка"
+}

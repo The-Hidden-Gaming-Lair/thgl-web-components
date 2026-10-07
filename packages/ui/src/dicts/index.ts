@@ -34,6 +34,101 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  soulframe: {
+    en: () => import("./soulframe.en.json").then((mod) => mod.default),
+    de: () => import("./soulframe.de.json").then((mod) => mod.default),
+    es: () => import("./soulframe.es.json").then((mod) => mod.default),
+    fr: () => import("./soulframe.fr.json").then((mod) => mod.default),
+    it: () => import("./soulframe.it.json").then((mod) => mod.default),
+    ja: () => import("./soulframe.ja.json").then((mod) => mod.default),
+    ko: () => import("./soulframe.ko.json").then((mod) => mod.default),
+    pl: () => import("./soulframe.pl.json").then((mod) => mod.default),
+    "pt-BR": () => import("./soulframe.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./soulframe.ru.json").then((mod) => mod.default),
+    th: () => import("./soulframe.th.json").then((mod) => mod.default),
+    tr: () => import("./soulframe.tr.json").then((mod) => mod.default),
+    uk: () => import("./soulframe.uk.json").then((mod) => mod.default),
+    "zh-CN": () => import("./soulframe.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./soulframe.zh-TW.json").then((mod) => mod.default),
+  },
+  "songs-of-conquest": {
+    en: () => import("./songs-of-conquest.en.json").then((mod) => mod.default),
+    ru: () => import("./songs-of-conquest.ru.json").then((mod) => mod.default),
+    cs: () => import("./songs-of-conquest.cs.json").then((mod) => mod.default),
+    fr: () => import("./songs-of-conquest.fr.json").then((mod) => mod.default),
+    de: () => import("./songs-of-conquest.de.json").then((mod) => mod.default),
+    it: () => import("./songs-of-conquest.it.json").then((mod) => mod.default),
+    pl: () => import("./songs-of-conquest.pl.json").then((mod) => mod.default),
+    es: () => import("./songs-of-conquest.es.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./songs-of-conquest.zh-CN.json").then((mod) => mod.default),
+    ja: () => import("./songs-of-conquest.ja.json").then((mod) => mod.default),
+    ko: () => import("./songs-of-conquest.ko.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./songs-of-conquest.pt-BR.json").then((mod) => mod.default),
+    uk: () => import("./songs-of-conquest.uk.json").then((mod) => mod.default),
+  },
+  "sinking-city-2": {
+    en: () => import("./sinking-city-2.en.json").then((mod) => mod.default),
+    de: () => import("./sinking-city-2.de.json").then((mod) => mod.default),
+    fr: () => import("./sinking-city-2.fr.json").then((mod) => mod.default),
+    es: () => import("./sinking-city-2.es.json").then((mod) => mod.default),
+    it: () => import("./sinking-city-2.it.json").then((mod) => mod.default),
+    ja: () => import("./sinking-city-2.ja.json").then((mod) => mod.default),
+    ko: () => import("./sinking-city-2.ko.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./sinking-city-2.pt-BR.json").then((mod) => mod.default),
+    pl: () => import("./sinking-city-2.pl.json").then((mod) => mod.default),
+    tr: () => import("./sinking-city-2.tr.json").then((mod) => mod.default),
+    uk: () => import("./sinking-city-2.uk.json").then((mod) => mod.default),
+    cs: () => import("./sinking-city-2.cs.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./sinking-city-2.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./sinking-city-2.zh-TW.json").then((mod) => mod.default),
+  },
+  satisfactory: {
+    en: () => import("./satisfactory.en.json").then((mod) => mod.default),
+    cs: () => import("./satisfactory.cs.json").then((mod) => mod.default),
+    de: () => import("./satisfactory.de.json").then((mod) => mod.default),
+    es: () => import("./satisfactory.es.json").then((mod) => mod.default),
+    "es-MX": () =>
+      import("./satisfactory.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./satisfactory.fr.json").then((mod) => mod.default),
+    hu: () => import("./satisfactory.hu.json").then((mod) => mod.default),
+    id: () => import("./satisfactory.id.json").then((mod) => mod.default),
+    it: () => import("./satisfactory.it.json").then((mod) => mod.default),
+    ja: () => import("./satisfactory.ja.json").then((mod) => mod.default),
+    ko: () => import("./satisfactory.ko.json").then((mod) => mod.default),
+    pl: () => import("./satisfactory.pl.json").then((mod) => mod.default),
+    pt: () => import("./satisfactory.pt.json").then((mod) => mod.default),
+    ru: () => import("./satisfactory.ru.json").then((mod) => mod.default),
+    th: () => import("./satisfactory.th.json").then((mod) => mod.default),
+    tr: () => import("./satisfactory.tr.json").then((mod) => mod.default),
+    uk: () => import("./satisfactory.uk.json").then((mod) => mod.default),
+    vi: () => import("./satisfactory.vi.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./satisfactory.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./satisfactory.zh-TW.json").then((mod) => mod.default),
+  },
+  "planet-crafter": {
+    en: () => import("./planet-crafter.en.json").then((mod) => mod.default),
+    fr: () => import("./planet-crafter.fr.json").then((mod) => mod.default),
+    es: () => import("./planet-crafter.es.json").then((mod) => mod.default),
+    pt: () => import("./planet-crafter.pt.json").then((mod) => mod.default),
+    de: () => import("./planet-crafter.de.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./planet-crafter.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./planet-crafter.zh-TW.json").then((mod) => mod.default),
+    ja: () => import("./planet-crafter.ja.json").then((mod) => mod.default),
+    ko: () => import("./planet-crafter.ko.json").then((mod) => mod.default),
+    pl: () => import("./planet-crafter.pl.json").then((mod) => mod.default),
+    ru: () => import("./planet-crafter.ru.json").then((mod) => mod.default),
+    tr: () => import("./planet-crafter.tr.json").then((mod) => mod.default),
+    it: () => import("./planet-crafter.it.json").then((mod) => mod.default),
+  },
   "the-first-descendant": {
     en: () =>
       import("./the-first-descendant.en.json").then((mod) => mod.default),
@@ -392,6 +487,8 @@ const appDictionaries = {
     pt: () => import("./rsdragonwilds.pt.json").then((mod) => mod.default),
     "zh-CN": () =>
       import("./rsdragonwilds.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./rsdragonwilds.zh-TW.json").then((mod) => mod.default),
   },
   "thgl-app": {
     en: () => import("./thgl-app.en.json").then((mod) => mod.default),

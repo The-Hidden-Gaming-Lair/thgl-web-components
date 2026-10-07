@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "Oyun Veritabanı",
+  "config.db.searchPlaceholder": "Eşya ve bina ara…",
+  "config.db.inventory.description": "Kaynaklar, ekipman, yiyecek, tohumlar, yaban hayatı ve sigortalar — üretim tarifleri, kilit açma eşikleri ve ticaret değerleriyle.",
+  "config.db.inventory.title": "Eşyalar",
+  "config.db.buildings.description": "Makineler, üs inşası ve mobilyalar — saniye başına terraform oranları, enerji kullanımı, tarifler ve kademe yükseltmeleriyle.",
+  "config.db.buildings.title": "Binalar",
+  "config.db.typeLabels.inventory": "Eşya",
+  "config.db.typeLabels.buildings": "Bina"
+}

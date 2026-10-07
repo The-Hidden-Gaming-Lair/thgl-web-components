@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "Предмети й кодекс",
+  "config.internalLinks.items.description": "Зброя, витратні матеріали та квестові предмети The Sinking City 2 — з іконками й описами.",
+  "config.internalLinks.items.linkText": "Відкрити базу предметів",
+  "config.internalLinks.lore.title": "Лор",
+  "config.internalLinks.lore.description": "Усі документи, нотатки й листи, які можна знайти в затопленому Аркгемі.",
+  "config.internalLinks.lore.linkText": "Читати лор",
+  "config.db.heroSubtitle": "База даних гри",
+  "config.db.searchPlaceholder": "Пошук предметів і лору…",
+  "config.db.items.description": "Зброя, витратні матеріали, боєприпаси та квестові предмети.",
+  "config.db.items.title": "Предмети",
+  "config.db.lore.description": "Документи, нотатки й листи з усього Аркгема.",
+  "config.db.evidence.description": "Підказки й докази, знайдені під час розслідувань.",
+  "config.db.evidence.title": "Докази",
+  "config.db.cases.description": "Справи розслідувань та їхні висновки.",
+  "config.db.cases.title": "Справи",
+  "config.db.typeLabels.items": "Предмет",
+  "config.db.typeLabels.lore": "Лор",
+  "config.db.typeLabels.evidence": "Доказ",
+  "config.db.typeLabels.cases": "Справа"
+}

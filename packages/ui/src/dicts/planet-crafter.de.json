@@ -1,0 +1,10 @@
+{
+  "config.db.heroSubtitle": "Spieldatenbank",
+  "config.db.searchPlaceholder": "Gegenstände und Gebäude suchen…",
+  "config.db.inventory.description": "Ressourcen, Ausrüstung, Nahrung, Samen, Tiere und Sicherungen — mit Bauplänen, Freischaltschwellen und Handelswerten.",
+  "config.db.inventory.title": "Gegenstände",
+  "config.db.buildings.description": "Maschinen, Basisbau und Möbel — mit Terraforming-Raten pro Sekunde, Energieverbrauch, Rezepten und Stufen-Upgrades.",
+  "config.db.buildings.title": "Gebäude",
+  "config.db.typeLabels.inventory": "Gegenstand",
+  "config.db.typeLabels.buildings": "Gebäude"
+}

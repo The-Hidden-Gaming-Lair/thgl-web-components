@@ -1,0 +1,21 @@
+{
+  "config.internalLinks.items.title": "物品與圖鑑",
+  "config.internalLinks.items.description": "瀏覽 The Sinking City 2 的武器、消耗品和任務物品——附帶圖示和說明。",
+  "config.internalLinks.items.linkText": "開啟物品資料庫",
+  "config.internalLinks.lore.title": "背景資料",
+  "config.internalLinks.lore.description": "被淹沒的阿卡姆中能找到的所有文件、筆記和信件。",
+  "config.internalLinks.lore.linkText": "閱讀背景資料",
+  "config.db.heroSubtitle": "遊戲資料庫",
+  "config.db.searchPlaceholder": "搜尋物品和背景資料…",
+  "config.db.items.description": "武器、消耗品、彈藥和任務物品。",
+  "config.db.items.title": "物品",
+  "config.db.lore.description": "阿卡姆各處找到的文件、筆記和信件。",
+  "config.db.evidence.description": "調查中發現的線索和證據。",
+  "config.db.evidence.title": "證據",
+  "config.db.cases.description": "調查案件及其結論。",
+  "config.db.cases.title": "案件",
+  "config.db.typeLabels.items": "物品",
+  "config.db.typeLabels.lore": "背景資料",
+  "config.db.typeLabels.evidence": "證據",
+  "config.db.typeLabels.cases": "案件"
+}
