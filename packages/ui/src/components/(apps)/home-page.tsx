@@ -19,6 +19,7 @@ import {
   localizePath,
   mapLinkTitle,
   mapNameEntries,
+  mapTileKeyFromHref,
   resolveForgeUrl,
   sortMapNamesNewestFirst,
 } from "@repo/lib";
@@ -235,18 +236,12 @@ export function createHomePage(appConfig: AppConfig) {
 
     // Split internalLinks into map cards, guide links, and other feature cards
     // Enrich map cards with location counts from version.counts.byMap
-    const mapNameToKey = new Map<string, string>();
-    for (const tileKey of Object.keys(version.data.tiles)) {
-      mapNameToKey.set(t(tileKey), tileKey);
-    }
+    const tileKeys = Object.keys(version.data.tiles);
     const internalMapCards: NavCardProps[] =
       appConfig.internalLinks
         ?.filter((link) => link.href?.startsWith("/maps/"))
         .map((link) => {
-          const mapDisplayName = decodeURIComponent(
-            link.href.replace("/maps/", ""),
-          );
-          const tileKey = mapNameToKey.get(mapDisplayName);
+          const tileKey = mapTileKeyFromHref(link.href, tileKeys, enDict);
           const locCount = tileKey && version.counts?.byMap?.[tileKey];
           return {
             ...link,

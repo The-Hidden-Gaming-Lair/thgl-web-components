@@ -1,4 +1,10 @@
-import { getT, mapLinkTitle, mapNameEntries, mapNameFromHref } from "./i18n";
+import {
+  getT,
+  mapLinkTitle,
+  mapNameEntries,
+  mapNameFromHref,
+  mapTileKeyFromHref,
+} from "./i18n";
 
 describe("mapLinkTitle", () => {
   // Tile keys are game ids; links carry the English name (inbox #766).
@@ -59,5 +65,25 @@ describe("mapNameFromHref", () => {
     expect(mapNameFromHref("/maps/Skimmer's%20Lair")).toBe("Skimmer's Lair");
     expect(mapNameFromHref("/maps/A%2C%20B?x=1")).toBe("A, B");
     expect(mapNameFromHref("/guides/x")).toBeUndefined();
+  });
+});
+
+describe("mapTileKeyFromHref", () => {
+  const enDict = { "4020034": "Wanxiang Realm", "1": "Miraland" };
+  const tileKeys = ["1", "4020034", "Untranslated"];
+
+  it("matches the English href name, whatever the page locale", () => {
+    expect(mapTileKeyFromHref("/maps/Wanxiang%20Realm", tileKeys, enDict)).toBe(
+      "4020034",
+    );
+    expect(mapTileKeyFromHref("/maps/Miraland", tileKeys, enDict)).toBe("1");
+  });
+
+  it("falls back to the raw tile key and misses non-map links", () => {
+    expect(mapTileKeyFromHref("/maps/Untranslated", tileKeys, enDict)).toBe(
+      "Untranslated",
+    );
+    expect(mapTileKeyFromHref("/maps/Nope", tileKeys, enDict)).toBeUndefined();
+    expect(mapTileKeyFromHref("/db/weapons", tileKeys, enDict)).toBeUndefined();
   });
 });

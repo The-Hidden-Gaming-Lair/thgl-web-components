@@ -187,6 +187,21 @@ export function mapNameEntries(
   return entries;
 }
 
+/**
+ * Tile key of a `/maps/<English name>` link. Hrefs carry the English map name,
+ * so this matches against the English dict — never the localized name, which
+ * misses on every other locale (inbox #765).
+ */
+export function mapTileKeyFromHref(
+  href: string,
+  tileKeys: string[],
+  enDict: Dict,
+): string | undefined {
+  const mapName = mapNameFromHref(href);
+  if (!mapName) return undefined;
+  return tileKeys.find((key) => (translate(enDict, key) || key) === mapName);
+}
+
 /** The map name of a `/maps/<name>` link (decoded), else undefined. */
 export function mapNameFromHref(href: string): string | undefined {
   const match = /^\/maps\/([^/?#]+)/.exec(href);
