@@ -19,6 +19,13 @@ export const conanExiles = resolveAppConfig({
   appUrl: "https://www.th.gl/companion-app",
   internalLinks: [
     {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
+    {
       title: "config.internalLinks.exiledLands.title",
       description:
         "Navigate the Exiled Lands in Conan Exiles Enhanced (UE5). Find camps, dungeons, caves, vistas, wildlife, NPC factions, iron ore deposits, and more.",
@@ -81,6 +88,12 @@ export const conanExiles = resolveAppConfig({
     "res_crystal",
   ],
   db: {
+    // Collection checklists (/checklist, /checklist/<section>): every emote
+    // (pickups link to the map) and every Journey.
+    checklists: [
+      { section: "emotes" },
+      { section: "journeys", descriptions: true },
+    ],
     heroSubtitle: "config.db.heroSubtitle",
     searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
