@@ -919,5 +919,19 @@
   "comments.tips.signIn": "Sign in to share a tip. No subscription needed.",
   "db.filterPlaceholder": "Filter by name or effect…",
   "db.all": "All",
-  "db.shownCount": "{{count}} shown"
+  "db.shownCount": "{{count}} shown",
+  "nav.mapTitle": "{{map}} Map",
+  "home.mapLocations": "{{count}} locations",
+  "home.mapNavigate": "Navigate {{map}} with our interactive maps.",
+  "home.mapExplore": "Explore the {{map}}",
+  "home.explore": "Explore",
+  "home.stats.map": "Map",
+  "home.stats.locations": "Locations",
+  "home.stats.locationTypes": "Location Types",
+  "home.stats.lastUpdated": "Last Updated",
+  "home.companion.title": "In-Game Companion App",
+  "home.companion.description": "Live overlay with player tracking and auto-discovery",
+  "home.companion.cta": "Get it free",
+  "guides.viewAll": "View all guides",
+  "maps.totalLocations": "{{count}} total locations across {{maps}} maps"
 }

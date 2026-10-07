@@ -16,6 +16,7 @@ import {
   getUpdateMessages,
   type IconSprite,
   localizePath,
+  mapLinkTitle,
   resolveForgeUrl,
   sortMapNamesNewestFirst,
 } from "@repo/lib";
@@ -46,7 +47,7 @@ export function createHomePageGenerateMetadata(appConfig: AppConfig) {
       appConfig.internalLinks?.filter((l) => !l.previewOnly) ?? [];
     const featureSource =
       seoLinks.length > 0
-        ? seoLinks.slice(0, 3).map((link) => t(link.title))
+        ? seoLinks.slice(0, 3).map((link) => mapLinkTitle(t, link.title))
         : appConfig.keywords.slice(0, 3).map((k) => t(k));
     const features = featureSource.join(", ");
 
@@ -102,6 +103,18 @@ export function createHomePage(appConfig: AppConfig) {
     ]);
 
     const t = getT(dict);
+    const formatCount = (n: number) => n.toLocaleString(locale);
+    // Map cards show their description only when it is a location count; the
+    // localized label doesn't always start with the number ("Мест: 1 234").
+    const countLabels = new Set<string>();
+    const locationsLabel = (n: number) => {
+      const label = t("home.mapLocations", {
+        fallback: "{{count}} locations",
+        vars: { count: formatCount(n) },
+      });
+      countLabels.add(label);
+      return label;
+    };
 
     // Resolve a dict value, following @-pointers, falling back to the raw string
     // (mirrors the DB home's resolveDict so plain-string titles/descriptions pass through).
@@ -126,7 +139,7 @@ export function createHomePage(appConfig: AppConfig) {
       appConfig.internalLinks
         ?.filter((l) => !l.previewOnly)
         .slice(0, 3)
-        .map((link) => t(link.title))
+        .map((link) => mapLinkTitle(t, link.title))
         .join(", ") ?? "";
 
     const keywords = appConfig.keywords?.map((k) => t(k)).join(", ") ?? "";
@@ -168,10 +181,16 @@ export function createHomePage(appConfig: AppConfig) {
         const mapLocCount = version.counts?.byMap?.[map] || 0;
         const desc =
           mapLocCount > 0
-            ? `${mapLocCount.toLocaleString()} locations`
-            : `Navigate ${mapName} with our interactive maps.`;
+            ? locationsLabel(mapLocCount)
+            : t("home.mapNavigate", {
+                fallback: "Navigate {{map}} with our interactive maps.",
+                vars: { map: mapName },
+              });
         return {
-          title: `${mapName} Map`,
+          title: t("nav.mapTitle", {
+            fallback: "{{map}} Map",
+            vars: { map: mapName },
+          }),
           description: desc,
           href: `/maps/${encodeURIComponent(mapName)}`,
           iconName: "Map" as NavCardProps["iconName"],
@@ -185,7 +204,10 @@ export function createHomePage(appConfig: AppConfig) {
                 getPreviewImageUrl(appConfig.name, tileBase),
               )
             : undefined,
-          linkText: `Explore the ${mapName}`,
+          linkText: t("home.mapExplore", {
+            fallback: "Explore the {{map}}",
+            vars: { map: mapName },
+          }),
         };
       }),
     );
@@ -210,9 +232,8 @@ export function createHomePage(appConfig: AppConfig) {
           const locCount = tileKey && version.counts?.byMap?.[tileKey];
           return {
             ...link,
-            description: locCount
-              ? `${locCount.toLocaleString()} locations`
-              : link.description,
+            title: mapLinkTitle(t, link.title),
+            description: locCount ? locationsLabel(locCount) : link.description,
           };
         }) ?? [];
     // Feature cards: non-map, non-guide links (e.g. "Weapons", "Deviant Locations").
@@ -361,7 +382,9 @@ export function createHomePage(appConfig: AppConfig) {
                         {totalMapCount}
                       </div>
                       <div className="text-xs uppercase tracking-wider">
-                        {totalMapCount === 1 ? "Map" : "Maps"}
+                        {totalMapCount === 1
+                          ? t("home.stats.map", { fallback: "Map" })
+                          : t("nav.maps", { fallback: "Maps" })}
                       </div>
                     </div>
                   )}
@@ -371,11 +394,17 @@ export function createHomePage(appConfig: AppConfig) {
                       <div className="text-center px-3 py-1">
                         <div className="text-lg font-semibold text-foreground tabular-nums">
                           {totalLocations
-                            ? totalLocations.toLocaleString()
+                            ? formatCount(totalLocations)
                             : totalLocationTypes}
                         </div>
                         <div className="text-xs uppercase tracking-wider">
-                          {totalLocations ? "Locations" : "Location Types"}
+                          {totalLocations
+                            ? t("home.stats.locations", {
+                                fallback: "Locations",
+                              })
+                            : t("home.stats.locationTypes", {
+                                fallback: "Location Types",
+                              })}
                         </div>
                       </div>
                     </>
@@ -385,14 +414,16 @@ export function createHomePage(appConfig: AppConfig) {
                       <div className="h-8 w-px bg-muted" />
                       <div className="text-center px-3 py-1">
                         <div className="text-sm font-medium text-foreground">
-                          {lastUpdated.toLocaleDateString("en", {
+                          {lastUpdated.toLocaleDateString(locale, {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
                           })}
                         </div>
                         <div className="text-xs uppercase tracking-wider">
-                          Last Updated
+                          {t("home.stats.lastUpdated", {
+                            fallback: "Last Updated",
+                          })}
                         </div>
                       </div>
                     </>
@@ -413,14 +444,19 @@ export function createHomePage(appConfig: AppConfig) {
                     </span>
                     <span className="text-sm text-left">
                       <strong className="text-foreground block text-sm">
-                        In-Game Companion App
+                        {t("home.companion.title", {
+                          fallback: "In-Game Companion App",
+                        })}
                       </strong>
                       <span className="text-xs text-muted-foreground">
-                        Live overlay with player tracking and auto-discovery
+                        {t("home.companion.description", {
+                          fallback:
+                            "Live overlay with player tracking and auto-discovery",
+                        })}
                       </span>
                     </span>
                     <span className="text-primary text-xs ml-auto shrink-0 group-hover:underline">
-                      Get it free →
+                      {t("home.companion.cta", { fallback: "Get it free" })} →
                     </span>
                   </a>
                 )}
@@ -464,11 +500,14 @@ export function createHomePage(appConfig: AppConfig) {
                                   </span>
                                   <span className="text-xs text-muted-foreground shrink-0">
                                     {card.description &&
-                                      /^\d/.test(card.description) && (
+                                      countLabels.has(card.description) && (
                                         <>{card.description} · </>
                                       )}
                                     <span className="group-hover:text-primary transition-colors">
-                                      Explore →
+                                      {t("home.explore", {
+                                        fallback: "Explore",
+                                      })}{" "}
+                                      →
                                     </span>
                                   </span>
                                 </div>
@@ -490,11 +529,14 @@ export function createHomePage(appConfig: AppConfig) {
                                   </span>
                                   <span className="text-xs text-muted-foreground shrink-0">
                                     {card.description &&
-                                      /^\d/.test(card.description) && (
+                                      countLabels.has(card.description) && (
                                         <>{card.description} · </>
                                       )}
                                     <span className="group-hover:text-primary transition-colors">
-                                      Explore →
+                                      {t("home.explore", {
+                                        fallback: "Explore",
+                                      })}{" "}
+                                      →
                                     </span>
                                   </span>
                                 </div>
@@ -523,7 +565,7 @@ export function createHomePage(appConfig: AppConfig) {
                 {dbSections.length > 0 && (
                   <div className="space-y-2">
                     <h2 className="text-xs uppercase tracking-wider text-muted-foreground">
-                      Database
+                      {t("database")}
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
                       {dbSections
@@ -639,7 +681,7 @@ export function createHomePage(appConfig: AppConfig) {
                             <div className="text-[10px] text-muted-foreground">
                               {filter.group}
                               {filter.locationCount > 0 &&
-                                ` · ${filter.locationCount.toLocaleString()}`}
+                                ` · ${formatCount(filter.locationCount)}`}
                             </div>
                           </div>
                         </Link>
@@ -649,7 +691,7 @@ export function createHomePage(appConfig: AppConfig) {
                       href={localizePath("/guides", locale)}
                       className="inline-flex items-center gap-2 rounded-md border border-muted/50 px-4 py-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
                     >
-                      View all guides →
+                      {t("guides.viewAll", { fallback: "View all guides" })} →
                     </Link>
                   </div>
                 )}

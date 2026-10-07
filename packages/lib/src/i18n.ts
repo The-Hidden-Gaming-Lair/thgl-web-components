@@ -131,6 +131,27 @@ export function getT(dict: Record<string, string>) {
   return t;
 }
 
+/**
+ * Label of an internalLinks map entry. A plain English config title of the
+ * standard "<Name> Map" form that the dict doesn't translate falls back to the
+ * localized `nav.mapTitle` template ("{{map}} Map" → "<Name> Karte"), so map
+ * links read naturally on every locale without per-tenant keys (inbox #755).
+ */
+export function mapLinkTitle(
+  t: (
+    key: string,
+    options?: { fallback?: string; vars?: Record<string, string> },
+  ) => string,
+  title: string,
+): string {
+  const translated = t(title);
+  if (translated !== title || !title.endsWith(" Map")) return translated;
+  return t("nav.mapTitle", {
+    fallback: "{{map}} Map",
+    vars: { map: title.slice(0, -" Map".length) },
+  });
+}
+
 export function localizePath(
   href: string,
   locale: string,

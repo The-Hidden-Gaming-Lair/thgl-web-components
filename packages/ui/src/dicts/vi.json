@@ -919,5 +919,19 @@
   "comments.tips.signIn": "Đăng nhập để chia sẻ mẹo. Không cần đăng ký gói.",
   "db.filterPlaceholder": "Lọc theo tên hoặc hiệu ứng…",
   "db.all": "Tất cả",
-  "db.shownCount": "Đang hiển thị {{count}}"
+  "db.shownCount": "Đang hiển thị {{count}}",
+  "nav.mapTitle": "Bản đồ {{map}}",
+  "home.mapLocations": "{{count}} địa điểm",
+  "home.mapNavigate": "Khám phá {{map}} với bản đồ tương tác của chúng tôi.",
+  "home.mapExplore": "Khám phá {{map}}",
+  "home.explore": "Khám phá",
+  "home.stats.map": "Bản đồ",
+  "home.stats.locations": "Địa điểm",
+  "home.stats.locationTypes": "Loại địa điểm",
+  "home.stats.lastUpdated": "Cập nhật lần cuối",
+  "home.companion.title": "Ứng dụng đồng hành trong game",
+  "home.companion.description": "Overlay trực tiếp với theo dõi người chơi và tự động khám phá",
+  "home.companion.cta": "Tải miễn phí",
+  "guides.viewAll": "Xem tất cả hướng dẫn",
+  "maps.totalLocations": "Tổng cộng {{count}} địa điểm trên {{maps}} bản đồ"
 }

@@ -919,5 +919,19 @@
   "comments.tips.signIn": "Masuk untuk berbagi tips. Tidak perlu langganan.",
   "db.filterPlaceholder": "Filter berdasarkan nama atau efek…",
   "db.all": "Semua",
-  "db.shownCount": "{{count}} ditampilkan"
+  "db.shownCount": "{{count}} ditampilkan",
+  "nav.mapTitle": "Peta {{map}}",
+  "home.mapLocations": "{{count}} lokasi",
+  "home.mapNavigate": "Jelajahi {{map}} dengan peta interaktif kami.",
+  "home.mapExplore": "Jelajahi {{map}}",
+  "home.explore": "Jelajahi",
+  "home.stats.map": "Peta",
+  "home.stats.locations": "Lokasi",
+  "home.stats.locationTypes": "Jenis Lokasi",
+  "home.stats.lastUpdated": "Terakhir Diperbarui",
+  "home.companion.title": "Companion App Dalam Game",
+  "home.companion.description": "Overlay langsung dengan pelacakan pemain dan penemuan otomatis",
+  "home.companion.cta": "Dapatkan gratis",
+  "guides.viewAll": "Lihat semua panduan",
+  "maps.totalLocations": "Total {{count}} lokasi di {{maps}} peta"
 }
