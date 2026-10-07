@@ -37,11 +37,14 @@ import {
   type InGameCoordinates,
   buildPrivateIconLookups,
   clearKnownNodeIds,
+  clearPrivateNodeIds,
   collectDoneWhenAllRules,
   collectKnownNodeIds,
+  collectPrivateNodeIds,
   resolvePrivateIcon,
   setDoneWhenAllRules,
   setKnownNodeIds,
+  setPrivateNodeIds,
   type TilesConfig,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
@@ -555,6 +558,21 @@ export function CoordinatesProvider({
       return acc;
     }, []);
   }, [isHydrated, myFilters, iconLookups]);
+
+  // The ids of the user's custom markers, so a tick of one never greys a
+  // static marker next to it and the other way round (coordinates.ts). Apart
+  // from the static ids: editing a custom marker only rebuilds this small set.
+  const privateNodeIds = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    const known = collectPrivateNodeIds(customNodes);
+    setPrivateNodeIds(known);
+    return known;
+  }, [customNodes]);
+  useEffect(() => {
+    if (!privateNodeIds) return;
+    setPrivateNodeIds(privateNodeIds);
+    return () => clearPrivateNodeIds(privateNodeIds);
+  }, [privateNodeIds]);
 
   const allFilters = useMemo(() => {
     if (!isHydrated) {

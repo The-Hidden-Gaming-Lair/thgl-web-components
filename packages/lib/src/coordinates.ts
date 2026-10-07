@@ -493,30 +493,93 @@ const buildKnownNodes = (
     const had = ids.get(id);
     ids.set(id, had === undefined || had === type ? type : null);
   };
-  for (const node of nodes) {
-    for (const spawn of node.spawns) {
-      // A private spawn is the user's own marker; its marks keep today's
-      // matching.
-      if (spawn.isPrivate) continue;
-      types.add(node.type);
-      // getNodeId's derivation, for a spawn that has not been normalized yet.
-      const sid = spawn.id || node.type;
-      add(
-        sid.includes("@") ? sid : `${sid}@${spawn.p[0]}:${spawn.p[1]}`,
-        node.type,
-      );
-      // getSpawnDiscoveryId gives the same id unless the id is empty, or the
-      // type stands in for a missing id and has "@".
-      if (!spawn.id && (spawn.id === "" || sid.includes("@")))
-        add(getSpawnDiscoveryId(node.type, spawn), node.type);
-    }
-  }
+  addNodeSetIds(nodes, add, types);
   return {
     ids,
     types,
     variantBases: collectVariantBaseTypes(opts?.typesIdMap),
   };
 };
+
+/** Adds both ids every spawn of `nodes` is addressed by, and its type. */
+const addNodeSetIds = (
+  nodes: KnownNodeSet,
+  add: (id: string, type: string) => void,
+  types: Set<string>,
+): void => {
+  for (const node of nodes) {
+    for (const spawn of node.spawns) {
+      types.add(node.type);
+      // getNodeId's derivation, for a spawn that has not been normalized yet.
+      const sid = spawn.id || node.type;
+      const nodeId = sid.includes("@")
+        ? sid
+        : `${sid}@${spawn.p[0]}:${spawn.p[1]}`;
+      add(nodeId, node.type);
+      // getSpawnDiscoveryId gives the same id unless the id is empty, the
+      // type stands in for a missing id and has "@", or the spawn is private
+      // (its bare id).
+      const discoveryId = getSpawnDiscoveryId(node.type, spawn);
+      if (discoveryId !== nodeId) add(discoveryId, node.type);
+    }
+  }
+};
+
+/**
+ * The user's own markers (My Filters): every id a custom marker is addressed
+ * by ({@link getNodeId} `<id>@<x>:<y>` on the map, the bare id in the filter
+ * counts and Discover all) → its custom filter name. Set by the
+ * CoordinatesProvider apart from the static ids, so editing a custom marker
+ * does not rebuild the static registry. A custom marker counts as a current
+ * marker: a tick of it never greys a static marker 1 unit away, and a mark of
+ * a static marker never greys it. The custom filter names join the gate.
+ */
+export type PrivateNodes = {
+  ids: ReadonlyMap<string, string | null>;
+  types: ReadonlySet<string>;
+};
+
+const NO_PRIVATE_NODES: PrivateNodes = { ids: new Map(), types: new Set() };
+let privateNodes: PrivateNodes = NO_PRIVATE_NODES;
+
+/** Collects the ids of the user's custom markers (see {@link PrivateNodes}). */
+export const collectPrivateNodeIds = (nodes: KnownNodeSet): PrivateNodes => {
+  const ids = new Map<string, string | null>();
+  const types = new Set<string>();
+  addNodeSetIds(
+    nodes,
+    (id, type) => {
+      const had = ids.get(id);
+      ids.set(id, had === undefined || had === type ? type : null);
+    },
+    types,
+  );
+  return { ids, types };
+};
+
+/** Replaces the custom marker ids (bumps the discovery rules version). */
+export const setPrivateNodeIds = (nodes: PrivateNodes): void => {
+  if (nodes === privateNodes) return;
+  privateNodes = nodes;
+  discoveryRulesVersion++;
+};
+
+/** Empties the custom marker ids if they are still `nodes` (provider unmount). */
+export const clearPrivateNodeIds = (nodes: PrivateNodes): void => {
+  if (privateNodes === nodes) setPrivateNodeIds(NO_PRIVATE_NODES);
+};
+
+/** Filter type of a current marker id (static or custom); undefined if none. */
+const currentTypeOf = (id: string): string | null | undefined => {
+  const type = knownNodes.ids.get(id);
+  if (type !== undefined || privateNodes.ids.size === 0) return type;
+  return privateNodes.ids.get(id);
+};
+
+/** Is `type` a filter type the gate knows (a game filter or a custom one)? */
+const isGateType = (type: string): boolean =>
+  knownNodes.types.has(type) ||
+  (privateNodes.types.size > 0 && privateNodes.types.has(type));
 
 /**
  * Collects the known static ids of a node set (see {@link KnownNodes}), with
@@ -720,7 +783,7 @@ const otherIdFitsStaticMarker = (
   if (knownType === null) return true;
   const otherBase = baseOf(otherId);
   return (
-    !knownNodes.types.has(otherBase) ||
+    !isGateType(otherBase) ||
     sameFamily(otherBase, knownType) ||
     otherBase === baseOf(knownId)
   );
@@ -736,17 +799,17 @@ const otherIdFitsStaticMarker = (
  * - a swapped legacy reading only counts for a mark that is not a current id;
  * - if neither is a current static id (a live actor vs a live mark), they do
  *   not name two different filters of the game by their base ids (CHOICE 3).
- * A live-only variant filter counts as its base filter for both checks.
- * With no known ids registered (see {@link KnownNodes}) only two ids with the
+ * A live-only variant filter counts as its base filter for both checks. The
+ * user's custom markers count as current ids too (see {@link PrivateNodes}).
+ * With no static ids registered (see {@link KnownNodes}) only two ids with the
  * same base match.
  */
 const crossIdAllowed = (q: string, entry: MarkEntry): boolean => {
-  const { ids, types } = knownNodes;
-  if (ids.size === 0) return baseOf(q) === baseOf(entry.id);
-  const markType = ids.get(entry.id);
+  if (knownNodes.ids.size === 0) return baseOf(q) === baseOf(entry.id);
+  const markType = currentTypeOf(entry.id);
   // A swapped (legacy z:x) reading only exists for old ids.
   if (entry.swapped && markType !== undefined) return false;
-  const qType = ids.get(q);
+  const qType = currentTypeOf(q);
   if (qType !== undefined && markType !== undefined)
     // Two current static ids are two markers (CHOICE 1).
     return (
@@ -757,7 +820,7 @@ const crossIdAllowed = (q: string, entry: MarkEntry): boolean => {
     const qBase = baseOf(q);
     const markBase = baseOf(entry.id);
     return (
-      !types.has(qBase) || !types.has(markBase) || sameFamily(qBase, markBase)
+      !isGateType(qBase) || !isGateType(markBase) || sameFamily(qBase, markBase)
     );
   }
   return qType !== undefined

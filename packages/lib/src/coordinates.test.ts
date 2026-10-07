@@ -5,6 +5,7 @@ import {
   clearKnownNodeIds,
   collectDoneWhenAllRules,
   collectKnownNodeIds,
+  collectPrivateNodeIds,
   dbEntryIdOf,
   getDoneWhenAllVersion,
   getNodeId,
@@ -14,6 +15,7 @@ import {
   removeDiscoveredMatches,
   setDoneWhenAllRules,
   setKnownNodeIds,
+  setPrivateNodeIds,
 } from "./coordinates";
 
 describe("done when all", () => {
@@ -704,6 +706,55 @@ describe("discovered marks", () => {
           discovered("ore@-45.68:123.46", ["ore@123.456789:-45.678901"]),
         ).toBe(true);
       });
+    });
+  });
+
+  // My Filters markers: their ids are current markers too. The base of a
+  // custom id (`<filter>_<Date.now()>`) is no filter, so before, a custom tick
+  // matched any static marker within 1 unit both ways.
+  describe("custom markers", () => {
+    const custom = {
+      type: "My Spots",
+      spawns: [
+        { id: "My Spots_1700000000000", isPrivate: true, p: [10.3, 20] },
+      ] as { id: string; isPrivate: boolean; p: [number, number] }[],
+    };
+    const tick = getNodeId({ ...custom.spawns[0], type: custom.type });
+    const bare = getSpawnDiscoveryId(custom.type, custom.spawns[0]);
+    beforeEach(() => {
+      knownMap([["iron_ore", undefined, [10, 20]]]);
+      setPrivateNodeIds(collectPrivateNodeIds([custom]));
+    });
+    afterEach(() => setPrivateNodeIds(collectPrivateNodeIds([])));
+
+    it("addresses the custom marker as the map and the counts do", () => {
+      expect(tick).toBe("My Spots_1700000000000@10.3:20");
+      expect(bare).toBe("My Spots_1700000000000");
+    });
+
+    it("a tick of the custom marker does not grey a static marker", () => {
+      expect(discovered("iron_ore@10:20", [tick])).toBe(false);
+    });
+
+    it("Discover all on a static filter does not grey the custom marker", () => {
+      expect(discovered(tick, ["iron_ore@10:20"])).toBe(false);
+    });
+
+    it("Undiscover all on a static filter keeps the custom tick", () => {
+      expect(removeDiscoveredMatches([tick], ["iron_ore@10:20"])).toEqual([
+        tick,
+      ]);
+    });
+
+    it("a live mark of a static filter does not grey the custom marker", () => {
+      expect(discovered(tick, ["iron_ore@10.40:20.00"])).toBe(false);
+    });
+
+    it("Discover all / Undiscover all on the custom filter (bare id)", () => {
+      expect(discovered(tick, [bare])).toBe(true);
+      expect(
+        removeDiscoveredMatches([bare, tick, "iron_ore@10:20"], [bare]),
+      ).toEqual(["iron_ore@10:20"]);
     });
   });
 
