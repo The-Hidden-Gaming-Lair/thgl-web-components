@@ -121,7 +121,7 @@ export function isSpecialUser(userId: string) {
 }
 
 export function getCurrentEntitledTiers(currentUser: PatreonUser) {
-if (isSpecialUser(currentUser.data.id)) {
+  if (isSpecialUser(currentUser.data.id)) {
     return ["special"];
   }
   if (!currentUser.included) {
@@ -137,8 +137,15 @@ if (isSpecialUser(currentUser.data.id)) {
 }
 
 export function getPerks(currentUser: PatreonUser, game?: Game) {
-  const entitledTierIDs = getCurrentEntitledTiers(currentUser);
+  return getPerksForTierIds(getCurrentEntitledTiers(currentUser), game);
+}
 
+/**
+ * Perks for a set of entitled tier ids. Shared by Patreon (tiers from the
+ * identity API) and Tebex (packages mapped onto the same tier ids, see
+ * lib/tebex.ts) so both providers grant identical perks.
+ */
+export function getPerksForTierIds(entitledTierIDs: string[], game?: Game) {
   const patreonTierIds = game?.patreonTierIDs ?? DEFAULT_PATREON_TIER_IDS;
   const appTiers =
     patreonTierIds.map((tierId) => tiers.find((t) => t.id === tierId)!) ?? [];
@@ -171,9 +178,11 @@ export function getPerks(currentUser: PatreonUser, game?: Game) {
 }
 
 export function isSupporter(currentUser: PatreonUser, game?: Game) {
-  const patreonTierIds = game?.patreonTierIDs ?? DEFAULT_PATREON_TIER_IDS;
+  return isSupporterTierIds(getCurrentEntitledTiers(currentUser), game);
+}
 
-  const entitledTierIDs = getCurrentEntitledTiers(currentUser);
+export function isSupporterTierIds(entitledTierIDs: string[], game?: Game) {
+  const patreonTierIds = game?.patreonTierIDs ?? DEFAULT_PATREON_TIER_IDS;
   return patreonTierIds.some((tierId) => entitledTierIDs.includes(tierId));
 }
 
@@ -183,10 +192,18 @@ export const CORS_HEADERS = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
+// Omit the domain attribute when COOKIE_DOMAIN is unset (dev) — a literal
+// `domain=undefined` makes browsers drop the cookie. Mirrors thgl-app/patreon.ts.
+function cookieDomainAttr() {
+  return process.env.COOKIE_DOMAIN
+    ? `; domain=${process.env.COOKIE_DOMAIN}`
+    : "";
+}
+
 export function toCookieString(userId: string, expiresIn: number) {
-  return `userId=${userId}; path=/; Max-Age=${expiresIn}; domain=${process.env.COOKIE_DOMAIN}; SameSite=Lax;`;
+  return `userId=${userId}; path=/; Max-Age=${expiresIn}${cookieDomainAttr()}; SameSite=Lax;`;
 }
 
 export function toCookieStringEmpty() {
-  return `userId=; path=/; Max-Age=0; domain=${process.env.COOKIE_DOMAIN}; SameSite=Lax;`;
+  return `userId=; path=/; Max-Age=0${cookieDomainAttr()}; SameSite=Lax;`;
 }

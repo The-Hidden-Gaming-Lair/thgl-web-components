@@ -21,6 +21,144 @@ import { tiers } from "@/games/thgl-web/lib/tiers";
 import { games, API_FORGE_URL, type THGLAccount } from "@repo/lib";
 import { getPerks } from "@/games/thgl-web/lib/patreon";
 import { InitializeAccount } from "@repo/ui/thgl-app";
+import { decodeUserSecret } from "@/lib/token-cookie";
+import {
+  TEBEX_FREE_TIER_ID,
+  type TebexAccount,
+  type TebexTierKey,
+  isTebexTierKey,
+  isTebexUserId,
+  resolveTebexAccount,
+} from "@/lib/tebex";
+import { SupporterKey } from "@/games/thgl-web/components/supporter-key";
+import { SupporterKeyLogin } from "@/games/thgl-web/components/supporter-key-login";
+
+// Tebex's customer portal: buyers sign in with their purchase email to view
+// payments and cancel their subscription.
+const TEBEX_PAYMENT_HISTORY_URL =
+  "https://checkout.tebex.io/payment-history/login";
+
+function TebexAccountContent({
+  secret,
+  tebexId,
+  tebex,
+  pending,
+}: {
+  secret: string;
+  tebexId: string;
+  tebex: TebexAccount | null;
+  /** Tier of a just-finished checkout (?tebex=complete&tier=…), else null. */
+  pending: TebexTierKey | null;
+}) {
+  const all = tebex?.entitlements ?? [];
+  // The Free package only marks the account as existing; the paid ones carry
+  // perks and an expiry.
+  const active = all.filter((e) => e.tierId !== TEBEX_FREE_TIER_ID);
+  const account: THGLAccount | null = tebex
+    ? {
+        userId: secret,
+        decryptedUserId: tebexId,
+        email: tebex.email,
+        perks: tebex.perks,
+        username: null,
+        avatarUrl: null,
+      }
+    : null;
+  // Right after checkout the webhook may not have landed yet — re-render
+  // every few seconds until the entitlement shows up (a paid tier for a
+  // paid checkout; any entitlement for the Free one).
+  const waiting =
+    pending !== null &&
+    tebex !== null &&
+    (pending === "free" ? all.length === 0 : active.length === 0);
+  return (
+    <>
+      {account && <InitializeAccount account={account} />}
+      {waiting && <meta httpEquiv="refresh" content="4" />}
+      <div className="bg-muted/30 rounded-lg p-8 max-w-3xl mx-auto space-y-6">
+        <h2 className="text-2xl font-bold text-center">Account</h2>
+        {tebex === null ? (
+          <p className="text-amber-500 text-center text-sm">
+            Your subscription status is temporarily unavailable. Please try
+            again in a minute.
+            <br />
+            暂时无法获取订阅状态，请一分钟后再试。
+          </p>
+        ) : waiting ? (
+          <p className="text-center text-sm text-muted-foreground">
+            Thank you! Processing your payment — this page updates
+            automatically.
+            <br />
+            谢谢！正在处理你的付款，此页面会自动更新。
+          </p>
+        ) : active.length > 0 ? (
+          <div className="text-center space-y-2">
+            <div className="flex gap-2 justify-center flex-wrap">
+              {[...new Set(active.map((e) => e.tierId))].map((tierId) => (
+                <span
+                  key={tierId}
+                  className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                >
+                  {tiers.find((tier) => tier.id === tierId)?.title ?? "Unknown"}
+                </span>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Active until{" "}
+              {new Date(active[0].expiresAt * 1000).toLocaleDateString(
+                "en-US",
+                { dateStyle: "medium" },
+              )}
+              {active[0].status === "Active" && " · renews automatically"}
+            </p>
+          </div>
+        ) : all.length > 0 ? (
+          <p className="text-center text-sm text-muted-foreground">
+            Free account - you can write comments.{" "}
+            <Link href="/support-me/tebex" className="text-primary underline">
+              Upgrade to Pro or Elite
+            </Link>
+            <br />
+            免费账户：可以发表评论。
+            <Link href="/support-me/tebex" className="text-primary underline">
+              升级到 Pro 或 Elite
+            </Link>
+          </p>
+        ) : (
+          <p className="text-amber-500 font-medium text-center text-sm">
+            You have no active subscription.{" "}
+            <Link href="/support-me/tebex" className="text-primary underline">
+              Choose a tier
+            </Link>
+          </p>
+        )}
+
+        <div className="border-t border-border pt-4 space-y-3 text-sm">
+          <p className="font-semibold">Your Supporter Key / 你的支持者密钥</p>
+          <p className="text-muted-foreground">
+            Keep this key safe. To unlock your perks in the Companion App, in
+            another browser or on another device, open the sign-in dialog there,
+            click &quot;Have a Supporter Key?&quot; and paste it.
+          </p>
+          <p className="text-muted-foreground">
+            请妥善保存此密钥。在伴侣应用、其他浏览器或其他设备中，打开登录窗口，点击“Have
+            a Supporter Key?”并粘贴此密钥，即可恢复你的账户和权益。
+          </p>
+          <SupporterKey secret={secret} />
+        </div>
+
+        <div className="flex gap-3 justify-center pt-4 border-t border-border">
+          <Button variant="secondary" asChild>
+            <Link href={TEBEX_PAYMENT_HISTORY_URL} target="_blank">
+              Manage Subscription
+            </Link>
+          </Button>
+          <SignOut isTebexAccount />
+        </div>
+      </div>
+    </>
+  );
+}
 
 export const metadata = {
   title: "Account - The Hidden Gaming Lair",
@@ -35,9 +173,14 @@ export const metadata = {
   },
 };
 
-export default async function SupportMeAccount() {
+export default async function SupportMeAccount({
+  searchParams,
+}: {
+  searchParams: Promise<{ tebex?: string; tier?: string }>;
+}) {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId");
+  const { tebex: tebexParam, tier: tierParam } = await searchParams;
 
   let content;
   let entitledTierIDs: string[] = [];
@@ -48,7 +191,31 @@ export default async function SupportMeAccount() {
   // unreachable. Falls back to the plain signed userId.
   let owSecret = userId?.value;
 
-  if (userId?.value) {
+  const tebexId = userId?.value
+    ? (() => {
+        const decoded = decodeUserSecret(userId.value);
+        return decoded && isTebexUserId(decoded.userId) ? decoded.userId : null;
+      })()
+    : null;
+
+  if (tebexId && userId?.value) {
+    const tebex = await resolveTebexAccount(tebexId);
+    entitledTierIDs = tebex?.tierIds ?? [];
+    content = (
+      <TebexAccountContent
+        secret={userId.value}
+        tebexId={tebexId}
+        tebex={tebex}
+        pending={
+          tebexParam === "complete"
+            ? isTebexTierKey(tierParam)
+              ? tierParam
+              : "pro"
+            : null
+        }
+      />
+    );
+  } else if (userId?.value) {
     try {
       const id = verify(userId.value, process.env.JWT_SECRET!) as string;
       // Cookie fallback keeps this page working when the token store
@@ -308,6 +475,7 @@ export default async function SupportMeAccount() {
           This will store a cookie in your browser to remember your Patreon
           account. You can sign out at any time.
         </p>
+        <SupporterKeyLogin />
       </div>
     );
   }

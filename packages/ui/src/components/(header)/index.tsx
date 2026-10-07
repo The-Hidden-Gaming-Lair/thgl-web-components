@@ -20,4 +20,5 @@ export {
 export { ReleaseNotesLink } from "./release-notes-link";
 export { DiscordIcon, GitHubIcon, RedditIcon } from "./social-icons";
 export { StatusBanner } from "./status-banner";
+export { restoreUserIdCookie } from "./user-id-cookie";
 export { WindowControlSymbols } from "./window-controls";
