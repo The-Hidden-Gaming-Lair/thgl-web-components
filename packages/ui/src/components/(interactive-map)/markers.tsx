@@ -463,7 +463,13 @@ const TooltipPositioner = React.forwardRef<
 });
 
 /** The static-spawn fields a live actor inherits when it names its spawn (`actor.spawnId`). */
-type LiveTwin = Pick<Spawn, "dbEntryId" | "shape" | "data"> & { type: string };
+type LiveTwin = Pick<Spawn, "dbEntryId" | "shape" | "data" | "icon"> & {
+  type: string;
+};
+
+/** A live class compared without its first letter: Baldur's Gate EE reports an area-placed
+ * creature's file "TTBELT" as "*TBELT". */
+const classKey = (c: string) => `*${c.slice(1).toUpperCase()}`;
 
 const DEFAULT_SHAPE_COLOR = "#E8D9A8";
 
@@ -754,29 +760,77 @@ function MarkersContent({
   // Live actors that name their static spawn (`actor.spawnId`) take that spawn's identity:
   // name, codex link and footprint. Built on first use - most games never send spawnIds.
   const liveTwinsRef = useRef<Map<string, LiveTwin> | null>(null);
+  // `${mapName}|${classKey}` -> the static spawns (id + position) of that live class.
+  const classTwinsRef = useRef<Map<
+    string,
+    { id: string; p: [number, number] }[]
+  > | null>(null);
   const searchableNodesRef = useRef(searchableNodes);
   if (searchableNodesRef.current !== searchableNodes) {
     searchableNodesRef.current = searchableNodes;
     liveTwinsRef.current = null;
+    classTwinsRef.current = null;
   }
   const liveTwin = (spawnId: string): LiveTwin | undefined => {
     if (!liveTwinsRef.current) {
       const byId = new Map<string, LiveTwin>();
+      const byClass = new Map<string, { id: string; p: [number, number] }[]>();
       for (const node of searchableNodesRef.current) {
         if (node.static) continue;
-        for (const s of node.spawns)
-          if (s.id?.includes("@"))
-            byId.set(s.id, {
-              type: node.type,
-              dbEntryId: s.dbEntryId,
-              shape: s.shape,
-              data: s.data,
-            });
+        for (const s of node.spawns) {
+          if (!s.id?.includes("@")) continue;
+          byId.set(s.id, {
+            type: node.type,
+            dbEntryId: s.dbEntryId,
+            shape: s.shape,
+            data: s.data,
+            icon: s.icon,
+          });
+          if (s.liveClass && node.mapName) {
+            const k = `${node.mapName}|${classKey(s.liveClass)}`;
+            const list = byClass.get(k) ?? [];
+            list.push({ id: s.id, p: [s.p[0], s.p[1]] });
+            byClass.set(k, list);
+          }
+        }
       }
       liveTwinsRef.current = byId;
+      classTwinsRef.current = byClass;
     }
     return liveTwinsRef.current.get(spawnId);
   };
+  /**
+   * A live actor without a `spawnId` whose class names a static spawn (`spawn.liveClass`, e.g. a
+   * Baldur's Gate EE creature file) is that spawn - the nearest one of that class on its map.
+   */
+  const withClassTwin = <
+    A extends {
+      type: string;
+      mapName?: string;
+      x: number;
+      y: number;
+      spawnId?: string;
+    },
+  >(
+    a: A,
+  ): A => {
+    if (a.spawnId || !a.mapName) return a;
+    if (!classTwinsRef.current) liveTwin("");
+    const list = classTwinsRef.current?.get(`${a.mapName}|${classKey(a.type)}`);
+    if (!list?.length) return a;
+    let best = list[0];
+    let bestD = Infinity;
+    for (const c of list) {
+      const d = (c.p[0] - a.x) ** 2 + (c.p[1] - a.y) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = c;
+      }
+    }
+    return { ...a, spawnId: best.id };
+  };
+  const withClassTwinRef = useRef(withClassTwin);
+  withClassTwinRef.current = withClassTwin;
   const liveTwinRef = useRef(liveTwin);
   // Outlines currently drawn, per layer, for hover/click hit-testing.
   const staticShapeHitsRef = useRef<ShapeHit[]>([]);
@@ -2374,7 +2428,9 @@ function MarkersContent({
         clearTimeout(despawnTimer);
         despawnTimer = null;
       }
-      const actorsList = useGameState.getState().actors || [];
+      const actorsList = (useGameState.getState().actors || []).map((a) =>
+        withClassTwinRef.current(a),
+      );
       const userState = userStoreApi.getState();
       const settingsState = useSettingsStore.getState();
       // Live data renders unless mode is 'static'. (Preview-only modes
@@ -2902,8 +2958,12 @@ function MarkersContent({
         const icon = icons.get(displayType);
         let sheet = "icons";
         let rect = { x: 0, y: 0, width: 64, height: 64 };
+        // The static twin's own icon (a character's head) wins over the type's.
+        const ownIcon = spawn.icon && "x" in spawn.icon ? spawn.icon : null;
         const markerIcon =
-          (typeof icon?.icon === "string" ? null : icon?.icon) ?? null;
+          ownIcon ??
+          (typeof icon?.icon === "string" ? null : icon?.icon) ??
+          null;
         const stringIcon = typeof icon?.icon === "string" ? icon.icon : null;
         if (stringIcon) {
           const fullUrl = getIconsUrl(appName, stringIcon, iconsPath);

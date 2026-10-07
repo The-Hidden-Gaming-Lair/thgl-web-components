@@ -135,6 +135,9 @@ export type Spawn = {
   shape?: [number, number][];
   /** Map (tiles key) this marker leads to - a door, a world-map location. The tooltip links to it. */
   mapLink?: string;
+  /** Live-detection class of the actor this marker is (a Baldur's Gate EE creature file): a live
+   * actor of that class on the same map takes this marker's identity. */
+  liveClass?: string;
   data?: Record<string, string[]>;
   /** Screen-space X offset in device px for spiderfied mixed-type clusters */
   spiderOffsetX?: number;
