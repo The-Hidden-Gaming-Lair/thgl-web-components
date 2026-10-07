@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "Oggetti",
+  "config.internalLinks.inventory.description": "Tutti gli oggetti di Avowed per categoria (armi, armature, accessori, cibo, consumabili, ingredienti e altro) con descrizioni e ricette di cucina.",
+  "config.internalLinks.inventory.linkText": "Apri il database degli oggetti",
+  "config.internalLinks.recipes.title": "Ricette",
+  "config.internalLinks.recipes.description": "Tutte le ricette di cucina di Avowed, con gli ingredienti collegati a ogni oggetto e le quantità prodotte.",
+  "config.internalLinks.recipes.linkText": "Sfoglia le ricette",
+  "config.db.heroSubtitle": "Database del gioco",
+  "config.db.searchPlaceholder": "Cerca oggetti…",
+  "config.db.inventory.description": "Armi, armature, accessori, cibo, consumabili e materiali.",
+  "config.db.recipes.description": "Ricette di cucina con ingredienti e quantità prodotte.",
+  "config.db.typeLabels.inventory": "Oggetto",
+  "config.db.typeLabels.recipes": "Ricetta"
+}

@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "アイテム",
+  "config.internalLinks.inventory.description": "Avowed のすべてのアイテムをカテゴリー別に掲載。武器、防具、アクセサリー、食べ物、消耗品、食材など、説明と料理レシピ付き。",
+  "config.internalLinks.inventory.linkText": "アイテムデータベースを開く",
+  "config.internalLinks.recipes.title": "レシピ",
+  "config.internalLinks.recipes.description": "Avowed のすべての料理レシピ。食材は各アイテムにリンクし、完成数も掲載。",
+  "config.internalLinks.recipes.linkText": "レシピを見る",
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテムを検索…",
+  "config.db.inventory.description": "武器、防具、アクセサリー、食べ物、消耗品、素材。",
+  "config.db.recipes.description": "料理レシピの食材と完成数。",
+  "config.db.typeLabels.inventory": "アイテム",
+  "config.db.typeLabels.recipes": "レシピ"
+}

@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "Items",
+  "config.internalLinks.inventory.description": "Browse every Avowed item by category — weapons, armor, accessories, food, consumables, ingredients and more — with descriptions and cooking recipes.",
+  "config.internalLinks.inventory.linkText": "Open the Items database",
+  "config.internalLinks.recipes.title": "Recipes",
+  "config.internalLinks.recipes.description": "Every cooking recipe in Avowed — ingredients cross-linked to each item, with yields.",
+  "config.internalLinks.recipes.linkText": "Browse Recipes",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items…",
+  "config.db.inventory.description": "Weapons, armor, accessories, food, consumables and materials.",
+  "config.db.recipes.description": "Cooking recipes with ingredients and yields.",
+  "config.db.typeLabels.inventory": "Item",
+  "config.db.typeLabels.recipes": "Recipe"
+}

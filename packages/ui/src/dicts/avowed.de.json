@@ -1,0 +1,14 @@
+{
+  "config.internalLinks.inventory.title": "Gegenstände",
+  "config.internalLinks.inventory.description": "Alle Gegenstände aus Avowed nach Kategorie – Waffen, Rüstungen, Accessoires, Nahrung, Verbrauchsgüter, Zutaten und mehr – mit Beschreibungen und Kochrezepten.",
+  "config.internalLinks.inventory.linkText": "Zur Gegenstandsdatenbank",
+  "config.internalLinks.recipes.title": "Rezepte",
+  "config.internalLinks.recipes.description": "Jedes Kochrezept in Avowed – Zutaten mit jedem Gegenstand verknüpft, mit Ertrag.",
+  "config.internalLinks.recipes.linkText": "Rezepte durchsuchen",
+  "config.db.heroSubtitle": "Spieldatenbank",
+  "config.db.searchPlaceholder": "Gegenstände suchen…",
+  "config.db.inventory.description": "Waffen, Rüstungen, Accessoires, Nahrung, Verbrauchsgüter und Materialien.",
+  "config.db.recipes.description": "Kochrezepte mit Zutaten und Ertrag.",
+  "config.db.typeLabels.inventory": "Gegenstand",
+  "config.db.typeLabels.recipes": "Rezept"
+}

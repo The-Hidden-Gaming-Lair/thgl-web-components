@@ -34,6 +34,71 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "albion-online": {
+    en: () => import("./albion-online.en.json").then((mod) => mod.default),
+    de: () => import("./albion-online.de.json").then((mod) => mod.default),
+    es: () => import("./albion-online.es.json").then((mod) => mod.default),
+    fr: () => import("./albion-online.fr.json").then((mod) => mod.default),
+    it: () => import("./albion-online.it.json").then((mod) => mod.default),
+    pl: () => import("./albion-online.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./albion-online.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./albion-online.ru.json").then((mod) => mod.default),
+    tr: () => import("./albion-online.tr.json").then((mod) => mod.default),
+    id: () => import("./albion-online.id.json").then((mod) => mod.default),
+    ja: () => import("./albion-online.ja.json").then((mod) => mod.default),
+    ko: () => import("./albion-online.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./albion-online.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./albion-online.zh-TW.json").then((mod) => mod.default),
+  },
+  "baldurs-gate-ee": {
+    en: () => import("./baldurs-gate-ee.en.json").then((mod) => mod.default),
+    cs: () => import("./baldurs-gate-ee.cs.json").then((mod) => mod.default),
+    de: () => import("./baldurs-gate-ee.de.json").then((mod) => mod.default),
+    es: () => import("./baldurs-gate-ee.es.json").then((mod) => mod.default),
+    fr: () => import("./baldurs-gate-ee.fr.json").then((mod) => mod.default),
+    hu: () => import("./baldurs-gate-ee.hu.json").then((mod) => mod.default),
+    it: () => import("./baldurs-gate-ee.it.json").then((mod) => mod.default),
+    ja: () => import("./baldurs-gate-ee.ja.json").then((mod) => mod.default),
+    ko: () => import("./baldurs-gate-ee.ko.json").then((mod) => mod.default),
+    pl: () => import("./baldurs-gate-ee.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./baldurs-gate-ee.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./baldurs-gate-ee.ru.json").then((mod) => mod.default),
+    tr: () => import("./baldurs-gate-ee.tr.json").then((mod) => mod.default),
+    uk: () => import("./baldurs-gate-ee.uk.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./baldurs-gate-ee.zh-CN.json").then((mod) => mod.default),
+  },
+  avowed: {
+    en: () => import("./avowed.en.json").then((mod) => mod.default),
+    de: () => import("./avowed.de.json").then((mod) => mod.default),
+    es: () => import("./avowed.es.json").then((mod) => mod.default),
+    fr: () => import("./avowed.fr.json").then((mod) => mod.default),
+    it: () => import("./avowed.it.json").then((mod) => mod.default),
+    ja: () => import("./avowed.ja.json").then((mod) => mod.default),
+    ko: () => import("./avowed.ko.json").then((mod) => mod.default),
+    pl: () => import("./avowed.pl.json").then((mod) => mod.default),
+    pt: () => import("./avowed.pt.json").then((mod) => mod.default),
+    ru: () => import("./avowed.ru.json").then((mod) => mod.default),
+    "zh-CN": () => import("./avowed.zh-CN.json").then((mod) => mod.default),
+  },
+  aion2: {
+    en: () => import("./aion2.en.json").then((mod) => mod.default),
+    de: () => import("./aion2.de.json").then((mod) => mod.default),
+    es: () => import("./aion2.es.json").then((mod) => mod.default),
+    fr: () => import("./aion2.fr.json").then((mod) => mod.default),
+    ja: () => import("./aion2.ja.json").then((mod) => mod.default),
+    ko: () => import("./aion2.ko.json").then((mod) => mod.default),
+    "pt-BR": () => import("./aion2.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./aion2.ru.json").then((mod) => mod.default),
+  },
+  "blood-of-dawnwalker": {
+    en: () =>
+      import("./blood-of-dawnwalker.en.json").then((mod) => mod.default),
+  },
   "conan-exiles": {
     en: () => import("./conan-exiles.en.json").then((mod) => mod.default),
     de: () => import("./conan-exiles.de.json").then((mod) => mod.default),

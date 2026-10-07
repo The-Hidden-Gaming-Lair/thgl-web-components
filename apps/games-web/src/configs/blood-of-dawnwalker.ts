@@ -20,36 +20,32 @@ export const bloodOfDawnwalker = resolveAppConfig({
   // Curated database cards (guides page + llms.txt); the map card is auto-generated (see above).
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Every item in The Blood of Dawnwalker — weapons, armour, accessories, consumables, ingredients, manuals and valuables — with stats, prices and the vendors that sell them.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Quests",
-      description:
-        "Main and side quests, points of interest and activities across Vale Sangora, with objectives, endings, rewards and where each one starts.",
+      title: "config.internalLinks.quests.title",
+      description: "config.internalLinks.quests.description",
       href: "/db/quests",
       iconName: "ScrollText",
-      linkText: "Browse Quests",
+      linkText: "config.internalLinks.quests.linkText",
     },
     {
-      title: "Bestiary",
-      description:
-        "Monsters, animals and the undead of Vale Sangora — glossary lore, portraits, stats per level, drops and blood values.",
+      title: "config.internalLinks.bestiary.title",
+      description: "config.internalLinks.bestiary.description",
       href: "/db/bestiary",
       iconName: "Bug",
-      linkText: "Browse the Bestiary",
+      linkText: "config.internalLinks.bestiary.linkText",
     },
     {
-      title: "Perks",
-      description:
-        "The Swordmastery, Witchcraft and Vampirism skill trees — every perk and ultimate with its levels, costs, effects and how it is unlocked.",
+      title: "config.internalLinks.perks.title",
+      description: "config.internalLinks.perks.description",
       href: "/db/perks",
       iconName: "Sparkles",
-      linkText: "Browse Perks",
+      linkText: "config.internalLinks.perks.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -99,102 +95,102 @@ export const bloodOfDawnwalker = resolveAppConfig({
   db: {
     // Collection checklists (/checklist, /checklist/<section>).
     checklists: [{ section: "readables" }],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, recipes, monsters, quests, perks…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.internalLinks.inventory.title",
         titleFallback: "Items",
         icon: "🗡️",
-        description:
-          "Weapons, armour, rings and amulets, consumables, ingredients, manuals, keys and valuables with stats, prices and vendors.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.db.recipes.title",
         titleFallback: "Recipes",
         icon: "🧪",
-        description:
-          "Every crafting recipe with its ingredients, output and the recipe scroll that teaches it.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/bestiary",
         type: "bestiary",
+        titleKey: "config.internalLinks.bestiary.title",
         titleFallback: "Bestiary",
         icon: "🐺",
-        description:
-          "Monsters, animals and the undead of Vale Sangora: glossary lore, portraits and blood values.",
+        description: "config.db.bestiary.description",
       },
       {
         href: "/db/glossary",
         type: "glossary",
+        titleKey: "config.db.glossary.title",
         titleFallback: "Glossary",
         icon: "📖",
-        description:
-          "Characters, legends, locations and tutorials from the in-game glossary.",
+        description: "config.db.glossary.description",
       },
       {
         href: "/db/readables",
         type: "readables",
+        titleKey: "config.db.readables.title",
         titleFallback: "Readables",
         icon: "📜",
-        description:
-          "Books, notes, letters, posters and manual pages, with their full text.",
+        description: "config.db.readables.description",
       },
       {
         href: "/db/vendors",
         type: "vendors",
+        titleKey: "config.db.vendors.title",
         titleFallback: "Vendors",
         icon: "🏪",
-        description:
-          "Blacksmiths, armourers, medics, innkeepers, merchants and named traders, with what each one sells.",
+        description: "config.db.vendors.description",
       },
       {
         href: "/db/quests",
         type: "quests",
+        titleKey: "config.internalLinks.quests.title",
         titleFallback: "Quests",
         icon: "❗",
-        description:
-          "Main and side quests, points of interest and activities with their objectives, endings, rewards and where they start.",
+        description: "config.db.quests.description",
       },
       {
         href: "/db/perks",
         type: "perks",
+        titleKey: "config.internalLinks.perks.title",
         titleFallback: "Perks",
         icon: "🌳",
-        description:
-          "The Swordmastery, Witchcraft and Vampirism skill trees: every perk and ultimate with its levels, skill-point and time cost, effects and how it is unlocked.",
+        description: "config.db.perks.description",
       },
       {
         href: "/db/abilities",
         type: "abilities",
+        titleKey: "config.db.abilities.title",
         titleFallback: "Active Abilities",
         icon: "⚔️",
-        description:
-          "Sword techniques, witchcraft spells and vampiric powers with their activation charge cost and effects per level.",
+        description: "config.db.abilities.description",
       },
       {
         href: "/db/court",
         type: "court",
+        titleKey: "config.db.court.title",
         titleFallback: "Court",
         icon: "👑",
-        description:
-          "Brencis' court: the three boyars, the activities that raise their anger, the boss quests they unlock and the nine edicts.",
+        description: "config.db.court.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      recipes: "Recipes",
-      bestiary: "Bestiary",
-      glossary: "Glossary",
-      readables: "Readables",
-      vendors: "Vendors",
-      quests: "Quests",
-      perks: "Perks",
-      abilities: "Active Abilities",
-      court: "Court",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
+      bestiary: "config.db.typeLabels.bestiary",
+      glossary: "config.db.typeLabels.glossary",
+      readables: "config.db.typeLabels.readables",
+      vendors: "config.db.typeLabels.vendors",
+      quests: "config.db.typeLabels.quests",
+      perks: "config.db.typeLabels.perks",
+      abilities: "config.db.typeLabels.abilities",
+      court: "config.db.typeLabels.court",
     },
   },
 });
