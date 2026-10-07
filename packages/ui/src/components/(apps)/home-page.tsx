@@ -22,6 +22,7 @@ import {
   mapTileKeyFromHref,
   resolveForgeUrl,
   sortMapNamesNewestFirst,
+  translate,
 } from "@repo/lib";
 import type { NavCardProps } from "../(content)";
 import { getFullDictionary, getStaticDictionary } from "../../dicts";
@@ -177,12 +178,12 @@ export function createHomePage(appConfig: AppConfig) {
         );
     // Newest maps (tiles `addedAt`) first, so a patch's new map is among the
     // first MAX_HOME_MAP_CARDS instead of appended past the cut.
+    // Map URLs use the English name on every locale (like the /maps cards);
+    // t(map) is localized, so it can't be matched against internalLinks hrefs.
+    const mapHref = (map: string) =>
+      `/maps/${encodeURIComponent(translate(enDict, map) || map)}`;
     const autoMapNames = sortMapNamesNewestFirst(
-      mapNames.filter((map) => {
-        const mapName = t(map);
-        const href = `/maps/${encodeURIComponent(mapName)}`;
-        return !internalLinkHrefs.has(href);
-      }),
+      mapNames.filter((map) => !internalLinkHrefs.has(mapHref(map))),
       version.data.tiles,
     );
     const newMapCount = autoMapNames.filter(
@@ -211,7 +212,7 @@ export function createHomePage(appConfig: AppConfig) {
             vars: { map: mapName },
           }),
           description: desc,
-          href: `/maps/${encodeURIComponent(mapName)}`,
+          href: mapHref(map),
           iconName: "Map" as NavCardProps["iconName"],
           // Resolve through the host-aware forge proxy so next/image's
           // server-side optimizer fetches the correct origin: the local
