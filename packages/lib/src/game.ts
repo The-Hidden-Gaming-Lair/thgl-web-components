@@ -60,11 +60,18 @@ export const useGameState = create(
     applyStaticActorsDelta: (added: Actor[], removed: string[]) => void;
     error: string | null;
     setError: (error: string | null) => void;
-    /** Node ids (getNodeId) drawn enlarged and shown even when their filter is off. */
+    /** Focused node ids (getNodeId), drawn enlarged; may also hold ids a
+     * spawn lists in `data.focusWhenAny` (see isSpawnShownByFocus). An off
+     * filter still hides focused spawns. */
     highlightSpawnIDs: string[];
     /** Replaces the whole set (live focus, see live-focus.ts); keeps the
      * reference when the ids are unchanged. */
     setHighlightSpawnIDs: (ids: string[]) => void;
+    /** A live payload carrying `focusNodeIds` arrived within
+     * LIVE_FOCUS_STALE_MS (also an empty list). Set by the live-focus tracker;
+     * gates spawns with `data.focusMode`. */
+    liveFocusActive: boolean;
+    setLiveFocusActive: (active: boolean) => void;
     addHighlightSpawnIDs: (id: string[]) => void;
     removeHighlightSpawnIDs: (id: string[]) => void;
     isUpdatingApp: boolean;
@@ -153,6 +160,11 @@ export const useGameState = create(
           ? state
           : { highlightSpawnIDs: next };
       }),
+    liveFocusActive: false,
+    setLiveFocusActive: (liveFocusActive) =>
+      set((state) =>
+        state.liveFocusActive === liveFocusActive ? state : { liveFocusActive },
+      ),
     addHighlightSpawnIDs: (id) =>
       set((state) => ({
         highlightSpawnIDs: Array.from(

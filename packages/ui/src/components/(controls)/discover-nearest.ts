@@ -1,7 +1,9 @@
 import {
+  getFocusMode,
   getNodeId,
   getPositionedDiscoverTypes,
   isSameWorld,
+  isSpawnShownByFocus,
   resolveDiscoverMode,
   type Spawn,
   type TilesConfig,
@@ -19,6 +21,8 @@ import type { NodesCoordinates, useT } from "../(providers)";
  * hidden discovered node next to you can't be undiscovered by a press you
  * can't see the target of. Undiscover only picks discovered nodes and works
  * with hidden ones too (the way back from a stray press).
+ * Focus-gated spawns count only while the map shows them (same gate and
+ * state as `processNodes`).
  */
 export function discoverNearestNode({
   mode,
@@ -37,10 +41,19 @@ export function discoverNearestNode({
   tilesConfig: TilesConfig;
   t: ReturnType<typeof useT>;
 }): void {
-  const { player } = useGameState.getState();
+  const { player, highlightSpawnIDs, liveFocusActive } =
+    useGameState.getState();
   if (!player) {
     return;
   }
+  // Live focus gate of the static map (isSpawnShownByFocus in processNodes):
+  // AION 2 quest objectives only while the app focuses them.
+  const focusState = {
+    filterOn: true,
+    selectedNodeId: null,
+    focused: highlightSpawnIDs.length > 0 ? new Set(highlightSpawnIDs) : null,
+    liveFocusActive,
+  };
   const {
     isDiscoveredNode,
     setDiscoverNode,
@@ -84,7 +97,19 @@ export function discoverNearestNode({
       }
       return true;
     })
-    .flatMap((n) => n.spawns.map((s) => ({ ...s, type: n.type })));
+    .flatMap((n) =>
+      n.spawns
+        .filter(
+          (s) =>
+            getFocusMode(s.data) === undefined ||
+            isSpawnShownByFocus(
+              getNodeId({ ...s, type: n.type } as Spawn),
+              s.data,
+              focusState,
+            ),
+        )
+        .map((s) => ({ ...s, type: n.type })),
+    );
   // Include live actors — they bypass coordinates-provider so we need to pull
   // them in directly for the closest-node hotkey.
   if (typesIdMap) {

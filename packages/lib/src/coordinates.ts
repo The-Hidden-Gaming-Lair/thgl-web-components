@@ -520,6 +520,74 @@ export const isDoneWhenAll = (
 };
 
 /**
+ * Focus-gated markers: spawns whose visibility follows the live focus of the
+ * companion app (`useGameState.highlightSpawnIDs` / `liveFocusActive`, see
+ * live-focus.ts). Wire contract (data-forge), in the spawn's `data`:
+ * - `focusMode = ["only"]`: shown only while focused (AION 2 quest objective
+ *   and turn-in markers);
+ * - `focusMode = ["live"]`: shown while live focus is NOT active (web, no app,
+ *   game closed); while it is active, shown only when focused (AION 2 quest
+ *   givers: only the ones with a quest the character can take now);
+ * - `focusWhenAny = ["q_1202051", ...]`: the spawn also counts as focused when
+ *   any of these ids is in the focus set.
+ * Any other `focusMode` value, or none, leaves the spawn as before. Description
+ * templates ignore the keys (no `{{focusMode}}` placeholder uses them).
+ */
+export const FOCUS_MODE_KEY = "focusMode";
+export const FOCUS_WHEN_ANY_KEY = "focusWhenAny";
+
+/** The spawn's focus mode, or undefined when it is not focus-gated. */
+export const getFocusMode = (
+  data: Record<string, string[]> | undefined,
+): "only" | "live" | undefined => {
+  const mode = data?.[FOCUS_MODE_KEY]?.[0];
+  return mode === "only" || mode === "live" ? mode : undefined;
+};
+
+/**
+ * True when the spawn is focused: its node id ({@link getNodeId}) is in
+ * `focused`, or any id of its `data.focusWhenAny` is. No allocations.
+ */
+export const isSpawnFocused = (
+  nodeId: string,
+  data: Record<string, string[]> | undefined,
+  focused: ReadonlySet<string> | null,
+): boolean => {
+  if (!focused || focused.size === 0) return false;
+  if (focused.has(nodeId)) return true;
+  const any = data?.[FOCUS_WHEN_ANY_KEY];
+  if (!Array.isArray(any)) return false;
+  for (let i = 0; i < any.length; i++) if (focused.has(any[i])) return true;
+  return false;
+};
+
+/**
+ * Whether the static map shows a spawn (the filter + focus part of
+ * `processNodes`; global filters and live-mode suppression are separate):
+ * 1. the selected marker always shows, even with its filter off;
+ * 2. a switched-off filter hides its spawns, focused ones too;
+ * 3. no focus mode → shown; `only` → shown when focused; `live` → shown when
+ *    live focus is inactive, else only when focused.
+ */
+export const isSpawnShownByFocus = (
+  nodeId: string,
+  data: Record<string, string[]> | undefined,
+  state: {
+    filterOn: boolean;
+    selectedNodeId?: string | null;
+    focused: ReadonlySet<string> | null;
+    liveFocusActive: boolean;
+  },
+): boolean => {
+  if (state.selectedNodeId && nodeId === state.selectedNodeId) return true;
+  if (!state.filterOn) return false;
+  const mode = getFocusMode(data);
+  if (mode === undefined) return true;
+  if (mode === "live" && !state.liveFocusActive) return true;
+  return isSpawnFocused(nodeId, data, state.focused);
+};
+
+/**
  * Check if a node is discovered using pre-built lookup structures.
  * Matches by:
  * 1. Exact ID match

@@ -24,6 +24,7 @@ import {
   getIconsUrl,
   getNodeId,
   isLiveReadingActive,
+  isSpawnFocused,
   MarkerOptions,
   resolveLiveModeForType,
   Spawn,
@@ -1404,11 +1405,14 @@ function MarkersContent({
 
       // A stack is highlighted when any of its members is (a focused quest
       // objective can sit in a stack with other markers).
+      // `data.focusWhenAny` counts too (a quest giver with an available quest).
       const isHighlighted =
-        highlightSet.has(nodeId) ||
+        isSpawnFocused(nodeId, spawn.data, highlightSet) ||
         selectedNodeId === nodeId ||
         (isStacked &&
-          spawn.cluster!.some((a) => highlightSet.has(clusterNodeId(a))));
+          spawn.cluster!.some((a) =>
+            isSpawnFocused(clusterNodeId(a), a.data, highlightSet),
+          ));
 
       const icon = icons.get(spawn.type);
       const iconBaseSize = icon?.size ?? 1;

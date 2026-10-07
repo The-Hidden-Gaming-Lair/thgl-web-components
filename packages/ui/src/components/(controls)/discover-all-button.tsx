@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { getSpawnDiscoveryId, useSettingsStore } from "@repo/lib";
+import { getFocusMode, getSpawnDiscoveryId, useSettingsStore } from "@repo/lib";
 import { useCoordinates, useT } from "../(providers)";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
@@ -23,6 +23,8 @@ import {
  * as the cluster tooltip's "Discover All"). Always rendered; disabled at 0/0
  * when the types have no plotted spawns on the current map (live-only
  * filters, or the filter's spawns live on another map).
+ * `focusMode ["only"]` spawns (AION 2 quest objectives and turn-ins, shown
+ * only while the app focuses them) are not part of the set.
  *
  * When the action would touch existing discovered state, an AlertDialog asks
  * for approval first. Mounting the modal dialog inside the popover is safe:
@@ -47,7 +49,9 @@ export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
       nodes
         .filter((node) => filterIds.includes(node.type))
         .flatMap((node) =>
-          node.spawns.map((spawn) => getSpawnDiscoveryId(node.type, spawn)),
+          node.spawns
+            .filter((spawn) => getFocusMode(spawn.data) !== "only")
+            .map((spawn) => getSpawnDiscoveryId(node.type, spawn)),
         ),
     [nodes, filterIds],
   );
