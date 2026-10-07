@@ -66,6 +66,11 @@ function sliceClientDict(
   for (const link of appConfig.promoLinks ?? []) {
     if (fullDict[link.title]) result[link.title] = fullDict[link.title];
   }
+  // Codex section titles in the nav (`homeSections[].titleKey`, game terms).
+  for (const section of appConfig.db?.homeSections ?? []) {
+    const key = section.titleKey;
+    if (key && fullDict[key]) result[key] = resolveDict(fullDict, key);
+  }
   return result;
 }
 

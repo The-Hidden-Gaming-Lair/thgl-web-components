@@ -368,11 +368,23 @@ export function GenericEntityView({
   const tableProps = Object.fromEntries(
     nonRef.filter(([, v]) => !isStatValue(v)),
   );
+  // Data-forge may write a label as a dict key (a rarity pill's `quality_Rare`,
+  // a ref's `group`/`tooltip`) so it renders in the page's locale; plain text
+  // passes through.
+  const dictText = (s: string | undefined) =>
+    s && dict?.[s] ? resolveDict(dict, s) : s;
+  const localizeRef = (r: DbRef): DbRef =>
+    r.group || r.tooltip
+      ? { ...r, group: dictText(r.group), tooltip: dictText(r.tooltip) }
+      : r;
+  // A prop's heading: the game's own label (`prop.<key>`) when the dict has one.
   const humanizeKey = (k: string) =>
-    k
-      .replace(/([a-z])([A-Z])/g, "$1 $2")
-      .replace(/[_-]+/g, " ")
-      .replace(/^./, (c) => c.toUpperCase());
+    dict?.[`prop.${k}`]
+      ? resolveDict(dict, `prop.${k}`)
+      : k
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .replace(/[_-]+/g, " ")
+          .replace(/^./, (c) => c.toUpperCase());
 
   const refPill = (r: DbRef) => {
     const ic = icons?.[r.id];
@@ -418,7 +430,7 @@ export function GenericEntityView({
     refs.length > 10 ? (
       <FilterableRefs
         items={refs.map((r) => ({
-          ...r,
+          ...localizeRef(r),
           name: refName(r),
           icon: (icons?.[r.id] as RefIconSprite) ?? null,
         }))}
@@ -537,7 +549,8 @@ export function GenericEntityView({
     </div>
   );
 
-  const refLinks = (refs: DbRef[]) => {
+  const refLinks = (rawRefs: DbRef[]) => {
+    const refs = rawRefs.map(localizeRef);
     // No group field → flat list (existing behavior for all other games).
     if (!refs.some((r) => r.group)) {
       return <div className="flex flex-wrap gap-2">{refs.map(refPill)}</div>;
@@ -600,7 +613,7 @@ export function GenericEntityView({
                   backgroundColor: `${rarity.color}1a`,
                 }}
               >
-                {rarity.label}
+                {dictText(rarity.label)}
               </span>
             )}
             {groupLabel && (
@@ -963,7 +976,7 @@ export function GenericEntityView({
                   <td
                     className={`px-3 py-1.5 text-muted-foreground text-xs w-1/3 align-top ${monoDetails ? "font-mono" : ""}`}
                   >
-                    {k}
+                    {dict?.[`prop.${k}`] ? humanizeKey(k) : k}
                   </td>
                   <td
                     className={`px-3 py-1.5 text-xs ${monoDetails ? "font-mono break-all" : ""}`}
