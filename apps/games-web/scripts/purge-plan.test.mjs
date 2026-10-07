@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { buildGraph } from "./import-graph.mjs";
-import { plan, routeTag, tenantOf } from "./purge-plan.mjs";
+import { plan, purgePatterns, routeTag, tenantOf } from "./purge-plan.mjs";
 
 const L = "apps/games-web/src/app/g/[game]/[surface]/[locale]";
 // A tiny fake monorepo: a lib barrel with two modules, a ui barrel, routes.
@@ -109,4 +109,14 @@ test("routing, build and global CSS changes are full purges", () => {
     ).mode;
   assert.equal(pub("M"), "full");
   assert.equal(pub("A"), "none");
+});
+
+test("purge patterns match how Bunny stores the tag header (one string)", () => {
+  assert.deepEqual(purgePatterns("g"), ["g,*"]);
+  assert.deepEqual(purgePatterns("r-db"), ["*,r-db"]);
+  assert.deepEqual(purgePatterns("t-palia"), ["*,t-palia,*", "t-palia"]);
+  assert.deepEqual(
+    run("packages/ui/src/components/(header)/header.tsx").purgeTags,
+    ["g,*"],
+  );
 });

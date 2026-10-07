@@ -373,7 +373,8 @@ jobs:
                 done
                 sleep 1 # wildcard purges are rate-limited to ~1/s per account
               done
-              for tag in $(echo "$plan" | jq -r '.tags[]'); do
+              # purgeTags = wildcard patterns: Bunny keeps "g,t-palia,r-db" as ONE tag.
+              for tag in $(echo "$plan" | jq -r '(.purgeTags // .tags)[]'); do
                 for attempt in 1 2 3 4 5 6; do
                   code=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "AccessKey: $API_KEY" -H "Content-Type: application/json"                     -d "$(jq -cn --arg t "$tag" '{CacheTag: $t}')" "https://api.bunny.net/pullzone/$PULL_ZONE_ID/purgeCache")
                   echo "purge tag $tag HTTP $code (attempt $attempt)"

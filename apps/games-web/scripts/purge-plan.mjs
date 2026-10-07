@@ -238,8 +238,24 @@ export function plan(changes, read, graph) {
     reason: reason || "only server-side files changed",
     urls: urls.sort(),
     tags: tagList.sort(),
+    purgeTags: tagList.flatMap(purgePatterns).sort(),
     files,
   };
+}
+
+/**
+ * Bunny stores a CDN-Tag header value as ONE tag (no comma splitting: a purge of
+ * "r-db" leaves "g,t-palia,r-db" cached - verified 2026-10-07), but CacheTag
+ * purges accept `*` wildcards. Game pages carry "g,t-<app>,r-<section>"; www and
+ * the Companion App's own pages carry a single "t-<app>".
+ * @param {string} tag
+ * @returns {string[]}
+ */
+export function purgePatterns(tag) {
+  if (tag === "g") return ["g,*"];
+  if (tag.startsWith("r-")) return [`*,${tag}`];
+  if (tag.startsWith("t-")) return [`*,${tag},*`, tag];
+  return [tag];
 }
 
 const isMain =
