@@ -903,6 +903,8 @@
   "ui.nav_home": "ホーム",
   "db.item": "アイテム",
   "db.mapHint": "マーカーをクリックすると全体マップで開きます。",
+  "db.searchAll": "データベースを検索…",
+  "db.noMatches": "一致する項目はありません。",
   "db.related": "関連",
   "db.onTheMap": "マップ上",
   "db.onTheMapCountOne": "{{name}}の既知の場所: 1か所",

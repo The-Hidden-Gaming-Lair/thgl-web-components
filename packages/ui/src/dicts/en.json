@@ -903,6 +903,8 @@
   "ui.nav_home": "Home",
   "db.item": "Item",
   "db.mapHint": "Click a marker to open it on the full map.",
+  "db.searchAll": "Search the database…",
+  "db.noMatches": "No matches.",
   "db.related": "Related",
   "db.onTheMap": "On the map",
   "db.onTheMapCountOne": "{{name}} has 1 known location",

@@ -903,6 +903,8 @@
   "ui.nav_home": "Startseite",
   "db.item": "Gegenstand",
   "db.mapHint": "Klicke auf einen Marker, um ihn auf der großen Karte zu öffnen.",
+  "db.searchAll": "Datenbank durchsuchen…",
+  "db.noMatches": "Keine Treffer.",
   "db.related": "Verwandt",
   "db.onTheMap": "Auf der Karte",
   "db.onTheMapCountOne": "{{name}} hat 1 bekannten Fundort",

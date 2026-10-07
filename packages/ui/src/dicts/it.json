@@ -903,6 +903,8 @@
   "ui.nav_home": "Home",
   "db.item": "Oggetto",
   "db.mapHint": "Clicca su un segnalino per aprirlo sulla mappa completa.",
+  "db.searchAll": "Cerca nel database…",
+  "db.noMatches": "Nessun risultato.",
   "db.related": "Correlati",
   "db.onTheMap": "Sulla mappa",
   "db.onTheMapCountOne": "{{name}} ha 1 posizione nota",

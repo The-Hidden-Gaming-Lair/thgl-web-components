@@ -903,6 +903,8 @@
   "ui.nav_home": "Головна",
   "db.item": "Предмет",
   "db.mapHint": "Натисніть на маркер, щоб відкрити його на повній карті.",
+  "db.searchAll": "Пошук у базі даних…",
+  "db.noMatches": "Збігів немає.",
   "db.related": "Схоже",
   "db.onTheMap": "На карті",
   "db.onTheMapCountOne": "{{name}}: 1 відоме місце",

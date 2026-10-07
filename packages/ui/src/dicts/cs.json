@@ -903,6 +903,8 @@
   "ui.nav_home": "Domů",
   "db.item": "Předmět",
   "db.mapHint": "Klikni na značku a otevři ji na celé mapě.",
+  "db.searchAll": "Hledat v databázi…",
+  "db.noMatches": "Žádné shody.",
   "db.related": "Související",
   "db.onTheMap": "Na mapě",
   "db.onTheMapCountOne": "{{name}}: 1 známé místo",

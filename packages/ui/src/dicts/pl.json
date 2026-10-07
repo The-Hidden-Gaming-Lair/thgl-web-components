@@ -903,6 +903,8 @@
   "ui.nav_home": "Strona główna",
   "db.item": "Przedmiot",
   "db.mapHint": "Kliknij znacznik, aby otworzyć go na pełnej mapie.",
+  "db.searchAll": "Szukaj w bazie danych…",
+  "db.noMatches": "Brak wyników.",
   "db.related": "Powiązane",
   "db.onTheMap": "Na mapie",
   "db.onTheMapCountOne": "{{name}}: 1 znana lokalizacja",

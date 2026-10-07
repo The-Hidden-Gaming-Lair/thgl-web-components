@@ -903,6 +903,8 @@
   "ui.nav_home": "首页",
   "db.item": "物品",
   "db.mapHint": "点击标记即可在完整地图上打开。",
+  "db.searchAll": "搜索数据库…",
+  "db.noMatches": "没有匹配项。",
   "db.related": "相关",
   "db.onTheMap": "地图位置",
   "db.onTheMapCountOne": "{{name}} 有 1 个已知位置",

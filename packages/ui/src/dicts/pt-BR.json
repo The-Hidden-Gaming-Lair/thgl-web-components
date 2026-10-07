@@ -903,6 +903,8 @@
   "ui.nav_home": "Início",
   "db.item": "Item",
   "db.mapHint": "Clique em um marcador para abri-lo no mapa completo.",
+  "db.searchAll": "Pesquisar no banco de dados…",
+  "db.noMatches": "Nenhum resultado.",
   "db.related": "Relacionados",
   "db.onTheMap": "No mapa",
   "db.onTheMapCountOne": "{{name}} tem 1 local conhecido",

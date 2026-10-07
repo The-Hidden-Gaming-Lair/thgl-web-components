@@ -903,6 +903,8 @@
   "ui.nav_home": "Trang chủ",
   "db.item": "Vật phẩm",
   "db.mapHint": "Nhấp vào một điểm đánh dấu để mở nó trên bản đồ đầy đủ.",
+  "db.searchAll": "Tìm kiếm trong cơ sở dữ liệu…",
+  "db.noMatches": "Không có kết quả.",
   "db.related": "Liên quan",
   "db.onTheMap": "Trên bản đồ",
   "db.onTheMapCountOne": "{{name}} có 1 vị trí đã biết",

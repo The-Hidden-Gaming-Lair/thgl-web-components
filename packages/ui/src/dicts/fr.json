@@ -903,6 +903,8 @@
   "ui.nav_home": "Accueil",
   "db.item": "Objet",
   "db.mapHint": "Clique sur un marqueur pour l'ouvrir sur la carte complète.",
+  "db.searchAll": "Rechercher dans la base de données…",
+  "db.noMatches": "Aucun résultat.",
   "db.related": "Voir aussi",
   "db.onTheMap": "Sur la carte",
   "db.onTheMapCountOne": "{{name}} a 1 emplacement connu",

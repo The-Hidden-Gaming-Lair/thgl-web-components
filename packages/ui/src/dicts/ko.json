@@ -903,6 +903,8 @@
   "ui.nav_home": "홈",
   "db.item": "아이템",
   "db.mapHint": "마커를 클릭하면 전체 지도에서 열립니다.",
+  "db.searchAll": "데이터베이스 검색…",
+  "db.noMatches": "일치하는 항목이 없습니다.",
   "db.related": "관련 항목",
   "db.onTheMap": "지도",
   "db.onTheMapCountOne": "{{name}}: 알려진 위치 1곳",

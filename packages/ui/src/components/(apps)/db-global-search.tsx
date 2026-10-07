@@ -21,10 +21,12 @@ export function DbGlobalSearch({
   items,
   locale,
   placeholder = "Search the database…",
+  noMatchesText = "No matches.",
 }: {
   items: DbSearchItem[];
   locale: string;
   placeholder?: string;
+  noMatchesText?: string;
 }) {
   const [query, setQuery] = useState("");
 
@@ -57,7 +59,7 @@ export function DbGlobalSearch({
         <div className="absolute z-30 mt-1 max-h-96 w-full overflow-y-auto rounded border border-slate-700 bg-slate-950 shadow-xl">
           {results.length === 0 ? (
             <div className="px-3 py-2 text-sm text-muted-foreground">
-              No matches.
+              {noMatchesText}
             </div>
           ) : (
             results.map((r) => (

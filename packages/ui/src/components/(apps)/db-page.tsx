@@ -213,7 +213,16 @@ export function createDbPage(appConfig: AppConfig) {
                       fallback: `Browse all ${sections.length} database categories for ${appConfig.title}.`,
                     })}
                   </p>
-                  <DbGlobalSearch items={searchItems} locale={locale} />
+                  <DbGlobalSearch
+                    items={searchItems}
+                    locale={locale}
+                    placeholder={t("db.searchAll", {
+                      fallback: "Search the database…",
+                    })}
+                    noMatchesText={t("db.noMatches", {
+                      fallback: "No matches.",
+                    })}
+                  />
                 </>
               }
               content={
