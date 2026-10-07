@@ -170,6 +170,12 @@ export type DbAppConfig = {
    */
   sectionsInNav?: boolean;
   /**
+   * DB sections listed as headed groups (in data order) instead of group filter chips, like a
+   * hand-built page (Olden Era heroes) - e.g. Baldur's Gate EE characters: companions, merchants,
+   * characters. The name filter stays.
+   */
+  groupHeaderSections?: string[];
+  /**
    * Hide the standalone interactive-map nav link + home map cards even when the
    * game HAS tiles. For games where the map is better browsed as a DB "Maps"
    * section (e.g. Soul's Remnant's tiny side-scroller levels) rather than the
@@ -1386,6 +1392,24 @@ export type TileLayer = {
    * the stamp have none.
    */
   addedAt?: string;
+  /**
+   * Selectable alternative layouts of this map (Dune Awakening's 12 Deep Desert
+   * layouts, for private servers). `layout` is the official current one, whose
+   * markers are the map's own node blob. See MapLayoutSelect.
+   */
+  layout?: number;
+  layouts?: MapLayout[];
+};
+export type MapLayout = {
+  id: number;
+  /** Tile URL template of this layout (same bounds/transformation as the map). */
+  url: string;
+  /** Node blob path, used instead of `version.more.nodes[mapName]`. */
+  nodes: string;
+  /** Dict patch path with `{locale}`: names/descriptions of this layout's markers. */
+  dicts: string;
+  /** False when only the fixed markers are known (no resource sightings yet). */
+  resources: boolean;
 };
 export type TilesConfig = Record<string, TileLayer>;
 

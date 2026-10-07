@@ -343,6 +343,9 @@ export default async function Page({ params }: PageProps) {
           locale={locale}
           iconsHash={iconsHash}
           appName={appConfig.name}
+          groupHeadersOnly={
+            appConfig.db?.groupHeaderSections?.includes(section) ?? false
+          }
         />
       </div>
     </>

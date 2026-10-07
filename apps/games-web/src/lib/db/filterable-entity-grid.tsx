@@ -49,12 +49,15 @@ export function FilterableEntityGrid({
   locale = "en",
   iconsHash,
   appName,
+  groupHeadersOnly = false,
 }: {
   items: GridItem[];
   section: string;
   locale?: string;
   iconsHash?: string;
   appName: string;
+  /** Show every group as a headed section, without the group chips/dropdown. */
+  groupHeadersOnly?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [group, setGroup] = useState<string | null>(null);
@@ -120,7 +123,7 @@ export function FilterableEntityGrid({
           placeholder="Filter by name or effect…"
           className="h-8 w-48 rounded border border-slate-700 bg-slate-900/60 px-2.5 text-sm text-slate-200 outline-none focus:border-amber-700/70"
         />
-        {groups.length > MAX_GROUP_CHIPS && (
+        {!groupHeadersOnly && groups.length > MAX_GROUP_CHIPS && (
           <select
             value={group ?? ""}
             onChange={(e) => setGroup(e.target.value || null)}
@@ -134,28 +137,30 @@ export function FilterableEntityGrid({
             ))}
           </select>
         )}
-        {groups.length > 1 && groups.length <= MAX_GROUP_CHIPS && (
-          <div className="flex flex-wrap gap-1">
-            <button
-              type="button"
-              onClick={() => setGroup(null)}
-              className={chip(group === null)}
-            >
-              All
-            </button>
-            {groups.map((g) => (
+        {!groupHeadersOnly &&
+          groups.length > 1 &&
+          groups.length <= MAX_GROUP_CHIPS && (
+            <div className="flex flex-wrap gap-1">
               <button
                 type="button"
-                key={g.id}
-                onClick={() => setGroup(g.id)}
-                className={chip(group === g.id)}
+                onClick={() => setGroup(null)}
+                className={chip(group === null)}
               >
-                {g.label}
-                <span className="ml-1.5 text-slate-400">{g.count}</span>
+                All
               </button>
-            ))}
-          </div>
-        )}
+              {groups.map((g) => (
+                <button
+                  type="button"
+                  key={g.id}
+                  onClick={() => setGroup(g.id)}
+                  className={chip(group === g.id)}
+                >
+                  {g.label}
+                  <span className="ml-1.5 text-slate-400">{g.count}</span>
+                </button>
+              ))}
+            </div>
+          )}
         <span className="ml-auto text-xs text-muted-foreground">
           {filtered.length.toLocaleString()} shown
         </span>
