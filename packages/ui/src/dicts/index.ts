@@ -34,6 +34,54 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "neverness-to-everness": {
+    en: () =>
+      import("./neverness-to-everness.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./neverness-to-everness.de.json").then((mod) => mod.default),
+    es: () =>
+      import("./neverness-to-everness.es.json").then((mod) => mod.default),
+    fr: () =>
+      import("./neverness-to-everness.fr.json").then((mod) => mod.default),
+    ja: () =>
+      import("./neverness-to-everness.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./neverness-to-everness.ko.json").then((mod) => mod.default),
+    ru: () =>
+      import("./neverness-to-everness.ru.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./neverness-to-everness.zh-CN.json").then((mod) => mod.default),
+  },
+  "minecraft-dungeons-2": {
+    en: () =>
+      import("./minecraft-dungeons-2.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./minecraft-dungeons-2.de.json").then((mod) => mod.default),
+    es: () =>
+      import("./minecraft-dungeons-2.es.json").then((mod) => mod.default),
+    fr: () =>
+      import("./minecraft-dungeons-2.fr.json").then((mod) => mod.default),
+    it: () =>
+      import("./minecraft-dungeons-2.it.json").then((mod) => mod.default),
+    ja: () =>
+      import("./minecraft-dungeons-2.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./minecraft-dungeons-2.ko.json").then((mod) => mod.default),
+    pl: () =>
+      import("./minecraft-dungeons-2.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./minecraft-dungeons-2.pt-BR.json").then((mod) => mod.default),
+    ru: () =>
+      import("./minecraft-dungeons-2.ru.json").then((mod) => mod.default),
+    tr: () =>
+      import("./minecraft-dungeons-2.tr.json").then((mod) => mod.default),
+    uk: () =>
+      import("./minecraft-dungeons-2.uk.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./minecraft-dungeons-2.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./minecraft-dungeons-2.zh-TW.json").then((mod) => mod.default),
+  },
   soulframe: {
     en: () => import("./soulframe.en.json").then((mod) => mod.default),
     de: () => import("./soulframe.de.json").then((mod) => mod.default),
