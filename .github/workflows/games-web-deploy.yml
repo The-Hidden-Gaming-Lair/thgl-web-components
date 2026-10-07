@@ -339,15 +339,15 @@ jobs:
           else
             echo "::warning::Drain not confirmed within ~5min (old build may still serve); purging anyway"
           fi
-          # Purge only what this deploy changed (2026-10-06). A full purge on
-          # every deploy (18-30 a day) kept the edge cold: hit rate 65% -> 36%
-          # in three days. scripts/purge-plan.mjs diffs the previous live build
-          # against this one: server-only changes purge nothing, a site's own
-          # files purge that site (one wildcard per host), shared page code
-          # purges the Companion App host app.th.gl (inbox #704: SWR kept its
-          # overlay on an old build >1 h) and refreshes the game sites via the
-          # 1 h page TTL (next.config.js). Unknown previous
-          # build = full purge. Manual runs can force `full` or `none`.
+          # Purge only what this deploy changed (2026-10-06/07). A full purge on
+          # every deploy (18-30 a day) kept the edge cold: hit rate 65% -> 36%.
+          # Pages carry Bunny cache tags (src/proxy.ts: g, t-<app>, r-<section>);
+          # scripts/purge-plan.mjs diffs the previous live build against this
+          # one and traces every changed file through the import graph to the
+          # routes that render it: a header change -> tag g (all game pages),
+          # a /db-only component -> r-db, a site's own files -> that host + its
+          # tag, server-only code -> nothing, routing/build-wide files or an
+          # unknown previous build -> full purge. Manual runs can force full/none.
           mode_in="${PURGE_INPUT:-auto}"
           if [ "$mode_in" = "full" ]; then
             plan='{"mode":"full","reason":"manual: purge=full","urls":[]}'
@@ -363,15 +363,23 @@ jobs:
               purge
               echo "Edge cache purged (full)"
               ;;
-            tenants)
+            purge)
               for url in $(echo "$plan" | jq -r '.urls[]'); do
                 for attempt in 1 2 3 4 5 6; do
-                  code=$(curl -s -o /dev/null -w "%{http_code}" -X POST                     -H "AccessKey: $API_KEY"                     "https://api.bunny.net/purge?url=$(jq -rn --arg u "$url" '$u|@uri')&async=false")
+                  code=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "AccessKey: $API_KEY" "https://api.bunny.net/purge?url=$(jq -rn --arg u "$url" '$u|@uri')&async=false")
                   echo "purge $url HTTP $code (attempt $attempt)"
                   case "$code" in 2*) break ;; esac
                   sleep $((attempt * 2))
                 done
                 sleep 1 # wildcard purges are rate-limited to ~1/s per account
+              done
+              for tag in $(echo "$plan" | jq -r '.tags[]'); do
+                for attempt in 1 2 3 4 5 6; do
+                  code=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "AccessKey: $API_KEY" -H "Content-Type: application/json"                     -d "$(jq -cn --arg t "$tag" '{CacheTag: $t}')" "https://api.bunny.net/pullzone/$PULL_ZONE_ID/purgeCache")
+                  echo "purge tag $tag HTTP $code (attempt $attempt)"
+                  case "$code" in 2*) break ;; esac
+                  sleep $((attempt * 2))
+                done
               done
               ;;
             *)
