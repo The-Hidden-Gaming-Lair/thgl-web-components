@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "遊戲資料庫",
+  "config.db.searchPlaceholder": "搜尋共鳴者、武器、聲骸、物品…",
+  "config.db.resonators.description": "依屬性和稀有度分類的可玩角色。",
+  "config.db.resonators.title": "共鳴者",
+  "config.db.weapons.description": "依類型和稀有度分類的武器。",
+  "config.db.weapons.title": "武器",
+  "config.db.echoes.description": "可收集的聲骸，附 COST、技能和合鳴套裝。",
+  "config.db.echoes.title": "聲骸",
+  "config.db.sonatas.description": "聲骸套裝效果以及提供該效果的聲骸。",
+  "config.db.sonatas.title": "合鳴效果",
+  "config.db.enemies.description": "世界各地的怪物和首領。",
+  "config.db.enemies.title": "敵人",
+  "config.db.inventory.description": "材料、消耗品和資源。",
+  "config.db.inventory.title": "物品",
+  "config.db.typeLabels.resonators": "共鳴者",
+  "config.db.typeLabels.weapons": "武器",
+  "config.db.typeLabels.echoes": "聲骸",
+  "config.db.typeLabels.sonatas": "合鳴效果",
+  "config.db.typeLabels.enemies": "敵人",
+  "config.db.typeLabels.inventory": "物品"
+}

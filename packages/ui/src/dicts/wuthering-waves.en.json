@@ -1,0 +1,22 @@
+{
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search resonators, weapons, echoes, items…",
+  "config.db.resonators.description": "Playable characters by element and rarity.",
+  "config.db.resonators.title": "Resonators",
+  "config.db.weapons.description": "Weapons by type and rarity.",
+  "config.db.weapons.title": "Weapons",
+  "config.db.echoes.description": "Collectible echoes with cost, skills and sonata sets.",
+  "config.db.echoes.title": "Echoes",
+  "config.db.sonatas.description": "Echo set bonuses and the echoes that grant them.",
+  "config.db.sonatas.title": "Sonatas",
+  "config.db.enemies.description": "Monsters and bosses across the world.",
+  "config.db.enemies.title": "Enemies",
+  "config.db.inventory.description": "Materials, consumables and resources.",
+  "config.db.inventory.title": "Items",
+  "config.db.typeLabels.resonators": "Resonator",
+  "config.db.typeLabels.weapons": "Weapon",
+  "config.db.typeLabels.echoes": "Echo",
+  "config.db.typeLabels.sonatas": "Sonata",
+  "config.db.typeLabels.enemies": "Enemy",
+  "config.db.typeLabels.inventory": "Item"
+}

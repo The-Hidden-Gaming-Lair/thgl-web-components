@@ -34,6 +34,75 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "wuthering-waves": {
+    en: () => import("./wuthering-waves.en.json").then((mod) => mod.default),
+    de: () => import("./wuthering-waves.de.json").then((mod) => mod.default),
+    es: () => import("./wuthering-waves.es.json").then((mod) => mod.default),
+    fr: () => import("./wuthering-waves.fr.json").then((mod) => mod.default),
+    ja: () => import("./wuthering-waves.ja.json").then((mod) => mod.default),
+    ko: () => import("./wuthering-waves.ko.json").then((mod) => mod.default),
+    pt: () => import("./wuthering-waves.pt.json").then((mod) => mod.default),
+    th: () => import("./wuthering-waves.th.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./wuthering-waves.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./wuthering-waves.zh-TW.json").then((mod) => mod.default),
+  },
+  "where-winds-meet": {
+    en: () => import("./where-winds-meet.en.json").then((mod) => mod.default),
+    de: () => import("./where-winds-meet.de.json").then((mod) => mod.default),
+    fr: () => import("./where-winds-meet.fr.json").then((mod) => mod.default),
+    es: () => import("./where-winds-meet.es.json").then((mod) => mod.default),
+    ja: () => import("./where-winds-meet.ja.json").then((mod) => mod.default),
+    ko: () => import("./where-winds-meet.ko.json").then((mod) => mod.default),
+    ru: () => import("./where-winds-meet.ru.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./where-winds-meet.pt-BR.json").then((mod) => mod.default),
+    th: () => import("./where-winds-meet.th.json").then((mod) => mod.default),
+    vi: () => import("./where-winds-meet.vi.json").then((mod) => mod.default),
+    "zh-Hans": () =>
+      import("./where-winds-meet.zh-Hans.json").then((mod) => mod.default),
+    "zh-Hant": () =>
+      import("./where-winds-meet.zh-Hant.json").then((mod) => mod.default),
+  },
+  "welcome-to-elderfield": {
+    en: () =>
+      import("./welcome-to-elderfield.en.json").then((mod) => mod.default),
+    de: () =>
+      import("./welcome-to-elderfield.de.json").then((mod) => mod.default),
+    es: () =>
+      import("./welcome-to-elderfield.es.json").then((mod) => mod.default),
+    fr: () =>
+      import("./welcome-to-elderfield.fr.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./welcome-to-elderfield.pt-BR.json").then((mod) => mod.default),
+    ru: () =>
+      import("./welcome-to-elderfield.ru.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./welcome-to-elderfield.zh-CN.json").then((mod) => mod.default),
+  },
+  valheim: {
+    en: () => import("./valheim.en.json").then((mod) => mod.default),
+    cs: () => import("./valheim.cs.json").then((mod) => mod.default),
+    de: () => import("./valheim.de.json").then((mod) => mod.default),
+    es: () => import("./valheim.es.json").then((mod) => mod.default),
+    fr: () => import("./valheim.fr.json").then((mod) => mod.default),
+    hu: () => import("./valheim.hu.json").then((mod) => mod.default),
+    it: () => import("./valheim.it.json").then((mod) => mod.default),
+    ja: () => import("./valheim.ja.json").then((mod) => mod.default),
+    ko: () => import("./valheim.ko.json").then((mod) => mod.default),
+    pl: () => import("./valheim.pl.json").then((mod) => mod.default),
+    "pt-BR": () => import("./valheim.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./valheim.ru.json").then((mod) => mod.default),
+    th: () => import("./valheim.th.json").then((mod) => mod.default),
+    tr: () => import("./valheim.tr.json").then((mod) => mod.default),
+    uk: () => import("./valheim.uk.json").then((mod) => mod.default),
+    "zh-CN": () => import("./valheim.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./valheim.zh-TW.json").then((mod) => mod.default),
+  },
+  witchspire: {
+    en: () => import("./witchspire.en.json").then((mod) => mod.default),
+  },
   "albion-online": {
     en: () => import("./albion-online.en.json").then((mod) => mod.default),
     de: () => import("./albion-online.de.json").then((mod) => mod.default),

@@ -28,7 +28,7 @@ export const valheim = resolveAppConfig({
   externalLinks: [
     {
       href: "https://valheim.gaming.tools",
-      title: "Gaming Tools",
+      title: "config.externalLinks.valheim.title",
     },
   ],
   keywords: [
@@ -53,75 +53,75 @@ export const valheim = resolveAppConfig({
     "runestone",
   ],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, creatures, pieces, locations…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/inventory",
         type: "inventory",
+        titleKey: "config.db.inventory.title",
         titleFallback: "Items",
         icon: "🎒",
-        description:
-          "Every weapon, armor piece, food, material and trophy — stats, recipes, crafting stations, who drops it and where to find it.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/bestiary",
         type: "bestiary",
+        titleKey: "config.db.bestiary.title",
         titleFallback: "Bestiary",
         icon: "🐺",
-        description:
-          "Creatures and the Forsaken — health, damage weaknesses and resistances, drops, biomes and the locations they guard.",
+        description: "config.db.bestiary.description",
       },
       {
         href: "/db/building",
         type: "building",
+        titleKey: "config.db.building.title",
         titleFallback: "Building",
         icon: "🔨",
-        description:
-          "Build pieces, furniture and crafting stations with their material costs and comfort.",
+        description: "config.db.building.description",
       },
       {
         href: "/db/locations",
         type: "locations",
+        titleKey: "config.db.locations.title",
         titleFallback: "Locations",
         icon: "🗺️",
-        description:
-          "Boss altars, traders, dungeons, runestones and ruins — what each holds and how many every world has.",
+        description: "config.db.locations.description",
       },
       {
         href: "/db/biomes",
         type: "biomes",
+        titleKey: "config.db.biomes.title",
         titleFallback: "Biomes",
         icon: "🌲",
-        description:
-          "The nine biomes with the creatures that spawn there and the locations you will find.",
+        description: "config.db.biomes.description",
       },
       {
         href: "/db/skills",
         type: "skills",
+        titleKey: "config.db.skills.title",
         titleFallback: "Skills",
         icon: "⚔️",
-        description:
-          "Every skill — what it improves, which weapons and tools train it and which gear boosts it.",
+        description: "config.db.skills.description",
       },
       {
         href: "/db/lore",
         type: "lore",
+        titleKey: "config.db.lore.title",
         titleFallback: "Lore",
         icon: "📜",
-        description:
-          "Every runestone text, by biome, and the ruins and landmarks where you can read it.",
+        description: "config.db.lore.description",
       },
     ],
     typeLabels: {
-      inventory: "Items",
-      bestiary: "Bestiary",
-      building: "Building",
-      locations: "Locations",
-      biomes: "Biomes",
-      skills: "Skills",
-      lore: "Lore",
+      inventory: "config.db.typeLabels.inventory",
+      bestiary: "config.db.typeLabels.bestiary",
+      building: "config.db.typeLabels.building",
+      locations: "config.db.typeLabels.locations",
+      biomes: "config.db.typeLabels.biomes",
+      skills: "config.db.typeLabels.skills",
+      lore: "config.db.typeLabels.lore",
     },
   },
 });
