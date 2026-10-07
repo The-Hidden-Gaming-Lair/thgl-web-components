@@ -51,6 +51,13 @@ export const aniimo = resolveAppConfig({
       linkText: "activities.navLinkText",
       iconName: "Activity",
     },
+    {
+      title: "crafting.navTitle",
+      description: "crafting.navDescription",
+      href: "/crafting",
+      iconName: "Hammer",
+      linkText: "crafting.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -71,7 +78,7 @@ export const aniimo = resolveAppConfig({
   ],
   db: {
     heroSubtitle: "Game Database",
-    searchPlaceholder: "Search Aniimo, skills, items, quests…",
+    searchPlaceholder: "Search Aniimo, skills, items, recipes…",
     sectionsInNav: true,
     // One indexable /team-builder/<id> matchup page and /evolutions/<id> evolution page
     // per Aniimo (sitemap + codex link).
@@ -94,6 +101,14 @@ export const aniimo = resolveAppConfig({
         titleFallback: "Items",
         icon: "🎒",
         description: "Items, materials and consumables by rarity.",
+      },
+      {
+        href: "/db/recipes",
+        type: "recipes",
+        titleFallback: "Recipes",
+        icon: "🍳",
+        description:
+          "Every homeland recipe by facility: ingredients, yield, time and how Quick Formulas unlock.",
       },
       {
         href: "/db/skills",
