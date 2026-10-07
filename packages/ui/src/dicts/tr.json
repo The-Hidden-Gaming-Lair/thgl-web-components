@@ -866,5 +866,20 @@
   "activities.region.jp": "Japonya",
   "activities.region.cn": "Çin",
   "activities.region.oceania": "Okyanusya",
-  "activities.resetsAt": "Sunucu saatiyle {{time}} sıfırlanır"
+  "activities.resetsAt": "Sunucu saatiyle {{time}} sıfırlanır",
+  "weak.navTitle": "Zayıflık Tablosu",
+  "weak.navDescription": "Her yaratığın hasar türüne göre zayıflıkları ve dirençleri, ve her hasar türünü veren silahlar.",
+  "weak.navLinkText": "Zayıflık Tablosunu aç",
+  "weak.title": "Zayıflık Tablosu",
+  "weak.metaTitle": "{{title}} Zayıflık Tablosu – Yaratık Zayıflıkları ve Dirençleri",
+  "weak.metaDescription": "{{title}} zayıflık tablosu: her yaratığın her hasar türünden ne kadar fazla veya az hasar aldığı, türe göre sıralanabilir, ve bu hasarı hangi silahların verdiği.",
+  "weak.heading": "{{title}} Yaratık Zayıflık Tablosu",
+  "weak.intro": "{{creatures}} yaratığın her birinin {{types}} hasar türünden ne kadar hasar aldığı, doğrudan oyun dosyalarından. Yeşil: yaratık buna karşı zayıf, kırmızı: dirençli. Sıralamak için bir hasar türüne tıklayın, ardından aşağıdan bu hasarı veren bir silah seçin.",
+  "weak.search": "Yaratık ara…",
+  "weak.sortHint": "Sıralamak için bir hasar türüne tıklayın (önce en zayıflar, tekrar tıklayınca önce en dirençliler).",
+  "weak.creature": "Yaratık",
+  "weak.noMatch": "Eşleşen yaratık yok.",
+  "weak.legend": "Değerler, yaratığın aldığı hasardaki değişimdir: +%30 = 1,3× hasar, −%50 = yarım hasar. · = normal hasar.",
+  "weak.weaponsHeading": "Hasar türüne göre silahlar",
+  "weak.weaponsIntro": "Tüm silahlar ve aletler, saldırılarının hasar türlerine göre gruplanmış."
 }

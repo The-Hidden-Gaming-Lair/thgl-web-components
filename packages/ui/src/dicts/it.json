@@ -866,5 +866,20 @@
   "activities.region.jp": "Giappone",
   "activities.region.cn": "Cina",
   "activities.region.oceania": "Oceania",
-  "activities.resetsAt": "Reset {{time}} ora del server"
+  "activities.resetsAt": "Reset {{time}} ora del server",
+  "weak.navTitle": "Tabella delle debolezze",
+  "weak.navDescription": "Debolezze e resistenze di ogni creatura per tipo di danno e le armi che infliggono ciascun tipo.",
+  "weak.navLinkText": "Apri la tabella delle debolezze",
+  "weak.title": "Tabella delle debolezze",
+  "weak.metaTitle": "{{title}} Tabella delle debolezze – Debolezze e resistenze delle creature",
+  "weak.metaDescription": "Tabella delle debolezze di {{title}}: quanto danno in più o in meno subisce ogni creatura da ciascun tipo di danno, ordinabile per tipo, e quali armi lo infliggono.",
+  "weak.heading": "{{title}}: tabella delle debolezze delle creature",
+  "weak.intro": "Quanto danno subisce ciascuna delle {{creatures}} creature dai {{types}} tipi di danno, direttamente dai file di gioco. Verde: la creatura è debole; rosso: resiste. Fai clic su un tipo di danno per ordinare, poi scegli qui sotto un'arma che lo infligge.",
+  "weak.search": "Cerca creature…",
+  "weak.sortHint": "Fai clic su un tipo di danno per ordinare (prima le più deboli, clicca di nuovo per prima le più resistenti).",
+  "weak.creature": "Creatura",
+  "weak.noMatch": "Nessuna creatura corrisponde.",
+  "weak.legend": "I valori sono la variazione del danno subito: +30% = danno ×1,3, −50% = metà danno. · = danno normale.",
+  "weak.weaponsHeading": "Armi per tipo di danno",
+  "weak.weaponsIntro": "Tutte le armi e gli strumenti, raggruppati per i tipi di danno dei loro attacchi."
 }

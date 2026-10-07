@@ -33,6 +33,13 @@ export const grounded2 = resolveAppConfig({
       iconName: "Hammer",
       linkText: "crafting.navLinkText",
     },
+    {
+      title: "weak.navTitle",
+      description: "weak.navDescription",
+      href: "/weakness-chart",
+      iconName: "Bug",
+      linkText: "weak.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -123,6 +130,14 @@ export const grounded2 = resolveAppConfig({
         description:
           "Other ways to craft rope, leather, slurries, glue and more, with their station.",
       },
+      {
+        href: "/db/damage-types",
+        type: "damage-types",
+        titleFallback: "Damage Types",
+        icon: "💥",
+        description:
+          "Smashing, chopping, fresh, spicy and every other damage type, and which creatures are weak to it.",
+      },
     ],
     typeLabels: {
       weapons: "Weapons & Tools",
@@ -136,6 +151,7 @@ export const grounded2 = resolveAppConfig({
       buggies: "Buggies",
       "key-items": "Key Items",
       "alternate-recipes": "Alternate Recipes",
+      "damage-types": "Damage Types",
     },
   },
 });

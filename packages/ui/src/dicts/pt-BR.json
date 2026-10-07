@@ -866,5 +866,20 @@
   "activities.region.jp": "Japão",
   "activities.region.cn": "China",
   "activities.region.oceania": "Oceania",
-  "activities.resetsAt": "Reset {{time}} no horário do servidor"
+  "activities.resetsAt": "Reset {{time}} no horário do servidor",
+  "weak.navTitle": "Tabela de fraquezas",
+  "weak.navDescription": "As fraquezas e resistências de cada criatura por tipo de dano e as armas que causam cada tipo.",
+  "weak.navLinkText": "Abrir a tabela de fraquezas",
+  "weak.title": "Tabela de fraquezas",
+  "weak.metaTitle": "{{title}} Tabela de fraquezas – Fraquezas e resistências das criaturas",
+  "weak.metaDescription": "Tabela de fraquezas de {{title}}: quanto dano a mais ou a menos cada criatura sofre de cada tipo de dano, ordenável por tipo, e quais armas o causam.",
+  "weak.heading": "{{title}}: tabela de fraquezas das criaturas",
+  "weak.intro": "Quanto dano cada uma das {{creatures}} criaturas sofre dos {{types}} tipos de dano, direto dos arquivos do jogo. Verde: a criatura é fraca a ele; vermelho: ela resiste. Clique em um tipo de dano para ordenar e escolha abaixo uma arma que o cause.",
+  "weak.search": "Buscar criaturas…",
+  "weak.sortHint": "Clique em um tipo de dano para ordenar (mais fracas primeiro; clique de novo para as mais resistentes primeiro).",
+  "weak.creature": "Criatura",
+  "weak.noMatch": "Nenhuma criatura encontrada.",
+  "weak.legend": "Os valores são a mudança no dano que a criatura sofre: +30% = dano ×1,3, −50% = metade do dano. · = dano normal.",
+  "weak.weaponsHeading": "Armas por tipo de dano",
+  "weak.weaponsIntro": "Todas as armas e ferramentas, agrupadas pelos tipos de dano dos seus ataques."
 }

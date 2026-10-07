@@ -875,5 +875,20 @@
   "activities.region.jp": "Japan",
   "activities.region.cn": "China",
   "activities.region.oceania": "Oceania",
-  "activities.resetsAt": "Resets {{time}} server time"
+  "activities.resetsAt": "Resets {{time}} server time",
+  "weak.navTitle": "Weakness Chart",
+  "weak.navDescription": "Every creature's weaknesses and resistances per damage type, and the weapons that deal each damage type.",
+  "weak.navLinkText": "Open the Weakness Chart",
+  "weak.title": "Weakness Chart",
+  "weak.metaTitle": "{{title}} Weakness Chart – Creature Weaknesses & Resistances",
+  "weak.metaDescription": "{{title}} creature weakness chart: how much more or less damage every creature takes from each damage type, sortable per type, and which weapons deal it.",
+  "weak.heading": "{{title}} Creature Weakness Chart",
+  "weak.intro": "How much damage each of the {{creatures}} creatures takes from the {{types}} damage types, straight from the game files. Green means the creature is weak to it, red means it resists it. Click a damage type to sort, then pick a weapon that deals it below.",
+  "weak.search": "Search creatures…",
+  "weak.sortHint": "Click a damage type to sort by it (weakest first, click again for most resistant first).",
+  "weak.creature": "Creature",
+  "weak.noMatch": "No creature matches.",
+  "weak.legend": "Values are the change in damage the creature takes: +30% = 1.3× damage, −50% = half damage. · = normal damage.",
+  "weak.weaponsHeading": "Weapons by damage type",
+  "weak.weaponsIntro": "Every weapon and tool, grouped by the damage types its attacks deal."
 }

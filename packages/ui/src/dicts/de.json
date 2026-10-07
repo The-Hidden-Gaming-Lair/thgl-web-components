@@ -866,5 +866,20 @@
   "activities.region.jp": "Japan",
   "activities.region.cn": "China",
   "activities.region.oceania": "Ozeanien",
-  "activities.resetsAt": "Reset {{time}} Serverzeit"
+  "activities.resetsAt": "Reset {{time}} Serverzeit",
+  "weak.navTitle": "Schwächen-Tabelle",
+  "weak.navDescription": "Die Schwächen und Resistenzen jeder Kreatur pro Schadensart und die Waffen, die jede Schadensart verursachen.",
+  "weak.navLinkText": "Schwächen-Tabelle öffnen",
+  "weak.title": "Schwächen-Tabelle",
+  "weak.metaTitle": "{{title}} Schwächen-Tabelle – Schwächen & Resistenzen der Kreaturen",
+  "weak.metaDescription": "{{title}} Schwächen-Tabelle: wie viel mehr oder weniger Schaden jede Kreatur von jeder Schadensart nimmt, sortierbar pro Schadensart, und welche Waffen ihn verursachen.",
+  "weak.heading": "{{title}} Schwächen-Tabelle der Kreaturen",
+  "weak.intro": "Wie viel Schaden jede der {{creatures}} Kreaturen von den {{types}} Schadensarten nimmt, direkt aus den Spieldateien. Grün heißt, die Kreatur ist dagegen schwach, Rot heißt, sie ist resistent. Klicke auf eine Schadensart, um danach zu sortieren, und wähle unten eine passende Waffe.",
+  "weak.search": "Kreaturen suchen…",
+  "weak.sortHint": "Klicke auf eine Schadensart, um danach zu sortieren (schwächste zuerst, nochmal klicken für die resistentesten zuerst).",
+  "weak.creature": "Kreatur",
+  "weak.noMatch": "Keine Kreatur gefunden.",
+  "weak.legend": "Werte sind die Änderung des Schadens, den die Kreatur nimmt: +30 % = 1,3-facher Schaden, −50 % = halber Schaden. · = normaler Schaden.",
+  "weak.weaponsHeading": "Waffen nach Schadensart",
+  "weak.weaponsIntro": "Alle Waffen und Werkzeuge, gruppiert nach den Schadensarten ihrer Angriffe."
 }

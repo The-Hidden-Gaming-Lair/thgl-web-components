@@ -866,5 +866,20 @@
   "activities.region.jp": "Japón",
   "activities.region.cn": "China",
   "activities.region.oceania": "Oceanía",
-  "activities.resetsAt": "Se reinicia {{time}} hora del servidor"
+  "activities.resetsAt": "Se reinicia {{time}} hora del servidor",
+  "weak.navTitle": "Tabla de debilidades",
+  "weak.navDescription": "Las debilidades y resistencias de cada criatura por tipo de daño, y las armas que infligen cada tipo.",
+  "weak.navLinkText": "Abrir la tabla de debilidades",
+  "weak.title": "Tabla de debilidades",
+  "weak.metaTitle": "{{title}} Tabla de debilidades – Debilidades y resistencias de las criaturas",
+  "weak.metaDescription": "Tabla de debilidades de {{title}}: cuánto daño de más o de menos recibe cada criatura de cada tipo de daño, ordenable por tipo, y qué armas lo infligen.",
+  "weak.heading": "{{title}}: tabla de debilidades de las criaturas",
+  "weak.intro": "Cuánto daño recibe cada una de las {{creatures}} criaturas de los {{types}} tipos de daño, directamente de los archivos del juego. Verde: la criatura es débil a él; rojo: lo resiste. Haz clic en un tipo de daño para ordenar y elige abajo un arma que lo inflija.",
+  "weak.search": "Buscar criaturas…",
+  "weak.sortHint": "Haz clic en un tipo de daño para ordenar (más débiles primero; vuelve a hacer clic para ver las más resistentes primero).",
+  "weak.creature": "Criatura",
+  "weak.noMatch": "Ninguna criatura coincide.",
+  "weak.legend": "Los valores son el cambio en el daño que recibe la criatura: +30 % = daño ×1,3, −50 % = la mitad de daño. · = daño normal.",
+  "weak.weaponsHeading": "Armas por tipo de daño",
+  "weak.weaponsIntro": "Todas las armas y herramientas, agrupadas por los tipos de daño de sus ataques."
 }

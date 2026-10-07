@@ -863,5 +863,20 @@
   "activities.region.jp": "Japán",
   "activities.region.cn": "Kína",
   "activities.region.oceania": "Óceánia",
-  "activities.resetsAt": "Reset: {{time}} szerveridő"
+  "activities.resetsAt": "Reset: {{time}} szerveridő",
+  "weak.navTitle": "Gyengeség-táblázat",
+  "weak.navDescription": "Minden lény gyengeségei és ellenállásai sebzéstípusonként, és a fegyverek, amelyek az egyes típusokat sebzik.",
+  "weak.navLinkText": "Gyengeség-táblázat megnyitása",
+  "weak.title": "Gyengeség-táblázat",
+  "weak.metaTitle": "{{title}} gyengeség-táblázat – a lények gyengeségei és ellenállásai",
+  "weak.metaDescription": "{{title}} gyengeség-táblázat: mennyivel több vagy kevesebb sebzést kap minden lény az egyes sebzéstípusoktól, típus szerint rendezhetően, és mely fegyverek okozzák.",
+  "weak.heading": "{{title}} – a lények gyengeség-táblázata",
+  "weak.intro": "Mennyi sebzést kap a(z) {{creatures}} lény mindegyike a(z) {{types}} sebzéstípustól, egyenesen a játék fájljaiból. Zöld: a lény gyenge rá, piros: ellenáll neki. Kattints egy sebzéstípusra a rendezéshez, majd lent válassz egy fegyvert, amely ezt sebzi.",
+  "weak.search": "Lények keresése…",
+  "weak.sortHint": "Kattints egy sebzéstípusra a rendezéshez (leggyengébbek elöl, újabb kattintással a legellenállóbbak elöl).",
+  "weak.creature": "Lény",
+  "weak.noMatch": "Nincs egyező lény.",
+  "weak.legend": "Az értékek a kapott sebzés változását mutatják: +30% = 1,3× sebzés, −50% = fél sebzés. · = normál sebzés.",
+  "weak.weaponsHeading": "Fegyverek sebzéstípus szerint",
+  "weak.weaponsIntro": "Minden fegyver és eszköz a támadásaik sebzéstípusai szerint csoportosítva."
 }

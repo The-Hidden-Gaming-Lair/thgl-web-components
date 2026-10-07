@@ -875,5 +875,20 @@
   "activities.region.jp": "Jepang",
   "activities.region.cn": "Tiongkok",
   "activities.region.oceania": "Oseania",
-  "activities.resetsAt": "Reset {{time}} waktu server"
+  "activities.resetsAt": "Reset {{time}} waktu server",
+  "weak.navTitle": "Tabel Kelemahan",
+  "weak.navDescription": "Kelemahan dan ketahanan setiap makhluk per jenis damage, dan senjata yang memberikan tiap jenis damage.",
+  "weak.navLinkText": "Buka Tabel Kelemahan",
+  "weak.title": "Tabel Kelemahan",
+  "weak.metaTitle": "{{title}} Tabel Kelemahan – Kelemahan & Ketahanan Makhluk",
+  "weak.metaDescription": "Tabel kelemahan {{title}}: seberapa banyak damage lebih atau kurang yang diterima setiap makhluk dari tiap jenis damage, bisa diurutkan per jenis, dan senjata apa yang memberikannya.",
+  "weak.heading": "{{title}} Tabel Kelemahan Makhluk",
+  "weak.intro": "Seberapa banyak damage yang diterima masing-masing dari {{creatures}} makhluk dari {{types}} jenis damage, langsung dari file game. Hijau berarti makhluk lemah terhadapnya, merah berarti tahan. Klik jenis damage untuk mengurutkan, lalu pilih senjata yang memberikannya di bawah.",
+  "weak.search": "Cari makhluk…",
+  "weak.sortHint": "Klik jenis damage untuk mengurutkan (terlemah dulu, klik lagi untuk yang paling tahan dulu).",
+  "weak.creature": "Makhluk",
+  "weak.noMatch": "Tidak ada makhluk yang cocok.",
+  "weak.legend": "Nilai adalah perubahan damage yang diterima makhluk: +30% = damage 1,3×, −50% = setengah damage. · = damage normal.",
+  "weak.weaponsHeading": "Senjata per jenis damage",
+  "weak.weaponsIntro": "Semua senjata dan alat, dikelompokkan berdasarkan jenis damage serangannya."
 }

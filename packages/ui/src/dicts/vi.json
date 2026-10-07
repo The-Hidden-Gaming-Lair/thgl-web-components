@@ -875,5 +875,20 @@
   "activities.region.jp": "Nhật Bản",
   "activities.region.cn": "Trung Quốc",
   "activities.region.oceania": "Châu Đại Dương",
-  "activities.resetsAt": "Reset lúc {{time}} giờ máy chủ"
+  "activities.resetsAt": "Reset lúc {{time}} giờ máy chủ",
+  "weak.navTitle": "Bảng điểm yếu",
+  "weak.navDescription": "Điểm yếu và kháng của mọi sinh vật theo từng loại sát thương, và các vũ khí gây ra từng loại.",
+  "weak.navLinkText": "Mở bảng điểm yếu",
+  "weak.title": "Bảng điểm yếu",
+  "weak.metaTitle": "{{title}} Bảng điểm yếu – Điểm yếu & kháng của sinh vật",
+  "weak.metaDescription": "Bảng điểm yếu {{title}}: mỗi sinh vật nhận nhiều hay ít sát thương hơn bao nhiêu từ từng loại sát thương, sắp xếp theo loại, và vũ khí nào gây ra loại đó.",
+  "weak.heading": "{{title}} Bảng điểm yếu sinh vật",
+  "weak.intro": "Lượng sát thương mà mỗi trong {{creatures}} sinh vật nhận từ {{types}} loại sát thương, lấy trực tiếp từ dữ liệu game. Xanh lá: sinh vật yếu với loại đó, đỏ: kháng. Nhấn vào một loại sát thương để sắp xếp, rồi chọn vũ khí gây ra loại đó ở bên dưới.",
+  "weak.search": "Tìm sinh vật…",
+  "weak.sortHint": "Nhấn vào một loại sát thương để sắp xếp (yếu nhất trước, nhấn lần nữa để kháng nhất trước).",
+  "weak.creature": "Sinh vật",
+  "weak.noMatch": "Không có sinh vật nào khớp.",
+  "weak.legend": "Giá trị là mức thay đổi sát thương sinh vật nhận: +30% = sát thương ×1,3, −50% = một nửa sát thương. · = sát thương bình thường.",
+  "weak.weaponsHeading": "Vũ khí theo loại sát thương",
+  "weak.weaponsIntro": "Tất cả vũ khí và công cụ, nhóm theo loại sát thương của các đòn tấn công."
 }

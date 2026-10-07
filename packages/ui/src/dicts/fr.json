@@ -866,5 +866,20 @@
   "activities.region.jp": "Japon",
   "activities.region.cn": "Chine",
   "activities.region.oceania": "Océanie",
-  "activities.resetsAt": "Réinitialisation {{time}} heure du serveur"
+  "activities.resetsAt": "Réinitialisation {{time}} heure du serveur",
+  "weak.navTitle": "Tableau des faiblesses",
+  "weak.navDescription": "Les faiblesses et résistances de chaque créature par type de dégâts, et les armes qui infligent chaque type.",
+  "weak.navLinkText": "Ouvrir le tableau des faiblesses",
+  "weak.title": "Tableau des faiblesses",
+  "weak.metaTitle": "{{title}} Tableau des faiblesses – Faiblesses et résistances des créatures",
+  "weak.metaDescription": "Tableau des faiblesses de {{title}} : combien de dégâts en plus ou en moins chaque créature subit de chaque type de dégâts, triable par type, et quelles armes les infligent.",
+  "weak.heading": "{{title}} – Tableau des faiblesses des créatures",
+  "weak.intro": "Les dégâts que subit chacune des {{creatures}} créatures pour les {{types}} types de dégâts, tirés directement des fichiers du jeu. Vert : la créature y est faible ; rouge : elle y résiste. Cliquez sur un type de dégâts pour trier, puis choisissez une arme qui l'inflige ci-dessous.",
+  "weak.search": "Rechercher une créature…",
+  "weak.sortHint": "Cliquez sur un type de dégâts pour trier (plus faibles d'abord, cliquez à nouveau pour les plus résistantes d'abord).",
+  "weak.creature": "Créature",
+  "weak.noMatch": "Aucune créature ne correspond.",
+  "weak.legend": "Les valeurs indiquent la variation des dégâts subis : +30 % = dégâts ×1,3, −50 % = moitié des dégâts. · = dégâts normaux.",
+  "weak.weaponsHeading": "Armes par type de dégâts",
+  "weak.weaponsIntro": "Toutes les armes et tous les outils, regroupés par les types de dégâts de leurs attaques."
 }

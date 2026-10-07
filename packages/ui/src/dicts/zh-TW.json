@@ -866,5 +866,20 @@
   "activities.region.jp": "日本",
   "activities.region.cn": "中國",
   "activities.region.oceania": "大洋洲",
-  "activities.resetsAt": "伺服器時間 {{time}} 重設"
+  "activities.resetsAt": "伺服器時間 {{time}} 重設",
+  "weak.navTitle": "弱點表",
+  "weak.navDescription": "每種生物對各傷害類型的弱點與抗性，以及造成各傷害類型的武器。",
+  "weak.navLinkText": "開啟弱點表",
+  "weak.title": "弱點表",
+  "weak.metaTitle": "{{title}} 弱點表 – 生物弱點與抗性",
+  "weak.metaDescription": "{{title}} 生物弱點表：每種生物受到各傷害類型的傷害增減，可依類型排序，並列出造成該傷害的武器。",
+  "weak.heading": "{{title}} 生物弱點表",
+  "weak.intro": "{{creatures}} 種生物分別受到 {{types}} 種傷害類型的傷害，資料直接來自遊戲檔案。綠色代表弱點，紅色代表抗性。點擊傷害類型進行排序，再於下方選擇造成該傷害的武器。",
+  "weak.search": "搜尋生物…",
+  "weak.sortHint": "點擊傷害類型排序（最弱的在前，再點一次則抗性最高的在前）。",
+  "weak.creature": "生物",
+  "weak.noMatch": "沒有符合的生物。",
+  "weak.legend": "數值為生物所受傷害的變化：+30% = 1.3 倍傷害，−50% = 一半傷害。· = 正常傷害。",
+  "weak.weaponsHeading": "依傷害類型分類的武器",
+  "weak.weaponsIntro": "所有武器與工具，依其攻擊的傷害類型分組。"
 }

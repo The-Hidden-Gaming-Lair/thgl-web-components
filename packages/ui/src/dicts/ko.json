@@ -866,5 +866,20 @@
   "activities.region.jp": "일본",
   "activities.region.cn": "중국",
   "activities.region.oceania": "오세아니아",
-  "activities.resetsAt": "서버 시간 {{time}} 초기화"
+  "activities.resetsAt": "서버 시간 {{time}} 초기화",
+  "weak.navTitle": "약점표",
+  "weak.navDescription": "모든 생물의 피해 유형별 약점과 저항, 그리고 각 피해 유형을 주는 무기.",
+  "weak.navLinkText": "약점표 열기",
+  "weak.title": "약점표",
+  "weak.metaTitle": "{{title}} 약점표 – 생물 약점 및 저항",
+  "weak.metaDescription": "{{title}} 생물 약점표: 각 생물이 피해 유형별로 받는 피해가 얼마나 늘거나 줄어드는지 유형별로 정렬해 보고, 그 피해를 주는 무기를 확인하세요.",
+  "weak.heading": "{{title}} 생물 약점표",
+  "weak.intro": "{{creatures}}종의 생물이 {{types}}가지 피해 유형에서 받는 피해를 게임 파일에서 그대로 가져왔습니다. 초록색은 약점, 빨간색은 저항입니다. 피해 유형을 클릭해 정렬한 뒤 아래에서 그 피해를 주는 무기를 고르세요.",
+  "weak.search": "생물 검색…",
+  "weak.sortHint": "피해 유형을 클릭해 정렬 (약한 순, 다시 클릭하면 저항이 높은 순).",
+  "weak.creature": "생물",
+  "weak.noMatch": "일치하는 생물이 없습니다.",
+  "weak.legend": "값은 받는 피해의 변화입니다: +30% = 피해 1.3배, −50% = 피해 절반. · = 일반 피해.",
+  "weak.weaponsHeading": "피해 유형별 무기",
+  "weak.weaponsIntro": "모든 무기와 도구를 공격의 피해 유형별로 묶었습니다."
 }

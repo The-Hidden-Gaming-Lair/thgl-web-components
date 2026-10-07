@@ -866,5 +866,20 @@
   "activities.region.jp": "Japonia",
   "activities.region.cn": "Chiny",
   "activities.region.oceania": "Oceania",
-  "activities.resetsAt": "Reset {{time}} czasu serwera"
+  "activities.resetsAt": "Reset {{time}} czasu serwera",
+  "weak.navTitle": "Tabela słabości",
+  "weak.navDescription": "Słabości i odporności każdego stworzenia na każdy rodzaj obrażeń oraz bronie, które je zadają.",
+  "weak.navLinkText": "Otwórz tabelę słabości",
+  "weak.title": "Tabela słabości",
+  "weak.metaTitle": "{{title}} Tabela słabości – słabości i odporności stworzeń",
+  "weak.metaDescription": "Tabela słabości {{title}}: ile więcej lub mniej obrażeń każde stworzenie otrzymuje od każdego rodzaju obrażeń, z sortowaniem, oraz które bronie je zadają.",
+  "weak.heading": "{{title}} – tabela słabości stworzeń",
+  "weak.intro": "Ile obrażeń każde z {{creatures}} stworzeń otrzymuje od {{types}} rodzajów obrażeń, prosto z plików gry. Zielony: stworzenie jest na to słabe; czerwony: jest odporne. Kliknij rodzaj obrażeń, aby posortować, a poniżej wybierz broń, która je zadaje.",
+  "weak.search": "Szukaj stworzeń…",
+  "weak.sortHint": "Kliknij rodzaj obrażeń, aby posortować (najsłabsze najpierw, kliknij ponownie, aby najodporniejsze były pierwsze).",
+  "weak.creature": "Stworzenie",
+  "weak.noMatch": "Brak pasujących stworzeń.",
+  "weak.legend": "Wartości to zmiana otrzymywanych obrażeń: +30% = obrażenia ×1,3, −50% = połowa obrażeń. · = normalne obrażenia.",
+  "weak.weaponsHeading": "Bronie według rodzaju obrażeń",
+  "weak.weaponsIntro": "Wszystkie bronie i narzędzia pogrupowane według rodzajów obrażeń ich ataków."
 }

@@ -866,5 +866,20 @@
   "activities.region.jp": "日本",
   "activities.region.cn": "中国",
   "activities.region.oceania": "オセアニア",
-  "activities.resetsAt": "サーバー時間 {{time}} にリセット"
+  "activities.resetsAt": "サーバー時間 {{time}} にリセット",
+  "weak.navTitle": "弱点表",
+  "weak.navDescription": "全クリーチャーのダメージタイプごとの弱点と耐性、そして各ダメージタイプを与える武器。",
+  "weak.navLinkText": "弱点表を開く",
+  "weak.title": "弱点表",
+  "weak.metaTitle": "{{title}} 弱点表 – クリーチャーの弱点と耐性",
+  "weak.metaDescription": "{{title}} のクリーチャー弱点表：各クリーチャーがダメージタイプごとに受けるダメージの増減をタイプ別に並べ替えて確認でき、そのダメージを与える武器も分かります。",
+  "weak.heading": "{{title}} クリーチャー弱点表",
+  "weak.intro": "{{creatures}} 体のクリーチャーが {{types}} 種類のダメージタイプからどれだけダメージを受けるか（ゲームファイルから直接取得）。緑は弱点、赤は耐性です。ダメージタイプをクリックして並べ替え、下からそのダメージを与える武器を選びましょう。",
+  "weak.search": "クリーチャーを検索…",
+  "weak.sortHint": "ダメージタイプをクリックで並べ替え（弱い順、もう一度クリックで耐性が高い順）。",
+  "weak.creature": "クリーチャー",
+  "weak.noMatch": "該当するクリーチャーはいません。",
+  "weak.legend": "数値は受けるダメージの変化です：+30% = 1.3倍、−50% = 半分。· = 通常ダメージ。",
+  "weak.weaponsHeading": "ダメージタイプ別の武器",
+  "weak.weaponsIntro": "すべての武器とツールを、攻撃のダメージタイプ別にまとめています。"
 }

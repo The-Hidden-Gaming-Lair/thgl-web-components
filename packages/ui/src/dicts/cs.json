@@ -863,5 +863,20 @@
   "activities.region.jp": "Japonsko",
   "activities.region.cn": "Čína",
   "activities.region.oceania": "Oceánie",
-  "activities.resetsAt": "Reset {{time}} serverového času"
+  "activities.resetsAt": "Reset {{time}} serverového času",
+  "weak.navTitle": "Tabulka slabin",
+  "weak.navDescription": "Slabiny a odolnosti každého tvora vůči každému typu poškození a zbraně, které ho způsobují.",
+  "weak.navLinkText": "Otevřít tabulku slabin",
+  "weak.title": "Tabulka slabin",
+  "weak.metaTitle": "{{title}} Tabulka slabin – slabiny a odolnosti tvorů",
+  "weak.metaDescription": "Tabulka slabin {{title}}: kolik více či méně poškození každý tvor dostává od každého typu poškození, řaditelné podle typu, a které zbraně ho způsobují.",
+  "weak.heading": "{{title}} – tabulka slabin tvorů",
+  "weak.intro": "Kolik poškození každý z {{creatures}} tvorů dostává od {{types}} typů poškození, přímo z herních souborů. Zelená: tvor je vůči němu slabý, červená: je odolný. Klikněte na typ poškození pro seřazení a níže vyberte zbraň, která ho způsobuje.",
+  "weak.search": "Hledat tvory…",
+  "weak.sortHint": "Klikněte na typ poškození pro seřazení (nejslabší první, dalším kliknutím nejodolnější první).",
+  "weak.creature": "Tvor",
+  "weak.noMatch": "Žádný tvor neodpovídá.",
+  "weak.legend": "Hodnoty jsou změna přijatého poškození: +30 % = poškození ×1,3, −50 % = poloviční poškození. · = normální poškození.",
+  "weak.weaponsHeading": "Zbraně podle typu poškození",
+  "weak.weaponsIntro": "Všechny zbraně a nástroje seskupené podle typů poškození jejich útoků."
 }
