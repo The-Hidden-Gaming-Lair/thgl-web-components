@@ -4,7 +4,8 @@ import { useEffect, useRef } from "react";
 import { useMap } from "./store";
 import { rotateCoordinate } from "./rotation";
 import { useSettingsStore, useGameState } from "@repo/lib";
-import { playerAnchor, type ActorPlayer } from "@repo/lib/overwolf";
+import { playerAnchor } from "@repo/lib";
+import type { ActorPlayer } from "@repo/lib/overwolf";
 import { DrawingLayer, IconMarkerLayer } from "@repo/lib/web-map";
 
 /** Create a solid-color circle canvas (no border) for trace dots */

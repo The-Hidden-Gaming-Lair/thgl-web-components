@@ -1298,6 +1298,8 @@ export type FiltersConfig = {
     // screen pixels). A circle of this radius is drawn around every live actor
     // of the type (e.g. Palia chum bucket's Star Quality fishing pool).
     rangeRadius?: number;
+    // Hex colour (#RRGGBB) of the footprint outlines (`spawn.shape`) of this type's markers.
+    shapeColor?: string;
   }[];
 }[];
 

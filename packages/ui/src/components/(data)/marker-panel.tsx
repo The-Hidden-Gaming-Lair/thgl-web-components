@@ -2,7 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useUserStore } from "../(providers)";
-import { cn, dbEntryIdOf, useGameState, useSettingsStore } from "@repo/lib";
+import {
+  cn,
+  dbEntryIdOf,
+  playerAnchor,
+  useGameState,
+  useSettingsStore,
+} from "@repo/lib";
 import { SidePanel } from "./side-panel";
 import { useCoordinates, useT } from "../(providers)";
 import { Separator } from "../ui/separator";
@@ -16,7 +22,6 @@ import { DescriptionMarkdown } from "../(interactive-map)/description-markdown";
 import { DbEntryLink } from "../(interactive-map)/db-entry-link";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { playerAnchor } from "@repo/lib/overwolf";
 
 function formatCoordinates(
   coords: [number, number] | [number, number, number],

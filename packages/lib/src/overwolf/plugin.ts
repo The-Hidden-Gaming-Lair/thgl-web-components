@@ -3,6 +3,7 @@ import { isDebug } from "../env";
 import { promisifyOverwolf } from "./promisify";
 import { EventBus, MESSAGES } from "./event-bus";
 import { type DungeonNavmesh } from "../game";
+import type { PartyMember } from "../party";
 
 declare global {
   interface Window {
@@ -54,33 +55,7 @@ export type ActorPlayer = {
   /** Party members in the player's area (party games); the `leader` one anchors the trace. */
   party?: PartyMember[];
 };
-export type PartyMember = {
-  name: string;
-  /** Game portrait id: the map shows icons/portraits/<portrait>.webp, else a coloured circle. */
-  portrait?: string;
-  x: number;
-  y: number;
-  r: number;
-  leader?: boolean;
-  hp?: number;
-  maxHp?: number;
-};
-
-/**
- * Where "the player" is for anything that means the character, not the view: the trace
- * line, distances to markers. Party games report the camera as the player, so this is the
- * party leader there (or the first member), else the player itself.
- */
-export function playerAnchor<
-  T extends { x: number; y: number; party?: PartyMember[] },
->(player: T): { x: number; y: number } {
-  const party = player.party;
-  if (party?.length) {
-    const lead = party.find((m) => m.leader) ?? party[0];
-    return { x: lead.x, y: lead.y };
-  }
-  return { x: player.x, y: player.y };
-}
+export type { PartyMember } from "../party";
 export type Actor = {
   address: number;
   mapName?: string;
@@ -97,6 +72,9 @@ export type Actor = {
   discovered?: boolean;
   // Unix ms when the game despawns this actor (running despawn countdown).
   despawnAt?: number;
+  // Id of the static spawn this actor IS (e.g. Baldur's Gate EE `container@AR2600_1412:2690`):
+  // the live marker takes that spawn's id, name, codex link and footprint, and hides exactly it.
+  spawnId?: string;
 };
 export type GameEventsPlugin = {
   UpdateProcess?: (

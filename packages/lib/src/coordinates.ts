@@ -130,6 +130,9 @@ export type Spawn = {
   layer?: string;
   /** Plotted on a layer map it does NOT belong to (badge there too). */
   offLayer?: boolean;
+  /** Footprint polygon in map coordinates (same space as `p`), drawn as an outline under
+   * the marker - the in-game hover outline of a container or trap (Baldur's Gate EE). */
+  shape?: [number, number][];
   data?: Record<string, string[]>;
   /** Screen-space X offset in device px for spiderfied mixed-type clusters */
   spiderOffsetX?: number;

@@ -1,5 +1,5 @@
 import { useUserStore } from "../(providers)";
-import { cn, useGameState } from "@repo/lib";
+import { cn, playerAnchor, useGameState } from "@repo/lib";
 import { Input } from "../ui/input";
 import { useCoordinates, useT } from "../(providers)";
 import Markdown from "markdown-to-jsx";
@@ -12,7 +12,6 @@ import { AdditionalTooltip, AdditionalTooltipType } from "../(content)";
 import { Copy } from "lucide-react";
 import { Button } from "../(controls)";
 import { toast } from "sonner";
-import { playerAnchor } from "@repo/lib/overwolf";
 
 function formatCoordinates(
   coords: [number, number] | [number, number, number],

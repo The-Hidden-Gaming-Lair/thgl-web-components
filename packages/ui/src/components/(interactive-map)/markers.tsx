@@ -462,6 +462,50 @@ const TooltipPositioner = React.forwardRef<
   );
 });
 
+/** The static-spawn fields a live actor inherits when it names its spawn (`actor.spawnId`). */
+type LiveTwin = Pick<Spawn, "dbEntryId" | "shape" | "data">;
+
+const DEFAULT_SHAPE_COLOR = "#E8D9A8";
+
+/**
+ * Sync one footprint layer to the wanted outlines (id → polygon + colour). The layer is
+ * created on first need (above regions/drawings, below the marker layers 100/101).
+ */
+function syncShapeLayer(
+  map: NonNullable<ReturnType<typeof useMap>>,
+  layerRef: React.MutableRefObject<DrawingLayer | null>,
+  wanted: Map<string, { positions: [number, number][]; color: string }>,
+) {
+  let layer = layerRef.current;
+  if (!layer) {
+    if (wanted.size === 0) return;
+    layer = new DrawingLayer({ interactive: false });
+    map.addLayer(layer, { zIndex: 94 });
+    layerRef.current = layer;
+  }
+  let changed = false;
+  for (const shape of layer.getAllShapes()) {
+    if (!wanted.has(shape.id)) {
+      layer.removeShape(shape.id);
+      changed = true;
+    }
+  }
+  for (const [id, { positions, color }] of wanted) {
+    if (layer.getShape(id)) continue;
+    layer.addShape({
+      id,
+      type: "polygon",
+      positions,
+      color: `${color}D9`,
+      fillColor: `${color}2E`,
+      size: 2,
+      mapName: map.mapName,
+    });
+    changed = true;
+  }
+  if (changed) map.requestRedraw();
+}
+
 function MarkersContent({
   appName,
   markerOptions,
@@ -635,6 +679,52 @@ function MarkersContent({
     }
     return byType;
   }, [filters]);
+  // Footprint outlines (`spawn.shape`, e.g. Baldur's Gate EE containers/traps), one layer
+  // for the static markers and one for the live ones, created lazily like the range rings.
+  const staticShapeLayerRef = useRef<DrawingLayer | null>(null);
+  const liveShapeLayerRef = useRef<DrawingLayer | null>(null);
+  const shapeColorByType = useMemo(() => {
+    const byType = new Map<string, string>();
+    for (const f of filters) {
+      for (const v of f.values)
+        if (v.shapeColor) byType.set(v.id, v.shapeColor);
+    }
+    return byType;
+  }, [filters]);
+  // Live actors that name their static spawn (`actor.spawnId`) take that spawn's identity:
+  // name, codex link and footprint. Built on first use - most games never send spawnIds.
+  const liveTwinsRef = useRef<Map<string, LiveTwin> | null>(null);
+  const searchableNodesRef = useRef(searchableNodes);
+  if (searchableNodesRef.current !== searchableNodes) {
+    searchableNodesRef.current = searchableNodes;
+    liveTwinsRef.current = null;
+  }
+  const liveTwin = (spawnId: string): LiveTwin | undefined => {
+    if (!liveTwinsRef.current) {
+      const byId = new Map<string, LiveTwin>();
+      for (const node of searchableNodesRef.current) {
+        if (node.static) continue;
+        for (const s of node.spawns) if (s.id?.includes("@")) byId.set(s.id, s);
+      }
+      liveTwinsRef.current = byId;
+    }
+    return liveTwinsRef.current.get(spawnId);
+  };
+  const liveTwinRef = useRef(liveTwin);
+  // The live pass hid static spawns by `spawnId` last time (so it must un-hide them).
+  const idSuppressedRef = useRef(false);
+  liveTwinRef.current = liveTwin;
+  useEffect(
+    () => () => {
+      for (const ref of [staticShapeLayerRef, liveShapeLayerRef]) {
+        if (!ref.current) continue;
+        ref.current.clearShapes();
+        map?.removeLayer(ref.current);
+        ref.current = null;
+      }
+    },
+    [map],
+  );
   const justClickedMarkerRef = useRef(false);
   const tooltipDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Shared tooltip helper updated each render via the static effect — lets
@@ -1930,6 +2020,30 @@ function MarkersContent({
       });
     }
 
+    // Footprint outlines of the rendered static markers (faded predictions get none).
+    {
+      const wanted = new Map<
+        string,
+        { positions: [number, number][]; color: string }
+      >();
+      const rotate = (q: [number, number]): [number, number] =>
+        rotationCache ? rotationCache.getRotated(q[0], q[1]) : q;
+      for (const spawn of newSpawnMap.values()) {
+        if (spawn.muted) continue;
+        for (const s of [spawn, ...(spawn.cluster ?? [])]) {
+          if (!s.shape || s.shape.length < 3) continue;
+          wanted.set(
+            `${map.mapName}:${getNodeId({ ...s, type: spawn.type })}`,
+            {
+              positions: s.shape.map(rotate),
+              color: shapeColorByType.get(spawn.type) ?? DEFAULT_SHAPE_COLOR,
+            },
+          );
+        }
+      }
+      syncShapeLayer(map, staticShapeLayerRef, wanted);
+    }
+
     // Update spawn map refs: static portion + union (with live).
     staticSpawnMapRef.current = newSpawnMap;
     spawnMapRef.current = new Map([...newSpawnMap, ...liveSpawnMapRef.current]);
@@ -1989,6 +2103,7 @@ function MarkersContent({
     dynamicIconSizeFactor,
     iconLoadVersion, // Re-run when images finish loading to apply processed icons
     sharedIconLookups, // Re-resolve stale shared private icon coords
+    shapeColorByType,
   ]);
 
   // Player-relative height arrows (up/down elevation indicators).
@@ -2189,7 +2304,9 @@ function MarkersContent({
               }
             }
           } else if (positionedTypesRef.current.has(displayType)) {
-            autoId = `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
+            autoId =
+              actor.spawnId ??
+              `${displayType}@${actor.x.toFixed(2)}:${actor.y.toFixed(2)}`;
           }
           if (
             autoId &&
@@ -2255,12 +2372,15 @@ function MarkersContent({
 
       if (!isLiveActive) {
         syncRangeCircles([]);
+        syncShapeLayer(map, liveShapeLayerRef, new Map());
         // Static/predicted mode: un-hide any statics we suppressed while live/combined was active.
         if (
-          (markerOptions.liveConfirmRadius ?? 0) > 0 &&
+          ((markerOptions.liveConfirmRadius ?? 0) > 0 ||
+            idSuppressedRef.current) &&
           markerLayerForSheets
         ) {
           markerLayerForSheets.setHiddenById(undefined);
+          idSuppressedRef.current = false;
           map.requestRedraw();
         }
         if (liveSpawnMapRef.current.size > 0) {
@@ -2510,9 +2630,11 @@ function MarkersContent({
           }
           if (bestId) suppressStatic.add(bestId);
         }
+        // An actor that names its static spawn confirms exactly that one.
+        for (const a of members) if (a.spawnId) suppressStatic.add(a.spawnId);
 
         const memberNodeId = (a: LiveActor) =>
-          `${displayType}@${a.x.toFixed(2)}:${a.y.toFixed(2)}`;
+          a.spawnId ?? `${displayType}@${a.x.toFixed(2)}:${a.y.toFixed(2)}`;
         const nodeId = memberNodeId(rep);
         // A cluster counts as discovered only when every member is.
         const isDiscoveredFlag = members.every((a) =>
@@ -2555,6 +2677,7 @@ function MarkersContent({
           mapName: a.mapName,
           address: a.address,
           source: "live",
+          ...(a.spawnId ? liveTwinRef.current(a.spawnId) : undefined),
         });
         const spawn: Spawn = {
           ...toSpawn(rep),
@@ -2774,11 +2897,37 @@ function MarkersContent({
       // Apply the position-based static suppression (replaces the whole hidden set each pass, so a
       // marker un-hides automatically when its confirming live actor goes away). Only touch the
       // static layer when the feature is enabled, to leave other games untouched.
-      if (liveConfirmRadius > 0 && markerLayerForSheets) {
+      if (
+        (liveConfirmRadius > 0 ||
+          suppressStatic.size > 0 ||
+          idSuppressedRef.current) &&
+        markerLayerForSheets
+      ) {
         markerLayerForSheets.setHiddenById(
           suppressStatic.size ? suppressStatic : undefined,
         );
+        idSuppressedRef.current = suppressStatic.size > 0;
         map.requestRedraw();
+      }
+
+      // Footprint outlines of the rendered live markers.
+      {
+        const wanted = new Map<
+          string,
+          { positions: [number, number][]; color: string }
+        >();
+        for (const spawn of newSpawns.values()) {
+          for (const s of [spawn, ...(spawn.cluster ?? [])]) {
+            if (!s.shape || s.shape.length < 3) continue;
+            wanted.set(`${currentMapName}:live:${s.id}`, {
+              positions: s.shape.map((q) =>
+                rotationCache ? rotationCache.getRotated(q[0], q[1]) : q,
+              ),
+              color: shapeColorByType.get(spawn.type) ?? DEFAULT_SHAPE_COLOR,
+            });
+          }
+        }
+        syncShapeLayer(map, liveShapeLayerRef, wanted);
       }
 
       liveSpawnMapRef.current = newSpawns;
@@ -2918,6 +3067,7 @@ function MarkersContent({
     };
   }, [
     rangeRadiusByType,
+    shapeColorByType,
     map,
     map?.liveMarkerLayer,
     map?.markerLayer,
