@@ -1,5 +1,6 @@
 import type { DriverHealth, DriverRepairKind } from "./driver-health";
 import { RunningGame } from "./games";
+import type { MapDebugState } from "./map-debug-state";
 import { generateUniqueId } from "./utils";
 declare global {
   interface WebviewEvent extends MessageEvent {
@@ -245,6 +246,7 @@ export type WEBVIEW_SEND_MESSAGE =
       payload: {
         userContext: string;
         discordUsername: string;
+        mapState: MapDebugState | null;
       };
     }
   | {

@@ -4,6 +4,7 @@ import type { Actor } from "../overwolf/plugin";
 import { rememberPalCaptureCounts } from "../pal-capture";
 import { useSettingsStore } from "../settings";
 import { RunningGame } from "./games";
+import { gatherMapDebugState } from "./map-debug-state";
 import { useLiveState, useTHGLAppState } from "./states";
 import {
   compatRunAsAdminFlagState,
@@ -96,15 +97,22 @@ export function updateActorTypeFilters(types: string[], processName?: string) {
  * without a way back to the reporter the post is unanswerable (the app-debug
  * channel filled up with anonymous "chest" / "treasure map" contexts).
  */
-export function sendDebugSnapshot(
+export async function sendDebugSnapshot(
   userContext: string,
   discordUsername: string,
 ) {
+  // The map side (live mode, overrides, ticked filters) rides along: the
+  // detector side alone can't explain "live markers invisible" (inbox #902).
+  const mapState = await gatherMapDebugState().catch((error) => {
+    console.error("Failed to gather map debug state:", error);
+    return null;
+  });
   return postWebviewMessage({
     action: "sendDebugSnapshot",
     payload: {
       userContext,
       discordUsername,
+      mapState,
     },
   });
 }
