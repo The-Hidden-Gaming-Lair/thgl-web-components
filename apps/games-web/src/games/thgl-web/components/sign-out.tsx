@@ -7,7 +7,13 @@ import { defaultPerks, useAccountStore } from "@repo/lib";
  * supporter key on the account page is the only way back in, so signing out
  * asks for confirmation first.
  */
-export function SignOut({ isTebexAccount }: { isTebexAccount?: boolean }) {
+export function SignOut({
+  isTebexAccount,
+  zh,
+}: {
+  isTebexAccount?: boolean;
+  zh?: boolean;
+}) {
   return (
     <button
       className="text-sm whitespace-nowrap hover:underline"
@@ -15,7 +21,9 @@ export function SignOut({ isTebexAccount }: { isTebexAccount?: boolean }) {
         if (
           isTebexAccount &&
           !confirm(
-            "Did you save your Account Key? You need it to unlock your perks again after signing out. / 你保存账户密钥了吗？退出登录后需要它才能重新解锁权益。",
+            zh
+              ? "你保存账户密钥或付款邮箱了吗？退出登录后需要用它们重新登录。"
+              : "Did you save your Account Key or purchase email? You need one of them to sign in again after signing out.",
           )
         ) {
           return;
@@ -36,7 +44,7 @@ export function SignOut({ isTebexAccount }: { isTebexAccount?: boolean }) {
         });
       }}
     >
-      or sign out
+      {zh ? "或退出登录" : "or sign out"}
     </button>
   );
 }

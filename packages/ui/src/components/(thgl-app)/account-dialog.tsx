@@ -17,6 +17,7 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 import { useUnlockWithSecret } from "../(header)/use-unlock-with-secret";
 import { EmailSignIn } from "../(header)/email-sign-in";
+import { useZh } from "../(header)/prefers-chinese";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -120,12 +121,13 @@ function PricingLink() {
  * own cookie store, so a website sign-in doesn't carry over.
  */
 function SupporterKeyForm() {
+  const zh = useZh();
   const [key, setKey] = useState("");
   const { unlock, loading } = useUnlockWithSecret();
   return (
     <details className="text-xs">
       <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-        Have an Account Key? / 有账户密钥？
+        {zh ? "有账户密钥？" : "Have an Account Key?"}
       </summary>
       <form
         onSubmit={(e) => {
@@ -137,7 +139,7 @@ function SupporterKeyForm() {
         <Input
           value={key}
           onChange={(e) => setKey(e.target.value.trim())}
-          placeholder="Paste your Account Key / 粘贴你的账户密钥"
+          placeholder={zh ? "粘贴你的账户密钥" : "Paste your Account Key"}
           className="text-xs h-8"
         />
         <Button
@@ -146,7 +148,7 @@ function SupporterKeyForm() {
           className="h-8 shrink-0"
           disabled={key.length === 0 || loading}
         >
-          Unlock
+          {zh ? "解锁" : "Unlock"}
         </Button>
       </form>
     </details>
@@ -155,6 +157,7 @@ function SupporterKeyForm() {
 
 export function AccountDialog() {
   const account = useAccountStore();
+  const zh = useZh();
 
   if (!account.userId) {
     return (
@@ -182,10 +185,13 @@ export function AccountDialog() {
             </div>
             <Separator />
             <PricingLink />
-            {/* Typed in, so it works in the app like the Patreon popup. */}
-            <details className="text-xs">
-              <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-                Sign in with email / 用邮箱登录
+            {/* E-Mail sign-in for Tebex (Alipay / WeChat Pay) supporters -
+                typed in, so it works in the app like the Patreon popup. */}
+            <details>
+              <summary className="list-none [&::-webkit-details-marker]:hidden">
+                <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
+                  {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
+                </span>
               </summary>
               <EmailSignIn className="mt-2" />
             </details>
@@ -204,7 +210,9 @@ export function AccountDialog() {
               target="_blank"
               prefetch={false}
             >
-              <Button>Authenticate with Patreon</Button>
+              <Button>
+                {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
+              </Button>
             </Link>
           </DialogFooter>
         </DialogContent>

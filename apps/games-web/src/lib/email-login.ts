@@ -84,10 +84,16 @@ export async function requestLoginCode(
     return { status: "rate-limited" };
   }
 
+  // Only emails of an ACTIVE Tebex purchase (not revoked, not expired) get a
+  // code (Leon 2026-10-08: "Sign in with E-Mail" checks for an active Tebex
+  // subscription).
   const [known] = await libsql([
     {
-      sql: `SELECT 1 FROM account_emails WHERE email = ? LIMIT 1`,
-      args: [arg.text(email)],
+      sql: `SELECT 1 FROM account_emails a
+              JOIN tebex_entitlements e ON e.user_id = a.user_id
+             WHERE a.email = ? AND e.revoked = 0 AND e.expires_at > ?
+             LIMIT 1`,
+      args: [arg.text(email), arg.int(now())],
     },
   ]);
   if (known.rows.length === 0) {

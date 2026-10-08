@@ -20,6 +20,7 @@ import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
 import { useUnlockWithSecret } from "./use-unlock-with-secret";
 import { EmailSignIn } from "./email-sign-in";
+import { useZh } from "./prefers-chinese";
 import { Input } from "../ui/input";
 import { useMemo, useState } from "react";
 import {
@@ -238,6 +239,7 @@ function AuthenticatedView() {
 }
 
 function UnauthenticatedView() {
+  const zh = useZh();
   const [userId, setUserId] = useState("");
   const { unlock, loading } = useUnlockWithSecret();
 
@@ -298,17 +300,19 @@ function UnauthenticatedView() {
         <ExternalLink className="w-3 h-3" />
       </ExternalAnchor>
 
-      {/* Existing user: sign in */}
+      {/* Existing user: sign in - Patreon, or E-Mail for Tebex (Alipay /
+          WeChat Pay) supporters (one-time code, active Tebex purchase only). */}
       <Button className="w-full" asChild>
-        <a href={authUrl}>Already a supporter? Sign In</a>
+        <a href={authUrl}>
+          {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
+        </a>
       </Button>
-
-      {/* Email sign-in (one-time code): accounts without a Patreon login
-          (Alipay / WeChat Pay buyers) and free email accounts. */}
       {!isOverwolf && (
-        <details className="text-xs">
-          <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-            Sign in with email / 用邮箱登录
+        <details className="group">
+          <summary className="list-none [&::-webkit-details-marker]:hidden">
+            <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
+              {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
+            </span>
           </summary>
           <EmailSignIn className="mt-2" />
         </details>
@@ -322,13 +326,13 @@ function UnauthenticatedView() {
       {!isOverwolf && (
         <details className="text-xs">
           <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-            Have an Account Key?
+            {zh ? "有账户密钥？" : "Have an Account Key?"}
           </summary>
           <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
             <Input
               value={userId}
               onChange={(e) => setUserId(e.target.value.trim())}
-              placeholder="Paste your Account Key"
+              placeholder={zh ? "粘贴你的账户密钥" : "Paste your Account Key"}
               className="text-xs h-8"
             />
             <Button

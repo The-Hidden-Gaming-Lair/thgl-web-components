@@ -1,22 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { EmailSignIn } from "@repo/ui/header";
 
 /**
- * Email sign-in on the www account page (anchor #email-sign-in - the China
- * page's Free card links here). Reloads after signing in so the
+ * "Sign in with E-Mail" on the www account page, next to "Sign in with
+ * Patreon": a one-time code for Tebex (Alipay / WeChat Pay) supporters.
+ * Opens on its own for #email-sign-in links. Reloads after signing in so the
  * server-rendered account view picks up the new cookie.
  */
-export function EmailSignInSection() {
+export function EmailSignInSection({ zh }: { zh: boolean }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (location.hash === "#email-sign-in") setOpen(true);
+  }, []);
   return (
-    <div
+    <details
       id="email-sign-in"
-      className="mt-8 pt-6 border-t border-border text-left max-w-md mx-auto space-y-2"
+      open={open}
+      onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
+      className="text-left"
     >
-      <p className="font-semibold text-sm">Sign in with email / 用邮箱登录</p>
+      <summary className="list-none [&::-webkit-details-marker]:hidden">
+        <span className="flex h-10 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
+          {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
+        </span>
+      </summary>
       <EmailSignIn
+        className="mt-3"
         onSignedIn={() => setTimeout(() => location.reload(), 800)}
       />
-    </div>
+    </details>
   );
 }
