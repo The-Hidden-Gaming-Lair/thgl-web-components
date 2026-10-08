@@ -78,6 +78,12 @@ export type AppConfig = {
   /** Featured filter IDs to highlight on the home page. If not set, first filters are shown. */
   topFilters?: string[];
   /**
+   * Filter groups or categories whose markers are spots players reported a catch or sighting
+   * at (Palia fish and bugs), not fixed spawns: their guide shows the map without the
+   * per-spot progress tracker, since there is nothing to tick off.
+   */
+  sightingFilters?: string[];
+  /**
    * Live market prices in the crafting calculator. `"aodp"` = the Albion
    * Online Data Project's crowd-sourced price API (Albion only).
    */

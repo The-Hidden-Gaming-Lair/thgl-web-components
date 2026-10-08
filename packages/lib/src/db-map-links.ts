@@ -183,6 +183,28 @@ export function findMixedDbEntries(
 }
 
 /**
+ * True when every one of a guide's filter types belongs to a `sightingFilters` group or
+ * category (AppConfig): its markers are spots players reported a catch or sighting at, not
+ * fixed spawns, so the guide shows the map without a per-spot progress tracker.
+ */
+export function isSightingGuide(
+  typeIds: string[],
+  filters: FiltersConfig,
+  sightingFilters: string[] | undefined,
+): boolean {
+  if (!sightingFilters?.length || typeIds.length === 0) return false;
+  const sighting = new Set(sightingFilters);
+  const wanted = new Set(typeIds);
+  let matched = 0;
+  for (const f of filters) {
+    if (!sighting.has(f.group) && !(f.category && sighting.has(f.category)))
+      continue;
+    for (const v of f.values) if (wanted.delete(v.id)) matched++;
+  }
+  return matched > 0 && wanted.size === 0;
+}
+
+/**
  * Map filter types for a DB entry (declared links first, then names). Types
  * that never plot markers (`no_map_markers`) are skipped.
  */

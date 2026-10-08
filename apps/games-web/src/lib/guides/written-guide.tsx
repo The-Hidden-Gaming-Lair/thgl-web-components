@@ -15,6 +15,7 @@ import {
   games,
   getIconsUrl,
   getT,
+  isSightingGuide,
   localizePath,
 } from "@repo/lib";
 import { HeaderOffset } from "@repo/ui/header";
@@ -324,6 +325,13 @@ export async function WrittenGuidePage({
                 appConfig.game?.additionalTooltip
               }
               typeGroupLabels={groupLabels}
+              tracker={
+                !isSightingGuide(
+                  block.types,
+                  filters,
+                  appConfig.sightingFilters,
+                )
+              }
             />
           </div>
         );

@@ -1,5 +1,5 @@
 import type { FiltersConfig } from "./config";
-import { findMixedDbEntries } from "./db-map-links";
+import { findMixedDbEntries, isSightingGuide } from "./db-map-links";
 
 const filters: FiltersConfig = [
   {
@@ -48,5 +48,48 @@ describe("findMixedDbEntries", () => {
 
   test("a plain type keeps its map (no mixed entries)", () => {
     expect(findMixedDbEntries(["Fish_Gillyfin"], filters)).toEqual([]);
+  });
+});
+
+describe("isSightingGuide", () => {
+  const sightingFilters: FiltersConfig = [
+    {
+      group: "fishing_common",
+      category: "cat_fishing",
+      values: [{ id: "Fish_Gillyfin", icon: "x" }],
+    },
+    {
+      group: "treasures",
+      values: [{ id: "Chest", icon: "x" }],
+    },
+  ];
+
+  test("a type in a sighting category has no tracker", () => {
+    expect(
+      isSightingGuide(["Fish_Gillyfin"], sightingFilters, ["cat_fishing"]),
+    ).toBe(true);
+  });
+
+  test("a sighting group matches by group id too", () => {
+    expect(
+      isSightingGuide(["Fish_Gillyfin"], sightingFilters, ["fishing_common"]),
+    ).toBe(true);
+  });
+
+  test("fixed spawns keep the tracker, also when mixed with sightings", () => {
+    expect(isSightingGuide(["Chest"], sightingFilters, ["cat_fishing"])).toBe(
+      false,
+    );
+    expect(
+      isSightingGuide(["Fish_Gillyfin", "Chest"], sightingFilters, [
+        "cat_fishing",
+      ]),
+    ).toBe(false);
+  });
+
+  test("games without sightingFilters keep the tracker", () => {
+    expect(isSightingGuide(["Fish_Gillyfin"], sightingFilters, undefined)).toBe(
+      false,
+    );
   });
 });

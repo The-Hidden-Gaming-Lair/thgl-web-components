@@ -100,6 +100,8 @@ export const palia = resolveAppConfig({
     },
   ],
   keywords: ["Rummage Pile", "Plushies", "Elderwood"],
+  // Fish and bug markers are where players caught or saw one, not fixed spawns.
+  sightingFilters: ["cat_fishing", "cat_bugs"],
   db: {
     heroSubtitle: "config.db.heroSubtitle",
     searchPlaceholder: "config.db.searchPlaceholder",

@@ -11,6 +11,7 @@ import {
   fetchVersion,
   findDbEntriesForFilterTypes,
   findMixedDbEntries,
+  isSightingGuide,
   getDbSectionByType,
   FiltersConfig,
   getAllTypesFromVersion,
@@ -331,6 +332,12 @@ export function createGuidePage(appConfig: AppConfig) {
       getMixedEntries(appConfig, locale, mixedRefs),
     ]);
     const mixed = mixedEntries.length > 0;
+    // Catch/sighting spots (fish, bugs) have nothing to tick off: map without the tracker.
+    const sightings = isSightingGuide(
+      typeIds,
+      version.data.filters,
+      appConfig.sightingFilters,
+    );
     // A type with no plottable spawns (live-only NPCs, overlay-only types)
     // has nothing to guide — 404 it instead of rendering "0 known …"
     // boilerplate. Only when every summary actually answered: a search-API
@@ -430,9 +437,17 @@ export function createGuidePage(appConfig: AppConfig) {
                 }),
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: t("guide.jsonld.2.answer", {
-                    vars: { guide: guideTitle, title: appConfig.title },
-                  }),
+                  text: sightings
+                    ? t("guide.sightings", {
+                        vars: {
+                          guide: guideTitle,
+                          spawns: String(spawnCount),
+                          maps: String(maps.length),
+                        },
+                      })
+                    : t("guide.jsonld.2.answer", {
+                        vars: { guide: guideTitle, title: appConfig.title },
+                      }),
                 },
               },
             ],
@@ -506,7 +521,18 @@ export function createGuidePage(appConfig: AppConfig) {
                   })}
                   order={2}
                 />
-                {!mixed && (
+                {!mixed && sightings && (
+                  <p className="text-sm mt-2">
+                    {t.rich("guide.sightings", {
+                      components: {
+                        spawns: <strong>{spawnCount}</strong>,
+                        maps: <strong>{maps.length}</strong>,
+                        guide: <strong>{guideTitle}</strong>,
+                      },
+                    })}
+                  </p>
+                )}
+                {!mixed && !sightings && (
                   <p className="text-sm mt-2">
                     {t.rich("guide.description", {
                       components: {
@@ -516,7 +542,7 @@ export function createGuidePage(appConfig: AppConfig) {
                     })}
                   </p>
                 )}
-                {!mixed && (
+                {!mixed && !sightings && (
                   <p className="text-sm mt-2">
                     {t.rich("guide.spawns", {
                       components: {
@@ -637,6 +663,7 @@ export function createGuidePage(appConfig: AppConfig) {
                         ?.additionalTooltip ?? appConfig.game?.additionalTooltip
                     }
                     typeGroupLabels={typeGroupLabels}
+                    tracker={!sightings}
                   />
                 )}
                 {/* Keyed by the type/group ID, not the localized URL slug, so
