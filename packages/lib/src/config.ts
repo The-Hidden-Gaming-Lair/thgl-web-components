@@ -1178,7 +1178,37 @@ export async function fetchDatabaseIndex(
   );
   // Games that ship a single monolith database.json (no split index, e.g. BPSR)
   // fall back to it so the home/db section counts and listings still work.
-  return index ?? fetchDatabase(appName);
+  return index ? expandIndexIcons(index) : fetchDatabase(appName);
+}
+
+// The memory cache hands every caller the same parsed object; expand it once.
+const expandedIndexes = new WeakSet<DatabaseConfig>();
+
+/**
+ * Undo data-forge's compact index icons (`compactIndexIcons` in its
+ * lib/database.ts): a category with `dbIcon: {width, height}` omits `icon` on
+ * every item whose icon is the standalone `db/<id>.webp` at 0,0, and marks items
+ * WITHOUT an icon `icon: null`. It keeps the index (every item of every section
+ * in one file) under the fetch-cache cap — Conan Exiles was at 1.48 MB with the
+ * repeated sprite object over half of it. Expanded in place, so every reader
+ * keeps seeing full icons.
+ */
+export function expandIndexIcons(index: DatabaseConfig): DatabaseConfig {
+  if (expandedIndexes.has(index)) return index;
+  for (const cat of index as (DatabaseConfig[number] & {
+    dbIcon?: { width: number; height: number };
+  })[]) {
+    const dbIcon = cat.dbIcon;
+    if (!dbIcon) continue;
+    for (const item of cat.items) {
+      if (item.icon === null) delete item.icon;
+      else if (item.icon === undefined)
+        item.icon = { url: `db/${item.id}.webp`, x: 0, y: 0, ...dbIcon };
+    }
+    delete cat.dbIcon;
+  }
+  expandedIndexes.add(index);
+  return index;
 }
 
 /**
