@@ -87,6 +87,15 @@ export function createRobots(appConfig: AppConfig) {
           disallow: "/",
         },
         {
+          // AI-search indexers stay allowed on pages, but not on Next.js RSC
+          // payloads (?_rsc=) or /api/: Amzn-SearchBot fetched ~115k RSC
+          // payloads a day (2026-10-08) with a short timeout and abandoned a
+          // third of them - 94% of North America's origin 499s (inbox #859).
+          // A named group replaces "*", so /nodes/ is repeated.
+          userAgent: "Amzn-SearchBot",
+          disallow: ["/nodes/", "/api/", "/*?_rsc=", "/*&_rsc="],
+        },
+        {
           // Crawlers with no search or referral value that grew 2-30x in
           // 2026-10 and crawl the uncacheable long tail (/db, /guides x every
           // locale): GoogleOther is Google's research crawler (does NOT feed
