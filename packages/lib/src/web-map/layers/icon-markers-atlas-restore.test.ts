@@ -4,6 +4,8 @@
 // WebGL re-upload copied those blank pages. The atlas must repaint its pages from the
 // source images, on the canvas' `contextrestored` and when the layer is re-added.
 
+export {}; // a module: the sibling atlas test declares the same names as globals
+
 class FakeCanvas {
   width = 64;
   height = 64;
