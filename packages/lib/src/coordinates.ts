@@ -593,8 +593,10 @@ const isGateType = (type: string): boolean =>
  * the game's filters and typesIdMap for the filter-type gate (without them
  * the gate only knows the node set's own types).
  * Built on first use: only a coordinate match reads them, so a user without
- * marks near the map's markers never pays for it (~200 ms on a 355k-spawn Dune
- * Awakening map, ~100 ms on Pax Dei).
+ * marks near the map's markers never pays for it. Measured cost, paid again on
+ * every map load (built lazily on the first position match after the
+ * provider sets the new map's ids): Dune Awakening survival_1, 355k spawns,
+ * ~206 ms and ~39.5 MB of heap; Pax Dei ~100 ms.
  */
 export const collectKnownNodeIds = (
   nodes: KnownNodeSet,
