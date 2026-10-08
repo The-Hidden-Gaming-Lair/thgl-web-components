@@ -12,7 +12,11 @@ import {
 import { getFullDbDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
-import { resolveDict, resolveDictWithFallback } from "@/lib/db/resolve-dict";
+import {
+  localizeProps,
+  resolveDict,
+  resolveDictWithFallback,
+} from "@/lib/db/resolve-dict";
 import { breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/db/json-ld";
 import {
   buildSectionDescription,
@@ -153,7 +157,7 @@ export default async function Page({ params }: PageProps) {
     data.map(async (cat) => {
       const full = await fetchFullPropsCategory(appConfig.name, cat);
       for (const item of full.items) {
-        const text = flattenPropsText(item.props);
+        const text = flattenPropsText(localizeProps(item.props, item.id, dict));
         if (text) textById.set(item.id, text);
         const color = rarityColor(item.props);
         if (color) colorById.set(item.id, color);
@@ -220,7 +224,8 @@ export default async function Page({ params }: PageProps) {
           targets.set(i.id, {
             icon: i.icon && typeof i.icon === "object" ? i.icon : undefined,
             color: rarityColor(i.props),
-            text: flattenPropsText(i.props) || undefined,
+            text:
+              flattenPropsText(localizeProps(i.props, i.id, dict)) || undefined,
           });
     for (const [groupId, refs] of refsByGroup)
       groupRefItems.set(
