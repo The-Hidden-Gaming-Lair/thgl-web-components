@@ -14,102 +14,93 @@ export const duetNightAbyss = resolveAppConfig({
   internalLinks: [
     {
       title: "Bloomfield Station Map",
-      description:
-        "Navigate Duet Night Abyss's Bloomfield Station with our interactive maps.",
+      description: "config.internalLinks.maps-Bloomfield%20Station.description",
       href: "/maps/Bloomfield%20Station",
       iconName: "Map",
       bgImage: preview("Haiboliya_Chezhan_Main"),
-      linkText: "Explore the Bloomfield Station Map",
+      linkText: "config.internalLinks.maps-Bloomfield%20Station.linkText",
     },
     {
       title: "Ironworks Map",
-      description:
-        "Navigate Duet Night Abyss's Ironworks with our interactive maps.",
+      description: "config.internalLinks.maps-Ironworks.description",
       href: "/maps/Ironworks",
       iconName: "Map",
       bgImage: preview("Haiboliya_Chezhan_CZDX"),
-      linkText: "Explore the Ironworks Map",
+      linkText: "config.internalLinks.maps-Ironworks.linkText",
     },
     {
       title: "Haojing Map",
-      description:
-        "Navigate Duet Night Abyss's Haojing region with our interactive maps.",
+      description: "config.internalLinks.maps-Haojing.description",
       href: "/maps/Haojing",
       iconName: "Map",
       bgImage: preview("Huaxu_Haojing_Main"),
-      linkText: "Explore the Haojing Map",
+      linkText: "config.internalLinks.maps-Haojing.linkText",
     },
     {
       title: "Mistwharf Map",
-      description:
-        "Navigate Duet Night Abyss's Mistwharf region with our interactive maps.",
+      description: "config.internalLinks.maps-Mistwharf.description",
       href: "/maps/Mistwharf",
       iconName: "Map",
       bgImage: preview("Huaxu_Yanjindu_Main"),
-      linkText: "Explore the Mistwharf Map",
+      linkText: "config.internalLinks.maps-Mistwharf.linkText",
     },
     {
       title: "Zhuyin Altar Map",
-      description:
-        "Navigate Duet Night Abyss's Zhuyin Altar with our interactive maps.",
+      description: "config.internalLinks.maps-Zhuyin%20Altar.description",
       href: "/maps/Zhuyin%20Altar",
       iconName: "Map",
       bgImage: preview("Huaxu_Yanjindu_Alt"),
-      linkText: "Explore the Zhuyin Altar Map",
+      linkText: "config.internalLinks.maps-Zhuyin%20Altar.linkText",
     },
     {
       title: "Purgatorio Island Map",
-      description:
-        "Navigate Duet Night Abyss's Purgatorio Island with our interactive maps.",
+      description: "config.internalLinks.maps-Purgatorio%20Island.description",
       href: "/maps/Purgatorio%20Island",
       iconName: "Map",
       bgImage: preview("Prologue"),
-      linkText: "Explore the Purgatorio Island Map",
+      linkText: "config.internalLinks.maps-Purgatorio%20Island.linkText",
     },
     {
       title: "Lonza Fortress Map",
-      description:
-        "Navigate Duet Night Abyss's Lonza Fortress with our interactive maps.",
+      description: "config.internalLinks.maps-Lonza%20Fortress.description",
       href: "/maps/Lonza%20Fortress",
       iconName: "Map",
       bgImage: preview("EX01"),
-      linkText: "Explore the Lonza Fortress Map",
+      linkText: "config.internalLinks.maps-Lonza%20Fortress.linkText",
     },
     {
       title: "Eastern District, Icelake Map",
       description:
-        "Navigate Duet Night Abyss's Eastern District, Icelake with our interactive maps.",
+        "config.internalLinks.maps-Eastern%20District%2C%20Icelake.description",
       href: "/maps/Eastern%20District%2C%20Icelake",
       iconName: "Map",
       bgImage: preview("Chapter01"),
-      linkText: "Explore the Eastern District, Icelake Map",
+      linkText:
+        "config.internalLinks.maps-Eastern%20District%2C%20Icelake.linkText",
     },
     {
       title: "Glevum Pit Map",
-      description:
-        "Navigate Duet Night Abyss's Glevum Pit with our interactive maps.",
+      description: "config.internalLinks.maps-Glevum%20Pit.description",
       href: "/maps/Glevum%20Pit",
       iconName: "Map",
       bgImage: preview("Chapter01_KK"),
-      linkText: "Explore the Glevum Pit Map",
+      linkText: "config.internalLinks.maps-Glevum%20Pit.linkText",
     },
     {
       title: "Icelake Sewers Map",
-      description:
-        "Navigate Duet Night Abyss's Icelake Sewers with our interactive maps.",
+      description: "config.internalLinks.maps-Icelake%20Sewers.description",
       href: "/maps/Icelake%20Sewers",
       iconName: "Map",
       bgImage: preview("Chapter01_Sew"),
-      linkText: "Explore the Icelake Sewers Map",
+      linkText: "config.internalLinks.maps-Icelake%20Sewers.linkText",
     },
     {
       title: "Galea Theatre Map",
-      description:
-        "Navigate Duet Night Abyss's Galea Theatre with our interactive maps.",
+      description: "config.internalLinks.maps-Galea%20Theatre.description",
       href: "/maps/Galea%20Theatre",
       iconName: "Map",
       bgImage: preview("Chapter01_Thea"),
-      linkText: "Explore the Galea Theatre Map",
+      linkText: "config.internalLinks.maps-Galea%20Theatre.linkText",
     },
     {
       href: "/activities-tracker",
@@ -120,8 +111,8 @@ export const duetNightAbyss = resolveAppConfig({
     },
     {
       href: "/db/quests",
-      title: "Quests Database",
-      linkText: "Browse All Quests",
+      title: "config.internalLinks.quests.title",
+      linkText: "config.internalLinks.quests.linkText",
       iconName: "BookOpen",
     },
     {
@@ -153,8 +144,8 @@ export const duetNightAbyss = resolveAppConfig({
       { section: "geniemons", descriptions: false },
       { section: "achievements", descriptions: true },
     ],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search characters, weapons, Demon Wedges, items…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
@@ -163,8 +154,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "characters",
         titleFallback: "Characters",
         icon: "🧑",
-        description:
-          "Every playable character with element, weapon mastery, base stats, skills and ascension materials.",
+        description: "config.db.characters.description",
       },
       {
         href: "/db/weaponry",
@@ -172,8 +162,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "weaponry",
         titleFallback: "Weapons",
         icon: "⚔️",
-        description:
-          "Melee and ranged weapons with base stats, passive effect per refinement and ascension materials.",
+        description: "config.db.weaponry.description",
       },
       {
         href: "/db/demon_wedges",
@@ -181,8 +170,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "demon_wedges",
         titleFallback: "Demon Wedges",
         icon: "🔷",
-        description:
-          "Every Demon Wedge with its effect at max level, tolerance, track and rarity variants.",
+        description: "config.db.demon_wedges.description",
       },
       {
         href: "/db/geniemons",
@@ -190,7 +178,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "geniemons",
         titleFallback: "Geniemon",
         icon: "🐾",
-        description: "Geniemon companions and where to find them on the map.",
+        description: "config.db.geniemons.description",
       },
       {
         href: "/db/inventory",
@@ -198,8 +186,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "inventory",
         titleFallback: "Items",
         icon: "🎒",
-        description:
-          "Materials, consumables and currencies with what they craft, ascend and where they come from.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/forging",
@@ -207,8 +194,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "forging",
         titleFallback: "Forging",
         icon: "🔨",
-        description:
-          "Foundry recipes with ingredients, coin cost and forging time, cross-linked to each product.",
+        description: "config.db.forging.description",
       },
       {
         href: "/db/enemies",
@@ -216,7 +202,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "enemies",
         titleFallback: "Enemies",
         icon: "👹",
-        description: "The enemy archive with base stats, element and drops.",
+        description: "config.db.enemies.description",
       },
       {
         href: "/db/fish",
@@ -224,8 +210,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "fish",
         titleFallback: "Fish",
         icon: "🐟",
-        description:
-          "Every fish with size, difficulty, sell value and fishing spots.",
+        description: "config.db.fish.description",
       },
       {
         href: "/db/readables",
@@ -233,8 +218,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "readables",
         titleFallback: "Reading",
         icon: "📖",
-        description:
-          "Books, notes and treasure maps with their full text and map spots.",
+        description: "config.db.readables.description",
       },
       {
         href: "/db/music",
@@ -242,7 +226,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "music",
         titleFallback: "Sheet Music",
         icon: "🎼",
-        description: "Every piece of sheet music and where to collect it.",
+        description: "config.db.music.description",
       },
       {
         href: "/db/accessories",
@@ -250,8 +234,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "accessories",
         titleFallback: "Accessories",
         icon: "🎀",
-        description:
-          "Character accessories with how to get them and Foundry recipes.",
+        description: "config.db.accessories.description",
       },
       {
         href: "/db/encyclopedia",
@@ -259,8 +242,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "encyclopedia",
         titleFallback: "Encyclopedia",
         icon: "📚",
-        description:
-          "The in-game encyclopedia: factions, characters, customs and civilisation, with related entries.",
+        description: "config.db.encyclopedia.description",
       },
       {
         href: "/db/achievements",
@@ -268,7 +250,7 @@ export const duetNightAbyss = resolveAppConfig({
         titleKey: "achievements",
         titleFallback: "Achievements",
         icon: "🏆",
-        description: "Every achievement with its goal and rewards.",
+        description: "config.db.achievements.description",
       },
       {
         href: "/db/quests",
@@ -282,29 +264,29 @@ export const duetNightAbyss = resolveAppConfig({
           "sidequests_world",
         ],
         icon: "📜",
+        titleKey: "config.db.mainquests.title",
         titleFallback: "Quests",
-        description:
-          "Main story and side quests with prerequisites and rewards.",
+        description: "config.db.mainquests.description",
       },
     ],
     typeLabels: {
-      characters: "Character",
-      weaponry: "Weapon",
-      demon_wedges: "Demon Wedge",
-      geniemons: "Geniemon",
-      inventory: "Item",
-      forging: "Recipe",
-      enemies: "Enemy",
-      fish: "Fish",
-      readables: "Readable",
-      music: "Sheet Music",
-      accessories: "Accessory",
-      encyclopedia: "Encyclopedia",
-      achievements: "Achievement",
-      mainquests: "Main Quest",
-      sidequests_character: "Character Quest",
-      sidequests_story: "Story Quest",
-      sidequests_world: "World Quest",
+      characters: "config.db.typeLabels.characters",
+      weaponry: "config.db.typeLabels.weaponry",
+      demon_wedges: "config.db.typeLabels.demon_wedges",
+      geniemons: "config.db.typeLabels.geniemons",
+      inventory: "config.db.typeLabels.inventory",
+      forging: "config.db.typeLabels.forging",
+      enemies: "config.db.typeLabels.enemies",
+      fish: "config.db.typeLabels.fish",
+      readables: "config.db.typeLabels.readables",
+      music: "config.db.typeLabels.music",
+      accessories: "config.db.typeLabels.accessories",
+      encyclopedia: "config.db.typeLabels.encyclopedia",
+      achievements: "config.db.typeLabels.achievements",
+      mainquests: "config.db.typeLabels.mainquests",
+      sidequests_character: "config.db.typeLabels.sidequests_character",
+      sidequests_story: "config.db.typeLabels.sidequests_story",
+      sidequests_world: "config.db.typeLabels.sidequests_world",
     },
     typeColors: {
       mainquests: "bg-amber-900/40 text-amber-400",

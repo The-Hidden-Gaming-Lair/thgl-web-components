@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.questlog.description": "Every quest and its objectives, with recommended level, giver, rewards and map locations.",
+  "config.db.questlog.title": "Quests",
+  "config.db.items.description": "Weapons, armor, tools and consumables — with rarity, level, damage and stats.",
+  "config.db.items.title": "Items",
+  "config.db.bestiary.description": "Every creature and enemy species, with where they roam across Embervale.",
+  "config.db.bestiary.title": "Bestiary",
+  "config.db.typeLabels.questlog": "Quest",
+  "config.db.typeLabels.items": "Item",
+  "config.db.typeLabels.bestiary": "Creature"
+}

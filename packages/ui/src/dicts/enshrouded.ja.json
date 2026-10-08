@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.questlog.description": "全クエストの目標、推奨レベル、依頼人、報酬、マップ上の場所。",
+  "config.db.questlog.title": "クエスト",
+  "config.db.items.description": "武器、防具、ツール、消耗品のレアリティ、レベル、ダメージ、ステータス。",
+  "config.db.items.title": "アイテム",
+  "config.db.bestiary.description": "全クリーチャーと敵の種類、そしてエンバーヴェイルでの生息地。",
+  "config.db.bestiary.title": "モンスター図鑑",
+  "config.db.typeLabels.questlog": "クエスト",
+  "config.db.typeLabels.items": "アイテム",
+  "config.db.typeLabels.bestiary": "クリーチャー"
+}

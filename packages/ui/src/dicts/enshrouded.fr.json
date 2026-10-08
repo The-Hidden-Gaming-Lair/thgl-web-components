@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "Base de données du jeu",
+  "config.db.questlog.description": "Toutes les quêtes et leurs objectifs, avec niveau recommandé, donneur, récompenses et emplacements sur la carte.",
+  "config.db.questlog.title": "Quêtes",
+  "config.db.items.description": "Armes, armures, outils et consommables, avec rareté, niveau, dégâts et statistiques.",
+  "config.db.items.title": "Objets",
+  "config.db.bestiary.description": "Toutes les créatures et espèces ennemies, avec les zones d'Embervale où elles rôdent.",
+  "config.db.bestiary.title": "Bestiaire",
+  "config.db.typeLabels.questlog": "Quête",
+  "config.db.typeLabels.items": "Objet",
+  "config.db.typeLabels.bestiary": "Créature"
+}

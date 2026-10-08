@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "Baza danych gry",
+  "config.db.questlog.description": "Każde zadanie i jego cele, z zalecanym poziomem, zleceniodawcą, nagrodami i lokalizacjami na mapie.",
+  "config.db.questlog.title": "Zadania",
+  "config.db.items.description": "Broń, pancerze, narzędzia i przedmioty zużywalne – z rzadkością, poziomem, obrażeniami i statystykami.",
+  "config.db.items.title": "Przedmioty",
+  "config.db.bestiary.description": "Każde stworzenie i gatunek wroga, z miejscami, w których krążą po Embervale.",
+  "config.db.bestiary.title": "Bestiariusz",
+  "config.db.typeLabels.questlog": "Zadanie",
+  "config.db.typeLabels.items": "Przedmiot",
+  "config.db.typeLabels.bestiary": "Stworzenie"
+}

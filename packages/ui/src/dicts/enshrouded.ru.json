@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "База данных игры",
+  "config.db.questlog.description": "Все задания и их цели: рекомендуемый уровень, кто выдаёт, награды и места на карте.",
+  "config.db.questlog.title": "Задания",
+  "config.db.items.description": "Оружие, броня, инструменты и расходники с редкостью, уровнем, уроном и характеристиками.",
+  "config.db.items.title": "Предметы",
+  "config.db.bestiary.description": "Все существа и виды врагов и места, где они бродят по Embervale.",
+  "config.db.bestiary.title": "Бестиарий",
+  "config.db.typeLabels.questlog": "Задание",
+  "config.db.typeLabels.items": "Предмет",
+  "config.db.typeLabels.bestiary": "Существо"
+}

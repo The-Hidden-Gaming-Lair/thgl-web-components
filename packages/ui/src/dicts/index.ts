@@ -34,6 +34,62 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "graveyard-keeper-2": {
+    en: () => import("./graveyard-keeper-2.en.json").then((mod) => mod.default),
+    de: () => import("./graveyard-keeper-2.de.json").then((mod) => mod.default),
+    es: () => import("./graveyard-keeper-2.es.json").then((mod) => mod.default),
+    fr: () => import("./graveyard-keeper-2.fr.json").then((mod) => mod.default),
+    ja: () => import("./graveyard-keeper-2.ja.json").then((mod) => mod.default),
+    ko: () => import("./graveyard-keeper-2.ko.json").then((mod) => mod.default),
+    pl: () => import("./graveyard-keeper-2.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./graveyard-keeper-2.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./graveyard-keeper-2.ru.json").then((mod) => mod.default),
+    tr: () => import("./graveyard-keeper-2.tr.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./graveyard-keeper-2.zh-CN.json").then((mod) => mod.default),
+  },
+  "gothic-1-remake": {
+    en: () => import("./gothic-1-remake.en.json").then((mod) => mod.default),
+    de: () => import("./gothic-1-remake.de.json").then((mod) => mod.default),
+    fr: () => import("./gothic-1-remake.fr.json").then((mod) => mod.default),
+    es: () => import("./gothic-1-remake.es.json").then((mod) => mod.default),
+    it: () => import("./gothic-1-remake.it.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./gothic-1-remake.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./gothic-1-remake.ru.json").then((mod) => mod.default),
+    pl: () => import("./gothic-1-remake.pl.json").then((mod) => mod.default),
+    ja: () => import("./gothic-1-remake.ja.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./gothic-1-remake.zh-CN.json").then((mod) => mod.default),
+  },
+  enshrouded: {
+    en: () => import("./enshrouded.en.json").then((mod) => mod.default),
+    de: () => import("./enshrouded.de.json").then((mod) => mod.default),
+    es: () => import("./enshrouded.es.json").then((mod) => mod.default),
+    fr: () => import("./enshrouded.fr.json").then((mod) => mod.default),
+    it: () => import("./enshrouded.it.json").then((mod) => mod.default),
+    ja: () => import("./enshrouded.ja.json").then((mod) => mod.default),
+    ko: () => import("./enshrouded.ko.json").then((mod) => mod.default),
+    pl: () => import("./enshrouded.pl.json").then((mod) => mod.default),
+    "pt-BR": () => import("./enshrouded.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./enshrouded.ru.json").then((mod) => mod.default),
+    th: () => import("./enshrouded.th.json").then((mod) => mod.default),
+    tr: () => import("./enshrouded.tr.json").then((mod) => mod.default),
+    uk: () => import("./enshrouded.uk.json").then((mod) => mod.default),
+    "zh-CN": () => import("./enshrouded.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./enshrouded.zh-TW.json").then((mod) => mod.default),
+  },
+  "duet-night-abyss": {
+    en: () => import("./duet-night-abyss.en.json").then((mod) => mod.default),
+    fr: () => import("./duet-night-abyss.fr.json").then((mod) => mod.default),
+    ja: () => import("./duet-night-abyss.ja.json").then((mod) => mod.default),
+    ko: () => import("./duet-night-abyss.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./duet-night-abyss.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./duet-night-abyss.zh-TW.json").then((mod) => mod.default),
+  },
   heartopia: {
     en: () => import("./heartopia.en.json").then((mod) => mod.default),
     "zh-CN": () => import("./heartopia.zh-CN.json").then((mod) => mod.default),

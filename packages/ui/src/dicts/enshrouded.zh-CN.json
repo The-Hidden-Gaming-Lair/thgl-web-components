@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "游戏数据库",
+  "config.db.questlog.description": "所有任务及其目标，包含推荐等级、任务发布者、奖励和地图位置。",
+  "config.db.questlog.title": "任务",
+  "config.db.items.description": "武器、护甲、工具和消耗品，含稀有度、等级、伤害和属性。",
+  "config.db.items.title": "物品",
+  "config.db.bestiary.description": "所有生物和敌人种类，以及它们在 Embervale 中的出没地点。",
+  "config.db.bestiary.title": "生物图鉴",
+  "config.db.typeLabels.questlog": "任务",
+  "config.db.typeLabels.items": "物品",
+  "config.db.typeLabels.bestiary": "生物"
+}

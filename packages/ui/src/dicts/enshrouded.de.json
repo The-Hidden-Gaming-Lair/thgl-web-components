@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "Spieldatenbank",
+  "config.db.questlog.description": "Jede Quest mit ihren Zielen, empfohlener Stufe, Auftraggeber, Belohnungen und Kartenorten.",
+  "config.db.questlog.title": "Quests",
+  "config.db.items.description": "Waffen, Rüstungen, Werkzeuge und Verbrauchsgüter – mit Seltenheit, Stufe, Schaden und Werten.",
+  "config.db.items.title": "Gegenstände",
+  "config.db.bestiary.description": "Jede Kreatur und Gegnerart mit den Gebieten, in denen sie durch Embervale streift.",
+  "config.db.bestiary.title": "Bestiarium",
+  "config.db.typeLabels.questlog": "Quest",
+  "config.db.typeLabels.items": "Gegenstand",
+  "config.db.typeLabels.bestiary": "Kreatur"
+}
